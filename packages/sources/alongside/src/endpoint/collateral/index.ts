@@ -3,22 +3,15 @@ import {
   AdapterRequest,
   AdapterResponse,
   SingleNumberResultResponse,
-  sleep,
 } from '@chainlink/external-adapter-framework/util'
 import CryptoJS from 'crypto-js'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Collateral } from './utils'
 import { customSettings } from '../../config'
-
-const logger = makeLogger('Alongside Colateral endpoint Logger')
-
-const MS_BETWEEN_FAILED_REQS = 400
 
 export type EndpointTypes = {
   Request: {
@@ -70,13 +63,15 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
   token!: string
   cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
   responseCache!: ResponseCache<any>
+  requester!: Requester
 
   async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
+    this.requester = dependencies.requester
   }
 
-  prepareRequest(type: string, config: AdapterConfig<typeof customSettings>): AxiosRequestConfig {
+  prepareRequest(type: string, config: AdapterConfig<typeof customSettings>) {
     const primeUrl = config.API_ENDPOINT
     const url = `${primeUrl}/portfolios/${config.PORTFOLIO_ID}/balances?balance_type=${type}_BALANCES`
     const timestamp = Math.floor(Date.now() / 1000)
@@ -99,34 +94,6 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
     }
   }
 
-  async makeRequest(
-    axiosRequest: AxiosRequestConfig,
-    config: AdapterConfig<typeof customSettings>,
-  ): Promise<AxiosResponse<ProviderResponseBody>> {
-    let retryNumber = 0
-    let response = await this._makeRequest(axiosRequest)
-    while (response.status !== 200) {
-      retryNumber++
-      logger.warn(
-        'Encountered error when fetching data from alongside:',
-        response.status,
-        response.statusText,
-      )
-
-      if (retryNumber === config.RETRY) {
-        throw new AdapterError({
-          statusCode: 504,
-          message: `Alongside transport hit the max number of retries (${config.RETRY} retries) and aborted`,
-        })
-      }
-
-      logger.debug(`Sleeping for ${MS_BETWEEN_FAILED_REQS}ms before retrying`)
-      await sleep(MS_BETWEEN_FAILED_REQS)
-      response = await this._makeRequest(axiosRequest)
-    }
-    return response
-  }
-
   async foregroundExecute(
     req: AdapterRequest<EndpointTypes['Request']>,
     config: AdapterConfig<typeof customSettings>,
@@ -135,14 +102,22 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
     const requestTradingVault = this.prepareRequest('VAULT', config)
     const collateral = new Collateral(config.INFURA_KEY)
     const providerDataRequestedUnixMs = Date.now()
-    const tradingBalances = await this.makeRequest(requestTradingBalance, config)
-    const vaultBalances = await this.makeRequest(requestTradingVault, config)
+    const tradingBalances = await this.requester.request<ProviderResponseBody>(
+      req.id,
+      requestTradingBalance,
+    )
+    const vaultBalances = await this.requester.request<ProviderResponseBody>(
+      req.id,
+      requestTradingVault,
+    )
+
     const units = await collateral.getAssetWeights()
     const result = collateral.calcMinCollateral(
-      tradingBalances.data.balances,
-      vaultBalances.data.balances,
+      tradingBalances.response.data.balances,
+      vaultBalances.response.data.balances,
       units,
     )
+
     const providerDataReceivedUnixMs = Date.now()
     const response = {
       data: {
@@ -156,16 +131,8 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.cache.set(req.requestContext.cacheKey, response, config.CACHE_MAX_AGE)
+    await this.responseCache.cache.set(req.requestContext.cacheKey, response, config.CACHE_MAX_AGE)
     return response
-  }
-
-  private async _makeRequest(axiosRequest: AxiosRequestConfig): Promise<AxiosResponse> {
-    try {
-      return await axios.request(axiosRequest)
-    } catch (e) {
-      return e as AxiosResponse
-    }
   }
 }
 
