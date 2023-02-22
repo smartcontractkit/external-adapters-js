@@ -5,7 +5,7 @@ export const supportedEndpoints = ['gasprice']
 
 const customError = (data: ResponseSchema) => {
   if (Object.keys(data).length < 1) return true
-  return !('health' in data) || !data.health
+  return !('block_number' in data) || !data.block_number
 }
 
 export type TInputParameters = { speed: string }
@@ -20,9 +20,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export interface ResponseSchema {
-  health: boolean
-  blockNumber: number
-  blockTime: number
+  block_number: number
   slow: number
   standard: number
   fast: number
@@ -34,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'standard'
-  const url = `/latest-minimum-gasprice`
+  const url = `/universal/v1/ethereum/mainnet/tx/gasprice`
 
   const options = {
     ...config.api,
@@ -42,7 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
+  const result = Requester.validateResultNumber(response.data, [speed])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
