@@ -1,10 +1,10 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/ea-bootstrap'
 
-export const DEFAULT_BASE_URL = 'https://api.anyblock.tools'
-export const NAME = 'ANYBLOCK'
+export const DEFAULT_BASE_URL = 'https://svc.blockdaemon.com'
+export const NAME = 'BLOCKDAEMON'
 
-export const DEFAULT_ENDPOINT = 'vwap'
+export const DEFAULT_ENDPOINT = 'gasprice'
 
 export const makeConfig = (prefix = ''): Config => {
   const config = Requester.getDefaultConfig(prefix)
