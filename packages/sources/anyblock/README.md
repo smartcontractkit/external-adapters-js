@@ -1,4 +1,4 @@
-# Chainlink External Adapter for Anyblock Analytics
+# Chainlink External Adapter for Blockdaemon (Anyblock Analytics)
 
 ### Environment Variables
 
@@ -7,6 +7,8 @@ The adapter takes the following environment variables:
 | Required? |   Name    |        Description         | Options | Defaults to |
 | :-------: | :-------: | :------------------------: | :-----: | :---------: |
 |           | `API_KEY` | Blockdaemon API key to use |         |             |
+
+You can create a free API-Key at https://app.blockdaemon.com/signin/register
 
 ### Input Parameters
 
