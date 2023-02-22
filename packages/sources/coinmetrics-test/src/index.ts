@@ -1,9 +1,9 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from './config'
 import { priceRouter } from './endpoint'
 
-export const adapter = new Adapter({
+export const adapter = new PriceAdapter({
   defaultEndpoint: 'price-ws',
   name: 'COINMETRICS',
   endpoints: [priceRouter],
