@@ -27,5 +27,6 @@ packages/k6/src/config/http.json
 .vscode
 .idea
 
-# Local secrets
+# Secrets
 .envrc
+.env
