@@ -131,7 +131,14 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.responseCache.cache.set(req.requestContext.cacheKey, response, config.CACHE_MAX_AGE)
+
+    await this.responseCache.write([
+      {
+        params: {},
+        response,
+      },
+    ])
+
     return response
   }
 }
