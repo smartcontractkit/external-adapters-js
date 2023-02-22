@@ -26,3 +26,6 @@ packages/k6/src/config/http.json
 # IDE metadata
 .vscode
 .idea
+
+# Secrets
+.env
