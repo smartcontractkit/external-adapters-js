@@ -1,5 +1,11 @@
 # @chainlink/coinranking-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 5258e1166: Added totalMarketCap endpoint to coinranking
+
 ## 1.3.19
 
 ### Patch Changes

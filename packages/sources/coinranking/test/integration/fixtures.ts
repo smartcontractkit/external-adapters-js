@@ -356,3 +356,84 @@ export const mockCryptoResponseFailure = (): nock.Scope =>
         'Origin',
       ],
     )
+
+export const mockTotalMarketCapSuccess = (): nock.Scope =>
+  nock('https://api.coinranking.com/v2', {
+    encodedQueryParams: true,
+    reqheaders: {
+      'x-access-token': 'fake-api-key',
+    },
+  })
+    .get('/stats')
+    .reply(
+      200,
+      {
+        status: 'success',
+        data: {
+          referenceCurrencyRate: 1,
+          totalCoins: 23349,
+          totalMarkets: 37921,
+          totalExchanges: 179,
+          totalMarketCap: '1139638848309',
+          total24hVolume: '85309476474',
+          btcDominance: 41.393155263964395,
+          bestCoins: [
+            {
+              uuid: 'fmHk13Rqw',
+              symbol: 'FLOKI*',
+              name: 'FLOKI',
+              iconUrl: 'https://cdn.coinranking.com/Yfn5I1O01/10804.png',
+              coinrankingUrl: 'https://coinranking.com/coin/fmHk13Rqw+floki-floki',
+            },
+            {
+              uuid: '08CsQa-Ov',
+              symbol: 'WEMIX',
+              name: 'WEMIX TOKEN',
+              iconUrl: 'https://cdn.coinranking.com/1N84MQsoO/7548.png',
+              coinrankingUrl: 'https://coinranking.com/coin/08CsQa-Ov+wemixtoken-wemix',
+            },
+            {
+              uuid: 'jrP7Ptsct',
+              symbol: 'ACH**',
+              name: 'Alchemy Pay',
+              iconUrl: 'https://cdn.coinranking.com/tkKQoiNEr/alchemypay.svg',
+              coinrankingUrl: 'https://coinranking.com/coin/jrP7Ptsct+alchemypay-ach',
+            },
+          ],
+          newestCoins: [
+            {
+              uuid: 'ZO8YGJCio',
+              symbol: 'HASHTAG',
+              name: 'Hashtag United F.C Fan Token',
+              iconUrl: 'https://cdn.coinranking.com/FYBQpoUyV/HASH.PNG',
+              coinrankingUrl:
+                'https://coinranking.com/coin/ZO8YGJCio+hashtagunitedfcfantoken-hashtag',
+            },
+            {
+              uuid: 'BYg5FxSE-',
+              symbol: 'FLAME',
+              name: 'Flame Chain',
+              iconUrl: 'https://cdn.coinranking.com/mv2256upC/FLAME_LOGO.png',
+              coinrankingUrl: 'https://coinranking.com/coin/BYg5FxSE-+flamechain-flame',
+            },
+            {
+              uuid: 'EK1DC7MeO',
+              symbol: 'SFIL',
+              name: 'Super File Coin',
+              iconUrl: 'https://cdn.coinranking.com/n15BzWVX7/SFIL_LOGO.png',
+              coinrankingUrl: 'https://coinranking.com/coin/EK1DC7MeO+superfilecoin-sfil',
+            },
+          ],
+        },
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
