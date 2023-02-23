@@ -32,6 +32,7 @@
     "@chainlink/1forge-adapter": "workspace:*",
     "@chainlink/accuweather-adapter": "workspace:*",
     "@chainlink/ada-balance-adapter": "workspace:*",
+    "@chainlink/alongside-adapter": "workspace:*",
     "@chainlink/alphachain-adapter": "workspace:*",
     "@chainlink/alphavantage-adapter": "workspace:*",
     "@chainlink/alpine-adapter": "workspace:*",
