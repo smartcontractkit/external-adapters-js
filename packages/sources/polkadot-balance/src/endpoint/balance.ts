@@ -57,6 +57,11 @@ type EndpointTypes = {
   CustomSettings: typeof customSettings
 }
 
+const chunkArray = (addresses: string[], size: number): string[][] =>
+  addresses.length > size
+    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
+    : [addresses]
+
 export class BalanceTransport implements Transport<EndpointTypes> {
   responseCache!: ResponseCache<{
     Request: EndpointTypes['Request']
@@ -82,15 +87,24 @@ export class BalanceTransport implements Transport<EndpointTypes> {
     // Also addresses are not returned in the results preventing balances to be mapped to them
     const addresses = req.requestContext.data.addresses.map(({ address }) => address)
     try {
-      for (const address of addresses) {
-        const codec = await api.query.system.account(address)
-        const balance: ProviderResponse = JSON.parse(JSON.stringify(codec.toJSON()))
-        if (balance) {
-          result.push({
-            address,
-            balance: parseInt(balance.data?.free || '0x0', 16).toString(),
-          })
-        }
+      // Break addresses down into batches to execute asynchronously
+      // Firing requests for all addresses all at once could hit rate limiting for large address pools
+      const batchedAddresses = chunkArray(addresses, config.BATCH_SIZE)
+      for (const batch of batchedAddresses) {
+        await Promise.all(
+          batch.map((address) => {
+            const balancePromise = api.query.system.account(address).then((codec) => {
+              const balance = codec.toJSON() as unknown as ProviderResponse
+              if (balance) {
+                result.push({
+                  address,
+                  balance: parseInt(balance.data?.free || '0x0', 16).toString(),
+                })
+              }
+            })
+            return balancePromise
+          }),
+        )
       }
     } catch (e) {
       logger.error(e, 'Failed to retrieve balances')
