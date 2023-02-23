@@ -190,8 +190,10 @@ export const deployAdapter = (config: Inputs): void => {
       throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
     }
   } catch (e: any) {
-    log(red.bold(`Failed to exec helm install ${JSON.stringify(e.message)}`))
+    log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
   }
+  const k8sEvents = new Shell().exec(`kubectl -n adapters get events --sort-by='{.lastTimestamp}'`)
+  log(blue.bold(`k8sEvents\n ${k8sEvents}`))
   if (exec_result) {
     process.exitCode = 1
     throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
