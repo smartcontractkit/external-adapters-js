@@ -168,21 +168,33 @@ export const deployAdapter = (config: Inputs): void => {
   }
 
   // deploy the chart
-  const deployHelm = new Shell().exec(
-    `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${config.helmChartDir} \
-      --install \
-      --namespace ${NAMESPACE} \
-      --create-namespace \
-      ${config.helmValuesOverride} \
-      --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
-      --set image.tag=${config.imageTag} \
-      --set name=${config.name} \
-      ${config.helmSecrets} \
-      --wait`,
-  )
-  if (deployHelm.code !== 0) {
+  const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
+    config.helmChartDir
+  } \
+  --install \
+  --namespace ${NAMESPACE} \
+  --create-namespace \
+  ${config.helmValuesOverride} \
+  --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
+  --set image.tag=${config.imageTag} \
+  --set name=${config.name} \
+  ${config.helmSecrets} \
+  --wait`
+  log(blue.bold(deployCommand))
+  let exec_result = ''
+  try {
+    const deployHelm = new Shell().exec(deployCommand)
+    exec_result = deployHelm.toString()
+    if (deployHelm.code !== 0) {
+      process.exitCode = 1
+      throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
+    }
+  } catch (e: any) {
+    log(red.bold(`Failed to exec helm install ${JSON.stringify(e.message)}`))
+  }
+  if (exec_result) {
     process.exitCode = 1
-    throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
+    throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
   }
 }
 
