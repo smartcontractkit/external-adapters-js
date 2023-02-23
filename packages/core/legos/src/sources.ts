@@ -1,6 +1,7 @@
 import * as _1forge from '@chainlink/1forge-adapter'
 import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
+import * as alongside from '@chainlink/alongside-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as alpine from '@chainlink/alpine-adapter'
@@ -142,6 +143,7 @@ import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tiingo_test from '@chainlink/tiingo-test-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
+import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
@@ -160,6 +162,7 @@ export default {
   _1forge,
   accuweather,
   ada_balance,
+  alongside,
   alphachain,
   alphavantage,
   alpine,
@@ -301,6 +304,7 @@ export default {
   tiingo,
   tiingo_test,
   tradermade,
+  tradermade_test,
   tradingeconomics,
   trueusd,
   twelvedata,

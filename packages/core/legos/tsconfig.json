@@ -20,6 +20,9 @@
       "path": "../../sources/ada-balance"
     },
     {
+      "path": "../../sources/alongside"
+    },
+    {
       "path": "../../sources/alphachain"
     },
     {
@@ -441,6 +444,9 @@
     },
     {
       "path": "../../sources/tradermade"
+    },
+    {
+      "path": "../../sources/tradermade-test"
     },
     {
       "path": "../../sources/tradingeconomics"

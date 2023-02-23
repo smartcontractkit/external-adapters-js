@@ -132,6 +132,9 @@
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/alongside/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
@@ -550,6 +553,9 @@
     },
     {
       "path": "./sources/tradermade/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/tradermade-test/tsconfig.test.json"
     },
     {
       "path": "./sources/tradingeconomics/tsconfig.test.json"
