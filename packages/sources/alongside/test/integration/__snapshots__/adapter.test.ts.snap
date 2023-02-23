@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest portfolio api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 25954.286873113622,
+  },
+  "result": 25954.286873113622,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

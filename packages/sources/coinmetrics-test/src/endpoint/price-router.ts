@@ -2,7 +2,7 @@ import { RoutingTransport } from '@chainlink/external-adapter-framework/transpor
 import { wsTransport } from './price-ws'
 import { customSettings, priceInputParameters } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 
 // inputParams expected by both the REST and WS transports
 export type AssetMetricsRequestBody = {
@@ -29,7 +29,7 @@ export const routingTransport = new RoutingTransport<AssetMetricsEndpointTypes>(
   },
 )
 
-export const endpoint = new AdapterEndpoint<AssetMetricsEndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
   name: 'price-ws',
   transport: routingTransport,
   inputParameters: priceInputParameters,
