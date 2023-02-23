@@ -179,7 +179,7 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --wait`
+  --wait --timeout 10m0s`
   log(blue.bold(deployCommand))
   let exec_result = ''
   try {
@@ -192,8 +192,10 @@ export const deployAdapter = (config: Inputs): void => {
   } catch (e: any) {
     log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
   }
+
   const k8sEvents = new Shell().exec(`kubectl -n adapters get events --sort-by='{.lastTimestamp}'`)
   log(blue.bold(`k8sEvents\n ${k8sEvents}`))
+
   if (exec_result) {
     process.exitCode = 1
     throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
