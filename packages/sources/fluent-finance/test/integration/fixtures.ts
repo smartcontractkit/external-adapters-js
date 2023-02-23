@@ -4,7 +4,7 @@ export const mockMoonSuccess = (): nock.Scope =>
   nock('https://gateway-api.fluent.finance/v1/gateway', {
     encodedQueryParams: true,
   })
-    .get('/balances/moon')
+    .get('/balances')
     .reply(
       200,
       () => [

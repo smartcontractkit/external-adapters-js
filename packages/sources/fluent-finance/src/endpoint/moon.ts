@@ -26,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const url = `balances/moon`
+  const url = `balances`
   const resultPath = validator.validated.data.resultPath || ''
 
   const options = { ...config.api, url }
