@@ -209,6 +209,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ada-balance"\
       },\
       {\
+        "name": "@chainlink/alongside-adapter",\
+        "reference": "workspace:packages/sources/alongside"\
+      },\
+      {\
         "name": "@chainlink/alphachain-adapter",\
         "reference": "workspace:packages/sources/alphachain"\
       },\
@@ -856,6 +860,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/accuweather-adapter", ["workspace:packages/sources/accuweather"]],\
       ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
       ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],\
+      ["@chainlink/alongside-adapter", ["workspace:packages/sources/alongside"]],\
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],\
       ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
@@ -3856,6 +3861,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["regenerator-runtime", "npm:0.13.9"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:7.20.13", {\
+          "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.20.13-45eeb6d8ad-09b7a97a05.zip/node_modules/@babel/runtime/",\
+          "packageDependencies": [\
+            ["@babel/runtime", "npm:7.20.13"],\
+            ["regenerator-runtime", "npm:0.13.11"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@babel/template", [\
@@ -4042,6 +4055,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.1"],\
             ["fastify", "npm:3.29.2"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/alongside-adapter", [\
+        ["workspace:packages/sources/alongside", {\
+          "packageLocation": "./packages/sources/alongside/",\
+          "packageDependencies": [\
+            ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
+            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
+            ["@types/crypto-js", "npm:4.1.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:0.27.2"],\
+            ["crypto-js", "npm:4.1.1"],\
+            ["ethers", "npm:5.7.1"],\
+            ["mathjs", "npm:11.5.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -5445,6 +5480,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],\
             ["@chainlink/accuweather-adapter", "workspace:packages/sources/accuweather"],\
             ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
+            ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],\
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
             ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],\
@@ -12699,6 +12735,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/crypto-js", [\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.1-1c4ce3312a-ea3d6a67b6.zip/node_modules/@types/crypto-js/",\
+          "packageDependencies": [\
+            ["@types/crypto-js", "npm:4.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/debug", [\
         ["npm:4.1.7", {\
           "packageLocation": "./.yarn/cache/@types-debug-npm-4.1.7-f54c81f8db-0a7b89d8ed.zip/node_modules/@types/debug/",\
@@ -16934,6 +16979,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["complex.js", [\
+        ["npm:2.1.1", {\
+          "packageLocation": "./.yarn/cache/complex.js-npm-2.1.1-2beaccef20-a0802cc3f0.zip/node_modules/complex.js/",\
+          "packageDependencies": [\
+            ["complex.js", "npm:2.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["component-emitter", [\
         ["npm:1.2.1", {\
           "packageLocation": "./.yarn/cache/component-emitter-npm-1.2.1-b9e2b2aee2-00599b8276.zip/node_modules/component-emitter/",\
@@ -17323,6 +17377,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["crypto-js", "npm:3.3.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/crypto-js-npm-4.1.1-38a3b8c19d-b3747c12ee.zip/node_modules/crypto-js/",\
+          "packageDependencies": [\
+            ["crypto-js", "npm:4.1.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["crypto-random-string", [\
@@ -17667,6 +17728,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/decimal.js-npm-10.4.1-0e20c56305-5da6dc74af.zip/node_modules/decimal.js/",\
           "packageDependencies": [\
             ["decimal.js", "npm:10.4.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:10.4.3", {\
+          "packageLocation": "./.yarn/cache/decimal.js-npm-10.4.3-e7d483387c-796404dcfa.zip/node_modules/decimal.js/",\
+          "packageDependencies": [\
+            ["decimal.js", "npm:10.4.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -18789,6 +18857,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/escape-html-npm-1.0.3-376c22ee74-6213ca9ae0.zip/node_modules/escape-html/",\
           "packageDependencies": [\
             ["escape-html", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["escape-latex", [\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/escape-latex-npm-1.2.0-1481ca81a7-73a787319f.zip/node_modules/escape-latex/",\
+          "packageDependencies": [\
+            ["escape-latex", "npm:1.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20317,6 +20394,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/fp-ts-npm-1.19.5-24841190c4-67d2d9c385.zip/node_modules/fp-ts/",\
           "packageDependencies": [\
             ["fp-ts", "npm:1.19.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["fraction.js", [\
+        ["npm:4.2.0", {\
+          "packageLocation": "./.yarn/cache/fraction.js-npm-4.2.0-28efe4afc7-8c76a6e21d.zip/node_modules/fraction.js/",\
+          "packageDependencies": [\
+            ["fraction.js", "npm:4.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -23927,6 +24013,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["javascript-natural-sort", [\
+        ["npm:0.7.1", {\
+          "packageLocation": "./.yarn/cache/javascript-natural-sort-npm-0.7.1-9018625996-161e2c512c.zip/node_modules/javascript-natural-sort/",\
+          "packageDependencies": [\
+            ["javascript-natural-sort", "npm:0.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jayson", [\
         ["npm:3.7.0", {\
           "packageLocation": "./.yarn/cache/jayson-npm-3.7.0-a6092331ba-4218a48291.zip/node_modules/jayson/",\
@@ -26636,6 +26731,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["market-closure", "npm:0.1.2"],\
             ["luxon", "npm:1.28.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["mathjs", [\
+        ["npm:11.5.1", {\
+          "packageLocation": "./.yarn/cache/mathjs-npm-11.5.1-93765de5cf-91faa49abf.zip/node_modules/mathjs/",\
+          "packageDependencies": [\
+            ["mathjs", "npm:11.5.1"],\
+            ["@babel/runtime", "npm:7.20.13"],\
+            ["complex.js", "npm:2.1.1"],\
+            ["decimal.js", "npm:10.4.3"],\
+            ["escape-latex", "npm:1.2.0"],\
+            ["fraction.js", "npm:4.2.0"],\
+            ["javascript-natural-sort", "npm:0.7.1"],\
+            ["seedrandom", "npm:3.0.5"],\
+            ["tiny-emitter", "npm:2.1.0"],\
+            ["typed-function", "npm:4.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -30210,6 +30323,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["regenerator-runtime", [\
+        ["npm:0.13.11", {\
+          "packageLocation": "./.yarn/cache/regenerator-runtime-npm-0.13.11-90bf536060-27481628d2.zip/node_modules/regenerator-runtime/",\
+          "packageDependencies": [\
+            ["regenerator-runtime", "npm:0.13.11"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:0.13.9", {\
           "packageLocation": "./.yarn/cache/regenerator-runtime-npm-0.13.9-6d02340eec-65ed455fe5.zip/node_modules/regenerator-runtime/",\
           "packageDependencies": [\
@@ -31061,6 +31181,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/secure-json-parse-npm-2.5.0-d1548914dc-84147a3261.zip/node_modules/secure-json-parse/",\
           "packageDependencies": [\
             ["secure-json-parse", "npm:2.5.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["seedrandom", [\
+        ["npm:3.0.5", {\
+          "packageLocation": "./.yarn/cache/seedrandom-npm-3.0.5-6946e8f8db-728b56bc3b.zip/node_modules/seedrandom/",\
+          "packageDependencies": [\
+            ["seedrandom", "npm:3.0.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -32861,6 +32990,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["tiny-emitter", [\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/tiny-emitter-npm-2.1.0-2a4d94f487-fbcfb51457.zip/node_modules/tiny-emitter/",\
+          "packageDependencies": [\
+            ["tiny-emitter", "npm:2.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["tiny-lru", [\
         ["npm:8.0.2", {\
           "packageLocation": "./.yarn/cache/tiny-lru-npm-8.0.2-b190e31fd1-ec4d884914.zip/node_modules/tiny-lru/",\
@@ -33432,6 +33570,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["type-is", "npm:1.6.18"],\
             ["media-typer", "npm:0.3.0"],\
             ["mime-types", "npm:2.1.35"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["typed-function", [\
+        ["npm:4.1.0", {\
+          "packageLocation": "./.yarn/cache/typed-function-npm-4.1.0-fe0bfcf8e1-5d512a1350.zip/node_modules/typed-function/",\
+          "packageDependencies": [\
+            ["typed-function", "npm:4.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
