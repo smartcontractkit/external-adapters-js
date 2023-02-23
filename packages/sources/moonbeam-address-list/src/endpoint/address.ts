@@ -118,7 +118,7 @@ export class AddressTransport implements Transport<EndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.cache.set(req.requestContext.cacheKey, response, config.CACHE_MAX_AGE)
+    await this.responseCache.write([{ params: req.requestContext.data, response }])
     return response
   }
 }

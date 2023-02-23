@@ -85,20 +85,16 @@ export class BalanceTransport implements Transport<EndpointTypes> {
     // Also addresses are not returned in the results preventing balances to be mapped to them
     const addresses = req.requestContext.data.addresses.map(({ address }) => address)
     try {
-      await Promise.all(
-        addresses.map((address) => {
-          const balancePromise = api.query.system.account(address).then((codec) => {
-            const balance: ProviderResponse = JSON.parse(JSON.stringify(codec.toJSON()))
-            if (balance) {
-              result.push({
-                address,
-                balance: parseInt(balance.data?.free || '0x0', 16).toString(),
-              })
-            }
+      for (const address of addresses) {
+        const codec = await api.query.system.account(address)
+        const balance: ProviderResponse = JSON.parse(JSON.stringify(codec.toJSON()))
+        if (balance) {
+          result.push({
+            address,
+            balance: parseInt(balance.data?.free || '0x0', 16).toString(),
           })
-          return balancePromise
-        }),
-      )
+        }
+      }
     } catch (e) {
       logger.error(e, 'Failed to retrieve balances')
       return {
@@ -125,7 +121,7 @@ export class BalanceTransport implements Transport<EndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.cache.set(req.requestContext.cacheKey, response, config.CACHE_MAX_AGE)
+    await this.responseCache.write([{ params: req.requestContext.data, response }])
     return response
   }
 }

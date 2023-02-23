@@ -43,9 +43,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
   avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [
-  polkadotBalance as unknown as v3AdapterImplementation,
-]
+export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance as v3AdapterImplementation]
 
 export type Indexer = typeof adaptersV2[number]['NAME'] & typeof adaptersV3[number]['name']
 

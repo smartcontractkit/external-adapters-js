@@ -36,7 +36,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
 ]
 
 export const adaptersV3: v3AdapterImplementation[] = [
-  moonbeamAddressList as unknown as v3AdapterImplementation,
+  moonbeamAddressList as v3AdapterImplementation,
 ]
 
 export type Protocol = typeof adaptersV2[number]['NAME'] & typeof adaptersV3[number]['name']
