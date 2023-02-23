@@ -179,7 +179,7 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --wait --timeout 10m0s`
+  --wait`
   log(blue.bold(deployCommand))
   let exec_result = ''
   try {
@@ -193,7 +193,10 @@ export const deployAdapter = (config: Inputs): void => {
     log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
   }
 
-  const k8sEvents = new Shell().exec(`kubectl -n adapters get events --sort-by='{.lastTimestamp}'`)
+  new Shell().exec(`kubectl describe pods -n adapters`)
+  const k8sEvents = new Shell().exec(
+    `kubectl describe pods $(kubectl get pod -l name=qa-ea-oanda-2512 -n adapters -o jsonpath="{.items[0].metadata.name}") -n adapters`,
+  )
   log(blue.bold(`k8sEvents\n ${k8sEvents}`))
 
   if (exec_result) {
