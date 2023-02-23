@@ -7,7 +7,6 @@ import {
   AdapterResponse,
   makeLogger,
 } from '@chainlink/external-adapter-framework/util'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { customSettings } from '../config'
 
@@ -59,14 +58,12 @@ type EndpointTypes = {
 }
 
 export class BalanceTransport implements Transport<EndpointTypes> {
-  cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
   responseCache!: ResponseCache<{
     Request: EndpointTypes['Request']
     Response: EndpointTypes['Response']
   }>
 
   async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
-    this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
   }
 

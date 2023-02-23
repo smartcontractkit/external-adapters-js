@@ -3,7 +3,6 @@ import { ResponseCache } from '@chainlink/external-adapter-framework/cache/respo
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { ethers } from 'ethers'
 import { customSettings } from '../config'
 import { MoonbeamAddressContract_ABI } from '../abi/MoonbeamAddressContractABI'
@@ -68,14 +67,12 @@ type EndpointTypes = {
 }
 
 export class AddressTransport implements Transport<EndpointTypes> {
-  cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
   responseCache!: ResponseCache<{
     Request: EndpointTypes['Request']
     Response: EndpointTypes['Response']
   }>
 
   async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
-    this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
   }
 
