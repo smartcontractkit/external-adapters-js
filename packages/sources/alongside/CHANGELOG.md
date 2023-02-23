@@ -1,0 +1,1 @@
+# @chainlink/alongside-adapter
