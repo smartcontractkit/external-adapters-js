@@ -1,5 +1,11 @@
 # @chainlink/dar-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- 1c265300c: Upgrade framework and set CACHE_MAX_AGE override in DAR
+
 ## 1.0.4
 
 ### Patch Changes

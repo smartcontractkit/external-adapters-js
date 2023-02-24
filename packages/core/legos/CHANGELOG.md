@@ -1,5 +1,34 @@
 # @chainlink/ea
 
+## 1.3.65
+
+### Patch Changes
+
+- Updated dependencies [cc835dfef]
+- Updated dependencies [49680b472]
+- Updated dependencies [1c265300c]
+- Updated dependencies [8b3c35545]
+- Updated dependencies [f99d90c89]
+- Updated dependencies [dee6d49a3]
+- Updated dependencies [e303dd766]
+- Updated dependencies [b4967747a]
+- Updated dependencies [d1886603c]
+- Updated dependencies [ea84ea751]
+  - @chainlink/coinmetrics-test-adapter@1.0.7
+  - @chainlink/tradermade-test-adapter@1.0.0
+  - @chainlink/dar-adapter@1.0.5
+  - @chainlink/cryptocompare-test-adapter@1.1.0
+  - @chainlink/alongside-adapter@1.0.0
+  - @chainlink/moonbeam-address-list-adapter@1.0.0
+  - @chainlink/polkadot-balance-adapter@1.0.0
+  - @chainlink/coinmarketcap-adapter@1.5.30
+  - @chainlink/coinmarketcap-test-adapter@1.0.1
+  - @chainlink/fluent-finance-adapter@2.0.0
+  - @chainlink/twosigma-adapter@1.0.0
+  - @chainlink/anyblock-adapter@2.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.29
+  - @chainlink/wbtc-address-set-adapter@1.4.38
+
 ## 1.3.64
 
 ### Patch Changes
