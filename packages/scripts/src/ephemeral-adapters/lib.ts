@@ -167,6 +167,12 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
+  // TODO tmp restart redis
+  new Shell().exec(
+    `kubectl get pod redis-master-0 -n adapters -o yaml | kubectl replace --force -f -`,
+  )
+  new Shell().exec(`sleep 60`)
+
   // deploy the chart
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
@@ -194,10 +200,7 @@ export const deployAdapter = (config: Inputs): void => {
   }
 
   new Shell().exec(`kubectl describe pods -n adapters`)
-  const k8sEvents = new Shell().exec(
-    `kubectl describe pods $(kubectl get pod -l name=qa-ea-oanda-2512 -n adapters -o jsonpath="{.items[0].metadata.name}") -n adapters`,
-  )
-  log(blue.bold(`k8sEvents\n ${k8sEvents}`))
+  // log(blue.bold(`k8sEvents\n ${k8sEvents}`))
 
   if (exec_result) {
     process.exitCode = 1
