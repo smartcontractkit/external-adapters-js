@@ -453,6 +453,9 @@
       "path": "./sources/mock-ea/tsconfig.test.json"
     },
     {
+      "path": "./sources/moonbeam-address-list/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mycryptoapi/tsconfig.test.json"
     },
     {
@@ -493,6 +496,9 @@
     },
     {
       "path": "./sources/poa/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/polkadot-balance/tsconfig.test.json"
     },
     {
       "path": "./sources/polygon/tsconfig.test.json"

@@ -1,7 +1,16 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { DefaultConfig } from '@chainlink/ea-bootstrap'
-import { adapters as BalanceAdapters, Indexer } from '../utils/balance'
-import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from '../utils/protocol'
+import {
+  adaptersV2 as BalanceAdaptersV2,
+  adaptersV3 as BalanceAdaptersV3,
+  Indexer,
+} from '../utils/balance'
+import {
+  adaptersV2 as ProtocolAdaptersV2,
+  adaptersV3 as ProtocolAdaptersV3,
+  LIST_ADAPTER,
+  Protocol,
+} from '../utils/protocol'
 
 export interface Config extends DefaultConfig {
   options: Options
@@ -26,18 +35,32 @@ export const makeOptions = (): Options => {
     protocol: [],
     indexer: [],
   }
-  for (const a of ProtocolAdapters) {
+  for (const a of ProtocolAdaptersV2) {
     const url = util.getURL(a.NAME)
     if (url) {
       options.protocol.push(a.NAME)
       options.protocol.push(a.NAME.toLowerCase())
     }
   }
-  for (const a of BalanceAdapters) {
+  for (const a of ProtocolAdaptersV3) {
+    const url = util.getURL(a.name)
+    if (url) {
+      options.protocol.push(a.name)
+      options.protocol.push(a.name.toLowerCase())
+    }
+  }
+  for (const a of BalanceAdaptersV2) {
     const url = util.getURL(a.NAME)
     if (url) {
       options.indexer.push(a.NAME)
       options.indexer.push(a.NAME.toLowerCase())
+    }
+  }
+  for (const a of BalanceAdaptersV3) {
+    const url = util.getURL(a.name)
+    if (url) {
+      options.indexer.push(a.name)
+      options.indexer.push(a.name.toLowerCase())
     }
   }
   options.protocol.push(LIST_ADAPTER)
