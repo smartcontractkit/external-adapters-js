@@ -1,5 +1,5 @@
-import type { TInputParameters as MoonInputParameters } from './moon'
+import type { TInputParameters as InputParameters } from './balances'
 
-export type TInputParameters = MoonInputParameters
+export type TInputParameters = InputParameters
 
-export * as moon from './moon'
+export * as balances from './balances'
