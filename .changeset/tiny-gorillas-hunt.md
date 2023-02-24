@@ -1,5 +1,5 @@
 ---
-'@chainlink/fluent-finance-adapter': minor
+'@chainlink/fluent-finance-adapter': major
 ---
 
-Updated endpoint URL
+Updated default endpoint

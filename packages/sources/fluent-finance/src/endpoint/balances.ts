@@ -1,10 +1,10 @@
 import { AdapterInputError, objectPath, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
-export const supportedEndpoints = ['moon']
+export const supportedEndpoints = ['balances']
 
 export const endpointResultPaths = {
-  moon: 'availableBalance',
+  balances: 'availableBalance',
 }
 
 export interface ResponseSchema {
@@ -17,7 +17,7 @@ export interface ResponseSchema {
   currencyCode: string // 'USD'
 }
 
-export const description = 'Bank balances for moonbeam'
+export const description = 'Bank balances'
 
 export type TInputParameters = Record<string, never>
 export const inputParameters: InputParameters<TInputParameters> = {}
