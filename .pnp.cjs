@@ -789,6 +789,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/twelvedata"\
       },\
       {\
+        "name": "@chainlink/twosigma-adapter",\
+        "reference": "workspace:packages/sources/twosigma"\
+      },\
+      {\
         "name": "@chainlink/unibit-adapter",\
         "reference": "workspace:packages/sources/unibit"\
       },\
@@ -1047,6 +1051,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
+      ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
       ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],\
@@ -5621,6 +5626,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],\
+            ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],\
             ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
             ["@chainlink/uniswap-v3-adapter", "workspace:packages/sources/uniswap-v3"],\
@@ -7940,6 +7946,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/twosigma-adapter", [\
+        ["workspace:packages/sources/twosigma", {\
+          "packageLocation": "./packages/sources/twosigma/",\
+          "packageDependencies": [\
+            ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/ws", "npm:7.4.7"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
