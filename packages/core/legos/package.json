@@ -180,6 +180,7 @@
     "@chainlink/tradingeconomics-adapter": "workspace:*",
     "@chainlink/trueusd-adapter": "workspace:*",
     "@chainlink/twelvedata-adapter": "workspace:*",
+    "@chainlink/twosigma-adapter": "workspace:*",
     "@chainlink/unibit-adapter": "workspace:*",
     "@chainlink/uniswap-v2-adapter": "workspace:*",
     "@chainlink/uniswap-v3-adapter": "workspace:*",
