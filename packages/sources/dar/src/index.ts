@@ -10,6 +10,9 @@ export const adapter = new PriceAdapter({
   endpoints: [price],
   defaultEndpoint: price.name,
   customSettings,
+  envDefaultOverrides: {
+    CACHE_MAX_AGE: 20 * 60 * 1000, //20 minutes
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> =>
