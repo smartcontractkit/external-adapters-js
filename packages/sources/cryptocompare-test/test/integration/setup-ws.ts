@@ -58,7 +58,7 @@ export const mockWebSocketServer = (URL: string) => {
 
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: 'crypto',
     endpoints: [endpoint],
     customSettings,

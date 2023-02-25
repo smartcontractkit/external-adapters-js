@@ -57,7 +57,7 @@ export const mockForexWebSocketServer = (URL: string): Server => {
 
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: 'crypto',
     endpoints: [cryptoEndpoint, forexEndpoint],
     includes,

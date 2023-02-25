@@ -58,7 +58,7 @@ export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   })
 
   return new PriceAdapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: 'price',
     endpoints: [priceEndpoint],
     customSettings,

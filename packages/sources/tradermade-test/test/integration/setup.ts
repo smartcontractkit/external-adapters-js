@@ -104,7 +104,7 @@ export const mockForexWebSocketServer = (URL: string): Server => {
 
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: forex.name,
     endpoints: [forex],
     customSettings,

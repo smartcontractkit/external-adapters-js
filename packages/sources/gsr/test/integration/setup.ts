@@ -61,7 +61,7 @@ export const mockWebSocketServer = (URL: string) => {
 
 export const createAdapter = (): PriceAdapter<SettingsMap> => {
   return new PriceAdapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: 'price',
     endpoints: [endpoint],
     customSettings,

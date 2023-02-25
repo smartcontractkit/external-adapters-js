@@ -156,7 +156,7 @@ export const mockForexWebSocketServer = (URL: string): Server => {
 
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: crypto.name,
     endpoints: [crypto, forex, iex],
     overrides: overrides.tiingo,

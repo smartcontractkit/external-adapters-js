@@ -160,7 +160,7 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
 
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: stock.name,
     endpoints: [stock, forex, crypto],
     customSettings,
