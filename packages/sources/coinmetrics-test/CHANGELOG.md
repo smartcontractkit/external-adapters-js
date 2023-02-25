@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-test-adapter
 
+## 1.0.7
+
+### Patch Changes
+
+- cc835dfef: Add crypto alias to price endpoint
+
 ## 1.0.6
 
 ### Patch Changes
