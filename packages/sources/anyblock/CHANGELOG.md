@@ -1,5 +1,11 @@
 # @chainlink/anyblock-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- ea84ea751: Anyblock adapter using Blockdaemon API as datasource now. This requires a Blockdaemon API key. See adapter README.md
+
 ## 1.4.27
 
 ### Patch Changes
