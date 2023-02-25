@@ -45,11 +45,9 @@ export const adaptersV2: v2AdapterImplementation[] = [
 
 export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance as v3AdapterImplementation]
 
-export type Indexer = (typeof adaptersV2)[number]['NAME'] & (typeof adaptersV3)[number]['name']
-
 // Get balances for address set
 export const runBalanceAdapter = async (
-  indexer: Indexer,
+  indexer: string,
   context: AdapterContext,
   confirmations: number,
   config: Config,

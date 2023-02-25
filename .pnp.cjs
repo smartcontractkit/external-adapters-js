@@ -6934,7 +6934,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/moonbeam-address-list/",\
           "packageDependencies": [\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.25.0"],\
             ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6943,7 +6943,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -7255,7 +7255,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polkadot-balance/",\
           "packageDependencies": [\
             ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.25.0"],\
             ["@polkadot/api", "npm:9.14.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7263,7 +7263,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -7342,7 +7342,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.25.0"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -34388,13 +34388,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["typescript", [\
-        ["patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307", {\
-          "packageLocation": "./.yarn/cache/typescript-patch-0feff98f1a-9096d8f6c1.zip/node_modules/typescript/",\
-          "packageDependencies": [\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76", {\
           "packageLocation": "./.yarn/cache/typescript-patch-72dc6f164f-ab417a2f39.zip/node_modules/typescript/",\
           "packageDependencies": [\

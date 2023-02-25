@@ -4217,7 +4217,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.24.2
+    "@chainlink/external-adapter-framework": 0.25.0
     "@polkadot/keyring": 10.4.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -4226,7 +4226,7 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
-    typescript: 4.7.4
+    typescript: 4.9.5
   languageName: unknown
   linkType: soft
 
@@ -4502,7 +4502,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.24.2
+    "@chainlink/external-adapter-framework": 0.25.0
     "@polkadot/api": 9.14.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -4510,7 +4510,7 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
-    typescript: 4.7.4
+    typescript: 4.9.5
   languageName: unknown
   linkType: soft
 
@@ -4581,7 +4581,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/eth-balance-adapter": "workspace:*"
     "@chainlink/eth-beacon-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": 0.24.2
+    "@chainlink/external-adapter-framework": 0.25.0
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
     "@chainlink/moonbeam-address-list-adapter": "workspace:*"
@@ -28818,16 +28818,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.7.4":
-  version: 4.7.4
-  resolution: "typescript@npm:4.7.4"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 5750181b1cd7e6482c4195825547e70f944114fb47e58e4aa7553e62f11b3f3173766aef9c281783edfd881f7b8299cf35e3ca8caebe73d8464528c907a164df
-  languageName: node
-  linkType: hard
-
 "typescript@npm:4.9.5":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
@@ -28835,16 +28825,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@4.7.4#~builtin<compat/typescript>":
-  version: 4.7.4
-  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=65a307"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 9096d8f6c16cb80ef3bf96fcbbd055bf1c4a43bd14f3b7be45a9fbe7ada46ec977f604d5feed3263b4f2aa7d4c7477ce5f9cd87de0d6feedec69a983f3a4f93e
   languageName: node
   linkType: hard
 

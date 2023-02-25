@@ -39,8 +39,6 @@ export const adaptersV3: v3AdapterImplementation[] = [
   moonbeamAddressList as v3AdapterImplementation,
 ]
 
-export type Protocol = (typeof adaptersV2)[number]['NAME'] & (typeof adaptersV3)[number]['name']
-
 type AddressData = { token: string; chainId: string; network: string } | AddressList
 
 type AddressList =
@@ -53,7 +51,7 @@ type AddressObject = { address: string; network: string; chainId: string }
 export const runProtocolAdapter = async (
   jobRunID: string,
   context: AdapterContext,
-  protocol: Protocol,
+  protocol: string,
   data: AddressData,
   config: Config,
 ): Promise<AdapterResponse> => {
