@@ -88,7 +88,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
 
           const stream = response?.data
 
-          const eventHandlerGenerator = (listener: typeof this.config.eventListeners[0]) => {
+          const eventHandlerGenerator = (listener: (typeof this.config.eventListeners)[0]) => {
             return (event: MessageEvent) => {
               const providerDataReceivedUnixMs = Date.now()
 
