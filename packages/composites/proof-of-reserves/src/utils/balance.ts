@@ -1,5 +1,5 @@
 import type {
-  AdapterImplementation,
+  AdapterImplementation as v2AdapterImplementation,
   AdapterResponse,
   Config,
   Account,
@@ -22,26 +22,30 @@ import * as ethBalance from '@chainlink/eth-balance-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
 import * as ethBeacon from '@chainlink/eth-beacon-adapter'
 import * as avalanchePlatform from '@chainlink/avalanche-platform-adapter'
+import { adapter as polkadotBalance } from '@chainlink/polkadot-balance-adapter'
+import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
 // TODO: type
-export const adapters: AdapterImplementation[] = [
-  amberdata as unknown as AdapterImplementation,
-  bitcoinJsonRpc as unknown as AdapterImplementation,
-  porIndexer as unknown as AdapterImplementation,
-  blockchainCom as unknown as AdapterImplementation,
-  blockcypher as unknown as AdapterImplementation,
-  blockchair as unknown as AdapterImplementation,
-  btcCom as unknown as AdapterImplementation,
-  cryptoapis as unknown as AdapterImplementation,
-  sochain as unknown as AdapterImplementation,
-  lotus as unknown as AdapterImplementation,
-  ethBalance as unknown as AdapterImplementation,
-  adaBalance as unknown as AdapterImplementation,
-  ethBeacon as unknown as AdapterImplementation,
-  avalanchePlatform as unknown as AdapterImplementation,
+export const adaptersV2: v2AdapterImplementation[] = [
+  amberdata as unknown as v2AdapterImplementation,
+  bitcoinJsonRpc as unknown as v2AdapterImplementation,
+  porIndexer as unknown as v2AdapterImplementation,
+  blockchainCom as unknown as v2AdapterImplementation,
+  blockcypher as unknown as v2AdapterImplementation,
+  blockchair as unknown as v2AdapterImplementation,
+  btcCom as unknown as v2AdapterImplementation,
+  cryptoapis as unknown as v2AdapterImplementation,
+  sochain as unknown as v2AdapterImplementation,
+  lotus as unknown as v2AdapterImplementation,
+  ethBalance as unknown as v2AdapterImplementation,
+  adaBalance as unknown as v2AdapterImplementation,
+  ethBeacon as unknown as v2AdapterImplementation,
+  avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
-export type Indexer = typeof adapters[number]['NAME']
+export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance as v3AdapterImplementation]
+
+export type Indexer = (typeof adaptersV2)[number]['NAME'] & (typeof adaptersV3)[number]['name']
 
 // Get balances for address set
 export const runBalanceAdapter = async (
