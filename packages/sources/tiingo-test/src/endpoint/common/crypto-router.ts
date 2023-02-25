@@ -6,10 +6,10 @@ import { wsTransport } from '../ws/crypto'
 
 export const routingTransport = new RoutingTransport<CryptoEndpointTypes>(
   {
-    WS: wsTransport,
-    HTTP: httpTransport,
+    ws: wsTransport,
+    rest: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'HTTP'),
+  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'ws' : 'rest'),
 )
 
 export const endpoint = new CryptoPriceEndpoint<CryptoEndpointTypes>({

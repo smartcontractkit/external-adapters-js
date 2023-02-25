@@ -2,6 +2,7 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const inputParameters = {
   base: {
@@ -10,7 +11,7 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to query',
   },
-} as const
+} satisfies InputParameters
 
 interface RequestParams {
   base: string

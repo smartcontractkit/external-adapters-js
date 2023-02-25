@@ -6,7 +6,7 @@ export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
-        params: [{ base: param.base, quote: param.quote }],
+        params: [{ base: param.base, quote: param.quote, transport: 'rest' }],
         request: {
           baseURL: config.API_ENDPOINT,
           url: 'tiingo/crypto/prices',

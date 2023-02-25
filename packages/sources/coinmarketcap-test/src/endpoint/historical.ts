@@ -1,10 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
 
-const inputParameters: InputParameters = {
+const inputParameters = {
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],
     description: 'The symbol of the currency to query',
@@ -54,7 +53,7 @@ const inputParameters: InputParameters = {
     required: false,
     type: 'string',
   },
-} as const
+} satisfies InputParameters
 
 export type RequestParams = {
   base: string
@@ -114,7 +113,7 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: {
-    Data: EmptyObject
+    Data: unknown
     Result: null
   }
   CustomSettings: typeof customSettings

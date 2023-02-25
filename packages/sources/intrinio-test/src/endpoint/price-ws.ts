@@ -4,6 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
+import { RequestParams } from './price-router'
 import { IntrinioRealtime } from './util'
 
 export type IntrinioFeedMessage = {
@@ -20,7 +21,7 @@ export type IntrinioFeedMessage = {
 
 export type EndpointTypes = {
   Request: {
-    Params: { base: string }
+    Params: RequestParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -59,7 +60,7 @@ export const wsTransport: IntrinioWebsocketTransport<EndpointTypes> =
             const base = msg.payload.ticker
             const price = msg.payload.price
             return {
-              params: { base },
+              params: { base, transport: 'ws' },
               response: {
                 result: price,
                 data: {

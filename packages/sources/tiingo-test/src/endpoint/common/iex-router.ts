@@ -4,6 +4,7 @@ import { httpTransport } from '../http/iex'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { wsTransport } from '../ws/iex'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 interface ProviderResponseBody {
   prevClose: number
@@ -32,11 +33,19 @@ const inputParameters = {
     type: 'string',
     description: 'The stock ticker to query',
   },
-} as const
+  transport: {
+    description: 'which transport to route to',
+    required: false,
+    type: 'string',
+    default: 'rest',
+  },
+} satisfies InputParameters
+
+export type IexRequestParams = { ticker: string; transport: string }
 
 export type IEXEndpointTypes = {
   Request: {
-    Params: { ticker: string }
+    Params: IexRequestParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -48,10 +57,10 @@ export type IEXEndpointTypes = {
 
 export const routingTransport = new RoutingTransport<IEXEndpointTypes>(
   {
-    WS: wsTransport,
-    HTTP: httpTransport,
+    ws: wsTransport,
+    rest: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'HTTP'),
+  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'ws' : 'rest'),
 )
 
 export const endpoint = new AdapterEndpoint<IEXEndpointTypes>({

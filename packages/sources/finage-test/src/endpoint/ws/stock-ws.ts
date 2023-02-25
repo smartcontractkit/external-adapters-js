@@ -1,6 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
+import { StockEndpointParams } from '../stock-router'
 
 interface Message {
   s: string
@@ -12,7 +13,7 @@ interface Message {
 
 type EndpointTypes = {
   Request: {
-    Params: { base: string }
+    Params: StockEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -40,7 +41,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
 
       return [
         {
-          params: { base: message.s },
+          params: { base: message.s, transport: 'ws' },
           response: {
             data: {
               result,

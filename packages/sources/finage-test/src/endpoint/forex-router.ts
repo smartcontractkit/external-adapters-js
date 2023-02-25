@@ -18,6 +18,12 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
+  transport: {
+    description: 'which transport to route to',
+    required: false,
+    type: 'string',
+    default: 'rest',
+  },
 } as const
 
 interface ResponseSchema {
@@ -27,9 +33,13 @@ interface ResponseSchema {
   timestamp: number
 }
 
+export type ForexEndpointParams = PriceEndpointParams & {
+  transport: string
+}
+
 export type EndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: ForexEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -41,10 +51,10 @@ export type EndpointTypes = {
 
 export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
-    WS: wsTransport,
-    HTTP: httpTransport,
+    ws: wsTransport,
+    rest: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
+  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
 )
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({

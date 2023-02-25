@@ -22,7 +22,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
     return response.map((entry) => {
       const result = (entry.bid + entry.ask) / 2
       return {
-        params: { base: entry.symbol },
+        params: { base: entry.symbol, transport: 'rest' },
         response: {
           data: {
             result,

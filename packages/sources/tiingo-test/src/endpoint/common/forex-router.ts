@@ -1,9 +1,11 @@
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
-import { AdapterEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { httpTransport } from '../http/forex'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { wsTransport } from '../ws/forex'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { RouterPriceEndpointParams } from '../../crypto-utils'
 
 const inputParameters = {
   base: {
@@ -18,7 +20,13 @@ const inputParameters = {
     type: 'string',
     description: 'The quote to convert to',
   },
-} as const
+  transport: {
+    description: 'which transport to route to',
+    required: false,
+    type: 'string',
+    default: 'rest',
+  },
+} satisfies InputParameters
 
 interface ProviderResponseBody {
   ticker: string
@@ -32,7 +40,7 @@ interface ProviderResponseBody {
 
 export type ForexEndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -44,10 +52,10 @@ export type ForexEndpointTypes = {
 
 export const routingTransport = new RoutingTransport<ForexEndpointTypes>(
   {
-    WS: wsTransport,
-    HTTP: httpTransport,
+    ws: wsTransport,
+    rest: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'HTTP'),
+  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'ws' : 'rest'),
 )
 
 export const endpoint = new AdapterEndpoint<ForexEndpointTypes>({

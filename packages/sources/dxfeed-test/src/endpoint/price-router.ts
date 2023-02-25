@@ -4,6 +4,7 @@ import { batchTransport } from './price'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { wsTransport } from './price-ws'
 import { customSettings } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const inputParameters = {
   base: {
@@ -12,7 +13,13 @@ export const inputParameters = {
     description: 'The symbol of the currency to query',
     required: true,
   },
-} as const
+  transport: {
+    description: 'which transport to route to',
+    required: false,
+    type: 'string',
+    default: 'rest',
+  },
+} satisfies InputParameters
 
 export interface ProviderResponseBody {
   status: string
@@ -53,6 +60,7 @@ export interface ProviderResponseBody {
 
 export interface RequestParams {
   base: string
+  transport: string
 }
 
 export type EndpointTypes = {
@@ -69,10 +77,10 @@ export type EndpointTypes = {
 
 export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
-    WS: wsTransport,
-    REST: batchTransport,
+    ws: wsTransport,
+    rest: batchTransport,
   },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'REST'),
+  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
 )
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({

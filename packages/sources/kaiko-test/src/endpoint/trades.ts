@@ -1,7 +1,11 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpoint,
+  PriceEndpointInputParameters,
+} from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { customSettings } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const inputParameters = {
   base: {
@@ -33,7 +37,7 @@ const inputParameters = {
     description: 'Which way to sort the data returned in the query',
     default: 'desc',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export interface RequestParams {
   base: string

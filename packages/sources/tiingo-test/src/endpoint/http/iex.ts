@@ -18,7 +18,7 @@ export const httpTransport = new HttpTransport<IEXEndpointTypes>({
   parseResponse: (_, res) => {
     return res.data.map((entry) => {
       return {
-        params: { ticker: entry.ticker },
+        params: { ticker: entry.ticker, transport: 'rest' },
         response: {
           data: {
             result: entry.tngoLast,

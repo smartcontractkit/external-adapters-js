@@ -28,9 +28,7 @@ function customInputValidation(
   return
 }
 
-export const routingTransport = new RoutingTransport<BatchEndpointTypes>(transports, {
-  defaultTransport: 'rest',
-})
+export const routingTransport = new RoutingTransport<BatchEndpointTypes>(transports)
 
 export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
   name: 'forex',

@@ -10,9 +10,7 @@ const transports = {
   rest: httpTransport,
 }
 
-export const routingTransport = new RoutingTransport<BatchEndpointTypes>(transports, {
-  defaultTransport: 'rest',
-})
+export const routingTransport = new RoutingTransport<BatchEndpointTypes>(transports)
 
 export const endpoint = new CryptoPriceEndpoint<BatchEndpointTypes>({
   name: defaultEndpoint,

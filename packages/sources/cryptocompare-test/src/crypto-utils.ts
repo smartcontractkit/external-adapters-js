@@ -1,7 +1,11 @@
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from './config'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const logger = makeLogger('CryptoCompare HTTP')
 
@@ -22,8 +26,9 @@ export const cryptoInputParams = {
     description: 'which transport to route to',
     required: false,
     type: 'string',
+    default: 'rest',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export type CryptoEndpointParams = PriceEndpointParams & {
   transport: string

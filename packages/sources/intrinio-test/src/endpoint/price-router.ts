@@ -4,6 +4,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { customSettings } from '../config'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { wsTransport } from './price-ws'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const inputParameters = {
   base: {
@@ -12,10 +13,17 @@ export const inputParameters = {
     type: 'string',
     required: true,
   },
-} as const
+  transport: {
+    description: 'which transport to route to',
+    required: false,
+    type: 'string',
+    default: 'rest',
+  },
+} satisfies InputParameters
 
 export interface RequestParams {
   base: string
+  transport: string
 }
 
 export interface ProviderResponseBody {
@@ -57,14 +65,14 @@ export type EndpointTypes = {
 
 export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
-    WS: wsTransport,
-    REST: httpTransport,
+    ws: wsTransport,
+    rest: httpTransport,
   },
   (_, adapterConfig) => {
     if (adapterConfig.WS_ENABLED) {
-      return 'WS'
+      return 'ws'
     }
-    return 'REST'
+    return 'rest'
   },
 )
 

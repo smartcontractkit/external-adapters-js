@@ -1,7 +1,7 @@
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { TiingoWebsocketTransport } from '../../ws-utils'
+import { RouterPriceEndpointParams } from '../../crypto-utils'
 
 interface Message {
   service: string
@@ -14,7 +14,7 @@ const priceIndex = 4
 
 type EndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -38,7 +38,7 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
         const [base, quote] = message.data[tickerIndex].split('/')
         return [
           {
-            params: { base, quote },
+            params: { base, quote, transport: 'ws' },
             response: {
               data: {
                 result: message.data[priceIndex],
