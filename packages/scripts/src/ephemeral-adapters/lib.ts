@@ -175,6 +175,7 @@ export const deployAdapter = (config: Inputs): void => {
   --namespace ${NAMESPACE} \
   --create-namespace \
   ${config.helmValuesOverride} \
+  --set livenessProbe=null --set readinessProbe=null \
   --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
