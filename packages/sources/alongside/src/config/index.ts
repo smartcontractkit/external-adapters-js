@@ -28,10 +28,9 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
-  INFURA_KEY: {
-    description: 'The infura key',
+  RPC_URL: {
+    description: 'The RPC URL to connect to the EVM chain the contract is deployed to',
     type: 'string',
     required: true,
-    sensitive: true,
   },
 } as const
