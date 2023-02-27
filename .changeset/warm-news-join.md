@@ -1,5 +1,6 @@
 ---
 '@chainlink/blocksize-capital-test-adapter': patch
+'@chainlink/coingecko-test-adapter': patch
 '@chainlink/coinmarketcap-test-adapter': patch
 '@chainlink/coinpaprika-test-adapter': patch
 '@chainlink/cryptocompare-test-adapter': patch

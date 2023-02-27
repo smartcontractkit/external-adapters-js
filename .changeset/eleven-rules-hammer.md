@@ -79,7 +79,6 @@
 '@chainlink/coinbase-adapter': patch
 '@chainlink/coincodex-adapter': patch
 '@chainlink/coingecko-adapter': patch
-'@chainlink/coingecko-test-adapter': patch
 '@chainlink/coinlore-adapter': patch
 '@chainlink/coinmarketcap-adapter': patch
 '@chainlink/coinmetrics-adapter': patch
