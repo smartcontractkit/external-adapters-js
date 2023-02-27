@@ -19,6 +19,11 @@ export const adapter = new PriceAdapter({
       enterprise: {
         rateLimit1h: 136.9,
       },
+      unlimited: {
+        rateLimit1s: 100,
+        rateLimit1m: 6000,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
     },
   },
 })
