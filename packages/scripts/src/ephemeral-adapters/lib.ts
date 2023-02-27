@@ -194,7 +194,9 @@ export const deployAdapter = (config: Inputs): void => {
   }
 
   // const k8sEvents = new Shell().exec(`kubectl describe pods -n adapters`)
-  const k8sEvents = new Shell().exec(`kubectl logs redis-master-0 -n adapters`)
+  const k8sEvents = new Shell().exec(
+    `kubectl logs -l app.kubernetes.io/name=qa-ea-oanda-2512 --all-containers -n adapters`,
+  )
   log(blue.bold(`k8sEvents\n ${k8sEvents}`))
 
   if (exec_result) {
