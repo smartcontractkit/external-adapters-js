@@ -99,6 +99,7 @@ const presetIds: { [symbol: string]: number } = {
   UNI: 7083,
   WOM: 5328,
   YFI: 5864,
+  RETH: 15060,
 }
 
 export const description = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest

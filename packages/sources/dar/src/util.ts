@@ -32,7 +32,9 @@ export const getAuthToken = async (
     const err = e as any
     const message = `Login failed ${err.message ? `with message '${err.message}'` : ''}`
     const error = { ...err, message }
+
     logger.debug(message)
+
     throw error.response
       ? new AdapterDataProviderError(error, {
           providerDataRequestedUnixMs: requestedTs,
