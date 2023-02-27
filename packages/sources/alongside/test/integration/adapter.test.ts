@@ -34,7 +34,7 @@ describe('rest', () => {
     PASSPHRASE: process.env.PASSPHRASE || 'fake-passphrase',
     SIGNING_KEY: process.env.SIGNING_KEY || 'fake-signing-key',
     PORTFOLIO_ID: process.env.PORTFOLIO_ID || 'fake-portfolio',
-    INFURA_KEY: process.env.INFURA_KEY || 'fake-infura-key',
+    RPC_URL: process.env.RPC_URL || 'https://mainnet.infura.io:443/v3/fake-infura-key',
   }
   setupExternalAdapterTest(envVariables, context)
 
