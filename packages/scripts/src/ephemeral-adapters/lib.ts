@@ -179,7 +179,7 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --wait`
+  --wait --debug --timeout 10m`
   log(blue.bold(deployCommand))
   let exec_result = ''
   try {
