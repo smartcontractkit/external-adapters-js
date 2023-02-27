@@ -59,7 +59,7 @@ describe('execute', () => {
   describe('birc endpoint', () => {
     const data: AdapterRequest = {
       id,
-      data: { endpoint: 'birc' },
+      data: { endpoint: 'birc', tenor: 'SIRB' },
     }
 
     it('should return success', async () => {

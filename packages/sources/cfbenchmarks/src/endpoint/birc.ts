@@ -4,8 +4,15 @@ import { Config } from '../config'
 
 export const supportedEndpoints = ['birc']
 
-export type TInputParameters = Record<string, never>
-export const inputParameters: InputParameters<TInputParameters> = {}
+export type TInputParameters = { tenor: string }
+export const inputParameters: InputParameters<TInputParameters> = {
+  tenor: {
+    description: 'The tenor value to pull from the API response',
+    type: 'string',
+    options: ['SIRB', '1W', '2W', '3W', '1M', '2M', '3M', '4M', '5M'],
+    required: true,
+  },
+}
 
 export interface ResponseSchema {
   serverTime: string
@@ -31,14 +38,21 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
+  const tenor = validator.validated.data.tenor.toUpperCase()
 
   const reqConfig = { ...config.api, params: { id: 'BIRC' }, url: `/v1/curves` }
   const response = await Requester.request<ResponseSchema>(reqConfig)
 
-  const result = Requester.validateResultNumber(response.data.payload, [
-    response.data.payload.length - 1,
-    'tenors',
-    'SIRB',
-  ])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  // Values of '0' are considered to be valid so acceptZeroValue and cast the result to string to ensure the field appears in the JSON response we send
+  const result = Requester.validateResultNumber(
+    response.data.payload,
+    [response.data.payload.length - 1, 'tenors', tenor],
+    { acceptZeroValue: true },
+  )
+
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result.toString()),
+    config.verbose,
+  )
 }
