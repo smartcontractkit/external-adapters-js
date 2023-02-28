@@ -1,5 +1,20 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.16.0
+
+### Minor Changes
+
+- 603bb76e5: Added mooonbeam-address-list protocol adapter. Added polkadot-balance adapter.
+
+### Patch Changes
+
+- Updated dependencies [603bb76e5]
+  - @chainlink/moonbeam-address-list-adapter@1.0.0
+  - @chainlink/polkadot-balance-adapter@1.0.0
+  - @chainlink/por-indexer-adapter@1.2.38
+  - @chainlink/renvm-address-set-adapter@1.5.29
+  - @chainlink/wbtc-address-set-adapter@1.4.38
+
 ## 1.15.0
 
 ### Minor Changes

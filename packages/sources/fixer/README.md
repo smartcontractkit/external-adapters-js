@@ -39,46 +39,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "convert",
-    "base": "EUR",
-    "quote": "USD"
-  },
-  "debug": {
-    "cacheKey": "2633d6036edf24f9672e274cc5b60c788fd3cdea"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "success": true,
-    "query": {
-      "from": "USD",
-      "to": "EUR",
-      "amount": 1
-    },
-    "info": {
-      "timestamp": 1636390923,
-      "rate": 0.862805
-    },
-    "date": "2021-11-08",
-    "result": 0.862805
-  },
-  "result": 0.862805,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -97,48 +58,7 @@ Supported names for this endpoint are: `forex`, `latest`, `price`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "EUR",
-    "quote": "USD"
-  },
-  "debug": {
-    "cacheKey": "55c3992cf1e9d0cd4f70dc1b3cea317c1fd9dbe2"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "success": true,
-    "timestamp": 1646446742,
-    "base": "EUR",
-    "date": "2022-03-05",
-    "rates": {
-      "USD": 1.094769
-    },
-    "result": 1.094769
-  },
-  "result": 1.094769,
-  "statusCode": 200,
-  "debug": {
-    "batchablePropertyPath": [
-      {
-        "name": "quote"
-      }
-    ]
-  },
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
