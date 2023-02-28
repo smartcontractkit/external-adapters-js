@@ -8,6 +8,7 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { AUTHORIZATION_HEADER, Config, makeConfig } from './config'
 import * as endpoints from './endpoint'
+import type { TInputParameters as ValuesInputParameters } from './endpoint/values'
 
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
@@ -42,7 +43,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
   // TODO : WS message types
   {
     const getId = (input: AdapterRequest) => {
-      const validator = new Validator<endpoints.TInputParameters>(
+      const validator = new Validator<ValuesInputParameters>(
         input,
         endpoints.values.inputParameters,
         {},
