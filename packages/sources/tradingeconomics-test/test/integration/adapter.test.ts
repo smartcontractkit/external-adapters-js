@@ -11,7 +11,7 @@ import {
   setupExternalAdapterTest,
   SuiteContext,
 } from './setup'
-import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
+import { sleep } from '@chainlink/external-adapter-framework/util'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 
 describe('execute', () => {
@@ -46,8 +46,8 @@ describe('execute', () => {
     const data = {
       id,
       data: {
-        base: 'EURUSD',
-        quote: 'CUR',
+        base: 'EUR',
+        quote: 'USD',
       },
     }
 
@@ -72,18 +72,18 @@ describe('execute', () => {
     let mockWsServer: Server | undefined
     let spy: jest.SpyInstance
 
-    jest.setTimeout(100000)
+    jest.setTimeout(50000)
 
-    const data: AdapterRequestBody = {
+    const id = '1'
+    const data = {
+      id,
       data: {
-        endpoint: 'price',
         base: 'CAD',
         quote: 'USD',
       },
     }
 
     let oldEnv: NodeJS.ProcessEnv
-    const wsEndpoint = 'wss://stream.tradingeconomics.com/'
 
     beforeAll(async () => {
       oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -95,6 +95,8 @@ describe('execute', () => {
       process.env['API_KEY'] = 'fake-api-key'
       process.env['API_CLIENT_KEY'] = 'fake-api-key'
       process.env['API_CLIENT_SECRET'] = 'fake-api-secret'
+
+      const wsEndpoint = 'wss://stream.tradingeconomics.com/?client=fake-api-key:fake-api-secret'
 
       const mockDate = new Date('2022-11-11T11:11:11.111Z')
       spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())

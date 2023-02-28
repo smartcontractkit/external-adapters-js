@@ -5,10 +5,10 @@ export const mockResponseSuccess = (): nock.Scope =>
     encodedQueryParams: true,
   })
     .get('/symbol/EURUSD:CUR')
-    .query({ c: 'fake-api-key:fake-api-secret' })
+    .query({ c: 'fake-api-key:fake-api-secret', f: 'json' })
     .reply(
       200,
-      () => [
+      [
         {
           Symbol: 'EURUSD:CUR',
           Ticker: 'EUR',

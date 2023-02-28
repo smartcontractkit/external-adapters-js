@@ -1,11 +1,10 @@
-import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import includes from '../config/includes.json'
-
-import { customSettings } from '../config'
 import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import { customSettings } from '../config'
 
-const logger = makeLogger('Tradingeconomics WS')
+const logger = makeLogger('TradingEconomics WS Transport')
 
 export type EndpointTypes = {
   Request: {
@@ -14,7 +13,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    WsMessage: Message[]
+    WsMessage: Message
   }
 }
 
@@ -57,48 +56,43 @@ const baseFromIncludes = includes.reduce(
   (basesMap: { [from: string]: string }, includesSet: Includes) => {
     const { includes } = includesSet
     for (const includePair of includes) {
-      basesMap[includePair.from] = includesSet.from
+      basesMap[includesSet.from] = includePair.from
     }
     return basesMap
   },
   {},
 )
 
-export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
-  new WebsocketReverseMappingTransport<EndpointTypes, string>({
-    url: (context) => {
-      const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterConfig
-      return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
-    },
-    handlers: {
-      message: (message) => {
-        if (Object.keys(message).length === 0) {
-          logger.debug('WS message is empty, skipping')
-          return []
-        }
-        return message.map((msg) => {
-          const base = baseFromIncludes[msg?.s] ?? msg?.s
-          wsTransport.setReverseMapping(msg.i, { base: msg.s, quote: 'USD' })
-          const result = {
-            params: { base, quote: 'USD' },
-            response: {
-              result: msg.price,
-              data: {
-                result: msg.price,
-              },
-              timestamps: {
-                providerIndicatedTimeUnixMs: new Date(msg.dt).getTime(),
-              },
+export const wsTransport = new WebSocketTransport<EndpointTypes>({
+  url: (context) => {
+    const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterConfig
+    return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
+  },
+  handlers: {
+    message: (message) => {
+      if (!message.s) {
+        logger.error('No subscription message found')
+      }
+      const base = baseFromIncludes[message?.s] ?? message?.s
+      return [
+        {
+          params: { base, quote: '' },
+          response: {
+            result: message.price,
+            data: {
+              result: message.price,
             },
-          }
-          return result
-        })
-      },
+            timestamps: {
+              providerIndicatedTimeUnixMs: new Date(message.dt).getTime(),
+            },
+          },
+        },
+      ]
     },
-    builders: {
-      subscribeMessage: (params) => {
-        const from = wsTransport.getReverseMapping(`${params.quote}${params.base}`)
-        return getSubscription(from?.base as string)
-      },
+  },
+  builders: {
+    subscribeMessage: (params) => {
+      return getSubscription(params.base)
     },
-  })
+  },
+})

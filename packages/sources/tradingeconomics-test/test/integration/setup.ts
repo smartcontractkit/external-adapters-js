@@ -5,10 +5,12 @@ import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { Server, WebSocket } from 'mock-socket'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Adapter, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { endpoint } from '../../src/endpoint/price-router'
+import { endpoint, requestTransforms } from '../../src/endpoint/price-router'
 import { customSettings } from '../../src/config'
+import overrides from '../../src/config/overrides.json'
+import includes from '../../src/config/includes.json'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -52,15 +54,9 @@ export const setupExternalAdapterTest = (
     if (process.env['RECORD']) {
       nock.recorder.play()
     }
-
-    const asd = 123
-    if (asd > 0) {
-      // Options.cleanNock) {
-      nock.restore()
-      nock.cleanAll()
-      nock.enableNetConnect()
-    }
-
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
     await fastify.close()
   })
 }
@@ -85,9 +81,9 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
 export const mockWebSocketServer = (url: string) => {
   const mockWsServer = new Server(url, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.send(
-      JSON.stringify([
-        {
+    socket.on('message', (_) => {
+      socket.send(
+        JSON.stringify({
           s: 'USDCAD:CUR',
           i: 'USDCAD',
           pch: 0.26,
@@ -103,19 +99,22 @@ export const mockWebSocketServer = (url: string) => {
           o: 1.28707,
           prev: 1.2845,
           topic: 'USDCAD',
-        },
-      ]),
-    )
+        }),
+      )
+    })
   })
   return mockWsServer
 }
 
 export const createAdapter = (): PriceAdapter<SettingsMap> => {
-  return new Adapter({
+  return new PriceAdapter({
     name: 'TRADINGECONOMICS',
     endpoints: [endpoint],
     defaultEndpoint: endpoint.name,
     customSettings: customSettings,
+    requestTransforms,
+    overrides: overrides['tradingeconomics'],
+    includes,
   })
 }
 

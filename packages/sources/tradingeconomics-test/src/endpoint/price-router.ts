@@ -1,15 +1,11 @@
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
-import { wsTransport } from './price-ws'
-import { customSettings } from '../config'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { EndpointTypes, wsTransport } from './price-ws'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { httpTransport } from './price'
-import {
-  PriceEndpoint,
-  PriceEndpointInputParameters,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
-export const inputParameters: PriceEndpointInputParameters = {
+export const inputParameters = {
   base: {
     aliases: ['from', 'coin', 'fsym'],
     description: 'The symbol of symbols of the currency to query',
@@ -24,70 +20,34 @@ export const inputParameters: PriceEndpointInputParameters = {
   },
 } as const
 
-export interface ProviderRequestBody {
-  events: string
-  symbols: string
-}
+export const requestTransform = (req: AdapterRequest): void => {
+  const base = req.requestContext.data.base as string
+  const quote = req.requestContext.data.quote as string
+  const regex = /[A-Z]{3}[A-Z]{3}:CUR/
 
-export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
+  if (!regex.test(base)) {
+    const newBase = `${base}${quote}:CUR`
+    if (!regex.test(newBase)) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Error: there's an error with the parameters format`,
+      })
+    }
+    req.requestContext.data.base = newBase
   }
-  Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: ProviderRequestBody
-    ResponseBody: ProviderResponseBody[]
-  }
-}
-
-export interface ProviderResponseBody {
-  Symbol: string
-  Ticker: string
-  Name: string
-  Country: string
-  Date: string
-  Type: string
-  decimals: number
-  state: string
-  Last: number
-  Close: number
-  CloseDate: string
-  MarketCap: number | null
-  URL: string
-  Importance: number
-  DailyChange: number
-  DailyPercentualChange: number
-  WeeklyChange: number
-  WeeklyPercentualChange: number
-  MonthlyChange: number
-  MonthlyPercentualChange: number
-  YearlyChange: number
-  YearlyPercentualChange: number
-  YTDChange: number
-  YTDPercentualChange: number
-  day_high: number
-  day_low: number
-  yesterday: number
-  lastWeek: number
-  lastMonth: number
-  lastYear: number
-  startYear: number
-  ISIN: string | null
-  frequency: string
-  LastUpdate: string
+  req.requestContext.data.quote = ''
 }
 
 export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
-    REST: httpTransport,
-    WS: wsTransport,
+    rest: httpTransport,
+    ws: wsTransport,
   },
   (_, adapterConfig) => {
     if (adapterConfig.WS_ENABLED) {
-      return 'WS'
+      return 'ws'
     }
-    return 'REST'
+    return 'rest'
   },
 )
 
@@ -97,3 +57,5 @@ export const endpoint = new PriceEndpoint<EndpointTypes>({
   transport: routingTransport,
   inputParameters,
 })
+
+export const requestTransforms = [requestTransform]

@@ -17,9 +17,9 @@ Object {
 exports[`execute price endpoint websocket should return success 1`] = `
 Object {
   "data": Object {
-    "result": 1.28778,
+    "result": 0.776530152665828,
   },
-  "result": 1.28778,
+  "result": 0.776530152665828,
   "statusCode": 200,
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1668165071111,
