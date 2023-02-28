@@ -157,7 +157,7 @@ export const checkArgs = (): Inputs => {
  */
 export const deployAdapter = (config: Inputs): void => {
   // pull the latest helm chart
-  if (!process.env['USE_HELM_CACHE']) {
+  if (!process.env['USE_HELM_CACHE'] || true) {
     const pullHelmChart = new Shell().exec(`helm pull ${HELM_CHART_DIR}`)
     if (pullHelmChart.code !== 0) {
       process.exitCode = 1
@@ -168,6 +168,9 @@ export const deployAdapter = (config: Inputs): void => {
   }
 
   // deploy the chart
+  const removeHelm = new Shell().exec(`helm remove ${config.name} --namespace ${NAMESPACE} --wait`)
+  log(blue.bold(removeHelm.toString()))
+
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
   } \
@@ -180,7 +183,7 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --wait --debug --timeout 10m`
+  --wait`
   log(blue.bold(deployCommand))
   let exec_result = ''
   try {
