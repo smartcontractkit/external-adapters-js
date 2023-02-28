@@ -1,6 +1,7 @@
 import * as _1forge from '@chainlink/1forge-adapter'
 import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
+import * as alongside from '@chainlink/alongside-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
 import * as alpine from '@chainlink/alpine-adapter'
@@ -107,6 +108,7 @@ import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
 import * as mock_ea from '@chainlink/mock-ea-adapter'
+import * as moonbeam_address_list from '@chainlink/moonbeam-address-list-adapter'
 import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
@@ -121,6 +123,7 @@ import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
+import * as polkadot_balance from '@chainlink/polkadot-balance-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
@@ -142,9 +145,11 @@ import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tiingo_test from '@chainlink/tiingo-test-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
+import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
+import * as twosigma from '@chainlink/twosigma-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
 import * as uniswap_v3 from '@chainlink/uniswap-v3-adapter'
@@ -160,6 +165,7 @@ export default {
   _1forge,
   accuweather,
   ada_balance,
+  alongside,
   alphachain,
   alphavantage,
   alpine,
@@ -266,6 +272,7 @@ export default {
   messari,
   metalsapi,
   mock_ea,
+  moonbeam_address_list,
   mycryptoapi,
   ncfx,
   nft_blue_chip,
@@ -280,6 +287,7 @@ export default {
   paxos,
   paypal,
   poa,
+  polkadot_balance,
   polygon,
   por_address_list,
   reduce,
@@ -301,9 +309,11 @@ export default {
   tiingo,
   tiingo_test,
   tradermade,
+  tradermade_test,
   tradingeconomics,
   trueusd,
   twelvedata,
+  twosigma,
   unibit,
   uniswap_v2,
   uniswap_v3,

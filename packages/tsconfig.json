@@ -132,6 +132,9 @@
       "path": "./sources/ada-balance"
     },
     {
+      "path": "./sources/alongside"
+    },
+    {
       "path": "./sources/alphachain"
     },
     {
@@ -450,6 +453,9 @@
       "path": "./sources/mock-ea"
     },
     {
+      "path": "./sources/moonbeam-address-list"
+    },
+    {
       "path": "./sources/mycryptoapi"
     },
     {
@@ -490,6 +496,9 @@
     },
     {
       "path": "./sources/poa"
+    },
+    {
+      "path": "./sources/polkadot-balance"
     },
     {
       "path": "./sources/polygon"
@@ -552,6 +561,9 @@
       "path": "./sources/tradermade"
     },
     {
+      "path": "./sources/tradermade-test"
+    },
+    {
       "path": "./sources/tradingeconomics"
     },
     {
@@ -559,6 +571,9 @@
     },
     {
       "path": "./sources/twelvedata"
+    },
+    {
+      "path": "./sources/twosigma"
     },
     {
       "path": "./sources/unibit"

@@ -132,6 +132,9 @@
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/alongside/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
@@ -450,6 +453,9 @@
       "path": "./sources/mock-ea/tsconfig.test.json"
     },
     {
+      "path": "./sources/moonbeam-address-list/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mycryptoapi/tsconfig.test.json"
     },
     {
@@ -490,6 +496,9 @@
     },
     {
       "path": "./sources/poa/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/polkadot-balance/tsconfig.test.json"
     },
     {
       "path": "./sources/polygon/tsconfig.test.json"
@@ -552,6 +561,9 @@
       "path": "./sources/tradermade/tsconfig.test.json"
     },
     {
+      "path": "./sources/tradermade-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/tradingeconomics/tsconfig.test.json"
     },
     {
@@ -559,6 +571,9 @@
     },
     {
       "path": "./sources/twelvedata/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/twosigma/tsconfig.test.json"
     },
     {
       "path": "./sources/unibit/tsconfig.test.json"

@@ -42,41 +42,7 @@ Supported names for this endpoint are: `crypto`, `price`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "symbol": "BTC",
-    "convert": "USD",
-    "endpoint": "crypto"
-  },
-  "debug": {
-    "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI="
-  },
-  "rateLimitMaxAge": 370
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "data": {
-      "base": "BTC",
-      "currency": "USD",
-      "amount": "57854.29"
-    },
-    "result": 57854.29
-  },
-  "result": 57854.29,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -96,42 +62,7 @@ Supported names for this endpoint are: `nft-floor`, `nft-floor-price`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "network": "ethereum-mainnet",
-    "contractAddress": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
-    "metricName": "ETH_FLOOR_PRICE_ESTIMATE_BASE",
-    "endpoint": "nft-floor-price"
-  },
-  "debug": {
-    "cacheKey": "SA0YvJOf1PUwIFpDT0mYnwqpb34="
-  },
-  "rateLimitMaxAge": 740
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "value": {
-      "floor_price_estimate": "67.09079293",
-      "updated_at": "2022-09-09T06:12:31Z"
-    },
-    "metricName": "eth_floor_price_estimate_base",
-    "result": 67.09079293
-  },
-  "result": 67.09079293,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

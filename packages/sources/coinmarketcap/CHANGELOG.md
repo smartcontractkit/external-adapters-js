@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.5.30
+
+### Patch Changes
+
+- 70d0197d7: Add RETH symbol -> ID override
+
 ## 1.5.29
 
 ### Patch Changes

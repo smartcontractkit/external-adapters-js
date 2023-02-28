@@ -38,35 +38,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "signature": "function symbol() view returns (string)",
-    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "endpoint": "function"
-  },
-  "debug": {
-    "cacheKey": "i+gWrJZw68WU1SlaR+u5dJb+fbA="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000"
-  },
-  "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

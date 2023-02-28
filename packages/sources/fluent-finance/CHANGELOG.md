@@ -1,5 +1,11 @@
 # @chainlink/fluent-finance-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 50a23247f: Updated default endpoint
+
 ## 1.1.3
 
 ### Patch Changes

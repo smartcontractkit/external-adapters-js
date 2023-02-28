@@ -39,45 +39,7 @@ Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USDT",
-    "endpoint": "crypto"
-  },
-  "debug": {
-    "cacheKey": "0aaBzX3SO1b91U+WhOHIsT33oj0="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "success": true,
-    "rows": [
-      {
-        "symbol": "SPOT_ETH_USDT",
-        "side": "SELL",
-        "executed_price": 4499.01,
-        "executed_quantity": 0.043747,
-        "executed_timestamp": "1636138728.930"
-      }
-    ],
-    "result": 4499.01
-  },
-  "result": 4499.01,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

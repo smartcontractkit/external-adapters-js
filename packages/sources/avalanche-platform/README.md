@@ -36,47 +36,7 @@ The balance endpoint will fetch the validator balance of each address in the que
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "addresses": [
-      {
-        "address": "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"
-      }
-    ],
-    "endpoint": "balance"
-  },
-  "debug": {
-    "cacheKey": "SkzkleTHgWIgT8DKedJBufUt5sc="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": [
-      {
-        "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
-        "balance": "1606136960057"
-      }
-    ]
-  },
-  "result": [
-    {
-      "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
-      "balance": "1606136960057"
-    }
-  ],
-  "statusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

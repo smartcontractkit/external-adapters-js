@@ -32,34 +32,7 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "bandwidth"
-  },
-  "debug": {
-    "cacheKey": "zD1CVzYDfKCoq1MFoQZlCuGFIW0="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": 0.06491712005868808,
-    "result": 0.06491712005868808
-  },
-  "result": 0.06491712005868808,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

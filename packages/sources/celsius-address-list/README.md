@@ -39,47 +39,7 @@ This endpoint returns a list of custodial chain addresses from an Ethereum smart
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "chainId": "mainnet",
-    "contractAddress": "0x0123456789abcdef0123456789abcdef01234567",
-    "network": "bitcoin",
-    "endpoint": "wallet"
-  },
-  "debug": {
-    "cacheKey": "yZJXHU2Ti5vX4r/EZwuu/pi9uMI="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": [
-      {
-        "address": "bc1q4gwx0f6yqurq0gwj9ktwlevrp3eu8snn5kaaax",
-        "chainId": "mainnet",
-        "network": "bitcoin"
-      }
-    ]
-  },
-  "result": [
-    {
-      "address": "bc1q4gwx0f6yqurq0gwj9ktwlevrp3eu8snn5kaaax",
-      "chainId": "mainnet",
-      "network": "bitcoin"
-    }
-  ],
-  "statusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

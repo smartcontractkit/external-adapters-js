@@ -145,3 +145,20 @@ export const mockCryptoSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockVwapSuccess = (): nock.Scope =>
+  nock('https://min-api.cryptocompare.com', {
+    encodedQueryParams: true,
+  })
+    .get('/data/dayAvg')
+    .query({ fsym: 'AMPL', tsym: 'USD', toTs: /.+/i })
+    .reply(200, { USD: 0.9224, ConversionType: { type: 'direct', conversionSymbol: '' } }, [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
