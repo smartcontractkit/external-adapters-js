@@ -166,7 +166,7 @@ export const deployAdapter = (config: Inputs): void => {
       )
     }
   }
-
+  new Shell().exec(`sleep 120`)
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
   } \
