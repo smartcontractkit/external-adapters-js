@@ -37,46 +37,7 @@ Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "BTC",
-    "quote": "ARS",
-    "endpoint": "crypto",
-    "resultPath": "last"
-  },
-  "debug": {
-    "cacheKey": "DXqgDsgrZ489uGqrEFEK7PB3vv4="
-  },
-  "rateLimitMaxAge": 6666
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "ask": "12395990",
-    "bid": "12339900",
-    "last": "12396935",
-    "low": "11716731",
-    "high": "12403061",
-    "open": "11845809",
-    "volume": "1.62057",
-    "volume_quote": "19483671.75328",
-    "timestamp": "2021-11-25T16:27:54.000Z",
-    "result": 12396935
-  },
-  "result": 12396935,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
