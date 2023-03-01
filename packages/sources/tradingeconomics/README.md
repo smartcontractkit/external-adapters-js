@@ -39,36 +39,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "EURUSD:CUR",
-    "quote": "USD",
-    "endpoint": "price"
-  },
-  "debug": {
-    "cacheKey": "G72mWx8TQqfLPgLuCIW2YPsN/9s="
-  },
-  "rateLimitMaxAge": 7999
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 1.15591
-  },
-  "result": 1.15591,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

@@ -34,32 +34,7 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "price"
-  },
-  "debug": {
-    "cacheKey": "VrI9ktHz2Gp7oHbb2+1HMGmvh5k="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 950
-  },
-  "result": 950,
-  "statusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

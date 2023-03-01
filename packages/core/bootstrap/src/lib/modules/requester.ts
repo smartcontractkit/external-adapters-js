@@ -179,7 +179,7 @@ export class Requester {
   static validateResultNumber<T extends unknown>(
     data: T,
     path?: ResultPath,
-    options?: { inverse?: boolean },
+    options?: { inverse?: boolean; acceptZeroValue?: boolean },
     missingDataErrorMsg = 'Data provider response empty',
     missingResultsErrorMsg = 'Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
   ): number {
@@ -204,7 +204,8 @@ export class Requester {
       })
     }
 
-    if (Number(result) === 0 || isNaN(Number(result))) {
+    const invalidZeroValue = !options?.acceptZeroValue && Number(result) === 0
+    if (invalidZeroValue || isNaN(Number(result))) {
       const message =
         'Invalid result received. This is likely an issue with the data provider or the input params/overrides.'
       logger.error(message, { data, path })

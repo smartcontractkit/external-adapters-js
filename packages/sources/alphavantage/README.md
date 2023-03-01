@@ -42,46 +42,7 @@ Supported names for this endpoint are: `forex`, `price`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "GBP",
-    "quote": "USD",
-    "endpoint": "forex"
-  },
-  "debug": {
-    "cacheKey": "nNGTBPQMuNeDIBcqHmoSuDeMaVw="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "Realtime Currency Exchange Rate": {
-      "1. From_Currency Code": "GBP",
-      "2. From_Currency Name": "British Pound Sterling",
-      "3. To_Currency Code": "USD",
-      "4. To_Currency Name": "United States Dollar",
-      "5. Exchange Rate": "1.36606000",
-      "6. Last Refreshed": "2021-11-01 19:33:43",
-      "7. Time Zone": "UTC",
-      "8. Bid Price": "1.36602600",
-      "9. Ask Price": "1.36612700"
-    },
-    "result": 1.36606
-  },
-  "result": 1.36606,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

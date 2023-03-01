@@ -39,39 +39,7 @@ Supported names for this endpoint are: `closing`, `eod`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "VXX",
-    "endpoint": "closing"
-  },
-  "debug": {
-    "cacheKey": "ZWDHGGXpQ0kNUlJ7WAZMGVmrHww="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "symbol": "VXX",
-    "exchange": "CBOE",
-    "currency": "USD",
-    "datetime": "2021-11-05",
-    "close": "20.86750",
-    "result": 20.8675
-  },
-  "result": 20.8675,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -89,35 +57,7 @@ Supported names for this endpoint are: `crypto`, `forex`, `price`, `stock`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "VXX",
-    "endpoint": "price"
-  },
-  "debug": {
-    "cacheKey": "vRWHl92FGmzqMko1oZyLtKloXNI="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "price": "20.86750",
-    "result": 20.8675
-  },
-  "result": 20.8675,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
