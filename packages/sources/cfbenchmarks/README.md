@@ -12,9 +12,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [values](#Values-Endpoint) |  `values`   |
+| Required? |   Name   |     Description     |                      Options                       | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [values](#Values-Endpoint), [BIRC](#birc-endpoint) |  `values`   |
 
 ---
 
@@ -74,5 +74,39 @@
   },
   "result": 3000.12,
   "statusCode": 200
+}
+```
+
+## BIRC Endpoint
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "birc"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 0.0947,
+  "providerStatusCode": 200,
+  "statusCode": 200,
+  "data": {
+    "result": 0.0947
+  },
+  "metricsMeta": {
+    "feedId": "{\"data\":{\"endpoint\":\"birc\"}}"
+  }
 }
 ```

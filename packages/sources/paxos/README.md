@@ -34,34 +34,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "asset": "PAX",
-    "endpoint": "assetAttestation"
-  },
-  "debug": {
-    "cacheKey": "FugaCEntMho9fChQ+TsLcf/O1a8="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 922265979.98
-  },
-  "result": 922265979.98,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

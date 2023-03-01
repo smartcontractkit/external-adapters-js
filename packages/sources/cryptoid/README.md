@@ -32,33 +32,7 @@ Supported names for this endpoint are: `difficulty`, `height`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "coin": "BTC"
-  },
-  "debug": {
-    "cacheKey": "76f4c62584acabdeb7f0078f000fb644d588fda9"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 22674148233453.1
-  },
-  "result": 22674148233453.1,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

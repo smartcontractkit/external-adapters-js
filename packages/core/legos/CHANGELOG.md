@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.3.66
+
+### Patch Changes
+
+- Updated dependencies [8e6e562f8]
+  - @chainlink/alongside-adapter@1.1.0
+
 ## 1.3.65
 
 ### Patch Changes

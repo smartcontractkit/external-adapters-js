@@ -1,6 +1,6 @@
 export const loginResponse = {
   Type: 'Info',
-  Message: 'Succesfully Authenticated',
+  Message: 'Successfully Authenticated',
 }
 
 export const subscribeResponse = {
