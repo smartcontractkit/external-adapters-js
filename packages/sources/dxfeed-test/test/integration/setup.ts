@@ -8,7 +8,6 @@ import { Server, WebSocket } from 'mock-socket'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
 import { price } from '../../src/endpoint'
-import overrides from '../../src/config/overrides.json'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -105,7 +104,6 @@ export const createAdapter = (): Adapter<typeof customSettings> => {
     name: 'TEST',
     defaultEndpoint: price.name,
     endpoints: [price],
-    overrides: overrides.dxfeed,
     customSettings,
   })
 }

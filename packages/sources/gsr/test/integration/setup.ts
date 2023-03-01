@@ -3,7 +3,7 @@ import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { SuperTest, Test } from 'supertest'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { endpoint } from '../../src/endpoint/price'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from '../../src/config'
@@ -63,7 +63,7 @@ export const createAdapter = (): PriceAdapter<SettingsMap> => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'price',
-    endpoints: [endpoint],
+    endpoints: [endpoint as CryptoPriceEndpoint<any>],
     customSettings,
   })
 }

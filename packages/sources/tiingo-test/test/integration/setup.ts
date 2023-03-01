@@ -5,7 +5,7 @@ import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
 import { crypto, forex, iex } from '../../src/endpoint'
 import includes from '../../src/config/includes.json'
@@ -157,7 +157,7 @@ export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: crypto.name,
-    endpoints: [crypto, forex, iex],
+    endpoints: [crypto as CryptoPriceEndpoint<any>, forex, iex],
     customSettings,
     includes,
   })

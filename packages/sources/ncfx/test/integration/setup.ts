@@ -6,7 +6,11 @@ import { cryptoEndpoint } from '../../src/endpoint/crypto'
 import { forexEndpoint } from '../../src/endpoint/forex'
 import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import {
+  CryptoPriceEndpoint,
+  PriceAdapter,
+  PriceEndpoint,
+} from '@chainlink/external-adapter-framework/adapter'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import includes from '../../src/config/includes.json'
 
@@ -59,7 +63,7 @@ export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'crypto',
-    endpoints: [cryptoEndpoint, forexEndpoint],
+    endpoints: [cryptoEndpoint as CryptoPriceEndpoint<any>, forexEndpoint as PriceEndpoint<any>],
     includes,
     customSettings,
   })

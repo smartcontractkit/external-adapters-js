@@ -4,7 +4,7 @@ import * as process from 'process'
 import * as nock from 'nock'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { Adapter, PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
 import { forex } from '../../src/endpoint'
 import { Server, WebSocket } from 'mock-socket'
@@ -104,7 +104,7 @@ export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
     name: 'TEST',
     defaultEndpoint: forex.name,
-    endpoints: [forex],
+    endpoints: [forex as PriceEndpoint<any>],
     customSettings,
   })
 }
