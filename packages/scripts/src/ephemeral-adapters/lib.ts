@@ -180,7 +180,6 @@ export const deployAdapter = (config: Inputs): void => {
   --namespace ${NAMESPACE} \
   --create-namespace \
   ${config.helmValuesOverride} \
-  --set livenessProbe=null --set readinessProbe=null \
   --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
@@ -190,15 +189,15 @@ export const deployAdapter = (config: Inputs): void => {
   let exec_result = ''
   for (let i = 0; i < 5; i++) {
     log(red.bold(`Deployment attempt ${i}`))
+    exec_result = ''
     try {
-      exec_result = ''
       const deployHelm = new Shell().exec(deployCommand)
       exec_result = deployHelm.toString()
       if (deployHelm.code !== 0) {
         process.exitCode = 1
         throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
       } else {
-        break
+        return
       }
     } catch (e: any) {
       log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
