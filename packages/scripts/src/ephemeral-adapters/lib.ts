@@ -168,7 +168,9 @@ export const deployAdapter = (config: Inputs): void => {
   }
 
   // deploy the chart
-  const removeHelm = new Shell().exec(`helm remove ${config.name} --namespace ${NAMESPACE} --wait`)
+  const removeHelm = new Shell().exec(
+    `helm uninstall ${config.name} --namespace ${NAMESPACE} --wait`,
+  )
   log(blue.bold(removeHelm.toString()))
 
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
@@ -183,24 +185,25 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --wait`
+  --timeout 1m`
   log(blue.bold(deployCommand))
   let exec_result = ''
-  try {
-    const deployHelm = new Shell().exec(deployCommand)
-    exec_result = deployHelm.toString()
-    if (deployHelm.code !== 0) {
-      process.exitCode = 1
-      throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
+  for (let i = 0; i < 5; i++) {
+    try {
+      const deployHelm = new Shell().exec(deployCommand)
+      exec_result = deployHelm.toString()
+      if (deployHelm.code !== 0) {
+        process.exitCode = 1
+        throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
+      } else {
+        break
+      }
+    } catch (e: any) {
+      log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
     }
-  } catch (e: any) {
-    log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
   }
 
-  // const k8sEvents = new Shell().exec(`kubectl describe pods -n adapters`)
-  const k8sEvents = new Shell().exec(
-    `kubectl logs -l app.kubernetes.io/name=qa-ea-oanda-2512 --all-containers -n adapters`,
-  )
+  const k8sEvents = new Shell().exec(`kubectl describe pods -n adapters`)
   log(blue.bold(`k8sEvents\n ${k8sEvents}`))
 
   if (exec_result) {
