@@ -62,7 +62,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
     config: AdapterConfig<T['CustomSettings']>,
     endpointName: string,
   ): Promise<void> {
-    super.initialize(dependencies, config, endpointName)
+    super.initialize(dependencies, config, endpointName, 'sse')
   }
 
   async streamHandler(
@@ -103,7 +103,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
                 }
                 return result
               })
-              this.responseCache.write(results)
+              this.responseCache.write('sse', results)
             }
           }
 

@@ -45,7 +45,6 @@
 '@chainlink/1forge-adapter': patch
 '@chainlink/accuweather-adapter': patch
 '@chainlink/ada-balance-adapter': patch
-'@chainlink/alongside-adapter': patch
 '@chainlink/alphachain-adapter': patch
 '@chainlink/alphavantage-adapter': patch
 '@chainlink/alpine-adapter': patch
@@ -54,7 +53,6 @@
 '@chainlink/ap-election-adapter': patch
 '@chainlink/armanino-adapter': patch
 '@chainlink/avalanche-platform-adapter': patch
-'@chainlink/bank-frick-adapter': patch
 '@chainlink/bea-adapter': patch
 '@chainlink/binance-adapter': patch
 '@chainlink/binance-dex-adapter': patch
@@ -72,7 +70,6 @@
 '@chainlink/ccip-read-adapter': patch
 '@chainlink/celsius-address-list-adapter': patch
 '@chainlink/cfbenchmarks-adapter': patch
-'@chainlink/cfbenchmarks-test-adapter': patch
 '@chainlink/chain-reserve-wallet-adapter': patch
 '@chainlink/coinapi-adapter': patch
 '@chainlink/coinapi-test-adapter': patch
@@ -94,13 +91,11 @@
 '@chainlink/cryptomkt-adapter': patch
 '@chainlink/currencylayer-adapter': patch
 '@chainlink/curve-adapter': patch
-'@chainlink/dar-adapter': patch
 '@chainlink/deribit-adapter': patch
 '@chainlink/dns-query-adapter': patch
 '@chainlink/dwolla-adapter': patch
 '@chainlink/dxfeed-adapter': patch
 '@chainlink/dxfeed-secondary-adapter': patch
-'@chainlink/elwood-adapter': patch
 '@chainlink/ens-adapter': patch
 '@chainlink/enzyme-adapter': patch
 '@chainlink/eodhistoricaldata-adapter': patch
@@ -119,7 +114,6 @@
 '@chainlink/fluent-finance-adapter': patch
 '@chainlink/fmpcloud-adapter': patch
 '@chainlink/galaxis-adapter': patch
-'@chainlink/galaxy-adapter': patch
 '@chainlink/gemini-adapter': patch
 '@chainlink/genesis-volatility-adapter': patch
 '@chainlink/geodb-adapter': patch
@@ -144,12 +138,10 @@
 '@chainlink/metalsapi-adapter': patch
 '@chainlink/mock-ea-adapter': patch
 '@chainlink/mycryptoapi-adapter': patch
-'@chainlink/ncfx-adapter': patch
 '@chainlink/nft-blue-chip-adapter': patch
 '@chainlink/nikkei-adapter': patch
 '@chainlink/nomics-adapter': patch
 '@chainlink/nomics-test-adapter': patch
-'@chainlink/oanda-adapter': patch
 '@chainlink/oilpriceapi-adapter': patch
 '@chainlink/onchain-gas-adapter': patch
 '@chainlink/openexchangerates-adapter': patch

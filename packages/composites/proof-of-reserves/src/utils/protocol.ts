@@ -36,7 +36,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
 ]
 
 export const adaptersV3: v3AdapterImplementation[] = [
-  moonbeamAddressList as v3AdapterImplementation,
+  moonbeamAddressList as unknown as v3AdapterImplementation,
 ]
 
 type AddressData = { token: string; chainId: string; network: string } | AddressList

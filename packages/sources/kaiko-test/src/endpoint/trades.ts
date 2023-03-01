@@ -6,6 +6,7 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { customSettings } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
 
 const inputParameters = {
   base: {
@@ -148,4 +149,5 @@ export const endpoint = new PriceEndpoint<EndpointTypes>({
   aliases: ['price', 'crypto'],
   transport: httpTransport,
   inputParameters,
+  overrides: overrides.kaiko,
 })

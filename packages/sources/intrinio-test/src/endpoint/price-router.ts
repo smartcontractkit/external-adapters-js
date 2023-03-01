@@ -1,4 +1,3 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { httpTransport } from './price'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
@@ -13,17 +12,10 @@ export const inputParameters = {
     type: 'string',
     required: true,
   },
-  transport: {
-    description: 'which transport to route to',
-    required: false,
-    type: 'string',
-    default: 'rest',
-  },
 } satisfies InputParameters
 
 export interface RequestParams {
   base: string
-  transport: string
 }
 
 export interface ProviderResponseBody {
@@ -63,22 +55,13 @@ export type EndpointTypes = {
   }
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    ws: wsTransport,
-    rest: httpTransport,
-  },
-  (_, adapterConfig) => {
-    if (adapterConfig.WS_ENABLED) {
-      return 'ws'
-    }
-    return 'rest'
-  },
-)
-
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['stock'],
-  transport: routingTransport,
+  transports: {
+    ws: wsTransport,
+    rest: httpTransport,
+  },
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
 })

@@ -7,6 +7,7 @@ import {
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
 
 export const inputParams = {
   base: {
@@ -103,4 +104,5 @@ export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
   aliases: ['crypto-vwap'],
   transport: httpTransport,
   inputParameters: inputParams,
+  overrides: overrides.cryptocompare,
 })

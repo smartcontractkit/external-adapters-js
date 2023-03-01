@@ -2,6 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings } from '../config'
+import overrides from '../config/overrides.json'
 
 const inputParameters = {
   base: {
@@ -166,4 +167,5 @@ export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'historical',
   transport: httpTransport,
   inputParameters,
+  overrides: overrides.coinmarketcap,
 })

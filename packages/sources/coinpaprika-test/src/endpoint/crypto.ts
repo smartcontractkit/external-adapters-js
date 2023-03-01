@@ -7,6 +7,7 @@ import {
   EndpointTypes,
   inputParameters,
 } from '../crypto-utils'
+import overrides from '../config/overrides.json'
 
 const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
@@ -29,4 +30,5 @@ export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   aliases: ['price'],
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.coinpaprika,
 })

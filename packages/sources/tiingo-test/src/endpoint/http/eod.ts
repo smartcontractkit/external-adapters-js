@@ -2,6 +2,7 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import overrides from '../../config/overrides.json'
 
 interface ProviderResponseBody {
   adjClose: number
@@ -99,4 +100,5 @@ export const endpoint = new AdapterEndpoint<EODEndpointTypes>({
   name: 'eod',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

@@ -1,6 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { constructEntry, CryptoEndpointTypes, inputParameters } from '../../crypto-utils'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import overrides from '../../config/overrides.json'
 
 export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -31,4 +32,5 @@ export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
   aliases: ['crypto-vwap'],
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

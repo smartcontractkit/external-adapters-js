@@ -6,6 +6,7 @@ import {
 } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
+import overrides from '../../config/overrides.json'
 
 export const inputParameters = {
   base: {
@@ -76,4 +77,5 @@ export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'commodities',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.finage,
 })

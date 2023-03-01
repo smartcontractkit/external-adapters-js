@@ -1,5 +1,5 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from './config'
 import { price } from './endpoint'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
@@ -7,7 +7,7 @@ import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 export const adapter = new PriceAdapter({
   name: 'GALAXY',
-  endpoints: [price],
+  endpoints: [price as CryptoPriceEndpoint<any>],
   defaultEndpoint: price.name,
   customSettings,
 })

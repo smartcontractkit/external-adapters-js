@@ -3,6 +3,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../../config/overrides.json'
 
 export const inputParameters = {
   base: {
@@ -93,4 +94,5 @@ export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'eod',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.finage,
 })

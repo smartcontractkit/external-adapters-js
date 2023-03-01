@@ -64,11 +64,13 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
   cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
   responseCache!: ResponseCache<any>
   requester!: Requester
+  name!: string
 
   async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
     this.requester = dependencies.requester
+    this.name = 'default_single_transport'
   }
 
   prepareRequest(type: string, config: AdapterConfig<typeof customSettings>) {
@@ -132,7 +134,7 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
       },
     }
 
-    await this.responseCache.write([
+    await this.responseCache.write(this.name, [
       {
         params: {},
         response,

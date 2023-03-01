@@ -22,17 +22,9 @@ export const cryptoInputParams = {
     required: true,
     type: 'string',
   },
-  transport: {
-    description: 'which transport to route to',
-    required: false,
-    type: 'string',
-    default: 'rest',
-  },
 } satisfies InputParameters & PriceEndpointInputParameters
 
-export type CryptoEndpointParams = PriceEndpointParams & {
-  transport: string
-}
+export type CryptoEndpointParams = PriceEndpointParams
 
 export interface ProviderCryptoQuoteData {
   TYPE: string

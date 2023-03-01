@@ -2,8 +2,8 @@ import { customSettings } from '../config'
 import { httpTransport } from './http/forex'
 import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './ws/forex-ws'
+import overrides from '../config/overrides.json'
 
 export const inputParameters = {
   base: {
@@ -18,12 +18,6 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
-  transport: {
-    description: 'which transport to route to',
-    required: false,
-    type: 'string',
-    default: 'rest',
-  },
 } as const
 
 interface ResponseSchema {
@@ -33,9 +27,7 @@ interface ResponseSchema {
   timestamp: number
 }
 
-export type ForexEndpointParams = PriceEndpointParams & {
-  transport: string
-}
+export type ForexEndpointParams = PriceEndpointParams
 
 export type EndpointTypes = {
   Request: {
@@ -49,16 +41,13 @@ export type EndpointTypes = {
   }
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
+export const endpoint = new PriceEndpoint<EndpointTypes>({
+  name: 'forex',
+  transports: {
     ws: wsTransport,
     rest: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
-)
-
-export const endpoint = new PriceEndpoint<EndpointTypes>({
-  name: 'forex',
-  transport: routingTransport,
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
+  overrides: overrides.finage,
 })

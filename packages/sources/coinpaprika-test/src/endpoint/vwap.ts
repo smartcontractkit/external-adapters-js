@@ -2,6 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings, getApiEndpoint, getApiHeaders } from '../config'
+import overrides from '../config/overrides.json'
 
 export const inputParameters = {
   base: {
@@ -101,4 +102,5 @@ export const endpoint = new AdapterEndpoint<EndpointTypes>({
   aliases: ['crypto-vwap'],
   transport: restEndpointTransport,
   inputParameters,
+  overrides: overrides.coinpaprika,
 })

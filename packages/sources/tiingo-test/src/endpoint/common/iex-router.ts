@@ -1,10 +1,10 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { httpTransport } from '../http/iex'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { wsTransport } from '../ws/iex'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../../config/overrides.json'
 
 interface ProviderResponseBody {
   prevClose: number
@@ -33,15 +33,9 @@ const inputParameters = {
     type: 'string',
     description: 'The stock ticker to query',
   },
-  transport: {
-    description: 'which transport to route to',
-    required: false,
-    type: 'string',
-    default: 'rest',
-  },
 } satisfies InputParameters
 
-export type IexRequestParams = { ticker: string; transport: string }
+export type IexRequestParams = { ticker: string }
 
 export type IEXEndpointTypes = {
   Request: {
@@ -55,17 +49,14 @@ export type IEXEndpointTypes = {
   }
 }
 
-export const routingTransport = new RoutingTransport<IEXEndpointTypes>(
-  {
-    ws: wsTransport,
-    rest: httpTransport,
-  },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'ws' : 'rest'),
-)
-
 export const endpoint = new AdapterEndpoint<IEXEndpointTypes>({
   name: 'iex',
   aliases: ['stock'],
-  transport: routingTransport,
+  transports: {
+    ws: wsTransport,
+    rest: httpTransport,
+  },
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })
