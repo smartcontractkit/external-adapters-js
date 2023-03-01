@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- ba2e1b723: Add crypto alias to price endpoint
+- cc835dfef: Add crypto alias to price endpoint
 
 ## 1.0.6
 

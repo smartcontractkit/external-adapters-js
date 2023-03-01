@@ -4,4 +4,4 @@
 
 ### Major Changes
 
-- 32e98dc5e: Initial version of the adapter
+- 49680b472: Initial version of the adapter

@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- e1ba01ac5: Update ea-framework version and transports, add vwap, marketcap, volume endpoints
+- 8b3c35545: Update ea-framework version and transports, add vwap, marketcap, volume endpoints
 
 ## 1.0.0
 

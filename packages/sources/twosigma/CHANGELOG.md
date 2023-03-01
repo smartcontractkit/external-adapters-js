@@ -4,4 +4,4 @@
 
 ### Major Changes
 
-- bf4ea9f38: Add Twosigma external adapter
+- d1886603c: Add Twosigma external adapter

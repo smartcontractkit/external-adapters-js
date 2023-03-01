@@ -4,22 +4,23 @@
 
 ### Patch Changes
 
-- Updated dependencies [b5cccb5c6]
+- Updated dependencies [8e6e562f8]
   - @chainlink/alongside-adapter@1.1.0
 
 ## 1.3.65
 
 ### Patch Changes
 
-- Updated dependencies [ba2e1b723]
-- Updated dependencies [32e98dc5e]
-- Updated dependencies [5750c75e8]
-- Updated dependencies [e1ba01ac5]
-- Updated dependencies [d40add020]
-- Updated dependencies [603bb76e5]
-- Updated dependencies [70d0197d7]
-- Updated dependencies [50a23247f]
-- Updated dependencies [bf4ea9f38]
+- Updated dependencies [cc835dfef]
+- Updated dependencies [49680b472]
+- Updated dependencies [1c265300c]
+- Updated dependencies [8b3c35545]
+- Updated dependencies [f99d90c89]
+- Updated dependencies [dee6d49a3]
+- Updated dependencies [e303dd766]
+- Updated dependencies [b4967747a]
+- Updated dependencies [d1886603c]
+- Updated dependencies [ea84ea751]
   - @chainlink/coinmetrics-test-adapter@1.0.7
   - @chainlink/tradermade-test-adapter@1.0.0
   - @chainlink/dar-adapter@1.0.5
@@ -31,6 +32,7 @@
   - @chainlink/coinmarketcap-test-adapter@1.0.1
   - @chainlink/fluent-finance-adapter@2.0.0
   - @chainlink/twosigma-adapter@1.0.0
+  - @chainlink/anyblock-adapter@2.0.0
   - @chainlink/renvm-address-set-adapter@1.5.29
   - @chainlink/wbtc-address-set-adapter@1.4.38
 

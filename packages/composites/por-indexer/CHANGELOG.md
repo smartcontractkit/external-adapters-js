@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- Updated dependencies [603bb76e5]
+- Updated dependencies [dee6d49a3]
   - @chainlink/proof-of-reserves-adapter@1.16.0
 
 ## 1.2.37

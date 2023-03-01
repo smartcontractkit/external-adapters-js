@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-- 50a23247f: Updated default endpoint
+- b4967747a: Updated default endpoint
 
 ## 1.1.3
 

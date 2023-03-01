@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- Updated dependencies [70d0197d7]
+- Updated dependencies [e303dd766]
   - @chainlink/coinmarketcap-adapter@1.5.30
 
 ## 1.2.29

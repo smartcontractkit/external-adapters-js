@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 5750c75e8: Upgrade framework and set CACHE_MAX_AGE override in DAR
+- 1c265300c: Upgrade framework and set CACHE_MAX_AGE override in DAR
 
 ## 1.0.4
 

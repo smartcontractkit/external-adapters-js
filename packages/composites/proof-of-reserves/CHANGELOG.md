@@ -4,11 +4,11 @@
 
 ### Minor Changes
 
-- 603bb76e5: Added mooonbeam-address-list protocol adapter. Added polkadot-balance adapter.
+- dee6d49a3: Added mooonbeam-address-list protocol adapter. Added polkadot-balance adapter.
 
 ### Patch Changes
 
-- Updated dependencies [603bb76e5]
+- Updated dependencies [dee6d49a3]
   - @chainlink/moonbeam-address-list-adapter@1.0.0
   - @chainlink/polkadot-balance-adapter@1.0.0
   - @chainlink/por-indexer-adapter@1.2.38
