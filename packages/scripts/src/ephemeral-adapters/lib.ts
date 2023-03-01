@@ -189,7 +189,9 @@ export const deployAdapter = (config: Inputs): void => {
   log(blue.bold(deployCommand))
   let exec_result = ''
   for (let i = 0; i < 5; i++) {
+    log(red.bold(`Deployment attempt ${i}`))
     try {
+      exec_result = ''
       const deployHelm = new Shell().exec(deployCommand)
       exec_result = deployHelm.toString()
       if (deployHelm.code !== 0) {
@@ -202,9 +204,6 @@ export const deployAdapter = (config: Inputs): void => {
       log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
     }
   }
-
-  const k8sEvents = new Shell().exec(`kubectl describe pods -n adapters`)
-  log(blue.bold(`k8sEvents\n ${k8sEvents}`))
 
   if (exec_result) {
     process.exitCode = 1
