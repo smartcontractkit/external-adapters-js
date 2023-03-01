@@ -35,34 +35,7 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "btc-dominance"
-  },
-  "debug": {
-    "cacheKey": "pNufeTfzjBR4afsgETdEgOf2EpE="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "btcDominance": "0.435918142911669111",
-    "result": "0.435918142911669111"
-  },
-  "result": "0.435918142911669111",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

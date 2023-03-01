@@ -39,46 +39,7 @@ Supported names for this endpoint are: `commodities`, `live`, `stock`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "AAPL",
-    "endpoint": "live"
-  },
-  "debug": {
-    "cacheKey": "HHpABsvAKoDprbxdQVUIgj+YoK0="
-  },
-  "rateLimitMaxAge": 5843681
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "endpoint": "live",
-    "quotes": [
-      {
-        "ask": 150.51,
-        "bid": 150.5,
-        "instrument": "AAPL",
-        "mid": 150.50501
-      }
-    ],
-    "requested_time": "Fri, 05 Nov 2021 17:12:07 GMT",
-    "timestamp": 1636132328,
-    "result": 150.50501
-  },
-  "result": 150.50501,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -95,48 +56,7 @@ Response:
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD",
-    "endpoint": "forex"
-  },
-  "debug": {
-    "cacheKey": "QjGCaijj/AZfhRuMfhhiXZgSxOY="
-  },
-  "rateLimitMaxAge": 2921840
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "endpoint": "live",
-    "quotes": [
-      {
-        "ask": 4494.03,
-        "base_currency": "ETH",
-        "bid": 4494.02,
-        "mid": 4494.0249,
-        "quote_currency": "USD"
-      }
-    ],
-    "requested_time": "Fri, 05 Nov 2021 17:11:25 GMT",
-    "timestamp": 1636132286,
-    "result": 4494.0249
-  },
-  "result": 4494.0249,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

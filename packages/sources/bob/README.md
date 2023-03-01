@@ -38,34 +38,7 @@ The format endpoint encodes the chainId, block hash, and block receiptsRoot as b
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "chainId": 1,
-    "blockNumber": 1500000,
-    "endpoint": "format"
-  },
-  "debug": {
-    "cacheKey": "Q9Q+thx4ZKpxST2OPGKjPF9selY="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": "000000000000000000000000000000000000000000000000000000000000000183952d392f9b0059eea94b10d1a095eefb1943ea91595a16c6698757127d4e1c371086374dcad57dab3a0774e9877152e0c5b4a75815a50ea568d649f0e80077"
-  },
-  "result": "000000000000000000000000000000000000000000000000000000000000000183952d392f9b0059eea94b10d1a095eefb1943ea91595a16c6698757127d4e1c371086374dcad57dab3a0774e9877152e0c5b4a75815a50ea568d649f0e80077",
-  "statusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
