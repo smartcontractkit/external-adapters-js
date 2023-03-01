@@ -189,6 +189,10 @@ export const deployAdapter = (config: Inputs): void => {
       if (deployHelm.code !== 0) {
         throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
       } else {
+        const k8sEvents = new Shell().exec(
+          `kubectl -n adapters get events --sort-by='{.lastTimestamp}'`,
+        )
+        log(blue.bold(`k8sEvents\n ${k8sEvents}`))
         return
       }
     } catch (e: any) {
