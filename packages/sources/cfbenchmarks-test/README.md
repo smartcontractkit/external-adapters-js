@@ -23,9 +23,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                      Options                                      | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [price](#crypto-endpoint), [values](#crypto-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                  Options                                                  | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [birc](#birc-endpoint), [crypto](#crypto-endpoint), [price](#crypto-endpoint), [values](#crypto-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -38,6 +38,22 @@ Supported names for this endpoint are: `crypto`, `price`, `values`.
 |           | index |                | The ID of the index. Takes priority over base/quote when provided. | string |         |         |            |                |
 |           | base  | `coin`, `from` |           The symbol of symbols of the currency to query           | string |         |         |            |                |
 |           | quote | `market`, `to` |              The symbol of the currency to convert to              | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Birc Endpoint
+
+`birc` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name  | Aliases |                  Description                  |  Type  |                        Options                         | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :-------------------------------------------: | :----: | :----------------------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | tenor |         | The tenor value to pull from the API response | string | `1M`, `1W`, `2M`, `2W`, `3M`, `3W`, `4M`, `5M`, `SIRB` |         |            |                |
 
 ### Example
 
