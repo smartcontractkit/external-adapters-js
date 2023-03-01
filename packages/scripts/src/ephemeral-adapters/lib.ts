@@ -157,7 +157,7 @@ export const checkArgs = (): Inputs => {
  */
 export const deployAdapter = (config: Inputs): void => {
   // pull the latest helm chart
-  if (!process.env['USE_HELM_CACHE'] || true) {
+  if (!process.env['USE_HELM_CACHE']) {
     const pullHelmChart = new Shell().exec(`helm pull ${HELM_CHART_DIR}`)
     if (pullHelmChart.code !== 0) {
       process.exitCode = 1
@@ -166,12 +166,6 @@ export const deployAdapter = (config: Inputs): void => {
       )
     }
   }
-
-  // deploy the chart
-  const removeHelm = new Shell().exec(
-    `helm uninstall ${config.name} --namespace ${NAMESPACE} --wait`,
-  )
-  log(blue.bold(removeHelm.toString()))
 
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
@@ -185,7 +179,6 @@ export const deployAdapter = (config: Inputs): void => {
   --set name=${config.name} \
   ${config.helmSecrets} \
   --timeout 1m`
-  log(blue.bold(deployCommand))
   let exec_result = ''
   for (let i = 0; i < 5; i++) {
     log(red.bold(`Deployment attempt ${i}`))
@@ -194,7 +187,6 @@ export const deployAdapter = (config: Inputs): void => {
       const deployHelm = new Shell().exec(deployCommand)
       exec_result = deployHelm.toString()
       if (deployHelm.code !== 0) {
-        process.exitCode = 1
         throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
       } else {
         return
