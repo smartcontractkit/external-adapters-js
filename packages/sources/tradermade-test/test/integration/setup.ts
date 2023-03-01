@@ -98,8 +98,6 @@ export const mockForexWebSocketServer = (URL: string): Server => {
   })
 
   return mockWsServer
-
-  return mockWsServer
 }
 
 export const createAdapter = (): Adapter<typeof customSettings> => {

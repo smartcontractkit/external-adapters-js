@@ -9,7 +9,6 @@ import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
 import { crypto, forex, iex } from '../../src/endpoint'
 import includes from '../../src/config/includes.json'
-import overrides from '../../src/config/overrides.json'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -159,7 +158,6 @@ export const createAdapter = (): PriceAdapter<typeof customSettings> => {
     name: 'TEST',
     defaultEndpoint: crypto.name,
     endpoints: [crypto, forex, iex],
-    overrides: overrides.tiingo,
     customSettings,
     includes,
   })
