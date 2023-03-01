@@ -128,7 +128,7 @@ export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTranspor
       const price = message[0].data[1][priceIndex]
       return [
         {
-          params: { base, transport: 'ws' },
+          params: { base },
           response: {
             result: price,
             data: {

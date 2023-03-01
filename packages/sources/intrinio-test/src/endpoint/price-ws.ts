@@ -60,7 +60,7 @@ export const wsTransport: IntrinioWebsocketTransport<EndpointTypes> =
             const base = msg.payload.ticker
             const price = msg.payload.price
             return {
-              params: { base, transport: 'ws' },
+              params: { base },
               response: {
                 result: price,
                 data: {

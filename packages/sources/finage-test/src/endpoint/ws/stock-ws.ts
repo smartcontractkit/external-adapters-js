@@ -41,7 +41,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
 
       return [
         {
-          params: { base: message.s, transport: 'ws' },
+          params: { base: message.s },
           response: {
             data: {
               result,

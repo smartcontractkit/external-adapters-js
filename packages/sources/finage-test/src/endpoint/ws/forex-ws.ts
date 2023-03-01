@@ -33,7 +33,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
       const [base, quote] = message.s.split('/')
       return [
         {
-          params: { base, quote, transport: 'ws' },
+          params: { base, quote },
           response: {
             data: {
               result,

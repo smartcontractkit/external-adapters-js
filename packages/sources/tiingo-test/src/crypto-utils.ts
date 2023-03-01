@@ -109,7 +109,6 @@ export const constructEntry = <T extends PriceEndpointParams>(
       params: {
         base: entry.baseCurrency.replace('cvwap', ''),
         quote: entry.quoteCurrency,
-        transport: 'rest',
       },
       response: {
         data: {

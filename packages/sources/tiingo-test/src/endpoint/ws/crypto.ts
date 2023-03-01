@@ -38,7 +38,7 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
         const [base, quote] = message.data[tickerIndex].split('/')
         return [
           {
-            params: { base, quote, transport: 'ws' },
+            params: { base, quote },
             response: {
               data: {
                 result: message.data[priceIndex],
