@@ -6,7 +6,7 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
-  PriceEndpoint,
+  CryptoPriceEndpoint,
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
@@ -94,7 +94,7 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
   },
 })
 
-export const cryptoEndpoint = new PriceEndpoint<EndpointTypes>({
+export const cryptoEndpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
   transport: cryptoTransport,
   inputParameters: priceEndpointInputParameters,

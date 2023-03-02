@@ -2,8 +2,9 @@ import { customSettings } from '../config'
 import { httpTransport } from './http/stock'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './ws/stock-ws'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
 
 export const inputParameters = {
   base: {
@@ -12,9 +13,9 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to query',
   },
-} as const
+} satisfies InputParameters
 
-interface RequestParams {
+export interface StockEndpointParams {
   base: string
 }
 
@@ -29,7 +30,7 @@ export interface ResponseSchema {
 
 export type EndpointTypes = {
   Request: {
-    Params: RequestParams
+    Params: StockEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -39,16 +40,13 @@ export type EndpointTypes = {
   }
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    WS: wsTransport,
-    HTTP: httpTransport,
-  },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
-)
-
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'stock',
-  transport: routingTransport,
+  transports: {
+    ws: wsTransport,
+    rest: httpTransport,
+  },
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
+  overrides: overrides.finage,
 })

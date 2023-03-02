@@ -1,6 +1,6 @@
 # Chainlink External Adapter for US Consumer Price Index (USCPI)
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uscpi-one/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uscpi-one/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.bls.gov/publicAPI/v2
 
@@ -37,7 +37,142 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "serie": "CUSR0000SA0",
+    "year": "2021",
+    "month": "July",
+    "endpoint": "series",
+    "resultPath": "0.value"
+  },
+  "debug": {
+    "cacheKey": "ey1z3WXQrD3wNtEwaVpk6x1U1eM="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": "REQUEST_SUCCEEDED",
+    "responseTime": 212,
+    "message": [],
+    "Results": {
+      "series": [
+        {
+          "seriesID": "CUSR0000SA0",
+          "data": [
+            {
+              "year": "2021",
+              "period": "M09",
+              "periodName": "September",
+              "latest": "true",
+              "value": "274.138",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M08",
+              "periodName": "August",
+              "value": "273.012",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M07",
+              "periodName": "July",
+              "value": "272.265",
+              "footnotes": [{}]
+            }
+          ]
+        }
+      ]
+    },
+    "result": 272.265
+  },
+  "result": 272.265,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "serie": "CUSR0000SA0",
+    "year": "2021",
+    "month": "July",
+    "endpoint": "series",
+    "resultPath": "0.value"
+  },
+  "debug": {
+    "cacheKey": "ey1z3WXQrD3wNtEwaVpk6x1U1eM="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": "REQUEST_SUCCEEDED",
+    "responseTime": 212,
+    "message": [],
+    "Results": {
+      "series": [
+        {
+          "seriesID": "CUSR0000SA0",
+          "data": [
+            {
+              "year": "2021",
+              "period": "M09",
+              "periodName": "September",
+              "latest": "true",
+              "value": "274.138",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M08",
+              "periodName": "August",
+              "value": "273.012",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M07",
+              "periodName": "July",
+              "value": "271.123",
+              "footnotes": [{}]
+            }
+          ]
+        }
+      ]
+    },
+    "result": 271.123
+  },
+  "result": 271.123,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 

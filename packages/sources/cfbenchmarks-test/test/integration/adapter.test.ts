@@ -106,6 +106,7 @@ describe('websocket', () => {
   const data: AdapterRequestBody = {
     data: {
       index: 'BRTI',
+      transport: 'ws',
     },
   }
 
@@ -116,7 +117,6 @@ describe('websocket', () => {
     process.env['CACHE_MAX_AGE'] = '5000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
-    process.env['WS_ENABLED'] = 'true'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_USERNAME'] = 'fake-api-username'
     process.env['API_PASSWORD'] = 'fake-api-password'

@@ -1,5 +1,11 @@
 # @chainlink/observation
 
+## 2.0.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+
 ## 2.0.0
 
 ### Major Changes

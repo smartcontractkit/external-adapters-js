@@ -7,6 +7,7 @@ import {
   EndpointTypes,
   inputParameters,
 } from '../crypto-utils'
+import overrides from '../config/overrides.json'
 
 const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
@@ -28,4 +29,5 @@ export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'volume',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.coinpaprika,
 })

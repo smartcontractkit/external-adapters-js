@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinCodex
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coincodex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coincodex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Price adapter to query the price of an asset in USD. Only USD is supported by CoinCodex as a quote currency.
 
@@ -36,7 +36,33 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH"
+  },
+  "debug": {
+    "cacheKey": "6fb77e7265859558a11c0d4e7de704cb1de254c0"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 4533.8640179546355
+  },
+  "result": 4533.8640179546355,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

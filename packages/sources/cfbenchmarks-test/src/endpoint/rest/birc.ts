@@ -1,6 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EmptyObject, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
 
 export enum VALID_TENORS {
@@ -56,7 +56,7 @@ export type RestEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: EmptyObject
+    RequestBody: never
     ResponseBody: ProviderResponse
   }
 }

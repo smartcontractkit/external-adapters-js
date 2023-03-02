@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Unibit
 
-![1.4.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/unibit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/unibit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -37,7 +37,55 @@ Supported names for this endpoint are: `eod`, `historical`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "VXX"
+  },
+  "debug": {
+    "cacheKey": "080e3aca0835c63ab958af9f1e5bb5163c86bcd6"
+  },
+  "rateLimitMaxAge": 57603
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "meta_data": {
+      "api_name": "historical_stock_price_v2",
+      "num_total_data_points": 1,
+      "credit_cost": 10,
+      "start_date": "yesterday",
+      "end_date": "yesterday"
+    },
+    "result_data": {
+      "VXX": [
+        {
+          "date": "2021-11-26",
+          "volume": 82949400,
+          "high": 26.44,
+          "low": 22.625,
+          "adj_close": 26.16,
+          "close": 26.16,
+          "open": 22.97
+        }
+      ]
+    },
+    "cost": 10,
+    "result": 26.16
+  },
+  "result": 26.16,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

@@ -4,9 +4,9 @@ import { Server, WebSocket } from 'mock-socket'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
 import { birc, crypto } from '../../src/endpoint'
-import { requestTransforms } from '../../src/endpoint/common/crypto'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { customSettings } from '../../src/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -56,10 +56,9 @@ export const mockWebSocketServer = (URL: string): Server => {
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
     name: 'CFBENCHMARKS',
-    endpoints: [crypto, birc],
+    endpoints: [crypto as CryptoPriceEndpoint<any>, birc],
     defaultEndpoint: crypto.name,
     customSettings,
-    requestTransforms,
   })
 }
 

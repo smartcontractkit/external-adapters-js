@@ -4,7 +4,7 @@ import { addressEndpoint } from '../../src/endpoint/address'
 
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: 'address',
     endpoints: [addressEndpoint],
     customSettings,

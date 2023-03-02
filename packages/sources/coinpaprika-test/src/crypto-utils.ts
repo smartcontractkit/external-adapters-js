@@ -1,6 +1,8 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings, getApiEndpoint, getApiHeaders } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 export const inputParameters = {
   base: {
@@ -20,7 +22,7 @@ export const inputParameters = {
     required: false,
     type: 'string',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 interface CoinInfo {
   price: number

@@ -2,13 +2,19 @@ import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { Server, WebSocket } from 'mock-socket'
 import { customSettings } from '../../src/config'
-import { cryptoEndpoint } from '../../src/endpoint/crypto'
-import { forexEndpoint } from '../../src/endpoint/forex'
+import { cryptoTransport, EndpointTypes } from '../../src/endpoint/crypto'
+import { customInputValidation, forexTransport } from '../../src/endpoint/forex'
 import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import {
+  CryptoPriceEndpoint,
+  PriceAdapter,
+  PriceEndpoint,
+  priceEndpointInputParameters,
+} from '@chainlink/external-adapter-framework/adapter'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import includes from '../../src/config/includes.json'
+import { EndpointTypes as ForexEndpointTypes } from '../../src/endpoint/forex'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -56,10 +62,21 @@ export const mockForexWebSocketServer = (URL: string): Server => {
 }
 
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+  const crypto = new CryptoPriceEndpoint<EndpointTypes>({
+    name: 'crypto',
+    transport: cryptoTransport,
+    inputParameters: priceEndpointInputParameters,
+  })
+  const forex = new PriceEndpoint<ForexEndpointTypes>({
+    name: 'forex',
+    transport: forexTransport,
+    inputParameters: priceEndpointInputParameters,
+    customInputValidation,
+  })
   return new PriceAdapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: 'crypto',
-    endpoints: [cryptoEndpoint, forexEndpoint],
+    endpoints: [crypto as CryptoPriceEndpoint<any>, forex as PriceEndpoint<any>],
     includes,
     customSettings,
   })

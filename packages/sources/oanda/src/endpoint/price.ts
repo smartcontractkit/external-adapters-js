@@ -4,7 +4,6 @@ import {
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
@@ -26,17 +25,6 @@ import {
 const logger = makeLogger('OandaPrice')
 
 let instrumentMap: InstrumentMap
-
-const inputParameters = {
-  ...priceEndpointInputParameters,
-  transport: {
-    aliases: ['method'],
-    description:
-      'An override for the transport (only use if `config/restPairs.json` does not already account for the pair)',
-    options: ['SSE', 'REST'],
-    required: false,
-  },
-}
 
 // Get mapping of all available instruments keyed by base and quote assets
 const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) => {
@@ -180,24 +168,20 @@ const restTransport = new HttpTransport<HttpGenerics>({
   },
 })
 
-const routerTransport = new RoutingTransport<EndpointTypes>(
-  { SSE: sseTransport, REST: restTransport },
-  (req) => {
+export const priceEndpoint = new PriceEndpoint<EndpointTypes>({
+  name: 'price',
+  aliases: ['forex'],
+  inputParameters: priceEndpointInputParameters,
+  transports: { sse: sseTransport, rest: restTransport },
+  customRouter: (req, _) => {
     const { base, quote, transport } = req.requestContext.data
 
     if (transport) return transport
 
     const route = (restPairs as RestPairs)?.[base.toUpperCase()]?.[quote.toUpperCase()]
-      ? 'REST'
-      : 'SSE'
+      ? 'rest'
+      : 'sse'
 
     return route
   },
-)
-
-export const priceEndpoint = new PriceEndpoint<EndpointTypes>({
-  name: 'price',
-  aliases: ['forex'],
-  inputParameters,
-  transport: routerTransport,
 })

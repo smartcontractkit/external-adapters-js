@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V3
 
-![2.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter allows querying Uniswap V3 contracts
 
@@ -48,7 +48,92 @@ Gets the exchange rate between two tokens
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "USDC",
+    "to": "USDT",
+    "amount": 1,
+    "feeTiers": [500, 3000, 10000],
+    "endpoint": "crypto",
+    "resultPath": "rate"
+  },
+  "debug": {
+    "cacheKey": "eCT3oN0/h/8k5nI6+fCB9HsYv7g="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "input": "1000000",
+    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "inputDecimals": 6,
+    "output": "999148",
+    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "outputDecimals": 6,
+    "rate": 0.999148,
+    "result": 0.999148
+  },
+  "result": 0.999148,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "fromDecimals": 18,
+    "to": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "toDecimals": 18,
+    "amount": 10,
+    "feeTiers": [500, 3000, 10000],
+    "endpoint": "crypto",
+    "resultPath": "rate"
+  },
+  "debug": {
+    "cacheKey": "FS+hwxQGdK8P/A1RFmoutg67BvI="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "input": "10000000000000000000",
+    "inputToken": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "inputDecimals": 18,
+    "output": "1454105298115974341987",
+    "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "outputDecimals": 18,
+    "rate": 145.41052981159743,
+    "result": 145.41052981159743
+  },
+  "result": 145.41052981159743,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 

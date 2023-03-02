@@ -1,7 +1,11 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const inputParameters = {
   base: {
@@ -16,7 +20,7 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export interface ProviderResponseBody {
   ticker: string
@@ -40,9 +44,11 @@ export interface ProviderResponseBody {
   }[]
 }
 
+export type RouterPriceEndpointParams = PriceEndpointParams
+
 export type CryptoEndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -52,11 +58,11 @@ export type CryptoEndpointTypes = {
   }
 }
 
-const chunkArray = (params: PriceEndpointParams[], size = 100): PriceEndpointParams[][] =>
+const chunkArray = <T extends PriceEndpointParams>(params: T[], size = 100): T[][] =>
   params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
 
-export const buildBatchedRequestBody = (
-  params: PriceEndpointParams[],
+export const buildBatchedRequestBody = <T extends PriceEndpointParams>(
+  params: T[],
   config: AdapterConfig<typeof customSettings>,
   url: string,
 ) => {
@@ -81,9 +87,9 @@ export const buildBatchedRequestBody = (
   })
 }
 
-export const constructEntry = (
+export const constructEntry = <T extends PriceEndpointParams>(
   res: ProviderResponseBody[],
-  params: PriceEndpointParams[],
+  params: T[],
   resultPath: 'close' | 'volumeNotional' | 'fxClose',
 ) => {
   if (!res?.length) {
@@ -100,7 +106,10 @@ export const constructEntry = (
   return res.map((entry) => {
     return {
       //baseCurrency from response for vwap endpoint has 'cvwap' suffix which needs to be removed
-      params: { base: entry.baseCurrency.replace('cvwap', ''), quote: entry.quoteCurrency },
+      params: {
+        base: entry.baseCurrency.replace('cvwap', ''),
+        quote: entry.quoteCurrency,
+      },
       response: {
         data: {
           result: entry.priceData[0][resultPath],

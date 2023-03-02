@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Deribit
 
-![1.2.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://www.deribit.com/api/v2/public/
 
@@ -34,7 +34,34 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "currency": "ETH",
+    "endpoint": "crypto"
+  },
+  "debug": {
+    "cacheKey": "hJ7N538OT46zUTHH59trC5Qbouw="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 68.16959232733399
+  },
+  "result": 68.16959232733399,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

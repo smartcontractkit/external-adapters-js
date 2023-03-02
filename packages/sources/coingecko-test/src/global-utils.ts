@@ -10,13 +10,13 @@ import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/tra
 
 const logger = makeLogger('CoinGecko Global Batched')
 
-export const inputParameters: InputParameters = {
+export const inputParameters = {
   market: {
     aliases: ['to', 'quote'],
     description: 'The ticker of the coin to query',
     required: true,
   },
-}
+} satisfies InputParameters
 
 export interface GlobalRequestParams {
   market: string

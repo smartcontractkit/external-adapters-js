@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Fmp Cloud
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fmpcloud/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fmpcloud/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://fmpcloud.io
 
@@ -37,7 +37,61 @@ Supported names for this endpoint are: `price`, `quote`, `stock`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "AUD",
+    "endpoint": "quote"
+  },
+  "debug": {
+    "cacheKey": "dLSVCsbn8V6tc3epL5j5NxGI7+M="
+  },
+  "rateLimitMaxAge": 384615
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "symbol": "AUDUSD",
+        "name": "AUD/USD",
+        "price": 0.71222,
+        "changesPercentage": -1.329799,
+        "change": -0.009471,
+        "dayLow": 0.71128,
+        "dayHigh": 0.71988,
+        "yearHigh": 0.82076,
+        "yearLow": 0.71073,
+        "marketCap": null,
+        "priceAvg50": 0.73820853,
+        "priceAvg200": 0.74431854,
+        "volume": 0,
+        "avgVolume": 0,
+        "exchange": "FOREX",
+        "open": 0.71903,
+        "previousClose": 0.71903,
+        "eps": null,
+        "pe": null,
+        "earningsAnnouncement": null,
+        "sharesOutstanding": null,
+        "timestamp": 1637945956
+      }
+    ],
+    "result": 0.71222
+  },
+  "result": 0.71222,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

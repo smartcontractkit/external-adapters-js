@@ -1,6 +1,6 @@
 # Chainlink External Adapter for View-Function
 
-![2.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 External adapter for executing contract function and returning the result
 
@@ -38,7 +38,35 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "signature": "function symbol() view returns (string)",
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "endpoint": "function"
+  },
+  "debug": {
+    "cacheKey": "i+gWrJZw68WU1SlaR+u5dJb+fbA="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000"
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
