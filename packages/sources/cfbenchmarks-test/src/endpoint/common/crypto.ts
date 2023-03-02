@@ -54,10 +54,6 @@ export const additionalInputValidation = ({ index, base, quote }: Params): void 
 }
 
 export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void => {
-  // exclude non-crypto endpoints from this transform
-  if (!cryptoEndpointNames.includes(req.requestContext.endpointName)) {
-    return
-  }
   // TODO: Move additional input validations to proper location after framework supports it
   additionalInputValidation(req.requestContext.data)
   if (!req.requestContext.data.index) {
@@ -78,8 +74,6 @@ export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void
 }
 
 export const requestTransforms = [cryptoRequestTransform]
-
-export const cryptoEndpointNames = ['crypto', 'values', 'price']
 
 export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
