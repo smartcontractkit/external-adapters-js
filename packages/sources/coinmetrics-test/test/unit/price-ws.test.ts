@@ -98,14 +98,14 @@ describe('price-ws message handler', () => {
 
   it('warning message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_WARNING_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
   it('error message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_ERROR_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
   it('reorg message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_REORG_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
 })
