@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Mock data (Test only)
 
-![2.1.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mock-ea/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mock-ea/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 The Mock EA is to only be used by the integration team for soak testing. It will return a value that deviates after a given interval.
 
@@ -34,7 +34,32 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "price"
+  },
+  "debug": {
+    "cacheKey": "VrI9ktHz2Gp7oHbb2+1HMGmvh5k="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 1050
+  },
+  "result": 1050,
+  "statusCode": 200
+}
+```
 
 ---
 

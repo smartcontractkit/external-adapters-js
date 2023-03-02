@@ -1,5 +1,15 @@
 # @chainlink/dns-query-adapter
 
+## 1.6.20
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.6.19
 
 ### Patch Changes

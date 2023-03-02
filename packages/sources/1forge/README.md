@@ -1,6 +1,6 @@
 # Chainlink External Adapter for 1Forge
 
-![1.6.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.6.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.1forge.com/
 
@@ -42,7 +42,69 @@ Supported names for this endpoint are: `forex`, `price`, `quotes`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "USD",
+    "quote": "EUR",
+    "endpoint": "quotes"
+  },
+  "debug": {
+    "cacheKey": "7bgmviEbqyIiUCIfawMxKPrtU7Y=",
+    "batchCacheKey": "sd6ZPVkDqkZ6Jd06Y/63s1xaO58=",
+    "batchChildrenCacheKeys": [
+      [
+        "7bgmviEbqyIiUCIfawMxKPrtU7Y=",
+        {
+          "id": "1",
+          "data": {
+            "base": "USD",
+            "quote": "EUR",
+            "endpoint": "quotes"
+          }
+        }
+      ]
+    ]
+  },
+  "rateLimitMaxAge": 38400
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "p": 0.8828,
+        "a": 0.8828,
+        "b": 0.8827,
+        "s": "USD/EUR",
+        "t": 1641851954307
+      }
+    ],
+    "result": 0.8828
+  },
+  "result": 0.8828,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
 
 ---
 
@@ -62,7 +124,40 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "USD",
+    "quote": "EUR",
+    "quantity": 1,
+    "endpoint": "convert"
+  },
+  "debug": {
+    "cacheKey": "EbMPGiWl2oE1AmSzqMaVAMCtj3I="
+  },
+  "rateLimitMaxAge": 19200
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "value": "0.862701",
+    "text": "1 USD is worth 0.862701 EUR",
+    "timestamp": 1636478097478,
+    "result": 0.862701
+  },
+  "result": 0.862701,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

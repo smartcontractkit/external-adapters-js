@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coingecko-test-adapter",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Chainlink coingecko-test adapter.",
   "keywords": [
     "Chainlink",

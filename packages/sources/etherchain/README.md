@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Etherchain
 
-![1.4.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://www.etherchain.org
 
@@ -34,7 +34,43 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "speed": "fast",
+    "endpoint": "gasprice"
+  },
+  "debug": {
+    "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "code": 200,
+    "data": {
+      "rapid": 69000000000,
+      "fast": 38200000000,
+      "standard": 17122906179,
+      "slow": 15280244053,
+      "timestamp": 1654610878715,
+      "priceUSD": 1760.29
+    },
+    "result": 38200000000
+  },
+  "result": 38200000000,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
