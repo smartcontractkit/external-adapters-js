@@ -2,6 +2,8 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 interface ResponseSchema {
   disclaimer: string
@@ -38,7 +40,7 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 const getMappedSymbols = (requestParams: PriceEndpointParams[]) => {
   const symbolGroupMap: Record<string, { params: PriceEndpointParams[]; base: string }> = {}
