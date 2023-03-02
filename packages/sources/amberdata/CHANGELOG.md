@@ -1,5 +1,16 @@
 # @chainlink/amberdata-adapter
 
+## 1.8.21
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-factories@1.2.27
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.8.20
 
 ### Patch Changes

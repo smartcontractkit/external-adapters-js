@@ -1,5 +1,15 @@
 # @chainlink/ea-scripts
 
+## 2.5.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-factories@1.2.27
+
 ## 2.5.0
 
 ### Minor Changes
