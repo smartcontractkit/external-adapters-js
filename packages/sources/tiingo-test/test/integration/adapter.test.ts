@@ -298,7 +298,7 @@ describe('execute', () => {
     beforeAll(async () => {
       oldEnv = JSON.parse(JSON.stringify(process.env))
       process.env['WS_SUBSCRIPTION_TTL'] = '10000'
-      process.env['CACHE_MAX_AGE'] = '10000'
+      process.env['CACHE_MAX_AGE'] = '20000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
@@ -314,7 +314,7 @@ describe('execute', () => {
 
       // Send initial request to start background execute
       await req.post('/').send(priceData)
-      await sleep(1000)
+      await sleep(5000)
     })
 
     afterAll((done) => {
@@ -361,7 +361,7 @@ describe('execute', () => {
     beforeAll(async () => {
       oldEnv = JSON.parse(JSON.stringify(process.env))
       process.env['WS_SUBSCRIPTION_TTL'] = '10000'
-      process.env['CACHE_MAX_AGE'] = '10000'
+      process.env['CACHE_MAX_AGE'] = '20000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
@@ -377,7 +377,7 @@ describe('execute', () => {
 
       // Send initial request to start background execute
       await req.post('/').send(priceData)
-      await sleep(1000)
+      await sleep(5000)
     })
 
     afterAll((done) => {

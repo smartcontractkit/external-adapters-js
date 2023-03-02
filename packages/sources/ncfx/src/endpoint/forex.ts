@@ -86,7 +86,7 @@ export const forexTransport = new WebSocketTransport<EndpointTypes>({
   },
 })
 
-function customInputValidation(
+export function customInputValidation(
   _: AdapterRequest<EndpointTypes['Request']>,
   config: AdapterConfig<typeof customSettings>,
 ): AdapterError | undefined {
