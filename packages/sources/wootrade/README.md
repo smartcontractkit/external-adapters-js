@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wootrade
 
-![1.2.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wootrade/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wootrade/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
@@ -39,7 +39,45 @@ Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USDT",
+    "endpoint": "crypto"
+  },
+  "debug": {
+    "cacheKey": "0aaBzX3SO1b91U+WhOHIsT33oj0="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "rows": [
+      {
+        "symbol": "SPOT_ETH_USDT",
+        "side": "SELL",
+        "executed_price": 4499.01,
+        "executed_quantity": 0.043747,
+        "executed_timestamp": "1636138728.930"
+      }
+    ],
+    "result": 4499.01
+  },
+  "result": 4499.01,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

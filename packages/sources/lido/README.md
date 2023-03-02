@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Lido
 
-![2.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 By default fetches the value of stMATIC/USD
 
@@ -35,7 +35,33 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "stmatic"
+  },
+  "debug": {
+    "cacheKey": "5bw+9BVRUWe1yPyws7E5OJiSTK8="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 69357317
+  },
+  "result": 69357317,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

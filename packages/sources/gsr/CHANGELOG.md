@@ -1,5 +1,12 @@
 # @chainlink/gsr-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- 65014014d: Bumped v3 framework version. Upgraded typescript to version 4.9.5
+
 ## 2.0.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/etherchain-adapter",
-  "version": "1.4.27",
+  "version": "1.4.28",
   "description": "Chainlink etherchain adapter.",
   "keywords": [
     "Chainlink",

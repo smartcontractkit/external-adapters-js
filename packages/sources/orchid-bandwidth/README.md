@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Orchid bandwidth
 
-![1.2.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/orchid-bandwidth/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/orchid-bandwidth/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://chainlink.orchid.com/0
 
@@ -32,7 +32,34 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "bandwidth"
+  },
+  "debug": {
+    "cacheKey": "zD1CVzYDfKCoq1MFoQZlCuGFIW0="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": 0.06491712005868808,
+    "result": 0.06491712005868808
+  },
+  "result": 0.06491712005868808,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
