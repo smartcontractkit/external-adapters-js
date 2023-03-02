@@ -81,7 +81,9 @@
 
 ### Input Params
 
-There are no input parameters for this endpoint.
+| Required? |  Name   |                  Description                  |                        Options                         | Defaults to |
+| :-------: | :-----: | :-------------------------------------------: | :----------------------------------------------------: | :---------: |
+|           | `tenor` | The tenor value to pull from the API response | 'SIRB', '1W', '2W', '3W', '1M', '2M', '3M', '4M', '5M' |             |
 
 ### Sample Input
 
@@ -89,7 +91,8 @@ There are no input parameters for this endpoint.
 {
   "id": "1",
   "data": {
-    "endpoint": "birc"
+    "endpoint": "birc",
+    "tenor": "SIRB"
   }
 }
 ```

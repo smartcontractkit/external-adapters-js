@@ -1,11 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from './config'
-import { crypto } from './endpoint'
+import { crypto, birc } from './endpoint'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 
-export const adapter = new PriceAdapter({
+export const adapter = new Adapter({
   name: 'CFBENCHMARKS',
-  endpoints: [crypto as CryptoPriceEndpoint<any>],
+  endpoints: [crypto as CryptoPriceEndpoint<any>, birc],
   defaultEndpoint: crypto.name,
   customSettings,
 })
