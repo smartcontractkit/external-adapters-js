@@ -124,7 +124,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
             })
           batchWarmer.origin[name] = [
             ...uniqueBatchableValue,
-          ] as typeof batchWarmer.origin[keyof typeof batchWarmer.origin]
+          ] as (typeof batchWarmer.origin)[keyof typeof batchWarmer.origin]
         }
 
         // Join overrides
@@ -158,7 +158,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
 
     // The request data for a batch request should only contain unique values
     const requestDataWithUniqueValues = Object.fromEntries<
-      Set<typeof state['id']['origin']['name']>
+      Set<(typeof state)['id']['origin']['name']>
     >(payload.batchablePropertyPath.map(({ name }) => [name, new Set()]))
 
     // Rebuild the request data without the removed children's data

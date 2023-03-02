@@ -30,7 +30,7 @@ export interface Message extends BaseMessage {
   }
 }
 
-const inputParameters: PriceEndpointInputParameters = {
+const inputParameters = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
@@ -43,7 +43,7 @@ const inputParameters: PriceEndpointInputParameters = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-}
+} satisfies PriceEndpointInputParameters
 
 export type EndpointTypes = {
   Request: {

@@ -5,11 +5,10 @@ import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
 import { crypto, forex, iex } from '../../src/endpoint'
 import includes from '../../src/config/includes.json'
-import overrides from '../../src/config/overrides.json'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -156,10 +155,9 @@ export const mockForexWebSocketServer = (URL: string): Server => {
 
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: crypto.name,
-    endpoints: [crypto, forex, iex],
-    overrides: overrides.tiingo,
+    endpoints: [crypto as CryptoPriceEndpoint<any>, forex, iex],
     customSettings,
     includes,
   })

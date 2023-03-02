@@ -18,7 +18,6 @@ import {
 } from '../shared/docGenUtils'
 import { EndpointDetails, Package, Schema } from '../shared/docGenTypes'
 import Airtable from 'airtable'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
 import fs from 'fs'
 
 const pathToComposites = 'packages/composites/'
@@ -81,9 +80,6 @@ const getEndpoints = async (adapterPath: string, verbose = false) => {
       Object.keys(endpointDetails).forEach((endpointName) => {
         const endpoint = endpointDetails[endpointName]
         allSupportedEndpoints.push(endpointName, ...(endpoint.aliases || []))
-        if (endpoint.transport instanceof BatchWarmingTransport) {
-          allBatchableEndpoints.push(endpointName)
-        }
       })
     } else {
       //Is a v2 adapter

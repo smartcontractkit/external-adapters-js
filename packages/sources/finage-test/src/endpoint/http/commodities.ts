@@ -1,7 +1,12 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpoint,
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
+import overrides from '../../config/overrides.json'
 
 export const inputParameters = {
   base: {
@@ -16,7 +21,7 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
-} as const
+} satisfies PriceEndpointInputParameters
 
 interface ResponseSchema {
   symbol: string
@@ -72,4 +77,5 @@ export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'commodities',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.finage,
 })

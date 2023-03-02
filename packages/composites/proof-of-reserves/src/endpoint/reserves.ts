@@ -3,7 +3,6 @@ import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap
 import {
   adaptersV2 as indexerAdaptersV2,
   adaptersV3 as indexerAdaptersV3,
-  Indexer,
   runBalanceAdapter,
 } from '../utils/balance'
 import {
@@ -83,7 +82,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const jobRunID = validator.validated.id
   const protocol = validator.validated.data.protocol.toUpperCase()
-  const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
+  const indexer = validator.validated.data.indexer.toUpperCase()
   // TODO: defaults fill as non-nullable
   const confirmations = validator.validated.data.confirmations as number
 

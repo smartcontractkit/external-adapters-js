@@ -180,6 +180,7 @@ describe('execute', () => {
       const data = {
         data: {
           base: 'AAPL',
+          transport: 'ws',
         },
       }
 
@@ -244,6 +245,7 @@ describe('execute', () => {
           endpoint: 'forex',
           base: 'GBP',
           quote: 'USD',
+          transport: 'ws',
         },
       }
 
@@ -308,6 +310,7 @@ describe('execute', () => {
           endpoint: 'crypto',
           base: 'BTC',
           quote: 'USD',
+          transport: 'ws',
         },
       }
 
