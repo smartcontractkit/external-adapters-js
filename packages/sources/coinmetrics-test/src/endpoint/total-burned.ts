@@ -116,6 +116,7 @@ export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber 
 
 export class TotalBurnedTransport implements Transport<EndpointTypes> {
   cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
+  name!: string
   responseCache!: ResponseCache<{
     Request: EndpointTypes['Request']
     Response: EndpointTypes['Response']
@@ -212,7 +213,7 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
     config: AdapterConfig<typeof customSettings>,
   ): Promise<AxiosResponse<ResponseSchema>> {
     let retryNumber = 0
-    let response = await this._makeRequest(axiosRequest)
+    let response = await this._makeRequest(axiosRequest, config.API_TIMEOUT)
     while (response.status !== 200) {
       retryNumber++
       logger.warn(
@@ -230,14 +231,17 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
 
       logger.debug(`Sleeping for ${MS_BETWEEN_FAILED_REQS}ms before retrying`)
       await sleep(MS_BETWEEN_FAILED_REQS)
-      response = await this._makeRequest(axiosRequest)
+      response = await this._makeRequest(axiosRequest, config.API_TIMEOUT)
     }
     return response
   }
 
-  private async _makeRequest(axiosRequest: AxiosRequestConfig): Promise<AxiosResponse> {
+  private async _makeRequest(
+    axiosRequest: AxiosRequestConfig,
+    timeout: number,
+  ): Promise<AxiosResponse> {
     try {
-      return await axios.request(axiosRequest)
+      return await axios.request({ ...axiosRequest, timeout })
     } catch (e) {
       return e as AxiosResponse
     }

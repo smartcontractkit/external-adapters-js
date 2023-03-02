@@ -104,7 +104,6 @@ export const handleAssetMetricsMessage = (
           params: {
             base: message.asset,
             quote,
-            transport: 'ws',
           },
           response: {
             result,
