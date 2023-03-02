@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import {
-  buildBatchedRequestBody,
+  buildHttpRequestBody,
   constructEntries,
   inputParameters,
   StockEndpointTypes,
@@ -9,7 +9,7 @@ import {
 
 export const httpTransport = new HttpTransport<StockEndpointTypes>({
   prepareRequests: (params, config) => {
-    return buildBatchedRequestBody(params, config)
+    return buildHttpRequestBody(params, config)
   },
   parseResponse: (params, res) => {
     return constructEntries(res.data, params, 'latestPrice')

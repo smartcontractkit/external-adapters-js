@@ -1,6 +1,7 @@
 import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const inputParameters = {
   base: {
@@ -9,7 +10,7 @@ export const inputParameters = {
     required: true,
     type: 'string',
   },
-} as const
+} satisfies InputParameters
 
 interface RequestParams {
   base: string
@@ -86,7 +87,7 @@ export type StockEndpointTypes = {
   }
 }
 
-export const buildBatchedRequestBody = (
+export const buildHttpRequestBody = (
   params: RequestParams[],
   config: AdapterConfig<typeof customSettings>,
 ) => {
@@ -111,6 +112,15 @@ export const constructEntries = (
 ) => {
   return params.map((param) => {
     const result = Number(res[resultPath])
+    if (isNaN(result)) {
+      return {
+        params: param,
+        response: {
+          errorMessage: `Iex-Cloud provided no data for base "${param.base}"`,
+          statusCode: 502,
+        },
+      }
+    }
     return {
       params: param,
       response: {

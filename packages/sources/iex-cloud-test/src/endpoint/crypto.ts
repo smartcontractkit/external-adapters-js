@@ -1,7 +1,12 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  CryptoPriceEndpoint,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 interface ResponseSchema {
   symbol: string
@@ -42,7 +47,7 @@ export const inputParameters = {
     required: true,
     type: 'string',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -62,6 +67,16 @@ export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   parseResponse: (params, res) => {
     return params.map((param) => {
       const result = Number(res.data.latestPrice)
+
+      if (isNaN(result)) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `Iex-Cloud provided no data for base "${param.base}" and quote "${param.quote}"`,
+            statusCode: 502,
+          },
+        }
+      }
       return {
         params: param,
         response: {
@@ -75,7 +90,7 @@ export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   },
 })
 
-export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<CryptoEndpointTypes>({
   name: 'crypto',
   transport: httpTransport,
   inputParameters: inputParameters,
