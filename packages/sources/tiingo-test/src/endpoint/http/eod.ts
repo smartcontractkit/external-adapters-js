@@ -2,6 +2,8 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import overrides from '../../config/overrides.json'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 interface ProviderResponseBody {
   adjClose: number
@@ -30,7 +32,7 @@ const inputParameters = {
     type: 'string',
     description: 'The stock ticker to query',
   },
-} as const
+} satisfies InputParameters
 
 type EODEndpointTypes = {
   Request: {
@@ -99,4 +101,5 @@ export const endpoint = new AdapterEndpoint<EODEndpointTypes>({
   name: 'eod',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

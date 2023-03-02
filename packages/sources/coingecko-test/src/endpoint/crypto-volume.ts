@@ -6,6 +6,7 @@ import {
   cryptoInputParams,
 } from '../crypto-utils'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import overrides from '../config/overrides.json'
 
 const transport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -24,4 +25,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['crypto-volume'],
   transport,
   inputParameters: cryptoInputParams,
+  overrides: overrides.coingecko,
 })

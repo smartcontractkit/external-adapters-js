@@ -6,6 +6,8 @@ import {
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 export interface CryptoRequestParams {
   coinid?: string
@@ -31,7 +33,7 @@ export const cryptoInputParams = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export interface ProviderResponseBody {
   [base: string]: {

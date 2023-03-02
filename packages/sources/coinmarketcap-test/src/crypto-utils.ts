@@ -2,6 +2,8 @@ import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import presetIds from './config/presetids.json'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 export interface CryptoRequestParams {
   base: string
@@ -33,7 +35,7 @@ export const inputParameters = {
     required: false,
     type: 'string',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 interface PriceInfo {
   price: number

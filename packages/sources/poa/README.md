@@ -34,37 +34,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "speed": "average",
-    "endpoint": "gasprice"
-  },
-  "debug": {
-    "cacheKey": "1GHxqDIBX4s/n/jRmjOhhARCCIE="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "average": 152.5,
-    "fast": 174.5,
-    "slow": 139.4,
-    "result": 152500000000
-  },
-  "result": 152500000000,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

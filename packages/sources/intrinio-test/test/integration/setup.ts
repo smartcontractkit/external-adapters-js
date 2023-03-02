@@ -5,7 +5,7 @@ import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { Server, WebSocket } from 'mock-socket'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Adapter, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { endpoint } from '../../src/endpoint/price-router'
 import { customSettings } from '../../src/config'
@@ -96,7 +96,7 @@ export const mockWebSocketServer = (url: string) => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<SettingsMap> => {
+export const createAdapter = (): Adapter<SettingsMap> => {
   return new Adapter({
     name: 'INTRINIO',
     endpoints: [endpoint],

@@ -6,6 +6,7 @@ import {
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
+  AdapterRequest,
   makeLogger,
   ProviderResult,
   SingleNumberResultResponse,
@@ -85,8 +86,8 @@ export const forexTransport = new WebSocketTransport<EndpointTypes>({
   },
 })
 
-function customInputValidation(
-  _: PriceEndpointParams,
+export function customInputValidation(
+  _: AdapterRequest<EndpointTypes['Request']>,
   config: AdapterConfig<typeof customSettings>,
 ): AdapterError | undefined {
   if (!config.FOREX_WS_USERNAME || !config.FOREX_WS_PASSWORD) {

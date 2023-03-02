@@ -37,36 +37,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "product": "ferrari-f12tdf",
-    "feedId": 1,
-    "endpoint": "feed"
-  },
-  "debug": {
-    "cacheKey": "N+ZifCh5pNiaCwuYd+LTr8Ge6G4="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "value": 482421,
-    "result": 482421
-  },
-  "result": 482421,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

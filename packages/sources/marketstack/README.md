@@ -39,37 +39,7 @@ Supported names for this endpoint are: `eod`, `stock`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "AAPL",
-    "interval": "1min",
-    "limit": 1,
-    "endpoint": "stock"
-  },
-  "debug": {
-    "cacheKey": "08JBbsORZVWHP8RjhjYY1wlcurQ="
-  },
-  "rateLimitMaxAge": 2921840
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 164.77
-  },
-  "result": 164.77,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

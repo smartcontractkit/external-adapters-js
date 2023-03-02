@@ -37,48 +37,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "BTC",
-    "quote": "USD",
-    "amount": 1,
-    "endpoint": "convert"
-  },
-  "debug": {
-    "cacheKey": "fE+e01CMPOlT/0yVAcTGT32JAlQ="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "success": true,
-    "terms": "https://currencylayer.com/terms",
-    "privacy": "https://currencylayer.com/privacy",
-    "query": {
-      "from": "BTC",
-      "to": "USD",
-      "amount": 1
-    },
-    "info": {
-      "timestamp": 1635800883,
-      "quote": 60535.74
-    },
-    "result": 60535.74
-  },
-  "result": 60535.74,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -98,66 +57,7 @@ Supported names for this endpoint are: `forex`, `live`, `price`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "BTC",
-    "quote": "USD",
-    "amount": 1,
-    "endpoint": "live"
-  },
-  "debug": {
-    "cacheKey": "K9RcNs7mmrcDzcLMwNlw++Rup8E=",
-    "batchCacheKey": "JNljA7RWhMv9GbJ3cUT6sqqNk/E=",
-    "batchChildrenCacheKeys": [
-      [
-        "K9RcNs7mmrcDzcLMwNlw++Rup8E=",
-        {
-          "id": "1",
-          "data": {
-            "base": "BTC",
-            "quote": "USD",
-            "amount": 1,
-            "endpoint": "live"
-          }
-        }
-      ]
-    ]
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "success": true,
-    "terms": "https://currencylayer.com/terms",
-    "privacy": "https://currencylayer.com/privacy",
-    "timestamp": 1655821744,
-    "source": "BTC",
-    "quotes": {
-      "BTCUSD": 21479.7756
-    },
-    "result": 21479.7756
-  },
-  "result": 21479.7756,
-  "statusCode": 200,
-  "debug": {
-    "batchablePropertyPath": [
-      {
-        "name": "quote"
-      }
-    ]
-  },
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
