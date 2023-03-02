@@ -1,6 +1,6 @@
 # Chainlink External Adapter for JPEG'd
 
-![2.1.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/jpegd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/jpegd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Query NFT collection values from the JPEG'd API.
 
@@ -38,7 +38,38 @@ Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "block": 14000000,
+    "endpoint": "punks"
+  },
+  "debug": {
+    "cacheKey": "PvrAVfL2Y0xJVTWwBXhNjo/cES0="
+  },
+  "rateLimitMaxAge": 5555
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "block": 14000000,
+    "value": 14000000,
+    "result": 14000000
+  },
+  "result": 14000000,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
@@ -54,7 +85,38 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "collection": "jpeg-cards",
+    "endpoint": "collections"
+  },
+  "debug": {
+    "cacheKey": "dM2Oy9A0fH8AvAgwbP9dYa2IxNk="
+  },
+  "rateLimitMaxAge": 11111
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "block": 14000000,
+    "value": 69000000,
+    "result": 69000000
+  },
+  "result": 69000000,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

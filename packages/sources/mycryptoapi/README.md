@@ -1,6 +1,6 @@
 # Chainlink External Adapter for MyCryptoApi
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mycryptoapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mycryptoapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://gas.mycryptoapi.com/
 
@@ -32,7 +32,39 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "speed": "fast",
+    "endpoint": "gasprice"
+  },
+  "debug": {
+    "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "safeLow": 122,
+    "standard": 134,
+    "fast": 148,
+    "fastest": 160,
+    "blockNum": 13722866,
+    "result": 148
+  },
+  "result": 148,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

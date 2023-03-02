@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoMKT
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.exchange.cryptomkt.com/api/3/
 
@@ -37,7 +37,46 @@ Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "BTC",
+    "quote": "ARS",
+    "endpoint": "crypto",
+    "resultPath": "last"
+  },
+  "debug": {
+    "cacheKey": "DXqgDsgrZ489uGqrEFEK7PB3vv4="
+  },
+  "rateLimitMaxAge": 6666
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "ask": "12395990",
+    "bid": "12339900",
+    "last": "12396935",
+    "low": "11716731",
+    "high": "12403061",
+    "open": "11845809",
+    "volume": "1.62057",
+    "volume_quote": "19483671.75328",
+    "timestamp": "2021-11-25T16:27:54.000Z",
+    "result": 12396935
+  },
+  "result": 12396935,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

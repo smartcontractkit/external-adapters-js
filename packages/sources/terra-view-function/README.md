@@ -1,6 +1,6 @@
 # Chainlink External Adapter for querying Terra view functions
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This external adapter allows querying contracts on the Terra blockchain. A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 
@@ -42,7 +42,50 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "address": "terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy",
+    "query": {
+      "aggregator_query": {
+        "get_latest_round_data": {}
+      }
+    },
+    "endpoint": "view"
+  },
+  "debug": {
+    "cacheKey": "yeD/bgLqBlPxq5DdKNylNKinKXQ="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": {
+      "round_id": 102601,
+      "answer": "450925174149",
+      "started_at": 1635943989,
+      "updated_at": 1635943989,
+      "answered_in_round": 102601
+    }
+  },
+  "result": {
+    "round_id": 102601,
+    "answer": "450925174149",
+    "started_at": 1635943989,
+    "updated_at": 1635943989,
+    "answered_in_round": 102601
+  },
+  "statusCode": 200
+}
+```
 
 ---
 

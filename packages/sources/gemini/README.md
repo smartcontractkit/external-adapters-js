@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Gemini
 
-![2.2.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gemini/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.2.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gemini/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 An external adapter to get data from Gemini
 
@@ -38,7 +38,64 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "token": "EFIL",
+    "chainId": "mainnet",
+    "network": "filecoin",
+    "endpoint": "reserves"
+  },
+  "debug": {
+    "cacheKey": "AeB8DrMgHWj63Dzq1Lv1k7MaCyE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "addresses": [
+      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+    ],
+    "ethereum_supply": 33427.594125,
+    "currency": "EFIL",
+    "result": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "network": "filecoin",
+        "chainId": "mainnet"
+      },
+      {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+        "network": "filecoin",
+        "chainId": "mainnet"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+      "network": "filecoin",
+      "chainId": "mainnet"
+    },
+    {
+      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+      "network": "filecoin",
+      "chainId": "mainnet"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

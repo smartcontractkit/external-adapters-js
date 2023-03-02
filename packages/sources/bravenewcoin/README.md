@@ -1,6 +1,6 @@
 # Chainlink External Adapter for BraveNewCoin
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bravenewcoin/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bravenewcoin/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -38,7 +38,35 @@ Supported names for this endpoint are: `crypto`, `price`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "BTC",
+    "endpoint": "crypto"
+  },
+  "debug": {
+    "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 0.06453350218072039
+  },
+  "result": 0.06453350218072039,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
@@ -58,7 +86,52 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "2",
+  "data": {
+    "symbol": "ETH",
+    "endpoint": "vwap"
+  },
+  "debug": {
+    "cacheKey": "YqvNVLXR2frUT84tqjjAR+vz/BU="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "2",
+  "data": {
+    "content": [
+      {
+        "indexId": "e991ba77-d384-48ff-b0a4-40e95ef6b7d6",
+        "indexType": "GWA",
+        "open": 3872.444353468022,
+        "high": 4148.839979992307,
+        "low": 3830.078382818216,
+        "close": 4137.589066216359,
+        "volume": 3373487.6142539503,
+        "vwap": 3969.76725876602,
+        "twap": 3957.582228402148,
+        "startTimestamp": "2021-10-20T00:00:00Z",
+        "endTimestamp": "2021-10-20T23:59:59.999Z",
+        "timestamp": "2021-10-20T00:00:00Z",
+        "id": "735b94df-008c-4fc3-a50c-af0f2e0b25c4"
+      }
+    ],
+    "nextId": "735b94df-008c-4fc3-a50c-af0f2e0b25c4",
+    "result": 3969.76725876602
+  },
+  "result": 3969.76725876602,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

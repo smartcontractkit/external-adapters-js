@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V2
 
-![2.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter allows querying Uniswap V2 contracts
 
@@ -46,7 +46,90 @@ Gets the exchange rate between two tokens
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "USDC",
+    "to": "USDT",
+    "amount": 1,
+    "endpoint": "crypto",
+    "resultPath": "rate"
+  },
+  "debug": {
+    "cacheKey": "YZV70B+kzz3Gu9THcBM+4QpTL3M="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "input": "1000000",
+    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "inputDecimals": 6,
+    "output": "999856",
+    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "outputDecimals": 6,
+    "rate": 0.999856,
+    "result": 0.999856
+  },
+  "result": 0.999856,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "fromDecimals": 18,
+    "to": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "toDecimals": 18,
+    "amount": 10,
+    "endpoint": "crypto",
+    "resultPath": "rate"
+  },
+  "debug": {
+    "cacheKey": "hmzKgkCmu9duLKvBc7VrO8c1qFw="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "input": "10000000000000000000",
+    "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "inputDecimals": 18,
+    "output": "2108971134647913998340",
+    "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "outputDecimals": 18,
+    "rate": 210.8971134647914,
+    "result": 210.8971134647914
+  },
+  "result": 210.8971134647914,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 

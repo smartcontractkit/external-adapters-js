@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Snowflake
 
-![1.2.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/snowflake/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/snowflake/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Adapter to query data from [Snowflake](https://www.snowflake.com/). Currently only contains an endpoint to query US confirmed Covid cases per County.
 To setup the environment, here are additional docs to [assign a key pair to a user](https://docs.snowflake.com/en/developer-guide/sql-api/guide.html#using-key-pair-authentication) and [finding your account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier.html).
@@ -46,7 +46,68 @@ Queries US confirmed Covid cases per County, using the John Hopkins University t
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "state": "Alabama",
+    "county": "Autauga",
+    "endpoint": "covid-cases"
+  },
+  "debug": {
+    "cacheKey": "L1/QFC2aiWJ1ikadMBxtZATqGI0="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "resultSetMetaData": {
+      "numRows": 1,
+      "format": "jsonv2",
+      "partitionInfo": [
+        {
+          "rowCount": 1,
+          "uncompressedSize": 9
+        }
+      ],
+      "rowType": [
+        {
+          "name": "CONFIRMED",
+          "database": "test_database",
+          "schema": "test_schema",
+          "table": "JHU_DASHBOARD_COVID_19_GLOBAL",
+          "type": "fixed",
+          "byteLength": null,
+          "scale": 0,
+          "precision": 38,
+          "nullable": true,
+          "collation": null,
+          "length": null
+        }
+      ]
+    },
+    "data": [["10531"]],
+    "code": "090001",
+    "statementStatusUrl": "/api/statements/01a0af11-0000-5d4e-0000-0001316650a5?requestId=e68f6b77-72bd-4b7f-8719-247ac70f6f82",
+    "requestId": "e68f6b77-72bd-4b7f-8719-247ac70f6f82",
+    "sqlState": "00000",
+    "statementHandle": "01a0af12-0000-5d4d-0000-000131664085",
+    "message": "Statement executed successfully.",
+    "createdOn": 1638467668319,
+    "result": 10531
+  },
+  "result": 10531,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
