@@ -1,7 +1,7 @@
 import * as shelljs from 'shelljs'
 import chalk from 'chalk'
 
-const { red, blue } = chalk
+const { blue } = chalk
 const { log } = console
 
 export type ShellOut = shelljs.ShellString
