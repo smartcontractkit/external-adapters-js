@@ -51,6 +51,7 @@ export const SoakTestBlacklist: string[] = [
   'nikkei',
   'oilpriceapi',
   'onchain-gas', // Missing: WS RPC URL
+  'outlier-detection',
   'paypal',
   'por-indexer',
   'proof-of-reserves', // Missing: Underlying source EAs
