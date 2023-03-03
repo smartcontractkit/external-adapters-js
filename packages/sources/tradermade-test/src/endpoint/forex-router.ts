@@ -1,6 +1,5 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { BatchEndpointTypes, BatchRequestParams } from '../price-utils'
+import { BatchEndpointTypes } from '../price-utils'
 import { httpTransport, inputParameters } from './forex'
 import { wsTransport } from './forex-ws'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
@@ -9,17 +8,14 @@ import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
-
-const transports = {
-  ws: wsTransport,
-  rest: httpTransport,
-}
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import overrides from '../config/overrides.json'
 
 function customInputValidation(
-  params: BatchRequestParams,
+  req: AdapterRequest<BatchEndpointTypes['Request']>,
   config: AdapterConfig<typeof customSettings>,
 ): AdapterError | undefined {
-  if (params.transport === 'ws' && !config.WS_API_KEY) {
+  if (req.requestContext.transportName === 'ws' && !config.WS_API_KEY) {
     return new AdapterInputError({
       statusCode: 400,
       message: 'WS_API_KEY is not set',
@@ -28,14 +24,15 @@ function customInputValidation(
   return
 }
 
-export const routingTransport = new RoutingTransport<BatchEndpointTypes>(transports, {
-  defaultTransport: 'rest',
-})
-
 export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
   name: 'forex',
   aliases: ['batch'],
-  transport: routingTransport,
+  transports: {
+    ws: wsTransport,
+    rest: httpTransport,
+  },
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
   customInputValidation,
+  overrides: overrides.tradermade,
 })

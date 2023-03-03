@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Genesis Volatility
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/genesis-volatility/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/genesis-volatility/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://app.pinkswantrading.com
 
@@ -36,7 +36,34 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "coin": "ETH",
+    "days": 1
+  },
+  "debug": {
+    "cacheKey": "0bf56ec137d7bfc07a543069c420564a3c1d2dc9"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 89.31
+  },
+  "result": 89.31,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

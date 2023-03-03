@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Cache.gold
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cache.gold/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cache.gold/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://contract.cache.gold/api
 
@@ -34,7 +34,34 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "lockedGold"
+  },
+  "debug": {
+    "cacheKey": "aZoya+gFve1ms9ObNR40aMrNGvE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "grams_locked": "91571.93000000",
+    "result": 91571.93
+  },
+  "result": 91571.93,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

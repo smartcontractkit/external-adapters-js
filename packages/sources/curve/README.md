@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-![2.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter allows querying Curve.fi contracts
 
@@ -46,7 +46,92 @@ Gets the exchange rate between two tokens
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "USDC",
+    "to": "USDT",
+    "amount": 1,
+    "endpoint": "crypto",
+    "resultPath": "rate"
+  },
+  "debug": {
+    "cacheKey": "YZV70B+kzz3Gu9THcBM+4QpTL3M="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "pool": "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7",
+    "input": "1000000",
+    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "inputDecimals": 6,
+    "output": "999424",
+    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "outputDecimals": 6,
+    "rate": 0.999424,
+    "result": 0.999424
+  },
+  "result": 0.999424,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
+    "fromDecimals": 18,
+    "to": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
+    "toDecimals": 18,
+    "amount": 10,
+    "endpoint": "crypto",
+    "resultPath": "rate"
+  },
+  "debug": {
+    "cacheKey": "EdPqv6k2ljhklc2bKAeo4fT5Jmk="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "pool": "0x43b4FdFD4Ff969587185cDB6f0BD875c5Fc83f8c",
+    "input": "10000000000000000000",
+    "inputToken": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
+    "inputDecimals": 18,
+    "output": "9777973472353241389",
+    "outputToken": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
+    "outputDecimals": 18,
+    "rate": 0.9777973472353242,
+    "result": 0.9777973472353242
+  },
+  "result": 0.9777973472353242,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 

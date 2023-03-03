@@ -6,6 +6,7 @@ import {
   cryptoInputParams,
 } from '../crypto-utils'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import overrides from '../config/overrides.json'
 
 export const httpTransport = new HttpTransport<BatchEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -27,4 +28,5 @@ export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
   name: 'volume',
   transport: httpTransport,
   inputParameters: cryptoInputParams,
+  overrides: overrides.cryptocompare,
 })

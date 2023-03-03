@@ -6,7 +6,7 @@ export const NAME = 'TERRA_VIEW_FUNCTION'
 export const DEFAULT_ENDPOINT = 'view'
 
 export const SUPPORTED_CHAIN_IDS = ['columbus-5', 'bombay-12', 'localterra']
-export type ChainId = typeof SUPPORTED_CHAIN_IDS[number]
+export type ChainId = (typeof SUPPORTED_CHAIN_IDS)[number]
 
 export const ENV_DEFAULT_CHAIN_ID = 'DEFAULT_CHAIN_ID'
 export const DEFAULT_CHAIN_ID = 'columbus-5'

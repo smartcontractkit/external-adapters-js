@@ -5,9 +5,7 @@ import { customSettings } from './config'
 
 export type EndpointTypes = TransportGenerics & {
   Request: {
-    Params: PriceEndpointParams & {
-      transport?: 'REST' | 'SSE'
-    }
+    Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings

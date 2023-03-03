@@ -1,15 +1,10 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { DefaultConfig } from '@chainlink/ea-bootstrap'
-import {
-  adaptersV2 as BalanceAdaptersV2,
-  adaptersV3 as BalanceAdaptersV3,
-  Indexer,
-} from '../utils/balance'
+import { adaptersV2 as BalanceAdaptersV2, adaptersV3 as BalanceAdaptersV3 } from '../utils/balance'
 import {
   adaptersV2 as ProtocolAdaptersV2,
   adaptersV3 as ProtocolAdaptersV3,
   LIST_ADAPTER,
-  Protocol,
 } from '../utils/protocol'
 
 export interface Config extends DefaultConfig {
@@ -26,8 +21,8 @@ export const makeConfig = (prefix?: string): Config => ({
 })
 
 export type Options = {
-  protocol: Protocol[]
-  indexer: Indexer[]
+  protocol: string[]
+  indexer: string[]
 }
 
 export const makeOptions = (): Options => {

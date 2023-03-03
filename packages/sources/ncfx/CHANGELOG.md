@@ -1,5 +1,12 @@
 # @chainlink/ncfx-adapter
 
+## 3.0.3
+
+### Patch Changes
+
+- 2bcd794a2: Remove previous typo from NCFX EA
+- 65014014d: Bumped v3 framework version. Upgraded typescript to version 4.9.5
+
 ## 3.0.2
 
 ### Patch Changes

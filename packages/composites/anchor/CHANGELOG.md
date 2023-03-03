@@ -1,5 +1,16 @@
 # @chainlink/anchor-adapter
 
+## 4.0.12
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/terra-view-function-adapter@1.3.28
+
 ## 4.0.11
 
 ### Patch Changes

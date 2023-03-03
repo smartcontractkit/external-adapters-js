@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Marketstack
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/marketstack/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/marketstack/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL http://api.marketstack.com/v1/
 
@@ -39,7 +39,37 @@ Supported names for this endpoint are: `eod`, `stock`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "AAPL",
+    "interval": "1min",
+    "limit": 1,
+    "endpoint": "stock"
+  },
+  "debug": {
+    "cacheKey": "08JBbsORZVWHP8RjhjYY1wlcurQ="
+  },
+  "rateLimitMaxAge": 2921840
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 164.77
+  },
+  "result": 164.77,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

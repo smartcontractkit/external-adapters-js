@@ -7,6 +7,7 @@ import {
   GlobalEndpointTypes,
   inputParameters,
 } from '../global-utils'
+import overrides from '../config/overrides.json'
 
 const httpTransport = new HttpTransport<GlobalEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -28,4 +29,5 @@ export const endpoint = new AdapterEndpoint({
   name: 'globalmarketcap',
   transport: httpTransport,
   inputParameters,
+  overrides: overrides.coinpaprika,
 })

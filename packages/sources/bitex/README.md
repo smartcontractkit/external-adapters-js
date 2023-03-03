@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Bitex
 
-![1.5.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.5.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://bitex.la/api
 
@@ -38,7 +38,51 @@ Supported names for this endpoint are: `crypto`, `tickers`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "ARS",
+    "endpoint": "crypto"
+  },
+  "debug": {
+    "cacheKey": "mLZ9U6HS/OYR+sGPWycJB43/AaA="
+  },
+  "rateLimitMaxAge": 222
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "data": {
+      "id": "eth_ars",
+      "type": "tickers",
+      "attributes": {
+        "last": 935234,
+        "open": 934713,
+        "high": 935234,
+        "low": 907110,
+        "vwap": 934877.7183770883,
+        "volume": 1.257,
+        "bid": 879407,
+        "ask": 930127,
+        "price_before_last": 920016
+      }
+    },
+    "result": 934877.7183770883
+  },
+  "result": 934877.7183770883,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
