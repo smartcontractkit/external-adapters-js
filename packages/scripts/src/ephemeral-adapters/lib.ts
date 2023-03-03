@@ -166,7 +166,7 @@ export const deployAdapter = (config: Inputs): void => {
       )
     }
   }
-  new Shell().exec(`sleep 120`)
+  new Shell().exec(`helm `)
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
   } \
@@ -189,24 +189,21 @@ export const deployAdapter = (config: Inputs): void => {
       if (deployHelm.code !== 0) {
         throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
       } else {
-        new Shell().exec(`sleep 120`)
-        const k8sState = new Shell().exec(`kubectl -n adapters get pods`)
-        log(blue.bold(`k8sState\n ${k8sState}`))
-        const k8sEvents = new Shell().exec(
-          `kubectl -n adapters get events --sort-by='{.lastTimestamp}'`,
-        )
-        log(blue.bold(`k8sEvents\n ${k8sEvents}`))
-        return
+        break
       }
     } catch (e: any) {
       log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
     }
   }
-
-  if (exec_result) {
-    process.exitCode = 1
-    throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
-  }
+  new Shell().exec(`sleep 60`)
+  const k8sState = new Shell().exec(
+    `kubectl logs deployment/${config.name} -l app.kubernetes.io/name=${config.name} -n adapters`,
+  )
+  log(blue.bold(`k8sState\n ${k8sState}`))
+  const k8sEvents = new Shell().exec(`kubectl -n adapters get events --sort-by='{.lastTimestamp}'`)
+  log(blue.bold(`k8sEvents\n ${k8sEvents}`))
+  process.exitCode = 1
+  throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
 }
 
 /**
