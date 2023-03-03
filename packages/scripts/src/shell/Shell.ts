@@ -1,4 +1,9 @@
 import * as shelljs from 'shelljs'
+import chalk from 'chalk'
+
+const { red, blue } = chalk
+const { log } = console
+
 export type ShellOut = shelljs.ShellString
 export class Shell {
   /**
@@ -8,6 +13,7 @@ export class Shell {
    * @returns {ShellString} The ShellString from the command
    */
   public exec(command: string): ShellOut {
+    log(blue.bold(command))
     return shelljs.exec(command)
   }
 }

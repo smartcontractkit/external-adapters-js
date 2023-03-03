@@ -166,7 +166,9 @@ export const deployAdapter = (config: Inputs): void => {
       )
     }
   }
-  new Shell().exec(`helm `)
+  new Shell().exec(
+    `kubectl get pod redis-master-0 -n adapters -o yaml | kubectl replace --force -f -`,
+  )
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
   } \
@@ -196,10 +198,12 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
   new Shell().exec(`sleep 60`)
-  const k8sState = new Shell().exec(
-    `kubectl logs deployment/${config.name} -l app.kubernetes.io/name=${config.name} -n adapters`,
-  )
+  const k8sState = new Shell().exec(`kubectl logs deployments/name=${config.name} -n adapters`)
   log(blue.bold(`k8sState\n ${k8sState}`))
+  const k8sState2 = new Shell().exec(
+    `kubectl logs -l app.kubernetes.io/name=${config.name} -n adapters`,
+  )
+  log(blue.bold(`k8sState\n ${k8sState2}`))
   const k8sEvents = new Shell().exec(`kubectl -n adapters get events --sort-by='{.lastTimestamp}'`)
   log(blue.bold(`k8sEvents\n ${k8sEvents}`))
   process.exitCode = 1
