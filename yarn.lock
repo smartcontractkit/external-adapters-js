@@ -3221,6 +3221,7 @@ __metadata:
     "@chainlink/therundown-adapter": "workspace:*"
     "@chainlink/tiingo-adapter": "workspace:*"
     "@chainlink/tiingo-test-adapter": "workspace:*"
+    "@chainlink/tp-icap-adapter": "workspace:*"
     "@chainlink/tradermade-adapter": "workspace:*"
     "@chainlink/tradermade-test-adapter": "workspace:*"
     "@chainlink/tradingeconomics-adapter": "workspace:*"
@@ -5134,6 +5135,22 @@ __metadata:
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.9
+    tslib: ^2.3.1
+    typescript: 4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/tp-icap-adapter@workspace:*, @chainlink/tp-icap-adapter@workspace:packages/sources/tp-icap":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/tp-icap-adapter@workspace:packages/sources/tp-icap"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.9.5
   languageName: unknown

@@ -558,6 +558,9 @@
       "path": "./sources/tiingo-test"
     },
     {
+      "path": "./sources/tp-icap"
+    },
+    {
       "path": "./sources/tradermade"
     },
     {

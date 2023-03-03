@@ -175,6 +175,7 @@
     "@chainlink/therundown-adapter": "workspace:*",
     "@chainlink/tiingo-adapter": "workspace:*",
     "@chainlink/tiingo-test-adapter": "workspace:*",
+    "@chainlink/tp-icap-adapter": "workspace:*",
     "@chainlink/tradermade-adapter": "workspace:*",
     "@chainlink/tradermade-test-adapter": "workspace:*",
     "@chainlink/tradingeconomics-adapter": "workspace:*",

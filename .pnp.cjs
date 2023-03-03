@@ -772,6 +772,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tiingo-test"\
       },\
       {\
+        "name": "@chainlink/tp-icap-adapter",\
+        "reference": "workspace:packages/sources/tp-icap"\
+      },\
+      {\
         "name": "@chainlink/tradermade-adapter",\
         "reference": "workspace:packages/sources/tradermade"\
       },\
@@ -1051,6 +1055,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
       ["@chainlink/tiingo-test-adapter", ["workspace:packages/sources/tiingo-test"]],\
       ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
+      ["@chainlink/tp-icap-adapter", ["workspace:packages/sources/tp-icap"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradermade-test-adapter", ["workspace:packages/sources/tradermade-test"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
@@ -6669,6 +6674,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
             ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
+            ["@chainlink/tp-icap-adapter", "workspace:packages/sources/tp-icap"],\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
             ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
@@ -8930,6 +8936,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/tp-icap-adapter", [\
+        ["workspace:packages/sources/tp-icap", {\
+          "packageLocation": "./packages/sources/tp-icap/",\
+          "packageDependencies": [\
+            ["@chainlink/tp-icap-adapter", "workspace:packages/sources/tp-icap"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
           ],\

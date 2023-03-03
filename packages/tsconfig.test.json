@@ -558,6 +558,9 @@
       "path": "./sources/tiingo-test/tsconfig.test.json"
     },
     {
+      "path": "./sources/tp-icap/tsconfig.test.json"
+    },
+    {
       "path": "./sources/tradermade/tsconfig.test.json"
     },
     {
