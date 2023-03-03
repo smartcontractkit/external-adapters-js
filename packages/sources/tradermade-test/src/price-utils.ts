@@ -2,9 +2,7 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
-export type BatchRequestParams = LiveRequestParams & {
-  transport: string
-}
+export type BatchRequestParams = LiveRequestParams
 
 export interface LiveRequestParams {
   base: string

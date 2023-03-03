@@ -1,5 +1,31 @@
 # @chainlink/token-allocation-adapter
 
+## 1.9.3
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+- Updated dependencies [b29509be0]
+- Updated dependencies [2bcd794a2]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/amberdata-adapter@1.8.21
+  - @chainlink/cfbenchmarks-adapter@1.6.0
+  - @chainlink/coinapi-adapter@1.3.18
+  - @chainlink/coingecko-adapter@1.9.20
+  - @chainlink/coinmarketcap-adapter@1.5.31
+  - @chainlink/coinmetrics-adapter@1.3.28
+  - @chainlink/coinpaprika-adapter@1.10.20
+  - @chainlink/cryptocompare-adapter@1.4.28
+  - @chainlink/finage-adapter@1.6.14
+  - @chainlink/kaiko-adapter@1.5.22
+  - @chainlink/nomics-adapter@1.3.28
+  - @chainlink/tiingo-adapter@1.12.18
+  - @chainlink/ncfx-adapter@3.0.3
+
 ## 1.9.2
 
 ### Patch Changes

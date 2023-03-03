@@ -228,6 +228,7 @@ describe('execute', () => {
       data: {
         base: 'eth',
         quote: 'usd',
+        transport: 'ws',
       },
     }
 
@@ -238,7 +239,6 @@ describe('execute', () => {
       process.env['CACHE_MAX_AGE'] = '20000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
-      process.env['WS_ENABLED'] = 'true'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
       process.env['API_KEY'] = 'fake-api-key'
       const mockDate = new Date('2022-11-11T11:11:11.111Z')
@@ -290,6 +290,7 @@ describe('execute', () => {
       data: {
         endpoint: 'iex',
         base: 'aapl',
+        transport: 'ws',
       },
     }
 
@@ -297,10 +298,9 @@ describe('execute', () => {
     beforeAll(async () => {
       oldEnv = JSON.parse(JSON.stringify(process.env))
       process.env['WS_SUBSCRIPTION_TTL'] = '10000'
-      process.env['CACHE_MAX_AGE'] = '10000'
+      process.env['CACHE_MAX_AGE'] = '20000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
-      process.env['WS_ENABLED'] = 'true'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
       process.env['API_KEY'] = 'fake-api-key'
       const mockDate = new Date('2022-11-11T11:11:11.111Z')
@@ -314,7 +314,7 @@ describe('execute', () => {
 
       // Send initial request to start background execute
       await req.post('/').send(priceData)
-      await sleep(1000)
+      await sleep(5000)
     })
 
     afterAll((done) => {
@@ -353,6 +353,7 @@ describe('execute', () => {
         endpoint: 'forex',
         base: 'eur',
         quote: 'usd',
+        transport: 'ws',
       },
     }
 
@@ -360,10 +361,9 @@ describe('execute', () => {
     beforeAll(async () => {
       oldEnv = JSON.parse(JSON.stringify(process.env))
       process.env['WS_SUBSCRIPTION_TTL'] = '10000'
-      process.env['CACHE_MAX_AGE'] = '10000'
+      process.env['CACHE_MAX_AGE'] = '20000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
-      process.env['WS_ENABLED'] = 'true'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
       process.env['API_KEY'] = 'fake-api-key'
       const mockDate = new Date('2022-11-11T11:11:11.111Z')
@@ -377,7 +377,7 @@ describe('execute', () => {
 
       // Send initial request to start background execute
       await req.post('/').send(priceData)
-      await sleep(1000)
+      await sleep(5000)
     })
 
     afterAll((done) => {

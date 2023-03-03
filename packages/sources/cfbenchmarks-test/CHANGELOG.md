@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- 65014014d: Bumped v3 framework version. Removed WS_ENABLED env var. Upgraded typescript to version 4.9.5
+
 ## 1.1.1
 
 ### Patch Changes

@@ -17,7 +17,7 @@ export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: 'balance',
     endpoints: [balanceEndpoint],
     customSettings,

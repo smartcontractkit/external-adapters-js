@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.5.4
+
+### Patch Changes
+
+- 65014014d: Bumped v3 framework version. Upgraded typescript to version 4.9.5
+
 ## 1.5.3
 
 ### Patch Changes

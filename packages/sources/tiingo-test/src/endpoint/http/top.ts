@@ -3,6 +3,7 @@ import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-
 import { buildBatchedRequestBody, inputParameters } from '../../crypto-utils'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import overrides from '../../config/overrides.json'
 
 interface ProviderResponseBody {
   ticker: string
@@ -59,4 +60,5 @@ export const endpoint = new PriceEndpoint<TopEndpointTypes>({
   name: 'top',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

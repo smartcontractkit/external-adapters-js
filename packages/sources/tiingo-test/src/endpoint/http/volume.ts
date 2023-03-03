@@ -6,6 +6,7 @@ import {
   CryptoEndpointTypes,
   inputParameters,
 } from '../../crypto-utils'
+import overrides from '../../config/overrides.json'
 
 export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -20,4 +21,5 @@ export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
   name: 'volume',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

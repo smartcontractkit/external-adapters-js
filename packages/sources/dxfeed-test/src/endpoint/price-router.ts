@@ -1,9 +1,18 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { batchTransport } from './price'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { wsTransport } from './price-ws'
 import { customSettings } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = {
   base: {
@@ -12,7 +21,7 @@ export const inputParameters = {
     description: 'The symbol of the currency to query',
     required: true,
   },
-} as const
+} satisfies InputParameters
 
 export interface ProviderResponseBody {
   status: string
@@ -67,17 +76,28 @@ export type EndpointTypes = {
   }
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    WS: wsTransport,
-    REST: batchTransport,
-  },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'REST'),
-)
+function customInputValidation(
+  req: AdapterRequest<EndpointTypes['Request']>,
+  config: AdapterConfig<typeof customSettings>,
+): AdapterError | undefined {
+  if (req.requestContext.transportName === 'ws' && !config.WS_API_ENDPOINT) {
+    return new AdapterInputError({
+      statusCode: 400,
+      message: 'WS_API_ENDPOINT is not set',
+    })
+  }
+  return
+}
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
-  transport: routingTransport,
+  transports: {
+    ws: wsTransport,
+    rest: batchTransport,
+  },
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
+  overrides: overrides.dxfeed,
+  customInputValidation,
 })

@@ -1,6 +1,6 @@
 # CRYPTOCOMPARE
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -29,11 +29,10 @@ Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? |   Name    |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base    | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     |   quote   | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
-|           | transport |                        |          which transport to route to           | string |         |         |            |                |
+| Required? | Name  |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
@@ -65,11 +64,10 @@ There are no examples for this endpoint.
 
 ### Input Params
 
-| Required? |   Name    |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base    | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     |   quote   | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
-|           | transport |                        |          which transport to route to           | string |         |         |            |                |
+| Required? | Name  |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
@@ -83,11 +81,10 @@ There are no examples for this endpoint.
 
 ### Input Params
 
-| Required? |   Name    |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base    | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     |   quote   | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
-|           | transport |                        |          which transport to route to           | string |         |         |            |                |
+| Required? | Name  |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 

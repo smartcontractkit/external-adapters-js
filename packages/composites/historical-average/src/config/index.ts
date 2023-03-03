@@ -13,7 +13,7 @@ export type Config = DefaultConfig & {
 // TODO: adapter implementation types
 export const adapters: AdapterImplementation[] = [CoinMarketCap as unknown as AdapterImplementation]
 
-export type Source = typeof adapters[number]['NAME']
+export type Source = (typeof adapters)[number]['NAME']
 
 export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}

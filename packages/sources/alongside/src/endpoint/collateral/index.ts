@@ -2,6 +2,7 @@ import { Transport, TransportDependencies } from '@chainlink/external-adapter-fr
 import {
   AdapterRequest,
   AdapterResponse,
+  makeLogger,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import CryptoJS from 'crypto-js'
@@ -12,6 +13,8 @@ import { ResponseCache } from '@chainlink/external-adapter-framework/cache/respo
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { Collateral } from './utils'
 import { customSettings } from '../../config'
+
+const logger = makeLogger('AlongsideLogger')
 
 export type EndpointTypes = {
   Request: {
@@ -64,11 +67,13 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
   cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
   responseCache!: ResponseCache<any>
   requester!: Requester
+  name!: string
 
   async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
     this.requester = dependencies.requester
+    this.name = 'default_single_transport'
   }
 
   prepareRequest(type: string, config: AdapterConfig<typeof customSettings>) {
@@ -100,18 +105,21 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const requestTradingBalance = this.prepareRequest('TRADING', config)
     const requestTradingVault = this.prepareRequest('VAULT', config)
-    const collateral = new Collateral(config.INFURA_KEY)
+    const collateral = new Collateral(config.RPC_URL)
     const providerDataRequestedUnixMs = Date.now()
+    logger.debug('Requesting trading balance')
     const tradingBalances = await this.requester.request<ProviderResponseBody>(
       req.id,
       requestTradingBalance,
     )
+    logger.debug('Requesting trading vault')
     const vaultBalances = await this.requester.request<ProviderResponseBody>(
       req.id,
       requestTradingVault,
     )
-
+    logger.debug('Getting asset weights')
     const units = await collateral.getAssetWeights()
+    logger.debug('Calculating minimum collateral')
     const result = collateral.calcMinCollateral(
       tradingBalances.response.data.balances,
       vaultBalances.response.data.balances,
@@ -132,7 +140,7 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
       },
     }
 
-    await this.responseCache.write([
+    await this.responseCache.write(this.name, [
       {
         params: {},
         response,

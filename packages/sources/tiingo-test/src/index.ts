@@ -1,17 +1,27 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import {
+  CryptoPriceEndpoint,
+  PriceAdapter,
+  PriceEndpoint,
+} from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from './config'
 import { crypto, volume, top, eod, iex, forex, vwap } from './endpoint'
 import includes from './config/includes.json'
-import overrides from './config/overrides.json'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: crypto.name,
   name: 'TIINGO',
   customSettings,
-  endpoints: [crypto, volume, top, eod, iex, forex, vwap],
+  endpoints: [
+    crypto as CryptoPriceEndpoint<any>,
+    volume as PriceEndpoint<any>,
+    top as PriceEndpoint<any>,
+    eod,
+    iex,
+    forex,
+    vwap as PriceEndpoint<any>,
+  ],
   includes,
-  overrides: overrides.tiingo,
   rateLimiting: {
     tiers: {
       starter: {

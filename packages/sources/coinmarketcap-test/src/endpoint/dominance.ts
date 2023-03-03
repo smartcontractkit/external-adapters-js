@@ -1,6 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { GlobalEndpointTypes, inputParameters, ResultPath } from '../global-utils'
+import overrides from '../config/overrides.json'
 
 const httpTransport = new HttpTransport<GlobalEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -36,4 +37,5 @@ export const endpoint = new AdapterEndpoint<GlobalEndpointTypes>({
   name: 'dominance',
   transport: httpTransport,
   inputParameters,
+  overrides: overrides.coinmarketcap,
 })

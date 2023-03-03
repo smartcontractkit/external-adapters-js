@@ -1,11 +1,10 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
 
-export const inputParameters: InputParameters = {}
+export const inputParameters = {} satisfies InputParameters
 
 interface CoinsResponse {
   id: string
@@ -15,7 +14,7 @@ interface CoinsResponse {
 
 type EndpointTypes = {
   Request: {
-    Params: EmptyObject
+    Params: unknown
   }
   Response: {
     Data: CoinsResponse[]
