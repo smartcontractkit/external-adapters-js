@@ -17,7 +17,8 @@ export interface ResponseSchema {
   currencyCode: string // 'USD'
 }
 
-export const description = 'Bank balances'
+export const description =
+  "Cash and equivalent balances for Fluent Finance US Plus' reserve accounts"
 
 export type TInputParameters = Record<string, never>
 export const inputParameters: InputParameters<TInputParameters> = {}
