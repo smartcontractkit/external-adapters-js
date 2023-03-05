@@ -1684,7 +1684,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/alongside-adapter@workspace:packages/sources/alongside"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/crypto-js": ^4.1.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -1880,7 +1880,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2057,7 +2057,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-test-adapter@workspace:packages/sources/blocksize-capital-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2227,7 +2227,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-test-adapter@workspace:packages/sources/cfbenchmarks-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2288,7 +2288,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinapi-test-adapter@workspace:packages/sources/coinapi-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.18.0
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2352,7 +2352,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-test-adapter@workspace:packages/sources/coingecko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2400,7 +2400,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-test-adapter@workspace:packages/sources/coinmarketcap-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2432,7 +2432,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-test-adapter@workspace:packages/sources/coinmetrics-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.23.2
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2464,7 +2464,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-test-adapter@workspace:packages/sources/coinpaprika-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2629,7 +2629,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-test-adapter@workspace:packages/sources/cryptocompare-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2727,7 +2727,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dar-adapter@workspace:packages/sources/dar"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2888,7 +2888,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-test-adapter@workspace:packages/sources/dxfeed-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3025,7 +3025,7 @@ __metadata:
     "@apidevtools/json-schema-ref-parser": 9.0.9
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/command-line-args": 5.2.0
     "@types/command-line-usage": 5.0.2
     "@types/jest": 27.5.2
@@ -3248,7 +3248,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3472,40 +3472,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:0.12.0":
-  version: 0.12.0
-  resolution: "@chainlink/external-adapter-framework@npm:0.12.0"
-  dependencies:
-    ajv: 8.11.0
-    axios: 0.27.2
-    eventsource: 2.0.2
-    fastify: 4.7.0
-    ioredis: 5.2.3
-    pino: 8.6.1
-    pino-pretty: 9.1.0
-    prom-client: 13.2.0
-    ws: 8.9.0
-  checksum: f9d04a24e32d3fb89fe58a9e782c193a35028b03a2a29bc84dd86ee810f12f08289e6fa61961730f195e66d3bd1299e2a85a06fd2a939bb0524454670f6a54a4
-  languageName: node
-  linkType: hard
-
-"@chainlink/external-adapter-framework@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@chainlink/external-adapter-framework@npm:0.18.0"
-  dependencies:
-    ajv: 8.11.0
-    axios: 0.27.2
-    eventsource: 2.0.2
-    fastify: 4.9.2
-    ioredis: 5.2.3
-    pino: 8.6.1
-    pino-pretty: 9.1.0
-    prom-client: 13.2.0
-    ws: 8.9.0
-  checksum: 3669a3fe792a2d5e85703e75adc897c2b4c1b49cf47f85d5af9cb3f7838171cd3dea4eca9c73fc5c169d8380855d5ff553d77541993f2cc95bbca6eb18c9e331
-  languageName: node
-  linkType: hard
-
 "@chainlink/external-adapter-framework@npm:0.19.0":
   version: 0.19.0
   resolution: "@chainlink/external-adapter-framework@npm:0.19.0"
@@ -3520,23 +3486,6 @@ __metadata:
     prom-client: 13.2.0
     ws: 8.9.0
   checksum: 081d214d5ae1c88f860600653c6ffc655d890616cae89a7770981daa9f480e314e05705cfcdd8f055c025d188cbbc6e7a056f2db785ef5be49539c6d22f8db7e
-  languageName: node
-  linkType: hard
-
-"@chainlink/external-adapter-framework@npm:0.23.2":
-  version: 0.23.2
-  resolution: "@chainlink/external-adapter-framework@npm:0.23.2"
-  dependencies:
-    ajv: 8.11.0
-    axios: 0.27.2
-    eventsource: 2.0.2
-    fastify: 4.9.2
-    ioredis: 5.2.3
-    pino: 8.6.1
-    pino-pretty: 9.1.0
-    prom-client: 13.2.0
-    ws: 8.9.0
-  checksum: 856ca0129a04d4714668d51495afdf4a2d19abd70fd87c52ef534cebb593f4a4fc58d16356dc50aeafaf62a4f57308c24c1eb82406896718e2f83f508c8b4b39
   languageName: node
   linkType: hard
 
@@ -3557,9 +3506,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/external-adapter-framework@npm:0.26.1":
-  version: 0.26.1
-  resolution: "@chainlink/external-adapter-framework@npm:0.26.1"
+"@chainlink/external-adapter-framework@npm:0.27.0":
+  version: 0.27.0
+  resolution: "@chainlink/external-adapter-framework@npm:0.27.0"
   dependencies:
     ajv: 8.11.0
     axios: 1.3.4
@@ -3570,7 +3519,7 @@ __metadata:
     pino-pretty: 9.1.0
     prom-client: 13.2.0
     ws: 8.9.0
-  checksum: b31a61c4b96574198d1ac57cb7cf49d80339565b24c91c3aa9d77ebe9fbf0142d4db627729c3bc47ede7295ea6c3f43bddf7f95b4499eaf058be2b4f68182e60
+  checksum: f1e7b9534c913bd64dc33db150b6e835570cf27f3609136fa464a49b047c7e48749bd2022c3c37a846f18f946cd4196fcd69eb0ac6a327bb049e2927cef9b7bf
   languageName: node
   linkType: hard
 
@@ -3638,7 +3587,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-test-adapter@workspace:packages/sources/finage-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3750,7 +3699,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3872,7 +3821,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3981,7 +3930,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4067,7 +4016,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-test-adapter@workspace:packages/sources/kaiko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4295,7 +4244,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@polkadot/keyring": 10.4.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -4328,7 +4277,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4344,7 +4293,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.12.0
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4413,7 +4362,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nomics-test-adapter@workspace:packages/sources/nomics-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.23.2
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4428,7 +4377,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/node": 16.11.51
     axios: 0.27.2
     decimal.js: ^10.3.1
@@ -4580,7 +4529,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@polkadot/api": 9.14.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -5097,7 +5046,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-test-adapter@workspace:packages/sources/tiingo-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -5159,7 +5108,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -5223,7 +5172,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/twosigma-adapter@workspace:packages/sources/twosigma"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.26.1
+    "@chainlink/external-adapter-framework": 0.27.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -16446,28 +16395,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:4.7.0":
-  version: 4.7.0
-  resolution: "fastify@npm:4.7.0"
-  dependencies:
-    "@fastify/ajv-compiler": ^3.3.1
-    "@fastify/error": ^3.0.0
-    "@fastify/fast-json-stringify-compiler": ^4.1.0
-    abstract-logging: ^2.0.1
-    avvio: ^8.2.0
-    find-my-way: ^7.2.0
-    light-my-request: ^5.6.1
-    pino: ^8.5.0
-    process-warning: ^2.0.0
-    proxy-addr: ^2.0.7
-    rfdc: ^1.3.0
-    secure-json-parse: ^2.5.0
-    semver: ^7.3.7
-    tiny-lru: ^9.0.2
-  checksum: 76bc9fb37a36623468d99d9bba2b7166199e663d1f9d0b44b731a6c84c6aa298b6c0d29c6e935c5c0cce18df6d60e48a29dca468f7a155caca05d861a875f80f
-  languageName: node
-  linkType: hard
-
 "fastify@npm:4.9.2":
   version: 4.9.2
   resolution: "fastify@npm:4.9.2"
@@ -16649,17 +16576,6 @@ __metadata:
     safe-regex2: ^2.0.0
     semver-store: ^0.3.0
   checksum: 85b8c07d34a36f0203438e0c0f0cdbfaf5e1c521ed2e56f9250bed846ceb0eea074127fad7f70137d61bed56387047f212969cc0ba5d818ed5e37b3e3606c43f
-  languageName: node
-  linkType: hard
-
-"find-my-way@npm:^7.2.0":
-  version: 7.5.0
-  resolution: "find-my-way@npm:7.5.0"
-  dependencies:
-    fast-deep-equal: ^3.1.3
-    fast-querystring: ^1.0.0
-    safe-regex2: ^2.0.0
-  checksum: 25d2ab4af6cc9a22e8f6d41b50d8ee84e8304ceebeb5c0a0951d7d48056cd904cc18d78d0c1675fcea8b56311e7f82e28d19b48715910282fa3cd191d532909e
   languageName: node
   linkType: hard
 
