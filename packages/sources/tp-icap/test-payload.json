@@ -1,6 +1,8 @@
 {
- "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+  "requests": [
+    { "from": "EUR", "to": "USD" },
+    { "from": "GBP", "to": "USD" },
+    { "from": "NZD", "to": "USD" },
+    { "from": "JPY", "to": "USD" }
+  ]
 }

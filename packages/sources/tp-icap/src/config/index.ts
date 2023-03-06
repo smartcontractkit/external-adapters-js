@@ -1,14 +1,19 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
-
-export const NAME = 'EXAMPLE' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
-
-export const DEFAULT_ENDPOINT = 'example'
-export const DEFAULT_BASE_URL = 'http://localhost:18081'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const customSettings = {
+  WS_API_USERNAME: {
+    description: 'API user for WS endpoint',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  WS_API_PASSWORD: {
+    description: 'API password for WS endpoint',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  WS_API_ENDPOINT: {
+    description: 'Endpoint for WS prices',
+    type: 'string',
+    default: 'ws://json.mktdata.portal.apac.parametasolutions.com',
+  },
+} as const

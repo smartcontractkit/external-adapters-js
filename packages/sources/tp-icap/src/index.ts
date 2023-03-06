@@ -1,11 +1,15 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute, endpointSelector } from './adapter'
-import * as endpoints from './endpoint'
-import { makeConfig, NAME } from './config'
-import type * as types from './types'
-import * as rateLimit from './config/limits.json'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { PriceAdapter, PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { priceEndpoint } from './endpoint'
+import { customSettings } from './config'
+import includes from './config/includes.json'
 
-const adapterContext = { name: NAME, rateLimit }
+export const adapter = new PriceAdapter({
+  name: 'TP_ICAP',
+  defaultEndpoint: 'price',
+  customSettings,
+  endpoints: [priceEndpoint as PriceEndpoint<any>],
+  includes,
+})
 
-const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, makeExecute, makeConfig, server, types, endpoints }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
