@@ -1,6 +1,6 @@
 import {
+  CryptoPriceEndpoint,
   EndpointContext,
-  PriceEndpoint,
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
@@ -10,6 +10,8 @@ import axios from 'axios'
 import { customSettings } from '../config'
 
 const logger = makeLogger('ElwoodWsPrice')
+
+const DEFAULT_TRANSPORT_NAME = 'default_single_transport'
 
 export type SubscribeRequest = {
   action: 'subscribe' | 'unsubscribe'
@@ -140,7 +142,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
           const quote = message.symbol.split('-')[1]
           const defaultErrorMsg = `Failed to ${message.action} the ${message.symbol} pair`
           if (error.response) {
-            await this.responseCache.write([
+            await this.responseCache.write(DEFAULT_TRANSPORT_NAME, [
               {
                 params: {
                   base,
@@ -162,7 +164,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
     }
   }
 })()
-export const cryptoEndpoint = new PriceEndpoint({
+export const cryptoEndpoint = new CryptoPriceEndpoint({
   name: 'price',
   aliases: ['crypto'],
   inputParameters: priceEndpointInputParameters,

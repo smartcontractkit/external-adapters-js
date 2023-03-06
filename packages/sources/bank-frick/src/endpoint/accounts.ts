@@ -30,7 +30,7 @@ const logger = makeLogger('BankFrickTransport')
 
 // Note: this is a shallow pattern that only checks for a country code since IBANs in the sandbox are invalid
 const ibanPattern = /^[A-Z]{2}[A-Z\d]{14,30}$/
-const inputParameters: InputParameters = {
+const inputParameters = {
   ibanIDs: {
     description: 'The list of account ids included in the sum of balances',
     required: true,
@@ -44,7 +44,7 @@ const inputParameters: InputParameters = {
     default: 'rsa-sha512',
     options: ['rsa-sha256', 'rsa-sha384', 'rsa-sha512'],
   },
-}
+} satisfies InputParameters
 
 // See here for all expected error returned by the API: https://developers.bankfrick.li/docs#errors
 const AuthErrors: { [key: number]: string } = {
@@ -73,6 +73,7 @@ export type AccountsEndpointTypes = {
  * also has complex retry logic that will attempt to refresh the JWT when certain HTTP errors occur
  */
 export class BankFrickAccountsTransport implements Transport<AccountsEndpointTypes> {
+  name!: string
   // Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
   // Each instance of the EA will have their own token by design
   token!: string
@@ -83,6 +84,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
   async initialize(dependencies: TransportDependencies<AccountsEndpointTypes>): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
+    this.name = 'default_single_transport'
   }
 
   /**

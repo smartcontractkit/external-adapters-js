@@ -1,6 +1,6 @@
 # Fluent Finance Adapter
 
-![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Fluent Finance Adapter for retrieving bank balances
 
@@ -24,7 +24,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ## Balances Endpoint
 
-Bank balances
+Cash and equivalent balances for Fluent Finance US Plus' reserve accounts
 
 `balances` is the only supported name for this endpoint.
 
@@ -34,7 +34,54 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "balances",
+    "resultPath": "availableBalance"
+  },
+  "debug": {
+    "cacheKey": "mWPeRX530scYe1bqbcESGZsXcqY="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "number": "9000000003481",
+        "name": "*Checking Account*",
+        "type": "SAVINGS",
+        "balance": 24681.55,
+        "availableBalance": 24681.55,
+        "active": true,
+        "currencyCode": "USD"
+      },
+      {
+        "number": "9000000003482",
+        "name": "*Checking Account*",
+        "type": "SAVINGS",
+        "balance": 0,
+        "availableBalance": 0,
+        "active": true,
+        "currencyCode": "USD"
+      }
+    ],
+    "result": 24681.55
+  },
+  "result": 24681.55,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

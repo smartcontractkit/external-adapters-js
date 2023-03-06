@@ -12,11 +12,6 @@ export const customSettings = {
     description: 'The websocket url for dxfeed',
     type: 'string',
   },
-  WS_ENABLED: {
-    description: 'Whether data should be returned from websocket or not',
-    type: 'boolean',
-    default: false,
-  },
   API_ENDPOINT: {
     description: 'The API url for dxfeed',
     type: 'string',

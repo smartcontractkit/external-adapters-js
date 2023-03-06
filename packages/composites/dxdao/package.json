@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxdao-adapter",
-  "version": "2.0.17",
+  "version": "2.0.18",
   "description": "Chainlink dxdao adapter.",
   "keywords": [
     "Chainlink",
@@ -39,6 +39,6 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "typescript": "4.7.4"
+    "typescript": "4.9.5"
   }
 }

@@ -2,6 +2,7 @@ import { Builder } from '@chainlink/ea-bootstrap'
 import type { AdapterRequest, APIEndpoint, ConfigFactory } from '@chainlink/ea-bootstrap'
 import { adaptersV2, adaptersV3, makeConfig as makeUpstreamConfig } from './config'
 import { Config } from './types'
+import * as types from '@chainlink/ea-bootstrap'
 import { AdapterImplementation as v2AdapterImplementation } from '@chainlink/ea-bootstrap'
 import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
@@ -43,7 +44,7 @@ function createEndpointMap(
  * - dynamically uses "method" as the endpoint
  */
 
-export const makeEndpointSelector = <C>(
+export const makeEndpointSelector = <C extends types.Config>(
   makeDownstreamConfig: ConfigFactory<C>,
   downstreamEndpoints: Record<string, APIEndpoint<C>>,
   upstreamEndpointName?: string,

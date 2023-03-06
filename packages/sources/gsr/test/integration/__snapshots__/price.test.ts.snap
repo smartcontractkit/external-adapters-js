@@ -8,9 +8,9 @@ Object {
   "result": 1234,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1652198967193,
-    "providerDataStreamEstablished": 1652198967193,
-    "providerIndicatedTime": 1669345393482,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataStreamEstablishedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1669345393482,
   },
 }
 `;

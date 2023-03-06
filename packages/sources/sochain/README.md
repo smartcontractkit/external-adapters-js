@@ -1,6 +1,6 @@
 # Chainlink External Adapters to query address balance from SoChain
 
-![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://sochain.com
 
@@ -44,7 +44,91 @@ Address objects within `addresses` have the following properties:
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "dataPath": "addresses",
+    "confirmations": 3,
+    "addresses": [
+      {
+        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+        "coin": "btc"
+      },
+      {
+        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+        "coin": "btc"
+      }
+    ],
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "AExDilGMUjYLkzTZ2d0iA6PbB40="
+  },
+  "rateLimitMaxAge": 222
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "statusCode": 200,
+  "data": {
+    "responses": [
+      {
+        "status": "success",
+        "data": {
+          "network": "BTC",
+          "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+          "confirmed_balance": "0.00000000",
+          "unconfirmed_balance": null
+        }
+      },
+      {
+        "status": "success",
+        "data": {
+          "network": "BTC",
+          "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+          "confirmed_balance": "0.00002188",
+          "unconfirmed_balance": null
+        }
+      }
+    ],
+    "result": [
+      {
+        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+        "coin": "BTC",
+        "chain": "mainnet",
+        "balance": "0"
+      },
+      {
+        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+        "coin": "BTC",
+        "chain": "mainnet",
+        "balance": "2188"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+      "coin": "BTC",
+      "chain": "mainnet",
+      "balance": "0"
+    },
+    {
+      "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+      "coin": "BTC",
+      "chain": "mainnet",
+      "balance": "2188"
+    }
+  ]
+}
+```
 
 ---
 

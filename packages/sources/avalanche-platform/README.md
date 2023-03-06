@@ -1,6 +1,6 @@
 # Avalanche Platform Adapter
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Chainlink External adapter for reading from the Avalanche Platform chain's API
 
@@ -36,7 +36,47 @@ The balance endpoint will fetch the validator balance of each address in the que
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"
+      }
+    ],
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "SkzkleTHgWIgT8DKedJBufUt5sc="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
+        "balance": "1606136960057"
+      }
+    ]
+  },
+  "result": [
+    {
+      "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
+      "balance": "1606136960057"
+    }
+  ],
+  "statusCode": 200
+}
+```
 
 ---
 

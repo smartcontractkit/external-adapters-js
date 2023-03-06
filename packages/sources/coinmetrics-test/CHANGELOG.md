@@ -1,10 +1,16 @@
 # @chainlink/coinmetrics-test-adapter
 
+## 1.0.8
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+
 ## 1.0.7
 
 ### Patch Changes
 
-- ba2e1b723: Add crypto alias to price endpoint
+- cc835dfef: Add crypto alias to price endpoint
 
 ## 1.0.6
 

@@ -6,6 +6,7 @@ import {
   inputParameters,
 } from '../global-utils'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import overrides from '../config/overrides.json'
 
 const transport = new HttpTransport<GlobalEndpointTypes>({
   prepareRequests: (params, config) => buildGlobalRequestBody(params, config),
@@ -20,4 +21,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['market_cap_percentage'],
   transport,
   inputParameters,
+  overrides: overrides.coingecko,
 })

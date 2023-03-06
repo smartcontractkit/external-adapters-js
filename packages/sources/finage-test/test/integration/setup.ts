@@ -4,7 +4,11 @@ import * as process from 'process'
 import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import {
+  Adapter,
+  CryptoPriceEndpoint,
+  PriceEndpoint,
+} from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
 import { forex, stock, crypto } from '../../src/endpoint'
 import { Server, WebSocket } from 'mock-socket'
@@ -160,9 +164,9 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
 
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
-    name: 'test',
+    name: 'TEST',
     defaultEndpoint: stock.name,
-    endpoints: [stock, forex, crypto],
+    endpoints: [stock, forex as PriceEndpoint<any>, crypto as CryptoPriceEndpoint<any>],
     customSettings,
   })
 }

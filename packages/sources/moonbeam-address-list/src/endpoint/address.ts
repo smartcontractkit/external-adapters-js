@@ -67,6 +67,7 @@ type EndpointTypes = {
 }
 
 export class AddressTransport implements Transport<EndpointTypes> {
+  name!: string
   responseCache!: ResponseCache<{
     Request: EndpointTypes['Request']
     Response: EndpointTypes['Response']
@@ -74,6 +75,7 @@ export class AddressTransport implements Transport<EndpointTypes> {
 
   async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
     this.responseCache = dependencies.responseCache
+    this.name = 'default_single_transport'
   }
 
   async foregroundExecute(
@@ -115,7 +117,7 @@ export class AddressTransport implements Transport<EndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.responseCache.write([{ params: req.requestContext.data, response }])
+    await this.responseCache.write(this.name, [{ params: req.requestContext.data, response }])
     return response
   }
 }
