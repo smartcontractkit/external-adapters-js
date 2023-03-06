@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.68
+
+### Patch Changes
+
+- Updated dependencies [1b221edfe]
+- Updated dependencies [cc6723d78]
+  - @chainlink/cfbenchmarks-test-adapter@1.2.0
+  - @chainlink/fluent-finance-adapter@2.0.2
+
 ## 1.3.67
 
 ### Patch Changes

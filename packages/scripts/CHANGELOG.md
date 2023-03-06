@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.5.2
+
+### Patch Changes
+
+- be1c06256: Added outlier-detection to the soak test blacklist
+
 ## 2.5.1
 
 ### Patch Changes
