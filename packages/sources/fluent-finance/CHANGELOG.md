@@ -1,5 +1,11 @@
 # @chainlink/fluent-finance-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- cc6723d78: Updated endpoint description
+
 ## 2.0.1
 
 ### Patch Changes
