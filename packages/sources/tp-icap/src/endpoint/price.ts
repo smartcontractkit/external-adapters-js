@@ -61,7 +61,7 @@ const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
 
         if (!isNum(MID_PRICE) && !(isNum(BID) && isNum(ASK))) {
           const errorMessage = 'TP ICAP `sub` message did not include required price fields'
-          logger.debug({ errorMessage, message })
+          logger.debug({ errorMessage })
           return []
         }
 
