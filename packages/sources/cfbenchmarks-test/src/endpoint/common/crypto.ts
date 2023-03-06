@@ -1,9 +1,8 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import {
-  PriceEndpoint,
+  CryptoPriceEndpoint,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import {
   AdapterRequest,
   SingleNumberResultResponse,
@@ -17,7 +16,7 @@ import { getIdFromBaseQuote } from '../../utils'
 export type Params = { index?: string; base?: string; quote?: string }
 type RequestParams = { Params: Params }
 
-const inputParameters: InputParameters & PriceEndpointInputParameters = {
+const inputParameters = {
   index: {
     description: 'The ID of the index. Takes priority over base/quote when provided.',
     type: 'string',
@@ -35,7 +34,7 @@ const inputParameters: InputParameters & PriceEndpointInputParameters = {
     description: 'The symbol of the currency to convert to',
     required: false,
   },
-}
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export type EndpointTypes = {
   Request: RequestParams
@@ -74,29 +73,26 @@ export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void
   delete req.requestContext.data.quote
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    rest: makeRestTransport('primary'),
-    restSecondary: makeRestTransport('secondary'),
-    websocket: makeWsTransport('primary'),
-    websocketSecondary: makeWsTransport('secondary'),
-  },
-  (_, config) => {
-    if (config.API_SECONDARY) {
-      if (config.WS_ENABLED) return 'websocketSecondary'
-      return 'restSecondary'
-    }
+export const requestTransforms = [cryptoRequestTransform]
 
-    if (config.WS_ENABLED) return 'websocket'
-    return 'rest'
-  },
-)
-
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
   aliases: ['values', 'price'], // Legacy aliases
-  transport: routingTransport,
   inputParameters,
+  requestTransforms,
+  transports: {
+    rest: makeRestTransport('primary'),
+    restsecondary: makeRestTransport('secondary'),
+    ws: makeWsTransport('primary'),
+    wssecondary: makeWsTransport('secondary'),
+  },
+  defaultTransport: 'rest',
+  customRouter: (req, adapterConfig) => {
+    if (adapterConfig.API_SECONDARY) {
+      if (req.requestContext.transportName === 'ws') return 'wssecondary'
+      return 'restsecondary'
+    } else {
+      return req.requestContext.transportName
+    }
+  },
 })
-
-export const requestTransforms = [cryptoRequestTransform]

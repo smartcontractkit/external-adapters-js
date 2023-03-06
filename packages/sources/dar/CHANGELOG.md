@@ -1,5 +1,23 @@
 # @chainlink/dar-adapter
 
+## 1.0.6
+
+### Patch Changes
+
+- 65014014d: Bumped v3 framework version. Upgraded typescript to version 4.9.5
+
+## 1.0.5
+
+### Patch Changes
+
+- 1c265300c: Upgrade framework and set CACHE_MAX_AGE override in DAR
+
+## 1.0.4
+
+### Patch Changes
+
+- 59c4a2ee4: Bumped v3 framework version
+
 ## 1.0.3
 
 ### Patch Changes

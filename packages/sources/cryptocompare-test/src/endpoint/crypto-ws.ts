@@ -56,30 +56,70 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
         })
       })
     },
-    message(message): ProviderResult<WsEndpointTypes>[] | undefined {
+    message(message): ProviderResult<WsEndpointTypes>[] {
       logger.trace(message, 'Got response from websocket')
-      if (message.TYPE === '5' && 'PRICE' in message) {
+
+      if (message.MESSAGE === 'INVALID_SUB') {
+        // message.PARAMETER looks like 5~CCCAGG~BASE~QUOTE
+        const parameters = (message as WSErrorType).PARAMETER.split('~')
+        const base = parameters[2]
+        const quote = parameters[3]
+        logger.error(message, 'asset not supported by data provider')
         return [
           {
-            params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL, endpoint: 'crypto-ws' },
-            value: message.PRICE as number,
+            params: { base, quote },
+            response: {
+              errorMessage: `Requested asset - ${base}/${quote} is not supported or there is no price for it.`,
+              statusCode: 502,
+            },
           },
         ]
       }
-      if (message.MESSAGE === 'INVALID_SUB') {
-        // TODO: Add error response here once supported by EA framework
-        logger.error(message, 'asset not supported by data provider')
-        return
+
+      if (message.TYPE === '5' && !('PRICE' in message)) {
+        // message.PARAMETER looks like 5~CCCAGG~BASE~QUOTE
+        const parameters = (message as WSErrorType).PARAMETER.split('~')
+        const base = parameters[2]
+        const quote = parameters[3]
+        logger.error(message, 'price not provided')
+        return [
+          {
+            params: { base, quote },
+            response: {
+              errorMessage: `Cryptocompare provided no price data for ${base}/${quote}`,
+              statusCode: 502,
+            },
+          },
+        ]
       }
-      return
+
+      if (message.TYPE === '5') {
+        message = message as WSSuccessType
+        return [
+          {
+            params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL },
+            response: {
+              result: message.PRICE as number,
+              data: {
+                result: message.PRICE as number,
+              },
+            },
+          },
+        ]
+      }
+
+      return []
     },
   },
   builders: {
     subscribeMessage: (params) => {
-      return { action: 'SubAdd', subs: [`5~CCCAGG~${params.base}~${params.quote}`] }
+      return { action: 'SubAdd', subs: [`5~CCCAGG~${params.base}~${params.quote}`.toUpperCase()] }
     },
     unsubscribeMessage: (params) => {
-      return { action: 'SubRemove', subs: [`5~CCCAGG~${params.base}~${params.quote}`] }
+      return {
+        action: 'SubRemove',
+        subs: [`5~CCCAGG~${params.base}~${params.quote}`.toUpperCase()],
+      }
     },
   },
 })

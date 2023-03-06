@@ -1,5 +1,21 @@
 # @chainlink/coinranking-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 2.0.0
+
+### Major Changes
+
+- 5258e1166: Added totalMarketCap endpoint to coinranking
+
 ## 1.3.19
 
 ### Patch Changes

@@ -1,5 +1,57 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.16.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.28
+  - @chainlink/por-indexer-adapter@1.2.39
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/reduce-adapter@1.4.15
+  - @chainlink/ada-balance-adapter@2.5.28
+  - @chainlink/amberdata-adapter@1.8.21
+  - @chainlink/avalanche-platform-adapter@1.0.1
+  - @chainlink/blockchain.com-adapter@1.3.28
+  - @chainlink/blockchair-adapter@1.3.28
+  - @chainlink/blockcypher-adapter@1.4.28
+  - @chainlink/btc.com-adapter@1.3.28
+  - @chainlink/celsius-address-list-adapter@2.0.12
+  - @chainlink/chain-reserve-wallet-adapter@3.0.12
+  - @chainlink/cryptoapis-adapter@1.2.28
+  - @chainlink/eth-balance-adapter@2.0.12
+  - @chainlink/eth-beacon-adapter@1.3.4
+  - @chainlink/gemini-adapter@2.2.28
+  - @chainlink/lotus-adapter@2.2.28
+  - @chainlink/por-address-list-adapter@4.0.11
+  - @chainlink/renvm-address-set-adapter@1.5.30
+  - @chainlink/sochain-adapter@1.3.28
+  - @chainlink/stader-address-list-adapter@1.2.4
+  - @chainlink/swell-address-list-adapter@1.0.11
+  - @chainlink/wbtc-address-set-adapter@1.4.39
+  - @chainlink/wrapped-adapter@2.2.28
+  - @chainlink/moonbeam-address-list-adapter@1.0.1
+  - @chainlink/polkadot-balance-adapter@1.0.1
+
+## 1.16.0
+
+### Minor Changes
+
+- dee6d49a3: Added mooonbeam-address-list protocol adapter. Added polkadot-balance adapter.
+
+### Patch Changes
+
+- Updated dependencies [dee6d49a3]
+  - @chainlink/moonbeam-address-list-adapter@1.0.0
+  - @chainlink/polkadot-balance-adapter@1.0.0
+  - @chainlink/por-indexer-adapter@1.2.38
+  - @chainlink/renvm-address-set-adapter@1.5.29
+  - @chainlink/wbtc-address-set-adapter@1.4.38
+
 ## 1.15.0
 
 ### Minor Changes

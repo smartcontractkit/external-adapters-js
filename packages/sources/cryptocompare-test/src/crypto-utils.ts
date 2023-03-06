@@ -1,6 +1,13 @@
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings, defaultEndpoint } from './config'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { customSettings } from './config'
+import {
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+export const logger = makeLogger('CryptoCompare HTTP')
 
 export const cryptoInputParams = {
   base: {
@@ -15,23 +22,9 @@ export const cryptoInputParams = {
     required: true,
     type: 'string',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
-export const endpoints = ['crypto-ws', 'price', 'volume', 'marketcap']
-export const endpointOptions = [defaultEndpoint, ...endpoints]
-
-export const cryptoEndpointInputParams = {
-  ...cryptoInputParams,
-  endpoint: {
-    default: defaultEndpoint,
-    options: endpointOptions,
-    type: 'string',
-  },
-} as const
-
-export type CryptoEndpointParams = PriceEndpointParams & {
-  endpoint: string
-}
+export type CryptoEndpointParams = PriceEndpointParams
 
 export interface ProviderCryptoQuoteData {
   TYPE: string
@@ -143,4 +136,131 @@ export type CryptoEndpointTypes = {
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
+}
+
+export type BatchEndpointTypes = {
+  Request: {
+    Params: CryptoEndpointParams
+  }
+  Response: SingleNumberResultResponse
+  CustomSettings: typeof customSettings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderCryptoResponseBody
+  }
+}
+
+// Cryptocompare has limits for `fsyms` and `tsyms` query params. 1000 characters for `fsyms` and 100 for `tsyms`. We create N number of chunks based on actual lengths of params.
+const chunkByParamsLength = (
+  params: CryptoEndpointParams[],
+  maxBatchBaseLength = 200,
+  maxBatchQuoteLength = 100,
+) => {
+  const uniqueParams: { bases: string[]; quotes: string[] } = { bases: [], quotes: [] }
+  const result: CryptoEndpointParams[][] = []
+  let temp: CryptoEndpointParams[] = []
+  const TICKER_MAX_LENGTH = 5
+  params.forEach((pair) => {
+    // Here we assume that the maximum ticker size is 5. We subtract it to be safe that we don't exceed the limit even when the last ticker has the maximum allowed length.  We also subtract the last comma.
+    const baseLimit = maxBatchBaseLength - TICKER_MAX_LENGTH - 1
+    const quoteLimit = maxBatchQuoteLength - TICKER_MAX_LENGTH - 1
+
+    // If we are over limit for either base or quote we save those in result and clean current values for next iteration
+    if (
+      uniqueParams.quotes.join(',').length > baseLimit ||
+      uniqueParams.bases.join(',').length > quoteLimit
+    ) {
+      result.push(temp)
+      uniqueParams.bases = []
+      uniqueParams.quotes = []
+      temp = []
+    }
+
+    if (!uniqueParams.quotes.includes(pair.quote.toUpperCase())) {
+      uniqueParams.quotes.push(pair.quote.toUpperCase())
+    }
+
+    if (!uniqueParams.bases.includes(pair.base.toUpperCase())) {
+      uniqueParams.bases.push(pair.base.toUpperCase())
+    }
+
+    temp.push(pair)
+  })
+  // Add remaining params to the result (this will always be lower than actual limits)
+  result.push(temp)
+
+  return result
+}
+
+export const buildBatchedRequestBody = (
+  params: CryptoEndpointParams[],
+  config: AdapterConfig<typeof customSettings>,
+) => {
+  const chunkedMatrix = chunkByParamsLength(params)
+
+  return chunkedMatrix.map((cParams) => {
+    return {
+      params: cParams,
+      request: {
+        baseURL: config.API_ENDPOINT,
+        url: '/data/pricemultifull',
+        headers: {
+          authorization: `Apikey ${config.API_KEY}`,
+        },
+        params: {
+          fsyms: [...new Set(cParams.map((p) => p.base.toUpperCase()))].join(','),
+          tsyms: [...new Set(cParams.map((p) => p.quote.toUpperCase()))].join(','),
+        },
+      },
+    }
+  })
+}
+
+const errorResponse = (payload: CryptoEndpointParams, message?: string) => {
+  return {
+    params: payload,
+    response: {
+      statusCode: 400,
+      errorMessage:
+        message ||
+        'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+    },
+  }
+}
+
+export const constructEntry = (
+  requestPayload: CryptoEndpointParams,
+  res: ProviderCryptoResponseBody,
+  resultPath: keyof Pick<ProviderCryptoQuoteData, 'PRICE' | 'MKTCAP' | 'VOLUME24HOURTO'>,
+) => {
+  const dataForCoin = res.RAW[requestPayload.base.toUpperCase()]
+  if (!dataForCoin) {
+    const message = `Data for "${requestPayload.base}" not found`
+    logger.warn(message)
+    return errorResponse(requestPayload, message)
+  }
+
+  const dataForQuote = dataForCoin[requestPayload.quote.toUpperCase()]
+  if (!dataForQuote) {
+    const message = `"${requestPayload.quote}" quote for "${requestPayload.base}" not found`
+    logger.warn(message)
+    return errorResponse(requestPayload, message)
+  }
+
+  const value = dataForQuote[resultPath]
+  if (!value) {
+    const message = `No result for "${resultPath}" found for "${requestPayload.base}/${requestPayload.quote}"`
+    logger.warn(message)
+    return errorResponse(requestPayload, message)
+  }
+
+  return {
+    params: requestPayload,
+    response: {
+      result: value,
+      data: {
+        result: value,
+      },
+    },
+  }
 }

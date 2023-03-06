@@ -3,7 +3,12 @@ import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import { mockResponseSuccess, mockSubscribeResponse, mockUnsubscribeResponse } from './fixtures'
+import {
+  mockResponseSuccess,
+  mockSubscribeResponse,
+  mockUnsubscribeResponse,
+  mockBircResponseSuccess,
+} from './fixtures'
 import { AddressInfo } from 'net'
 import {
   mockWebSocketProvider,
@@ -39,6 +44,26 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('birc endpoint', () => {
+    const data: AdapterRequest = {
+      id,
+      data: { endpoint: 'birc', tenor: 'SIRB' },
+    }
+
+    it('should return success', async () => {
+      mockBircResponseSuccess()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')

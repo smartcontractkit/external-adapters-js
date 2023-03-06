@@ -3,7 +3,7 @@ import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockMoonSuccess } from './fixtures'
+import { mockSuccess } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
@@ -35,14 +35,14 @@ describe('execute', () => {
     fastify.close(done)
   })
 
-  describe('price api', () => {
+  describe('balance api', () => {
     const data: AdapterRequest = {
       id,
       data: {},
     }
 
     it('should return success', async () => {
-      mockMoonSuccess()
+      mockSuccess()
 
       const response = await req
         .post('/')

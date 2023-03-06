@@ -1,5 +1,21 @@
 # @chainlink/anyblock-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 2.0.0
+
+### Major Changes
+
+- ea84ea751: Anyblock adapter using Blockdaemon API as datasource now. This requires a Blockdaemon API key. See adapter README.md
+
 ## 1.4.27
 
 ### Patch Changes

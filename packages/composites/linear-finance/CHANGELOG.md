@@ -1,5 +1,21 @@
 # @chainlink/linear-finance-adapter
 
+## 2.3.26
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/token-allocation-adapter@1.9.3
+
+## 2.3.25
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.2
+
 ## 2.3.24
 
 ### Patch Changes
