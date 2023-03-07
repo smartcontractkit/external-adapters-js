@@ -7090,14 +7090,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.12.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.12.0-73e28ca792-f9d04a24e3.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.12.1", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.12.1-f6079581d2-3547c5d4b7.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.12.1"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.7.0"],\
+            ["fastify", "npm:4.9.2"],\
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
@@ -8050,7 +8050,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/nft-blue-chip/",\
           "packageDependencies": [\
             ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.12.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -21767,27 +21767,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:4.7.0", {\
-          "packageLocation": "./.yarn/cache/fastify-npm-4.7.0-7e1cc46a76-76bc9fb37a.zip/node_modules/fastify/",\
-          "packageDependencies": [\
-            ["fastify", "npm:4.7.0"],\
-            ["@fastify/ajv-compiler", "npm:3.3.1"],\
-            ["@fastify/error", "npm:3.0.0"],\
-            ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
-            ["abstract-logging", "npm:2.0.1"],\
-            ["avvio", "npm:8.2.0"],\
-            ["find-my-way", "npm:7.5.0"],\
-            ["light-my-request", "npm:5.6.1"],\
-            ["pino", "npm:8.6.1"],\
-            ["process-warning", "npm:2.0.0"],\
-            ["proxy-addr", "npm:2.0.7"],\
-            ["rfdc", "npm:1.3.0"],\
-            ["secure-json-parse", "npm:2.5.0"],\
-            ["semver", "npm:7.3.8"],\
-            ["tiny-lru", "npm:9.0.3"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:4.9.2", {\
           "packageLocation": "./.yarn/cache/fastify-npm-4.9.2-b0699ef254-78d931a569.zip/node_modules/fastify/",\
           "packageDependencies": [\
@@ -21966,16 +21945,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/find-my-way-npm-7.4.0-020f2aca85-8f01b63c28.zip/node_modules/find-my-way/",\
           "packageDependencies": [\
             ["find-my-way", "npm:7.4.0"],\
-            ["fast-deep-equal", "npm:3.1.3"],\
-            ["fast-querystring", "npm:1.0.0"],\
-            ["safe-regex2", "npm:2.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:7.5.0", {\
-          "packageLocation": "./.yarn/cache/find-my-way-npm-7.5.0-f7702d6e80-25d2ab4af6.zip/node_modules/find-my-way/",\
-          "packageDependencies": [\
-            ["find-my-way", "npm:7.5.0"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["fast-querystring", "npm:1.0.0"],\
             ["safe-regex2", "npm:2.0.0"]\
