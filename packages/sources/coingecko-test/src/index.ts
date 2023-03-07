@@ -1,6 +1,5 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import overrides from './config/overrides.json'
 import {
   coins,
   crypto,
@@ -16,7 +15,6 @@ export const adapter = new PriceAdapter({
   name: 'COINGECKO',
   endpoints: [crypto, coins, cryptoMarketcap, cryptoVolume, dominance, globalMarketcap],
   customSettings,
-  overrides: overrides['coingecko'],
   rateLimiting: {
     tiers: {
       free: {

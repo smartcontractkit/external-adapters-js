@@ -6,14 +6,14 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const logger = makeLogger('CoinPaprika Global Batched')
 
-export const inputParameters: InputParameters = {
+export const inputParameters = {
   market: {
     aliases: ['to', 'quote'],
     description: 'The symbol of the currency to convert to',
     required: true,
     type: 'string',
   },
-}
+} satisfies InputParameters
 
 export interface GlobalRequestParams {
   market: string

@@ -40,9 +40,4 @@ export const customSettings = {
     required: false,
     default: 'wss://unregprod.cfbenchmarks.com/ws/v4',
   },
-  WS_ENABLED: {
-    description: 'Toggle to set the default endpoint to use WebSockets',
-    type: 'boolean',
-    required: false,
-  },
 } as const

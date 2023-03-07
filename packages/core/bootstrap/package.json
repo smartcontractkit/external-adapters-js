@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-bootstrap",
-  "version": "2.25.2",
+  "version": "2.26.0",
   "description": "Bootstrap an external adapter with this package",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -58,6 +58,6 @@
     "@types/ws": "7.4.7",
     "mock-socket": "9.1.5",
     "sinon": "14.0.0",
-    "typescript": "4.7.4"
+    "typescript": "4.9.5"
   }
 }

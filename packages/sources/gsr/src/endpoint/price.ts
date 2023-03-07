@@ -5,7 +5,7 @@ import {
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import {
-  PriceEndpoint,
+  CryptoPriceEndpoint,
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
@@ -120,7 +120,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
               result: message.data.price,
             },
             timestamps: {
-              providerIndicatedTime: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
+              providerIndicatedTimeUnixMs: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
             },
           },
         },
@@ -141,7 +141,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
   },
 })
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['price-ws', 'crypto'],
   transport: wsTransport,

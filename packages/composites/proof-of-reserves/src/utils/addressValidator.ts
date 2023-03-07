@@ -22,19 +22,18 @@ export const getValidAddresses = (
 ): AdapterResponse => {
   const validatedInput = { ...protocolOutput }
   if (!util.parseBool(validator.validated.data.disableAddressValidation)) {
-    validatedInput.result = validateAddresses(
+    validatedInput.data.result = validateAddresses(
       validator.validated.id,
       validator.validated.data.indexer,
-      validatedInput.result as any,
+      validatedInput.data.result as any,
     ) as any
   }
   if (!util.parseBool(validator.validated.data.disableDuplicateAddressFiltering)) {
-    validatedInput.result = filterDuplicates(
+    validatedInput.data.result = filterDuplicates(
       validator.validated.id,
-      validatedInput.result as any,
+      validatedInput.data.result as any,
     ) as any
   }
-  validatedInput.data.result = validatedInput.result
   return validatedInput
 }
 

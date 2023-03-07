@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.55.0",
+  "version": "1.60.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -39,9 +39,9 @@
     "framework-bump": "./packages/scripts/src/framework/version-bump.sh"
   },
   "dependencies": {
-    "@babel/core": "7.18.13",
-    "@babel/preset-env": "7.18.10",
-    "@babel/preset-typescript": "7.17.12",
+    "@babel/core": "7.21.0",
+    "@babel/preset-env": "7.20.2",
+    "@babel/preset-typescript": "7.21.0",
     "@changesets/cli": "2.18.1",
     "@types/jest": "27.5.2",
     "@typescript-eslint/eslint-plugin": "4.33.0",
@@ -59,10 +59,10 @@
     "@types/node": "16.11.51",
     "husky": "7.0.4",
     "lint-staged": "11.2.6",
-    "prettier": "2.7.1",
+    "prettier": "2.8.4",
     "source-map-support": "0.5.21",
     "ts-node": "10.9.1",
-    "typescript": "4.7.4"
+    "typescript": "4.9.5"
   },
   "prettier": {
     "semi": false,
@@ -75,7 +75,7 @@
   "lint-staged": {
     "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
   },
-  "packageManager": "yarn@3.2.3",
+  "packageManager": "yarn@3.4.1",
   "resolutions": {
     "ethereum-cryptography@^1.1.2": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch",
     "ethereum-cryptography@^1.0.3": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch"

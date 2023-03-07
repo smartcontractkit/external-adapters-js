@@ -1,9 +1,14 @@
 import { customSettings } from '../config'
 import { httpTransport } from './http/crypto'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  CryptoPriceEndpoint,
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './ws/crypto-ws'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
 
 export const inputParameters = {
   base: {
@@ -18,7 +23,7 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 interface ResponseSchema {
   symbol: string
@@ -27,9 +32,11 @@ interface ResponseSchema {
   error?: string
 }
 
+export type CryptoEndpointParams = PriceEndpointParams
+
 export type EndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: CryptoEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -39,16 +46,13 @@ export type EndpointTypes = {
   }
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    WS: wsTransport,
-    HTTP: httpTransport,
-  },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
-)
-
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
-  transport: routingTransport,
+  transports: {
+    ws: wsTransport,
+    rest: httpTransport,
+  },
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
+  overrides: overrides.finage,
 })

@@ -1,5 +1,53 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.2.69
+
+### Patch Changes
+
+- @chainlink/ea@1.3.68
+
+## 1.2.68
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea@1.3.67
+  - @chainlink/ea-reference-data-reader@1.3.27
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.67
+
+### Patch Changes
+
+- @chainlink/ea@1.3.66
+
+## 1.2.66
+
+### Patch Changes
+
+- @chainlink/ea@1.3.65
+
+## 1.2.65
+
+### Patch Changes
+
+- @chainlink/ea@1.3.64
+
+## 1.2.64
+
+### Patch Changes
+
+- @chainlink/ea@1.3.63
+
+## 1.2.63
+
+### Patch Changes
+
+- @chainlink/ea@1.3.62
+
 ## 1.2.62
 
 ### Patch Changes

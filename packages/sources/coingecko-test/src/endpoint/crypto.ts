@@ -1,23 +1,25 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import {
   buildBatchedRequestBody,
   constructEntry,
   CryptoEndpointTypes,
   cryptoInputParams,
 } from '../crypto-utils'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import overrides from '../config/overrides.json'
 
-const batchEndpointTransport = new BatchWarmingTransport<CryptoEndpointTypes>({
-  prepareRequest: (params, config) => buildBatchedRequestBody(params, config),
+const transport = new HttpTransport<CryptoEndpointTypes>({
+  prepareRequests: (params, config) => buildBatchedRequestBody(params, config),
   parseResponse: (params, res) =>
     params.map((requestPayload) =>
-      constructEntry(res, requestPayload, requestPayload.quote.toLowerCase()),
+      constructEntry(res.data, requestPayload, requestPayload.quote.toLowerCase()),
     ),
 })
 
-export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<CryptoEndpointTypes>({
   name: 'crypto',
-  aliases: ['crypto-batched', 'batched', 'batch'],
-  transport: batchEndpointTransport,
+  aliases: ['crypto-batched', 'batched', 'batch', 'price'],
+  transport,
   inputParameters: cryptoInputParams,
+  overrides: overrides.coingecko,
 })
