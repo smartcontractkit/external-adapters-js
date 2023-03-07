@@ -1,27 +1,23 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { AdapterDependencies } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { RateLimiter } from '@chainlink/external-adapter-framework/rate-limiting'
+import {
+  Transport,
+  TransportDependencies,
+  TransportGenerics,
+} from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   AdapterResponse,
   makeLogger,
-  sleep,
 } from '@chainlink/external-adapter-framework/util'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
-import { RequestRateLimiter } from '@chainlink/external-adapter-framework/rate-limiting'
-import * as rateLimitMetrics from '@chainlink/external-adapter-framework/rate-limiting/metrics'
-import { Transport, TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 
-import { ethers } from 'ethers'
 import { Decimal } from 'decimal.js'
+import { ethers } from 'ethers'
 
-import { customSettings } from '../config'
 import BoredApeYachtClub from '../abi/BoredApeYachtClub.json'
 import EACAggregatorProxy from '../abi/EACAggregatorProxy.json'
+import { config } from '../config'
 
 const logger = makeLogger('MarketcapTransport')
-
-const RPC_COST = 1
 
 const RPC_CHAIN_ID = 1 // Ethereum mainnet chain - NFT collections are tied to this
 
@@ -92,7 +88,7 @@ export type MarketcapTransportGenerics = TransportGenerics & {
     RequestBody: unknown
     ResponseBody: unknown
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 export interface MarketcapTransportConfig {
@@ -106,93 +102,25 @@ export interface MarketcapTransportConfig {
 
 // Much of the code in this transport is borrowed from the framework's RestTransport as an example
 export class MarketcapTransport implements Transport<MarketcapTransportGenerics> {
-  inFlightPrefix!: string
-  cache!: Cache<AdapterResponse<MarketcapTransportGenerics['Response']>>
-  inFlightCache!: Cache<boolean>
-  rateLimiter!: RequestRateLimiter
+  name = 'marketcap'
+  responseCache!: TransportDependencies<MarketcapTransportGenerics>['responseCache']
+  rateLimiter!: RateLimiter
 
   constructor(protected config: MarketcapTransportConfig) {}
 
-  async initialize(
-    dependencies: AdapterDependencies,
-    config: AdapterConfig<MarketcapTransportGenerics['CustomSettings']>,
-  ): Promise<void> {
-    this.inFlightPrefix = 'InFlight-'
-    this.cache = dependencies.cache as Cache<
-      AdapterResponse<MarketcapTransportGenerics['Response']>
-    >
-    this.inFlightCache = dependencies.cache as Cache<boolean>
-    this.rateLimiter = dependencies.requestRateLimiter
-
-    this.config.options.requestCoalescing.enabled = config.REQUEST_COALESCING_ENABLED
-    this.config.options.requestCoalescing.entropyMax = config.REQUEST_COALESCING_ENTROPY_MAX
-  }
-
-  protected async waitUntilUnderRateLimit(
-    options: {
-      maxRetries: number
-      msBetweenRetries: number
-    },
-    retry = 0,
-  ): Promise<void> {
-    if (this.rateLimiter.isUnderLimits()) {
-      logger.trace('Incoming request would not be under limits, moving on')
-      return
-    }
-
-    if (retry >= options.maxRetries) {
-      throw new AdapterError({
-        statusCode: 504,
-        message: `Marketcap Transport timed out while waiting for rate limit availability (max retries: ${options.maxRetries})`,
-      })
-    }
-
-    logger.debug(`Request would be over rate limits, sleeping for ${options.msBetweenRetries}`)
-    await sleep(options.msBetweenRetries)
-    await this.waitUntilUnderRateLimit(options, retry + 1)
+  async initialize(dependencies: TransportDependencies<MarketcapTransportGenerics>): Promise<void> {
+    this.responseCache = dependencies.responseCache
+    this.rateLimiter = dependencies.rateLimiter
   }
 
   async foregroundExecute(
     req: AdapterRequest<MarketcapTransportGenerics['Request']>,
-    config: AdapterConfig<MarketcapTransportGenerics['CustomSettings']>,
+    settings: typeof config.settings,
   ): Promise<AdapterResponse<MarketcapTransportGenerics['Response']> | undefined> {
-    // Add some entropy here because of possible scenario where the key won't be set before multiple
-    // other instances in a burst request try to access the coalescing key.
-    const randomMs = Math.random() * (this.config.options.requestCoalescing.entropyMax || 0)
-    await sleep(randomMs)
-
-    // Check if request is in flight if coalescing is enabled
-    const inFlight =
-      this.config.options.requestCoalescing.enabled &&
-      (await this.cache.get(this.inFlightPrefix + req.requestContext.cacheKey))
-    if (inFlight) {
-      logger.debug('Request is in flight, transport has been set up')
-      return
-    } else if (this.config.options.requestCoalescing.enabled) {
-      // If it wasn't in flight and coalescing is disabled, register it as in flight
-      const ttl =
-        config.MARKETCAP_TRANSPORT_MAX_RATE_LIMIT_RETRIES *
-        config.MARKETCAP_TRANSPORT_MS_BETWEEN_RATE_LIMIT_RETRIES
-      logger.debug('Setting up rest transport, setting request in flight in cache')
-      await this.inFlightCache.set(
-        this.inFlightPrefix + req.requestContext.cacheKey,
-        true,
-        ttl + 100,
-      ) // Can't use Infinity for things like Redis
-    }
-
-    logger.trace('Check if we are under rate limits to perform request')
-    const checkForRateLimit = async () => {
-      return this.waitUntilUnderRateLimit({
-        maxRetries: config.MARKETCAP_TRANSPORT_MAX_RATE_LIMIT_RETRIES,
-        msBetweenRetries: config.MARKETCAP_TRANSPORT_MS_BETWEEN_RATE_LIMIT_RETRIES,
-      })
-    }
-    await checkForRateLimit()
-
-    const provider = new ethers.providers.JsonRpcProvider(config.ETHEREUM_RPC_URL, RPC_CHAIN_ID)
+    const provider = new ethers.providers.JsonRpcProvider(settings.ETHEREUM_RPC_URL, RPC_CHAIN_ID)
 
     logger.trace('Fetch all collection data async')
+    const providerDataRequestedUnixMs = Date.now()
 
     const collectionDataPromises = Promise.all(
       NFT_COLLECTIONS.map((collection) => {
@@ -254,36 +182,20 @@ export class MarketcapTransport implements Transport<MarketcapTransportGenerics>
         result: totalMarketcapUsd,
       },
       result: totalMarketcapUsd,
-    }
-
-    if (config.METRICS_ENABLED && config.EXPERIMENTAL_METRICS_ENABLED) {
-      response.maxAge = Date.now() + config.CACHE_MAX_AGE
-      response.meta = {
-        metrics: { feedId: req.requestContext.meta?.metrics?.feedId || 'N/A' },
-      }
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
     }
 
     logger.debug('Set computed response in cache')
-    await this.cache.set(req.requestContext.cacheKey, response, config.CACHE_MAX_AGE)
-
-    logger.trace('Record cost of data provider call')
-    rateLimitMetrics.rateLimitCreditsSpentTotal
-      .labels({
-        feed_id: req.requestContext.meta?.metrics?.feedId || 'N/A',
-        participant_id: req.requestContext.cacheKey,
-      })
-      .inc(RPC_COST)
-
-    logger.trace('Update cacheHit flag in request meta for metrics use')
-    req.requestContext.meta = {
-      ...req.requestContext.meta,
-      metrics: { ...req.requestContext.meta?.metrics, cacheHit: false },
-    }
-
-    if (this.config.options.requestCoalescing.enabled) {
-      logger.debug('Set computed response in cache, remove in flight from cache')
-      await this.cache.delete(this.inFlightPrefix)
-    }
+    await this.responseCache.write(this.name, [
+      {
+        params: req.requestContext.data,
+        response,
+      },
+    ])
 
     return response
   }

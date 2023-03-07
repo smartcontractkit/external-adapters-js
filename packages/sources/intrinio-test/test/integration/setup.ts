@@ -1,14 +1,13 @@
-import request, { SuperTest, Test } from 'supertest'
-import { AddressInfo } from 'net'
-import * as process from 'process'
-import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { Server, WebSocket } from 'mock-socket'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { Server, WebSocket } from 'mock-socket'
+import { AddressInfo } from 'net'
+import * as nock from 'nock'
+import * as process from 'process'
+import request, { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
 import { endpoint } from '../../src/endpoint/price-router'
-import { customSettings } from '../../src/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -96,12 +95,12 @@ export const mockWebSocketServer = (url: string) => {
   return mockWsServer
 }
 
-export const createAdapter = (): Adapter<SettingsMap> => {
+export const createAdapter = () => {
   return new Adapter({
     name: 'INTRINIO',
     endpoints: [endpoint],
     defaultEndpoint: endpoint.name,
-    customSettings: customSettings,
+    config,
   })
 }
 

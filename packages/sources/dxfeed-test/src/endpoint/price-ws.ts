@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { WebSocket } from '@chainlink/external-adapter-framework/transports'
-import { customSettings } from '../config'
+import { config } from '../config'
 import { RequestParams } from './price-router'
 
 const logger = makeLogger('DxFeed Websocket')
@@ -24,7 +24,7 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: DXFeedMessage
   }
@@ -93,7 +93,7 @@ class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
 }
 
 export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTransport({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT || '',
+  url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
 
   handlers: {
     open(connection) {

@@ -9,7 +9,7 @@ import {
   PriceEndpointParams,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../config'
+import { config } from '../config'
 
 const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
 interface BaseMessage {
@@ -50,7 +50,7 @@ export type EndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: Message
   }
@@ -65,7 +65,7 @@ export class BlocksizeWebsocketReverseMappingTransport<
 
 export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<EndpointTypes, string> =
   new BlocksizeWebsocketReverseMappingTransport<EndpointTypes, string>({
-    url: ({ adapterConfig: { WS_API_ENDPOINT, API_KEY } }) => {
+    url: ({ adapterSettings: { WS_API_ENDPOINT, API_KEY } }) => {
       websocketTransport.api_key = API_KEY
       return WS_API_ENDPOINT
     },

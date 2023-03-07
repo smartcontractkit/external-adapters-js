@@ -1,12 +1,11 @@
-import * as process from 'process'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { SuperTest, Test } from 'supertest'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
-import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import * as process from 'process'
+import { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
 import { endpoint } from '../../src/endpoint/price'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { customSettings } from '../../src/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -59,12 +58,12 @@ export const mockWebSocketServer = (URL: string) => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<SettingsMap> => {
+export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'price',
-    endpoints: [endpoint as CryptoPriceEndpoint<any>],
-    customSettings,
+    endpoints: [endpoint],
+    config,
   })
 }
 

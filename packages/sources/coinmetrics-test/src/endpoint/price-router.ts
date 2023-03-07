@@ -1,8 +1,8 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './price-ws'
-import { customSettings, priceInputParameters } from '../config'
+import { config, priceInputParameters } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
 // inputParams expected by both the REST and WS transports
 export type AssetMetricsRequestBody = {
@@ -16,21 +16,17 @@ export type AssetMetricsEndpointTypes = {
   Request: {
     Params: AssetMetricsRequestBody
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 // Currently only routes to websocket. Stub is here for the follow-up release that will add in REST routes.
-export const routingTransport = new RoutingTransport<AssetMetricsEndpointTypes>(
-  {
-    WS: wsTransport,
-  },
-  () => {
-    return 'WS'
-  },
+export const transportRoutes = new TransportRoutes<AssetMetricsEndpointTypes>().register(
+  'ws',
+  wsTransport,
 )
 
 export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
   name: 'price-ws',
-  transport: routingTransport,
+  transportRoutes,
   inputParameters: priceInputParameters,
 })

@@ -1,7 +1,7 @@
 import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { Server, WebSocket } from 'mock-socket'
-import { customSettings } from '../../src/config'
+import { config } from '../../src/config'
 import { priceTransport } from '../../src/endpoint/price'
 import { mockPriceResponse, mockSubscribeResponse } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
@@ -51,7 +51,7 @@ export const mockPriceWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+export const createAdapter = () => {
   const priceEndpoint = new PriceEndpoint({
     name: 'price',
     aliases: ['crypto'],
@@ -62,8 +62,8 @@ export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'price',
-    endpoints: [priceEndpoint as PriceEndpoint<any>],
-    customSettings,
+    endpoints: [priceEndpoint],
+    config,
   })
 }
 

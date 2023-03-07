@@ -6,7 +6,7 @@ import { Server, WebSocket } from 'mock-socket'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { endpoint } from '../../src/endpoint/price-router'
 import { WsAssetMetricsSuccessResponse } from '../../src/endpoint/price-ws'
-import { customSettings } from '../../src/config'
+import { config } from '../../src/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -54,12 +54,12 @@ export const mockWebSocketServer = (URL: string) => {
   return mockWsServer
 }
 
-export const createAdapter = (): Adapter<typeof customSettings> => {
+export const createAdapter = () => {
   return new Adapter({
     name: 'TEST',
     defaultEndpoint: 'price-ws',
     endpoints: [endpoint],
-    customSettings,
+    config,
   })
 }
 

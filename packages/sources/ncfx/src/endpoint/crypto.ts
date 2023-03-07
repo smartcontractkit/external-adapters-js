@@ -1,4 +1,4 @@
-import { customSettings } from '../config'
+import { config } from '../config'
 import {
   makeLogger,
   ProviderResult,
@@ -25,7 +25,7 @@ export type EndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: WsMessage
   }
@@ -34,7 +34,7 @@ export type EndpointTypes = {
 const logger = makeLogger('NcfxCryptoEndpoint')
 
 export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   handlers: {
     open(connection, context) {
       return new Promise((resolve, reject) => {
@@ -52,8 +52,8 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
         connection.send(
           JSON.stringify({
             request: 'login',
-            username: context.adapterConfig.API_USERNAME,
-            password: context.adapterConfig.API_PASSWORD,
+            username: context.adapterSettings.API_USERNAME,
+            password: context.adapterSettings.API_PASSWORD,
           }),
         )
       })

@@ -1,19 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { PriceAdapter, PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from './config'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
 import { price } from './endpoint'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 export const adapter = new PriceAdapter({
   name: 'DAR',
-  endpoints: [price as PriceEndpoint<any>],
+  endpoints: [price],
   defaultEndpoint: price.name,
-  customSettings,
-  envDefaultOverrides: {
-    CACHE_MAX_AGE: 20 * 60 * 1000, //20 minutes
-  },
+  config,
 })
 
-export const server = (): Promise<ServerInstance | undefined> =>
-  expose(adapter as unknown as Adapter<SettingsMap>)
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

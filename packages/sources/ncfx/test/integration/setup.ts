@@ -1,20 +1,23 @@
-import * as process from 'process'
-import { SuperTest, Test } from 'supertest'
-import { Server, WebSocket } from 'mock-socket'
-import { customSettings } from '../../src/config'
-import { cryptoTransport, EndpointTypes } from '../../src/endpoint/crypto'
-import { customInputValidation, forexTransport } from '../../src/endpoint/forex'
-import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 import {
   CryptoPriceEndpoint,
   PriceAdapter,
   PriceEndpoint,
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { Server, WebSocket } from 'mock-socket'
+import * as process from 'process'
+import { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
 import includes from '../../src/config/includes.json'
-import { EndpointTypes as ForexEndpointTypes } from '../../src/endpoint/forex'
+import { cryptoTransport, EndpointTypes } from '../../src/endpoint/crypto'
+import {
+  customInputValidation,
+  EndpointTypes as ForexEndpointTypes,
+  forexTransport,
+} from '../../src/endpoint/forex'
+import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -61,7 +64,7 @@ export const mockForexWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+export const createAdapter = () => {
   const crypto = new CryptoPriceEndpoint<EndpointTypes>({
     name: 'crypto',
     transport: cryptoTransport,
@@ -76,9 +79,9 @@ export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'crypto',
-    endpoints: [crypto as CryptoPriceEndpoint<any>, forex as PriceEndpoint<any>],
+    endpoints: [crypto, forex],
     includes,
-    customSettings,
+    config,
   })
 }
 

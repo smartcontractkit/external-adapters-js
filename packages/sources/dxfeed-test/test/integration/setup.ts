@@ -6,7 +6,7 @@ import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
+import { config } from '../../src/config'
 import { price } from '../../src/endpoint'
 
 export type SuiteContext = {
@@ -99,12 +99,12 @@ export const mockWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const createAdapter = (): Adapter<typeof customSettings> => {
+export const createAdapter = () => {
   return new Adapter({
     name: 'TEST',
     defaultEndpoint: price.name,
     endpoints: [price],
-    customSettings,
+    config,
   })
 }
 

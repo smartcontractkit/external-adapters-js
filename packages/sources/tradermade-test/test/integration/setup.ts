@@ -1,14 +1,14 @@
-import request, { SuperTest, Test } from 'supertest'
-import { AddressInfo } from 'net'
-import * as process from 'process'
-import * as nock from 'nock'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { PriceAdapter, PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
-import { forex } from '../../src/endpoint'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
+import { AddressInfo } from 'net'
+import * as nock from 'nock'
+import * as process from 'process'
+import request, { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
 import includes from '../../src/config/includes.json'
+import { forex } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -101,12 +101,12 @@ export const mockForexWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: forex.name,
-    endpoints: [forex as PriceEndpoint<any>],
-    customSettings,
+    endpoints: [forex],
+    config,
     includes,
   })
 }

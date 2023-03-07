@@ -1,14 +1,14 @@
-import request, { SuperTest, Test } from 'supertest'
-import { AddressInfo } from 'net'
-import * as process from 'process'
-import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
-import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
-import { crypto, forex, iex } from '../../src/endpoint'
+import { AddressInfo } from 'net'
+import * as nock from 'nock'
+import * as process from 'process'
+import request, { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
 import includes from '../../src/config/includes.json'
+import { crypto, forex, iex } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -153,12 +153,12 @@ export const mockForexWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: crypto.name,
-    endpoints: [crypto as CryptoPriceEndpoint<any>, forex, iex],
-    customSettings,
+    endpoints: [crypto, forex, iex],
+    config,
     includes,
   })
 }

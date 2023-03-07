@@ -4,7 +4,7 @@ import { Server, WebSocket } from 'mock-socket'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
+import { config } from '../../src/config'
 import { price } from '../../src/endpoint'
 import { mockLoginResponse, mockSubscribeResponse } from './fixtures'
 
@@ -48,14 +48,13 @@ export const mockWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
-  return new PriceAdapter({
+export const createAdapter = (): PriceAdapter<typeof config> =>
+  new PriceAdapter({
     name: 'BLOCKSIZECAPITAL',
-    endpoints: [price as CryptoPriceEndpoint<any>],
+    endpoints: [price],
     defaultEndpoint: price.name,
-    customSettings,
+    config,
   })
-}
 
 export function setEnvVariables(envVariables: NodeJS.ProcessEnv): void {
   for (const key in envVariables) {

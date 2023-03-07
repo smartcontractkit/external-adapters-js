@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_KEY: {
     required: true,
     sensitive: true,
@@ -11,4 +13,4 @@ export const customSettings = {
     description: 'An API endpoint for coinmarketcap',
     default: 'https://pro-api.coinmarketcap.com/v1/',
   },
-} as const
+})

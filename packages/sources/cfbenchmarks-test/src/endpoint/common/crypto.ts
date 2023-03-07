@@ -10,8 +10,9 @@ import {
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { makeRestTransport } from '../rest/crypto'
 import { makeWsTransport } from '../websocket/crypto'
-import { customSettings } from '../../config'
+import { config } from '../../config'
 import { getIdFromBaseQuote } from '../../utils'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
 export type Params = { index?: string; base?: string; quote?: string }
 type RequestParams = { Params: Params }
@@ -39,7 +40,7 @@ const inputParameters = {
 export type EndpointTypes = {
   Request: RequestParams
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 export const additionalInputValidation = ({ index, base, quote }: Params): void => {
@@ -75,17 +76,16 @@ export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void
 
 export const requestTransforms = [cryptoRequestTransform]
 
-export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',
   aliases: ['values', 'price'], // Legacy aliases
   inputParameters,
   requestTransforms,
-  transports: {
-    rest: makeRestTransport('primary'),
-    restsecondary: makeRestTransport('secondary'),
-    ws: makeWsTransport('primary'),
-    wssecondary: makeWsTransport('secondary'),
-  },
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('rest', makeRestTransport('primary'))
+    .register('restsecondary', makeRestTransport('secondary'))
+    .register('ws', makeWsTransport('primary'))
+    .register('wssecondary', makeWsTransport('secondary')),
   defaultTransport: 'rest',
   customRouter: (req, adapterConfig) => {
     if (adapterConfig.API_SECONDARY) {

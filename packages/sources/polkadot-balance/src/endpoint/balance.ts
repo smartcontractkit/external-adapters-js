@@ -1,6 +1,5 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
@@ -8,7 +7,7 @@ import {
   makeLogger,
 } from '@chainlink/external-adapter-framework/util'
 import { ApiPromise, WsProvider } from '@polkadot/api'
-import { customSettings } from '../config'
+import { config } from '../config'
 
 const logger = makeLogger('PolkadotBalanceLogger')
 
@@ -54,7 +53,7 @@ type EndpointTypes = {
     Params: RequestParams
   }
   Response: ResponseSchema
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 const chunkArray = (addresses: string[], size: number): string[][] =>
@@ -76,9 +75,9 @@ export class BalanceTransport implements Transport<EndpointTypes> {
 
   async foregroundExecute(
     req: AdapterRequest<EndpointTypes['Request']>,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
-    const wsProvider = new WsProvider(config.RPC_URL)
+    const wsProvider = new WsProvider(settings.RPC_URL)
     const api = await ApiPromise.create({ provider: wsProvider })
     await api.isReady
 
@@ -91,7 +90,7 @@ export class BalanceTransport implements Transport<EndpointTypes> {
     try {
       // Break addresses down into batches to execute asynchronously
       // Firing requests for all addresses all at once could hit rate limiting for large address pools
-      const batchedAddresses = chunkArray(addresses, config.BATCH_SIZE)
+      const batchedAddresses = chunkArray(addresses, settings.BATCH_SIZE)
       for (const batch of batchedAddresses) {
         await Promise.all(
           batch.map((address) => {

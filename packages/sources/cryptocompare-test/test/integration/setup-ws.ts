@@ -5,7 +5,7 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { Server, WebSocket } from 'mock-socket'
 import { CryptoPriceEndpoint, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { endpoint } from '../../src/endpoint/crypto-router'
-import { customSettings } from '../../src/config'
+import { config } from '../../src/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -56,12 +56,12 @@ export const mockWebSocketServer = (URL: string) => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'crypto',
-    endpoints: [endpoint as CryptoPriceEndpoint<any>],
-    customSettings,
+    endpoints: [endpoint],
+    config,
   })
 }
 

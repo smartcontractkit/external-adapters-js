@@ -38,8 +38,8 @@ type WsEndpointTypes = CryptoEndpointTypes & {
 
 export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   url: (context) =>
-    `${context.adapterConfig.WS_API_ENDPOINT}?api_key=${
-      context.adapterConfig.WS_API_KEY || context.adapterConfig.API_KEY
+    `${context.adapterSettings.WS_API_ENDPOINT}?api_key=${
+      context.adapterSettings.WS_API_KEY || context.adapterSettings.API_KEY
     }`,
   handlers: {
     open(connection) {
