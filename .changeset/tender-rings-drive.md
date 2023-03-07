@@ -1,5 +1,5 @@
 ---
-'@chainlink/alphavantage-test-adapter': minor
+'@chainlink/alphavantage-test-adapter': major
 ---
 
 Add alphavantage EA v3
