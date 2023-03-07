@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { adapterConfig } from './config'
 import { forex } from './endpoint'
-import { customSettings } from './config'
 
 export const adapter = new Adapter({
   defaultEndpoint: forex.name,
   name: 'ALPHAVANTAGE',
-  customSettings,
+  config: adapterConfig,
   endpoints: [forex],
   rateLimiting: {
     tiers: {

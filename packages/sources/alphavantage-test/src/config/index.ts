@@ -1,10 +1,11 @@
-export const DEFAULT_API_ENDPOINT = 'forex'
-export const customSettings = {
+import { AdapterConfig, SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
+
+export const customSettings: SettingsDefinitionMap = {
   API_ENDPOINT: {
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     default: 'https://www.alphavantage.co/query',
-    required: true,
+    options: undefined,
   },
   API_KEY: {
     description:
@@ -12,5 +13,8 @@ export const customSettings = {
     type: 'string',
     required: true,
     sensitive: true,
+    options: undefined,
   },
-} as const
+}
+
+export const adapterConfig = new AdapterConfig(customSettings)

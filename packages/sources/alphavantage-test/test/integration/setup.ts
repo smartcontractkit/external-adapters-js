@@ -1,9 +1,8 @@
+import request, { SuperTest, Test } from 'supertest'
+import { AddressInfo } from 'net'
 import * as process from 'process'
-import { SuperTest, Test } from 'supertest'
+import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
-import { forex } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -15,12 +14,38 @@ export type EnvVariables = { [key: string]: string }
 
 export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
-export const createAdapter = (): Adapter<typeof customSettings> => {
-  return new Adapter({
-    name: 'ALPHAVANTAGE',
-    endpoints: [forex],
-    defaultEndpoint: forex.name,
-    customSettings,
+export const setupExternalAdapterTest = (
+  envVariables: NodeJS.ProcessEnv,
+  context: SuiteContext,
+  options: TestOptions = { cleanNock: true, fastify: false },
+): void => {
+  let fastify: ServerInstance
+
+  beforeAll(async () => {
+    process.env['METRICS_ENABLED'] = 'false'
+    for (const key in envVariables) {
+      process.env[key] = envVariables[key]
+    }
+
+    if (process.env['RECORD']) {
+      nock.recorder.rec()
+    }
+    fastify = await context.server()
+
+    context.req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+
+    // Only for edge cases when someone needs to use the fastify instance outside this function
+    if (options.fastify) {
+      context.fastify = fastify
+    }
+  })
+
+  afterAll(async () => {
+    if (process.env['RECORD']) {
+      nock.recorder.play()
+    }
+
+    await fastify.close()
   })
 }
 

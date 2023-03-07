@@ -1,13 +1,10 @@
-import * as process from 'process'
-import { AddressInfo } from 'net'
-import request, { SuperTest, Test } from 'supertest'
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
+import { SuperTest, Test } from 'supertest'
+import { setupExternalAdapterTest, SuiteContext } from './setup'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { mockResponseSuccess } from './fixtures'
-import { setEnvVariables, createAdapter } from './setup'
 
 describe('rest', () => {
-  jest.setTimeout(10000)
+  const id = '1'
   let spy: jest.SpyInstance
   beforeAll(async () => {
     const mockDate = new Date('2022-01-01T11:11:11.111Z')
@@ -19,48 +16,43 @@ describe('rest', () => {
     done()
   })
 
-  let fastify: ServerInstance | undefined
-  let req: SuperTest<Test>
-
-  const data: AdapterRequestBody = {
-    data: {
-      base: 'GBP',
-      quote: 'USD',
+  const context: SuiteContext = {
+    req: null,
+    server: async () => {
+      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '6'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['API_KEY'] = 'fake-api-key'
+      const server = (await import('../../src')).server
+      return server() as Promise<ServerInstance>
     },
   }
 
-  let oldEnv: NodeJS.ProcessEnv
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['CACHE_MAX_AGE'] = '5000'
-    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
-    process.env['METRICS_ENABLED'] = 'false'
-    process.env['API_KEY'] = 'fake-api-key'
-    fastify = await expose(createAdapter())
-    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
-    mockResponseSuccess()
-    // Send initial request to start background execute
-    await req.post('/').send(data)
-    await sleep(5000)
-  })
+  const envVariables = {
+    API_KEY: 'fake-api-key',
+  }
 
-  afterAll((done) => {
-    setEnvVariables(oldEnv)
-    fastify?.close(done())
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('forex rate api', () => {
-    it('should return success', async () => {
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
+    const data = {
+      id,
+      data: {
+        base: 'GBP',
+        quote: 'USD',
+      },
+    }
 
-      const response = await makeRequest()
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
       expect(response.body).toMatchSnapshot()
-    }, 30000)
+    })
   })
 })

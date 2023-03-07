@@ -1,25 +1,24 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { httpTransport } from './forex'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
+import { BaseAdapterSettings } from '@chainlink/external-adapter-framework/config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 
 export const inputParameters = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
-    description:
-      'The symbol of the currency to query. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
+    description: 'The symbol of symbols of the currency to query',
     required: true,
   },
   quote: {
     aliases: ['to', 'market'],
     type: 'string',
-    description:
-      'The symbol of the currency to convert to. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
+    description: 'The symbol of the currency to convert to',
     required: true,
   },
-} as const
+} satisfies InputParameters
 
 export interface ProviderResponseBody {
   'Realtime Currency Exchange Rate': {
@@ -46,22 +45,16 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof customSettings & BaseAdapterSettings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
   }
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    HTTP: httpTransport,
-  },
-  () => 'HTTP',
-)
-
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'forex',
-  transport: routingTransport,
+  aliases: ['price'],
+  transport: httpTransport,
   inputParameters: inputParameters,
 })
