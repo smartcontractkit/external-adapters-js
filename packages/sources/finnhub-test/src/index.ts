@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { quote } from './endpoint'
-import { customSettings } from './config'
+import { adapterConfig } from './config'
 
 export const adapter = new Adapter({
   defaultEndpoint: quote.name,
   name: 'FINNHUB',
-  customSettings,
+  config: adapterConfig,
   endpoints: [quote],
   rateLimiting: {
     tiers: {

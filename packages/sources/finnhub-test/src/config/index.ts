@@ -1,10 +1,10 @@
-export const DEFAULT_API_ENDPOINT = 'quote'
-export const customSettings = {
+import { AdapterConfig, SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
+
+export const customSettings: SettingsDefinitionMap = {
   API_ENDPOINT: {
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     default: 'https://finnhub.io/api/v1',
-    required: true,
   },
   API_KEY: {
     description: 'A Finnhub API key ',
@@ -13,3 +13,5 @@ export const customSettings = {
     sensitive: true,
   },
 } as const
+
+export const adapterConfig = new AdapterConfig(customSettings)

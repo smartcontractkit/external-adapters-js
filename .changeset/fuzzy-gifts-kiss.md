@@ -1,5 +1,5 @@
 ---
-'@chainlink/finnhub-test-adapter': minor
+'@chainlink/finnhub-test-adapter': major
 ---
 
 Add finnhub v3 EA
