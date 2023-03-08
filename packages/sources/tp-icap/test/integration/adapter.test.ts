@@ -20,7 +20,7 @@ describe('Price Endpoint', () => {
   let mockPriceWsServer: Server | undefined
   let spy: jest.SpyInstance
 
-  const makeRequest = (body) =>
+  const makeRequest = (body: any) =>
     req
       .post('/')
       .send(body)
