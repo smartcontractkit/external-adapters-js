@@ -1,6 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { WebSocket } from '@chainlink/external-adapter-framework/transports'
 import { config } from '../config'
 import { RequestParams } from './price-router'
 
@@ -98,8 +97,8 @@ export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTranspor
   handlers: {
     open(connection) {
       return new Promise((resolve) => {
-        connection.on('message', (data: WebSocket.MessageEvent) => {
-          const message: DXFeedMessage[0] = JSON.parse(data.toString())[0]
+        connection.addEventListener('message', (event: MessageEvent) => {
+          const message: DXFeedMessage[0] = JSON.parse(event.data.toString())[0]
           if (message.clientId && message.channel === '/meta/handshake') {
             wsTransport.connectionClientId = message.clientId
             connection.send(JSON.stringify(wsTransport.firstHeartbeatMsg))

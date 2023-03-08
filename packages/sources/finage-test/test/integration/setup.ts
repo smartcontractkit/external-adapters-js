@@ -110,8 +110,10 @@ export const mockStockWebSocketServer = (URL: string): Server => {
   ]
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    wsResponse.forEach((message) => {
-      socket.send(JSON.stringify(message))
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
     })
   })
 
@@ -139,8 +141,10 @@ export const mockForexWebSocketServer = (URL: string): Server => {
   ]
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    wsResponse.forEach((message) => {
-      socket.send(JSON.stringify(message))
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
     })
   })
 

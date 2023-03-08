@@ -1,12 +1,12 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   PriceEndpoint,
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { WS_HEARTBEAT_MS } from '../config'
 import { PriceEndpointTypes } from '../types'
 import { getAuthToken } from '../util'
-import { WS_HEARTBEAT_MS } from '../config'
 
 const logger = makeLogger('DarPriceEndpoint')
 
@@ -42,7 +42,7 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   handlers: {
     open(connection) {
       const heartbeatTimeout = heartbeat(connection)
-      connection.on('close', async () => {
+      connection.addEventListener('close', async () => {
         clearTimeout(heartbeatTimeout)
       })
     },

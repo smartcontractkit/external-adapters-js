@@ -63,8 +63,10 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.send(JSON.stringify(loginResponse))
-    socket.send(JSON.stringify(subscribeResponse))
-    socket.send(JSON.stringify(mockCryptoResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(subscribeResponse))
+      socket.send(JSON.stringify(mockCryptoResponse))
+    })
   })
   return mockWsServer
 }
@@ -72,7 +74,9 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
 export const mockForexWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.send(JSON.stringify(mockForexResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(mockForexResponse))
+    })
   })
   return mockWsServer
 }

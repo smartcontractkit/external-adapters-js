@@ -1,16 +1,15 @@
-import { config } from '../config'
-import {
-  makeLogger,
-  ProviderResult,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   CryptoPriceEndpoint,
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { WebSocketRawData } from '@chainlink/external-adapter-framework/transports/websocket'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  makeLogger,
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
 
 type WsMessage = {
   timestamp: string
@@ -39,8 +38,8 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
     open(connection, context) {
       return new Promise((resolve, reject) => {
         // Set up listener
-        connection.on('message', (data: WebSocketRawData) => {
-          const parsed = JSON.parse(data.toString())
+        connection.addEventListener('message', (event: MessageEvent) => {
+          const parsed = JSON.parse(event.data.toString())
           if (parsed.Message === 'Successfully Authenticated') {
             logger.debug('Got logged in response, connection is ready')
             resolve()

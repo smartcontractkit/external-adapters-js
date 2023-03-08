@@ -106,7 +106,16 @@ export const mockWebSocketServer = (URL: string): Server => {
   ]
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.send(JSON.stringify(wsReponse))
+    socket.send(
+      JSON.stringify([
+        {
+          channel: '/meta/connect',
+        },
+      ]),
+    )
+    socket.on('message', () => {
+      socket.send(JSON.stringify(wsReponse))
+    })
   })
 
   return mockWsServer

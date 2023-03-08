@@ -54,6 +54,11 @@ const price = 1234
 export const mockWebSocketServer = (URL: string) => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
+    socket.send(
+      JSON.stringify({
+        MESSAGE: 'STREAMERWELCOME',
+      }),
+    )
     const parseMessage = () => {
       socket.send(
         JSON.stringify({
@@ -64,7 +69,7 @@ export const mockWebSocketServer = (URL: string) => {
         }),
       )
     }
-    parseMessage()
+    socket.on('message', parseMessage)
   })
   return mockWsServer
 }
