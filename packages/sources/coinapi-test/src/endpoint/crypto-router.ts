@@ -10,5 +10,6 @@ export const endpoint = new PriceEndpoint({
   transportRoutes: new TransportRoutes<EndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
 })

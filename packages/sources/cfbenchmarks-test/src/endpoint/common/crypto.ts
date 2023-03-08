@@ -1,18 +1,18 @@
-import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import {
   CryptoPriceEndpoint,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { makeRestTransport } from '../rest/crypto'
-import { makeWsTransport } from '../websocket/crypto'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../../config'
 import { getIdFromBaseQuote } from '../../utils'
-import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import { makeRestTransport } from '../rest/crypto'
+import { makeWsTransport } from '../websocket/crypto'
 
 export type Params = { index?: string; base?: string; quote?: string }
 type RequestParams = { Params: Params }

@@ -1,14 +1,13 @@
-import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import {
+  CryptoPriceEndpoint,
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import {
   WebsocketReverseMappingTransport,
   WebsocketTransportGenerics,
-  WebSocketRawData,
 } from '@chainlink/external-adapter-framework/transports/websocket'
-import {
-  CryptoPriceEndpoint,
-  PriceEndpointParams,
-  PriceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
 const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
@@ -70,11 +69,11 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
       return WS_API_ENDPOINT
     },
     handlers: {
-      open: (connection) => {
+      open: (connection: WebSocket) => {
         return new Promise((resolve, reject) => {
-          connection.on('message', (data: WebSocketRawData) => {
-            const parsed = JSON.parse(data.toString())
-            if (parsed.user_id) {
+          connection.addEventListener('message', (event: MessageEvent<any>) => {
+            const parsed = JSON.parse(event.data.toString())
+            if (parsed.result?.user_id) {
               logger.info('Got logged in response, connection is ready')
               resolve()
             } else {
@@ -90,7 +89,7 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
         })
       },
       message: (message) => {
-        if (!('method' in message) || message.method !== 'vwap') return []
+        if (message.method !== 'vwap') return []
         const [updates] = message.params.updates
         const params = websocketTransport.getReverseMapping(updates.ticker)
         if (!params) {
