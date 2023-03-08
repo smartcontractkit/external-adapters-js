@@ -65,11 +65,21 @@ describe('Price Endpoint', () => {
     fastify?.close(done())
   })
 
-  it('should return success', async () => {
+  it('should return price', async () => {
+    const response = await makeRequest({ data: { base: 'EUR', quote: 'USD' } })
+    expect(response.body).toEqual(adapterResponse)
+  }, 30000)
+
+  it('should return price with full `rec` as the base', async () => {
     const response = await makeRequest({
-      data: { base: 'EUR', quote: 'USD' },
+      data: { base: 'FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC', quote: 'USD' },
     })
     expect(response.body).toEqual(adapterResponse)
+  }, 30000)
+
+  it('should return error when queried for stale price', async () => {
+    const response = await makeRequest({ data: { base: 'JPY', quote: 'USD' } })
+    expect(response.statusCode).toEqual(504)
   }, 30000)
 
   it('should return error on empty body', async () => {

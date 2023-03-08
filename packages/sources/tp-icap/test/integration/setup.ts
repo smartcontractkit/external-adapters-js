@@ -3,7 +3,7 @@ import { SuperTest, Test } from 'supertest'
 import { Server, WebSocket } from 'mock-socket'
 import { customSettings } from '../../src/config'
 import { transport } from '../../src/endpoint/price'
-import { mockPriceResponse, mockSubscribeResponse } from './fixtures'
+import { mockPriceResponse, mockStalePriceResponse, mockSubscribeResponse } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
   PriceAdapter,
@@ -45,6 +45,7 @@ export const mockPriceWebSocketServer = (URL: string): Server => {
   mockWsServer.on('connection', (socket) => {
     setTimeout(() => {
       socket.send(JSON.stringify(mockSubscribeResponse))
+      socket.send(JSON.stringify(mockStalePriceResponse))
       socket.send(JSON.stringify(mockPriceResponse))
     }, 100)
   })

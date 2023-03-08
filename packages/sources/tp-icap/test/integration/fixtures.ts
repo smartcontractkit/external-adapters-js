@@ -22,6 +22,25 @@ export const mockPriceResponse = {
   },
 }
 
+export const mockStalePriceResponse = {
+  msg: 'sub',
+  pro: 'OMM',
+  rec: 'FXSPTJPYUSDSPT:GBL.BIL.QTE.RTM!IC',
+  sta: 0,
+  img: 1,
+  fvs: {
+    VALUE_DT1: null,
+    ASK: 0.0073,
+    BID: 0.0073,
+    ACTIV_DATE: '2023-03-08',
+    TIMACT: '02:31:00',
+    CCY1: 'JPY',
+    MID_PRICE: 0.0073,
+    FID_515: 'SPT',
+    CCY2: 'USD',
+  },
+}
+
 export const adapterResponse = {
   result: 1.0539,
   statusCode: 200,

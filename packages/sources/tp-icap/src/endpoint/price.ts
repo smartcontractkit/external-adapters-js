@@ -52,9 +52,9 @@ export const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
 
         if (!('msg' in message) || message.msg === 'auth') return []
 
-        const { fvs, rec } = message
+        const { fvs, rec, sta } = message
 
-        if (!fvs || !rec) {
+        if (!fvs || !rec || sta !== 1) {
           logger.error({ msg: 'Missing expected field `fvs` or `rec` from `sub` message', message })
           return []
         }
@@ -77,26 +77,45 @@ export const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
             .div(2)
             .toNumber()
 
-        return [
-          {
-            params: {
-              base,
-              quote,
-            },
-            response: {
+        const response = {
+          params: {
+            base,
+            quote,
+          },
+          response: {
+            result,
+            data: {
               result,
-              data: {
-                result,
-              },
-              timestamps: {
-                providerDataReceivedUnixMs,
-                providerDataStreamEstablishedUnixMs,
-                providerIndicatedTimeUnixMs:
-                  ACTIV_DATE && TIMACT ? new Date(ACTIV_DATE + ' ' + TIMACT).getTime() : undefined,
-              },
+            },
+            timestamps: {
+              providerDataReceivedUnixMs,
+              providerDataStreamEstablishedUnixMs,
+              providerIndicatedTimeUnixMs:
+                ACTIV_DATE && TIMACT ? new Date(ACTIV_DATE + ' ' + TIMACT).getTime() : undefined,
             },
           },
-        ]
+        }
+
+        const responseWithRec = {
+          params: {
+            base: rec, // Cache the price with the full rec symbol as `base` as a separate entry
+            quote,
+          },
+          response: {
+            result,
+            data: {
+              result,
+            },
+            timestamps: {
+              providerDataReceivedUnixMs,
+              providerDataStreamEstablishedUnixMs,
+              providerIndicatedTimeUnixMs:
+                ACTIV_DATE && TIMACT ? new Date(ACTIV_DATE + ' ' + TIMACT).getTime() : undefined,
+            },
+          },
+        }
+
+        return [response, responseWithRec]
       },
     },
   })
