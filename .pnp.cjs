@@ -8948,8 +8948,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/tp-icap-adapter", "workspace:packages/sources/tp-icap"],\
             ["@chainlink/external-adapter-framework", "npm:0.26.1"],\
+            ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.4.3"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
           ],\

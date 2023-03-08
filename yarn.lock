@@ -5145,8 +5145,12 @@ __metadata:
   resolution: "@chainlink/tp-icap-adapter@workspace:packages/sources/tp-icap"
   dependencies:
     "@chainlink/external-adapter-framework": 0.26.1
+    "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
+    mock-socket: 9.1.5
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.9.5
   languageName: unknown

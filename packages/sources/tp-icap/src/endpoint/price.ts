@@ -16,7 +16,9 @@ const logger = makeLogger('TPICAPPrice')
 
 const isNum = (i: any) => typeof i === 'number'
 
-const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
+let providerDataStreamEstablishedUnixMs: number
+
+export const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
   new WebSocketTransport<TPICAPWebsocketGenerics>({
     url: ({ adapterConfig: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
     handlers: {
@@ -28,6 +30,7 @@ const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
             const { msg, sta } = JSON.parse(data.toString())
             if (msg === 'auth' && sta === 1) {
               logger.info('Got logged in response, connection is ready')
+              providerDataStreamEstablishedUnixMs = Date.now()
               resolve()
             } else {
               reject(new Error('Failed to make WS connection'))
@@ -44,6 +47,8 @@ const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
       },
       message: (message) => {
         logger.debug({ msg: 'Received message from WS', message })
+
+        const providerDataReceivedUnixMs = Date.now()
 
         if (!('msg' in message) || message.msg === 'auth') return []
 
@@ -84,6 +89,8 @@ const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
                 result,
               },
               timestamps: {
+                providerDataReceivedUnixMs,
+                providerDataStreamEstablishedUnixMs,
                 providerIndicatedTimeUnixMs:
                   ACTIV_DATE && TIMACT ? new Date(ACTIV_DATE + ' ' + TIMACT).getTime() : undefined,
               },

@@ -13,7 +13,7 @@ export type TPICAPWebsocketGenerics = WebsocketTransportGenerics & {
     WsMessage: {
       msg: 'auth' | 'sub'
       pro?: string
-      rec: string // example: FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC => Use this to filter out non-spot price messages
+      rec: string // example: FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC
       sta: number
       img?: number
       fvs?: {
