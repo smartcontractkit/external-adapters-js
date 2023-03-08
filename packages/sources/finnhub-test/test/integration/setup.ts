@@ -2,7 +2,7 @@ import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
+import { adapterConfig } from '../../src/config'
 import { quote } from '../../src/endpoint'
 
 export type SuiteContext = {
@@ -15,12 +15,12 @@ export type EnvVariables = { [key: string]: string }
 
 export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
-export const createAdapter = (): Adapter<typeof customSettings> => {
+export const createAdapter = (): Adapter<typeof adapterConfig> => {
   return new Adapter({
     name: 'FINNHUB',
     endpoints: [quote],
     defaultEndpoint: quote.name,
-    customSettings,
+    config: adapterConfig,
   })
 }
 
