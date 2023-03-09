@@ -74,15 +74,15 @@ describe('websocket', () => {
       const response = await makeRequest()
       expect(response.body).toEqual({
         result: 1562.3733948803842,
+        mid: 1562.3733948803842,
+        ask: 1562.4083581615457,
+        asksize: 31.63132041,
+        bid: 1562.3384315992228,
+        bidsize: 64.67517577,
+        spread: 0.000044756626394287605,
         statusCode: 200,
         data: {
           result: 1562.3733948803842,
-          mid: 1562.3733948803842,
-          ask: 1562.4083581615457,
-          asksize: 31.63132041,
-          bid: 1562.3384315992228,
-          bidsize: 64.67517577,
-          spread: 0.000044756626394287605,
         },
         timestamps: {
           providerDataReceivedUnixMs: 1652198967193,

@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { CryptoLwbaEndpointTypes } from './lwba-router'
+import { CryptoLwbaEndpointTypes, MultiVarResult } from './lwba-router'
 
 const logger = makeLogger('CoinMetrics Crypto LWBA WS')
 
@@ -67,7 +67,7 @@ export const calculatPairQuotesUrl = (
 
 export const handleCryptoLwbaMessage = (
   message: WsPairQuoteMessage,
-): ProviderResult<WsCryptoLwbaEndpointTypes>[] | undefined => {
+): MultiVarResult<WsCryptoLwbaEndpointTypes>[] | undefined => {
   if ('error' in message) {
     logger.error(message, `Error response from websocket`)
   } else if ('warning' in message) {
@@ -85,14 +85,14 @@ export const handleCryptoLwbaMessage = (
         },
         response: {
           result: res,
+          mid: res,
+          ask: Number(message.ask_price),
+          asksize: Number(message.ask_size),
+          bid: Number(message.bid_price),
+          bidsize: Number(message.bid_size),
+          spread: Number(message.spread),
           data: {
             result: res,
-            mid: res,
-            ask: Number(message.ask_price),
-            asksize: Number(message.ask_size),
-            bid: Number(message.bid_price),
-            bidsize: Number(message.bid_size),
-            spread: Number(message.spread),
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(message.time).getTime(),
