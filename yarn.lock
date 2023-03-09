@@ -4760,14 +4760,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-test-adapter@workspace:packages/sources/polygon-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.23.2
+    "@chainlink/external-adapter-framework": 0.27.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
     tslib: 2.4.0
-    typescript: 4.7.4
+    typescript: 4.9.5
   languageName: unknown
   linkType: soft
 
