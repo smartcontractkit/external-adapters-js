@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- d474a5553: Update v3 framework to latest version
+
 ## 1.5.4
 
 ### Patch Changes

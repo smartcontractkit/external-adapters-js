@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- d474a5553: Update v3 framework to latest version
+
 ## 2.0.2
 
 ### Patch Changes
