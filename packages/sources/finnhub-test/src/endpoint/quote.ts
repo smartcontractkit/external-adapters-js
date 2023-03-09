@@ -1,9 +1,46 @@
-import { EndpointTypes } from './router'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { adapterConfig } from '../config'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
 
 const logger = makeLogger('Finnhub quote endpoint')
+
+export const inputParameters = {
+  base: {
+    aliases: ['from', 'coin'],
+    type: 'string',
+    description: 'The symbol of symbols of the currency to query',
+    required: true,
+  },
+} as const
+
+export interface ProviderResponseBody {
+  c: number
+  d: number
+  dp: number
+  h: number
+  l: number
+  o: number
+  pc: number
+  t: number
+}
+
+export interface RequestParams {
+  base: string
+}
+
+export type EndpointTypes = {
+  Request: {
+    Params: RequestParams
+  }
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
 
 export const commonKeys: Record<string, string> = {
   N225: '^N225',
@@ -17,10 +54,7 @@ export const commonKeys: Record<string, string> = {
 }
 
 export const httpTransport = new HttpTransport<EndpointTypes>({
-  prepareRequests: (params) => {
-    adapterConfig.initialize()
-    adapterConfig.validate()
-
+  prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
       let symbol = param.base.toUpperCase()
       if (commonKeys[symbol]) {
@@ -28,11 +62,11 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       }
 
       const requestConfig = {
-        baseURL: `${adapterConfig.settings.API_ENDPOINT}/quote`,
+        baseURL: `${settings.API_ENDPOINT}/quote`,
         method: 'GET',
         params: {
           symbol,
-          token: adapterConfig.settings.API_KEY,
+          token: settings.API_KEY,
         },
       }
       return {
@@ -72,4 +106,11 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       }
     })
   },
+})
+
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'quote',
+  aliases: ['common'],
+  transport: httpTransport,
+  inputParameters: inputParameters,
 })

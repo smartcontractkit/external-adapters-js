@@ -1,1 +1,1 @@
-export { endpoint as quote } from './router'
+export { endpoint as quote } from './quote'
