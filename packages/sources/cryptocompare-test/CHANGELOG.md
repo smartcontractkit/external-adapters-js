@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-test-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- d474a5553: Update v3 framework to latest version
+
 ## 1.1.1
 
 ### Patch Changes
