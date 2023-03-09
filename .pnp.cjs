@@ -5174,7 +5174,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage-test/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.27.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.27.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7161,10 +7161,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.27.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.27.0-103b601009-f1e7b9534c.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.27.3", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.27.3-05c83d2c01-6a3cd98a7a.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.27.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.27.3"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:1.3.4"],\
             ["eventsource", "npm:2.0.2"],\

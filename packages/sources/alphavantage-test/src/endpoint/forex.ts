@@ -1,20 +1,60 @@
-import { EndpointTypes } from './router'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { adapterConfig } from '../config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
+import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
 const logger = makeLogger('Alphavantage HttpEndpoint')
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
-  prepareRequests: (params) => {
-    adapterConfig.initialize()
-    adapterConfig.validate()
+export const inputParameters = {
+  base: {
+    aliases: ['from', 'coin'],
+    type: 'string',
+    description: 'The symbol of symbols of the currency to query',
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    type: 'string',
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+} as const
 
+export interface ProviderResponseBody {
+  'Realtime Currency Exchange Rate': {
+    '1. From_Currency Code': string
+    '2. From_Currency Name': string
+    '3. To_Currency Code': string
+    '4. To_Currency Name': string
+    '5. Exchange Rate': string
+    '6. Last Refreshed': string
+    '7. Time Zone': string
+    '8. Bid Price': string
+    '9. Ask Price': string
+  }
+  'Error Message': string
+}
+
+export type EndpointTypes = {
+  Request: {
+    Params: PriceEndpointParams
+  }
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
+
+export const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
       const from = param.base
       const to = param.quote
       const requestConfig = {
-        baseURL: adapterConfig.settings.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         method: 'GET',
         params: {
           function: 'CURRENCY_EXCHANGE_RATE',
@@ -24,7 +64,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
           to_symbol: to,
           symbol: from,
           market: to,
-          apikey: adapterConfig.settings.API_KEY,
+          apikey: settings.API_KEY,
         },
       }
       return {
@@ -39,32 +79,22 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       return []
     }
 
-    const errorMessage = res.data['Error Message']
+    let errorMessage = res.data['Error Message']
     if (errorMessage) {
       logger.warn(errorMessage)
-      return [
-        {
-          params: { base: params[0].base, quote: params[0].quote },
-          response: {
-            statusCode: 502,
-            errorMessage,
-          },
-        },
-      ]
+      return error502(params, errorMessage)
     }
 
     const realTimeCurrentExchangeRate = res.data['Realtime Currency Exchange Rate']
     if (!realTimeCurrentExchangeRate) {
-      logger.error(
-        `There was a problem getting the 'Realtime Currency Exchange Rate' data from the source`,
-      )
-      return []
+      errorMessage = `There was a problem getting the 'Realtime Currency Exchange Rate' data from the source`
+      return error502(params, errorMessage)
     }
 
     const exchangeRate = res.data['Realtime Currency Exchange Rate']['5. Exchange Rate']
     if (!exchangeRate) {
-      logger.error(`There was a problem getting the 'Exchange Rate' data from the source`)
-      return []
+      errorMessage = `There was a problem getting the 'Exchange Rate' data from the source`
+      return error502(params, errorMessage)
     }
     return params.map((param) => {
       const result = Number(exchangeRate)
@@ -79,4 +109,24 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       }
     })
   },
+})
+
+const error502 = (params: PriceEndpointParams[], errorMessage: string) => {
+  logger.error(errorMessage)
+  return [
+    {
+      params: { base: params[0].base, quote: params[0].quote },
+      response: {
+        statusCode: 502,
+        errorMessage,
+      },
+    },
+  ]
+}
+
+export const endpoint = new PriceEndpoint<EndpointTypes>({
+  name: 'forex',
+  aliases: ['price'],
+  transport: httpTransport,
+  inputParameters,
 })

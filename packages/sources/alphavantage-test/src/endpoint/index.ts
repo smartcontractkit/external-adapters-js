@@ -1,1 +1,1 @@
-export { endpoint as forex } from './router'
+export { endpoint as forex } from './forex'
