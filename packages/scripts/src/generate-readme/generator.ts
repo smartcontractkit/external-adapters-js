@@ -1,7 +1,11 @@
+import { balance } from '@chainlink/ea-factories'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
+import fs from 'fs'
 import path from 'path'
 import process from 'process'
 import { cat, exec, test } from 'shelljs'
-import { buildTable, TableText } from '../shared/tableUtils'
+import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
 import {
   capitalize,
   codeList,
@@ -10,11 +14,8 @@ import {
   wrapCode,
   wrapJson,
 } from '../shared/docGenUtils'
-import { balance } from '@chainlink/ea-factories'
+import { buildTable, TableText } from '../shared/tableUtils'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
-import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
-import fs from 'fs'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -46,6 +47,7 @@ export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
   schemaPath: string
+  packageJson: Package
   defaultEndpoint = ''
   defaultBaseUrl = ''
   endpointDetails: EndpointDetails = {}
@@ -85,6 +87,7 @@ export class ReadmeGenerator {
     this.license = packageJson.license ?? ''
     this.adapterPath = adapterPath
     this.schemaPath = adapterPath + 'schemas/env.json'
+    this.packageJson = packageJson
     this.skipTests = skipTests
     this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
   }
@@ -104,7 +107,7 @@ export class ReadmeGenerator {
       const schema = getJsonFile(this.schemaPath) as Schema
       this.frameworkVersion = 'v2'
       this.schemaDescription = schema.description ?? ''
-      this.name = schema.title ?? packageJson.name ?? ''
+      this.name = schema.title ?? this.packageJson.name ?? ''
       this.envVars = schema.properties ?? {}
       this.requiredEnvVars = schema.required ?? []
       this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
@@ -125,8 +128,10 @@ export class ReadmeGenerator {
       )
 
       const adapter = adapterImport.adapter as Adapter
+      const adapterSettings = (adapter.config as unknown as { definition: SettingsDefinitionMap })
+        .definition
       this.name = adapter.name
-      this.envVars = adapter.customSettings || {}
+      this.envVars = adapterSettings || {}
 
       this.endpointDetails = adapter.endpoints?.length
         ? adapter.endpoints.reduce(
@@ -141,10 +146,8 @@ export class ReadmeGenerator {
           )
         : {}
 
-      this.requiredEnvVars = adapter.customSettings
-        ? Object.keys(adapter.customSettings).filter(
-            (k) => adapter.customSettings[k].required === true,
-          ) ?? [] // Keys of required customSettings
+      this.requiredEnvVars = adapterSettings
+        ? Object.keys(adapterSettings).filter((k) => adapterSettings[k].required === true) ?? [] // Keys of required customSettings
         : []
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
@@ -183,7 +186,7 @@ export class ReadmeGenerator {
       const name = key ?? ''
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
-      const options = codeList(envVar.options)
+      const options = codeList(envVar.options as Array<string | number>)
       const defaultText = Object.keys(envVar).includes('default') ? wrapCode(envVar.default) : ''
       return [required, name, description, type, options, defaultText]
     })
@@ -290,7 +293,7 @@ export class ReadmeGenerator {
 
       // Build final text for examples
       for (const [endpointName, endpointDetails] of Object.entries(this.endpointDetails)) {
-        const ioExamples = []
+        const ioExamples: string[] = []
 
         for (const endpoint of endpointDetails.supportedEndpoints) {
           for (const ioPair of endpointIO[endpoint] ?? []) {
@@ -367,8 +370,10 @@ export class ReadmeGenerator {
                 aliases = codeList(attributes.aliases)
                 description = attributes.description ?? ''
                 type = attributes.type ?? ''
-                options = codeList(attributes.options)
-                defaultText = attributes.default ? wrapCode(attributes.default) : ''
+                options = codeList(attributes.options as Array<string | number>)
+                defaultText = attributes.default
+                  ? wrapCode(attributes.default as string | number | boolean)
+                  : ''
                 dependsOn = codeList(attributes.dependsOn)
                 exclusive = codeList(attributes.exclusive)
               }

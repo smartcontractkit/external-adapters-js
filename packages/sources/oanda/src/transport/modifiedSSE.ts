@@ -29,7 +29,7 @@ export type ModifiedSSEConfig = {
 }
 
 export class ModifiedSseTransport<T extends TransportGenerics> extends StreamingTransport<T> {
-  name = 'sse'
+  name = 'default_single_transport'
   eventListeners!: {
     type: string
     parseResponse: (eventt: MessageEvent<any>['data']) => ProviderResult<T>[]

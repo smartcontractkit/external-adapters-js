@@ -102,7 +102,7 @@ export interface MarketcapTransportConfig {
 
 // Much of the code in this transport is borrowed from the framework's RestTransport as an example
 export class MarketcapTransport implements Transport<MarketcapTransportGenerics> {
-  name = 'marketcap'
+  name = 'default_single_transport'
   responseCache!: TransportDependencies<MarketcapTransportGenerics>['responseCache']
   rateLimiter!: RateLimiter
 
