@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { conversion, tickers } from './endpoint'
-import { customSettings } from './config'
+import { config } from './config'
 
 export const adapter = new Adapter({
   defaultEndpoint: tickers.name,
   name: 'POLYGON',
-  customSettings,
+  config,
   endpoints: [tickers, conversion],
   rateLimiting: {
     tiers: {

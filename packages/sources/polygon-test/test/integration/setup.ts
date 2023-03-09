@@ -2,7 +2,7 @@ import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
+import { config } from '../../src/config'
 import { conversion, tickers } from '../../src/endpoint'
 import * as nock from 'nock'
 import { AddressInfo } from 'net'
@@ -58,12 +58,12 @@ export type EnvVariables = { [key: string]: string }
 
 export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
-export const createAdapter = (): Adapter<typeof customSettings> => {
+export const createAdapter = (): Adapter => {
   return new Adapter({
     name: 'POLYGON',
     endpoints: [tickers, conversion],
     defaultEndpoint: tickers.name,
-    customSettings,
+    config,
   })
 }
 

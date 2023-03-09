@@ -2,7 +2,7 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { buildUrlPath } from './utils'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../config'
+import { config } from '../config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 
 const logger = makeLogger('Polygon Conversion Logger')
@@ -46,7 +46,7 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
@@ -64,23 +64,20 @@ export interface ProviderResponseBody {
   to: string
 }
 
-const DEFAULT_AMOUNT = 1
-const DEFAULT_PRECISION = 6
-
 export const httpTransport = new HttpTransport<EndpointTypes>({
-  prepareRequests: (params, config) => {
+  prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
       const from = param.base.toUpperCase()
       const to = param.quote.toUpperCase()
-      const amount = param.amount || DEFAULT_AMOUNT
-      const precision = param.precision || DEFAULT_PRECISION
+      const amount = param.amount
+      const precision = param.precision
       const url = buildUrlPath('/v1/conversion/:from/:to', { from, to })
       const requestConfig = {
-        baseURL: config.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         url,
         method: 'GET',
         params: {
-          apikey: config.API_KEY,
+          apikey: settings.API_KEY,
           amount,
           precision,
         },
@@ -93,8 +90,17 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   },
   parseResponse: (params, res) => {
     if (!res.data.converted) {
-      logger.error(`The data provider didn't return any value`)
-      return []
+      const errorMessage = `The data provider didn't return any value`
+      logger.error(errorMessage)
+      return [
+        {
+          params: { ...params[0] },
+          response: {
+            statusCode: 502,
+            errorMessage,
+          },
+        },
+      ]
     }
     return params.map((param) => {
       const result = res.data.converted

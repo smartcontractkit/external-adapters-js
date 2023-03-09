@@ -1,8 +1,27 @@
-import { EndpointTypes } from './router'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 
 const logger = makeLogger('Polygon Tickers Logger')
+
+export interface RequestParams {
+  base: string
+  quote: string
+}
+
+export type EndpointTypes = {
+  Request: {
+    Params: RequestParams
+  }
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
 
 export const inputParameters = {
   base: {
@@ -66,7 +85,7 @@ const formatArray = (input: string | string[]): string[] =>
   typeof input === 'string' ? [input] : input
 
 export const httpTransport = new HttpTransport<EndpointTypes>({
-  prepareRequests: (params, config) => {
+  prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
       const from = param.base.toUpperCase()
       const to = param.quote.toUpperCase()
@@ -80,11 +99,11 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
 
       const pairs = pairArray.toString()
       const requestConfig = {
-        baseURL: config.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         url: '/v2/snapshot/locale/global/markets/forex/tickers',
         method: 'GET',
         params: {
-          apikey: config.API_KEY,
+          apikey: settings.API_KEY,
           tickers: pairs,
         },
       }
@@ -112,4 +131,10 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       }
     })
   },
+})
+
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'tickers',
+  transport: httpTransport,
+  inputParameters: inputParameters,
 })
