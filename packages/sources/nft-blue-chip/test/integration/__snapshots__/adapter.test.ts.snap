@@ -7,5 +7,9 @@ Object {
   },
   "result": 2973802067.8207583,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+  },
 }
 `;

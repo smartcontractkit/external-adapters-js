@@ -1,13 +1,13 @@
-import * as process from 'process'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { SuperTest, Test } from 'supertest'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { priceRouter, lwbaRouter } from '../../src/endpoint'
+import * as process from 'process'
+import { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
 import { WsAssetMetricsSuccessResponse } from '../../src/endpoint/price-ws'
-import { customSettings } from '../../src/config'
 import { WsCryptoLwbaSuccessResponse } from '../../src/endpoint/lwba-ws'
+import { priceRouter, lwbaRouter } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -15,17 +15,29 @@ export type SuiteContext = {
   fastify?: ServerInstance
 }
 
+/**
+ * Sets the mocked websocket instance in the provided provider class.
+ * We need this here, because the tests will connect using their instance of WebSocketClassProvider;
+ * fetching from this library to the \@chainlink/ea-bootstrap package would access _another_ instance
+ * of the same constructor. Although it should be a singleton, dependencies are different so that
+ * means that the static classes themselves are also different.
+ *
+ * @param provider - singleton WebSocketClassProvider
+ */
 export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
   // Extend mock WebSocket class to bypass protocol headers error
   class MockWebSocket extends WebSocket {
     constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
       super(url, protocol instanceof Object ? undefined : protocol)
     }
-
-    // Mock WebSocket does not come with built on function which adapter handlers could be using for ws
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    on(_: Event) {
-      return
+    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
+    removeAllListeners() {
+      for (const eventType in this.listeners) {
+        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
+        if (!eventType.startsWith('server')) {
+          delete this.listeners[eventType]
+        }
+      }
     }
   }
 
@@ -44,7 +56,7 @@ const wsResponseBody: WsAssetMetricsSuccessResponse = {
   ReferenceRateUSD: '1500',
 }
 
-const wsSpreadResponseBody: WsCryptoLwbaSuccessResponse = {
+const wsLwbaResponseBody: WsCryptoLwbaSuccessResponse = {
   pair: 'eth-usd',
   time: '2023-03-08T04:04:33.750000000Z',
   ask_price: '1562.4083581615457',
@@ -67,23 +79,23 @@ export const mockWebSocketServer = (URL: string) => {
   return mockWsServer
 }
 
-export const mockSpreadWebSocketServer = (URL: string) => {
+export const mockCryptoLwbaWebSocketServer = (URL: string) => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     const parseMessage = () => {
-      setTimeout(() => socket.send(JSON.stringify(wsSpreadResponseBody)), 10)
+      setTimeout(() => socket.send(JSON.stringify(wsLwbaResponseBody)), 10)
     }
     parseMessage()
   })
   return mockWsServer
 }
 
-export const createAdapter = (): Adapter<typeof customSettings> => {
+export const createAdapter = () => {
   return new Adapter({
     name: 'TEST',
     defaultEndpoint: 'price-ws',
     endpoints: [priceRouter, lwbaRouter],
-    customSettings,
+    config,
   })
 }
 

@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings, getApiEndpoint, getApiHeaders } from '../config'
+import { config, getApiEndpoint, getApiHeaders } from '../config'
 import overrides from '../config/overrides.json'
 
 export const inputParameters = {
@@ -44,7 +44,7 @@ type EndpointTypes = {
     }
     Result: number
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: Response[]

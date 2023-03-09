@@ -1,8 +1,5 @@
-import {
-  WebSocketTransport,
-  WebSocketRawData,
-} from '@chainlink/external-adapter-framework/transports/websocket'
-import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { CryptoEndpointTypes } from '../crypto-utils'
 
 const logger = makeLogger('CryptoCompare WS')
@@ -38,15 +35,15 @@ type WsEndpointTypes = CryptoEndpointTypes & {
 
 export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   url: (context) =>
-    `${context.adapterConfig.WS_API_ENDPOINT}?api_key=${
-      context.adapterConfig.WS_API_KEY || context.adapterConfig.API_KEY
+    `${context.adapterSettings.WS_API_ENDPOINT}?api_key=${
+      context.adapterSettings.WS_API_KEY || context.adapterSettings.API_KEY
     }`,
   handlers: {
     open(connection) {
       return new Promise((resolve, reject) => {
         // Set up listener
-        connection.on('message', (data: WebSocketRawData) => {
-          const parsed = JSON.parse(data.toString())
+        connection.addEventListener('message', (event: MessageEvent) => {
+          const parsed = JSON.parse(event.data.toString())
           if (parsed.MESSAGE === 'STREAMERWELCOME') {
             logger.info('Got logged in response, connection is ready')
             resolve()

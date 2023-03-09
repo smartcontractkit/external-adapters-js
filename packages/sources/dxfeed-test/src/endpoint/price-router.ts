@@ -1,18 +1,18 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { batchTransport } from './price'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
-import { wsTransport } from './price-ws'
-import { customSettings } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import overrides from '../config/overrides.json'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
+import { batchTransport } from './price'
+import { wsTransport } from './price-ws'
 
 export const inputParameters = {
   base: {
@@ -23,43 +23,6 @@ export const inputParameters = {
   },
 } satisfies InputParameters
 
-export interface ProviderResponseBody {
-  status: string
-  Trade: {
-    [key: string]: {
-      eventSymbol: string
-      eventTime: number
-      time: number
-      timeNanoPart: number
-      sequence: number
-      exchangeCode: string
-      price: number
-      change: number
-      size: number
-      dayVolume: number
-      dayTurnover: number
-      tickDirection: string
-      extendedTradingHours: boolean
-    }
-  }
-  Quote: {
-    [key: string]: {
-      eventSymbol: string
-      eventTime: number
-      timeNanoPart: number
-      bidTime: number
-      bidExchangeCode: string
-      bidPrice: number
-      bidSize: number
-      askTime: number
-      askExchangeCode: string
-      askPrice: number
-      askSize: number
-      sequence: number
-    }
-  }
-}
-
 export interface RequestParams {
   base: string
 }
@@ -69,18 +32,14 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody
-  }
+  Settings: typeof config.settings
 }
 
 function customInputValidation(
   req: AdapterRequest<EndpointTypes['Request']>,
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ): AdapterError | undefined {
-  if (req.requestContext.transportName === 'ws' && !config.WS_API_ENDPOINT) {
+  if (req.requestContext.transportName === 'ws' && !settings.WS_API_ENDPOINT) {
     return new AdapterInputError({
       statusCode: 400,
       message: 'WS_API_ENDPOINT is not set',
@@ -89,13 +48,12 @@ function customInputValidation(
   return
 }
 
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
-  transports: {
-    ws: wsTransport,
-    rest: batchTransport,
-  },
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', batchTransport),
   defaultTransport: 'rest',
   inputParameters: inputParameters,
   overrides: overrides.dxfeed,

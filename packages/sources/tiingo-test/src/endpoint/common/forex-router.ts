@@ -1,11 +1,12 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { httpTransport } from '../http/forex'
-import { customSettings } from '../../config'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { wsTransport } from '../ws/forex'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { RouterPriceEndpointParams } from '../../crypto-utils'
+import { config } from '../../config'
 import overrides from '../../config/overrides.json'
+import { RouterPriceEndpointParams } from '../../crypto-utils'
+import { httpTransport } from '../http/forex'
+import { wsTransport } from '../ws/forex'
 
 const inputParameters = {
   base: {
@@ -22,35 +23,20 @@ const inputParameters = {
   },
 } satisfies InputParameters
 
-interface ProviderResponseBody {
-  ticker: string
-  quoteTimestamp: string
-  bidPrice: number
-  bidSize: number
-  askPrice: number
-  askSize: number
-  midPrice: number
-}
-
 export type ForexEndpointTypes = {
   Request: {
     Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody[]
-  }
+  Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint<ForexEndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'forex',
   aliases: ['fx', 'commodities'],
-  transports: {
-    ws: wsTransport,
-    rest: httpTransport,
-  },
+  transportRoutes: new TransportRoutes<ForexEndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
   defaultTransport: 'rest',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
