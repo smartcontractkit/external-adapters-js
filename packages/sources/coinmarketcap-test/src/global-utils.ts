@@ -1,5 +1,5 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings } from './config'
+import { config } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters = {
@@ -74,7 +74,7 @@ export type GlobalEndpointTypes = {
     Params: GlobalRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: GlobalResponseSchema

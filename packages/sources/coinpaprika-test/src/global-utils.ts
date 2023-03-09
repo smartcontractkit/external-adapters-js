@@ -1,8 +1,7 @@
-import { customSettings, getApiEndpoint, getApiHeaders } from './config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { config, getApiEndpoint, getApiHeaders } from './config'
 
 const logger = makeLogger('CoinPaprika Global Batched')
 
@@ -38,7 +37,7 @@ export type GlobalEndpointTypes = {
     Params: GlobalRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: GlobalResponseBody
@@ -47,15 +46,15 @@ export type GlobalEndpointTypes = {
 
 export const buildGlobalRequestBody = (
   params: GlobalRequestParams[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ) => {
   return {
     params,
     request: {
-      baseURL: getApiEndpoint(config),
+      baseURL: getApiEndpoint(settings),
       url: '/v1/global',
       method: 'GET',
-      headers: getApiHeaders(config),
+      headers: getApiHeaders(settings),
     },
   }
 }

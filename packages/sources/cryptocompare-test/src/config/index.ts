@@ -1,18 +1,15 @@
-export const DEFAULT_API_ENDPOINT = 'https://min-api.cryptocompare.com'
-export const DEFAULT_WS_API_ENDPOINT = 'wss://streamer.cryptocompare.com/v2'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const defaultEndpoint = 'crypto'
-
-export const customSettings = {
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
-    default: DEFAULT_API_ENDPOINT,
+    default: 'https://min-api.cryptocompare.com',
   },
   WS_API_ENDPOINT: {
     description: 'The WS URL to retrieve data from',
     type: 'string',
-    default: DEFAULT_WS_API_ENDPOINT,
+    default: 'wss://streamer.cryptocompare.com/v2',
   },
   API_KEY: {
     description: 'The CryptoCompare API key',
@@ -25,4 +22,4 @@ export const customSettings = {
     type: 'string',
     sensitive: true,
   },
-} as const
+})

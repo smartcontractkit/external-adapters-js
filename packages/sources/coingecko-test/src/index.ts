@@ -8,13 +8,13 @@ import {
   dominance,
   globalMarketcap,
 } from './endpoint'
-import { customSettings } from './config'
+import { config } from './config'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: 'crypto',
   name: 'COINGECKO',
   endpoints: [crypto, coins, cryptoMarketcap, cryptoVolume, dominance, globalMarketcap],
-  customSettings,
+  config,
   rateLimiting: {
     tiers: {
       free: {

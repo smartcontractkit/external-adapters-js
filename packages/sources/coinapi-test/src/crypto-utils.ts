@@ -1,6 +1,5 @@
-import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { config } from './config'
 
 export const inputParameters = {
   base: {
@@ -17,19 +16,9 @@ export const inputParameters = {
   },
 } as const
 
-export interface ProviderResponseBody {
-  asset_id_base: string
-  rates: { time: string; asset_id_quote: string; rate: number }[]
-}
-
 export interface RequestParams {
   base: string
   quote: string
-}
-
-export interface ProviderRequestBody {
-  filter_asset_id: string
-  apikey: string
 }
 
 export type EndpointTypes = {
@@ -37,11 +26,7 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: ProviderRequestBody
-    ResponseBody: ProviderResponseBody
-  }
+  Settings: typeof config.settings
 }
 
 const getMappedSymbols = (requestParams: RequestParams[]) => {
@@ -69,7 +54,7 @@ const getMappedSymbols = (requestParams: RequestParams[]) => {
 
 export const buildBatchedRequestBody = (
   requestParams: RequestParams[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ) => {
   // Coinapi supports batching only for quote params (filter_asset_id) so we are grouping requestParams by bases meaning we will send N number of requests to DP where the N is number of unique bases
   const groupedSymbols = getMappedSymbols(requestParams)
@@ -79,11 +64,11 @@ export const buildBatchedRequestBody = (
     return {
       params: requestParams.filter((p) => p.base === param.base),
       request: {
-        baseURL: config.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         url,
         params: {
           filter_asset_id: [...new Set(param.filter_asset_id)].join(','),
-          apikey: config.API_KEY,
+          apikey: settings.API_KEY,
         },
       },
     }

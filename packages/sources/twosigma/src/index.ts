@@ -1,6 +1,6 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { PriceAdapter, PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from './config'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
 import { priceEndpoint } from './endpoint'
 
 const makeAdapter = () => {
@@ -8,9 +8,9 @@ const makeAdapter = () => {
   // time, so this is useful in tests for example.
   return new PriceAdapter({
     name: 'TWOSIGMA',
-    endpoints: [priceEndpoint as PriceEndpoint<any>],
+    endpoints: [priceEndpoint],
     defaultEndpoint: priceEndpoint.name,
-    customSettings,
+    config,
   })
 }
 

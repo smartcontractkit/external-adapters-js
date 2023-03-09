@@ -1,4 +1,5 @@
 import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 // Quote values are used to find a dynamic property in the DP response, in the form of ReferenceRate{quote}
 // Since we use hard property names in response types, we need to make sure that only expected quote values appear in params
@@ -9,7 +10,7 @@ export enum VALID_QUOTES {
   BTC = 'BTC',
 }
 
-export const customSettings = {
+export const config = new AdapterConfig({
   API_KEY: {
     description: 'The coinmetrics API key',
     type: 'string',
@@ -26,7 +27,7 @@ export const customSettings = {
     type: 'string',
     default: 'https://api.coinmetrics.io/v4',
   },
-} as const
+})
 
 export const priceInputParameters: PriceEndpointInputParameters & { quote: { options: string[] } } =
   {

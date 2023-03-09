@@ -1,6 +1,8 @@
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
 export const defaultEndpoint = 'price'
 
-export const customSettings = {
+export const config = new AdapterConfig({
   API_KEY: {
     description: 'The Blocksize Capital API key',
     type: 'string',
@@ -13,4 +15,4 @@ export const customSettings = {
     required: false,
     default: 'wss://data.blocksize.capital/marketdata/v1/ws',
   },
-} as const
+})
