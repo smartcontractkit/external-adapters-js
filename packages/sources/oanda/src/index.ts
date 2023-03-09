@@ -1,14 +1,14 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { PriceAdapter, PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { priceEndpoint } from './endpoint'
-import { customSettings } from './config'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
 import includes from './config/includes.json'
+import { priceEndpoint } from './endpoint'
 
 export const adapter = new PriceAdapter({
   name: 'OANDA',
   defaultEndpoint: 'price',
-  customSettings,
-  endpoints: [priceEndpoint as PriceEndpoint<any>],
+  config,
+  endpoints: [priceEndpoint],
   includes,
 })
 

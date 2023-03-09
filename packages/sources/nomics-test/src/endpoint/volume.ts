@@ -6,6 +6,7 @@ import {
   inputParameters,
   RequestParams,
 } from '../crypto-utils'
+import overrides from '../config/overrides.json'
 
 const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -43,5 +44,6 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
 export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
   name: 'volume',
   transport: httpTransport,
+  overrides: overrides['nomics'],
   inputParameters,
 })

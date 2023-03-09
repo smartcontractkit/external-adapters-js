@@ -1,27 +1,24 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import {
   AdapterConnectionError,
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { customSettings } from './config'
-import { AccessToken, AccessTokenResponse } from './types'
 import axios from 'axios'
+import { config } from './config'
+import { AccessToken, AccessTokenResponse } from './types'
 
 const logger = makeLogger('GalaxyUtil')
 
-export const getAccessToken = async (
-  config: AdapterConfig<typeof customSettings>,
-): Promise<AccessToken> => {
+export const getAccessToken = async (settings: typeof config.settings): Promise<AccessToken> => {
   const requestedTs = Date.now()
   try {
     const tokenResponse = await axios.request<AccessTokenResponse>({
-      url: config.API_ENDPOINT,
+      url: settings.API_ENDPOINT,
       method: 'GET',
       headers: {
-        'X-GALAXY-APIKEY': config.WS_API_KEY,
-        'X-GALAXY-PASSWORD': config.WS_API_PASSWORD,
+        'X-GALAXY-APIKEY': settings.WS_API_KEY,
+        'X-GALAXY-PASSWORD': settings.WS_API_PASSWORD,
       },
     })
 

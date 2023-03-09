@@ -1,10 +1,11 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { customSettings } from './config'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  makeLogger,
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import { config } from './config'
 
-export type BatchRequestParams = LiveRequestParams
-
-export interface LiveRequestParams {
+export interface PriceRequestParams {
   base: string
   quote?: string
 }
@@ -40,68 +41,79 @@ interface ResponseSchema {
   timestamp: number
 }
 
-export type BatchEndpointTypes = LiveEndpointTypes & {
+export type PriceEndpointTypes = {
   Request: {
-    Params: BatchRequestParams
-  }
-}
-
-export type LiveEndpointTypes = {
-  Request: {
-    Params: LiveRequestParams
+    Params: PriceRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
+}
+
+export type HttpTransportTypes = PriceEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
 
-export const buildBatchedRequestBody = <T extends LiveRequestParams>(
+const logger = makeLogger('PriceUtils')
+
+export const buildBatchedRequestBody = <T extends PriceRequestParams>(
   params: T[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ) => {
   return {
     params,
     request: {
-      baseURL: config.API_ENDPOINT,
+      baseURL: settings.API_ENDPOINT,
       params: {
         currency: [
           ...new Set(params.map((param) => `${param.base}${param.quote ?? ''}`.toUpperCase())),
         ].join(','),
-        api_key: config.API_KEY,
+        api_key: settings.API_KEY,
       },
     },
   }
 }
 
-export const constructEntry = <T extends LiveRequestParams>(res: ResponseSchema, params: T[]) => {
-  return res.quotes.map((entry) => {
-    const pair = params.find(
-      (param) =>
-        `${param.base}${param.quote ?? ''}`.toUpperCase() ===
-          `${entry.base_currency}${entry.quote_currency}`.toUpperCase() ||
-        `${param.base}${param.quote ?? ''}`.toUpperCase() === entry.instrument,
-    ) as unknown as BatchRequestParams
+export const constructEntry = <T extends PriceRequestParams>(
+  res: ResponseSchema,
+  params: T[],
+): ProviderResult<HttpTransportTypes>[] => {
+  return res.quotes
+    .map((entry): ProviderResult<HttpTransportTypes> | undefined => {
+      const pair = params.find(
+        (param) =>
+          `${param.base}${param.quote ?? ''}`.toUpperCase() ===
+            `${entry.base_currency}${entry.quote_currency}`.toUpperCase() ||
+          `${param.base}${param.quote ?? ''}`.toUpperCase() === entry.instrument,
+      )
 
-    if (entry.error) {
+      if (!pair) {
+        logger.error(
+          `No pair was found for entry (base: ${entry.base_currency}, quote: ${entry.quote_currency})`,
+        )
+        return undefined
+      }
+
+      if (entry.error) {
+        return {
+          params: pair,
+          response: {
+            errorMessage: `No data for base - ${pair.base}, quote - ${pair.quote} `,
+            statusCode: 502,
+          },
+        }
+      }
       return {
         params: pair,
         response: {
-          errorMessage: `No data for base - ${pair.base}, quote - ${pair.quote} `,
-          statusCode: 502,
-        },
-      }
-    }
-    return {
-      params: pair,
-      response: {
-        data: {
+          data: {
+            result: entry.mid,
+          },
           result: entry.mid,
         },
-        result: entry.mid,
-      },
-    }
-  })
+      }
+    })
+    .filter((entry) => entry !== undefined) as ProviderResult<HttpTransportTypes>[]
 }

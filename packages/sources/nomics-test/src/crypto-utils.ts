@@ -1,4 +1,4 @@
-import { customSettings } from './config'
+import { config } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters = {
@@ -66,7 +66,7 @@ export type CryptoEndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema[]

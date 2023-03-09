@@ -1,9 +1,10 @@
 import { httpTransport } from './price'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../config'
+import { config } from '../config'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { wsTransport } from './price-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
 export const inputParameters = {
   base: {
@@ -18,50 +19,20 @@ export interface RequestParams {
   base: string
 }
 
-export interface ProviderResponseBody {
-  last_price: number
-  last_time: string
-  last_size: number
-  bid_price: number
-  bid_size: number
-  ask_price: number
-  ask_size: number
-  open_price: number
-  close_price: number | null
-  high_price: number
-  low_price: number
-  exchange_volume: number | null
-  market_volume: number
-  updated_on: string | null
-  source: string
-  security: {
-    id: string
-    ticker: string
-    exchange_ticker: string
-    figi: string
-    composite_figi: string
-  }
-}
-
 export type EndpointTypes = {
   Request: {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody
-  }
+  Settings: typeof config.settings
 }
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['stock'],
-  transports: {
-    ws: wsTransport,
-    rest: httpTransport,
-  },
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
   defaultTransport: 'rest',
   inputParameters: inputParameters,
 })

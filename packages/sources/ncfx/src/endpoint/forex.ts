@@ -3,7 +3,6 @@ import {
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
@@ -15,7 +14,7 @@ import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { customSettings } from '../config'
+import { config } from '../config'
 
 interface WsMessage {
   [pair: string]: { price: number; timestamp: string }
@@ -26,7 +25,7 @@ export type EndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: WsMessage
   }
@@ -35,15 +34,15 @@ export type EndpointTypes = {
 const logger = makeLogger('NcfxForexEndpoint')
 
 export const forexTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => context.adapterConfig.FOREX_WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.FOREX_WS_API_ENDPOINT,
   options: (context) => {
     const forexEncodedCreds =
-      context.adapterConfig.FOREX_WS_USERNAME && context.adapterConfig.FOREX_WS_PASSWORD
+      context.adapterSettings.FOREX_WS_USERNAME && context.adapterSettings.FOREX_WS_PASSWORD
         ? Buffer.from(
             JSON.stringify({
               grant_type: 'password',
-              username: context.adapterConfig.FOREX_WS_USERNAME,
-              password: context.adapterConfig.FOREX_WS_PASSWORD,
+              username: context.adapterSettings.FOREX_WS_USERNAME,
+              password: context.adapterSettings.FOREX_WS_PASSWORD,
             }),
           ).toString('base64')
         : ''
@@ -88,9 +87,9 @@ export const forexTransport = new WebSocketTransport<EndpointTypes>({
 
 export function customInputValidation(
   _: AdapterRequest<EndpointTypes['Request']>,
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ): AdapterError | undefined {
-  if (!config.FOREX_WS_USERNAME || !config.FOREX_WS_PASSWORD) {
+  if (!settings.FOREX_WS_USERNAME || !settings.FOREX_WS_PASSWORD) {
     return new AdapterInputError({
       statusCode: 400,
       message: 'Forex endpoint credentials are not set',

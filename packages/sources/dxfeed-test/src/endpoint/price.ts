@@ -5,7 +5,51 @@ import quoteEventSymbols from '../config/quoteSymbols.json'
 
 const logger = makeLogger('DxFeed Price Batched')
 
-export const batchTransport = new HttpTransport<EndpointTypes>({
+type ProviderResponseBody = {
+  status: string
+  Trade: {
+    [key: string]: {
+      eventSymbol: string
+      eventTime: number
+      time: number
+      timeNanoPart: number
+      sequence: number
+      exchangeCode: string
+      price: number
+      change: number
+      size: number
+      dayVolume: number
+      dayTurnover: number
+      tickDirection: string
+      extendedTradingHours: boolean
+    }
+  }
+  Quote: {
+    [key: string]: {
+      eventSymbol: string
+      eventTime: number
+      timeNanoPart: number
+      bidTime: number
+      bidExchangeCode: string
+      bidPrice: number
+      bidSize: number
+      askTime: number
+      askExchangeCode: string
+      askPrice: number
+      askSize: number
+      sequence: number
+    }
+  }
+}
+
+type HttpTransportTypes = EndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
+
+export const batchTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     const requestConfig = {
       baseURL: config.API_ENDPOINT,

@@ -1,7 +1,34 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { IEXEndpointTypes } from '../common/iex-router'
 
-export const httpTransport = new HttpTransport<IEXEndpointTypes>({
+interface ProviderResponseBody {
+  prevClose: number
+  last: number
+  lastSaleTimestamp: string
+  low: number
+  bidSize: number
+  askPrice: number
+  open: number
+  mid: number
+  volume: number
+  lastSize: number
+  tngoLast: number
+  ticker: string
+  askSize: number
+  quoteTimestamp: string
+  bidPrice: number
+  timestamp: string
+  high: number
+}
+
+type HttpIEXEndpointTypes = IEXEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody[]
+  }
+}
+
+export const httpTransport = new HttpTransport<HttpIEXEndpointTypes>({
   prepareRequests: (params, config) => {
     return {
       params: params,

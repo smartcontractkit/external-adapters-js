@@ -7,7 +7,7 @@ import {
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import axios from 'axios'
-import { customSettings } from '../config'
+import { config } from '../config'
 
 const logger = makeLogger('ElwoodWsPrice')
 
@@ -48,7 +48,7 @@ type CryptoEndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: ResponseMessage
   }
@@ -58,7 +58,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
   constructor() {
     super({
       url: (context) =>
-        `${context.adapterConfig.WS_API_ENDPOINT}?apiKey=${context.adapterConfig.API_KEY}`,
+        `${context.adapterSettings.WS_API_ENDPOINT}?apiKey=${context.adapterSettings.API_KEY}`,
       handlers: {
         message(message) {
           if (message.type !== 'Index') {
@@ -132,7 +132,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
     for (const message of messages) {
       axios
         .request({
-          url: `${context.adapterConfig.API_ENDPOINT}?apiKey=${context.adapterConfig.API_KEY}`,
+          url: `${context.adapterSettings.API_ENDPOINT}?apiKey=${context.adapterSettings.API_KEY}`,
           method: 'post',
           data: message,
         })
