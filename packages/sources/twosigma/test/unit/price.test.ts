@@ -98,7 +98,7 @@ describe('Config', () => {
 
 describe('TwoSigmaWebsocketTransport', () => {
   const context = {
-    adapterConfig: {
+    adapterSettings: {
       WS_API_ENDPOINT: 'wss://chainlink.twosigma.com',
       WS_API_KEY: 'abc',
     },
@@ -131,6 +131,10 @@ describe('TwoSigmaWebsocketTransport', () => {
       if (event === 'open') {
         listener({ type: 'mock_open' })
       }
+    }
+
+    removeAllListeners() {
+      return
     }
   }
 
