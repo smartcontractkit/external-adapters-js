@@ -54,7 +54,7 @@ export const calculatPairQuotesUrl = (
   context: EndpointContext<WsCryptoLwbaEndpointTypes>,
   desiredSubs: WsCryptoLwbaEndpointTypes['Request']['Params'][],
 ): string => {
-  const { API_KEY, WS_API_ENDPOINT } = context.adapterConfig
+  const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
   const pairs = [
     ...new Set(desiredSubs.map((sub) => `${sub.base.toLowerCase()}-${sub.quote.toLowerCase()}`)),
   ].join(',')

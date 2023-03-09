@@ -3,7 +3,7 @@ import { AddressInfo } from 'net'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import {
   createAdapter,
-  mockSpreadWebSocketServer,
+  mockCryptoLwbaWebSocketServer,
   mockWebSocketProvider,
   setEnvVariables,
 } from './setup-ws'
@@ -41,7 +41,7 @@ describe('websocket', () => {
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockSpreadWebSocketServer(wsEndpoint)
+    mockWsServer = mockCryptoLwbaWebSocketServer(wsEndpoint)
 
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())

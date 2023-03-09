@@ -1,11 +1,11 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './lwba-ws'
-import { customSettings } from '../config'
+import { config } from '../config'
 import {
   AdapterEndpoint,
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
 // Common endpoint type shared by the REST and WS transports
 export type CryptoLwbaEndpointTypes = {
@@ -24,22 +24,19 @@ export type CryptoLwbaEndpointTypes = {
   Request: {
     Params: PriceEndpointParams
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 // Currently only routes to websocket. Stub is here for the follow-up release that will add in REST routes.
-export const routingTransport = new RoutingTransport<CryptoLwbaEndpointTypes>(
-  {
-    WS: wsTransport,
-  },
-  () => {
-    return 'WS'
-  },
+export const transportRoutes = new TransportRoutes<CryptoLwbaEndpointTypes>().register(
+  'ws',
+  wsTransport,
 )
 
 export const endpoint = new AdapterEndpoint<CryptoLwbaEndpointTypes>({
   name: 'crypto-lwba',
   aliases: ['crypto_lwba'],
-  transport: routingTransport,
+  transportRoutes,
+  defaultTransport: 'ws',
   inputParameters: priceEndpointInputParameters,
 })
