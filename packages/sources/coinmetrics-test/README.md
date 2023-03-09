@@ -18,9 +18,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                          Options                                          |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [crypto](#price-ws-endpoint), [price-ws](#price-ws-endpoint), [price](#price-ws-endpoint) | `price-ws` |
+| Required? |   Name   |     Description     |  Type  |                                                                                Options                                                                                |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#crypto-lwba-endpoint), [crypto](#price-ws-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [price-ws](#price-ws-endpoint), [price](#price-ws-endpoint) | `price-ws` |
 
 ## Price-ws Endpoint
 
@@ -32,6 +32,23 @@ Supported names for this endpoint are: `crypto`, `price`, `price-ws`.
 | :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :------------------------: | :-----: | :--------: | :------------: |
 |    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |                            |         |            |                |
 |    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string | `BTC`, `ETH`, `EUR`, `USD` |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Crypto-lwba Endpoint
+
+Supported names for this endpoint are: `crypto-lwba`, `crypto_lwba`.
+
+### Input Params
+
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
