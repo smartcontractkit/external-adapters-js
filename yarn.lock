@@ -3038,7 +3038,7 @@ __metadata:
     axios-observable: 1.3.0
     backoff-rxjs: 6.5.7
     chalk: 4.1.2
-    class-validator: 0.13.2
+    class-validator: 0.14.0
     command-line-args: 5.2.1
     command-line-usage: 6.1.3
     json-schema-ref-parser: 9.0.9
@@ -10845,6 +10845,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/validator@npm:^13.7.10":
+  version: 13.7.13
+  resolution: "@types/validator@npm:13.7.13"
+  checksum: 7a80d3da763f3d00342a0b14c09ca3f891c9b503ce1d4e39cde4c2ccba00b9592cde33950844fd557a2f666cfe0aff905b5ca9789b61d178729b7df783034df5
+  languageName: node
+  linkType: hard
+
 "@types/websocket@npm:^1.0.5":
   version: 1.0.5
   resolution: "@types/websocket@npm:1.0.5"
@@ -13480,13 +13487,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-validator@npm:0.13.2":
-  version: 0.13.2
-  resolution: "class-validator@npm:0.13.2"
+"class-validator@npm:0.14.0":
+  version: 0.14.0
+  resolution: "class-validator@npm:0.14.0"
   dependencies:
-    libphonenumber-js: ^1.9.43
+    "@types/validator": ^13.7.10
+    libphonenumber-js: ^1.10.14
     validator: ^13.7.0
-  checksum: 0deb4c29faa18345f6989fd7eaaaa07b05caae5298603fcd6485531c6daad503e5d2b24cc1342e4fc88ae5ba0acffdc24d0fc333110ef3f21a667cd8a79e1258
+  checksum: f62e4a0ad24cee68f4b2bc70d32b96de90cb598f96bde362b4dbf4234151af8eb6ae225458312a38fc49fa3959844cf61c60e731a8205e9a570454cff8de2710
   languageName: node
   linkType: hard
 
@@ -21932,10 +21940,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libphonenumber-js@npm:^1.9.43":
-  version: 1.10.13
-  resolution: "libphonenumber-js@npm:1.10.13"
-  checksum: a1740bbed8faa1adb4ae01dda6a7c16b4fd2917efdd9bafac53fa06d9e4b53dc67543d282f7fd0043649edddc0f03359448a17adb837e534358c7ba92c7dc268
+"libphonenumber-js@npm:^1.10.14":
+  version: 1.10.21
+  resolution: "libphonenumber-js@npm:1.10.21"
+  checksum: 0ffac0db4552eb1d39f8da8ee57cba20b1ad76a268f0e633c2dfcfe7db97d498cc6631c1ec4c1fc608944b866509d5b8e5039af878debec00b3a526946edebac
   languageName: node
   linkType: hard
 
