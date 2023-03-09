@@ -1,3 +1,6 @@
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { Cache } from '@chainlink/external-adapter-framework/cache'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
@@ -5,14 +8,10 @@ import {
   makeLogger,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
-import CryptoJS from 'crypto-js'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import CryptoJS from 'crypto-js'
+import { config } from '../../config'
 import { Collateral } from './utils'
-import { customSettings } from '../../config'
 
 const logger = makeLogger('AlongsideLogger')
 
@@ -21,7 +20,7 @@ export type EndpointTypes = {
     Params: unknown
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
@@ -69,25 +68,30 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
   requester!: Requester
   name!: string
 
-  async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
+  async initialize(
+    dependencies: TransportDependencies<EndpointTypes>,
+    _: typeof config.settings,
+    __: string,
+    name: string,
+  ): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
     this.requester = dependencies.requester
-    this.name = 'default_single_transport'
+    this.name = name
   }
 
-  prepareRequest(type: string, config: AdapterConfig<typeof customSettings>) {
-    const primeUrl = config.API_ENDPOINT
-    const url = `${primeUrl}/portfolios/${config.PORTFOLIO_ID}/balances?balance_type=${type}_BALANCES`
+  prepareRequest(type: string, settings: typeof config.settings) {
+    const primeUrl = settings.API_ENDPOINT
+    const url = `${primeUrl}/portfolios/${settings.PORTFOLIO_ID}/balances?balance_type=${type}_BALANCES`
     const timestamp = Math.floor(Date.now() / 1000)
     const method = 'GET'
     const path = url.replace(primeUrl, '/v1').split('?')[0]
     const message = `${timestamp}${method}${path}`
-    const signature = sign(message, config.SIGNING_KEY)
+    const signature = sign(message, settings.SIGNING_KEY)
 
     const headers = {
-      'X-CB-ACCESS-KEY': config.ACCESS_KEY,
-      'X-CB-ACCESS-PASSPHRASE': config.PASSPHRASE,
+      'X-CB-ACCESS-KEY': settings.ACCESS_KEY,
+      'X-CB-ACCESS-PASSPHRASE': settings.PASSPHRASE,
       'X-CB-ACCESS-SIGNATURE': signature,
       'X-CB-ACCESS-TIMESTAMP': timestamp,
       'Content-Type': 'application/json',
@@ -101,11 +105,11 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
 
   async foregroundExecute(
     req: AdapterRequest<EndpointTypes['Request']>,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
-    const requestTradingBalance = this.prepareRequest('TRADING', config)
-    const requestTradingVault = this.prepareRequest('VAULT', config)
-    const collateral = new Collateral(config.RPC_URL)
+    const requestTradingBalance = this.prepareRequest('TRADING', settings)
+    const requestTradingVault = this.prepareRequest('VAULT', settings)
+    const collateral = new Collateral(settings.RPC_URL)
     const providerDataRequestedUnixMs = Date.now()
     logger.debug('Requesting trading balance')
     const tradingBalances = await this.requester.request<ProviderResponseBody>(

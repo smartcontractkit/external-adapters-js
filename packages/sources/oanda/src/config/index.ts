@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_KEY: {
     description: 'API key for REST endpoint',
     type: 'string',
@@ -32,4 +34,4 @@ export const customSettings = {
     type: 'string',
     default: 'https://stream-fxtrade.oanda.com/v3',
   },
-} as const
+})

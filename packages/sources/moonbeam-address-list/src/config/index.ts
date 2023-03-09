@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   RPC_URL: {
     type: 'string',
     description:
@@ -10,4 +12,4 @@ export const customSettings = {
     description: 'The chain id to connect to',
     default: 1284,
   },
-} as const
+})

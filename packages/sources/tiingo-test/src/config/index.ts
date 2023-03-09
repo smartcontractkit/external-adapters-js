@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'API endpoint for tiingo',
     default: 'https://api.tiingo.com/',
@@ -15,4 +17,4 @@ export const customSettings = {
     default: 'wss://api.tiingo.com',
     type: 'string',
   },
-} as const
+})

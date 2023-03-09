@@ -1,11 +1,10 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { customSettings } from './config'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import {
   PriceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from './config'
 
 export const inputParameters = {
   base: {
@@ -21,6 +20,8 @@ export const inputParameters = {
     description: 'The symbol of the currency to convert to',
   },
 } satisfies InputParameters & PriceEndpointInputParameters
+
+export type RouterPriceEndpointParams = PriceEndpointParams
 
 export interface ProviderResponseBody {
   ticker: string
@@ -44,14 +45,15 @@ export interface ProviderResponseBody {
   }[]
 }
 
-export type RouterPriceEndpointParams = PriceEndpointParams
-
 export type CryptoEndpointTypes = {
   Request: {
     Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
+}
+
+export type HttpTransportTypes = CryptoEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[]
@@ -63,7 +65,7 @@ const chunkArray = <T extends PriceEndpointParams>(params: T[], size = 100): T[]
 
 export const buildBatchedRequestBody = <T extends PriceEndpointParams>(
   params: T[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
   url: string,
 ) => {
   // Tiingo supports up to 100 tickers in a single request, so we need to slice it to have 100 element chunks
@@ -73,10 +75,10 @@ export const buildBatchedRequestBody = <T extends PriceEndpointParams>(
     return {
       params: chunkedParams,
       request: {
-        baseURL: config.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         url,
         params: {
-          token: config.API_KEY,
+          token: settings.API_KEY,
           tickers: [...new Set(chunkedParams.map((p) => `${p.base}${p.quote}`.toLowerCase()))].join(
             ',',
           ),

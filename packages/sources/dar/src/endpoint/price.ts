@@ -1,12 +1,12 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   PriceEndpoint,
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { WS_HEARTBEAT_MS } from '../config'
 import { PriceEndpointTypes } from '../types'
 import { getAuthToken } from '../util'
-import { WS_HEARTBEAT_MS } from '../config'
 
 const logger = makeLogger('DarPriceEndpoint')
 
@@ -32,9 +32,9 @@ function heartbeat(connection: WebSocket): NodeJS.Timeout | undefined {
 }
 
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context) => {
-    const token = await getAuthToken(context.adapterConfig)
+    const token = await getAuthToken(context.adapterSettings)
     return {
       headers: { Authorization: token },
     }
@@ -42,7 +42,7 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   handlers: {
     open(connection) {
       const heartbeatTimeout = heartbeat(connection)
-      connection.on('close', async () => {
+      connection.addEventListener('close', async () => {
         clearTimeout(heartbeatTimeout)
       })
     },
@@ -52,7 +52,7 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
         return []
       }
 
-      if (hitTrackingLevels[context.adapterConfig.LOG_LEVEL]) {
+      if (hitTrackingLevels[context.adapterSettings.LOG_LEVEL]) {
         const { darAssetTicker: base, quoteCurrency: quote } = message
 
         pairHits[base] ??= {}

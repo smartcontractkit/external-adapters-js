@@ -24,9 +24,9 @@ export type EndpointDetails = {
 
 export type EnvVars = {
   [envVar: string]: {
-    default?: string | number
+    default?: string | number | boolean
     description?: string
-    options?: (string | number)[]
+    options?: readonly string[]
     type?: string
   }
 }
