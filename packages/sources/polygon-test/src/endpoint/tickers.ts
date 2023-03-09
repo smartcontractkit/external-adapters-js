@@ -27,15 +27,13 @@ export const inputParameters = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
-    description:
-      'The symbol of the currency to query. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
+    description: 'The symbol of symbols of the currency to query',
     required: true,
   },
   quote: {
     aliases: ['to', 'market'],
     type: 'string',
-    description:
-      'The symbol of the currency to convert to. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
+    description: 'The symbol of the currency to convert to',
     required: true,
   },
 } as const
@@ -135,6 +133,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'tickers',
+  aliases: ['forex', 'price'],
   transport: httpTransport,
   inputParameters: inputParameters,
 })

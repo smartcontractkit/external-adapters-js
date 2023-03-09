@@ -1,6 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { buildUrlPath } from './utils'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
@@ -71,7 +70,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       const to = param.quote.toUpperCase()
       const amount = param.amount
       const precision = param.precision
-      const url = buildUrlPath('/v1/conversion/:from/:to', { from, to })
+      const url = `/v1/conversion/${from}/${to}`
       const requestConfig = {
         baseURL: settings.API_ENDPOINT,
         url,
