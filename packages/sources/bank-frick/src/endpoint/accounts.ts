@@ -82,8 +82,8 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
 
   async initialize(
     dependencies: TransportDependencies<AccountsEndpointTypes>,
-    settings: typeof config.settings,
-    endpointName: string,
+    _: typeof config.settings,
+    __: string,
     name: string,
   ): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<AccountsEndpointTypes['Response']>>

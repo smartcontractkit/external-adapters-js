@@ -110,8 +110,8 @@ export class MarketcapTransport implements Transport<MarketcapTransportGenerics>
 
   async initialize(
     dependencies: TransportDependencies<MarketcapTransportGenerics>,
-    settings: typeof config.settings,
-    endpointName: string,
+    _: typeof config.settings,
+    __: string,
     name: string,
   ): Promise<void> {
     this.responseCache = dependencies.responseCache

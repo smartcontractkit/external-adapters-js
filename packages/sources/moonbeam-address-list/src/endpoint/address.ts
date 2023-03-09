@@ -74,8 +74,8 @@ export class AddressTransport implements Transport<EndpointTypes> {
 
   async initialize(
     dependencies: TransportDependencies<EndpointTypes>,
-    settings: typeof config.settings,
-    endpointName: string,
+    _: typeof config.settings,
+    __: string,
     name: string,
   ): Promise<void> {
     this.responseCache = dependencies.responseCache

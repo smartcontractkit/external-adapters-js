@@ -70,8 +70,8 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
 
   async initialize(
     dependencies: TransportDependencies<EndpointTypes>,
-    settings: typeof config.settings,
-    endpointName: string,
+    _: typeof config.settings,
+    __: string,
     name: string,
   ): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
