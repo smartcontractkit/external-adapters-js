@@ -29,7 +29,6 @@ export type ModifiedSSEConfig = {
 }
 
 export class ModifiedSseTransport<T extends TransportGenerics> extends StreamingTransport<T> {
-  name = 'default_single_transport'
   eventListeners!: {
     type: string
     parseResponse: (eventt: MessageEvent<any>['data']) => ProviderResult<T>[]
@@ -62,8 +61,9 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
     dependencies: TransportDependencies<T>,
     settings: typeof config.settings,
     endpointName: string,
+    name: string,
   ): Promise<void> {
-    super.initialize(dependencies, settings, endpointName, 'sse')
+    super.initialize(dependencies, settings, endpointName, name)
   }
 
   async streamHandler(

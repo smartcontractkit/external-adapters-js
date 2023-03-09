@@ -102,15 +102,21 @@ export interface MarketcapTransportConfig {
 
 // Much of the code in this transport is borrowed from the framework's RestTransport as an example
 export class MarketcapTransport implements Transport<MarketcapTransportGenerics> {
-  name = 'default_single_transport'
+  name!: string
   responseCache!: TransportDependencies<MarketcapTransportGenerics>['responseCache']
   rateLimiter!: RateLimiter
 
   constructor(protected config: MarketcapTransportConfig) {}
 
-  async initialize(dependencies: TransportDependencies<MarketcapTransportGenerics>): Promise<void> {
+  async initialize(
+    dependencies: TransportDependencies<MarketcapTransportGenerics>,
+    settings: typeof config.settings,
+    endpointName: string,
+    name: string,
+  ): Promise<void> {
     this.responseCache = dependencies.responseCache
     this.rateLimiter = dependencies.rateLimiter
+    this.name = name
   }
 
   async foregroundExecute(

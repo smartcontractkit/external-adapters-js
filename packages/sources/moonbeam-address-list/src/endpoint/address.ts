@@ -72,9 +72,14 @@ export class AddressTransport implements Transport<EndpointTypes> {
     Response: EndpointTypes['Response']
   }>
 
-  async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
+  async initialize(
+    dependencies: TransportDependencies<EndpointTypes>,
+    settings: typeof config.settings,
+    endpointName: string,
+    name: string,
+  ): Promise<void> {
     this.responseCache = dependencies.responseCache
-    this.name = 'default_single_transport'
+    this.name = name
   }
 
   async foregroundExecute(
