@@ -1,25 +1,22 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import {
   AdapterConnectionError,
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from './config'
-import { AuthResponse } from './types'
 import axios from 'axios'
+import { config } from './config'
+import { AuthResponse } from './types'
 
 const logger = makeLogger('DarUtil')
 
-export const getAuthToken = async (
-  config: AdapterConfig<typeof customSettings>,
-): Promise<string> => {
+export const getAuthToken = async (settings: typeof config.settings): Promise<string> => {
   const requestedTs = Date.now()
   try {
-    const buf = Buffer.from(`${config.WS_API_USERNAME}:${config.WS_API_KEY}`)
+    const buf = Buffer.from(`${settings.WS_API_USERNAME}:${settings.WS_API_KEY}`)
     const auth = buf.toString('base64')
     const jwtRes = await axios.request<AuthResponse>({
-      url: `${config.API_ENDPOINT}/token-auth`,
+      url: `${settings.API_ENDPOINT}/token-auth`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

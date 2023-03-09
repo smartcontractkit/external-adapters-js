@@ -1,7 +1,23 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes, ResponseSchema } from '../stock-router'
+import { EndpointTypes } from '../stock-router'
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
+export interface ResponseSchema {
+  symbol: string
+  ask: number
+  bid: number
+  asize: number
+  bsize: number
+  timestamp: number
+}
+
+type HttpTransportTypes = EndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema[]
+  }
+}
+
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return {
       params,

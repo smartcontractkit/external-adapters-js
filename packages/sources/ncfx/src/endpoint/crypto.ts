@@ -1,16 +1,15 @@
-import { customSettings } from '../config'
-import {
-  makeLogger,
-  ProviderResult,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   CryptoPriceEndpoint,
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { WebSocketRawData } from '@chainlink/external-adapter-framework/transports/websocket'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  makeLogger,
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
 
 type WsMessage = {
   timestamp: string
@@ -25,7 +24,7 @@ export type EndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: WsMessage
   }
@@ -34,13 +33,13 @@ export type EndpointTypes = {
 const logger = makeLogger('NcfxCryptoEndpoint')
 
 export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   handlers: {
     open(connection, context) {
       return new Promise((resolve, reject) => {
         // Set up listener
-        connection.on('message', (data: WebSocketRawData) => {
-          const parsed = JSON.parse(data.toString())
+        connection.addEventListener('message', (event: MessageEvent) => {
+          const parsed = JSON.parse(event.data.toString())
           if (parsed.Message === 'Successfully Authenticated') {
             logger.debug('Got logged in response, connection is ready')
             resolve()
@@ -52,8 +51,8 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
         connection.send(
           JSON.stringify({
             request: 'login',
-            username: context.adapterConfig.API_USERNAME,
-            password: context.adapterConfig.API_PASSWORD,
+            username: context.adapterSettings.API_USERNAME,
+            password: context.adapterSettings.API_PASSWORD,
           }),
         )
       })

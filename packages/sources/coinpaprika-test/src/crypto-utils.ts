@@ -1,8 +1,7 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { customSettings, getApiEndpoint, getApiHeaders } from './config'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
+import { config, getApiEndpoint, getApiHeaders } from './config'
 
 export const inputParameters = {
   base: {
@@ -71,7 +70,7 @@ export type EndpointTypes = {
     Params: CryptoRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: CryptoResponseSchema[]
@@ -83,7 +82,7 @@ const chunkArray = (params: string[], size = 3): string[][] =>
 
 export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ) => {
   // Coinpaprika supports up to 3 different quotes in a single request, so we slice it to have 3 quote chunks if needed
   const uniqueQuotes = new Set(params.map((p) => p.quote.toUpperCase()))
@@ -92,10 +91,10 @@ export const buildBatchedRequestBody = (
   return chunkedMatrix.map((chunkedParams) => ({
     params: params.filter((p) => chunkedParams.includes(p.quote.toUpperCase())),
     request: {
-      baseURL: getApiEndpoint(config),
+      baseURL: getApiEndpoint(settings),
       url: 'v1/tickers',
       method: 'GET',
-      headers: getApiHeaders(config),
+      headers: getApiHeaders(settings),
       params: {
         quotes: chunkedParams.join(','),
       },

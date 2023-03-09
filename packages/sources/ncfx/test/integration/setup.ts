@@ -1,20 +1,23 @@
-import * as process from 'process'
-import { SuperTest, Test } from 'supertest'
-import { Server, WebSocket } from 'mock-socket'
-import { customSettings } from '../../src/config'
-import { cryptoTransport, EndpointTypes } from '../../src/endpoint/crypto'
-import { customInputValidation, forexTransport } from '../../src/endpoint/forex'
-import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 import {
   CryptoPriceEndpoint,
   PriceAdapter,
   PriceEndpoint,
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { Server, WebSocket } from 'mock-socket'
+import * as process from 'process'
+import { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
 import includes from '../../src/config/includes.json'
-import { EndpointTypes as ForexEndpointTypes } from '../../src/endpoint/forex'
+import { cryptoTransport, EndpointTypes } from '../../src/endpoint/crypto'
+import {
+  customInputValidation,
+  EndpointTypes as ForexEndpointTypes,
+  forexTransport,
+} from '../../src/endpoint/forex'
+import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -26,16 +29,29 @@ export type EnvVariables = { [key: string]: string }
 
 export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
+/**
+ * Sets the mocked websocket instance in the provided provider class.
+ * We need this here, because the tests will connect using their instance of WebSocketClassProvider;
+ * fetching from this library to the \@chainlink/ea-bootstrap package would access _another_ instance
+ * of the same constructor. Although it should be a singleton, dependencies are different so that
+ * means that the static classes themselves are also different.
+ *
+ * @param provider - singleton WebSocketClassProvider
+ */
 export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
   // Extend mock WebSocket class to bypass protocol headers error
   class MockWebSocket extends WebSocket {
     constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
       super(url, protocol instanceof Object ? undefined : protocol)
     }
-    // Mock WebSocket does not come with built on function which adapter handlers could be using for ws
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    on(_: Event) {
-      return
+    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
+    removeAllListeners() {
+      for (const eventType in this.listeners) {
+        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
+        if (!eventType.startsWith('server')) {
+          delete this.listeners[eventType]
+        }
+      }
     }
   }
 
@@ -47,8 +63,10 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.send(JSON.stringify(loginResponse))
-    socket.send(JSON.stringify(subscribeResponse))
-    socket.send(JSON.stringify(mockCryptoResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(subscribeResponse))
+      socket.send(JSON.stringify(mockCryptoResponse))
+    })
   })
   return mockWsServer
 }
@@ -56,12 +74,14 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
 export const mockForexWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.send(JSON.stringify(mockForexResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(mockForexResponse))
+    })
   })
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+export const createAdapter = () => {
   const crypto = new CryptoPriceEndpoint<EndpointTypes>({
     name: 'crypto',
     transport: cryptoTransport,
@@ -76,9 +96,9 @@ export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'crypto',
-    endpoints: [crypto as CryptoPriceEndpoint<any>, forex as PriceEndpoint<any>],
+    endpoints: [crypto, forex],
     includes,
-    customSettings,
+    config,
   })
 }
 

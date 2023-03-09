@@ -1,30 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { httpTransport } from '../http/iex'
-import { customSettings } from '../../config'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { wsTransport } from '../ws/iex'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../../config'
 import overrides from '../../config/overrides.json'
-
-interface ProviderResponseBody {
-  prevClose: number
-  last: number
-  lastSaleTimestamp: string
-  low: number
-  bidSize: number
-  askPrice: number
-  open: number
-  mid: number
-  volume: number
-  lastSize: number
-  tngoLast: number
-  ticker: string
-  askSize: number
-  quoteTimestamp: string
-  bidPrice: number
-  timestamp: string
-  high: number
-}
+import { httpTransport } from '../http/iex'
+import { wsTransport } from '../ws/iex'
 
 const inputParameters = {
   ticker: {
@@ -42,20 +23,15 @@ export type IEXEndpointTypes = {
     Params: IexRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody[]
-  }
+  Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint<IEXEndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'iex',
   aliases: ['stock'],
-  transports: {
-    ws: wsTransport,
-    rest: httpTransport,
-  },
+  transportRoutes: new TransportRoutes<IEXEndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
   defaultTransport: 'rest',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,

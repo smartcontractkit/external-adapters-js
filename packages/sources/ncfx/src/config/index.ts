@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_USERNAME: {
     description: 'Username for the NCFX API',
     type: 'string',
@@ -29,4 +31,4 @@ export const customSettings = {
     description: 'The WS API endpoint to use for the forex endpoint',
     default: 'wss://fiat-ws.eu-west-2.apingxelb.v1.newchangefx.com/sub/fiat/ws/ref',
   },
-} as const
+})

@@ -1,3 +1,7 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import process from 'process'
+import * as queryString from 'querystring'
+import { config } from '../../src/config'
 import {
   calculateAssetMetricsUrl,
   handleAssetMetricsMessage,
@@ -6,11 +10,6 @@ import {
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
 } from '../../src/endpoint/price-ws'
-import * as queryString from 'querystring'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
-import { buildAdapterConfig } from '@chainlink/external-adapter-framework/config'
-import process from 'process'
 
 const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   time: Date.now().toString(),
@@ -40,10 +39,11 @@ const EXAMPLE_REORG_MESSAGE = {
   type: 'reorg',
 }
 
+config.initialize()
 const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
   endpointName: 'price-ws',
   inputParameters: {},
-  adapterConfig: buildAdapterConfig({ customSettings }),
+  adapterSettings: config.settings,
 }
 
 describe('price-ws url generator', () => {
