@@ -4,10 +4,7 @@ import {
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import {
-  makeLogger,
-  ProviderResult,
-} from '@chainlink/external-adapter-framework/util'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
 // Note: this adapter is intended for the API with endpoint 'wss://cryptofeed.ws.newchangefx.com'.
@@ -64,7 +61,9 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
             logger.debug('Got logged in response, connection is ready')
             resolve()
           } else {
-            reject(new Error(`Unexpected message after WS connection open: ${data.toString()}`))
+            reject(
+              new Error(`Unexpected message after WS connection open: ${event.data.toString()}`),
+            )
           }
         })
         // Send login payload
