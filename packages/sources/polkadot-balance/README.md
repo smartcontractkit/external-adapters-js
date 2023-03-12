@@ -1,15 +1,12 @@
 # POLKADOT_BALANCE
 
-![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polkadot-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polkadot-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |    Name    |                                           Description                                           |  Type  | Options | Default |
-| :-------: | :--------: | :---------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |  RPC_URL   |            The websocket URL used to retrieve balances from the Polkadot Relay Chain            | string |         |         |
-|           | BATCH_SIZE | Number of requests to execute asynchronously before the adapter waits to execute the next batch | number |         |  `25`   |
+There are no environment variables for this adapter.
 
 ---
 

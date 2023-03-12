@@ -1,5 +1,17 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.3.39
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.5
+
+## 1.3.38
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.4
+
 ## 1.3.37
 
 ### Patch Changes
