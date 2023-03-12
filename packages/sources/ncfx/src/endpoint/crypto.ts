@@ -4,7 +4,11 @@ import {
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import {
+  makeLogger,
+  PartialAdapterResponse,
+  ProviderResultGenerics,
+} from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
 // Note: this adapter is intended for the API with endpoint 'wss://cryptofeed.ws.newchangefx.com'.
@@ -29,10 +33,10 @@ type WsPriceMessage = {
 
 type Response = {
   Result: number
+  bid: number
+  ask: number
   Data: {
     result: number
-    bid: number
-    ask: number
   }
 }
 
@@ -44,6 +48,14 @@ export type EndpointTypes = {
   Settings: typeof config.settings
   Provider: {
     WsMessage: WsMessage
+  }
+}
+
+export type MultiVarResult<T extends ProviderResultGenerics> = {
+  params: T['Request']['Params']
+  response: PartialAdapterResponse<T['Response']> & {
+    bid: number
+    ask: number
   }
 }
 
@@ -78,7 +90,7 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
       })
     },
 
-    message(message: WsMessage): ProviderResult<EndpointTypes>[] | undefined {
+    message(message: WsMessage): MultiVarResult<EndpointTypes>[] | undefined {
       if (isInfoMessage(message)) {
         logger.debug(`Received message ${message.Type}: ${message.Message}`)
         return
@@ -95,10 +107,10 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
           params: { base, quote },
           response: {
             result: message.mid || 0, // Already validated in the filter above
+            bid: message.bid || 0, // Already validated in the filter above
+            ask: message.offer || 0, // Already validated in the filter above
             data: {
               result: message.mid || 0, // Already validated in the filter above
-              bid: message.bid || 0, // Already validated in the filter above
-              ask: message.offer || 0, // Already validated in the filter above
             },
             timestamps: {
               providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
