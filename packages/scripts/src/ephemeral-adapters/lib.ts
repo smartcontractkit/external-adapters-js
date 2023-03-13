@@ -166,9 +166,10 @@ export const deployAdapter = (config: Inputs): void => {
       )
     }
   }
-  // new Shell().exec(
-  //   `kubectl get pod redis-master-0 -n adapters -o yaml | kubectl replace --force -f -`,
-  // )
+
+  new Shell().exec(
+    `kubectl get pod redis-master-0 -n adapters -o yaml  | sed -e 's/2.147483647e+09/2147483647/' | kubectl replace --force -f -`,
+  )
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
   } \
@@ -198,7 +199,8 @@ export const deployAdapter = (config: Inputs): void => {
       log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
     }
   }
-  new Shell().exec(`sleep 60`)
+  new Shell().exec(`helm list -n adapters`)
+
   const k8sState = new Shell().exec(`kubectl logs deployments/name=${config.name} -n adapters`)
   log(blue.bold(`k8sState\n ${k8sState}`))
   const k8sState2 = new Shell().exec(
