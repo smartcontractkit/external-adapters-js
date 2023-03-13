@@ -5304,7 +5304,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/luxon", "npm:1.27.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.4.7"],\
-            ["luxon", "npm:1.28.0"],\
+            ["luxon", "npm:1.28.1"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
           ],\
@@ -8624,7 +8624,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.1"],\
-            ["luxon", "npm:2.5.0"],\
+            ["luxon", "npm:1.28.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -28341,10 +28341,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:2.5.0", {\
-          "packageLocation": "./.yarn/cache/luxon-npm-2.5.0-3e7040fb3c-2fccce6bbd.zip/node_modules/luxon/",\
+        ["npm:1.28.1", {\
+          "packageLocation": "./.yarn/cache/luxon-npm-1.28.1-0f675125b8-2c62999ade.zip/node_modules/luxon/",\
           "packageDependencies": [\
-            ["luxon", "npm:2.5.0"]\
+            ["luxon", "npm:1.28.1"]\
           ],\
           "linkType": "HARD"\
         }]\
