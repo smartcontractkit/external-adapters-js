@@ -1854,7 +1854,7 @@ __metadata:
     "@types/luxon": 1.27.1
     "@types/node": 16.11.51
     ethers: 5.4.7
-    luxon: ^1.27.0
+    luxon: ^1.28.1
     tslib: ^2.3.1
     typescript: 4.9.5
   languageName: unknown
@@ -4851,7 +4851,7 @@ __metadata:
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
-    luxon: ^2.0.2
+    luxon: ^1.28.1
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -22436,17 +22436,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.23.0, luxon@npm:^1.27.0":
+"luxon@npm:^1.23.0":
   version: 1.28.0
   resolution: "luxon@npm:1.28.0"
   checksum: 5250cb9f138b6048eeb0b3a9044a4ac994d0058f680c72a0da4b6aeaec8612460385639cba2b1052ef6d5564879e9ed144d686f26d9d97b38ab920d82e18281c
   languageName: node
   linkType: hard
 
-"luxon@npm:^2.0.2":
-  version: 2.5.0
-  resolution: "luxon@npm:2.5.0"
-  checksum: 2fccce6bbdfc8f13c5a8c148ff045ab3b10f4f80cac28dd92575588fffce9b2d7197096d7fedcc61a6245b59f4233507797f530e63f22b9ae4c425dff2909ae3
+"luxon@npm:^1.28.1":
+  version: 1.28.1
+  resolution: "luxon@npm:1.28.1"
+  checksum: 2c62999adea79645fd1e931d685f61aeb33eda7f39fbf79b84261a233b62f9590f48336654ee9efd405848bd9e13dc7fe087c701b7126187201a88998dc68b04
   languageName: node
   linkType: hard
 
