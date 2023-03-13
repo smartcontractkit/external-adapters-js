@@ -5100,7 +5100,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.1"],\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -5339,7 +5339,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -6718,7 +6718,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.24.0"],\
             ["decimal.js", "npm:10.4.3"],\
             ["fast-redact", "npm:3.1.2"],\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.5"],\
             ["lodash", "npm:4.17.21"],\
             ["lru-cache", "npm:6.0.0"],\
             ["mock-socket", "npm:9.1.5"],\
@@ -21536,6 +21536,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["fast-content-type-parse", [\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/fast-content-type-parse-npm-1.0.0-08ad8e1d9f-9e9187be17.zip/node_modules/fast-content-type-parse/",\
+          "packageDependencies": [\
+            ["fast-content-type-parse", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["fast-copy", [\
         ["npm:2.1.7", {\
           "packageLocation": "./.yarn/cache/fast-copy-npm-2.1.7-b95a8375c3-af8016c174.zip/node_modules/fast-copy/",\
@@ -21714,14 +21723,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["fastify", [\
-        ["npm:3.29.2", {\
-          "packageLocation": "./.yarn/cache/fastify-npm-3.29.2-afbfc76c1f-81948f7c8d.zip/node_modules/fastify/",\
+        ["npm:3.29.5", {\
+          "packageLocation": "./.yarn/cache/fastify-npm-3.29.5-4daa5ccb41-6f97e67c25.zip/node_modules/fastify/",\
           "packageDependencies": [\
-            ["fastify", "npm:3.29.2"],\
+            ["fastify", "npm:3.29.5"],\
             ["@fastify/ajv-compiler", "npm:1.1.0"],\
             ["@fastify/error", "npm:2.0.0"],\
             ["abstract-logging", "npm:2.0.1"],\
             ["avvio", "npm:7.2.5"],\
+            ["fast-content-type-parse", "npm:1.0.0"],\
             ["fast-json-stringify", "npm:2.7.13"],\
             ["find-my-way", "npm:4.5.1"],\
             ["flatstr", "npm:1.0.12"],\
