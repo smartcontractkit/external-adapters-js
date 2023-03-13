@@ -166,9 +166,9 @@ export const deployAdapter = (config: Inputs): void => {
       )
     }
   }
-  new Shell().exec(
-    `kubectl get pod redis-master-0 -n adapters -o yaml | kubectl replace --force -f -`,
-  )
+  // new Shell().exec(
+  //   `kubectl get pod redis-master-0 -n adapters -o yaml | kubectl replace --force -f -`,
+  // )
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
   } \
@@ -180,12 +180,13 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --timeout 1m --wait`
+  --timeout 2m --wait --debug`
   let exec_result = ''
   for (let i = 0; i < 5; i++) {
     log(red.bold(`Deployment attempt ${i}`))
     exec_result = ''
     try {
+      new Shell().exec(`helm get manifest ${config.name} -n adapters`)
       const deployHelm = new Shell().exec(deployCommand)
       exec_result = deployHelm.toString()
       if (deployHelm.code !== 0) {
