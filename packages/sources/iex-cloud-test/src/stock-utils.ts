@@ -1,6 +1,5 @@
-import { customSettings } from './config'
+import { config } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const inputParameters = {
@@ -80,25 +79,22 @@ export type StockEndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
 
-export const buildHttpRequestBody = (
-  params: RequestParams[],
-  config: AdapterConfig<typeof customSettings>,
-) => {
+export const buildHttpRequestBody = (params: RequestParams[], c: typeof config.settings) => {
   return params.map((param) => {
     return {
       params,
       request: {
         url: `stock/${param.base.toUpperCase()}/quote`,
-        baseURL: config.API_ENDPOINT,
+        baseURL: c.API_ENDPOINT,
         params: {
-          token: config.API_KEY,
+          token: c.API_KEY,
         },
       },
     }

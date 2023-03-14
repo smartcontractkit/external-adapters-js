@@ -4,7 +4,7 @@ import {
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../config'
+import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
@@ -27,7 +27,7 @@ export type CryptoEndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
