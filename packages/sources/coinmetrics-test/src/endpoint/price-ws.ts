@@ -59,7 +59,7 @@ export const calculateAssetMetricsUrl = (
   context: EndpointContext<WsAssetMetricsEndpointTypes>,
   desiredSubs: WsAssetMetricsEndpointTypes['Request']['Params'][],
 ): string => {
-  const { API_KEY, WS_API_ENDPOINT } = context.adapterConfig
+  const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
   const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].join(',')
   const metrics = [
     ...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`)),

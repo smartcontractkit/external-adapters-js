@@ -1,5 +1,5 @@
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../../config'
+import { config } from '../../config'
 import { TiingoWebsocketTransport } from '../../ws-utils'
 import { IexRequestParams } from '../common/iex-router'
 
@@ -17,7 +17,7 @@ type EndpointTypes = {
     Params: IexRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: Message
   }
@@ -26,8 +26,8 @@ type EndpointTypes = {
 export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
   new TiingoWebsocketTransport<EndpointTypes>({
     url: (context) => {
-      wsTransport.apiKey = context.adapterConfig.API_KEY
-      return `${context.adapterConfig.WS_API_ENDPOINT}/iex`
+      wsTransport.apiKey = context.adapterSettings.API_KEY
+      return `${context.adapterSettings.WS_API_ENDPOINT}/iex`
     },
 
     handlers: {

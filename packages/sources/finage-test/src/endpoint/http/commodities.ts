@@ -5,7 +5,7 @@ import {
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../../config'
+import { config } from '../../config'
 import overrides from '../../config/overrides.json'
 
 export const inputParameters = {
@@ -34,7 +34,7 @@ type EndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema

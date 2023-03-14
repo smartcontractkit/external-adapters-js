@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'API endpoint for tradermade',
     default: 'https://marketdata.tradermade.com/api/v1/live',
@@ -22,4 +24,4 @@ export const customSettings = {
     default: 'wss://marketdata.tradermade.com/feedadv',
     description: 'The Websocket endpoint to connect to for forex data',
   },
-} as const
+})

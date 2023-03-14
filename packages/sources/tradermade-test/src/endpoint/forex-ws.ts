@@ -1,6 +1,4 @@
-import { customSettings } from '../config'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { BatchRequestParams } from '../price-utils'
+import { PriceEndpointTypes } from '../price-utils'
 import { TraderMadeWebsocketReverseMappingTransport } from '../ws-utils'
 
 interface Message {
@@ -11,12 +9,7 @@ interface Message {
   mid: number
 }
 
-type EndpointTypes = {
-  Request: {
-    Params: BatchRequestParams
-  }
-  Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+type EndpointTypes = PriceEndpointTypes & {
   Provider: {
     WsMessage: Message
   }
@@ -25,8 +18,8 @@ type EndpointTypes = {
 export const wsTransport: TraderMadeWebsocketReverseMappingTransport<EndpointTypes, string> =
   new TraderMadeWebsocketReverseMappingTransport<EndpointTypes, string>({
     url: (context) => {
-      wsTransport.apiKey = context.adapterConfig.WS_API_KEY as string
-      return context.adapterConfig.WS_API_ENDPOINT
+      wsTransport.apiKey = context.adapterSettings.WS_API_KEY as string
+      return context.adapterSettings.WS_API_ENDPOINT
     },
     handlers: {
       message(message) {

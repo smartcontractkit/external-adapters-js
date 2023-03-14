@@ -1,8 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
+import { config, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
 
 export const inputParameters = {} satisfies InputParameters
 
@@ -20,7 +19,7 @@ type EndpointTypes = {
     Data: CoinsResponse[]
     Result: null
   }
-  CustomSettings: SettingsMap
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: CoinsResponse[]
@@ -28,9 +27,9 @@ type EndpointTypes = {
 }
 
 const transport = new HttpTransport<EndpointTypes>({
-  prepareRequests: (params, config) => {
-    const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
-    const queryParams = config.API_KEY ? { x_cg_pro_api_key: config.API_KEY } : undefined
+  prepareRequests: (params, settings) => {
+    const baseURL = settings.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
+    const queryParams = settings.API_KEY ? { x_cg_pro_api_key: settings.API_KEY } : undefined
     return {
       params,
       request: {

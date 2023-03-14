@@ -1,10 +1,9 @@
-import { SuperTest, Test } from 'supertest'
-import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
-import { generateJWT } from '../../src/util'
-import { setupExternalAdapterTest, SuiteContext } from './setup'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { customSettings } from '../../src/config'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { SuperTest, Test } from 'supertest'
+import { config } from '../../src/config'
+import { generateJWT } from '../../src/util'
+import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
+import { setupExternalAdapterTest, SuiteContext } from './setup'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -40,7 +39,7 @@ describe('execute', () => {
         API_KEY: 'SOME_API_KEY',
         PRIVATE_KEY: 'SOME_PRIVATE_KEY',
         API_ENDPOINT: 'https://olbsandbox.bankfrick.li/webapi/v2',
-      } as AdapterConfig<typeof customSettings>)
+      } as typeof config.settings)
       expect(token).toEqual('SOME_TOKEN')
     })
 

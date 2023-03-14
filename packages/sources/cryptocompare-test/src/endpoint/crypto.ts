@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { buildBatchedRequestBody, constructEntry, BatchEndpointTypes } from '../crypto-utils'
+import { buildBatchedRequestBody, constructEntry, HttpEndpointTypes } from '../crypto-utils'
 
-export const httpTransport = new HttpTransport<BatchEndpointTypes>({
+export const httpTransport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return buildBatchedRequestBody(params, config)
   },

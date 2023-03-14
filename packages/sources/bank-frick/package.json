@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bank-frick-adapter",
-  "version": "1.0.2",
+  "version": "1.1.1",
   "description": "Chainlink bank-frick adapter.",
   "keywords": [
     "Chainlink",
@@ -28,9 +28,9 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.26.1",
+    "@chainlink/external-adapter-framework": "0.27.4",
     "axios": "0.27.2",
-    "fastify": "^3.27.1",
+    "fastify": "^3.29.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

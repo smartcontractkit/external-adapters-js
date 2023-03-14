@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { buildBatchedRequestBody, inputParameters } from '../../crypto-utils'
-import { customSettings } from '../../config'
+import { config } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import overrides from '../../config/overrides.json'
 
@@ -30,7 +30,7 @@ type TopEndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[]

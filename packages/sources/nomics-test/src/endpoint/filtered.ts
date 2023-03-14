@@ -1,10 +1,11 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings } from '../config'
+import { config } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import overrides from '../config/overrides.json'
 
-export const inputParameters: InputParameters = {
+export const inputParameters = {
   base: {
     aliases: ['from', 'coin', 'id'],
     required: true,
@@ -16,7 +17,8 @@ export const inputParameters: InputParameters = {
     type: 'string',
     description: 'Comma delimited list of exchange names',
   },
-}
+} satisfies InputParameters
+
 interface ResponseSchema {
   currency: string
   price: number
@@ -32,7 +34,7 @@ export type FilteredEndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -90,5 +92,6 @@ const httpTransport = new HttpTransport<FilteredEndpointTypes>({
 export const endpoint = new AdapterEndpoint<FilteredEndpointTypes>({
   name: 'filtered',
   transport: httpTransport,
+  overrides: overrides['nomics'],
   inputParameters,
 })

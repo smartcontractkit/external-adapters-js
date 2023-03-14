@@ -1,6 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings, getApiEndpoint, getApiHeaders } from '../config'
+import { config, getApiEndpoint, getApiHeaders } from '../config'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 export const inputParameters = {} satisfies InputParameters
@@ -20,7 +20,7 @@ type EndpointTypes = {
     Data: CoinsResponse[]
     Result: null
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: CoinsResponse[]

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinpaprika-test-adapter",
-  "version": "1.0.2",
+  "version": "1.1.1",
   "description": "Chainlink coinpaprika-test adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.26.1",
+    "@chainlink/external-adapter-framework": "0.27.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

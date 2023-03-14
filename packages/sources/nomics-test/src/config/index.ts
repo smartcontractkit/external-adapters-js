@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_KEY: {
     description: 'An API key that can be obtained from https://p.nomics.com/pricing#free-plan',
     type: 'string',
@@ -11,4 +13,4 @@ export const customSettings = {
     default: 'https://api.nomics.com/v1',
     required: false,
   },
-} as const
+})
