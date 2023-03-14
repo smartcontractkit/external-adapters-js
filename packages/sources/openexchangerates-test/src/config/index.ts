@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'API endpoint for OpenExchangeRates',
     default: 'https://openexchangerates.org/api/',
@@ -11,4 +13,4 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
-} as const
+})
