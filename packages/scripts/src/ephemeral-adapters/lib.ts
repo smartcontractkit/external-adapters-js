@@ -167,9 +167,10 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(
-    `kubectl get pod redis-master-0 -n adapters -o yaml  | sed -e 's/2.147483647e+09/2147483647/' | kubectl replace --force -f -`,
-  )
+  new Shell().exec(`helm uninstall k6--coingecko -n adapters --wait`)
+  new Shell().exec(`helm uninstall qa-ea-oanda-2512 -n adapters --wait`)
+  new Shell().exec(`helm list -n adapters`)
+
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
   } \
@@ -199,9 +200,6 @@ export const deployAdapter = (config: Inputs): void => {
       log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
     }
   }
-  new Shell().exec(`helm uninstall k6--coingecko -n adapters --wait`)
-  new Shell().exec(`helm uninstall qa-ea-oanda-2512 -n adapters --wait`)
-  new Shell().exec(`helm list -n adapters`)
 
   const k8sState = new Shell().exec(`kubectl logs deployments/name=${config.name} -n adapters`)
   log(blue.bold(`k8sState\n ${k8sState}`))
