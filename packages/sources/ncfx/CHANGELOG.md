@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- 5d20d2ece: Return bid & ask price fields
+
 ## 3.1.1
 
 ### Patch Changes
