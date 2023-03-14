@@ -168,6 +168,7 @@
     "@chainlink/spectral-macro-score-adapter": "workspace:*",
     "@chainlink/sportsdataio-adapter": "workspace:*",
     "@chainlink/stader-address-list-adapter": "workspace:*",
+    "@chainlink/stader-balance-adapter": "workspace:*",
     "@chainlink/stader-labs-adapter": "workspace:*",
     "@chainlink/stasis-adapter": "workspace:*",
     "@chainlink/swell-address-list-adapter": "workspace:*",

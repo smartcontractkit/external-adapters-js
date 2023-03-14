@@ -3200,6 +3200,7 @@ __metadata:
     "@chainlink/spectral-macro-score-adapter": "workspace:*"
     "@chainlink/sportsdataio-adapter": "workspace:*"
     "@chainlink/stader-address-list-adapter": "workspace:*"
+    "@chainlink/stader-balance-adapter": "workspace:*"
     "@chainlink/stader-labs-adapter": "workspace:*"
     "@chainlink/stasis-adapter": "workspace:*"
     "@chainlink/swell-address-list-adapter": "workspace:*"
@@ -3475,6 +3476,23 @@ __metadata:
     prom-client: 13.2.0
     ws: 8.9.0
   checksum: d3618b6535353b90aa3dc0014c35f1bcd6a706ddda743b81781137f359df96ce62227e2c1be699cf873dfdec0704832f6b3c25be79edf20de6f2fc6f39fe42ad
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:0.27.4":
+  version: 0.27.4
+  resolution: "@chainlink/external-adapter-framework@npm:0.27.4"
+  dependencies:
+    ajv: 8.11.0
+    axios: 1.3.4
+    eventsource: 2.0.2
+    fastify: 4.9.2
+    ioredis: 5.2.3
+    pino: 8.6.1
+    pino-pretty: 9.1.0
+    prom-client: 13.2.0
+    ws: 8.9.0
+  checksum: 7879f95ee6ebe2262d103451d067ca80de8414ffad332bb4bee9d31fb47ce23166072c903d30577d16946942d4107a0c2119f5e546de434f791a4139a93a460d
   languageName: node
   linkType: hard
 
@@ -4866,12 +4884,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.27.4
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    ethers: ^5.5.1
+    ethers: 5.5.1
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/stader-balance-adapter@workspace:*, @chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.27.4
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    axios: 1.3.4
+    ethers: 5.5.1
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1

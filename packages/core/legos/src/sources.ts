@@ -137,6 +137,7 @@ import * as solana_view_function from '@chainlink/solana-view-function-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stader_address_list from '@chainlink/stader-address-list-adapter'
+import * as stader_balance from '@chainlink/stader-balance-adapter'
 import * as stader_labs from '@chainlink/stader-labs-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as swell_address_list from '@chainlink/swell-address-list-adapter'
@@ -304,6 +305,7 @@ export default {
   spectral_macro_score,
   sportsdataio,
   stader_address_list,
+  stader_balance,
   stader_labs,
   stasis,
   swell_address_list,
