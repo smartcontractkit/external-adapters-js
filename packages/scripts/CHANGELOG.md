@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.5.3
+
+### Patch Changes
+
+- 37c0d8883: Bumped v3 framework version
+
 ## 2.5.2
 
 ### Patch Changes
