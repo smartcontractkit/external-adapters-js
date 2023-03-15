@@ -168,8 +168,8 @@ export const deployAdapter = (config: Inputs): void => {
   }
 
   new Shell().exec(`helm pull chainlink/cl-adapter --untar`)
-  new Shell().exec(`helm lint chainlink/cl-adapter -n adapters`)
-  new Shell().exec(`ls .; ls chainlink; ls chainlink/chainlink-adapter`)
+  new Shell().exec(`helm lint cl-adapter -n adapters`)
+  new Shell().exec(`helm lint cl-adapter-0.2.2.tgz -n adapters`)
 
   const dryrunCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
