@@ -1,9 +1,53 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { CryptoLwbaEndpointTypes, MultiVarResult } from './lwba-router'
+import {
+  makeLogger,
+  PartialAdapterResponse,
+  ProviderResult,
+  ProviderResultGenerics,
+} from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterEndpoint,
+  EndpointContext,
+  priceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
+import { config } from '../config'
 
 const logger = makeLogger('CoinMetrics Crypto LWBA WS')
+
+export type WsCryptoLwbaEndpointTypes = {
+  Response: {
+    Result: number
+    mid: number
+    ask: number
+    asksize: number
+    bid: number
+    bidsize: number
+    spread: number
+    Data: {
+      result: number
+    }
+  }
+  Provider: {
+    WsMessage: WsPairQuoteMessage
+  }
+  Request: {
+    Params: PriceEndpointParams
+  }
+  Settings: typeof config.settings
+}
+
+export type MultiVarResult<T extends ProviderResultGenerics> = {
+  params: T['Request']['Params']
+  response: PartialAdapterResponse<T['Response']> & {
+    mid: number
+    ask: number
+    asksize: number
+    bid: number
+    bidsize: number
+    spread: number
+  }
+}
 
 export type WsCryptoLwbaSuccessResponse = {
   pair: string
@@ -43,12 +87,6 @@ type WsPairQuoteMessage =
   | WsCryptoLwbaWarningResponse
   | WsCryptoLwbaErrorResponse
   | WsCryptoLwbaReorgResponse
-
-export type WsCryptoLwbaEndpointTypes = CryptoLwbaEndpointTypes & {
-  Provider: {
-    WsMessage: WsPairQuoteMessage
-  }
-}
 
 export const calculatPairQuotesUrl = (
   context: EndpointContext<WsCryptoLwbaEndpointTypes>,
@@ -115,4 +153,11 @@ export const wsTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
       return handleCryptoLwbaMessage(message)
     },
   },
+})
+
+export const endpoint = new AdapterEndpoint<WsCryptoLwbaEndpointTypes>({
+  name: 'crypto-lwba',
+  aliases: ['crypto_lwba'],
+  transport: wsTransport,
+  inputParameters: priceEndpointInputParameters,
 })
