@@ -41,7 +41,7 @@ const EXAMPLE_REORG_MESSAGE = {
 
 config.initialize()
 const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
-  endpointName: 'price-ws',
+  endpointName: 'price',
   inputParameters: {},
   adapterSettings: config.settings,
 }
