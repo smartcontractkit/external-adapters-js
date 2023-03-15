@@ -1,4 +1,7 @@
 // Quote values are used to find a dynamic property in the DP response, in the form of ReferenceRate{quote}
+
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
 // Since we use hard property names in response types, we need to make sure that only expected quote values appear in params
 export enum VALID_QUOTES {
   USD = 'USD',

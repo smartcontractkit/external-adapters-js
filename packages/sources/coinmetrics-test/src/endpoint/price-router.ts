@@ -5,15 +5,6 @@ import { config, priceInputParameters, VALID_QUOTES } from '../config'
 import { httpTransport } from './price'
 import { wsTransport } from './price-ws'
 
-export type MetricData = {
-  asset: string
-  time: string
-  ReferenceRateUSD?: string
-  ReferenceRateEUR?: string
-  ReferenceRateETH?: string
-  ReferenceRateBTC?: string
-}
-
 export type AssetMetricsRequestBody = {
   base: string
   quote: VALID_QUOTES

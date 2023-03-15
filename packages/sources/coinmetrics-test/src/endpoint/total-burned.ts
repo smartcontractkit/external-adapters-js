@@ -1,5 +1,7 @@
-import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   AdapterResponse,
@@ -7,13 +9,10 @@ import {
   SingleNumberResultResponse,
   sleep,
 } from '@chainlink/external-adapter-framework/util'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../config'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { BigNumber, ethers } from 'ethers'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../config'
 
 const logger = makeLogger('CoinMetricsBurnedTransport')
 
@@ -53,7 +52,7 @@ export type EndpointTypes = {
   Request: {
     Params: RequestParams
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -129,7 +128,7 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
 
   async foregroundExecute(
     req: AdapterRequest<EndpointTypes['Request']>,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     let totalBurnedTKN = BigNumber.from('0')
 
@@ -139,11 +138,11 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
     if (isBurnedEndpoint) {
       input.pageSize = 1
     }
-    const requestConfig = this.prepareRequest(req.requestContext.data, config)
+    const requestConfig = this.prepareRequest(req.requestContext.data, settings)
 
     const providerDataRequestedUnixMs = Date.now()
     while (!lastPage) {
-      const responseData = await this.makeRequest(requestConfig, config)
+      const responseData = await this.makeRequest(requestConfig, settings)
 
       const { data: assetMetricsList } = responseData.data
 
@@ -183,16 +182,13 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.cache.set(req.requestContext.cacheKey, response, config.CACHE_MAX_AGE)
+    await this.cache.set(req.requestContext.cacheKey, response, settings.CACHE_MAX_AGE)
 
     return response
   }
 
-  prepareRequest(
-    params: RequestParams,
-    config: AdapterConfig<typeof customSettings>,
-  ): AxiosRequestConfig {
-    const { API_ENDPOINT, API_KEY } = config
+  prepareRequest(params: RequestParams, settings: typeof config.settings): AxiosRequestConfig {
+    const { API_ENDPOINT, API_KEY } = settings
     return {
       baseURL: API_ENDPOINT,
       url: 'timeseries/asset-metrics',
@@ -210,10 +206,10 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
 
   async makeRequest(
     axiosRequest: AxiosRequestConfig,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
   ): Promise<AxiosResponse<ResponseSchema>> {
     let retryNumber = 0
-    let response = await this._makeRequest(axiosRequest, config.API_TIMEOUT)
+    let response = await this._makeRequest(axiosRequest, settings.API_TIMEOUT)
     while (response.status !== 200) {
       retryNumber++
       logger.warn(
@@ -222,16 +218,16 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
         response.statusText,
       )
 
-      if (retryNumber === config.RETRY) {
+      if (retryNumber === settings.RETRY) {
         throw new AdapterError({
           statusCode: 504,
-          message: `CoinMetrics transport hit the max number of retries (${config.RETRY} retries) and aborted`,
+          message: `CoinMetrics transport hit the max number of retries (${settings.RETRY} retries) and aborted`,
         })
       }
 
       logger.debug(`Sleeping for ${MS_BETWEEN_FAILED_REQS}ms before retrying`)
       await sleep(MS_BETWEEN_FAILED_REQS)
-      response = await this._makeRequest(axiosRequest, config.API_TIMEOUT)
+      response = await this._makeRequest(axiosRequest, settings.API_TIMEOUT)
     }
     return response
   }

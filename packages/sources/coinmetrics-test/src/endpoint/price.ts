@@ -1,9 +1,33 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { AssetMetricsEndpointTypes, MetricData } from './price-router'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { VALID_QUOTES } from '../config'
+import { AssetMetricsEndpointTypes } from './price-router'
 
-export const httpTransport = new HttpTransport<AssetMetricsEndpointTypes>({
+export type MetricData = {
+  asset: string
+  time: string
+  ReferenceRateUSD?: string
+  ReferenceRateEUR?: string
+  ReferenceRateETH?: string
+  ReferenceRateBTC?: string
+}
+
+interface ResponseSchema {
+  data: MetricData[]
+  error?: {
+    type: string
+    message: string
+  }
+}
+
+type AssetMetricsHttpTypes = AssetMetricsEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
+  }
+}
+
+export const httpTransport = new HttpTransport<AssetMetricsHttpTypes>({
   prepareRequests: (params, config) => {
     return {
       params,
@@ -37,7 +61,7 @@ export const httpTransport = new HttpTransport<AssetMetricsEndpointTypes>({
       })
     }
 
-    const entries: ProviderResult<AssetMetricsEndpointTypes>[] = []
+    const entries: ProviderResult<AssetMetricsHttpTypes>[] = []
 
     res.data.data.map((entry) => {
       for (const prop in entry) {
