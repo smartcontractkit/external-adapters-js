@@ -167,8 +167,22 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(`helm uninstall k6--coingecko -n adapters --wait`)
-  new Shell().exec(`helm uninstall qa-ea-oanda-2512 -n adapters --wait`)
+  new Shell().exec(`helm lint ${HELM_CHART_DIR} -n adapters`)
+
+  const dryrunCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
+    config.helmChartDir
+  } \
+  --install \
+  --namespace ${NAMESPACE} \
+  --create-namespace \
+  ${config.helmValuesOverride} \
+  --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
+  --set image.tag=${config.imageTag} \
+  --set name=${config.name} \
+  ${config.helmSecrets} \
+  --timeout 2m --wait --debug --dry-run`
+  new Shell().exec(dryrunCommand)
+
   new Shell().exec(`helm list -n adapters`)
 
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
@@ -183,12 +197,13 @@ export const deployAdapter = (config: Inputs): void => {
   --set name=${config.name} \
   ${config.helmSecrets} \
   --timeout 2m --wait --debug`
+
   let exec_result = ''
   for (let i = 0; i < 5; i++) {
     log(red.bold(`Deployment attempt ${i}`))
     exec_result = ''
     try {
-      new Shell().exec(`helm get manifest ${config.name} -n adapters`)
+      // new Shell().exec(`helm get manifest ${config.name} -n adapters`)
       const deployHelm = new Shell().exec(deployCommand)
       exec_result = deployHelm.toString()
       if (deployHelm.code !== 0) {
@@ -201,16 +216,13 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  const k8sState = new Shell().exec(`kubectl logs deployments/name=${config.name} -n adapters`)
-  log(blue.bold(`k8sState\n ${k8sState}`))
-  const k8sState2 = new Shell().exec(
-    `kubectl logs -l app.kubernetes.io/name=${config.name} -n adapters`,
-  )
-  log(blue.bold(`k8sState\n ${k8sState2}`))
-  const k8sEvents = new Shell().exec(`kubectl -n adapters get events --sort-by='{.lastTimestamp}'`)
-  log(blue.bold(`k8sEvents\n ${k8sEvents}`))
-  process.exitCode = 1
-  throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
+  new Shell().exec(`helm list -n adapters`)
+  new Shell().exec(`helm history ${config.name} -n adapters`)
+
+  if (exec_result) {
+    process.exitCode = 1
+    throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
+  }
 }
 
 /**
