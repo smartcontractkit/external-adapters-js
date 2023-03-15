@@ -167,7 +167,7 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(`helm lint /home/runner/.cache/helm/repository/cl-adapter-0.2.2.tgz -n adapters`)
+  new Shell().exec(`helm lint ${config.helmChartDir} -n adapters`)
 
   const dryrunCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
@@ -196,10 +196,10 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --timeout 5m --wait`
+  --timeout 12m --wait`
 
   let exec_result = ''
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     log(red.bold(`Deployment attempt ${i}`))
     exec_result = ''
     try {
