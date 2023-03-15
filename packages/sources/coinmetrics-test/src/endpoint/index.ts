@@ -1,3 +1,4 @@
+export { endpoint as burned } from './burned'
+export { endpoint as lwbaRouter } from './lwba-ws'
 export { endpoint as priceRouter } from './price-router'
 export { endpoint as totalBurned } from './total-burned'
-export { endpoint as burned } from './burned'
