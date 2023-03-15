@@ -13,7 +13,7 @@ export class Shell {
    * @returns {ShellString} The ShellString from the command
    */
   public exec(command: string): ShellOut {
-    log(blue.bold(command))
+    log(blue.bold(`EXECUTING: ${command}`))
     return shelljs.exec(command)
   }
 }
