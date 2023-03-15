@@ -1,5 +1,5 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
@@ -7,10 +7,9 @@ import {
   AdapterResponse,
   makeLogger,
   SingleNumberResultResponse,
-  sleep,
 } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { BigNumber, ethers } from 'ethers'
 import { config } from '../config'
 
@@ -21,7 +20,7 @@ export enum Frequency {
   ONE_BLOCK = '1b',
 }
 
-const MS_BETWEEN_FAILED_REQS = 400
+const ENPDOINT_NAME = 'total-burned'
 
 export const FrequencyInputOptions = [Frequency.ONE_DAY, Frequency.ONE_BLOCK]
 
@@ -45,6 +44,21 @@ interface RequestParams {
   pageSize?: number
   startTime?: string
   endTime?: string
+}
+
+type ProviderRequestConfig = {
+  baseURL: string
+  url: 'timeseries/asset-metrics'
+  params: {
+    assets: string
+    metrics: 'FeeTotNtv,RevNtv,IssTotNtv'
+    frequency: string
+    page_size?: number
+    api_key: string
+    start_time?: string
+    end_time?: string
+    next_page_token?: string
+  }
 }
 
 export type EndpointTypes = {
@@ -114,16 +128,22 @@ export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber 
 }
 
 export class TotalBurnedTransport implements Transport<EndpointTypes> {
-  cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
   name!: string
+  requester!: Requester
   responseCache!: ResponseCache<{
     Request: EndpointTypes['Request']
     Response: EndpointTypes['Response']
   }>
 
-  async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
-    this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
+  async initialize(
+    dependencies: TransportDependencies<EndpointTypes>,
+    _adapterSettings: EndpointTypes['Settings'],
+    _endpointName: string,
+    transportName: string,
+  ): Promise<void> {
     this.responseCache = dependencies.responseCache
+    this.requester = dependencies.requester
+    this.name = transportName
   }
 
   async foregroundExecute(
@@ -142,13 +162,24 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
 
     const providerDataRequestedUnixMs = Date.now()
     while (!lastPage) {
-      const responseData = await this.makeRequest(requestConfig, settings)
+      const result = await this.requester.request<ResponseSchema>(
+        calculateHttpRequestKey({
+          context: {
+            adapterSettings: settings,
+            inputParameters: inputParams,
+            endpointName: ENPDOINT_NAME,
+          },
+          data: requestConfig.params,
+          transportName: this.name,
+        }),
+        requestConfig,
+      )
 
-      const { data: assetMetricsList } = responseData.data
+      const { data: assetMetricsList } = result.response.data
 
       totalBurnedTKN = totalBurnedTKN.add(calculateBurnedTKN(assetMetricsList))
 
-      const nextPageToken = responseData.data.next_page_token
+      const nextPageToken = result.response.data.next_page_token
       requestConfig.params.next_page_token = nextPageToken
 
       if (
@@ -182,12 +213,17 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.cache.set(req.requestContext.cacheKey, response, settings.CACHE_MAX_AGE)
+    await this.responseCache.write(this.name, [
+      {
+        params: req.requestContext.data,
+        response,
+      },
+    ])
 
     return response
   }
 
-  prepareRequest(params: RequestParams, settings: typeof config.settings): AxiosRequestConfig {
+  prepareRequest(params: RequestParams, settings: typeof config.settings): ProviderRequestConfig {
     const { API_ENDPOINT, API_KEY } = settings
     return {
       baseURL: API_ENDPOINT,
@@ -203,49 +239,10 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
       },
     }
   }
-
-  async makeRequest(
-    axiosRequest: AxiosRequestConfig,
-    settings: typeof config.settings,
-  ): Promise<AxiosResponse<ResponseSchema>> {
-    let retryNumber = 0
-    let response = await this._makeRequest(axiosRequest, settings.API_TIMEOUT)
-    while (response.status !== 200) {
-      retryNumber++
-      logger.warn(
-        'Encountered error when fetching data from coinmetrics:',
-        response.status,
-        response.statusText,
-      )
-
-      if (retryNumber === settings.RETRY) {
-        throw new AdapterError({
-          statusCode: 504,
-          message: `CoinMetrics transport hit the max number of retries (${settings.RETRY} retries) and aborted`,
-        })
-      }
-
-      logger.debug(`Sleeping for ${MS_BETWEEN_FAILED_REQS}ms before retrying`)
-      await sleep(MS_BETWEEN_FAILED_REQS)
-      response = await this._makeRequest(axiosRequest, settings.API_TIMEOUT)
-    }
-    return response
-  }
-
-  private async _makeRequest(
-    axiosRequest: AxiosRequestConfig,
-    timeout: number,
-  ): Promise<AxiosResponse> {
-    try {
-      return await axios.request({ ...axiosRequest, timeout })
-    } catch (e) {
-      return e as AxiosResponse
-    }
-  }
 }
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
-  name: 'total-burned',
+  name: ENPDOINT_NAME,
   transport: new TotalBurnedTransport(),
   inputParameters: inputParams,
 })
