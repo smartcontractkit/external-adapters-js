@@ -171,7 +171,6 @@ export const deployAdapter = (config: Inputs): void => {
   // new Shell().exec(`helm lint cl-adapter -n adapters`)
   new Shell().exec(`helm secrets lint cl-adapter-0.2.2.tgz \
   --namespace ${NAMESPACE} \
-  --create-namespace \
   ${config.helmValuesOverride} \
   --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
   --set image.tag=${config.imageTag} \
