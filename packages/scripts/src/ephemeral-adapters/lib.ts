@@ -167,7 +167,9 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(`helm lint ${config.helmChartDir} -n adapters`)
+  new Shell().exec(`helm pull chainlink/cl-adapter --untar`)
+  new Shell().exec(`helm lint chainlink/cl-adapter -n adapters`)
+  new Shell().exec(`ls .; ls chainlink; ls chainlink/chainlink-adapter`)
 
   const dryrunCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
@@ -196,7 +198,7 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --timeout 12m --wait`
+  --timeout 2m --wait`
 
   let exec_result = ''
   for (let i = 0; i < 1; i++) {
