@@ -1,9 +1,6 @@
 import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { config } from '../../src/config'
-import { collateral } from '../../src/endpoint'
 import * as nock from 'nock'
 import { AddressInfo } from 'net'
 
@@ -57,15 +54,6 @@ export const setupExternalAdapterTest = (
 export type EnvVariables = { [key: string]: string }
 
 export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
-
-export const createAdapter = (): Adapter => {
-  return new Adapter({
-    name: 'ALONGSIDE',
-    endpoints: [collateral],
-    defaultEndpoint: collateral.name,
-    config,
-  })
-}
 
 export function setEnvVariables(envVariables: NodeJS.ProcessEnv): void {
   for (const key in envVariables) {
