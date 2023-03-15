@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.71
+
+### Patch Changes
+
+- Updated dependencies [7bb8bc179]
+- Updated dependencies [5d20d2ece]
+  - @chainlink/coinranking-adapter@2.0.2
+  - @chainlink/ncfx-adapter@3.2.0
+
 ## 1.3.70
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/coinranking-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- 7bb8bc179: Add globalmarketcap endpoint alias
+
 ## 2.0.1
 
 ### Patch Changes
