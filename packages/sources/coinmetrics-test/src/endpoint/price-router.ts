@@ -27,6 +27,6 @@ export const transportRoutes = new TransportRoutes<AssetMetricsEndpointTypes>()
 export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
   name: 'price-ws',
   transportRoutes,
-  defaultTransport: 'ws',
+  defaultTransport: 'http',
   inputParameters: priceInputParameters,
 })
