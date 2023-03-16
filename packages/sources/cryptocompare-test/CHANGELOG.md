@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-test-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
 ## 1.2.1
 
 ### Patch Changes

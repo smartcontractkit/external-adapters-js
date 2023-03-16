@@ -1,5 +1,11 @@
 # @chainlink/reference-transform-adapter
 
+## 1.2.73
+
+### Patch Changes
+
+- @chainlink/ea@1.3.72
+
 ## 1.2.72
 
 ### Patch Changes
