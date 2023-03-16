@@ -1,7 +1,7 @@
 import { ExecuteWithConfig, Config, Validator, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester } from '@chainlink/ea-bootstrap'
 
-export const supportedEndpoints = ['totalMarketCap', 'totalmcap']
+export const supportedEndpoints = ['totalMarketCap', 'totalmcap', 'globalmarketcap']
 
 export type TInputParameters = Record<string, never>
 export const inputParameters: InputParameters<TInputParameters> = {}

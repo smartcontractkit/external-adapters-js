@@ -3,14 +3,14 @@ import { CryptoEndpointTypes, inputParameters } from '../../crypto-utils'
 import { httpTransport } from '../http/crypto'
 import { wsTransport } from '../ws/crypto'
 import overrides from '../../config/overrides.json'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
-export const endpoint = new CryptoPriceEndpoint<CryptoEndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',
   aliases: ['price', 'prices', 'crypto-synth'],
-  transports: {
-    ws: wsTransport,
-    rest: httpTransport,
-  },
+  transportRoutes: new TransportRoutes<CryptoEndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
   defaultTransport: 'rest',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,

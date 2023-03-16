@@ -1,6 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../config'
+import { config } from '../config'
 import { RequestParams } from '../crypto-utils'
 
 export interface WsMessage {
@@ -16,7 +16,7 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: WsMessage
   }
@@ -25,8 +25,8 @@ export type EndpointTypes = {
 let apikey = ''
 export const wsTransport = new WebSocketTransport<EndpointTypes>({
   url: (context) => {
-    apikey = context.adapterConfig.API_KEY
-    return context.adapterConfig.WS_API_ENDPOINT
+    apikey = context.adapterSettings.API_KEY
+    return context.adapterSettings.WS_API_ENDPOINT
   },
   handlers: {
     message(message) {

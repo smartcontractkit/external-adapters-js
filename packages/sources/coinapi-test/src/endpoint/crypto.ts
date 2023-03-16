@@ -1,7 +1,24 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { buildBatchedRequestBody, EndpointTypes } from '../crypto-utils'
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
+interface ProviderResponseBody {
+  asset_id_base: string
+  rates: { time: string; asset_id_quote: string; rate: number }[]
+}
+
+interface ProviderRequestBody {
+  filter_asset_id: string
+  apikey: string
+}
+
+type HttpEndpointTypes = EndpointTypes & {
+  Provider: {
+    RequestBody: ProviderRequestBody
+    ResponseBody: ProviderResponseBody
+  }
+}
+
+export const httpTransport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => buildBatchedRequestBody(params, config),
 
   parseResponse: (_, res) => {

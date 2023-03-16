@@ -30,7 +30,7 @@ export const sortText = (a: string, b: string): 1 | 0 | -1 => {
   return capitalA > capitalB ? 1 : capitalA < capitalB ? -1 : 0
 }
 
-export const wrapCode = (s: string | number = ''): string => `\`${s.toString()}\``
+export const wrapCode = (s: string | number | boolean = ''): string => `\`${s.toString()}\``
 
 export const unwrapCode = (str: string): string => str.replace(/`/g, '')
 

@@ -1,6 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../config'
+import { config } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import overrides from '../../config/overrides.json'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -39,7 +39,7 @@ type EODEndpointTypes = {
     Params: { ticker: string }
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[] | ErrorResponse

@@ -1,14 +1,14 @@
 import {
   EndpointContext,
   PriceEndpoint,
-  PriceEndpointParams,
   priceEndpointInputParameters,
+  PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
-import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 
-import { customSettings } from '../config'
+import { config } from '../config'
 
 // Schema of message sent to Two Sigma to start streaming symbols
 export type WebSocketRequest = {
@@ -52,7 +52,7 @@ export type WebSocketEndpointTypes = {
     }
     Result: number
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: WebSocketMessage
   }
@@ -128,9 +128,9 @@ export const buildSymbol = ({ base, quote }: PriceEndpointParams): string => {
   return `${base}/${quote}`
 }
 
-export const config = {
+export const options = {
   url: (context: EndpointContext<WebSocketEndpointTypes>): string => {
-    return context.adapterConfig.WS_API_ENDPOINT
+    return context.adapterSettings.WS_API_ENDPOINT
   },
 
   handlers: {
@@ -177,5 +177,5 @@ export const endpoint = new PriceEndpoint({
   name: 'price',
   aliases: ['stock'],
   inputParameters: priceEndpointInputParameters,
-  transport: new TwoSigmaWebsocketTransport(config),
+  transport: new TwoSigmaWebsocketTransport(options),
 })

@@ -1,12 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
-import { ethers } from 'ethers'
-import { customSettings } from '../config'
-import { MoonbeamAddressContract_ABI } from '../abi/MoonbeamAddressContractABI'
 import { encodeAddress } from '@polkadot/keyring'
+import { ethers } from 'ethers'
+import { MoonbeamAddressContract_ABI } from '../abi/MoonbeamAddressContractABI'
+import { config } from '../config'
 
 type NetworkChainMap = { [network: string]: { [chain: string]: string } }
 
@@ -63,7 +62,7 @@ type EndpointTypes = {
     Params: RequestParams
   }
   Response: ResponseSchema
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 export class AddressTransport implements Transport<EndpointTypes> {
@@ -73,16 +72,21 @@ export class AddressTransport implements Transport<EndpointTypes> {
     Response: EndpointTypes['Response']
   }>
 
-  async initialize(dependencies: TransportDependencies<EndpointTypes>): Promise<void> {
+  async initialize(
+    dependencies: TransportDependencies<EndpointTypes>,
+    _: typeof config.settings,
+    __: string,
+    name: string,
+  ): Promise<void> {
     this.responseCache = dependencies.responseCache
-    this.name = 'default_single_transport'
+    this.name = name
   }
 
   async foregroundExecute(
     req: AdapterRequest<EndpointTypes['Request']>,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
-    const provider = new ethers.providers.JsonRpcProvider(config.RPC_URL, config.CHAIN_ID)
+    const provider = new ethers.providers.JsonRpcProvider(settings.RPC_URL, settings.CHAIN_ID)
     const contractAddress =
       req.requestContext.data.contractAddress ||
       networkChainMap[req.requestContext.data.network][req.requestContext.data.chainId]

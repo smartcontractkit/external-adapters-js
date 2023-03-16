@@ -4,7 +4,7 @@ import {
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport, TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 
@@ -15,7 +15,7 @@ import restPairs from '../config/restPairs.json'
 import { ModifiedSseTransport } from '../transport/modifiedSSE'
 import {
   EndpointTypes,
-  HttpGenerics,
+  HttpTransportTypes,
   InstrumentList,
   InstrumentMap,
   ModifiedSseGenerics,
@@ -35,11 +35,11 @@ const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) =
   const providerDataRequestedUnixMs = Date.now()
 
   const { data, status } = await axios.get<InstrumentList>(
-    `${context.adapterConfig.INSTRUMENTS_API_ENDPOINT}/accounts/${context.adapterConfig.API_ACCOUNT_ID}/instruments`,
+    `${context.adapterSettings.INSTRUMENTS_API_ENDPOINT}/accounts/${context.adapterSettings.API_ACCOUNT_ID}/instruments`,
     {
       headers: {
         contentType: 'application/json',
-        Authorization: `Bearer ${context.adapterConfig.SSE_API_KEY}`,
+        Authorization: `Bearer ${context.adapterSettings.SSE_API_KEY}`,
       },
     },
   )
@@ -73,15 +73,15 @@ const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) =
 // See https://developer.oanda.com/rest-live-v20/pricing-ep/
 const sseTransport = new ModifiedSseTransport<ModifiedSseGenerics>({
   prepareSSEConnectionConfig: (subsList, context) => {
-    const url = `${context.adapterConfig.SSE_API_ENDPOINT}/accounts/${
-      context.adapterConfig.API_ACCOUNT_ID
+    const url = `${context.adapterSettings.SSE_API_ENDPOINT}/accounts/${
+      context.adapterSettings.API_ACCOUNT_ID
     }/pricing/stream?instruments=${subsList.join('%2C')}`
     return {
       url,
       config: {
         responseType: 'stream',
         headers: {
-          Authorization: `Bearer ${context.adapterConfig.SSE_API_KEY}`,
+          Authorization: `Bearer ${context.adapterSettings.SSE_API_KEY}`,
         },
       },
     }
@@ -136,7 +136,7 @@ const sseTransport = new ModifiedSseTransport<ModifiedSseGenerics>({
 })
 
 // See https://developer.oanda.com/exchange-rates-api/#get-/v2/rates/spot.-ext-
-const restTransport = new HttpTransport<HttpGenerics>({
+const restTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params: PriceEndpointParams[], config) =>
     params.map((p) => {
       const { base, quote } = p
@@ -168,11 +168,13 @@ const restTransport = new HttpTransport<HttpGenerics>({
   },
 })
 
-export const priceEndpoint = new PriceEndpoint<EndpointTypes>({
+export const priceEndpoint = new PriceEndpoint({
   name: 'price',
   aliases: ['forex'],
   inputParameters: priceEndpointInputParameters,
-  transports: { sse: sseTransport, rest: restTransport },
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('sse', sseTransport)
+    .register('rest', restTransport),
   customRouter: (req, _) => {
     const { base, quote, transport } = req.requestContext.data
 

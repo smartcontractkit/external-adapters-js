@@ -1,8 +1,9 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings } from '../config'
-import { EmptyObject, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import overrides from '../config/overrides.json'
 
 export const inputParameters: InputParameters = {}
 
@@ -54,10 +55,10 @@ export interface PriceChange {
 
 export type EndpointTypes = {
   Request: {
-    Params: EmptyObject
+    Params: unknown
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -97,5 +98,6 @@ const httpTransport = new HttpTransport<EndpointTypes>({
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'globalmarketcap',
   transport: httpTransport,
+  overrides: overrides['nomics'],
   inputParameters,
 })

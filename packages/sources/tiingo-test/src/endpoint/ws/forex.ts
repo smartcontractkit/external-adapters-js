@@ -1,5 +1,5 @@
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../../config'
+import { config } from '../../config'
 import { RouterPriceEndpointParams } from '../../crypto-utils'
 import { TiingoWebsocketReverseMappingTransport } from '../../ws-utils'
 
@@ -17,7 +17,7 @@ type EndpointTypes = {
     Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: Message
   }
@@ -26,8 +26,8 @@ type EndpointTypes = {
 export const wsTransport: TiingoWebsocketReverseMappingTransport<EndpointTypes, string> =
   new TiingoWebsocketReverseMappingTransport<EndpointTypes, string>({
     url: (context) => {
-      wsTransport.apiKey = context.adapterConfig.API_KEY
-      return `${context.adapterConfig.WS_API_ENDPOINT}/fx`
+      wsTransport.apiKey = context.adapterSettings.API_KEY
+      return `${context.adapterSettings.WS_API_ENDPOINT}/fx`
     },
 
     handlers: {

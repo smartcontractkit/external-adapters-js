@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import { SigningAlgorithm } from '../types'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const logger = makeLogger('BankFrickConfig')
 
@@ -8,7 +9,7 @@ const logger = makeLogger('BankFrickConfig')
 export const signingAlgorithms: SigningAlgorithm[] = ['rsa-sha256', 'rsa-sha384', 'rsa-sha512']
 const MAX_PAGE_SIZE = 500
 
-export const customSettings = {
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'The endpoint to use for making requests to the Bank Frick API',
     type: 'string',
@@ -77,4 +78,4 @@ export const customSettings = {
       }
     },
   },
-} as const
+})

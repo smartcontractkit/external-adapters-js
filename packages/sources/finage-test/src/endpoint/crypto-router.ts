@@ -1,4 +1,4 @@
-import { customSettings } from '../config'
+import { config } from '../config'
 import { httpTransport } from './http/crypto'
 import {
   CryptoPriceEndpoint,
@@ -9,6 +9,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { wsTransport } from './ws/crypto-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import overrides from '../config/overrides.json'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
 export const inputParameters = {
   base: {
@@ -25,13 +26,6 @@ export const inputParameters = {
   },
 } satisfies InputParameters & PriceEndpointInputParameters
 
-interface ResponseSchema {
-  symbol: string
-  price: number
-  timestamp: number
-  error?: string
-}
-
 export type CryptoEndpointParams = PriceEndpointParams
 
 export type EndpointTypes = {
@@ -39,19 +33,14 @@ export type EndpointTypes = {
     Params: CryptoEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
-  }
+  Settings: typeof config.settings
 }
 
-export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',
-  transports: {
-    ws: wsTransport,
-    rest: httpTransport,
-  },
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
   defaultTransport: 'rest',
   inputParameters: inputParameters,
   overrides: overrides.finage,
