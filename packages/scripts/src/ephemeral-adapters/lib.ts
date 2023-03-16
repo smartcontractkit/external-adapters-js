@@ -204,7 +204,7 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --timeout 2m --wait`
+  --timeout 1h`
 
   let exec_result = ''
   for (let i = 0; i < 1; i++) {
@@ -225,7 +225,7 @@ export const deployAdapter = (config: Inputs): void => {
   }
 
   new Shell().exec(`helm status ${config.name} -n adapters`)
-  new Shell().exec(`helm history ${config.name} -n adapters`)
+  new Shell().exec(`helm ls --all -n adapters`)
 
   log(red.bold(`Failed to deploy the external adapter: ${exec_result}`))
   // if (exec_result) {

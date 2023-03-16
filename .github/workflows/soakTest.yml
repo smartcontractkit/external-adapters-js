@@ -177,13 +177,6 @@ jobs:
               fi
             done
           fi
-      - uses: actions/upload-artifact@v3
-        name: Upload chart to artifacts
-        with:
-          name: artifacts
-          path: |
-            cl-adapter-0.2.2.tgz
-            ./adapter-secrets/secure-sdlc/secrets.oanda.yaml
       - name: Deploy k6
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         env:
@@ -209,4 +202,4 @@ jobs:
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         uses: jakejarvis/wait-action@master
         with:
-          time: '15m'
+          time: '1m'
