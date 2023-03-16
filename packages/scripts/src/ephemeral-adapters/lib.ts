@@ -239,15 +239,15 @@ export const deployAdapter = (config: Inputs): void => {
  * @param {Inputs} config The configuration to use to stop an adapter
  */
 export const removeAdapter = (config: Inputs): void => {
-  const remove = new Shell().exec(
-    `helm uninstall ${config.name} \
-      --namespace ${NAMESPACE} \
-      --wait`,
-  )
-  if (remove.code !== 0) {
-    process.exitCode = 1
-    throw red.bold(`Failed to remove the external adapter: ${remove}`)
-  }
+  // const remove = new Shell().exec(
+  //   `helm uninstall ${config.name} \
+  //     --namespace ${NAMESPACE} \
+  //     --wait`,
+  // )
+  // if (remove.code !== 0) {
+  //   process.exitCode = 1
+  //   throw red.bold(`Failed to remove the external adapter: ${remove}`)
+  // }
 }
 
 export async function main(): Promise<void> {
