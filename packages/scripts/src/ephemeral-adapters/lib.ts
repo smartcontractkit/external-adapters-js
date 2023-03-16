@@ -224,7 +224,7 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(`helm list -n adapters`)
+  new Shell().exec(`helm status ${config.name} -n adapters`)
   new Shell().exec(`helm history ${config.name} -n adapters`)
 
   if (exec_result) {
