@@ -202,4 +202,4 @@ jobs:
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         uses: jakejarvis/wait-action@master
         with:
-          time: '1m'
+          time: '15m'
