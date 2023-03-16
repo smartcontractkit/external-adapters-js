@@ -239,6 +239,7 @@ export const deployAdapter = (config: Inputs): void => {
  * @param {Inputs} config The configuration to use to stop an adapter
  */
 export const removeAdapter = (config: Inputs): void => {
+  log(red.bold(`removing: ${config}`))
   // const remove = new Shell().exec(
   //   `helm uninstall ${config.name} \
   //     --namespace ${NAMESPACE} \
