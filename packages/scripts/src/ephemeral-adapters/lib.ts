@@ -187,12 +187,9 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
-  --set envVars.CACHE_REDIS_CONNECTION_TIMEOUT=60000 \
   ${config.helmSecrets} \
   --timeout 2m --wait --debug --dry-run`
   new Shell().exec(dryrunCommand)
-
-  // new Shell().exec(`helm list -n adapters`)
 
   const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir
@@ -205,14 +202,13 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
   ${config.helmSecrets} \
-  --timeout 1h`
+  --timeout 5m --wait --debug`
 
   let exec_result = ''
   for (let i = 0; i < 1; i++) {
     log(red.bold(`Deployment attempt ${i}`))
     exec_result = ''
     try {
-      // new Shell().exec(`helm get manifest ${config.name} -n adapters`)
       const deployHelm = new Shell().exec(deployCommand)
       exec_result = deployHelm.toString()
       if (deployHelm.code !== 0) {
