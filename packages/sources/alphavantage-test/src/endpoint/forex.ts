@@ -74,11 +74,6 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
     })
   },
   parseResponse: (params, res) => {
-    if (!res.data) {
-      logger.error(`There was a problem getting the data from the source`)
-      return []
-    }
-
     let errorMessage = res.data['Error Message']
     if (errorMessage) {
       logger.warn(errorMessage)
@@ -99,7 +94,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
     return params.map((param) => {
       const result = Number(exchangeRate)
       return {
-        params: { ...param },
+        params: param,
         response: {
           data: {
             result,
@@ -113,15 +108,15 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
 
 const error502 = (params: PriceEndpointParams[], errorMessage: string) => {
   logger.error(errorMessage)
-  return [
-    {
-      params: { base: params[0].base, quote: params[0].quote },
+  return params.map((param) => {
+    return {
+      params: param,
       response: {
         statusCode: 502,
         errorMessage,
       },
-    },
-  ]
+    }
+  })
 }
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({

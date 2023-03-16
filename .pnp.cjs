@@ -5174,7 +5174,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage-test/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.27.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.27.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7149,6 +7149,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.27.4-a8b2b83028-7879f95ee6.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
             ["@chainlink/external-adapter-framework", "npm:0.27.4"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:1.3.4"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.9.2"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.27.5", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.27.5-c0de6a5415-221d4ab670.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.27.5"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:1.3.4"],\
             ["eventsource", "npm:2.0.2"],\
