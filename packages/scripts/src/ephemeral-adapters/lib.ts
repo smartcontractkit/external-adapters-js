@@ -201,6 +201,7 @@ export const deployAdapter = (config: Inputs): void => {
   --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
   --set image.tag=${config.imageTag} \
   --set name=${config.name} \
+  --set envVars.CACHE_REDIS_CONNECTION_TIMEOUT=60000 \
   ${config.helmSecrets} \
   --timeout 5m --wait --debug`
 
