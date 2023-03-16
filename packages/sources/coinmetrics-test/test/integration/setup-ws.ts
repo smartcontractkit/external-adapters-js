@@ -5,9 +5,9 @@ import { Server, WebSocket } from 'mock-socket'
 import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { config } from '../../src/config'
-import { WsAssetMetricsSuccessResponse } from '../../src/endpoint/price-ws'
+import { lwba, price } from '../../src/endpoint'
 import { WsCryptoLwbaSuccessResponse } from '../../src/endpoint/lwba-ws'
-import { priceRouter, lwbaRouter } from '../../src/endpoint'
+import { WsAssetMetricsSuccessResponse } from '../../src/endpoint/price-ws'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -93,8 +93,8 @@ export const mockCryptoLwbaWebSocketServer = (URL: string) => {
 export const createAdapter = () => {
   return new Adapter({
     name: 'TEST',
-    defaultEndpoint: 'price-ws',
-    endpoints: [priceRouter, lwbaRouter],
+    defaultEndpoint: price.name,
+    endpoints: [price, lwba],
     config,
   })
 }
