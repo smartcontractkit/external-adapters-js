@@ -164,7 +164,7 @@ jobs:
           IMAGE_PREFIX: ${{ secrets.QA_AWS_ACCOUNT_NUMBER }}.dkr.ecr.${{ secrets.QA_AWS_REGION }}.amazonaws.com/adapters/
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
         run: |
-          helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
+          helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/infra-charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
