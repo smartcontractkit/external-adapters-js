@@ -9,6 +9,7 @@ export const mockCoinmetricsResponseSuccess = (): nock.Scope =>
       frequency: '1s',
       limit_per_asset: 1,
       api_key: 'fake-api-key',
+      page_size: 10000,
     })
     .reply(200, {
       data: [

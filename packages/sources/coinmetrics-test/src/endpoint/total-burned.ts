@@ -167,7 +167,7 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
           context: {
             adapterSettings: settings,
             inputParameters: inputParams,
-            endpointName: ENPDOINT_NAME,
+            endpointName: req.requestContext.endpointName,
           },
           data: requestConfig.params,
           transportName: this.name,

@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { VALID_QUOTES } from '../config'
 import { AssetMetricsEndpointTypes } from './price'
 
@@ -18,6 +18,8 @@ interface ResponseSchema {
     type: string
     message: string
   }
+  next_page_token?: string
+  next_page_url?: string
 }
 
 type AssetMetricsHttpTypes = AssetMetricsEndpointTypes & {
@@ -26,6 +28,8 @@ type AssetMetricsHttpTypes = AssetMetricsEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
+
+const logger = makeLogger('PriceHttpTransport')
 
 export const httpTransport = new HttpTransport<AssetMetricsHttpTypes>({
   prepareRequests: (params, config) => {
@@ -42,6 +46,7 @@ export const httpTransport = new HttpTransport<AssetMetricsHttpTypes>({
           frequency: '1s',
           api_key: config.API_KEY,
           limit_per_asset: 1,
+          page_size: 10_000, // Maximum allowed by the API
         },
       },
     }
@@ -59,6 +64,12 @@ export const httpTransport = new HttpTransport<AssetMetricsHttpTypes>({
           },
         }
       })
+    }
+
+    if (res.data.next_page_token) {
+      logger.warn(
+        `The assets requested result in more than 10k entries, some pairs might be truncated.`,
+      )
     }
 
     const entries: ProviderResult<AssetMetricsHttpTypes>[] = []

@@ -1,10 +1,11 @@
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
   EndpointTypes,
   Frequency,
   FrequencyInputOptions,
   TotalBurnedTransport,
 } from './total-burned'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 
 const inputParams = {
   asset: {
@@ -20,7 +21,7 @@ const inputParams = {
     options: FrequencyInputOptions,
     default: Frequency.ONE_DAY,
   },
-} as const
+} satisfies InputParameters
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'burned',
