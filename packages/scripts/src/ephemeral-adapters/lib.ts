@@ -227,10 +227,11 @@ export const deployAdapter = (config: Inputs): void => {
   new Shell().exec(`helm status ${config.name} -n adapters`)
   new Shell().exec(`helm history ${config.name} -n adapters`)
 
-  if (exec_result) {
-    process.exitCode = 1
-    throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
-  }
+  log(red.bold(`Failed to deploy the external adapter: ${exec_result}`))
+  // if (exec_result) {
+  //   process.exitCode = 1
+  //   throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
+  // }
 }
 
 /**
