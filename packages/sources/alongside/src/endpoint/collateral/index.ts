@@ -1,10 +1,8 @@
 import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
-  AdapterResponse,
   makeLogger,
   SingleNumberResultResponse,
   sleep,
@@ -61,7 +59,6 @@ const sign = (str: string, secret: string) => {
 }
 
 export class AlongsideCollateralTransport extends SubscriptionTransport<EndpointTypes> {
-  cache!: Cache<AdapterResponse<EndpointTypes['Response']>>
   responseCache!: ResponseCache<{
     Request: EndpointTypes['Request']
     Response: EndpointTypes['Response']
@@ -76,7 +73,6 @@ export class AlongsideCollateralTransport extends SubscriptionTransport<Endpoint
     name: string,
   ): Promise<void> {
     super.initialize(dependencies, adapterSettings, endpointName, name)
-    this.cache = dependencies.cache as Cache<AdapterResponse<EndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
     this.requester = dependencies.requester
     this.name = name
@@ -110,140 +106,137 @@ export class AlongsideCollateralTransport extends SubscriptionTransport<Endpoint
   }
 
   async backgroundHandler(context: EndpointContext<EndpointTypes>): Promise<void> {
-    let tradingBalances
-    let vaultBalances
     const collateral = new Collateral(context.adapterSettings.RPC_URL)
     const providerDataRequestedUnixMs = Date.now()
 
     try {
-      logger.debug('Preparing request for trading balance')
-      const requestTradingBalance = this.prepareRequest('TRADING', context.adapterSettings)
-      logger.debug('Requesting trading balance')
-      tradingBalances = await this.requester.request<ProviderResponseBody>(
-        'trading_balance_request',
-        requestTradingBalance,
-      )
-    } catch (e) {
-      const errorMessage = 'Error occurred retrieving trading balance'
-      logger.error(errorMessage)
-      await this.responseCache.write(this.name, [
-        {
-          params: {},
-          response: {
-            statusCode: 502,
-            errorMessage,
-            timestamps: {
-              providerDataRequestedUnixMs,
-              providerDataReceivedUnixMs: Date.now(),
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          },
-        },
-      ])
-      return
-    }
-    try {
-      logger.debug('Preparing request for vault balance')
-      const requestTradingVault = this.prepareRequest('VAULT', context.adapterSettings)
-      logger.debug('Requesting trading vault')
-      vaultBalances = await this.requester.request<ProviderResponseBody>(
-        'vault_balance_request',
-        requestTradingVault,
-      )
-    } catch (e) {
-      const errorMessage = 'Error occurred retrieving vault balance'
-      logger.error(errorMessage)
-      await this.responseCache.write(this.name, [
-        {
-          params: {},
-          response: {
-            statusCode: 502,
-            errorMessage,
-            timestamps: {
-              providerDataRequestedUnixMs,
-              providerDataReceivedUnixMs: Date.now(),
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          },
-        },
-      ])
-      return
-    }
-
-    let units
-    try {
-      logger.debug('Getting asset weights')
-      units = await collateral.getAssetWeights()
-    } catch (e) {
-      const errorMessage = 'Error occurred retrieving asset weights'
-      logger.error(errorMessage)
-      await this.responseCache.write(this.name, [
-        {
-          params: {},
-          response: {
-            statusCode: 502,
-            errorMessage,
-            timestamps: {
-              providerDataRequestedUnixMs,
-              providerDataReceivedUnixMs: Date.now(),
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          },
-        },
-      ])
-      return
-    }
-
-    let result
-    try {
-      logger.debug('Calculating minimum collateral')
-      result = collateral.calcMinCollateral(
-        tradingBalances.response.data.balances,
-        vaultBalances.response.data.balances,
+      const { tradingBalances, vaultBalances } = await this.fetchBalances(context.adapterSettings)
+      const units = await this.getAssetWeights(collateral)
+      const result = await this.calculateMinimumCollateral(
+        collateral,
+        tradingBalances,
+        vaultBalances,
         units,
       )
-    } catch (e) {
-      const errorMessage = 'Error occurred calculating minimum collateral'
-      logger.error(errorMessage)
+      const providerDataReceivedUnixMs = Date.now()
+
+      const response = {
+        data: {
+          result: result,
+        },
+        statusCode: 200,
+        result: result,
+        timestamps: {
+          providerDataRequestedUnixMs,
+          providerDataReceivedUnixMs,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
       await this.responseCache.write(this.name, [
         {
           params: {},
-          response: {
-            statusCode: 502,
-            errorMessage,
-            timestamps: {
-              providerDataRequestedUnixMs,
-              providerDataReceivedUnixMs: Date.now(),
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          },
+          response,
         },
       ])
-      return
+    } catch (e) {
+      if (e instanceof Error) {
+        await this.handleErrorResponse(e.message, providerDataRequestedUnixMs)
+      } else {
+        logger.error(JSON.stringify(e))
+        await this.handleErrorResponse('Unknown error occurred', providerDataRequestedUnixMs)
+      }
     }
 
-    const providerDataReceivedUnixMs = Date.now()
-    const response = {
-      data: {
-        result: result,
-      },
-      statusCode: 200,
-      result: result,
-      timestamps: {
-        providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs,
-        providerIndicatedTimeUnixMs: undefined,
-      },
-    }
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    return
+  }
 
+  async fetchBalances(adapterSettings: typeof config.settings): Promise<{
+    tradingBalances: ProviderResponseBody
+    vaultBalances: ProviderResponseBody
+  }> {
+    let tradingBalances!: ProviderResponseBody
+    let vaultBalances!: ProviderResponseBody
+
+    logger.debug('Preparing request for trading balance')
+    const requestTradingBalance = this.prepareRequest('TRADING', adapterSettings)
+    logger.debug('Preparing request for vault balance')
+    const requestTradingVault = this.prepareRequest('VAULT', adapterSettings)
+
+    logger.debug('Requesting trading balance')
+    const tradingBalancePromise = this.requester
+      .request<ProviderResponseBody>('trading_balance_request', requestTradingBalance)
+      .then(
+        (value) => {
+          tradingBalances = value.response.data
+        },
+        (reason) => {
+          logger.error(JSON.stringify(reason))
+          throw Error('Error occurred retrieving trading balance')
+        },
+      )
+
+    logger.debug('Requesting trading vault')
+    const vaultBalancePromise = this.requester
+      .request<ProviderResponseBody>('vault_balance_request', requestTradingVault)
+      .then(
+        (value) => {
+          vaultBalances = value.response.data
+        },
+        (reason) => {
+          logger.error(JSON.stringify(reason))
+          throw Error('Error occurred retrieving trading balance')
+        },
+      )
+
+    await Promise.all([tradingBalancePromise, vaultBalancePromise])
+
+    return { tradingBalances, vaultBalances }
+  }
+
+  async getAssetWeights(collateral: Collateral): Promise<{ [k: string]: number }> {
+    try {
+      logger.debug('Getting asset weights')
+      return await collateral.getAssetWeights()
+    } catch (e) {
+      throw Error('Error occurred retrieving asset weights')
+    }
+  }
+
+  async calculateMinimumCollateral(
+    collateral: Collateral,
+    tradingBalances: ProviderResponseBody,
+    vaultBalances: ProviderResponseBody,
+    units: Record<string, number>,
+  ): Promise<number> {
+    try {
+      logger.debug('Calculating minimum collateral')
+      return collateral.calcMinCollateral(tradingBalances.balances, vaultBalances.balances, units)
+    } catch (e) {
+      throw Error('Error occurred calculating minimum collateral')
+    }
+  }
+
+  async handleErrorResponse(
+    errorMessage: string,
+    providerDataRequestedUnixMs: number,
+  ): Promise<void> {
+    logger.error(errorMessage)
     await this.responseCache.write(this.name, [
       {
         params: {},
-        response,
+        response: {
+          statusCode: 502,
+          errorMessage,
+          timestamps: {
+            providerDataRequestedUnixMs,
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        },
       },
     ])
-
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 }
 
