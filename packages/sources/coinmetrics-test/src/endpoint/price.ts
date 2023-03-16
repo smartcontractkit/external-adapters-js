@@ -1,6 +1,6 @@
 import {
   CryptoPriceEndpoint,
-  PriceEndpointInputParameters,
+  priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
@@ -23,22 +23,6 @@ export type AssetMetricsEndpointTypes = {
   Settings: typeof config.settings
 }
 
-const inputParameters = {
-  base: {
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-    required: true,
-    aliases: ['from', 'coin'],
-  },
-  quote: {
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-    required: true,
-    aliases: ['to', 'market'],
-  },
-} satisfies PriceEndpointInputParameters
-
-// Currently only routes to websocket. Stub is here for the follow-up release that will add in REST routes.
 export const transportRoutes = new TransportRoutes<AssetMetricsEndpointTypes>()
   .register('ws', wsTransport)
   .register('http', httpTransport)
@@ -48,7 +32,7 @@ export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
   aliases: ['price-ws'],
   transportRoutes,
   defaultTransport: 'http',
-  inputParameters,
+  inputParameters: priceEndpointInputParameters,
   // Custom validation to check that the quote value is valid
   customInputValidation: (req) =>
     VALID_QUOTES[req.requestContext.data.quote]

@@ -12,6 +12,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BigNumber, ethers } from 'ethers'
 import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('CoinMetricsBurnedTransport')
 
@@ -105,7 +106,7 @@ const inputParams = {
     type: 'string',
     required: false,
   },
-} as const
+} satisfies InputParameters
 
 export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber => {
   let burnedTKN = BigNumber.from('0')
