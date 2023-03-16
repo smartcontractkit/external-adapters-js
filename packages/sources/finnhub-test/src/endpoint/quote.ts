@@ -3,17 +3,18 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('Finnhub quote endpoint')
 
 export const inputParameters = {
   base: {
-    aliases: ['from', 'coin'],
+    aliases: ['quote', 'asset', 'from'],
     type: 'string',
     description: 'The symbol of symbols of the currency to query',
     required: true,
   },
-} as const
+} satisfies InputParameters
 
 export interface ProviderResponseBody {
   c: number
@@ -77,26 +78,24 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   },
   parseResponse: (params, res) => {
     const data = res.data
-    if (!data) {
+    if (!data.c) {
       const errorMessage = 'No data found'
-      if (errorMessage) {
-        logger.warn(errorMessage)
-        return [
-          {
-            params: { base: params[0].base },
-            response: {
-              statusCode: 502,
-              errorMessage,
-            },
+      logger.warn(errorMessage)
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            statusCode: 502,
+            errorMessage,
           },
-        ]
-      }
+        }
+      })
     }
 
     return params.map((param) => {
       const result = data.c
       return {
-        params: { ...param },
+        params: param,
         response: {
           data: {
             result,
