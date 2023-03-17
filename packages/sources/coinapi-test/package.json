@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinapi-test-adapter",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Chainlink coinapi-test adapter.",
   "keywords": [
     "Chainlink",

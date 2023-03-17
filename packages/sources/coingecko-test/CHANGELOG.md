@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.6.3
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
 ## 1.6.2
 
 ### Patch Changes

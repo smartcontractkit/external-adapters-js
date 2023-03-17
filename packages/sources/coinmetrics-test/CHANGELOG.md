@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
 ## 1.2.0
 
 ### Minor Changes

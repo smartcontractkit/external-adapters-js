@@ -1,5 +1,11 @@
 # k6
 
+## 2.5.2
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
 ## 2.5.1
 
 ### Patch Changes

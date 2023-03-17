@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/anchor-adapter",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "description": "Chainlink anchor adapter.",
   "keywords": [
     "Chainlink",

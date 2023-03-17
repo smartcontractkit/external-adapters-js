@@ -1,5 +1,15 @@
 # @chainlink/reference-transform-adapter
 
+## 1.2.74
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea@1.3.73
+  - @chainlink/ea-reference-data-reader@1.3.28
+
 ## 1.2.73
 
 ### Patch Changes
