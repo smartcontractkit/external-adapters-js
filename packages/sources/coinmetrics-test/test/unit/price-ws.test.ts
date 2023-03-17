@@ -84,7 +84,7 @@ describe('price-ws url generator', () => {
 
     expect(url).toContain(new URLSearchParams({ assets: 'btc,eth' }).toString())
     expect(url).toContain(
-      new URLSearchParams({ metrics: 'ReferenceRateUSD,ReferenceRateEUR' }).toString(),
+      new URLSearchParams({ metrics: 'ReferenceRateEUR,ReferenceRateUSD' }).toString(),
     )
   })
 })

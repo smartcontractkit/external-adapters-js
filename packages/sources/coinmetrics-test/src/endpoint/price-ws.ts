@@ -60,10 +60,10 @@ export const calculateAssetMetricsUrl = (
   desiredSubs: WsAssetMetricsEndpointTypes['Request']['Params'][],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
-  const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].join(',')
-  const metrics = [
-    ...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`)),
-  ].join(',')
+  const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].sort().join(',')
+  const metrics = [...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`))]
+    .sort()
+    .join(',')
   const generated = new URL('/v4/timeseries-stream/asset-metrics', WS_API_ENDPOINT)
   generated.searchParams.append('assets', assets)
   generated.searchParams.append('metrics', metrics)
