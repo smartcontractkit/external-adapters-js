@@ -1,5 +1,27 @@
 # @chainlink/token-allocation-adapter
 
+## 1.9.8
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/coinmetrics-adapter@2.0.1
+  - @chainlink/ncfx-adapter@3.2.2
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/amberdata-adapter@1.8.22
+  - @chainlink/cfbenchmarks-adapter@1.6.1
+  - @chainlink/coinapi-adapter@1.3.19
+  - @chainlink/coingecko-adapter@1.9.21
+  - @chainlink/coinmarketcap-adapter@1.5.32
+  - @chainlink/coinpaprika-adapter@1.10.21
+  - @chainlink/cryptocompare-adapter@1.4.29
+  - @chainlink/finage-adapter@1.6.15
+  - @chainlink/kaiko-adapter@1.5.23
+  - @chainlink/nomics-adapter@1.3.29
+  - @chainlink/tiingo-adapter@1.12.19
+
 ## 1.9.7
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.2.2
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
 ## 3.2.1
 
 ### Patch Changes

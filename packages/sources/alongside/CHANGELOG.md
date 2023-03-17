@@ -1,5 +1,12 @@
 # @chainlink/alongside-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- 69eb0efb6: Reduced lookback period
+
 ## 1.3.0
 
 ### Minor Changes

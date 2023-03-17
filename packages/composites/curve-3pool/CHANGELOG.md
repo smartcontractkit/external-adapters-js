@@ -1,5 +1,15 @@
 # @chainlink/curve-3pool-adapter
 
+## 3.0.23
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/token-allocation-adapter@1.9.8
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 3.0.22
 
 ### Patch Changes
