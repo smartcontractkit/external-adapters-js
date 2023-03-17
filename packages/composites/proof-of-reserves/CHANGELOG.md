@@ -1,5 +1,16 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.16.4
+
+### Patch Changes
+
+- Updated dependencies [bc8886c63]
+  - @chainlink/moonbeam-address-list-adapter@1.1.2
+  - @chainlink/polkadot-balance-adapter@1.1.2
+  - @chainlink/por-indexer-adapter@1.2.42
+  - @chainlink/renvm-address-set-adapter@1.5.33
+  - @chainlink/wbtc-address-set-adapter@1.4.42
+
 ## 1.16.3
 
 ### Patch Changes
