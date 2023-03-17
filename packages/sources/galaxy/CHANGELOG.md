@@ -1,5 +1,11 @@
 # @chainlink/galaxy-source-adapter
 
+## 2.1.2
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
 ## 2.1.1
 
 ### Patch Changes

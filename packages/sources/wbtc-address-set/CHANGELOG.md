@@ -1,5 +1,11 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 1.4.42
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.4
+
 ## 1.4.41
 
 ### Patch Changes

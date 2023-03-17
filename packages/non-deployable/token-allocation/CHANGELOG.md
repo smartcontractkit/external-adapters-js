@@ -1,5 +1,14 @@
 # @chainlink/token-allocation-adapter
 
+## 1.9.7
+
+### Patch Changes
+
+- Updated dependencies [b4f23e7d8]
+- Updated dependencies [bc8886c63]
+  - @chainlink/coinmetrics-adapter@2.0.0
+  - @chainlink/ncfx-adapter@3.2.1
+
 ## 1.9.6
 
 ### Patch Changes

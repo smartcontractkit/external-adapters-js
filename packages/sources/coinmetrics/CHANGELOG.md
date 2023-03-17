@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- b4f23e7d8: Added crypto-lwba endpoint to coinmetrics adapter
+
 ## 1.3.28
 
 ### Patch Changes
