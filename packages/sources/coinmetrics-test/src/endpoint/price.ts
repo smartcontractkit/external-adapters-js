@@ -25,13 +25,13 @@ export type AssetMetricsEndpointTypes = {
 
 export const transportRoutes = new TransportRoutes<AssetMetricsEndpointTypes>()
   .register('ws', wsTransport)
-  .register('http', httpTransport)
+  .register('rest', httpTransport)
 
 export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
   name: 'price',
   aliases: ['price-ws'],
   transportRoutes,
-  defaultTransport: 'http',
+  defaultTransport: 'rest',
   inputParameters: priceEndpointInputParameters,
   // Custom validation to check that the quote value is valid
   customInputValidation: (req) =>
