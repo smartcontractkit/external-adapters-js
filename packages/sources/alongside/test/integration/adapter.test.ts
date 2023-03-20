@@ -17,8 +17,6 @@ describe('rest', () => {
     done()
   })
 
-  const id = '1'
-
   const context: SuiteContext = {
     req: null,
     server: async () => {
@@ -40,13 +38,10 @@ describe('rest', () => {
 
   describe('portfolio api', () => {
     const data = {
-      id,
       data: {},
     }
-
+    mockResponseSuccess()
     it('should return success', async () => {
-      mockResponseSuccess()
-
       const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)

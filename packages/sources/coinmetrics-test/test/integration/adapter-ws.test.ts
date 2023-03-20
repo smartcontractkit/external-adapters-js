@@ -23,9 +23,9 @@ describe('websocket', () => {
 
   const data: AdapterRequestBody = {
     data: {
-      endpoint: 'price-ws',
       base: 'ETH',
       quote: 'USD',
+      transport: 'ws',
     },
   }
 
@@ -37,7 +37,7 @@ describe('websocket', () => {
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['API_KEY'] = 'someKey'
+    process.env['API_KEY'] = 'fake-api-key'
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
@@ -70,18 +70,10 @@ describe('websocket', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
+          .expect(200)
 
       const response = await makeRequest()
-      expect(response.body).toEqual({
-        result: 1500,
-        statusCode: 200,
-        data: { result: 1500 },
-        timestamps: {
-          providerDataReceivedUnixMs: 1652198967193,
-          providerDataStreamEstablishedUnixMs: 1652198967193,
-          providerIndicatedTimeUnixMs: 1591649644000,
-        },
-      })
+      expect(response.body).toMatchSnapshot()
     }, 30000)
     it('should return error (empty body)', async () => {
       const makeRequest = () =>
