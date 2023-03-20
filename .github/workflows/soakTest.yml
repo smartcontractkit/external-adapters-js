@@ -163,9 +163,11 @@ jobs:
           ADAPTER_NAMES: ${{ steps.build-adapters.outputs.BUILD_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.QA_AWS_ACCOUNT_NUMBER }}.dkr.ecr.${{ secrets.QA_AWS_REGION }}.amazonaws.com/adapters/
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+          QA_AWS_REGION: ${{ secrets.QA_AWS_REGION }}
+          QA_AWS_ACCOUNT_NUMBER: ${{ secrets.QA_AWS_ACCOUNT_NUMBER }}
         run: |
 
-          aws ecr get-login-password --region ${QA_AWS_REGION} | helm registry login --username AWS --password-stdin ${secrets.QA_AWS_ACCOUNT_NUMBER}.dkr.ecr.${QA_AWS_REGION}.amazonaws.com
+          aws ecr get-login-password --region ${QA_AWS_REGION} | helm registry login --username AWS --password-stdin ${QA_AWS_ACCOUNT_NUMBER}.dkr.ecr.${QA_AWS_REGION}.amazonaws.com
           # helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/infra-charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
 
           if [ -n "$ADAPTER_NAMES" ]; then
