@@ -1654,7 +1654,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/ws": ^8
+    "@types/ws": 8.5.4
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.9.5
@@ -2961,7 +2961,7 @@ __metadata:
     "@types/remote-redux-devtools": 0.5.5
     "@types/sinon": 10.0.13
     "@types/uuid": 8.3.4
-    "@types/ws": ^8
+    "@types/ws": 8.5.4
     ajv: ^8.6.2
     axios: ^0.24.0
     decimal.js: ^10.3.1
@@ -3826,7 +3826,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    "@types/ws": ^8
+    "@types/ws": 8.5.4
     axios: 0.27.2
     crypto: 1.0.1
     mock-socket: ^9.1.5
@@ -5177,7 +5177,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    "@types/ws": ^8
+    "@types/ws": 8.5.4
     mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
@@ -10788,21 +10788,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ws@npm:8.5.4":
+  version: 8.5.4
+  resolution: "@types/ws@npm:8.5.4"
+  dependencies:
+    "@types/node": "*"
+  checksum: fefbad20d211929bb996285c4e6f699b12192548afedbe4930ab4384f8a94577c9cd421acaad163cacd36b88649509970a05a0b8f20615b30c501ed5269038d1
+  languageName: node
+  linkType: hard
+
 "@types/ws@npm:^7.4.4":
   version: 7.4.7
   resolution: "@types/ws@npm:7.4.7"
   dependencies:
     "@types/node": "*"
   checksum: b4c9b8ad209620c9b21e78314ce4ff07515c0cadab9af101c1651e7bfb992d7fd933bd8b9c99d110738fd6db523ed15f82f29f50b45510288da72e964dedb1a3
-  languageName: node
-  linkType: hard
-
-"@types/ws@npm:^8":
-  version: 8.5.4
-  resolution: "@types/ws@npm:8.5.4"
-  dependencies:
-    "@types/node": "*"
-  checksum: fefbad20d211929bb996285c4e6f699b12192548afedbe4930ab4384f8a94577c9cd421acaad163cacd36b88649509970a05a0b8f20615b30c501ed5269038d1
   languageName: node
   linkType: hard
 
