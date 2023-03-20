@@ -3896,7 +3896,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-test-adapter@workspace:packages/sources/iex-cloud-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.27.4
+    "@chainlink/external-adapter-framework": 0.27.6
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
