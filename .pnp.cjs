@@ -8869,6 +8869,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
+            ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
