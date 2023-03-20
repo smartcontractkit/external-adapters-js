@@ -16,6 +16,7 @@
     { "path": "../../sources/coinmetrics" },
     { "path": "../../sources/coinmarketcap" },
     { "path": "../../sources/coinpaprika" },
+    { "path": "../../sources/coinranking" },
     { "path": "../../sources/cryptocompare" },
     { "path": "../../sources/finage" },
     { "path": "../../sources/kaiko" },

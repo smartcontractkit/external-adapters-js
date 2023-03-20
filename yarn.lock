@@ -5070,6 +5070,7 @@ __metadata:
     "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/coinmetrics-adapter": "workspace:*"
     "@chainlink/coinpaprika-adapter": "workspace:*"
+    "@chainlink/coinranking-adapter": "workspace:*"
     "@chainlink/cryptocompare-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
