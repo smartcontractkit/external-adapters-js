@@ -1,5 +1,14 @@
 # @chainlink/snowflake-adapter
 
+## 1.2.29
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.2.28
 
 ### Patch Changes

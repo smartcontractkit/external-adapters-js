@@ -1,5 +1,13 @@
 # @chainlink/reduce-adapter
 
+## 1.4.16
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.4.15
 
 ### Patch Changes

@@ -1016,7 +1016,7 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
     method: 'eth_getLogs',
     params: [
       {
-        fromBlock: '0xeed364',
+        fromBlock: '0xf981c4',
         toBlock: '0xfe15a4',
         address: '0xf17a3fe536f8f7847f1385ec1bc967b2ca9cae8d',
         topics: ['0xe6be68107100e39cb16d675c1086a4d5479fbd01108d721dabbccaa2249b995f'],

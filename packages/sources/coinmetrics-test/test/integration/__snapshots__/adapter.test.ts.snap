@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`http burned endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 12753.030080222637,
+  },
+  "result": 12753.030080222637,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`http price endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 2969.5,
+  },
+  "result": 2969.5,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`http total-burned endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 12753.030080222637,
+  },
+  "result": 12753.030080222637,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

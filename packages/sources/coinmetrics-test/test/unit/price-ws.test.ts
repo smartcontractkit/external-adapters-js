@@ -41,7 +41,7 @@ const EXAMPLE_REORG_MESSAGE = {
 
 config.initialize()
 const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
-  endpointName: 'price-ws',
+  endpointName: 'price',
   inputParameters: {},
   adapterSettings: config.settings,
 }
@@ -60,6 +60,7 @@ describe('price-ws url generator', () => {
     const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
       {
         base: 'ETH'.toUpperCase(), //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'usd'.toLowerCase(), //Deliberately use the wrong case
       },
     ])
@@ -71,17 +72,19 @@ describe('price-ws url generator', () => {
     const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
       {
         base: 'btc', //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'usd', //Deliberately use the wrong case
       },
       {
         base: 'eth', //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'EUR', //Deliberately use the wrong case
       },
     ])
 
     expect(url).toContain(new URLSearchParams({ assets: 'btc,eth' }).toString())
     expect(url).toContain(
-      new URLSearchParams({ metrics: 'ReferenceRateUSD,ReferenceRateEUR' }).toString(),
+      new URLSearchParams({ metrics: 'ReferenceRateEUR,ReferenceRateUSD' }).toString(),
     )
   })
 })
@@ -95,14 +98,14 @@ describe('price-ws message handler', () => {
 
   it('warning message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_WARNING_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
   it('error message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_ERROR_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
   it('reorg message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_REORG_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
 })

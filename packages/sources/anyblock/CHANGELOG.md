@@ -1,5 +1,13 @@
 # @chainlink/anyblock-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 2.0.1
 
 ### Patch Changes
