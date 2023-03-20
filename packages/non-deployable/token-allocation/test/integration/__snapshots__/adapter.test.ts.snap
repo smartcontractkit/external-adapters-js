@@ -150,6 +150,36 @@ Object {
 }
 `;
 
+exports[`execute additional input parameter pass through should return the correct price for source coinranking with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute additional input parameter pass through should return the correct price for source cryptocompare with additional input   1`] = `
 Object {
   "data": Object {
@@ -391,6 +421,36 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source coinpaprika 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "marketCap": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "marketCap": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute marketcap method should return the correct price for source coinranking 1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -691,6 +751,36 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source coinpaprika 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute price method should return the correct price for source coinranking 1`] = `
 Object {
   "data": Object {
     "payload": Object {
