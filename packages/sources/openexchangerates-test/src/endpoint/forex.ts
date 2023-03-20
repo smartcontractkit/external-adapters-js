@@ -1,9 +1,11 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpoint,
+  priceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 interface ResponseSchema {
   disclaimer: string
@@ -26,21 +28,6 @@ export type ForexEndpointTypes = {
     ResponseBody: ResponseSchema
   }
 }
-
-export const inputParameters = {
-  base: {
-    aliases: ['from', 'coin'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-  },
-} satisfies InputParameters & PriceEndpointInputParameters
 
 const getMappedSymbols = (requestParams: PriceEndpointParams[]) => {
   const symbolGroupMap: Record<string, { params: PriceEndpointParams[]; base: string }> = {}
@@ -112,5 +99,5 @@ export const endpoint = new PriceEndpoint<ForexEndpointTypes>({
   name: 'forex',
   aliases: ['price'],
   transport: batchTransport,
-  inputParameters: inputParameters,
+  inputParameters: priceEndpointInputParameters,
 })
