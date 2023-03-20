@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/wootrade-adapter",
-  "version": "1.2.28",
+  "version": "1.2.29",
   "description": "Chainlink wootrade adapter.",
   "keywords": [
     "Chainlink",

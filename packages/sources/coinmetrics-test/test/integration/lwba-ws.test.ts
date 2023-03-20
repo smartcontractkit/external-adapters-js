@@ -3,8 +3,8 @@ import { AddressInfo } from 'net'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import {
   createAdapter,
+  mockCryptoLwbaWebSocketServer,
   mockWebSocketProvider,
-  mockWebSocketServer,
   setEnvVariables,
 } from './setup-ws'
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
@@ -17,13 +17,13 @@ describe('websocket', () => {
   let req: SuperTest<Test>
   let mockWsServer: Server | undefined
   let spy: jest.SpyInstance
-  const wsEndpoint = 'ws://localhost:9090/v4/timeseries-stream/asset-metrics'
+  const wsEndpoint = 'ws://localhost:9090/v4/timeseries-stream/pair-quotes'
 
   jest.setTimeout(30_000)
 
   const data: AdapterRequestBody = {
     data: {
-      endpoint: 'price-ws',
+      endpoint: 'crypto-lwba',
       base: 'ETH',
       quote: 'USD',
     },
@@ -41,7 +41,7 @@ describe('websocket', () => {
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebSocketServer(wsEndpoint)
+    mockWsServer = mockCryptoLwbaWebSocketServer(wsEndpoint)
 
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -73,13 +73,21 @@ describe('websocket', () => {
 
       const response = await makeRequest()
       expect(response.body).toEqual({
-        result: 1500,
+        result: 1562.3733948803842,
+        mid: 1562.3733948803842,
+        ask: 1562.4083581615457,
+        asksize: 31.63132041,
+        bid: 1562.3384315992228,
+        bidsize: 64.67517577,
+        spread: 0.000044756626394287605,
         statusCode: 200,
-        data: { result: 1500 },
+        data: {
+          result: 1562.3733948803842,
+        },
         timestamps: {
           providerDataReceivedUnixMs: 1652198967193,
           providerDataStreamEstablishedUnixMs: 1652198967193,
-          providerIndicatedTimeUnixMs: 1591649644000,
+          providerIndicatedTimeUnixMs: 1678248273750,
         },
       })
     }, 30000)
@@ -99,7 +107,7 @@ describe('websocket', () => {
       const makeRequest = () =>
         req
           .post('/')
-          .send({ data: {} })
+          .send({ data: { endpoint: 'crypto-lwba' } })
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
@@ -111,7 +119,7 @@ describe('websocket', () => {
       const makeRequest = () =>
         req
           .post('/')
-          .send({ data: { quote: 'USD' } })
+          .send({ data: { endpoint: 'crypto-lwba', quote: 'USD' } })
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
@@ -123,19 +131,7 @@ describe('websocket', () => {
       const makeRequest = () =>
         req
           .post('/')
-          .send({ data: { base: 'ETH' } })
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-
-      const response = await makeRequest()
-      expect(response.statusCode).toEqual(400)
-    }, 30000)
-    it('should return error (bad quote)', async () => {
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send({ data: { base: 'ETH', quote: 'INVALID' } })
+          .send({ data: { endpoint: 'crypto-lwba', base: 'ETH' } })
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)

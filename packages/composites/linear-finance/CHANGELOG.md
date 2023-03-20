@@ -1,5 +1,20 @@
 # @chainlink/linear-finance-adapter
 
+## 2.3.31
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/token-allocation-adapter@1.9.8
+
+## 2.3.30
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.7
+
 ## 2.3.29
 
 ### Patch Changes

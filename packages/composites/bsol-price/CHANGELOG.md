@@ -1,5 +1,22 @@
 # @chainlink/bsol-price-adapter
 
+## 2.2.42
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/token-allocation-adapter@1.9.8
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/solana-view-function-adapter@2.2.29
+
+## 2.2.41
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.7
+
 ## 2.2.40
 
 ### Patch Changes

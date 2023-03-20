@@ -1,5 +1,20 @@
 # @chainlink/vesper-adapter
 
+## 2.0.23
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/token-allocation-adapter@1.9.8
+
+## 2.0.22
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.7
+
 ## 2.0.21
 
 ### Patch Changes
