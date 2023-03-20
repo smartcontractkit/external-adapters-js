@@ -4,7 +4,7 @@ const { red, blue } = chalk
 const { log } = console
 
 export const ACTIONS: string[] = ['start', 'stop']
-export const HELM_CHART_DIR = 'chainlink/chainlink-adapter'
+export const HELM_CHART_DIR = 'infra-charts/chainlink-adapter'
 export const IMAGE_REPOSITORY = '795953128386.dkr.ecr.us-west-2.amazonaws.com/adapters/'
 export const IMAGE_TAG = 'develop-latest'
 export const NAMESPACE = 'adapters'
@@ -167,7 +167,7 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(`helm pull chainlink/chainlink-adapter --untar`)
+  new Shell().exec(`helm pull infra-charts/chainlink-adapter --untar`)
   // new Shell().exec(`helm lint cl-adapter -n adapters`)
   new Shell().exec(`helm secrets lint chainlink-adapter-0.2.2.tgz \
   --namespace ${NAMESPACE} \
