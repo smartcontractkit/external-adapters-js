@@ -167,15 +167,8 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(`helm pull infra-charts/chainlink-adapter --untar`)
-  // new Shell().exec(`helm lint cl-adapter -n adapters`)
-  new Shell().exec(`helm secrets lint chainlink-adapter-0.2.2.tgz \
-  --namespace ${NAMESPACE} \
-  ${config.helmValuesOverride} \
-  --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
-  --set image.tag=${config.imageTag} \
-  --set name=${config.name} \
-  `)
+  new Shell().exec(`helm search repo -r ".*adapter.*"`)
+  new Shell().exec(`helm search repo -r ".*"`)
 
   const dryrunCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
     config.helmChartDir

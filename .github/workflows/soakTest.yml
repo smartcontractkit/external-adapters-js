@@ -168,7 +168,7 @@ jobs:
         run: |
 
           aws ecr get-login-password --region ${QA_AWS_REGION} | helm registry login --username AWS --password-stdin ${QA_AWS_ACCOUNT_NUMBER}.dkr.ecr.${QA_AWS_REGION}.amazonaws.com
-          # helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/infra-charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
+          helm show chart oci://${QA_AWS_ACCOUNT_NUMBER}.dkr.ecr.us-west-2.amazonaws.com/infra-charts/chainlink-adapter
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
