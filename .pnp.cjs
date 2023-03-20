@@ -5174,7 +5174,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage-test/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.27.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.27.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7161,14 +7161,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.27.5", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.27.5-c0de6a5415-221d4ab670.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.27.6", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.27.6-f2ff09a2c1-2ff177d1f2.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.27.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.27.6"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:1.3.4"],\
             ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.9.2"],\
+            ["fastify", "npm:4.13.0"],\
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
@@ -21792,6 +21792,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:4.13.0", {\
+          "packageLocation": "./.yarn/cache/fastify-npm-4.13.0-31e0d4a709-98578b4802.zip/node_modules/fastify/",\
+          "packageDependencies": [\
+            ["fastify", "npm:4.13.0"],\
+            ["@fastify/ajv-compiler", "npm:3.3.1"],\
+            ["@fastify/error", "npm:3.0.0"],\
+            ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
+            ["abstract-logging", "npm:2.0.1"],\
+            ["avvio", "npm:8.2.0"],\
+            ["fast-content-type-parse", "npm:1.0.0"],\
+            ["find-my-way", "npm:7.4.0"],\
+            ["light-my-request", "npm:5.6.1"],\
+            ["pino", "npm:8.6.1"],\
+            ["process-warning", "npm:2.0.0"],\
+            ["proxy-addr", "npm:2.0.7"],\
+            ["rfdc", "npm:1.3.0"],\
+            ["secure-json-parse", "npm:2.5.0"],\
+            ["semver", "npm:7.3.8"],\
+            ["tiny-lru", "npm:10.2.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.9.2", {\
           "packageLocation": "./.yarn/cache/fastify-npm-4.9.2-b0699ef254-78d931a569.zip/node_modules/fastify/",\
           "packageDependencies": [\
@@ -34781,6 +34803,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["tiny-lru", [\
+        ["npm:10.2.2", {\
+          "packageLocation": "./.yarn/cache/tiny-lru-npm-10.2.2-7e4e324ede-51ab1a6096.zip/node_modules/tiny-lru/",\
+          "packageDependencies": [\
+            ["tiny-lru", "npm:10.2.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:8.0.2", {\
           "packageLocation": "./.yarn/cache/tiny-lru-npm-8.0.2-b190e31fd1-ec4d884914.zip/node_modules/tiny-lru/",\
           "packageDependencies": [\

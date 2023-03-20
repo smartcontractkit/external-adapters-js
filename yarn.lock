@@ -1733,7 +1733,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/alphavantage-test-adapter@workspace:packages/sources/alphavantage-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.27.5
+    "@chainlink/external-adapter-framework": 0.27.6
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3539,20 +3539,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/external-adapter-framework@npm:0.27.5":
-  version: 0.27.5
-  resolution: "@chainlink/external-adapter-framework@npm:0.27.5"
+"@chainlink/external-adapter-framework@npm:0.27.6":
+  version: 0.27.6
+  resolution: "@chainlink/external-adapter-framework@npm:0.27.6"
   dependencies:
     ajv: 8.11.0
     axios: 1.3.4
     eventsource: 2.0.2
-    fastify: 4.9.2
+    fastify: 4.13.0
     ioredis: 5.2.3
     pino: 8.6.1
     pino-pretty: 9.1.0
     prom-client: 13.2.0
     ws: 8.9.0
-  checksum: 221d4ab670ed9946c79cab00d144a443e9e75ccf45498103b0cd99a365c62c003e34fac9c5c51fd3303d751152677955499a50c2d110d797205e20528047f46d
+  checksum: 2ff177d1f264f70c185abb7c003f1694237fd963e7990b66818c212f317ac7d71808bbdfc425bcc3f36969d9ceab30133c1ae7514b989777753c9a6edcd862fd
   languageName: node
   linkType: hard
 
@@ -16459,6 +16459,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastify@npm:4.13.0":
+  version: 4.13.0
+  resolution: "fastify@npm:4.13.0"
+  dependencies:
+    "@fastify/ajv-compiler": ^3.3.1
+    "@fastify/error": ^3.0.0
+    "@fastify/fast-json-stringify-compiler": ^4.1.0
+    abstract-logging: ^2.0.1
+    avvio: ^8.2.0
+    fast-content-type-parse: ^1.0.0
+    find-my-way: ^7.3.0
+    light-my-request: ^5.6.1
+    pino: ^8.5.0
+    process-warning: ^2.0.0
+    proxy-addr: ^2.0.7
+    rfdc: ^1.3.0
+    secure-json-parse: ^2.5.0
+    semver: ^7.3.7
+    tiny-lru: ^10.0.0
+  checksum: 98578b480272890bde0cc4505701d5d6c5647e9bba3fd5d0e36105c1a7cc631846a65384351229e464c5cd469e309289c0936c079538cbabde2e2789774e1531
+  languageName: node
+  linkType: hard
+
 "fastify@npm:4.9.2":
   version: 4.9.2
   resolution: "fastify@npm:4.9.2"
@@ -28284,6 +28307,13 @@ __metadata:
   version: 2.1.0
   resolution: "tiny-emitter@npm:2.1.0"
   checksum: fbcfb5145751a0e3b109507a828eb6d6d4501352ab7bb33eccef46e22e9d9ad3953158870a6966a59e57ab7c3f9cfac7cab8521db4de6a5e757012f4677df2dd
+  languageName: node
+  linkType: hard
+
+"tiny-lru@npm:^10.0.0":
+  version: 10.2.2
+  resolution: "tiny-lru@npm:10.2.2"
+  checksum: 51ab1a60969b36d96c50829a494991c5ca3ff5d77306927c6593f4c3cc640d35bb21d6bcb07886ee7113237e95d2d4e78892df828ed6760a24767f225aa3478f
   languageName: node
   linkType: hard
 
