@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-test-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- a19738701: Reduced rate limit tiers to account for multiple credits used per request
+
 ## 1.1.3
 
 ### Patch Changes

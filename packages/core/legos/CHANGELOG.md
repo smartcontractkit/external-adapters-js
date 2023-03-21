@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.74
+
+### Patch Changes
+
+- Updated dependencies [fac3a3ce9]
+- Updated dependencies [a19738701]
+  - @chainlink/coinranking-adapter@2.1.0
+  - @chainlink/coinmarketcap-test-adapter@1.1.4
+
 ## 1.3.73
 
 ### Patch Changes
