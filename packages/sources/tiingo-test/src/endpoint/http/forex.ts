@@ -1,9 +1,25 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { buildBatchedRequestBody } from '../../crypto-utils'
+import { buildBatchedRequestBody, RouterPriceEndpointParams } from '../../crypto-utils'
 import { ForexEndpointTypes } from '../common/forex-router'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
-export const httpTransport = new HttpTransport<ForexEndpointTypes>({
+interface ProviderResponseBody {
+  ticker: string
+  quoteTimestamp: string
+  bidPrice: number
+  bidSize: number
+  askPrice: number
+  askSize: number
+  midPrice: number
+}
+
+type HttpForexEndpointTypes = ForexEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody[]
+  }
+}
+
+export const httpTransport = new HttpTransport<HttpForexEndpointTypes>({
   prepareRequests: (params, config) => {
     return buildBatchedRequestBody(params, config, 'tiingo/fx/top')
   },
@@ -11,7 +27,7 @@ export const httpTransport = new HttpTransport<ForexEndpointTypes>({
     return res.data.map((entry) => {
       const param = params.find(
         (p) => `${p.base}${p.quote}`.toLowerCase() === entry.ticker,
-      ) as PriceEndpointParams
+      ) as RouterPriceEndpointParams
       return {
         params: param,
         response: {

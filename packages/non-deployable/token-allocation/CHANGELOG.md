@@ -1,5 +1,101 @@
 # @chainlink/token-allocation-adapter
 
+## 1.10.0
+
+### Minor Changes
+
+- fac3a3ce9: Added coinranking adapter as a supported source for token-allocation composite EA
+
+### Patch Changes
+
+- Updated dependencies [fac3a3ce9]
+  - @chainlink/coinranking-adapter@2.1.0
+
+## 1.9.8
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/coinmetrics-adapter@2.0.1
+  - @chainlink/ncfx-adapter@3.2.2
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/amberdata-adapter@1.8.22
+  - @chainlink/cfbenchmarks-adapter@1.6.1
+  - @chainlink/coinapi-adapter@1.3.19
+  - @chainlink/coingecko-adapter@1.9.21
+  - @chainlink/coinmarketcap-adapter@1.5.32
+  - @chainlink/coinpaprika-adapter@1.10.21
+  - @chainlink/cryptocompare-adapter@1.4.29
+  - @chainlink/finage-adapter@1.6.15
+  - @chainlink/kaiko-adapter@1.5.23
+  - @chainlink/nomics-adapter@1.3.29
+  - @chainlink/tiingo-adapter@1.12.19
+
+## 1.9.7
+
+### Patch Changes
+
+- Updated dependencies [b4f23e7d8]
+- Updated dependencies [bc8886c63]
+  - @chainlink/coinmetrics-adapter@2.0.0
+  - @chainlink/ncfx-adapter@3.2.1
+
+## 1.9.6
+
+### Patch Changes
+
+- Updated dependencies [5d20d2ece]
+  - @chainlink/ncfx-adapter@3.2.0
+
+## 1.9.5
+
+### Patch Changes
+
+- Updated dependencies [37c0d8883]
+  - @chainlink/ncfx-adapter@3.1.1
+
+## 1.9.4
+
+### Patch Changes
+
+- Updated dependencies [d474a5553]
+  - @chainlink/ncfx-adapter@3.1.0
+
+## 1.9.3
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+- Updated dependencies [b29509be0]
+- Updated dependencies [2bcd794a2]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/amberdata-adapter@1.8.21
+  - @chainlink/cfbenchmarks-adapter@1.6.0
+  - @chainlink/coinapi-adapter@1.3.18
+  - @chainlink/coingecko-adapter@1.9.20
+  - @chainlink/coinmarketcap-adapter@1.5.31
+  - @chainlink/coinmetrics-adapter@1.3.28
+  - @chainlink/coinpaprika-adapter@1.10.20
+  - @chainlink/cryptocompare-adapter@1.4.28
+  - @chainlink/finage-adapter@1.6.14
+  - @chainlink/kaiko-adapter@1.5.22
+  - @chainlink/nomics-adapter@1.3.28
+  - @chainlink/tiingo-adapter@1.12.18
+  - @chainlink/ncfx-adapter@3.0.3
+
+## 1.9.2
+
+### Patch Changes
+
+- Updated dependencies [e303dd766]
+  - @chainlink/coinmarketcap-adapter@1.5.30
+
 ## 1.9.1
 
 ### Patch Changes

@@ -56,6 +56,11 @@ export const dataProviderConfig: TokenAllocationTest = {
     providerUrlEnvVar: 'TIINGO_ADAPTER_URL',
     additional: {},
   },
+  coinranking: {
+    providerUrlEnvVar: 'COINRANKING_ADAPTER_URL',
+    providerUrl: 'http://localhost:3009',
+    additional: {},
+  },
 }
 
 export function mockDataProviderResponses(withAdditional = false): void {

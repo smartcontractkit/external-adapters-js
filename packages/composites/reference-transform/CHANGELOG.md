@@ -1,5 +1,86 @@
 # @chainlink/reference-transform-adapter
 
+## 1.2.75
+
+### Patch Changes
+
+- @chainlink/ea@1.3.74
+
+## 1.2.74
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea@1.3.73
+  - @chainlink/ea-reference-data-reader@1.3.28
+
+## 1.2.73
+
+### Patch Changes
+
+- @chainlink/ea@1.3.72
+
+## 1.2.72
+
+### Patch Changes
+
+- @chainlink/ea@1.3.71
+
+## 1.2.71
+
+### Patch Changes
+
+- @chainlink/ea@1.3.70
+
+## 1.2.70
+
+### Patch Changes
+
+- @chainlink/ea@1.3.69
+
+## 1.2.69
+
+### Patch Changes
+
+- @chainlink/ea@1.3.68
+
+## 1.2.68
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea@1.3.67
+  - @chainlink/ea-reference-data-reader@1.3.27
+
+## 1.2.67
+
+### Patch Changes
+
+- @chainlink/ea@1.3.66
+
+## 1.2.66
+
+### Patch Changes
+
+- @chainlink/ea@1.3.65
+
+## 1.2.65
+
+### Patch Changes
+
+- @chainlink/ea@1.3.64
+
+## 1.2.64
+
+### Patch Changes
+
+- @chainlink/ea@1.3.63
+
 ## 1.2.63
 
 ### Patch Changes

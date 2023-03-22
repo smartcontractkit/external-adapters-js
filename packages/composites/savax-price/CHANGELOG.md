@@ -1,5 +1,63 @@
 # @chainlink/savax-price-adapter
 
+## 3.0.25
+
+### Patch Changes
+
+- Updated dependencies [fac3a3ce9]
+  - @chainlink/token-allocation-adapter@1.10.0
+
+## 3.0.24
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/token-allocation-adapter@1.9.8
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 3.0.23
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.7
+
+## 3.0.22
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.6
+
+## 3.0.21
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.5
+
+## 3.0.20
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.4
+
+## 3.0.19
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/token-allocation-adapter@1.9.3
+
+## 3.0.18
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.2
+
 ## 3.0.17
 
 ### Patch Changes

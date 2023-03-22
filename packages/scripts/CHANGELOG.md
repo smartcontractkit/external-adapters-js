@@ -1,5 +1,42 @@
 # @chainlink/ea-scripts
 
+## 2.5.5
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-factories@1.2.28
+
+## 2.5.4
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
+## 2.5.3
+
+### Patch Changes
+
+- 37c0d8883: Bumped v3 framework version
+
+## 2.5.2
+
+### Patch Changes
+
+- be1c06256: Added outlier-detection to the soak test blacklist
+
+## 2.5.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-factories@1.2.27
+
 ## 2.5.0
 
 ### Minor Changes

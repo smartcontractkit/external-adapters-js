@@ -1,5 +1,4 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { EndpointTypes } from '../common/crypto'
 
 interface PayloadValue {
@@ -13,7 +12,7 @@ interface ProviderResponse {
 
 export type RestEndpointTypes = EndpointTypes & {
   Provider: {
-    RequestBody: EmptyObject
+    RequestBody: unknown
     ResponseBody: ProviderResponse
   }
 }

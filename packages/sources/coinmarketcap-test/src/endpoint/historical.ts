@@ -1,10 +1,10 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from '../config'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
 
-const inputParameters: InputParameters = {
+const inputParameters = {
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],
     description: 'The symbol of the currency to query',
@@ -54,7 +54,7 @@ const inputParameters: InputParameters = {
     required: false,
     type: 'string',
   },
-} as const
+} satisfies InputParameters
 
 export type RequestParams = {
   base: string
@@ -114,10 +114,10 @@ export type EndpointTypes = {
     Params: RequestParams
   }
   Response: {
-    Data: EmptyObject
+    Data: unknown
     Result: null
   }
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -167,4 +167,5 @@ export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'historical',
   transport: httpTransport,
   inputParameters,
+  overrides: overrides.coinmarketcap,
 })

@@ -1,7 +1,21 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { EndpointTypes } from '../forex-router'
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
+interface ResponseSchema {
+  symbol: string
+  bid: number
+  ask: number
+  timestamp: number
+}
+
+type HttpTransportTypes = EndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
+  }
+}
+
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const symbol = `${param.base}${param.quote}`.toUpperCase()

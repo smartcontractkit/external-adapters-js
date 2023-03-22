@@ -1,10 +1,9 @@
-import * as shell from 'shelljs'
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
-import { Adapter, Blacklist, BooleanMap } from '../shared/docGenTypes'
+import { Blacklist, BooleanMap } from '../shared/docGenTypes'
 import { getJsonFile } from '../shared/docGenUtils'
-import { ReadmeGenerator } from './generator'
 import { getWorkspaceAdapters, getWorkspacePackages } from '../workspace'
+import { ReadmeGenerator } from './generator'
 
 const pathToBlacklist = 'packages/scripts/src/generate-readme/readmeBlacklist.json'
 
@@ -123,7 +122,7 @@ export async function main(): Promise<void | string> {
 
     // Collect new README versions
     const readmeQueue = await Promise.all(
-      adapters.map(async (adapter: Adapter) => {
+      adapters.map(async (adapter) => {
         const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
         await readmeGenerator.loadAdapterContent()
         readmeGenerator.buildReadme()

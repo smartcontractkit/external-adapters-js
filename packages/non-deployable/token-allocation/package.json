@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-adapter",
-  "version": "1.9.1",
+  "version": "1.10.0",
   "description": "Chainlink token allocation adapter",
   "keywords": [
     "Chainlink",
@@ -34,6 +34,7 @@
     "@chainlink/coinmarketcap-adapter": "workspace:*",
     "@chainlink/coinmetrics-adapter": "workspace:*",
     "@chainlink/coinpaprika-adapter": "workspace:*",
+    "@chainlink/coinranking-adapter": "workspace:*",
     "@chainlink/cryptocompare-adapter": "workspace:*",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
@@ -51,6 +52,6 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "nock": "13.2.9",
-    "typescript": "4.7.4"
+    "typescript": "4.9.5"
   }
 }

@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'API endpoint for Finage',
     default: 'https://api.finage.co.uk',
@@ -31,9 +33,4 @@ export const customSettings = {
     default: 'wss://72x8wsyx7t.finage.ws:6008',
     description: 'The Websocket endpoint to connect to for crypto data',
   },
-  WS_ENABLED: {
-    description: 'Whether data should be returned from websocket or not',
-    type: 'boolean',
-    default: false,
-  },
-} as const
+})

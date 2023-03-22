@@ -25,6 +25,18 @@ Object {
 }
 `;
 
+exports[`execute globalmarketcap endpoint alias should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1139638848309,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1139638848309,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute marketcap api should return success 1`] = `
 Object {
   "data": Object {
@@ -33,6 +45,18 @@ Object {
   "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 527538906196,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute totalMarketCap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1139638848309,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1139638848309,
   "statusCode": 200,
 }
 `;

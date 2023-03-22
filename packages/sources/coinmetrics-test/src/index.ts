@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from './config'
-import { priceRouter } from './endpoint'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
+import { burned, lwba, price, totalBurned } from './endpoint'
 
-export const adapter = new Adapter({
-  defaultEndpoint: 'price-ws',
+export const adapter = new PriceAdapter({
+  defaultEndpoint: price.name,
   name: 'COINMETRICS',
-  endpoints: [priceRouter],
-  customSettings,
+  config,
+  endpoints: [price, lwba, totalBurned, burned],
   rateLimiting: {
     tiers: {
       community: {

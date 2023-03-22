@@ -5,7 +5,7 @@ export const PRO_API_ENDPOINT = 'https://pro-api.coingecko.com/api/v3'
 
 export const defaultEndpoint = 'crypto'
 
-export const customSettings = {
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
@@ -17,7 +17,7 @@ export const customSettings = {
     required: false,
     sensitive: true,
   },
-} as const
+})
 
-export const getApiEndpoint = (config: AdapterConfig<typeof customSettings>): string =>
-  config.API_ENDPOINT || (config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT)
+export const getApiEndpoint = (settings: typeof config.settings): string =>
+  settings.API_ENDPOINT || (settings.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT)

@@ -1,9 +1,10 @@
-import { customSettings } from '../config'
+import { config } from '../config'
 import { httpTransport } from './http/forex'
 import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './ws/forex-ws'
+import overrides from '../config/overrides.json'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
 export const inputParameters = {
   base: {
@@ -20,35 +21,22 @@ export const inputParameters = {
   },
 } as const
 
-interface ResponseSchema {
-  symbol: string
-  bid: number
-  ask: number
-  timestamp: number
-}
+export type ForexEndpointParams = PriceEndpointParams
 
 export type EndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: ForexEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
-  }
+  Settings: typeof config.settings
 }
-
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    WS: wsTransport,
-    HTTP: httpTransport,
-  },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
-)
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'forex',
-  transport: routingTransport,
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
+  overrides: overrides.finage,
 })

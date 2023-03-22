@@ -1,7 +1,12 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpoint,
+  PriceEndpointInputParameters,
+} from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { customSettings } from '../config'
+import { config } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
 
 const inputParameters = {
   base: {
@@ -33,7 +38,7 @@ const inputParameters = {
     description: 'Which way to sort the data returned in the query',
     default: 'desc',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export interface RequestParams {
   base: string
@@ -76,7 +81,7 @@ type EndpointTypes = {
     Params: RequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -144,4 +149,5 @@ export const endpoint = new PriceEndpoint<EndpointTypes>({
   aliases: ['price', 'crypto'],
   transport: httpTransport,
   inputParameters,
+  overrides: overrides.kaiko,
 })

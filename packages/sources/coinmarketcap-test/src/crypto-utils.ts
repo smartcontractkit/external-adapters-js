@@ -1,6 +1,7 @@
-import { customSettings } from './config'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from './config'
 import presetIds from './config/presetids.json'
 
 export interface CryptoRequestParams {
@@ -33,7 +34,7 @@ export const inputParameters = {
     required: false,
     type: 'string',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 interface PriceInfo {
   price: number
@@ -83,7 +84,7 @@ export type CryptoEndpointTypes = {
     Params: CryptoRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
@@ -145,7 +146,7 @@ const groupByBaseOptions = (params: CryptoRequestParams[]) => {
 
 export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ) => {
   //Coinmarketcap supports 3 different options for sending base params - 'id', 'slug' and 'symbol'. We group here to send batch requests for each such option. Each option should not have more than 120 unique quotes.
   const uniqueQuotes = new Set(params.map((p) => p.quote.toUpperCase()))
@@ -165,10 +166,10 @@ export const buildBatchedRequestBody = (
     return {
       params: groupedParams.map((inputParams) => inputParams.payload),
       request: {
-        baseURL: config.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         url: '/cryptocurrency/quotes/latest',
         headers: {
-          'X-CMC_PRO_API_KEY': config.API_KEY,
+          'X-CMC_PRO_API_KEY': settings.API_KEY,
         },
         params: {
           [queryName]: [

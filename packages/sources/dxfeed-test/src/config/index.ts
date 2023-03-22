@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_USERNAME: {
     description: 'username for dxfeed API',
     type: 'string',
@@ -11,11 +13,6 @@ export const customSettings = {
   WS_API_ENDPOINT: {
     description: 'The websocket url for dxfeed',
     type: 'string',
-  },
-  WS_ENABLED: {
-    description: 'Whether data should be returned from websocket or not',
-    type: 'boolean',
-    default: false,
   },
   API_ENDPOINT: {
     description: 'The API url for dxfeed',
@@ -30,4 +27,4 @@ export const customSettings = {
       return ''
     },
   },
-} as const
+})

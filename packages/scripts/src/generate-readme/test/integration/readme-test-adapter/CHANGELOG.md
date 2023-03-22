@@ -1,5 +1,23 @@
 # @chainlink/readme-test-adapter
 
+## 1.2.54
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-factories@1.2.28
+
+## 1.2.53
+
+### Patch Changes
+
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-factories@1.2.27
+
 ## 1.2.52
 
 ### Patch Changes

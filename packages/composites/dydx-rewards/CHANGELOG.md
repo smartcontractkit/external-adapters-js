@@ -1,5 +1,23 @@
 # @chainlink/dydx-rewards-adapter
 
+## 2.0.13
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ipfs-adapter@1.3.29
+
+## 2.0.12
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ipfs-adapter@1.3.28
+
 ## 2.0.11
 
 ### Patch Changes

@@ -1,14 +1,27 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   PriceEndpoint,
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { WS_HEARTBEAT_MS } from '../config'
 import { PriceEndpointTypes } from '../types'
 import { getAuthToken } from '../util'
-import { WS_HEARTBEAT_MS } from '../config'
 
 const logger = makeLogger('DarPriceEndpoint')
+
+const pairHits: {
+  [base: string]: {
+    [quote: string]: number
+  }
+} = {}
+let totalUniquePairs = 0
+let totalHits = 0
+
+const hitTrackingLevels: { [level: string]: boolean } = {
+  debug: true,
+  trace: true,
+}
 
 function heartbeat(connection: WebSocket): NodeJS.Timeout | undefined {
   if (!connection) return
@@ -19,9 +32,9 @@ function heartbeat(connection: WebSocket): NodeJS.Timeout | undefined {
 }
 
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context) => {
-    const token = await getAuthToken(context.adapterConfig)
+    const token = await getAuthToken(context.adapterSettings)
     return {
       headers: { Authorization: token },
     }
@@ -29,15 +42,31 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   handlers: {
     open(connection) {
       const heartbeatTimeout = heartbeat(connection)
-      connection.on('close', async () => {
+      connection.addEventListener('close', async () => {
         clearTimeout(heartbeatTimeout)
       })
     },
-    message(message) {
+    message(message, context) {
       if (message.errors) {
         logger.error(`Got error from DP: ${message.errors}`)
         return []
       }
+
+      if (hitTrackingLevels[context.adapterSettings.LOG_LEVEL]) {
+        const { darAssetTicker: base, quoteCurrency: quote } = message
+
+        pairHits[base] ??= {}
+
+        if (!pairHits[base][quote]) {
+          pairHits[base][quote] = 1
+          totalUniquePairs += 1
+        } else {
+          pairHits[base][quote] += 1
+        }
+        totalHits += 1
+        logger.debug({ totalHits, totalUniquePairs, pairHits: pairHits[base][quote], base, quote })
+      }
+
       return [
         {
           params: { base: message.darAssetTicker, quote: message.quoteCurrency },

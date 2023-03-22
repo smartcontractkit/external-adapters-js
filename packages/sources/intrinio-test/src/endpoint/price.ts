@@ -4,7 +4,39 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('Intrinio Price')
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
+type ProviderResponseBody = {
+  last_price: number
+  last_time: string
+  last_size: number
+  bid_price: number
+  bid_size: number
+  ask_price: number
+  ask_size: number
+  open_price: number
+  close_price: number | null
+  high_price: number
+  low_price: number
+  exchange_volume: number | null
+  market_volume: number
+  updated_on: string | null
+  source: string
+  security: {
+    id: string
+    ticker: string
+    exchange_ticker: string
+    figi: string
+    composite_figi: string
+  }
+}
+
+type HttpTransportTypes = EndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
+
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((symbol) => {
       const requestConfig = {

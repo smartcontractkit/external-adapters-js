@@ -1,5 +1,30 @@
 # @chainlink/coinmetrics-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 2.0.0
+
+### Major Changes
+
+- b4f23e7d8: Added crypto-lwba endpoint to coinmetrics adapter
+
+## 1.3.28
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.3.27
 
 ### Patch Changes

@@ -20,6 +20,9 @@
       "path": "../../sources/ada-balance"
     },
     {
+      "path": "../../sources/alongside"
+    },
+    {
       "path": "../../sources/alphachain"
     },
     {
@@ -72,6 +75,9 @@
     },
     {
       "path": "../../sources/blocksize-capital"
+    },
+    {
+      "path": "../../sources/blocksize-capital-test"
     },
     {
       "path": "../../sources/blockstream"
@@ -335,6 +341,9 @@
       "path": "../../sources/mock-ea"
     },
     {
+      "path": "../../sources/moonbeam-address-list"
+    },
+    {
       "path": "../../sources/mycryptoapi"
     },
     {
@@ -351,6 +360,9 @@
     },
     {
       "path": "../../sources/nomics-test"
+    },
+    {
+      "path": "../../sources/oanda"
     },
     {
       "path": "../../sources/oilpriceapi"
@@ -372,6 +384,9 @@
     },
     {
       "path": "../../sources/poa"
+    },
+    {
+      "path": "../../sources/polkadot-balance"
     },
     {
       "path": "../../sources/polygon"
@@ -437,6 +452,9 @@
       "path": "../../sources/tradermade"
     },
     {
+      "path": "../../sources/tradermade-test"
+    },
+    {
       "path": "../../sources/tradingeconomics"
     },
     {
@@ -444,6 +462,9 @@
     },
     {
       "path": "../../sources/twelvedata"
+    },
+    {
+      "path": "../../sources/twosigma"
     },
     {
       "path": "../../sources/unibit"

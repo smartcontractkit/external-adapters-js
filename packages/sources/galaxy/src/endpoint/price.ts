@@ -1,6 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
-  PriceEndpoint,
+  CryptoPriceEndpoint,
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
 import { getAccessToken } from '../util'
@@ -15,9 +15,9 @@ const getPair = (params: AdapterRequestParams) => {
 }
 
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context) => {
-    const token = await getAccessToken(context.adapterConfig)
+    const token = await getAccessToken(context.adapterSettings)
     return {
       headers: { token: token?.token || '' },
     }
@@ -48,7 +48,7 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   },
 })
 
-export const priceEndpoint = new PriceEndpoint({
+export const priceEndpoint = new CryptoPriceEndpoint({
   name: 'price',
   aliases: ['crypto'],
   transport: priceTransport,

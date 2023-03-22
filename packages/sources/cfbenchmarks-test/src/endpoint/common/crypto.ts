@@ -1,23 +1,23 @@
-import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import {
   CryptoPriceEndpoint,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import { config } from '../../config'
+import { getIdFromBaseQuote } from '../../utils'
 import { makeRestTransport } from '../rest/crypto'
 import { makeWsTransport } from '../websocket/crypto'
-import { customSettings } from '../../config'
-import { getIdFromBaseQuote } from '../../utils'
 
 export type Params = { index?: string; base?: string; quote?: string }
 type RequestParams = { Params: Params }
 
-const inputParameters: InputParameters & PriceEndpointInputParameters = {
+const inputParameters = {
   index: {
     description: 'The ID of the index. Takes priority over base/quote when provided.',
     type: 'string',
@@ -35,12 +35,12 @@ const inputParameters: InputParameters & PriceEndpointInputParameters = {
     description: 'The symbol of the currency to convert to',
     required: false,
   },
-}
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export type EndpointTypes = {
   Request: RequestParams
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 export const additionalInputValidation = ({ index, base, quote }: Params): void => {
@@ -74,29 +74,25 @@ export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void
   delete req.requestContext.data.quote
 }
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    rest: makeRestTransport('primary'),
-    restSecondary: makeRestTransport('secondary'),
-    websocket: makeWsTransport('primary'),
-    websocketSecondary: makeWsTransport('secondary'),
-  },
-  (_, config) => {
-    if (config.API_SECONDARY) {
-      if (config.WS_ENABLED) return 'websocketSecondary'
-      return 'restSecondary'
-    }
+export const requestTransforms = [cryptoRequestTransform]
 
-    if (config.WS_ENABLED) return 'websocket'
-    return 'rest'
-  },
-)
-
-export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',
   aliases: ['values', 'price'], // Legacy aliases
-  transport: routingTransport,
   inputParameters,
+  requestTransforms,
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('rest', makeRestTransport('primary'))
+    .register('restsecondary', makeRestTransport('secondary'))
+    .register('ws', makeWsTransport('primary'))
+    .register('wssecondary', makeWsTransport('secondary')),
+  defaultTransport: 'rest',
+  customRouter: (req, adapterConfig) => {
+    if (adapterConfig.API_SECONDARY) {
+      if (req.requestContext.transportName === 'ws') return 'wssecondary'
+      return 'restsecondary'
+    } else {
+      return req.requestContext.transportName
+    }
+  },
 })
-
-export const requestTransforms = [cryptoRequestTransform]

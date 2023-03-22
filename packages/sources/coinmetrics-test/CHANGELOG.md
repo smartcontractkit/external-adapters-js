@@ -1,5 +1,45 @@
 # @chainlink/coinmetrics-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
+## 1.2.0
+
+### Minor Changes
+
+- ef068e559: Added burned endpoints and price http endpoint
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
+## 1.1.1
+
+### Patch Changes
+
+- 37c0d8883: Bumped v3 framework version
+
+## 1.1.0
+
+### Minor Changes
+
+- d474a5553: Update v3 framework to latest version
+
+## 1.0.8
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+
+## 1.0.7
+
+### Patch Changes
+
+- cc835dfef: Add crypto alias to price endpoint
+
 ## 1.0.6
 
 ### Patch Changes
