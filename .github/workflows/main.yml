@@ -18,6 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # We will make all other jobs depend on this one, since this will cache yarn dependencies and TS builds
   packages:
     name: Verify dependency package archives
     runs-on: [self-hosted, sdlc-ghr-prod]
@@ -26,34 +27,25 @@ jobs:
       - uses: ./.github/actions/setup
 
   run-integration-tests:
+    needs: packages
     name: Run integration tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
       - run: timeout 300 yarn test:ci:integration
-  # Disable Codecov until we can make it reliable: sc-22561
-  #      - uses: codecov/codecov-action@v2
-  #        with:
-  #          flags: integration
-  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-unit-tests:
+    needs: packages
     name: Run unit tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
       - run: yarn test:ci:unit
-  # Disable Codecov until we can make it reliable: sc-22561
-  #      - uses: codecov/codecov-action@v2
-  #        with:
-  #          flags: unit
-  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-basic-checks:
+    needs: packages
     name: Run linters
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
@@ -64,6 +56,7 @@ jobs:
       - run: yarn format:check
 
   run-documentation-check:
+    needs: packages
     name: Documentation generation test
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
@@ -85,6 +78,7 @@ jobs:
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
+    needs: packages
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}

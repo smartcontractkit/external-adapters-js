@@ -15,6 +15,7 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+        cache: 'yarn'
     - name: Install yarn
       run: npm i -g yarn
       shell: bash
@@ -26,7 +27,20 @@ runs:
           yarn install --immutable
         fi
       shell: bash
+    - name: Restore TS built files if present
+      id: restore-ts-build
+      uses: actions/cache/restore@v3
+      if: ${{ inputs.skip-setup != 'true' }} # Not all jobs, like building gha matrices, require setup
+      with:
+        key: tsbuild-${{ github.sha }}
     - name: yarn setup
+      if: steps.restore-ts-build.cache-hit != 'true'
       run: yarn setup
       shell: bash
-      if: ${{ inputs.skip-setup != 'true' }} # Not all jobs, like building gha matrices, require setup
+    - name: Cache built files
+      uses: actions/cache/save@v3
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
