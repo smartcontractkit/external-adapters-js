@@ -64,15 +64,6 @@ export async function main(): Promise<void | string> {
       return
     }
 
-    // Test setting
-    if (options.testPath) {
-      const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
-      await readmeGenerator.loadAdapterContent()
-      readmeGenerator.buildReadme()
-      readmeGenerator.createReadmeFile()
-      return
-    }
-
     // Legos will always change because it depends on all adapters, so ignore it when considering if we need to build all
     const shouldBuildAll =
       options.all ||
@@ -83,6 +74,22 @@ export async function main(): Promise<void | string> {
     let adapters = shouldBuildAll
       ? getWorkspaceAdapters()
       : getWorkspaceAdapters([], process.env['UPSTREAM_BRANCH'])
+
+    // Test setting
+    if (options.testPath) {
+      const adapter = adapters.find((a) => a.location === options.testPath)
+      if (!adapter) {
+        console.error(`Adapter at ${options.testPath} was not found`)
+        return
+      }
+      console.log('test', adapter)
+      const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
+      await readmeGenerator.loadAdapterContent()
+      readmeGenerator.buildReadme()
+      readmeGenerator.createReadmeFile()
+      return
+    }
+
     options.verbose &&
       console.log(
         `Adapters being considered for readme generation: `,
@@ -123,6 +130,7 @@ export async function main(): Promise<void | string> {
     // Collect new README versions
     const readmeQueue = await Promise.all(
       adapters.map(async (adapter) => {
+        console.log(adapter)
         const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
         await readmeGenerator.loadAdapterContent()
         readmeGenerator.buildReadme()

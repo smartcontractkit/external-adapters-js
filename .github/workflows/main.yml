@@ -11,7 +11,8 @@ on:
       BUILD_ALL:
         description: true is certain steps should be run against all adapters or false if they should only run against some adapters
         required: false
-        default: false
+        default: 'false'
+
 concurrency:
   group: main-${{ github.ref }}
   cancel-in-progress: true
