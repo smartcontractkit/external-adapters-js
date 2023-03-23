@@ -37,3 +37,4 @@ export const adapter = new PriceAdapter({
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
 //test
+//test
