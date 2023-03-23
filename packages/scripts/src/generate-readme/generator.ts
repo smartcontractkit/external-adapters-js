@@ -128,8 +128,11 @@ export class ReadmeGenerator {
       )
 
       const adapter = adapterImport.adapter as Adapter
-      const adapterSettings = (adapter.config as unknown as { definition: SettingsDefinitionMap })
-        .definition
+      const adapterSettings = (
+        adapter.config as unknown as {
+          settingsDefinition: SettingsDefinitionMap
+        }
+      ).settingsDefinition
       this.name = adapter.name
       this.envVars = adapterSettings || {}
 
