@@ -1,7 +1,7 @@
 import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { BatchEndpointTypes, buildBatchedRequestBody, constructEntry } from '../price-utils'
+import { buildBatchedRequestBody, constructEntry, HttpTransportTypes } from '../price-utils'
 
 export const inputParameters = {
   base: {
@@ -18,7 +18,7 @@ export const inputParameters = {
   },
 } satisfies InputParameters & PriceEndpointInputParameters
 
-export const httpTransport = new HttpTransport<BatchEndpointTypes>({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => buildBatchedRequestBody(params, config),
   parseResponse: (params, res) => constructEntry(res.data, params),
 })

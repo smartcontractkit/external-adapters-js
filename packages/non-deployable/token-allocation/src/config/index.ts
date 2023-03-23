@@ -12,6 +12,7 @@ import * as CoinGecko from '@chainlink/coingecko-adapter'
 import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
 import * as CoinMetrics from '@chainlink/coinmetrics-adapter'
 import * as CoinPaprika from '@chainlink/coinpaprika-adapter'
+import * as CoinRanking from '@chainlink/coinranking-adapter'
 import * as CryptoCompare from '@chainlink/cryptocompare-adapter'
 import * as Finage from '@chainlink/finage-adapter'
 import * as Kaiko from '@chainlink/kaiko-adapter'
@@ -29,6 +30,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
   CoinMarketCap as unknown as v2AdapterImplementation,
   CoinMetrics as unknown as v2AdapterImplementation,
   CoinPaprika as unknown as v2AdapterImplementation,
+  CoinRanking as unknown as v2AdapterImplementation,
   CryptoCompare as unknown as v2AdapterImplementation,
   Finage as unknown as v2AdapterImplementation,
   Kaiko as unknown as v2AdapterImplementation,

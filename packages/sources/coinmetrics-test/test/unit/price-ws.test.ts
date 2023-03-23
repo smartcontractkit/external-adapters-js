@@ -1,3 +1,7 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import process from 'process'
+import * as queryString from 'querystring'
+import { config } from '../../src/config'
 import {
   calculateAssetMetricsUrl,
   handleAssetMetricsMessage,
@@ -6,11 +10,6 @@ import {
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
 } from '../../src/endpoint/price-ws'
-import * as queryString from 'querystring'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../../src/config'
-import { buildAdapterConfig } from '@chainlink/external-adapter-framework/config'
-import process from 'process'
 
 const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   time: Date.now().toString(),
@@ -40,10 +39,11 @@ const EXAMPLE_REORG_MESSAGE = {
   type: 'reorg',
 }
 
+config.initialize()
 const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
-  endpointName: 'price-ws',
+  endpointName: 'price',
   inputParameters: {},
-  adapterConfig: buildAdapterConfig({ customSettings }),
+  adapterSettings: config.settings,
 }
 
 describe('price-ws url generator', () => {
@@ -60,6 +60,7 @@ describe('price-ws url generator', () => {
     const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
       {
         base: 'ETH'.toUpperCase(), //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'usd'.toLowerCase(), //Deliberately use the wrong case
       },
     ])
@@ -71,17 +72,19 @@ describe('price-ws url generator', () => {
     const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
       {
         base: 'btc', //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'usd', //Deliberately use the wrong case
       },
       {
         base: 'eth', //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'EUR', //Deliberately use the wrong case
       },
     ])
 
     expect(url).toContain(new URLSearchParams({ assets: 'btc,eth' }).toString())
     expect(url).toContain(
-      new URLSearchParams({ metrics: 'ReferenceRateUSD,ReferenceRateEUR' }).toString(),
+      new URLSearchParams({ metrics: 'ReferenceRateEUR,ReferenceRateUSD' }).toString(),
     )
   })
 })
@@ -95,14 +98,14 @@ describe('price-ws message handler', () => {
 
   it('warning message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_WARNING_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
   it('error message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_ERROR_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
   it('reorg message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_REORG_MESSAGE)
-    expect(res).toBeUndefined()
+    expect(res).toEqual([])
   })
 })

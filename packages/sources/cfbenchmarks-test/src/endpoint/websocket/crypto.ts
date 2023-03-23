@@ -27,11 +27,11 @@ export const makeWsTransport = (
   type: 'primary' | 'secondary',
 ): WebSocketTransport<WsEndpointTypes> => {
   return new WebSocketTransport<WsEndpointTypes>({
-    url: ({ adapterConfig: { WS_API_ENDPOINT, SECONDARY_WS_API_ENDPOINT } }) => {
+    url: ({ adapterSettings: { WS_API_ENDPOINT, SECONDARY_WS_API_ENDPOINT } }) => {
       return type === 'primary' ? WS_API_ENDPOINT : SECONDARY_WS_API_ENDPOINT
     },
 
-    options: ({ adapterConfig: { API_USERNAME, API_PASSWORD } }) => {
+    options: ({ adapterSettings: { API_USERNAME, API_PASSWORD } }) => {
       const encodedCreds = Buffer.from(`${API_USERNAME}:${API_PASSWORD}`).toString('base64')
       return {
         headers: {

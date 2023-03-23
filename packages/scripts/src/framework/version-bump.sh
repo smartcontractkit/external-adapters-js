@@ -2,6 +2,7 @@
 
 function bump() (
   cd $1
+  echo $1
   
   # Get current version
   current_version=$(jq -r '.dependencies."@chainlink/external-adapter-framework"' package.json)
