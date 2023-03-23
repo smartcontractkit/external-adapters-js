@@ -80,7 +80,7 @@ async function makeDockerComposeFile(
   )
 
   return {
-    version: '3.9',
+    version: '3.3',
     services: packages.reduce<Record<string, Service>>((prev, next, i) => {
       prev[next.descopedName] = {
         image: generateImageName(next.descopedName, next.version, imageNameConfig),

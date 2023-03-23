@@ -79,7 +79,7 @@ jobs:
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
     needs: packages
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
@@ -96,7 +96,7 @@ jobs:
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
     name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
