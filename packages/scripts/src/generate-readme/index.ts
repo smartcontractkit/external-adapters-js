@@ -111,7 +111,8 @@ export async function main(): Promise<void | string> {
 
     const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
     const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {
-      map[a] = true
+      const adapterName = `@chainlink/${a}-adapter`
+      map[adapterName] = true
       return map
     }, {})
     options.verbose && console.log(`Removing blacklisted and non-source adapters from the list`)
@@ -125,6 +126,8 @@ export async function main(): Promise<void | string> {
       'Generating README(s) for the following adapters: ',
       adapters.map((a) => a.name),
     )
+
+    if (Math.random() < 1) process.exit()
 
     // Collect new README versions
     const readmeQueue = await Promise.all(
