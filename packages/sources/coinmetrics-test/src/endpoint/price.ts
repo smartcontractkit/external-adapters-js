@@ -31,7 +31,7 @@ export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
   name: 'price',
   aliases: ['price-ws'],
   transportRoutes,
-  defaultTransport: 'rest',
+  defaultTransport: 'ws',
   inputParameters: priceEndpointInputParameters,
   // Custom validation to check that the quote value is valid
   customInputValidation: (req) =>

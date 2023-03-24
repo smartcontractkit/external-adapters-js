@@ -25,7 +25,6 @@ describe('websocket', () => {
     data: {
       base: 'ETH',
       quote: 'USD',
-      transport: 'ws',
     },
   }
 

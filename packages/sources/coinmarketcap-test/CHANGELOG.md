@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-test-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 17011bb4b: Refactor crypto, volume and marketcap endpoints into one
+
 ## 1.1.4
 
 ### Patch Changes
