@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       BUILD_ALL:
-        description: true is certain steps should be run against all adapters or false if they should only run against some adapters
+        description: whether certain steps should be run against all adapters
         required: false
         default: 'false'
 
