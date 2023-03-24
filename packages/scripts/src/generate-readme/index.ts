@@ -127,8 +127,6 @@ export async function main(): Promise<void | string> {
       adapters.map((a) => a.name),
     )
 
-    if (Math.random() < 1) process.exit()
-
     // Collect new README versions
     const readmeQueue = await Promise.all(
       adapters.map(async (adapter) => {
