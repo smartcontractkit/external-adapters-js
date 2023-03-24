@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.3.4
+
+### Patch Changes
+
+- 62fa38c0f: Fixed rest transports
+
 ## 1.3.3
 
 ### Patch Changes

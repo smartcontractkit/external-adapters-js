@@ -1,7 +1,7 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { crypto, dominance, globalMarketCap, historical, marketcap, volume } from './endpoint'
+import { crypto, dominance, globalMarketCap, historical } from './endpoint'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: crypto.name,
@@ -32,7 +32,7 @@ export const adapter = new PriceAdapter({
       },
     },
   },
-  endpoints: [globalMarketCap, dominance, historical, crypto, marketcap, volume],
+  endpoints: [globalMarketCap, dominance, historical, crypto],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

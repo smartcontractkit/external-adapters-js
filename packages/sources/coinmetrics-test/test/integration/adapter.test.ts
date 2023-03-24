@@ -39,6 +39,7 @@ describe('http', () => {
       data: {
         base: 'BTC',
         quote: 'USD',
+        transport: 'rest',
       },
     }
 

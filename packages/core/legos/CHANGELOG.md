@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.75
+
+### Patch Changes
+
+- Updated dependencies [17011bb4b]
+- Updated dependencies [62fa38c0f]
+  - @chainlink/coinmarketcap-test-adapter@1.2.0
+  - @chainlink/cfbenchmarks-test-adapter@1.3.4
+
 ## 1.3.74
 
 ### Patch Changes
