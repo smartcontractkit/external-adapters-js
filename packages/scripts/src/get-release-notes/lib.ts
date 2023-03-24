@@ -1,4 +1,4 @@
-import { getWorkspacePackages } from '../workspace'
+import { getWorkspaceAdapters } from '../workspace'
 import { readFileSync, readdirSync } from 'fs'
 
 const CHANGESET_DIRECTORY = '.changeset'
@@ -58,7 +58,7 @@ export function getReleaseNotes(): string {
   ## Bug fixes (patch)
   ${patch}\n`.replace(/  +/g, '')
 
-  const workspacePackages = getWorkspacePackages(['core'])
+  const workspacePackages = getWorkspaceAdapters(['core'])
   if (changedAdapterSet.size > 0) {
     output += `|    Adapter    | Version |\n`
     output += `| :-----------: | :-----: |\n`

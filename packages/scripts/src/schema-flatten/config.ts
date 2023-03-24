@@ -1,9 +1,9 @@
-import { WorkspacePackage } from '../workspace'
+import { WorkspaceAdapter } from '../workspace'
 
 /**
  * Ignore any collisions based on the keys in the bootstrap package
  */
-export function getCollisionIgnoreMapFrom(pkg: WorkspacePackage): Record<string, true> {
+export function getCollisionIgnoreMapFrom(pkg: WorkspaceAdapter): Record<string, true> {
   return Object.keys(pkg?.environment?.properties ?? {}).reduce<Record<string, true>>(
     (prev, next) => {
       prev[next] = true

@@ -6,12 +6,19 @@ on:
       - master
       - develop
   pull_request: ~
+  workflow_dispatch:
+    inputs:
+      BUILD_ALL:
+        description: whether certain steps should be run against all adapters
+        required: false
+        default: 'false'
 
 concurrency:
   group: main-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # We will make all other jobs depend on this one, since this will cache yarn dependencies and TS builds
   packages:
     name: Verify dependency package archives
     runs-on: [self-hosted, sdlc-ghr-prod]
@@ -20,34 +27,25 @@ jobs:
       - uses: ./.github/actions/setup
 
   run-integration-tests:
+    needs: packages
     name: Run integration tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
       - run: timeout 300 yarn test:ci:integration
-  # Disable Codecov until we can make it reliable: sc-22561
-  #      - uses: codecov/codecov-action@v2
-  #        with:
-  #          flags: integration
-  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-unit-tests:
+    needs: packages
     name: Run unit tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
       - run: yarn test:ci:unit
-  # Disable Codecov until we can make it reliable: sc-22561
-  #      - uses: codecov/codecov-action@v2
-  #        with:
-  #          flags: unit
-  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-basic-checks:
+    needs: packages
     name: Run linters
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
@@ -57,33 +55,48 @@ jobs:
       - run: yarn setup-tests
       - run: yarn format:check
 
-  run-docmentation-check:
+  run-documentation-check:
+    needs: packages
     name: Documentation generation test
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup
       - name: Test Master List Generation
         run: yarn generate:master-list -v
       - name: Test README Generation
-        run: yarn generate:readme -a -v
+        run: |
+          # pass BUILD_ALL to generate:readme to force a full run
+          yarn generate:readme -v
+        env:
+          UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+          BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
+    env:
+      METRICS_ENABLED: false
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
-    runs-on: ubuntu-latest
+    needs: packages
+    runs-on: [self-hosted, sdlc-ghr-prod]
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup
       - name: Generate job matrix
         id: create-matrix
         run: yarn generate:gha:matrix
-
+    env:
+      UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+      BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
     name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:

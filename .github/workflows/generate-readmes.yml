@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - changeset-release/develop
+  workflow_dispatch:
+    inputs:
+      BUILD_ALL:
+        description: whether certain steps should be run against all adapters
+        required: false
+        default: false
 
 jobs:
   generate-readmes:
@@ -12,11 +18,13 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup
       - name: Generate Documentation
         run: |
           yarn generate:master-list -v
-          yarn generate:readme -a -v
+          yarn generate:readme -v
           git add MASTERLIST.md
           git add "*README.md"
           yarn lint-staged
@@ -27,3 +35,5 @@ jobs:
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+          BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}

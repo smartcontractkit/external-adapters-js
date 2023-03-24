@@ -12,13 +12,31 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    # First, we want to install yarn since our base image doesn't have it installed
     - uses: actions/setup-node@v3
       with:
+        # This doesn't use cache: 'yarn' as the base image doesn't have it, and we're caching node_modules
         node-version: 16
     - name: Install yarn
       run: npm i -g yarn
       shell: bash
+
+    # Next, we want to get the dependencies, either from the cache, or fresh
+    # You'll see some internet comments saying it's bad practice to cache node_modules,
+    # but it should be fine in this case since we're actually looking for identical envs
+    - name: Restore yarn cache
+      id: restore-yarn-cache
+      uses: actions/cache/restore@v3
+      with:
+        # Restrict it to the run and attempt for debugging purposes, but in theory
+        # these should be fine to persist between runs as well
+        key: yarn_cache-${{ hashFiles('./yarn.lock') }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: |
+          ./.yarn/unplugged/**
+          ./.yarn/install-state/**
+    # If there was no cached yarn packages, install them from scratch
     - name: yarn install
+      if: steps.restore-yarn-cache.outputs.cache-hit != 'true'
       run: |
         if [ "${{ inputs.check-cache }}" = "true" ]; then
           yarn install --immutable --check-cache
@@ -26,7 +44,34 @@ runs:
           yarn install --immutable
         fi
       shell: bash
+    - name: Cache yarn cache
+      if: steps.restore-yarn-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        key: yarn_cache-${{ hashFiles('./yarn.lock') }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: |
+          ./.yarn/unplugged/**
+          ./.yarn/install-state/**
+
+    # Build TS files unless it's been specified otherwise
+    - name: Restore TS built files if present
+      id: restore-ts-build
+      uses: actions/cache/restore@v3
+      if: ${{ inputs.skip-setup != 'true' }} # Not all jobs, like building gha matrices, require setup
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
     - name: yarn setup
+      if: steps.restore-ts-build.outputs.cache-hit != 'true'
       run: yarn setup
       shell: bash
-      if: ${{ inputs.skip-setup != 'true' }} # Not all jobs, like building gha matrices, require setup
+    - name: Cache built files
+      if: steps.restore-ts-build.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
