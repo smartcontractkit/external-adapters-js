@@ -43,7 +43,7 @@ const inputParameters = {
     type: 'string',
   },
   resultPath: {
-    description: 'The path to the result within the provider response',
+    description: 'The path to the result within the asset quote in the provider response',
     required: false,
     type: 'string',
     options: ['price', 'volume', 'marketcap'],
@@ -169,37 +169,15 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   parseResponse: (params, res) => {
     logger.debug(`CMC api call cost: ${res.data.cost}`)
 
-    // The params are already grouped by ID type, so we only have to look at the first one
-    const idType = params[0].cid ? 'id' : params[0].slug ? 'slug' : 'symbol'
-
-    // Build a mapping to ids
-    const idsMap: Record<string, string> = {}
-    for (const data of Object.values(res.data.data)) {
-      idsMap[data[idType]] = data.id.toString()
-    }
-
     // Use the mapping to generate the responses
     return params.map((p) => {
-      const id = idsMap[p.cid || p.slug || p.base]
-      if (!id) {
-        return {
-          params: p,
-          response: {
-            statusCode: 502,
-            errorMessage: `An ID was not found in the idsMap for parameter ${JSON.stringify(p)}`,
-          },
-        }
-      }
-
-      const data = res.data.data[id]
+      const data = res.data.data[p.cid || p.slug || p.base]
       if (!data) {
         return {
           params: p,
           response: {
             statusCode: 502,
-            errorMessage: `ID type "${idType}" was not found in response for request: ${JSON.stringify(
-              p,
-            )}`,
+            errorMessage: `Data was not found in response for request: ${JSON.stringify(p)}`,
           },
         }
       }
@@ -246,8 +224,8 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
 })
 
 export const endpoint = new CryptoPriceEndpoint<CryptoEndpointTypes>({
-  name: 'price',
-  aliases: ['marketcap', 'volume'],
+  name: 'crypto',
+  aliases: ['price', 'marketcap', 'volume'],
   requestTransforms: [
     (request) => {
       const { base, cid } = request.requestContext.data
