@@ -128,7 +128,6 @@ export class ReadmeGenerator {
       )
 
       const adapter = adapterImport.adapter as Adapter
-      console.log(adapter)
       const adapterSettings = (
         adapter.config as unknown as { settingsDefinition: SettingsDefinitionMap }
       ).settingsDefinition

@@ -82,7 +82,6 @@ export async function main(): Promise<void | string> {
         console.error(`Adapter at ${options.testPath} was not found`)
         return
       }
-      console.log('test', adapter)
       const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
       await readmeGenerator.loadAdapterContent()
       readmeGenerator.buildReadme()
@@ -130,7 +129,6 @@ export async function main(): Promise<void | string> {
     // Collect new README versions
     const readmeQueue = await Promise.all(
       adapters.map(async (adapter) => {
-        console.log(adapter)
         const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
         await readmeGenerator.loadAdapterContent()
         readmeGenerator.buildReadme()
