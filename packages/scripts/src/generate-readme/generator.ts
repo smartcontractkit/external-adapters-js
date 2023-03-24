@@ -153,27 +153,6 @@ export class ReadmeGenerator {
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
     }
-
-    //TODO: Does the below still belong here? Came up in source branch when rebasing on develop
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
-    this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
-
-    if (fs.existsSync(this.adapterPath + 'src/endpoint/index.ts')) {
-      if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
-      const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
-      this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
-    } else {
-      if (this.verbose) console.log(`${this.adapterPath}: Could not find enpoint details`)
-      this.endpointDetails = {}
-    }
-    // Map V3 fields to their V2 equivalents
-    if (this.frameworkVersion === 'v3') {
-      console.log(`${this.name} is a v3 adapter, converting it to v2 format for readme generation`)
-      Object.keys(this.endpointDetails).forEach((endpointName) => {
-        const endpoint = this.endpointDetails[endpointName]
-        endpoint.supportedEndpoints = [endpointName, ...(endpoint.aliases || [])]
-      })
-    }
   }
 
   buildReadme(): void {
