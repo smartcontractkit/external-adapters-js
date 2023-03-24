@@ -15,6 +15,7 @@ import {
   wrapJson,
 } from '../shared/docGenUtils'
 import { buildTable, TableText } from '../shared/tableUtils'
+import { WorkspaceAdapter } from '../workspace'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 
 const testEnvOverrides = {
@@ -46,6 +47,7 @@ const checkFilePaths = (filePaths: string[]): string => {
 export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
+  adapterType: string
   schemaPath: string
   packageJson: Package
   defaultEndpoint = ''
@@ -64,15 +66,14 @@ export class ReadmeGenerator {
   frameworkVersion: 'v2' | 'v3'
   frameworkVersionBadgeUrl: string
 
-  constructor(adapterPath: string, verbose = false, skipTests = false) {
+  constructor(adapter: WorkspaceAdapter, verbose = false, skipTests = false) {
     this.verbose = verbose
+    this.adapterPath = adapter.location
 
-    if (!adapterPath.endsWith('/')) adapterPath += '/'
-
-    if (!test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
-
-    if (verbose) console.log(`${adapterPath}: Checking package.json`)
-    const packagePath = checkFilePaths([adapterPath + 'package.json'])
+    if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
+    if (!test('-d', this.adapterPath)) throw Error(`${this.adapterPath} is not a directory`)
+    if (verbose) console.log(`${this.adapterPath}: Checking package.json`)
+    const packagePath = checkFilePaths([this.adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
 
     if (packageJson.dependencies) {
@@ -85,11 +86,11 @@ export class ReadmeGenerator {
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
     this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
     this.license = packageJson.license ?? ''
-    this.adapterPath = adapterPath
-    this.schemaPath = adapterPath + 'schemas/env.json'
+
+    this.schemaPath = this.adapterPath + 'schemas/env.json'
+    this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
     this.packageJson = packageJson
     this.skipTests = skipTests
-    this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
   }
 
   // We need to require/import adapter contents to generate the README.
@@ -114,7 +115,6 @@ export class ReadmeGenerator {
       this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
 
       if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
-
       const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
       this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
     } else {
@@ -128,8 +128,9 @@ export class ReadmeGenerator {
       )
 
       const adapter = adapterImport.adapter as Adapter
-      const adapterSettings = (adapter.config as unknown as { definition: SettingsDefinitionMap })
-        .definition
+      const adapterSettings = (
+        adapter.config as unknown as { settingsDefinition: SettingsDefinitionMap }
+      ).settingsDefinition
       this.name = adapter.name
       this.envVars = adapterSettings || {}
 

@@ -8,7 +8,7 @@ import { writeFileSync } from 'fs'
 import * as path from 'path'
 import process from 'process'
 import { snakeCase } from 'snake-case'
-import { getWorkspacePackages } from '../workspace'
+import { getWorkspaceAdapters } from '../workspace'
 import { collisionPackageTypeMap, forceRenameMap, getCollisionIgnoreMapFrom } from './config'
 
 export async function writeAllFlattenedSchemas(): Promise<void> {
@@ -33,7 +33,7 @@ export interface FlattenedSchema {
  */
 export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
   const resolve = createChainlinkLabsResolver()
-  const workspacePackages = getWorkspacePackages(['core'])
+  const workspacePackages = getWorkspaceAdapters(['core'])
   const bootstrapPackage = workspacePackages.find((p) => p.descopedName === 'ea-bootstrap')
   if (!bootstrapPackage) {
     throw Error('Could not find bootstrap package to generate collisionIgnoreMap')
@@ -107,7 +107,7 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
  * @returns Resolver for chainlink labs schemas
  */
 function createChainlinkLabsResolver() {
-  const schemas = getWorkspacePackages(['core'])
+  const schemas = getWorkspaceAdapters(['core'])
     .map((p) => p.environment)
     .filter((schema): schema is Record<string, string> => !!schema)
 
