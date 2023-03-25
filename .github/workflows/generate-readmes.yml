@@ -4,12 +4,18 @@ on:
   push:
     branches:
       - changeset-release/develop
+    # Since this workflow will cause a new push to the branch, avoid running on updates to the READMES and MASTERLIST
+    paths-ignore:
+      - 'packages/sources/*/README.md'
+      - 'packages/targets/*/README.md'
+      - 'packages/composites/*/README.md'
+      - 'MASTERLIST.md'
   workflow_dispatch:
     inputs:
       BUILD_ALL:
         description: whether certain steps should be run against all adapters
         required: false
-        default: false
+        default: 'false'
 
 jobs:
   generate-readmes:
@@ -35,5 +41,5 @@ jobs:
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+          UPSTREAM_BRANCH: origin/${{ github.ref }}
           BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
