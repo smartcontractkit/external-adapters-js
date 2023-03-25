@@ -1,15 +1,6 @@
 name: Generate READMEs
 
 on:
-  push:
-    branches:
-      - changeset-release/develop
-    # Since this workflow will cause a new push to the branch, avoid running on updates to the READMES and MASTERLIST
-    paths-ignore:
-      - 'packages/sources/*/README.md'
-      - 'packages/targets/*/README.md'
-      - 'packages/composites/*/README.md'
-      - 'MASTERLIST.md'
   workflow_dispatch:
     inputs:
       BUILD_ALL:
