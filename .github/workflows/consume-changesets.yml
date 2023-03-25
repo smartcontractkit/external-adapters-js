@@ -28,3 +28,19 @@ jobs:
           commit: 'Consume changesets'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Trigger workflows in changesets PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'main.yml',
+              ref_id: 'changeset-release/develop'
+            })
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'generate-readmes.yml',
+              ref_id: 'changeset-release/develop'
+            })
