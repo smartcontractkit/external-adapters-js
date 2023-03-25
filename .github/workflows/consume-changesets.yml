@@ -36,11 +36,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'main.yml',
-              ref_id: 'changeset-release/develop'
+              ref: 'changeset-release/develop'
             })
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'generate-readmes.yml',
-              ref_id: 'changeset-release/develop'
+              ref: 'changeset-release/develop'
             })
