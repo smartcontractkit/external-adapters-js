@@ -9,7 +9,7 @@ on:
       BUILD_ALL:
         description: whether certain steps should be run against all adapters
         required: false
-        default: false
+        default: 'false'
 
 jobs:
   generate-readmes:
@@ -21,6 +21,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
+        with:
+          skip-cache: 'true'
       - name: Generate Documentation
         run: |
           yarn generate:master-list -v
@@ -30,10 +32,10 @@ jobs:
           yarn lint-staged
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "Generated README(s)"
+          git commit -m "Generated README(s) [no ci]"
           git push
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+          UPSTREAM_BRANCH: origin/develop
           BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}

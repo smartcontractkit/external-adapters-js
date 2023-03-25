@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-test-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 490307c73: Change default crypto transport to WS
+
 ## 1.2.1
 
 ### Patch Changes
