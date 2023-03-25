@@ -33,7 +33,7 @@ const TRUNCATE_EXAMPLE_LINES = 500
 const genSig =
   'This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.'
 
-const exampleTextHeader = '### Example\n'
+const exampleTextHeader = '### Example\n\n'
 
 const noExampleText = 'There are no examples for this endpoint.'
 
@@ -236,7 +236,8 @@ export class ReadmeGenerator {
   addEndpointSections(): void {
     // Store I/O Examples for each endpoint
     const endpointExampleText: { [endpoint: string]: string } = {}
-    if (this.skipTests) {
+    // V3 does not print the same debug output used to generate these
+    if (this.skipTests || this.frameworkVersion === 'v3') {
       // If skipping tests, pull from existing README
       if (this.verbose)
         console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
@@ -397,7 +398,7 @@ export class ReadmeGenerator {
             : 'There are no input parameters for this endpoint.'
         }
 
-        const inputTableSection = '### Input Params\n' + inputTable
+        const inputTableSection = '### Input Params\n\n' + inputTable
 
         const exampleText = endpointExampleText[endpointName]
 
@@ -405,12 +406,12 @@ export class ReadmeGenerator {
       })
       .join('\n\n---\n\n')
 
-    this.readmeText += endpointSections + '\n\n---\n'
+    this.readmeText += endpointSections + '\n\n---\n\n'
   }
 
   addLicense(): void {
     if (this.license) {
-      this.readmeText += `${this.license} License \n`
+      this.readmeText += `${this.license} License\n`
     }
   }
 
