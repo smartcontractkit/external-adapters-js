@@ -9,6 +9,11 @@ inputs:
     description: Skips the "yarn setup" step when not required
     required: false
     default: 'false'
+  skip-cache:
+    description: Skips cache restores and saves if set to true
+    required: false
+    default: 'false'
+
 runs:
   using: 'composite'
   steps:
@@ -26,6 +31,7 @@ runs:
     # but it should be fine in this case since we're actually looking for identical envs
     - name: Restore yarn cache
       id: restore-yarn-cache
+      if: inputs.skip-cache != 'true'
       uses: actions/cache/restore@v3
       with:
         # Restrict it to the run and attempt for debugging purposes, but in theory
@@ -45,7 +51,7 @@ runs:
         fi
       shell: bash
     - name: Cache yarn cache
-      if: steps.restore-yarn-cache.outputs.cache-hit != 'true'
+      if: steps.restore-yarn-cache.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
       uses: actions/cache/save@v3
       with:
         key: yarn_cache-${{ hashFiles('./yarn.lock') }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -57,18 +63,18 @@ runs:
     - name: Restore TS built files if present
       id: restore-ts-build
       uses: actions/cache/restore@v3
-      if: ${{ inputs.skip-setup != 'true' }} # Not all jobs, like building gha matrices, require setup
+      if: inputs.skip-setup != 'true' && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
       with:
         key: tsbuild-${{ github.sha }}
         path: |
           ./packages/**/tsconfig.tsbuildinfo
           ./packages/**/dist/
     - name: yarn setup
-      if: steps.restore-ts-build.outputs.cache-hit != 'true'
+      if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true'
       run: yarn setup
       shell: bash
     - name: Cache built files
-      if: steps.restore-ts-build.outputs.cache-hit != 'true'
+      if: steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
       uses: actions/cache/save@v3
       with:
         key: tsbuild-${{ github.sha }}
