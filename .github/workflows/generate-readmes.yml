@@ -21,6 +21,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/actions/setup
+        with:
+          skip-cache: 'true'
       - name: Generate Documentation
         run: |
           yarn generate:master-list -v
@@ -35,5 +37,5 @@ jobs:
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UPSTREAM_BRANCH: origin/${{ github.ref }}
+          UPSTREAM_BRANCH: origin/develop
           BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
