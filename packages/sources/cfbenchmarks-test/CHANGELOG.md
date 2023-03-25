@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- 490307c73: Change default crypto transport to WS
+
 ## 1.3.4
 
 ### Patch Changes
