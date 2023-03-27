@@ -168,6 +168,7 @@ jobs:
         run: |
           aws ecr get-login-password --region ${PROD_AWS_REGION} | helm registry login --username AWS --password-stdin ${PROD_AWS_ACCOUNT_ID}.dkr.ecr.${PROD_AWS_REGION}.amazonaws.com
           helm show chart oci://${PROD_AWS_ACCOUNT_ID}.dkr.ecr.${PROD_AWS_REGION}.amazonaws.com/infra-charts/chainlink-adapter
+          # 
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
