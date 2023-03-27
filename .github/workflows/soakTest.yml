@@ -30,7 +30,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ secrets.QA_AWS_REGION }}
-          role-to-assume: ${{ secrets.QA_AWS_ROLE_TO_ASSUME }}
+          role-to-assume: ${{ secrets.QA_AWS_ROLE_TO_ASSUME | sed -e 's/-qa//' }}
           role-duration-seconds: 3600
 
       - name: Login to Amazon ECR
@@ -166,8 +166,6 @@ jobs:
           PROD_AWS_REGION: ${{ secrets.PROD_AWS_REGION }}
           PROD_AWS_ACCOUNT_ID: ${{ secrets.PROD_AWS_ACCOUNT_ID }}
         run: |
-          if [ -z "${PROD_AWS_ACCOUNT_ID}" ]; then echo "PROD_AWS_ACCOUNT_ID is empty"; fi
-          if [ -z "${PROD_AWS_REGION}" ]; then echo "PROD_AWS_REGION is empty"; fi
           aws ecr get-login-password --region ${PROD_AWS_REGION} | helm registry login --username AWS --password-stdin ${PROD_AWS_ACCOUNT_ID}.dkr.ecr.${PROD_AWS_REGION}.amazonaws.com
           helm show chart oci://${PROD_AWS_ACCOUNT_ID}.dkr.ecr.${PROD_AWS_REGION}.amazonaws.com/infra-charts/chainlink-adapter
 
