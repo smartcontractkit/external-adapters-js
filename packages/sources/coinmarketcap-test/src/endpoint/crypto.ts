@@ -168,7 +168,6 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   },
   parseResponse: (params, res) => {
     logger.debug(`CMC api call cost: ${res.data.cost}`)
-
     // Use the mapping to generate the responses
     return params.map((p) => {
       const data = res.data.data[p.cid || p.slug || p.base]
