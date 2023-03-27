@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-test-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- c35b8ec32: Empty change
+
 ## 1.3.0
 
 ### Minor Changes
