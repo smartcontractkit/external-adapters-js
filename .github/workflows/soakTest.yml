@@ -30,7 +30,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ secrets.QA_AWS_REGION }}
-          role-to-assume: ${{ secrets.QA_AWS_ROLE_TO_ASSUME | sed -e 's/-qa//' }}
+          role-to-assume: ${{ secrets.QA_AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
 
       - name: Login to Amazon ECR
