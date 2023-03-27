@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- c35b8ec32: Updated custom router to default to websocket for secondary endpoints
+
 ## 1.4.0
 
 ### Minor Changes
