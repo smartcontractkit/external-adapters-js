@@ -1,8 +1,11 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
-import { AdapterEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
-import { httpTransport } from '../http/forex'
-import { customSettings } from '../../config'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../../config'
+import overrides from '../../config/overrides.json'
+import { RouterPriceEndpointParams } from '../../crypto-utils'
+import { httpTransport } from '../http/forex'
 import { wsTransport } from '../ws/forex'
 
 const inputParameters = {
@@ -18,41 +21,23 @@ const inputParameters = {
     type: 'string',
     description: 'The quote to convert to',
   },
-} as const
-
-interface ProviderResponseBody {
-  ticker: string
-  quoteTimestamp: string
-  bidPrice: number
-  bidSize: number
-  askPrice: number
-  askSize: number
-  midPrice: number
-}
+} satisfies InputParameters
 
 export type ForexEndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody[]
-  }
+  Settings: typeof config.settings
 }
 
-export const routingTransport = new RoutingTransport<ForexEndpointTypes>(
-  {
-    WS: wsTransport,
-    HTTP: httpTransport,
-  },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'HTTP'),
-)
-
-export const endpoint = new AdapterEndpoint<ForexEndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'forex',
   aliases: ['fx', 'commodities'],
-  transport: routingTransport,
+  transportRoutes: new TransportRoutes<ForexEndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

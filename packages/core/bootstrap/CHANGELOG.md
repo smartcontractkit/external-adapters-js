@@ -1,5 +1,21 @@
 # @chainlink/ea-bootstrap
 
+## 2.26.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
+## 2.26.0
+
+### Minor Changes
+
+- b29509be0: Updated Requester.validateResultNumber to take acceptZeroValue option
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+
 ## 2.25.2
 
 ### Patch Changes

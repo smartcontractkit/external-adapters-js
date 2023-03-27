@@ -1,5 +1,30 @@
 # @chainlink/historical-average-adapter
 
+## 1.2.32
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/coinmarketcap-adapter@1.5.32
+
+## 1.2.31
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/coinmarketcap-adapter@1.5.31
+
+## 1.2.30
+
+### Patch Changes
+
+- Updated dependencies [e303dd766]
+  - @chainlink/coinmarketcap-adapter@1.5.30
+
 ## 1.2.29
 
 ### Patch Changes

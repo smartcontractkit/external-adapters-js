@@ -10,10 +10,8 @@ const logger = makeLogger('Alongside  collateral calculation logger')
 export class Collateral {
   provider: ethers.providers.JsonRpcProvider
   IndexToken: ethers.Contract
-  constructor(infuraKey: string) {
-    this.provider = new ethers.providers.JsonRpcProvider(
-      `https://mainnet.infura.io/v3/${infuraKey}`,
-    )
+  constructor(rpcUrl: string) {
+    this.provider = new ethers.providers.JsonRpcProvider(rpcUrl)
     this.IndexToken = new ethers.Contract(
       '0xF17A3fE536F8F7847F1385ec1bC967b2Ca9caE8D',
       abi,
@@ -33,6 +31,7 @@ export class Collateral {
   }
 
   getAssetWeightsInput = async () => {
+    logger.debug('Getting asset weights input')
     const indexToken = this.IndexToken
     const from = await this.getLatestMethodologySetInfo(indexToken)
     const latestBlock = await this.provider.getBlock('latest')
@@ -49,6 +48,7 @@ export class Collateral {
 
     // get all intervening fee changes
     const feeChanges = await this.getFeeChanges(indexToken, from.blockNumber, to.blockNumber)
+    logger.debug('Fetching methodology')
     const initialMethodology = await this.fetchMethodology()
     return {
       feeWhenMethodologySet,
@@ -66,6 +66,7 @@ export class Collateral {
     to: { timestamp: number; blockNumber?: number },
     initialMethodology: { [s: string]: unknown } | ArrayLike<unknown>,
   ) => {
+    logger.debug('Calculating asset weights')
     const intervals = [
       ...feeChanges,
       // and add the timestamp of the last mint/redeem
@@ -87,6 +88,7 @@ export class Collateral {
     startFee: number,
     intervals: Iterable<number[]>,
   ) => {
+    logger.debug('Calculating multi rate inflation')
     let inflation = 1
     let lastTimestamp = startTimestamp
     let lastFeeRate = startFee
@@ -99,6 +101,7 @@ export class Collateral {
   }
 
   calcInflation = (feeRate: number, fromTimestamp: number, toTimestamp: number) => {
+    logger.debug('Calculating inflation')
     const bigNumResult = bignumber(1)
       .div(bignumber(1).plus(feeRate))
       .pow(
@@ -110,10 +113,11 @@ export class Collateral {
   }
 
   getLatestMethodologySetInfo = async (indexToken: ethers.Contract) => {
+    logger.debug('Getting latest methodology info')
     const latestBlock = await this.provider.getBlock('latest')
     const logs = await this.provider.getLogs({
       ...indexToken.filters.MethodologySet(),
-      fromBlock: latestBlock.number - 1_000_000,
+      fromBlock: latestBlock.number - 300_000,
       toBlock: latestBlock.number,
     })
     // TODO replace me with an assert
@@ -125,6 +129,7 @@ export class Collateral {
   }
 
   getFeeChanges = async (indexToken: ethers.Contract, fromBlock: number, toBlock: number) => {
+    logger.debug('Getting fee changes')
     return await Promise.all(
       (
         await this.provider.getLogs({
@@ -225,6 +230,7 @@ export class Collateral {
   }
 
   fetchIPFSFromPinata = async (path: string) => {
+    logger.debug('Fetching IPFS from Pinata')
     const newPath = path.replace('ipfs://', '')
     const baseURL = 'dxas'
     const ipfsUrl = `${baseURL}/${newPath}`
@@ -237,6 +243,7 @@ export class Collateral {
   }
 
   fetchIPFSFromInfura = async (path: string) => {
+    logger.debug('Fetching IPFS from Infura')
     const newPath = path.replace('ipfs://', '')
     const baseURL = 'https://amkt.infura-ipfs.io/ipfs'
     const ipfsUrl = `${baseURL}/${newPath}`

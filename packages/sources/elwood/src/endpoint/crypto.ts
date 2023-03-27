@@ -1,15 +1,17 @@
 import {
+  CryptoPriceEndpoint,
   EndpointContext,
-  PriceEndpoint,
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import axios from 'axios'
-import { customSettings } from '../config'
+import { config } from '../config'
 
 const logger = makeLogger('ElwoodWsPrice')
+
+const DEFAULT_TRANSPORT_NAME = 'default_single_transport'
 
 export type SubscribeRequest = {
   action: 'subscribe' | 'unsubscribe'
@@ -46,7 +48,7 @@ type CryptoEndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: ResponseMessage
   }
@@ -56,7 +58,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
   constructor() {
     super({
       url: (context) =>
-        `${context.adapterConfig.WS_API_ENDPOINT}?apiKey=${context.adapterConfig.API_KEY}`,
+        `${context.adapterSettings.WS_API_ENDPOINT}?apiKey=${context.adapterSettings.API_KEY}`,
       handlers: {
         message(message) {
           if (message.type !== 'Index') {
@@ -130,7 +132,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
     for (const message of messages) {
       axios
         .request({
-          url: `${context.adapterConfig.API_ENDPOINT}?apiKey=${context.adapterConfig.API_KEY}`,
+          url: `${context.adapterSettings.API_ENDPOINT}?apiKey=${context.adapterSettings.API_KEY}`,
           method: 'post',
           data: message,
         })
@@ -140,7 +142,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
           const quote = message.symbol.split('-')[1]
           const defaultErrorMsg = `Failed to ${message.action} the ${message.symbol} pair`
           if (error.response) {
-            await this.responseCache.write([
+            await this.responseCache.write(DEFAULT_TRANSPORT_NAME, [
               {
                 params: {
                   base,
@@ -162,7 +164,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
     }
   }
 })()
-export const cryptoEndpoint = new PriceEndpoint({
+export const cryptoEndpoint = new CryptoPriceEndpoint({
   name: 'price',
   aliases: ['crypto'],
   inputParameters: priceEndpointInputParameters,

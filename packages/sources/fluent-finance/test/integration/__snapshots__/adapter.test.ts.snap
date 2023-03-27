@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price api should return success 1`] = `
+exports[`execute balance api should return success 1`] = `
 Object {
   "data": Object {
     "result": 24681.55,

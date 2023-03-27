@@ -1,5 +1,11 @@
 # @chainlink/ea-test-helpers
 
+## 1.4.2
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+
 ## 1.4.1
 
 ### Patch Changes

@@ -1,20 +1,15 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { EndpointTypes, inputParameters } from '../crypto-utils'
 import { httpTransport } from './crypto'
 import { wsTransport } from './crypto-ws'
 
-export const routingTransport = new RoutingTransport<EndpointTypes>(
-  {
-    WS: wsTransport,
-    REST: httpTransport,
-  },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'REST'),
-)
-
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new PriceEndpoint({
   name: 'crypto',
   aliases: ['price'],
-  transport: routingTransport,
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
 })

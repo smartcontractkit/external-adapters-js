@@ -1,7 +1,8 @@
 name: Soak test
 
 on:
-  pull_request: ~
+  # Soak tests are not very reliable at the moment, enable after fixing
+  # pull_request: ~
   workflow_dispatch:
 
 jobs:

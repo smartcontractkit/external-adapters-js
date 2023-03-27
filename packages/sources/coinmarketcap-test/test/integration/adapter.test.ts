@@ -1,11 +1,11 @@
+import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { SuperTest, Test } from 'supertest'
 import {
   mockSuccessfulCoinMarketCapResponse,
   mockSuccessfulGlobalMetricsResponse,
   mockSuccessfulHistoricalCapResponse,
 } from './fixtures'
-import { SuperTest, Test } from 'supertest'
 import { setupExternalAdapterTest, SuiteContext } from './setup'
-import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 describe('execute', () => {
   let spy: jest.SpyInstance

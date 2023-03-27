@@ -453,6 +453,9 @@
       "path": "./sources/mock-ea"
     },
     {
+      "path": "./sources/moonbeam-address-list"
+    },
+    {
       "path": "./sources/mycryptoapi"
     },
     {
@@ -493,6 +496,9 @@
     },
     {
       "path": "./sources/poa"
+    },
+    {
+      "path": "./sources/polkadot-balance"
     },
     {
       "path": "./sources/polygon"
@@ -565,6 +571,9 @@
     },
     {
       "path": "./sources/twelvedata"
+    },
+    {
+      "path": "./sources/twosigma"
     },
     {
       "path": "./sources/unibit"

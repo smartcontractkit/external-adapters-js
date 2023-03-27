@@ -1,5 +1,4 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { EndpointTypes } from '../common/crypto'
 
 interface PayloadValue {
@@ -13,7 +12,7 @@ interface ProviderResponse {
 
 export type RestEndpointTypes = EndpointTypes & {
   Provider: {
-    RequestBody: EmptyObject
+    RequestBody: unknown
     ResponseBody: ProviderResponse
   }
 }
@@ -23,11 +22,10 @@ export const makeRestTransport = (
 ): HttpTransport<RestEndpointTypes> => {
   return new HttpTransport<RestEndpointTypes>({
     prepareRequests: (params, config) => {
-      const [{ index }] = params
       const { API_USERNAME, API_PASSWORD, API_ENDPOINT, SECONDARY_API_ENDPOINT } = config
       const encodedCreds = Buffer.from(`${API_USERNAME}:${API_PASSWORD}`).toString('base64')
-      return {
-        params,
+      return params.map((param) => ({
+        params: [param],
         request: {
           baseURL: type === 'primary' ? API_ENDPOINT : SECONDARY_API_ENDPOINT,
           url: '/v1/values',
@@ -35,28 +33,26 @@ export const makeRestTransport = (
             Authorization: `Basic ${encodedCreds}`,
           },
           params: {
-            id: index,
+            id: param.index,
           },
         },
-      }
+      }))
     },
-    parseResponse: ([{ index }], res) => {
+    parseResponse: (params, res) => {
       const values = res.data.payload.sort((a, b) => b.time - a.time) // Descending
       const value = Number(values[0].value)
-      return [
-        {
-          params: { index },
-          response: {
+      return params.map((param) => ({
+        params: param,
+        response: {
+          result: value,
+          data: {
             result: value,
-            data: {
-              result: value,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: values[0].time,
-            },
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs: values[0].time,
           },
         },
-      ]
+      }))
     },
   })
 }

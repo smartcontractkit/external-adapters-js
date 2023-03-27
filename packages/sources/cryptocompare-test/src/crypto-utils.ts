@@ -1,7 +1,10 @@
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from './config'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { config } from './config'
+import {
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const logger = makeLogger('CryptoCompare HTTP')
 
@@ -18,16 +21,9 @@ export const cryptoInputParams = {
     required: true,
     type: 'string',
   },
-  transport: {
-    description: 'which transport to route to',
-    required: false,
-    type: 'string',
-  },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
-export type CryptoEndpointParams = PriceEndpointParams & {
-  transport: string
-}
+export type CryptoEndpointParams = PriceEndpointParams
 
 export interface ProviderCryptoQuoteData {
   TYPE: string
@@ -138,15 +134,10 @@ export type CryptoEndpointTypes = {
     Params: CryptoEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
-export type BatchEndpointTypes = {
-  Request: {
-    Params: CryptoEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+export type HttpEndpointTypes = CryptoEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ProviderCryptoResponseBody
@@ -197,7 +188,7 @@ const chunkByParamsLength = (
 
 export const buildBatchedRequestBody = (
   params: CryptoEndpointParams[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ) => {
   const chunkedMatrix = chunkByParamsLength(params)
 
@@ -205,10 +196,10 @@ export const buildBatchedRequestBody = (
     return {
       params: cParams,
       request: {
-        baseURL: config.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         url: '/data/pricemultifull',
         headers: {
-          authorization: `Apikey ${config.API_KEY}`,
+          authorization: `Apikey ${settings.API_KEY}`,
         },
         params: {
           fsyms: [...new Set(cParams.map((p) => p.base.toUpperCase()))].join(','),

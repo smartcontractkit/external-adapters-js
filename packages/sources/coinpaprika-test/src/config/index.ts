@@ -3,7 +3,7 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinpaprika.com'
 export const PRO_API_ENDPOINT = 'https://api-pro.coinpaprika.com'
 
-export const customSettings = {
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
@@ -15,17 +15,15 @@ export const customSettings = {
     required: false,
     sensitive: true,
   },
-} as const
+})
 
-export const getApiEndpoint = (config: AdapterConfig<typeof customSettings>): string =>
-  config.API_ENDPOINT || (config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT)
+export const getApiEndpoint = (settings: typeof config.settings): string =>
+  settings.API_ENDPOINT || (settings.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT)
 
-export const getApiHeaders = (
-  config: AdapterConfig<typeof customSettings>,
-): { Authorization?: string } => {
+export const getApiHeaders = (settings: typeof config.settings): { Authorization?: string } => {
   const headers: { Authorization?: string } = {}
-  if (config.API_KEY) {
-    headers['Authorization'] = config.API_KEY
+  if (settings.API_KEY) {
+    headers['Authorization'] = settings.API_KEY
   }
   return headers
 }

@@ -1,10 +1,10 @@
 # Fluent Finance Adapter
 
-![1.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Fluent Finance Adapter for retrieving bank balances
 
-Base URL https://gateway-api.fluent.finance/v1/gateway/
+Base URL https://gateway.fluent.finance/v1/gateway/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -18,15 +18,15 @@ There are no environment variables for this adapter.
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |        Options         | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [moon](#moon-endpoint) | `moon`  |
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [balances](#balances-endpoint) | `balances` |
 
-## Moon Endpoint
+## Balances Endpoint
 
-Bank balances for moonbeam
+Cash and equivalent balances for Fluent Finance US Plus' reserve accounts
 
-`moon` is the only supported name for this endpoint.
+`balances` is the only supported name for this endpoint.
 
 ### Input Params
 
@@ -40,11 +40,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "moon",
+    "endpoint": "balances",
     "resultPath": "availableBalance"
   },
   "debug": {
-    "cacheKey": "Ia1T4Y2aYiMx+maKLg0MrmqC3UE="
+    "cacheKey": "mWPeRX530scYe1bqbcESGZsXcqY="
   }
 }
 ```

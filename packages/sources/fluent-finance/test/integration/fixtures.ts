@@ -1,10 +1,10 @@
 import nock from 'nock'
 
-export const mockMoonSuccess = (): nock.Scope =>
-  nock('https://gateway-api.fluent.finance/v1/gateway', {
+export const mockSuccess = (): nock.Scope =>
+  nock('https://gateway.fluent.finance/v1/gateway', {
     encodedQueryParams: true,
   })
-    .get('/balances/moon')
+    .get('/balances')
     .reply(
       200,
       () => [

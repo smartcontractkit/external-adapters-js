@@ -17,8 +17,6 @@ describe('rest', () => {
     done()
   })
 
-  const id = '1'
-
   const context: SuiteContext = {
     req: null,
     server: async () => {
@@ -34,19 +32,16 @@ describe('rest', () => {
     PASSPHRASE: process.env.PASSPHRASE || 'fake-passphrase',
     SIGNING_KEY: process.env.SIGNING_KEY || 'fake-signing-key',
     PORTFOLIO_ID: process.env.PORTFOLIO_ID || 'fake-portfolio',
-    INFURA_KEY: process.env.INFURA_KEY || 'fake-infura-key',
+    RPC_URL: process.env.RPC_URL || 'https://mainnet.infura.io:443/v3/fake-infura-key',
   }
   setupExternalAdapterTest(envVariables, context)
 
   describe('portfolio api', () => {
     const data = {
-      id,
       data: {},
     }
-
+    mockResponseSuccess()
     it('should return success', async () => {
-      mockResponseSuccess()
-
       const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)

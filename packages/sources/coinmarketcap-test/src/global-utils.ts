@@ -1,15 +1,15 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings } from './config'
+import { config } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
-export const inputParameters: InputParameters = {
+export const inputParameters = {
   market: {
     aliases: ['quote', 'to'],
     description: 'The symbol of the currency to query',
     required: true,
     type: 'string',
   },
-} as const
+} satisfies InputParameters
 
 export interface GlobalResponseSchema {
   data: {
@@ -74,7 +74,7 @@ export type GlobalEndpointTypes = {
     Params: GlobalRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: GlobalResponseSchema

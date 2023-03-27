@@ -1,5 +1,23 @@
 # @chainlink/rocket-pool-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-reference-data-reader@1.3.28
+
+## 1.1.3
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-reference-data-reader@1.3.27
+
 ## 1.1.2
 
 ### Patch Changes

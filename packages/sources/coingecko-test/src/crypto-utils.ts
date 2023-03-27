@@ -1,11 +1,12 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
-import { customSettings, getApiEndpoint } from './config'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
+import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/transports'
 import {
   ProviderResult,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
-import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config, getApiEndpoint } from './config'
 
 export interface CryptoRequestParams {
   coinid?: string
@@ -31,7 +32,7 @@ export const cryptoInputParams = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
 
 export interface ProviderResponseBody {
   [base: string]: {
@@ -44,7 +45,7 @@ export type CryptoEndpointTypes = {
     Params: CryptoRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
@@ -53,18 +54,18 @@ export type CryptoEndpointTypes = {
 
 export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
 ): ProviderRequestConfig<CryptoEndpointTypes> => {
   return {
     params,
     request: {
-      baseURL: getApiEndpoint(config),
+      baseURL: getApiEndpoint(settings),
       url: '/simple/price',
       method: 'GET',
       params: {
         ids: [...new Set(params.map((p) => p.coinid ?? p.base))].join(','),
         vs_currencies: [...new Set(params.map((p) => p.quote))].join(','),
-        x_cg_pro_api_key: config.API_KEY,
+        x_cg_pro_api_key: settings.API_KEY,
         precision: 'full',
       },
     },

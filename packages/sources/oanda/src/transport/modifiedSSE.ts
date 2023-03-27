@@ -1,12 +1,4 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import {
-  makeLogger,
-  sleep,
-  PartialSuccessfulResponse,
-  ProviderResult,
-  TimestampedProviderResult,
-} from '@chainlink/external-adapter-framework/util'
 import {
   TransportDependencies,
   TransportGenerics,
@@ -15,8 +7,16 @@ import {
   StreamingTransport,
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
+import {
+  makeLogger,
+  PartialSuccessfulResponse,
+  ProviderResult,
+  sleep,
+  TimestampedProviderResult,
+} from '@chainlink/external-adapter-framework/util'
 
 import axios from 'axios'
+import { config } from '../config'
 
 const logger = makeLogger('ModifiedSSETransport')
 
@@ -53,16 +53,17 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
     super()
   }
 
-  getSubscriptionTtlFromConfig(config: AdapterConfig<T['CustomSettings']>): number {
-    return config.SSE_SUBSCRIPTION_TTL
+  getSubscriptionTtlFromConfig(adapterSettings: typeof config.settings): number {
+    return adapterSettings.SSE_SUBSCRIPTION_TTL
   }
 
   override async initialize(
     dependencies: TransportDependencies<T>,
-    config: AdapterConfig<T['CustomSettings']>,
+    settings: typeof config.settings,
     endpointName: string,
+    name: string,
   ): Promise<void> {
-    super.initialize(dependencies, config, endpointName)
+    super.initialize(dependencies, settings, endpointName, name)
   }
 
   async streamHandler(
@@ -88,7 +89,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
 
           const stream = response?.data
 
-          const eventHandlerGenerator = (listener: typeof this.config.eventListeners[0]) => {
+          const eventHandlerGenerator = (listener: (typeof this.config.eventListeners)[0]) => {
             return (event: MessageEvent) => {
               const providerDataReceivedUnixMs = Date.now()
 
@@ -103,7 +104,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
                 }
                 return result
               })
-              this.responseCache.write(results)
+              this.responseCache.write('sse', results)
             }
           }
 
@@ -169,9 +170,9 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
 
     // The background execute loop no longer sleeps between executions, so we have to do it here
     logger.trace(
-      `Modified SSE handler complete, sleeping for ${context.adapterConfig.BACKGROUND_EXECUTE_MS_SSE}ms...`,
+      `Modified SSE handler complete, sleeping for ${context.adapterSettings.BACKGROUND_EXECUTE_MS_SSE}ms...`,
     )
-    await sleep(context.adapterConfig.BACKGROUND_EXECUTE_MS_SSE)
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_SSE)
 
     return
   }

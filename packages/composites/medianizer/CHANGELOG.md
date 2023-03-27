@@ -1,5 +1,21 @@
 # @chainlink/medianizer-adapter
 
+## 1.2.28
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+
+## 1.2.27
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+
 ## 1.2.26
 
 ### Patch Changes

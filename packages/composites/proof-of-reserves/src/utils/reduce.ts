@@ -1,7 +1,6 @@
 import * as reduce from '@chainlink/reduce-adapter'
 import { AdapterContext, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { callAdapter } from '.'
-import { Indexer } from './balance'
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import * as bitcoinPorIndexer from '@chainlink/por-indexer-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
@@ -23,7 +22,7 @@ const returnParsedUnits = (jobRunID: string, result: string, units: number) => {
 
 // Get reduce balances as total balance
 export const runReduceAdapter = async (
-  indexer: Indexer,
+  indexer: string,
   context: AdapterContext,
   input: AdapterResponse,
 ): Promise<AdapterResponse> => {

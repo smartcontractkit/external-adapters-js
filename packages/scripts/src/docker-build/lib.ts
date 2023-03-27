@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import { join } from 'path'
 import * as yaml from 'yaml'
 import { flattenAllSchemas, FlattenedSchema } from '../schema-flatten/lib'
-import { getWorkspacePackages, WorkspacePackages } from '../workspace'
+import { getWorkspaceAdapters, WorkspacePackages } from '../workspace'
 
 export async function writeFile(): Promise<void> {
   const path = process.env.GITHUB_WORKSPACE || ''
@@ -34,7 +34,7 @@ export async function generateFileJSON(
   imageNameConfig: ImageNameConfig,
   composeFileOptions: ComposeFileOptions,
 ): Promise<DockerComposeFile> {
-  return makeDockerComposeFile(getWorkspacePackages(), imageNameConfig, composeFileOptions)
+  return makeDockerComposeFile(getWorkspaceAdapters(), imageNameConfig, composeFileOptions)
 }
 
 interface Service {
@@ -80,7 +80,7 @@ async function makeDockerComposeFile(
   )
 
   return {
-    version: '3.9',
+    version: '3.3',
     services: packages.reduce<Record<string, Service>>((prev, next, i) => {
       prev[next.descopedName] = {
         image: generateImageName(next.descopedName, next.version, imageNameConfig),

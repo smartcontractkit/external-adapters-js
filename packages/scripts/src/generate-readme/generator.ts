@@ -1,7 +1,11 @@
+import { balance } from '@chainlink/ea-factories'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
+import fs from 'fs'
 import path from 'path'
 import process from 'process'
 import { cat, exec, test } from 'shelljs'
-import { buildTable, TableText } from '../shared/tableUtils'
+import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
 import {
   capitalize,
   codeList,
@@ -10,11 +14,9 @@ import {
   wrapCode,
   wrapJson,
 } from '../shared/docGenUtils'
-import { balance } from '@chainlink/ea-factories'
+import { buildTable, TableText } from '../shared/tableUtils'
+import { WorkspaceAdapter } from '../workspace'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
-import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
-import fs from 'fs'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -31,7 +33,7 @@ const TRUNCATE_EXAMPLE_LINES = 500
 const genSig =
   'This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.'
 
-const exampleTextHeader = '### Example\n'
+const exampleTextHeader = '### Example\n\n'
 
 const noExampleText = 'There are no examples for this endpoint.'
 
@@ -45,7 +47,9 @@ const checkFilePaths = (filePaths: string[]): string => {
 export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
+  adapterType: string
   schemaPath: string
+  packageJson: Package
   defaultEndpoint = ''
   defaultBaseUrl = ''
   endpointDetails: EndpointDetails = {}
@@ -62,15 +66,14 @@ export class ReadmeGenerator {
   frameworkVersion: 'v2' | 'v3'
   frameworkVersionBadgeUrl: string
 
-  constructor(adapterPath: string, verbose = false, skipTests = false) {
+  constructor(adapter: WorkspaceAdapter, verbose = false, skipTests = false) {
     this.verbose = verbose
+    this.adapterPath = adapter.location
 
-    if (!adapterPath.endsWith('/')) adapterPath += '/'
-
-    if (!test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
-
-    if (verbose) console.log(`${adapterPath}: Checking package.json`)
-    const packagePath = checkFilePaths([adapterPath + 'package.json'])
+    if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
+    if (!test('-d', this.adapterPath)) throw Error(`${this.adapterPath} is not a directory`)
+    if (verbose) console.log(`${this.adapterPath}: Checking package.json`)
+    const packagePath = checkFilePaths([this.adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
 
     if (packageJson.dependencies) {
@@ -83,10 +86,11 @@ export class ReadmeGenerator {
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
     this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
     this.license = packageJson.license ?? ''
-    this.adapterPath = adapterPath
-    this.schemaPath = adapterPath + 'schemas/env.json'
+
+    this.schemaPath = this.adapterPath + 'schemas/env.json'
+    this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
+    this.packageJson = packageJson
     this.skipTests = skipTests
-    this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
   }
 
   // We need to require/import adapter contents to generate the README.
@@ -104,14 +108,13 @@ export class ReadmeGenerator {
       const schema = getJsonFile(this.schemaPath) as Schema
       this.frameworkVersion = 'v2'
       this.schemaDescription = schema.description ?? ''
-      this.name = schema.title ?? packageJson.name ?? ''
+      this.name = schema.title ?? this.packageJson.name ?? ''
       this.envVars = schema.properties ?? {}
       this.requiredEnvVars = schema.required ?? []
       this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
       this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
 
       if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
-
       const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
       this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
     } else {
@@ -125,8 +128,11 @@ export class ReadmeGenerator {
       )
 
       const adapter = adapterImport.adapter as Adapter
+      const adapterSettings = (
+        adapter.config as unknown as { settingsDefinition: SettingsDefinitionMap }
+      ).settingsDefinition
       this.name = adapter.name
-      this.envVars = adapter.customSettings || {}
+      this.envVars = adapterSettings || {}
 
       this.endpointDetails = adapter.endpoints?.length
         ? adapter.endpoints.reduce(
@@ -141,10 +147,8 @@ export class ReadmeGenerator {
           )
         : {}
 
-      this.requiredEnvVars = adapter.customSettings
-        ? Object.keys(adapter.customSettings).filter(
-            (k) => adapter.customSettings[k].required === true,
-          ) ?? [] // Keys of required customSettings
+      this.requiredEnvVars = adapterSettings
+        ? Object.keys(adapterSettings).filter((k) => adapterSettings[k].required === true) ?? [] // Keys of required customSettings
         : []
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
@@ -183,7 +187,7 @@ export class ReadmeGenerator {
       const name = key ?? ''
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
-      const options = codeList(envVar.options)
+      const options = codeList(envVar.options as Array<string | number>)
       const defaultText = Object.keys(envVar).includes('default') ? wrapCode(envVar.default) : ''
       return [required, name, description, type, options, defaultText]
     })
@@ -232,7 +236,8 @@ export class ReadmeGenerator {
   addEndpointSections(): void {
     // Store I/O Examples for each endpoint
     const endpointExampleText: { [endpoint: string]: string } = {}
-    if (this.skipTests) {
+    // V3 does not print the same debug output used to generate these
+    if (this.skipTests || this.frameworkVersion === 'v3') {
       // If skipping tests, pull from existing README
       if (this.verbose)
         console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
@@ -290,7 +295,7 @@ export class ReadmeGenerator {
 
       // Build final text for examples
       for (const [endpointName, endpointDetails] of Object.entries(this.endpointDetails)) {
-        const ioExamples = []
+        const ioExamples: string[] = []
 
         for (const endpoint of endpointDetails.supportedEndpoints) {
           for (const ioPair of endpointIO[endpoint] ?? []) {
@@ -367,8 +372,10 @@ export class ReadmeGenerator {
                 aliases = codeList(attributes.aliases)
                 description = attributes.description ?? ''
                 type = attributes.type ?? ''
-                options = codeList(attributes.options)
-                defaultText = attributes.default ? wrapCode(attributes.default) : ''
+                options = codeList(attributes.options as Array<string | number>)
+                defaultText = attributes.default
+                  ? wrapCode(attributes.default as string | number | boolean)
+                  : ''
                 dependsOn = codeList(attributes.dependsOn)
                 exclusive = codeList(attributes.exclusive)
               }
@@ -391,7 +398,7 @@ export class ReadmeGenerator {
             : 'There are no input parameters for this endpoint.'
         }
 
-        const inputTableSection = '### Input Params\n' + inputTable
+        const inputTableSection = '### Input Params\n\n' + inputTable
 
         const exampleText = endpointExampleText[endpointName]
 
@@ -399,12 +406,12 @@ export class ReadmeGenerator {
       })
       .join('\n\n---\n\n')
 
-    this.readmeText += endpointSections + '\n\n---\n'
+    this.readmeText += endpointSections + '\n\n---\n\n'
   }
 
   addLicense(): void {
     if (this.license) {
-      this.readmeText += `${this.license} License \n`
+      this.readmeText += `${this.license} License\n`
     }
   }
 

@@ -4,8 +4,7 @@ import {
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport, TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 
@@ -16,7 +15,7 @@ import restPairs from '../config/restPairs.json'
 import { ModifiedSseTransport } from '../transport/modifiedSSE'
 import {
   EndpointTypes,
-  HttpGenerics,
+  HttpTransportTypes,
   InstrumentList,
   InstrumentMap,
   ModifiedSseGenerics,
@@ -27,17 +26,6 @@ const logger = makeLogger('OandaPrice')
 
 let instrumentMap: InstrumentMap
 
-const inputParameters = {
-  ...priceEndpointInputParameters,
-  transport: {
-    aliases: ['method'],
-    description:
-      'An override for the transport (only use if `config/restPairs.json` does not already account for the pair)',
-    options: ['SSE', 'REST'],
-    required: false,
-  },
-}
-
 // Get mapping of all available instruments keyed by base and quote assets
 const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) => {
   if (instrumentMap) return instrumentMap
@@ -47,11 +35,11 @@ const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) =
   const providerDataRequestedUnixMs = Date.now()
 
   const { data, status } = await axios.get<InstrumentList>(
-    `${context.adapterConfig.INSTRUMENTS_API_ENDPOINT}/accounts/${context.adapterConfig.API_ACCOUNT_ID}/instruments`,
+    `${context.adapterSettings.INSTRUMENTS_API_ENDPOINT}/accounts/${context.adapterSettings.API_ACCOUNT_ID}/instruments`,
     {
       headers: {
         contentType: 'application/json',
-        Authorization: `Bearer ${context.adapterConfig.SSE_API_KEY}`,
+        Authorization: `Bearer ${context.adapterSettings.SSE_API_KEY}`,
       },
     },
   )
@@ -85,15 +73,15 @@ const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) =
 // See https://developer.oanda.com/rest-live-v20/pricing-ep/
 const sseTransport = new ModifiedSseTransport<ModifiedSseGenerics>({
   prepareSSEConnectionConfig: (subsList, context) => {
-    const url = `${context.adapterConfig.SSE_API_ENDPOINT}/accounts/${
-      context.adapterConfig.API_ACCOUNT_ID
+    const url = `${context.adapterSettings.SSE_API_ENDPOINT}/accounts/${
+      context.adapterSettings.API_ACCOUNT_ID
     }/pricing/stream?instruments=${subsList.join('%2C')}`
     return {
       url,
       config: {
         responseType: 'stream',
         headers: {
-          Authorization: `Bearer ${context.adapterConfig.SSE_API_KEY}`,
+          Authorization: `Bearer ${context.adapterSettings.SSE_API_KEY}`,
         },
       },
     }
@@ -148,7 +136,7 @@ const sseTransport = new ModifiedSseTransport<ModifiedSseGenerics>({
 })
 
 // See https://developer.oanda.com/exchange-rates-api/#get-/v2/rates/spot.-ext-
-const restTransport = new HttpTransport<HttpGenerics>({
+const restTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params: PriceEndpointParams[], config) =>
     params.map((p) => {
       const { base, quote } = p
@@ -180,24 +168,22 @@ const restTransport = new HttpTransport<HttpGenerics>({
   },
 })
 
-const routerTransport = new RoutingTransport<EndpointTypes>(
-  { SSE: sseTransport, REST: restTransport },
-  (req) => {
+export const priceEndpoint = new PriceEndpoint({
+  name: 'price',
+  aliases: ['forex'],
+  inputParameters: priceEndpointInputParameters,
+  transportRoutes: new TransportRoutes<EndpointTypes>()
+    .register('sse', sseTransport)
+    .register('rest', restTransport),
+  customRouter: (req, _) => {
     const { base, quote, transport } = req.requestContext.data
 
     if (transport) return transport
 
     const route = (restPairs as RestPairs)?.[base.toUpperCase()]?.[quote.toUpperCase()]
-      ? 'REST'
-      : 'SSE'
+      ? 'rest'
+      : 'sse'
 
     return route
   },
-)
-
-export const priceEndpoint = new PriceEndpoint<EndpointTypes>({
-  name: 'price',
-  aliases: ['forex'],
-  inputParameters,
-  transport: routerTransport,
 })

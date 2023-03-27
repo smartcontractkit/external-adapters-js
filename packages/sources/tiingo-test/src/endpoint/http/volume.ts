@@ -1,13 +1,14 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import overrides from '../../config/overrides.json'
 import {
   buildBatchedRequestBody,
   constructEntry,
-  CryptoEndpointTypes,
+  HttpTransportTypes,
   inputParameters,
 } from '../../crypto-utils'
 
-export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return buildBatchedRequestBody(params, config, 'tiingo/crypto/prices')
   },
@@ -16,8 +17,9 @@ export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   },
 })
 
-export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
+export const endpoint = new PriceEndpoint({
   name: 'volume',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

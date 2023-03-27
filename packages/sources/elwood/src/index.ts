@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { cryptoEndpoint } from './endpoint'
-import { customSettings } from './config'
+import { config } from './config'
 
 export const adapter = new PriceAdapter({
   name: 'ELWOOD',
   defaultEndpoint: 'crypto',
-  customSettings,
+  config,
   endpoints: [cryptoEndpoint],
 })
 

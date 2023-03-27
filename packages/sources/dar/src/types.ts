@@ -1,5 +1,5 @@
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from './config'
+import { config } from './config'
 
 export interface AuthResponse {
   access_token: string
@@ -27,7 +27,7 @@ export type PriceEndpointTypes = {
     Params: AdapterRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: ProviderMessage
   }

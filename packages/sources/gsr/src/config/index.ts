@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     type: 'string',
     description: 'The HTTP API endpoint to use',
@@ -25,4 +27,4 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
-} as const
+})

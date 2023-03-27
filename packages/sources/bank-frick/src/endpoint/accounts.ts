@@ -1,14 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import {
-  Account,
-  AdapterInputParameters,
-  BankFrickAccountsRequestSchema,
-  BankFrickAccountsResponseSchema,
-  SigningAlgorithm,
-} from '../types'
-import { customSettings } from '../config'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { Cache } from '@chainlink/external-adapter-framework/cache'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { generateJWT } from '../util'
 import {
   AdapterRequest,
   AdapterResponse,
@@ -16,21 +9,27 @@ import {
   SingleNumberResultResponse,
   sleep,
 } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { Cache } from '@chainlink/external-adapter-framework/cache'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { config } from '../config'
+import {
+  Account,
+  AdapterInputParameters,
+  BankFrickAccountsRequestSchema,
+  BankFrickAccountsResponseSchema,
+  SigningAlgorithm,
+} from '../types'
+import { generateJWT } from '../util'
 
 const logger = makeLogger('BankFrickTransport')
 
 // Note: this is a shallow pattern that only checks for a country code since IBANs in the sandbox are invalid
 const ibanPattern = /^[A-Z]{2}[A-Z\d]{14,30}$/
-const inputParameters: InputParameters = {
+const inputParameters = {
   ibanIDs: {
     description: 'The list of account ids included in the sum of balances',
     required: true,
@@ -44,7 +43,7 @@ const inputParameters: InputParameters = {
     default: 'rsa-sha512',
     options: ['rsa-sha256', 'rsa-sha384', 'rsa-sha512'],
   },
-}
+} satisfies InputParameters
 
 // See here for all expected error returned by the API: https://developers.bankfrick.li/docs#errors
 const AuthErrors: { [key: number]: string } = {
@@ -61,7 +60,7 @@ export type AccountsEndpointTypes = {
     Params: AdapterInputParameters
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
 /**
@@ -73,6 +72,7 @@ export type AccountsEndpointTypes = {
  * also has complex retry logic that will attempt to refresh the JWT when certain HTTP errors occur
  */
 export class BankFrickAccountsTransport implements Transport<AccountsEndpointTypes> {
+  name!: string
   // Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
   // Each instance of the EA will have their own token by design
   token!: string
@@ -80,9 +80,15 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
   cache!: Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
   responseCache!: ResponseCache<any>
 
-  async initialize(dependencies: TransportDependencies<AccountsEndpointTypes>): Promise<void> {
+  async initialize(
+    dependencies: TransportDependencies<AccountsEndpointTypes>,
+    _: typeof config.settings,
+    __: string,
+    name: string,
+  ): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
     this.responseCache = dependencies.responseCache
+    this.name = name
   }
 
   /**
@@ -91,9 +97,9 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
   prepareRequest(
     firstPosition: number,
     _: AdapterInputParameters,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
   ): AxiosRequestConfig<BankFrickAccountsRequestSchema> {
-    const { API_ENDPOINT, PAGE_SIZE } = config
+    const { API_ENDPOINT, PAGE_SIZE } = settings
 
     return {
       baseURL: API_ENDPOINT,
@@ -116,7 +122,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
    **/
   async makeRequest(
     axiosRequest: AxiosRequestConfig<BankFrickAccountsRequestSchema>,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
     signingAlgorithm?: SigningAlgorithm,
   ): Promise<AxiosResponse<BankFrickAccountsResponseSchema>> {
     let retryNumber = 0
@@ -139,11 +145,11 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
       } else if (AuthErrors[response.status]) {
         // We've encountered a known auth error, so try to refresh the token before making another request
         logger.info('Auth error received from the Bank Frick API, attempting to refresh the token')
-        this.token = await generateJWT(config, signingAlgorithm)
-      } else if (retryNumber === config.RETRY) {
+        this.token = await generateJWT(settings, signingAlgorithm)
+      } else if (retryNumber === settings.RETRY) {
         throw new AdapterError({
           statusCode: 504,
-          message: `Bank Frick transport hit the max number of retries (${config.RETRY} retries) and aborted`,
+          message: `Bank Frick transport hit the max number of retries (${settings.RETRY} retries) and aborted`,
         })
       }
       const timeToSleep = (2 ** retryNumber + Math.random()) * 1000
@@ -177,10 +183,10 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
    */
   async foregroundExecute(
     req: AdapterRequest<AccountsEndpointTypes['Request']>,
-    config: AdapterConfig<typeof customSettings>,
+    settings: typeof config.settings,
   ): Promise<AdapterResponse<AccountsEndpointTypes['Response']>> {
     const { ibanIDs, signingAlgorithm } = req.requestContext.data
-    const { PAGE_SIZE = 500 } = config
+    const { PAGE_SIZE = 500 } = settings
 
     logger.debug(`Validating input: ${JSON.stringify(req.requestContext.data)}`)
 
@@ -197,7 +203,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
 
     // Refresh the token if it isn't set
     if (!this.token) {
-      this.token = await generateJWT(config, signingAlgorithm)
+      this.token = await generateJWT(settings, signingAlgorithm)
     }
 
     let sum = 0
@@ -207,8 +213,8 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
     const providerDataRequestedUnixMs = Date.now()
     while (keys.length > 0) {
       // TODO Fetching and processing pages can be run concurrently
-      const axiosRequest = this.prepareRequest(position, req.requestContext.data, config)
-      const response = await this.makeRequest(axiosRequest, config, signingAlgorithm)
+      const axiosRequest = this.prepareRequest(position, req.requestContext.data, settings)
+      const response = await this.makeRequest(axiosRequest, settings, signingAlgorithm)
 
       logger.debug(`Evaluating accounts from page ${position / PAGE_SIZE}`)
       response.data.accounts.forEach((v: Account) => {
@@ -249,7 +255,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
         providerDataRequestedUnixMs,
       },
     } as AdapterResponse<AccountsEndpointTypes['Response']>
-    await this.cache.set(req.requestContext.cacheKey, res, config.CACHE_MAX_AGE)
+    await this.cache.set(req.requestContext.cacheKey, res, settings.CACHE_MAX_AGE)
     return res
   }
 }

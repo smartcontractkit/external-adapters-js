@@ -105,6 +105,7 @@ describe('execute', () => {
       data: {
         base: 'BTC',
         quote: 'USD',
+        transport: 'ws',
       },
     }
 

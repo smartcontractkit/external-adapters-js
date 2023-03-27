@@ -1,17 +1,15 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from './config'
+import { config } from './config'
 import includes from './config/includes.json'
-import overrides from './config/overrides.json'
 import { forex, live } from './endpoint'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: forex.name,
   name: 'TRADERMADE',
-  customSettings,
+  config,
   endpoints: [forex, live],
   includes,
-  overrides: overrides.tradermade,
   rateLimiting: {
     tiers: {
       basic: {

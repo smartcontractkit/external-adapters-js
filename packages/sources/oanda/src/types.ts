@@ -1,19 +1,16 @@
-import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from './config'
+import { config } from './config'
 
-export type EndpointTypes = TransportGenerics & {
+export type EndpointTypes = {
   Request: {
-    Params: PriceEndpointParams & {
-      transport?: 'REST' | 'SSE'
-    }
+    Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
 }
 
-export type HttpGenerics = EndpointTypes & {
+export type HttpTransportTypes = EndpointTypes & {
   Provider: {
     RequestBody: unknown
     ResponseBody: {

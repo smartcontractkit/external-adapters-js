@@ -1,7 +1,15 @@
 import { Validator } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { adapters as indexerAdapters, Indexer, runBalanceAdapter } from '../utils/balance'
-import { adapters as protocolAdapters, runProtocolAdapter } from '../utils/protocol'
+import {
+  adaptersV2 as indexerAdaptersV2,
+  adaptersV3 as indexerAdaptersV3,
+  runBalanceAdapter,
+} from '../utils/balance'
+import {
+  adaptersV2 as protocolAdaptersV2,
+  adaptersV3 as protocolAdaptersV3,
+  runProtocolAdapter,
+} from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
 import { getValidAddresses } from '../utils/addressValidator'
 import { Config } from '../config'
@@ -23,8 +31,10 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'The protocol external adapter to use',
     options: [
-      ...protocolAdapters.map(({ NAME }) => NAME.toLowerCase()),
-      ...protocolAdapters.map(({ NAME }) => NAME.toUpperCase()),
+      ...protocolAdaptersV2.map(({ NAME }) => NAME.toLowerCase()),
+      ...protocolAdaptersV2.map(({ NAME }) => NAME.toUpperCase()),
+      ...protocolAdaptersV3.map(({ name }) => name.toLowerCase()),
+      ...protocolAdaptersV3.map(({ name }) => name.toUpperCase()),
       'list',
       'LIST',
     ],
@@ -34,8 +44,10 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'The indexer external adapter to use',
     options: [
-      ...indexerAdapters.map(({ NAME }) => NAME.toLowerCase()),
-      ...indexerAdapters.map(({ NAME }) => NAME.toUpperCase()),
+      ...indexerAdaptersV2.map(({ NAME }) => NAME.toLowerCase()),
+      ...indexerAdaptersV2.map(({ NAME }) => NAME.toUpperCase()),
+      ...indexerAdaptersV3.map(({ name }) => name.toLowerCase()),
+      ...indexerAdaptersV3.map(({ name }) => name.toUpperCase()),
     ],
   },
   confirmations: {
@@ -70,7 +82,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const jobRunID = validator.validated.id
   const protocol = validator.validated.data.protocol.toUpperCase()
-  const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
+  const indexer = validator.validated.data.indexer.toUpperCase()
   // TODO: defaults fill as non-nullable
   const confirmations = validator.validated.data.confirmations as number
 

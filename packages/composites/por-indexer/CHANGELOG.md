@@ -1,5 +1,51 @@
 # @chainlink/por-indexer-adapter
 
+## 1.2.43
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/proof-of-reserves-adapter@1.16.5
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.42
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.4
+
+## 1.2.41
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.3
+
+## 1.2.40
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.2
+
+## 1.2.39
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/proof-of-reserves-adapter@1.16.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.38
+
+### Patch Changes
+
+- Updated dependencies [dee6d49a3]
+  - @chainlink/proof-of-reserves-adapter@1.16.0
+
 ## 1.2.37
 
 ### Patch Changes

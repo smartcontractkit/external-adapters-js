@@ -1,4 +1,4 @@
-import { DockerLabels, generateFileJSON } from '../docker-build/lib'
+import { getWorkspaceAdapters, getWorkspacePackages, WorkspaceAdapter } from '../workspace'
 
 interface JobMatrix {
   adapter: {
@@ -9,19 +9,47 @@ interface JobMatrix {
 
 /**
  * Create a job matrix that allows our build pipeline to create and push
- * docker images
+ * docker images.
+ *
+ * By default, will return only adapters that have been changed in the target branch (develop by default)
+ * Call with `yarn generate:gha:matrix -a` -OR- `BUILD_ALL=true yarn generate:gha:matrix` to build all adapters
  */
-export async function getJobMatrix(): Promise<JobMatrix> {
-  const branch = process.env.BRANCH || ''
-  const prefix = process.env.IMAGE_PREFIX || ''
-  const useLatest = !!process.env.LATEST
-  const dockerfile = await generateFileJSON({ prefix, branch, useLatest }, { context: '.' })
-  const adapter = Object.entries(dockerfile.services).map(([k, v]) => {
-    return {
-      name: k,
-      type: v.build.labels[DockerLabels.EA_TYPE],
-    }
-  })
 
-  return { adapter }
+type MatrixOutput = {
+  name: string
+  type: string
+}
+
+// Function to correct adapter directory names to their full formal name, used in partial runs
+
+const calculateMatrixValue = (adapter: WorkspaceAdapter): MatrixOutput => {
+  let name = ''
+  if (adapter.type === 'example') {
+    name = `example-${adapter.descopedName}`
+  } else {
+    name = `${adapter.descopedName}`
+  }
+  return {
+    name,
+    type: adapter.type,
+  }
+}
+
+export async function getJobMatrix(): Promise<JobMatrix> {
+  // Always build all when specifically instructed, or when something in core or scripts has changed
+  //legos will always change because it depends on all adapters, so ignore it when considering if we need to build all
+  const shouldBuildAll =
+    process.argv[2] === '-a' ||
+    process.env['BUILD_ALL'] === 'true' ||
+    getWorkspacePackages(process.env['UPSTREAM_BRANCH']).find(
+      (p) => (p.type === 'core' && !p.location.includes('lego')) || p.type === 'scripts',
+    )
+
+  const adapters = shouldBuildAll
+    ? getWorkspaceAdapters() //Unfiltered list of all adapters
+    : getWorkspaceAdapters([], process.env['UPSTREAM_BRANCH'])
+
+  return {
+    adapter: adapters.map(calculateMatrixValue),
+  }
 }

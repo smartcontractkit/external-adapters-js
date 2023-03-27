@@ -1,7 +1,10 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { customSettings } from './config'
+import {
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from './config'
 
 export const inputParameters = {
   base: {
@@ -16,7 +19,9 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
-} as const
+} satisfies InputParameters & PriceEndpointInputParameters
+
+export type RouterPriceEndpointParams = PriceEndpointParams
 
 export interface ProviderResponseBody {
   ticker: string
@@ -42,22 +47,25 @@ export interface ProviderResponseBody {
 
 export type CryptoEndpointTypes = {
   Request: {
-    Params: PriceEndpointParams
+    Params: RouterPriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
+}
+
+export type HttpTransportTypes = CryptoEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }
 
-const chunkArray = (params: PriceEndpointParams[], size = 100): PriceEndpointParams[][] =>
+const chunkArray = <T extends PriceEndpointParams>(params: T[], size = 100): T[][] =>
   params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
 
-export const buildBatchedRequestBody = (
-  params: PriceEndpointParams[],
-  config: AdapterConfig<typeof customSettings>,
+export const buildBatchedRequestBody = <T extends PriceEndpointParams>(
+  params: T[],
+  settings: typeof config.settings,
   url: string,
 ) => {
   // Tiingo supports up to 100 tickers in a single request, so we need to slice it to have 100 element chunks
@@ -67,10 +75,10 @@ export const buildBatchedRequestBody = (
     return {
       params: chunkedParams,
       request: {
-        baseURL: config.API_ENDPOINT,
+        baseURL: settings.API_ENDPOINT,
         url,
         params: {
-          token: config.API_KEY,
+          token: settings.API_KEY,
           tickers: [...new Set(chunkedParams.map((p) => `${p.base}${p.quote}`.toLowerCase()))].join(
             ',',
           ),
@@ -81,9 +89,9 @@ export const buildBatchedRequestBody = (
   })
 }
 
-export const constructEntry = (
+export const constructEntry = <T extends PriceEndpointParams>(
   res: ProviderResponseBody[],
-  params: PriceEndpointParams[],
+  params: T[],
   resultPath: 'close' | 'volumeNotional' | 'fxClose',
 ) => {
   if (!res?.length) {
@@ -100,7 +108,10 @@ export const constructEntry = (
   return res.map((entry) => {
     return {
       //baseCurrency from response for vwap endpoint has 'cvwap' suffix which needs to be removed
-      params: { base: entry.baseCurrency.replace('cvwap', ''), quote: entry.quoteCurrency },
+      params: {
+        base: entry.baseCurrency.replace('cvwap', ''),
+        quote: entry.quoteCurrency,
+      },
       response: {
         data: {
           result: entry.priceData[0][resultPath],

@@ -1,8 +1,9 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { buildBatchedRequestBody, inputParameters } from '../../crypto-utils'
-import { customSettings } from '../../config'
+import { config } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import overrides from '../../config/overrides.json'
 
 interface ProviderResponseBody {
   ticker: string
@@ -29,7 +30,7 @@ type TopEndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[]
@@ -59,4 +60,5 @@ export const endpoint = new PriceEndpoint<TopEndpointTypes>({
   name: 'top',
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.tiingo,
 })

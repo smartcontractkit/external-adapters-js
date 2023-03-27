@@ -5,7 +5,7 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import { mockWebSocketProvider, mockWebSocketServer, setEnvVariables } from './setup'
-import { mockResponseSuccess } from './fixtures'
+import { mockBircResponseSuccess, mockResponseSuccess } from './fixtures'
 import { createAdapter } from './setup'
 import { Server } from 'mock-socket'
 
@@ -28,6 +28,13 @@ describe('rest', () => {
   const data: AdapterRequestBody = {
     data: {
       index: 'BRTI',
+      transport: 'rest',
+    },
+  }
+  const bircData: AdapterRequestBody = {
+    data: {
+      endpoint: 'birc',
+      tenor: 'SIRB',
     },
   }
 
@@ -38,13 +45,15 @@ describe('rest', () => {
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_ENABLED'] = 'false'
-    process.env['API_USERNAME'] = 'fake-api-username'
-    process.env['API_PASSWORD'] = 'fake-api-password'
+    process.env['API_USERNAME'] = process.env.API_USERNAME || 'fake-api-username'
+    process.env['API_PASSWORD'] = process.env.API_PASSWORD || 'fake-api-password'
     fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
     mockResponseSuccess()
+    mockBircResponseSuccess()
     // Send initial request to start background execute
     await req.post('/').send(data)
+    await req.post('/').send(bircData)
     await sleep(5000)
   })
 
@@ -62,6 +71,23 @@ describe('rest', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
+          .expect(200)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
+
+  describe('birc endpoint', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(bircData)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
 
       const response = await makeRequest()
       expect(response.body).toMatchSnapshot()
@@ -91,7 +117,6 @@ describe('websocket', () => {
     process.env['CACHE_MAX_AGE'] = '5000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
-    process.env['WS_ENABLED'] = 'true'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_USERNAME'] = 'fake-api-username'
     process.env['API_PASSWORD'] = 'fake-api-password'

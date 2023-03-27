@@ -1,18 +1,17 @@
-import { customSettings } from '../config'
+import {
+  CryptoPriceEndpoint,
+  priceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   makeLogger,
   ProviderResult,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
-import {
-  PriceEndpoint,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import crypto from 'crypto'
 import axios from 'axios'
+import crypto from 'crypto'
+import { config } from '../config'
 
 const logger = makeLogger('GSR WS price')
 
@@ -45,7 +44,7 @@ export type EndpointTypes = {
     Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: WsMessage
   }
@@ -59,15 +58,15 @@ const generateSignature = (userId: string, publicKey: string, privateKey: string
     .update(`userId=${userId}&apiKey=${publicKey}&ts=${ts}`)
     .digest('hex')
 
-const getToken = async (config: AdapterConfig<typeof customSettings>) => {
+const getToken = async (settings: typeof config.settings) => {
   logger.debug('Fetching new access token')
 
-  const userId = config.WS_USER_ID
-  const publicKey = config.WS_PUBLIC_KEY
-  const privateKey = config.WS_PRIVATE_KEY
+  const userId = settings.WS_USER_ID
+  const publicKey = settings.WS_PUBLIC_KEY
+  const privateKey = settings.WS_PRIVATE_KEY
   const ts = currentTimeNanoSeconds()
   const signature = generateSignature(userId, publicKey, privateKey, ts)
-  const response = await axios.post<AccessTokenResponse>(`${config.API_ENDPOINT}/token`, {
+  const response = await axios.post<AccessTokenResponse>(`${settings.API_ENDPOINT}/token`, {
     apiKey: publicKey,
     userId,
     ts,
@@ -83,11 +82,11 @@ const getToken = async (config: AdapterConfig<typeof customSettings>) => {
 }
 
 export const wsTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context) => ({
     headers: {
-      'x-auth-token': await getToken(context.adapterConfig),
-      'x-auth-userid': context.adapterConfig.WS_USER_ID,
+      'x-auth-token': await getToken(context.adapterSettings),
+      'x-auth-userid': context.adapterSettings.WS_USER_ID,
     },
   }),
   handlers: {
@@ -120,7 +119,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
               result: message.data.price,
             },
             timestamps: {
-              providerIndicatedTime: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
+              providerIndicatedTimeUnixMs: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
             },
           },
         },
@@ -141,7 +140,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
   },
 })
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['price-ws', 'crypto'],
   transport: wsTransport,

@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'The API url for intrinio',
     type: 'string',
@@ -10,9 +12,4 @@ export const customSettings = {
     require: true,
     sensitive: true,
   },
-  WS_ENABLED: {
-    description: 'Whether data should be returned from websocket or not',
-    type: 'boolean',
-    default: false,
-  },
-} as const
+})
