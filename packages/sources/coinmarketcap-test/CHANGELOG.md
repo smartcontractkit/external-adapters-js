@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-test-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- 957826f14: Fixed request building for empty param lists
+
 ## 1.2.1
 
 ### Patch Changes
