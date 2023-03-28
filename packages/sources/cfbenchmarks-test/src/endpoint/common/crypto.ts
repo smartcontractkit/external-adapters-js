@@ -89,8 +89,8 @@ export const endpoint = new CryptoPriceEndpoint({
   defaultTransport: 'ws',
   customRouter: (req, adapterConfig) => {
     if (adapterConfig.API_SECONDARY) {
-      if (req.requestContext.transportName === 'ws') return 'wssecondary'
-      return 'restsecondary'
+      if (req.requestContext.transportName === 'rest') return 'restsecondary'
+      return 'wssecondary'
     } else {
       return req.requestContext.transportName
     }

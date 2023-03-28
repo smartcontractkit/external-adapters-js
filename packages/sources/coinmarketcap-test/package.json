@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinmarketcap-test-adapter",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "Chainlink coinmarketcap-test adapter.",
   "keywords": [
     "Chainlink",
