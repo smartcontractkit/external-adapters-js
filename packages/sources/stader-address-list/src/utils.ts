@@ -1,49 +1,53 @@
-import { ethers } from 'ethers'
-import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import {
+  makeLogger,
+  TimestampedProviderErrorResponse,
+} from '@chainlink/external-adapter-framework/util'
+import { BasicAddress } from './endpoint/address'
 
-interface PorInputAddress {
-  network: string
-  chainId: string
-  address: string
-  registrationStatus: boolean
-}
+const logger = makeLogger('StaderAddressListUtil')
 
-type validatorsRegistryResponse = [
-  pubKey: string,
-  withdrawal_credentials: string,
-  signature: string,
-  deposit_data_root: string,
-  registrationStatus: boolean,
+export type validatorsRegistryResponse = [
+  status: number,
+  pubkey: string,
+  preDepositSignature: string,
+  depositSignature: string,
+  withdrawVaultAddress: string,
+  operatorId: number,
+  initialBondEth: number,
+  depositTime: number,
+  withdrawnTime: number,
 ]
 
-export const fetchAddressList = async (
-  addressManager: ethers.Contract,
-  latestBlockNum: number,
-  network: string,
-  chainId: string,
-  confirmations = 0,
-): Promise<PorInputAddress[]> => {
-  try {
-    const blockTag = latestBlockNum - confirmations
-    const numAddresses = await addressManager.validatorCount({
-      blockTag,
-    })
-    const fetchAddresses = async (index: number) =>
-      addressManager.validatorsRegistry(index, { blockTag })
-    const response = await Promise.all<validatorsRegistryResponse>(
-      new Array(numAddresses.toNumber()).fill(0).map((_, i) => fetchAddresses(i)),
-    )
-    return response.map(([pubKey, , , , registrationStatus]) => ({
-      address: pubKey,
-      registrationStatus,
-      network,
-      chainId,
-    }))
-  } catch (e: any) {
-    throw new AdapterDataProviderError({
-      network,
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
-    })
+export type validatorPool = [poolName: string, poolAddress: string]
+
+export const filterDuplicates = <T extends BasicAddress>(addresses: T[]): T[] => {
+  const uniqueMap: Record<string, boolean> = {}
+  const uniqueAddresses: T[] = []
+  for (const addressObject of addresses) {
+    if (uniqueMap[addressObject.address]) {
+      logger.warn(
+        { warning: 'Duplicate address detected' },
+        `The address "${addressObject.address}" is duplicated in the request and the duplicate has been removed.`,
+      )
+    } else {
+      uniqueMap[addressObject.address] = true
+      uniqueAddresses.push(addressObject)
+    }
+  }
+  return uniqueAddresses
+}
+
+export const buildErrorResponse = (
+  errorMessage: string,
+  providerDataRequestedUnixMs: number,
+): TimestampedProviderErrorResponse => {
+  return {
+    statusCode: 502,
+    errorMessage,
+    timestamps: {
+      providerDataRequestedUnixMs,
+      providerDataReceivedUnixMs: 0,
+      providerIndicatedTimeUnixMs: undefined,
+    },
   }
 }
