@@ -282,3 +282,35 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .get('/tiingo/crypto-yield/ticks')
+    .query({
+      token: 'fake-api-key',
+      poolCodes: 'compound_usdt',
+    })
+    .reply(
+      200,
+      () => [
+        {
+          date: '2023-03-18T09:07:00+00:00',
+          poolCode: 'compound_usdt',
+          variableBorrowRate: 0.040187752938891874,
+          stableBorrowRate: null,
+          totalStableBorrowAmount: null,
+          totalVariableBorrowAmount: 109152599.889651,
+          totalBorrowAmount: 109152599.889651,
+          supplyRate: 0.025501153223986828,
+          totalSupplyAmount: 157984241.97059688,
+          availableLiquidityAmount: 48831642.08094588,
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
