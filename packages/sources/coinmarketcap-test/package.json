@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinmarketcap-test-adapter",
-  "version": "1.1.1",
+  "version": "1.2.2",
   "description": "Chainlink coinmarketcap-test adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.27.4",
+    "@chainlink/external-adapter-framework": "0.27.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

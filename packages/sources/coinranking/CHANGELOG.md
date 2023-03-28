@@ -1,5 +1,26 @@
 # @chainlink/coinranking-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- fac3a3ce9: Added coinranking adapter as a supported source for token-allocation composite EA
+
+## 2.0.3
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 2.0.2
+
+### Patch Changes
+
+- 7bb8bc179: Add globalmarketcap endpoint alias
+
 ## 2.0.1
 
 ### Patch Changes

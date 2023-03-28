@@ -3,14 +3,14 @@ import nock from 'nock'
 export function mockPriceResponse(): nock.Scope {
   return nock('https://tools.dxfeed.com:443', { encodedQueryParams: true })
     .get('/webservice/rest/events.json')
-    .query({ events: 'Trade', symbols: 'UKX.IND%3ATEI' })
+    .query({ events: 'Trade', symbols: 'FTSE' })
     .reply(
       200,
       {
         status: 'OK',
         Trade: {
-          'UKX.IND:TEI': {
-            eventSymbol: 'UKX.IND:TEI',
+          FTSE: {
+            eventSymbol: 'FTSE',
             eventTime: 0,
             time: 1636750796767,
             timeNanoPart: 0,
@@ -48,6 +48,25 @@ export function mockPriceResponse(): nock.Scope {
         'X-Origin-Nginx',
         'tools1',
       ],
+    )
+}
+
+export function mockGooglResponse(): nock.Scope {
+  return nock('https://tools.dxfeed.com:443', { encodedQueryParams: true })
+    .get('/webservice/rest/events.json')
+    .query({ events: 'Trade', symbols: 'GOOGL' })
+    .reply(
+      200,
+      {
+        status: 'OK',
+        Trade: {
+          GOOGL: {
+            eventSymbol: 'GOOGL',
+            price: 10,
+          },
+        },
+      },
+      [],
     )
 }
 

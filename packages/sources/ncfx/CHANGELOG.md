@@ -1,5 +1,23 @@
 # @chainlink/ncfx-adapter
 
+## 3.2.2
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
+## 3.2.1
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
+## 3.2.0
+
+### Minor Changes
+
+- 5d20d2ece: Return bid & ask price fields
+
 ## 3.1.1
 
 ### Patch Changes

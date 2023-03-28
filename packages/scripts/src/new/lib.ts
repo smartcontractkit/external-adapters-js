@@ -2,7 +2,7 @@
 import chalk from 'chalk'
 import * as path from 'path'
 import * as shell from 'shelljs'
-import { getWorkspacePackages, WorkspacePackage } from '../workspace'
+import { getWorkspaceAdapters, WorkspaceAdapter } from '../workspace'
 const { red, blue } = chalk
 const { log } = console
 
@@ -76,12 +76,12 @@ function copyFiles(type: string, n: string) {
 }
 
 function tsconfGenerate(
-  packages: WorkspacePackage[],
+  packages: WorkspaceAdapter[],
   filepath: string,
   slice = 0,
   isTestConfig = false,
 ) {
-  return packages.map((w: WorkspacePackage) => {
+  return packages.map((w: WorkspaceAdapter) => {
     return {
       path: path
         .relative(filepath, `${w.location}${isTestConfig ? '/tsconfig.test.json' : ''}`)
@@ -94,7 +94,7 @@ async function generate(type: string) {
   let writeData = {} // data struct for writing
 
   // pull latest workspace data after files have been generated
-  let currentWorkspace: WorkspacePackage[] = getWorkspacePackages(['scripts', 'core']) //using this alphabetizes everything
+  let currentWorkspace: WorkspaceAdapter[] = getWorkspaceAdapters(['scripts', 'core']) //using this alphabetizes everything
   currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/ea-bootstrap') //filter out package
   currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/readme-test-adapter') //filter out package
   const adapterList = currentWorkspace.filter((w) => w.type === `${type}s`)
