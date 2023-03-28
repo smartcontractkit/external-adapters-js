@@ -18920,10 +18920,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["cookiejar", [\
-        ["npm:2.1.3", {\
-          "packageLocation": "./.yarn/cache/cookiejar-npm-2.1.3-ec18b65dd0-88259983eb.zip/node_modules/cookiejar/",\
+        ["npm:2.1.4", {\
+          "packageLocation": "./.yarn/cache/cookiejar-npm-2.1.4-e418c49b9e-c444211196.zip/node_modules/cookiejar/",\
           "packageDependencies": [\
-            ["cookiejar", "npm:2.1.3"]\
+            ["cookiejar", "npm:2.1.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34250,7 +34250,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["superagent", "npm:5.3.1"],\
             ["component-emitter", "npm:1.3.0"],\
-            ["cookiejar", "npm:2.1.3"],\
+            ["cookiejar", "npm:2.1.4"],\
             ["debug", "virtual:29474417206615456729b7a578bf418b358d5457cdcef4bbfee11068b4718e28ceca45b525022e3820e15bd79419301ec7f358c2f28eae1e78ba4bae24d15383#npm:4.3.4"],\
             ["fast-safe-stringify", "npm:2.1.1"],\
             ["form-data", "npm:3.0.1"],\
@@ -34268,7 +34268,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["superagent", "npm:6.1.0"],\
             ["component-emitter", "npm:1.3.0"],\
-            ["cookiejar", "npm:2.1.3"],\
+            ["cookiejar", "npm:2.1.4"],\
             ["debug", "virtual:29474417206615456729b7a578bf418b358d5457cdcef4bbfee11068b4718e28ceca45b525022e3820e15bd79419301ec7f358c2f28eae1e78ba4bae24d15383#npm:4.3.4"],\
             ["fast-safe-stringify", "npm:2.1.1"],\
             ["form-data", "npm:3.0.1"],\
@@ -34286,7 +34286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["superagent", "npm:8.0.0"],\
             ["component-emitter", "npm:1.3.0"],\
-            ["cookiejar", "npm:2.1.3"],\
+            ["cookiejar", "npm:2.1.4"],\
             ["debug", "virtual:29474417206615456729b7a578bf418b358d5457cdcef4bbfee11068b4718e28ceca45b525022e3820e15bd79419301ec7f358c2f28eae1e78ba4bae24d15383#npm:4.3.4"],\
             ["fast-safe-stringify", "npm:2.1.1"],\
             ["form-data", "npm:4.0.0"],\
@@ -37394,7 +37394,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/xhr2-cookies-npm-1.1.0-3c53c13f2e-6a9fc45f34.zip/node_modules/xhr2-cookies/",\
           "packageDependencies": [\
             ["xhr2-cookies", "npm:1.1.0"],\
-            ["cookiejar", "npm:2.1.3"]\
+            ["cookiejar", "npm:2.1.4"]\
           ],\
           "linkType": "HARD"\
         }]\
