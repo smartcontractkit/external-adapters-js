@@ -4,7 +4,7 @@
   "to": "USD"
  },
  {
-    "poolCode": "ethnetwork_eth",
-    "endpoint": "cryptoyield"
+   "poolCode": "ethnetwork_eth",
+   "endpoint": "cryptoyield"
  }]
 }
