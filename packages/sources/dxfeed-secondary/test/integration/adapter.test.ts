@@ -6,6 +6,7 @@ import * as nock from 'nock'
 import { AddressInfo } from 'net'
 import {
   mockFirstHeartbeatMsg,
+  mockGooglResponse,
   mockHandshake,
   mockHeartbeatMsg,
   mockPriceResponse,
@@ -38,15 +39,35 @@ describe('dxfeed secondary', () => {
   setupExternalAdapterTest(envVariables, context)
 
   describe('price endpoint', () => {
-    const priceRequest: AdapterRequest = {
-      id,
-      data: {
-        base: 'FTSE',
-      },
-    }
-
     it('should return success', async () => {
+      const priceRequest: AdapterRequest = {
+        id,
+        data: {
+          base: 'FTSE',
+        },
+      }
+
       mockPriceResponse()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(priceRequest)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should not override value with dxfeed symbol overrides', async () => {
+      const priceRequest: AdapterRequest = {
+        id,
+        data: {
+          base: 'GOOGL',
+        },
+      }
+
+      mockGooglResponse()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')

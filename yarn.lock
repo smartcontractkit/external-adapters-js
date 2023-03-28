@@ -3545,7 +3545,7 @@ __metadata:
     husky: 7.0.4
     jest: 27.5.1
     lint-staged: 11.2.6
-    prettier: 2.8.4
+    prettier: 2.8.7
     source-map-support: 0.5.21
     ts-node: 10.9.1
     typescript: 4.9.5
@@ -4583,7 +4583,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 14.18.38
+    "@types/node": 14.18.41
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 4.9.5
@@ -10476,10 +10476,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.38":
-  version: 14.18.38
-  resolution: "@types/node@npm:14.18.38"
-  checksum: 4f580c5e0f124f44fa6f5d9923bf8fd98f644caabee6171c2dac48160062a91de99f2edd5db5ec59e93fe61f85dd4111df78c9d4f341f3aafca719929362303f
+"@types/node@npm:14.18.41":
+  version: 14.18.41
+  resolution: "@types/node@npm:14.18.41"
+  checksum: ba11ade6c2f02e38980a47e3f964776cc0bc0c307d3761e3dcd022b3a1e9233550626f9dce12ff2e3829899882e9fb74a0aaa7b5402ebe695d6613e10aed2d4d
   languageName: node
   linkType: hard
 
@@ -13906,9 +13906,9 @@ __metadata:
   linkType: hard
 
 "cookiejar@npm:^2.1.1, cookiejar@npm:^2.1.2, cookiejar@npm:^2.1.3":
-  version: 2.1.3
-  resolution: "cookiejar@npm:2.1.3"
-  checksum: 88259983ebc52ceb23cdacfa48762b6a518a57872eff1c7ed01d214fff5cf492e2660d7d5c04700a28f1787a76811df39e8639f8e17670b3cf94ecd86e161f07
+  version: 2.1.4
+  resolution: "cookiejar@npm:2.1.4"
+  checksum: c4442111963077dc0e5672359956d6556a195d31cbb35b528356ce5f184922b99ac48245ac05ed86cf993f7df157c56da10ab3efdadfed79778a0d9b1b092d5b
   languageName: node
   linkType: hard
 
@@ -21173,7 +21173,7 @@ __metadata:
     os-browserify: 0.3.0
     path-browserify: 1.0.1
     typescript: 4.9.5
-    webpack: 5.76.0
+    webpack: 5.76.3
     webpack-cli: 4.9.2
   languageName: unknown
   linkType: soft
@@ -25030,12 +25030,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.8.4":
-  version: 2.8.4
-  resolution: "prettier@npm:2.8.4"
+"prettier@npm:2.8.7":
+  version: 2.8.7
+  resolution: "prettier@npm:2.8.7"
   bin:
     prettier: bin-prettier.js
-  checksum: c173064bf3df57b6d93d19aa98753b9b9dd7657212e33b41ada8e2e9f9884066bb9ca0b4005b89b3ab137efffdf8fbe0b462785aba20364798ff4303aadda57e
+  checksum: fdc8f2616f099f5f0d685907f4449a70595a0fc1d081a88919604375989e0d5e9168d6121d8cc6861f21990b31665828e00472544d785d5940ea08a17660c3a6
   languageName: node
   linkType: hard
 
@@ -30093,9 +30093,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.76.0":
-  version: 5.76.0
-  resolution: "webpack@npm:5.76.0"
+"webpack@npm:5.76.3":
+  version: 5.76.3
+  resolution: "webpack@npm:5.76.3"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^0.0.51
@@ -30126,7 +30126,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: e897b3b34068222fe910d8894837cbf39f5e66b4772fe8d24dfc0090cd13e19337a3a757a97bc185be6c64d9d5a7b1ae372821b65a6079ce8c7ceba606edb409
+  checksum: 363f536b56971d056e34ab4cffa4cbc630b220e51be1a8c3adea87d9f0b51c49cfc7c3720d6614a1fd2c8c63f1ab3100db916fe8367c8bb9299327ff8c3f856d
   languageName: node
   linkType: hard
 
