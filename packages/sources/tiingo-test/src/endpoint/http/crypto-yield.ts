@@ -1,5 +1,4 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-// might need AdapterEndpointParams too
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../../config'
