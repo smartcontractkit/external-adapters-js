@@ -84,4 +84,5 @@ export const endpoint = new AdapterEndpoint<CryptoYieldEndpointTypes>({
   transport: httpTransport,
   inputParameters,
   overrides: overrides.tiingo,
+  aliases: ['yield']
 })
