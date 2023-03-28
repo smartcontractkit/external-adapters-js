@@ -49,6 +49,28 @@ describe('execute', () => {
 
     setupExternalAdapterTest(envVariables, context)
 
+    describe('cryptoYield endpoint', () => {
+      const data = {
+        id,
+        data: {
+          endpoint: 'cryptoyield',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
     describe('crypto endpoint', () => {
       const data = {
         id,

@@ -1,4 +1,5 @@
 export { endpoint as crypto } from './common/crypto-router'
+export { endpoint as cryptoyield } from './http/crypto-yield'
 export { endpoint as volume } from './http/volume'
 export { endpoint as vwap } from './http/vwap'
 export { endpoint as top } from './http/top'
