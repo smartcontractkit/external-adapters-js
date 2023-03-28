@@ -1,5 +1,29 @@
 # @chainlink/coinmarketcap-test-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- 957826f14: Fixed request building for empty param lists
+
+## 1.2.1
+
+### Patch Changes
+
+- c35b8ec32: Empty change
+
+## 1.2.0
+
+### Minor Changes
+
+- 17011bb4b: Refactor crypto, volume and marketcap endpoints into one
+
+## 1.1.4
+
+### Patch Changes
+
+- a19738701: Reduced rate limit tiers to account for multiple credits used per request
+
 ## 1.1.3
 
 ### Patch Changes

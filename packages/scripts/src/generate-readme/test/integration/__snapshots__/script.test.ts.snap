@@ -38,6 +38,7 @@ Balance endpoint for test adapter
 \`balance\` is the only supported name for this endpoint.
 
 ### Input Params
+
 | Required? |     Name      | Aliases |                        Description                         |  Type  | Options | Default  | Depends On | Not Valid With |
 | :-------: | :-----------: | :-----: | :--------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
 |    ✅     |   addresses   |         | Array of objects with address information as defined below | array  |         |          |            |                |
@@ -53,7 +54,9 @@ Address objects within \`addresses\` have the following properties:
 |           |  coin   |              Currency to query               | string | Ex. \`bch\`, \`btc\`, \`btsv\`, \`eth\`, \`ltc\`, \`zec\` |   \`btc\`   |
 
 ### Example
+
 Request:
+
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -71,7 +74,9 @@ Request:
   }
 }
 \`\`\`
+
 Response:
+
 \`\`\`json
 {
   \\"jobRunID\\": \\"1\\",
@@ -123,6 +128,7 @@ Marketcap endpoint, which has many optional input parameters.
 Supported names for this endpoint are: \`marketcap\`, \`mc\`.
 
 ### Input Params
+
 | Required? |         Name          |    Aliases     |                   Description                    |  Type  |                         Options                          | Default  | Depends On |     Not Valid With      |
 | :-------: | :-------------------: | :------------: | :----------------------------------------------: | :----: | :------------------------------------------------------: | :------: | :--------: | :---------------------: |
 |    ✅     |         base          | \`coin\`, \`from\` |       The symbol of the currency to query        | string |                                                          |          |            |                         |
@@ -132,7 +138,9 @@ Supported names for this endpoint are: \`marketcap\`, \`mc\`.
 |           | referenceCurrencyUuid |                |      The reference currency UUID to utilize      | string |                                                          |          |            |        \`coinid\`         |
 
 ### Example
+
 Request:
+
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -148,7 +156,9 @@ Request:
   }
 }
 \`\`\`
+
 Response:
+
 \`\`\`json
 {
   \\"jobRunID\\": \\"1\\",
@@ -161,10 +171,12 @@ Response:
   \\"providerStatusCode\\": 200
 }
 \`\`\`
+
 <details>
 <summary>Additional Examples</summary>
 
 Request:
+
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -180,7 +192,9 @@ Request:
   }
 }
 \`\`\`
+
 Response:
+
 \`\`\`json
 {
   \\"jobRunID\\": \\"1\\",
@@ -193,6 +207,7 @@ Response:
   \\"providerStatusCode\\": 200
 }
 \`\`\`
+
 </details>
 
 ---
@@ -202,6 +217,7 @@ Response:
 Supported names for this endpoint are: \`convert\`, \`price\`.
 
 ### Input Params
+
 | Required? |    Name    |    Aliases     |               Description                |  Type  |                       Options                        | Default  |  Depends On  | Not Valid With |
 | :-------: | :--------: | :------------: | :--------------------------------------: | :----: | :--------------------------------------------------: | :------: | :----------: | :------------: |
 |    ✅     |    base    | \`coin\`, \`from\` |   The symbol of the currency to query    | string |                                                      |          |              |                |
@@ -210,7 +226,9 @@ Supported names for this endpoint are: \`convert\`, \`price\`.
 |           | resultPath |                |         The path for the result          | string | \`address\`, \`addresses\`, \`price\`, \`result\`, \`results\` | \`result\` |   \`amount\`   |                |
 
 ### Example
+
 Request:
+
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -226,7 +244,9 @@ Request:
   }
 }
 \`\`\`
+
 Response:
+
 \`\`\`json
 {
   \\"jobRunID\\": \\"1\\",
@@ -239,10 +259,12 @@ Response:
   \\"providerStatusCode\\": 200
 }
 \`\`\`
+
 <details>
 <summary>Additional Examples</summary>
 
 Request:
+
 \`\`\`json
 {
   \\"id\\": \\"1\\",
@@ -258,7 +280,9 @@ Request:
   }
 }
 \`\`\`
+
 Response:
+
 \`\`\`json
 {
   \\"jobRunID\\": \\"1\\",
@@ -271,6 +295,7 @@ Response:
   \\"providerStatusCode\\": 200
 }
 \`\`\`
+
 </details>
 
 ---

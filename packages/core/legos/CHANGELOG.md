@@ -1,5 +1,48 @@
 # @chainlink/ea
 
+## 1.3.78
+
+### Patch Changes
+
+- Updated dependencies [957826f14]
+  - @chainlink/coinmarketcap-test-adapter@1.2.2
+
+## 1.3.77
+
+### Patch Changes
+
+- Updated dependencies [c35b8ec32]
+- Updated dependencies [c35b8ec32]
+  - @chainlink/cfbenchmarks-test-adapter@1.4.1
+  - @chainlink/coinmarketcap-test-adapter@1.2.1
+  - @chainlink/coinmetrics-test-adapter@1.3.1
+
+## 1.3.76
+
+### Patch Changes
+
+- Updated dependencies [490307c73]
+  - @chainlink/cfbenchmarks-test-adapter@1.4.0
+  - @chainlink/coinmetrics-test-adapter@1.3.0
+
+## 1.3.75
+
+### Patch Changes
+
+- Updated dependencies [17011bb4b]
+- Updated dependencies [62fa38c0f]
+  - @chainlink/coinmarketcap-test-adapter@1.2.0
+  - @chainlink/cfbenchmarks-test-adapter@1.3.4
+
+## 1.3.74
+
+### Patch Changes
+
+- Updated dependencies [fac3a3ce9]
+- Updated dependencies [a19738701]
+  - @chainlink/coinranking-adapter@2.1.0
+  - @chainlink/coinmarketcap-test-adapter@1.1.4
+
 ## 1.3.73
 
 ### Patch Changes

@@ -69,6 +69,7 @@ export const calculateAssetMetricsUrl = (
   generated.searchParams.append('metrics', metrics)
   generated.searchParams.append('frequency', '1s')
   generated.searchParams.append('api_key', API_KEY)
+
   logger.debug(`Generated URL: ${generated.toString()}`)
   return generated.toString()
 }
