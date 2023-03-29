@@ -5,6 +5,7 @@ import { makeExecute } from '../../src/adapter'
 import { TInputParameters } from '../../src/endpoint'
 import { makeConfig } from '../../src/config'
 import { getIdFromInputs, inputParameters } from '../../src/endpoint/values'
+import { latestUpdateIsCurrentDay, tenorInRange } from '../../src/endpoint/birc'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -96,5 +97,53 @@ describe('execute', () => {
         expect(getIdFromInputs(config, validator)).toEqual(test.output)
       })
     })
+  })
+
+  describe('tenorInRange', () => {
+    test('should return true when tenor is within range', () => {
+      expect(tenorInRange(0)).toBe(true)
+      expect(tenorInRange(-1)).toBe(true)
+      expect(tenorInRange(1)).toBe(true)
+      expect(tenorInRange(0.755)).toBe(true)
+    })
+
+    test('should return false when tenor is outside of range', () => {
+      expect(tenorInRange(-1.1)).toBe(false)
+      expect(tenorInRange(1.1)).toBe(false)
+      expect(tenorInRange(2)).toBe(false)
+      expect(tenorInRange(-2)).toBe(false)
+    })
+  })
+})
+
+describe('latestUpdateIsCurrentDay', () => {
+  test('returns true if the time of update is today', () => {
+    const currentTime = Date.now()
+    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
+    expect(isCurrentDay).toBe(true)
+  })
+
+  test('returns false if the time of update is not today', () => {
+    const currentTime = new Date('2022-01-01').getTime()
+    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
+    expect(isCurrentDay).toBe(false)
+  })
+
+  test('returns true if the time of update is the last millisecond of the day', () => {
+    const currentTime = new Date().setHours(23, 59, 59, 999)
+    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
+    expect(isCurrentDay).toBe(true)
+  })
+
+  test('returns true if the time of update is the first millisecond of the day', () => {
+    const currentTime = new Date().setHours(0, 0, 0, 0)
+    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
+    expect(isCurrentDay).toBe(true)
+  })
+
+  test('returns false if the time of update is a future date', () => {
+    const currentTime = Date.now() + 86400000 // Add 24 hours to current time
+    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
+    expect(isCurrentDay).toBe(false)
   })
 })
