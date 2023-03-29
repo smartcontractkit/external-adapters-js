@@ -3479,23 +3479,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/external-adapter-framework@npm:0.27.4":
-  version: 0.27.4
-  resolution: "@chainlink/external-adapter-framework@npm:0.27.4"
-  dependencies:
-    ajv: 8.11.0
-    axios: 1.3.4
-    eventsource: 2.0.2
-    fastify: 4.9.2
-    ioredis: 5.2.3
-    pino: 8.6.1
-    pino-pretty: 9.1.0
-    prom-client: 13.2.0
-    ws: 8.9.0
-  checksum: 7879f95ee6ebe2262d103451d067ca80de8414ffad332bb4bee9d31fb47ce23166072c903d30577d16946942d4107a0c2119f5e546de434f791a4139a93a460d
-  languageName: node
-  linkType: hard
-
 "@chainlink/external-adapters-js@workspace:.":
   version: 0.0.0-use.local
   resolution: "@chainlink/external-adapters-js@workspace:."
@@ -4884,7 +4867,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.27.4
+    "@chainlink/external-adapter-framework": 0.27.6
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4900,11 +4883,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.27.4
+    "@chainlink/external-adapter-framework": 0.27.6
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: 1.3.4
+    bignumber.js: ^9.1.1
     ethers: 5.5.1
     nock: 13.2.9
     supertest: 6.2.4
@@ -12323,6 +12307,13 @@ __metadata:
   version: 9.1.0
   resolution: "bignumber.js@npm:9.1.0"
   checksum: 52ec2bb5a3874d7dc1a1018f28f8f7aff4683515ffd09d6c2d93191343c76567ae0ee32cc45149d53afb2b904bc62ed471a307b35764beea7e9db78e56bef6c6
+  languageName: node
+  linkType: hard
+
+"bignumber.js@npm:^9.1.1":
+  version: 9.1.1
+  resolution: "bignumber.js@npm:9.1.1"
+  checksum: ad243b7e2f9120b112d670bb3d674128f0bd2ca1745b0a6c9df0433bd2c0252c43e6315d944c2ac07b4c639e7496b425e46842773cf89c6a2dcd4f31e5c4b11e
   languageName: node
   linkType: hard
 

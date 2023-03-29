@@ -120,7 +120,7 @@ interface ResponseSchema {
     validatorStatus: string[]
     socialPoolAddresses: PoolAddress[]
     elRewardAddresses: BasicAddress[]
-    blockTag: number
+    confirmations: number
     result: ValidatorAddress[]
   }
   Result: null
@@ -213,7 +213,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
               validatorStatus,
               socialPoolAddresses,
               elRewardAddresses,
-              blockTag,
+              confirmations,
               result: addressList,
             },
             statusCode: 200,

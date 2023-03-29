@@ -5,35 +5,7 @@ Object {
   "data": Object {
     "result": Array [
       Object {
-        "address": "0x8cd2726ccd034cf023840c2f76f7bfd4f2e8dbe79ff0e43d2908d1124450ed1c954966a42113787bc930c0e2d73524c0",
-        "balance": "33871875000",
-      },
-      Object {
-        "address": "0xaaea1a72970d9d8cd5fdee9c41437b24b9c49c34e35cd620c87fc8ad270ed822fe550690581422a90d7538e906f61d11",
-        "balance": "32000000000",
-      },
-      Object {
-        "address": "0xac41f16bdd583309e5095d475ad1250dabf274045d852bd091e07f03b6de3fc4ad34705c0f1079d516df0b2d8fed0e10",
-        "balance": "29000000000",
-      },
-      Object {
-        "address": "0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc",
-        "balance": "22653125000",
-      },
-      Object {
-        "address": "0x84d290ec6a766cef753bcce7b6d75f12b405e5c76171f2a456ae415e872d23ea01f869e8f64629a48f0c21f0f86e37d3",
-        "balance": "29000000000",
-      },
-      Object {
-        "address": "0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95",
-        "balance": "29000000000",
-      },
-      Object {
-        "address": "0xa1d1ad0714035353258038e964ae9675dc0252ee22cea896825c01458e1807bfad2f9969338798548d9858a571f7425c",
-        "balance": "0",
-      },
-      Object {
-        "address": "0xAA2a874c1fe5530fa87e98860b6b578BDb9D441D",
+        "address": "0x59C6f12156d7939016aA4A3FC4B11B9507bB05bE",
         "balance": "2000000000",
       },
       Object {
@@ -43,6 +15,42 @@ Object {
       Object {
         "address": "0xfc07bcb5c142c7c86c84490f068d31499610ccab",
         "balance": "2000000000",
+      },
+      Object {
+        "address": "0x84d290ec6a766cef753bcce7b6d75f12b405e5c76171f2a456ae415e872d23ea01f869e8f64629a48f0c21f0f86e37d3",
+        "balance": "29000000000",
+      },
+      Object {
+        "address": "0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95",
+        "balance": "28000000000",
+      },
+      Object {
+        "address": "0x8cd2726ccd034cf023840c2f76f7bfd4f2e8dbe79ff0e43d2908d1124450ed1c954966a42113787bc930c0e2d73524c0",
+        "balance": "31687500000",
+      },
+      Object {
+        "address": "0xaaea1a72970d9d8cd5fdee9c41437b24b9c49c34e35cd620c87fc8ad270ed822fe550690581422a90d7538e906f61d11",
+        "balance": "31687500000",
+      },
+      Object {
+        "address": "0xac41f16bdd583309e5095d475ad1250dabf274045d852bd091e07f03b6de3fc4ad34705c0f1079d516df0b2d8fed0e10",
+        "balance": "28111718750",
+      },
+      Object {
+        "address": "0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc",
+        "balance": "22653125000",
+      },
+      Object {
+        "address": "0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a",
+        "balance": "18112749.0830336",
+      },
+      Object {
+        "address": "0x10f4F0a7aadfB7E79533090508fADD78FB163068",
+        "balance": "4218750000",
+      },
+      Object {
+        "address": "0x9CfD5a30DB1B925A92E796e5Ce37Fd0E66390Fe1",
+        "balance": "5279296875",
       },
     ],
   },
