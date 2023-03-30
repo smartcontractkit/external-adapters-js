@@ -213,6 +213,30 @@ describe('execute', () => {
         expect(response.body).toMatchSnapshot()
       })
     })
+
+    describe('realized-vol endpoint', () => {
+      const data = {
+        id,
+        data: {
+          base: 'ETH',
+          endpoint: 'realized-vol',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+        expect(response.body).toMatchSnapshot()
+      })
+    })
   })
 
   describe('websocket crypto endpoint', () => {
