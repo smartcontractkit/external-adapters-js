@@ -117,33 +117,37 @@ describe('execute', () => {
 })
 
 describe('latestUpdateIsCurrentDay', () => {
-  test('returns true if the time of update is today', () => {
-    const currentTime = Date.now()
-    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
-    expect(isCurrentDay).toBe(true)
+  it('returns true when the latest update is on the current day in UTC time zone', () => {
+    const currentDayIsoString = new Date().toISOString()
+    const currentDayTimestampMs = new Date(currentDayIsoString).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayTimestampMs)
+    expect(latestUpdateIsCurrentDayResult).toBe(true)
   })
 
-  test('returns false if the time of update is not today', () => {
-    const currentTime = new Date('2022-01-01').getTime()
-    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
-    expect(isCurrentDay).toBe(false)
+  it('returns false when the latest update is not on the current day in UTC time zone', () => {
+    const yesterdayIsoString = new Date(Date.now() - 86400000).toISOString()
+    const yesterdayTimestampMs = new Date(yesterdayIsoString).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(yesterdayTimestampMs)
+    expect(latestUpdateIsCurrentDayResult).toBe(false)
   })
 
-  test('returns true if the time of update is the last millisecond of the day', () => {
-    const currentTime = new Date().setHours(23, 59, 59, 999)
-    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
-    expect(isCurrentDay).toBe(true)
+  it('returns false when the input timestamp is not valid', () => {
+    const invalidTimestamp = NaN
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(invalidTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(false)
   })
 
-  test('returns true if the time of update is the first millisecond of the day', () => {
-    const currentTime = new Date().setHours(0, 0, 0, 0)
-    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
-    expect(isCurrentDay).toBe(true)
+  it('returns true when the latest update is on the first millisecond of the current day in UTC time zone', () => {
+    const currentDayIsoString = new Date().toISOString().substring(0, 10)
+    const currentDayFirstMsTimestamp = new Date(`${currentDayIsoString}T00:00:00.000Z`).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayFirstMsTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(true)
   })
 
-  test('returns false if the time of update is a future date', () => {
-    const currentTime = Date.now() + 86400000 // Add 24 hours to current time
-    const isCurrentDay = latestUpdateIsCurrentDay(currentTime)
-    expect(isCurrentDay).toBe(false)
+  it('returns true when the latest update is on the last millisecond of the current day in UTC time zone', () => {
+    const currentDayIsoString = new Date().toISOString().substring(0, 10)
+    const currentDayLastMsTimestamp = new Date(`${currentDayIsoString}T23:59:59.999Z`).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayLastMsTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(true)
   })
 })

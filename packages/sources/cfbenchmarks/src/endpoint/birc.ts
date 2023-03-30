@@ -1,4 +1,10 @@
-import { InputParameters, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import {
+  InputParameters,
+  Requester,
+  Validator,
+  Logger,
+  AdapterResponseInvalidError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 
@@ -37,9 +43,20 @@ export interface ResponseSchema {
 
 // Tenor must be between -1 and 1
 export const tenorInRange = (tenor: number): boolean => tenor >= -1 && tenor <= 1
-// Using new Date() to get current time in UTC
-export const latestUpdateIsCurrentDay = (timeOfUpdate: number): boolean =>
-  new Date(timeOfUpdate).toDateString() === new Date().toDateString()
+// Check if time of latest update is in the current day in UTC time
+export const latestUpdateIsCurrentDay = (utcTimeOfUpdate: number): boolean => {
+  try {
+    const latestUpdateDate = new Date(utcTimeOfUpdate)
+    const currentDay = new Date()
+    return (
+      latestUpdateDate.getUTCFullYear() === currentDay.getUTCFullYear() &&
+      latestUpdateDate.getUTCMonth() === currentDay.getUTCMonth() &&
+      latestUpdateDate.getUTCDate() === currentDay.getUTCDate()
+    )
+  } catch (error) {
+    return false
+  }
+}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
@@ -64,11 +81,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const latestUpdate = response.data.payload[response.data.payload.length - 1]
 
   if (!latestUpdateIsCurrentDay(latestUpdate.time)) {
-    Logger.error('Latest update from response is not in current day', { latestUpdate })
+    const error = 'Latest update from response is not in current day'
+    Logger.error(error, { latestUpdate })
+    throw new AdapterResponseInvalidError({ message: error })
   }
 
   if (!tenorInRange(result)) {
-    Logger.error('Tenor is out of range (-1 to 1)', { value: result, tenor })
+    const error = 'Tenor is out of range (-1 to 1)'
+    Logger.error(error, { value: result, tenor })
+    throw new AdapterResponseInvalidError({ message: error })
   }
 
   return Requester.success(
