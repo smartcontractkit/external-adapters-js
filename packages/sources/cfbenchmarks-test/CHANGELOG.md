@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
 ## 1.4.1
 
 ### Patch Changes

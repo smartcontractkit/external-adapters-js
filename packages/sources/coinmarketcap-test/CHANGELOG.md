@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-test-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
 ## 1.2.2
 
 ### Patch Changes
