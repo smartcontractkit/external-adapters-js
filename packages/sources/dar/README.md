@@ -6,7 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |           Description           |  Type  | Options |                              Default                              |
+| :-------: | :-------------: | :-----------------------------: | :----: | :-----: | :---------------------------------------------------------------: |
+|           |  API_ENDPOINT   | Base URL for DAR REST endpoints | string |         |          `https://api-beta.digitalassetresearch.com/v2`           |
+|           | WS_API_ENDPOINT |     WS URL for the DAR API      | string |         | `wss://6xfpgjrsh4.execute-api.us-east-1.amazonaws.com/production` |
+|    ✅     |   WS_API_KEY    |       Key for the DAR API       | string |         |                                                                   |
+|    ✅     | WS_API_USERNAME |    Username for the DAR API     | string |         |                                                                   |
 
 ---
 

@@ -6,7 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     |                                   Description                                   |  Type  | Options |                   Default                   |
+| :-------: | :----------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------: |
+|           | API_ENDPOINT |          The endpoint to use for making requests to the Bank Frick API          | string |         | `https://olbsandbox.bankfrick.li/webapi/v2` |
+|    ✅     |   API_KEY    |          The API key to use for making requests to the Bank Frick API           | string |         |                                             |
+|           |  PAGE_SIZE   | The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500. | number |         |                    `500`                    |
+|    ✅     | PRIVATE_KEY  |                                                                                 | string |         |                                             |
 
 ---
 

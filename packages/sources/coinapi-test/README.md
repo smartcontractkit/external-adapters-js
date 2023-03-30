@@ -6,7 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |                                 Description                                 |  Type   | Options |            Default            |
+| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :-----: | :---------------------------: |
+|    ✅     |     API_KEY     | An API key that can be obtained from [here](https://www.coinapi.io/pricing) | string  |         |                               |
+|           | WS_API_ENDPOINT |                        The websocket url for coinapi                        | string  |         |   `wss://ws.coinapi.io/v1/`   |
+|           |   WS_ENABLED    |            Whether data should be returned from websocket or not            | boolean |         |            `false`            |
+|           |  API_ENDPOINT   |                           The API url for coinapi                           | string  |         | `https://rest.coinapi.io/v1/` |
 
 ---
 

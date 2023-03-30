@@ -6,7 +6,14 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |           Name           |            Description             |  Type  | Options |                  Default                  |
+| :-------: | :----------------------: | :--------------------------------: | :----: | :-----: | :---------------------------------------: |
+|    ✅     |         API_KEY          |     API key for REST endpoint      | string |         |                                           |
+|    ✅     |      API_ACCOUNT_ID      |           API Account ID           | string |         |                                           |
+|           |       API_ENDPOINT       |      Endpoint for REST prices      | string |         | `https://exchange-rates-api.oanda.com/v2` |
+|           | INSTRUMENTS_API_ENDPOINT | Endpoint for REST instruments list | string |         |    `https://api-fxtrade.oanda.com/v3`     |
+|    ✅     |       SSE_API_KEY        |      API key for SSE endpoint      | string |         |                                           |
+|           |     SSE_API_ENDPOINT     | Endpoint for SSE streaming prices  | string |         |   `https://stream-fxtrade.oanda.com/v3`   |
 
 ---
 

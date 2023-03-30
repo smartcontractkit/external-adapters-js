@@ -6,7 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |                                           Description                                           |  Type  | Options |                     Default                     |
+| :-------: | :-------------: | :---------------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------------------: |
+|           |  API_ENDPOINT   |                                   API endpoint for tradermade                                   | string |         | `https://marketdata.tradermade.com/api/v1/live` |
+|    ✅     |     API_KEY     | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) | string |         |                                                 |
+|           |   WS_API_KEY    | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) | string |         |                                                 |
+|           | WS_API_ENDPOINT |                       The Websocket endpoint to connect to for forex data                       | string |         |    `wss://marketdata.tradermade.com/feedadv`    |
 
 ---
 

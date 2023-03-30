@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     |       Description        |  Type  | Options |            Default             |
+| :-------: | :----------: | :----------------------: | :----: | :-----: | :----------------------------: |
+|           | API_ENDPOINT | The API url for intrinio | string |         | `https://api-v2.intrinio.com/` |
+|           |   API_KEY    | The API key for intrinio | string |         |                                |
 
 ---
 

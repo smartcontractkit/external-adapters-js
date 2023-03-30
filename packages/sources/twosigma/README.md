@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |                Description                |  Type  | Options | Default |
+| :-------: | :-------------: | :---------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | WS_API_ENDPOINT |           The WebSocket API URL           | string |         |         |
+|    ✅     |   WS_API_KEY    | The API key used to authenticate requests | string |         |         |
 
 ---
 

@@ -6,7 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |           Description            |  Type  | Options |               Default                |
+| :-------: | :-------------: | :------------------------------: | :----: | :-----: | :----------------------------------: |
+|           |  API_ENDPOINT   | Base URL for the REST Galaxy API | string |         | `https://data.galaxy.com/v1.0/login` |
+|           | WS_API_ENDPOINT |    WS URL for the Galaxy API     | string |         |   `wss://data.galaxy.com/v1.0/ws`    |
+|    ✅     |   WS_API_KEY    |      Key for the Galaxy API      | string |         |                                      |
+|    ✅     | WS_API_PASSWORD |   Password for the Galaxy API    | string |         |                                      |
 
 ---
 

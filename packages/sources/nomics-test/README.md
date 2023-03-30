@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     |                                 Description                                 |  Type  | Options |           Default           |
+| :-------: | :----------: | :-------------------------------------------------------------------------: | :----: | :-----: | :-------------------------: |
+|    ✅     |   API_KEY    | An API key that can be obtained from https://p.nomics.com/pricing#free-plan | string |         |                             |
+|           | API_ENDPOINT |                         An API endpoint for nomics                          | string |         | `https://api.nomics.com/v1` |
 
 ---
 

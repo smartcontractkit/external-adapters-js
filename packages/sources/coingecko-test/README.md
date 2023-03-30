@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     |            Description             |  Type  | Options | Default |
+| :-------: | :----------: | :--------------------------------: | :----: | :-----: | :-----: |
+|           | API_ENDPOINT | The HTTP URL to retrieve data from | string |         |         |
+|           |   API_KEY    |     Optional Coingecko API key     | string |         |         |
 
 ---
 

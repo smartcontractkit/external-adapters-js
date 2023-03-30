@@ -6,7 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |                       Name                        |                                                    Description                                                    |  Type  | Options | Default |
+| :-------: | :-----------------------------------------------: | :---------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |                 ETHEREUM_RPC_URL                  |                                        RPC URL to an Ethereum mainnet node                                        | string |         |         |
+|           |    MARKETCAP_TRANSPORT_MAX_RATE_LIMIT_RETRIES     | Maximum amount of times the Marketcap Transport will attempt to set up a request when blocked by the rate limiter | number |         |   `3`   |
+|           | MARKETCAP_TRANSPORT_MS_BETWEEN_RATE_LIMIT_RETRIES |           Time that the Marketcap Transport will wait between retries when blocked by the rate limiter            | number |         |  `400`  |
 
 ---
 

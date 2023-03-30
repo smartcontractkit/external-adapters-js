@@ -6,7 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |            Description            |  Type  | Options |                  Default                   |
+| :-------: | :-------------: | :-------------------------------: | :----: | :-----: | :----------------------------------------: |
+|    ✅     |     API_KEY     |              API key              | string |         |                                            |
+|           | WS_API_ENDPOINT | The websocket url for coinmetrics | string |         |  `wss://api.chk.elwood.systems/v1/stream`  |
+|           |  API_ENDPOINT   |    The API url for coinmetrics    | string |         | `https://api.chk.elwood.systems/v1/stream` |
 
 ---
 

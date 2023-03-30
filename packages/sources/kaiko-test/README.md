@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     |      Description       |  Type  | Options |                      Default                       |
+| :-------: | :----------: | :--------------------: | :----: | :-----: | :------------------------------------------------: |
+|    ✅     |   API_KEY    |   API KEY for KAIKO    | string |         |                                                    |
+|           | API_ENDPOINT | API endpoint for KAIKO | string |         | `https://us.market-api.kaiko.io/v2/data/trades.v1` |
 
 ---
 

@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |   Name   |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | RPC_URL  | The RPC URL to connect to the Moonbeam chain the address manager contract is deployed to. | string |         |         |
+|           | CHAIN_ID |                                The chain id to connect to                                 | number |         | `1284`  |
 
 ---
 

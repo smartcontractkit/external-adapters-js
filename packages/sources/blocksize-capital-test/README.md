@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |            Description             |  Type  | Options |                     Default                     |
+| :-------: | :-------------: | :--------------------------------: | :----: | :-----: | :---------------------------------------------: |
+|    ✅     |     API_KEY     |   The Blocksize Capital API key    | string |         |                                                 |
+|           | WS_API_ENDPOINT | The default WebSocket API base url | string |         | `wss://data.blocksize.capital/marketdata/v1/ws` |
 
 ---
 

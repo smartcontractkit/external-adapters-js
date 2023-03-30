@@ -6,7 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |         Description          |  Type  | Options |                  Default                   |
+| :-------: | :-------------: | :--------------------------: | :----: | :-----: | :----------------------------------------: |
+|           |  API_USERNAME   |   username for dxfeed API    | string |         |                                            |
+|           |  API_PASSWORD   |   password for dxfeed API    | string |         |                                            |
+|           | WS_API_ENDPOINT | The websocket url for dxfeed | string |         |                                            |
+|           |  API_ENDPOINT   |    The API url for dxfeed    | string |         | `https://tools.dxfeed.com/webservice/rest` |
 
 ---
 

@@ -6,7 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |          Description          |  Type  | Options |          Default          |
+| :-------: | :-------------: | :---------------------------: | :----: | :-----: | :-----------------------: |
+|           |  API_ENDPOINT   |    API endpoint for tiingo    | string |         | `https://api.tiingo.com/` |
+|    ✅     |     API_KEY     |      API key for tiingo       | string |         |                           |
+|           | WS_API_ENDPOINT | websocket endpoint for tiingo | string |         |  `wss://api.tiingo.com`   |
 
 ---
 

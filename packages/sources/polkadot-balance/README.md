@@ -6,7 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |    Name    |                                           Description                                           |  Type  | Options | Default |
+| :-------: | :--------: | :---------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |  RPC_URL   |            The websocket URL used to retrieve balances from the Polkadot Relay Chain            | string |         |         |
+|           | BATCH_SIZE | Number of requests to execute asynchronously before the adapter waits to execute the next batch | number |         |  `25`   |
 
 ---
 
