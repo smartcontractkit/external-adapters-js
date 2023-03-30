@@ -3,7 +3,8 @@
 exports[`execute addresses should return success 1`] = `
 Object {
   "data": Object {
-    "blockTag": 1000,
+    "chainId": "goerli",
+    "confirmations": 0,
     "elRewardAddresses": Array [
       Object {
         "address": "0x0D086a2FB3be4251221066a491645273C61A45Fc",
@@ -12,6 +13,7 @@ Object {
         "address": "0x6D75F292A22fCE61d64448789549ae735eFEC398",
       },
     ],
+    "network": "ethereum",
     "result": Array [
       Object {
         "address": "0x999d1e56148505251d7a7682996f1d1a7e5ecf4657dcfa9d6d71b97dc1d8755e1cb4451f57f370201c882126e97ca35e",

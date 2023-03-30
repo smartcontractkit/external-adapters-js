@@ -121,6 +121,8 @@ interface ResponseSchema {
     socialPoolAddresses: PoolAddress[]
     elRewardAddresses: BasicAddress[]
     confirmations: number
+    network: string
+    chainId: string
     result: ValidatorAddress[]
   }
   Result: null
@@ -214,6 +216,8 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
               socialPoolAddresses,
               elRewardAddresses,
               confirmations,
+              network,
+              chainId,
               result: addressList,
             },
             statusCode: 200,

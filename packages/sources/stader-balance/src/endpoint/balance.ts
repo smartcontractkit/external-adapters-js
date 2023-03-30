@@ -200,7 +200,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       adapterSettings.ETHEREUM_RPC_URL,
       adapterSettings.CHAIN_ID,
     )
-    BigNumber.config({ DECIMAL_PLACES: 100 })
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: typeof config.settings): number {

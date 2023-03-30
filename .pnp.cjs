@@ -8396,6 +8396,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
+            ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
             ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
             ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
