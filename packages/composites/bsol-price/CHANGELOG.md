@@ -1,5 +1,11 @@
 # @chainlink/bsol-price-adapter
 
+## 2.2.44
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.1
+
 ## 2.2.43
 
 ### Patch Changes
