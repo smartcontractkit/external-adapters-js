@@ -1,5 +1,11 @@
 # @chainlink/moonbeam-address-list-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
 ## 1.1.3
 
 ### Patch Changes

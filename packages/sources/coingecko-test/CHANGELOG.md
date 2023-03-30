@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.6.4
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
 ## 1.6.3
 
 ### Patch Changes

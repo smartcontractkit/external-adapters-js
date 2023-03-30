@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.2.3
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
 ## 3.2.2
 
 ### Patch Changes
