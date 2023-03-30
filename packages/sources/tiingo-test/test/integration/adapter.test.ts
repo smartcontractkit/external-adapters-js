@@ -289,9 +289,9 @@ describe('execute', () => {
 
     const spreadData = {
       data: {
+        endpoint: 'crypto_lwba',
         base: 'eth',
         quote: 'usd',
-        transport: 'ws',
       },
     }
 
@@ -304,7 +304,7 @@ describe('execute', () => {
       process.env['METRICS_ENABLED'] = 'false'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
       process.env['API_KEY'] = 'fake-api-key'
-      const mockDate = new Date('2022-11-11T11:11:11.111Z')
+      const mockDate = new Date('2023-03-30T14:38:14.577256+00:00')
       spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
       mockWebSocketProvider(WebSocketClassProvider)
