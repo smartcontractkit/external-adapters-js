@@ -17,6 +17,8 @@ import {
 import { config } from '../config'
 import {
   buildErrorResponse,
+  chunkArray,
+  ElRewardIdPair,
   filterDuplicates,
   validatorPool,
   validatorsRegistryResponse,
@@ -204,6 +206,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
             vaultFactoryManager,
             addressList,
             blockTag,
+            context.adapterSettings,
           )
 
           // Build response
@@ -277,6 +280,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       }
       return addressList
     } catch (e) {
+      logger.error({ error: e })
       throw Error('Failed to retrieve validator addresses from contract')
     }
   }
@@ -297,6 +301,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       socialPoolAddresses = filterDuplicates<PoolAddress>(socialPoolAddresses)
       return socialPoolAddresses
     } catch (e) {
+      logger.error({ error: e })
       throw Error('Failed to retrieve socializing pool addresses from contract')
     }
   }
@@ -306,38 +311,51 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     vaultFactoryManager: ethers.Contract,
     addressList: ValidatorAddress[],
     blockTag: number,
+    settings: typeof config.settings,
   ): Promise<BasicAddress[]> {
     try {
       logger.debug('Fetching node EL reward address list')
       let elRewardAddresses: BasicAddress[] = []
-      // Maintain a map of operator and pool ID combos already processed
-      const operatorMap: Record<number, number[]> = {}
+      const operatorPoolIdMap: Record<number, Set<number>> = {}
+      const operatorPoolList: ElRewardIdPair[] = []
 
+      // Build map of operators IDs to unique pool IDs
       for (const address of addressList) {
-        if (
-          operatorMap[address.operatorId] &&
-          operatorMap[address.operatorId].includes(address.poolId)
-        ) {
-          continue
+        if (!operatorPoolIdMap[address.operatorId]) {
+          operatorPoolIdMap[address.operatorId] = new Set<number>()
         }
+        operatorPoolIdMap[address.operatorId].add(address.poolId)
+      }
 
-        operatorMap[address.operatorId]
-          ? operatorMap[address.operatorId].push(address.poolId)
-          : (operatorMap[address.operatorId] = [address.poolId])
+      // Flatten map into an array of unique pairs
+      for (const [operatorId, poolIds] of Object.entries(operatorPoolIdMap)) {
+        poolIds.forEach((poolId) =>
+          operatorPoolList.push({ operatorId: Number(operatorId), poolId }),
+        )
+      }
 
-        elRewardAddresses.push({
-          address: await vaultFactoryManager.computeNodeELRewardVaultAddress(
-            address.poolId,
-            address.operatorId,
-            {
+      // Break up the unique pairs into groups to help avoid rate limiting when calling the contract
+      const groupedBatches = chunkArray(Array.from(operatorPoolList), settings.GROUP_SIZE)
+
+      // Call contract for unique pairs but shoot off multiple requests at once for performance
+      for (const group of groupedBatches) {
+        await Promise.all(
+          group.map(async ({ operatorId, poolId }) => {
+            return vaultFactoryManager.computeNodeELRewardVaultAddress(poolId, operatorId, {
               blockTag,
-            },
-          ),
+            })
+          }),
+        ).then((results) => {
+          results.forEach((address) => {
+            elRewardAddresses.push({ address })
+          })
         })
       }
+
       elRewardAddresses = filterDuplicates<BasicAddress>(elRewardAddresses)
       return elRewardAddresses
     } catch (e) {
+      logger.error({ error: e })
       throw Error('Failed to retrieve node EL reward addresses from contract')
     }
   }

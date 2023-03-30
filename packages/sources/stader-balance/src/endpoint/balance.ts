@@ -235,7 +235,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             // Get inactive pool balance from Stader's StakePoolManager contract
             this.getStaderStakeManagerBalance(req, blockTag, balances),
             // Get balance of all execution layer reward addresses
-            this.getElRewardBalances(req, blockTag, balances),
+            this.getElRewardBalances(req, blockTag, balances, context.adapterSettings),
           ])
 
           await Promise.all([
@@ -341,7 +341,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       })
       return result
     } catch (e) {
-      logger.error({ error: e })
       throw new Error('Failed to retrieve validator balances from Beacon chain')
     }
   }
@@ -514,27 +513,30 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         await this.calculateLimboEthBalances(limboAddresses, balances, ethDepositContract, blockTag)
       }
     } catch (e) {
-      logger.error({ error: e })
       throw new Error('Failed to calculate balances for validators')
     }
   }
 
   // Get balance of all execution layer reward addresses (in wei)
-  // TODO: Batch requests to avoid rate limiting
   async getElRewardBalances(
     req: RequestParams,
     blockTag: number,
     balances: BalanceResponse[],
+    settings: typeof config.settings,
   ): Promise<void> {
     try {
-      await Promise.all(
-        req.elRewardAddresses.map(async ({ address }) => {
-          const poolBalance = await this.getAddressBalance(address, blockTag)
-          balances.push({ address, balance: formatValueInGwei(poolBalance) }) // Convert to gwei for response
-        }),
-      )
+      const elRewardAddresses = req.elRewardAddresses.map(({ address }) => address)
+      const groupedBatches = chunkArray(elRewardAddresses, settings.GROUP_SIZE)
+      for (const group of groupedBatches) {
+        await Promise.all(
+          group.map((address) => {
+            return this.getAddressBalance(address, blockTag).then((balance) => {
+              balances.push({ address, balance: formatValueInGwei(balance) }) // Convert to gwei for response
+            })
+          }),
+        )
+      }
     } catch (e) {
-      logger.error({ error: e })
       throw new Error("Failed to retrieve validators' fee recipient addresses balances")
     }
   }
@@ -581,7 +583,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         }),
       )
     } catch (e) {
-      logger.error({ error: e })
       throw new Error('Failed to retrieve balances for socializing pool addresses')
     }
   }
@@ -602,7 +603,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         balance: formatValueInGwei(stakeManagerBalance), // Convert to gwei for response
       })
     } catch (e) {
-      logger.error({ error: e })
       throw new Error('Failed to retrieve the StakeManager contract balance')
     }
   }
@@ -643,8 +643,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         }
       }
     } catch (e) {
-      logger.error(`Failed to find limbo ETH for validators in limbo`)
-      throw e
+      logger.error({ error: e })
+      const errorMessage = `Failed to find limbo ETH for validators in limbo`
+      logger.error(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
@@ -655,8 +657,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       logger.debug(`Address (${address}) balance: ${balance}`)
       return balance
     } catch (e) {
-      logger.error(`Failed to retrieve address balance for ${address}`)
-      throw e
+      logger.error({ error: e })
+      const errorMessage = `Failed to retrieve address balance for ${address}`
+      logger.error(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
@@ -676,8 +680,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     try {
       return BigNumber(await addressManager.calculatePenalty(validatorAddress, { blockTag }))
     } catch (e) {
-      logger.error(`Failed to retrieve penalty for ${validatorAddress}`)
-      throw e
+      logger.error({ error: e })
+      const errorMessage = `Failed to retrieve penalty for ${validatorAddress}`
+      logger.error(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
@@ -699,8 +705,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       // Format in BIPS: 0-10000
       return (await addressManager.getProtocolFee(poolId, { blockTag })) / 10000
     } catch (e) {
-      logger.error(`Failed to retrieve Protocol Fee Percent for Pool ID ${poolId}`)
-      throw e
+      logger.error({ error: e })
+      const errorMessage = `Failed to retrieve Protocol Fee Percent for Pool ID ${poolId}`
+      logger.error(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
@@ -722,8 +730,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       // Format in BIPS: 0-10000
       return (await addressManager.getOperatorFee(poolId, { blockTag })) / 10000
     } catch (e) {
-      logger.error(`Failed to retrieve Operator Fee Percent for Pool ID ${poolId}`)
-      throw e
+      logger.error({ error: e })
+      const errorMessage = `Failed to retrieve Operator Fee Percent for Pool ID ${poolId}`
+      logger.error(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
@@ -753,8 +763,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         return commission
       }
     } catch (e) {
-      logger.error(`Failed to calculate commission for Pool ID ${poolId}`)
-      throw e
+      logger.error({ error: e })
+      const errorMessage = `Failed to calculate commission for Pool ID ${poolId}`
+      logger.error(errorMessage)
+      throw new Error(errorMessage)
     }
   }
 
@@ -782,8 +794,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         collateralEthMap[poolId] = collateralEth
         return collateralEth
       } catch (e) {
-        logger.error(`Failed to retrieve pool's (${poolId}) collateral ETH`)
-        throw e
+        logger.error({ error: e })
+        const errorMessage = `Failed to retrieve pool's (${poolId}) collateral ETH`
+        logger.error(errorMessage)
+        throw new Error(errorMessage)
       }
     }
   }
