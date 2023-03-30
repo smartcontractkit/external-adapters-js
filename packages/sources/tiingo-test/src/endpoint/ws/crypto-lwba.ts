@@ -1,6 +1,8 @@
+import overrides from '../../config/overrides.json'
 import { config } from '../../config'
 import { TiingoWebsocketTransport } from '../../ws-utils'
-import { RouterPriceEndpointParams } from '../../crypto-utils'
+import { inputParameters, RouterPriceEndpointParams } from '../../crypto-utils'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 
 interface Message {
   service: string
@@ -65,7 +67,7 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
             response: {
               result: null,
               data: {
-                Ticker: message.data[dataKeys.ticker],
+                ticker: message.data[dataKeys.ticker],
                 datetime: message.data[dataKeys.datetime],
                 mid: message.data[dataKeys.weightedMidPrice],
                 bid: message.data[dataKeys.bidPrice],
@@ -103,3 +105,11 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
       },
     },
   })
+
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'crypto_lwba',
+  aliases: ['cryptolwba'],
+  transport: wsTransport,
+  inputParameters: inputParameters,
+  overrides: overrides.tiingo,
+})
