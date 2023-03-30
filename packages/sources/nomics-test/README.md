@@ -1,12 +1,15 @@
 # NOMICS
 
-![1.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     |                                 Description                                 |  Type  | Options |           Default           |
+| :-------: | :----------: | :-------------------------------------------------------------------------: | :----: | :-----: | :-------------------------: |
+|    ✅     |   API_KEY    | An API key that can be obtained from https://p.nomics.com/pricing#free-plan | string |         |                             |
+|           | API_ENDPOINT |                         An API endpoint for nomics                          | string |         | `https://api.nomics.com/v1` |
 
 ---
 

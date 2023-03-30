@@ -1,12 +1,17 @@
 # TRADERMADE
 
-![1.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |                                           Description                                           |  Type  | Options |                     Default                     |
+| :-------: | :-------------: | :---------------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------------------: |
+|           |  API_ENDPOINT   |                                   API endpoint for tradermade                                   | string |         | `https://marketdata.tradermade.com/api/v1/live` |
+|    ✅     |     API_KEY     | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) | string |         |                                                 |
+|           |   WS_API_KEY    | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) | string |         |                                                 |
+|           | WS_API_ENDPOINT |                       The Websocket endpoint to connect to for forex data                       | string |         |    `wss://marketdata.tradermade.com/feedadv`    |
 
 ---
 
