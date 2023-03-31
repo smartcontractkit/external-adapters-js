@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 0664ab1fd: Upgraded adapter from v2 to v3 framework
+
 ## 1.5.32
 
 ### Patch Changes
