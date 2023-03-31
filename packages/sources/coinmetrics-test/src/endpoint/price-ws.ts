@@ -1,8 +1,8 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { VALID_QUOTES } from '../config'
-import { AssetMetricsEndpointTypes } from './price-router'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { AssetMetricsEndpointTypes } from './price'
 
 const logger = makeLogger('CoinMetrics WS')
 
@@ -60,15 +60,16 @@ export const calculateAssetMetricsUrl = (
   desiredSubs: WsAssetMetricsEndpointTypes['Request']['Params'][],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
-  const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].join(',')
-  const metrics = [
-    ...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`)),
-  ].join(',')
+  const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].sort().join(',')
+  const metrics = [...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`))]
+    .sort()
+    .join(',')
   const generated = new URL('/v4/timeseries-stream/asset-metrics', WS_API_ENDPOINT)
   generated.searchParams.append('assets', assets)
   generated.searchParams.append('metrics', metrics)
   generated.searchParams.append('frequency', '1s')
   generated.searchParams.append('api_key', API_KEY)
+
   logger.debug(`Generated URL: ${generated.toString()}`)
   return generated.toString()
 }
@@ -119,7 +120,7 @@ export const handleAssetMetricsMessage = (
   } else {
     logger.warn(message, 'Unknown message type from websocket')
   }
-  return undefined
+  return []
 }
 
 export const wsTransport = new WebSocketTransport<WsAssetMetricsEndpointTypes>({

@@ -1,5 +1,20 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 1.2.30
+
+### Patch Changes
+
+- 8653d50c9: Add makeConfig to dxfeed-secondary setup to disable dxfeed overrides
+
+## 1.2.29
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/dxfeed-adapter@1.3.29
+
 ## 1.2.28
 
 ### Patch Changes

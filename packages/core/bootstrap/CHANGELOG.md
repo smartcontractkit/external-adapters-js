@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.26.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
 ## 2.26.0
 
 ### Minor Changes

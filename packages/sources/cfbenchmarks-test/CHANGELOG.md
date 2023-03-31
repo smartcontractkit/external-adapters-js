@@ -1,5 +1,41 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
+## 1.4.1
+
+### Patch Changes
+
+- c35b8ec32: Updated custom router to default to websocket for secondary endpoints
+
+## 1.4.0
+
+### Minor Changes
+
+- 490307c73: Change default crypto transport to WS
+
+## 1.3.4
+
+### Patch Changes
+
+- 62fa38c0f: Fixed rest transports
+
+## 1.3.3
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
+## 1.3.2
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
 ## 1.3.1
 
 ### Patch Changes
