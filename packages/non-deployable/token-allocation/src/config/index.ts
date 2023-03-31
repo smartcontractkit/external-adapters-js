@@ -27,7 +27,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   CFBenchmarks as unknown as v2AdapterImplementation,
   CoinApi as unknown as v2AdapterImplementation,
   CoinGecko as unknown as v2AdapterImplementation,
-  CoinMetrics as unknown as v2AdapterImplementation,
   CoinPaprika as unknown as v2AdapterImplementation,
   CoinRanking as unknown as v2AdapterImplementation,
   CryptoCompare as unknown as v2AdapterImplementation,
