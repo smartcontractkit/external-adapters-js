@@ -47,7 +47,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [coinmarketcap](./coinmarketcap/README.md)
 - [coinmarketcap-test](./coinmarketcap-test/README.md)
 - [coinmetrics](./coinmetrics/README.md)
-- [coinmetrics-test](./coinmetrics-test/README.md)
 - [coinpaprika](./coinpaprika/README.md)
 - [coinpaprika-test](./coinpaprika-test/README.md)
 - [coinranking](./coinranking/README.md)
