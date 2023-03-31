@@ -7,7 +7,7 @@ const adapterContext = { name: NAME }
 const makeExecute = dxfeed.makeExecute
 const { server } = expose(
   adapterContext,
-  makeExecute(),
+  makeExecute(makeConfig()),
   dxfeed.makeWSHandler(),
   dxfeed.endpointSelector,
 )

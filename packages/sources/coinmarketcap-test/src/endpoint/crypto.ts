@@ -141,26 +141,28 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
     }
 
     for (const [idType, fullList] of Object.entries(groupedParams)) {
-      // CMC does not support more than 120 unique quotes
-      const chunkedList = chunkArray(fullList, 120)
+      if (fullList && fullList.length > 0) {
+        // CMC does not support more than 120 unique quotes
+        const chunkedList = chunkArray(fullList, 120)
 
-      // This could be further optimized in cases with more than 120 entries, to make sure that
-      // chunkes are grouped optimally to avoid sending unnecessary converts
-      for (const list of chunkedList) {
-        requests.push({
-          params: list,
-          request: {
-            baseURL: settings.API_ENDPOINT,
-            url: '/cryptocurrency/quotes/latest',
-            headers: {
-              'X-CMC_PRO_API_KEY': settings.API_KEY,
+        // This could be further optimized in cases with more than 120 entries, to make sure that
+        // chunkes are grouped optimally to avoid sending unnecessary converts
+        for (const list of chunkedList) {
+          requests.push({
+            params: list,
+            request: {
+              baseURL: settings.API_ENDPOINT,
+              url: '/cryptocurrency/quotes/latest',
+              headers: {
+                'X-CMC_PRO_API_KEY': settings.API_KEY,
+              },
+              params: {
+                [idType]: [...new Set(list.map((p) => p.cid || p.slug || p.base))].join(','),
+                convert: [...new Set(list.map((p) => p.quote))].join(','),
+              },
             },
-            params: {
-              [idType]: [...new Set(list.map((p) => p.cid || p.slug || p.base))].join(','),
-              convert: [...new Set(list.map((p) => p.quote))].join(','),
-            },
-          },
-        })
+          })
+        }
       }
     }
 

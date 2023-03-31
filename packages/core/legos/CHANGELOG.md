@@ -1,5 +1,61 @@
 # @chainlink/ea
 
+## 1.3.79
+
+### Patch Changes
+
+- Updated dependencies [8653d50c9]
+- Updated dependencies [c9cee149e]
+- Updated dependencies [6f605b8be]
+  - @chainlink/dxfeed-secondary-adapter@1.2.30
+  - @chainlink/alongside-adapter@1.3.2
+  - @chainlink/bank-frick-adapter@1.1.4
+  - @chainlink/blocksize-capital-test-adapter@1.1.4
+  - @chainlink/cfbenchmarks-test-adapter@1.4.2
+  - @chainlink/coinapi-test-adapter@1.1.4
+  - @chainlink/coingecko-test-adapter@1.6.4
+  - @chainlink/coinmarketcap-test-adapter@1.2.3
+  - @chainlink/coinmetrics-test-adapter@1.3.2
+  - @chainlink/coinpaprika-test-adapter@1.1.4
+  - @chainlink/cryptocompare-test-adapter@1.2.4
+  - @chainlink/dar-adapter@1.1.4
+  - @chainlink/dxfeed-test-adapter@1.1.4
+  - @chainlink/elwood-adapter@2.1.4
+  - @chainlink/finage-test-adapter@1.1.4
+  - @chainlink/galaxy-adapter@2.1.4
+  - @chainlink/gsr-adapter@2.1.4
+  - @chainlink/intrinio-test-adapter@1.1.4
+  - @chainlink/kaiko-test-adapter@1.1.4
+  - @chainlink/moonbeam-address-list-adapter@1.1.4
+  - @chainlink/ncfx-adapter@3.2.3
+  - @chainlink/nft-blue-chip-adapter@1.1.4
+  - @chainlink/nomics-test-adapter@1.1.4
+  - @chainlink/oanda-adapter@1.1.4
+  - @chainlink/polkadot-balance-adapter@1.1.4
+  - @chainlink/tiingo-test-adapter@1.1.4
+  - @chainlink/tradermade-test-adapter@1.1.4
+  - @chainlink/twosigma-adapter@1.1.4
+  - @chainlink/cfbenchmarks-adapter@1.7.0
+  - @chainlink/renvm-address-set-adapter@1.5.35
+  - @chainlink/wbtc-address-set-adapter@1.4.44
+
+## 1.3.78
+
+### Patch Changes
+
+- Updated dependencies [957826f14]
+  - @chainlink/coinmarketcap-test-adapter@1.2.2
+
+## 1.3.77
+
+### Patch Changes
+
+- Updated dependencies [c35b8ec32]
+- Updated dependencies [c35b8ec32]
+  - @chainlink/cfbenchmarks-test-adapter@1.4.1
+  - @chainlink/coinmarketcap-test-adapter@1.2.1
+  - @chainlink/coinmetrics-test-adapter@1.3.1
+
 ## 1.3.76
 
 ### Patch Changes
