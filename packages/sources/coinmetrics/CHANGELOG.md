@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- 5916b71df: Upgrade coinmetrics to v3
+
 ## 2.0.1
 
 ### Patch Changes
