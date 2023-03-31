@@ -14,12 +14,28 @@ if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }
 
+// load preset payload for testing specific input parameters
+const loadPresetPayloads = () => {
+  const payloads: Payload[] = []
+  const pairs = JSON.parse(open('../src/config/testdata/pairs.json'))
+  pairs.lowVolumeFeeds.forEach((pair: string) => {
+    const [from, to] = pair.split('/').slice(0, 2)
+    payloads.push({
+      name: pair,
+      id: `id-${from}-${to}`,
+      method: 'POST',
+      data: `{"data":{"from":"${from}","to":"${to}"}}`,
+    })
+  })
+  return payloads
+}
+
 // load the test data, if data was generated then load it from the generated file
 let payloadData: Payload[] = []
 if (__ENV.PAYLOAD_GENERATED) {
   const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
   payloadData = new SharedArray('payloadData', function () {
-    const f = JSON.parse(open(payloadPath))
+    const f = JSON.parse(open(payloadPath)) + loadPresetPayloads()
     return f
   })
 }
