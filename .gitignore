@@ -20,7 +20,6 @@ coverage
 
 # Helm and K6
 cl-adapter-*
-chainlink-adapter-*
 packages/k6/src/config/ws.json
 packages/k6/src/config/http.json
 
