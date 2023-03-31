@@ -71,6 +71,15 @@ export const batchTransport = new HttpTransport<ForexEndpointTypes>({
     })
   },
   parseResponse: (params, res) => {
+    if (!res.data.rates) {
+      return params.map((param) => ({
+        params: param,
+        response: {
+          errorMessage: `OpenExchangeRates provided no data for base "${param.base}" and quote "${param.quote}"`,
+          statusCode: 502,
+        },
+      }))
+    }
     return params.map((param) => {
       const result = res.data.rates[param.quote.toUpperCase()]
       if (!result) {
