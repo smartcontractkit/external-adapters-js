@@ -39,9 +39,7 @@ import * as coingecko from '@chainlink/coingecko-adapter'
 import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
-import * as coinmarketcap_test from '@chainlink/coinmarketcap-test-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
-import * as coinmetrics_test from '@chainlink/coinmetrics-test-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinpaprika_test from '@chainlink/coinpaprika-test-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
@@ -205,9 +203,7 @@ export default {
   coingecko_test,
   coinlore,
   coinmarketcap,
-  coinmarketcap_test,
   coinmetrics,
-  coinmetrics_test,
   coinpaprika,
   coinpaprika_test,
   coinranking,

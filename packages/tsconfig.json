@@ -246,13 +246,7 @@
       "path": "./sources/coinmarketcap"
     },
     {
-      "path": "./sources/coinmarketcap-test"
-    },
-    {
       "path": "./sources/coinmetrics"
-    },
-    {
-      "path": "./sources/coinmetrics-test"
     },
     {
       "path": "./sources/coinpaprika"
