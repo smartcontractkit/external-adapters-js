@@ -1,95 +1,45 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import overrides from '../config/symbols.json'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { GlobalEndpointTypes, inputParameters } from '../global-utils'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['globalmarketcap']
-
-export const description = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
-
-export type TInputParameters = { market: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  market: {
-    aliases: ['quote', 'to'],
-    description: 'The symbol of the currency to query',
-    required: true,
-    type: 'string',
-  },
-}
-export interface ResponseSchema {
-  data: {
-    active_cryptocurrencies: number
-    total_cryptocurrencies: number
-    active_market_pairs: number
-    active_exchanges: number
-    total_exchanges: number
-    eth_dominance: number
-    btc_dominance: number
-    eth_dominance_yesterday: number
-    btc_dominance_yesterday: number
-    eth_dominance_24h_percentage_change: number
-    btc_dominance_24h_percentage_change: number
-    defi_volume_24h: number
-    defi_volume_24h_reported: number
-    defi_market_cap: number
-    defi_24h_percentage_change: number
-    stablecoin_volume_24h: number
-    stablecoin_volume_24h_reported: number
-    stablecoin_market_cap: number
-    stablecoin_24h_percentage_change: number
-    derivatives_volume_24h: number
-    derivatives_volume_24h_reported: number
-    derivatives_24h_percentage_change: number
-    quote: {
-      [key: string]: {
-        total_market_cap: number
-        total_volume_24h: number
-        total_volume_24h_reported: number
-        altcoin_volume_24h: number
-        altcoin_volume_24h_reported: number
-        altcoin_market_cap: number
-        defi_volume_24h: number
-        defi_volume_24h_reported: number
-        defi_24h_percentage_change: number
-        defi_market_cap: number
-        stablecoin_volume_24h: number
-        stablecoin_volume_24h_reported: number
-        stablecoin_24h_percentage_change: number
-        stablecoin_market_cap: number
-        derivatives_volume_24h: number
-        derivatives_volume_24h_reported: number
-        derivatives_24h_percentage_change: number
-        last_updated: string
-        total_market_cap_yesterday: number
-        total_volume_24h_yesterday: number
-        total_market_cap_yesterday_percentage_change: number
-        total_volume_24h_yesterday_percentage_change: number
+const httpTransport = new HttpTransport<GlobalEndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      return {
+        params: [param],
+        request: {
+          baseURL: config.API_ENDPOINT,
+          url: '/global-metrics/quotes/latest',
+          headers: {
+            'X-CMC_PRO_API_KEY': config.API_KEY,
+          },
+          params: {
+            convert: param.market.toUpperCase(),
+          },
+        },
       }
-    }
-    last_updated: string
-  }
-}
+    })
+  },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      const result = res.data.data.quote[param.market].total_market_cap
+      return {
+        params: param,
+        response: {
+          data: {
+            result,
+          },
+          result: result,
+        },
+      }
+    })
+  },
+})
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
-
-  const jobRunID = validator.validated.id
-
-  const convert = validator.validated.data.market.toUpperCase()
-  const url = '/global-metrics/quotes/latest'
-
-  const params = { convert }
-
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-  const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, [
-    'data',
-    'quote',
-    convert,
-    'total_market_cap',
-  ])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
+export const endpoint = new AdapterEndpoint<GlobalEndpointTypes>({
+  name: 'globalmarketcap',
+  transport: httpTransport,
+  inputParameters,
+  overrides: overrides.coinmarketcap,
+})

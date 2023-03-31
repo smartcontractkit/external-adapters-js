@@ -2384,22 +2384,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/coinmarketcap-test-adapter@workspace:*, @chainlink/coinmarketcap-test-adapter@workspace:packages/sources/coinmarketcap-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/coinmarketcap-test-adapter@workspace:packages/sources/coinmarketcap-test"
-  dependencies:
     "@chainlink/external-adapter-framework": 0.28.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -3117,7 +3101,6 @@ __metadata:
     "@chainlink/coingecko-test-adapter": "workspace:*"
     "@chainlink/coinlore-adapter": "workspace:*"
     "@chainlink/coinmarketcap-adapter": "workspace:*"
-    "@chainlink/coinmarketcap-test-adapter": "workspace:*"
     "@chainlink/coinmetrics-adapter": "workspace:*"
     "@chainlink/coinmetrics-test-adapter": "workspace:*"
     "@chainlink/coinpaprika-adapter": "workspace:*"
@@ -3865,6 +3848,7 @@ __metadata:
     "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.28.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
