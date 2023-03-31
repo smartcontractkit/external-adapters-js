@@ -35,7 +35,7 @@ let payloadData: Payload[] = []
 if (__ENV.PAYLOAD_GENERATED) {
   const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
   payloadData = new SharedArray('payloadData', function () {
-    const f = JSON.parse(open(payloadPath)) + loadPresetPayloads()
+    const f = JSON.parse(open(payloadPath)).concat(loadPresetPayloads())
     return f
   })
 }
