@@ -1,0 +1,1 @@
+# @chainlink/openexchangerates-test-adapter

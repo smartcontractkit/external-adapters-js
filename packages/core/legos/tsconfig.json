@@ -371,6 +371,9 @@
       "path": "../../sources/openexchangerates"
     },
     {
+      "path": "../../sources/openexchangerates-test"
+    },
+    {
       "path": "../../sources/orchid-bandwidth"
     },
     {
