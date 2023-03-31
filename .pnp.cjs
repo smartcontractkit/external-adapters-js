@@ -7048,38 +7048,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.19.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.19.0-9bcb395e33-081d214d5a.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:0.27.2"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.9.2"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:0.25.1", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.25.1-64e0415cec-1d80aeb730.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.25.1"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:1.3.4"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.9.2"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.28.0", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.28.0-f29179f40c-0a6116e13b.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -8331,7 +8299,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.25.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8848,7 +8816,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -21775,27 +21743,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["secure-json-parse", "npm:2.5.0"],\
             ["semver", "npm:7.3.8"],\
             ["tiny-lru", "npm:10.2.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:4.9.2", {\
-          "packageLocation": "./.yarn/cache/fastify-npm-4.9.2-b0699ef254-78d931a569.zip/node_modules/fastify/",\
-          "packageDependencies": [\
-            ["fastify", "npm:4.9.2"],\
-            ["@fastify/ajv-compiler", "npm:3.3.1"],\
-            ["@fastify/error", "npm:3.0.0"],\
-            ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
-            ["abstract-logging", "npm:2.0.1"],\
-            ["avvio", "npm:8.2.0"],\
-            ["find-my-way", "npm:7.4.0"],\
-            ["light-my-request", "npm:5.6.1"],\
-            ["pino", "npm:8.6.1"],\
-            ["process-warning", "npm:2.0.0"],\
-            ["proxy-addr", "npm:2.0.7"],\
-            ["rfdc", "npm:1.3.0"],\
-            ["secure-json-parse", "npm:2.5.0"],\
-            ["semver", "npm:7.3.8"],\
-            ["tiny-lru", "npm:9.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34790,13 +34737,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tiny-lru-npm-8.0.2-b190e31fd1-ec4d884914.zip/node_modules/tiny-lru/",\
           "packageDependencies": [\
             ["tiny-lru", "npm:8.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:9.0.3", {\
-          "packageLocation": "./.yarn/cache/tiny-lru-npm-9.0.3-12df11b8e2-8ded11a875.zip/node_modules/tiny-lru/",\
-          "packageDependencies": [\
-            ["tiny-lru", "npm:9.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
