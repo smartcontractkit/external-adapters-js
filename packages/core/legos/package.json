@@ -122,6 +122,7 @@
     "@chainlink/graphql-adapter": "workspace:*",
     "@chainlink/gsr-adapter": "workspace:*",
     "@chainlink/iex-cloud-adapter": "workspace:*",
+    "@chainlink/iex-cloud-test-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
     "@chainlink/intrinio-test-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",
