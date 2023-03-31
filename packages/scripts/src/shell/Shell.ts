@@ -1,5 +1,4 @@
 import * as shelljs from 'shelljs'
-
 export type ShellOut = shelljs.ShellString
 export class Shell {
   /**

@@ -70,7 +70,7 @@ exports[`Ephemeral Adapters Testing starting and stopping ephemeral adapters sho
 Object {
   "action": "start",
   "adapter": "adapter",
-  "helmChartDir": "infra-charts/chainlink-adapter",
+  "helmChartDir": "chainlink/cl-adapter",
   "helmValuesOverride": "",
   "imageRepository": "795953128386.dkr.ecr.us-west-2.amazonaws.com/adapters/",
   "imageTag": "develop-latest",
