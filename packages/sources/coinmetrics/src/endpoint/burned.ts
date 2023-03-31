@@ -1,14 +1,13 @@
-import { Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { totalBurned } from '.'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import {
+  EndpointTypes,
+  Frequency,
+  FrequencyInputOptions,
+  TotalBurnedTransport,
+} from './total-burned'
 
-export const supportedEndpoints = ['burned']
-
-export const description = `Endpoint to calculate the number of burned coins/tokens for an asset either on the previous day or on the previous block.
-This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
-
-export type TInputParameters = { asset: string; frequency: string }
-export const inputParameters: InputParameters<TInputParameters> = {
+const inputParams = {
   asset: {
     description:
       'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
@@ -19,14 +18,13 @@ export const inputParameters: InputParameters<TInputParameters> = {
     description: 'At which interval to calculate the number of coins/tokens burned',
     type: 'string',
     required: false,
+    options: FrequencyInputOptions,
+    default: Frequency.ONE_DAY,
   },
-}
+} satisfies InputParameters
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  new Validator(request, inputParameters)
-
-  request.data.pageSize = 1
-  request.data.isBurnedEndpointMode = true
-
-  return totalBurned.execute(request, context, config)
-}
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'burned',
+  transport: new TotalBurnedTransport(),
+  inputParameters: inputParams,
+})

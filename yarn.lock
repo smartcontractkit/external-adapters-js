@@ -2399,23 +2399,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    ethers: ^5.4.6
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/coinmetrics-test-adapter@workspace:*, @chainlink/coinmetrics-test-adapter@workspace:packages/sources/coinmetrics-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/coinmetrics-test-adapter@workspace:packages/sources/coinmetrics-test"
-  dependencies:
     "@chainlink/external-adapter-framework": 0.28.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -3102,7 +3085,6 @@ __metadata:
     "@chainlink/coinlore-adapter": "workspace:*"
     "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/coinmetrics-adapter": "workspace:*"
-    "@chainlink/coinmetrics-test-adapter": "workspace:*"
     "@chainlink/coinpaprika-adapter": "workspace:*"
     "@chainlink/coinpaprika-test-adapter": "workspace:*"
     "@chainlink/coinranking-adapter": "workspace:*"
