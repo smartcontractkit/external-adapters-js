@@ -356,10 +356,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinmarketcap"\
       },\
       {\
-        "name": "@chainlink/coinmarketcap-test-adapter",\
-        "reference": "workspace:packages/sources/coinmarketcap-test"\
-      },\
-      {\
         "name": "@chainlink/coinmetrics-adapter",\
         "reference": "workspace:packages/sources/coinmetrics"\
       },\
@@ -911,7 +907,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coingecko-test-adapter", ["workspace:packages/sources/coingecko-test"]],\
       ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
-      ["@chainlink/coinmarketcap-test-adapter", ["workspace:packages/sources/coinmarketcap-test"]],\
       ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
       ["@chainlink/coinmetrics-test-adapter", ["workspace:packages/sources/coinmetrics-test"]],\
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
@@ -5905,24 +5900,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",\
           "packageDependencies": [\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/coinmarketcap-test-adapter", [\
-        ["workspace:packages/sources/coinmarketcap-test", {\
-          "packageLocation": "./packages/sources/coinmarketcap-test/",\
-          "packageDependencies": [\
-            ["@chainlink/coinmarketcap-test-adapter", "workspace:packages/sources/coinmarketcap-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6570,7 +6547,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
             ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/coinmarketcap-test-adapter", "workspace:packages/sources/coinmarketcap-test"],\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
@@ -7109,7 +7085,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
+            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -7125,7 +7101,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
+            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -7141,7 +7117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
+            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7527,6 +7503,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -37256,23 +37233,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-1f07cb0c62/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-78c8603bdf/0/cache/ws-npm-7.2.3-e2147dfc25-979c59a706.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37319,6 +37279,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bufferutil", null],\
             ["safe-buffer", "npm:5.1.2"],\
             ["ultron", "npm:1.1.1"],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-168d4a085a/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
             ["utf-8-validate", null]\
           ],\
           "packagePeers": [\

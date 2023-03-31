@@ -246,9 +246,6 @@
       "path": "./sources/coinmarketcap/tsconfig.test.json"
     },
     {
-      "path": "./sources/coinmarketcap-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinmetrics/tsconfig.test.json"
     },
     {
