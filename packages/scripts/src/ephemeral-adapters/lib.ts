@@ -4,7 +4,7 @@ const { red, blue } = chalk
 const { log } = console
 
 export const ACTIONS: string[] = ['start', 'stop']
-export const HELM_CHART_DIR = 'infra-charts/chainlink-adapter'
+export const HELM_CHART_DIR = 'chainlink/cl-adapter'
 export const IMAGE_REPOSITORY = '795953128386.dkr.ecr.us-west-2.amazonaws.com/adapters/'
 export const IMAGE_TAG = 'develop-latest'
 export const NAMESPACE = 'adapters'
@@ -167,62 +167,24 @@ export const deployAdapter = (config: Inputs): void => {
     }
   }
 
-  new Shell().exec(`helm search repo -r ".*adapter.*"`)
-  new Shell().exec(`helm search repo -r ".*"`)
-
-  const dryrunCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
-    config.helmChartDir
-  } \
-  --install \
-  --namespace ${NAMESPACE} \
-  --create-namespace \
-  ${config.helmValuesOverride} \
-  --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
-  --set image.tag=${config.imageTag} \
-  --set name=${config.name} \
-  ${config.helmSecrets} \
-  --timeout 2m --wait --debug --dry-run`
-  new Shell().exec(dryrunCommand)
-
-  const deployCommand = `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${
-    config.helmChartDir
-  } \
-  --install \
-  --namespace ${NAMESPACE} \
-  --create-namespace \
-  ${config.helmValuesOverride} \
-  --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
-  --set image.tag=${config.imageTag} \
-  --set name=${config.name} \
-  --set envVars.CACHE_REDIS_CONNECTION_TIMEOUT=60000 \
-  ${config.helmSecrets} \
-  --timeout 5m --wait --debug`
-
-  let exec_result = ''
-  for (let i = 0; i < 1; i++) {
-    log(red.bold(`Deployment attempt ${i}`))
-    exec_result = ''
-    try {
-      const deployHelm = new Shell().exec(deployCommand)
-      exec_result = deployHelm.toString()
-      if (deployHelm.code !== 0) {
-        throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
-      } else {
-        break
-      }
-    } catch (e: any) {
-      log(red.bold(`Failed to exec helm install ${JSON.stringify(e)}`))
-    }
+  // deploy the chart
+  const deployHelm = new Shell().exec(
+    `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${config.helmChartDir} \
+      --install \
+      --namespace ${NAMESPACE} \
+      --create-namespace \
+      ${config.helmValuesOverride} \
+      --set envVars.CACHE_REDIS_CONNECTION_TIMEOUT=60000 \
+      --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
+      --set image.tag=${config.imageTag} \
+      --set name=${config.name} \
+      ${config.helmSecrets} \
+      --wait`,
+  )
+  if (deployHelm.code !== 0) {
+    process.exitCode = 1
+    throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
   }
-
-  new Shell().exec(`helm status ${config.name} -n adapters`)
-  new Shell().exec(`helm ls --all -n adapters`)
-
-  log(red.bold(`Failed to deploy the external adapter: ${exec_result}`))
-  // if (exec_result) {
-  //   process.exitCode = 1
-  //   throw red.bold(`Failed to deploy the external adapter: ${exec_result}`)
-  // }
 }
 
 /**
@@ -230,16 +192,15 @@ export const deployAdapter = (config: Inputs): void => {
  * @param {Inputs} config The configuration to use to stop an adapter
  */
 export const removeAdapter = (config: Inputs): void => {
-  log(red.bold(`removing: ${config}`))
-  // const remove = new Shell().exec(
-  //   `helm uninstall ${config.name} \
-  //     --namespace ${NAMESPACE} \
-  //     --wait`,
-  // )
-  // if (remove.code !== 0) {
-  //   process.exitCode = 1
-  //   throw red.bold(`Failed to remove the external adapter: ${remove}`)
-  // }
+  const remove = new Shell().exec(
+    `helm uninstall ${config.name} \
+      --namespace ${NAMESPACE} \
+      --wait`,
+  )
+  if (remove.code !== 0) {
+    process.exitCode = 1
+    throw red.bold(`Failed to remove the external adapter: ${remove}`)
+  }
 }
 
 export async function main(): Promise<void> {
