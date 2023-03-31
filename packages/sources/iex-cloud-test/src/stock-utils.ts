@@ -89,7 +89,7 @@ export type StockEndpointTypes = {
 export const buildHttpRequestBody = (params: RequestParams[], c: typeof config.settings) => {
   return params.map((param) => {
     return {
-      params,
+      params: [param],
       request: {
         url: `stock/${param.base.toUpperCase()}/quote`,
         baseURL: c.API_ENDPOINT,

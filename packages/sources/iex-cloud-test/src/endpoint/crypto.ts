@@ -53,7 +53,7 @@ export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
-        params,
+        params: [param],
         request: {
           url: `/crypto/${param.base.toUpperCase()}${param.quote.toUpperCase()}/quote`,
           baseURL: config.API_ENDPOINT,

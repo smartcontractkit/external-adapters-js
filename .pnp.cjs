@@ -7562,7 +7562,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/iex-cloud-test/",\
           "packageDependencies": [\
             ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.27.6"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
