@@ -1,10 +1,7 @@
-import {
-  PriceEndpoint,
-  PriceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { InputParameter } from '@chainlink/external-adapter-framework/validation/input-params'
+import { AdapterRequest, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { priceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 import Decimal from 'decimal.js'
 
@@ -16,24 +13,17 @@ const isNum = (i: number | undefined) => typeof i === 'number'
 
 let providerDataStreamEstablishedUnixMs: number
 
-const inputParameters: PriceEndpointInputParameters & { TpIcapSource: InputParameter } = {
-  base: {
-    aliases: ['from', 'coin'],
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-    required: true,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-    required: true,
-  },
-  TpIcapSource: {
-    description: 'Source feed to use for the reference price',
-    default: 'TP',
-    options: ['TP', 'IC'],
-  },
+const requestTransform = (req: AdapterRequest<TpIcapWebsocketGenerics['Request']>): void => {
+  const { base, quote } = req.requestContext.data
+
+  if (base.length === 3) {
+    req.requestContext.data.rec = `FXSPT${base}${quote}SPT:GBL.BIL.QTE.RTM!TP`
+  } else {
+    req.requestContext.data.rec = base
+    req.requestContext.data.base = base.slice(5, 8)
+  }
+
+  //TODO handle inverses (ex. base/quote = EUR/USD but only USD/EUR is available, or for any base code sent that has USD as base within)
 }
 
 export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
@@ -93,34 +83,12 @@ export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
             .div(2)
             .toNumber()
 
-        logger.trace({
-          cachedVal: [
-            {
-              params: {
-                base: rec.slice(5, 8),
-                quote: rec.slice(8, 11),
-                TpIcapSource: rec.slice(31, 33),
-              },
-              response: {
-                result,
-                data: {
-                  result,
-                },
-                timestamps: {
-                  providerDataReceivedUnixMs,
-                  providerDataStreamEstablishedUnixMs,
-                  providerIndicatedTimeUnixMs: undefined,
-                },
-              },
-            },
-          ],
-        })
         return [
           {
             params: {
               base: rec.slice(5, 8),
               quote: rec.slice(8, 11),
-              TpIcapSource: rec.slice(31, 33),
+              rec,
             },
             response: {
               result,
@@ -143,5 +111,6 @@ export const priceEndpoint = new PriceEndpoint<TpIcapWebsocketGenerics>({
   name: 'price',
   aliases: ['forex'],
   transport,
-  inputParameters,
+  inputParameters: priceEndpointInputParameters,
+  requestTransforms: [requestTransform],
 })
