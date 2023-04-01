@@ -246,6 +246,40 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .get('/tiingo/crypto/prices')
+    .query({
+      token: 'fake-api-key',
+      baseCurrency: 'real_vol_ETH',
+      convertCurrency: 'USD',
+      consolidateBaseCurrency: true,
+    })
+    .reply(
+      200,
+      () => [
+        {
+          baseCurrency: 'eth',
+          quoteCurrency: 'usd',
+          realVolData: [
+            {
+              date: '2022-01-11T00:00:00+00:00',
+              realVol1Day: 0.3312392184952228,
+              realVol7Day: 0.6687492814959118,
+              realVol30Day: 0.851625908515737,
+            },
+          ],
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .get('/tiingo/crypto-yield/ticks')
     .query({
       token: 'fake-api-key',

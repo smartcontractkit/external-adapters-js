@@ -1,10 +1,17 @@
 {
- "requests": [{
-  "from": "ETH",
-  "to": "USD"
- },
- {
-   "poolCode": "ethnetwork_eth",
-   "endpoint": "cryptoyield"
- }]
+  "requests": [
+    {
+      "from": "ETH",
+      "to": "USD"
+    },
+    {
+      "base": "ETH",
+      "convert": "USD",
+      "endpoint": "realized-vol"
+    },
+    {
+      "poolCode": "ethnetwork_eth",
+      "endpoint": "cryptoyield"
+    }
+  ]
 }
