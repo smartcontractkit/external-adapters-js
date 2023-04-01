@@ -14,7 +14,7 @@ export const adapter = new PriceAdapter({
     tiers: {
       starter: {
         rateLimit1h: 41,
-        note: 'Starter tier, 50 requests per hour. With a maximum of 1000 requests per day (https://api.tiingo.com/about/pricing)',
+        note: 'Starter tier, 50 requests per hour. With a maximum of 1,000 requests per day (https://api.tiingo.com/about/pricing)',
       },
       power: {
         rateLimit1h: 2080,
