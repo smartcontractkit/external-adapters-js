@@ -1,17 +1,16 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'COINMARKETCAP'
-
-export const DEFAULT_ENDPOINT = 'crypto'
-export const DEFAULT_API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
-  config.api.headers = {
-    'X-CMC_PRO_API_KEY': config.apiKey || '',
-  }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_KEY: {
+    required: true,
+    sensitive: true,
+    type: 'string',
+    description: 'An API key that can be obtained from https://coinmarketcap.com/api/',
+  },
+  API_ENDPOINT: {
+    required: false,
+    type: 'string',
+    description: 'An API endpoint for coinmarketcap',
+    default: 'https://pro-api.coinmarketcap.com/v1/',
+  },
+})
