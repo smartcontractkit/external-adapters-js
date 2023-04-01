@@ -2,5 +2,9 @@
  "requests": [{
   "from": "ETH",
   "to": "USD"
+ },
+ {
+   "poolCode": "ethnetwork_eth",
+   "endpoint": "cryptoyield"
  }]
 }
