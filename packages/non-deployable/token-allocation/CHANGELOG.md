@@ -1,5 +1,15 @@
 # @chainlink/token-allocation-adapter
 
+## 1.10.2
+
+### Patch Changes
+
+- 5916b71df: Update framework version
+- Updated dependencies [5916b71df]
+- Updated dependencies [0664ab1fd]
+  - @chainlink/coinmetrics-adapter@3.0.0
+  - @chainlink/coinmarketcap-adapter@2.0.0
+
 ## 1.10.1
 
 ### Patch Changes

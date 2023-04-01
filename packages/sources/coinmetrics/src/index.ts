@@ -1,11 +1,23 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { endpointSelector, makeExecute, makeWSHandler } from './adapter'
-import * as endpoints from './endpoint'
-import { makeConfig, NAME } from './config'
-import * as types from './endpoint'
-import rateLimit from './config/limits.json'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
+import { burned, lwba, price, totalBurned } from './endpoint'
 
-const adapterContext = { name: NAME, rateLimit }
+export const adapter = new PriceAdapter({
+  defaultEndpoint: price.name,
+  name: 'COINMETRICS',
+  config,
+  endpoints: [price, lwba, totalBurned, burned],
+  rateLimiting: {
+    tiers: {
+      community: {
+        rateLimit1m: 100,
+      },
+      paid: {
+        rateLimit1s: 300,
+      },
+    },
+  },
+})
 
-const { server } = expose(adapterContext, makeExecute(), makeWSHandler(), endpointSelector)
-export { NAME, makeExecute, makeConfig, server, types, endpoints }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

@@ -1,6 +1,7 @@
 import { AxiosRequestConfig, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { AdapterConfigError, AdapterInputError, Logger, Requester } from '@chainlink/ea-bootstrap'
-import * as cmc from '@chainlink/coinmarketcap-adapter'
+import { adapter as cmc } from '@chainlink/coinmarketcap-adapter'
+import { ResponseSchema } from '@chainlink/coinmarketcap-adapter/src/endpoint/historical'
 
 export type ResponsePayload = {
   timestamp: Date
@@ -18,7 +19,7 @@ export const getPriceProvider =
   ): Promise<ResponsePayload> => {
     try {
       switch (source.toUpperCase()) {
-        case cmc.NAME:
+        case cmc.name:
           return getCoinMarketCapPrice(jobRunID, base, quote, fromDate, toDate, interval, apiConfig)
       }
     } catch (error) {
@@ -57,7 +58,7 @@ const getCoinMarketCapPrice = async (
     },
   }
   const response = await Requester.request<AdapterResponse>({ ...config, data })
-  const responseData = response.data.data as unknown as cmc.types.historical.ResponseSchema
+  const responseData = response.data as unknown as ResponseSchema
   return responseData.data.quotes.map((entry) => ({
     timestamp: new Date(entry.timestamp),
     price: entry.quote[quote.toUpperCase()].price,
