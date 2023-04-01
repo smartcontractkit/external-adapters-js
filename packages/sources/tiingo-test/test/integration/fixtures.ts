@@ -267,7 +267,7 @@ export const mockResponseSuccess = (): nock.Scope =>
               realVol30Day: 0.851625908515737,
             },
           ],
-        }
+        },
       ],
       [
         'Content-Type',
