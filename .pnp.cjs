@@ -8901,7 +8901,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tp-icap/",\
           "packageDependencies": [\
             ["@chainlink/tp-icap-adapter", "workspace:packages/sources/tp-icap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.26.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\

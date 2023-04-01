@@ -1,38 +1,57 @@
 import {
   PriceEndpoint,
-  priceEndpointInputParameters,
+  PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import {
-  WebSocketTransport,
-  WebSocketRawData,
-} from '@chainlink/external-adapter-framework/transports/websocket'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { InputParameter } from '@chainlink/external-adapter-framework/validation/input-params'
 
 import Decimal from 'decimal.js'
 
-import { TPICAPWebsocketGenerics } from '../types'
+import { TpIcapWebsocketGenerics } from '../types'
 
-const logger = makeLogger('TPICAPPrice')
+const logger = makeLogger('TpIcapPrice')
 
-const isNum = (i: any) => typeof i === 'number'
+const isNum = (i: number | undefined) => typeof i === 'number'
 
 let providerDataStreamEstablishedUnixMs: number
 
-export const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
-  new WebSocketTransport<TPICAPWebsocketGenerics>({
-    url: ({ adapterConfig: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
+const inputParameters: PriceEndpointInputParameters & { TpIcapSource: InputParameter } = {
+  base: {
+    aliases: ['from', 'coin'],
+    type: 'string',
+    description: 'The symbol of symbols of the currency to query',
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    type: 'string',
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+  TpIcapSource: {
+    description: 'Source feed to use for the reference price',
+    default: 'TP',
+    options: ['TP', 'IC'],
+  },
+}
+
+export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
+  new WebSocketTransport<TpIcapWebsocketGenerics>({
+    url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
     handlers: {
-      open: (connection, { adapterConfig: { WS_API_USERNAME, WS_API_PASSWORD } }) => {
+      open: (connection, { adapterSettings: { WS_API_USERNAME, WS_API_PASSWORD } }) => {
         logger.debug('Opening WS connection')
 
         return new Promise((resolve, reject) => {
-          connection.on('message', (data: WebSocketRawData) => {
-            const { msg, sta } = JSON.parse(data.toString())
+          connection.addEventListener('message', (event: MessageEvent) => {
+            const { msg, sta, info } = JSON.parse(event.data.toString())
             if (msg === 'auth' && sta === 1) {
               logger.info('Got logged in response, connection is ready')
               providerDataStreamEstablishedUnixMs = Date.now()
               resolve()
             } else {
+              logger.error({ sta, info })
               reject(new Error('Failed to make WS connection'))
             }
           })
@@ -59,10 +78,7 @@ export const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
           return []
         }
 
-        const { ACTIV_DATE, ASK, BID, MID_PRICE, TIMACT } = fvs
-
-        const base = rec.slice(5, 8)
-        const quote = rec.slice(8, 11)
+        const { ASK, BID, MID_PRICE } = fvs
 
         if (!isNum(MID_PRICE) && !(isNum(BID) && isNum(ASK))) {
           const errorMessage = 'TP ICAP `sub` message did not include required price fields'
@@ -77,52 +93,55 @@ export const transport: WebSocketTransport<TPICAPWebsocketGenerics> =
             .div(2)
             .toNumber()
 
-        const response = {
-          params: {
-            base,
-            quote,
-          },
-          response: {
-            result,
-            data: {
+        logger.trace({
+          cachedVal: [
+            {
+              params: {
+                base: rec.slice(5, 8),
+                quote: rec.slice(8, 11),
+                TpIcapSource: rec.slice(31, 33),
+              },
+              response: {
+                result,
+                data: {
+                  result,
+                },
+                timestamps: {
+                  providerDataReceivedUnixMs,
+                  providerDataStreamEstablishedUnixMs,
+                  providerIndicatedTimeUnixMs: undefined,
+                },
+              },
+            },
+          ],
+        })
+        return [
+          {
+            params: {
+              base: rec.slice(5, 8),
+              quote: rec.slice(8, 11),
+              TpIcapSource: rec.slice(31, 33),
+            },
+            response: {
               result,
-            },
-            timestamps: {
-              providerDataReceivedUnixMs,
-              providerDataStreamEstablishedUnixMs,
-              providerIndicatedTimeUnixMs:
-                ACTIV_DATE && TIMACT ? new Date(ACTIV_DATE + ' ' + TIMACT).getTime() : undefined,
-            },
-          },
-        }
-
-        const responseWithRec = {
-          params: {
-            base: rec, // Cache the price with the full rec symbol as `base` as a separate entry
-            quote,
-          },
-          response: {
-            result,
-            data: {
-              result,
-            },
-            timestamps: {
-              providerDataReceivedUnixMs,
-              providerDataStreamEstablishedUnixMs,
-              providerIndicatedTimeUnixMs:
-                ACTIV_DATE && TIMACT ? new Date(ACTIV_DATE + ' ' + TIMACT).getTime() : undefined,
+              data: {
+                result,
+              },
+              timestamps: {
+                providerDataReceivedUnixMs,
+                providerDataStreamEstablishedUnixMs,
+                providerIndicatedTimeUnixMs: undefined,
+              },
             },
           },
-        }
-
-        return [response, responseWithRec]
+        ]
       },
     },
   })
 
-export const priceEndpoint = new PriceEndpoint<TPICAPWebsocketGenerics>({
+export const priceEndpoint = new PriceEndpoint<TpIcapWebsocketGenerics>({
   name: 'price',
   aliases: ['forex'],
   transport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
 })

@@ -1,4 +1,6 @@
-export const customSettings = {
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export const config = new AdapterConfig({
   WS_API_USERNAME: {
     description: 'API user for WS endpoint',
     type: 'string',
@@ -16,4 +18,4 @@ export const customSettings = {
     type: 'string',
     default: 'ws://json.mktdata.portal.apac.parametasolutions.com',
   },
-} as const
+})

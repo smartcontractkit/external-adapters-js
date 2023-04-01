@@ -1,14 +1,20 @@
 import { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpointParams,
+  PriceEndpointInputParameters,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { customSettings } from './config'
+import { InputParameter } from '@chainlink/external-adapter-framework/validation/input-params'
+import { config } from './config'
 
-export type TPICAPWebsocketGenerics = WebsocketTransportGenerics & {
+export type TpIcapInputParameters = PriceEndpointInputParameters & { TpIcapSource: InputParameter }
+
+export type TpIcapWebsocketGenerics = WebsocketTransportGenerics & {
   Request: {
-    Params: PriceEndpointParams
+    Params: PriceEndpointParams & { TpIcapSource?: string }
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     WsMessage: {
       msg: 'auth' | 'sub'

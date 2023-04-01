@@ -1,16 +1,19 @@
 import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { Server, WebSocket } from 'mock-socket'
-import { customSettings } from '../../src/config'
-import { transport } from '../../src/endpoint/price'
-import { mockPriceResponse, mockStalePriceResponse, mockSubscribeResponse } from './fixtures'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { config } from '../../src/config'
 import {
-  PriceAdapter,
-  PriceEndpoint,
-  priceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+  mockICPriceResponse,
+  mockInversePriceResponse,
+  mockPriceResponse,
+  mockStalePriceResponse,
+  mockSubscribeResponse,
+} from './fixtures'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { priceEndpoint } from '../../src/endpoint'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
+import includes from '../../src/config/includes.json'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -22,17 +25,29 @@ export type EnvVariables = { [key: string]: string }
 
 export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
+/**
+ * Sets the mocked websocket instance in the provided provider class.
+ * We need this here, because the tests will connect using their instance of WebSocketClassProvider;
+ * fetching from this library to the \@chainlink/ea-bootstrap package would access _another_ instance
+ * of the same constructor. Although it should be a singleton, dependencies are different so that
+ * means that the static classes themselves are also different.
+ *
+ * @param provider - singleton WebSocketClassProvider
+ */
 export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
   // Extend mock WebSocket class to bypass protocol headers error
   class MockWebSocket extends WebSocket {
     constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
       super(url, protocol instanceof Object ? undefined : protocol)
     }
-
-    // Mock WebSocket does not come with built on function which adapter handlers could be using for ws
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    on(_: Event) {
-      return
+    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
+    removeAllListeners() {
+      for (const eventType in this.listeners) {
+        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
+        if (!eventType.startsWith('server')) {
+          delete this.listeners[eventType]
+        }
+      }
     }
   }
 
@@ -43,28 +58,24 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
 export const mockPriceWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    setTimeout(() => {
-      socket.send(JSON.stringify(mockSubscribeResponse))
+    socket.send(JSON.stringify(mockSubscribeResponse))
+    socket.on('message', () => {
       socket.send(JSON.stringify(mockStalePriceResponse))
       socket.send(JSON.stringify(mockPriceResponse))
-    }, 100)
+      socket.send(JSON.stringify(mockInversePriceResponse))
+      socket.send(JSON.stringify(mockICPriceResponse))
+    })
   })
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<typeof customSettings> => {
-  const priceEndpoint = new PriceEndpoint({
-    name: 'price',
-    aliases: ['crypto'],
-    transport,
-    inputParameters: priceEndpointInputParameters,
-  })
-
+export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: 'price',
-    endpoints: [priceEndpoint as PriceEndpoint<any>],
-    customSettings,
+    endpoints: [priceEndpoint],
+    config,
+    includes,
   })
 }
 

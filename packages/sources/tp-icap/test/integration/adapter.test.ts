@@ -11,8 +11,7 @@ import { Server } from 'mock-socket'
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { sleep } from '@chainlink/external-adapter-framework/util'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { adapterResponse, mockConnectionTime } from './fixtures'
+import { mockConnectionTime } from './fixtures'
 
 describe('Price Endpoint', () => {
   let fastify: ServerInstance | undefined
@@ -43,18 +42,17 @@ describe('Price Endpoint', () => {
     process.env['WS_API_USERNAME'] = 'test-username'
     process.env['WS_API_PASSWORD'] = 'test-password'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
 
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockConnectionTime.getTime())
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockPriceWsServer = mockPriceWebSocketServer(wsEndpoint)
 
-    fastify = await expose(createAdapter() as unknown as Adapter)
+    fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
     // Send initial request to start background execute
-    await req.post('/').send({ data: { base: 'EUR', quote: 'USD' } })
+    await req.post('/').send({ data: { base: 'JPY', quote: 'USD' } })
     await sleep(5000)
   })
 
@@ -67,38 +65,41 @@ describe('Price Endpoint', () => {
 
   it('should return price', async () => {
     const response = await makeRequest({ data: { base: 'EUR', quote: 'USD' } })
-    expect(response.body).toEqual(adapterResponse)
+    expect(response.body).toMatchSnapshot()
   }, 30000)
 
-  it('should return price with full `rec` as the base', async () => {
-    const response = await makeRequest({
-      data: { base: 'FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC', quote: 'USD' },
-    })
-    expect(response.body).toEqual(adapterResponse)
+  it('should return price from correct source if specified', async () => {
+    const response = await makeRequest({ data: { base: 'EUR', quote: 'USD', TpIcapSource: 'IC' } })
+    expect(response.body).toMatchSnapshot()
+  }, 30000)
+
+  it('should return price for inverse pair', async () => {
+    const response = await makeRequest({ data: { base: 'GBP', quote: 'USD' } })
+    expect(response.body).toMatchSnapshot()
   }, 30000)
 
   it('should return error when queried for stale price', async () => {
     const response = await makeRequest({ data: { base: 'JPY', quote: 'USD' } })
-    expect(response.statusCode).toEqual(504)
+    expect(response.body).toMatchSnapshot()
   }, 30000)
 
   it('should return error on empty body', async () => {
     const response = await makeRequest({})
-    expect(response.statusCode).toEqual(400)
+    expect(response.body).toMatchSnapshot()
   }, 30000)
 
   it('should return error on empty data', async () => {
     const response = await makeRequest({ data: {} })
-    expect(response.statusCode).toEqual(400)
+    expect(response.body).toMatchSnapshot()
   }, 30000)
 
   it('should return error on empty base', async () => {
     const response = await makeRequest({ data: { quote: 'USD' } })
-    expect(response.statusCode).toEqual(400)
+    expect(response.body).toMatchSnapshot()
   }, 30000)
 
   it('should return error on empty quote', async () => {
     const response = await makeRequest({ data: { base: 'EUR' } })
-    expect(response.statusCode).toEqual(400)
+    expect(response.body).toMatchSnapshot()
   }, 30000)
 })
