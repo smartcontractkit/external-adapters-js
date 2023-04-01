@@ -22,7 +22,7 @@ export const adapter = new PriceAdapter({
       },
       commercial: {
         rateLimit1h: 6250,
-        note: 'Power tier, 20,000 requests per hour. With a maximum of 150,000 requests per day (https://api.tiingo.com/about/pricing)',
+        note: 'Commercial tier, 20,000 requests per hour. With a maximum of 150,000 requests per day (https://api.tiingo.com/about/pricing)',
       },
     },
   },
