@@ -1,5 +1,14 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.16.7
+
+### Patch Changes
+
+- 5916b71df: Update framework version
+  - @chainlink/por-indexer-adapter@1.2.45
+  - @chainlink/renvm-address-set-adapter@1.5.36
+  - @chainlink/wbtc-address-set-adapter@1.4.45
+
 ## 1.16.6
 
 ### Patch Changes

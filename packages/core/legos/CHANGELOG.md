@@ -1,5 +1,20 @@
 # @chainlink/ea
 
+## 1.3.80
+
+### Patch Changes
+
+- Updated dependencies [a8b11e3a7]
+- Updated dependencies [4f16f9a2d]
+- Updated dependencies [5916b71df]
+- Updated dependencies [0664ab1fd]
+  - @chainlink/iex-cloud-test-adapter@1.0.0
+  - @chainlink/openexchangerates-test-adapter@1.0.0
+  - @chainlink/coinmetrics-adapter@3.0.0
+  - @chainlink/coinmarketcap-adapter@2.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.36
+  - @chainlink/wbtc-address-set-adapter@1.4.45
+
 ## 1.3.79
 
 ### Patch Changes

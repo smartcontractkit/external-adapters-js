@@ -18,9 +18,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                      Options                                                                                                                                                                                      | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-synth](#crypto-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#crypto-endpoint), [prices](#crypto-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                 Options                                                                                                                                                                                                                                  | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-synth](#crypto-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#crypto-endpoint), [prices](#crypto-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -132,6 +132,23 @@ Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 | :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
 |    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Realized-vol Endpoint
+
+Supported names for this endpoint are: `realized-vol`, `realized-volatility`.
+
+### Input Params
+
+| Required? |  Name   |    Aliases     |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :------------: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `coin`, `from` |  The base currency to query the realized volatility for  | string |         |         |            |                |
+|           | convert | `quote`, `to`  | The quote currency to convert the realized volatility to | string |         |  `USD`  |            |                |
 
 ### Example
 

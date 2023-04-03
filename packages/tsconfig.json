@@ -246,13 +246,7 @@
       "path": "./sources/coinmarketcap"
     },
     {
-      "path": "./sources/coinmarketcap-test"
-    },
-    {
       "path": "./sources/coinmetrics"
-    },
-    {
-      "path": "./sources/coinmetrics-test"
     },
     {
       "path": "./sources/coinpaprika"
@@ -402,6 +396,9 @@
       "path": "./sources/iex-cloud"
     },
     {
+      "path": "./sources/iex-cloud-test"
+    },
+    {
       "path": "./sources/intrinio"
     },
     {
@@ -484,6 +481,9 @@
     },
     {
       "path": "./sources/openexchangerates"
+    },
+    {
+      "path": "./sources/openexchangerates-test"
     },
     {
       "path": "./sources/orchid-bandwidth"
