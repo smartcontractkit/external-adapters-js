@@ -1,30 +1,94 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  IncludesFile,
+  PriceEndpoint,
+  PriceEndpointInputParameters,
+} from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { AdapterRequest, makeLogger } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequest,
+  makeLogger,
+  ProviderResult,
+} from '@chainlink/external-adapter-framework/util'
 import { priceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
+import includes from '../config/includes.json'
 
 import Decimal from 'decimal.js'
 
-import { TpIcapWebsocketGenerics } from '../types'
+import { IncludesMap, PriceRequestContext, TpIcapWebsocketGenerics } from '../types'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('TpIcapPrice')
 
+const inputParameters = {
+  ...priceEndpointInputParameters,
+  tpIcapInverse: {
+    description:
+      'Whether to invert the response. Note: this does not alter or switch base and quote symbols. Primarily for use with pair symbol overrides.',
+    default: false,
+    required: false,
+    type: 'boolean',
+  },
+} satisfies InputParameters & PriceEndpointInputParameters
+
 const isNum = (i: number | undefined) => typeof i === 'number'
 
-let providerDataStreamEstablishedUnixMs: number
+// Copied from '@chainlink/external-adapter-framework/adapter/price'
+const buildIncludesMap = (includesFile: IncludesFile) => {
+  const includesMap: IncludesMap = {}
 
-const requestTransform = (req: AdapterRequest<TpIcapWebsocketGenerics['Request']>): void => {
-  const { base, quote } = req.requestContext.data
-
-  if (base.length === 3) {
-    req.requestContext.data.rec = `FXSPT${base}${quote}SPT:GBL.BIL.QTE.RTM!TP`
-  } else {
-    req.requestContext.data.rec = base
-    req.requestContext.data.base = base.slice(5, 8)
+  for (const { from, to, includes } of includesFile) {
+    if (!includesMap[from]) {
+      includesMap[from] = {}
+    }
+    includesMap[from][to] = includes[0]
   }
 
-  //TODO handle inverses (ex. base/quote = EUR/USD but only USD/EUR is available, or for any base code sent that has USD as base within)
+  return includesMap
 }
+
+const includesMap = buildIncludesMap(includes)
+
+const requestTransform = (req: AdapterRequest<TpIcapWebsocketGenerics['Request']>): void => {
+  const requestContext = req.requestContext as PriceRequestContext<
+    TpIcapWebsocketGenerics['Request']['Params']
+  >
+  const requestData = requestContext.data as {
+    rec?: string
+    base?: string
+    quote?: string
+    tpIcapInverse?: boolean
+  }
+
+  if (requestData.base?.length === 33) {
+    // Handle full code uniquely
+    requestData.rec = requestData.base
+    const inverse = requestData?.tpIcapInverse || false
+    requestContext.priceMeta = { inverse }
+  } else if (requestData.base?.length === 3 && requestData.quote) {
+    // Handle short symbols
+    const includesDetails = includesMap?.[requestData.base]?.[requestData.quote]
+
+    if (includesDetails) {
+      requestData.base = includesDetails.from || requestData.base
+      requestData.quote = includesDetails.to || requestData.quote
+    }
+
+    requestData.rec = `FXSPT${requestData.base}${requestData.quote}SPT:GBL.BIL.QTE.RTM!TP`
+
+    const inverse = includesDetails?.inverse || false
+    requestContext.priceMeta = { inverse }
+  } else {
+    logger.error(
+      `Error: request did not include a base symbol with the correct length. baseLength=${requestData.base?.length}`,
+    )
+  }
+
+  delete requestData.base
+  delete requestData.quote
+  delete requestData.tpIcapInverse
+}
+
+let providerDataStreamEstablishedUnixMs: number
 
 export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
   new WebSocketTransport<TpIcapWebsocketGenerics>({
@@ -85,11 +149,7 @@ export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
 
         return [
           {
-            params: {
-              base: rec.slice(5, 8),
-              quote: rec.slice(8, 11),
-              rec,
-            },
+            params: { rec },
             response: {
               result,
               data: {
@@ -102,7 +162,7 @@ export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
               },
             },
           },
-        ]
+        ] as unknown as ProviderResult<TpIcapWebsocketGenerics>[]
       },
     },
   })
@@ -111,6 +171,6 @@ export const priceEndpoint = new PriceEndpoint<TpIcapWebsocketGenerics>({
   name: 'price',
   aliases: ['forex'],
   transport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
   requestTransforms: [requestTransform],
 })

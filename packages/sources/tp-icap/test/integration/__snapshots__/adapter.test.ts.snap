@@ -72,6 +72,20 @@ Object {
 exports[`Price Endpoint should return price for inverse pair 1`] = `
 Object {
   "data": Object {
+    "result": 0.8066,
+  },
+  "result": 0.8066,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1678271400000,
+    "providerDataStreamEstablishedUnixMs": 1678271400000,
+  },
+}
+`;
+
+exports[`Price Endpoint should return price from correct full code if specified 1`] = `
+Object {
+  "data": Object {
     "result": 1.345,
   },
   "result": 1.345,
@@ -83,12 +97,12 @@ Object {
 }
 `;
 
-exports[`Price Endpoint should return price from correct source if specified 1`] = `
+exports[`Price Endpoint should return price from correct full code with inverse if specified 1`] = `
 Object {
   "data": Object {
-    "result": 1.345,
+    "result": 0.8066,
   },
-  "result": 1.345,
+  "result": 0.8066,
   "statusCode": 200,
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1678271400000,

@@ -43,7 +43,7 @@ export const mockICPriceResponse = {
 export const mockInversePriceResponse = {
   msg: 'sub',
   pro: 'OMM',
-  rec: 'FXSPTUSDGBPUSDSPT:GBL.BIL.QTE.RTM!TP',
+  rec: 'FXSPTUSDIDRSPT:GBL.BIL.QTE.RTM!TP',
   sta: 1,
   img: 1,
   fvs: {
@@ -55,7 +55,7 @@ export const mockInversePriceResponse = {
     CCY1: 'USD',
     MID_PRICE: 0.8066,
     FID_515: 'SPT',
-    CCY2: 'GBP',
+    CCY2: 'IDR',
   },
 }
 

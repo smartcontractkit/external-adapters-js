@@ -68,13 +68,22 @@ describe('Price Endpoint', () => {
     expect(response.body).toMatchSnapshot()
   }, 30000)
 
-  it('should return price from correct source if specified', async () => {
-    const response = await makeRequest({ data: { base: 'EUR', quote: 'USD', TpIcapSource: 'IC' } })
+  it('should return price for inverse pair', async () => {
+    const response = await makeRequest({ data: { base: 'IDR', quote: 'USD' } })
     expect(response.body).toMatchSnapshot()
   }, 30000)
 
-  it('should return price for inverse pair', async () => {
-    const response = await makeRequest({ data: { base: 'GBP', quote: 'USD' } })
+  it('should return price from correct full code if specified', async () => {
+    const response = await makeRequest({
+      data: { base: 'FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC', quote: 'USD' },
+    })
+    expect(response.body).toMatchSnapshot()
+  }, 30000)
+
+  it('should return price from correct full code with inverse if specified', async () => {
+    const response = await makeRequest({
+      data: { base: 'FXSPTUSDIDRSPT:GBL.BIL.QTE.RTM!TP', quote: 'USD', tpIcapInverse: true },
+    })
     expect(response.body).toMatchSnapshot()
   }, 30000)
 

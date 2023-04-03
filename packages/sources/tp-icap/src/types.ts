@@ -1,11 +1,19 @@
 import { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequestData,
+  AdapterRequestContext,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { config } from './config'
+
+export type CacheQueryParams = {
+  rec: string
+}
 
 export type TpIcapWebsocketGenerics = WebsocketTransportGenerics & {
   Request: {
-    Params: PriceEndpointParams
+    Params: PriceEndpointParams & { tpIcapInverse: boolean }
   }
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
@@ -26,5 +34,19 @@ export type TpIcapWebsocketGenerics = WebsocketTransportGenerics & {
         MID_PRICE?: number
       }
     }
+  }
+}
+
+// Copied from '@chainlink/external-adapter-framework/adapter/price'
+type IncludeDetails = {
+  from: string
+  to: string
+  inverse: boolean
+}
+export type IncludesMap = Record<string, Record<string, IncludeDetails>>
+
+export type PriceRequestContext<T extends AdapterRequestData> = AdapterRequestContext<T> & {
+  priceMeta: {
+    inverse: boolean
   }
 }
