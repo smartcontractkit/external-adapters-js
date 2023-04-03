@@ -1,49 +1,73 @@
-#!/bin/bash
+#!/bin/bash -e
+
+LATEST_VERSION=$(npm view @chainlink/external-adapter-framework version)''
 
 function bump() (
-  cd $1
-  echo $1
-  
-  # Get current version
-  current_version=$(jq -r '.dependencies."@chainlink/external-adapter-framework"' package.json)
-  # Install latest version, pinned
-  yarn add @chainlink/external-adapter-framework -E > /dev/null # Silence output
-  latest_version=$(jq -r '.dependencies."@chainlink/external-adapter-framework"' package.json) # Get final version
+  package=$1
+  cd $package
+  # echo "Checking $package..."
 
-  if [[ $current_version == $latest_version ]] ; then
-    echo "Package $1 already at latest version $latest_version"
-  else
-    echo "Bumped framework version in package $1 from version $current_version to version $latest_version"
+  if jq -e "if (.dependencies.\"@chainlink/external-adapter-framework\" != null and .dependencies.\"@chainlink/external-adapter-framework\" != \"$LATEST_VERSION\") then true else false end" package.json > /dev/null ; then
+    current_version=$(jq -r '.dependencies."@chainlink/external-adapter-framework"' package.json) 
+    echo "Bumping dependency for package $package from $current_version to $LATEST_VERSION"
+    jq ".dependencies.\"@chainlink/external-adapter-framework\" = \"$LATEST_VERSION\"" package.json > package.json.tmp
+    mv package.json.tmp package.json
+    changed=true
+  fi
+
+  if jq -e "if (.devDependencies.\"@chainlink/external-adapter-framework\" != null and .devDependencies.\"@chainlink/external-adapter-framework\" != \"$LATEST_VERSION\") then true else false end" package.json > /dev/null ; then
+    current_version=$(jq -r '.devDependencies."@chainlink/external-adapter-framework"' package.json) 
+    echo "Bumping dev dependency for package $package from $current_version to $LATEST_VERSION"
+    jq ".devDependencies.\"@chainlink/external-adapter-framework\" = \"$LATEST_VERSION\"" package.json > package.json.tmp
+    mv package.json.tmp package.json
+    changed=true
+  fi
+
+  # Ignore scripts, that's not an adapter
+  if [[ $changed && $package != "scripts" ]]; then
+    echo "Package $package was changed, adding to list..."
+    echo "'$(jq -r '.name' package.json)': patch" >> ../../../changed_eas.tmp
   fi
 )
 
+touch changed_eas.tmp
 cd packages
 
+# Build list of packages or get it from the command line args
 if [[ -n "$1" ]]; then
-  # Run bump only for one package
-  if jq -e 'if (.dependencies."@chainlink/external-adapter-framework" != null) then true else false end' "sources/${1}/package.json" > /dev/null ; then
-    echo "Will only bump framework version for package sources/$1"
-    bump "sources/$1"
-  else
-    echo "Package $1 does not exist or use EA v3"
-  fi
+  echo "Will use package list from CLI args."
+  packages=$@
 else
-  echo "Bumping versions for all available source packages and scripts"
-  bump scripts/
-
-  for d in sources/* ; do
-    if [[ $d == "sources/README.md" ]] ; then
-      continue
-    fi
-
-    if jq -e 'if (.dependencies."@chainlink/external-adapter-framework" != null) then true else false end' "${d}/package.json" > /dev/null ; then
-      bump "$d"
-    fi
-  done
+  echo "Building list with all packages..."
+  packages=$(find . -type d \( -path "*/sources/*" -o -path "*/composites/*" -o -path "*/non-deployable/*" \) -maxdepth 2 -print)
+  packages+=('scripts')
 fi
 
-cd ..
+# Do a manual replacement of the versions
+echo "Checking packages one by one..."
+for p in ${packages[@]}; do
+  bump "$p"
+done
 
-# Remove the auth token from .yarnrc to avoid leaking tokens
-git restore .yarnrc.yml
+# # Run yarn to update all dependencies for the monorepo
+cd ..
+echo "Running yarn..."
+yarn > /dev/null
+
+if [ -s changed_eas.tmp ]; then
+  # Generate changeset (manually for now, since the changesets CLI has no options to automate this part)
+  changeset_name="$(cd packages/scripts && yarn node -e 'console.log(require("human-id").humanId({ separator: "-", capitalize: false }))').md"
+  echo "Creating changeset ($changeset_name)..."
+  touch .changeset/$changeset_name
+  echo "---" >> .changeset/$changeset_name
+  cat changed_eas.tmp >> .changeset/$changeset_name
+  printf -- '---\n\nBumped framework version\n' >> .changeset/$changeset_name
+else
+  echo "No adapters were changed, no need to create a changeset."
+fi
+
+# Clean up tmp files
+rm changed_eas.tmp
+
+echo "Done!"
 
