@@ -109,6 +109,7 @@ describe('execute', () => {
         data: {
           base: 'ETH',
           quote: 'USD',
+          endpoint: 'forex',
           transport: 'ws',
         },
       }
