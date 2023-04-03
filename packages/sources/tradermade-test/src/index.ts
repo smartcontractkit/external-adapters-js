@@ -4,6 +4,8 @@ import { config } from './config'
 import includes from './config/includes.json'
 import { forex, live } from './endpoint'
 
+// test change to trigger soak testing - TODO remove
+
 export const adapter = new PriceAdapter({
   defaultEndpoint: forex.name,
   name: 'TRADERMADE',
