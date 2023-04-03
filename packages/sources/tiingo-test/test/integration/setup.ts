@@ -8,7 +8,7 @@ import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
 import { config } from '../../src/config'
 import includes from '../../src/config/includes.json'
-import { crypto, forex, iex } from '../../src/endpoint'
+import { crypto, cryptolwba, forex, iex } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -79,7 +79,8 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
     // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
     removeAllListeners() {
       for (const eventType in this.listeners) {
-        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
+        // We have to manually check because the mock-socket library shares this instance,
+        // and adds the server listeners to the same obj
         if (!eventType.startsWith('server')) {
           delete this.listeners[eventType]
         }
@@ -96,6 +97,33 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
     service: 'crypto_data',
     messageType: 'A',
     data: ['SA', 'eth/usd', '2022-03-02T19:37:08.102119+00:00', 'tiingo', 2930.4483973989],
+  }
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(JSON.stringify(wsResponse))
+    })
+  })
+
+  return mockWsServer
+}
+
+export const mockCryptoLwbaWebSocketServer = (URL: string): Server => {
+  const wsResponse = {
+    service: 'crypto_data',
+    messageType: 'A',
+    data: [
+      'SA',
+      'eth/usd',
+      '2023-03-30T14:38:14.577256+00:00',
+      'tiingo',
+      1793.915292654675,
+      0.00032445356984135313,
+      117.75114002,
+      1793.6242715443277,
+      126.22352905999999,
+      1794.2063137650225,
+    ],
   }
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -174,7 +202,7 @@ export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TEST',
     defaultEndpoint: crypto.name,
-    endpoints: [crypto, forex, iex],
+    endpoints: [crypto, forex, iex, cryptolwba],
     config,
     includes,
   })

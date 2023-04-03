@@ -39,9 +39,7 @@ import * as coingecko from '@chainlink/coingecko-adapter'
 import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
-import * as coinmarketcap_test from '@chainlink/coinmarketcap-test-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
-import * as coinmetrics_test from '@chainlink/coinmetrics-test-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinpaprika_test from '@chainlink/coinpaprika-test-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
@@ -91,6 +89,7 @@ import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
+import * as iex_cloud_test from '@chainlink/iex-cloud-test-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as intrinio_test from '@chainlink/intrinio-test-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -119,6 +118,7 @@ import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
+import * as openexchangerates_test from '@chainlink/openexchangerates-test-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
@@ -204,9 +204,7 @@ export default {
   coingecko_test,
   coinlore,
   coinmarketcap,
-  coinmarketcap_test,
   coinmetrics,
-  coinmetrics_test,
   coinpaprika,
   coinpaprika_test,
   coinranking,
@@ -256,6 +254,7 @@ export default {
   graphql,
   gsr,
   iex_adapter,
+  iex_cloud_test,
   intrinio,
   intrinio_test,
   ipfs,
@@ -284,6 +283,7 @@ export default {
   oilpriceapi,
   onchain_gas,
   openexchangerates,
+  openexchangerates_test,
   orchid_adapter,
   paxos,
   paypal,

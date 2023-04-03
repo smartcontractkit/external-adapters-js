@@ -356,16 +356,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinmarketcap"\
       },\
       {\
-        "name": "@chainlink/coinmarketcap-test-adapter",\
-        "reference": "workspace:packages/sources/coinmarketcap-test"\
-      },\
-      {\
         "name": "@chainlink/coinmetrics-adapter",\
         "reference": "workspace:packages/sources/coinmetrics"\
-      },\
-      {\
-        "name": "@chainlink/coinmetrics-test-adapter",\
-        "reference": "workspace:packages/sources/coinmetrics-test"\
       },\
       {\
         "name": "@chainlink/coinpaprika-adapter",\
@@ -564,6 +556,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/iex-cloud"\
       },\
       {\
+        "name": "@chainlink/iex-cloud-test-adapter",\
+        "reference": "workspace:packages/sources/iex-cloud-test"\
+      },\
+      {\
         "name": "@chainlink/intrinio-adapter",\
         "reference": "workspace:packages/sources/intrinio"\
       },\
@@ -674,6 +670,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/openexchangerates-adapter",\
         "reference": "workspace:packages/sources/openexchangerates"\
+      },\
+      {\
+        "name": "@chainlink/openexchangerates-test-adapter",\
+        "reference": "workspace:packages/sources/openexchangerates-test"\
       },\
       {\
         "name": "@chainlink/orchid-bandwidth-adapter",\
@@ -911,9 +911,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coingecko-test-adapter", ["workspace:packages/sources/coingecko-test"]],\
       ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
-      ["@chainlink/coinmarketcap-test-adapter", ["workspace:packages/sources/coinmarketcap-test"]],\
       ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
-      ["@chainlink/coinmetrics-test-adapter", ["workspace:packages/sources/coinmetrics-test"]],\
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
       ["@chainlink/coinpaprika-test-adapter", ["workspace:packages/sources/coinpaprika-test"]],\
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
@@ -985,6 +983,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
+      ["@chainlink/iex-cloud-test-adapter", ["workspace:packages/sources/iex-cloud-test"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
       ["@chainlink/intrinio-test-adapter", ["workspace:packages/sources/intrinio-test"]],\
@@ -1019,6 +1018,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
+      ["@chainlink/openexchangerates-test-adapter", ["workspace:packages/sources/openexchangerates-test"]],\
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
       ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
@@ -5905,24 +5905,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",\
           "packageDependencies": [\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/coinmarketcap-test-adapter", [\
-        ["workspace:packages/sources/coinmarketcap-test", {\
-          "packageLocation": "./packages/sources/coinmarketcap-test/",\
-          "packageDependencies": [\
-            ["@chainlink/coinmarketcap-test-adapter", "workspace:packages/sources/coinmarketcap-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -5940,25 +5922,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["ethers", "npm:5.7.1"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/coinmetrics-test-adapter", [\
-        ["workspace:packages/sources/coinmetrics-test", {\
-          "packageLocation": "./packages/sources/coinmetrics-test/",\
-          "packageDependencies": [\
-            ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6570,9 +6533,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
             ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/coinmarketcap-test-adapter", "workspace:packages/sources/coinmarketcap-test"],\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
             ["@chainlink/coinpaprika-test-adapter", "workspace:packages/sources/coinpaprika-test"],\
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],\
@@ -6622,6 +6583,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
+            ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
             ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
@@ -6650,6 +6612,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
+            ["@chainlink/openexchangerates-test-adapter", "workspace:packages/sources/openexchangerates-test"],\
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],\
             ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],\
             ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],\
@@ -7097,38 +7060,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.19.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.19.0-9bcb395e33-081d214d5a.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:0.27.2"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.9.2"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:0.25.1", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.25.1-64e0415cec-1d80aeb730.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.25.1"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:1.3.4"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.9.2"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.28.0", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.28.0-f29179f40c-0a6116e13b.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -7141,7 +7072,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
+            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7527,6 +7458,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7546,6 +7478,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/iex-cloud-test-adapter", [\
+        ["workspace:packages/sources/iex-cloud-test", {\
+          "packageLocation": "./packages/sources/iex-cloud-test/",\
+          "packageDependencies": [\
+            ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8179,6 +8128,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/openexchangerates-test-adapter", [\
+        ["workspace:packages/sources/openexchangerates-test", {\
+          "packageLocation": "./packages/sources/openexchangerates-test/",\
+          "packageDependencies": [\
+            ["@chainlink/openexchangerates-test-adapter", "workspace:packages/sources/openexchangerates-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/orchid-bandwidth-adapter", [\
         ["workspace:packages/sources/orchid-bandwidth", {\
           "packageLocation": "./packages/sources/orchid-bandwidth/",\
@@ -8362,7 +8328,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.25.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8879,7 +8845,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -21824,27 +21790,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["secure-json-parse", "npm:2.5.0"],\
             ["semver", "npm:7.3.8"],\
             ["tiny-lru", "npm:10.2.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:4.9.2", {\
-          "packageLocation": "./.yarn/cache/fastify-npm-4.9.2-b0699ef254-78d931a569.zip/node_modules/fastify/",\
-          "packageDependencies": [\
-            ["fastify", "npm:4.9.2"],\
-            ["@fastify/ajv-compiler", "npm:3.3.1"],\
-            ["@fastify/error", "npm:3.0.0"],\
-            ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
-            ["abstract-logging", "npm:2.0.1"],\
-            ["avvio", "npm:8.2.0"],\
-            ["find-my-way", "npm:7.4.0"],\
-            ["light-my-request", "npm:5.6.1"],\
-            ["pino", "npm:8.6.1"],\
-            ["process-warning", "npm:2.0.0"],\
-            ["proxy-addr", "npm:2.0.7"],\
-            ["rfdc", "npm:1.3.0"],\
-            ["secure-json-parse", "npm:2.5.0"],\
-            ["semver", "npm:7.3.8"],\
-            ["tiny-lru", "npm:9.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34841,13 +34786,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tiny-lru", "npm:8.0.2"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:9.0.3", {\
-          "packageLocation": "./.yarn/cache/tiny-lru-npm-9.0.3-12df11b8e2-8ded11a875.zip/node_modules/tiny-lru/",\
-          "packageDependencies": [\
-            ["tiny-lru", "npm:9.0.3"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["tiny-secp256k1", [\
@@ -37257,23 +37195,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-1f07cb0c62/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-78c8603bdf/0/cache/ws-npm-7.2.3-e2147dfc25-979c59a706.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37320,6 +37241,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bufferutil", null],\
             ["safe-buffer", "npm:5.1.2"],\
             ["ultron", "npm:1.1.1"],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-168d4a085a/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:f29179f40c1522a70b746999717386973c443986fab3245c41c4fe0cc1f5b00b773f7696b018c53661ff10c61602ca56bb0e3d1f6206b92e9e738bee7d2a7600#npm:8.9.0"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
             ["utf-8-validate", null]\
           ],\
           "packagePeers": [\
