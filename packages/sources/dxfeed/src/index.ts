@@ -3,6 +3,8 @@ import { endpointSelector, makeExecute, makeWSHandler } from './adapter'
 import * as endpoints from './endpoint'
 import { makeConfig, NAME } from './config'
 
+// TODO remove - trigger soak-test
+
 const adapterContext = { name: NAME }
 
 const { server } = expose(adapterContext, makeExecute(), makeWSHandler(), endpointSelector)
