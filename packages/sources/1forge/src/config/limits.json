@@ -1,0 +1,18 @@
+{
+  "http": {
+    "starter": {
+      "rateLimit1h": 208.33,
+      "note": "https://1forge.com/pricing"
+    },
+    "premium": {
+      "rateLimit1h": 4166.66
+    },
+    "business": {
+      "rateLimit1h": 41666.66
+    },
+    "business+": {
+      "rateLimit1h": 416666.66
+    }
+  },
+  "ws": {}
+}
