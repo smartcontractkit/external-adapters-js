@@ -393,6 +393,9 @@
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {
+      "path": "./sources/icap/tsconfig.test.json"
+    },
+    {
       "path": "./sources/iex-cloud/tsconfig.test.json"
     },
     {
@@ -558,7 +561,7 @@
       "path": "./sources/tiingo-test/tsconfig.test.json"
     },
     {
-      "path": "./sources/tp-icap/tsconfig.test.json"
+      "path": "./sources/tp/tsconfig.test.json"
     },
     {
       "path": "./sources/tradermade/tsconfig.test.json"
