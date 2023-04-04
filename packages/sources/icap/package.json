@@ -1,12 +1,14 @@
 {
-  "name": "@chainlink/tp-icap-adapter",
+  "name": "@chainlink/icap-adapter",
   "version": "0.0.1",
-  "description": "Chainlink TP ICAP adapter.",
+  "description": "Chainlink ICAP adapter (sister to TP adapter).",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
+    "icap",
+    "ic",
     "tp-icap"
   ],
   "main": "dist/index.js",
@@ -29,6 +31,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "0.28.0",
+    "@chainlink/tp-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
     "tslib": "^2.3.1"
   },

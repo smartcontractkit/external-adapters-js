@@ -1,5 +1,5 @@
 ---
-'@chainlink/tp-icap-adapter': major
+'@chainlink/tp-adapter': major
 ---
 
-TP ICAP EA release
+TP EA release

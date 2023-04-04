@@ -88,6 +88,7 @@ import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
+import * as icap from '@chainlink/icap-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as iex_cloud_test from '@chainlink/iex-cloud-test-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
@@ -144,7 +145,7 @@ import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tiingo_test from '@chainlink/tiingo-test-adapter'
-import * as tp_icap from '@chainlink/tp-icap-adapter'
+import * as tp from '@chainlink/tp-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
@@ -253,6 +254,7 @@ export default {
   gramchain,
   graphql,
   gsr,
+  icap,
   iex_adapter,
   iex_cloud_test,
   intrinio,
@@ -309,7 +311,7 @@ export default {
   therundown,
   tiingo,
   tiingo_test,
-  tp_icap,
+  tp,
   tradermade,
   tradermade_test,
   tradingeconomics,

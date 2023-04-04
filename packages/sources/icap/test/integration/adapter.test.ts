@@ -73,17 +73,8 @@ describe('Price Endpoint', () => {
     expect(response.body).toMatchSnapshot()
   }, 30000)
 
-  it('should return price from correct full code if specified', async () => {
-    const response = await makeRequest({
-      data: { base: 'FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC', quote: 'USD' },
-    })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
-
-  it('should return price from correct full code with inverse if specified', async () => {
-    const response = await makeRequest({
-      data: { base: 'FXSPTUSDIDRSPT:GBL.BIL.QTE.RTM!TP', quote: 'USD', tpIcapInverse: true },
-    })
+  it('should return error when queried for TP price', async () => {
+    const response = await makeRequest({ data: { base: 'ABC', quote: 'USD' } })
     expect(response.body).toMatchSnapshot()
   }, 30000)
 

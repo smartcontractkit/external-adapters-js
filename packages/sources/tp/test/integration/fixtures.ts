@@ -24,7 +24,7 @@ export const mockPriceResponse = {
 export const mockICPriceResponse = {
   msg: 'sub',
   pro: 'OMM',
-  rec: 'FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!IC',
+  rec: 'FXSPTABCUSDSPT:GBL.BIL.QTE.RTM!IC',
   sta: 1,
   img: 1,
   fvs: {

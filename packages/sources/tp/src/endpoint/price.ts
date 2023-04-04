@@ -1,97 +1,49 @@
 import {
-  IncludesFile,
   PriceEndpoint,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import {
-  AdapterRequest,
-  makeLogger,
-  ProviderResult,
-} from '@chainlink/external-adapter-framework/util'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { priceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
-import includes from '../config/includes.json'
 
 import Decimal from 'decimal.js'
 
-import { IncludesMap, PriceRequestContext, TpIcapWebsocketGenerics } from '../types'
+import { TpIcapWebsocketGenerics } from '../types'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('TpIcapPrice')
 
-const inputParameters = {
-  ...priceEndpointInputParameters,
-  tpIcapInverse: {
-    description:
-      'Whether to invert the response. Note: this does not alter or switch base and quote symbols. Primarily for use with pair symbol overrides.',
-    default: false,
-    required: false,
-    type: 'boolean',
-  },
-} satisfies InputParameters & PriceEndpointInputParameters
+export type GeneratePriceOptions = {
+  sourceName: 'tpSource' | 'icapSource'
+  streamName: 'TP' | 'IC'
+  sourceOptions?: string[]
+}
+
+type GeneratePriceEndpoint = {
+  inputParameters: InputParameters & PriceEndpointInputParameters
+  transport: WebSocketTransport<TpIcapWebsocketGenerics>
+}
 
 const isNum = (i: number | undefined) => typeof i === 'number'
 
-// Copied from '@chainlink/external-adapter-framework/adapter/price'
-const buildIncludesMap = (includesFile: IncludesFile) => {
-  const includesMap: IncludesMap = {}
-
-  for (const { from, to, includes } of includesFile) {
-    if (!includesMap[from]) {
-      includesMap[from] = {}
-    }
-    includesMap[from][to] = includes[0]
-  }
-
-  return includesMap
-}
-
-const includesMap = buildIncludesMap(includes)
-
-const requestTransform = (req: AdapterRequest<TpIcapWebsocketGenerics['Request']>): void => {
-  const requestContext = req.requestContext as PriceRequestContext<
-    TpIcapWebsocketGenerics['Request']['Params']
-  >
-  const requestData = requestContext.data as {
-    rec?: string
-    base?: string
-    quote?: string
-    tpIcapInverse?: boolean
-  }
-
-  if (requestData.base?.length === 33) {
-    // Handle full code uniquely
-    requestData.rec = requestData.base
-    const inverse = requestData?.tpIcapInverse || false
-    requestContext.priceMeta = { inverse }
-  } else if (requestData.base?.length === 3 && requestData.quote) {
-    // Handle short symbols
-    const includesDetails = includesMap?.[requestData.base]?.[requestData.quote]
-
-    if (includesDetails) {
-      requestData.base = includesDetails.from || requestData.base
-      requestData.quote = includesDetails.to || requestData.quote
-    }
-
-    requestData.rec = `FXSPT${requestData.base}${requestData.quote}SPT:GBL.BIL.QTE.RTM!TP`
-
-    const inverse = includesDetails?.inverse || false
-    requestContext.priceMeta = { inverse }
-  } else {
-    logger.error(
-      `Error: request did not include a base symbol with the correct length. baseLength=${requestData.base?.length}`,
-    )
-  }
-
-  delete requestData.base
-  delete requestData.quote
-  delete requestData.tpIcapInverse
-}
-
 let providerDataStreamEstablishedUnixMs: number
 
-export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
-  new WebSocketTransport<TpIcapWebsocketGenerics>({
+export const generatePriceEndpoint = (
+  generatePriceOptions: GeneratePriceOptions,
+): GeneratePriceEndpoint => ({
+  inputParameters: {
+    ...priceEndpointInputParameters,
+    [generatePriceOptions.sourceName]: {
+      description: `Source of price data for this price pair on the ${generatePriceOptions.streamName} stream`,
+      default: 'GBL',
+      required: false,
+      type: 'string',
+      ...(generatePriceOptions.sourceOptions
+        ? { options: generatePriceOptions.sourceOptions }
+        : {}),
+    },
+  },
+  transport: new WebSocketTransport<TpIcapWebsocketGenerics>({
     url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
     handlers: {
       open: (connection, { adapterSettings: { WS_API_USERNAME, WS_API_PASSWORD } }) => {
@@ -132,6 +84,14 @@ export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
           return []
         }
 
+        const stream = rec.slice(31, 34)
+        if (stream !== generatePriceOptions.streamName) {
+          logger.trace({
+            msg: `Message received with stream: ${stream}. Only ${generatePriceOptions.streamName} prices accepted on this adapter. Filtering out this message.`,
+          })
+          return []
+        }
+
         const { ASK, BID, MID_PRICE } = fvs
 
         if (!isNum(MID_PRICE) && !(isNum(BID) && isNum(ASK))) {
@@ -147,9 +107,13 @@ export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
             .div(2)
             .toNumber()
 
+        const base = rec.slice(5, 8)
+        const quote = rec.slice(8, 11)
+        const source = rec.slice(15, 18)
+
         return [
           {
-            params: { rec },
+            params: { base, quote, [generatePriceOptions.sourceName]: source },
             response: {
               result,
               data: {
@@ -165,12 +129,17 @@ export const transport: WebSocketTransport<TpIcapWebsocketGenerics> =
         ] as unknown as ProviderResult<TpIcapWebsocketGenerics>[]
       },
     },
-  })
+  }),
+})
+
+const { inputParameters, transport } = generatePriceEndpoint({
+  sourceName: 'tpSource',
+  streamName: 'TP',
+})
 
 export const priceEndpoint = new PriceEndpoint<TpIcapWebsocketGenerics>({
   name: 'price',
   aliases: ['forex'],
   transport,
   inputParameters,
-  requestTransforms: [requestTransform],
 })

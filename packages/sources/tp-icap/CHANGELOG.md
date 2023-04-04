@@ -1,1 +1,0 @@
-# @chainlink/tp-icap-adapter

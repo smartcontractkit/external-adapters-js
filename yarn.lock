@@ -3133,6 +3133,7 @@ __metadata:
     "@chainlink/gramchain-adapter": "workspace:*"
     "@chainlink/graphql-adapter": "workspace:*"
     "@chainlink/gsr-adapter": "workspace:*"
+    "@chainlink/icap-adapter": "workspace:*"
     "@chainlink/iex-cloud-adapter": "workspace:*"
     "@chainlink/iex-cloud-test-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
@@ -3189,7 +3190,7 @@ __metadata:
     "@chainlink/therundown-adapter": "workspace:*"
     "@chainlink/tiingo-adapter": "workspace:*"
     "@chainlink/tiingo-test-adapter": "workspace:*"
-    "@chainlink/tp-icap-adapter": "workspace:*"
+    "@chainlink/tp-adapter": "workspace:*"
     "@chainlink/tradermade-adapter": "workspace:*"
     "@chainlink/tradermade-test-adapter": "workspace:*"
     "@chainlink/tradingeconomics-adapter": "workspace:*"
@@ -3804,6 +3805,23 @@ __metadata:
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.9.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/icap-adapter@workspace:*, @chainlink/icap-adapter@workspace:packages/sources/icap":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/icap-adapter@workspace:packages/sources/icap"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.28.0
+    "@chainlink/tp-adapter": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    decimal.js: ^10.3.1
+    mock-socket: 9.1.5
     supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.9.5
@@ -5055,9 +5073,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tp-icap-adapter@workspace:*, @chainlink/tp-icap-adapter@workspace:packages/sources/tp-icap":
+"@chainlink/tp-adapter@workspace:*, @chainlink/tp-adapter@workspace:packages/sources/tp":
   version: 0.0.0-use.local
-  resolution: "@chainlink/tp-icap-adapter@workspace:packages/sources/tp-icap"
+  resolution: "@chainlink/tp-adapter@workspace:packages/sources/tp"
   dependencies:
     "@chainlink/external-adapter-framework": 0.28.0
     "@types/jest": 27.5.2
