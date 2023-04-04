@@ -1,4 +1,4 @@
-export const mockConnectionTime = new Date('2023-03-08 02:30:00')
+export const mockConnectionTime = new Date('2023-03-08T02:30:00.000Z')
 
 export const mockSubscribeResponse = { msg: 'auth', sta: 1 }
 
