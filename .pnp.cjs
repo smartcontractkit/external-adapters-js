@@ -552,6 +552,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/gsr"\
       },\
       {\
+        "name": "@chainlink/icap-adapter",\
+        "reference": "workspace:packages/sources/icap"\
+      },\
+      {\
         "name": "@chainlink/iex-cloud-adapter",\
         "reference": "workspace:packages/sources/iex-cloud"\
       },\
@@ -772,6 +776,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tiingo-test"\
       },\
       {\
+        "name": "@chainlink/tp-adapter",\
+        "reference": "workspace:packages/sources/tp"\
+      },\
+      {\
         "name": "@chainlink/tradermade-adapter",\
         "reference": "workspace:packages/sources/tradermade"\
       },\
@@ -978,6 +986,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
+      ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
       ["@chainlink/iex-cloud-test-adapter", ["workspace:packages/sources/iex-cloud-test"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
@@ -1051,6 +1060,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
       ["@chainlink/tiingo-test-adapter", ["workspace:packages/sources/tiingo-test"]],\
       ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
+      ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradermade-test-adapter", ["workspace:packages/sources/tradermade-test"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
@@ -6577,6 +6587,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
+            ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
             ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
@@ -6633,6 +6644,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
             ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
+            ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
             ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
@@ -7459,6 +7471,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.4.3"],\
             ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/icap-adapter", [\
+        ["workspace:packages/sources/icap", {\
+          "packageLocation": "./packages/sources/icap/",\
+          "packageDependencies": [\
+            ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.1"],\
+            ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["decimal.js", "npm:10.4.3"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
@@ -8851,6 +8882,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/tp-adapter", [\
+        ["workspace:packages/sources/tp", {\
+          "packageLocation": "./packages/sources/tp/",\
+          "packageDependencies": [\
+            ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["decimal.js", "npm:10.4.3"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
           ],\

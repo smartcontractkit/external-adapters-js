@@ -393,6 +393,9 @@
       "path": "./sources/gsr"
     },
     {
+      "path": "./sources/icap"
+    },
+    {
       "path": "./sources/iex-cloud"
     },
     {
@@ -556,6 +559,9 @@
     },
     {
       "path": "./sources/tiingo-test"
+    },
+    {
+      "path": "./sources/tp"
     },
     {
       "path": "./sources/tradermade"
