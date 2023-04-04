@@ -49,16 +49,13 @@ export const generatePriceEndpoint = (
       open: (connection, { adapterSettings: { WS_API_USERNAME, WS_API_PASSWORD } }) => {
         logger.debug('Opening WS connection')
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           connection.addEventListener('message', (event: MessageEvent) => {
-            const { msg, sta, info } = JSON.parse(event.data.toString())
+            const { msg, sta } = JSON.parse(event.data.toString())
             if (msg === 'auth' && sta === 1) {
               logger.info('Got logged in response, connection is ready')
               providerDataStreamEstablishedUnixMs = Date.now()
               resolve()
-            } else {
-              logger.error({ sta, info })
-              reject(new Error('Failed to make WS connection'))
             }
           })
           const options = {
@@ -80,14 +77,15 @@ export const generatePriceEndpoint = (
         const { fvs, rec, sta } = message
 
         if (!fvs || !rec || sta !== 1) {
-          logger.error({ msg: 'Missing expected field `fvs` or `rec` from `sub` message', message })
+          logger.debug({ msg: 'Missing expected field `fvs` or `rec` from `sub` message', message })
           return []
         }
 
         const stream = rec.slice(31, 34)
         if (stream !== generatePriceOptions.streamName) {
-          logger.trace({
-            msg: `Message received with stream: ${stream}. Only ${generatePriceOptions.streamName} prices accepted on this adapter. Filtering out this message.`,
+          logger.debug({
+            msg: `Only ${generatePriceOptions.streamName} forex prices accepted on this adapter. Filtering out this message.`,
+            message,
           })
           return []
         }
@@ -95,8 +93,8 @@ export const generatePriceEndpoint = (
         const { ASK, BID, MID_PRICE } = fvs
 
         if (!isNum(MID_PRICE) && !(isNum(BID) && isNum(ASK))) {
-          const errorMessage = 'TP ICAP `sub` message did not include required price fields'
-          logger.debug({ errorMessage })
+          const errorMessage = '`sub` message did not include required price fields'
+          logger.debug({ errorMessage, message })
           return []
         }
 
