@@ -12,6 +12,7 @@ export const addressData: AdapterRequestBody = {
         withdrawVaultAddress: '0x8c78BdB9CBB273ea295Cd8eEF198467d16c932cc',
         poolId: 1,
         operatorId: 1,
+        status: 6,
       },
       {
         address:
@@ -19,6 +20,7 @@ export const addressData: AdapterRequestBody = {
         withdrawVaultAddress: '0xdfe70150Dc6f610e9c6d06Cc35f25c02E43EEEe9',
         poolId: 1,
         operatorId: 2,
+        status: 6,
       },
       {
         address:
@@ -26,6 +28,7 @@ export const addressData: AdapterRequestBody = {
         withdrawVaultAddress: '0x9ab0017DC97FD6A8f907f5a60FC35DB36B581783',
         poolId: 2,
         operatorId: 1,
+        status: 6,
       },
       {
         address:
@@ -33,6 +36,7 @@ export const addressData: AdapterRequestBody = {
         withdrawVaultAddress: '0xDE5Db91B5F82f8b8c085fA9C5F290B00A0101D81',
         poolId: 3,
         operatorId: 3,
+        status: 9,
       },
       {
         address:
@@ -40,6 +44,7 @@ export const addressData: AdapterRequestBody = {
         withdrawVaultAddress: '0xF5E8A439C599205C1aB06b535DE46681Aed1007a',
         poolId: 4,
         operatorId: 2,
+        status: 9,
       },
       {
         address:
@@ -47,14 +52,23 @@ export const addressData: AdapterRequestBody = {
         withdrawVaultAddress: '0x41E5d6bdF32d1ACB1aB0abeE083A211385591E62',
         poolId: 4,
         operatorId: 2,
+        status: 9,
       },
       {
         address:
           '0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a',
-        initialBondEth: 32000000000,
         withdrawVaultAddress: '0x683913B3A32ada4F8100458A3E1675425BdAa7DF',
         poolId: 5,
         operatorId: 4,
+        status: 3,
+      },
+      {
+        address:
+          '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941',
+        withdrawVaultAddress: '0xc0C5368601404605fE948CA8A52AA332553C1865',
+        poolId: 5,
+        operatorId: 5,
+        status: 4,
       },
     ],
     socialPoolAddresses: [
@@ -83,6 +97,8 @@ export const mockPenaltyMap: Record<string, BigNumber> = {
     BigNumber('2000000000000000000'), // 2 ETH
   '0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a':
     BigNumber(0),
+  '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941':
+    BigNumber(0),
 }
 
 export const mockProtocolFeePercentMap: Record<number, number> = {
@@ -106,7 +122,7 @@ export const mockCollateralEthMap: Record<number, BigNumber> = {
   2: BigNumber('5500000000000000000'), // 5.5 ETH
   3: BigNumber('10000000000000000000'), // 10 ETH
   4: BigNumber('3000000000000000000'), // 3 ETH
-  5: BigNumber('32000000000000000000'), // 32 ETH
+  5: BigNumber('15000000000000000000'), // 15 ETH
 }
 
 export const mockEthBalanceMap: Record<string, string> = {
@@ -121,6 +137,8 @@ export const mockEthBalanceMap: Record<string, string> = {
   '0xfc07bcb5c142c7c86c84490f068d31499610ccab': '0x1BC16D674EC80000', // 2 ETH
   '0x10f4F0a7aadfB7E79533090508fADD78FB163068': '0x4563918244F40000', // 5 ETH
   '0x9CfD5a30DB1B925A92E796e5Ce37Fd0E66390Fe1': '0x68155A43676E0000', // 7.5 ETH
+  '0x50297e640b62281b6Dac0d5Aa91848Fb028357Ea': '0x1AE361FC1451C0000', // 31 ETH
+  '0xc0C5368601404605fE948CA8A52AA332553C1865': '0x0', // 0 ETH
 }
 
 export const mockGetValidatorStates = (): void => {
@@ -133,7 +151,8 @@ export const mockGetValidatorStates = (): void => {
         '0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc,' +
         '0x84d290ec6a766cef753bcce7b6d75f12b405e5c76171f2a456ae415e872d23ea01f869e8f64629a48f0c21f0f86e37d3,' +
         '0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95,' +
-        '0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a',
+        '0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a,' +
+        '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941',
     )
     .reply(200, {
       execution_optimistic: true,
@@ -232,7 +251,24 @@ export const mockGetValidatorStates = (): void => {
               '0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95',
             withdrawal_credentials:
               '0x010000000000000000000000e0c8df4270f4342132ec333f6048cb703e7a9c77',
-            effective_balance: '32000000000',
+            effective_balance: '0',
+            slashed: false,
+            activation_eligibility_epoch: '143203',
+            activation_epoch: '143209',
+            exit_epoch: '18446744073709551615',
+            withdrawable_epoch: '18446744073709551615',
+          },
+        },
+        {
+          index: '416580',
+          balance: '1000000000',
+          status: 'active_ongoing',
+          validator: {
+            pubkey:
+              '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941',
+            withdrawal_credentials:
+              '0x010000000000000000000000e0c8df4270f4342132ec333f6048cb703e7a9c77',
+            effective_balance: '1000000000',
             slashed: false,
             activation_eligibility_epoch: '143203',
             activation_epoch: '143209',

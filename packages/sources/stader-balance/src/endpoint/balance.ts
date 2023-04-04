@@ -4,7 +4,6 @@ import { makeLogger, sleep, AdapterResponse } from '@chainlink/external-adapter-
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { config } from '../config'
 import { ethers } from 'ethers'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
   DepositEvent_ABI,
   StaderConfigContract_ABI,
@@ -12,180 +11,27 @@ import {
   StaderPoolFactoryContract_ABI,
 } from '../abi/StaderContractAbis'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { buildErrorResponse, chunkArray, formatValueInGwei } from './utils'
+import {
+  BalanceResponse,
+  buildErrorResponse,
+  chunkArray,
+  DEPOSIT_EVENT_LOOKBACK_WINDOW,
+  DEPOSIT_EVENT_TOPIC,
+  EndpointTypes,
+  formatValueInGwei,
+  inputParameters,
+  ONE_ETH_WEI,
+  ProviderResponse,
+  RequestParams,
+  staderNetworkChainMap,
+  StaderValidatorStatus,
+  ValidatorAddress,
+  ValidatorState,
+  WITHDRAWAL_DONE_STATUS,
+} from './utils'
 import BigNumber from 'bignumber.js'
 
 const logger = makeLogger('StaderBalanceLogger')
-
-const WITHDRAWAL_DONE_STATUS = 'withdrawal_done'
-const DEPOSIT_EVENT_TOPIC = '0x649bbc62d0e31342afea4e5cd82d4049e7e1ee912fc0889aa790803be39038c5'
-const DEPOSIT_EVENT_LOOKBACK_WINDOW = 10000 // blocks
-
-type NetworkChainMap = {
-  [network: string]: {
-    [chain: string]: {
-      poolFactory: string
-      penalty: string
-      stakePoolsManager: string
-      ethx: string
-      staderConfig: string
-    }
-  }
-}
-
-const networks = ['ethereum']
-const chainIds = ['mainnet', 'goerli']
-
-const staderNetworkChainMap: NetworkChainMap = {
-  ethereum: {
-    mainnet: {
-      poolFactory: '',
-      penalty: '',
-      stakePoolsManager: '',
-      ethx: '',
-      staderConfig: '',
-    },
-    goerli: {
-      poolFactory: '0x8A44f6276e44B5b3DC4e4942c7267F235D9b6634',
-      penalty: '',
-      stakePoolsManager: '0x59C6f12156d7939016aA4A3FC4B11B9507bB05bE',
-      ethx: '0xe624471812F4fb739dD4eF40A8f9fAbD9474CEAa',
-      staderConfig: '0x6edc838058652ab89e9aC2F4916800E5a8d60E09',
-    },
-  },
-}
-
-const inputParameters = {
-  addresses: {
-    aliases: ['result'],
-    required: true,
-    type: 'array',
-    description:
-      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
-  },
-  elRewardAddresses: {
-    description: 'List of unique execution layer reward addresses',
-    type: 'array',
-    required: true,
-  },
-  socialPoolAddresses: {
-    description: 'List of socializing pool addresses',
-    type: 'array',
-    required: true,
-  },
-  stateId: {
-    type: 'string',
-    description: 'The beacon chain state ID to query',
-    default: 'finalized',
-  },
-  validatorStatus: {
-    required: false,
-    type: 'array',
-    description: 'A filter to apply validators by their status',
-  },
-  penaltyAddress: {
-    description: 'The address of the Stader Penalty contract.',
-    type: 'string',
-  },
-  poolFactoryAddress: {
-    description: 'The address of the Stader PoolFactory contract.',
-    type: 'string',
-  },
-  stakeManagerAddress: {
-    description: 'The adddress of the Stader StakeManager contract',
-    type: 'string',
-  },
-  network: {
-    description: 'The name of the target custodial network protocol',
-    options: networks,
-    type: 'string',
-    default: 'ethereum',
-  },
-  chainId: {
-    description: 'The name of the target custodial chain',
-    options: chainIds,
-    type: 'string',
-    default: 'mainnet',
-  },
-  confirmations: {
-    type: 'number',
-    description: 'The number of confirmations to query data from',
-    default: 0,
-  },
-} satisfies InputParameters
-
-interface RequestParams {
-  addresses: ValidatorAddress[]
-  elRewardAddresses: BasicAddress[]
-  socialPoolAddresses: PoolAddress[]
-  stateId: string
-  validatorStatus?: string[]
-  penaltyAddress?: string
-  poolFactoryAddress?: string
-  stakeManagerAddress?: string
-  network: string
-  chainId: string
-  confirmations: number
-}
-
-type BasicAddress = {
-  address: string
-}
-
-type PoolAddress = BasicAddress & {
-  poolId: number
-}
-
-type ValidatorAddress = BasicAddress &
-  PoolAddress & {
-    network: string
-    chainId: string
-    status: string
-    withdrawVaultAddress: string
-    operatorId: number
-  }
-
-interface BalanceResponse {
-  address: string
-  balance: string
-}
-
-interface ProviderResponse {
-  execution_optimistic: false
-  data: ValidatorState[]
-}
-
-interface ValidatorState {
-  index: string
-  balance: string
-  status: string
-  validator: {
-    pubkey: string
-    withdrawal_credentials: string
-    effective_balance: string
-    slashed: boolean
-    activation_eligibility_epoch: string
-    activation_epoch: string
-    exit_epoch: string
-    withdrawable_epoch: string
-  }
-}
-
-interface ResponseSchema {
-  Data: {
-    result: BalanceResponse[]
-  }
-  Result: null
-}
-
-type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: ResponseSchema
-  Settings: typeof config.settings
-}
-
 export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   provider!: ethers.providers.JsonRpcProvider
 
@@ -236,6 +82,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             this.getStaderStakeManagerBalance(req, blockTag, balances),
             // Get balance of all execution layer reward addresses
             this.getElRewardBalances(req, blockTag, balances, context.adapterSettings),
+            // Get balance of the Permissioned Pool address
+            this.getPermissionedPoolBalance(req, blockTag, balances),
           ])
 
           await Promise.all([
@@ -360,6 +208,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     try {
       // List of addresses not found on the beacon yet
       const limboAddresses: string[] = []
+      const depositedAddresses: string[] = []
       await Promise.all(
         addresses.map(async (validator) => {
           const state = validatorStateList.find(
@@ -383,6 +232,17 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             const validatorBalance = BigNumber(
               ethers.utils.parseUnits(state.balance, 'gwei').toString(),
             )
+            // Add validator to deposited address list if Stader status is DEPOSITED and balance is 1 ETH on beacon
+            // Deposited address list will be used to look for 31 ETH deposit event in logs later
+            if (
+              validator.status === StaderValidatorStatus.DEPOSITED &&
+              validatorBalance.eq(ONE_ETH_WEI)
+            ) {
+              logger.debug(
+                `Found validator (${validatorAddress}) with DEPOSITED status and balance of 1 ETH. Will search for 31 ETH deposit event.`,
+              )
+              depositedAddresses.push(validatorAddress)
+            }
             logger.debug(
               `Validator (${validatorAddress}) has "${state.status}" status with balance ${validatorBalance}`,
             )
@@ -422,10 +282,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
                 userBalancePrelim = validatorBalance
               }
               // Get penalty for validator from the Stader Penalty contract
-              // TODO: Add back penalty once contract is ready
-              // const penalty = await this.getPenalty(validatorAddress, req, blockTag)
-              // logger.debug(`Non-withdrawn validator (${validatorAddress}) penalty: ${penalty}`)
-              const penalty = 0
+              const penalty = await this.getPenalty(validatorAddress, req, blockTag)
+              logger.debug(`Non-withdrawn validator (${validatorAddress}) penalty: ${penalty}`)
               // Calculate node balance
               const nodeBalance = BigNumber.max(
                 0,
@@ -510,7 +368,13 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         }),
       )
       if (limboAddresses.length > 0) {
-        await this.calculateLimboEthBalances(limboAddresses, balances, ethDepositContract, blockTag)
+        await this.calculateLimboEthBalances(
+          limboAddresses,
+          depositedAddresses,
+          balances,
+          ethDepositContract,
+          blockTag,
+        )
       }
     } catch (e) {
       throw new Error('Failed to calculate balances for validators')
@@ -607,10 +471,32 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     }
   }
 
+  // Get inactive pool balance from Stader's StakePoolManager contract
+  async getPermissionedPoolBalance(
+    req: RequestParams,
+    blockTag: number,
+    balances: BalanceResponse[],
+  ): Promise<void> {
+    try {
+      const permissionedPool =
+        req.permissionedPoolAddress ||
+        staderNetworkChainMap[req.network][req.chainId].permissionedPool
+      const permissionedPoolBalance = await this.getAddressBalance(permissionedPool, blockTag)
+      logger.debug(`Permissioned pool balance (in wei): ${permissionedPoolBalance}`)
+      balances.push({
+        address: permissionedPool,
+        balance: formatValueInGwei(permissionedPoolBalance), // Convert to gwei for response
+      })
+    } catch (e) {
+      throw new Error('Failed to retrieve the StakeManager contract balance')
+    }
+  }
+
   // Get event logs to find deposit events for addresses not on the beacon chain yet
   // Returns deposit amount in wei
   async calculateLimboEthBalances(
     limboAddesses: string[],
+    depositedAddresses: string[],
     balances: BalanceResponse[],
     ethDepositContract: string,
     blockTag: number,
@@ -635,9 +521,18 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           const iface = new ethers.utils.Interface(DepositEvent_ABI)
           const parsedLog = iface.parseLog(log)
           const address = parsedLog.args[0]
+          const amount = BigNumber(parsedLog.args[2])
+          // Look for initial deposit event for validators not found on the beacon chain
           if (limboAddesses.includes(address)) {
-            const amount = BigNumber(parsedLog.args[2])
             logger.debug(`Found deposit event for limbo validator (${address}). Deposit: ${amount}`)
+            balances.push({ address, balance: formatValueInGwei(amount) })
+          }
+          // Look for non-1ETH deposit event for validator with DEPOSITED status and 1 ETH balance on beacon
+          // Skip 1ETH event to avoid potential double counting with balance retrieved from beacon
+          else if (depositedAddresses.includes(address) && !amount.eq(ONE_ETH_WEI)) {
+            logger.debug(
+              `Found additional deposit event for deposited validator (${address}). Deposit: ${amount}`,
+            )
             balances.push({ address, balance: formatValueInGwei(amount) })
           }
         }
@@ -678,7 +573,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       this.provider,
     )
     try {
-      return BigNumber(await addressManager.calculatePenalty(validatorAddress, { blockTag }))
+      return BigNumber(await addressManager.totalPenaltyAmount(validatorAddress, { blockTag }))
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to retrieve penalty for ${validatorAddress}`

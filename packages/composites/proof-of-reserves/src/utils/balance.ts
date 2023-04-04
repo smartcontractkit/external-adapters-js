@@ -89,6 +89,7 @@ export const runBalanceAdapter = async (
           penaltyAddress: input.data.penaltyAddress,
           poolFactoryAddress: input.data.poolFactoryAddress,
           stakeManagerAddress: input.data.stakeManagerAddress,
+          permissionedPoolAddress: input.data.permissionedPoolAddress,
           network: input.data.network,
           chainId: input.data.chainId,
         },

@@ -1,15 +1,5 @@
 import { ethers } from 'ethers'
 
-export const StaderPenaltyContract_ABI: ethers.ContractInterface = [
-  {
-    inputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
-    name: 'calculatePenalty',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-]
-
 export const StaderPoolFactoryContract_ABI: ethers.ContractInterface = [
   { inputs: [], name: 'ZeroAddress', type: 'error' },
   {
@@ -1177,5 +1167,295 @@ export const DepositEvent_ABI = [
     ],
     name: 'DepositEvent',
     type: 'event',
+  },
+]
+
+export const StaderPenaltyContract_ABI: ethers.ContractInterface = [
+  { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
+  { inputs: [], name: 'InvalidPubkeyLength', type: 'error' },
+  { inputs: [], name: 'MEVTheftPenaltyPerStrikeUnchanged', type: 'error' },
+  { inputs: [], name: 'MissedAttestationPenaltyPerStrikeUnchanged', type: 'error' },
+  { inputs: [], name: 'ValidatorExitPenaltyThresholdUnchanged', type: 'error' },
+  { inputs: [], name: 'ZeroAddress', type: 'error' },
+  {
+    anonymous: false,
+    inputs: [{ indexed: false, internalType: 'bytes', name: 'pubkey', type: 'bytes' }],
+    name: 'ExitValidator',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [{ indexed: false, internalType: 'uint8', name: 'version', type: 'uint8' }],
+    name: 'Initialized',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { indexed: true, internalType: 'bytes32', name: 'previousAdminRole', type: 'bytes32' },
+      { indexed: true, internalType: 'bytes32', name: 'newAdminRole', type: 'bytes32' },
+    ],
+    name: 'RoleAdminChanged',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { indexed: true, internalType: 'address', name: 'account', type: 'address' },
+      { indexed: true, internalType: 'address', name: 'sender', type: 'address' },
+    ],
+    name: 'RoleGranted',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { indexed: true, internalType: 'address', name: 'account', type: 'address' },
+      { indexed: true, internalType: 'address', name: 'sender', type: 'address' },
+    ],
+    name: 'RoleRevoked',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'bytes', name: 'pubkey', type: 'bytes' },
+      { indexed: false, internalType: 'uint256', name: 'amount', type: 'uint256' },
+    ],
+    name: 'UpdatedAdditionalPenaltyAmount',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [{ indexed: false, internalType: 'uint256', name: 'mevTheftPenalty', type: 'uint256' }],
+    name: 'UpdatedMEVTheftPenaltyPerStrike',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'missedAttestationPenalty',
+        type: 'uint256',
+      },
+    ],
+    name: 'UpdatedMissedAttestationPenaltyPerStrike',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'address', name: 'penaltyOracleAddress', type: 'address' },
+    ],
+    name: 'UpdatedPenaltyOracleAddress',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'uint256', name: 'totalPenaltyThreshold', type: 'uint256' },
+    ],
+    name: 'UpdatedValidatorExitPenaltyThreshold',
+    type: 'event',
+  },
+  {
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'STADER_DAO',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    name: 'additionalPenaltyAmount',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes32', name: '_pubkeyRoot', type: 'bytes32' }],
+    name: 'calculateMEVTheftPenalty',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes', name: '_pubkey', type: 'bytes' }],
+    name: 'calculatePenalty',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes', name: '_pubkey', type: 'bytes' }],
+    name: 'getAdditionalPenaltyAmount',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes', name: '_pubkey', type: 'bytes' }],
+    name: 'getPubkeyRoot',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes32', name: 'role', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'grantRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'hasRole',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_staderConfig', type: 'address' },
+      { internalType: 'address', name: '_ratedOracleAddress', type: 'address' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'mevTheftPenaltyPerStrike',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'missedAttestationPenaltyPerStrike',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'ratedOracleAddress',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'renounceRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'revokeRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes', name: '_pubkey', type: 'bytes' },
+      { internalType: 'uint256', name: '_amount', type: 'uint256' },
+    ],
+    name: 'setAdditionalPenaltyAmount',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'staderConfig',
+    outputs: [{ internalType: 'contract IStaderConfig', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes4', name: 'interfaceId', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
+    name: 'totalPenaltyAmount',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '_mevTheftPenaltyPerStrike', type: 'uint256' }],
+    name: 'updateMEVTheftPenaltyPerStrike',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'uint256', name: '_missedAttestationPenaltyPerStrike', type: 'uint256' },
+    ],
+    name: 'updateMissedAttestationPenaltyPerStrike',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '_ratedOracleAddress', type: 'address' }],
+    name: 'updateRatedOracleAddress',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '_validatorExitPenaltyThreshold', type: 'uint256' }],
+    name: 'updateValidatorExitPenaltyThreshold',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'validatorExitPenaltyThreshold',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
   },
 ]

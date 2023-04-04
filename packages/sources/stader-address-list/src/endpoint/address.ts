@@ -63,6 +63,10 @@ const inputParameters = {
     description: 'The address of the Stader Penalty contract.',
     type: 'string',
   },
+  permissionedPoolAddress: {
+    description: 'The address of the Permissioned Pool.',
+    type: 'string',
+  },
   confirmations: {
     type: 'number',
     description: 'The number of confirmations to query data from',
@@ -101,6 +105,7 @@ export type ValidatorAddress = BasicAddress &
     chainId: string
     withdrawVaultAddress: string
     operatorId: number
+    status: number
   }
 
 interface RequestParams {
@@ -108,6 +113,7 @@ interface RequestParams {
   vaultFactoryAddress: string
   stakeManagerAddress: string
   penaltyAddress: string
+  permissionedPoolAddress: string
   network: string
   chainId: string
   confirmations: number
@@ -119,6 +125,7 @@ interface ResponseSchema {
     stakeManagerAddress: string
     poolFactoryAddress: string
     penaltyAddress: string
+    permissionedPoolAddress: string
     validatorStatus: string[]
     socialPoolAddresses: PoolAddress[]
     elRewardAddresses: BasicAddress[]
@@ -177,6 +184,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
           network,
           validatorStatus,
           penaltyAddress,
+          permissionedPoolAddress,
         } = req
         const poolFactoryAddress =
           poolFactoryAddressOverride || staderNetworkChainMap[network][chainId].poolFactory
@@ -215,6 +223,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
               stakeManagerAddress,
               poolFactoryAddress: poolFactoryAddressOverride,
               penaltyAddress,
+              permissionedPoolAddress,
               validatorStatus,
               socialPoolAddresses,
               elRewardAddresses,
@@ -267,7 +276,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
           blockTag,
         })) as validatorsRegistryResponse[]
         logger.debug(`${validators.length} addresses found in pool ${i}`)
-        validators.forEach(([, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => {
+        validators.forEach(([status, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => {
           addressList.push({
             address: pubkey,
             withdrawVaultAddress,
@@ -275,6 +284,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
             chainId,
             operatorId: Number(operatorId),
             poolId: i,
+            status,
           })
         })
       }

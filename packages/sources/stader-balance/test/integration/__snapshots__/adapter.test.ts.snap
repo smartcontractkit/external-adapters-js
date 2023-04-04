@@ -17,6 +17,10 @@ Object {
         "balance": "2000000000",
       },
       Object {
+        "address": "0x50297e640b62281b6Dac0d5Aa91848Fb028357Ea",
+        "balance": "31000000000",
+      },
+      Object {
         "address": "0x84d290ec6a766cef753bcce7b6d75f12b405e5c76171f2a456ae415e872d23ea01f869e8f64629a48f0c21f0f86e37d3",
         "balance": "29000000000",
       },
@@ -25,8 +29,12 @@ Object {
         "balance": "28000000000",
       },
       Object {
+        "address": "0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc",
+        "balance": "22653125000",
+      },
+      Object {
         "address": "0x8cd2726ccd034cf023840c2f76f7bfd4f2e8dbe79ff0e43d2908d1124450ed1c954966a42113787bc930c0e2d73524c0",
-        "balance": "31687500000",
+        "balance": "32687500000",
       },
       Object {
         "address": "0xaaea1a72970d9d8cd5fdee9c41437b24b9c49c34e35cd620c87fc8ad270ed822fe550690581422a90d7538e906f61d11",
@@ -37,8 +45,12 @@ Object {
         "balance": "28111718750",
       },
       Object {
-        "address": "0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc",
-        "balance": "22653125000",
+        "address": "0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941",
+        "balance": "1000000000",
+      },
+      Object {
+        "address": "0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941",
+        "balance": "18112749.0830336",
       },
       Object {
         "address": "0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a",
