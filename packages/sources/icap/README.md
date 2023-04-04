@@ -1,6 +1,6 @@
-# TP_ICAP
+# ICAP
 
-![0.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tp-icap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/icap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -28,10 +28,11 @@ Supported names for this endpoint are: `forex`, `price`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? |    Name    |    Aliases     |                        Description                        |  Type  |          Options           | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :-------------------------------------------------------: | :----: | :------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |      The symbol of symbols of the currency to query       | string |                            |         |            |                |
+|    ✅     |   quote    | `market`, `to` |         The symbol of the currency to convert to          | string |                            |         |            |                |
+|           | icapSource |                | Source of price data for this price pair on the IC stream | string | `BGK`, `GBL`, `HKG`, `JHB` |  `GBL`  |            |                |
 
 ### Example
 
