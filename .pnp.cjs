@@ -7067,6 +7067,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
+        ["npm:0.28.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.28.0-f29179f40c-0a6116e13b.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.28.0"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:1.3.4"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.13.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:3c904272edf04a63075d12f90f9beeca4473ceb20cf77b720f2c2e5e66eedda33f950d0d044823f47fd29ad67288f278618f841dd1c15649209b18e982675d44#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:0.28.1", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.28.1-3c904272ed-feeead0cbe.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
