@@ -24,7 +24,7 @@ function bump() (
   fi
 
   # Ignore scripts, that's not an adapter
-  if [[ $changed && $package != "scripts" ]]; then
+  if [[ $changed ]]; then
     echo "Package $package was changed, adding to list..."
     echo "'$(jq -r '.name' package.json)': patch" >> ../../../changed_eas.tmp
   fi
