@@ -73,10 +73,8 @@ describe('Price Endpoint', () => {
     expect(response.body).toMatchSnapshot()
   }, 30000)
 
-  it('should return price from correct full code', async () => {
-    const response = await makeRequest({
-      data: { base: 'FXSPTUSDIDRSPT:GBL.BIL.QTE.RTM!TP', quote: 'USD' },
-    })
+  it('should return price for specific source', async () => {
+    const response = await makeRequest({ data: { base: 'EUR', quote: 'USD', tpSource: 'FYI' } })
     expect(response.body).toMatchSnapshot()
   }, 30000)
 

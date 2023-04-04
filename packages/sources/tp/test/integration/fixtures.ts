@@ -21,6 +21,25 @@ export const mockPriceResponse = {
   },
 }
 
+export const mockSeparateSourcePriceResponse = {
+  msg: 'sub',
+  pro: 'OMM',
+  rec: 'FXSPTEURUSDSPT:FYI.BIL.QTE.RTM!TP',
+  sta: 1,
+  img: 1,
+  fvs: {
+    VALUE_DT1: null,
+    ASK: 1.02,
+    BID: 2.01,
+    ACTIV_DATE: '2023-03-08',
+    TIMACT: '02:31:00',
+    CCY1: 'EUR',
+    MID_PRICE: 1.55,
+    FID_515: 'SPT',
+    CCY2: 'USD',
+  },
+}
+
 export const mockICPriceResponse = {
   msg: 'sub',
   pro: 'OMM',

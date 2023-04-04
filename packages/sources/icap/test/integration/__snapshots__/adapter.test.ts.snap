@@ -93,3 +93,17 @@ Object {
   },
 }
 `;
+
+exports[`Price Endpoint should return price for specific source 1`] = `
+Object {
+  "data": Object {
+    "result": 1.55,
+  },
+  "result": 1.55,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1678271400000,
+    "providerDataStreamEstablishedUnixMs": 1678271400000,
+  },
+}
+`;

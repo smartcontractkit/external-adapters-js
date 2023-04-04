@@ -8,6 +8,7 @@ import {
   mockPriceResponse,
   mockStalePriceResponse,
   mockSubscribeResponse,
+  mockSeparateSourcePriceResponse,
 } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
@@ -64,6 +65,7 @@ export const mockPriceWebSocketServer = (URL: string): Server => {
       socket.send(JSON.stringify(mockPriceResponse))
       socket.send(JSON.stringify(mockInversePriceResponse))
       socket.send(JSON.stringify(mockICPriceResponse))
+      socket.send(JSON.stringify(mockSeparateSourcePriceResponse))
     })
   })
   return mockWsServer

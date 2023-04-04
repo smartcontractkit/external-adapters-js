@@ -73,6 +73,11 @@ describe('Price Endpoint', () => {
     expect(response.body).toMatchSnapshot()
   }, 30000)
 
+  it('should return price for specific source', async () => {
+    const response = await makeRequest({ data: { base: 'EUR', quote: 'USD', icapSource: 'BGK' } })
+    expect(response.body).toMatchSnapshot()
+  }, 30000)
+
   it('should return error when queried for TP price', async () => {
     const response = await makeRequest({ data: { base: 'ABC', quote: 'USD' } })
     expect(response.body).toMatchSnapshot()
