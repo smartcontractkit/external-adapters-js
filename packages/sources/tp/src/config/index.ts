@@ -16,6 +16,6 @@ export const config = new AdapterConfig({
   WS_API_ENDPOINT: {
     description: 'Endpoint for WS prices',
     type: 'string',
-    default: 'ws://json.mktdata.portal.apac.parametasolutions.com',
+    default: 'ws://json.mktdata.portal.apac.parametasolutions.com:12000',
   },
 })
