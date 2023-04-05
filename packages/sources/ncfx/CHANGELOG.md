@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.2.5
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
 ## 3.2.4
 
 ### Patch Changes
