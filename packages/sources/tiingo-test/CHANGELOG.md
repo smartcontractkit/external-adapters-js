@@ -1,5 +1,11 @@
 # @chainlink/tiingo-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
 ## 1.2.0
 
 ### Minor Changes
