@@ -17,12 +17,16 @@ export const SECONDARY_WS_API_ENDPOINT = 'wss://unregprod.cfbenchmarks.com/ws/v4
 
 export type Config = BaseConfig & {
   useSecondary: boolean
+  bircRetry: number
+  bircRetryDelay: number
 }
 
 export const makeConfig = (prefix?: string): Config => {
   const config = {
     ...Requester.getDefaultConfig(prefix),
     useSecondary: util.parseBool(util.getEnv(ENV_API_SECONDARY)),
+    bircRetry: Number(util.getEnv('BIRC_RETRY')) || Number(util.getEnv('RETRY')) || 3,
+    bircRetryDelay: Number(util.getEnv('BIRC_RETRY_DELAY_MS')) || 1000,
   }
 
   config.api.baseURL =

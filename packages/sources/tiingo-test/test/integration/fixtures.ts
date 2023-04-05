@@ -246,3 +246,105 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .get('/tiingo/crypto/prices')
+    .query({
+      token: 'fake-api-key',
+      baseCurrency: 'real_vol_ETH',
+      convertCurrency: 'USD',
+      consolidateBaseCurrency: true,
+    })
+    .reply(
+      200,
+      () => [
+        {
+          baseCurrency: 'eth',
+          quoteCurrency: 'usd',
+          realVolData: [
+            {
+              date: '2022-01-11T00:00:00+00:00',
+              realVol1Day: 0.3312392184952228,
+              realVol7Day: 0.6687492814959118,
+              realVol30Day: 0.851625908515737,
+            },
+          ],
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .get('/tiingo/crypto-yield/ticks')
+    .query({
+      token: 'fake-api-key',
+      poolCodes: 'ethnetwork_eth',
+    })
+    .reply(
+      200,
+      () => [
+        {
+          date: '2023-03-28T08:18:37.836912+00:00',
+          yieldPoolID: 42,
+          yieldPoolName: 'ethnetwork_eth',
+          epoch: 190538,
+          startSlot: 6097216,
+          endSlot: 6097247,
+          validatorReward: 8.387974508106709,
+          transactionReward: 0.9943422706363183,
+          validatorSubtractions: -0.03651446599984354,
+          deposits: 0,
+          totalReward: 9.345802312743183,
+          divisor: 17818985,
+          apr30Day: 0.05041705428139954,
+          apr90Day: 0.0509027044623858,
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .get('/tiingo/crypto-yield/ticks')
+    .query({
+      token: 'fake-api-key',
+      poolCodes: 'compound_usdt',
+    })
+    .reply(
+      200,
+      () => [
+        {
+          date: '2023-03-18T09:07:00+00:00',
+          poolCode: 'compound_usdt',
+          variableBorrowRate: 0.040187752938891874,
+          stableBorrowRate: null,
+          totalStableBorrowAmount: null,
+          totalVariableBorrowAmount: 109152599.889651,
+          totalBorrowAmount: 109152599.889651,
+          supplyRate: 0.025501153223986828,
+          totalSupplyAmount: 157984241.97059688,
+          availableLiquidityAmount: 48831642.08094588,
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )

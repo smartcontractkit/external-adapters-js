@@ -1,12 +1,15 @@
 # MOONBEAM_ADDRESS_LIST
 
-![1.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/moonbeam-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/moonbeam-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |   Name   |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | RPC_URL  | The RPC URL to connect to the Moonbeam chain the address manager contract is deployed to. | string |         |         |
+|           | CHAIN_ID |                                The chain id to connect to                                 | number |         | `1284`  |
 
 ---
 

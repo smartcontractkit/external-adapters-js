@@ -1,12 +1,17 @@
 # CRYPTOCOMPARE
 
-![1.2.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       |                              Description                              |  Type  | Options |                Default                |
+| :-------: | :-------------: | :-------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------: |
+|           |  API_ENDPOINT   |                  The HTTP URL to retrieve data from                   | string |         |  `https://min-api.cryptocompare.com`  |
+|           | WS_API_ENDPOINT |                   The WS URL to retrieve data from                    | string |         | `wss://streamer.cryptocompare.com/v2` |
+|    ✅     |     API_KEY     |                       The CryptoCompare API key                       | string |         |                                       |
+|           |   WS_API_KEY    | The websocket API key to authenticate with, if different from API_KEY | string |         |                                       |
 
 ---
 

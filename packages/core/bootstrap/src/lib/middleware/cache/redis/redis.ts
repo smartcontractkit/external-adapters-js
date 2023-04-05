@@ -18,6 +18,8 @@ export type RedisOptions = RedisClientOptions<RedisModules, RedisFunctions, Redi
   type: 'redis'
 }
 
+const MAX_REDIS_CONNECTION_TIMEOUT = 60000
+
 export const defaultOptions = (): RedisOptions => {
   const options: RedisOptions = {
     type: 'redis',
@@ -30,7 +32,10 @@ export const defaultOptions = (): RedisOptions => {
         logger.warn(`Redis reconnect attempt #${retries}`)
         return Math.min(retries * 100, Number(getEnv('CACHE_REDIS_MAX_RECONNECT_COOLDOWN'))) // Next reconnect attempt time
       },
-      connectTimeout: Number(getEnv('CACHE_REDIS_CONNECTION_TIMEOUT')),
+      connectTimeout: Math.min(
+        Number(getEnv('CACHE_REDIS_CONNECTION_TIMEOUT')),
+        MAX_REDIS_CONNECTION_TIMEOUT,
+      ),
     },
     password: getEnv('CACHE_REDIS_PASSWORD'),
     commandsQueueMaxLength: Number(getEnv('CACHE_REDIS_MAX_QUEUED_ITEMS')),

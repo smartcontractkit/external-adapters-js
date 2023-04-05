@@ -1,23 +1,10 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import overrides from '../config/symbols.json'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['historical']
-
-export const description = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical'
-
-export type TInputParameters = {
-  base: string
-  convert: string
-  start: string
-  end: string
-  count: number
-  interval: string
-  cid: string
-  aux: string
-  skipInvalid: string
-}
-export const inputParameters: InputParameters<TInputParameters> = {
+const inputParameters = {
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],
     description: 'The symbol of the currency to query',
@@ -67,6 +54,18 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     type: 'string',
   },
+} satisfies InputParameters
+
+export type RequestParams = {
+  base: string
+  convert: string
+  start: string
+  end: string
+  count: number
+  interval: string
+  cid: string
+  aux: string
+  skipInvalid: string
 }
 
 export interface ResponseSchema {
@@ -98,39 +97,75 @@ export interface ResponseSchema {
   }
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
-
-  const jobRunID = validator.validated.id
-  const symbol = validator.validated.data.base?.toUpperCase()
-  const convert = validator.validated.data.convert?.toUpperCase()
-  const time_start = validator.validated.data.start
-  const time_end = validator.validated.data.end
-  const count = validator.validated.data.count
-  const interval = validator.validated.data.interval
-  const convert_id = validator.validated.data.cid
-  const aux = validator.validated.data.aux
-  const skip_invalid = validator.validated.data.skipInvalid
-  const url = 'cryptocurrency/quotes/historical'
-
-  const params = {
-    symbol,
-    time_start,
-    time_end,
-    count,
-    interval,
-    convert,
-    convert_id,
-    aux,
-    skip_invalid,
-  }
-
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response = await Requester.request<ResponseSchema>(options)
-  return Requester.success(jobRunID, response, true)
+export interface RequestBody {
+  symbol: string
+  time_start: string
+  time_end: string
+  count: number
+  interval: string
+  convert: string
+  convert_id: string
+  aux: string
+  skip_invalid: string
 }
+
+export type EndpointTypes = {
+  Request: {
+    Params: RequestParams
+  }
+  Response: {
+    Data: unknown
+    Result: null
+  }
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
+  }
+}
+
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      return {
+        params: [param],
+        request: {
+          baseURL: config.API_ENDPOINT,
+          url: '/cryptocurrency/quotes/historical',
+          headers: {
+            'X-CMC_PRO_API_KEY': config.API_KEY,
+          },
+          params: {
+            symbol: param.base.toUpperCase(),
+            time_start: param.start,
+            time_end: param.end,
+            count: param.count,
+            interval: param.interval,
+            convert: param.convert.toUpperCase(),
+            convert_id: param.cid,
+            aux: param.aux,
+            skip_invalid: param.skipInvalid,
+          },
+        },
+      }
+    })
+  },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      return {
+        params: param,
+        response: {
+          ...res.data,
+          result: null,
+        },
+      }
+    })
+  },
+})
+
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'historical',
+  transport: httpTransport,
+  inputParameters,
+  overrides: overrides.coinmarketcap,
+})
