@@ -1,6 +1,6 @@
 # TIINGO
 
-![1.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -18,9 +18,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                 Options                                                                                                                                                                                                                                  | Default  |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-synth](#crypto-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#crypto-endpoint), [prices](#crypto-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                                                                          Options                                                                                                                                                                                                                                                                                                          | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-synth](#crypto-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto_lwba-endpoint), [cryptolwba](#crypto_lwba-endpoint), [cryptoyield](#cryptoyield-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#crypto-endpoint), [prices](#crypto-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint), [yield](#cryptoyield-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -132,6 +132,39 @@ Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 | :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
 |    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Crypto_lwba Endpoint
+
+Supported names for this endpoint are: `crypto_lwba`, `cryptolwba`.
+
+### Input Params
+
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Cryptoyield Endpoint
+
+Supported names for this endpoint are: `cryptoyield`, `yield`.
+
+### Input Params
+
+| Required? |   Name   | Aliases |                    Description                    |  Type  | Options |     Default      | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :-----------------------------------------------: | :----: | :-----: | :--------------: | :--------: | :------------: |
+|           | poolCode |         | Tiingo staking pool code to return yield data for | string |         | `ethnetwork_eth` |            |                |
 
 ### Example
 

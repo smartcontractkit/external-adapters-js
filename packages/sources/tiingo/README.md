@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tiingo
 
-![1.12.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.13.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.tiingo.com
 
@@ -19,9 +19,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                            Options                                                                                                                                                                                            | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-synth](#prices-endpoint), [crypto-vwap](#cryptovwap-endpoint), [crypto](#prices-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#prices-endpoint), [prices](#prices-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#prices-endpoint), [vwap](#cryptovwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                                                                                                            Options                                                                                                                                                                                                                                                                                                                                             | Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-synth](#prices-endpoint), [crypto-vwap](#cryptovwap-endpoint), [crypto-yield](#cyptoyield-endpoint), [crypto](#prices-endpoint), [cryptoyield](#cyptoyield-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#prices-endpoint), [prices](#prices-endpoint), [realised-vol](#realizedvol-endpoint), [realisedVol](#realizedvol-endpoint), [realized-vol](#realizedvol-endpoint), [realizedVol](#realizedvol-endpoint), [rv](#realizedvol-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#prices-endpoint), [vwap](#cryptovwap-endpoint), [yield](#cyptoyield-endpoint) | `crypto` |
 
 ## Eod Endpoint
 
@@ -555,6 +555,177 @@ Response:
     "result": 0.7091192957589304
   },
   "result": 0.7091192957589304,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## CyptoYield Endpoint
+
+Supported names for this endpoint are: `crypto-yield`, `cryptoyield`, `yield`.
+
+### Input Params
+
+| Required? |   Name   | Aliases |                    Description                    |  Type  | Options |     Default      | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :-----------------------------------------------: | :----: | :-----: | :--------------: | :--------: | :------------: |
+|           | poolCode |         | Tiingo staking pool code to return yield data for | string |         | `ethnetwork_eth` |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "poolCode": "ethnetwork_eth",
+    "endpoint": "cryptoyield"
+  },
+  "debug": {
+    "cacheKey": "Nhw59a25aCHK8n/kltdfsZJwpXk="
+  },
+  "rateLimitMaxAge": 72000
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "date": "2023-03-28T08:18:37.836912+00:00",
+        "yieldPoolID": 42,
+        "yieldPoolName": "ethnetwork_eth",
+        "epoch": 190538,
+        "startSlot": 6097216,
+        "endSlot": 6097247,
+        "validatorReward": 8.387974508106709,
+        "transactionReward": 0.9943422706363183,
+        "validatorSubtractions": -0.03651446599984354,
+        "deposits": 0,
+        "totalReward": 9.345802312743183,
+        "divisor": 17818985,
+        "apr30Day": 0.05041705428139954,
+        "apr90Day": 0.0509027044623858
+      }
+    ],
+    "result": 0.05041705428139954
+  },
+  "result": 0.05041705428139954,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "poolCode": "compound_usdt",
+    "endpoint": "cryptoyield"
+  },
+  "debug": {
+    "cacheKey": "EhV2L699ilFSLF9wXyzanLYHQ14="
+  },
+  "rateLimitMaxAge": 79999
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "date": "2023-03-18T09:07:00+00:00",
+        "poolCode": "compound_usdt",
+        "variableBorrowRate": 0.040187752938891874,
+        "stableBorrowRate": null,
+        "totalStableBorrowAmount": null,
+        "totalVariableBorrowAmount": 109152599.889651,
+        "totalBorrowAmount": 109152599.889651,
+        "supplyRate": 0.025501153223986828,
+        "totalSupplyAmount": 157984241.97059688,
+        "availableLiquidityAmount": 48831642.08094588
+      }
+    ],
+    "result": 0.025501153223986828
+  },
+  "result": 0.025501153223986828,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
+
+---
+
+## RealizedVol Endpoint
+
+Supported names for this endpoint are: `realised-vol`, `realisedVol`, `realized-vol`, `realizedVol`, `rv`.
+
+### Input Params
+
+| Required? | Name  |     Aliases     |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-------------: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`  |  The base currency to query the realized volatility for  | string |         |         |            |                |
+|           | quote | `convert`, `to` | The quote currency to convert the realized volatility to | string |         |  `USD`  |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD",
+    "endpoint": "realized-vol"
+  },
+  "debug": {
+    "cacheKey": "K4RkMZA5C7V5mvX1ygaa7VliKzM="
+  },
+  "rateLimitMaxAge": 87999
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "baseCurrency": "eth",
+        "quoteCurrency": "usd",
+        "realVolData": [
+          {
+            "date": "2022-01-11T00:00:00+00:00",
+            "realVol1Day": 0.3312392184952228,
+            "realVol7Day": 0.6687492814959118,
+            "realVol30Day": 0.851625908515737
+          }
+        ]
+      }
+    ],
+    "result": 0.851625908515737
+  },
+  "result": 0.851625908515737,
   "statusCode": 200,
   "providerStatusCode": 200
 }
