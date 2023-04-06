@@ -2,4 +2,4 @@
 '@chainlink/cfbenchmarks-adapter': minor
 ---
 
-Replaced errror with warning log for date check on CF Benchmarks BIRC endpoint
+Replaced error with warning log for date check on CF Benchmarks BIRC endpoint
