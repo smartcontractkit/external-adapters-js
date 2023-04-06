@@ -2,4 +2,4 @@
 '@chainlink/cfbenchmarks-adapter': minor
 ---
 
-Added custom data validation & custom retry config for cfbenchmarks BIRC
+Replaced errror with warning log for date check on CF Benchmarks BIRC endpoint
