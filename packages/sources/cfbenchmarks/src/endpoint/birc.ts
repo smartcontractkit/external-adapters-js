@@ -43,20 +43,6 @@ export interface ResponseSchema {
 
 // Tenor must be between -1 and 1
 export const tenorInRange = (tenor: number): boolean => tenor >= -1 && tenor <= 1
-// Check if time of latest update is in the current day in UTC time
-export const latestUpdateIsCurrentDay = (utcTimeOfUpdate: number): boolean => {
-  try {
-    const latestUpdateDate = new Date(utcTimeOfUpdate)
-    const currentDay = new Date()
-    return (
-      latestUpdateDate.getUTCFullYear() === currentDay.getUTCFullYear() &&
-      latestUpdateDate.getUTCMonth() === currentDay.getUTCMonth() &&
-      latestUpdateDate.getUTCDate() === currentDay.getUTCDate()
-    )
-  } catch (error) {
-    return false
-  }
-}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
@@ -77,14 +63,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     [response.data.payload.length - 1, 'tenors', tenor],
     { acceptZeroValue: true },
   )
-
-  const latestUpdate = response.data.payload[response.data.payload.length - 1]
-
-  if (!latestUpdateIsCurrentDay(latestUpdate.time)) {
-    const error = 'Latest update from response is not in current day'
-    Logger.error(error, { latestUpdate })
-    throw new AdapterResponseInvalidError({ message: error })
-  }
 
   if (!tenorInRange(result)) {
     const error = 'Tenor is out of range (-1 to 1)'
