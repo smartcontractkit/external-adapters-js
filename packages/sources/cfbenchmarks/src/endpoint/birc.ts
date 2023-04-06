@@ -81,9 +81,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const latestUpdate = response.data.payload[response.data.payload.length - 1]
 
   if (!latestUpdateIsCurrentDay(latestUpdate.time)) {
-    const error = 'Latest update from response is not in current day'
-    Logger.error(error, { latestUpdate })
-    throw new AdapterResponseInvalidError({ message: error })
+    const warning = 'Latest update from response is not in current day'
+    Logger.warn(warning, { latestUpdate })
   }
 
   if (!tenorInRange(result)) {
