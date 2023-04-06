@@ -5,7 +5,7 @@ import includes from './config/includes.json'
 import { forex, live } from './endpoint'
 
 export const adapter = new PriceAdapter({
-  defaultEndpoint: forex.name,
+  defaultEndpoint: live.name,
   name: 'TRADERMADE',
   config,
   endpoints: [forex, live],
