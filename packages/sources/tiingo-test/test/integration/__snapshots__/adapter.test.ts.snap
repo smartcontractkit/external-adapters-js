@@ -113,7 +113,7 @@ Object {
     "realVol30Day": 0.851625908515737,
     "realVol7Day": 0.6687492814959118,
   },
-  "result": null,
+  "result": 0.851625908515737,
   "statusCode": 200,
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1641035471111,
