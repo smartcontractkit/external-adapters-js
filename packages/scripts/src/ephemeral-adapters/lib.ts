@@ -174,6 +174,7 @@ export const deployAdapter = (config: Inputs): void => {
       --namespace ${NAMESPACE} \
       --create-namespace \
       ${config.helmValuesOverride} \
+      --set envVars.CACHE_REDIS_CONNECTION_TIMEOUT=60000 \
       --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
       --set image.tag=${config.imageTag} \
       --set name=${config.name} \

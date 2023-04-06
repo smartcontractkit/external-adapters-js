@@ -1,232 +1,164 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { server as startServer } from '../../src/index'
-import {
-  mockCoinMarketCapErrorTooManyRequests,
-  mockSuccessfulCoinMarketCapResponse,
-  mockSuccessfulCoinMarketCapResponseWithSlug,
-} from './cryptoFixtures'
-import {
-  mockFailedGlobalMetricsResponse,
-  mockSuccessfulGlobalMetricsResponse,
-} from './globalMetricsFixtures'
-import { mockSuccessfulHistoricalCapResponse } from './historicalFixtures'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { SuperTest, Test } from 'supertest'
+import {
+  mockSuccessfulCoinMarketCapResponse,
+  mockSuccessfulGlobalMetricsResponse,
+  mockSuccessfulHistoricalCapResponse,
+} from './fixtures'
+import { setupExternalAdapterTest, SuiteContext } from './setup'
 
-describe('coinmarketcap', () => {
+describe('execute', () => {
+  let spy: jest.SpyInstance
+  beforeAll(async () => {
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    done()
+  })
+  const id = '1'
+
   const context: SuiteContext = {
     req: null,
-    server: startServer,
+    server: async () => {
+      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '10000'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['API_KEY'] = 'fake-api-key'
+      const server = (await import('../../src')).server
+      return server() as Promise<ServerInstance>
+    },
   }
 
   const envVariables = {
     CACHE_ENABLED: 'false',
-    API_KEY: process.env.API_KEY || 'mock-api-key',
   }
 
   setupExternalAdapterTest(envVariables, context)
 
-  describe('when making a request to coinmarket cap to globalmarketcap endpoint', () => {
-    const globalMarketCap: AdapterRequest = {
-      id: '1',
+  describe('crypto endpoint with cid', () => {
+    const data = {
+      id,
+      data: {
+        base: 'BTC',
+        cid: '1',
+        to: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockSuccessfulCoinMarketCapResponse('id', '1')
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('marketcap endpoint with slug', () => {
+    const data = {
+      id,
+      data: {
+        endpoint: 'marketcap',
+        base: 'BTC',
+        slug: 'bitcoin',
+        to: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockSuccessfulCoinMarketCapResponse('slug', 'bitcoin')
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('volume endpoint with base (override to id)', () => {
+    const data = {
+      id,
+      data: {
+        endpoint: 'volume',
+        base: 'BTC',
+        to: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockSuccessfulCoinMarketCapResponse('id', '1')
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('globalmarketcap endpoint', () => {
+    const data = {
+      id,
       data: {
         endpoint: 'globalmarketcap',
         market: 'USD',
       },
     }
 
-    describe('coinmarketcap replies with success', () => {
-      it('should reply with success', async () => {
-        mockSuccessfulGlobalMetricsResponse('USD')
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(globalMarketCap)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
+    it('should return success', async () => {
+      mockSuccessfulGlobalMetricsResponse('USD')
 
-    describe('coinmarketcap replies with error due to too many requests', () => {
-      it('should reply with failure', async () => {
-        mockFailedGlobalMetricsResponse('USD')
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(globalMarketCap)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-
-        expect(response.body).toMatchSnapshot()
-      })
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 
-  describe('when making a request to coinmarket cap to dominance endpoint', () => {
-    const dominanceData: AdapterRequest = {
-      id: '1',
+  describe('dominance endpoint', () => {
+    const data = {
+      id,
       data: {
         endpoint: 'dominance',
         market: 'BTC',
       },
     }
 
-    describe('coinmarketcap replies with success', () => {
-      it('should reply with success', async () => {
-        mockSuccessfulGlobalMetricsResponse()
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(dominanceData)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
+    it('should return success', async () => {
+      mockSuccessfulGlobalMetricsResponse()
 
-    describe('coinmarketcap replies with error due to too many requests', () => {
-      it('should reply with failure', async () => {
-        mockFailedGlobalMetricsResponse()
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(dominanceData)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-
-        expect(response.body).toMatchSnapshot()
-      })
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 
-  describe('when making a request to coinmarket cap crypto endpoint', () => {
-    const data: AdapterRequest = {
-      id: '1',
-      data: {
-        endpoint: 'crypto',
-        base: 'BTC',
-        quote: 'USD',
-      },
-    }
-
-    describe('coinmarketcap replies with success', () => {
-      it('should reply with success', async () => {
-        mockSuccessfulCoinMarketCapResponse()
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-
-    describe('coinmarketcap replies with success when cid passed in', () => {
-      const cid = '1100'
-      const dataWithCid: AdapterRequest = {
-        id: '1',
-        data: {
-          endpoint: 'crypto',
-          base: 'BTC',
-          quote: 'USD',
-          cid: cid,
-        },
-      }
-      it('should reply with success', async () => {
-        mockSuccessfulCoinMarketCapResponse(cid)
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(dataWithCid)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-
-    describe('coinmarketcap replies with success when slug passed in', () => {
-      const slug = 'BTC'
-      const dataWithSlug: AdapterRequest = {
-        id: '1',
-        data: {
-          endpoint: 'crypto',
-          base: 'BTC',
-          quote: 'USD',
-          slug: slug,
-        },
-      }
-      it('should reply with success', async () => {
-        mockSuccessfulCoinMarketCapResponseWithSlug(slug)
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(dataWithSlug)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-
-    describe('coinmarketcap replies with success when single symbol passed in', () => {
-      const slug = 'bitcoin'
-      const dataWithSlug: AdapterRequest = {
-        id: '1',
-        data: {
-          endpoint: 'crypto',
-          base: 'BTC',
-          quote: 'USD',
-          symbol: slug,
-        },
-      }
-      it('should reply with success', async () => {
-        mockSuccessfulCoinMarketCapResponse('1')
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(dataWithSlug)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-
-    describe('coinmarketcap replies with error due to too many requests', () => {
-      it('should reply with failure', async () => {
-        mockCoinMarketCapErrorTooManyRequests()
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-  })
-
-  describe('coinmarketcap replies with success when request historical endpoint', () => {
-    const data: AdapterRequest = {
-      id: '1',
+  describe('historical endpoint', () => {
+    const data = {
+      id,
       data: {
         endpoint: 'historical',
         symbol: 'ETH',
@@ -235,19 +167,17 @@ describe('coinmarketcap', () => {
       },
     }
 
-    describe('coinmarketcap replies with success', () => {
-      it('should reply with success', async () => {
-        mockSuccessfulHistoricalCapResponse()
+    it('should return success', async () => {
+      mockSuccessfulHistoricalCapResponse()
 
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body.data).toMatchSnapshot()
-      })
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 })

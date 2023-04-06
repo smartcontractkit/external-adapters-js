@@ -1,5 +1,29 @@
 # @chainlink/tiingo-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
+## 1.2.0
+
+### Minor Changes
+
+- c6943ea82: Adds liquidity weighted spread data websocket endpoint to Tiingo v3 adapter
+- 63d2ccc0b: Added Tiingo realized-vol endpoint
+- d9b01ea68: Add tiingo staking yield endpoint to tiingo v3 ea
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+
+## 1.1.4
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
 ## 1.1.3
 
 ### Patch Changes
