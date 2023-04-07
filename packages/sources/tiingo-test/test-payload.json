@@ -10,7 +10,7 @@
       "endpoint": "realized-vol"
     },
     {
-      "poolCode": "ethnetwork_eth",
+      "aprTerm": "30day",
       "endpoint": "cryptoyield"
     }
   ]

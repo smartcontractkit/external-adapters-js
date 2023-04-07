@@ -14,30 +14,7 @@ Object {
 }
 `;
 
-exports[`execute http cryptoyield endpoint with poolCode should return success 1`] = `
-Object {
-  "data": Object {
-    "availableLiquidityAmount": 48831642.08094588,
-    "date": "2023-03-18T09:07:00+00:00",
-    "poolCode": "compound_usdt",
-    "stableBorrowRate": null,
-    "supplyRate": 0.025501153223986828,
-    "totalBorrowAmount": 109152599.889651,
-    "totalStableBorrowAmount": null,
-    "totalSupplyAmount": 157984241.97059688,
-    "totalVariableBorrowAmount": 109152599.889651,
-    "variableBorrowRate": 0.040187752938891874,
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": Object {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
-  },
-}
-`;
-
-exports[`execute http cryptoyield endpoint without poolCode should return success 1`] = `
+exports[`execute http cryptoyield endpoint should return success 1`] = `
 Object {
   "data": Object {
     "apr30Day": 0.05041705428139954,
@@ -55,7 +32,7 @@ Object {
     "yieldPoolID": 42,
     "yieldPoolName": "ethnetwork_eth",
   },
-  "result": null,
+  "result": 0.0509027044623858,
   "statusCode": 200,
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1641035471111,
