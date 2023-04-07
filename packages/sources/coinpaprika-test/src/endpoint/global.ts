@@ -85,7 +85,7 @@ const httpTransport = new HttpTransport<GlobalEndpointTypes>({
           params: p,
           response: {
             errorMessage: `The data provider did not send any value when requesting the global endpoint`,
-            statusCode: 400,
+            statusCode: 502,
           },
         }
       }
@@ -101,12 +101,12 @@ const httpTransport = new HttpTransport<GlobalEndpointTypes>({
           params: p,
           response: {
             errorMessage: `A value for "${propertyPath}" was not found in the provider response`,
-            statusCode: 400,
+            statusCode: 502,
           },
         }
       }
 
-      const result = Number(data[propertyPath as keyof GlobalResponseBody])
+      const result = Number(rawResult)
       return {
         params: p,
         response: {
