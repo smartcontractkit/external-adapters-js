@@ -1,37 +1,39 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import {
-  CryptoPriceEndpoint,
-  PriceAdapter,
-  PriceEndpoint,
-} from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from './config'
-import { crypto, volume, top, eod, iex, forex, vwap } from './endpoint'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
 import includes from './config/includes.json'
+import {
+  crypto,
+  cryptolwba,
+  cryptoyield,
+  eod,
+  forex,
+  iex,
+  top,
+  volatility,
+  volume,
+  vwap,
+} from './endpoint'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: crypto.name,
   name: 'TIINGO',
-  customSettings,
-  endpoints: [
-    crypto as CryptoPriceEndpoint<any>,
-    volume as PriceEndpoint<any>,
-    top as PriceEndpoint<any>,
-    eod,
-    iex,
-    forex,
-    vwap as PriceEndpoint<any>,
-  ],
+  config,
+  endpoints: [crypto, volume, top, eod, iex, forex, vwap, cryptolwba, cryptoyield, volatility],
   includes,
   rateLimiting: {
     tiers: {
       starter: {
-        rateLimit1h: 500,
+        rateLimit1h: 41,
+        note: 'Starter tier, 50 requests per hour. With a maximum of 1,000 requests per day (https://api.tiingo.com/about/pricing)',
       },
       power: {
-        rateLimit1h: 20000,
+        rateLimit1h: 2080,
+        note: 'Power tier, 5,000 requests per hour. With a maximum of 50,000 requests per day (https://api.tiingo.com/about/pricing)',
       },
       commercial: {
-        rateLimit1h: 20000,
+        rateLimit1h: 6250,
+        note: 'Commercial tier, 20,000 requests per hour. With a maximum of 150,000 requests per day (https://api.tiingo.com/about/pricing)',
       },
     },
   },

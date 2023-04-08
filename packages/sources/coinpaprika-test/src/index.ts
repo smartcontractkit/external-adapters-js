@@ -1,5 +1,6 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
 import {
   crypto,
   crypto_market_cap,
@@ -13,6 +14,7 @@ import {
 export const adapter = new PriceAdapter({
   defaultEndpoint: crypto.name,
   name: 'COINPAPRIKA',
+  config,
   rateLimiting: {
     tiers: {
       free: {

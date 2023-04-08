@@ -1,5 +1,38 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.0.2
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
+## 3.0.1
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+
+## 3.0.0
+
+### Major Changes
+
+- 5916b71df: Upgrade coinmetrics to v3
+
+## 2.0.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 2.0.0
+
+### Major Changes
+
+- b4f23e7d8: Added crypto-lwba endpoint to coinmetrics adapter
+
 ## 1.3.28
 
 ### Patch Changes

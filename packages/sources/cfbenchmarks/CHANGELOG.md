@@ -1,5 +1,19 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- 6f605b8be: Added custom data validation & custom retry config for cfbenchmarks BIRC
+
+## 1.6.1
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.6.0
 
 ### Minor Changes

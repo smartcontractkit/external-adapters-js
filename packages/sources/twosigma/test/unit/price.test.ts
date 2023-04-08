@@ -16,7 +16,7 @@ const makeParam = (base: string): PriceEndpointParams => {
 describe('Config', () => {
   describe('url', () => {
     const context = {
-      adapterConfig: {
+      adapterSettings: {
         WS_API_ENDPOINT: 'wss://chainlink.twosigma.com',
       },
       endpointName: 'price',
@@ -24,18 +24,18 @@ describe('Config', () => {
     } as EndpointContext<price.WebSocketEndpointTypes>
 
     it('returns the endpoint URL from the config', () => {
-      expect(price.config.url(context)).toEqual(context.adapterConfig.WS_API_ENDPOINT)
+      expect(price.options.url(context)).toEqual(context.adapterSettings.WS_API_ENDPOINT)
     })
   })
 
   describe('message', () => {
     it('returns empty undefined for invalid messages', () => {
-      expect(price.config.handlers.message({} as price.WebSocketMessage)).toEqual(undefined)
+      expect(price.options.handlers.message({} as price.WebSocketMessage)).toEqual(undefined)
       expect(
-        price.config.handlers.message({ timestamp: 1672491600 } as price.WebSocketMessage),
+        price.options.handlers.message({ timestamp: 1672491600 } as price.WebSocketMessage),
       ).toEqual(undefined)
       expect(
-        price.config.handlers.message({ symbol_price_dict: {} } as price.WebSocketMessage),
+        price.options.handlers.message({ symbol_price_dict: {} } as price.WebSocketMessage),
       ).toEqual(undefined)
     })
 
@@ -60,7 +60,7 @@ describe('Config', () => {
         },
       }
 
-      expect(price.config.handlers.message(message)).toEqual([
+      expect(price.options.handlers.message(message)).toEqual([
         {
           params: {
             base: 'AAPL',
@@ -98,7 +98,7 @@ describe('Config', () => {
 
 describe('TwoSigmaWebsocketTransport', () => {
   const context = {
-    adapterConfig: {
+    adapterSettings: {
       WS_API_ENDPOINT: 'wss://chainlink.twosigma.com',
       WS_API_KEY: 'abc',
     },
@@ -132,6 +132,10 @@ describe('TwoSigmaWebsocketTransport', () => {
         listener({ type: 'mock_open' })
       }
     }
+
+    removeAllListeners() {
+      return
+    }
   }
 
   beforeAll(() => {
@@ -141,7 +145,7 @@ describe('TwoSigmaWebsocketTransport', () => {
   })
 
   beforeEach(() => {
-    transport = new price.TwoSigmaWebsocketTransport(price.config)
+    transport = new price.TwoSigmaWebsocketTransport(price.options)
     subscriptions = {
       desired: [makeParam('AAPL'), makeParam('AMZN')],
       new: [makeParam('AMZN')],

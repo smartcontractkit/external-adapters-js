@@ -1,4 +1,4 @@
-import { customSettings } from '../config'
+import { config } from '../config'
 import {
   PriceEndpoint,
   PriceEndpointInputParameters,
@@ -44,7 +44,7 @@ type BatchEndpointTypes = {
     Params: PriceEndpointParams & { hours: number }
   }
   Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema | ErrorResponse

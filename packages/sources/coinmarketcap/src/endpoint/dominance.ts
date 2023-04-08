@@ -1,38 +1,41 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { ResponseSchema } from './globalMarketCap'
-import overrides from '../config/symbols.json'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { GlobalEndpointTypes, inputParameters, ResultPath } from '../global-utils'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['dominance']
-
-export const description = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
-
-export type TInputParameters = { market: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  market: {
-    aliases: ['quote', 'to'],
-    description: 'The symbol of the currency to query',
-    required: true,
-    type: 'string',
+const httpTransport = new HttpTransport<GlobalEndpointTypes>({
+  prepareRequests: (params, config) => {
+    return {
+      params,
+      request: {
+        baseURL: config.API_ENDPOINT,
+        url: '/global-metrics/quotes/latest',
+        headers: {
+          'X-CMC_PRO_API_KEY': config.API_KEY,
+        },
+      },
+    }
   },
-}
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      const dataKey = `${param.market.toLowerCase()}_dominance`
+      const result = res.data.data[dataKey as ResultPath]
+      return {
+        params: param,
+        response: {
+          data: {
+            result,
+          },
+          result: result,
+        },
+      }
+    })
+  },
+})
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
-
-  const jobRunID = validator.validated.id
-
-  const url = 'global-metrics/quotes/latest'
-
-  const options = {
-    ...config.api,
-    url,
-  }
-
-  const symbol = validator.validated.data.market.toLowerCase()
-  const dataKey = `${symbol}_dominance`
-
-  const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, ['data', dataKey])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
+export const endpoint = new AdapterEndpoint<GlobalEndpointTypes>({
+  name: 'dominance',
+  transport: httpTransport,
+  inputParameters,
+  overrides: overrides.coinmarketcap,
+})

@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { writeFileSync } from 'fs'
 import { join } from 'path'
-import { getWorkspacePackages, WorkspacePackage } from '../workspace'
+import { getWorkspaceAdapters, WorkspaceAdapter } from '../workspace'
+
 const failed = require('./staging.failed.json')
 const success = require('./staging.success.json')
 
 async function main() {
-  const pkgs = getWorkspacePackages()
+  const pkgs = getWorkspaceAdapters()
   const merged = [...failed, ...success]
   for (const pkg of pkgs) {
     const strippedName = pkg.descopedName.replace('-adapter', '')
@@ -76,7 +77,7 @@ main()
 
 type MatchingRequest = (typeof failed | typeof success)[number]
 
-function writePayload(pkg: WorkspacePackage, matchingReq: MatchingRequest) {
+function writePayload(pkg: WorkspaceAdapter, matchingReq: MatchingRequest) {
   writeFileSync(
     join(pkg.location, 'test-payload.json'),
     JSON.stringify(

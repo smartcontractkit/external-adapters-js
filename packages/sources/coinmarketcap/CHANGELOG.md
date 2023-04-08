@@ -1,5 +1,31 @@
 # @chainlink/coinmarketcap-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
+## 2.0.1
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+
+## 2.0.0
+
+### Major Changes
+
+- 0664ab1fd: Upgraded adapter from v2 to v3 framework
+
+## 1.5.32
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.5.31
 
 ### Patch Changes

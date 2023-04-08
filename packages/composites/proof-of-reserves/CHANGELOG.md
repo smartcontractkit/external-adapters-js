@@ -1,5 +1,118 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.16.9
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+- Updated dependencies [4245b4d8b]
+  - @chainlink/moonbeam-address-list-adapter@1.1.6
+  - @chainlink/polkadot-balance-adapter@1.1.6
+  - @chainlink/por-indexer-adapter@1.2.47
+  - @chainlink/renvm-address-set-adapter@1.5.38
+  - @chainlink/wbtc-address-set-adapter@1.4.47
+
+## 1.16.8
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+- Updated dependencies [8fe5be225]
+  - @chainlink/moonbeam-address-list-adapter@1.1.5
+  - @chainlink/polkadot-balance-adapter@1.1.5
+  - @chainlink/por-indexer-adapter@1.2.46
+  - @chainlink/renvm-address-set-adapter@1.5.37
+  - @chainlink/wbtc-address-set-adapter@1.4.46
+
+## 1.16.7
+
+### Patch Changes
+
+- 5916b71df: Update framework version
+  - @chainlink/por-indexer-adapter@1.2.45
+  - @chainlink/renvm-address-set-adapter@1.5.36
+  - @chainlink/wbtc-address-set-adapter@1.4.45
+
+## 1.16.6
+
+### Patch Changes
+
+- Updated dependencies [c9cee149e]
+  - @chainlink/moonbeam-address-list-adapter@1.1.4
+  - @chainlink/polkadot-balance-adapter@1.1.4
+  - @chainlink/por-indexer-adapter@1.2.44
+  - @chainlink/renvm-address-set-adapter@1.5.35
+  - @chainlink/wbtc-address-set-adapter@1.4.44
+
+## 1.16.5
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/por-indexer-adapter@1.2.43
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/moonbeam-address-list-adapter@1.1.3
+  - @chainlink/polkadot-balance-adapter@1.1.3
+  - @chainlink/renvm-address-set-adapter@1.5.34
+  - @chainlink/wbtc-address-set-adapter@1.4.43
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.29
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/reduce-adapter@1.4.16
+  - @chainlink/ada-balance-adapter@2.5.29
+  - @chainlink/amberdata-adapter@1.8.22
+  - @chainlink/avalanche-platform-adapter@1.0.2
+  - @chainlink/blockchain.com-adapter@1.3.29
+  - @chainlink/blockchair-adapter@1.3.29
+  - @chainlink/blockcypher-adapter@1.4.29
+  - @chainlink/btc.com-adapter@1.3.29
+  - @chainlink/celsius-address-list-adapter@2.0.13
+  - @chainlink/chain-reserve-wallet-adapter@3.0.13
+  - @chainlink/cryptoapis-adapter@1.2.29
+  - @chainlink/eth-balance-adapter@2.0.13
+  - @chainlink/eth-beacon-adapter@1.3.5
+  - @chainlink/gemini-adapter@2.2.29
+  - @chainlink/lotus-adapter@2.2.29
+  - @chainlink/por-address-list-adapter@4.0.12
+  - @chainlink/sochain-adapter@1.3.29
+  - @chainlink/stader-address-list-adapter@1.2.5
+  - @chainlink/swell-address-list-adapter@1.0.12
+  - @chainlink/wrapped-adapter@2.2.29
+
+## 1.16.4
+
+### Patch Changes
+
+- Updated dependencies [bc8886c63]
+  - @chainlink/moonbeam-address-list-adapter@1.1.2
+  - @chainlink/polkadot-balance-adapter@1.1.2
+  - @chainlink/por-indexer-adapter@1.2.42
+  - @chainlink/renvm-address-set-adapter@1.5.33
+  - @chainlink/wbtc-address-set-adapter@1.4.42
+
+## 1.16.3
+
+### Patch Changes
+
+- Updated dependencies [37c0d8883]
+  - @chainlink/moonbeam-address-list-adapter@1.1.1
+  - @chainlink/polkadot-balance-adapter@1.1.1
+  - @chainlink/por-indexer-adapter@1.2.41
+  - @chainlink/renvm-address-set-adapter@1.5.32
+  - @chainlink/wbtc-address-set-adapter@1.4.41
+
+## 1.16.2
+
+### Patch Changes
+
+- Updated dependencies [d474a5553]
+- Updated dependencies [d474a5553]
+  - @chainlink/polkadot-balance-adapter@1.1.0
+  - @chainlink/moonbeam-address-list-adapter@1.1.0
+  - @chainlink/por-indexer-adapter@1.2.40
+  - @chainlink/renvm-address-set-adapter@1.5.31
+  - @chainlink/wbtc-address-set-adapter@1.4.40
+
 ## 1.16.1
 
 ### Patch Changes

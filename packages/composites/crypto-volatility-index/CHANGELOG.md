@@ -1,5 +1,74 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.3.47
+
+### Patch Changes
+
+- Updated dependencies [4245b4d8b]
+  - @chainlink/token-allocation-adapter@1.10.4
+
+## 1.3.46
+
+### Patch Changes
+
+- Updated dependencies [8fe5be225]
+  - @chainlink/token-allocation-adapter@1.10.3
+
+## 1.3.45
+
+### Patch Changes
+
+- Updated dependencies [5916b71df]
+  - @chainlink/token-allocation-adapter@1.10.2
+
+## 1.3.44
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.1
+
+## 1.3.43
+
+### Patch Changes
+
+- Updated dependencies [fac3a3ce9]
+  - @chainlink/token-allocation-adapter@1.10.0
+
+## 1.3.42
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/token-allocation-adapter@1.9.8
+  - @chainlink/ea-reference-data-reader@1.3.28
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.3.41
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.7
+
+## 1.3.40
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.6
+
+## 1.3.39
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.5
+
+## 1.3.38
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.4
+
 ## 1.3.37
 
 ### Patch Changes

@@ -1,5 +1,60 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.5.38
+
+### Patch Changes
+
+- Updated dependencies [4245b4d8b]
+  - @chainlink/proof-of-reserves-adapter@1.16.9
+
+## 1.5.37
+
+### Patch Changes
+
+- Updated dependencies [8fe5be225]
+  - @chainlink/proof-of-reserves-adapter@1.16.8
+
+## 1.5.36
+
+### Patch Changes
+
+- Updated dependencies [5916b71df]
+  - @chainlink/proof-of-reserves-adapter@1.16.7
+
+## 1.5.35
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.6
+
+## 1.5.34
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/proof-of-reserves-adapter@1.16.5
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.5.33
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.4
+
+## 1.5.32
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.3
+
+## 1.5.31
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.2
+
 ## 1.5.30
 
 ### Patch Changes

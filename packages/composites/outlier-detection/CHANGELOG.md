@@ -1,5 +1,94 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.2.83
+
+### Patch Changes
+
+- @chainlink/ea@1.3.82
+
+## 1.2.82
+
+### Patch Changes
+
+- @chainlink/ea@1.3.81
+
+## 1.2.81
+
+### Patch Changes
+
+- @chainlink/ea@1.3.80
+
+## 1.2.80
+
+### Patch Changes
+
+- @chainlink/ea@1.3.79
+
+## 1.2.79
+
+### Patch Changes
+
+- @chainlink/ea@1.3.78
+
+## 1.2.78
+
+### Patch Changes
+
+- @chainlink/ea@1.3.77
+
+## 1.2.77
+
+### Patch Changes
+
+- @chainlink/ea@1.3.76
+
+## 1.2.76
+
+### Patch Changes
+
+- @chainlink/ea@1.3.75
+
+## 1.2.75
+
+### Patch Changes
+
+- @chainlink/ea@1.3.74
+
+## 1.2.74
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea@1.3.73
+  - @chainlink/ea-reference-data-reader@1.3.28
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.73
+
+### Patch Changes
+
+- @chainlink/ea@1.3.72
+
+## 1.2.72
+
+### Patch Changes
+
+- @chainlink/ea@1.3.71
+
+## 1.2.71
+
+### Patch Changes
+
+- @chainlink/ea@1.3.70
+
+## 1.2.70
+
+### Patch Changes
+
+- @chainlink/ea@1.3.69
+
 ## 1.2.69
 
 ### Patch Changes

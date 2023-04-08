@@ -1,9 +1,8 @@
-import crypto from 'crypto'
-import { SigningAlgorithm } from './types'
-import { customSettings } from './config'
-import axios, { AxiosRequestConfig } from 'axios'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import axios, { AxiosRequestConfig } from 'axios'
+import crypto from 'crypto'
+import { config } from './config'
+import { SigningAlgorithm } from './types'
 
 interface TokenResponseBody {
   errors?: string[]
@@ -17,11 +16,11 @@ const logger = makeLogger('BankFrickUtil')
 
 // Used by all endpoints requiring authentication
 export const generateJWT = async (
-  config: AdapterConfig<typeof customSettings>,
+  settings: typeof config.settings,
   signingAlgorithm: SigningAlgorithm = 'rsa-sha512',
 ): Promise<string> => {
   logger.info("Generating a new JWT because we don't have one in config.token")
-  const { API_KEY, PRIVATE_KEY, API_ENDPOINT } = config
+  const { API_KEY, PRIVATE_KEY, API_ENDPOINT } = settings
 
   // All of these are required, so validation should have failed prior to this line
   if (!API_KEY || !PRIVATE_KEY) {

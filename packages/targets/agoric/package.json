@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/agoric-adapter",
-  "version": "2.1.28",
+  "version": "2.1.29",
   "description": "Chainlink adapter to post to the Agoric blockchain",
   "keywords": [
     "Chainlink",
@@ -30,7 +30,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "ethers": "^5.4.6",
-    "fastify": "^3.27.1",
+    "fastify": "^3.29.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

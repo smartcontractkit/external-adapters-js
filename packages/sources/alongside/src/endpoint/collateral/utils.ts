@@ -117,7 +117,7 @@ export class Collateral {
     const latestBlock = await this.provider.getBlock('latest')
     const logs = await this.provider.getLogs({
       ...indexToken.filters.MethodologySet(),
-      fromBlock: latestBlock.number - 1_000_000,
+      fromBlock: latestBlock.number - 300_000,
       toBlock: latestBlock.number,
     })
     // TODO replace me with an assert
