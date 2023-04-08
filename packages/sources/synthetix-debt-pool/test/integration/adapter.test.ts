@@ -13,6 +13,7 @@ const mockChainConfig = {
     debtPoolAddress: 'fake-ethereum-debt-pool-address',
     synthetixDebtShareAddress: 'fake-ethereum-synthetix-debt-share-address',
     synthetixBridgeAddress: 'fake-ethereum-synthetix-bridge-address',
+    synthetixDebtMigratorAddress: 'fake-ethereum-synthetix-debt-migrator-address',
   },
   optimism: {
     rpcUrl: 'fake-optimism-rpc-url',
@@ -20,7 +21,8 @@ const mockChainConfig = {
     addressProviderContractAddress: 'fake-optimism-address-provider',
     debtPoolAddress: 'fake-optimism-debt-pool-address',
     synthetixDebtShareAddress: 'fake-optimism-synthetix-debt-share-address',
-    synthetixBridgeAddress: 'fake-ethereum-synthetix-bridge-address',
+    synthetixBridgeAddress: 'fake-optimism-synthetix-bridge-address',
+    synthetixDebtMigratorAddress: 'fake-optimism-synthetix-debt-migrator-address',
   },
 }
 
@@ -40,7 +42,9 @@ const mockEthereumAddressProviderContract = {
       case ethers.utils.formatBytes32String('SynthetixDebtShare'):
         return mockChainConfig.ethereum.synthetixDebtShareAddress
       case ethers.utils.formatBytes32String('SynthetixBridgeToOptimism'):
-        return mockChainConfig.optimism.synthetixBridgeAddress
+        return mockChainConfig.ethereum.synthetixBridgeAddress
+      case ethers.utils.formatBytes32String('DebtMigratorOnEthereum'):
+        return mockChainConfig.ethereum.synthetixDebtMigratorAddress
       default:
         throw new Error(`Invalid contract name ${contractName}`)
     }
@@ -56,6 +60,8 @@ const mockOptimismAddressProviderContract = {
         return mockChainConfig.optimism.synthetixDebtShareAddress
       case ethers.utils.formatBytes32String('SynthetixBridgeToBase'):
         return mockChainConfig.optimism.synthetixBridgeAddress
+      case ethers.utils.formatBytes32String('DebtMigratorOnOptimism'):
+        return mockChainConfig.optimism.synthetixDebtMigratorAddress
       default:
         throw new Error(`Invalid contract name ${contractName}`)
     }
@@ -84,8 +90,18 @@ const mockEthereumSynthetixBridgeContract = {
 }
 
 const mockOptimismSynthetixBridgeContract = {
-  synthTransferReceived: jest.fn().mockReturnValue(BigNumber.from('0')),
-  synthTransferSent: jest.fn().mockReturnValue(BigNumber.from('2000000000000000000')),
+  synthTransferReceived: jest.fn().mockReturnValue(BigNumber.from('2000000000000000000')),
+  synthTransferSent: jest.fn().mockReturnValue(BigNumber.from('0')),
+}
+
+const mockEthereumSynthetixDebtMigratorContract = {
+  debtTransferReceived: jest.fn().mockReturnValue(BigNumber.from('0')),
+  debtTransferSent: jest.fn().mockReturnValue(BigNumber.from('4000000000000000000')),
+}
+
+const mockOptimismSynthetixDebtMigratorContract = {
+  debtTransferReceived: jest.fn().mockReturnValue(BigNumber.from('4000000000000000000')),
+  debtTransferSent: jest.fn().mockReturnValue(BigNumber.from('0')),
 }
 
 const mockEthereumProvider = { getBlockNumber: jest.fn() }
@@ -131,6 +147,10 @@ jest.mock('ethers', () => {
             return mockEthereumSynthetixBridgeContract
           case mockChainConfig.optimism.synthetixBridgeAddress:
             return mockOptimismSynthetixBridgeContract
+          case mockChainConfig.ethereum.synthetixDebtMigratorAddress:
+            return mockEthereumSynthetixDebtMigratorContract
+          case mockChainConfig.optimism.synthetixDebtMigratorAddress:
+            return mockOptimismSynthetixDebtMigratorContract
           default:
             throw new Error(`Invalid address ${address}`)
         }
