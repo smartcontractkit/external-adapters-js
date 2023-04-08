@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-test-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 460427afe: Fixed ws response parsing
+
 ## 1.1.6
 
 ### Patch Changes
