@@ -1,13 +1,15 @@
 import {
   CryptoPriceEndpoint,
+  EndpointContext,
   PriceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import {
-  WebsocketReverseMappingTransport,
-  WebsocketTransportGenerics,
-} from '@chainlink/external-adapter-framework/transports/websocket'
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+  makeLogger,
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
 const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
@@ -55,26 +57,18 @@ export type EndpointTypes = {
   }
 }
 
-export class BlocksizeWebsocketReverseMappingTransport<
-  T extends WebsocketTransportGenerics,
-  K,
-> extends WebsocketReverseMappingTransport<T, K> {
-  api_key = ''
-}
-
-export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<EndpointTypes, string> =
-  new BlocksizeWebsocketReverseMappingTransport<EndpointTypes, string>({
-    url: ({ adapterSettings: { WS_API_ENDPOINT, API_KEY } }) => {
-      websocketTransport.api_key = API_KEY
+export const websocketTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
+  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+    url: ({ adapterSettings: { WS_API_ENDPOINT } }) => {
       return WS_API_ENDPOINT
     },
     handlers: {
-      open: (connection: WebSocket) => {
+      open: (connection: WebSocket, context: EndpointContext<EndpointTypes>) => {
         return new Promise((resolve, reject) => {
           connection.addEventListener('message', (event: MessageEvent<any>) => {
             const parsed = JSON.parse(event.data.toString())
             if (parsed.result?.user_id) {
-              logger.info('Got logged in response, connection is ready')
+              logger.debug('Got logged in response, connection is ready')
               resolve()
             } else {
               reject(new Error('Failed to make WS connection'))
@@ -83,45 +77,46 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
           const options = {
             jsonrpc: '2.0',
             method: 'authentication_logon',
-            params: { api_key: websocketTransport.api_key },
+            params: { api_key: context.adapterSettings.API_KEY },
           }
           connection.send(JSON.stringify(options))
         })
       },
       message: (message) => {
         if (message.method !== 'vwap') return []
-        const [updates] = message.params.updates
-        const params = websocketTransport.getReverseMapping(updates.ticker)
-        if (!params) {
-          return []
-        }
-        if (!updates.price) {
-          const errorMessage = `The data provider didn't return any value`
-          logger.warn(errorMessage)
-          return [
-            {
+        const updates = message.params.updates
+        const results: ProviderResult<EndpointTypes>[] = []
+        for (const update of updates) {
+          const params = websocketTransport.getReverseMapping(update.ticker)
+          if (!params) {
+            continue
+          }
+          if (!update.price) {
+            const errorMessage = `The data provider didn't return any value for ${params.base}/${params.quote}`
+            logger.info(errorMessage)
+            results.push({
               params,
               response: {
                 statusCode: 502,
                 errorMessage,
               },
-            },
-          ]
+            })
+          } else {
+            results.push({
+              params,
+              response: {
+                result: update.price,
+                data: {
+                  result: update.price,
+                },
+                timestamps: {
+                  providerIndicatedTimeUnixMs: update.ts,
+                },
+              },
+            })
+          }
         }
-        return [
-          {
-            params,
-            response: {
-              result: updates.price,
-              data: {
-                result: updates.price,
-              },
-              timestamps: {
-                providerIndicatedTimeUnixMs: updates.ts,
-              },
-            },
-          },
-        ]
+        return results
       },
     },
     builders: {
