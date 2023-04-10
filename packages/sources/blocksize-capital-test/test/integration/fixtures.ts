@@ -4,6 +4,12 @@ export const mockSubscribeResponse = {
   params: {
     updates: [
       {
+        ticker: 'LINKETH',
+        price: 0.003893549745197962,
+        size: 76.53,
+        volume: 0.297973362,
+      },
+      {
         ticker: 'ETHEUR',
         price: 2400.209999999564,
         size: 0.06804130000001375,

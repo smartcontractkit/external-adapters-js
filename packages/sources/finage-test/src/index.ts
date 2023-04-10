@@ -8,6 +8,14 @@ export const adapter = new PriceAdapter({
   name: 'FINAGE',
   config,
   endpoints: [crypto, stock, eod, commodities, forex],
+  rateLimiting: {
+    tiers: {
+      unlimited: {
+        rateLimit1s: 100,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

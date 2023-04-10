@@ -1,5 +1,26 @@
 # @chainlink/ea
 
+## 1.3.83
+
+### Patch Changes
+
+- Updated dependencies [460427afe]
+- Updated dependencies [528e1432a]
+- Updated dependencies [4d136294f]
+- Updated dependencies [b5b4c12ac]
+- Updated dependencies [0a250b726]
+- Updated dependencies [72296e826]
+- Updated dependencies [dfda2a99c]
+- Updated dependencies [4d136294f]
+  - @chainlink/blocksize-capital-test-adapter@1.1.7
+  - @chainlink/tiingo-test-adapter@1.3.0
+  - @chainlink/dxfeed-test-adapter@1.1.7
+  - @chainlink/cfbenchmarks-adapter@1.8.0
+  - @chainlink/finage-test-adapter@1.1.7
+  - @chainlink/kaiko-test-adapter@1.1.7
+  - @chainlink/coinpaprika-test-adapter@1.2.0
+  - @chainlink/dxfeed-secondary-test-adapter@1.0.0
+
 ## 1.3.82
 
 ### Patch Changes

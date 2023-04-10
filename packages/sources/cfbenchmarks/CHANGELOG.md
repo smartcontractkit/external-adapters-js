@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- b5b4c12ac: Replaced error with warning log for date check on CF Benchmarks BIRC endpoint
+
 ## 1.7.0
 
 ### Minor Changes
