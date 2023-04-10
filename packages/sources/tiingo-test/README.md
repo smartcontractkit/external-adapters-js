@@ -1,6 +1,6 @@
 # TIINGO
 
-![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -162,9 +162,9 @@ Supported names for this endpoint are: `cryptoyield`, `yield`.
 
 ### Input Params
 
-| Required? |   Name   | Aliases |                    Description                    |  Type  | Options |     Default      | Depends On | Not Valid With |
-| :-------: | :------: | :-----: | :-----------------------------------------------: | :----: | :-----: | :--------------: | :--------: | :------------: |
-|           | poolCode |         | Tiingo staking pool code to return yield data for | string |         | `ethnetwork_eth` |            |                |
+| Required? |  Name   | Aliases |  Description   |  Type  |     Options      | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :-----: | :------------: | :----: | :--------------: | :-----: | :--------: | :------------: |
+|    ✅     | aprTerm |         | Yield apr term | string | `30day`, `90day` |         |            |                |
 
 ### Example
 
@@ -178,10 +178,11 @@ Supported names for this endpoint are: `realized-vol`, `realized-volatility`.
 
 ### Input Params
 
-| Required? |  Name   |    Aliases     |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----: | :------------: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base   | `coin`, `from` |  The base currency to query the realized volatility for  | string |         |         |            |                |
-|           | convert | `quote`, `to`  | The quote currency to convert the realized volatility to | string |         |  `USD`  |            |                |
+| Required? |    Name    |    Aliases     |                       Description                        |  Type  | Options |    Default     | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :------------------------------------------------------: | :----: | :-----: | :------------: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |  The base currency to query the realized volatility for  | string |         |                |            |                |
+|           |  convert   | `quote`, `to`  | The quote currency to convert the realized volatility to | string |         |     `USD`      |            |                |
+|           | resultPath |                |        The field to return within the result path        | string |         | `realVol30Day` |            |                |
 
 ### Example
 
