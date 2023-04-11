@@ -436,6 +436,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/dxfeed-secondary"\
       },\
       {\
+        "name": "@chainlink/dxfeed-secondary-test-adapter",\
+        "reference": "workspace:packages/sources/dxfeed-secondary-test"\
+      },\
+      {\
         "name": "@chainlink/dxfeed-test-adapter",\
         "reference": "workspace:packages/sources/dxfeed-test"\
       },\
@@ -942,6 +946,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],\
+      ["@chainlink/dxfeed-secondary-test-adapter", ["workspace:packages/sources/dxfeed-secondary-test"]],\
       ["@chainlink/dxfeed-test-adapter", ["workspace:packages/sources/dxfeed-test"]],\
       ["@chainlink/dydx-rewards-adapter", ["workspace:packages/composites/dydx-rewards"]],\
       ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
@@ -6429,6 +6434,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/dxfeed-secondary-test-adapter", [\
+        ["workspace:packages/sources/dxfeed-secondary-test", {\
+          "packageLocation": "./packages/sources/dxfeed-secondary-test/",\
+          "packageDependencies": [\
+            ["@chainlink/dxfeed-secondary-test-adapter", "workspace:packages/sources/dxfeed-secondary-test"],\
+            ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/dxfeed-test-adapter", [\
         ["workspace:packages/sources/dxfeed-test", {\
           "packageLocation": "./packages/sources/dxfeed-test/",\
@@ -6558,6 +6582,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
+            ["@chainlink/dxfeed-secondary-test-adapter", "workspace:packages/sources/dxfeed-secondary-test"],\
             ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
             ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\

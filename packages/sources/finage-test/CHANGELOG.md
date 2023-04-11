@@ -1,5 +1,11 @@
 # @chainlink/finage-test-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 72296e826: Added reasonable rate limit tier
+
 ## 1.1.6
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @chainlink/tiingo-test-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 528e1432a: Adjust params and output of crypto yield endpoint in tiingo v3 ea
+
+### Patch Changes
+
+- 0a250b726: Added resultPath to request parameter to specify which result should be returned
+
 ## 1.2.1
 
 ### Patch Changes
