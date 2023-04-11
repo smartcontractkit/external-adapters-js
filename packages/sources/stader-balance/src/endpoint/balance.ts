@@ -367,7 +367,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           }
         }),
       )
-      if (limboAddresses.length > 0) {
+      if (limboAddresses.length > 0 || depositedAddresses.length > 0) {
         await this.calculateLimboEthBalances(
           limboAddresses,
           depositedAddresses,
@@ -508,12 +508,15 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         fromBlock: blockTag - DEPOSIT_EVENT_LOOKBACK_WINDOW,
         toBlock: blockTag,
       })
-      logger.debug(
-        `Found ${logs.length} deposit events in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks`,
-      )
       if (logs.length === 0) {
+        logger.debug(
+          'No deposit event logs found in the last 10,000 blocks or the provider failed to return any.',
+        )
         limboAddesses.forEach((address) => balances.push({ address, balance: '0' }))
       } else {
+        logger.debug(
+          `Found ${logs.length} deposit events in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks`,
+        )
         // Parse the logs from latest to oldest to find the relevant events more efficiently
         // assuming we're looking back further than we need to as a precaution
         for (let i = logs.length - 1; i >= 0; i--) {
@@ -521,7 +524,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           const iface = new ethers.utils.Interface(DepositEvent_ABI)
           const parsedLog = iface.parseLog(log)
           const address = parsedLog.args[0]
-          const amount = BigNumber(parsedLog.args[2])
+          const amount = BigNumber(parsedLog.args[2].toString())
           // Look for initial deposit event for validators not found on the beacon chain
           if (limboAddesses.includes(address)) {
             logger.debug(`Found deposit event for limbo validator (${address}). Deposit: ${amount}`)
@@ -548,9 +551,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   // Get balance (in wei) of ETH address
   async getAddressBalance(address: string, blockTag: number): Promise<BigNumber> {
     try {
-      const balance = BigNumber((await this.provider.getBalance(address, blockTag)).toString())
-      logger.debug(`Address (${address}) balance: ${balance}`)
-      return balance
+      return BigNumber((await this.provider.getBalance(address, blockTag)).toString())
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to retrieve address balance for ${address}`
@@ -573,7 +574,9 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       this.provider,
     )
     try {
-      return BigNumber(await addressManager.totalPenaltyAmount(validatorAddress, { blockTag }))
+      return BigNumber(
+        (await addressManager.totalPenaltyAmount(validatorAddress, { blockTag })).toString(),
+      )
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to retrieve penalty for ${validatorAddress}`
@@ -699,7 +702,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
   // Retrieve validator deposit from Stader contract (32 ETH in wei)
   async getValidatorDeposit(req: RequestParams, blockTag: number): Promise<BigNumber> {
-    const staderConfigAddress = staderNetworkChainMap[req.network][req.chainId].staderConfig
+    const staderConfigAddress =
+      req.staderConfigAddress || staderNetworkChainMap[req.network][req.chainId].staderConfig
     const addressManager = new ethers.Contract(
       staderConfigAddress,
       StaderConfigContract_ABI,
@@ -720,8 +724,9 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       url,
     }
     try {
-      const response = await axios.request<{ chainId: string; address: string }>(options)
-      return response.data.address
+      const response = await axios.request<{ data: { chainId: string; address: string } }>(options)
+      logger.debug(`ETH Deposit Contract: ${response.data.data.address}`)
+      return response.data.data.address
     } catch (e) {
       logger.error({ error: e })
       throw new Error('Failed to retrieve ETH deposit contract address')

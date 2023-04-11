@@ -2,12 +2,11 @@ import request, { SuperTest, Test } from 'supertest'
 import { createAdapter } from './setup'
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AddressInfo } from 'net'
-import { validatorPool, validatorsRegistryResponse } from '../../src/utils'
-import { sleep } from '@chainlink/external-adapter-framework/util'
+import { validatorsRegistryResponse } from '../../src/utils'
 
-const mockPoolAddresses: Record<number, validatorPool> = {
-  1: ['PERMISSIONLESS', '0xfb2E1e5854Ba5De7e4611E2352cfe85d91106291'],
-  2: ['PERMISSIONED', ' 0x50297e640b62281b6Dac0d5Aa91848Fb028357Ea'],
+const mockNodeRegistryAddresses: Record<number, string> = {
+  1: '0xfb2E1e5854Ba5De7e4611E2352cfe85d91106291',
+  2: '0x50297e640b62281b6Dac0d5Aa91848Fb028357Ea',
 }
 
 const mockValidatorAddresses: Record<number, validatorsRegistryResponse[]> = {
@@ -37,7 +36,7 @@ const mockValidatorAddresses: Record<number, validatorsRegistryResponse[]> = {
   ],
   2: [
     [
-      4,
+      3,
       '0x999d1e56148505251d7a7682996f1d1a7e5ecf4657dcfa9d6d71b97dc1d8755e1cb4451f57f370201c882126e97ca35e',
       '0x86f71619e07b4423abf7ac8122138bc13fa1271b6fbb3afe6e2bcedc84655683e7a0486c00764c21ceb1b145f2c65d180e0356839c2587edaf10f43368744794fb9e74d4d728b62de3cc145d955ad920281b1176799b2496772aa9552dfab120',
       '0x86c2cd91227ac34fd1a6edde0fd20dbb4ce625f3e0eb47c8f8d0eb62588ddf54255044efb11e0a1177bbbc52ea7d499716b2bb59ae1fde016d7c690fec142649d89215b07d71a3d0d6463042addb9fc29ae35b62434ca9e49c84e3544a3c9b5c',
@@ -48,7 +47,7 @@ const mockValidatorAddresses: Record<number, validatorsRegistryResponse[]> = {
       0,
     ],
     [
-      4,
+      6,
       '0x89cbed0fe0b742c5ad8e9068650dfd6789aa64f2a8e264caf1cbb9e3a50c6eb1ed6b08f2075a384b1666c8e073a0e51d',
       '0x96e61684831b7d18a36ae491f578d1ee20105d0c84704a179b22764b82c80e7eb03ff1bdd2d9d7c82dec679f1f5871e20580c7b8a31ac54f1ed5c7785a41f69e2a6de08d752797c8dec32a3dc37c722f01cc24e6eaf2bb6adc6203e18f97bd48',
       '0xaaec961158b897cb1e2770db067f7e9c564da7c45ab14710b3b5ee4a8fdb82456061517e2ed86b23e2afbd8da3d5fe650d62eaf96a47714cd2bdd138dba6fd9b2425356e0ce625ce6933ec39520b50c90f5caa2fc556687b973248c406f180da',
@@ -66,14 +65,10 @@ const mockSocialPoolAddresses: Record<number, string> = {
   2: '0x481be4fACe9E50bae3a716801F3c8799020325a0',
 }
 
-const mockElRewardAddresses: Record<number, Record<number, string>> = {
-  1: {
-    2: '0x0D086a2FB3be4251221066a491645273C61A45Fc',
-  },
-  2: {
-    2: '0x6D75F292A22fCE61d64448789549ae735eFEC398',
-  },
-}
+const mockElRewardAddresses: string[] = [
+  '0x0D086a2FB3be4251221066a491645273C61A45Fc',
+  '0x6D75F292A22fCE61d64448789549ae735eFEC398',
+]
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -91,8 +86,8 @@ jest.mock('ethers', () => {
       },
       Contract: function () {
         return {
-          pools: jest.fn().mockImplementation((poolId) => {
-            return mockPoolAddresses[poolId]
+          getNodeRegistry: jest.fn().mockImplementation((poolId) => {
+            return mockNodeRegistryAddresses[poolId]
           }),
           poolCount: jest.fn().mockReturnValue(2),
           getAllActiveValidators: jest.fn().mockImplementation(() => {
@@ -101,9 +96,11 @@ jest.mock('ethers', () => {
           getSocializingPoolAddress: jest.fn().mockImplementation((poolId) => {
             return mockSocialPoolAddresses[poolId]
           }),
-          computeNodeELRewardVaultAddress: jest.fn().mockImplementation((poolId, operatorId) => {
-            return mockElRewardAddresses[poolId][operatorId]
+          getAllSocializingPoolOptOutOperators: jest.fn().mockImplementation(() => {
+            return mockElRewardAddresses
           }),
+          nextValidatorId: jest.fn().mockReturnValue(3),
+          nextOperatorId: jest.fn().mockReturnValue(3),
         }
       },
     },

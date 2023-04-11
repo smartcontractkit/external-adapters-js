@@ -18,15 +18,6 @@ export type validatorsRegistryResponse = [
   withdrawnTime: number,
 ]
 
-export type validatorPool = [poolName: string, poolAddress: string]
-
-export type ElRewardIdPair = { operatorId: number; poolId: number }
-
-export const chunkArray = (addresses: ElRewardIdPair[], size: number): ElRewardIdPair[][] =>
-  addresses.length > size
-    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
-    : [addresses]
-
 export const filterDuplicates = <T extends BasicAddress>(addresses: T[]): T[] => {
   const uniqueMap: Record<string, boolean> = {}
   const uniqueAddresses: T[] = []

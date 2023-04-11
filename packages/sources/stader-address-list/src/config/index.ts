@@ -19,12 +19,6 @@ export const config = new AdapterConfig(
       type: 'number',
       default: 10_000,
     },
-    GROUP_SIZE: {
-      type: 'number',
-      description:
-        'Number of requests to execute asynchronously before the adapter waits to execute the next batch',
-      default: 25,
-    },
   },
   {
     envDefaultOverrides: {

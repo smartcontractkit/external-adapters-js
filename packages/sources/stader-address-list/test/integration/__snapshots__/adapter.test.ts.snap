@@ -21,6 +21,7 @@ Object {
         "network": "ethereum",
         "operatorId": 2,
         "poolId": 1,
+        "status": 3,
         "withdrawVaultAddress": "0xe731fd3b95136dac85cfd0c3164707a9e10026f1",
       },
       Object {
@@ -29,6 +30,7 @@ Object {
         "network": "ethereum",
         "operatorId": 2,
         "poolId": 1,
+        "status": 6,
         "withdrawVaultAddress": "0x2f32b2ed50d03bcf925cd32d870a12d1e33556aa",
       },
       Object {
@@ -37,6 +39,7 @@ Object {
         "network": "ethereum",
         "operatorId": 2,
         "poolId": 2,
+        "status": 4,
         "withdrawVaultAddress": "0x05ef9b38092ebd70523275f95027709aeac9759c",
       },
       Object {
@@ -45,6 +48,7 @@ Object {
         "network": "ethereum",
         "operatorId": 2,
         "poolId": 2,
+        "status": 4,
         "withdrawVaultAddress": "0xf43d5b8aa1ca682f6fb804899117bfce3a67dbd1",
       },
     ],

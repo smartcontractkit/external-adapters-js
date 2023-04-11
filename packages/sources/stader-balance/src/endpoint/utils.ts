@@ -17,7 +17,6 @@ export type NetworkChainMap = {
       poolFactory: string
       penalty: string
       stakePoolsManager: string
-      ethx: string
       staderConfig: string
       permissionedPool: string
     }
@@ -33,17 +32,15 @@ export const staderNetworkChainMap: NetworkChainMap = {
       poolFactory: '',
       penalty: '',
       stakePoolsManager: '',
-      ethx: '',
       staderConfig: '',
       permissionedPool: '',
     },
     goerli: {
-      poolFactory: '0x8A44f6276e44B5b3DC4e4942c7267F235D9b6634',
-      penalty: '0xd5Cafd2279409F19f2B23b709702acb1CB79a8FA',
-      stakePoolsManager: '0x59C6f12156d7939016aA4A3FC4B11B9507bB05bE',
-      ethx: '0xe624471812F4fb739dD4eF40A8f9fAbD9474CEAa',
-      staderConfig: '0x6edc838058652ab89e9aC2F4916800E5a8d60E09',
-      permissionedPool: '0x50297e640b62281b6Dac0d5Aa91848Fb028357Ea',
+      poolFactory: '0x019a7ced1927946eADb28735f15a20e3ed762240',
+      penalty: '0x3A8F47BcE46bB852FB51021ee87f9fA2329cC70E',
+      stakePoolsManager: '0x974Db4Fb26993289CAD9f79Bde4eAE097503064f',
+      staderConfig: '0xe34c84A15326f7980F59DE6b5A77C57ca2043c48',
+      permissionedPool: '0xEc4166439523e8C2FaE395201f04876Cc7C02d68',
     },
   },
 }
@@ -89,7 +86,11 @@ export const inputParameters = {
     type: 'string',
   },
   permissionedPoolAddress: {
-    description: 'The adddress of the Permissioned Pool',
+    description: 'The adddress of the Stader Permissioned Pool',
+    type: 'string',
+  },
+  staderConfigAddress: {
+    description: 'The address of the Stader Config contract.',
     type: 'string',
   },
   network: {
@@ -134,6 +135,7 @@ export interface RequestParams {
   poolFactoryAddress?: string
   stakeManagerAddress?: string
   permissionedPoolAddress?: string
+  staderConfigAddress?: string
   network: string
   chainId: string
   confirmations: number

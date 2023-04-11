@@ -5,7 +5,7 @@ Object {
   "data": Object {
     "result": Array [
       Object {
-        "address": "0x59C6f12156d7939016aA4A3FC4B11B9507bB05bE",
+        "address": "0x974Db4Fb26993289CAD9f79Bde4eAE097503064f",
         "balance": "2000000000",
       },
       Object {
@@ -17,7 +17,7 @@ Object {
         "balance": "2000000000",
       },
       Object {
-        "address": "0x50297e640b62281b6Dac0d5Aa91848Fb028357Ea",
+        "address": "0xEc4166439523e8C2FaE395201f04876Cc7C02d68",
         "balance": "31000000000",
       },
       Object {
