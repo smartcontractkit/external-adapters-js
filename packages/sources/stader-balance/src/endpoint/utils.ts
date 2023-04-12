@@ -199,6 +199,17 @@ export type EndpointTypes = {
   Settings: typeof config.settings
 }
 
+export interface FunctionParameters {
+  addresses: ValidatorAddress[]
+  validatorStateList: ValidatorState[]
+  req: RequestParams
+  validatorDeposit: BigNumber
+  ethDepositContract: string
+  blockTag: number
+  commissionMap: Record<number, number>
+  collateralEthMap: Record<number, BigNumber>
+}
+
 export const chunkArray = (addresses: string[], size: number): string[][] =>
   addresses.length > size
     ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
@@ -234,4 +245,22 @@ export const parseLittleEndian = (value: string): BigNumber => {
   }
   const convertDecimal = BigNumber(`0x${result.join('')}`)
   return BigNumber(ethers.utils.parseUnits(convertDecimal.toString(), 'gwei').toString())
+}
+
+// Separate the address set into the specified batch size
+// Add the batches as comma-separated lists to a new list used to make the requests
+export const batchValidatorAddresses = (
+  addresses: ValidatorAddress[],
+  batchSize: number,
+): string[] => {
+  const batchedAddresses: string[] = []
+  for (let i = 0; i < addresses.length / batchSize; i++) {
+    batchedAddresses.push(
+      addresses
+        .slice(i * batchSize, i * batchSize + batchSize)
+        .map(({ address }) => address)
+        .join(','),
+    )
+  }
+  return batchedAddresses
 }

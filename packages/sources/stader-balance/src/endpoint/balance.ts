@@ -13,12 +13,14 @@ import {
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
   BalanceResponse,
+  batchValidatorAddresses,
   buildErrorResponse,
   chunkArray,
   DEPOSIT_EVENT_LOOKBACK_WINDOW,
   DEPOSIT_EVENT_TOPIC,
   EndpointTypes,
   formatValueInGwei,
+  FunctionParameters,
   inputParameters,
   ONE_ETH_WEI,
   parseLittleEndian,
@@ -61,86 +63,93 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
       return
     }
-    await Promise.all(
-      entries.map(async (req) => {
-        const providerDataRequestedUnixMs = Date.now()
-        let response: AdapterResponse<EndpointTypes['Response']>
-        // Maintain map of pool ID to commission to avoid repeat contract calls
-        const commissionMap: Record<number, number> = {}
-        // Maintain map of pool ID to collateral ETH to avoid repeat contract calls
-        const collateralEthMap: Record<number, BigNumber> = {}
-        const balances: BalanceResponse[] = []
-        const addresses = req.addresses
-        const latestBlockNum = await this.provider.getBlockNumber()
-        const blockTag = latestBlockNum - req.confirmations
-        try {
-          const [ethDepositContract, validatorDeposit, validatorStateList] = await Promise.all([
-            this.getEthDepositContractAddress(context.adapterSettings),
-            this.getValidatorDeposit(req, blockTag),
-            // Return a list of validator state for every address
-            this.queryValidatorBalances(req, context.adapterSettings),
-            // Get inactive pool balance from Stader's StakePoolManager contract
-            this.getStaderStakeManagerBalance(req, blockTag, balances),
-            // Get balance of all execution layer reward addresses
-            this.getElRewardBalances(req, blockTag, balances, context.adapterSettings),
-            // Get balance of the Permissioned Pool address
-            this.getPermissionedPoolBalance(req, blockTag, balances),
-          ])
+    await Promise.all(entries.map(async (req) => this.handleRequest(req, context)))
+  }
 
-          await Promise.all([
-            // Perform validator level calculations
-            await this.performValidatorCalculations(
-              addresses,
-              validatorStateList,
-              balances,
-              req,
-              validatorDeposit,
-              ethDepositContract,
-              commissionMap,
-              collateralEthMap,
-              blockTag,
-            ),
-            // Get permissionless/permissioned pool address balances
-            this.getPoolAddressBalances(
-              req,
-              blockTag,
-              balances,
-              validatorDeposit,
-              commissionMap,
-              collateralEthMap,
-            ),
-          ])
+  async handleRequest(req: RequestParams, context: EndpointContext<EndpointTypes>): Promise<void> {
+    const providerDataRequestedUnixMs = Date.now()
+    let response: AdapterResponse<EndpointTypes['Response']>
+    // Maintain map of pool ID to commission to avoid repeat contract calls
+    const commissionMap: Record<number, number> = {}
+    // Maintain map of pool ID to collateral ETH to avoid repeat contract calls
+    const collateralEthMap: Record<number, BigNumber> = {}
+    const addresses = req.addresses
+    const latestBlockNum = await this.provider.getBlockNumber()
+    const blockTag = latestBlockNum - req.confirmations
+    try {
+      const [
+        ethDepositContract,
+        validatorDeposit,
+        validatorStateList,
+        stakeManagerBalance,
+        elRewardBalances,
+        permissionedPoolBalance,
+      ] = await Promise.all([
+        this.getEthDepositContractAddress(context.adapterSettings),
+        this.getValidatorDeposit(req, blockTag),
+        // Return a list of validator state for every address
+        this.queryValidatorStates(req, context.adapterSettings),
+        // Get inactive pool balance from Stader's StakePoolManager contract
+        this.getStaderStakeManagerBalance(req, blockTag),
+        // Get balance of all execution layer reward addresses
+        this.getElRewardBalances(req, blockTag, context.adapterSettings),
+        // Get balance of the Permissioned Pool address
+        this.getPermissionedPoolBalance(req, blockTag),
+      ])
 
-          response = {
-            data: {
-              result: balances,
-            },
-            result: null,
-            statusCode: 200,
-            timestamps: {
-              providerDataRequestedUnixMs,
-              providerDataReceivedUnixMs: Date.now(),
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          }
-        } catch (e) {
-          const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-          logger.error(errorMessage)
-          response = buildErrorResponse(errorMessage, providerDataRequestedUnixMs)
-        }
+      const params: FunctionParameters = {
+        addresses,
+        validatorStateList,
+        req,
+        validatorDeposit,
+        ethDepositContract,
+        blockTag,
+        commissionMap,
+        collateralEthMap,
+      }
 
-        await this.responseCache.write(this.name, [
-          {
-            params: req,
-            response,
-          },
-        ])
-      }),
-    )
+      const [validatorBalances, poolAddressBalances] = await Promise.all([
+        // Perform validator level calculations
+        this.performValidatorCalculations(params),
+        // Get permissionless/permissioned pool address balances
+        this.getPoolAddressBalances(params),
+      ])
+
+      const balances = stakeManagerBalance.concat(
+        elRewardBalances,
+        permissionedPoolBalance,
+        validatorBalances,
+        poolAddressBalances,
+      )
+
+      response = {
+        data: {
+          result: balances,
+        },
+        result: null,
+        statusCode: 200,
+        timestamps: {
+          providerDataRequestedUnixMs,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(errorMessage)
+      response = buildErrorResponse(errorMessage, providerDataRequestedUnixMs)
+    }
+
+    await this.responseCache.write(this.name, [
+      {
+        params: req,
+        response,
+      },
+    ])
   }
 
   // Retrieve balances from the beacon chain for all validators in request
-  async queryValidatorBalances(
+  async queryValidatorStates(
     req: RequestParams,
     settings: typeof config.settings,
   ): Promise<ValidatorState[]> {
@@ -148,20 +157,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       const url = `/eth/v1/beacon/states/${req.stateId}/validators`
       const statusList = req.validatorStatus?.join(',')
       const batchSize = settings.BATCH_SIZE
-      const batchedAddresses = []
       const responses: AxiosResponse<ProviderResponse>[] = []
-      const result: ValidatorState[] = []
       const addresses = req.addresses
-      // Separate the address set into the specified batch size
-      // Add the batches as comma-separated lists to a new list used to make the requests
-      for (let i = 0; i < addresses.length / batchSize; i++) {
-        batchedAddresses.push(
-          addresses
-            .slice(i * batchSize, i * batchSize + batchSize)
-            .map(({ address }) => address)
-            .join(','),
-        )
-      }
+
+      const batchedAddresses = batchValidatorAddresses(addresses, batchSize)
       // Make request to beacon API for every batch
       // Break addresses down into groups to execute asynchronously
       // Firing requests for all batches all at once could hit rate limiting for large address pools
@@ -169,25 +168,23 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       for (const group of groupedBatches) {
         await Promise.all(
           group.map(async (address) => {
-            const options: AxiosRequestConfig = {
+            const response = await axios.request({
               baseURL: settings.BEACON_RPC_URL,
               url,
               params: { id: address, status: statusList },
-            }
-            return axios.request<ProviderResponse>(options).then((response) => {
-              responses.push(response)
             })
+            responses.push(response)
+            return
           }),
         )
       }
 
       // Flatten the results into single array for validators and balances
       const validatorBatches = responses.map(({ data }) => data)
-      validatorBatches.forEach(({ data }) => {
-        data.forEach((validator) => {
-          result.push(validator)
-        })
-      })
+      const result = validatorBatches.reduce<ValidatorState[]>(
+        (flatten, { data }) => flatten.concat(data),
+        [],
+      )
       return result
     } catch (e) {
       throw new Error('Failed to retrieve validator balances from Beacon chain')
@@ -195,190 +192,202 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Perform validator level calculations for balance on each one
-  async performValidatorCalculations(
-    addresses: ValidatorAddress[],
-    validatorStateList: ValidatorState[],
-    balances: BalanceResponse[],
-    req: RequestParams,
-    validatorDeposit: BigNumber,
-    ethDepositContract: string,
-    commissionMap: Record<number, number>,
-    collateralEthMap: Record<number, BigNumber>,
-    blockTag: number,
-  ): Promise<void> {
+  async performValidatorCalculations(params: FunctionParameters): Promise<BalanceResponse[]> {
     try {
       // List of addresses not found on the beacon yet
       const limboAddresses: string[] = []
       const depositedAddresses: string[] = []
+      const balances: BalanceResponse[] = []
       await Promise.all(
-        addresses.map(async (validator) => {
-          const state = validatorStateList.find(
-            (validatorState) => validator.address === validatorState.validator.pubkey,
-          )
-          const validatorAddress = validator.address
-          const withdrawalAddress = validator.withdrawVaultAddress
-          if (state) {
-            logger.debug(`Validator (${validatorAddress}) found on beacon`)
-            const collateralEth = await this.getCollateralEth(
-              validator.poolId,
-              collateralEthMap,
-              req,
-              blockTag,
-            )
-            const userDeposit = validatorDeposit.minus(collateralEth)
-            logger.debug(
-              `Validator (${validatorAddress}): Collateral ETH: ${collateralEth}. User Deposit: ${userDeposit}`,
-            )
-            // Convert gwei balance from Beacon to wei to align with values from execution layer in wei
-            const validatorBalance = BigNumber(
-              ethers.utils.parseUnits(state.balance, 'gwei').toString(),
-            )
-            // Add validator to deposited address list if Stader status is DEPOSITED and balance is 1 ETH on beacon
-            // Deposited address list will be used to look for 31 ETH deposit event in logs later
-            if (
-              validator.status === StaderValidatorStatus.DEPOSITED &&
-              validatorBalance.eq(ONE_ETH_WEI)
-            ) {
-              logger.debug(
-                `Found validator (${validatorAddress}) with DEPOSITED status and balance of 1 ETH. Will search for 31 ETH deposit event.`,
-              )
-              depositedAddresses.push(validatorAddress)
-            }
-            logger.debug(
-              `Validator (${validatorAddress}) has "${state.status}" status with balance ${validatorBalance}`,
-            )
-            // Validator has NOT fully withdrawn
-            if (WITHDRAWAL_DONE_STATUS !== state.status.toLowerCase() || validatorBalance.gt(0)) {
-              let userBalancePrelim: BigNumber
-              const commission = await this.getCommission(
-                commissionMap,
-                req,
-                validator.poolId,
-                blockTag,
-              )
-
-              // Validator balance greater than or equal to validator deposit. Perform calculations.
-              if (validatorBalance.gte(validatorDeposit)) {
-                userBalancePrelim = validatorBalance
-                  .minus(validatorDeposit)
-                  .times(userDeposit.div(validatorDeposit))
-                  .times(1 - commission)
-                  .plus(userDeposit)
-                logger.debug(
-                  `Non-withdrawn validator (${validatorAddress}) balance ${validatorBalance} greater than or equal to ${validatorDeposit}. Calculated user balance prelim ${userBalancePrelim}`,
-                )
-              }
-              // Validator balance less than validator deposit but greater than or equal to user deposit. Use user deposit.
-              else if (validatorBalance.gte(userDeposit)) {
-                logger.debug(
-                  `Non-withdrawn validator (${validatorAddress}) balance ${validatorBalance} less than ${validatorDeposit} but greater than or equal to user deposit ${userDeposit}. Using user deposit.`,
-                )
-                userBalancePrelim = userDeposit
-              }
-              // Validator balance less than validator deposit and user deposit. Use validator balance.
-              else {
-                logger.debug(
-                  `Non-withdrawn validator (${validatorAddress}) balance ${validatorBalance} less than ${validatorDeposit} and user deposit ${userDeposit}. Using validator balance.`,
-                )
-                userBalancePrelim = validatorBalance
-              }
-              // Get penalty for validator from the Stader Penalty contract
-              const penalty = await this.getPenalty(validatorAddress, req, blockTag)
-              logger.debug(`Non-withdrawn validator (${validatorAddress}) penalty: ${penalty}`)
-              // Calculate node balance
-              const nodeBalance = BigNumber.max(
-                0,
-                validatorBalance.minus(userBalancePrelim).minus(penalty),
-              )
-              logger.debug(
-                `Non-withdrawn validator (${validatorAddress}) calculated node balance: ${nodeBalance}`,
-              )
-              // Calculate user balance
-              const userBalance = validatorBalance.minus(nodeBalance)
-              logger.debug(
-                `Non-withdrawn validator (${validatorAddress}) calculated user balance: ${userBalance}`,
-              )
-              let withdrawalBalance = await this.getAddressBalance(withdrawalAddress, blockTag)
-              withdrawalBalance = withdrawalBalance
-                .times(userDeposit.div(validatorDeposit))
-                .times(1 - commission)
-              logger.debug(
-                `Non-withdrawn validator's (${validatorAddress}) withdrawal (${withdrawalAddress}) balance: ${withdrawalBalance}`,
-              )
-              const cumulativeBalance = withdrawalBalance.plus(userBalance)
-              logger.debug(
-                `Non-withdrawn validator (${validatorAddress}) cumulative balance: ${cumulativeBalance}`,
-              )
-              balances.push({
-                address: validatorAddress,
-                balance: formatValueInGwei(cumulativeBalance), // Convert to gwei for response
-              })
-            }
-            // Validator has exited
-            else {
-              const withdrawalBalance = await this.getAddressBalance(withdrawalAddress, blockTag)
-              logger.debug(
-                `Withdrawn validator's (${validatorAddress}) withdrawal (${withdrawalAddress}) balance: ${withdrawalBalance}`,
-              )
-              // Withdrawal balance greater than or equal to validator deposit. Perform calculations.
-              if (withdrawalBalance.gte(validatorDeposit)) {
-                const commission = await this.getCommission(
-                  commissionMap,
-                  req,
-                  validator.poolId,
-                  blockTag,
-                )
-                const balance = withdrawalBalance
-                  .minus(validatorDeposit)
-                  .times(userDeposit.div(validatorDeposit))
-                  .times(1 - commission)
-                  .plus(userDeposit)
-                logger.debug(
-                  `Withdrawn validator (${validatorAddress}) withdrawal balance ${withdrawalBalance} greater than ${validatorDeposit}. Calculated balance ${balance}`,
-                )
-                balances.push({
-                  address: validatorAddress,
-                  balance: formatValueInGwei(balance), // Convert to gwei for response
-                })
-              }
-              // Withdrawal balance less than validator deposit but greater than or equal to user deposit. Use user deposit.
-              else if (withdrawalBalance.gte(userDeposit)) {
-                logger.debug(
-                  `Withdrawn validator (${validatorAddress}) withdrawal balance ${withdrawalBalance} less than ${validatorDeposit} but greater than or equal to user deposit ${userDeposit}. Using user deposit.`,
-                )
-                balances.push({
-                  address: validatorAddress,
-                  balance: formatValueInGwei(userDeposit),
-                })
-              }
-              // Withdrawal balance less than validator deposit and user deposit. Use withdrawal balance.
-              else {
-                logger.debug(
-                  `Withdrawn validator (${validatorAddress}) withdrawal balance ${withdrawalBalance} less than ${validatorDeposit} and user deposit ${userDeposit}. Using withdrawal balance.`,
-                )
-                balances.push({
-                  address: validatorAddress,
-                  balance: formatValueInGwei(withdrawalBalance),
-                })
-              }
-            }
-          } else {
-            logger.debug(`Validator (${validatorAddress}) NOT found on beacon`)
-            limboAddresses.push(validatorAddress)
-          }
-        }),
+        params.addresses.map(async (validator) =>
+          this.calculateValidatorBalance({
+            ...params,
+            validator,
+            balances,
+            limboAddresses,
+            depositedAddresses,
+          }),
+        ),
       )
       if (limboAddresses.length > 0 || depositedAddresses.length > 0) {
-        await this.calculateLimboEthBalances(
+        await this.calculateLimboEthBalances({
+          ...params,
+          balances,
           limboAddresses,
           depositedAddresses,
-          balances,
-          ethDepositContract,
-          blockTag,
-        )
+        })
       }
+      return balances
     } catch (e) {
       throw new Error('Failed to calculate balances for validators')
+    }
+  }
+
+  async calculateValidatorBalance(
+    params: FunctionParameters & {
+      validator: ValidatorAddress
+      balances: BalanceResponse[]
+      limboAddresses: string[]
+      depositedAddresses: string[]
+    },
+  ): Promise<void> {
+    const {
+      req,
+      validator,
+      validatorDeposit,
+      balances,
+      collateralEthMap,
+      depositedAddresses,
+      limboAddresses,
+      commissionMap,
+      blockTag,
+    } = params
+    const state = params.validatorStateList.find(
+      (validatorState) => validator.address === validatorState.validator.pubkey,
+    )
+    const validatorAddress = validator.address
+    const withdrawalAddress = validator.withdrawVaultAddress
+    if (state) {
+      logger.debug(`Validator (${validatorAddress}) found on beacon`)
+      const collateralEth = await this.getCollateralEth(
+        validator.poolId,
+        collateralEthMap,
+        params.req,
+        params.blockTag,
+      )
+      const userDeposit = params.validatorDeposit.minus(collateralEth)
+      logger.debug(
+        `Validator (${validatorAddress}): Collateral ETH: ${collateralEth}. User Deposit: ${userDeposit}`,
+      )
+      // Convert gwei balance from Beacon to wei to align with values from execution layer in wei
+      const validatorBalance = BigNumber(ethers.utils.parseUnits(state.balance, 'gwei').toString())
+      // Add validator to deposited address list if Stader status is DEPOSITED and balance is 1 ETH on beacon
+      // Deposited address list will be used to look for 31 ETH deposit event in logs later
+      if (
+        validator.status === StaderValidatorStatus.DEPOSITED &&
+        validatorBalance.eq(ONE_ETH_WEI)
+      ) {
+        logger.debug(
+          `Found validator (${validatorAddress}) with DEPOSITED status and balance of 1 ETH. Will search for 31 ETH deposit event.`,
+        )
+        depositedAddresses.push(validatorAddress)
+      }
+      logger.debug(
+        `Validator (${validatorAddress}) has "${state.status}" status with balance ${validatorBalance}`,
+      )
+      // Validator has NOT fully withdrawn
+      if (WITHDRAWAL_DONE_STATUS !== state.status.toLowerCase() || validatorBalance.gt(0)) {
+        let userBalancePrelim: BigNumber
+        const commission = await this.getCommission(commissionMap, req, validator.poolId, blockTag)
+
+        // Validator balance greater than or equal to validator deposit. Perform calculations.
+        if (validatorBalance.gte(validatorDeposit)) {
+          userBalancePrelim = validatorBalance
+            .minus(validatorDeposit)
+            .times(userDeposit.div(validatorDeposit))
+            .times(1 - commission)
+            .plus(userDeposit)
+          logger.debug(
+            `Non-withdrawn validator (${validatorAddress}) balance ${validatorBalance} greater than or equal to ${validatorDeposit}. Calculated user balance prelim ${userBalancePrelim}`,
+          )
+        }
+        // Validator balance less than validator deposit but greater than or equal to user deposit. Use user deposit.
+        else if (validatorBalance.gte(userDeposit)) {
+          logger.debug(
+            `Non-withdrawn validator (${validatorAddress}) balance ${validatorBalance} less than ${validatorDeposit} but greater than or equal to user deposit ${userDeposit}. Using user deposit.`,
+          )
+          userBalancePrelim = userDeposit
+        }
+        // Validator balance less than validator deposit and user deposit. Use validator balance.
+        else {
+          logger.debug(
+            `Non-withdrawn validator (${validatorAddress}) balance ${validatorBalance} less than ${validatorDeposit} and user deposit ${userDeposit}. Using validator balance.`,
+          )
+          userBalancePrelim = validatorBalance
+        }
+        // Get penalty for validator from the Stader Penalty contract
+        const penalty = await this.getPenalty(validatorAddress, req, blockTag)
+        logger.debug(`Non-withdrawn validator (${validatorAddress}) penalty: ${penalty}`)
+        // Calculate node balance
+        const nodeBalance = BigNumber.max(
+          0,
+          validatorBalance.minus(userBalancePrelim).minus(penalty),
+        )
+        logger.debug(
+          `Non-withdrawn validator (${validatorAddress}) calculated node balance: ${nodeBalance}`,
+        )
+        // Calculate user balance
+        const userBalance = validatorBalance.minus(nodeBalance)
+        logger.debug(
+          `Non-withdrawn validator (${validatorAddress}) calculated user balance: ${userBalance}`,
+        )
+        let withdrawalBalance = await this.getAddressBalance(withdrawalAddress, blockTag)
+        withdrawalBalance = withdrawalBalance
+          .times(userDeposit.div(validatorDeposit))
+          .times(1 - commission)
+        logger.debug(
+          `Non-withdrawn validator's (${validatorAddress}) withdrawal (${withdrawalAddress}) balance: ${withdrawalBalance}`,
+        )
+        const cumulativeBalance = withdrawalBalance.plus(userBalance)
+        logger.debug(
+          `Non-withdrawn validator (${validatorAddress}) cumulative balance: ${cumulativeBalance}`,
+        )
+        balances.push({
+          address: validatorAddress,
+          balance: formatValueInGwei(cumulativeBalance), // Convert to gwei for response
+        })
+      }
+      // Validator has exited
+      else {
+        const withdrawalBalance = await this.getAddressBalance(withdrawalAddress, blockTag)
+        logger.debug(
+          `Withdrawn validator's (${validatorAddress}) withdrawal (${withdrawalAddress}) balance: ${withdrawalBalance}`,
+        )
+        // Withdrawal balance greater than or equal to validator deposit. Perform calculations.
+        if (withdrawalBalance.gte(validatorDeposit)) {
+          const commission = await this.getCommission(
+            commissionMap,
+            req,
+            validator.poolId,
+            blockTag,
+          )
+          const balance = withdrawalBalance
+            .minus(validatorDeposit)
+            .times(userDeposit.div(validatorDeposit))
+            .times(1 - commission)
+            .plus(userDeposit)
+          logger.debug(
+            `Withdrawn validator (${validatorAddress}) withdrawal balance ${withdrawalBalance} greater than ${validatorDeposit}. Calculated balance ${balance}`,
+          )
+          balances.push({
+            address: validatorAddress,
+            balance: formatValueInGwei(balance), // Convert to gwei for response
+          })
+        }
+        // Withdrawal balance less than validator deposit but greater than or equal to user deposit. Use user deposit.
+        else if (withdrawalBalance.gte(userDeposit)) {
+          logger.debug(
+            `Withdrawn validator (${validatorAddress}) withdrawal balance ${withdrawalBalance} less than ${validatorDeposit} but greater than or equal to user deposit ${userDeposit}. Using user deposit.`,
+          )
+          balances.push({
+            address: validatorAddress,
+            balance: formatValueInGwei(userDeposit),
+          })
+        }
+        // Withdrawal balance less than validator deposit and user deposit. Use withdrawal balance.
+        else {
+          logger.debug(
+            `Withdrawn validator (${validatorAddress}) withdrawal balance ${withdrawalBalance} less than ${validatorDeposit} and user deposit ${userDeposit}. Using withdrawal balance.`,
+          )
+          balances.push({
+            address: validatorAddress,
+            balance: formatValueInGwei(withdrawalBalance),
+          })
+        }
+      }
+    } else {
+      logger.debug(`Validator (${validatorAddress}) NOT found on beacon`)
+      limboAddresses.push(validatorAddress)
     }
   }
 
@@ -386,10 +395,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   async getElRewardBalances(
     req: RequestParams,
     blockTag: number,
-    balances: BalanceResponse[],
     settings: typeof config.settings,
-  ): Promise<void> {
+  ): Promise<BalanceResponse[]> {
     try {
+      const balances: BalanceResponse[] = []
       const elRewardAddresses = req.elRewardAddresses.map(({ address }) => address)
       const groupedBatches = chunkArray(elRewardAddresses, settings.GROUP_SIZE)
       for (const group of groupedBatches) {
@@ -401,22 +410,28 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           }),
         )
       }
+      return balances
     } catch (e) {
       throw new Error("Failed to retrieve validators' fee recipient addresses balances")
     }
   }
 
   // Get permissionless/permissioned pool address balances
-  async getPoolAddressBalances(
-    req: RequestParams,
-    blockTag: number,
-    balances: BalanceResponse[],
-    validatorDeposit: BigNumber,
-    commissionMap: Record<number, number>,
-    collateralEthMap: Record<number, BigNumber>,
-  ): Promise<void> {
+  async getPoolAddressBalances({
+    req,
+    blockTag,
+    validatorDeposit,
+    commissionMap,
+    collateralEthMap,
+  }: {
+    req: RequestParams
+    blockTag: number
+    validatorDeposit: BigNumber
+    commissionMap: Record<number, number>
+    collateralEthMap: Record<number, BigNumber>
+  }): Promise<BalanceResponse[]> {
     try {
-      await Promise.all(
+      return await Promise.all(
         req.socialPoolAddresses.map(async (socialPool) => {
           const addressBalance = await this.getAddressBalance(socialPool.address, blockTag)
           logger.debug(
@@ -441,10 +456,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           logger.debug(
             `Social Pool (${socialPool.address}) calculated balance (in wei): ${balance}`,
           )
-          balances.push({
+          return {
             address: socialPool.address,
             balance: formatValueInGwei(balance), // Convert to gwei for response
-          })
+          }
         }),
       )
     } catch (e) {
@@ -456,17 +471,18 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   async getStaderStakeManagerBalance(
     req: RequestParams,
     blockTag: number,
-    balances: BalanceResponse[],
-  ): Promise<void> {
+  ): Promise<BalanceResponse[]> {
     try {
       const stakePoolManagerContract =
         req.stakeManagerAddress || staderNetworkChainMap[req.network][req.chainId].stakePoolsManager
       const stakeManagerBalance = await this.getAddressBalance(stakePoolManagerContract, blockTag)
       logger.debug(`Balance on StakeManager contract (in wei): ${stakeManagerBalance}`)
-      balances.push({
-        address: stakePoolManagerContract,
-        balance: formatValueInGwei(stakeManagerBalance), // Convert to gwei for response
-      })
+      return [
+        {
+          address: stakePoolManagerContract,
+          balance: formatValueInGwei(stakeManagerBalance), // Convert to gwei for response
+        },
+      ]
     } catch (e) {
       throw new Error('Failed to retrieve the StakeManager contract balance')
     }
@@ -476,18 +492,19 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   async getPermissionedPoolBalance(
     req: RequestParams,
     blockTag: number,
-    balances: BalanceResponse[],
-  ): Promise<void> {
+  ): Promise<BalanceResponse[]> {
     try {
       const permissionedPool =
         req.permissionedPoolAddress ||
         staderNetworkChainMap[req.network][req.chainId].permissionedPool
       const permissionedPoolBalance = await this.getAddressBalance(permissionedPool, blockTag)
       logger.debug(`Permissioned pool balance (in wei): ${permissionedPoolBalance}`)
-      balances.push({
-        address: permissionedPool,
-        balance: formatValueInGwei(permissionedPoolBalance), // Convert to gwei for response
-      })
+      return [
+        {
+          address: permissionedPool,
+          balance: formatValueInGwei(permissionedPoolBalance), // Convert to gwei for response
+        },
+      ]
     } catch (e) {
       throw new Error('Failed to retrieve the StakeManager contract balance')
     }
@@ -495,13 +512,19 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
   // Get event logs to find deposit events for addresses not on the beacon chain yet
   // Returns deposit amount in wei
-  async calculateLimboEthBalances(
-    limboAddesses: string[],
-    depositedAddresses: string[],
-    balances: BalanceResponse[],
-    ethDepositContract: string,
-    blockTag: number,
-  ): Promise<void> {
+  async calculateLimboEthBalances({
+    limboAddresses,
+    depositedAddresses,
+    balances,
+    ethDepositContract,
+    blockTag,
+  }: {
+    limboAddresses: string[]
+    depositedAddresses: string[]
+    balances: BalanceResponse[]
+    ethDepositContract: string
+    blockTag: number
+  }): Promise<void> {
     try {
       const logs = await this.provider.getLogs({
         address: ethDepositContract,
@@ -513,7 +536,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         logger.debug(
           'No deposit event logs found in the last 10,000 blocks or the provider failed to return any.',
         )
-        limboAddesses.forEach((address) => balances.push({ address, balance: '0' }))
+        limboAddresses.forEach((address) => balances.push({ address, balance: '0' }))
       } else {
         logger.debug(
           `Found ${logs.length} deposit events in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks`,
@@ -527,7 +550,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           const address = parsedLog.args[0]
           const amount = parseLittleEndian(parsedLog.args[2].toString())
           // Look for initial deposit event for validators not found on the beacon chain
-          if (limboAddesses.includes(address)) {
+          if (limboAddresses.includes(address)) {
             logger.debug(`Found deposit event for limbo validator (${address}). Deposit: ${amount}`)
             balances.push({ address, balance: formatValueInGwei(amount) })
           }
