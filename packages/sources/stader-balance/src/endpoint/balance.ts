@@ -21,6 +21,7 @@ import {
   formatValueInGwei,
   inputParameters,
   ONE_ETH_WEI,
+  parseLittleEndian,
   ProviderResponse,
   RequestParams,
   staderNetworkChainMap,
@@ -524,7 +525,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           const iface = new ethers.utils.Interface(DepositEvent_ABI)
           const parsedLog = iface.parseLog(log)
           const address = parsedLog.args[0]
-          const amount = BigNumber(parsedLog.args[2].toString())
+          const amount = parseLittleEndian(parsedLog.args[2].toString())
           // Look for initial deposit event for validators not found on the beacon chain
           if (limboAddesses.includes(address)) {
             logger.debug(`Found deposit event for limbo validator (${address}). Deposit: ${amount}`)

@@ -50,11 +50,11 @@ Object {
       },
       Object {
         "address": "0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941",
-        "balance": "18112749.0830336",
+        "balance": "32000000000",
       },
       Object {
         "address": "0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a",
-        "balance": "18112749.0830336",
+        "balance": "32000000000",
       },
       Object {
         "address": "0x10f4F0a7aadfB7E79533090508fADD78FB163068",
