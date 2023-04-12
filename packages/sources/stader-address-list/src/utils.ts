@@ -19,31 +19,30 @@ export type validatorsRegistryResponse = [
 ]
 
 export const filterDuplicates = <T extends BasicAddress>(addresses: T[]): T[] => {
-  const uniqueMap: Record<string, boolean> = {}
-  const uniqueAddresses: T[] = []
+  const addressMap: Record<string, T> = {}
   for (const addressObject of addresses) {
-    if (uniqueMap[addressObject.address]) {
+    if (addressMap[addressObject.address]) {
       logger.warn(
         { warning: 'Duplicate address detected' },
         `The address "${addressObject.address}" is duplicated in the request and the duplicate has been removed.`,
       )
     } else {
-      uniqueMap[addressObject.address] = true
-      uniqueAddresses.push(addressObject)
+      addressMap[addressObject.address] = addressObject
     }
   }
-  return uniqueAddresses
+  return Object.values(addressMap)
 }
 
-export const buildErrorResponse = (
-  errorMessage: string,
-  providerDataRequestedUnixMs: number,
-): TimestampedProviderErrorResponse => {
+export const calculatePages = (count: number, batchSize: number): number => {
+  return count % batchSize === 0 ? count / batchSize : count / batchSize + 1
+}
+
+export const buildErrorResponse = (errorMessage: string): TimestampedProviderErrorResponse => {
   return {
     statusCode: 502,
     errorMessage,
     timestamps: {
-      providerDataRequestedUnixMs,
+      providerDataRequestedUnixMs: 0,
       providerDataReceivedUnixMs: 0,
       providerIndicatedTimeUnixMs: undefined,
     },

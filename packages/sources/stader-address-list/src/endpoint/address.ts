@@ -15,7 +15,12 @@ import {
   StaderNodeRegistryContract_ABI,
 } from '../abi/StaderContractAbis'
 import { config } from '../config'
-import { buildErrorResponse, filterDuplicates, validatorsRegistryResponse } from '../utils'
+import {
+  buildErrorResponse,
+  calculatePages,
+  filterDuplicates,
+  validatorsRegistryResponse,
+} from '../utils'
 
 const logger = makeLogger('StaderAddressList')
 
@@ -179,95 +184,103 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
       return
     }
-    await Promise.all(
-      entries.map(async (req) => {
-        const {
-          confirmations,
-          poolFactoryAddress: poolFactoryAddressOverride,
-          permissionlessNodeRegistry: permissionlessNodeRegistryOverride,
+    await Promise.all(entries.map(async (req) => this.handleRequest(req)))
+  }
+
+  async handleRequest(req: RequestParams): Promise<void> {
+    const {
+      confirmations,
+      poolFactoryAddress: poolFactoryAddressOverride,
+      permissionlessNodeRegistry: permissionlessNodeRegistryOverride,
+      stakeManagerAddress,
+      chainId,
+      network,
+      validatorStatus,
+      batchSize,
+      penaltyAddress,
+      permissionedPoolAddress,
+      staderConfigAddress,
+    } = req
+    const poolFactoryAddress =
+      poolFactoryAddressOverride || staderNetworkChainMap[network][chainId].poolFactory
+    const permissionlessNodeRegistry =
+      permissionlessNodeRegistryOverride ||
+      staderNetworkChainMap[network][chainId].permissionlessNodeRegistry
+    const poolFactoryManager = new ethers.Contract(
+      poolFactoryAddress,
+      StaderPoolFactoryContract_ABI,
+      this.provider,
+    )
+    const permissionlessNodeRegistryManager = new ethers.Contract(
+      permissionlessNodeRegistry,
+      StaderPermissionlessNodeRegistryContract_ABI,
+      this.provider,
+    )
+    const providerDataRequestedUnixMs = Date.now()
+    let response: AdapterResponse<EndpointTypes['Response']>
+    try {
+      const latestBlockNum = await this.provider.getBlockNumber()
+      const blockTag = latestBlockNum - confirmations
+      const params = {
+        poolFactoryManager,
+        permissionlessNodeRegistryManager,
+        blockTag,
+        network,
+        chainId,
+        batchSize,
+      }
+      const [addressList, socialPoolAddresses, elRewardAddresses] = await Promise.all([
+        this.fetchValidatorAddressList(params),
+        this.fetchSocializingPoolAddresses(params),
+        this.fetchElRewardAddresses(params),
+      ])
+
+      // Build response
+      response = {
+        data: {
           stakeManagerAddress,
-          chainId,
-          network,
-          validatorStatus,
-          batchSize,
+          poolFactoryAddress: poolFactoryAddressOverride,
           penaltyAddress,
           permissionedPoolAddress,
           staderConfigAddress,
-        } = req
-        const poolFactoryAddress =
-          poolFactoryAddressOverride || staderNetworkChainMap[network][chainId].poolFactory
-        const permissionlessNodeRegistry =
-          permissionlessNodeRegistryOverride ||
-          staderNetworkChainMap[network][chainId].permissionlessNodeRegistry
-        const poolFactoryManager = new ethers.Contract(
-          poolFactoryAddress,
-          StaderPoolFactoryContract_ABI,
-          this.provider,
-        )
-        const permissionlessNodeRegistryManager = new ethers.Contract(
-          permissionlessNodeRegistry,
-          StaderPermissionlessNodeRegistryContract_ABI,
-          this.provider,
-        )
-        const providerDataRequestedUnixMs = Date.now()
-        let response: AdapterResponse<EndpointTypes['Response']>
-        try {
-          const latestBlockNum = await this.provider.getBlockNumber()
-          const blockTag = latestBlockNum - confirmations
-          const [addressList, socialPoolAddresses, elRewardAddresses] = await Promise.all([
-            this.fetchValidatorAddressList(
-              poolFactoryManager,
-              blockTag,
-              network,
-              chainId,
-              batchSize,
-            ),
-            this.fetchSocializingPoolAddresses(poolFactoryManager, blockTag),
-            this.fetchElRewardAddresses(permissionlessNodeRegistryManager, blockTag, batchSize),
-          ])
+          validatorStatus,
+          socialPoolAddresses,
+          elRewardAddresses,
+          confirmations,
+          network,
+          chainId,
+          result: addressList,
+        },
+        statusCode: 200,
+        result: null,
+        timestamps: {
+          providerDataRequestedUnixMs,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      response = this.handleErrorResponse(errorMessage)
+    }
 
-          // Build response
-          response = {
-            data: {
-              stakeManagerAddress,
-              poolFactoryAddress: poolFactoryAddressOverride,
-              penaltyAddress,
-              permissionedPoolAddress,
-              staderConfigAddress,
-              validatorStatus,
-              socialPoolAddresses,
-              elRewardAddresses,
-              confirmations,
-              network,
-              chainId,
-              result: addressList,
-            },
-            statusCode: 200,
-            result: null,
-            timestamps: {
-              providerDataRequestedUnixMs,
-              providerDataReceivedUnixMs: Date.now(),
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          }
-        } catch (e) {
-          const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-          response = this.handleErrorResponse(errorMessage, providerDataRequestedUnixMs)
-        }
-
-        await this.responseCache.write(this.name, [{ params: req, response }])
-      }),
-    )
+    await this.responseCache.write(this.name, [{ params: req, response }])
   }
 
   // Fetch validator addresses and their metadata
-  async fetchValidatorAddressList(
-    poolFactoryManager: ethers.Contract,
-    blockTag: number,
-    network: string,
-    chainId: string,
-    batchSize: number,
-  ): Promise<ValidatorAddress[]> {
+  async fetchValidatorAddressList({
+    poolFactoryManager,
+    blockTag,
+    network,
+    chainId,
+    batchSize,
+  }: {
+    poolFactoryManager: ethers.Contract
+    blockTag: number
+    network: string
+    chainId: string
+    batchSize: number
+  }): Promise<ValidatorAddress[]> {
     try {
       logger.debug('Fetching validator address list')
       const poolCount = await poolFactoryManager.poolCount({ blockTag })
@@ -287,10 +300,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
           `${validatorCount} addresses in pool ${i}. May not be the number that are active.`,
         )
         // Calculate number of pages based on total validators and batch size
-        const pages =
-          validatorCount % batchSize === 0
-            ? validatorCount / batchSize
-            : validatorCount / batchSize + 1
+        const pages = calculatePages(validatorCount, batchSize)
         for (let j = 1; j <= pages; j++) {
           const validators = (await nodeRegistryManager.getAllActiveValidators(j, batchSize, {
             blockTag,
@@ -316,10 +326,13 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetch socializing pool addresses
-  async fetchSocializingPoolAddresses(
-    poolFactoryManager: ethers.Contract,
-    blockTag: number,
-  ): Promise<PoolAddress[]> {
+  async fetchSocializingPoolAddresses({
+    poolFactoryManager,
+    blockTag,
+  }: {
+    poolFactoryManager: ethers.Contract
+    blockTag: number
+  }): Promise<PoolAddress[]> {
     try {
       logger.debug('Fetching socializing pool address list')
       const poolCount = await poolFactoryManager.poolCount({ blockTag })
@@ -337,11 +350,15 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetch node EL reward addresses from mapping in the Permissionless Node Registry
-  async fetchElRewardAddresses(
-    permissionlessNodeRegistryManager: ethers.Contract,
-    blockTag: number,
-    batchSize: number,
-  ): Promise<BasicAddress[]> {
+  async fetchElRewardAddresses({
+    permissionlessNodeRegistryManager,
+    blockTag,
+    batchSize,
+  }: {
+    permissionlessNodeRegistryManager: ethers.Contract
+    blockTag: number
+    batchSize: number
+  }): Promise<BasicAddress[]> {
     try {
       logger.debug('Fetching node EL reward address list')
       let elRewardAddresses: BasicAddress[] = []
@@ -349,8 +366,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
         (await permissionlessNodeRegistryManager.nextOperatorId({ blockTag })) - 1
       logger.debug(`${operatorCount} operators found in permissionless node registry`)
       // Calculate number of pages based on total operators and batch size
-      const pages =
-        operatorCount % batchSize === 0 ? operatorCount / batchSize : operatorCount / batchSize + 1
+      const pages = calculatePages(operatorCount, batchSize)
       for (let i = 1; i <= pages; i++) {
         const addresses =
           (await permissionlessNodeRegistryManager.getAllSocializingPoolOptOutOperators(
@@ -360,8 +376,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
               blockTag,
             },
           )) as string[]
-
-        addresses.forEach((address) => elRewardAddresses.push({ address }))
+        elRewardAddresses = elRewardAddresses.concat(addresses.map((address) => ({ address })))
       }
 
       elRewardAddresses = filterDuplicates<BasicAddress>(elRewardAddresses)
@@ -372,12 +387,9 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     }
   }
 
-  handleErrorResponse(
-    errorMessage: string,
-    providerDataRequestedUnixMs: number,
-  ): TimestampedProviderErrorResponse {
+  handleErrorResponse(errorMessage: string): TimestampedProviderErrorResponse {
     logger.error(errorMessage)
-    const error = buildErrorResponse(errorMessage, providerDataRequestedUnixMs)
+    const error = buildErrorResponse(errorMessage)
     return error
   }
 }
