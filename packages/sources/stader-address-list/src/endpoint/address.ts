@@ -12,23 +12,26 @@ import { ethers } from 'ethers'
 import {
   StaderPoolFactoryContract_ABI,
   StaderPermissionlessNodeRegistryContract_ABI,
-  StaderNodeRegistryContract_ABI,
 } from '../abi/StaderContractAbis'
 import { config } from '../config'
 import {
+  BasicAddress,
   buildErrorResponse,
-  calculatePages,
+  EndpointTypes,
+  fetchElRewardAddressesByPage,
+  fetchSocialPoolAddressesByPool,
+  fetchValidatorsByPool,
   filterDuplicates,
-  validatorsRegistryResponse,
+  FunctionParameters,
+  NetworkChainMap,
+  parsePages,
+  parsePools,
+  PoolAddress,
+  RequestParams,
+  ValidatorAddress,
 } from '../utils'
 
 const logger = makeLogger('StaderAddressList')
-
-type NetworkChainMap = {
-  [network: string]: {
-    [chain: string]: { poolFactory: string; permissionlessNodeRegistry: string }
-  }
-}
 
 const networks = ['ethereum']
 const chainIds = ['mainnet', 'goerli']
@@ -99,63 +102,6 @@ const inputParameters = {
   },
 } satisfies InputParameters
 
-export type BasicAddress = {
-  address: string
-}
-
-export type PoolAddress = BasicAddress & {
-  poolId: number
-}
-
-export type ValidatorAddress = BasicAddress &
-  PoolAddress & {
-    network: string
-    chainId: string
-    withdrawVaultAddress: string
-    operatorId: number
-    status: number
-  }
-
-interface RequestParams {
-  poolFactoryAddress?: string
-  permissionlessNodeRegistry?: string
-  stakeManagerAddress?: string
-  penaltyAddress?: string
-  permissionedPoolAddress?: string
-  staderConfigAddress?: string
-  network: string
-  chainId: string
-  confirmations: number
-  validatorStatus?: string[]
-  batchSize: number
-}
-
-interface ResponseSchema {
-  Data: {
-    stakeManagerAddress?: string
-    poolFactoryAddress?: string
-    penaltyAddress?: string
-    permissionedPoolAddress?: string
-    staderConfigAddress?: string
-    validatorStatus?: string[]
-    socialPoolAddresses: PoolAddress[]
-    elRewardAddresses: BasicAddress[]
-    confirmations: number
-    network: string
-    chainId: string
-    result: ValidatorAddress[]
-  }
-  Result: null
-}
-
-export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: ResponseSchema
-  Settings: typeof config.settings
-}
-
 export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   provider!: ethers.providers.JsonRpcProvider
 
@@ -221,18 +167,20 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     try {
       const latestBlockNum = await this.provider.getBlockNumber()
       const blockTag = latestBlockNum - confirmations
+      const poolCount = await poolFactoryManager.poolCount({ blockTag })
+      logger.debug(`Pool Count: ${poolCount}`)
       const params = {
-        poolFactoryManager,
-        permissionlessNodeRegistryManager,
+        provider: this.provider,
         blockTag,
         network,
         chainId,
         batchSize,
+        poolCount,
       }
       const [addressList, socialPoolAddresses, elRewardAddresses] = await Promise.all([
-        this.fetchValidatorAddressList(params),
-        this.fetchSocializingPoolAddresses(params),
-        this.fetchElRewardAddresses(params),
+        this.fetchValidatorAddressList({ ...params, manager: poolFactoryManager }),
+        this.fetchSocializingPoolAddresses({ ...params, manager: poolFactoryManager }),
+        this.fetchElRewardAddresses({ ...params, manager: permissionlessNodeRegistryManager }),
       ])
 
       // Build response
@@ -268,57 +216,12 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetch validator addresses and their metadata
-  async fetchValidatorAddressList({
-    poolFactoryManager,
-    blockTag,
-    network,
-    chainId,
-    batchSize,
-  }: {
-    poolFactoryManager: ethers.Contract
-    blockTag: number
-    network: string
-    chainId: string
-    batchSize: number
-  }): Promise<ValidatorAddress[]> {
+  async fetchValidatorAddressList(params: FunctionParameters): Promise<ValidatorAddress[]> {
     try {
       logger.debug('Fetching validator address list')
-      const poolCount = await poolFactoryManager.poolCount({ blockTag })
-      logger.debug(`Pool Count: ${poolCount}`)
-      const addressList: ValidatorAddress[] = []
-      for (let i = 1; i <= poolCount; i++) {
-        const nodeRegistryAddress: string = await poolFactoryManager.getNodeRegistry(i, {
-          blockTag,
-        })
-        const nodeRegistryManager = new ethers.Contract(
-          nodeRegistryAddress,
-          StaderNodeRegistryContract_ABI,
-          this.provider,
-        )
-        const validatorCount = (await nodeRegistryManager.nextValidatorId({ blockTag })) - 1
-        logger.debug(
-          `${validatorCount} addresses in pool ${i}. May not be the number that are active.`,
-        )
-        // Calculate number of pages based on total validators and batch size
-        const pages = calculatePages(validatorCount, batchSize)
-        for (let j = 1; j <= pages; j++) {
-          const validators = (await nodeRegistryManager.getAllActiveValidators(j, batchSize, {
-            blockTag,
-          })) as validatorsRegistryResponse[]
-          validators.forEach(([status, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => {
-            addressList.push({
-              address: pubkey,
-              withdrawVaultAddress,
-              network,
-              chainId,
-              operatorId: Number(operatorId),
-              poolId: i,
-              status,
-            })
-          })
-        }
-      }
-      return addressList
+      let addresses = await parsePools<ValidatorAddress>(params, fetchValidatorsByPool)
+      addresses = filterDuplicates<ValidatorAddress>(addresses)
+      return addresses
     } catch (e) {
       logger.error({ error: e })
       throw Error('Failed to retrieve validator addresses from contract')
@@ -326,21 +229,13 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetch socializing pool addresses
-  async fetchSocializingPoolAddresses({
-    poolFactoryManager,
-    blockTag,
-  }: {
-    poolFactoryManager: ethers.Contract
-    blockTag: number
-  }): Promise<PoolAddress[]> {
+  async fetchSocializingPoolAddresses(params: FunctionParameters): Promise<PoolAddress[]> {
     try {
       logger.debug('Fetching socializing pool address list')
-      const poolCount = await poolFactoryManager.poolCount({ blockTag })
-      let socialPoolAddresses: PoolAddress[] = []
-      for (let i = 1; i <= poolCount; i++) {
-        const address = await poolFactoryManager.getSocializingPoolAddress(i, { blockTag })
-        socialPoolAddresses.push({ address, poolId: i })
-      }
+      let socialPoolAddresses = await parsePools<PoolAddress>(
+        params,
+        fetchSocialPoolAddressesByPool,
+      )
       socialPoolAddresses = filterDuplicates<PoolAddress>(socialPoolAddresses)
       return socialPoolAddresses
     } catch (e) {
@@ -350,34 +245,16 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetch node EL reward addresses from mapping in the Permissionless Node Registry
-  async fetchElRewardAddresses({
-    permissionlessNodeRegistryManager,
-    blockTag,
-    batchSize,
-  }: {
-    permissionlessNodeRegistryManager: ethers.Contract
-    blockTag: number
-    batchSize: number
-  }): Promise<BasicAddress[]> {
+  async fetchElRewardAddresses(params: FunctionParameters): Promise<BasicAddress[]> {
     try {
       logger.debug('Fetching node EL reward address list')
       let elRewardAddresses: BasicAddress[] = []
-      const operatorCount =
-        (await permissionlessNodeRegistryManager.nextOperatorId({ blockTag })) - 1
+      const operatorCount = (await params.manager.nextOperatorId({ blockTag: params.blockTag })) - 1
       logger.debug(`${operatorCount} operators found in permissionless node registry`)
-      // Calculate number of pages based on total operators and batch size
-      const pages = calculatePages(operatorCount, batchSize)
-      for (let i = 1; i <= pages; i++) {
-        const addresses =
-          (await permissionlessNodeRegistryManager.getAllSocializingPoolOptOutOperators(
-            i,
-            batchSize,
-            {
-              blockTag,
-            },
-          )) as string[]
-        elRewardAddresses = elRewardAddresses.concat(addresses.map((address) => ({ address })))
-      }
+      elRewardAddresses = await parsePages(
+        { ...params, count: operatorCount, poolId: 0 },
+        fetchElRewardAddressesByPage,
+      )
 
       elRewardAddresses = filterDuplicates<BasicAddress>(elRewardAddresses)
       return elRewardAddresses
