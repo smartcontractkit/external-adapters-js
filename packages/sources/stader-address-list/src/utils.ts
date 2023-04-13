@@ -154,7 +154,7 @@ export const fetchValidatorsByPool = async (
   )
 
   return await parsePages(
-    { ...params, poolId: params.poolId, count: validatorCount },
+    { ...params, manager: nodeRegistryManager, poolId: params.poolId, count: validatorCount },
     fetchValidatorsInPage,
   )
 }
