@@ -1,9 +1,4 @@
-import {
-  makeLogger,
-  TimestampedProviderErrorResponse,
-} from '@chainlink/external-adapter-framework/util'
-import { ethers } from 'ethers'
-import { StaderNodeRegistryContract_ABI } from './abi/StaderContractAbis'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { config } from './config'
 
 const logger = makeLogger('StaderAddressListUtil')
@@ -14,7 +9,7 @@ export type NetworkChainMap = {
   }
 }
 
-export type validatorsRegistryResponse = [
+export type ValidatorRegistryResponse = [
   status: number,
   pubkey: string,
   preDepositSignature: string,
@@ -25,16 +20,6 @@ export type validatorsRegistryResponse = [
   depositTime: number,
   withdrawnTime: number,
 ]
-
-export interface FunctionParameters {
-  manager: ethers.Contract
-  provider: ethers.providers.JsonRpcProvider
-  poolCount: number
-  blockTag: number
-  network: string
-  chainId: string
-  batchSize: number
-}
 
 export type BasicAddress = {
   address: string
@@ -93,7 +78,7 @@ export type EndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const filterDuplicates = <T extends BasicAddress>(addresses: T[]): T[] => {
+export const filterDuplicateAddresses = <T extends BasicAddress>(addresses: T[]): T[] => {
   const addressMap: Record<string, T> = {}
   for (const addressObject of addresses) {
     if (addressMap[addressObject.address]) {
@@ -108,112 +93,26 @@ export const filterDuplicates = <T extends BasicAddress>(addresses: T[]): T[] =>
   return Object.values(addressMap)
 }
 
-export const calculatePages = (count: number, batchSize: number): number => {
+export const calculatePages = ({
+  count,
+  batchSize,
+}: {
+  count: number
+  batchSize: number
+}): number => {
   return count % batchSize === 0 ? count / batchSize : count / batchSize + 1
 }
 
-export const parsePools = async <T>(
-  input: FunctionParameters,
-  fn: (params: FunctionParameters & { poolId: number }) => Promise<T[]>,
-): Promise<T[]> => {
-  let results: T[] = []
-  for (let i = 1; i <= input.poolCount; i++) {
-    results = results.concat(await fn({ ...input, poolId: i }))
+export async function runAllSequentially<T>({
+  count,
+  handler,
+}: {
+  count: number
+  handler: (i: number) => Promise<T>
+}): Promise<T[]> {
+  const results: T[] = []
+  for (let i = 1; i <= count; i++) {
+    results.push(await handler(i))
   }
   return results
-}
-
-export const parsePages = async <T>(
-  input: FunctionParameters & { poolId: number; count: number },
-  fn: (params: FunctionParameters & { poolId: number; page: number }) => Promise<T[]>,
-): Promise<T[]> => {
-  let results: T[] = []
-  // Calculate number of pages based on total validators and batch size
-  const pages = calculatePages(input.count, input.batchSize)
-  for (let i = 1; i <= pages; i++) {
-    results = results.concat(await fn({ ...input, poolId: input.poolId, page: i }))
-  }
-  return results
-}
-
-export const fetchValidatorsByPool = async (
-  params: FunctionParameters & { poolId: number },
-): Promise<ValidatorAddress[]> => {
-  const nodeRegistryAddress: string = await params.manager.getNodeRegistry(params.poolId, {
-    blockTag: params.blockTag,
-  })
-  const nodeRegistryManager = new ethers.Contract(
-    nodeRegistryAddress,
-    StaderNodeRegistryContract_ABI,
-    params.provider,
-  )
-  const validatorCount =
-    (await nodeRegistryManager.nextValidatorId({ blockTag: params.blockTag })) - 1
-  logger.debug(
-    `${validatorCount} addresses in pool ${params.poolId}. May not be the number that are active.`,
-  )
-
-  return await parsePages(
-    { ...params, manager: nodeRegistryManager, poolId: params.poolId, count: validatorCount },
-    fetchValidatorsInPage,
-  )
-}
-
-const fetchValidatorsInPage = async ({
-  manager,
-  page,
-  batchSize,
-  blockTag,
-  network,
-  chainId,
-  poolId,
-}: FunctionParameters & { poolId: number; page: number }): Promise<ValidatorAddress[]> => {
-  const validators = (await manager.getAllActiveValidators(page, batchSize, {
-    blockTag,
-  })) as validatorsRegistryResponse[]
-
-  return validators.map(([status, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => ({
-    address: pubkey,
-    withdrawVaultAddress,
-    network,
-    chainId,
-    operatorId: Number(operatorId),
-    poolId,
-    status,
-  }))
-}
-
-export const fetchSocialPoolAddressesByPool = async ({
-  manager,
-  blockTag,
-  poolId,
-}: FunctionParameters & { poolId: number }): Promise<PoolAddress[]> => {
-  const address = await manager.getSocializingPoolAddress(poolId, { blockTag })
-  return [{ address, poolId }]
-}
-
-export const fetchElRewardAddressesByPage = async ({
-  manager,
-  page,
-  batchSize,
-  blockTag,
-}: FunctionParameters & {
-  page: number
-}): Promise<BasicAddress[]> => {
-  const addresses = (await manager.getAllSocializingPoolOptOutOperators(page, batchSize, {
-    blockTag,
-  })) as string[]
-  return addresses.map((address) => ({ address }))
-}
-
-export const buildErrorResponse = (errorMessage: string): TimestampedProviderErrorResponse => {
-  return {
-    statusCode: 502,
-    errorMessage,
-    timestamps: {
-      providerDataRequestedUnixMs: 0,
-      providerDataReceivedUnixMs: 0,
-      providerIndicatedTimeUnixMs: undefined,
-    },
-  }
 }

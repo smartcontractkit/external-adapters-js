@@ -1,34 +1,26 @@
 import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import {
-  AdapterResponse,
-  makeLogger,
-  sleep,
-  TimestampedProviderErrorResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { ethers } from 'ethers'
 import {
-  StaderPoolFactoryContract_ABI,
+  StaderNodeRegistryContract_ABI,
   StaderPermissionlessNodeRegistryContract_ABI,
+  StaderPoolFactoryContract_ABI,
 } from '../abi/StaderContractAbis'
 import { config } from '../config'
 import {
   BasicAddress,
-  buildErrorResponse,
+  calculatePages,
   EndpointTypes,
-  fetchElRewardAddressesByPage,
-  fetchSocialPoolAddressesByPool,
-  fetchValidatorsByPool,
-  filterDuplicates,
-  FunctionParameters,
+  filterDuplicateAddresses,
   NetworkChainMap,
-  parsePages,
-  parsePools,
   PoolAddress,
   RequestParams,
+  runAllSequentially,
   ValidatorAddress,
+  ValidatorRegistryResponse,
 } from '../utils'
 
 const logger = makeLogger('StaderAddressList')
@@ -133,7 +125,44 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     await Promise.all(entries.map(async (req) => this.handleRequest(req)))
   }
 
+  buildFactoryManagerContract(poolFactoryAddress: string): ethers.Contract {
+    return new ethers.Contract(poolFactoryAddress, StaderPoolFactoryContract_ABI, this.provider)
+  }
+
+  buildNodeRegistryManagerContract(poolFactoryAddress: string): ethers.Contract {
+    return new ethers.Contract(poolFactoryAddress, StaderNodeRegistryContract_ABI, this.provider)
+  }
+
+  buildPermissionlessNodeRegistryManagerContract(
+    permissionlessNodeRegistry: string,
+  ): ethers.Contract {
+    return new ethers.Contract(
+      permissionlessNodeRegistry,
+      StaderPermissionlessNodeRegistryContract_ABI,
+      this.provider,
+    )
+  }
+
   async handleRequest(req: RequestParams): Promise<void> {
+    let response: AdapterResponse<EndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(req)
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      response = {
+        statusCode: 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: req, response }])
+  }
+
+  async _handleRequest(req: RequestParams): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const {
       confirmations,
       poolFactoryAddress: poolFactoryAddressOverride,
@@ -147,81 +176,141 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       permissionedPoolAddress,
       staderConfigAddress,
     } = req
+
+    // Use addresses provided in the request, or default to the hardcoded ones
     const poolFactoryAddress =
       poolFactoryAddressOverride || staderNetworkChainMap[network][chainId].poolFactory
     const permissionlessNodeRegistry =
       permissionlessNodeRegistryOverride ||
       staderNetworkChainMap[network][chainId].permissionlessNodeRegistry
-    const poolFactoryManager = new ethers.Contract(
-      poolFactoryAddress,
-      StaderPoolFactoryContract_ABI,
-      this.provider,
-    )
-    const permissionlessNodeRegistryManager = new ethers.Contract(
-      permissionlessNodeRegistry,
-      StaderPermissionlessNodeRegistryContract_ABI,
-      this.provider,
-    )
-    const providerDataRequestedUnixMs = Date.now()
-    let response: AdapterResponse<EndpointTypes['Response']>
-    try {
-      const latestBlockNum = await this.provider.getBlockNumber()
-      const blockTag = latestBlockNum - confirmations
-      const poolCount = await poolFactoryManager.poolCount({ blockTag })
-      logger.debug(`Pool Count: ${poolCount}`)
-      const params = {
-        provider: this.provider,
-        blockTag,
-        network,
-        chainId,
-        batchSize,
-        poolCount,
-      }
-      const [addressList, socialPoolAddresses, elRewardAddresses] = await Promise.all([
-        this.fetchValidatorAddressList({ ...params, manager: poolFactoryManager }),
-        this.fetchSocializingPoolAddresses({ ...params, manager: poolFactoryManager }),
-        this.fetchElRewardAddresses({ ...params, manager: permissionlessNodeRegistryManager }),
-      ])
 
-      // Build response
-      response = {
-        data: {
-          stakeManagerAddress,
-          poolFactoryAddress: poolFactoryAddressOverride,
-          penaltyAddress,
-          permissionedPoolAddress,
-          staderConfigAddress,
-          validatorStatus,
-          socialPoolAddresses,
-          elRewardAddresses,
-          confirmations,
-          network,
-          chainId,
-          result: addressList,
-        },
-        statusCode: 200,
-        result: null,
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
-    } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      response = this.handleErrorResponse(errorMessage)
+    // Build the necessary contracts using the calculated addresses
+    const poolFactoryManager = this.buildFactoryManagerContract(poolFactoryAddress)
+    const permissionlessNodeRegistryManager = this.buildPermissionlessNodeRegistryManagerContract(
+      permissionlessNodeRegistry,
+    )
+
+    // We're making a lot of requests in this complex logic, so we start counting the time
+    // it takes for the provider to reply from here, accounting for all requests involved
+    const providerDataRequestedUnixMs = Date.now()
+
+    // Get data for the latest block in the chain, and the number of pools in the pool manager
+    const latestBlockNum = await this.provider.getBlockNumber()
+    const blockTag = latestBlockNum - confirmations
+    const poolCount = await poolFactoryManager.poolCount({ blockTag })
+    logger.debug(`Number of pools in pool factory manager: ${poolCount}`)
+
+    const params = {
+      provider: this.provider,
+      blockTag,
+      network,
+      chainId,
+      batchSize,
+      poolCount,
     }
 
-    await this.responseCache.write(this.name, [{ params: req, response }])
+    // Fetch all addresses, parallelizing requests as much as possible
+    // All of these addresses will be necessary to calculate balances
+    const [addressList, socialPoolAddresses, elRewardAddresses] = await Promise.all([
+      this.fetchValidatorAddresses({ ...params, poolFactoryManager }),
+      this.fetchSocializingPoolAddresses({ ...params, poolFactoryManager }),
+      this.fetchElRewardAddresses({ ...params, permissionlessNodeRegistryManager }),
+    ])
+
+    // Build response
+    return {
+      data: {
+        stakeManagerAddress,
+        poolFactoryAddress: poolFactoryAddressOverride,
+        penaltyAddress,
+        permissionedPoolAddress,
+        staderConfigAddress,
+        validatorStatus,
+        socialPoolAddresses,
+        elRewardAddresses,
+        confirmations,
+        network,
+        chainId,
+        result: addressList,
+      },
+      statusCode: 200,
+      result: null,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
   }
 
-  // Fetch validator addresses and their metadata
-  async fetchValidatorAddressList(params: FunctionParameters): Promise<ValidatorAddress[]> {
+  // Fetches all the validator addresses for a specific pool
+  async fetchPoolValidatorAddresses({
+    poolFactoryManager,
+    blockTag,
+    network,
+    chainId,
+    poolId,
+    batchSize,
+  }: {
+    poolFactoryManager: ethers.Contract
+    blockTag: number
+    network: string
+    chainId: string
+    poolId: number
+    batchSize: number
+  }): Promise<ValidatorAddress[]> {
+    // Get the address for the pool's node registry from the pool factory manager
+    const nodeRegistryAddress: string = await poolFactoryManager.getNodeRegistry(poolId, {
+      blockTag,
+    })
+    const nodeRegistryManager = this.buildNodeRegistryManagerContract(nodeRegistryAddress)
+
+    // Fetch the number of validators in the pool's node registry
+    const validatorCount = (await nodeRegistryManager.nextValidatorId({ blockTag })) - 1
+    logger.debug(`${validatorCount} addresses in pool ${poolId}. Not all of them may be active.`)
+
+    // Get all validator addresses in batches
+    const pages = calculatePages({ count: validatorCount, batchSize })
+    const validators = await runAllSequentially({
+      count: pages,
+      handler: (pageNumber) =>
+        nodeRegistryManager.getAllActiveValidators(pageNumber, batchSize, {
+          blockTag,
+        }) as Promise<ValidatorRegistryResponse>,
+    })
+
+    // Map the node registry response to the validator address list format
+    return validators.map(([status, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => ({
+      address: pubkey,
+      withdrawVaultAddress,
+      network,
+      chainId,
+      operatorId: Number(operatorId),
+      poolId,
+      status,
+    }))
+  }
+
+  // Fetch validator addresses and their metadata for all pools
+  async fetchValidatorAddresses(params: {
+    poolFactoryManager: ethers.Contract
+    blockTag: number
+    network: string
+    chainId: string
+    batchSize: number
+    poolCount: number
+  }): Promise<ValidatorAddress[]> {
+    logger.debug('Fetching validator address list')
+
     try {
-      logger.debug('Fetching validator address list')
-      let addresses = await parsePools<ValidatorAddress>(params, fetchValidatorsByPool)
-      addresses = filterDuplicates<ValidatorAddress>(addresses)
-      return addresses
+      // Get all the validator addresses for each pool
+      const addresses = await runAllSequentially({
+        count: params.poolCount,
+        handler: (poolId) => this.fetchPoolValidatorAddresses({ ...params, poolId }),
+      })
+
+      // Flatten the addresses out, remove duplicates, and return
+      return filterDuplicateAddresses(addresses.flat())
     } catch (e) {
       logger.error({ error: e })
       throw Error('Failed to retrieve validator addresses from contract')
@@ -229,15 +318,30 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetch socializing pool addresses
-  async fetchSocializingPoolAddresses(params: FunctionParameters): Promise<PoolAddress[]> {
+  async fetchSocializingPoolAddresses(params: {
+    poolFactoryManager: ethers.Contract
+    blockTag: number
+    poolCount: number
+  }): Promise<PoolAddress[]> {
+    logger.debug('Fetching socializing pool address list')
+
     try {
-      logger.debug('Fetching socializing pool address list')
-      let socialPoolAddresses = await parsePools<PoolAddress>(
-        params,
-        fetchSocialPoolAddressesByPool,
-      )
-      socialPoolAddresses = filterDuplicates<PoolAddress>(socialPoolAddresses)
-      return socialPoolAddresses
+      // Get the socializing address for each pool
+      const addresses = await runAllSequentially({
+        count: params.poolCount,
+        handler: async (poolId) => {
+          const address: string = await params.poolFactoryManager.getSocializingPoolAddress(
+            poolId,
+            {
+              blockTag: params.blockTag,
+            },
+          )
+          return { address, poolId }
+        },
+      })
+
+      // Remove duplicates and return
+      return filterDuplicateAddresses(addresses)
     } catch (e) {
       logger.error({ error: e })
       throw Error('Failed to retrieve socializing pool addresses from contract')
@@ -245,29 +349,41 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetch node EL reward addresses from mapping in the Permissionless Node Registry
-  async fetchElRewardAddresses(params: FunctionParameters): Promise<BasicAddress[]> {
-    try {
-      logger.debug('Fetching node EL reward address list')
-      let elRewardAddresses: BasicAddress[] = []
-      const operatorCount = (await params.manager.nextOperatorId({ blockTag: params.blockTag })) - 1
-      logger.debug(`${operatorCount} operators found in permissionless node registry`)
-      elRewardAddresses = await parsePages(
-        { ...params, count: operatorCount, poolId: 0 },
-        fetchElRewardAddressesByPage,
-      )
+  async fetchElRewardAddresses(params: {
+    permissionlessNodeRegistryManager: ethers.Contract
+    blockTag: number
+    batchSize: number
+  }): Promise<BasicAddress[]> {
+    logger.debug('Fetching node EL reward address list')
 
-      elRewardAddresses = filterDuplicates<BasicAddress>(elRewardAddresses)
-      return elRewardAddresses
+    try {
+      const operatorCount =
+        (await params.permissionlessNodeRegistryManager.nextOperatorId({
+          blockTag: params.blockTag,
+        })) - 1
+      logger.debug(`${operatorCount} operators found in permissionless node registry`)
+      const pages = calculatePages({ count: operatorCount, batchSize: params.batchSize })
+      const addresses = await runAllSequentially({
+        count: pages,
+        handler: async (pageNumber) => {
+          const addresses: string[] =
+            await params.permissionlessNodeRegistryManager.getSocializingPoolAddress(
+              pageNumber,
+              params.batchSize,
+              {
+                blockTag: params.blockTag,
+              },
+            )
+          return addresses.map((address) => ({ address }))
+        },
+      })
+
+      // Flatten the addresses out, remove duplicates, and return
+      return filterDuplicateAddresses(addresses.flat())
     } catch (e) {
       logger.error({ error: e })
       throw Error('Failed to retrieve node EL reward addresses from contract')
     }
-  }
-
-  handleErrorResponse(errorMessage: string): TimestampedProviderErrorResponse {
-    logger.error(errorMessage)
-    const error = buildErrorResponse(errorMessage)
-    return error
   }
 }
 
