@@ -216,9 +216,6 @@
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
     },
     {
-      "path": "./sources/cfbenchmarks-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
     },
     {

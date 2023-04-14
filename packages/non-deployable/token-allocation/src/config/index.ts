@@ -1,5 +1,5 @@
 import * as Amberdata from '@chainlink/amberdata-adapter'
-import * as CFBenchmarks from '@chainlink/cfbenchmarks-adapter'
+import { adapter as CFBenchmarks } from '@chainlink/cfbenchmarks-adapter'
 import * as CoinApi from '@chainlink/coinapi-adapter'
 import { adapter as CoinGecko } from '@chainlink/coingecko-adapter'
 import { adapter as CoinMarketCap } from '@chainlink/coinmarketcap-adapter'
@@ -24,7 +24,6 @@ import { Config, SourceRequestOptions } from '../types'
 // List of v2 adapters
 export const adaptersV2: v2AdapterImplementation[] = [
   Amberdata as unknown as v2AdapterImplementation,
-  CFBenchmarks as unknown as v2AdapterImplementation,
   CoinApi as unknown as v2AdapterImplementation,
   CoinPaprika as unknown as v2AdapterImplementation,
   CoinRanking as unknown as v2AdapterImplementation,
@@ -37,7 +36,13 @@ export const adaptersV2: v2AdapterImplementation[] = [
 
 // List of v3 adapters
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const adaptersV3: PriceAdapter<any>[] = [NCFX, CoinGecko, CoinMarketCap, CoinMetrics]
+export const adaptersV3: PriceAdapter<any>[] = [
+  CFBenchmarks,
+  CoinGecko,
+  CoinMarketCap,
+  CoinMetrics,
+  NCFX,
+]
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1

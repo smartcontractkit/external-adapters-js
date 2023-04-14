@@ -316,10 +316,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/cfbenchmarks"\
       },\
       {\
-        "name": "@chainlink/cfbenchmarks-test-adapter",\
-        "reference": "workspace:packages/sources/cfbenchmarks-test"\
-      },\
-      {\
         "name": "@chainlink/chain-reserve-wallet-adapter",\
         "reference": "workspace:packages/sources/chain-reserve-wallet"\
       },\
@@ -904,7 +900,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ccip-read-adapter", ["workspace:packages/sources/ccip-read"]],\
       ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
-      ["@chainlink/cfbenchmarks-test-adapter", ["workspace:packages/sources/cfbenchmarks-test"]],\
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
@@ -5715,24 +5710,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/cfbenchmarks-test-adapter", [\
-        ["workspace:packages/sources/cfbenchmarks-test", {\
-          "packageLocation": "./packages/sources/cfbenchmarks-test/",\
-          "packageDependencies": [\
-            ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.28.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6529,7 +6506,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ccip-read-adapter", "workspace:packages/sources/ccip-read"],\
             ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
             ["@chainlink/coinapi-test-adapter", "workspace:packages/sources/coinapi-test"],\
