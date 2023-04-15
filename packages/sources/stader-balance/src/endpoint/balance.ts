@@ -1,8 +1,9 @@
 import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, sleep, AdapterResponse } from '@chainlink/external-adapter-framework/util'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { config } from '../config'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import {
   DepositEvent_ABI,
@@ -10,11 +11,10 @@ import {
   StaderPenaltyContract_ABI,
   StaderPoolFactoryContract_ABI,
 } from '../abi/StaderContractAbis'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { config } from '../config'
 import {
   BalanceResponse,
   batchValidatorAddresses,
-  buildErrorResponse,
   chunkArray,
   DEPOSIT_EVENT_LOOKBACK_WINDOW,
   DEPOSIT_EVENT_TOPIC,
@@ -32,7 +32,6 @@ import {
   ValidatorState,
   WITHDRAWAL_DONE_STATUS,
 } from './utils'
-import BigNumber from 'bignumber.js'
 
 const logger = makeLogger('StaderBalanceLogger')
 export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
@@ -67,85 +66,103 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   async handleRequest(req: RequestParams, context: EndpointContext<EndpointTypes>): Promise<void> {
-    const providerDataRequestedUnixMs = Date.now()
     let response: AdapterResponse<EndpointTypes['Response']>
-    // Maintain map of pool ID to commission to avoid repeat contract calls
-    const commissionMap: Record<number, number> = {}
-    // Maintain map of pool ID to collateral ETH to avoid repeat contract calls
-    const collateralEthMap: Record<number, BigNumber> = {}
-    const addresses = req.addresses
-    const latestBlockNum = await this.provider.getBlockNumber()
-    const blockTag = latestBlockNum - req.confirmations
     try {
-      const [
-        ethDepositContract,
-        validatorDeposit,
-        validatorStateList,
-        stakeManagerBalance,
-        elRewardBalances,
-        permissionedPoolBalance,
-      ] = await Promise.all([
-        this.getEthDepositContractAddress(context.adapterSettings),
-        this.getValidatorDeposit(req, blockTag),
-        // Return a list of validator state for every address
-        this.queryValidatorStates(req, context.adapterSettings),
-        // Get inactive pool balance from Stader's StakePoolManager contract
-        this.getStaderStakeManagerBalance(req, blockTag),
-        // Get balance of all execution layer reward addresses
-        this.getElRewardBalances(req, blockTag, context.adapterSettings),
-        // Get balance of the Permissioned Pool address
-        this.getPermissionedPoolBalance(req, blockTag),
-      ])
-
-      const params: FunctionParameters = {
-        addresses,
-        validatorStateList,
-        req,
-        validatorDeposit,
-        ethDepositContract,
-        blockTag,
-        commissionMap,
-        collateralEthMap,
-      }
-
-      const [validatorBalances, poolAddressBalances] = await Promise.all([
-        // Perform validator level calculations
-        this.performValidatorCalculations(params),
-        // Get permissionless/permissioned pool address balances
-        this.getPoolAddressBalances(params),
-      ])
-
-      const balances = stakeManagerBalance.concat(
-        elRewardBalances,
-        permissionedPoolBalance,
-        validatorBalances,
-        poolAddressBalances,
-      )
-
+      response = await this._handleRequest(req, context)
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       response = {
-        data: {
-          result: balances,
-        },
-        result: null,
-        statusCode: 200,
+        statusCode: 502,
+        errorMessage,
         timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-    } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(errorMessage)
-      response = buildErrorResponse(errorMessage, providerDataRequestedUnixMs)
+    }
+    await this.responseCache.write(this.name, [{ params: req, response }])
+  }
+
+  async _handleRequest(
+    req: RequestParams,
+    context: EndpointContext<EndpointTypes>,
+  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
+    // Maintain map of pool ID to commission to avoid repeat contract calls
+    const commissionMap: Record<number, number> = {}
+
+    // Maintain map of pool ID to collateral ETH to avoid repeat contract calls
+    const collateralEthMap: Record<number, BigNumber> = {}
+
+    // We're making a lot of requests in this complex logic, so we start counting the time
+    // it takes for the provider to reply from here, accounting for all requests involved
+    const providerDataRequestedUnixMs = Date.now()
+
+    // Get data for the latest block in the chain
+    const latestBlockNum = await this.provider.getBlockNumber()
+    const blockTag = latestBlockNum - req.confirmations
+
+    // Fetch as much data in parallel as we can
+    const [
+      ethDepositContract,
+      validatorDeposit,
+      validatorStateList,
+      stakeManagerBalance,
+      elRewardBalances,
+      permissionedPoolBalance,
+    ] = await Promise.all([
+      this.getEthDepositContractAddress(context.adapterSettings),
+      this.getValidatorDeposit(req, blockTag),
+      // Return a list of validator state for every address
+      this.queryValidatorStates(req, context.adapterSettings),
+      // Get inactive pool balance from Stader's StakePoolManager contract
+      this.getStaderStakeManagerBalance(req, blockTag),
+      // Get balance of all execution layer reward addresses
+      this.getElRewardBalances(req, blockTag, context.adapterSettings),
+      // Get balance of the Permissioned Pool address
+      this.getPermissionedPoolBalance(req, blockTag),
+    ])
+
+    const params: FunctionParameters = {
+      addresses: req.addresses,
+      validatorStateList,
+      req,
+      validatorDeposit,
+      ethDepositContract,
+      blockTag,
+      commissionMap,
+      collateralEthMap,
     }
 
-    await this.responseCache.write(this.name, [
-      {
-        params: req,
-        response,
-      },
+    // Perform the final calculations
+    const [validatorBalances, poolAddressBalances] = await Promise.all([
+      // Perform validator level calculations
+      this.performValidatorCalculations(params),
+      // Get permissionless/permissioned pool address balances
+      this.getPoolAddressBalances(params),
     ])
+
+    // Flatten all the balances out, they'll be aggregated in the proof-of-reserves EA
+    const balances = [
+      stakeManagerBalance,
+      elRewardBalances,
+      permissionedPoolBalance,
+      validatorBalances,
+      poolAddressBalances,
+    ].flat()
+
+    return {
+      data: {
+        result: balances,
+      },
+      result: null,
+      statusCode: 200,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
   }
 
   // Retrieve balances from the beacon chain for all validators in request
@@ -157,35 +174,31 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       const url = `/eth/v1/beacon/states/${req.stateId}/validators`
       const statusList = req.validatorStatus?.join(',')
       const batchSize = settings.BATCH_SIZE
-      const responses: AxiosResponse<ProviderResponse>[] = []
       const addresses = req.addresses
+      let responses: AxiosResponse<ProviderResponse>[] = []
 
+      // First, separate the validator addresses into batches.
+      // Each one of these will be an RPC call to the beacon
       const batchedAddresses = batchValidatorAddresses(addresses, batchSize)
-      // Make request to beacon API for every batch
-      // Break addresses down into groups to execute asynchronously
-      // Firing requests for all batches all at once could hit rate limiting for large address pools
+
+      // Then, send a group of those requests in parallel and wait to avoid overloading the node
       const groupedBatches = chunkArray(batchedAddresses, settings.GROUP_SIZE)
       for (const group of groupedBatches) {
-        await Promise.all(
-          group.map(async (address) => {
-            const response = await axios.request({
-              baseURL: settings.BEACON_RPC_URL,
-              url,
-              params: { id: address, status: statusList },
-            })
-            responses.push(response)
-            return
-          }),
+        responses = responses.concat(
+          await Promise.all(
+            group.map(async (address) =>
+              axios.request({
+                baseURL: settings.BEACON_RPC_URL,
+                url,
+                params: { id: address, status: statusList },
+              }),
+            ),
+          ),
         )
       }
 
-      // Flatten the results into single array for validators and balances
-      const validatorBatches = responses.map(({ data }) => data)
-      const result = validatorBatches.reduce<ValidatorState[]>(
-        (flatten, { data }) => flatten.concat(data),
-        [],
-      )
-      return result
+      // Get the validator states from the responses, flatten the groups and return
+      return responses.map((r) => r.data.data).flat()
     } catch (e) {
       throw new Error('Failed to retrieve validator balances from Beacon chain')
     }
@@ -275,6 +288,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       logger.debug(
         `Validator (${validatorAddress}) has "${state.status}" status with balance ${validatorBalance}`,
       )
+
       // Validator has NOT fully withdrawn
       if (WITHDRAWAL_DONE_STATUS !== state.status.toLowerCase() || validatorBalance.gt(0)) {
         let userBalancePrelim: BigNumber
@@ -305,9 +319,11 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           )
           userBalancePrelim = validatorBalance
         }
+
         // Get penalty for validator from the Stader Penalty contract
         const penalty = await this.getPenalty(validatorAddress, req, blockTag)
         logger.debug(`Non-withdrawn validator (${validatorAddress}) penalty: ${penalty}`)
+
         // Calculate node balance
         const nodeBalance = BigNumber.max(
           0,
@@ -316,18 +332,22 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         logger.debug(
           `Non-withdrawn validator (${validatorAddress}) calculated node balance: ${nodeBalance}`,
         )
+
         // Calculate user balance
         const userBalance = validatorBalance.minus(nodeBalance)
         logger.debug(
           `Non-withdrawn validator (${validatorAddress}) calculated user balance: ${userBalance}`,
         )
-        let withdrawalBalance = await this.getAddressBalance(withdrawalAddress, blockTag)
-        withdrawalBalance = withdrawalBalance
+
+        // Calculate withdrawal balance
+        const withdrawalBalance = (await this.getAddressBalance(withdrawalAddress, blockTag))
           .times(userDeposit.div(validatorDeposit))
           .times(1 - commission)
         logger.debug(
           `Non-withdrawn validator's (${validatorAddress}) withdrawal (${withdrawalAddress}) balance: ${withdrawalBalance}`,
         )
+
+        // Calculate cumulative balance
         const cumulativeBalance = withdrawalBalance.plus(userBalance)
         logger.debug(
           `Non-withdrawn validator (${validatorAddress}) cumulative balance: ${cumulativeBalance}`,
@@ -397,23 +417,24 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     blockTag: number,
     settings: typeof config.settings,
   ): Promise<BalanceResponse[]> {
+    const balances: BalanceResponse[] = []
+    const elRewardAddresses = req.elRewardAddresses.map(({ address }) => address)
+    const groupedBatches = chunkArray(elRewardAddresses, settings.GROUP_SIZE)
+
     try {
-      const balances: BalanceResponse[] = []
-      const elRewardAddresses = req.elRewardAddresses.map(({ address }) => address)
-      const groupedBatches = chunkArray(elRewardAddresses, settings.GROUP_SIZE)
       for (const group of groupedBatches) {
         await Promise.all(
-          group.map((address) => {
-            return this.getAddressBalance(address, blockTag).then((balance) => {
-              balances.push({ address, balance: formatValueInGwei(balance) }) // Convert to gwei for response
-            })
+          group.map(async (address) => {
+            const balance = await this.getAddressBalance(address, blockTag)
+            balances.push({ address, balance: formatValueInGwei(balance) })
           }),
         )
       }
-      return balances
     } catch (e) {
       throw new Error("Failed to retrieve validators' fee recipient addresses balances")
     }
+
+    return balances
   }
 
   // Get permissionless/permissioned pool address balances
@@ -567,7 +588,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to find limbo ETH for validators in limbo`
-      logger.error(errorMessage)
       throw new Error(errorMessage)
     }
   }
@@ -579,7 +599,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to retrieve address balance for ${address}`
-      logger.error(errorMessage)
       throw new Error(errorMessage)
     }
   }
@@ -604,7 +623,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to retrieve penalty for ${validatorAddress}`
-      logger.error(errorMessage)
       throw new Error(errorMessage)
     }
   }
@@ -629,7 +647,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to retrieve Protocol Fee Percent for Pool ID ${poolId}`
-      logger.error(errorMessage)
       throw new Error(errorMessage)
     }
   }
@@ -654,7 +671,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to retrieve Operator Fee Percent for Pool ID ${poolId}`
-      logger.error(errorMessage)
       throw new Error(errorMessage)
     }
   }
@@ -687,7 +703,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     } catch (e) {
       logger.error({ error: e })
       const errorMessage = `Failed to calculate commission for Pool ID ${poolId}`
-      logger.error(errorMessage)
       throw new Error(errorMessage)
     }
   }
@@ -718,7 +733,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       } catch (e) {
         logger.error({ error: e })
         const errorMessage = `Failed to retrieve pool's (${poolId}) collateral ETH`
-        logger.error(errorMessage)
         throw new Error(errorMessage)
       }
     }
@@ -737,10 +751,11 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       return BigNumber(String(await addressManager.getStakedEthPerNode({ blockTag })))
     } catch (e) {
       logger.error({ error: e })
-      throw new Error(`Failed to retrieve validator deposit size`)
+      throw new Error(`Failed to retrieve validator deposit amount`)
     }
   }
 
+  // Get the address for the ETH deposit contract
   async getEthDepositContractAddress(settings: typeof config.settings): Promise<string> {
     const url = `/eth/v1/config/deposit_contract`
     const options: AxiosRequestConfig = {

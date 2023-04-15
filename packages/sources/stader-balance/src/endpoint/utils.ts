@@ -1,8 +1,8 @@
-import BigNumber from 'bignumber.js'
 import { TimestampedProviderErrorResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
+import { config } from '../config'
 
 const GWEI_DIVISOR = 1000000000
 export const WITHDRAWAL_DONE_STATUS = 'withdrawal_done'
