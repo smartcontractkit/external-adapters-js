@@ -1,5 +1,9 @@
-import { TimestampedProviderErrorResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  makeLogger,
+  TimestampedProviderErrorResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import axios, { AxiosRequestConfig } from 'axios'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { config } from '../config'
@@ -199,17 +203,6 @@ export type EndpointTypes = {
   Settings: typeof config.settings
 }
 
-export interface FunctionParameters {
-  addresses: ValidatorAddress[]
-  validatorStateList: ValidatorState[]
-  req: RequestParams
-  validatorDeposit: BigNumber
-  ethDepositContract: string
-  blockTag: number
-  commissionMap: Record<number, number>
-  collateralEthMap: Record<number, BigNumber>
-}
-
 export const chunkArray = (addresses: string[], size: number): string[][] =>
   addresses.length > size
     ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
@@ -263,4 +256,39 @@ export const batchValidatorAddresses = (
     )
   }
   return batchedAddresses
+}
+
+const logger = makeLogger('Balance Utils')
+
+export const withErrorHandling = async <T>(stepName: string, fn: () => T) => {
+  try {
+    const result = await fn()
+    logger.debug(`${stepName} | got result: ${result}`)
+    return result
+  } catch (e) {
+    logger.error({ error: e })
+    throw new Error(`Failed step: ${stepName}`)
+  }
+}
+
+export const fetchAddressBalance = async (
+  address: string,
+  blockTag: number,
+  provider: ethers.providers.JsonRpcProvider,
+): Promise<BigNumber> => BigNumber((await provider.getBalance(address, blockTag)).toString())
+
+// Get the address for the ETH deposit contract
+export const fetchEthDepositContractAddress = async (
+  settings: typeof config.settings,
+): Promise<string> => {
+  const url = `/eth/v1/config/deposit_contract`
+  const options: AxiosRequestConfig = {
+    baseURL: settings.BEACON_RPC_URL,
+    url,
+  }
+
+  return withErrorHandling(`Fetch ETH deposit contract address`, async () => {
+    const response = await axios.request<{ data: { chainId: string; address: string } }>(options)
+    return response.data.data.address
+  })
 }

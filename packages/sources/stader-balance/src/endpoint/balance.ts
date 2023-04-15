@@ -2,7 +2,7 @@ import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-fr
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import {
@@ -19,8 +19,9 @@ import {
   DEPOSIT_EVENT_LOOKBACK_WINDOW,
   DEPOSIT_EVENT_TOPIC,
   EndpointTypes,
+  fetchAddressBalance,
+  fetchEthDepositContractAddress,
   formatValueInGwei,
-  FunctionParameters,
   inputParameters,
   ONE_ETH_WEI,
   parseLittleEndian,
@@ -31,6 +32,7 @@ import {
   ValidatorAddress,
   ValidatorState,
   WITHDRAWAL_DONE_STATUS,
+  withErrorHandling,
 } from './utils'
 
 const logger = makeLogger('StaderBalanceLogger')
@@ -102,33 +104,54 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const latestBlockNum = await this.provider.getBlockNumber()
     const blockTag = latestBlockNum - req.confirmations
 
+    // Create necessary basic constructs
+    const permissionedPool = new PermissionedPool(req, blockTag, this.provider)
+    const stakeManager = new StakeManager(req, blockTag, this.provider)
+    const staderConfig = new StaderConfig(req, blockTag, this.provider)
+    const socialPools = req.socialPoolAddresses.map(
+      (a) =>
+        new SocialPool({
+          ...req,
+          ...a,
+          blockTag,
+          provider: this.provider,
+        }),
+    )
+
     // Fetch as much data in parallel as we can
     const [
-      ethDepositContract,
-      validatorDeposit,
-      validatorStateList,
-      stakeManagerBalance,
-      elRewardBalances,
+      ethDepositContractAddress,
       permissionedPoolBalance,
+      stakeManagerBalance,
+      validatorDeposit,
+      validatorList,
+      elRewardBalances,
     ] = await Promise.all([
-      this.getEthDepositContractAddress(context.adapterSettings),
-      this.getValidatorDeposit(req, blockTag),
-      // Return a list of validator state for every address
-      this.queryValidatorStates(req, context.adapterSettings),
-      // Get inactive pool balance from Stader's StakePoolManager contract
-      this.getStaderStakeManagerBalance(req, blockTag),
-      // Get balance of all execution layer reward addresses
+      // Get the address for the main ETH deposit contract
+      fetchEthDepositContractAddress(context.adapterSettings),
+
+      // Fetch the balance for the permissioned pool
+      permissionedPool.fetchBalance(),
+
+      // Fetch the balance for the stake manager
+      stakeManager.fetchBalance(),
+
+      // Fetch the validator deposit value in the stader config
+      staderConfig.fetchValidatorDeposit(),
+
+      // Fetch all validators specified in the request addresses from the beacon chain
+      Validator.fetchAll(req, context.adapterSettings),
+
+      // Get all the execution layer rewards for the specified addresses in the request
       this.getElRewardBalances(req, blockTag, context.adapterSettings),
-      // Get balance of the Permissioned Pool address
-      this.getPermissionedPoolBalance(req, blockTag),
     ])
 
-    const params: FunctionParameters = {
+    const params = {
       addresses: req.addresses,
-      validatorStateList,
+      validatorList,
       req,
       validatorDeposit,
-      ethDepositContract,
+      ethDepositContractAddress,
       blockTag,
       commissionMap,
       collateralEthMap,
@@ -138,8 +161,9 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const [validatorBalances, poolAddressBalances] = await Promise.all([
       // Perform validator level calculations
       this.performValidatorCalculations(params),
+
       // Get permissionless/permissioned pool address balances
-      this.getPoolAddressBalances(params),
+      Promise.all(socialPools.map((p) => p.fetchBalance(validatorDeposit))),
     ])
 
     // Flatten all the balances out, they'll be aggregated in the proof-of-reserves EA
@@ -162,45 +186,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
-    }
-  }
-
-  // Retrieve balances from the beacon chain for all validators in request
-  async queryValidatorStates(
-    req: RequestParams,
-    settings: typeof config.settings,
-  ): Promise<ValidatorState[]> {
-    try {
-      const url = `/eth/v1/beacon/states/${req.stateId}/validators`
-      const statusList = req.validatorStatus?.join(',')
-      const batchSize = settings.BATCH_SIZE
-      const addresses = req.addresses
-      let responses: AxiosResponse<ProviderResponse>[] = []
-
-      // First, separate the validator addresses into batches.
-      // Each one of these will be an RPC call to the beacon
-      const batchedAddresses = batchValidatorAddresses(addresses, batchSize)
-
-      // Then, send a group of those requests in parallel and wait to avoid overloading the node
-      const groupedBatches = chunkArray(batchedAddresses, settings.GROUP_SIZE)
-      for (const group of groupedBatches) {
-        responses = responses.concat(
-          await Promise.all(
-            group.map(async (address) =>
-              axios.request({
-                baseURL: settings.BEACON_RPC_URL,
-                url,
-                params: { id: address, status: statusList },
-              }),
-            ),
-          ),
-        )
-      }
-
-      // Get the validator states from the responses, flatten the groups and return
-      return responses.map((r) => r.data.data).flat()
-    } catch (e) {
-      throw new Error('Failed to retrieve validator balances from Beacon chain')
     }
   }
 
@@ -421,114 +406,18 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const elRewardAddresses = req.elRewardAddresses.map(({ address }) => address)
     const groupedBatches = chunkArray(elRewardAddresses, settings.GROUP_SIZE)
 
-    try {
+    return withErrorHandling('Retrieving validator execution layer reward balances', async () => {
       for (const group of groupedBatches) {
         await Promise.all(
           group.map(async (address) => {
-            const balance = await this.getAddressBalance(address, blockTag)
+            const balance = await fetchAddressBalance(address, blockTag, this.provider)
             balances.push({ address, balance: formatValueInGwei(balance) })
           }),
         )
       }
-    } catch (e) {
-      throw new Error("Failed to retrieve validators' fee recipient addresses balances")
-    }
 
-    return balances
-  }
-
-  // Get permissionless/permissioned pool address balances
-  async getPoolAddressBalances({
-    req,
-    blockTag,
-    validatorDeposit,
-    commissionMap,
-    collateralEthMap,
-  }: {
-    req: RequestParams
-    blockTag: number
-    validatorDeposit: BigNumber
-    commissionMap: Record<number, number>
-    collateralEthMap: Record<number, BigNumber>
-  }): Promise<BalanceResponse[]> {
-    try {
-      return await Promise.all(
-        req.socialPoolAddresses.map(async (socialPool) => {
-          const addressBalance = await this.getAddressBalance(socialPool.address, blockTag)
-          logger.debug(
-            `Social Pool (${socialPool.address}) balance on execution layer (in wei): ${addressBalance}`,
-          )
-          const commission = await this.getCommission(
-            commissionMap,
-            req,
-            socialPool.poolId,
-            blockTag,
-          )
-          const collateralEth = await this.getCollateralEth(
-            socialPool.poolId,
-            collateralEthMap,
-            req,
-            blockTag,
-          )
-          const userDeposit = validatorDeposit.minus(collateralEth)
-          const balance = addressBalance
-            .times(userDeposit.div(validatorDeposit))
-            .times(1 - commission)
-          logger.debug(
-            `Social Pool (${socialPool.address}) calculated balance (in wei): ${balance}`,
-          )
-          return {
-            address: socialPool.address,
-            balance: formatValueInGwei(balance), // Convert to gwei for response
-          }
-        }),
-      )
-    } catch (e) {
-      throw new Error('Failed to retrieve balances for socializing pool addresses')
-    }
-  }
-
-  // Get inactive pool balance from Stader's StakePoolManager contract
-  async getStaderStakeManagerBalance(
-    req: RequestParams,
-    blockTag: number,
-  ): Promise<BalanceResponse[]> {
-    try {
-      const stakePoolManagerContract =
-        req.stakeManagerAddress || staderNetworkChainMap[req.network][req.chainId].stakePoolsManager
-      const stakeManagerBalance = await this.getAddressBalance(stakePoolManagerContract, blockTag)
-      logger.debug(`Balance on StakeManager contract (in wei): ${stakeManagerBalance}`)
-      return [
-        {
-          address: stakePoolManagerContract,
-          balance: formatValueInGwei(stakeManagerBalance), // Convert to gwei for response
-        },
-      ]
-    } catch (e) {
-      throw new Error('Failed to retrieve the StakeManager contract balance')
-    }
-  }
-
-  // Get inactive pool balance from Stader's StakePoolManager contract
-  async getPermissionedPoolBalance(
-    req: RequestParams,
-    blockTag: number,
-  ): Promise<BalanceResponse[]> {
-    try {
-      const permissionedPool =
-        req.permissionedPoolAddress ||
-        staderNetworkChainMap[req.network][req.chainId].permissionedPool
-      const permissionedPoolBalance = await this.getAddressBalance(permissionedPool, blockTag)
-      logger.debug(`Permissioned pool balance (in wei): ${permissionedPoolBalance}`)
-      return [
-        {
-          address: permissionedPool,
-          balance: formatValueInGwei(permissionedPoolBalance), // Convert to gwei for response
-        },
-      ]
-    } catch (e) {
-      throw new Error('Failed to retrieve the StakeManager contract balance')
-    }
+      return balances
+    })
   }
 
   // Get event logs to find deposit events for addresses not on the beacon chain yet
@@ -592,17 +481,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     }
   }
 
-  // Get balance (in wei) of ETH address
-  async getAddressBalance(address: string, blockTag: number): Promise<BigNumber> {
-    try {
-      return BigNumber((await this.provider.getBalance(address, blockTag)).toString())
-    } catch (e) {
-      logger.error({ error: e })
-      const errorMessage = `Failed to retrieve address balance for ${address}`
-      throw new Error(errorMessage)
-    }
-  }
-
   // Get penalty (in wei) for validator address from Stader's Penalty contract
   async getPenalty(
     validatorAddress: string,
@@ -626,150 +504,255 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       throw new Error(errorMessage)
     }
   }
+}
 
-  // Get Protocol Fee Percent from Stader Pool Factory Contract
-  // Used to calculate commission
-  async getProtocolFeePercent(
-    poolId: number,
+class Validator {
+  constructor(private addressData: ValidatorAddress, private state: ValidatorState) {}
+
+  // Retrieve balances from the beacon chain for all validators in request
+  static async fetchAll(
     req: RequestParams,
-    blockTag: number,
-  ): Promise<number> {
-    const poolFactoryAddress =
-      req.poolFactoryAddress || staderNetworkChainMap[req.network][req.chainId].poolFactory
-    const addressManager = new ethers.Contract(
-      poolFactoryAddress,
-      StaderPoolFactoryContract_ABI,
-      this.provider,
+    settings: typeof config.settings,
+  ): Promise<Validator[]> {
+    return withErrorHandling(
+      `Fetching validator states (state id: ${req.stateId}) from the beacon chain`,
+      async () => {
+        const url = `/eth/v1/beacon/states/${req.stateId}/validators`
+        const statusList = req.validatorStatus?.join(',')
+        const batchSize = settings.BATCH_SIZE
+        const addresses = req.addresses
+        const validators: Validator[] = []
+
+        // Put the validator addresses into a map so we can map the response later
+        const addressMap = {} as Record<string, ValidatorAddress>
+        for (const address of addresses) {
+          addressMap[address.address] = address
+        }
+
+        // First, separate the validator addresses into batches.
+        // Each one of these will be an RPC call to the beacon
+        const batchedAddresses = batchValidatorAddresses(addresses, batchSize)
+
+        // Then, send a group of those requests in parallel and wait to avoid overloading the node
+        const groupedBatches = chunkArray(batchedAddresses, settings.GROUP_SIZE)
+        for (const group of groupedBatches) {
+          await Promise.all(
+            group.map(async (address) => {
+              const response = await axios.request<ProviderResponse>({
+                baseURL: settings.BEACON_RPC_URL,
+                url,
+                params: { id: address, status: statusList },
+              })
+
+              for (const state of response.data.data) {
+                validators.push(new Validator(addressMap[state.validator.pubkey], state))
+              }
+            }),
+          )
+        }
+
+        // Get the validator states from the responses, flatten the groups and return
+        return validators
+      },
     )
-    try {
-      // Format in BIPS: 0-10000
-      return (await addressManager.getProtocolFee(poolId, { blockTag })) / 10000
-    } catch (e) {
-      logger.error({ error: e })
-      const errorMessage = `Failed to retrieve Protocol Fee Percent for Pool ID ${poolId}`
-      throw new Error(errorMessage)
-    }
+  }
+}
+
+class StaderConfig {
+  address: string
+  addressManager: ethers.Contract
+  validatorDeposit?: BigNumber
+
+  constructor(
+    req: { stakeManagerAddress?: string; network: string; chainId: string },
+    private blockTag: number,
+    private provider: ethers.providers.JsonRpcProvider,
+  ) {
+    this.address =
+      req.stakeManagerAddress || staderNetworkChainMap[req.network][req.chainId].stakePoolsManager
+
+    this.addressManager = new ethers.Contract(this.address, StaderConfigContract_ABI, this.provider)
   }
 
-  // Get Operator Fee Percent from Stader Pool Factory Contract
-  // Used to calculate commission
-  async getOperatorFeePercent(
-    poolId: number,
-    req: RequestParams,
-    blockTag: number,
-  ): Promise<number> {
-    const poolFactoryAddress =
-      req.poolFactoryAddress || staderNetworkChainMap[req.network][req.chainId].poolFactory
-    const addressManager = new ethers.Contract(
-      poolFactoryAddress,
-      StaderPoolFactoryContract_ABI,
-      this.provider,
-    )
-    try {
-      // Format in BIPS: 0-10000
-      return (await addressManager.getOperatorFee(poolId, { blockTag })) / 10000
-    } catch (e) {
-      logger.error({ error: e })
-      const errorMessage = `Failed to retrieve Operator Fee Percent for Pool ID ${poolId}`
-      throw new Error(errorMessage)
-    }
-  }
-
-  // Retrieve commission from map or contract to use for calculations
-  // Stores values in map to avoid duplicate calls for the same pool ID
-  async getCommission(
-    commissionMap: Record<number, number>,
-    req: RequestParams,
-    poolId: number,
-    blockTag: number,
-  ): Promise<number> {
-    try {
-      if (commissionMap[poolId]) {
-        const commission = commissionMap[poolId]
-        logger.debug(`Pool's (${poolId}) commission: ${commission}`)
-        return commission
-      } else {
-        const [protocolFeePercent, operatorFeePercent] = await Promise.all([
-          this.getProtocolFeePercent(poolId, req, blockTag),
-          this.getOperatorFeePercent(poolId, req, blockTag),
-        ])
-        const commission = protocolFeePercent + operatorFeePercent
-        commissionMap[poolId] = commission
-        logger.debug(
-          `Pool's (${poolId}) protocol fee percentage: ${protocolFeePercent}, operator fee percentage: ${operatorFeePercent}, and commission percentage: ${commission}`,
-        )
-        return commission
-      }
-    } catch (e) {
-      logger.error({ error: e })
-      const errorMessage = `Failed to calculate commission for Pool ID ${poolId}`
-      throw new Error(errorMessage)
-    }
-  }
-
-  // Retrieve pool's collateral eth from either the map or from the contract for the first time
-  async getCollateralEth(
-    poolId: number,
-    collateralEthMap: Record<number, BigNumber>,
-    req: RequestParams,
-    blockTag: number,
-  ): Promise<BigNumber> {
-    if (collateralEthMap[poolId]) {
-      return collateralEthMap[poolId]
-    } else {
-      const poolFactoryAddress =
-        req.poolFactoryAddress || staderNetworkChainMap[req.network][req.chainId].poolFactory
-      const addressManager = new ethers.Contract(
-        poolFactoryAddress,
-        StaderPoolFactoryContract_ABI,
-        this.provider,
+  async fetchValidatorDeposit() {
+    if (!this.validatorDeposit) {
+      this.validatorDeposit = await withErrorHandling(
+        `Fetching config contract validator deposit`,
+        async () =>
+          BigNumber(
+            String(await this.addressManager.getStakedEthPerNode({ blockTag: this.blockTag })),
+          ),
       )
-      try {
-        const collateralEth = BigNumber(
-          String(await addressManager.getCollateralETH(poolId, { blockTag })),
-        )
-        collateralEthMap[poolId] = collateralEth
-        return collateralEth
-      } catch (e) {
-        logger.error({ error: e })
-        const errorMessage = `Failed to retrieve pool's (${poolId}) collateral ETH`
-        throw new Error(errorMessage)
+    }
+
+    return this.validatorDeposit
+  }
+}
+
+class StakeManager {
+  address: string
+  balance?: BalanceResponse
+
+  constructor(
+    req: { stakeManagerAddress?: string; network: string; chainId: string },
+    private blockTag: number,
+    private provider: ethers.providers.JsonRpcProvider,
+  ) {
+    this.address =
+      req.stakeManagerAddress || staderNetworkChainMap[req.network][req.chainId].stakePoolsManager
+  }
+
+  // Get inactive pool balance from Stader's StakePoolManager contract
+  async fetchBalance() {
+    if (!this.balance) {
+      const balance = await withErrorHandling(`Fetching stake pool balance`, async () =>
+        formatValueInGwei(await fetchAddressBalance(this.address, this.blockTag, this.provider)),
+      )
+      this.balance = {
+        address: this.address,
+        balance,
       }
     }
+
+    return this.balance
+  }
+}
+
+class PermissionedPool {
+  address: string
+  balance?: BalanceResponse
+
+  constructor(
+    req: { permissionedPoolAddress?: string; network: string; chainId: string },
+    private blockTag: number,
+    private provider: ethers.providers.JsonRpcProvider,
+  ) {
+    this.address =
+      req.permissionedPoolAddress ||
+      staderNetworkChainMap[req.network][req.chainId].permissionedPool
   }
 
-  // Retrieve validator deposit from Stader contract (32 ETH in wei)
-  async getValidatorDeposit(req: RequestParams, blockTag: number): Promise<BigNumber> {
-    const staderConfigAddress =
-      req.staderConfigAddress || staderNetworkChainMap[req.network][req.chainId].staderConfig
-    const addressManager = new ethers.Contract(
-      staderConfigAddress,
-      StaderConfigContract_ABI,
-      this.provider,
+  // TODO: the comment below is probably innacurate
+  // Get inactive pool balance from Stader's StakePoolManager contract
+  async fetchBalance() {
+    if (!this.balance) {
+      const balance = await withErrorHandling(`Fetching permissioned pool balance`, async () =>
+        formatValueInGwei(await fetchAddressBalance(this.address, this.blockTag, this.provider)),
+      )
+      this.balance = {
+        address: this.address,
+        balance,
+      }
+    }
+
+    return this.balance
+  }
+}
+
+class SocialPool {
+  collateralEth?: BigNumber
+  // operatorFeePercentage?: number
+  // protocolFeePercentage?: number
+  // totalCommissionPercentage?: number
+  addressBalance?: number
+
+  private id: number
+  private address: string
+  private blockTag: number
+  private provider: ethers.providers.JsonRpcProvider
+  private poolFactoryManager: ethers.Contract
+
+  constructor(params: {
+    poolId: number
+    blockTag: number
+    address: string
+    poolFactoryAddress?: string
+    network: string
+    chainId: string
+    provider: ethers.providers.JsonRpcProvider
+  }) {
+    this.id = params.poolId
+    this.address = params.address
+    this.blockTag = params.blockTag
+    this.provider = params.provider
+
+    const contractAddress =
+      params.poolFactoryAddress || staderNetworkChainMap[params.network][params.chainId].poolFactory
+    this.poolFactoryManager = new ethers.Contract(
+      contractAddress,
+      StaderPoolFactoryContract_ABI,
+      params.provider,
     )
-    try {
-      return BigNumber(String(await addressManager.getStakedEthPerNode({ blockTag })))
-    } catch (e) {
-      logger.error({ error: e })
-      throw new Error(`Failed to retrieve validator deposit amount`)
+  }
+
+  async fetchBalance(validatorDeposit: BigNumber) {
+    // Fetch data
+    // TODO: This could be pre-fetched
+    const addressBalance = await this.fetchAddressBalance()
+    const commission = await this.fetchTotalCommissionPercentage()
+    const collateralEth = await this.fetchCollateralEth()
+
+    // Calculate the balance
+    const userDeposit = validatorDeposit.minus(collateralEth)
+    const balance = addressBalance.times(userDeposit.div(validatorDeposit)).times(1 - commission)
+
+    logger.debug(`[Pool ${this.id}] calculated balance (in wei): ${balance}`)
+    return {
+      address: this.address,
+      balance: formatValueInGwei(balance), // Convert to gwei for response
     }
   }
 
-  // Get the address for the ETH deposit contract
-  async getEthDepositContractAddress(settings: typeof config.settings): Promise<string> {
-    const url = `/eth/v1/config/deposit_contract`
-    const options: AxiosRequestConfig = {
-      baseURL: settings.BEACON_RPC_URL,
-      url,
-    }
-    try {
-      const response = await axios.request<{ data: { chainId: string; address: string } }>(options)
-      logger.debug(`ETH Deposit Contract: ${response.data.data.address}`)
-      return response.data.data.address
-    } catch (e) {
-      logger.error({ error: e })
-      throw new Error('Failed to retrieve ETH deposit contract address')
-    }
+  async fetchAddressBalance() {
+    return withErrorHandling(`[Pool ${this.id}] Fetching address balance`, async () =>
+      fetchAddressBalance(this.address, this.blockTag, this.provider),
+    )
+  }
+
+  // Retrieve the pool's collateral ETH from the Stader Pool Factory contract
+  async fetchCollateralEth() {
+    return withErrorHandling(`[Pool ${this.id}] Fetching collateral ETH`, async () =>
+      BigNumber(
+        String(
+          await this.poolFactoryManager.getCollateralETH(this.id, { blockTag: this.blockTag }),
+        ),
+      ),
+    )
+  }
+
+  async fetchTotalCommissionPercentage() {
+    return withErrorHandling(`[Pool ${this.id}] Fetching and calculating all data`, async () => {
+      // Get the fee percentages from the pool manager contract
+      const [operatorFeePercentage, protocolFeePercentage] = await Promise.all([
+        this.fetchOperatorFeePercentage(),
+        this.fetchProtocolFeePercentage(),
+      ])
+
+      // Calculate the total commission
+      return operatorFeePercentage + protocolFeePercentage
+    })
+  }
+
+  // Retrieve the pool's operator fee from the Stader Pool Factory contract and calculate the percentage
+  async fetchOperatorFeePercentage() {
+    return withErrorHandling(
+      `[Pool ${this.id}] Fetching operator fee percentage`,
+      async () =>
+        // Format in BIPS: 0-10000
+        (await this.poolFactoryManager.getOperatorFee(this.id, { blockTag: this.blockTag })) /
+        10000,
+    )
+  }
+
+  // Get protocol fee percentage from Stader Pool Factory Contract, used to calculate commission
+  async fetchProtocolFeePercentage() {
+    return withErrorHandling(
+      `[Pool ${this.id}] Fetching protocol fee percentage`,
+      async () =>
+        // Format in BIPS: 0-10000
+        (await this.poolFactoryManager.getProtocolFee(this.id, { blockTag: this.blockTag })) /
+        10000,
+    )
   }
 }
 
