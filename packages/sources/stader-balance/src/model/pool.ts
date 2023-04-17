@@ -11,67 +11,32 @@ import {
   withErrorHandling,
 } from '../endpoint/utils'
 
-const logger = makeLogger(`SocialPool`)
+const logger = makeLogger(`Pool`)
 
-export class SocialPool {
+export class Pool {
   collateralEth?: BigNumber
-  // operatorFeePercentage?: number
-  // protocolFeePercentage?: number
   totalCommissionPercentage?: number
   addressBalance?: number
 
   id: number
-  private address: string
-  private blockTag: number
-  private provider: ethers.providers.JsonRpcProvider
+  protected blockTag: number
+  protected provider: ethers.providers.JsonRpcProvider
   private poolFactoryManager: ethers.Contract
-  private logPrefix: string
+  protected logPrefix: string
 
   constructor(params: {
     poolId: number
     blockTag: number
-    address: string
     poolFactoryAddress?: string
     network: string
     chainId: string
     provider: ethers.providers.JsonRpcProvider
   }) {
     this.id = params.poolId
-    this.address = params.address
     this.blockTag = params.blockTag
     this.provider = params.provider
     this.logPrefix = `[Pool ${this.id}]`
-
-    const contractAddress =
-      params.poolFactoryAddress || staderNetworkChainMap[params.network][params.chainId].poolFactory
-    this.poolFactoryManager = new ethers.Contract(
-      contractAddress,
-      StaderPoolFactoryContract_ABI,
-      params.provider,
-    )
-  }
-
-  async fetchBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
-    // Fetch data
-    const addressBalance = await this.fetchAddressBalance()
-    const commission = await this.fetchTotalCommissionPercentage()
-    const collateralEth = await this.fetchCollateralEth()
-
-    // Calculate the balance
-    const userDeposit = validatorDeposit.minus(collateralEth)
-    const balance = addressBalance.times(userDeposit.div(validatorDeposit)).times(1 - commission)
-
-    logger.debug(`${this.logPrefix} calculated balance (in wei): ${balance}`)
-    return {
-      address: this.address,
-      balance: formatValueInGwei(balance), // Convert to gwei for response
-    }
-  }
-
-  async fetchAddressBalance(): Promise<BigNumber> {
-    return withErrorHandling(`${this.logPrefix} Fetching address balance`, async () =>
-      fetchAddressBalance(this.address, this.blockTag, this.provider),
-    )
+    this.poolFactoryManager = Pool.buildPoolFactoryManager(params, this.provider)
   }
 
   // Retrieve the pool's collateral ETH from the Stader Pool Factory contract
@@ -133,7 +98,7 @@ export class SocialPool {
     )
   }
 
-  static buildAll(
+  static async buildAll(
     params: {
       socialPoolAddresses: PoolAddress[]
       poolFactoryAddress?: string
@@ -142,28 +107,95 @@ export class SocialPool {
     },
     blockTag: number,
     provider: ethers.providers.JsonRpcProvider,
-  ): {
+  ): Promise<{
     socialPools: SocialPool[]
-    socialPoolMap: Record<number, SocialPool>
-  } {
-    const socialPoolMap: Record<number, SocialPool> = {}
-    const socialPools = params.socialPoolAddresses.map((address) => {
-      const pool = new SocialPool({
-        ...params,
-        ...address,
-        blockTag,
-        provider,
-      })
-
-      // Add pool to map to
-      socialPoolMap[pool.id] = pool
-
-      return pool
-    })
+    poolMap: Record<number, Pool>
+  }> {
+    const poolMap: Record<number, Pool> = {}
+    const socialPools: SocialPool[] = []
+    const poolFactoryManager = Pool.buildPoolFactoryManager(params, provider)
+    const poolCount = poolFactoryManager.poolCount({ blockTag })
+    for (let i = 1; i <= poolCount; i++) {
+      const socialContractAddress = params.socialPoolAddresses.find(
+        (address) => address.poolId === i,
+      )
+      if (socialContractAddress) {
+        const socialPool = new SocialPool(
+          {
+            ...params,
+            poolId: i,
+            blockTag,
+            provider,
+          },
+          socialContractAddress.address,
+        )
+        poolMap[i] = socialPool
+        socialPools.push(socialPool)
+      } else {
+        poolMap[i] = new Pool({
+          ...params,
+          poolId: i,
+          blockTag,
+          provider,
+        })
+      }
+    }
 
     return {
       socialPools,
-      socialPoolMap,
+      poolMap,
     }
+  }
+
+  static buildPoolFactoryManager(
+    params: {
+      poolFactoryAddress?: string
+      network: string
+      chainId: string
+    },
+    provider: ethers.providers.JsonRpcProvider,
+  ): ethers.Contract {
+    const contractAddress =
+      params.poolFactoryAddress || staderNetworkChainMap[params.network][params.chainId].poolFactory
+    return new ethers.Contract(contractAddress, StaderPoolFactoryContract_ABI, provider)
+  }
+}
+
+class SocialPool extends Pool {
+  constructor(
+    parms: {
+      poolId: number
+      blockTag: number
+      poolFactoryAddress?: string
+      network: string
+      chainId: string
+      provider: ethers.providers.JsonRpcProvider
+    },
+    private socialContractAddress: string,
+  ) {
+    super(parms)
+  }
+
+  async fetchBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
+    // Fetch data
+    const addressBalance = await this.fetchAddressBalance()
+    const commission = await this.fetchTotalCommissionPercentage()
+    const collateralEth = await this.fetchCollateralEth()
+
+    // Calculate the balance
+    const userDeposit = validatorDeposit.minus(collateralEth)
+    const balance = addressBalance.times(userDeposit.div(validatorDeposit)).times(1 - commission)
+
+    logger.debug(`${this.logPrefix} calculated balance (in wei): ${balance}`)
+    return {
+      address: this.socialContractAddress,
+      balance: formatValueInGwei(balance), // Convert to gwei for response
+    }
+  }
+
+  async fetchAddressBalance(): Promise<BigNumber> {
+    return withErrorHandling(`${this.logPrefix} Fetching address balance`, async () =>
+      fetchAddressBalance(this.socialContractAddress, this.blockTag, this.provider),
+    )
   }
 }

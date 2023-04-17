@@ -56,7 +56,7 @@ export const addressData: AdapterRequestBody = {
       },
       {
         address:
-          '0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a',
+          '0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6',
         withdrawVaultAddress: '0x683913B3A32ada4F8100458A3E1675425BdAa7DF',
         poolId: 5,
         operatorId: 4,
@@ -64,7 +64,7 @@ export const addressData: AdapterRequestBody = {
       },
       {
         address:
-          '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941',
+          '0x8af03fc3ba342b625c868325386fd421fa677d87cf96d528f4649cf043ea33b8f1466dd6bce66b0c9d949b8b65d1549c',
         withdrawVaultAddress: '0xc0C5368601404605fE948CA8A52AA332553C1865',
         poolId: 5,
         operatorId: 5,
@@ -95,9 +95,9 @@ export const mockPenaltyMap: Record<string, BigNumber> = {
     BigNumber('100000000000000000'), // 0.1 ETH
   '0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95':
     BigNumber('2000000000000000000'), // 2 ETH
-  '0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a':
+  '0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6':
     BigNumber(0),
-  '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941':
+  '0x8af03fc3ba342b625c868325386fd421fa677d87cf96d528f4649cf043ea33b8f1466dd6bce66b0c9d949b8b65d1549c':
     BigNumber(0),
 }
 
@@ -151,8 +151,8 @@ export const mockGetValidatorStates = (): void => {
         '0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc,' +
         '0x84d290ec6a766cef753bcce7b6d75f12b405e5c76171f2a456ae415e872d23ea01f869e8f64629a48f0c21f0f86e37d3,' +
         '0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95,' +
-        '0xae357829dd885873539d6e5dcc08d013de0b6608bc52ef18501bbd8222b8508772882a66cefbef2950fda2c979ccd40a,' +
-        '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941',
+        '0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6,' +
+        '0x8af03fc3ba342b625c868325386fd421fa677d87cf96d528f4649cf043ea33b8f1466dd6bce66b0c9d949b8b65d1549c',
     )
     .reply(200, {
       execution_optimistic: true,
@@ -265,7 +265,7 @@ export const mockGetValidatorStates = (): void => {
           status: 'active_ongoing',
           validator: {
             pubkey:
-              '0x85c97829a287a3885b97a2c7e3ce65841ff2e71593581981379f535def5789eabdf004d13e34cb9d75aa5a0771cf7941',
+              '0x8af03fc3ba342b625c868325386fd421fa677d87cf96d528f4649cf043ea33b8f1466dd6bce66b0c9d949b8b65d1549c',
             withdrawal_credentials:
               '0x010000000000000000000000e0c8df4270f4342132ec333f6048cb703e7a9c77',
             effective_balance: '1000000000',

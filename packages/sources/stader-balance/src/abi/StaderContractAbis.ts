@@ -22,6 +22,23 @@ export const StaderPoolFactoryContract_ABI: ethers.ContractInterface = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [],
+    name: 'poolCount',
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+    name: 'pools',
+    outputs: [
+      { internalType: 'string', name: 'poolName', type: 'string' },
+      { internalType: 'address', name: 'poolAddress', type: 'address' },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const StaderConfigContract_ABI = [

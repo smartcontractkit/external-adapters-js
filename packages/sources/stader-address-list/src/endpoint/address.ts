@@ -129,8 +129,8 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     return new ethers.Contract(poolFactoryAddress, StaderPoolFactoryContract_ABI, this.provider)
   }
 
-  buildNodeRegistryManagerContract(poolFactoryAddress: string): ethers.Contract {
-    return new ethers.Contract(poolFactoryAddress, StaderNodeRegistryContract_ABI, this.provider)
+  buildNodeRegistryManagerContract(nodeRegistryAddress: string): ethers.Contract {
+    return new ethers.Contract(nodeRegistryAddress, StaderNodeRegistryContract_ABI, this.provider)
   }
 
   buildPermissionlessNodeRegistryManagerContract(
@@ -276,11 +276,11 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       handler: (pageNumber) =>
         nodeRegistryManager.getAllActiveValidators(pageNumber, batchSize, {
           blockTag,
-        }) as Promise<ValidatorRegistryResponse>,
+        }) as Promise<ValidatorRegistryResponse[]>,
     })
 
     // Map the node registry response to the validator address list format
-    return validators.map(([status, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => ({
+    return validators.flat().map(([status, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => ({
       address: pubkey,
       withdrawVaultAddress,
       network,
@@ -367,7 +367,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
         count: pages,
         handler: async (pageNumber) => {
           const addresses: string[] =
-            await params.permissionlessNodeRegistryManager.getSocializingPoolAddress(
+            await params.permissionlessNodeRegistryManager.getAllSocializingPoolOptOutOperators(
               pageNumber,
               params.batchSize,
               {

@@ -8,6 +8,8 @@ import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { config } from '../config'
 
+const logger = makeLogger('Balance Utils')
+
 const GWEI_DIVISOR = 1000000000
 export const WITHDRAWAL_DONE_STATUS = 'withdrawal_done'
 export const DEPOSIT_EVENT_TOPIC =
@@ -258,8 +260,6 @@ export const batchValidatorAddresses = (
   }
   return batchedAddresses
 }
-
-const logger = makeLogger('Balance Utils')
 
 export const withErrorHandling = async <T>(stepName: string, fn: () => T) => {
   try {

@@ -17,7 +17,7 @@ import {
   WITHDRAWAL_DONE_STATUS,
   withErrorHandling,
 } from '../endpoint/utils'
-import { SocialPool } from './social-pool'
+import { Pool } from './pool'
 
 const logger = makeLogger(`StaderValidator`)
 
@@ -27,7 +27,7 @@ export class ValidatorFactory {
     stateId: string
     addresses: ValidatorAddress[]
     validatorStatus?: string[]
-    socialPoolMap: Record<number, SocialPool>
+    poolMap: Record<number, Pool>
     penaltyContract: ethers.Contract
     blockTag: number
     settings: typeof config.settings
@@ -78,7 +78,7 @@ export class ValidatorFactory {
                   validatorBalance,
                   addressData: validatorAddress,
                   state,
-                  pool: params.socialPoolMap[validatorAddress.poolId],
+                  pool: params.poolMap[validatorAddress.poolId],
                   penaltyContract: params.penaltyContract,
                   blockTag: params.blockTag,
                   provider: params.provider,
@@ -112,7 +112,7 @@ export class ValidatorFactory {
         const depositedAddresses = activeValidators
           .filter((v) => v.isDeposited())
           .map((v) => v.addressData.address)
-        logger.debug(`Number of deposited validator addresses: ${limboAddresses.length}`)
+        logger.debug(`Number of deposited validator addresses: ${depositedAddresses.length}`)
 
         // Get the validator states from the responses, flatten the groups and return
         return {
@@ -129,7 +129,7 @@ export class ValidatorFactory {
 type ValidatorParams = {
   addressData: ValidatorAddress
   state: ValidatorState
-  pool: SocialPool
+  pool: Pool
   penaltyContract: ethers.Contract
   blockTag: number
   provider: ethers.providers.JsonRpcProvider
@@ -140,7 +140,7 @@ abstract class Validator {
   validatorBalance: BigNumber
   addressData: ValidatorAddress
   protected state: ValidatorState
-  protected pool: SocialPool
+  protected pool: Pool
   protected penaltyContract: ethers.Contract
   protected blockTag: number
   protected provider: ethers.providers.JsonRpcProvider

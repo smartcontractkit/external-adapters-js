@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 import { DepositEvent_ABI, StaderPenaltyContract_ABI } from '../abi/StaderContractAbis'
 import { config } from '../config'
 import { PermissionedPool } from '../model/permissioned-pool'
-import { SocialPool } from '../model/social-pool'
+import { Pool } from '../model/pool'
 import { StaderConfig } from '../model/stader-config'
 import { StakeManager } from '../model/stake-manager'
 import { ValidatorFactory } from '../model/validator'
@@ -95,7 +95,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const permissionedPool = new PermissionedPool(req, blockTag, this.provider)
     const stakeManager = new StakeManager(req, blockTag, this.provider)
     const staderConfig = new StaderConfig(req, blockTag, this.provider)
-    const { socialPools, socialPoolMap } = SocialPool.buildAll(req, blockTag, this.provider)
+    const { socialPools, poolMap } = await Pool.buildAll(req, blockTag, this.provider)
 
     // Fetch as much data in parallel as we can
     // Max concurrent calls = (batched validator states * settings.GROUP_SIZE) + (EL reward address balance * $batchSize) + 4 single reqs
@@ -129,7 +129,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       // Fetch all validators specified in the request addresses from the beacon chain
       ValidatorFactory.fetchAll({
         ...req,
-        socialPoolMap,
+        poolMap,
         blockTag,
         penaltyContract: this.buildPenaltyContract(req),
         settings: context.adapterSettings,
@@ -155,9 +155,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const batches = chunkArray(activeValidators, context.adapterSettings.GROUP_SIZE)
     for (const batch of batches) {
       validatorBalances.push(
-        ...(await Promise.all(
-          batch.map((validator) => validator.calculateBalance(validatorDeposit)),
-        )),
+        ...(await Promise.all(batch.map((v) => v.calculateBalance(validatorDeposit)))),
       )
     }
 
@@ -255,7 +253,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
         if (logs.length === 0) {
           logger.debug(
-            'No deposit event logs found in the last 10,000 blocks or the provider failed to return any.',
+            `No deposit event logs found in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks or the provider failed to return any.`,
           )
           // We're returning this so the EA has an explicit answer for the address balance
           return limboAddresses.map((address) => ({ address, balance: '0' }))
@@ -264,12 +262,6 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         logger.debug(
           `Found ${logs.length} deposit events in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks`,
         )
-
-        // Limbo addresses are ones where the first 1 eth was sent from Stader but has not reached the beacon chain yet
-        const pendingLimboAddresses = new Set(...limboAddresses)
-
-        // Deposited addresses are ones where the first eth has reached the beacon chain, but the second 31eth deposit hasn't
-        const pendingDepositedAddresses = new Set(...depositedAddresses)
 
         // Parse the fetched logs with the deposit event interface
         const depositEventInterface = new ethers.utils.Interface(DepositEvent_ABI)
@@ -281,7 +273,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           }))
 
         for (const { address, amount } of parsedlogs) {
-          if (pendingLimboAddresses.has(address)) {
+          // Limbo addresses are ones where the first 1 eth was sent from Stader but has not reached the beacon chain yet
+          if (limboAddresses.includes(address)) {
             if (amount.eq(ONE_ETH_WEI)) {
               balances.push({
                 address,
@@ -293,8 +286,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
               )
             }
           }
-
-          if (pendingDepositedAddresses.has(address)) {
+          // Deposited addresses are ones where the first eth has reached the beacon chain, but the second 31eth deposit hasn't
+          if (depositedAddresses.includes(address)) {
             if (amount.eq(THIRTY_ONE_ETH_WEI)) {
               balances.push({
                 address,
