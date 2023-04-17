@@ -344,10 +344,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coingecko"\
       },\
       {\
-        "name": "@chainlink/coingecko-test-adapter",\
-        "reference": "workspace:packages/sources/coingecko-test"\
-      },\
-      {\
         "name": "@chainlink/coinlore-adapter",\
         "reference": "workspace:packages/sources/coinlore"\
       },\
@@ -916,7 +912,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
       ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],\
       ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],\
-      ["@chainlink/coingecko-test-adapter", ["workspace:packages/sources/coingecko-test"]],\
       ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
       ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
@@ -5861,24 +5856,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/coingecko-test-adapter", [\
-        ["workspace:packages/sources/coingecko-test", {\
-          "packageLocation": "./packages/sources/coingecko-test/",\
-          "packageDependencies": [\
-            ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.28.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6559,7 +6536,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],\
             ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
             ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\

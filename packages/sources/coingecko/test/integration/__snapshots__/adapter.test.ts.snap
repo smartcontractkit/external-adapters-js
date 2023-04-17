@@ -1,118 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute crypto api should return failure for array 1`] = `
+Object {
+  "error": Object {
+    "message": "base parameter must be of type string",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute crypto api should return success 1`] = `
 Object {
   "data": Object {
     "result": 4226.71,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4226.71,
   "statusCode": 200,
-}
-`;
-
-exports[`execute crypto api should return success for array 1`] = `
-Object {
-  "data": Object {
-    "ethereum": Object {
-      "usd": 3015.64,
-    },
-    "olympus": Object {
-      "usd": 30.3,
-    },
-    "results": Array [
-      Array [
-        "PcV7GBsu4lDodmyCsi17vWlT/Bo=",
-        Object {
-          "data": Object {
-            "base": "ETH",
-            "endpoint": "crypto",
-            "overrides": Object {
-              "coingecko": Object {
-                "OHM": "olympus",
-              },
-            },
-            "precision": "full",
-            "quote": "USD",
-            "resultPath": "usd",
-          },
-          "debug": Object {
-            "batchCacheKey": "7HNDUqLzQM/w2kNuMOBUo0egtOU=",
-            "batchChildrenCacheKeys": Array [
-              Array [
-                "JBjaYuhj0mvCW4tCE38bZd053KM=",
-                Object {
-                  "data": Object {
-                    "base": "OHM",
-                    "endpoint": "crypto",
-                    "overrides": Object {
-                      "coingecko": Object {
-                        "OHM": "olympus",
-                      },
-                    },
-                    "precision": "full",
-                    "quote": "USD",
-                    "resultPath": "usd",
-                  },
-                  "id": "1",
-                },
-              ],
-            ],
-            "cacheKey": "q2gHs+ac3bICTRUm7+0cn6R41Ho=",
-          },
-          "id": "1",
-        },
-        3015.64,
-      ],
-      Array [
-        "JBjaYuhj0mvCW4tCE38bZd053KM=",
-        Object {
-          "data": Object {
-            "base": "OHM",
-            "endpoint": "crypto",
-            "overrides": Object {
-              "coingecko": Object {
-                "OHM": "olympus",
-              },
-            },
-            "precision": "full",
-            "quote": "USD",
-            "resultPath": "usd",
-          },
-          "debug": Object {
-            "batchCacheKey": "7HNDUqLzQM/w2kNuMOBUo0egtOU=",
-            "batchChildrenCacheKeys": Array [
-              Array [
-                "JBjaYuhj0mvCW4tCE38bZd053KM=",
-                Object {
-                  "data": Object {
-                    "base": "OHM",
-                    "endpoint": "crypto",
-                    "overrides": Object {
-                      "coingecko": Object {
-                        "OHM": "olympus",
-                      },
-                    },
-                    "precision": "full",
-                    "quote": "USD",
-                    "resultPath": "usd",
-                  },
-                  "id": "1",
-                },
-              ],
-            ],
-            "cacheKey": "q2gHs+ac3bICTRUm7+0cn6R41Ho=",
-          },
-          "id": "1",
-        },
-        30.3,
-      ],
-    ],
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "statusCode": 200,
 }
 `;
 
@@ -121,10 +30,12 @@ Object {
   "data": Object {
     "result": 100,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 100,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+  },
 }
 `;
 
@@ -133,10 +44,13 @@ Object {
   "data": Object {
     "result": 18.127134683884314,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 18.127134683884314,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1635189786000,
+  },
 }
 `;
 
@@ -145,10 +59,13 @@ Object {
   "data": Object {
     "result": 2744386468602.4453,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 2744386468602.4453,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1635189786000,
+  },
 }
 `;
 
@@ -157,10 +74,12 @@ Object {
   "data": Object {
     "result": 499351414399.08246,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 499351414399.08246,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+  },
 }
 `;
 
@@ -169,9 +88,11 @@ Object {
   "data": Object {
     "result": 17345604238.153397,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 17345604238.153397,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+  },
 }
 `;
