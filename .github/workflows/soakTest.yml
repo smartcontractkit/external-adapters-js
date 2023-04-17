@@ -204,3 +204,11 @@ jobs:
         uses: jakejarvis/wait-action@master
         with:
           time: '15m'
+      - name: Assert tests passed
+        if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+        run: |
+          # verify last comment has no failures, otherwise exit with error
+          gh pr view $PR_NUMBER --json comments --jq '.comments[-1].body' | grep -q "Soak test failed" || exit 1
