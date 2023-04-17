@@ -9,12 +9,11 @@ export class StaderConfig {
   validatorDeposit?: BigNumber
 
   constructor(
-    req: { stakeManagerAddress?: string; network: string; chainId: string },
+    req: { staderConfig?: string; network: string; chainId: string },
     private blockTag: number,
     private provider: ethers.providers.JsonRpcProvider,
   ) {
-    this.address =
-      req.stakeManagerAddress || staderNetworkChainMap[req.network][req.chainId].stakePoolsManager
+    this.address = req.staderConfig || staderNetworkChainMap[req.network][req.chainId].staderConfig
 
     this.addressManager = new ethers.Contract(this.address, StaderConfigContract_ABI, this.provider)
   }

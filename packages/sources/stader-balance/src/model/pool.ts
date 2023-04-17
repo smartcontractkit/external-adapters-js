@@ -114,7 +114,7 @@ export class Pool {
     const poolMap: Record<number, Pool> = {}
     const socialPools: SocialPool[] = []
     const poolFactoryManager = Pool.buildPoolFactoryManager(params, provider)
-    const poolCount = poolFactoryManager.poolCount({ blockTag })
+    const poolCount = await poolFactoryManager.poolCount({ blockTag })
     for (let i = 1; i <= poolCount; i++) {
       const socialContractAddress = params.socialPoolAddresses.find(
         (address) => address.poolId === i,
