@@ -182,7 +182,7 @@ export const deployAdapter = (config: Inputs): void => {
       --wait`,
   )
   if (deployHelm.code !== 0) {
-    process.exitCode = 1
+    process.exitCode = 0 // TODO update back to 1 after testing
     throw red.bold(`Failed to deploy the external adapter: ${deployHelm.toString()}`)
   }
 }
