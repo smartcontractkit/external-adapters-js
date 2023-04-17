@@ -71,7 +71,7 @@ const filterFilesToAdapters = (
   absolute?: boolean,
 ): string[] | boolean => {
   const changedFilesForType = changedFiles.filter((str) =>
-    str.match(`packages/${filterForAdapterType}/.*(src|package.json)`),
+    str.match(`packages/${filterForAdapterType}/.*(src|package.json|test-payload.json)`),
   )
 
   if (absolute) return changedFilesForType.length > 0
