@@ -211,4 +211,4 @@ jobs:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
           # verify last comment has no failures, otherwise exit with error
-          gh pr view $PR_NUMBER --json comments --jq '.comments[-1].body' | grep -q "Soak test failed" || exit 1
+          gh pr view $PR_NUMBER --json comments --jq '.comments[-1].body' | grep -q "Soak test failed" && exit 1
