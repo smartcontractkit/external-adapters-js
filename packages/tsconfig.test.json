@@ -237,9 +237,6 @@
       "path": "./sources/coingecko/tsconfig.test.json"
     },
     {
-      "path": "./sources/coingecko-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinlore/tsconfig.test.json"
     },
     {
