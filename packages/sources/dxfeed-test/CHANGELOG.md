@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-test-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 4d136294f: Altered code to use for dxfeed-secondary-test
+
 ## 1.1.6
 
 ### Patch Changes

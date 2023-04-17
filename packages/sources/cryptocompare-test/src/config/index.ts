@@ -22,4 +22,9 @@ export const config = new AdapterConfig({
     type: 'string',
     sensitive: true,
   },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
 })

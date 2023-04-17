@@ -22,20 +22,22 @@ interface ProviderResponseBody {
 }
 
 interface CryptoYieldResponse {
-  Result: null
+  Result: number | null
   Data: ProviderResponseBody
 }
 
 const inputParameters = {
-  poolCode: {
-    default: 'ethnetwork_eth',
-    required: false,
+  aprTerm: {
     type: 'string',
-    description: 'Tiingo staking pool code to return yield data for',
+    required: true,
+    description: 'Yield apr term',
+    options: ['30day', '90day'],
   },
 } satisfies InputParameters
 
-type CryptoYieldRequestParams = { poolCode: string }
+type CryptoYieldRequestParams = {
+  aprTerm: string
+}
 
 type CryptoYieldEndpointTypes = {
   Request: {
@@ -59,7 +61,7 @@ const httpTransport = new HttpTransport<CryptoYieldEndpointTypes>({
           url: 'tiingo/crypto-yield/ticks',
           method: 'GET',
           params: {
-            poolCodes: param.poolCode,
+            poolCodes: 'ethnetwork_eth',
             token: config.API_KEY,
           },
         },
@@ -68,10 +70,16 @@ const httpTransport = new HttpTransport<CryptoYieldEndpointTypes>({
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
+      let resultVal: number | null = null
+      if (param.aprTerm == '30day' && 'apr30Day' in res.data[0]) {
+        resultVal = res.data[0].apr30Day
+      } else if (param.aprTerm == '90day' && 'apr90Day' in res.data[0]) {
+        resultVal = res.data[0].apr90Day
+      }
       return {
         params: param,
         response: {
-          result: null,
+          result: resultVal,
           data: res.data[0] ?? null,
         },
       }

@@ -11,6 +11,8 @@ const logger = makeLogger('TiingoRealizedVol HTTP')
 const TIINGO_REALIZED_VOL_PREFIX = 'real_vol_'
 const TIINGO_REALIZED_VOL_URL = `tiingo/crypto/prices`
 const TIINGO_REALIZED_VOL_DEFAULT_QUOTE = 'USD'
+const TIINGO_REALIZED_VOL_DEFAULT_RESULT_PATH = 'realVol30Day'
+
 interface RealizedVolResponseBody {
   baseCurrency: string
   quoteCurrency: string
@@ -22,18 +24,19 @@ interface RealizedVolResponseBody {
   }[]
 }
 
+export type ResponseData = {
+  [key: string]: number
+}
+
 export type RealizedVolResponse = {
-  Result: null
-  Data: {
-    realVol1Day: number
-    realVol7Day: number
-    realVol30Day: number
-  }
+  Result: number | null
+  Data: ResponseData
 }
 
 type RealizedVolRequestParams = {
   base: string
   convert: string
+  resultPath: string
 }
 
 const inputParameters = {
@@ -49,6 +52,12 @@ const inputParameters = {
     default: TIINGO_REALIZED_VOL_DEFAULT_QUOTE,
     type: 'string',
     description: 'The quote currency to convert the realized volatility to',
+  },
+  resultPath: {
+    required: false,
+    default: TIINGO_REALIZED_VOL_DEFAULT_RESULT_PATH,
+    type: 'string',
+    description: 'The field to return within the result path',
   },
 } satisfies InputParameters
 
@@ -100,17 +109,19 @@ export const httpTransport = new HttpTransport<RealizedVolEndpointTypes>({
     }
 
     return params.map((entry) => {
+      const { realVol1Day, realVol7Day, realVol30Day, date } = res.data[0].realVolData[0]
+      const data: ResponseData = {
+        realVol1Day: realVol1Day,
+        realVol7Day: realVol7Day,
+        realVol30Day: realVol30Day,
+      }
       return {
         params: entry,
         response: {
-          data: {
-            realVol1Day: res.data[0].realVolData[0].realVol1Day,
-            realVol7Day: res.data[0].realVolData[0].realVol7Day,
-            realVol30Day: res.data[0].realVolData[0].realVol30Day,
-          },
-          result: null,
+          data: data,
+          result: data[entry.resultPath] ? data[entry.resultPath] : null,
           timestamps: {
-            providerIndicatedTimeUnixMs: new Date(res.data[0].realVolData[0].date).getTime(),
+            providerIndicatedTimeUnixMs: new Date(date).getTime(),
           },
         },
       }
