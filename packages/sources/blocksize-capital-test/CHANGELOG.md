@@ -1,5 +1,23 @@
 # @chainlink/blocksize-capital-test-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 460427afe: Fixed ws response parsing
+
+## 1.1.6
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
+## 1.1.5
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+
 ## 1.1.4
 
 ### Patch Changes

@@ -59,6 +59,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as dxfeed_secondary_test from '@chainlink/dxfeed-secondary-test-adapter'
 import * as dxfeed_test from '@chainlink/dxfeed-test-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
 import * as ens from '@chainlink/ens-adapter'
@@ -88,6 +89,7 @@ import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
+import * as icap from '@chainlink/icap-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as iex_cloud_test from '@chainlink/iex-cloud-test-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
@@ -144,6 +146,7 @@ import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tiingo_test from '@chainlink/tiingo-test-adapter'
+import * as tp from '@chainlink/tp-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
@@ -223,6 +226,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  dxfeed_secondary_test,
   dxfeed_test,
   elwood,
   ens,
@@ -252,6 +256,7 @@ export default {
   gramchain,
   graphql,
   gsr,
+  icap,
   iex_adapter,
   iex_cloud_test,
   intrinio,
@@ -308,6 +313,7 @@ export default {
   therundown,
   tiingo,
   tiingo_test,
+  tp,
   tradermade,
   tradermade_test,
   tradingeconomics,

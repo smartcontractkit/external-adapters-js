@@ -50,34 +50,12 @@ describe('execute', () => {
 
     setupExternalAdapterTest(envVariables, context)
 
-    describe('cryptoyield endpoint without poolCode', () => {
+    describe('cryptoyield endpoint', () => {
       const data = {
         id,
         data: {
           endpoint: 'cryptoyield',
-        },
-      }
-
-      it('should return success', async () => {
-        mockResponseSuccess()
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-
-    describe('cryptoyield endpoint with poolCode', () => {
-      const data = {
-        id,
-        data: {
-          endpoint: 'cryptoyield',
-          poolCode: 'compound_usdt',
+          aprTerm: '90day',
         },
       }
 

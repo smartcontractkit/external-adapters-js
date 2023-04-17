@@ -1,0 +1,44 @@
+{
+  "name": "@chainlink/tp-adapter",
+  "version": "1.1.0",
+  "description": "Chainlink TP adapter (sister to ICAP adapter).",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "tp",
+    "tp-icap"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "0.28.2",
+    "decimal.js": "^10.3.1",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.51",
+    "@types/supertest": "2.0.12",
+    "mock-socket": "9.1.5",
+    "supertest": "6.2.4",
+    "typescript": "4.9.5"
+  }
+}

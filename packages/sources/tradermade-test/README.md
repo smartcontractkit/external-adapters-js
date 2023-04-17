@@ -1,6 +1,6 @@
 # TRADERMADE
 
-![1.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -21,7 +21,7 @@ Every EA supports base input parameters from [this list](https://github.com/smar
 
 | Required? |   Name   |     Description     |  Type  |                                                              Options                                                               | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [batch](#forex-endpoint), [commodities](#live-endpoint), [forex](#forex-endpoint), [live](#live-endpoint), [stock](#live-endpoint) | `forex` |
+|           | endpoint | The endpoint to use | string | [batch](#forex-endpoint), [commodities](#live-endpoint), [forex](#forex-endpoint), [live](#live-endpoint), [stock](#live-endpoint) | `live`  |
 
 ## Forex Endpoint
 

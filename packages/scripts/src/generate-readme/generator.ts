@@ -96,13 +96,13 @@ export class ReadmeGenerator {
   // We need to require/import adapter contents to generate the README.
   // We use this function instead of the constructor because we need to fetch, and constructors can't be async.
   async loadAdapterContent(): Promise<void> {
-    const configPath = checkFilePaths([
-      this.adapterPath + 'src/config.ts',
-      this.adapterPath + 'src/config/index.ts',
-    ])
-    const configFile = await require(path.join(process.cwd(), configPath))
-
     if (fs.existsSync(this.schemaPath)) {
+      const configPath = checkFilePaths([
+        this.adapterPath + 'src/config.ts',
+        this.adapterPath + 'src/config/index.ts',
+      ])
+      const configFile = await require(path.join(process.cwd(), configPath))
+
       //Is V2. Populate self w/ env.json content
       if (this.verbose) console.log(`${this.adapterPath}: Checking schema/env.json`)
       const schema = getJsonFile(this.schemaPath) as Schema

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinapi-test-adapter",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "Chainlink coinapi-test adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.28.1",
+    "@chainlink/external-adapter-framework": "0.28.2",
     "tslib": "2.4.0"
   },
   "devDependencies": {
