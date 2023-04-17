@@ -2,14 +2,14 @@ import request, { SuperTest, Test } from 'supertest'
 import { createAdapter } from './setup'
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AddressInfo } from 'net'
-import { validatorsRegistryResponse } from '../../src/utils'
+import { ValidatorRegistryResponse } from '../../src/utils'
 
 const mockNodeRegistryAddresses: Record<number, string> = {
   1: '0xfb2E1e5854Ba5De7e4611E2352cfe85d91106291',
   2: '0x50297e640b62281b6Dac0d5Aa91848Fb028357Ea',
 }
 
-const mockValidatorAddresses: Record<number, validatorsRegistryResponse[]> = {
+const mockValidatorAddresses: Record<number, ValidatorRegistryResponse[]> = {
   1: [
     [
       4,
