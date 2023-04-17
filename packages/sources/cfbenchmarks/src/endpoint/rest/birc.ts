@@ -1,7 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../../config'
+
+const logger = makeLogger('BircEndpoint')
 
 export enum VALID_TENORS {
   SIRB = 'SIRB',
@@ -61,6 +63,23 @@ export type RestEndpointTypes = {
   }
 }
 
+// Tenor must be between -1 and 1
+export const tenorInRange = (tenor: number): boolean => tenor >= -1 && tenor <= 1
+// Check if time of latest update is in the current day in UTC time
+export const latestUpdateIsCurrentDay = (utcTimeOfUpdate: number): boolean => {
+  try {
+    const latestUpdateDate = new Date(utcTimeOfUpdate)
+    const currentDay = new Date()
+    return (
+      latestUpdateDate.getUTCFullYear() === currentDay.getUTCFullYear() &&
+      latestUpdateDate.getUTCMonth() === currentDay.getUTCMonth() &&
+      latestUpdateDate.getUTCDate() === currentDay.getUTCDate()
+    )
+  } catch (error) {
+    return false
+  }
+}
+
 const restTransport = new HttpTransport<RestEndpointTypes>({
   prepareRequests: (params, config) => {
     const { API_USERNAME, API_PASSWORD, API_ENDPOINT } = config
@@ -85,7 +104,27 @@ const restTransport = new HttpTransport<RestEndpointTypes>({
   parseResponse: (params, res) => {
     return params.map((param) => {
       const key = param.tenor as VALID_TENORS
-      const value = Number(res.data.payload[res.data.payload.length - 1].tenors[key])
+      const latestUpdate = res.data.payload[res.data.payload.length - 1]
+
+      if (!latestUpdateIsCurrentDay(latestUpdate.time)) {
+        const warning = 'Latest update from response is not in current day'
+        logger.warn(warning, { latestUpdate })
+      }
+
+      const value = Number(latestUpdate.tenors[key])
+
+      if (!tenorInRange(value)) {
+        const errorMessage = 'Tenor is out of range (-1 to 1)'
+        logger.error(errorMessage, { value: value, tenor: key })
+        return {
+          params: param,
+          response: {
+            statusCode: 502,
+            errorMessage,
+          },
+        }
+      }
+
       return {
         params: param,
         response: {
