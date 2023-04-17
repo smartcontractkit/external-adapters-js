@@ -14,6 +14,7 @@ export const DEPOSIT_EVENT_TOPIC =
   '0x649bbc62d0e31342afea4e5cd82d4049e7e1ee912fc0889aa790803be39038c5'
 export const DEPOSIT_EVENT_LOOKBACK_WINDOW = 10000 // blocks
 export const ONE_ETH_WEI = BigNumber(ethers.utils.parseEther('1').toString())
+export const THIRTY_ONE_ETH_WEI = BigNumber(ethers.utils.parseEther('31').toString())
 
 export type NetworkChainMap = {
   [network: string]: {

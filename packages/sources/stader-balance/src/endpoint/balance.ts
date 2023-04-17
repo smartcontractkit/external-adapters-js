@@ -2,7 +2,6 @@ import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-fr
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { DepositEvent_ABI, StaderPenaltyContract_ABI } from '../abi/StaderContractAbis'
 import { config } from '../config'
@@ -25,6 +24,7 @@ import {
   parseLittleEndian,
   RequestParams,
   staderNetworkChainMap,
+  THIRTY_ONE_ETH_WEI,
   withErrorHandling,
 } from './utils'
 
@@ -222,6 +222,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     return withErrorHandling(
       `Finding ETH for limbo validators and deposited addresses`,
       async () => {
+        const balances: BalanceResponse[] = []
+
         // Get all the deposit logs from the last DEPOSIT_EVENT_LOOKBACK_WINDOW blocks
         const logs = await this.provider.getLogs({
           address: ethDepositContractAddress,
@@ -234,25 +236,19 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           logger.debug(
             'No deposit event logs found in the last 10,000 blocks or the provider failed to return any.',
           )
-          // TODO: Should we return this (an entry with balance 0) or just skip it?
+          // We're returning this so the EA has an explicit answer for the address balance
           return limboAddresses.map((address) => ({ address, balance: '0' }))
         }
 
-        // Build a map of deposits that will be filled with all deposits in the last 10k logs
-        const depositMap: Record<
-          string,
-          {
-            singleEthDepositsTotal: BigNumber
-            otherDepositsTotal: BigNumber
-          }
-        > = {}
         logger.debug(
           `Found ${logs.length} deposit events in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks`,
         )
 
-        // TODO: I think the line below alludes to the fact that once you reach 32ETH we wouldn't need to keep
-        //       looking in the logs, but this break is not actually implemented
-        //       I'm rewriting it to be simpler
+        // Limbo addresses are ones where the first 1 eth was sent from Stader but has not reached the beacon chain yet
+        const pendingLimboAddresses = new Set(...limboAddresses)
+
+        // Deposited addresses are ones where the first eth has reached the beacon chain, but the second 31eth deposit hasn't
+        const pendingDepositedAddresses = new Set(...depositedAddresses)
 
         // Parse the fetched logs with the deposit event interface
         const depositEventInterface = new ethers.utils.Interface(DepositEvent_ABI)
@@ -263,46 +259,39 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             amount: parseLittleEndian(l.args[2].toString()),
           }))
 
-        // Build a map of all deposits
         for (const { address, amount } of parsedlogs) {
-          if (!depositMap[address]) {
-            depositMap[address] = {
-              singleEthDepositsTotal: new BigNumber(0),
-              otherDepositsTotal: new BigNumber(0),
+          if (pendingLimboAddresses.has(address)) {
+            if (amount.eq(ONE_ETH_WEI)) {
+              balances.push({
+                address,
+                balance: formatValueInGwei(amount),
+              })
+            } else {
+              logger.warn(
+                `Unexpected balance amount ${amount} (in wei) found for limbo address ${address}, expected ${ONE_ETH_WEI}`,
+              )
             }
           }
 
-          // We separate the single ETH deposits to avoid potential double counting for deposited addresses
-          // with the validator balance we got from the beacon chain
-          if (amount.eq(ONE_ETH_WEI)) {
-            depositMap[address].singleEthDepositsTotal =
-              depositMap[address].singleEthDepositsTotal.plus(amount)
-          } else {
-            depositMap[address].otherDepositsTotal =
-              depositMap[address].otherDepositsTotal.plus(amount)
+          if (pendingDepositedAddresses.has(address)) {
+            if (amount.eq(THIRTY_ONE_ETH_WEI)) {
+              balances.push({
+                address,
+                balance: formatValueInGwei(amount),
+              })
+            } else if (amount.eq(ONE_ETH_WEI)) {
+              logger.debug(
+                `Found initial 1 ETH deposit for address ${address}, but it should already be accounted in the main validators list`,
+              )
+            } else {
+              logger.warn(
+                `Unexpected balance amount ${amount} (in wei) found for deposited address ${address}, expected ${THIRTY_ONE_ETH_WEI}`,
+              )
+            }
           }
         }
 
-        // TODO: Should we return this (an entry with balance 0) or just skip it?
-        // Build final balances using the parsed logs
-        const limboBalances = limboAddresses.map((address) => ({
-          address,
-          balance: depositMap[address]
-            ? formatValueInGwei(
-                depositMap[address].otherDepositsTotal.plus(
-                  depositMap[address].singleEthDepositsTotal,
-                ),
-              )
-            : '0',
-        }))
-        const depositedBalances = depositedAddresses.map((address) => ({
-          address,
-          balance: depositMap[address]
-            ? formatValueInGwei(depositMap[address].otherDepositsTotal)
-            : '0',
-        }))
-
-        return limboBalances.concat(depositedBalances)
+        return balances
       },
     )
   }

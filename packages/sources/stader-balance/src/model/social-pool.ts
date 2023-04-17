@@ -53,7 +53,6 @@ export class SocialPool {
 
   async fetchBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
     // Fetch data
-    // TODO: This could be pre-fetched
     const addressBalance = await this.fetchAddressBalance()
     const commission = await this.fetchTotalCommissionPercentage()
     const collateralEth = await this.fetchCollateralEth()

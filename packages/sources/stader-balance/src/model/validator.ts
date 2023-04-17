@@ -105,6 +105,7 @@ export class Validator {
       logger.debug(`${this.logPrefix} calculated withdrawal balance: ${withdrawalBalance}`)
 
       // Calculate cumulative balance
+      // NOTE: We could technically report the user and withdrawal balance separately, but PoR will sum everything anyways
       const cumulativeBalance = withdrawalBalance.plus(userBalance)
       logger.debug(`${this.logPrefix} calculated cumulative balance: ${cumulativeBalance}`)
 
@@ -167,9 +168,8 @@ export class Validator {
   }
 
   isDeposited(): boolean {
-    // TODO: Check if this is accurate, I think it might be wrong
     return (
-      this.state.status === StaderValidatorStatus.DEPOSITED.toString() &&
+      this.addressData.status === StaderValidatorStatus.DEPOSITED &&
       this.validatorBalance.eq(ONE_ETH_WEI)
     )
   }
@@ -260,7 +260,9 @@ export class Validator {
         const limboAddresses = Object.values(addressMap).map((a) => a.address)
         logger.debug(`Number of validator addresses not found on beacon: ${limboAddresses.length}`)
 
-        // TODO: should validators that are added to this depositedAddresses list go through the other balance calc?
+        // Deposited addresses will also be present in the main validator list;
+        // the balance on the beacon chain for the address would be 1ETH
+        // but there could be newer deposits in the event logs
         const depositedAddresses = validators
           .filter((v) => v.isDeposited())
           .map((v) => v.addressData.address)

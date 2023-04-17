@@ -21,8 +21,7 @@ export class PermissionedPool {
       staderNetworkChainMap[req.network][req.chainId].permissionedPool
   }
 
-  // TODO: the comment below is probably innacurate
-  // Get inactive pool balance from Stader's StakePoolManager contract
+  // Get the balance from this one specific permissioned pool contract
   async fetchBalance(): Promise<BalanceResponse> {
     if (!this.balance) {
       const balance = await withErrorHandling(`Fetching permissioned pool balance`, async () =>
