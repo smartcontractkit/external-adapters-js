@@ -9,7 +9,7 @@ import { PermissionedPool } from '../model/permissioned-pool'
 import { SocialPool } from '../model/social-pool'
 import { StaderConfig } from '../model/stader-config'
 import { StakeManager } from '../model/stake-manager'
-import { Validator } from '../model/validator'
+import { ValidatorFactory } from '../model/validator'
 import {
   BalanceResponse,
   chunkArray,
@@ -88,7 +88,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     // Get data for the latest block in the chain
-    const latestBlockNum = await this.provider.getBlockNumber()
+    const latestBlockNum = await this.provider.getBlockNumber() // 1X
     const blockTag = latestBlockNum - req.confirmations
 
     // Create necessary basic constructs
@@ -98,28 +98,36 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const { socialPools, socialPoolMap } = SocialPool.buildAll(req, blockTag, this.provider)
 
     // Fetch as much data in parallel as we can
+    // Max concurrent calls = (batched validator states * settings.GROUP_SIZE) + (EL reward address balance * $batchSize) + 4 single reqs
     const [
       ethDepositContractAddress,
       permissionedPoolBalance,
       stakeManagerBalance,
       validatorDeposit,
-      { validators, limboAddresses, depositedAddresses },
       elRewardBalances,
+      { activeValidators, withdrawnValidators, limboAddresses, depositedAddresses },
     ] = await Promise.all([
+      // --- Requests to the execution node ---
+
       // Get the address for the main ETH deposit contract
-      fetchEthDepositContractAddress(context.adapterSettings),
+      fetchEthDepositContractAddress(context.adapterSettings), // 1X
 
       // Fetch the balance for the permissioned pool
-      permissionedPool.fetchBalance(),
+      permissionedPool.fetchBalance(), // 1X
 
       // Fetch the balance for the stake manager
-      stakeManager.fetchBalance(),
+      stakeManager.fetchBalance(), // 1X
 
       // Fetch the validator deposit value in the stader config
-      staderConfig.fetchValidatorDeposit(),
+      staderConfig.fetchValidatorDeposit(), // 1X
+
+      // Get all the execution layer rewards for the specified addresses in the request
+      this.getElRewardBalances(req, blockTag, context.adapterSettings), // 1X per elRewardAddresses, sent in parallel bursts of $batchSize
+
+      // --- Requests to the Beacon node ---
 
       // Fetch all validators specified in the request addresses from the beacon chain
-      Validator.fetchAll({
+      ValidatorFactory.fetchAll({
         ...req,
         socialPoolMap,
         blockTag,
@@ -127,27 +135,39 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         settings: context.adapterSettings,
         provider: this.provider,
       }),
-
-      // Get all the execution layer rewards for the specified addresses in the request
-      this.getElRewardBalances(req, blockTag, context.adapterSettings),
     ])
 
-    // Perform the final calculations
-    const [validatorBalances, poolAddressBalances] = await Promise.all([
-      // Perform validator level calculations
-      Promise.all(validators.map((v) => v.calculateBalance(validatorDeposit))),
+    // Get permissionless/permissioned pool address balances
+    // This will also cache values in the pools that the validators will be able to reuse
+    // Should not be a problem to send all requests concurrently, as the # of pools should be in the low 10s
+    const poolAddressBalances = await Promise.all(
+      socialPools.map((p) => p.fetchBalance(validatorDeposit)),
+    )
 
-      // Get permissionless/permissioned pool address balances
-      Promise.all(socialPools.map((p) => p.fetchBalance(validatorDeposit))),
+    // Perform withdrawn validator calculations
+    // These we can do all at once, since they shouldn't cause any requests to the ETH node
+    const validatorBalances = await Promise.all(
+      withdrawnValidators.map((v) => v.calculateBalance(validatorDeposit)),
+    )
 
-      // Get balances for all validator addresses in limbo and deposited addresses
-      this.calculateLimboEthBalances({
-        limboAddresses,
-        depositedAddresses,
-        ethDepositContractAddress,
-        blockTag,
-      }),
-    ])
+    // Perform active validator calculations
+    // These will need a call to get the penalty rate for each of them, so we have to batch these
+    const batches = chunkArray(activeValidators, context.adapterSettings.GROUP_SIZE)
+    for (const batch of batches) {
+      validatorBalances.push(
+        ...(await Promise.all(
+          batch.map((validator) => validator.calculateBalance(validatorDeposit)),
+        )),
+      )
+    }
+
+    // Get balances for all validator addresses in limbo and deposited addresses
+    const limboAndDepositedBalances = await this.calculateLimboEthBalances({
+      limboAddresses,
+      depositedAddresses,
+      ethDepositContractAddress,
+      blockTag,
+    })
 
     // Flatten all the balances out, they'll be aggregated in the proof-of-reserves EA
     const balances = [
@@ -156,6 +176,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       permissionedPoolBalance,
       validatorBalances,
       poolAddressBalances,
+      limboAndDepositedBalances,
     ].flat()
 
     return {

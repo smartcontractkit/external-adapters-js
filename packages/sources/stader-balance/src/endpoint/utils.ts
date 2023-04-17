@@ -204,7 +204,7 @@ export type EndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const chunkArray = (addresses: string[], size: number): string[][] =>
+export const chunkArray = <T>(addresses: T[], size: number): T[][] =>
   addresses.length > size
     ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
     : [addresses]
