@@ -10,6 +10,14 @@ export const adapter = new PriceAdapter({
   endpoints: [trades],
   config,
   includes,
+  rateLimiting: {
+    tiers: {
+      unlimited: {
+        rateLimit1s: 100,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { RequestParams } from './price-router'
+import { RequestParams } from '../types'
 
 const logger = makeLogger('DxFeed Websocket')
 
@@ -91,72 +91,75 @@ class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
   }
 }
 
-export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTransport({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
+export function buildDxFeedWsTransport(): DxFeedWebsocketTransport {
+  const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTransport({
+    url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
 
-  handlers: {
-    open(connection) {
-      return new Promise((resolve) => {
-        connection.addEventListener('message', (event: MessageEvent) => {
-          const message: DXFeedMessage[0] = JSON.parse(event.data.toString())[0]
-          if (message.clientId && message.channel === '/meta/handshake') {
-            wsTransport.connectionClientId = message.clientId
-            connection.send(JSON.stringify(wsTransport.firstHeartbeatMsg))
-          }
+    handlers: {
+      open(connection) {
+        return new Promise((resolve) => {
+          connection.addEventListener('message', (event: MessageEvent) => {
+            const message: DXFeedMessage[0] = JSON.parse(event.data.toString())[0]
+            if (message.clientId && message.channel === '/meta/handshake') {
+              wsTransport.connectionClientId = message.clientId
+              connection.send(JSON.stringify(wsTransport.firstHeartbeatMsg))
+            }
 
-          if (message.channel === '/meta/connect') {
-            connection.send(JSON.stringify(wsTransport.heartbeatMsg))
-            resolve()
-          }
+            if (message.channel === '/meta/connect') {
+              connection.send(JSON.stringify(wsTransport.heartbeatMsg))
+              resolve()
+            }
+          })
+          connection.send(JSON.stringify(wsTransport.handshakeMsg))
         })
-        connection.send(JSON.stringify(wsTransport.handshakeMsg))
-      })
-    },
-    message(message) {
-      // If dxfeed errors there is no information about failed feeds/params in the message, returning empty array. We need strict comparison because dxfeed sends info messages also that don't contain `successful` property.
-      if (message[0].successful === false) {
-        logger.warn('Dxfeed returned unsuccessful message')
-        return []
-      }
+      },
+      message(message) {
+        // If dxfeed errors there is no information about failed feeds/params in the message, returning empty array. We need strict comparison because dxfeed sends info messages also that don't contain `successful` property.
+        if (message[0].successful === false) {
+          logger.warn('Dxfeed returned unsuccessful message')
+          return []
+        }
 
-      if (!Array.isArray(message) || message[0].channel !== SERVICE_DATA) {
-        return []
-      }
+        if (!Array.isArray(message) || message[0].channel !== SERVICE_DATA) {
+          return []
+        }
 
-      const base = message[0].data[1][tickerIndex]
-      const price = message[0].data[1][priceIndex]
-      return [
-        {
-          params: { base },
-          response: {
-            result: price,
-            data: {
+        const base = message[0].data[1][tickerIndex]
+        const price = message[0].data[1][priceIndex]
+        return [
+          {
+            params: { base },
+            response: {
               result: price,
+              data: {
+                result: price,
+              },
             },
           },
-        },
-      ]
+        ]
+      },
     },
-  },
 
-  builders: {
-    subscribeMessage: (params) => {
-      return [
-        {
-          channel: SERVICE_SUB,
-          data: { add: { Quote: [params.base.toUpperCase()] } },
-          clientId: `${wsTransport.connectionClientId}`,
-        },
-      ]
+    builders: {
+      subscribeMessage: (params) => {
+        return [
+          {
+            channel: SERVICE_SUB,
+            data: { add: { Quote: [params.base.toUpperCase()] } },
+            clientId: `${wsTransport.connectionClientId}`,
+          },
+        ]
+      },
+      unsubscribeMessage: (params) => {
+        return [
+          {
+            channel: SERVICE_SUB,
+            data: { remove: { Quote: [params.base.toUpperCase()] } },
+            clientId: `${wsTransport.connectionClientId}`,
+          },
+        ]
+      },
     },
-    unsubscribeMessage: (params) => {
-      return [
-        {
-          channel: SERVICE_SUB,
-          data: { remove: { Quote: [params.base.toUpperCase()] } },
-          clientId: `${wsTransport.connectionClientId}`,
-        },
-      ]
-    },
-  },
-})
+  })
+  return wsTransport
+}

@@ -36,7 +36,6 @@ import * as coinapi_test from '@chainlink/coinapi-test-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
-import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
@@ -59,6 +58,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as dxfeed_secondary_test from '@chainlink/dxfeed-secondary-test-adapter'
 import * as dxfeed_test from '@chainlink/dxfeed-test-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
 import * as ens from '@chainlink/ens-adapter'
@@ -136,6 +136,7 @@ import * as solana_view_function from '@chainlink/solana-view-function-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stader_address_list from '@chainlink/stader-address-list-adapter'
+import * as stader_balance from '@chainlink/stader-balance-adapter'
 import * as stader_labs from '@chainlink/stader-labs-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as swell_address_list from '@chainlink/swell-address-list-adapter'
@@ -202,7 +203,6 @@ export default {
   coinbase,
   coincodex,
   coingecko,
-  coingecko_test,
   coinlore,
   coinmarketcap,
   coinmetrics,
@@ -225,6 +225,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  dxfeed_secondary_test,
   dxfeed_test,
   elwood,
   ens,
@@ -302,6 +303,7 @@ export default {
   spectral_macro_score,
   sportsdataio,
   stader_address_list,
+  stader_balance,
   stader_labs,
   stasis,
   swell_address_list,

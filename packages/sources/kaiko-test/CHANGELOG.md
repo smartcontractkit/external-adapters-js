@@ -1,5 +1,17 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.8
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
+## 1.1.7
+
+### Patch Changes
+
+- 72296e826: Added reasonable rate limit tier
+
 ## 1.1.6
 
 ### Patch Changes

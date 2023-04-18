@@ -1,5 +1,17 @@
 # @chainlink/coinpaprika-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
+## 1.2.0
+
+### Minor Changes
+
+- dfda2a99c: Refactor to unbatch quotes and consolidate endpoints
+
 ## 1.1.6
 
 ### Patch Changes
