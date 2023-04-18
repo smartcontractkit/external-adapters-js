@@ -1,5 +1,11 @@
 # @chainlink/moonbeam-address-list-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
 ## 1.1.6
 
 ### Patch Changes
