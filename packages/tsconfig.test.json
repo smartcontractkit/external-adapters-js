@@ -225,9 +225,6 @@
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
-      "path": "./sources/coinapi-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinbase/tsconfig.test.json"
     },
     {
@@ -469,9 +466,6 @@
     },
     {
       "path": "./sources/nomics/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nomics-test/tsconfig.test.json"
     },
     {
       "path": "./sources/oanda/tsconfig.test.json"
