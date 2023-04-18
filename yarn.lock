@@ -1580,10 +1580,10 @@ __metadata:
   linkType: hard
 
 "@cardano-ogmios/client@npm:^5.0.0":
-  version: 5.5.5
-  resolution: "@cardano-ogmios/client@npm:5.5.5"
+  version: 5.6.0
+  resolution: "@cardano-ogmios/client@npm:5.6.0"
   dependencies:
-    "@cardano-ogmios/schema": 5.5.5
+    "@cardano-ogmios/schema": 5.6.0
     "@cardanosolutions/json-bigint": ^1.0.0
     "@types/json-bigint": ^1.0.1
     cross-fetch: ^3.1.4
@@ -1592,14 +1592,14 @@ __metadata:
     nanoid: ^3.1.31
     ts-custom-error: ^3.2.0
     ws: ^7.4.6
-  checksum: a1e9673408c510ab66292edd5ae993e65da72c5388f93ed0f9c10e368bc0d723d8733445be89ea13c651e0b30d3cb9298c8bca81efcbc071c0a4edd9a7a7851d
+  checksum: 4d15f7a1c6178d3f83d13a8fc9af8fc054d552a5db322ff2ec952d4876f131a0d2940a4ecd9663d4497e00392743f5a04867654984ca8f466b2253cd76d09d05
   languageName: node
   linkType: hard
 
-"@cardano-ogmios/schema@npm:5.5.5":
-  version: 5.5.5
-  resolution: "@cardano-ogmios/schema@npm:5.5.5"
-  checksum: d7b14361e5eb65cfa62801d7cef8d8b6d5dfbb50056a1352dc2e267e3cec1a1606384e5c542de3b214434b19b97736bfaf3399749ed5918a324a46897bdc5d18
+"@cardano-ogmios/schema@npm:5.6.0":
+  version: 5.6.0
+  resolution: "@cardano-ogmios/schema@npm:5.6.0"
+  checksum: 82d9ba119fd0bb54e1857bc436778f9677c99bb1ca2fe213567b05758e2fbd6bbef540c83bce53850db1f16a50c62e6522b7d792e7bd85f058a835399520b70a
   languageName: node
   linkType: hard
 
