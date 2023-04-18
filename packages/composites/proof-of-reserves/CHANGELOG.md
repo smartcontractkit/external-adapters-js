@@ -1,5 +1,25 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.17.0
+
+### Minor Changes
+
+- 50366ec6b: Added custom Stader balance adapter
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+- Updated dependencies [50366ec6b]
+- Updated dependencies [77ad946a9]
+- Updated dependencies [50366ec6b]
+  - @chainlink/stader-address-list-adapter@2.0.0
+  - @chainlink/moonbeam-address-list-adapter@1.1.7
+  - @chainlink/polkadot-balance-adapter@1.1.7
+  - @chainlink/stader-balance-adapter@1.0.0
+  - @chainlink/por-indexer-adapter@1.2.48
+  - @chainlink/renvm-address-set-adapter@1.5.39
+  - @chainlink/wbtc-address-set-adapter@1.4.48
+
 ## 1.16.9
 
 ### Patch Changes
