@@ -237,9 +237,6 @@
       "path": "./sources/coingecko/tsconfig.test.json"
     },
     {
-      "path": "./sources/coingecko-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinlore/tsconfig.test.json"
     },
     {
@@ -535,6 +532,9 @@
     },
     {
       "path": "./sources/stader-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/stader-balance/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-labs/tsconfig.test.json"

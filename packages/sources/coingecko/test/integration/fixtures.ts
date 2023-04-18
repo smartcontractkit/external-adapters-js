@@ -4,30 +4,11 @@ export const mockCryptoSuccess = (): nock.Scope =>
   nock('https://api.coingecko.com/api/v3', {
     encodedQueryParams: true,
   })
-    .get('/simple/price')
-    .query({
-      ids: 'olympus',
-      vs_currencies: 'USD',
-      include_market_cap: false,
-      include_24hr_vol: false,
-      precision: 'full',
-    })
-    .reply(200, () => ({ olympus: { usd: 100.0 } }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .persist()
     .get('/simple/price')
     .query({
       ids: 'ethereum',
       vs_currencies: 'USD',
-      include_market_cap: false,
-      include_24hr_vol: false,
       precision: 'full',
     })
     .reply(200, () => ({ ethereum: { usd: 4226.71 } }), [
@@ -45,7 +26,6 @@ export const mockCryptoSuccess = (): nock.Scope =>
       ids: 'ethereum',
       vs_currencies: 'USD',
       include_market_cap: true,
-      include_24hr_vol: false,
       precision: 'full',
     })
     .reply(200, () => ({ ethereum: { usd: 4208.38, usd_market_cap: 499351414399.08246 } }), [
@@ -62,7 +42,6 @@ export const mockCryptoSuccess = (): nock.Scope =>
     .query({
       ids: 'ethereum',
       vs_currencies: 'USD',
-      include_market_cap: false,
       include_24hr_vol: true,
       precision: 'full',
     })
@@ -77,12 +56,12 @@ export const mockCryptoSuccess = (): nock.Scope =>
       'Origin',
     ])
     .get('/simple/price')
-    .query({
-      ids: 'olympus,ethereum',
-      vs_currencies: 'USD',
-      include_market_cap: false,
-      include_24hr_vol: false,
-      precision: 'full',
+    .query((query) => {
+      if (typeof query['ids'] !== 'string') {
+        return false
+      }
+      const ids = query['ids'].split(',').sort()
+      return ids[0] === 'ethereum' && ids[1] === 'olympus' && query['vs_currencies'] === 'USD'
     })
     .reply(
       200,
@@ -91,7 +70,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
           usd: 3015.64,
         },
         olympus: {
-          usd: 30.3,
+          usd: 100,
         },
       }),
       [
@@ -105,7 +84,6 @@ export const mockCryptoSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
     .get('/coins/list')
     .query(() => true)
     .reply(
@@ -133,6 +111,7 @@ export const mockDominanceSuccess = (): nock.Scope =>
   nock('https://api.coingecko.com/api/v3', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/global')
     .reply(
       200,
@@ -189,7 +168,7 @@ export const mockDominanceSuccess = (): nock.Scope =>
             php: 139063540159477.1,
             pkr: 478552390462549.2,
             pln: 10906965743210.256,
-            rub: 191529359450530.12,
+            rub: 19152935945030.12,
             sar: 10293087655980.916,
             sek: 23628346923112.938,
             sgd: 3696688573207.49,
@@ -236,14 +215,14 @@ export const mockDominanceSuccess = (): nock.Scope =>
             gbp: 90722844993.78963,
             hkd: 970951451852.6522,
             huf: 39353637360472.51,
-            idr: 1769999427254157.2,
+            idr: 176999942254157.2,
             ils: 399792518579.0688,
             inr: 9370847621329.434,
             jpy: 14201536520418.295,
             krw: 145891070121934.28,
             kwd: 37651776082.36482,
             lkr: 25228772026227.047,
-            mmk: 231055800422404.62,
+            mmk: 23105580042404.62,
             mxn: 2520503264760.31,
             myr: 518514391315.3924,
             ngn: 51234442601827.484,
