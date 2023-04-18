@@ -5012,16 +5012,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@cardano-ogmios/client", [\
-        ["npm:5.5.5", {\
-          "packageLocation": "./.yarn/cache/@cardano-ogmios-client-npm-5.5.5-9ad8c8bfe7-a1e9673408.zip/node_modules/@cardano-ogmios/client/",\
+        ["npm:5.6.0", {\
+          "packageLocation": "./.yarn/cache/@cardano-ogmios-client-npm-5.6.0-e3f0ec5f2b-4d15f7a1c6.zip/node_modules/@cardano-ogmios/client/",\
           "packageDependencies": [\
-            ["@cardano-ogmios/client", "npm:5.5.5"],\
-            ["@cardano-ogmios/schema", "npm:5.5.5"],\
+            ["@cardano-ogmios/client", "npm:5.6.0"],\
+            ["@cardano-ogmios/schema", "npm:5.6.0"],\
             ["@cardanosolutions/json-bigint", "npm:1.0.0"],\
             ["@types/json-bigint", "npm:1.0.1"],\
             ["cross-fetch", "npm:3.1.5"],\
             ["fastq", "npm:1.13.0"],\
-            ["isomorphic-ws", "virtual:9ad8c8bfe742e0e74f4c535adaf0be93c3cfa9bc2ff5f40088f291eeef4e79d4bf1d41594395a3b38de94c3e90c7d1377cb31688d1222abbb1425e41297969cc#npm:4.0.1"],\
+            ["isomorphic-ws", "virtual:e3f0ec5f2b583de8b948214b770438a01d37bec693daed9c594dc85842a506cdb872bd46912f63df7ca6feee7fc4d5fc97f3f960c69323de82897861d9670c49#npm:4.0.1"],\
             ["nanoid", "npm:3.3.4"],\
             ["ts-custom-error", "npm:3.2.2"],\
             ["ws", "virtual:f91bf4c0c4aadcdfd1654c7f1672aa158081b3d1f8f0a85d6474e5410f732c9c06f9cbc6f1645ed67983b8491d534f1568af9ff8d50552cb6ff14ce1242252b5#npm:7.5.9"]\
@@ -5030,10 +5030,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@cardano-ogmios/schema", [\
-        ["npm:5.5.5", {\
-          "packageLocation": "./.yarn/cache/@cardano-ogmios-schema-npm-5.5.5-cee17c9c2a-d7b14361e5.zip/node_modules/@cardano-ogmios/schema/",\
+        ["npm:5.6.0", {\
+          "packageLocation": "./.yarn/cache/@cardano-ogmios-schema-npm-5.6.0-6e5d8ece12-82d9ba119f.zip/node_modules/@cardano-ogmios/schema/",\
           "packageDependencies": [\
-            ["@cardano-ogmios/schema", "npm:5.5.5"]\
+            ["@cardano-ogmios/schema", "npm:5.6.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5090,7 +5090,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ada-balance/",\
           "packageDependencies": [\
             ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
-            ["@cardano-ogmios/client", "npm:5.5.5"],\
+            ["@cardano-ogmios/client", "npm:5.6.0"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -25462,11 +25462,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:9ad8c8bfe742e0e74f4c535adaf0be93c3cfa9bc2ff5f40088f291eeef4e79d4bf1d41594395a3b38de94c3e90c7d1377cb31688d1222abbb1425e41297969cc#npm:4.0.1", {\
-          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-fceb27c77b/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
+        ["virtual:a6092331bab6b91eadca825a684cbfdca8f620e5ae7d4e38f7c0b109533a75ea2aa24e9e734243940ff815f80385374957640be97f47dc937946ede3032e4ac5#npm:4.0.1", {\
+          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-9c018fdbfc/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
           "packageDependencies": [\
-            ["isomorphic-ws", "virtual:9ad8c8bfe742e0e74f4c535adaf0be93c3cfa9bc2ff5f40088f291eeef4e79d4bf1d41594395a3b38de94c3e90c7d1377cb31688d1222abbb1425e41297969cc#npm:4.0.1"],\
-            ["@types/ws", null],\
+            ["isomorphic-ws", "virtual:a6092331bab6b91eadca825a684cbfdca8f620e5ae7d4e38f7c0b109533a75ea2aa24e9e734243940ff815f80385374957640be97f47dc937946ede3032e4ac5#npm:4.0.1"],\
+            ["@types/ws", "npm:7.4.7"],\
             ["ws", "virtual:f91bf4c0c4aadcdfd1654c7f1672aa158081b3d1f8f0a85d6474e5410f732c9c06f9cbc6f1645ed67983b8491d534f1568af9ff8d50552cb6ff14ce1242252b5#npm:7.5.9"]\
           ],\
           "packagePeers": [\
@@ -25475,11 +25475,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:a6092331bab6b91eadca825a684cbfdca8f620e5ae7d4e38f7c0b109533a75ea2aa24e9e734243940ff815f80385374957640be97f47dc937946ede3032e4ac5#npm:4.0.1", {\
-          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-9c018fdbfc/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
+        ["virtual:e3f0ec5f2b583de8b948214b770438a01d37bec693daed9c594dc85842a506cdb872bd46912f63df7ca6feee7fc4d5fc97f3f960c69323de82897861d9670c49#npm:4.0.1", {\
+          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-1923c5ebf1/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
           "packageDependencies": [\
-            ["isomorphic-ws", "virtual:a6092331bab6b91eadca825a684cbfdca8f620e5ae7d4e38f7c0b109533a75ea2aa24e9e734243940ff815f80385374957640be97f47dc937946ede3032e4ac5#npm:4.0.1"],\
-            ["@types/ws", "npm:7.4.7"],\
+            ["isomorphic-ws", "virtual:e3f0ec5f2b583de8b948214b770438a01d37bec693daed9c594dc85842a506cdb872bd46912f63df7ca6feee7fc4d5fc97f3f960c69323de82897861d9670c49#npm:4.0.1"],\
+            ["@types/ws", null],\
             ["ws", "virtual:f91bf4c0c4aadcdfd1654c7f1672aa158081b3d1f8f0a85d6474e5410f732c9c06f9cbc6f1645ed67983b8491d534f1568af9ff8d50552cb6ff14ce1242252b5#npm:7.5.9"]\
           ],\
           "packagePeers": [\
