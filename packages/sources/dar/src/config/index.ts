@@ -12,7 +12,7 @@ export const config = new AdapterConfig(
       description: 'WS URL for the DAR API',
       type: 'string',
       required: false,
-      default: 'wss://dar-ws-400ms.digitalassetresearch.com:443',
+      default: 'wss://dar-ws-400ms.digitalassetresearch.com',
     },
     WS_API_KEY: {
       description: 'Key for the DAR API',
