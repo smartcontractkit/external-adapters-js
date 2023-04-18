@@ -113,9 +113,6 @@
       "path": "../../sources/coinapi"
     },
     {
-      "path": "../../sources/coinapi-test"
-    },
-    {
       "path": "../../sources/coinbase"
     },
     {
@@ -357,9 +354,6 @@
     },
     {
       "path": "../../sources/nomics"
-    },
-    {
-      "path": "../../sources/nomics-test"
     },
     {
       "path": "../../sources/oanda"
