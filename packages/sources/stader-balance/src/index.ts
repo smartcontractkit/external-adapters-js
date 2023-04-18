@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { addressEndpoint } from './endpoint/address'
+import { balanceEndpoint } from './endpoint/balance'
 
 export const adapter = new Adapter({
-  name: 'STADER_ADDRESS_LIST',
-  endpoints: [addressEndpoint],
-  defaultEndpoint: addressEndpoint.name,
+  name: 'STADER_BALANCE',
+  endpoints: [balanceEndpoint],
+  defaultEndpoint: balanceEndpoint.name,
   config,
 })
 

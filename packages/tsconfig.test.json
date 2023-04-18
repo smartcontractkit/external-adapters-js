@@ -534,6 +534,9 @@
       "path": "./sources/stader-address-list/tsconfig.test.json"
     },
     {
+      "path": "./sources/stader-balance/tsconfig.test.json"
+    },
+    {
       "path": "./sources/stader-labs/tsconfig.test.json"
     },
     {

@@ -740,6 +740,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/stader-address-list"\
       },\
       {\
+        "name": "@chainlink/stader-balance-adapter",\
+        "reference": "workspace:packages/sources/stader-balance"\
+      },\
+      {\
         "name": "@chainlink/stader-labs-adapter",\
         "reference": "workspace:packages/sources/stader-labs"\
       },\
@@ -1048,6 +1052,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],\
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
       ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
+      ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
       ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
       ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
@@ -6636,6 +6641,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],\
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
+            ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
             ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
             ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
@@ -8366,6 +8372,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
+            ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
             ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
             ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
@@ -8638,12 +8645,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-address-list/",\
           "packageDependencies": [\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["ethers", "npm:5.7.1"],\
+            ["ethers", "npm:5.5.1"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/stader-balance-adapter", [\
+        ["workspace:packages/sources/stader-balance", {\
+          "packageLocation": "./packages/sources/stader-balance/",\
+          "packageDependencies": [\
+            ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:1.3.4"],\
+            ["bignumber.js", "npm:9.1.1"],\
+            ["ethers", "npm:5.5.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -17144,6 +17170,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.0-4f54bd1083-52ec2bb5a3.zip/node_modules/bignumber.js/",\
           "packageDependencies": [\
             ["bignumber.js", "npm:9.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:9.1.1", {\
+          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.1-5929e8d8dc-ad243b7e2f.zip/node_modules/bignumber.js/",\
+          "packageDependencies": [\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
