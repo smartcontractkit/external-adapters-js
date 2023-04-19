@@ -1,12 +1,17 @@
 # BANK_FRICK
 
-![1.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bank-frick/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bank-frick/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     |                                   Description                                   |  Type  | Options |                   Default                   |
+| :-------: | :----------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------: |
+|           | API_ENDPOINT |          The endpoint to use for making requests to the Bank Frick API          | string |         | `https://olbsandbox.bankfrick.li/webapi/v2` |
+|    ✅     |   API_KEY    |          The API key to use for making requests to the Bank Frick API           | string |         |                                             |
+|           |  PAGE_SIZE   | The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500. | number |         |                    `500`                    |
+|    ✅     | PRIVATE_KEY  |                                                                                 | string |         |                                             |
 
 ---
 

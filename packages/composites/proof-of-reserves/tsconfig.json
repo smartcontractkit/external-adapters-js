@@ -30,6 +30,7 @@
     { "path": "../../sources/wrapped" },
     { "path": "../../sources/eth-beacon" },
     { "path": "../../sources/stader-address-list" },
+    { "path": "../../sources/stader-balance" },
     { "path": "../../sources/swell-address-list" },
     { "path": "../../sources/por-address-list" },
     { "path": "../../sources/moonbeam-address-list" },

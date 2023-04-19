@@ -1,5 +1,35 @@
 # @chainlink/cryptocompare-test-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
+## 1.3.0
+
+### Minor Changes
+
+- 9ae05bdd2: Added custom routing using WS_ENABLED env var
+
+## 1.2.6
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
+## 1.2.5
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+
+## 1.2.4
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
 ## 1.2.3
 
 ### Patch Changes

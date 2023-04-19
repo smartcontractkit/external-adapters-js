@@ -1,17 +1,23 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'COINGECKO'
-
-export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coingecko.com/api/v3'
 export const PRO_API_ENDPOINT = 'https://pro-api.coingecko.com/api/v3'
 
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  if (!config.api.baseURL) {
-    config.api.baseURL = config.apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
-  }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const defaultEndpoint = 'crypto'
+
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'The HTTP URL to retrieve data from',
+    type: 'string',
+    required: false,
+  },
+  API_KEY: {
+    description: 'Optional Coingecko API key',
+    type: 'string',
+    required: false,
+    sensitive: true,
+  },
+})
+
+export const getApiEndpoint = (settings: typeof config.settings): string =>
+  settings.API_ENDPOINT || (settings.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT)

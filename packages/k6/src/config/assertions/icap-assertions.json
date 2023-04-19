@@ -1,0 +1,44 @@
+[
+  {
+    "request": { "data": { "from": "EUR", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "INR", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "IDR", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "CAD", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "JPY", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "GBP", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "KRW", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  }
+]

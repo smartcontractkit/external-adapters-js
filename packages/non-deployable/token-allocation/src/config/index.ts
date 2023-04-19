@@ -1,34 +1,33 @@
+import * as Amberdata from '@chainlink/amberdata-adapter'
+import * as CFBenchmarks from '@chainlink/cfbenchmarks-adapter'
+import * as CoinApi from '@chainlink/coinapi-adapter'
+import { adapter as CoinGecko } from '@chainlink/coingecko-adapter'
+import { adapter as CoinMarketCap } from '@chainlink/coinmarketcap-adapter'
+import { adapter as CoinMetrics } from '@chainlink/coinmetrics-adapter'
+import * as CoinPaprika from '@chainlink/coinpaprika-adapter'
+import * as CoinRanking from '@chainlink/coinranking-adapter'
+import * as CryptoCompare from '@chainlink/cryptocompare-adapter'
 import {
   AdapterImplementation as v2AdapterImplementation,
   DefaultConfig,
   Requester,
   util,
 } from '@chainlink/ea-bootstrap'
-import { Config, SourceRequestOptions } from '../types'
-import * as Amberdata from '@chainlink/amberdata-adapter'
-import * as CFBenchmarks from '@chainlink/cfbenchmarks-adapter'
-import * as CoinApi from '@chainlink/coinapi-adapter'
-import * as CoinGecko from '@chainlink/coingecko-adapter'
-import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
-import * as CoinMetrics from '@chainlink/coinmetrics-adapter'
-import * as CoinPaprika from '@chainlink/coinpaprika-adapter'
-import * as CryptoCompare from '@chainlink/cryptocompare-adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import * as Finage from '@chainlink/finage-adapter'
 import * as Kaiko from '@chainlink/kaiko-adapter'
-import * as Nomics from '@chainlink/nomics-adapter'
 import { adapter as NCFX } from '@chainlink/ncfx-adapter'
+import * as Nomics from '@chainlink/nomics-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
-import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
+import { Config, SourceRequestOptions } from '../types'
 
 // List of v2 adapters
 export const adaptersV2: v2AdapterImplementation[] = [
   Amberdata as unknown as v2AdapterImplementation,
   CFBenchmarks as unknown as v2AdapterImplementation,
   CoinApi as unknown as v2AdapterImplementation,
-  CoinGecko as unknown as v2AdapterImplementation,
-  CoinMarketCap as unknown as v2AdapterImplementation,
-  CoinMetrics as unknown as v2AdapterImplementation,
   CoinPaprika as unknown as v2AdapterImplementation,
+  CoinRanking as unknown as v2AdapterImplementation,
   CryptoCompare as unknown as v2AdapterImplementation,
   Finage as unknown as v2AdapterImplementation,
   Kaiko as unknown as v2AdapterImplementation,
@@ -37,7 +36,8 @@ export const adaptersV2: v2AdapterImplementation[] = [
 ]
 
 // List of v3 adapters
-export const adaptersV3: v3AdapterImplementation[] = [NCFX as unknown as v3AdapterImplementation]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const adaptersV3: PriceAdapter<any>[] = [NCFX, CoinGecko, CoinMarketCap, CoinMetrics]
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1

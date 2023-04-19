@@ -1,4 +1,7 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('Config')
 
 export const config = new AdapterConfig({
   API_USERNAME: {
@@ -20,11 +23,16 @@ export const config = new AdapterConfig({
     default: 'https://tools.dxfeed.com/webservice/rest',
     validate: (value?: string): string => {
       if (value === 'https://tools.dxfeed.com/webservice/rest') {
-        console.warn(
+        logger.warn(
           `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
         )
       }
       return ''
     },
+  },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
   },
 })

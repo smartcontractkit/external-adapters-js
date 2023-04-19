@@ -28,6 +28,7 @@ describe('rest', () => {
   const data: AdapterRequestBody = {
     data: {
       index: 'BRTI',
+      transport: 'rest',
     },
   }
   const bircData: AdapterRequestBody = {
@@ -106,7 +107,6 @@ describe('websocket', () => {
   const data: AdapterRequestBody = {
     data: {
       index: 'BRTI',
-      transport: 'ws',
     },
   }
 

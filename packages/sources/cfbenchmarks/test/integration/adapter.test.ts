@@ -32,6 +32,8 @@ describe('execute', () => {
   const envVariables = {
     API_USERNAME: process.env.API_USERNAME || 'fake-api-username',
     API_PASSWORD: process.env.API_PASSWORD || 'fake-api-password',
+    BIRC_RETRY: process.env.BIRC_RETRY || '0',
+    BIRC_RETRY_DELAY_MS: process.env.BIRC_RETRY_DELAY_MS || '10',
   }
 
   setupExternalAdapterTest(envVariables, context)

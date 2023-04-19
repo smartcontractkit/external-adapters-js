@@ -28,8 +28,10 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
 
-export const mockBircResponseSuccess = (): nock.Scope =>
-  nock('https://www.cfbenchmarks.com/api', {
+export const mockBircResponseSuccess = (): nock.Scope => {
+  const currentDayIsoString = new Date().toISOString()
+  const currentDayTimestampMs = new Date(currentDayIsoString).getTime()
+  return nock('https://www.cfbenchmarks.com/api', {
     reqheaders: {
       Authorization: 'Basic ZmFrZS1hcGktdXNlcm5hbWU6ZmFrZS1hcGktcGFzc3dvcmQ=',
     },
@@ -53,7 +55,7 @@ export const mockBircResponseSuccess = (): nock.Scope =>
               '4M': '0.0078',
               '5M': '0.0059',
             },
-            time: 1659366000000,
+            time: currentDayTimestampMs,
           },
           {
             tenors: {
@@ -67,7 +69,7 @@ export const mockBircResponseSuccess = (): nock.Scope =>
               '4M': '0.0253',
               '5M': '0.0000',
             },
-            time: 1677168000000,
+            time: currentDayTimestampMs,
           },
         ],
       },
@@ -82,6 +84,7 @@ export const mockBircResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+}
 
 export const mockSubscribeResponse = {
   request: {

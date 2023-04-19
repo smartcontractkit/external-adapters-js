@@ -228,9 +228,6 @@
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
-      "path": "./sources/coinapi-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinbase/tsconfig.test.json"
     },
     {
@@ -240,22 +237,13 @@
       "path": "./sources/coingecko/tsconfig.test.json"
     },
     {
-      "path": "./sources/coingecko-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinlore/tsconfig.test.json"
     },
     {
       "path": "./sources/coinmarketcap/tsconfig.test.json"
     },
     {
-      "path": "./sources/coinmarketcap-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinmetrics/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/coinmetrics-test/tsconfig.test.json"
     },
     {
       "path": "./sources/coinpaprika/tsconfig.test.json"
@@ -313,6 +301,9 @@
     },
     {
       "path": "./sources/dxfeed-secondary/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/dxfeed-secondary-test/tsconfig.test.json"
     },
     {
       "path": "./sources/dxfeed-test/tsconfig.test.json"
@@ -402,7 +393,13 @@
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {
+      "path": "./sources/icap/tsconfig.test.json"
+    },
+    {
       "path": "./sources/iex-cloud/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/iex-cloud-test/tsconfig.test.json"
     },
     {
       "path": "./sources/intrinio/tsconfig.test.json"
@@ -474,9 +471,6 @@
       "path": "./sources/nomics/tsconfig.test.json"
     },
     {
-      "path": "./sources/nomics-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/oanda/tsconfig.test.json"
     },
     {
@@ -487,6 +481,9 @@
     },
     {
       "path": "./sources/openexchangerates/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/openexchangerates-test/tsconfig.test.json"
     },
     {
       "path": "./sources/orchid-bandwidth/tsconfig.test.json"
@@ -534,6 +531,9 @@
       "path": "./sources/stader-address-list/tsconfig.test.json"
     },
     {
+      "path": "./sources/stader-balance/tsconfig.test.json"
+    },
+    {
       "path": "./sources/stader-labs/tsconfig.test.json"
     },
     {
@@ -559,6 +559,9 @@
     },
     {
       "path": "./sources/tiingo-test/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/tp/tsconfig.test.json"
     },
     {
       "path": "./sources/tradermade/tsconfig.test.json"

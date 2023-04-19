@@ -1,5 +1,11 @@
 # @chainlink/coinranking-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- fac3a3ce9: Added coinranking adapter as a supported source for token-allocation composite EA
+
 ## 2.0.3
 
 ### Patch Changes

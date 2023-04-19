@@ -228,9 +228,6 @@
       "path": "./sources/coinapi"
     },
     {
-      "path": "./sources/coinapi-test"
-    },
-    {
       "path": "./sources/coinbase"
     },
     {
@@ -240,22 +237,13 @@
       "path": "./sources/coingecko"
     },
     {
-      "path": "./sources/coingecko-test"
-    },
-    {
       "path": "./sources/coinlore"
     },
     {
       "path": "./sources/coinmarketcap"
     },
     {
-      "path": "./sources/coinmarketcap-test"
-    },
-    {
       "path": "./sources/coinmetrics"
-    },
-    {
-      "path": "./sources/coinmetrics-test"
     },
     {
       "path": "./sources/coinpaprika"
@@ -313,6 +301,9 @@
     },
     {
       "path": "./sources/dxfeed-secondary"
+    },
+    {
+      "path": "./sources/dxfeed-secondary-test"
     },
     {
       "path": "./sources/dxfeed-test"
@@ -402,7 +393,13 @@
       "path": "./sources/gsr"
     },
     {
+      "path": "./sources/icap"
+    },
+    {
       "path": "./sources/iex-cloud"
+    },
+    {
+      "path": "./sources/iex-cloud-test"
     },
     {
       "path": "./sources/intrinio"
@@ -474,9 +471,6 @@
       "path": "./sources/nomics"
     },
     {
-      "path": "./sources/nomics-test"
-    },
-    {
       "path": "./sources/oanda"
     },
     {
@@ -487,6 +481,9 @@
     },
     {
       "path": "./sources/openexchangerates"
+    },
+    {
+      "path": "./sources/openexchangerates-test"
     },
     {
       "path": "./sources/orchid-bandwidth"
@@ -534,6 +531,9 @@
       "path": "./sources/stader-address-list"
     },
     {
+      "path": "./sources/stader-balance"
+    },
+    {
       "path": "./sources/stader-labs"
     },
     {
@@ -559,6 +559,9 @@
     },
     {
       "path": "./sources/tiingo-test"
+    },
+    {
+      "path": "./sources/tp"
     },
     {
       "path": "./sources/tradermade"

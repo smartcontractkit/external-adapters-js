@@ -1,5 +1,69 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.17.0
+
+### Minor Changes
+
+- 50366ec6b: Added custom Stader balance adapter
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+- Updated dependencies [50366ec6b]
+- Updated dependencies [77ad946a9]
+- Updated dependencies [50366ec6b]
+  - @chainlink/stader-address-list-adapter@2.0.0
+  - @chainlink/moonbeam-address-list-adapter@1.1.7
+  - @chainlink/polkadot-balance-adapter@1.1.7
+  - @chainlink/stader-balance-adapter@1.0.0
+  - @chainlink/por-indexer-adapter@1.2.48
+  - @chainlink/renvm-address-set-adapter@1.5.39
+  - @chainlink/wbtc-address-set-adapter@1.4.48
+
+## 1.16.9
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+- Updated dependencies [4245b4d8b]
+  - @chainlink/moonbeam-address-list-adapter@1.1.6
+  - @chainlink/polkadot-balance-adapter@1.1.6
+  - @chainlink/por-indexer-adapter@1.2.47
+  - @chainlink/renvm-address-set-adapter@1.5.38
+  - @chainlink/wbtc-address-set-adapter@1.4.47
+
+## 1.16.8
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+- Updated dependencies [8fe5be225]
+  - @chainlink/moonbeam-address-list-adapter@1.1.5
+  - @chainlink/polkadot-balance-adapter@1.1.5
+  - @chainlink/por-indexer-adapter@1.2.46
+  - @chainlink/renvm-address-set-adapter@1.5.37
+  - @chainlink/wbtc-address-set-adapter@1.4.46
+
+## 1.16.7
+
+### Patch Changes
+
+- 5916b71df: Update framework version
+  - @chainlink/por-indexer-adapter@1.2.45
+  - @chainlink/renvm-address-set-adapter@1.5.36
+  - @chainlink/wbtc-address-set-adapter@1.4.45
+
+## 1.16.6
+
+### Patch Changes
+
+- Updated dependencies [c9cee149e]
+  - @chainlink/moonbeam-address-list-adapter@1.1.4
+  - @chainlink/polkadot-balance-adapter@1.1.4
+  - @chainlink/por-indexer-adapter@1.2.44
+  - @chainlink/renvm-address-set-adapter@1.5.35
+  - @chainlink/wbtc-address-set-adapter@1.4.44
+
 ## 1.16.5
 
 ### Patch Changes
