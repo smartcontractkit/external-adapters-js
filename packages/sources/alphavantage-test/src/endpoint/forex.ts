@@ -68,7 +68,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
         },
       }
       return {
-        params,
+        params: [param],
         request: requestConfig,
       }
     })
