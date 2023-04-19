@@ -32,7 +32,6 @@ import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
-import * as coinapi_test from '@chainlink/coinapi-test-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
@@ -114,7 +113,6 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
-import * as nomics_test from '@chainlink/nomics-test-adapter'
 import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
@@ -199,7 +197,6 @@ export default {
   cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
-  coinapi_test,
   coinbase,
   coincodex,
   coingecko,
@@ -281,7 +278,6 @@ export default {
   nft_blue_chip,
   nikkei,
   nomics,
-  nomics_test,
   oanda,
   oilpriceapi,
   onchain_gas,
