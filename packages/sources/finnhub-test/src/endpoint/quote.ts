@@ -4,6 +4,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
 
 const logger = makeLogger('Finnhub quote endpoint')
 
@@ -43,25 +44,10 @@ export type EndpointTypes = {
   }
 }
 
-export const commonKeys: Record<string, string> = {
-  N225: '^N225',
-  FTSE: '^FTSE',
-  XAU: 'OANDA:XAU_USD',
-  XAG: 'OANDA:XAG_USD',
-  AUD: 'OANDA:AUD_USD',
-  EUR: 'OANDA:EUR_USD',
-  GBP: 'OANDA:GBP_USD',
-  // CHF & JPY are not supported
-}
-
 export const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
-      let symbol = param.base.toUpperCase()
-      if (commonKeys[symbol]) {
-        symbol = commonKeys[symbol]
-      }
-
+      const symbol = param.base.toUpperCase()
       const requestConfig = {
         baseURL: `${settings.API_ENDPOINT}/quote`,
         method: 'GET',
@@ -71,7 +57,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
         },
       }
       return {
-        params,
+        params: [param],
         request: requestConfig,
       }
     })
@@ -79,9 +65,9 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   parseResponse: (params, res) => {
     const data = res.data
     if (!data.c) {
-      const errorMessage = 'No data found'
-      logger.warn(errorMessage)
       return params.map((param) => {
+        const errorMessage = `No data found for ${param.base}`
+        logger.info(errorMessage)
         return {
           params: param,
           response: {
@@ -112,4 +98,5 @@ export const endpoint = new AdapterEndpoint<EndpointTypes>({
   aliases: ['common'],
   transport: httpTransport,
   inputParameters: inputParameters,
+  overrides: overrides.finnhub,
 })
