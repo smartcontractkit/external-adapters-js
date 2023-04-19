@@ -354,6 +354,9 @@
       "path": "./sources/finnhub"
     },
     {
+      "path": "./sources/finnhub-test"
+    },
+    {
       "path": "./sources/fixer"
     },
     {

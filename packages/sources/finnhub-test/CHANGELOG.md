@@ -1,0 +1,1 @@
+# @chainlink/finnhub-test-adapter
