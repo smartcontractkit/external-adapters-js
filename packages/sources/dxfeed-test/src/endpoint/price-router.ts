@@ -1,9 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import {
-  AdapterRequest,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
   AdapterError,
@@ -11,8 +8,9 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { batchTransport } from './price'
-import { wsTransport } from './price-ws'
+import { EndpointTypes } from '../types'
+import { buildDxFeedHttpTransport } from './price'
+import { buildDxFeedWsTransport } from './price-ws'
 
 export const inputParameters = {
   base: {
@@ -23,19 +21,7 @@ export const inputParameters = {
   },
 } satisfies InputParameters
 
-export interface RequestParams {
-  base: string
-}
-
-export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
-}
-
-function customInputValidation(
+export function customInputValidation(
   req: AdapterRequest<EndpointTypes['Request']>,
   settings: typeof config.settings,
 ): AdapterError | undefined {
@@ -52,9 +38,12 @@ export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
   transportRoutes: new TransportRoutes<EndpointTypes>()
-    .register('ws', wsTransport)
-    .register('rest', batchTransport),
+    .register('ws', buildDxFeedWsTransport())
+    .register('rest', buildDxFeedHttpTransport()),
   defaultTransport: 'rest',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+  },
   inputParameters: inputParameters,
   overrides: overrides.dxfeed,
   customInputValidation,

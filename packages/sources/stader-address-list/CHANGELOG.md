@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 50366ec6b: Updated adapter to be compatible with new Stader contracts. Upgraded adapter framework to v3.
+
 ## 1.2.5
 
 ### Patch Changes

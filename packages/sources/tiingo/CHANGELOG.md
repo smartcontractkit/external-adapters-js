@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.13.0
+
+### Minor Changes
+
+- 07e99237f: Add yield and realized vol endpoints to Tiingo EAv2
+
 ## 1.12.19
 
 ### Patch Changes

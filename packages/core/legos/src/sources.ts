@@ -32,16 +32,12 @@ import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
-import * as coinapi_test from '@chainlink/coinapi-test-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
-import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
-import * as coinmarketcap_test from '@chainlink/coinmarketcap-test-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
-import * as coinmetrics_test from '@chainlink/coinmetrics-test-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinpaprika_test from '@chainlink/coinpaprika-test-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
@@ -61,6 +57,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as dxfeed_secondary_test from '@chainlink/dxfeed-secondary-test-adapter'
 import * as dxfeed_test from '@chainlink/dxfeed-test-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
 import * as ens from '@chainlink/ens-adapter'
@@ -91,7 +88,9 @@ import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
+import * as icap from '@chainlink/icap-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
+import * as iex_cloud_test from '@chainlink/iex-cloud-test-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as intrinio_test from '@chainlink/intrinio-test-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -115,11 +114,11 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
-import * as nomics_test from '@chainlink/nomics-test-adapter'
 import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
+import * as openexchangerates_test from '@chainlink/openexchangerates-test-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
@@ -136,6 +135,7 @@ import * as solana_view_function from '@chainlink/solana-view-function-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stader_address_list from '@chainlink/stader-address-list-adapter'
+import * as stader_balance from '@chainlink/stader-balance-adapter'
 import * as stader_labs from '@chainlink/stader-labs-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as swell_address_list from '@chainlink/swell-address-list-adapter'
@@ -145,6 +145,7 @@ import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tiingo_test from '@chainlink/tiingo-test-adapter'
+import * as tp from '@chainlink/tp-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
@@ -197,16 +198,12 @@ export default {
   cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
-  coinapi_test,
   coinbase,
   coincodex,
   coingecko,
-  coingecko_test,
   coinlore,
   coinmarketcap,
-  coinmarketcap_test,
   coinmetrics,
-  coinmetrics_test,
   coinpaprika,
   coinpaprika_test,
   coinranking,
@@ -226,6 +223,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  dxfeed_secondary_test,
   dxfeed_test,
   elwood,
   ens,
@@ -256,7 +254,9 @@ export default {
   gramchain,
   graphql,
   gsr,
+  icap,
   iex_adapter,
+  iex_cloud_test,
   intrinio,
   intrinio_test,
   ipfs,
@@ -280,11 +280,11 @@ export default {
   nft_blue_chip,
   nikkei,
   nomics,
-  nomics_test,
   oanda,
   oilpriceapi,
   onchain_gas,
   openexchangerates,
+  openexchangerates_test,
   orchid_adapter,
   paxos,
   paypal,
@@ -301,6 +301,7 @@ export default {
   spectral_macro_score,
   sportsdataio,
   stader_address_list,
+  stader_balance,
   stader_labs,
   stasis,
   swell_address_list,
@@ -310,6 +311,7 @@ export default {
   therundown,
   tiingo,
   tiingo_test,
+  tp,
   tradermade,
   tradermade_test,
   tradingeconomics,

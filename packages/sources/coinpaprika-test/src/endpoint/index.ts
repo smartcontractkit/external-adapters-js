@@ -1,7 +1,4 @@
 export { endpoint as coins } from './coins'
-export { endpoint as dominance } from './dominance'
-export { endpoint as globalmarketcap } from './globalMarketcap'
 export { endpoint as crypto } from './crypto'
-export { endpoint as crypto_volume } from './crypto-volume'
-export { endpoint as crypto_market_cap } from './crypto-marketcap'
+export { endpoint as global } from './global'
 export { endpoint as vwap } from './vwap'

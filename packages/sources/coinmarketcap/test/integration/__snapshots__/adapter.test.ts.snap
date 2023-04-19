@@ -1,6 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`coinmarketcap coinmarketcap replies with success when request historical endpoint coinmarketcap replies with success should reply with success 1`] = `
+exports[`execute crypto endpoint with cid should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 6602.60701122,
+  },
+  "result": 6602.60701122,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute dominance endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 44.897494474523,
+  },
+  "result": 44.897494474523,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute globalmarketcap endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1939416192105.152,
+  },
+  "result": 1939416192105.152,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute historical endpoint should return success 1`] = `
 Object {
   "data": Object {
     "id": 1027,
@@ -121,6 +163,7 @@ Object {
     ],
     "symbol": "ETH",
   },
+  "result": null,
   "status": Object {
     "credit_count": 1,
     "elapsed": 30,
@@ -129,122 +172,38 @@ Object {
     "notice": null,
     "timestamp": "2021-12-01T14:44:08.026Z",
   },
-}
-`;
-
-exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
-Object {
-  "error": Object {
-    "feedID": "BTC/USD",
-    "message": "Request failed with status code 429",
-    "name": "AdapterError",
-    "url": "https:/pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest",
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 429,
-  "status": "errored",
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success should reply with success 1`] = `
+exports[`execute marketcap endpoint with slug should return success 1`] = `
 Object {
   "data": Object {
-    "result": 6602.60701122,
+    "result": 113563929433.21645,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 6602.60701122,
+  "result": 113563929433.21645,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success when cid passed in should reply with success 1`] = `
+exports[`execute volume endpoint with base (override to id) should return success 1`] = `
 Object {
   "data": Object {
-    "result": 6602.60701122,
+    "result": 4314444687.5194,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 6602.60701122,
+  "result": 4314444687.5194,
   "statusCode": 200,
-}
-`;
-
-exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success when single symbol passed in should reply with success 1`] = `
-Object {
-  "data": Object {
-    "result": 6602.60701122,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 6602.60701122,
-  "statusCode": 200,
-}
-`;
-
-exports[`coinmarketcap when making a request to coinmarket cap crypto endpoint coinmarketcap replies with success when slug passed in should reply with success 1`] = `
-Object {
-  "data": Object {
-    "result": 6602.60701122,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 6602.60701122,
-  "statusCode": 200,
-}
-`;
-
-exports[`coinmarketcap when making a request to coinmarket cap to dominance endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"endpoint\\":\\"dominance\\",\\"market\\":\\"BTC\\"}}",
-    "message": "Request failed with status code 429",
-    "name": "AdapterError",
-    "url": "https:/pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest",
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 429,
-  "status": "errored",
-  "statusCode": 200,
-}
-`;
-
-exports[`coinmarketcap when making a request to coinmarket cap to dominance endpoint coinmarketcap replies with success should reply with success 1`] = `
-Object {
-  "data": Object {
-    "result": 44.897494474523,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 44.897494474523,
-  "statusCode": 200,
-}
-`;
-
-exports[`coinmarketcap when making a request to coinmarket cap to globalmarketcap endpoint coinmarketcap replies with error due to too many requests should reply with failure 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"endpoint\\":\\"globalmarketcap\\",\\"market\\":\\"USD\\"}}",
-    "message": "Request failed with status code 429",
-    "name": "AdapterError",
-    "url": "https:/pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest",
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 429,
-  "status": "errored",
-  "statusCode": 200,
-}
-`;
-
-exports[`coinmarketcap when making a request to coinmarket cap to globalmarketcap endpoint coinmarketcap replies with success should reply with success 1`] = `
-Object {
-  "data": Object {
-    "result": 1939416192105.152,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 1939416192105.152,
-  "statusCode": 200,
 }
 `;

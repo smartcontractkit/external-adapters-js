@@ -1,9 +1,31 @@
-import { AdapterResponseInvalidError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { ethers, BigNumber } from 'ethers'
-import { NAME as AdapterName } from '../config'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  makeLogger,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { BigNumber, ethers } from 'ethers'
+import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-export interface AssetMetrics {
+const logger = makeLogger('CoinMetricsBurnedTransport')
+
+export enum Frequency {
+  ONE_DAY = '1d',
+  ONE_BLOCK = '1b',
+}
+
+const ENPDOINT_NAME = 'total-burned'
+
+export const FrequencyInputOptions = [Frequency.ONE_DAY, Frequency.ONE_BLOCK]
+
+interface AssetMetrics {
   asset: string
   time: string
   FeeTotNtv: string
@@ -11,35 +33,48 @@ export interface AssetMetrics {
   RevNtv: string
 }
 
-export interface ResponseSchema {
+interface ResponseSchema {
   data: AssetMetrics[]
   next_page_token?: string
   next_page_url?: string
 }
 
-export const supportedEndpoints = ['total-burned']
-
-// Common frequencies for FeeTotNtv, RevNtv and IssTotNtv metrics
-export enum Frequency {
-  ONE_DAY = '1d',
-  ONE_BLOCK = '1b',
-}
-
-const METRICS = 'FeeTotNtv,RevNtv,IssTotNtv'
-const DEFAULT_PAGE_SIZE = 10_000
-const URL = 'timeseries/asset-metrics'
-
-export const description = `Endpoint to calculate the total number of burned coins/tokens for an asset.
-This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
-
-export type TInputParameters = {
+interface RequestParams {
   asset: string
   frequency: string
-  pageSize: number
-  startTime: string
-  endTime: string
+  pageSize?: number
+  startTime?: string
+  endTime?: string
 }
-export const inputParameters: InputParameters<TInputParameters> = {
+
+type ProviderRequestConfig = {
+  baseURL: string
+  url: 'timeseries/asset-metrics'
+  params: {
+    assets: string
+    metrics: 'FeeTotNtv,RevNtv,IssTotNtv'
+    frequency: string
+    page_size?: number
+    api_key: string
+    start_time?: string
+    end_time?: string
+    next_page_token?: string
+  }
+}
+
+export type EndpointTypes = {
+  Response: SingleNumberResultResponse
+  Request: {
+    Params: RequestParams
+  }
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
+  }
+}
+
+const inputParams = {
   asset: {
     description:
       'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
@@ -48,14 +83,14 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
   frequency: {
     description: 'At which interval to calculate the number of coins/tokens burned',
-    options: [Frequency.ONE_DAY, Frequency.ONE_BLOCK],
     type: 'string',
     required: false,
+    options: FrequencyInputOptions,
     default: Frequency.ONE_DAY,
   },
   pageSize: {
     description: 'Number of results to get per page. From 1 to 10000',
-    default: DEFAULT_PAGE_SIZE,
+    default: 10_000,
     type: 'number',
     required: false,
   },
@@ -71,7 +106,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     required: false,
   },
-}
+} satisfies InputParameters
 
 export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber => {
   let burnedTKN = BigNumber.from('0')
@@ -84,73 +119,131 @@ export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber 
       revNtv = ethers.utils.parseEther(assetMetrics.RevNtv)
       issTotNtv = ethers.utils.parseEther(assetMetrics.IssTotNtv)
     } catch (error) {
-      throw new Error(
-        `Unprocessable asset metrics: ${JSON.stringify(assetMetrics)}, due to: ${error}.`,
-      )
+      throw new AdapterError({
+        message: `Unprocessable asset metrics: ${JSON.stringify(assetMetrics)}, due to: ${error}.`,
+      })
     }
     burnedTKN = burnedTKN.add(feeTotNTV.sub(revNtv.sub(issTotNtv)))
   })
   return burnedTKN
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+export class TotalBurnedTransport implements Transport<EndpointTypes> {
+  name!: string
+  requester!: Requester
+  responseCache!: ResponseCache<{
+    Request: EndpointTypes['Request']
+    Response: EndpointTypes['Response']
+  }>
 
-  const jobRunID = validator.validated.id
-  const asset = validator.overrideSymbol(AdapterName, validator.validated.data.asset)
-  const frequency = validator.validated.data.frequency
-  const pageSize = validator.validated.data.pageSize
-  const startTime = validator.validated.data.startTime
-  const endTime = validator.validated.data.endTime
-
-  const params: {
-    assets: string
-    metrics: string
-    frequency: string
-    page_size: number
-    api_key: string
-    start_time: string
-    end_time: string
-    next_page_token?: string
-  } = {
-    assets: (asset as string).toLowerCase(),
-    metrics: METRICS,
-    frequency,
-    page_size: pageSize,
-    api_key: config.apiKey as string,
-    start_time: startTime,
-    end_time: endTime,
+  async initialize(
+    dependencies: TransportDependencies<EndpointTypes>,
+    _adapterSettings: EndpointTypes['Settings'],
+    _endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    this.responseCache = dependencies.responseCache
+    this.requester = dependencies.requester
+    this.name = transportName
   }
-  const options = { ...config.api, params, url: URL }
 
-  let totalBurnedTKN = BigNumber.from('0')
-  let response
-  /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
-  while (true) {
-    response = await Requester.request<ResponseSchema>(options)
+  async foregroundExecute(
+    req: AdapterRequest<EndpointTypes['Request']>,
+    settings: typeof config.settings,
+  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
+    let totalBurnedTKN = BigNumber.from('0')
 
-    const responseData = response.data
-    const { data: assetMetricsList } = responseData
-    if (!Array.isArray(assetMetricsList)) {
-      throw new AdapterResponseInvalidError({
-        jobRunID,
-        statusCode: 500,
-        message: `Unexpected response: ${JSON.stringify(
-          assetMetricsList,
-        )}. 'data' expected to be an array.`,
-      })
+    let lastPage = false
+    const input = req.requestContext.data
+    const isBurnedEndpoint = req.requestContext.endpointName === 'burned'
+    if (isBurnedEndpoint) {
+      input.pageSize = 1
     }
-    totalBurnedTKN = totalBurnedTKN.add(calculateBurnedTKN(assetMetricsList))
+    const requestConfig = this.prepareRequest(req.requestContext.data, settings)
 
-    const nextPageToken = response.data.next_page_token
-    if (!nextPageToken || assetMetricsList.length < pageSize || request.data.isBurnedEndpointMode)
-      break
-    options.params.next_page_token = nextPageToken
+    const providerDataRequestedUnixMs = Date.now()
+    while (!lastPage) {
+      const result = await this.requester.request<ResponseSchema>(
+        calculateHttpRequestKey({
+          context: {
+            adapterSettings: settings,
+            inputParameters: inputParams,
+            endpointName: req.requestContext.endpointName,
+          },
+          data: requestConfig.params,
+          transportName: this.name,
+        }),
+        requestConfig,
+      )
+
+      const { data: assetMetricsList } = result.response.data
+
+      totalBurnedTKN = totalBurnedTKN.add(calculateBurnedTKN(assetMetricsList))
+
+      const nextPageToken = result.response.data.next_page_token
+      requestConfig.params.next_page_token = nextPageToken
+
+      if (
+        !nextPageToken ||
+        (req.requestContext.data.pageSize &&
+          assetMetricsList.length < req.requestContext.data.pageSize) ||
+        isBurnedEndpoint
+      ) {
+        lastPage = true
+      }
+    }
+
+    const providerDataReceivedUnixMs = Date.now()
+
+    const result = ethers.utils.formatEther(totalBurnedTKN.toString())
+
+    logger.debug(
+      'Successfully fetched all pages, returning total number across all tokens: ',
+      result,
+    )
+
+    const response = {
+      data: {
+        result: parseFloat(result),
+      },
+      statusCode: 200,
+      result: parseFloat(result),
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs,
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
+    await this.responseCache.write(this.name, [
+      {
+        params: req.requestContext.data,
+        response,
+      },
+    ])
+
+    return response
   }
 
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, ethers.utils.formatEther(totalBurnedTKN.toString())),
-    config.verbose,
-  )
+  prepareRequest(params: RequestParams, settings: typeof config.settings): ProviderRequestConfig {
+    const { API_ENDPOINT, API_KEY } = settings
+    return {
+      baseURL: API_ENDPOINT,
+      url: 'timeseries/asset-metrics',
+      params: {
+        assets: params.asset.toLowerCase(),
+        metrics: 'FeeTotNtv,RevNtv,IssTotNtv',
+        frequency: params.frequency,
+        page_size: params.pageSize,
+        api_key: API_KEY,
+        start_time: params.startTime,
+        end_time: params.endTime,
+      },
+    }
+  }
 }
+
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: ENPDOINT_NAME,
+  transport: new TotalBurnedTransport(),
+  inputParameters: inputParams,
+})

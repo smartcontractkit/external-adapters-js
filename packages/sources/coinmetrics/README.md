@@ -1,151 +1,62 @@
-# Chainlink External Adapter for Coinmetrics
+# COINMETRICS
 
-![2.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-### Websocket support
-
-This adapter supports Websockets. Due to the design of the API, each unique pair will be opened as a separate connection on the WS API. This may cause unexpected behaviour for a large number of unique pairs.
-
-Supported DateTime formats: `yyyy-MM-dd`, `yyyyMMdd`, `yyyy-MM-ddTHH:mm:ss`, `yyyy-MM-ddTHHmmss`, `yyyy-MM-ddTHH:mm:ss.SSS`, `yyyy-MM-ddTHHmmss.SSS`, `yyyy-MM-ddTHH:mm:ss.SSSSSS`, `yyyy-MM-ddTHHmmss.SSSSSS`, `yyyy-MM-ddTHH:mm:ss.SSSSSSSSS`, `yyyy-MM-ddTHHmmss.SSSSSSSSS`
-
-Base URL https://api.coinmetrics.io/v4
+![3.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   |                            Description                             |  Type  | Options | Default |
-| :-------: | :-----: | :----------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | An API key that can be obtained from the data provider's dashboard | string |         |         |
+| Required? |      Name       |            Description            |  Type  | Options |             Default             |
+| :-------: | :-------------: | :-------------------------------: | :----: | :-----: | :-----------------------------: |
+|    ✅     |     API_KEY     |      The coinmetrics API key      | string |         |                                 |
+|           | WS_API_ENDPOINT | The websocket url for coinmetrics | string |         |  `wss://api.coinmetrics.io/v4`  |
+|           |  API_ENDPOINT   |    The API url for coinmetrics    | string |         | `https://api.coinmetrics.io/v4` |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                           Options                                           | Default |
-| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [burned](#burned-endpoint), [price](#price-endpoint), [total-burned](#totalburned-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                             Options                                                                                                              | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [burned](#burned-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto](#price-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint), [total-burned](#total-burned-endpoint) | `price` |
 
 ## Price Endpoint
 
-Endpoint to get the reference price of the asset.
-
-`price` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto`, `price`, `price-ws`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
-|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD",
-    "endpoint": "price"
-  },
-  "debug": {
-    "cacheKey": "XTlxaPrvbw+XqgAa5P+iBEPG3CY="
-  },
-  "rateLimitMaxAge": 666
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "data": [
-      {
-        "asset": "eth",
-        "time": "2022-03-02T16:52:24.000000000Z",
-        "ReferenceRateUSD": "2969.5"
-      }
-    ],
-    "next_page_token": "0.MjAyMi0wMy0wMlQxNjo1MjoyNFo",
-    "result": 2969.5
-  },
-  "result": 2969.5,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
-## Burned Endpoint
+## Crypto-lwba Endpoint
 
-Endpoint to calculate the number of burned coins/tokens for an asset either on the previous day or on the previous block.
-This endpoint requires that the asset has the following metrics available: `FeeTotNtv`, `RevNtv` and `IssTotNtv`.
-
-`burned` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto-lwba`, `crypto_lwba`.
 
 ### Input Params
 
-| Required? |   Name    | Aliases |                                               Description                                               |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :-----: | :-----------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   asset   |         | The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets) | string |         |         |            |                |
-|           | frequency |         |                    At which interval to calculate the number of coins/tokens burned                     | string |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "asset": "eth",
-    "endpoint": "burned"
-  },
-  "debug": {
-    "cacheKey": "0l65yC+9msDIdJG9kTwGuYMO7GY="
-  },
-  "rateLimitMaxAge": 666
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "data": [
-      {
-        "asset": "eth",
-        "time": "2021-11-04T00:00:00.000000000Z",
-        "FeeTotNtv": "14465.059425601977193289",
-        "IssTotNtv": "13175.1875",
-        "RevNtv": "14887.21684537933981053"
-      }
-    ],
-    "next_page_token": "0.MjAyMS0wOC0wNlQwMDowMDowMFo",
-    "result": "12753.030080222637382759"
-  },
-  "result": "12753.030080222637382759",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
-## TotalBurned Endpoint
-
-Endpoint to calculate the total number of burned coins/tokens for an asset.
-This endpoint requires that the asset has the following metrics available: `FeeTotNtv`, `RevNtv` and `IssTotNtv`.
+## Total-burned Endpoint
 
 `total-burned` is the only supported name for this endpoint.
 
@@ -161,131 +72,24 @@ This endpoint requires that the asset has the following metrics available: `FeeT
 
 ### Example
 
-Request:
+There are no examples for this endpoint.
 
-```json
-{
-  "id": "1",
-  "data": {
-    "asset": "eth",
-    "frequency": "1d",
-    "pageSize": 10000,
-    "startTime": "2021-09-20",
-    "endTime": "2021-09-25",
-    "endpoint": "total-burned"
-  },
-  "debug": {
-    "cacheKey": "kX/YnNossBD0tbjiRHbpGhW6s+4="
-  },
-  "rateLimitMaxAge": 666
-}
-```
+---
 
-Response:
+## Burned Endpoint
 
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "data": [
-      {
-        "asset": "eth",
-        "time": "2021-09-20T00:00:00.000000000Z",
-        "FeeTotNtv": "9331.617399578292365165",
-        "IssTotNtv": "13465.375",
-        "RevNtv": "14903.076551063217245019"
-      },
-      {
-        "asset": "eth",
-        "time": "2021-09-21T00:00:00.000000000Z",
-        "FeeTotNtv": "10725.893521006011986668",
-        "IssTotNtv": "13569.625",
-        "RevNtv": "15125.559184739053811959"
-      },
-      {
-        "asset": "eth",
-        "time": "2021-09-22T00:00:00.000000000Z",
-        "FeeTotNtv": "7241.077830167154483706",
-        "IssTotNtv": "13445.875",
-        "RevNtv": "14506.07882008361914748"
-      },
-      {
-        "asset": "eth",
-        "time": "2021-09-23T00:00:00.000000000Z",
-        "FeeTotNtv": "9503.848309834219302852",
-        "IssTotNtv": "13372.8125",
-        "RevNtv": "16274.553315636682282599"
-      },
-      {
-        "asset": "eth",
-        "time": "2021-09-24T00:00:00.000000000Z",
-        "FeeTotNtv": "7640.784022848909291801",
-        "IssTotNtv": "13449.25",
-        "RevNtv": "14517.956543257905308913"
-      },
-      {
-        "asset": "eth",
-        "time": "2021-09-25T00:00:00.000000000Z",
-        "FeeTotNtv": "5019.537962541415576967",
-        "IssTotNtv": "13721.25",
-        "RevNtv": "14418.533987808854584078"
-      }
-    ],
-    "result": "40741.188143386670627111"
-  },
-  "result": "40741.188143386670627111",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+`burned` is the only supported name for this endpoint.
 
-<details>
-<summary>Additional Examples</summary>
+### Input Params
 
-Request:
+| Required? |   Name    | Aliases |                                               Description                                               |  Type  |  Options   | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :-----: | :-----------------------------------------------------------------------------------------------------: | :----: | :--------: | :-----: | :--------: | :------------: |
+|    ✅     |   asset   |         | The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets) | string |            |         |            |                |
+|           | frequency |         |                    At which interval to calculate the number of coins/tokens burned                     | string | `1b`, `1d` |  `1d`   |            |                |
 
-```json
-{
-  "id": "1",
-  "data": {
-    "asset": "eth",
-    "frequency": "1d",
-    "pageSize": 2,
-    "startTime": "2021-08-05",
-    "endTime": "2021-08-07",
-    "endpoint": "total-burned"
-  },
-  "debug": {
-    "cacheKey": "3AkR3dG+M+8hhKKhp8VdyT8DVGQ="
-  },
-  "rateLimitMaxAge": 666
-}
-```
+### Example
 
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "data": [
-      {
-        "asset": "eth",
-        "time": "2021-08-05T00:00:00.000000000Z",
-        "FeeTotNtv": "3",
-        "IssTotNtv": "5",
-        "RevNtv": "4"
-      }
-    ],
-    "result": "9.0"
-  },
-  "result": "9.0",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
-
-</details>
+There are no examples for this endpoint.
 
 ---
 

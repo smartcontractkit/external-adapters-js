@@ -1,29 +1,59 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
 
-export const supportedEndpoints = ['coins']
+export const inputParameters = {} satisfies InputParameters
 
-export type TInputParameters = Record<string, never>
-export const inputParameters: InputParameters<TInputParameters> = {}
-
-export interface CoinsResponse {
+interface CoinsResponse {
   id: string
   symbol: string
   name: string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, {})
-
-  const jobRunID = validator.validated.id
-  const url = '/coins/list'
-  const options = {
-    ...config.api,
-    url,
-    params: {
-      x_cg_pro_api_key: config.apiKey,
-    },
+type EndpointTypes = {
+  Request: {
+    Params: unknown
   }
-  const response = await Requester.request<CoinsResponse[]>(options)
-  return Requester.success(jobRunID, response, true)
+  Response: {
+    Data: CoinsResponse[]
+    Result: null
+  }
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: CoinsResponse[]
+  }
 }
+
+const transport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, settings) => {
+    const baseURL = settings.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
+    const queryParams = settings.API_KEY ? { x_cg_pro_api_key: settings.API_KEY } : undefined
+    return {
+      params,
+      request: {
+        baseURL,
+        url: '/coins/list',
+        method: 'GET',
+        params: queryParams,
+      },
+    }
+  },
+  parseResponse: (params, res) => [
+    {
+      params,
+      response: {
+        data: res.data,
+        statusCode: 200,
+        result: null,
+      },
+    },
+  ],
+})
+
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'coins',
+  transport,
+  inputParameters,
+})

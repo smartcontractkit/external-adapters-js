@@ -1,4 +1,10 @@
-import { InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  InputParameters,
+  Requester,
+  Validator,
+  Logger,
+  AdapterResponseInvalidError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 
@@ -35,13 +41,35 @@ export interface ResponseSchema {
   }[]
 }
 
+// Tenor must be between -1 and 1
+export const tenorInRange = (tenor: number): boolean => tenor >= -1 && tenor <= 1
+// Check if time of latest update is in the current day in UTC time
+export const latestUpdateIsCurrentDay = (utcTimeOfUpdate: number): boolean => {
+  try {
+    const latestUpdateDate = new Date(utcTimeOfUpdate)
+    const currentDay = new Date()
+    return (
+      latestUpdateDate.getUTCFullYear() === currentDay.getUTCFullYear() &&
+      latestUpdateDate.getUTCMonth() === currentDay.getUTCMonth() &&
+      latestUpdateDate.getUTCDate() === currentDay.getUTCDate()
+    )
+  } catch (error) {
+    return false
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const tenor = validator.validated.data.tenor.toUpperCase()
 
   const reqConfig = { ...config.api, params: { id: 'BIRC' }, url: `/v1/curves` }
-  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const response = await Requester.request<ResponseSchema>(
+    reqConfig,
+    undefined,
+    config.bircRetry,
+    config.bircRetryDelay,
+  )
 
   // Values of '0' are considered to be valid so acceptZeroValue and cast the result to string to ensure the field appears in the JSON response we send
   const result = Requester.validateResultNumber(
@@ -49,6 +77,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     [response.data.payload.length - 1, 'tenors', tenor],
     { acceptZeroValue: true },
   )
+
+  const latestUpdate = response.data.payload[response.data.payload.length - 1]
+
+  if (!latestUpdateIsCurrentDay(latestUpdate.time)) {
+    const warning = 'Latest update from response is not in current day'
+    Logger.warn(warning, { latestUpdate })
+  }
+
+  if (!tenorInRange(result)) {
+    const error = 'Tenor is out of range (-1 to 1)'
+    Logger.error(error, { value: result, tenor })
+    throw new AdapterResponseInvalidError({ message: error })
+  }
 
   return Requester.success(
     jobRunID,

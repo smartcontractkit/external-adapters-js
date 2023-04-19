@@ -24,6 +24,30 @@ Object {
 }
 `;
 
+exports[`execute cryptoyield endpoint with poolCode should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.025501153223986828,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.025501153223986828,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute cryptoyield endpoint without poolCode should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.05041705428139954,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.05041705428139954,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute eod api should return success 1`] = `
 Object {
   "data": Object {
@@ -68,6 +92,18 @@ Object {
   "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 4462.5193860735335,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute realized-vol endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.851625908515737,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.851625908515737,
   "statusCode": 200,
 }
 `;
