@@ -35,6 +35,7 @@
     "@chainlink/alongside-adapter": "workspace:*",
     "@chainlink/alphachain-adapter": "workspace:*",
     "@chainlink/alphavantage-adapter": "workspace:*",
+    "@chainlink/alphavantage-test-adapter": "workspace:*",
     "@chainlink/alpine-adapter": "workspace:*",
     "@chainlink/amberdata-adapter": "workspace:*",
     "@chainlink/anyblock-adapter": "workspace:*",

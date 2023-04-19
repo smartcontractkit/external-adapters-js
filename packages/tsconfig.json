@@ -141,6 +141,9 @@
       "path": "./sources/alphavantage"
     },
     {
+      "path": "./sources/alphavantage-test"
+    },
+    {
       "path": "./sources/alpine"
     },
     {
