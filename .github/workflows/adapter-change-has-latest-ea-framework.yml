@@ -1,0 +1,58 @@
+name: Changed adapters have the latest EA framework version
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  adapter-has-latest-ea-framework:
+    name: Changed adapters have the latest EA framework version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+      - name: Check for outdated ea-framework dependencies
+        run: |
+          dependency="@chainlink/external-adapter-framework"
+          v3_packages=()
+          outdated_packages=()
+          # If error happens we don't want to fail the pipeline
+          set +e
+          packages=$(find packages -name 'package.json')
+          latest_version=$(gh api repos/smartcontractkit/ea-framework-js/contents/package.json | jq -r '.content' | base64 -d | jq -r '.version')
+
+           # get the list of v3 EAs
+           for file in $(echo $packages); do
+              if jq -e ".dependencies[\"$dependency\"]" "$file" >/dev/null; then
+                v3_packages+=("$(dirname $file)")
+              fi
+           done
+
+           # check if changed code is part of any v3 EA
+            for changedFile in ${{ steps.changed-files.outputs.all_changed_files }}; do
+             for package in "${v3_packages[@]}"; do
+                if [[ "$changedFile" == "$package"* ]]; then
+                  # found change in v3 EA, comparing versions
+                  local_version=$(jq -r ".dependencies[\"$dependency\"]" "$package/package.json")
+                  if [ "$local_version" != $(echo $latest_version) ] && ! grep -q "^$package$" <<< "${outdated_packages[@]}"; then
+                    outdated_packages+=("$package")
+                  fi
+                fi
+             done
+            done
+
+            set -e
+            # print and error if there are outdated adapters
+            if [ ${#outdated_packages[@]} -gt 0 ]; then
+              echo "The following packages have an outdated \"$dependency\" dependency:"
+              for file in "${outdated_packages[@]}"; do
+                echo "- $file"
+              done
+            exit 1
+            fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
