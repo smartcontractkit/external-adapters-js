@@ -1,6 +1,6 @@
 {
-  "requests": [{
-   "from": "ETH",
-   "to": "USD"
-  }]
- }
+ "requests": [{
+  "from": "ETH",
+  "to": "USD"
+ }]
+}
