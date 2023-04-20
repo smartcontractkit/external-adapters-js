@@ -210,5 +210,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
-          # verify last comment has no failures, otherwise exit with error
-          gh pr view $PR_NUMBER --json comments --jq '.comments[-1].body' | grep -q "Soak test failed" && exit 1
+          if [ -n "$TEST_ADAPTERS" ]; then
+            for adapter in ${TEST_ADAPTERS}; do
+              # verify last comment has no failures for each adapter, otherwise exit with error
+              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("oanda"))) | last' | grep -q "Soak test failed for {adapter}" && exit 1
+            done
+          fi
