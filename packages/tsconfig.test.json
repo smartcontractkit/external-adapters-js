@@ -141,6 +141,9 @@
       "path": "./sources/alphavantage/tsconfig.test.json"
     },
     {
+      "path": "./sources/alphavantage-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -349,6 +352,9 @@
     },
     {
       "path": "./sources/finnhub/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/finnhub-test/tsconfig.test.json"
     },
     {
       "path": "./sources/fixer/tsconfig.test.json"
