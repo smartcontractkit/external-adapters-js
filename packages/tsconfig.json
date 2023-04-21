@@ -141,6 +141,9 @@
       "path": "./sources/alphavantage"
     },
     {
+      "path": "./sources/alphavantage-test"
+    },
+    {
       "path": "./sources/alpine"
     },
     {
@@ -187,9 +190,6 @@
     },
     {
       "path": "./sources/blocksize-capital"
-    },
-    {
-      "path": "./sources/blocksize-capital-test"
     },
     {
       "path": "./sources/blockstream"
@@ -349,6 +349,9 @@
     },
     {
       "path": "./sources/finnhub"
+    },
+    {
+      "path": "./sources/finnhub-test"
     },
     {
       "path": "./sources/fixer"

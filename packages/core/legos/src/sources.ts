@@ -4,6 +4,7 @@ import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alongside from '@chainlink/alongside-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
+import * as alphavantage_test from '@chainlink/alphavantage-test-adapter'
 import * as alpine from '@chainlink/alpine-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
@@ -20,7 +21,6 @@ import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
-import * as blocksize_capital_test from '@chainlink/blocksize-capital-test-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bob from '@chainlink/bob-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
@@ -74,6 +74,7 @@ import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finage_test from '@chainlink/finage-test-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
+import * as finnhub_test from '@chainlink/finnhub-test-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fluent_finance from '@chainlink/fluent-finance-adapter'
@@ -169,6 +170,7 @@ export default {
   alongside,
   alphachain,
   alphavantage,
+  alphavantage_test,
   alpine,
   amberdata,
   anyblock,
@@ -185,7 +187,6 @@ export default {
   blockchair,
   blockcypher,
   blocksize_capital,
-  blocksize_capital_test,
   blockstream,
   bob,
   bravenewcoin,
@@ -239,6 +240,7 @@ export default {
   finage,
   finage_test,
   finnhub,
+  finnhub_test,
   fixer,
   flightaware,
   fluent_finance,
