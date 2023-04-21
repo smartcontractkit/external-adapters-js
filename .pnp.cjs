@@ -284,10 +284,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/blocksize-capital"\
       },\
       {\
-        "name": "@chainlink/blocksize-capital-test-adapter",\
-        "reference": "workspace:packages/sources/blocksize-capital-test"\
-      },\
-      {\
         "name": "@chainlink/blockstream-adapter",\
         "reference": "workspace:packages/sources/blockstream"\
       },\
@@ -899,7 +895,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],\
       ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
-      ["@chainlink/blocksize-capital-test-adapter", ["workspace:packages/sources/blocksize-capital-test"]],\
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
       ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
@@ -5829,23 +5824,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/blocksize-capital/",\
           "packageDependencies": [\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/blocksize-capital-test-adapter", [\
-        ["workspace:packages/sources/blocksize-capital-test", {\
-          "packageLocation": "./packages/sources/blocksize-capital-test/",\
-          "packageDependencies": [\
-            ["@chainlink/blocksize-capital-test-adapter", "workspace:packages/sources/blocksize-capital-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6806,7 +6784,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/blocksize-capital-test-adapter", "workspace:packages/sources/blocksize-capital-test"],\
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
             ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
