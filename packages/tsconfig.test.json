@@ -192,9 +192,6 @@
       "path": "./sources/blocksize-capital/tsconfig.test.json"
     },
     {
-      "path": "./sources/blocksize-capital-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/blockstream/tsconfig.test.json"
     },
     {
