@@ -1,5 +1,13 @@
 # @chainlink/swell-address-list-adapter
 
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.0.12
 
 ### Patch Changes
