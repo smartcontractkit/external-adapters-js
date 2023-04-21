@@ -3235,7 +3235,6 @@ __metadata:
     "@chainlink/gsr-adapter": "workspace:*"
     "@chainlink/icap-adapter": "workspace:*"
     "@chainlink/iex-cloud-adapter": "workspace:*"
-    "@chainlink/iex-cloud-test-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
     "@chainlink/intrinio-test-adapter": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
@@ -3946,22 +3945,6 @@ __metadata:
 "@chainlink/iex-cloud-adapter@workspace:*, @chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 4.9.5
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/iex-cloud-test-adapter@workspace:*, @chainlink/iex-cloud-test-adapter@workspace:packages/sources/iex-cloud-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/iex-cloud-test-adapter@workspace:packages/sources/iex-cloud-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.28.4
     "@types/jest": 27.5.2

@@ -31,8 +31,6 @@ describe('execute', () => {
       done()
     })
 
-    const id = '1'
-
     const context: SuiteContext = {
       req: null,
       server: async () => {
@@ -52,7 +50,6 @@ describe('execute', () => {
 
     describe('cryptoyield endpoint', () => {
       const data = {
-        id,
         data: {
           endpoint: 'cryptoyield',
           aprTerm: '90day',
@@ -75,10 +72,10 @@ describe('execute', () => {
 
     describe('crypto endpoint', () => {
       const data = {
-        id,
         data: {
           base: 'ETH',
           quote: 'USD',
+          transport: 'rest',
         },
       }
 
@@ -98,7 +95,6 @@ describe('execute', () => {
 
     describe('eod endpoint', () => {
       const data = {
-        id,
         data: {
           endpoint: 'eod',
           ticker: 'USD',
@@ -121,7 +117,6 @@ describe('execute', () => {
 
     describe('top endpoint', () => {
       const data = {
-        id,
         data: {
           endpoint: 'top',
           base: 'ETH',
@@ -145,7 +140,6 @@ describe('execute', () => {
 
     describe('volume endpoint', () => {
       const data = {
-        id,
         data: {
           endpoint: 'volume',
           base: 'ETH',
@@ -169,7 +163,6 @@ describe('execute', () => {
 
     describe('vwap endpoint', () => {
       const data = {
-        id,
         data: {
           endpoint: 'vwap',
           base: 'ampl',
@@ -193,11 +186,11 @@ describe('execute', () => {
 
     describe('forex endpoint', () => {
       const data = {
-        id,
         data: {
           endpoint: 'forex',
           base: 'gbp',
           quote: 'usd',
+          transport: 'rest',
         },
       }
 
@@ -217,10 +210,10 @@ describe('execute', () => {
 
     describe('iex endpoint', () => {
       const data = {
-        id,
         data: {
           endpoint: 'iex',
           ticker: 'aapl',
+          transport: 'rest',
         },
       }
 
@@ -240,7 +233,6 @@ describe('execute', () => {
 
     describe('realized-vol endpoint', () => {
       const data = {
-        id,
         data: {
           base: 'ETH',
           endpoint: 'realized-vol',
@@ -276,7 +268,6 @@ describe('execute', () => {
       data: {
         base: 'eth',
         quote: 'usd',
-        transport: 'ws',
       },
     }
 
@@ -400,7 +391,6 @@ describe('execute', () => {
       data: {
         endpoint: 'iex',
         base: 'aapl',
-        transport: 'ws',
       },
     }
 
@@ -463,7 +453,6 @@ describe('execute', () => {
         endpoint: 'forex',
         base: 'eur',
         quote: 'usd',
-        transport: 'ws',
       },
     }
 
