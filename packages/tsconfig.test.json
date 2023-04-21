@@ -399,9 +399,6 @@
       "path": "./sources/iex-cloud/tsconfig.test.json"
     },
     {
-      "path": "./sources/iex-cloud-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
