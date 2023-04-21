@@ -1,5 +1,12 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.9
+
+### Patch Changes
+
+- 29dd7b460: Set default override for MAX_HTTP_REQUEST_QUEUE_LENGTH to 300
+- 31af84e69: Bumped framework version
+
 ## 1.1.8
 
 ### Patch Changes
