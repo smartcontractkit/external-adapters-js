@@ -1,5 +1,11 @@
 # @chainlink/openexchangerates-test-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
 ## 1.0.2
 
 ### Patch Changes

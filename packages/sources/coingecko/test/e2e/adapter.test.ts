@@ -1,25 +1,30 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
-import { server as startServer } from '../../src'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
+
+/* eslint-disable max-nested-callbacks */
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
+  let fastify: ServerInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    fastify = await startServer()
+    process.env['METRICS_ENABLED'] = 'false'
+    process.env['RATE_LIMIT_CAPACITY_SECOND'] = '6'
+    process.env['CACHE_POLLING_SLEEP_MS'] = '500'
+
+    const { server } = await import('../../src')
+    fastify = (await server()) as ServerInstance
     req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
-  afterAll((done) => {
-    fastify.close(done)
+  afterAll(async () => {
+    await fastify.close()
   })
 
   describe('crypto api', () => {
-    const data: AdapterRequest = {
+    const data = {
       id,
       data: {
         base: 'PERP',
@@ -38,14 +43,14 @@ describe('execute', () => {
       expect(response.body.result).toBeGreaterThan(0)
     })
 
-    const dataWithOverride: AdapterRequest = {
+    const dataWithOverride = {
       id,
       data: {
-        base: 'OHM',
+        base: 'OHMV2',
         quote: 'USD',
         overrides: {
           coingecko: {
-            OHM: 'olympus',
+            OHMV2: 'olympus',
           },
         },
       },
@@ -64,7 +69,7 @@ describe('execute', () => {
   })
 
   describe('volume api', () => {
-    const data: AdapterRequest = {
+    const data = {
       id,
       data: {
         endpoint: 'volume',
@@ -86,7 +91,7 @@ describe('execute', () => {
   })
 
   describe('marketcap api', () => {
-    const data: AdapterRequest = {
+    const data = {
       id,
       data: {
         endpoint: 'marketcap',
@@ -108,7 +113,7 @@ describe('execute', () => {
   })
 
   describe('globalmarketcap api', () => {
-    const data: AdapterRequest = {
+    const data = {
       id,
       data: {
         endpoint: 'globalmarketcap',
@@ -129,7 +134,7 @@ describe('execute', () => {
   })
 
   describe('dominance api', () => {
-    const data: AdapterRequest = {
+    const data = {
       id,
       data: {
         endpoint: 'dominance',
