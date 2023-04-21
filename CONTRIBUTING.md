@@ -242,7 +242,27 @@ PR_NUMBER=${UNIQUE_NAME} ./packages/scripts/src/ephemeral-adapters/cleanup.sh
 
 Soak testing additionally can test the responses output. The output testing runs against assertions placed in `./packages/k6/src/config/assertions`. Common assertions are in `assertions.json`, adapter-specific ones will be loaded from `${adapterName}-assertions.json`. Assertions can be applied for all the requests or specific set of parameters. See examples in the folder.
 
-The output testing checks the variety of input parameters, should be at least 10. For new adapters various parameters should be defined in `test-payload.json`. The input parameters should cover the most common use cases.
+The output testing checks the variety of input parameters, should be at least 10. For new adapters various parameters should be defined in `test-payload.json`.
+
+Input parameters in `test-payload.json` should include the following pairs:
+
+**High/low volume pairs**
+
+```
+[{"from": "OGN", "to": "ETH"}, {"from": "CSPR", "to": "USD"}, {"from": "CTSI", "to": "ETH"}, {"from": "BADGER", "to": "ETH"}, {"from": "BADGER", "to": "USD"}, {"from": "BSW", "to": "USD"}, {"from": "KNC", "to": "USD"}, {"from": "KNC", "to": "USD"}, {"from": "QUICK", "to": "ETH"}, {"from": "QUICK", "to": "USD"}, {"from": "FIS", "to": "USD"}, {"from": "MBOX", "to": "USD"}, {"from": "FOR", "to": "USD"}, {"from": "DGB", "to": "USD"}, {"from": "SUSD", "to": "ETH"}, {"from": "SUSD", "to": "USD"}, {"from": "WIN", "to": "USD"}, {"from": "SRM", "to": "ETH"}, {"from": "SRM", "to": "USD"}, {"from": "ALCX", "to": "ETH"}, {"from": "ALCX", "to": "USD"}, {"from": "ADX", "to": "USD"}, {"from": "NEXO", "to": "USD"}, {"from": "ANT", "to": "ETH"}, {"from": "ANT", "to": "USD"}, {"from": "LOOKS", "to": "USD"}, {"from": "WNXM", "to": "USD"}, {"from": "MDX", "to": "USD"}, {"from": "ALPHA", "to": "BNB"}, {"from": "ALPHA", "to": "USD"}, {"from": "NMR", "to": "ETH"}, {"from": "NMR", "to": "USD"}, {"from": "PHA", "to": "USD"}, {"from": "OHM", "to": "ETH"}, {"from": "BAL", "to": "ETH"}, {"from": "BAL", "to": "USD"}, {"from": "CVX", "to": "USD"}, {"from": "MOVR", "to": "USD"}, {"from": "DEGO", "to": "USD"}, {"from": "USDD", "to": "USD"}, {"from": "QI", "to": "USD"}, {"from": "MIM", "to": "USD"}, {"from": "KP3R", "to": "ETH"}, {"from": "REP", "to": "ETH"}, {"from": "REP", "to": "USD"}, {"from": "WING", "to": "USD"}, {"from": "XVS", "to": "BNB"}, {"from": "XVS", "to": "USD"}, {"from": "BOND", "to": "ETH"}, {"from": "BOND", "to": "USD"}, {"from": "REQ", "to": "USD"}, {"from": "LEO", "to": "USD"}, {"from": "ORN", "to": "ETH"}, {"from": "ALPACA", "to": "USD"}, {"from": "AGEUR", "to": "USD"}, {"from": "VAI", "to": "USD"}, {"from": "BIFI", "to": "USD"}, {"from": "AUTO", "to": "USD"}, {"from": "CEL", "to": "ETH"}, {"from": "CEL", "to": "USD"}, {"from": "HT", "to": "USD"}, {"from": "GLM", "to": "USD"}, {"from": "OM", "to": "USD"}, {"from": "BIT", "to": "USD"}, {"from": "ERN", "to": "USD"}, {"from": "PLA", "to": "USD"}, {"from": "FARM", "to": "ETH"}, {"from": "FARM", "to": "USD"}, {"from": "FORTH", "to": "USD"}, {"from": "OXT", "to": "USD"}, {"from": "MLN", "to": "ETH"}, {"from": "MLN", "to": "USD"}, {"from": "ONG", "to": "USD"}, {"from": "GUSD", "to": "ETH"}, {"from": "GUSD", "to": "USD"}, {"from": "DFI", "to": "USD"}, {"from": "SWAP", "to": "ETH"}, {"from": "ALUD", "to": "USD"}, {"from": "CREAM", "to": "BNB"}, {"from": "CREAM", "to": "USD"}, {"from": "GNO", "to": "ETH"}, {"from": "XAVA", "to": "USD"}, {"from": "BOO", "to": "USD"}, {"from": "AMPL", "to": "USD"}, {"from": "AMPL", "to": "USD"}, {"from": "RAI", "to": "ETH"}, {"from": "RAI", "to": "USD"}, {"from": "FEI", "to": "ETH"}, {"from": "FEI", "to": "USD"}, {"from": "DPX", "to": "USD"}, {"from": "EURT", "to": "USD"}, {"from": "LON", "to": "ETH"}, {"from": "BORING", "to": "BNB"}, {"from": "BORING", "to": "USD"}, {"from": "RARI", "to": "ETH"}, {"from": "DNT", "to": "ETH"}, {"from": "FOX", "to": "USD"}, {"from": "XHV", "to": "USD"}, {"from": "TRIBE", "to": "ETH"}, {"from": "UMEE", "to": "ETH"}, {"from": "UST", "to": "ETH"}, {"from": "UST", "to": "USD"}, {"from": "ZCN", "to": "USD"}, {"from": "DPI", "to": "USD"}]
+```
+
+**Collision risks**
+
+```
+[{"from": "MIM", "to": "USD"}, {"from": "LRC", "to": "USD"}, {"from": "OHM", "to": "USD"}, {"from": "QUICK", "to": "USD"}]
+```
+
+**Forex feeds**
+
+```
+[{"from": "AED", "to": "USD"}, {"from": "AUD", "to": "USD"}, {"from": "BRL", "to": "USD"}, {"from": "CAD", "to": "USD"}, {"from": "CHF", "to": "USD"}, {"from": "CNY", "to": "USD"}, {"from": "COP", "to": "USD"}, {"from": "CZK", "to": "USD"}, {"from": "EUR", "to": "USD"}, {"from": "GBP", "to": "USD"}, {"from": "HKD", "to": "USD"}, {"from": "IDR", "to": "USD"}, {"from": "ILS", "to": "USD"}, {"from": "INR", "to": "USD"}, {"from": "JPY", "to": "USD"}, {"from": "KRW", "to": "USD"}, {"from": "MXN", "to": "USD"}, {"from": "NZD", "to": "USD"}, {"from": "PHP", "to": "USD"}, {"from": "PLN", "to": "USD"}, {"from": "SEK", "to": "USD"}, {"from": "SGD", "to": "USD"}, {"from": "THB", "to": "USD"}, {"from": "TRY", "to": "USD"}, {"from": "TZS", "to": "USD"}, {"from": "VND", "to": "USD"}, {"from": "XAG", "to": "USD"}, {"from": "XAU", "to": "USD"}, {"from": "XPT", "to": "USD"}, {"from": "ZAR", "to": "USD"}, {"from": "ZEC", "to": "USD"}, {"from": "ZIL", "to": "USD"}, {"from": "ZRX", "to": "ETH"}, {"from": "ZRX", "to": "USD"}]
+```
 
 Available types of assertions:
 
