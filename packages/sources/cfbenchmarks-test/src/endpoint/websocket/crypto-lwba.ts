@@ -1,8 +1,10 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { cryptoRequestTransform, inputParameters, RequestParams } from '../common/crypto'
+import { additionalInputValidation, inputParameters, RequestParams } from '../common/crypto'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { config } from '../../config'
+import { getSecondaryId } from '../../utils'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CfbenchmarksCryptoLwbaWebsocketEndpoint')
 
@@ -26,12 +28,12 @@ interface WSResponse {
 }
 
 interface EPResponse {
-  Result: null
+  Result: number
   Data: {
-    value: number
     bid: number
     ask: number
     mid: number
+    midPrice: number
     utilizedDepth: number
   }
 }
@@ -64,7 +66,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
 
   handlers: {
     message(message) {
-      if (!message.success === false) {
+      if (message.success === false) {
         logger.warn(message, `Got error response from websocket: '${message.reason}'`)
         return
       }
@@ -73,12 +75,12 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
         {
           params: { index: message.id },
           response: {
-            result: null,
+            result: message.value,
             data: {
-              value: message.value,
               bid: message.valueBid,
               ask: message.valueAsk,
-              mid: message.midPrice,
+              mid: message.value,
+              midPrice: message.midPrice,
               utilizedDepth: message.utilizedDepth,
             },
             timestamps: {
@@ -109,10 +111,25 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   },
 })
 
+export const lwbaReqTransformer = (req: AdapterRequest<RequestParams>): void => {
+  additionalInputValidation(req.requestContext.data)
+
+  if (!req.requestContext.data.index) {
+    req.requestContext.data.index = getSecondaryId(
+      req.requestContext.data.base as string,
+      req.requestContext.data.quote as string,
+    )
+  }
+
+  // Clear base quote to ensure an exact match in the cache with index
+  delete req.requestContext.data.base
+  delete req.requestContext.data.quote
+}
+
 export const endpoint = new AdapterEndpoint<WsEndpointTypes>({
   name: 'crypto_lwba',
   aliases: ['cryptolwba'],
   transport: wsTransport,
   inputParameters: inputParameters,
-  requestTransforms: [cryptoRequestTransform],
+  requestTransforms: [lwbaReqTransformer],
 })
