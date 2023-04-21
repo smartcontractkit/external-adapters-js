@@ -141,6 +141,9 @@
       "path": "./sources/alphavantage/tsconfig.test.json"
     },
     {
+      "path": "./sources/alphavantage-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -225,9 +228,6 @@
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
-      "path": "./sources/coinapi-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinbase/tsconfig.test.json"
     },
     {
@@ -235,9 +235,6 @@
     },
     {
       "path": "./sources/coingecko/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/coingecko-test/tsconfig.test.json"
     },
     {
       "path": "./sources/coinlore/tsconfig.test.json"
@@ -357,6 +354,9 @@
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
+      "path": "./sources/finnhub-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {
@@ -474,9 +474,6 @@
       "path": "./sources/nomics/tsconfig.test.json"
     },
     {
-      "path": "./sources/nomics-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/oanda/tsconfig.test.json"
     },
     {
@@ -535,6 +532,9 @@
     },
     {
       "path": "./sources/stader-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/stader-balance/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-labs/tsconfig.test.json"

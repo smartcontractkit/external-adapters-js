@@ -121,7 +121,7 @@ describe('side effect tests', () => {
 
   const batchableAdapterRequest2: AdapterRequest = {
     id: '0',
-    data: { key1: ['baz'], key2: 'bar', resultPath: undefined },
+    data: { key1: ['baz'], key2: 'bar' },
   }
   const adapterRequestData2 = { key1: 'baz', key2: 'bar' }
   const childAdapterRequest2: AdapterRequest = {

@@ -15,7 +15,7 @@ import * as Gemini from '@chainlink/gemini-adapter'
 import { adapter as moonbeamAddressList } from '@chainlink/moonbeam-address-list-adapter'
 import * as porAddressList from '@chainlink/por-address-list-adapter'
 import * as renVM from '@chainlink/renvm-address-set-adapter'
-import * as staderList from '@chainlink/stader-address-list-adapter'
+import { adapter as staderList } from '@chainlink/stader-address-list-adapter'
 import * as swellList from '@chainlink/swell-address-list-adapter'
 import * as wBTC from '@chainlink/wbtc-address-set-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
@@ -31,11 +31,10 @@ export const adaptersV2: v2AdapterImplementation[] = [
   chainReserveWallets as unknown as v2AdapterImplementation,
   wrapped as unknown as v2AdapterImplementation,
   swellList as unknown as v2AdapterImplementation,
-  staderList as unknown as v2AdapterImplementation,
   porAddressList as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [moonbeamAddressList]
+export const adaptersV3: v3AdapterImplementation[] = [moonbeamAddressList, staderList]
 
 type AddressData = { token: string; chainId: string; network: string } | AddressList
 

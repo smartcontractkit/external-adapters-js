@@ -1,5 +1,11 @@
 # @chainlink/finage-test-adapter
 
+## 1.1.8
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
 ## 1.1.7
 
 ### Patch Changes

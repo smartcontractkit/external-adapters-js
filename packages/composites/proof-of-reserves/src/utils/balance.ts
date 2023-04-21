@@ -6,6 +6,7 @@ import type {
   AdapterContext,
 } from '@chainlink/ea-bootstrap'
 import { makeRequestFactory, callAdapter } from '.'
+import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
 // balance adapters
 import * as amberdata from '@chainlink/amberdata-adapter'
@@ -23,7 +24,7 @@ import * as adaBalance from '@chainlink/ada-balance-adapter'
 import * as ethBeacon from '@chainlink/eth-beacon-adapter'
 import * as avalanchePlatform from '@chainlink/avalanche-platform-adapter'
 import { adapter as polkadotBalance } from '@chainlink/polkadot-balance-adapter'
-import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
+import { adapter as staderBalance } from '@chainlink/stader-balance-adapter'
 
 // TODO: type
 export const adaptersV2: v2AdapterImplementation[] = [
@@ -43,9 +44,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
   avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [
-  polkadotBalance as unknown as v3AdapterImplementation,
-]
+export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance, staderBalance]
 
 // Get balances for address set
 export const runBalanceAdapter = async (
@@ -73,6 +72,27 @@ export const runBalanceAdapter = async (
           endpoint: 'balance',
           confirmations,
           validatorStatus: input.data.validatorStatus,
+        },
+      }
+      break
+    case staderBalance.name:
+      next = {
+        id: input.jobRunID,
+        data: {
+          result: input.data.result,
+          dataPath: 'result',
+          endpoint: 'balance',
+          confirmations,
+          validatorStatus: input.data.validatorStatus,
+          elRewardAddresses: input.data.elRewardAddresses,
+          socialPoolAddresses: input.data.socialPoolAddresses,
+          penaltyAddress: input.data.penaltyAddress,
+          poolFactoryAddress: input.data.poolFactoryAddress,
+          stakeManagerAddress: input.data.stakeManagerAddress,
+          permissionedPoolAddress: input.data.permissionedPoolAddress,
+          staderConfigAddress: input.data.staderConfigAddress,
+          network: input.data.network,
+          chainId: input.data.chainId,
         },
       }
       break

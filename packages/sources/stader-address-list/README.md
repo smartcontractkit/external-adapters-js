@@ -1,22 +1,22 @@
-# Stader Address List Adapter
+# STADER_ADDRESS_LIST
 
-![1.2.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-This EA fetches the list of custodial addresses that hold the funds for a PoR feed
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   |                                     Description                                      |  Type  | Options | Default |
-| :-------: | :-----: | :----------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | RPC_URL | The RPC URL to connect to the EVM chain the address manager contract is deployed to. | string |         |         |
+| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |        RPC_URL        |   The RPC URL to connect to the EVM chain the address manager contract is deployed to.    | string |         |         |
+|           |       CHAIN_ID        |                                The chain id to connect to                                 | number |         |   `1`   |
+|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
@@ -24,20 +24,23 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ## Address Endpoint
 
-This EA fetches the list of custodial addresses that hold the funds for a PoR feed
-
 `address` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name            | Aliases |                                 Description                                  |  Type   |       Options       |  Default   | Depends On | Not Valid With |
-| :-------: | :------------------------: | :-----: | :--------------------------------------------------------------------------: | :-----: | :-----------------: | :--------: | :--------: | :------------: |
-|           |      contractAddress       |         | The address of the Address Manager contract holding the custodial addresses. | string  |                     |            |            |                |
-|           |       confirmations        |         |                The number of confirmations to query data from                |         |                     |            |            |                |
-|           |          chainId           |         |                    The name of the target custodial chain                    | string  | `goerli`, `mainnet` | `mainnet`  |            |                |
-|           |          network           |         |              The name of the target custodial network protocol               | string  |     `ethereum`      | `ethereum` |            |                |
-|           | includedRegistrationStatus |         |   The registration status of the validator to filter the validator list by   | boolean |                     |   `true`   |            |                |
-|           |      validatorStatus       |         |                 A filter to apply validators by their status                 |  array  |                     |            |            |                |
+| Required? |            Name            | Aliases |                           Description                            |  Type  |       Options       |  Default   | Depends On | Not Valid With |
+| :-------: | :------------------------: | :-----: | :--------------------------------------------------------------: | :----: | :-----------------: | :--------: | :--------: | :------------: |
+|           |     poolFactoryAddress     |         |         The address of the Stader PoolFactory contract.          | string |                     |            |            |                |
+|           | permissionlessNodeRegistry |         | The address of the Stader Permissionless Node Registry contract. | string |                     |            |            |                |
+|           |    stakeManagerAddress     |         |         The address of the Stader StakeManager contract.         | string |                     |            |            |                |
+|           |       penaltyAddress       |         |           The address of the Stader Penalty contract.            | string |                     |            |            |                |
+|           |  permissionedPoolAddress   |         |           The address of the Stader Permissioned Pool.           | string |                     |            |            |                |
+|           |    staderConfigAddress     |         |            The address of the Stader Config contract.            | string |                     |            |            |                |
+|           |       confirmations        |         |          The number of confirmations to query data from          | number |                     |            |            |                |
+|           |          chainId           |         |              The name of the target custodial chain              | string | `goerli`, `mainnet` | `mainnet`  |            |                |
+|           |          network           |         |        The name of the target custodial network protocol         | string |     `ethereum`      | `ethereum` |            |                |
+|           |      validatorStatus       |         |           A filter to apply validators by their status           | array  |                     |            |            |                |
+|           |         batchSize          |         |   The number of addresses to fetch from the contract at a time   |        |                     |    `10`    |            |                |
 
 ### Example
 
