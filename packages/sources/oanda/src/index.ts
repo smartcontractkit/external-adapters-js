@@ -4,6 +4,8 @@ import { config } from './config'
 import includes from './config/includes.json'
 import { priceEndpoint } from './endpoint'
 
+// TODO remove - tmp change to trigger soak-test
+
 export const adapter = new PriceAdapter({
   name: 'OANDA',
   defaultEndpoint: 'price',
