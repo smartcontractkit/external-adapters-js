@@ -46,7 +46,6 @@ import * as cryptex from '@chainlink/cryptex-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
-import * as cryptocompare_test from '@chainlink/cryptocompare-test-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
@@ -211,7 +210,6 @@ export default {
   cryptoapis,
   cryptoapis_v2,
   cryptocompare,
-  cryptocompare_test,
   cryptoid,
   cryptomkt,
   currencylayer,
