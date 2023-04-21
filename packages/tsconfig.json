@@ -399,9 +399,6 @@
       "path": "./sources/iex-cloud"
     },
     {
-      "path": "./sources/iex-cloud-test"
-    },
-    {
       "path": "./sources/intrinio"
     },
     {
