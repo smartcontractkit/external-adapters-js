@@ -155,9 +155,6 @@
       "path": "../../sources/cryptocompare"
     },
     {
-      "path": "../../sources/cryptocompare-test"
-    },
-    {
       "path": "../../sources/cryptoid"
     },
     {
@@ -285,9 +282,6 @@
     },
     {
       "path": "../../sources/iex-cloud"
-    },
-    {
-      "path": "../../sources/iex-cloud-test"
     },
     {
       "path": "../../sources/intrinio"
