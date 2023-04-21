@@ -1,6 +1,6 @@
 # Avalanche Platform Adapter
 
-![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Chainlink External adapter for reading from the Avalanche Platform chain's API
 
