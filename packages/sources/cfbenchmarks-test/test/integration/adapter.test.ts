@@ -283,13 +283,13 @@ describe('websocket lwba endpoint', () => {
           .expect('Content-Type', /json/)
       const response = await makeRequest()
       expect(response.body).toEqual({
-        result: null,
+        result: 1.1635,
         statusCode: 200,
         data: {
-          value: 1.1635,
           bid: 1.1607,
           ask: 1.1662,
-          mid: 1.1631,
+          mid: 1.1635,
+          midPrice: 1.1631,
           utilizedDepth: 1888000,
         },
         timestamps: {

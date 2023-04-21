@@ -20,11 +20,11 @@ interface WSResponse {
   type: string
   time: number
   id: string
-  value: number
-  utilizedDepth: number
-  valueAsk: number
-  valueBid: number
-  midPrice: number
+  value: string
+  utilizedDepth: string
+  valueAsk: string
+  valueBid: string
+  midPrice: string
 }
 
 interface EPResponse {
@@ -75,13 +75,13 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
         {
           params: { index: message.id },
           response: {
-            result: message.value,
+            result: Number(message.value),
             data: {
-              bid: message.valueBid,
-              ask: message.valueAsk,
-              mid: message.value,
-              midPrice: message.midPrice,
-              utilizedDepth: message.utilizedDepth,
+              bid: Number(message.valueBid),
+              ask: Number(message.valueAsk),
+              mid: Number(message.value),
+              midPrice: Number(message.midPrice),
+              utilizedDepth: Number(message.utilizedDepth),
             },
             timestamps: {
               providerIndicatedTimeUnixMs: message.time,
