@@ -4,6 +4,7 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('https://cloud.iexapis.com/stable', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/crypto/ETHUSD/quote')
     .query({ token: 'fake-api-key' })
     .reply(
@@ -32,6 +33,7 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
     .get('/stock/USD/quote')
     .query({ token: 'fake-api-key' })
     .reply(

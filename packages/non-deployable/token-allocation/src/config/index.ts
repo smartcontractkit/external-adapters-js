@@ -6,7 +6,7 @@ import { adapter as CoinMarketCap } from '@chainlink/coinmarketcap-adapter'
 import { adapter as CoinMetrics } from '@chainlink/coinmetrics-adapter'
 import * as CoinPaprika from '@chainlink/coinpaprika-adapter'
 import * as CoinRanking from '@chainlink/coinranking-adapter'
-import * as CryptoCompare from '@chainlink/cryptocompare-adapter'
+import { adapter as CryptoCompare } from '@chainlink/cryptocompare-adapter'
 import {
   AdapterImplementation as v2AdapterImplementation,
   DefaultConfig,
@@ -28,7 +28,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   CoinApi as unknown as v2AdapterImplementation,
   CoinPaprika as unknown as v2AdapterImplementation,
   CoinRanking as unknown as v2AdapterImplementation,
-  CryptoCompare as unknown as v2AdapterImplementation,
   Finage as unknown as v2AdapterImplementation,
   Kaiko as unknown as v2AdapterImplementation,
   Nomics as unknown as v2AdapterImplementation,
@@ -37,7 +36,13 @@ export const adaptersV2: v2AdapterImplementation[] = [
 
 // List of v3 adapters
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const adaptersV3: PriceAdapter<any>[] = [NCFX, CoinGecko, CoinMarketCap, CoinMetrics]
+export const adaptersV3: PriceAdapter<any>[] = [
+  CoinGecko,
+  CoinMarketCap,
+  CoinMetrics,
+  CryptoCompare,
+  NCFX,
+]
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
