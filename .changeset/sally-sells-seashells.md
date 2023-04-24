@@ -1,5 +1,5 @@
 ---
-'@chainlink/ea-bootstrap': minor
+'@chainlink/dar-adapter': minor
 ---
 
 Updated DAR websocket endpoint
