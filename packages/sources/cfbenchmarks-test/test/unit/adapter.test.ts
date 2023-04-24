@@ -1,4 +1,4 @@
-import { getIdFromBaseQuote } from '../../src/utils'
+import { getIdFromBaseQuote, latestUpdateIsCurrentDay, tenorInRange } from '../../src/utils'
 
 describe('getIdFromBaseQuote', () => {
   const tests: {
@@ -46,5 +46,57 @@ describe('getIdFromBaseQuote', () => {
         test.output,
       )
     })
+  })
+})
+
+describe('tenorInRange', () => {
+  test('should return true when tenor is within range', () => {
+    expect(tenorInRange(0)).toBe(true)
+    expect(tenorInRange(-1)).toBe(true)
+    expect(tenorInRange(1)).toBe(true)
+    expect(tenorInRange(0.755)).toBe(true)
+  })
+
+  test('should return false when tenor is outside of range', () => {
+    expect(tenorInRange(-1.1)).toBe(false)
+    expect(tenorInRange(1.1)).toBe(false)
+    expect(tenorInRange(2)).toBe(false)
+    expect(tenorInRange(-2)).toBe(false)
+  })
+})
+
+describe('latestUpdateIsCurrentDay', () => {
+  it('returns true when the latest update is on the current day in UTC time zone', () => {
+    const currentDayIsoString = new Date().toISOString()
+    const currentDayTimestampMs = new Date(currentDayIsoString).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayTimestampMs)
+    expect(latestUpdateIsCurrentDayResult).toBe(true)
+  })
+
+  it('returns false when the latest update is not on the current day in UTC time zone', () => {
+    const yesterdayIsoString = new Date(Date.now() - 86400000).toISOString()
+    const yesterdayTimestampMs = new Date(yesterdayIsoString).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(yesterdayTimestampMs)
+    expect(latestUpdateIsCurrentDayResult).toBe(false)
+  })
+
+  it('returns false when the input timestamp is not valid', () => {
+    const invalidTimestamp = NaN
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(invalidTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(false)
+  })
+
+  it('returns true when the latest update is on the first millisecond of the current day in UTC time zone', () => {
+    const currentDayIsoString = new Date().toISOString().substring(0, 10)
+    const currentDayFirstMsTimestamp = new Date(`${currentDayIsoString}T00:00:00.000Z`).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayFirstMsTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(true)
+  })
+
+  it('returns true when the latest update is on the last millisecond of the current day in UTC time zone', () => {
+    const currentDayIsoString = new Date().toISOString().substring(0, 10)
+    const currentDayLastMsTimestamp = new Date(`${currentDayIsoString}T23:59:59.999Z`).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayLastMsTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(true)
   })
 })

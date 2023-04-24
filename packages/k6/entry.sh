@@ -55,7 +55,7 @@ if [ ! -z ${PR_NUMBER+x} ]; then
 
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
-    SOAK_TEST_MESSAGE=":warning: Soak test for ${CI_ADAPTER_NAME} failed :warning:"
+    SOAK_TEST_MESSAGE=":warning: Soak test failed for ${CI_ADAPTER_NAME} :warning:"
   else
     echo "test passed"
     SOAK_TEST_MESSAGE=":heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded"

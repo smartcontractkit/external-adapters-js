@@ -1,67 +1,17 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { AdapterCustomError } from '@chainlink/external-adapter-framework/validation/error'
+import { latestUpdateIsCurrentDay, tenorInRange } from '../../utils'
+import {
+  CfBenchmarksBIRCTransport,
+  inputParameters,
+  RestEndpointTypes,
+  VALID_TENORS,
+} from '../common/birc'
 
-export enum VALID_TENORS {
-  SIRB = 'SIRB',
-  '1W' = '1W',
-  '2W' = '2W',
-  '3W' = '3W',
-  '1M' = '1M',
-  '2M' = '2M',
-  '3M' = '3M',
-  '4M' = '4M',
-  '5M' = '5M',
-}
+const logger = makeLogger('CFBenchmarksBIRCEndpoint')
 
-export const inputParameters = {
-  tenor: {
-    description: 'The tenor value to pull from the API response',
-    type: 'string',
-    options: Object.values(VALID_TENORS),
-    required: true,
-  },
-} as const
-
-export interface RequestParams {
-  tenor: string
-}
-
-interface ProviderResponse {
-  serverTime: string
-  error: string
-  payload: {
-    tenors: {
-      SIRB: string
-      '1W': string
-      '2W': string
-      '3W': string
-      '1M': string
-      '2M': string
-      '3M': string
-      '4M': string
-      '5M': string
-    }
-    time: number
-    amendTime: number
-    repeatOfPreviousValue: boolean
-  }[]
-}
-
-export type RestEndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponse
-  }
-}
-
-const restTransport = new HttpTransport<RestEndpointTypes>({
+const restTransport = new CfBenchmarksBIRCTransport({
   prepareRequests: (params, config) => {
     const { API_USERNAME, API_PASSWORD, API_ENDPOINT } = config
     const encodedCreds = Buffer.from(`${API_USERNAME}:${API_PASSWORD}`).toString('base64')
@@ -84,8 +34,21 @@ const restTransport = new HttpTransport<RestEndpointTypes>({
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
+      const latestUpdate = res.data.payload[res.data.payload.length - 1]
       const key = param.tenor as VALID_TENORS
-      const value = Number(res.data.payload[res.data.payload.length - 1].tenors[key])
+      const value = Number(latestUpdate.tenors[key])
+
+      if (!latestUpdateIsCurrentDay(latestUpdate.time)) {
+        const warning = 'Latest update from response is not in current day'
+        logger.warn(warning, { latestUpdate })
+      }
+
+      if (!tenorInRange(value)) {
+        const error = 'Tenor is out of range (-1 to 1)'
+        logger.error(error, { value, tenor: key })
+        throw new AdapterCustomError({ message: error })
+      }
+
       return {
         params: param,
         response: {

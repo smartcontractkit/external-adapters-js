@@ -168,7 +168,7 @@ jobs:
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              HELM_SECRETS_PATH=./adapter-secrets/secure-sdlc/secrets.${adapter}.yaml
+              HELM_SECRETS_PATH=./adapter-secrets/secure-sdlc/secrets.${adapter/-test/}.yaml
               if test -f "$HELM_SECRETS_PATH"
                 then
                   HELM_SECRETS_PATH=${HELM_SECRETS_PATH} yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
@@ -204,3 +204,15 @@ jobs:
         uses: jakejarvis/wait-action@master
         with:
           time: '15m'
+      - name: Assert tests passed
+        if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+        run: |
+          if [ -n "$TEST_ADAPTERS" ]; then
+            for adapter in ${TEST_ADAPTERS}; do
+              # verify last comment has no failures for each adapter, otherwise exit with error
+              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("'${adapter}'"))) | last' | grep -q "Soak test failed for ${adapter}" && exit 1
+            done
+          fi
