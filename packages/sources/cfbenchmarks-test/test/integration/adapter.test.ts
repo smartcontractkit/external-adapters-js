@@ -125,6 +125,8 @@ describe('websocket crypto endpoint', () => {
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_USERNAME'] = 'fake-api-username'
     process.env['API_PASSWORD'] = 'fake-api-password'
+    process.env['BIRC_RETRY'] = '0'
+    process.env['BIRC_RETRY_DELAY_MS'] = '10'
 
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())

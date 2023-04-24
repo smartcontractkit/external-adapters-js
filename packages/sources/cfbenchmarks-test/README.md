@@ -15,6 +15,8 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |       API_SECONDARY       |                 Toggle using the secondary API base URLs                 | boolean |         |                 `false`                  |
 |           |  SECONDARY_API_ENDPOINT   |   The secondary REST API base url that is toggled using API_SECONDARY    | string  |         | `https://unregprod.cfbenchmarks.com/api` |
 |           | SECONDARY_WS_API_ENDPOINT | The secondary WebSocket API base url that is toggled using API_SECONDARY | string  |         | `wss://unregprod.cfbenchmarks.com/ws/v4` |
+|           |        BIRC_RETRY         |          How many times to retry if the BIRC API request fails           |         |         |                   `3`                    |
+|           |    BIRC_RETRY_DELAY_MS    |      How many miliseconds to wait between BIRC API request retries       |         |         |                  `1000`                  |
 
 ---
 
