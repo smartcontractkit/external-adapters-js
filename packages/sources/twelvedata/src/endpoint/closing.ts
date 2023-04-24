@@ -12,7 +12,7 @@ export const description =
 export type TInputParameters = { base: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
-    aliases: ['from', 'coin', 'market', 'symbol'],
+    aliases: ['from', 'coin', 'market', 'symbol', 'uk_etf'],
     required: true,
     description: 'The symbol of the currency to query',
     type: 'string',
