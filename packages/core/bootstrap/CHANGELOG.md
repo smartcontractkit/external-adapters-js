@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.27.0
+
+### Minor Changes
+
+- 3dc13a0bc: Remove resultPath from cache key generation
+
 ## 2.26.1
 
 ### Patch Changes

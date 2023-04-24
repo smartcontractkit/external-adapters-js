@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinPaprika
 
-![1.10.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.10.22](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
@@ -59,11 +59,11 @@ Request:
     "resultPath": "price"
   },
   "debug": {
-    "cacheKey": "/ZZUFW3JdvMNj7qmqWBfjk3M4YU=",
-    "batchCacheKey": "xfc2iTuKJFI92dUpgFzFhVxPrEQ=",
+    "cacheKey": "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
+    "batchCacheKey": "lHEnqy20ZxpTIz2ArGwx40Q8Tyk=",
     "batchChildrenCacheKeys": [
       [
-        "/ZZUFW3JdvMNj7qmqWBfjk3M4YU=",
+        "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
         {
           "id": "1",
           "data": {
@@ -235,7 +235,7 @@ Request:
     }
   },
   "debug": {
-    "cacheKey": "/mWFiJX9XlPfrers69lNKY9syOU="
+    "cacheKey": "YKEyu0YwlAv6PKHlywk6eCHln5s="
   }
 }
 ```
@@ -972,7 +972,7 @@ Request:
     }
   },
   "debug": {
-    "cacheKey": "sMT7ytI4rR7UAXxF4mi7tq5rHIc="
+    "cacheKey": "DvcmCsFPINIx6W1M7OBaRK0sTOw="
   }
 }
 ```

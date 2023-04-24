@@ -1,14 +1,18 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import type { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'BLOCKSIZE_CAPITAL'
+export const defaultEndpoint = 'price'
 
-export const DEFAULT_ENDPOINT = 'price'
-export const DEFAULT_BASE_WS_URL = 'wss://data.blocksize.capital/marketdata/v1/ws'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  config.ws.baseWsURL ||= DEFAULT_BASE_WS_URL
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_KEY: {
+    description: 'The Blocksize Capital API key',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  WS_API_ENDPOINT: {
+    description: 'The default WebSocket API base url',
+    type: 'string',
+    required: false,
+    default: 'wss://data.blocksize.capital/marketdata/v1/ws',
+  },
+})
