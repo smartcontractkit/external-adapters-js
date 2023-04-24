@@ -4,24 +4,12 @@ exports[`execute stock api should fail without overriding 1`] = `
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"base\\":\\"IBTA\\"}}",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://eodhistoricaldata.com/api/real-time/IBTA?api_token=fake-api-key&fmt=json\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json\\",
-    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
-    \\"pragma\\": \\"no-cache\\",
-    \\"content-type\\": \\"application/json\\",
-    \\"user-agent\\": \\"axios/0.24.0\\"
-  }
-}",
+    "message": "Invalid result received. This is likely an issue with the data provider or the input params/overrides.",
     "name": "AdapterError",
-    "url": "https:/eodhistoricaldata.com/api/real-time/IBTA",
   },
   "jobRunID": "1",
-  "providerStatusCode": 0,
   "status": "errored",
-  "statusCode": 200,
+  "statusCode": 400,
 }
 `;
 
