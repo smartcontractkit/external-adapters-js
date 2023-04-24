@@ -2333,22 +2333,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/cfbenchmarks-test-adapter@workspace:*, @chainlink/cfbenchmarks-test-adapter@workspace:packages/sources/cfbenchmarks-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/cfbenchmarks-test-adapter@workspace:packages/sources/cfbenchmarks-test"
-  dependencies:
     "@chainlink/external-adapter-framework": 0.28.6
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -3166,7 +3150,6 @@ __metadata:
     "@chainlink/ccip-read-adapter": "workspace:*"
     "@chainlink/celsius-address-list-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"
-    "@chainlink/cfbenchmarks-test-adapter": "workspace:*"
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
     "@chainlink/coinbase-adapter": "workspace:*"

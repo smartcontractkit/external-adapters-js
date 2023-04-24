@@ -216,9 +216,6 @@
       "path": "./sources/cfbenchmarks"
     },
     {
-      "path": "./sources/cfbenchmarks-test"
-    },
-    {
       "path": "./sources/chain-reserve-wallet"
     },
     {

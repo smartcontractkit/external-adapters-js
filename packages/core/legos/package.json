@@ -60,7 +60,6 @@
     "@chainlink/ccip-read-adapter": "workspace:*",
     "@chainlink/celsius-address-list-adapter": "workspace:*",
     "@chainlink/cfbenchmarks-adapter": "workspace:*",
-    "@chainlink/cfbenchmarks-test-adapter": "workspace:*",
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",
     "@chainlink/coinbase-adapter": "workspace:*",
