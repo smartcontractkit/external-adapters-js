@@ -1,5 +1,12 @@
 # @chainlink/twosigma-adapter
 
+## 1.1.8
+
+### Patch Changes
+
+- a4794166f: Added default websocket endpoint URL
+- 31af84e69: Bumped framework version
+
 ## 1.1.7
 
 ### Patch Changes

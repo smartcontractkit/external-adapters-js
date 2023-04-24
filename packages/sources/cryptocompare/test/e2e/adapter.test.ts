@@ -1,123 +1,209 @@
-import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
-import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { makeExecute } from '../../src/adapter'
-import { TInputParameters } from '../../src/endpoint'
+/* eslint-disable max-nested-callbacks */
+import { adapter } from '../../src'
+import { expose } from '@chainlink/external-adapter-framework'
+import request, { SuperTest, Test } from 'supertest'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
+import { AddressInfo } from 'net'
+import * as process from 'process'
+
+let adapterServer: ServerInstance | undefined
 
 describe('execute', () => {
-  const jobID = '1'
-  const execute = makeExecute()
-  process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
+  let req: SuperTest<Test>
 
-  describe('successful calls', () => {
-    const requests = [
-      {
-        name: 'id not supplied',
-        testData: { data: { base: 'ETH', quote: 'USD' } },
+  jest.setTimeout(10000)
+
+  const successfulRequests = {
+    crypto: {
+      data: {
+        base: 'ETH',
+        quote: 'USD',
       },
-      {
-        name: 'base/quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USD' } },
-      },
-      {
-        name: 'from/to',
-        testData: { id: jobID, data: { from: 'ETH', to: 'USD' } },
-      },
-      {
-        name: 'coin/market',
-        testData: { id: jobID, data: { coin: 'ETH', market: 'USD' } },
-      },
-      {
-        name: 'fsym/tsyms',
-        testData: { id: jobID, data: { fsym: 'ETH', tsyms: 'USD' } },
-      },
-      {
-        name: 'market cap',
-        testData: {
-          id: jobID,
-          data: { base: 'ETH', quote: 'USD', endpoint: 'marketcap' },
+    },
+    cryptoWithOverride: {
+      data: {
+        base: 'NONE',
+        quote: 'USD',
+        overrides: {
+          cryptocompare: {
+            NONE: 'ETH',
+          },
         },
       },
-    ]
+    },
+  }
 
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toBeGreaterThan(0)
-        expect(data.data.result).toBeGreaterThan(0)
-      })
+  const errorRequests = {
+    empty: {
+      data: {},
+    },
+    cryptoWithBadSymbol: {
+      data: {
+        base: 'ZWXK',
+        quote: 'USD',
+      },
+    },
+    cryptoWithBadOverride: {
+      data: {
+        base: 'NONE',
+        quote: 'USD',
+        overrides: {
+          genesis: {
+            NONE: 'BAD',
+          },
+        },
+      },
+    },
+  }
+
+  const withCryptoWs = (payload: AdapterRequestBody) => ({
+    ...payload,
+    data: {
+      ...payload.data,
+      endpoint: 'crypto',
+    },
+  })
+
+  beforeAll(async () => {
+    try {
+      adapterServer = await expose(adapter)
+      req = request(`http://localhost:${(adapterServer?.server.address() as AddressInfo).port}`)
+    } catch {
+      throw new Error('Could not start server when running CryptoCompare e2e tests')
+    }
+    if (!adapterServer) {
+      throw new Error('Could not start server when running CryptoCompare e2e tests')
+    }
+
+    // Send inital requests to warm the cache
+    const pendingRequests: Test[] = []
+    for (const reqData of Object.values(successfulRequests)) {
+      pendingRequests.push(req.post('/').send(reqData))
+    }
+    for (const reqData of Object.values(successfulRequests)) {
+      pendingRequests.push(req.post('/').send(withCryptoWs(reqData)))
+    }
+    for (const reqData of Object.values(errorRequests)) {
+      pendingRequests.push(req.post('/').send(reqData))
+    }
+    for (const reqData of Object.values(errorRequests)) {
+      pendingRequests.push(req.post('/').send(withCryptoWs(reqData)))
+    }
+    // Wait for all the pending requests to be complete
+    Promise.all(pendingRequests)
+    // Sleep while the cache is filled
+    await sleep(5000)
+  })
+
+  afterAll((done) => {
+    if (adapterServer) {
+      adapterServer.close(done())
+    }
+  })
+
+  describe('crypto', () => {
+    it('should return error message for empty data', async () => {
+      const response = await req
+        .post('/')
+        .send(errorRequests.empty)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(400)
+      expect(typeof response.body.result === 'string')
+    })
+
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(successfulRequests.crypto)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(200)
+      expect(response.body.result).toBeGreaterThan(0)
+    })
+
+    it('should return 504 message for bad symbol', async () => {
+      const response = await req
+        .post('/')
+        .send(errorRequests.cryptoWithBadSymbol)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(504)
+      expect(typeof response.body.result === 'string')
+    })
+
+    it('should return success with override', async () => {
+      const response = await req
+        .post('/')
+        .send(successfulRequests.cryptoWithOverride)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(200)
+      expect(response.body.result).toBeGreaterThan(0)
+    })
+    it('should return 504 for bad override', async () => {
+      const response = await req
+        .post('/')
+        .send(errorRequests.cryptoWithBadOverride)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(504)
+      expect(typeof response.body.result === 'string')
     })
   })
 
-  describe('successful batch calls', () => {
-    const requests = [
-      {
-        name: 'multiple fsyms',
-        testData: { id: jobID, data: { fsym: ['ETH', 'BTC'], tsyms: 'USD', base: '', quote: '' } },
-      },
-      {
-        name: 'skips pairs it cannot find',
-        testData: { id: jobID, data: { base: ['BTC', 'EURT'], quote: ['USD', 'ARS'] } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.data.results && Object.keys(data.data.results).length).toBeGreaterThan(0)
-      })
+  describe('crypto websocket', () => {
+    beforeAll(() => {
+      process.env['WS_ENABLED'] = 'true'
     })
-  })
-
-  describe('validation error', () => {
-    const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD', base: '' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest<TInputParameters>, {})
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error as AdapterError)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
+    it('should return error message for empty data', async () => {
+      const response = await req
+        .post('/')
+        .send(withCryptoWs(errorRequests.empty))
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(400)
+      expect(typeof response.body.result === 'string')
     })
-  })
 
-  describe('error calls', () => {
-    const requests = [
-      {
-        name: 'unknown base',
-        testData: { id: jobID, data: { base: 'not_real', quote: 'USD' } },
-      },
-      {
-        name: 'unknown quote',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'not_real' } },
-      },
-    ]
+    it('should return success', async () => {
+      const response = await req
+        .post('/')
+        .send(withCryptoWs(successfulRequests.crypto))
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(200)
+      expect(response.body.result).toBeGreaterThan(0)
+    })
 
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest<TInputParameters>, {})
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error as AdapterError)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
+    it('should return 504 message for bad symbol', async () => {
+      const response = await req
+        .post('/')
+        .send(withCryptoWs(errorRequests.cryptoWithBadSymbol))
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(504)
+      expect(typeof response.body.result === 'string')
+    })
+
+    it('should return success with override', async () => {
+      const response = await req
+        .post('/')
+        .send(withCryptoWs(successfulRequests.cryptoWithOverride))
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(200)
+      expect(response.body.result).toBeGreaterThan(0)
+    })
+    it('should return 504 for bad override', async () => {
+      const response = await req
+        .post('/')
+        .send(withCryptoWs(errorRequests.cryptoWithBadOverride))
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(504)
+      expect(typeof response.body.result === 'string')
     })
   })
 })

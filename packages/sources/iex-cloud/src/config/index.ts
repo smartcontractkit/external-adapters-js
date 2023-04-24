@@ -1,14 +1,16 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'IEXCLOUD'
-
-export const DEFAULT_ENDPOINT = 'stock'
-export const DEFAULT_BASE_URL = 'https://cloud.iexapis.com/stable'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'API endpoint for iex-cloud',
+    default: 'https://cloud.iexapis.com/stable',
+    type: 'string',
+  },
+  API_KEY: {
+    description:
+      'An API key that can be obtained from [here](https://iexcloud.io/cloud-login#/register/)',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+})

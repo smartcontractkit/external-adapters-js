@@ -21,7 +21,6 @@ import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
-import * as blocksize_capital_test from '@chainlink/blocksize-capital-test-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bob from '@chainlink/bob-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
@@ -47,7 +46,6 @@ import * as cryptex from '@chainlink/cryptex-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
-import * as cryptocompare_test from '@chainlink/cryptocompare-test-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
@@ -91,7 +89,6 @@ import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
 import * as icap from '@chainlink/icap-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
-import * as iex_cloud_test from '@chainlink/iex-cloud-test-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as intrinio_test from '@chainlink/intrinio-test-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -188,7 +185,6 @@ export default {
   blockchair,
   blockcypher,
   blocksize_capital,
-  blocksize_capital_test,
   blockstream,
   bob,
   bravenewcoin,
@@ -214,7 +210,6 @@ export default {
   cryptoapis,
   cryptoapis_v2,
   cryptocompare,
-  cryptocompare_test,
   cryptoid,
   cryptomkt,
   currencylayer,
@@ -258,7 +253,6 @@ export default {
   gsr,
   icap,
   iex_adapter,
-  iex_cloud_test,
   intrinio,
   intrinio_test,
   ipfs,

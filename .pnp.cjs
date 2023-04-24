@@ -284,10 +284,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/blocksize-capital"\
       },\
       {\
-        "name": "@chainlink/blocksize-capital-test-adapter",\
-        "reference": "workspace:packages/sources/blocksize-capital-test"\
-      },\
-      {\
         "name": "@chainlink/blockstream-adapter",\
         "reference": "workspace:packages/sources/blockstream"\
       },\
@@ -386,10 +382,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/cryptocompare-adapter",\
         "reference": "workspace:packages/sources/cryptocompare"\
-      },\
-      {\
-        "name": "@chainlink/cryptocompare-test-adapter",\
-        "reference": "workspace:packages/sources/cryptocompare-test"\
       },\
       {\
         "name": "@chainlink/cryptoid-adapter",\
@@ -562,10 +554,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/iex-cloud-adapter",\
         "reference": "workspace:packages/sources/iex-cloud"\
-      },\
-      {\
-        "name": "@chainlink/iex-cloud-test-adapter",\
-        "reference": "workspace:packages/sources/iex-cloud-test"\
       },\
       {\
         "name": "@chainlink/intrinio-adapter",\
@@ -899,7 +887,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],\
       ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
-      ["@chainlink/blocksize-capital-test-adapter", ["workspace:packages/sources/blocksize-capital-test"]],\
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
       ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
@@ -929,7 +916,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
       ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],\
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
-      ["@chainlink/cryptocompare-test-adapter", ["workspace:packages/sources/cryptocompare-test"]],\
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],\
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],\
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
@@ -993,7 +979,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
       ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
-      ["@chainlink/iex-cloud-test-adapter", ["workspace:packages/sources/iex-cloud-test"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
       ["@chainlink/intrinio-test-adapter", ["workspace:packages/sources/intrinio-test"]],\
@@ -5410,7 +5395,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alongside/",\
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/crypto-js", "npm:4.1.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -5465,7 +5450,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage-test/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5647,7 +5632,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/bank-frick/",\
           "packageDependencies": [\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5829,24 +5814,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/blocksize-capital/",\
           "packageDependencies": [\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/blocksize-capital-test-adapter", [\
-        ["workspace:packages/sources/blocksize-capital-test", {\
-          "packageLocation": "./packages/sources/blocksize-capital-test/",\
-          "packageDependencies": [\
-            ["@chainlink/blocksize-capital-test-adapter", "workspace:packages/sources/blocksize-capital-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6036,7 +6004,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks-test/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6141,7 +6109,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6177,7 +6145,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",\
           "packageDependencies": [\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6194,7 +6162,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6231,7 +6199,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinpaprika-test/",\
           "packageDependencies": [\
             ["@chainlink/coinpaprika-test-adapter", "workspace:packages/sources/coinpaprika-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6392,25 +6360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/cryptocompare-test-adapter", [\
-        ["workspace:packages/sources/cryptocompare-test", {\
-          "packageLocation": "./packages/sources/cryptocompare-test/",\
-          "packageDependencies": [\
-            ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6520,7 +6470,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dar/",\
           "packageDependencies": [\
             ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6702,7 +6652,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/dxfeed-secondary-test-adapter", "workspace:packages/sources/dxfeed-secondary-test"],\
             ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6720,7 +6670,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dxfeed-test/",\
           "packageDependencies": [\
             ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6806,7 +6756,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/blocksize-capital-test-adapter", "workspace:packages/sources/blocksize-capital-test"],\
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
             ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
@@ -6832,7 +6781,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
             ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
             ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],\
             ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],\
             ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\
@@ -6876,7 +6824,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
             ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
             ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
@@ -7047,7 +6994,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -7102,7 +7049,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7354,10 +7301,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.28.4", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.28.4-598edef436-7ee5c96e38.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.28.5", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.28.5-8cf8f3f6e4-838e5e10e1.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:1.3.4"],\
             ["eventsource", "npm:2.0.2"],\
@@ -7366,7 +7313,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:598edef436ba24799b80c0c2632763b819fdb7fbb87c52187397970bb5e8e702774c0adfe2894fcd87ac3213a3e38ee6f2ef188f81375bead20785f90bcf4eac#npm:8.9.0"]\
+            ["ws", "virtual:8cf8f3f6e4b59251e5d8b0dd31c7bfa00c0d4909e744466542a673f91135eef81589e43108d709ed9c2e6235a97e1c324f323ac55c042dcbd60d4a5e7c7a95fb#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7442,7 +7389,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finage-test/",\
           "packageDependencies": [\
             ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7478,7 +7425,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub-test/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-test-adapter", "workspace:packages/sources/finnhub-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7585,7 +7532,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7723,7 +7670,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7769,7 +7716,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7787,7 +7734,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/icap/",\
           "packageDependencies": [\
             ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7806,25 +7753,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/iex-cloud/",\
           "packageDependencies": [\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/iex-cloud-test-adapter", [\
-        ["workspace:packages/sources/iex-cloud-test", {\
-          "packageLocation": "./packages/sources/iex-cloud-test/",\
-          "packageDependencies": [\
-            ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7881,7 +7810,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/intrinio-test/",\
           "packageDependencies": [\
             ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7977,7 +7906,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/kaiko-test/",\
           "packageDependencies": [\
             ["@chainlink/kaiko-test-adapter", "workspace:packages/sources/kaiko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8233,7 +8162,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/moonbeam-address-list/",\
           "packageDependencies": [\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8270,7 +8199,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8288,7 +8217,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/nft-blue-chip/",\
           "packageDependencies": [\
             ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8365,7 +8294,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/oanda/",\
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.27.2"],\
             ["decimal.js", "npm:10.4.3"],\
@@ -8446,7 +8375,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/openexchangerates-test/",\
           "packageDependencies": [\
             ["@chainlink/openexchangerates-test-adapter", "workspace:packages/sources/openexchangerates-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8554,7 +8483,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polkadot-balance/",\
           "packageDependencies": [\
             ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@polkadot/api", "npm:9.14.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8641,7 +8570,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8925,7 +8854,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-address-list/",\
           "packageDependencies": [\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8943,7 +8872,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-balance/",\
           "packageDependencies": [\
             ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -9149,7 +9078,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tiingo-test/",\
           "packageDependencies": [\
             ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -9178,7 +9107,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -9200,7 +9129,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tp/",\
           "packageDependencies": [\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -9236,7 +9165,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradermade-test/",\
           "packageDependencies": [\
             ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -9308,7 +9237,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/twosigma/",\
           "packageDependencies": [\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-            ["@chainlink/external-adapter-framework", "npm:0.28.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.28.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -37491,23 +37420,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:598edef436ba24799b80c0c2632763b819fdb7fbb87c52187397970bb5e8e702774c0adfe2894fcd87ac3213a3e38ee6f2ef188f81375bead20785f90bcf4eac#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-ffc917831f/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:598edef436ba24799b80c0c2632763b819fdb7fbb87c52187397970bb5e8e702774c0adfe2894fcd87ac3213a3e38ee6f2ef188f81375bead20785f90bcf4eac#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37546,6 +37458,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-e447ee6a95/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:8cf8f3f6e4b59251e5d8b0dd31c7bfa00c0d4909e744466542a673f91135eef81589e43108d709ed9c2e6235a97e1c324f323ac55c042dcbd60d4a5e7c7a95fb#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-e1617e841f/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:8cf8f3f6e4b59251e5d8b0dd31c7bfa00c0d4909e744466542a673f91135eef81589e43108d709ed9c2e6235a97e1c324f323ac55c042dcbd60d4a5e7c7a95fb#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

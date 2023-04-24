@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinCodex
 
-![1.3.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coincodex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coincodex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Price adapter to query the price of an asset in USD. Only USD is supported by CoinCodex as a quote currency.
 

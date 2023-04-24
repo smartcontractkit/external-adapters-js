@@ -1,6 +1,6 @@
 # Chainlink Polygon External Adapter
 
-![1.7.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polygon/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.7.17](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polygon/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter is for [Polygon.io](https://polygon.io/) and supports the conversion endpoint.
 

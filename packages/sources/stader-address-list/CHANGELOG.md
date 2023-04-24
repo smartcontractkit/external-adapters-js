@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 2.0.0
 
 ### Major Changes
