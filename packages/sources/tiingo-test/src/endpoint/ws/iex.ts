@@ -25,7 +25,8 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
 
     handlers: {
       message(message) {
-        if (!message?.data?.length || message.messageType !== 'A') {
+        // Only process top-of-book ("Q") messages since price is null in other messages
+        if (!message?.data?.length || message.messageType !== 'A' || message.data[0] !== 'Q') {
           return []
         }
         return [
