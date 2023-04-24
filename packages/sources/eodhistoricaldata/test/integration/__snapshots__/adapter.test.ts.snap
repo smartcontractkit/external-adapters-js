@@ -1,5 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute stock api should fail without overriding 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"base\\":\\"IBTA\\"}}",
+    "message": "Nock: No match for request {
+  \\"method\\": \\"GET\\",
+  \\"url\\": \\"https://eodhistoricaldata.com/api/real-time/IBTA?api_token=fake-api-key&fmt=json\\",
+  \\"headers\\": {
+    \\"accept\\": \\"application/json\\",
+    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
+    \\"pragma\\": \\"no-cache\\",
+    \\"content-type\\": \\"application/json\\",
+    \\"user-agent\\": \\"axios/0.24.0\\"
+  }
+}",
+    "name": "AdapterError",
+    "url": "https:/eodhistoricaldata.com/api/real-time/IBTA",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 0,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute stock api should return success 1`] = `
 Object {
   "data": Object {
@@ -8,6 +33,18 @@ Object {
   "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 7310.3701,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stock api should return success with overriding 1`] = `
+Object {
+  "data": Object {
+    "result": 1310.3701,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1310.3701,
   "statusCode": 200,
 }
 `;
