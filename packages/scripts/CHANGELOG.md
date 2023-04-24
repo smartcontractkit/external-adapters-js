@@ -1,5 +1,19 @@
 # @chainlink/ea-scripts
 
+## 2.5.7
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-factories@1.2.29
+
+## 2.5.6
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
 ## 2.5.5
 
 ### Patch Changes

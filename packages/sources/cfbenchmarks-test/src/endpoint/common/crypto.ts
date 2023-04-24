@@ -15,9 +15,9 @@ import { makeRestTransport } from '../rest/crypto'
 import { makeWsTransport } from '../websocket/crypto'
 
 export type Params = { index?: string; base?: string; quote?: string }
-type RequestParams = { Params: Params }
+export type RequestParams = { Params: Params }
 
-const inputParameters = {
+export const inputParameters = {
   index: {
     description: 'The ID of the index. Takes priority over base/quote when provided.',
     type: 'string',

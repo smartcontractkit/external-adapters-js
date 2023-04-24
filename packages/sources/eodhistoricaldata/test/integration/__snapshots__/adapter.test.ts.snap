@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute stock api should fail without overriding 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"base\\":\\"IBTA\\"}}",
+    "message": "Invalid result received. This is likely an issue with the data provider or the input params/overrides.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute stock api should return success 1`] = `
 Object {
   "data": Object {
@@ -8,6 +21,18 @@ Object {
   "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 7310.3701,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stock api should return success with overriding 1`] = `
+Object {
+  "data": Object {
+    "result": 1310.3701,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1310.3701,
   "statusCode": 200,
 }
 `;
