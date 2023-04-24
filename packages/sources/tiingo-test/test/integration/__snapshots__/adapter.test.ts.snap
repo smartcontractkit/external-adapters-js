@@ -191,12 +191,26 @@ exports[`execute websocket forex endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute websocket iex endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 170.28,
+exports[`execute websocket iex endpoint Q request should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 170.285,
   },
-  "result": 170.28,
+  "result": 170.285,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+  },
+}
+`;
+
+exports[`execute websocket iex endpoint T request should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 106.21,
+  },
+  "result": 106.21,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,

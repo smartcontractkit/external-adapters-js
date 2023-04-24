@@ -2,4 +2,4 @@
 '@chainlink/tiingo-test-adapter': patch
 ---
 
-Fixed IEX websocket message filtering
+Updated IEX ws logic to comply with the metadata dictionary

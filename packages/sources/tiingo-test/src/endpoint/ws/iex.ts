@@ -4,11 +4,37 @@ import { IEXEndpointTypes } from '../common/iex-router'
 interface Message {
   service: string
   messageType: string
-  data: [string, string, string, string, string, number]
+  data: [
+    string,
+    string,
+    number,
+    string,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+  ]
 }
 
 const tickerIndex = 3
-const priceIndex = 5
+
+const priceIndexMap = {
+  lastTrade: 9,
+  quote: 6,
+}
+
+const updateTypeMap = {
+  lastTrade: 'T',
+  quote: 'Q',
+}
 
 type EndpointTypes = IEXEndpointTypes & {
   Provider: {
@@ -25,18 +51,30 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
 
     handlers: {
       message(message) {
-        // Only process top-of-book ("Q") messages since price is null in other messages
-        if (!message?.data?.length || message.messageType !== 'A' || message.data[0] !== 'Q') {
+        const updateType = message.data[0]
+        // Expects Last Trade (T) or Quote (Q) messages
+        if (
+          !message?.data?.length ||
+          message.messageType !== 'A' ||
+          (updateType !== updateTypeMap.lastTrade && updateType !== updateTypeMap.quote)
+        ) {
           return []
+        }
+
+        let result: number
+        if (updateType === updateTypeMap.lastTrade) {
+          result = message.data[priceIndexMap.lastTrade] as number
+        } else {
+          result = message.data[priceIndexMap.quote] as number
         }
         return [
           {
             params: { ticker: message.data[tickerIndex] },
             response: {
               data: {
-                result: message.data[priceIndex],
+                result,
               },
-              result: message.data[priceIndex],
+              result,
             },
           },
         ]

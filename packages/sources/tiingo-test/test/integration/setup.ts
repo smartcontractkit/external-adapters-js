@@ -136,7 +136,7 @@ export const mockCryptoLwbaWebSocketServer = (URL: string): Server => {
 }
 
 export const mockIexWebSocketServer = (URL: string): Server => {
-  const wsResponse = {
+  const wsResponseQ = {
     messageType: 'A',
     service: 'iex',
     data: [
@@ -158,10 +158,33 @@ export const mockIexWebSocketServer = (URL: string): Server => {
       null,
     ],
   }
+  const wsResponseT = {
+    messageType: 'A',
+    service: 'iex',
+    data: [
+      'T',
+      '2022-02-16T12:35:16.595244526-05:00',
+      1645032916595244500,
+      'amzn',
+      null,
+      null,
+      null,
+      null,
+      null,
+      106.21,
+      null,
+      null,
+      0,
+      0,
+      0,
+      0,
+    ],
+  }
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {
-      socket.send(JSON.stringify(wsResponse))
+      socket.send(JSON.stringify(wsResponseQ))
+      socket.send(JSON.stringify(wsResponseT))
     })
   })
 
