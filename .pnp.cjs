@@ -6921,7 +6921,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/promise-timeout", "npm:1.3.0"],\
             ["@types/redux-logger", "npm:3.0.9"],\
             ["@types/remote-redux-devtools", "npm:0.5.5"],\
-            ["@types/sinon", "npm:10.0.13"],\
+            ["@types/sinon", "npm:10.0.14"],\
             ["@types/uuid", "npm:8.3.4"],\
             ["@types/ws", "npm:8.5.4"],\
             ["ajv", "npm:8.11.0"],\
@@ -8416,7 +8416,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/sinon", "npm:10.0.13"],\
+            ["@types/sinon", "npm:10.0.14"],\
             ["axios", "npm:0.24.0"],\
             ["sinon", "npm:12.0.1"],\
             ["tslib", "npm:2.4.1"],\
@@ -8818,7 +8818,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/sinon", "npm:10.0.13"],\
+            ["@types/sinon", "npm:10.0.14"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
             ["sinon", "npm:12.0.1"],\
@@ -15330,10 +15330,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/sinon", [\
-        ["npm:10.0.13", {\
-          "packageLocation": "./.yarn/cache/@types-sinon-npm-10.0.13-c3b4d5d8b7-46a14c888d.zip/node_modules/@types/sinon/",\
+        ["npm:10.0.14", {\
+          "packageLocation": "./.yarn/cache/@types-sinon-npm-10.0.14-424d19565a-b6e1d46bfb.zip/node_modules/@types/sinon/",\
           "packageDependencies": [\
-            ["@types/sinon", "npm:10.0.13"],\
+            ["@types/sinon", "npm:10.0.14"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.2"]\
           ],\
           "linkType": "HARD"\
