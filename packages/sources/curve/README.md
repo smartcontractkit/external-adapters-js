@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-![2.0.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter allows querying Curve.fi contracts
 
@@ -59,7 +59,7 @@ Request:
     "resultPath": "rate"
   },
   "debug": {
-    "cacheKey": "YZV70B+kzz3Gu9THcBM+4QpTL3M="
+    "cacheKey": "8+57VCexLY5xpa6wBMELqPDkP4w="
   }
 }
 ```
@@ -104,7 +104,7 @@ Request:
     "resultPath": "rate"
   },
   "debug": {
-    "cacheKey": "EdPqv6k2ljhklc2bKAeo4fT5Jmk="
+    "cacheKey": "GtHEA0XyZDBJS8lIwWVQtfKtIRM="
   }
 }
 ```

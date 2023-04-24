@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Gemini
 
-![2.2.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gemini/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gemini/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 An external adapter to get data from Gemini
 

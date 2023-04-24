@@ -1,5 +1,15 @@
 # @chainlink/tiingo-test-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- e4ec2c3fa: Changed default transport to ws
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 1.3.1
 
 ### Patch Changes
