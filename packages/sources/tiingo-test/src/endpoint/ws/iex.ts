@@ -24,6 +24,7 @@ interface Message {
   ]
 }
 
+const dateIndex = 1
 const tickerIndex = 3
 
 const priceIndexMap = {
@@ -75,6 +76,9 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
                 result,
               },
               result,
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(message.data[dateIndex]).getTime(),
+              },
             },
           },
         ]

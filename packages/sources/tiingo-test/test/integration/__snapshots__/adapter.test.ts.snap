@@ -152,6 +152,7 @@ exports[`execute websocket crypto endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1646249828102,
   },
 }
 `;
@@ -187,6 +188,7 @@ exports[`execute websocket forex endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1649964792474,
   },
 }
 `;
@@ -201,6 +203,7 @@ Object {
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1645032916595,
   },
 }
 `;
@@ -215,6 +218,7 @@ Object {
   "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1645032916595,
   },
 }
 `;
