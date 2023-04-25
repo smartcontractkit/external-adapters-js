@@ -17,7 +17,7 @@ describe('websocket', () => {
   let req: SuperTest<Test>
   let mockWsServer: Server | undefined
   let spy: jest.SpyInstance
-  const wsEndpoint = 'ws://localhost:9090/v4/timeseries-stream/pair-quotes'
+  const wsEndpoint = 'ws://localhost:9090/v4/timeseries-stream/asset-quotes'
 
   jest.setTimeout(30_000)
 
