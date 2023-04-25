@@ -1,5 +1,12 @@
 # @chainlink/intrinio-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- de8ce7352: Fixed websocket logic
+- 9bcb13c90: Bumped framework version
+
 ## 1.2.0
 
 ### Minor Changes

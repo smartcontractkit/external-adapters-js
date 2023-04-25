@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/polkadot-balance-adapter",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Chainlink Polkadot balance adapter.",
   "keywords": [
     "Chainlink",

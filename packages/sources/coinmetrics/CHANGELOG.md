@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.0.5
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
 ## 3.0.4
 
 ### Patch Changes

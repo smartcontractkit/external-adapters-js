@@ -1,5 +1,15 @@
 # @chainlink/dar-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 1fa35713b: Updated DAR websocket endpoint
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
 ## 1.1.8
 
 ### Patch Changes

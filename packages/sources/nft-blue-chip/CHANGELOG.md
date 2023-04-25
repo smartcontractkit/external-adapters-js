@@ -1,5 +1,11 @@
 # @chainlink/nft-blue-chip-adapter
 
+## 1.1.9
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
 ## 1.1.8
 
 ### Patch Changes

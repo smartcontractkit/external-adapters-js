@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/openexchangerates-test-adapter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Chainlink openexchangerates-test adapter.",
   "keywords": [
     "Chainlink",

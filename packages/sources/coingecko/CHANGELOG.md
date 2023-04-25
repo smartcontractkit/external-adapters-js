@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
 ## 2.0.1
 
 ### Patch Changes

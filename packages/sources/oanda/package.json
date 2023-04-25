@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/oanda-adapter",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Chainlink Oanda adapter.",
   "keywords": [
     "Chainlink",
