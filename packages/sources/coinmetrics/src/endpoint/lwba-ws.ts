@@ -93,7 +93,7 @@ export const calculatePairQuotesUrl = (
   desiredSubs: WsCryptoLwbaEndpointTypes['Request']['Params'][],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
-  const assets = [...new Set(desiredSubs.map((pair) => pair.base))].join(',')
+  const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].join(',')
   const generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
   generated.searchParams.append('assets', assets)
   generated.searchParams.append('api_key', API_KEY)
