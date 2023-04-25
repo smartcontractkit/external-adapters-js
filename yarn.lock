@@ -3119,7 +3119,7 @@ __metadata:
     ts-jest: 27.0.5
     tslib: 2.3.1
     typescript: 4.9.5
-    yaml: 1.10.2
+    yaml: 2.2.2
   languageName: unknown
   linkType: soft
 
@@ -30782,17 +30782,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:1.10.2, yaml@npm:^1.10.0":
-  version: 1.10.2
-  resolution: "yaml@npm:1.10.2"
-  checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
-  languageName: node
-  linkType: hard
-
 "yaml@npm:2.0.0-1":
   version: 2.0.0-1
   resolution: "yaml@npm:2.0.0-1"
   checksum: ccfbd1424dbf205a8828593faa91dfd40bd21e3fb575e257280d3526ade9508f3ea0acbe7605abc81bac6b4d6729ddb5b3de6bd818232f48480fd1eda8d7fd4c
+  languageName: node
+  linkType: hard
+
+"yaml@npm:2.2.2":
+  version: 2.2.2
+  resolution: "yaml@npm:2.2.2"
+  checksum: d90c235e099e30094dcff61ba3350437aef53325db4a6bcd04ca96e1bfe7e348b191f6a7a52b5211e2dbc4eeedb22a00b291527da030de7c189728ef3f2b4eb3
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^1.10.0":
+  version: 1.10.2
+  resolution: "yaml@npm:1.10.2"
+  checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
   languageName: node
   linkType: hard
 
