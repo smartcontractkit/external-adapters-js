@@ -88,16 +88,14 @@ type WsPairQuoteMessage =
   | WsCryptoLwbaErrorResponse
   | WsCryptoLwbaReorgResponse
 
-export const calculatPairQuotesUrl = (
+export const calculatePairQuotesUrl = (
   context: EndpointContext<WsCryptoLwbaEndpointTypes>,
   desiredSubs: WsCryptoLwbaEndpointTypes['Request']['Params'][],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
-  const pairs = [
-    ...new Set(desiredSubs.map((sub) => `${sub.base.toLowerCase()}-${sub.quote.toLowerCase()}`)),
-  ].join(',')
-  const generated = new URL('/v4/timeseries-stream/pair-quotes', WS_API_ENDPOINT)
-  generated.searchParams.append('pairs', pairs)
+  const assets = [...new Set(desiredSubs.map((pair) => pair.base))].join(',')
+  const generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
+  generated.searchParams.append('assets', assets)
   generated.searchParams.append('api_key', API_KEY)
   logger.debug(`Generated URL: ${generated.toString()}`)
   return generated.toString()
@@ -146,7 +144,7 @@ export const handleCryptoLwbaMessage = (
 
 export const wsTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
   url: (context, desiredSubs) => {
-    return calculatPairQuotesUrl(context, desiredSubs)
+    return calculatePairQuotesUrl(context, desiredSubs)
   },
   handlers: {
     message(message: WsPairQuoteMessage): ProviderResult<WsCryptoLwbaEndpointTypes>[] | undefined {
