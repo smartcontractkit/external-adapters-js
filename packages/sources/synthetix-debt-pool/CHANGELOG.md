@@ -1,5 +1,11 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 4.1.0
+
+### Minor Changes
+
+- 0044182c7: Modifications for SIP-237: Debt Migration
+
 ## 4.0.14
 
 ### Patch Changes

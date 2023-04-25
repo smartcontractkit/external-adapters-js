@@ -1,6 +1,6 @@
 # CFBENCHMARKS
 
-![1.4.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cfbenchmarks-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cfbenchmarks-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,8 +15,8 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |       API_SECONDARY       |                 Toggle using the secondary API base URLs                 | boolean |         |                 `false`                  |
 |           |  SECONDARY_API_ENDPOINT   |   The secondary REST API base url that is toggled using API_SECONDARY    | string  |         | `https://unregprod.cfbenchmarks.com/api` |
 |           | SECONDARY_WS_API_ENDPOINT | The secondary WebSocket API base url that is toggled using API_SECONDARY | string  |         | `wss://unregprod.cfbenchmarks.com/ws/v4` |
-|           |        BIRC_RETRY         |          How many times to retry if the BIRC API request fails           |         |         |                   `3`                    |
-|           |    BIRC_RETRY_DELAY_MS    |      How many miliseconds to wait between BIRC API request retries       |         |         |                  `1000`                  |
+|           |        BIRC_RETRY         |          How many times to retry if the BIRC API request fails           | number  |         |                   `3`                    |
+|           |    BIRC_RETRY_DELAY_MS    |      How many miliseconds to wait between BIRC API request retries       | number  |         |                  `1000`                  |
 
 ---
 
@@ -24,9 +24,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                  Options                                                  | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [birc](#birc-endpoint), [crypto](#crypto-endpoint), [price](#crypto-endpoint), [values](#crypto-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                       Options                                                                                        | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [birc](#birc-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto_lwba-endpoint), [cryptolwba](#crypto_lwba-endpoint), [price](#crypto-endpoint), [values](#crypto-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -55,6 +55,24 @@ There are no examples for this endpoint.
 | Required? | Name  | Aliases |                  Description                  |  Type  |                        Options                         | Default | Depends On | Not Valid With |
 | :-------: | :---: | :-----: | :-------------------------------------------: | :----: | :----------------------------------------------------: | :-----: | :--------: | :------------: |
 |    ✅     | tenor |         | The tenor value to pull from the API response | string | `1M`, `1W`, `2M`, `2W`, `3M`, `3W`, `4M`, `5M`, `SIRB` |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Crypto_lwba Endpoint
+
+Supported names for this endpoint are: `crypto_lwba`, `cryptolwba`.
+
+### Input Params
+
+| Required? | Name  |    Aliases     |                            Description                             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :----------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           | index |                | The ID of the index. Takes priority over base/quote when provided. | string |         |         |            |                |
+|           | base  | `coin`, `from` |           The symbol of symbols of the currency to query           | string |         |         |            |                |
+|           | quote | `market`, `to` |              The symbol of the currency to convert to              | string |         |         |            |                |
 
 ### Example
 
