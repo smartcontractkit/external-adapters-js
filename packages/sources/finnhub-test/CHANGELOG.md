@@ -1,5 +1,11 @@
 # @chainlink/finnhub-test-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
 ## 1.0.0
 
 ### Major Changes

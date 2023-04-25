@@ -1,17 +1,17 @@
 # DAR
 
-![1.1.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dar/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dar/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |           Description           |  Type  | Options |                              Default                              |
-| :-------: | :-------------: | :-----------------------------: | :----: | :-----: | :---------------------------------------------------------------: |
-|           |  API_ENDPOINT   | Base URL for DAR REST endpoints | string |         |          `https://api-beta.digitalassetresearch.com/v2`           |
-|           | WS_API_ENDPOINT |     WS URL for the DAR API      | string |         | `wss://6xfpgjrsh4.execute-api.us-east-1.amazonaws.com/production` |
-|    ✅     |   WS_API_KEY    |       Key for the DAR API       | string |         |                                                                   |
-|    ✅     | WS_API_USERNAME |    Username for the DAR API     | string |         |                                                                   |
+| Required? |      Name       |           Description           |  Type  | Options |                    Default                     |
+| :-------: | :-------------: | :-----------------------------: | :----: | :-----: | :--------------------------------------------: |
+|           |  API_ENDPOINT   | Base URL for DAR REST endpoints | string |         | `https://api-beta.digitalassetresearch.com/v2` |
+|           | WS_API_ENDPOINT |     WS URL for the DAR API      | string |         | `wss://dar-ws-400ms.digitalassetresearch.com`  |
+|    ✅     |   WS_API_KEY    |       Key for the DAR API       | string |         |                                                |
+|    ✅     | WS_API_USERNAME |    Username for the DAR API     | string |         |                                                |
 
 ---
 
