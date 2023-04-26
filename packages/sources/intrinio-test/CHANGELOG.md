@@ -1,5 +1,22 @@
 # @chainlink/intrinio-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- de8ce7352: Fixed websocket logic
+- 9bcb13c90: Bumped framework version
+
+## 1.2.0
+
+### Minor Changes
+
+- e0fe0a602: Added custom routing using WS_ENABLED env var
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 1.1.7
 
 ### Patch Changes

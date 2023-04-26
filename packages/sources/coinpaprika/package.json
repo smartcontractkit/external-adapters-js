@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinpaprika-adapter",
-  "version": "1.10.21",
+  "version": "1.10.22",
   "description": "Chainlink coinpaprika adapter.",
   "keywords": [
     "Chainlink",

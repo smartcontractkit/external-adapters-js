@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Stasis
 
-![1.2.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stasis/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stasis/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Stasis adapter to get Circulating Supply of EURS
 

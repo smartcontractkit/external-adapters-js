@@ -25,7 +25,6 @@ export const includableAdapterRequestProperties: string[] = ['data'].concat(
 
 /** Common keys within adapter requests that should be ignored within "data" to create a stable key*/
 export const excludableInternalAdapterRequestProperties = [
-  'resultPath', // TODO: this too?
   'overrides',
   'tokenOverrides',
   'includes',

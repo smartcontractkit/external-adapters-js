@@ -5,7 +5,7 @@ import { Server, WebSocket } from 'mock-socket'
 import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { config } from '../../src/config'
-import { birc, crypto } from '../../src/endpoint'
+import { birc, crypto, cryptolwba } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -47,7 +47,7 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
   provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export const mockWebSocketServer = (URL: string): Server => {
+export const mockCryptoWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', (_) => {
@@ -65,10 +65,32 @@ export const mockWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
+export const mockLwbaWebSocketServer = (URL: string): Server => {
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', (_) => {
+      socket.send(
+        JSON.stringify({
+          type: 'rti_stats',
+          time: 1677876163000,
+          id: 'U_ETHUSD_RTI',
+          value: '1.1635',
+          utilizedDepth: '1888000.0',
+          valueAsk: '1.1662',
+          valueBid: '1.1607',
+          midPrice: '1.1631',
+        }),
+      )
+    })
+  })
+
+  return mockWsServer
+}
+
 export const createAdapter = () => {
   return new Adapter({
     name: 'CFBENCHMARKS',
-    endpoints: [crypto, birc],
+    endpoints: [crypto, birc, cryptolwba],
     defaultEndpoint: crypto.name,
     config,
   })

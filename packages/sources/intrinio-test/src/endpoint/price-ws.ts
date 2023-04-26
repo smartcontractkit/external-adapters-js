@@ -26,7 +26,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
-    WsMessage: IntrinioFeedMessage[]
+    WsMessage: IntrinioFeedMessage
   }
 }
 
@@ -54,24 +54,27 @@ export const wsTransport: IntrinioWebsocketTransport<EndpointTypes> =
         connection.send(heartbeatMsg)
       },
       message(message) {
-        return message
-          .filter((msg) => msg.event === 'quote' && msg.payload?.type === 'last')
-          .map((msg) => {
-            const base = msg.payload.ticker
-            const price = msg.payload.price
-            return {
-              params: { base },
-              response: {
+        if (message.event !== 'quote' || !message.payload || message.payload?.type !== 'last') {
+          return []
+        }
+
+        const base = message.payload.ticker
+        const price = message.payload.price
+
+        return [
+          {
+            params: { base },
+            response: {
+              result: price,
+              data: {
                 result: price,
-                data: {
-                  result: price,
-                },
-                timestamps: {
-                  providerIndicatedTimeUnixMs: new Date(msg.payload.timestamp).getTime(),
-                },
               },
-            }
-          })
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(message.payload.timestamp * 1000).getTime(), // Convert to proper timestamp
+              },
+            },
+          },
+        ]
       },
     },
     builders: {

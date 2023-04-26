@@ -1,39 +1,39 @@
-# Chainlink External Adapter for CryptoCompare
+# CRYPTOCOMPARE
 
-![1.4.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-Base URL wss://streamer.cryptocompare.com/v2
+![2.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   |                                      Description                                       |  Type  | Options | Default |
-| :-------: | :-----: | :------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://min-api.cryptocompare.com/pricing) | string |         |         |
+| Required? |      Name       |                              Description                              |  Type   | Options |                Default                |
+| :-------: | :-------------: | :-------------------------------------------------------------------: | :-----: | :-----: | :-----------------------------------: |
+|           |  API_ENDPOINT   |                  The HTTP URL to retrieve data from                   | string  |         |  `https://min-api.cryptocompare.com`  |
+|           | WS_API_ENDPOINT |                   The WS URL to retrieve data from                    | string  |         | `wss://streamer.cryptocompare.com/v2` |
+|    ✅     |     API_KEY     |                       The CryptoCompare API key                       | string  |         |                                       |
+|           |   WS_API_KEY    | The websocket API key to authenticate with, if different from API_KEY | string  |         |                                       |
+|           |   WS_ENABLED    |         Whether data should be returned from websocket or not         | boolean |         |                `false`                |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                 Options                                                                                 | Default  |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                  Options                                                                                   | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [marketcap](#marketcap-endpoint), [price](#crypto-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
-**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
-
-Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? | Name  |        Aliases         |               Description                | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :--------------------: | :--------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from`, `fsym` |   The symbol of the currency to query    |      |         |         |            |                |
-|    ✅     | quote | `market`, `to`, `tsym` | The symbol of the currency to convert to |      |         |         |            |                |
+| Required? | Name  |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
@@ -536,11 +536,11 @@ Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 
 ### Input Params
 
-| Required? | Name  |        Aliases         |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :--------------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from`, `fsym` |   The symbol of the currency to query    |        |         |         |            |                |
-|    ✅     | quote | `market`, `to`, `tsym` | The symbol of the currency to convert to |        |         |         |            |                |
-|           | hours |                        |     Number of hours to get VWAP for      | number |         |  `24`   |            |                |
+| Required? | Name  |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
+|           | hours |                        |        Number of hours to get VWAP for         | number |         |  `24`   |            |                |
 
 ### Example
 
@@ -580,6 +580,40 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+---
+
+## Volume Endpoint
+
+`volume` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name  |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Marketcap Endpoint
+
+`marketcap` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name  |        Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
 
 ---
 

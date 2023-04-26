@@ -1,5 +1,17 @@
 # @chainlink/coinmarketcap-adapter
 
+## 2.0.5
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 2.0.4
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 2.0.3
 
 ### Patch Changes

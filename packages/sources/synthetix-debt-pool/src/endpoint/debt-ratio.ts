@@ -10,10 +10,11 @@ import {
   getAddressResolver,
   getContractAddress,
   getDataFromAcrossChains,
+  getDebtMigratorName,
   inputParameters as commonInputParameters,
 } from '../utils'
 import { Config } from '../config'
-import { SYNTHETIX_DEBT_SHARE_ABI } from './abi'
+import { DEBT_MIGRATOR_ABI, SYNTHETIX_DEBT_SHARE_ABI } from './abi'
 import { getDebtIssued } from './debt'
 
 export const inputParameters = commonInputParameters
@@ -71,7 +72,25 @@ const getDebtRatio = async (
           SYNTHETIX_DEBT_SHARE_ABI,
           networkProvider,
         )
-        const chainTotalDebtShare = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
+        const debtShareTotalSupply = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
+
+        const debtMigratorAddress = await getContractAddress(
+          networkProvider,
+          addressResolverAddress,
+          getDebtMigratorName(network, jobRunID),
+        )
+        const debtMigrator = new ethers.Contract(
+          debtMigratorAddress,
+          DEBT_MIGRATOR_ABI,
+          networkProvider,
+        )
+        const debtTransferReceived = await debtMigrator.debtTransferReceived({
+          blockTag: blockNumber,
+        })
+        const debtTransferSent = await debtMigrator.debtTransferSent({ blockTag: blockNumber })
+        const chainTotalDebtShare = debtShareTotalSupply.add(
+          debtTransferSent.sub(debtTransferReceived),
+        )
         return {
           totalDebtIssued: issuedSynths,
           totalDebtShares: chainTotalDebtShare,

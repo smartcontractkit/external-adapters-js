@@ -4,6 +4,7 @@ import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alongside from '@chainlink/alongside-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
+import * as alphavantage_test from '@chainlink/alphavantage-test-adapter'
 import * as alpine from '@chainlink/alpine-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
@@ -20,7 +21,6 @@ import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
-import * as blocksize_capital_test from '@chainlink/blocksize-capital-test-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bob from '@chainlink/bob-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
@@ -32,7 +32,6 @@ import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
-import * as coinapi_test from '@chainlink/coinapi-test-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
@@ -47,7 +46,6 @@ import * as cryptex from '@chainlink/cryptex-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
-import * as cryptocompare_test from '@chainlink/cryptocompare-test-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
@@ -75,6 +73,7 @@ import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finage_test from '@chainlink/finage-test-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
+import * as finnhub_test from '@chainlink/finnhub-test-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fluent_finance from '@chainlink/fluent-finance-adapter'
@@ -90,7 +89,6 @@ import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
 import * as icap from '@chainlink/icap-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
-import * as iex_cloud_test from '@chainlink/iex-cloud-test-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as intrinio_test from '@chainlink/intrinio-test-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -114,7 +112,6 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
-import * as nomics_test from '@chainlink/nomics-test-adapter'
 import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
@@ -171,6 +168,7 @@ export default {
   alongside,
   alphachain,
   alphavantage,
+  alphavantage_test,
   alpine,
   amberdata,
   anyblock,
@@ -187,7 +185,6 @@ export default {
   blockchair,
   blockcypher,
   blocksize_capital,
-  blocksize_capital_test,
   blockstream,
   bob,
   bravenewcoin,
@@ -199,7 +196,6 @@ export default {
   cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
-  coinapi_test,
   coinbase,
   coincodex,
   coingecko,
@@ -214,7 +210,6 @@ export default {
   cryptoapis,
   cryptoapis_v2,
   cryptocompare,
-  cryptocompare_test,
   cryptoid,
   cryptomkt,
   currencylayer,
@@ -242,6 +237,7 @@ export default {
   finage,
   finage_test,
   finnhub,
+  finnhub_test,
   fixer,
   flightaware,
   fluent_finance,
@@ -257,7 +253,6 @@ export default {
   gsr,
   icap,
   iex_adapter,
-  iex_cloud_test,
   intrinio,
   intrinio_test,
   ipfs,
@@ -281,7 +276,6 @@ export default {
   nft_blue_chip,
   nikkei,
   nomics,
-  nomics_test,
   oanda,
   oilpriceapi,
   onchain_gas,

@@ -41,6 +41,9 @@ export const endpoint = new AdapterEndpoint({
     .register('ws', buildDxFeedWsTransport())
     .register('rest', buildDxFeedHttpTransport()),
   defaultTransport: 'rest',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+  },
   inputParameters: inputParameters,
   overrides: overrides.dxfeed,
   customInputValidation,

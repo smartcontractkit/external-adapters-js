@@ -1,5 +1,22 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- ce2cd0f6a: EA CFB LWBA Adapter
+- 213c52819: Updated framework version for cfbenchmarks-test to 0.28.4. Added custom transport for BIRC endpoint. Added response data validation to BIRC endpoint. Added additional config for BIRC request
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 1.4.6
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 1.4.5
 
 ### Patch Changes

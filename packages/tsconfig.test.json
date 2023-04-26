@@ -141,6 +141,9 @@
       "path": "./sources/alphavantage/tsconfig.test.json"
     },
     {
+      "path": "./sources/alphavantage-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -189,9 +192,6 @@
       "path": "./sources/blocksize-capital/tsconfig.test.json"
     },
     {
-      "path": "./sources/blocksize-capital-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/blockstream/tsconfig.test.json"
     },
     {
@@ -223,9 +223,6 @@
     },
     {
       "path": "./sources/coinapi/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/coinapi-test/tsconfig.test.json"
     },
     {
       "path": "./sources/coinbase/tsconfig.test.json"
@@ -268,9 +265,6 @@
     },
     {
       "path": "./sources/cryptocompare/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/cryptocompare-test/tsconfig.test.json"
     },
     {
       "path": "./sources/cryptoid/tsconfig.test.json"
@@ -354,6 +348,9 @@
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
+      "path": "./sources/finnhub-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {
@@ -397,9 +394,6 @@
     },
     {
       "path": "./sources/iex-cloud/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/iex-cloud-test/tsconfig.test.json"
     },
     {
       "path": "./sources/intrinio/tsconfig.test.json"
@@ -469,9 +463,6 @@
     },
     {
       "path": "./sources/nomics/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nomics-test/tsconfig.test.json"
     },
     {
       "path": "./sources/oanda/tsconfig.test.json"

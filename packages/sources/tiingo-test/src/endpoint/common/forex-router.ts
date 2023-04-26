@@ -37,7 +37,7 @@ export const endpoint = new AdapterEndpoint({
   transportRoutes: new TransportRoutes<ForexEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
-  defaultTransport: 'rest',
+  defaultTransport: 'ws',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
 })

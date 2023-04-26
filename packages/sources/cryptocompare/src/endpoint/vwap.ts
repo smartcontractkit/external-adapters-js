@@ -1,29 +1,25 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
+import { config } from '../config'
+import {
+  PriceEndpoint,
+  PriceEndpointInputParameters,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['vwap', 'crypto-vwap']
-
-interface ConversionType {
-  type: string
-  conversionSymbol: string
-}
-
-export interface ResponseSchema {
-  ConversionType: ConversionType
-  [quoteSymbol: string]: number | ConversionType // ConversionType is needed as an option here, because types
-}
-
-export type TInputParameters = { base: string; quote: string; hours: number }
-export const inputParameters: InputParameters<TInputParameters> = {
+export const inputParams = {
   base: {
     aliases: ['from', 'coin', 'fsym'],
-    description: 'The symbol of the currency to query',
+    description: 'The symbol of symbols of the currency to query',
+    type: 'string',
     required: true,
   },
   quote: {
     aliases: ['to', 'market', 'tsym'],
     description: 'The symbol of the currency to convert to',
+    type: 'string',
     required: true,
   },
   hours: {
@@ -31,39 +27,82 @@ export const inputParameters: InputParameters<TInputParameters> = {
     type: 'number',
     default: 24,
   },
+} satisfies InputParameters & PriceEndpointInputParameters
+
+interface ResponseSchema {
+  [quoteSymbol: string]: number
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-  const url = `/data/dayAvg`
-  let symbol = validator.overrideSymbol<string | string[]>(
-    AdapterName,
-    validator.validated.data.base,
-  )
-  if (Array.isArray(symbol)) symbol = symbol[0]
-  const quote = validator.validated.data.quote
-
-  const subMs = validator.validated.data.hours * 60 * 60 * 1000
-  const toDate = new Date(new Date().getTime() - subMs)
-  toDate.setUTCHours(0, 0, 0, 0)
-
-  const params = {
-    fsym: symbol.toUpperCase(),
-    tsym: quote.toUpperCase(),
-    toTs: Math.ceil(toDate.getTime() / 1000),
-  }
-
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response = await Requester.request<ResponseSchema>(options)
-
-  const result = Requester.validateResultNumber(response.data, [quote.toUpperCase()])
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+interface ErrorResponse {
+  Message: string
+  Response: string
+  Type: number
 }
+
+type BatchEndpointTypes = {
+  Request: {
+    Params: PriceEndpointParams & { hours: number }
+  }
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema | ErrorResponse
+  }
+}
+
+const httpTransport = new HttpTransport<BatchEndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      const subMs = param.hours * 60 * 60 * 1000
+      const toDate = new Date(new Date().getTime() - subMs)
+      toDate.setUTCHours(0, 0, 0, 0)
+      return {
+        params: [param],
+        request: {
+          baseURL: config.API_ENDPOINT,
+          url: '/data/dayAvg',
+          params: {
+            fsym: param.base.toUpperCase(),
+            tsym: param.quote.toUpperCase(),
+            toTs: Math.ceil(toDate.getTime() / 1000),
+          },
+        },
+      }
+    })
+  },
+  parseResponse: (params, res) => {
+    if (res.data.Response === 'Error') {
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage: (res.data as ErrorResponse).Message,
+            statusCode: 400,
+          },
+        }
+      })
+    }
+
+    return params.map((param) => {
+      const result = (res.data as ResponseSchema)[param.quote.toUpperCase()]
+      return {
+        params: param,
+        response: {
+          data: {
+            result,
+          },
+          result,
+        },
+      }
+    })
+  },
+})
+
+export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
+  name: 'vwap',
+  aliases: ['crypto-vwap'],
+  transport: httpTransport,
+  inputParameters: inputParams,
+  overrides: overrides.cryptocompare,
+})

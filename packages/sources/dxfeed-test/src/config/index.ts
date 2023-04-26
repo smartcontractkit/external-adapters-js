@@ -30,4 +30,9 @@ export const config = new AdapterConfig({
       return ''
     },
   },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
 })

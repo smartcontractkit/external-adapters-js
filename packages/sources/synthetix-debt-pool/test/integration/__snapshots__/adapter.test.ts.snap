@@ -3,10 +3,10 @@
 exports[`synthetix-debt-pool debt successfully fetches the current debt size of the synthetix debt cache across "mainnet" and "mainnet-ovm" if chainSources is missing 1`] = `
 Object {
   "data": Object {
-    "result": "313273662056626393719587417",
+    "result": "313273658056626393719587417",
   },
   "jobRunID": 1,
-  "result": "313273662056626393719587417",
+  "result": "313273658056626393719587417",
   "statusCode": 200,
 }
 `;
@@ -25,10 +25,10 @@ Object {
 exports[`synthetix-debt-pool debt-ratio successfully fetches the debt ratio across all chains if chainSources is missing 1`] = `
 Object {
   "data": Object {
-    "result": "1238571609475840936653472110",
+    "result": "1238571593661276745783695103",
   },
   "jobRunID": 1,
-  "result": "1238571609475840936653472110",
+  "result": "1238571593661276745783695103",
   "statusCode": 200,
 }
 `;
@@ -36,10 +36,10 @@ Object {
 exports[`synthetix-debt-pool debt-ratio successfully fetches the debt ratio for only one chain 1`] = `
 Object {
   "data": Object {
-    "result": "1279602884512569813149879191",
+    "result": "1279602860653050512101136483",
   },
   "jobRunID": 1,
-  "result": "1279602884512569813149879191",
+  "result": "1279602860653050512101136483",
   "statusCode": 200,
 }
 `;

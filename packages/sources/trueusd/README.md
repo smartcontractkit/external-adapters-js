@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TrueUSD
 
-![1.6.18](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.6.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.real-time-attest.trustexplorer.io
 
@@ -48,7 +48,7 @@ Request:
     "resultPath": "totalTrust"
   },
   "debug": {
-    "cacheKey": "kQAHeHapBfNqwyQZWhSsSGx6zIA="
+    "cacheKey": "Xjl35TNLr/6IYr18ZLY1HZx9Qq8="
   }
 }
 ```
@@ -137,7 +137,7 @@ Request:
     "resultPath": "totalToken"
   },
   "debug": {
-    "cacheKey": "kQAHeHapBfNqwyQZWhSsSGx6zIA="
+    "cacheKey": "W4j9iCljgWsL4OTZauhuSChjVQw="
   }
 }
 ```
@@ -224,7 +224,7 @@ Request:
     "resultPath": "totalTrust"
   },
   "debug": {
-    "cacheKey": "6WLGWNlp3Yz32n40twAcGx8Cjx8="
+    "cacheKey": "xJmo09VwCgPd+Xy0olMFBYdIkZM="
   }
 }
 ```
@@ -311,7 +311,7 @@ Request:
     "resultPath": "totalTokenByChain"
   },
   "debug": {
-    "cacheKey": "qYGVHwh/4Rr2N5DW4hjmuiPr5bQ="
+    "cacheKey": "A3y8mHxKZ25XLVvzsC4hG7WgVac="
   }
 }
 ```

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/upvest-adapter",
-  "version": "1.3.29",
+  "version": "1.3.30",
   "description": "Chainlink upvest adapter.",
   "keywords": [
     "Chainlink",

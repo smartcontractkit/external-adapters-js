@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/spectral-macro-score-adapter",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "Chainlink spectral-macro-score adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "@types/sinon": "10.0.13",
+    "@types/sinon": "10.0.14",
     "nock": "13.2.9",
     "sinon": "12.0.1",
     "typescript": "4.9.5"

@@ -1,5 +1,21 @@
 # @chainlink/cryptocompare-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 2.0.0
+
+### Major Changes
+
+- 873f53a8a: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 1.4.29
 
 ### Patch Changes

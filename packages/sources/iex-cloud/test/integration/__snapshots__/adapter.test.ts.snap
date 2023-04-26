@@ -1,37 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute crypto rate api should return success 1`] = `
+exports[`execute crypto endpoint should return success 1`] = `
 Object {
   "data": Object {
     "result": 4539.44,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4539.44,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute eod  api should return success 1`] = `
+exports[`execute eod endpoint should return success 1`] = `
 Object {
   "data": Object {
     "result": 48.77,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 48.77,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute stock api should return success 1`] = `
+exports[`execute stock endpoint should return success 1`] = `
 Object {
   "data": Object {
     "result": 48.77,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 48.77,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;

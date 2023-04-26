@@ -91,19 +91,17 @@ export const mockWebSocketServer = (url: string) => {
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {
       socket.send(
-        JSON.stringify([
-          {
-            topic: 'iex:securities:AAPL',
-            payload: {
-              type: 'last',
-              timestamp: 1646336888.345325,
-              ticker: 'AAPL',
-              size: 100,
-              price: 166.91,
-            },
-            event: 'quote',
+        JSON.stringify({
+          topic: 'iex:securities:AAPL',
+          payload: {
+            type: 'last',
+            timestamp: 1646336888.345325,
+            ticker: 'AAPL',
+            size: 100,
+            price: 166.91,
           },
-        ]),
+          event: 'quote',
+        }),
       )
     })
   })

@@ -1,31 +1,45 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import * as process from 'process'
-import { server as startServer } from '../../src'
-import { mockResponseSuccess } from './fixtures'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
+import { setupExternalAdapterTest, SuiteContext } from './setup'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
+  let spy: jest.SpyInstance
+  beforeAll(async () => {
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    done()
+  })
+
   const context: SuiteContext = {
     req: null,
-    server: startServer,
+    server: async () => {
+      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '5000'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['API_KEY'] = 'fake-api-key'
+      const server = (await import('../../src')).server
+      return server() as Promise<ServerInstance>
+    },
   }
 
   const envVariables = {
     CACHE_ENABLED: 'false',
-    API_KEY: process.env.API_KEY || 'fake-api-key',
   }
 
   setupExternalAdapterTest(envVariables, context)
-  describe('crypto rate api', () => {
-    const data: AdapterRequest = {
+
+  describe('crypto endpoint', () => {
+    const data = {
       id,
       data: {
-        endpoint: 'crypto',
         base: 'ETH',
         quote: 'USD',
+        endpoint: 'crypto',
       },
     }
 
@@ -43,11 +57,12 @@ describe('execute', () => {
     })
   })
 
-  describe('stock api', () => {
-    const data: AdapterRequest = {
+  describe('stock endpoint', () => {
+    const data = {
       id,
       data: {
         base: 'USD',
+        endpoint: 'stock',
       },
     }
 
@@ -65,12 +80,12 @@ describe('execute', () => {
     })
   })
 
-  describe('eod  api', () => {
-    const data: AdapterRequest = {
+  describe('eod endpoint', () => {
+    const data = {
       id,
       data: {
+        base: 'USD',
         endpoint: 'eod',
-        base: 'USD',
       },
     }
 

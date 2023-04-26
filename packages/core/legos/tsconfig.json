@@ -29,6 +29,9 @@
       "path": "../../sources/alphavantage"
     },
     {
+      "path": "../../sources/alphavantage-test"
+    },
+    {
       "path": "../../sources/alpine"
     },
     {
@@ -77,9 +80,6 @@
       "path": "../../sources/blocksize-capital"
     },
     {
-      "path": "../../sources/blocksize-capital-test"
-    },
-    {
       "path": "../../sources/blockstream"
     },
     {
@@ -111,9 +111,6 @@
     },
     {
       "path": "../../sources/coinapi"
-    },
-    {
-      "path": "../../sources/coinapi-test"
     },
     {
       "path": "../../sources/coinbase"
@@ -156,9 +153,6 @@
     },
     {
       "path": "../../sources/cryptocompare"
-    },
-    {
-      "path": "../../sources/cryptocompare-test"
     },
     {
       "path": "../../sources/cryptoid"
@@ -242,6 +236,9 @@
       "path": "../../sources/finnhub"
     },
     {
+      "path": "../../sources/finnhub-test"
+    },
+    {
       "path": "../../sources/fixer"
     },
     {
@@ -285,9 +282,6 @@
     },
     {
       "path": "../../sources/iex-cloud"
-    },
-    {
-      "path": "../../sources/iex-cloud-test"
     },
     {
       "path": "../../sources/intrinio"
@@ -357,9 +351,6 @@
     },
     {
       "path": "../../sources/nomics"
-    },
-    {
-      "path": "../../sources/nomics-test"
     },
     {
       "path": "../../sources/oanda"

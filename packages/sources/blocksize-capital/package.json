@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/blocksize-capital-adapter",
-  "version": "1.0.40",
+  "version": "2.0.1",
   "description": "Chainlink blocksize-capital adapter.",
   "keywords": [
     "Chainlink",
@@ -28,14 +28,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
+    "@chainlink/external-adapter-framework": "0.28.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
+    "mock-socket": "9.1.5",
+    "nock": "13.2.9",
     "supertest": "6.2.4",
     "typescript": "4.9.5"
   }

@@ -1,26 +1,14 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  CryptoPriceEndpoint,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
-export const supportedEndpoints = ['crypto']
-
-export type TInputParameters = { base: string; quote: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    aliases: ['from', 'coin', 'asset', 'symbol'],
-    description: 'The symbol to query',
-    required: true,
-    type: 'string',
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The symbol to convert to',
-    required: true,
-    type: 'string',
-  },
-}
-
-export interface ResponseSchema {
+interface ResponseSchema {
   symbol: string
   primaryExchange: string
   sector: string
@@ -34,29 +22,76 @@ export interface ResponseSchema {
   previousClose: string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
-  const quote = validator.validated.data.quote
-  const url = util.buildUrlPath(`crypto/:base:quote/quote`, {
-    base: base.toUpperCase(),
-    quote: quote.toUpperCase(),
-  })
-
-  const params = {
-    token: config.apiKey,
+export type CryptoEndpointTypes = {
+  Request: {
+    Params: PriceEndpointParams
   }
-
-  const reqConfig = {
-    ...config.api,
-    params,
-    url,
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
   }
-
-  const response = await Requester.request<ResponseSchema>(reqConfig)
-  const result = Requester.validateResultNumber(response.data, ['latestPrice'])
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
+
+export const inputParameters = {
+  base: {
+    aliases: ['from', 'coin', 'asset', 'symbol'],
+    description: 'The symbol of symbols of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+} satisfies InputParameters & PriceEndpointInputParameters
+
+export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      return {
+        params: [param],
+        request: {
+          url: `/crypto/${param.base.toUpperCase()}${param.quote.toUpperCase()}/quote`,
+          baseURL: config.API_ENDPOINT,
+          params: {
+            token: config.API_KEY,
+          },
+        },
+      }
+    })
+  },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      const result = Number(res.data.latestPrice)
+
+      if (isNaN(result)) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `Iex-Cloud provided no data for base "${param.base}" and quote "${param.quote}"`,
+            statusCode: 502,
+          },
+        }
+      }
+      return {
+        params: param,
+        response: {
+          data: {
+            result: result,
+          },
+          result,
+        },
+      }
+    })
+  },
+})
+
+export const endpoint = new CryptoPriceEndpoint<CryptoEndpointTypes>({
+  name: 'crypto',
+  transport: httpTransport,
+  inputParameters: inputParameters,
+})

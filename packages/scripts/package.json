@@ -1,12 +1,12 @@
 {
   "name": "@chainlink/ea-scripts",
-  "version": "2.5.6",
+  "version": "2.5.7",
   "dependencies": {
     "@actions/core": "1.9.1",
     "@apidevtools/json-schema-ref-parser": "9.0.9",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.28.4",
+    "@chainlink/external-adapter-framework": "0.28.6",
     "airtable": "0.11.4",
     "axios": "0.22.0",
     "axios-mock-adapter": "1.20.0",

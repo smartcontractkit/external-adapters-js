@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/mock-ea-adapter",
-  "version": "2.1.29",
+  "version": "2.1.30",
   "description": "Chainlink mock-ea adapter.",
   "keywords": [
     "Chainlink",

@@ -1,5 +1,21 @@
 # @chainlink/icap-adapter
 
+## 1.1.3
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+- Updated dependencies [9bcb13c90]
+  - @chainlink/tp-adapter@1.1.3
+
+## 1.1.2
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+- Updated dependencies [31af84e69]
+  - @chainlink/tp-adapter@1.1.2
+
 ## 1.1.1
 
 ### Patch Changes

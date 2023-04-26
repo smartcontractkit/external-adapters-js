@@ -1,5 +1,26 @@
 # @chainlink/dxfeed-secondary-test-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+- Updated dependencies [9bcb13c90]
+  - @chainlink/dxfeed-test-adapter@1.2.1
+
+## 1.1.0
+
+### Minor Changes
+
+- e0fe0a602: Added custom routing using WS_ENABLED env var
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+- Updated dependencies [31af84e69]
+- Updated dependencies [e0fe0a602]
+  - @chainlink/dxfeed-test-adapter@1.2.0
+
 ## 1.0.1
 
 ### Patch Changes

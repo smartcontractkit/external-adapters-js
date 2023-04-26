@@ -24,7 +24,7 @@ Object {
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
-    "providerIndicatedTimeUnixMs": 1646336888,
+    "providerIndicatedTimeUnixMs": 1646336888345,
   },
 }
 `;

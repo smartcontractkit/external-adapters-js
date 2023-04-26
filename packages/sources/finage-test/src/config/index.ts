@@ -33,4 +33,9 @@ export const config = new AdapterConfig({
     default: 'wss://72x8wsyx7t.finage.ws:6008',
     description: 'The Websocket endpoint to connect to for crypto data',
   },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
 })

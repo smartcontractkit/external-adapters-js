@@ -1,5 +1,13 @@
 # @chainlink/bitso-adapter
 
+## 1.4.30
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.4.29
 
 ### Patch Changes

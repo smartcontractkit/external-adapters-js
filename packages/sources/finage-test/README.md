@@ -1,19 +1,20 @@
 # FINAGE
 
-![1.1.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |          Name          |                               Description                               |  Type  | Options |              Default              |
-| :-------: | :--------------------: | :---------------------------------------------------------------------: | :----: | :-----: | :-------------------------------: |
-|           |      API_ENDPOINT      |                         API endpoint for Finage                         | string |         |    `https://api.finage.co.uk`     |
-|    ✅     |        API_KEY         |   An API key that can be obtained from the data provider's dashboard    | string |         |                                   |
-|    ✅     |     WS_SOCKET_KEY      | A WEBSOCKET key that can be obtained from the data provider's dashboard | string |         |                                   |
-|           | STOCK_WS_API_ENDPOINT  |           The Websocket endpoint to connect to for stock data           | string |         | `wss://e4s39ar3mr.finage.ws:7002` |
-|           | FOREX_WS_API_ENDPOINT  |           The Websocket endpoint to connect to for forex data           | string |         | `wss://w29hxx2ndd.finage.ws:8001` |
-|           | CRYPTO_WS_API_ENDPOINT |          The Websocket endpoint to connect to for crypto data           | string |         | `wss://72x8wsyx7t.finage.ws:6008` |
+| Required? |          Name          |                               Description                               |  Type   | Options |              Default              |
+| :-------: | :--------------------: | :---------------------------------------------------------------------: | :-----: | :-----: | :-------------------------------: |
+|           |      API_ENDPOINT      |                         API endpoint for Finage                         | string  |         |    `https://api.finage.co.uk`     |
+|    ✅     |        API_KEY         |   An API key that can be obtained from the data provider's dashboard    | string  |         |                                   |
+|    ✅     |     WS_SOCKET_KEY      | A WEBSOCKET key that can be obtained from the data provider's dashboard | string  |         |                                   |
+|           | STOCK_WS_API_ENDPOINT  |           The Websocket endpoint to connect to for stock data           | string  |         | `wss://e4s39ar3mr.finage.ws:7002` |
+|           | FOREX_WS_API_ENDPOINT  |           The Websocket endpoint to connect to for forex data           | string  |         | `wss://w29hxx2ndd.finage.ws:8001` |
+|           | CRYPTO_WS_API_ENDPOINT |          The Websocket endpoint to connect to for crypto data           | string  |         | `wss://72x8wsyx7t.finage.ws:6008` |
+|           |       WS_ENABLED       |          Whether data should be returned from websocket or not          | boolean |         |              `false`              |
 
 ---
 
