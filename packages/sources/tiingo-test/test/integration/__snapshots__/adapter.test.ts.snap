@@ -194,8 +194,8 @@ exports[`execute websocket forex endpoint should return success 1`] = `
 `;
 
 exports[`execute websocket iex endpoint Q request should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 170.285,
   },
   "result": 170.285,
@@ -209,8 +209,8 @@ Object {
 `;
 
 exports[`execute websocket iex endpoint T request should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 106.21,
   },
   "result": 106.21,
