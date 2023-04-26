@@ -7773,7 +7773,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
             ["sinon", "npm:12.0.1"],\
-            ["starknet", "npm:4.1.0"],\
+            ["starknet", "npm:5.8.0"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
@@ -12706,6 +12706,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@noble/curves", [\
+        ["npm:0.8.3", {\
+          "packageLocation": "./.yarn/cache/@noble-curves-npm-0.8.3-c1804f74f8-caab73fbd0.zip/node_modules/@noble/curves/",\
+          "packageDependencies": [\
+            ["@noble/curves", "npm:0.8.3"],\
+            ["@noble/hashes", "npm:1.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/@noble-curves-npm-1.0.0-c66b2d9876-6bcef44d62.zip/node_modules/@noble/curves/",\
+          "packageDependencies": [\
+            ["@noble/curves", "npm:1.0.0"],\
+            ["@noble/hashes", "npm:1.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@noble/ed25519", [\
         ["npm:1.7.1", {\
           "packageLocation": "./.yarn/cache/@noble-ed25519-npm-1.7.1-177d9beb01-b8e50306ac.zip/node_modules/@noble/ed25519/",\
@@ -12734,6 +12752,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.2.0-71d3c56c21-8ca080ce55.zip/node_modules/@noble/hashes/",\
           "packageDependencies": [\
             ["@noble/hashes", "npm:1.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.0", {\
+          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.0-ce5907dcd3-d7ddb6d7c6.zip/node_modules/@noble/hashes/",\
+          "packageDependencies": [\
+            ["@noble/hashes", "npm:1.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28370,6 +28395,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["lossless-json", [\
+        ["npm:2.0.8", {\
+          "packageLocation": "./.yarn/cache/lossless-json-npm-2.0.8-8fac68bb6d-6461f8bc7e.zip/node_modules/lossless-json/",\
+          "packageDependencies": [\
+            ["lossless-json", "npm:2.0.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["lower-case", [\
         ["npm:1.1.4", {\
           "packageLocation": "./.yarn/cache/lower-case-npm-1.1.4-9880e9dcb0-1ca9393b5e.zip/node_modules/lower-case/",\
@@ -28769,6 +28803,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/methods-npm-1.1.2-92f6fdb39b-0917ff4041.zip/node_modules/methods/",\
           "packageDependencies": [\
             ["methods", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["micro-starknet", [\
+        ["npm:0.2.3", {\
+          "packageLocation": "./.yarn/cache/micro-starknet-npm-0.2.3-3811d44914-f1ae152348.zip/node_modules/micro-starknet/",\
+          "packageDependencies": [\
+            ["micro-starknet", "npm:0.2.3"],\
+            ["@noble/curves", "npm:1.0.0"],\
+            ["@noble/hashes", "npm:1.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -33920,20 +33965,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["starknet", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/cache/starknet-npm-4.1.0-3090439c5d-3fd4bcf28d.zip/node_modules/starknet/",\
+        ["npm:5.8.0", {\
+          "packageLocation": "./.yarn/cache/starknet-npm-5.8.0-63c02a3e9f-929a0d00ba.zip/node_modules/starknet/",\
           "packageDependencies": [\
-            ["starknet", "npm:4.1.0"],\
-            ["@ethersproject/bytes", "npm:5.7.0"],\
-            ["bn.js", "npm:5.2.1"],\
-            ["elliptic", "npm:6.5.4"],\
-            ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=01bf51&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
-            ["hash.js", "npm:1.1.7"],\
+            ["starknet", "npm:5.8.0"],\
+            ["@noble/curves", "npm:0.8.3"],\
             ["isomorphic-fetch", "npm:3.0.0"],\
-            ["json-bigint", "npm:1.0.0"],\
-            ["minimalistic-assert", "npm:1.0.1"],\
+            ["lossless-json", "npm:2.0.8"],\
+            ["micro-starknet", "npm:0.2.3"],\
             ["pako", "npm:2.0.4"],\
-            ["ts-custom-error", "npm:3.2.2"],\
             ["url-join", "npm:4.0.1"]\
           ],\
           "linkType": "HARD"\
