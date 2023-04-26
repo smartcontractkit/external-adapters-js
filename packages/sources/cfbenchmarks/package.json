@@ -28,14 +28,14 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "tslib": "^2.3.1"
+    "@chainlink/external-adapter-framework": "0.28.6",
+    "tslib": "2.4.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
+    "mock-socket": "9.1.5",
     "nock": "13.2.9",
     "supertest": "6.2.4",
     "typescript": "5.0.4"

@@ -29,7 +29,6 @@ import * as cache_gold from '@chainlink/cache.gold-adapter'
 import * as ccip_read from '@chainlink/ccip-read-adapter'
 import * as celsius_address_list from '@chainlink/celsius-address-list-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
-import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
@@ -193,7 +192,6 @@ export default {
   ccip_read,
   celsius_address_list,
   cfbenchmarks,
-  cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
   coinbase,

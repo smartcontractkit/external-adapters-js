@@ -1,135 +1,74 @@
-import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
-import { server as startServer } from '../../src'
-import * as nock from 'nock'
-import {
-  mockResponseSuccess,
-  mockSubscribeResponse,
-  mockUnsubscribeResponse,
-  mockBircResponseSuccess,
-} from './fixtures'
 import { AddressInfo } from 'net'
+import request, { SuperTest, Test } from 'supertest'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import {
   mockWebSocketProvider,
-  mockWebSocketServer,
-  MockWsServer,
-  mockWebSocketFlow,
+  mockCryptoWebSocketServer,
+  mockLwbaWebSocketServer,
   setEnvVariables,
-} from '@chainlink/ea-test-helpers'
-import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
-import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
+} from './setup'
+import { mockBircResponseSuccess, mockResponseSuccess } from './fixtures'
+import { createAdapter } from './setup'
+import { Server } from 'mock-socket'
 
-describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
-
-  const envVariables = {
-    API_USERNAME: process.env.API_USERNAME || 'fake-api-username',
-    API_PASSWORD: process.env.API_PASSWORD || 'fake-api-password',
-    BIRC_RETRY: process.env.BIRC_RETRY || '0',
-    BIRC_RETRY_DELAY_MS: process.env.BIRC_RETRY_DELAY_MS || '10',
-  }
-
-  setupExternalAdapterTest(envVariables, context)
-
-  describe('values endpoint', () => {
-    const data: AdapterRequest = {
-      id,
-      data: { index: 'BRTI' },
-    }
-
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
+describe('rest', () => {
+  jest.setTimeout(10000)
+  let spy: jest.SpyInstance
+  beforeAll(async () => {
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
   })
 
-  describe('birc endpoint', () => {
-    const data: AdapterRequest = {
-      id,
-      data: { endpoint: 'birc', tenor: 'SIRB' },
-    }
-
-    it('should return success', async () => {
-      mockBircResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
+  afterAll((done) => {
+    spy.mockRestore()
+    done()
   })
-})
 
-describe('websocket', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
+  let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
+
+  const data: AdapterRequestBody = {
+    data: {
+      index: 'BRTI',
+      transport: 'rest',
+    },
+  }
+  const bircData: AdapterRequestBody = {
+    data: {
+      endpoint: 'birc',
+      tenor: 'SIRB',
+    },
+  }
 
   let oldEnv: NodeJS.ProcessEnv
   beforeAll(async () => {
-    if (!process.env.RECORD) {
-      process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
-      process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
-      mockedWsServer = mockWebSocketServer(DEFAULT_WS_API_ENDPOINT)
-      mockWebSocketProvider(WebSocketClassProvider)
-    }
-
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '1000'
-
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+    process.env['CACHE_MAX_AGE'] = '5000'
+    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+    process.env['METRICS_ENABLED'] = 'false'
+    process.env['WS_ENABLED'] = 'false'
+    process.env['API_USERNAME'] = process.env.API_USERNAME || 'fake-api-username'
+    process.env['API_PASSWORD'] = process.env.API_PASSWORD || 'fake-api-password'
+    fastify = await expose(createAdapter())
+    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+    mockResponseSuccess()
+    mockBircResponseSuccess()
+    // Send initial request to start background execute
+    await req.post('/').send(data)
+    await req.post('/').send(bircData)
+    await sleep(5000)
   })
 
   afterAll((done) => {
     setEnvVariables(oldEnv)
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
+    fastify?.close(done())
   })
 
-  describe('values endpoint', () => {
-    const jobID = '1'
-
+  describe('crypto endpoint', () => {
     it('should return success', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          index: 'BRTI',
-        },
-      }
-
-      let flowFulfilled = Promise.resolve(true)
-      if (!process.env.RECORD) {
-        mockResponseSuccess() // For the first response
-
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockSubscribeResponse,
-          mockUnsubscribeResponse,
-        ])
-      }
-
       const makeRequest = () =>
         req
           .post('/')
@@ -139,23 +78,279 @@ describe('websocket', () => {
           .expect('Content-Type', /json/)
           .expect(200)
 
-      // This first request will start both batch warmer & websocket
-      await makeRequest()
-
-      // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
-      // populated cache entries.
-      await util.sleep(500)
       const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
 
+  describe('birc endpoint', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(bircData)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
+})
+
+describe('websocket crypto endpoint', () => {
+  let fastify: ServerInstance | undefined
+  let req: SuperTest<Test>
+  let spy: jest.SpyInstance
+  let mockWsServer: Server | undefined
+  const wsEndpoint = 'ws://localhost:9090'
+
+  jest.setTimeout(10000)
+
+  const data: AdapterRequestBody = {
+    data: {
+      index: 'BRTI',
+    },
+  }
+
+  let oldEnv: NodeJS.ProcessEnv
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
+    process.env['CACHE_MAX_AGE'] = '5000'
+    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+    process.env['METRICS_ENABLED'] = 'false'
+    process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['API_USERNAME'] = 'fake-api-username'
+    process.env['API_PASSWORD'] = 'fake-api-password'
+    process.env['BIRC_RETRY'] = '0'
+    process.env['BIRC_RETRY_DELAY_MS'] = '10'
+
+    const mockDate = new Date('2022-05-10T16:09:27.193Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    // Start mock web socket server
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockWsServer = mockCryptoWebSocketServer(wsEndpoint)
+
+    fastify = await expose(createAdapter())
+    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+    // Send initial request to start background execute
+    await req.post('/').send(data)
+    await sleep(5000)
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    setEnvVariables(oldEnv)
+    mockWsServer?.close()
+    fastify?.close(done())
+  })
+
+  describe('crypto endpoint', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+      const response = await makeRequest()
       expect(response.body).toEqual({
-        jobRunID: '1',
         result: 40067,
         statusCode: 200,
-        maxAge: 30000,
         data: { result: 40067 },
+        timestamps: {
+          providerDataReceivedUnixMs: 1652198967193,
+          providerDataStreamEstablishedUnixMs: 1652198967193,
+          providerIndicatedTimeUnixMs: 1645203822000,
+        },
       })
+    }, 30000)
+  })
 
-      await flowFulfilled
+  describe('input validation', () => {
+    it('should return error (empty body)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({})
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+    it('should return error (empty data)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: {} })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+    it('should return error (empty base)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: { quote: 'BTC' } })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+    it('should return error (empty quote)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: { base: 'ETH' } })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+  })
+})
+
+describe('websocket lwba endpoint', () => {
+  let fastify: ServerInstance | undefined
+  let req: SuperTest<Test>
+  let spy: jest.SpyInstance
+  let mockWsServer: Server | undefined
+  const wsEndpoint = 'ws://localhost:9090'
+
+  jest.setTimeout(10000)
+
+  const data: AdapterRequestBody = {
+    data: {
+      index: 'U_ETHUSD_RTI',
+      endpoint: 'cryptolwba',
+    },
+  }
+
+  let oldEnv: NodeJS.ProcessEnv
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
+    process.env['CACHE_MAX_AGE'] = '5000'
+    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+    process.env['METRICS_ENABLED'] = 'false'
+    process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['API_USERNAME'] = 'fake-api-username'
+    process.env['API_PASSWORD'] = 'fake-api-password'
+
+    const mockDate = new Date('2022-05-10T16:09:27.193Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    // Start mock web socket server
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockWsServer = mockLwbaWebSocketServer(wsEndpoint)
+
+    fastify = await expose(createAdapter())
+    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+    // Send initial request to start background execute
+    await req.post('/').send(data)
+    await sleep(5000)
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    setEnvVariables(oldEnv)
+    mockWsServer?.close()
+    fastify?.close(done())
+  })
+
+  describe('lwba endpoint', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+      const response = await makeRequest()
+      expect(response.body).toEqual({
+        result: 1.1635,
+        statusCode: 200,
+        data: {
+          bid: 1.1607,
+          ask: 1.1662,
+          mid: 1.1635,
+          midPrice: 1.1631,
+          utilizedDepth: 1888000,
+        },
+        timestamps: {
+          providerDataReceivedUnixMs: 1652198967193,
+          providerDataStreamEstablishedUnixMs: 1652198967193,
+          providerIndicatedTimeUnixMs: 1677876163000,
+        },
+      })
+    })
+  })
+
+  describe('input validation', () => {
+    it('should return error (empty body)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({})
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+    it('should return error (empty data)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: {} })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+    it('should return error (empty base)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: { quote: 'BTC' } })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+    it('should return error (empty quote)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: { base: 'ETH' } })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
     }, 30000)
   })
 })
