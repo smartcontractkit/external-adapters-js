@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute lookup endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "address": "0x0mockinputethtld.eth",
     "controller": "fake-registry-owner",
     "registrant": "fake-registrar-ownerOf",
@@ -16,8 +16,8 @@ Object {
 `;
 
 exports[`execute lookup endpoint should return success 2`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "address": "0x0mockinputnonethtld.test",
     "controller": "fake-registry-owner",
     "result": "0x0mockinputnonethtld.test",
@@ -30,8 +30,8 @@ Object {
 `;
 
 exports[`execute lookup endpoint should return success 3`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "address": "0x0subdomain.mockinputethtld.eth",
     "controller": "fake-registry-owner",
     "result": "0x0subdomain.mockinputethtld.eth",
@@ -44,8 +44,8 @@ Object {
 `;
 
 exports[`execute lookup endpoint should return success 4`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "address": "0x0subdomain.mockinputnonethtld.test",
     "controller": "fake-registry-owner",
     "result": "0x0subdomain.mockinputnonethtld.test",

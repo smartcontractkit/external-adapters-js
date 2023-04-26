@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`price-bluna error calls should throw an error if call to the LUNA/USD feed reverts 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "BLUNA/USD",
     "message": "Call to Terra bLUNA/USD feed reverted",
     "name": "Error",
@@ -14,8 +14,8 @@ Object {
 `;
 
 exports[`price-bluna error calls should throw an error if the Anchor bLUNA Hub contract returns 0 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "BLUNA/USD",
     "message": "Invalid result for LUNA/bLUNA rate from bLUNA address error-terra-bluna-hub-contract-address",
     "name": "AdapterError",
@@ -27,8 +27,8 @@ Object {
 `;
 
 exports[`price-bluna error calls should throw an error if the LUNA/USD feed returns 0 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "BLUNA/USD",
     "message": "Invalid result for Chainlink Terra feed error-luna-feed-address",
     "name": "AdapterError",
@@ -40,8 +40,8 @@ Object {
 `;
 
 exports[`price-bluna error calls should throw an error if the call to the Anchor bLUNA Hub reverts 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "BLUNA/USD",
     "message": "Call to Terra bLuna HUB contract reverted",
     "name": "Error",
@@ -53,8 +53,8 @@ Object {
 `;
 
 exports[`price-bluna successful calls return success when fetching the USD/BLuna price 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "262011742574",
     "statusCode": 200,
   },
@@ -65,8 +65,8 @@ Object {
 `;
 
 exports[`price-bluna successful calls returns success when fetching the ETH/BLuna price 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "100000718",
     "statusCode": 200,
   },

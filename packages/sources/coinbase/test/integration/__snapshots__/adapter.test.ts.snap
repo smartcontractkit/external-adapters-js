@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute exchange rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 57854.29,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute nft-floor-price api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 67.09079293,
   },
   "jobRunID": "1",

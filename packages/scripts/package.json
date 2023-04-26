@@ -6,7 +6,7 @@
     "@apidevtools/json-schema-ref-parser": "9.0.9",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.28.5",
+    "@chainlink/external-adapter-framework": "0.28.6",
     "airtable": "0.11.4",
     "axios": "0.22.0",
     "axios-mock-adapter": "1.20.0",
@@ -29,11 +29,11 @@
     "@types/command-line-args": "5.2.0",
     "@types/command-line-usage": "5.0.2",
     "@types/jest": "27.5.2",
-    "@types/shelljs": "0.8.11",
+    "@types/shelljs": "0.8.12",
     "@types/swagger-jsdoc": "6.0.1",
     "@types/yaml": "1.9.7",
     "human-id": "4.0.0",
     "ts-jest": "27.0.5",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

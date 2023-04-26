@@ -1,5 +1,11 @@
 # @chainlink/eodhistoricaldata-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- 830fbab39: Allowed overriding to eod historical data. Also added uk_etf to all endpoints of twelve data and eod historical data.
+
 ## 1.3.30
 
 ### Patch Changes

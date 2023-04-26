@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute forex api should return success for single base/quote pair 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4494.0249,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute live  api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 150.50501,
   },
   "jobRunID": "1",
@@ -25,9 +25,9 @@ Object {
 `;
 
 exports[`execute live  api with invalid base should return failure 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"endpoint\\":\\"live\\",\\"base\\":\\"NON-EXISTING\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"live","base":"NON-EXISTING"}}",
     "message": "Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.",
     "name": "AdapterError",
   },

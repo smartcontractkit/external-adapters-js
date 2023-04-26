@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute reth endpoint returns rETH/ETH exchange rate as a hex string 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "0x0000000000000000000000000000000000000000000000000e6ed27d66680000",
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute reth endpoint returns rETH/USD price when "quote: USD" is passed as an input param 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1341.6,
   },
   "jobRunID": "1",

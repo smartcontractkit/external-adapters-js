@@ -1,5 +1,11 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
 ## 1.1.9
 
 ### Patch Changes

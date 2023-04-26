@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute rate api should return success for override 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1,
   },
   "jobRunID": "1",
@@ -25,8 +25,8 @@ Object {
 `;
 
 exports[`execute rate api with invalid symbol should return failure 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "NON/EXISTING",
     "message": "Request failed with status code 400",
     "name": "AdapterError",

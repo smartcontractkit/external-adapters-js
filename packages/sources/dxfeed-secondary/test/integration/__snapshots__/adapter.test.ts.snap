@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`dxfeed secondary price endpoint should not override value with dxfeed symbol overrides 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 10,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`dxfeed secondary price endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 7343.84,
   },
   "jobRunID": "1",

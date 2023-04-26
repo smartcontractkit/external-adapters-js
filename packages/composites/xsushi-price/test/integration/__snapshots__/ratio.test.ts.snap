@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute empty request should return success 1`] = `
-Object {
+{
   "data": "1196870372476465755",
   "jobRunID": "1",
   "statusCode": 200,

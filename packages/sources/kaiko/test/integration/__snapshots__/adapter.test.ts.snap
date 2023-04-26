@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute exchange direct rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.0485267900742041,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute exchange rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4097.271668358277,
   },
   "jobRunID": "1",
@@ -25,8 +25,8 @@ Object {
 `;
 
 exports[`execute exchange rate api with invalid token should return failure 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "XXX/USD",
     "message": "Request failed with status code 400",
     "name": "AdapterError",

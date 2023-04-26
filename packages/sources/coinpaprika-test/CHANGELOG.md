@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-test-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
 ## 1.2.2
 
 ### Patch Changes

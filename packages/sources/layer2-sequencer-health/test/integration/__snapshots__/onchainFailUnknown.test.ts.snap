@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute arbitrum network should return failure when transaction submission is unknown 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1,
   },
   "jobRunID": "1",
@@ -12,8 +12,8 @@ Object {
 `;
 
 exports[`execute optimism network should return failure when transaction submission is unknown 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1,
   },
   "jobRunID": "1",

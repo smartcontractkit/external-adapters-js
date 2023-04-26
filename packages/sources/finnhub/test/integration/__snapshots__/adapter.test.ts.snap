@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1.15894,
   },
   "jobRunID": "1",
@@ -13,9 +13,9 @@ Object {
 `;
 
 exports[`execute rate api with invalid base should return failure 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"base\\":\\"NON-EXISTING\\",\\"endpoint\\":\\"quote\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"base":"NON-EXISTING","endpoint":"quote"}}",
     "message": "Invalid result received. This is likely an issue with the data provider or the input params/overrides.",
     "name": "AdapterError",
   },

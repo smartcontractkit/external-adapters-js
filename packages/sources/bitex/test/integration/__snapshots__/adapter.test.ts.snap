@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 934877.7183770883,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute crypto api with invalid symbol should return failure 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "NON/EXISTING",
     "message": "Request failed with status code 404",
     "name": "AdapterError",

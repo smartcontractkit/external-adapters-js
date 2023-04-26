@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`synthetix-debt-pool debt successfully fetches the current debt size of the synthetix debt cache across "mainnet" and "mainnet-ovm" if chainSources is missing 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "313273658056626393719587417",
   },
   "jobRunID": 1,
@@ -12,8 +12,8 @@ Object {
 `;
 
 exports[`synthetix-debt-pool debt successfully fetches the current debt size of the synthetix debt cache for only one chain 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "274504023465419663278269593",
   },
   "jobRunID": 1,
@@ -23,8 +23,8 @@ Object {
 `;
 
 exports[`synthetix-debt-pool debt-ratio successfully fetches the debt ratio across all chains if chainSources is missing 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "1238571593661276745783695103",
   },
   "jobRunID": 1,
@@ -34,8 +34,8 @@ Object {
 `;
 
 exports[`synthetix-debt-pool debt-ratio successfully fetches the debt ratio for only one chain 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "1279602860653050512101136483",
   },
   "jobRunID": 1,
@@ -45,9 +45,9 @@ Object {
 `;
 
 exports[`synthetix-debt-pool errors throws an error if the request contains a source without a chain configuration 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"]}}",
+{
+  "error": {
+    "feedID": "{"data":{"chainSources":["kovan"]}}",
     "message": "Chain kovan not configured",
     "name": "AdapterError",
   },
@@ -58,9 +58,9 @@ Object {
 `;
 
 exports[`synthetix-debt-pool errors throws an error if the request contains a source without a chain configuration 2`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"],\\"endpoint\\":\\"debt-ratio\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"chainSources":["kovan"],"endpoint":"debt-ratio"}}",
     "message": "Chain kovan not configured",
     "name": "AdapterError",
   },

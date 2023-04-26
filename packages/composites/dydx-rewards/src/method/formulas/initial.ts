@@ -1,7 +1,7 @@
 import * as bn from 'bignumber.js'
+import { BigNumber } from 'ethers'
 import { AddressRewards, OracleRewardsData } from '../../ipfs-data'
 import { addReward } from '../poke'
-import { BigNumber } from 'ethers'
 
 // We expect the amount with 2 decimal points, and the token has 18 decimals.
 const rewardAmountToBigNumber = (amount: number): BigNumber =>
@@ -49,7 +49,7 @@ const findRetroactiveRewardsTier = (tradeVolume: number | boolean) => {
     }
   }
 
-  const tier = retroactiveTiers.find(({ min }) => tradeVolume >= min)
+  const tier = retroactiveTiers.find(({ min }) => (tradeVolume as number) >= min)
   if (!tier) {
     throw new Error(`Unable to find tier for volume: ${tradeVolume}`)
   }

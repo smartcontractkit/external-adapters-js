@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 22674148233453.1,
   },
   "jobRunID": "1",

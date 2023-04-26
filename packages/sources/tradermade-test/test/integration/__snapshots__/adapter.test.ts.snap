@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute http forex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4494.0249,
   },
   "result": 4494.0249,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -15,13 +15,13 @@ Object {
 `;
 
 exports[`execute http live endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 128.785,
   },
   "result": 128.785,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -29,13 +29,13 @@ Object {
 `;
 
 exports[`execute websocket forex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 2797.835,
   },
   "result": 2797.835,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
   },

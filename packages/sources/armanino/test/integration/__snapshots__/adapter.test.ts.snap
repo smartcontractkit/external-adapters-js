@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute mco2 endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 3041044,
   },
   "jobRunID": "1",

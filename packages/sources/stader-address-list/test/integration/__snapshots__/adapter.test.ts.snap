@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute addresses should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "chainId": "goerli",
     "confirmations": 0,
-    "elRewardAddresses": Array [
-      Object {
+    "elRewardAddresses": [
+      {
         "address": "0x0D086a2FB3be4251221066a491645273C61A45Fc",
       },
-      Object {
+      {
         "address": "0x6D75F292A22fCE61d64448789549ae735eFEC398",
       },
     ],
     "network": "ethereum",
-    "result": Array [
-      Object {
+    "result": [
+      {
         "address": "0x999d1e56148505251d7a7682996f1d1a7e5ecf4657dcfa9d6d71b97dc1d8755e1cb4451f57f370201c882126e97ca35e",
         "chainId": "goerli",
         "network": "ethereum",
@@ -24,7 +24,7 @@ Object {
         "status": 3,
         "withdrawVaultAddress": "0xe731fd3b95136dac85cfd0c3164707a9e10026f1",
       },
-      Object {
+      {
         "address": "0x89cbed0fe0b742c5ad8e9068650dfd6789aa64f2a8e264caf1cbb9e3a50c6eb1ed6b08f2075a384b1666c8e073a0e51d",
         "chainId": "goerli",
         "network": "ethereum",
@@ -33,7 +33,7 @@ Object {
         "status": 6,
         "withdrawVaultAddress": "0x2f32b2ed50d03bcf925cd32d870a12d1e33556aa",
       },
-      Object {
+      {
         "address": "0x82aec070f2c77f13ef33647c6b6df6bfcaa1cb3607e4530801a753099c4a523005ff701ccb296da9d4488ddd5ac531c3",
         "chainId": "goerli",
         "network": "ethereum",
@@ -42,7 +42,7 @@ Object {
         "status": 4,
         "withdrawVaultAddress": "0x05ef9b38092ebd70523275f95027709aeac9759c",
       },
-      Object {
+      {
         "address": "0x893b284977dbd07276d5e0f3761dddad88aa4e1ed8575541c79a5bb12fdc841dcbe9ecfb424ee7744db4f5e297c0eaf4",
         "chainId": "goerli",
         "network": "ethereum",
@@ -52,12 +52,12 @@ Object {
         "withdrawVaultAddress": "0xf43d5b8aa1ca682f6fb804899117bfce3a67dbd1",
       },
     ],
-    "socialPoolAddresses": Array [
-      Object {
+    "socialPoolAddresses": [
+      {
         "address": "0xEB31F35afF9036bcDEC75604D9492aC9c446127F",
         "poolId": 1,
       },
-      Object {
+      {
         "address": "0x481be4fACe9E50bae3a716801F3c8799020325a0",
         "poolId": 2,
       },
@@ -65,7 +65,7 @@ Object {
   },
   "result": null,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1659338094909,
     "providerDataRequestedUnixMs": 1659338094909,
   },
