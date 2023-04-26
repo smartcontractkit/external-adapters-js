@@ -74,7 +74,6 @@
 '@chainlink/ccip-read-adapter': patch
 '@chainlink/celsius-address-list-adapter': patch
 '@chainlink/cfbenchmarks-adapter': patch
-'@chainlink/cfbenchmarks-test-adapter': patch
 '@chainlink/chain-reserve-wallet-adapter': patch
 '@chainlink/coinapi-adapter': patch
 '@chainlink/coinbase-adapter': patch
