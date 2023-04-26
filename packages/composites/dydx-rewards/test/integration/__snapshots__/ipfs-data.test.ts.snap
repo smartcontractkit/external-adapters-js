@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ipfs data should encode/decode IPFS data into interface 1`] = `
-Object {
+{
   "epoch": 123,
-  "openInterest": Object {
+  "openInterest": {
     "0xE4dDb4233513498b5aa79B98bEA473b01b101a67": 123,
   },
-  "quoteScore": Object {
+  "quoteScore": {
     "0xE4dDb4233513498b5aa79B98bEA473b01b101a67": 123,
   },
-  "tradeFeesPaid": Object {
+  "tradeFeesPaid": {
     "0xE4dDb4233513498b5aa79B98bEA473b01b101a67": 123,
   },
 }

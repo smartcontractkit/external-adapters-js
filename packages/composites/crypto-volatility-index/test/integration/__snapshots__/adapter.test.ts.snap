@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with isAdaptive false should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": NaN,
   },
   "debug": undefined,
@@ -14,8 +14,8 @@ Object {
 `;
 
 exports[`execute with isAdaptive true should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": NaN,
   },
   "debug": undefined,

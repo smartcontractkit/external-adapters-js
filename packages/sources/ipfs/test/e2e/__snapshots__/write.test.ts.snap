@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute successful calls dag 1`] = `
-Object {
-  "data": Object {
-    "result": Object {
+{
+  "data": {
+    "result": {
       "code": 113,
-      "hash": Uint8Array [
+      "hash": Uint8[
         18,
         32,
         147,
@@ -47,9 +47,9 @@ Object {
   "debug": undefined,
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "code": 113,
-    "hash": Uint8Array [
+    "hash": Uint8[
       18,
       32,
       147,
@@ -92,8 +92,8 @@ Object {
 `;
 
 exports[`execute successful calls dag-cbor codec 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "QmWFam9NBVVhz3fViSbxjB7utkkjDSmdWWBbbSTkK8kaxk",
   },
   "debug": undefined,
@@ -105,8 +105,8 @@ Object {
 `;
 
 exports[`execute successful calls dag-cbor codec with link 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "QmfFbkG6a48aB4vSSTL6gZLo7tcLmbBrb5JcXM2HUivixV",
   },
   "debug": undefined,
@@ -118,11 +118,11 @@ Object {
 `;
 
 exports[`execute successful calls dag-cbor oracleRewardsDataByEpoch 1`] = `
-Object {
-  "data": Object {
-    "result": Object {
+{
+  "data": {
+    "result": {
       "code": 113,
-      "hash": Uint8Array [
+      "hash": Uint8[
         18,
         32,
         217,
@@ -164,9 +164,9 @@ Object {
   "debug": undefined,
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "code": 113,
-    "hash": Uint8Array [
+    "hash": Uint8[
       18,
       32,
       217,
@@ -209,8 +209,8 @@ Object {
 `;
 
 exports[`execute successful calls json codec 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "QmWBEf1XrcVho6VK7HKGCGuJP4Rt8STxkE4XLw66cvbpEb",
   },
   "debug": undefined,
@@ -222,8 +222,8 @@ Object {
 `;
 
 exports[`execute successful calls json codec CID v1 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "bafkreidrjtjrjwi2b7do4e74gbome3lwtm7adpouwjfmganrpw7ykfl5a4",
   },
   "debug": undefined,
@@ -235,8 +235,8 @@ Object {
 `;
 
 exports[`execute successful calls json mockOracleRewardsData 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "QmdJZkigqJfvjya9YQ5qW7mFdNHpxUUsSQFKPDjLrdFfg4",
   },
   "debug": undefined,
@@ -248,8 +248,8 @@ Object {
 `;
 
 exports[`execute successful calls json mockOracleRewardsData epoch 1 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "QmRmAK7teai1Mki1V2zNxmBLXnYVVeJ92DCuEotwHPa98a",
   },
   "debug": undefined,
@@ -261,8 +261,8 @@ Object {
 `;
 
 exports[`execute successful calls simple text 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
   },
   "debug": undefined,

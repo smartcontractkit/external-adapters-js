@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with calculatorContract/vaultProxy/shareValueInAsset should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "netShareValue": "1000000000000000000",
     "result": "1000000000000000000",
   },

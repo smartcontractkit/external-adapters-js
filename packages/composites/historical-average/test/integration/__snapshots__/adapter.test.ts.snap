@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with from date and days should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4526.04602020095,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute with to date and days should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4526.04602020095,
   },
   "jobRunID": "1",
@@ -25,8 +25,8 @@ Object {
 `;
 
 exports[`execute with to/from dates should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4526.04602020095,
   },
   "jobRunID": "1",

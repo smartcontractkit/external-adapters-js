@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute http crypto endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4462.5193860735335,
   },
   "result": 4462.5193860735335,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -15,8 +15,8 @@ Object {
 `;
 
 exports[`execute http cryptoyield endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "apr30Day": 0.05041705428139954,
     "apr90Day": 0.0509027044623858,
     "date": "2023-03-28T08:18:37.836912+00:00",
@@ -34,7 +34,7 @@ Object {
   },
   "result": 0.0509027044623858,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -42,13 +42,13 @@ Object {
 `;
 
 exports[`execute http eod endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 48.77,
   },
   "result": 48.77,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -56,13 +56,13 @@ Object {
 `;
 
 exports[`execute http forex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1.33605,
   },
   "result": 1.33605,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -70,13 +70,13 @@ Object {
 `;
 
 exports[`execute http iex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 51.27,
   },
   "result": 51.27,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -84,15 +84,15 @@ Object {
 `;
 
 exports[`execute http realized-vol endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "realVol1Day": 0.3312392184952228,
     "realVol30Day": 0.851625908515737,
     "realVol7Day": 0.6687492814959118,
   },
   "result": 0.851625908515737,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
     "providerIndicatedTimeUnixMs": 1641859200000,
@@ -101,13 +101,13 @@ Object {
 `;
 
 exports[`execute http top endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4471.9,
   },
   "result": 4471.9,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -115,13 +115,13 @@ Object {
 `;
 
 exports[`execute http volume endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4094298121.291589,
   },
   "result": 4094298121.291589,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -129,13 +129,13 @@ Object {
 `;
 
 exports[`execute http vwap endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.7091192957589304,
   },
   "result": 0.7091192957589304,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -143,13 +143,13 @@ Object {
 `;
 
 exports[`execute websocket crypto endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 2930.4483973989,
   },
   "result": 2930.4483973989,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
   },
@@ -157,8 +157,8 @@ Object {
 `;
 
 exports[`execute websocket crypto_lwba endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "ask": 1794.2063137650225,
     "askSize": 126.22352905999999,
     "bid": 1793.6242715443277,
@@ -170,7 +170,7 @@ Object {
   },
   "result": null,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1680187094577,
     "providerDataStreamEstablishedUnixMs": 1680187094577,
   },
@@ -178,13 +178,13 @@ Object {
 `;
 
 exports[`execute websocket forex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1.08272,
   },
   "result": 1.08272,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
   },
@@ -192,13 +192,13 @@ Object {
 `;
 
 exports[`execute websocket iex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 170.28,
   },
   "result": 170.28,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
   },

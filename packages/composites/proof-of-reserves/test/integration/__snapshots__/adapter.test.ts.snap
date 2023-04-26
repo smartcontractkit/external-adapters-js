@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute Bitcoin list protocol should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "75100045155",
     "statusCode": 200,
   },
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute Ethereum list protocol should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "220646158354962165",
   },
   "jobRunID": "1",
@@ -25,8 +25,8 @@ Object {
 `;
 
 exports[`execute Filecoin Gemini protocol should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "127530375584000000000000",
     "statusCode": 200,
   },
@@ -36,8 +36,8 @@ Object {
 `;
 
 exports[`execute Filecoin list protocol w/ miner format address should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "127530375584000000000000",
     "statusCode": 200,
   },

@@ -6,7 +6,7 @@ Array [
     "address": "0x0000000000000000000000000000000000000003",
     "category": "test",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST4",
       "source": "sourceName4",
       "to": "THIS4",
@@ -36,7 +36,7 @@ Array [
     "address": "0x0000000000000000000000000000000000000003",
     "category": "test",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST4",
       "source": "sourceName4",
       "to": "THIS4",
@@ -65,7 +65,7 @@ Array [
   Object {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST",
       "to": "THIS",
     },
@@ -88,7 +88,7 @@ Array [
   Object {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST2",
       "to": "THIS2",
     },
@@ -123,7 +123,7 @@ Array [
   Object {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST",
       "to": "THIS",
     },
@@ -146,7 +146,7 @@ Array [
   Object {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST2",
       "to": "THIS2",
     },
@@ -181,7 +181,7 @@ Array [
   Object {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST",
       "to": "THIS",
     },
@@ -212,7 +212,7 @@ Array [
   Object {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST2",
       "to": "THIS2",
     },
@@ -274,7 +274,7 @@ Array [
     "address": "0x0000000000000000000000000000000000000000",
     "category": "test",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST",
       "to": "THIS",
     },
@@ -306,7 +306,7 @@ Array [
     "address": "0x0000000000000000000000000000000000000000",
     "category": "test",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST2",
       "to": "THIS2",
     },
@@ -338,7 +338,7 @@ Array [
     "address": "0x0000000000000000000000000000000000000003",
     "category": "test",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST3",
       "to": "THIS3",
     },
@@ -362,7 +362,7 @@ Array [
     "address": "0x0000000000000000000000000000000000000003",
     "category": "test",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST4",
       "to": "THIS4",
     },
@@ -390,7 +390,7 @@ Array [
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST",
       "to": "THIS",
     },
@@ -413,7 +413,7 @@ Array [
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST2",
       "to": "THIS2",
     },
@@ -443,7 +443,7 @@ Array [
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000003",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST3",
       "to": "THIS3",
     },
@@ -471,7 +471,7 @@ Array [
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST",
       "to": "THIS",
     },
@@ -494,7 +494,7 @@ Array [
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
     "contractVersion": 4,
-    "data": Object {
+    "data": {
       "from": "TEST2",
       "to": "THIS2",
     },

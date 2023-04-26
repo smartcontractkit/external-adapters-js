@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute balance endpoint should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "balance": "0",
         "chain": "mainnet",
@@ -13,8 +13,8 @@ Object {
     ],
   },
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
       "balance": "0",
       "chain": "mainnet",
@@ -26,8 +26,8 @@ Object {
 `;
 
 exports[`execute block endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 22674148233453,
   },
   "jobRunID": "1",

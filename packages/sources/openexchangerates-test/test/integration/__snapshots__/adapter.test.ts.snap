@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute forex endpoint inverse pair should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4.273504273504273,
   },
   "result": 4.273504273504273,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -15,10 +15,10 @@ Object {
 `;
 
 exports[`execute forex endpoint should return error for invalid quote 1`] = `
-Object {
-  "errorMessage": "OpenExchangeRates provided no data for base \\"ETH\\" and quote \\"INVALID\\"",
+{
+  "errorMessage": "OpenExchangeRates provided no data for base "ETH" and quote "INVALID"",
   "statusCode": 502,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -26,13 +26,13 @@ Object {
 `;
 
 exports[`execute forex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4483.820268,
   },
   "result": 4483.820268,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },

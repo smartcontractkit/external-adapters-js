@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 11161854.6,
   },
   "jobRunID": "1",

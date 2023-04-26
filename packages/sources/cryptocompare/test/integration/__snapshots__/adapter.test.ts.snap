@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto api should return failure for array 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "message": "base parameter must be of type string",
     "name": "AdapterError",
   },
@@ -12,13 +12,13 @@ Object {
 `;
 
 exports[`execute crypto api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1276.75,
   },
   "result": 1276.75,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -26,13 +26,13 @@ Object {
 `;
 
 exports[`execute marketcap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 156240830222.34824,
   },
   "result": 156240830222.34824,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -40,13 +40,13 @@ Object {
 `;
 
 exports[`execute volume api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 735584356.0525743,
   },
   "result": 735584356.0525743,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -54,13 +54,13 @@ Object {
 `;
 
 exports[`execute vwap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.9224,
   },
   "result": 0.9224,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },

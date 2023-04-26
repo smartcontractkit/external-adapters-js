@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Crypto Endpoint should return success 1`] = `
-Object {
+{
   "ask": 3107.1275,
   "bid": 3106.8495,
-  "data": Object {
+  "data": {
     "result": 3106.9885,
   },
   "result": 3106.9885,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1659338094909,
     "providerDataStreamEstablishedUnixMs": 1659338094909,
     "providerIndicatedTimeUnixMs": 1659338094909,
@@ -18,13 +18,13 @@ Object {
 `;
 
 exports[`Forex endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.7819647646677041,
   },
   "result": 0.7819647646677041,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1659338094909,
     "providerDataStreamEstablishedUnixMs": 1659338094909,
     "providerIndicatedTimeUnixMs": 1659338092107,

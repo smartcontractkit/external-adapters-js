@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`rest birc endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.0947,
   },
   "result": 0.0947,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
     "providerIndicatedTimeUnixMs": 1677226637446,
@@ -16,13 +16,13 @@ Object {
 `;
 
 exports[`rest crypto endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 39829.3,
   },
   "result": 39829.3,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
     "providerIndicatedTimeUnixMs": 1645199637000,

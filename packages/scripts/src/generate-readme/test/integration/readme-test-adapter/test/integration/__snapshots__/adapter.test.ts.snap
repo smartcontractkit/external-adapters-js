@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`readme test adapter balance endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "balance": "2188",
         "chain": "mainnet",
@@ -13,8 +13,8 @@ Object {
     ],
   },
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
       "balance": "2188",
       "chain": "mainnet",
@@ -26,8 +26,8 @@ Object {
 `;
 
 exports[`readme test adapter marketcap endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1000000000,
   },
   "jobRunID": "1",
@@ -38,8 +38,8 @@ Object {
 `;
 
 exports[`readme test adapter marketcap endpoint should reply with success when called with \`mc\` 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1000000000,
   },
   "jobRunID": "1",
@@ -50,8 +50,8 @@ Object {
 `;
 
 exports[`readme test adapter price endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 123456,
   },
   "jobRunID": "1",
@@ -62,8 +62,8 @@ Object {
 `;
 
 exports[`readme test adapter price endpoint should reply with success when called with \`convert\` 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 123456,
   },
   "jobRunID": "1",

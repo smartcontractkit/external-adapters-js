@@ -1,26 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute balance api should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
         "balance": "32081209325",
       },
-      Object {
+      {
         "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
         "balance": "32067790944",
       },
     ],
   },
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
       "balance": "32081209325",
     },
-    Object {
+    {
       "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
       "balance": "32067790944",
     },
@@ -30,34 +30,34 @@ Object {
 `;
 
 exports[`execute balance api should return success with validator that is not on the beacon chain 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
         "balance": "32081209325",
       },
-      Object {
+      {
         "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
         "balance": "32067790944",
       },
-      Object {
+      {
         "address": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
         "balance": "0",
       },
     ],
   },
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
       "balance": "32081209325",
     },
-    Object {
+    {
       "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
       "balance": "32067790944",
     },
-    Object {
+    {
       "address": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
       "balance": "0",
     },

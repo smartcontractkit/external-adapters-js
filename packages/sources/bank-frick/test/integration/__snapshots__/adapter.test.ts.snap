@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute accounts account not found 1`] = `
-Object {
+{
   "error": Any<Object>,
   "status": "errored",
   "statusCode": 404,
@@ -9,13 +9,13 @@ Object {
 `;
 
 exports[`execute accounts successful request 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1010000.0999999,
   },
   "result": 1010000.0999999,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": Any<Number>,
     "providerDataRequestedUnixMs": Any<Number>,
   },

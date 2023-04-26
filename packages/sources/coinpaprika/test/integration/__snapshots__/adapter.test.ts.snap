@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto api free should apply overrides 1`] = `
-Object {
-  "data": Object {
-    "results": Array [
-      Array [
+{
+  "data": {
+    "results": [
+      [
         "OGfHdehjHraavx1cn4Ua96mPJmY=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "BTC",
             "endpoint": "crypto",
-            "overrides": Object {
-              "coinpaprika": Object {
+            "overrides": {
+              "coinpaprika": {
                 "BTC": "btc-bitcoin",
               },
             },
             "quote": "USD",
             "resultPath": "price",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "17asiOIup7+B7FZygsiP87VYnrg=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "ETH",
                     "endpoint": "crypto",
-                    "overrides": Object {
-                      "coinpaprika": Object {
+                    "overrides": {
+                      "coinpaprika": {
                         "BTC": "btc-bitcoin",
                       },
                     },
@@ -45,31 +45,31 @@ Object {
         },
         40000.2425813062,
       ],
-      Array [
+      [
         "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "ETH",
             "endpoint": "crypto",
-            "overrides": Object {
-              "coinpaprika": Object {
+            "overrides": {
+              "coinpaprika": {
                 "BTC": "btc-bitcoin",
               },
             },
             "quote": "USD",
             "resultPath": "price",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "17asiOIup7+B7FZygsiP87VYnrg=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "ETH",
                     "endpoint": "crypto",
-                    "overrides": Object {
-                      "coinpaprika": Object {
+                    "overrides": {
+                      "coinpaprika": {
                         "BTC": "btc-bitcoin",
                       },
                     },
@@ -95,25 +95,25 @@ Object {
 `;
 
 exports[`execute crypto api free should return success for multiple symbols 1`] = `
-Object {
-  "data": Object {
-    "results": Array [
-      Array [
+{
+  "data": {
+    "results": [
+      [
         "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "ETH",
             "endpoint": "crypto",
             "quote": "USD",
             "resultPath": "price",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "17asiOIup7+B7FZygsiP87VYnrg=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "ETH",
                     "endpoint": "crypto",
                     "quote": "USD",
@@ -129,22 +129,22 @@ Object {
         },
         3949.2425813062,
       ],
-      Array [
+      [
         "OGfHdehjHraavx1cn4Ua96mPJmY=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "BTC",
             "endpoint": "crypto",
             "quote": "USD",
             "resultPath": "price",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "17asiOIup7+B7FZygsiP87VYnrg=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "ETH",
                     "endpoint": "crypto",
                     "quote": "USD",
@@ -169,8 +169,8 @@ Object {
 `;
 
 exports[`execute crypto api free should return success for single coinid 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 3949.2425813062,
   },
   "jobRunID": "1",
@@ -181,8 +181,8 @@ Object {
 `;
 
 exports[`execute crypto api free should return success for single symbol 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 3949.2425813062,
   },
   "jobRunID": "1",
@@ -199,8 +199,8 @@ exports[`execute crypto-single api Successful request with warning about duplica
 exports[`execute crypto-single api Successful request without override Should be successful 1`] = `3949.2425813062`;
 
 exports[`execute dominance api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 44.68,
   },
   "jobRunID": "1",
@@ -211,8 +211,8 @@ Object {
 `;
 
 exports[`execute globalmarketcap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 2559344984924,
   },
   "jobRunID": "1",
@@ -223,8 +223,8 @@ Object {
 `;
 
 exports[`execute marketcap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 466143026900,
   },
   "jobRunID": "1",
@@ -235,8 +235,8 @@ Object {
 `;
 
 exports[`execute volume api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 24136641726.138,
   },
   "jobRunID": "1",
@@ -247,8 +247,8 @@ Object {
 `;
 
 exports[`execute vwap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4000,
   },
   "jobRunID": "1",
@@ -259,8 +259,8 @@ Object {
 `;
 
 exports[`execute vwap api should return success with override 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.949723,
   },
   "jobRunID": "1",
@@ -271,16 +271,16 @@ Object {
 `;
 
 exports[`execute with api key crypto api pro should return success 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "ETH/USD",
     "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://api-pro.coinpaprika.com/v1/coins\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json, text/plain, */*\\",
-    \\"authorization\\": \\"fake-api-key\\",
-    \\"user-agent\\": \\"axios/0.24.0\\"
+  "method": "GET",
+  "url": "https://api-pro.coinpaprika.com/v1/coins",
+  "headers": {
+    "accept": "application/json, text/plain, */*",
+    "authorization": "fake-api-key",
+    "user-agent": "axios/0.24.0"
   }
 }",
     "name": "AdapterError",

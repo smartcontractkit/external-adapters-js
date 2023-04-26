@@ -1,5 +1,5 @@
-import type { AdapterData, AdapterRequest } from '../../../src/types'
 import * as util from '../../../src/lib/metrics/util'
+import type { AdapterData, AdapterRequest } from '../../../src/types'
 
 describe('Bootstrap/Metrics Utils', () => {
   describe('Get Feed ID', () => {
@@ -64,7 +64,7 @@ describe('Bootstrap/Metrics Utils', () => {
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).toMatchInlineSnapshot(`"{\\"data\\":{}}"`)
+      expect(feedName).toMatchInlineSnapshot(`"{"data":{}}"`)
     })
 
     it(`Returns stringify input if anything match`, () => {
@@ -73,7 +73,7 @@ describe('Bootstrap/Metrics Utils', () => {
         data: {},
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).toMatchInlineSnapshot(`"{\\"data\\":{}}"`)
+      expect(feedName).toMatchInlineSnapshot(`"{"data":{}}"`)
     })
 
     it(`Removes 'result' from stringified JSON`, () => {
@@ -83,7 +83,7 @@ describe('Bootstrap/Metrics Utils', () => {
         result: 123,
       }
       const feedName = util.getFeedId(input)
-      expect(feedName).toMatchInlineSnapshot(`"{\\"data\\":{\\"base\\":\\"LINK\\"}}"`)
+      expect(feedName).toMatchInlineSnapshot(`"{"data":{"base":"LINK"}}"`)
     })
 
     it(`Does not throw error if pricefeed parameters are missing`, () => {

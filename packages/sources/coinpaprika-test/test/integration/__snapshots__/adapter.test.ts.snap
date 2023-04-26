@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto batch endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4949.2425813062,
   },
   "result": 4949.2425813062,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -15,13 +15,13 @@ Object {
 `;
 
 exports[`execute crypto marketcap endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 466143026900,
   },
   "result": 466143026900,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -29,13 +29,13 @@ Object {
 `;
 
 exports[`execute crypto volume endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 24136641726.138,
   },
   "result": 24136641726.138,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -43,13 +43,13 @@ Object {
 `;
 
 exports[`execute dominance endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 44.68,
   },
   "result": 44.68,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -57,13 +57,13 @@ Object {
 `;
 
 exports[`execute globalmarketcap endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 2559344984924,
   },
   "result": 2559344984924,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -71,13 +71,13 @@ Object {
 `;
 
 exports[`execute vwap endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4000,
   },
   "result": 4000,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },

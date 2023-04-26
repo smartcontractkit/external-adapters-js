@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 58620.71,
   },
   "jobRunID": "1",

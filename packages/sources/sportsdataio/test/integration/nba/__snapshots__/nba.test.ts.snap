@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute fetch nba player data should return a 400 if date is missing 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"sport\\":\\"nba\\",\\"endpoint\\":\\"player-stats\\",\\"playerID\\":20002528}}",
+{
+  "error": {
+    "feedID": "{"data":{"sport":"nba","endpoint":"player-stats","playerID":20002528}}",
     "message": "Required parameter date must be non-null and non-empty",
     "name": "AdapterError",
   },
@@ -14,9 +14,9 @@ Object {
 `;
 
 exports[`execute fetch nba player data should return a 400 if playerID is missing 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"sport\\":\\"nba\\",\\"endpoint\\":\\"player-stats\\",\\"date\\":\\"2021-OCT-11\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"sport":"nba","endpoint":"player-stats","date":"2021-OCT-11"}}",
     "message": "Required parameter playerID must be non-null and non-empty",
     "name": "AdapterError",
   },
@@ -27,8 +27,8 @@ Object {
 `;
 
 exports[`execute fetch nba player data should return the correct player information 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "Assists": 9,
     "AssistsPercentage": 59.71,
     "BlockedShots": 0,

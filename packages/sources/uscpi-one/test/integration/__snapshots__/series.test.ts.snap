@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with API key should return success 1`] = `
-Object {
-  "data": Object {
-    "Results": Object {
-      "series": Array [
-        Object {
-          "data": Array [
-            Object {
-              "footnotes": Array [
-                Object {},
+{
+  "data": {
+    "Results": {
+      "series": [
+        {
+          "data": [
+            {
+              "footnotes": [
+                {},
               ],
               "latest": "true",
               "period": "M09",
@@ -17,18 +17,18 @@ Object {
               "value": "274.138",
               "year": "2021",
             },
-            Object {
-              "footnotes": Array [
-                Object {},
+            {
+              "footnotes": [
+                {},
               ],
               "period": "M08",
               "periodName": "August",
               "value": "273.012",
               "year": "2021",
             },
-            Object {
-              "footnotes": Array [
-                Object {},
+            {
+              "footnotes": [
+                {},
               ],
               "period": "M07",
               "periodName": "July",
@@ -40,7 +40,7 @@ Object {
         },
       ],
     },
-    "message": Array [],
+    "message": [],
     "responseTime": 212,
     "result": 271.123,
     "status": "REQUEST_SUCCEEDED",
@@ -53,15 +53,15 @@ Object {
 `;
 
 exports[`execute with serie/month/year should return success 1`] = `
-Object {
-  "data": Object {
-    "Results": Object {
-      "series": Array [
-        Object {
-          "data": Array [
-            Object {
-              "footnotes": Array [
-                Object {},
+{
+  "data": {
+    "Results": {
+      "series": [
+        {
+          "data": [
+            {
+              "footnotes": [
+                {},
               ],
               "latest": "true",
               "period": "M09",
@@ -69,18 +69,18 @@ Object {
               "value": "274.138",
               "year": "2021",
             },
-            Object {
-              "footnotes": Array [
-                Object {},
+            {
+              "footnotes": [
+                {},
               ],
               "period": "M08",
               "periodName": "August",
               "value": "273.012",
               "year": "2021",
             },
-            Object {
-              "footnotes": Array [
-                Object {},
+            {
+              "footnotes": [
+                {},
               ],
               "period": "M07",
               "periodName": "July",
@@ -92,7 +92,7 @@ Object {
         },
       ],
     },
-    "message": Array [],
+    "message": [],
     "responseTime": 212,
     "result": 272.265,
     "status": "REQUEST_SUCCEEDED",
