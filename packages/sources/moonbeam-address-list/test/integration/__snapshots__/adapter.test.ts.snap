@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute addresses should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "13nogjgyJcGQduHt8RtZiKKbt7Uy6py9hv1WMDZWueEcsHdh",
         "chainId": "mainnet",
         "network": "moonbeam",
       },
-      Object {
+      {
         "address": "126rjyDQEJm6V6YPDcN85hJDYraqB6hL9bFsvWLDnM8rLc3J",
         "chainId": "mainnet",
         "network": "moonbeam",
       },
-      Object {
+      {
         "address": "15vJFD1Y8nButjmgjbK5x6SYU2cQnbihM4GgkR5enkwyTVLq",
         "chainId": "mainnet",
         "network": "moonbeam",
@@ -23,7 +23,7 @@ Object {
   },
   "result": null,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1659338094909,
     "providerDataRequestedUnixMs": 1659338094909,
   },

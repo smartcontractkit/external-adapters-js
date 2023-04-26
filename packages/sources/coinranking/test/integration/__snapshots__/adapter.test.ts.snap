@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4478.930333561968,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute crypto api with invalid base should return failure 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "NON-EXISTING/USD",
     "message": "Unable to find coin: non-existing in DP response. This could be an issue with overrides, input params or the DP",
     "name": "AdapterError",
@@ -26,8 +26,8 @@ Object {
 `;
 
 exports[`execute globalmarketcap endpoint alias should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1139638848309,
   },
   "jobRunID": "1",
@@ -38,8 +38,8 @@ Object {
 `;
 
 exports[`execute marketcap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 527538906196,
   },
   "jobRunID": "1",
@@ -50,8 +50,8 @@ Object {
 `;
 
 exports[`execute totalMarketCap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1139638848309,
   },
   "jobRunID": "1",

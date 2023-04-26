@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with token should return success 1`] = `
-Object {
-  "data": Object {
-    "estimates": Object {
+{
+  "data": {
+    "estimates": {
       "fast": 131.363,
       "fastest": 132.055,
       "medium": 113.447,

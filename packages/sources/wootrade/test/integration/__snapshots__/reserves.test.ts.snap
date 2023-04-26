@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with token should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4499.01,
-    "rows": Array [
-      Object {
+    "rows": [
+      {
         "executed_price": 4499.01,
         "executed_quantity": 0.043747,
         "executed_timestamp": "1636138728.930",

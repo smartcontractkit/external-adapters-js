@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`coinapi assets endpoint when sending well-formed request should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 3043.673871176232,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`coinapi crypto endpoint when sending well-formed request should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 22978.232093447674,
   },
   "jobRunID": "1",

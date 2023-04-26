@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute BNBx endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 28917028197,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute MaticX endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 47732197,
   },
   "jobRunID": "1",
@@ -25,8 +25,8 @@ Object {
 `;
 
 exports[`execute sFTMx endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 26263763,
   },
   "jobRunID": "1",

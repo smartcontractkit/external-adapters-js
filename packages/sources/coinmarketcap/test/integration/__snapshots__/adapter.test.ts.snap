@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto endpoint with cid should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 6602.60701122,
   },
   "result": 6602.60701122,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -15,13 +15,13 @@ Object {
 `;
 
 exports[`execute dominance endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 44.897494474523,
   },
   "result": 44.897494474523,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -29,13 +29,13 @@ Object {
 `;
 
 exports[`execute globalmarketcap endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1939416192105.152,
   },
   "result": 1939416192105.152,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -43,16 +43,16 @@ Object {
 `;
 
 exports[`execute historical endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "id": 1027,
     "is_active": 1,
     "is_fiat": 0,
     "name": "Ethereum",
-    "quotes": Array [
-      Object {
-        "quote": Object {
-          "BTC": Object {
+    "quotes": [
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7443591.90020768,
             "price": 0.06372463643632112,
             "timestamp": "2021-07-23T14:04:12.000Z",
@@ -61,9 +61,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:04:03.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7442982.142507192,
             "price": 0.06371941629686442,
             "timestamp": "2021-07-23T14:09:13.000Z",
@@ -72,9 +72,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:09:03.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7443649.549774187,
             "price": 0.06372453768196841,
             "timestamp": "2021-07-23T14:14:23.000Z",
@@ -83,9 +83,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:14:08.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7437851.780012068,
             "price": 0.06367490340039632,
             "timestamp": "2021-07-23T14:19:12.000Z",
@@ -94,9 +94,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:19:06.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7431909.064055017,
             "price": 0.06362402824508358,
             "timestamp": "2021-07-23T14:24:09.000Z",
@@ -105,9 +105,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:24:05.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7431699.906071862,
             "price": 0.06362223765893496,
             "timestamp": "2021-07-23T14:29:13.000Z",
@@ -116,9 +116,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:29:06.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7423747.214838163,
             "price": 0.06355415525274345,
             "timestamp": "2021-07-23T14:34:15.000Z",
@@ -127,9 +127,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:34:04.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7424385.657376196,
             "price": 0.06355962091247133,
             "timestamp": "2021-07-23T14:39:19.000Z",
@@ -138,9 +138,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:39:07.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7433758.980181678,
             "price": 0.06363986524132226,
             "timestamp": "2021-07-23T14:44:07.000Z",
@@ -149,9 +149,9 @@ Object {
         },
         "timestamp": "2021-07-23T14:44:04.000Z",
       },
-      Object {
-        "quote": Object {
-          "BTC": Object {
+      {
+        "quote": {
+          "BTC": {
             "market_cap": 7428169.077137268,
             "price": 0.06359201049147004,
             "timestamp": "2021-07-23T14:49:09.000Z",
@@ -164,7 +164,7 @@ Object {
     "symbol": "ETH",
   },
   "result": null,
-  "status": Object {
+  "status": {
     "credit_count": 1,
     "elapsed": 30,
     "error_code": 0,
@@ -173,7 +173,7 @@ Object {
     "timestamp": "2021-12-01T14:44:08.026Z",
   },
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -181,13 +181,13 @@ Object {
 `;
 
 exports[`execute marketcap endpoint with slug should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 113563929433.21645,
   },
   "result": 113563929433.21645,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -195,13 +195,13 @@ Object {
 `;
 
 exports[`execute volume endpoint with base (override to id) should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4314444687.5194,
   },
   "result": 4314444687.5194,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },

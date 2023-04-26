@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`chain-reserve-wallet when making a request to fetch the contract addresses is successful 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m",
         "chainId": "testnet",
         "network": "cardano",
@@ -13,8 +13,8 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m",
       "chainId": "testnet",
       "network": "cardano",

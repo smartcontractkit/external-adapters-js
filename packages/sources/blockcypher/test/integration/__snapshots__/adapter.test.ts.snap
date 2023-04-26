@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute blockcypher api should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
         "balance": "547",
         "chain": "mainnet",
@@ -13,8 +13,8 @@ Object {
     ],
   },
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
       "balance": "547",
       "chain": "mainnet",

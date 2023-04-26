@@ -1,42 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute current-conditions endpoint success calls returns the result as JSON 1`] = `
-Object {
-  "data": Object {
-    "data": Array [
-      Object {
-        "ApparentTemperature": Object {
-          "Imperial": Object {
+{
+  "data": {
+    "data": [
+      {
+        "ApparentTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 57,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 13.9,
           },
         },
-        "Ceiling": Object {
-          "Imperial": Object {
+        "Ceiling": {
+          "Imperial": {
             "Unit": "ft",
             "UnitType": 0,
             "Value": 1500,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "m",
             "UnitType": 5,
             "Value": 457,
           },
         },
         "CloudCover": 95,
-        "DewPoint": Object {
-          "Imperial": Object {
+        "DewPoint": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 47,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 8.4,
@@ -50,122 +50,122 @@ Object {
         "LocalObservationDateTime": "2021-10-22T08:28:00-04:00",
         "MobileLink": "http://www.accuweather.com/en/us/park-forest-village-pa/16803/current-weather/2097720?lang=en-us",
         "ObstructionsToVisibility": "",
-        "Past24HourTemperatureDeparture": Object {
-          "Imperial": Object {
+        "Past24HourTemperatureDeparture": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 2,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 1.1,
           },
         },
-        "Precip1hr": Object {
-          "Imperial": Object {
+        "Precip1hr": {
+          "Imperial": {
             "Unit": "in",
             "UnitType": 1,
             "Value": 0,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mm",
             "UnitType": 3,
             "Value": 0,
           },
         },
-        "PrecipitationSummary": Object {
-          "Past12Hours": Object {
-            "Imperial": Object {
+        "PrecipitationSummary": {
+          "Past12Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.28,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 7.2,
             },
           },
-          "Past18Hours": Object {
-            "Imperial": Object {
+          "Past18Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past24Hours": Object {
-            "Imperial": Object {
+          "Past24Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past3Hours": Object {
-            "Imperial": Object {
+          "Past3Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past6Hours": Object {
-            "Imperial": Object {
+          "Past6Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past9Hours": Object {
-            "Imperial": Object {
+          "Past9Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.12,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 3,
             },
           },
-          "PastHour": Object {
-            "Imperial": Object {
+          "PastHour": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Precipitation": Object {
-            "Imperial": Object {
+          "Precipitation": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
@@ -173,132 +173,132 @@ Object {
           },
         },
         "PrecipitationType": null,
-        "Pressure": Object {
-          "Imperial": Object {
+        "Pressure": {
+          "Imperial": {
             "Unit": "inHg",
             "UnitType": 12,
             "Value": 29.92,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mb",
             "UnitType": 14,
             "Value": 1013.2,
           },
         },
-        "PressureTendency": Object {
+        "PressureTendency": {
           "Code": "S",
           "LocalizedText": "Steady",
         },
-        "RealFeelTemperature": Object {
-          "Imperial": Object {
+        "RealFeelTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
-        "RealFeelTemperatureShade": Object {
-          "Imperial": Object {
+        "RealFeelTemperatureShade": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
         "RelativeHumidity": 84,
-        "Temperature": Object {
-          "Imperial": Object {
+        "Temperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 10.9,
           },
         },
-        "TemperatureSummary": Object {
-          "Past12HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+        "TemperatureSummary": {
+          "Past12HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 61,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 16.1,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past24HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past24HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 73,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 22.8,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past6HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past6HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 54,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 12.2,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
@@ -308,13 +308,13 @@ Object {
         },
         "UVIndex": 0,
         "UVIndexText": "Low",
-        "Visibility": Object {
-          "Imperial": Object {
+        "Visibility": {
+          "Imperial": {
             "Unit": "mi",
             "UnitType": 2,
             "Value": 10,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "km",
             "UnitType": 6,
             "Value": 16.1,
@@ -322,57 +322,57 @@ Object {
         },
         "WeatherIcon": 7,
         "WeatherText": "Cloudy",
-        "WetBulbTemperature": Object {
-          "Imperial": Object {
+        "WetBulbTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 49,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 9.7,
           },
         },
-        "Wind": Object {
-          "Direction": Object {
+        "Wind": {
+          "Direction": {
             "Degrees": 270,
             "English": "W",
             "Localized": "W",
           },
-          "Speed": Object {
-            "Imperial": Object {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
             },
           },
         },
-        "WindChillTemperature": Object {
-          "Imperial": Object {
+        "WindChillTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 11.1,
           },
         },
-        "WindGust": Object {
-          "Speed": Object {
-            "Imperial": Object {
+        "WindGust": {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
@@ -381,7 +381,7 @@ Object {
         },
       },
     ],
-    "result": Object {
+    "result": {
       "precipitationPast12Hours": 720,
       "precipitationPast24Hours": 1120,
       "precipitationPastHour": 0,
@@ -398,7 +398,7 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "precipitationPast12Hours": 720,
     "precipitationPast24Hours": 1120,
     "precipitationPastHour": 0,
@@ -417,42 +417,42 @@ Object {
 `;
 
 exports[`execute current-conditions endpoint success calls returns the result encoded 1`] = `
-Object {
-  "data": Object {
-    "data": Array [
-      Object {
-        "ApparentTemperature": Object {
-          "Imperial": Object {
+{
+  "data": {
+    "data": [
+      {
+        "ApparentTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 57,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 13.9,
           },
         },
-        "Ceiling": Object {
-          "Imperial": Object {
+        "Ceiling": {
+          "Imperial": {
             "Unit": "ft",
             "UnitType": 0,
             "Value": 1500,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "m",
             "UnitType": 5,
             "Value": 457,
           },
         },
         "CloudCover": 95,
-        "DewPoint": Object {
-          "Imperial": Object {
+        "DewPoint": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 47,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 8.4,
@@ -466,122 +466,122 @@ Object {
         "LocalObservationDateTime": "2021-10-22T08:28:00-04:00",
         "MobileLink": "http://www.accuweather.com/en/us/park-forest-village-pa/16803/current-weather/2097720?lang=en-us",
         "ObstructionsToVisibility": "",
-        "Past24HourTemperatureDeparture": Object {
-          "Imperial": Object {
+        "Past24HourTemperatureDeparture": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 2,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 1.1,
           },
         },
-        "Precip1hr": Object {
-          "Imperial": Object {
+        "Precip1hr": {
+          "Imperial": {
             "Unit": "in",
             "UnitType": 1,
             "Value": 0,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mm",
             "UnitType": 3,
             "Value": 0,
           },
         },
-        "PrecipitationSummary": Object {
-          "Past12Hours": Object {
-            "Imperial": Object {
+        "PrecipitationSummary": {
+          "Past12Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.28,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 7.2,
             },
           },
-          "Past18Hours": Object {
-            "Imperial": Object {
+          "Past18Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past24Hours": Object {
-            "Imperial": Object {
+          "Past24Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past3Hours": Object {
-            "Imperial": Object {
+          "Past3Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past6Hours": Object {
-            "Imperial": Object {
+          "Past6Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past9Hours": Object {
-            "Imperial": Object {
+          "Past9Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.12,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 3,
             },
           },
-          "PastHour": Object {
-            "Imperial": Object {
+          "PastHour": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Precipitation": Object {
-            "Imperial": Object {
+          "Precipitation": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
@@ -589,132 +589,132 @@ Object {
           },
         },
         "PrecipitationType": null,
-        "Pressure": Object {
-          "Imperial": Object {
+        "Pressure": {
+          "Imperial": {
             "Unit": "inHg",
             "UnitType": 12,
             "Value": 29.92,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mb",
             "UnitType": 14,
             "Value": 1013.2,
           },
         },
-        "PressureTendency": Object {
+        "PressureTendency": {
           "Code": "S",
           "LocalizedText": "Steady",
         },
-        "RealFeelTemperature": Object {
-          "Imperial": Object {
+        "RealFeelTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
-        "RealFeelTemperatureShade": Object {
-          "Imperial": Object {
+        "RealFeelTemperatureShade": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
         "RelativeHumidity": 84,
-        "Temperature": Object {
-          "Imperial": Object {
+        "Temperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 10.9,
           },
         },
-        "TemperatureSummary": Object {
-          "Past12HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+        "TemperatureSummary": {
+          "Past12HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 61,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 16.1,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past24HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past24HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 73,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 22.8,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past6HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past6HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 54,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 12.2,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
@@ -724,13 +724,13 @@ Object {
         },
         "UVIndex": 0,
         "UVIndexText": "Low",
-        "Visibility": Object {
-          "Imperial": Object {
+        "Visibility": {
+          "Imperial": {
             "Unit": "mi",
             "UnitType": 2,
             "Value": 10,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "km",
             "UnitType": 6,
             "Value": 16.1,
@@ -738,57 +738,57 @@ Object {
         },
         "WeatherIcon": 7,
         "WeatherText": "Cloudy",
-        "WetBulbTemperature": Object {
-          "Imperial": Object {
+        "WetBulbTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 49,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 9.7,
           },
         },
-        "Wind": Object {
-          "Direction": Object {
+        "Wind": {
+          "Direction": {
             "Degrees": 270,
             "English": "W",
             "Localized": "W",
           },
-          "Speed": Object {
-            "Imperial": Object {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
             },
           },
         },
-        "WindChillTemperature": Object {
-          "Imperial": Object {
+        "WindChillTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 11.1,
           },
         },
-        "WindGust": Object {
-          "Speed": Object {
-            "Imperial": Object {
+        "WindGust": {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
@@ -807,11 +807,11 @@ Object {
 `;
 
 exports[`execute location endpoint success calls when a location is found for the given coordinates returns the result as JSON 1`] = `
-Object {
-  "data": Object {
-    "data": Array [
-      Object {
-        "AdministrativeArea": Object {
+{
+  "data": {
+    "data": [
+      {
+        "AdministrativeArea": {
           "CountryID": "US",
           "EnglishName": "Pennsylvania",
           "EnglishType": "State",
@@ -820,12 +820,12 @@ Object {
           "LocalizedName": "Pennsylvania",
           "LocalizedType": "State",
         },
-        "Country": Object {
+        "Country": {
           "EnglishName": "United States",
           "ID": "US",
           "LocalizedName": "United States",
         },
-        "DataSets": Array [
+        "DataSets": [
           "AirQualityCurrentConditions",
           "AirQualityForecasts",
           "Alerts",
@@ -837,14 +837,14 @@ Object {
           "Radar",
         ],
         "EnglishName": "Park Forest Village",
-        "GeoPosition": Object {
-          "Elevation": Object {
-            "Imperial": Object {
+        "GeoPosition": {
+          "Elevation": {
+            "Imperial": {
               "Unit": "ft",
               "UnitType": 0,
               "Value": 1400,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "m",
               "UnitType": 5,
               "Value": 427,
@@ -858,19 +858,19 @@ Object {
         "LocalizedName": "Park Forest Village",
         "PrimaryPostalCode": "16803",
         "Rank": 65,
-        "Region": Object {
+        "Region": {
           "EnglishName": "North America",
           "ID": "NAM",
           "LocalizedName": "North America",
         },
-        "SupplementalAdminAreas": Array [
-          Object {
+        "SupplementalAdminAreas": [
+          {
             "EnglishName": "Centre",
             "Level": 2,
             "LocalizedName": "Centre",
           },
         ],
-        "TimeZone": Object {
+        "TimeZone": {
           "Code": "EDT",
           "GmtOffset": -4,
           "IsDaylightSaving": true,
@@ -881,7 +881,7 @@ Object {
         "Version": 1,
       },
     ],
-    "result": Object {
+    "result": {
       "countryCode": "0x5553",
       "locationFound": true,
       "locationKey": 2097720,
@@ -890,7 +890,7 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "countryCode": "0x5553",
     "locationFound": true,
     "locationKey": 2097720,
@@ -901,11 +901,11 @@ Object {
 `;
 
 exports[`execute location endpoint success calls when a location is found for the given coordinates returns the result encoded 1`] = `
-Object {
-  "data": Object {
-    "data": Array [
-      Object {
-        "AdministrativeArea": Object {
+{
+  "data": {
+    "data": [
+      {
+        "AdministrativeArea": {
           "CountryID": "US",
           "EnglishName": "Pennsylvania",
           "EnglishType": "State",
@@ -914,12 +914,12 @@ Object {
           "LocalizedName": "Pennsylvania",
           "LocalizedType": "State",
         },
-        "Country": Object {
+        "Country": {
           "EnglishName": "United States",
           "ID": "US",
           "LocalizedName": "United States",
         },
-        "DataSets": Array [
+        "DataSets": [
           "AirQualityCurrentConditions",
           "AirQualityForecasts",
           "Alerts",
@@ -931,14 +931,14 @@ Object {
           "Radar",
         ],
         "EnglishName": "Park Forest Village",
-        "GeoPosition": Object {
-          "Elevation": Object {
-            "Imperial": Object {
+        "GeoPosition": {
+          "Elevation": {
+            "Imperial": {
               "Unit": "ft",
               "UnitType": 0,
               "Value": 1400,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "m",
               "UnitType": 5,
               "Value": 427,
@@ -952,19 +952,19 @@ Object {
         "LocalizedName": "Park Forest Village",
         "PrimaryPostalCode": "16803",
         "Rank": 65,
-        "Region": Object {
+        "Region": {
           "EnglishName": "North America",
           "ID": "NAM",
           "LocalizedName": "North America",
         },
-        "SupplementalAdminAreas": Array [
-          Object {
+        "SupplementalAdminAreas": [
+          {
             "EnglishName": "Centre",
             "Level": 2,
             "LocalizedName": "Centre",
           },
         ],
-        "TimeZone": Object {
+        "TimeZone": {
           "Code": "EDT",
           "GmtOffset": -4,
           "IsDaylightSaving": true,
@@ -975,14 +975,14 @@ Object {
         "Version": 1,
       },
     ],
-    "result": Array [
+    "result": [
       true,
       "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000002002380000000000000000000000000000000000000000000000000000000000000060555300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000135061726b20466f726573742056696c6c61676500000000000000000000000000",
     ],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Array [
+  "result": [
     true,
     "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000002002380000000000000000000000000000000000000000000000000000000000000060555300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000135061726b20466f726573742056696c6c61676500000000000000000000000000",
   ],
@@ -991,10 +991,10 @@ Object {
 `;
 
 exports[`execute location endpoint success calls when no location is found for the given coordinates returns the result as JSON 1`] = `
-Object {
-  "data": Object {
-    "data": Array [],
-    "result": Object {
+{
+  "data": {
+    "data": [],
+    "result": {
       "countryCode": "0x",
       "locationFound": false,
       "locationKey": 0,
@@ -1003,7 +1003,7 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "countryCode": "0x",
     "locationFound": false,
     "locationKey": 0,
@@ -1014,17 +1014,17 @@ Object {
 `;
 
 exports[`execute location endpoint success calls when no location is found for the given coordinates returns the result encoded 1`] = `
-Object {
-  "data": Object {
-    "data": Array [],
-    "result": Array [
+{
+  "data": {
+    "data": [],
+    "result": [
       false,
       "0x",
     ],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Array [
+  "result": [
     false,
     "0x",
   ],
@@ -1033,42 +1033,42 @@ Object {
 `;
 
 exports[`execute location-current-conditions endpoint success calls when a location is found for the given coordinates returns the result as JSON 1`] = `
-Object {
-  "data": Object {
-    "dataCurrentConditions": Array [
-      Object {
-        "ApparentTemperature": Object {
-          "Imperial": Object {
+{
+  "data": {
+    "dataCurrentConditions": [
+      {
+        "ApparentTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 57,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 13.9,
           },
         },
-        "Ceiling": Object {
-          "Imperial": Object {
+        "Ceiling": {
+          "Imperial": {
             "Unit": "ft",
             "UnitType": 0,
             "Value": 1500,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "m",
             "UnitType": 5,
             "Value": 457,
           },
         },
         "CloudCover": 95,
-        "DewPoint": Object {
-          "Imperial": Object {
+        "DewPoint": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 47,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 8.4,
@@ -1082,122 +1082,122 @@ Object {
         "LocalObservationDateTime": "2021-10-22T08:28:00-04:00",
         "MobileLink": "http://www.accuweather.com/en/us/park-forest-village-pa/16803/current-weather/2097720?lang=en-us",
         "ObstructionsToVisibility": "",
-        "Past24HourTemperatureDeparture": Object {
-          "Imperial": Object {
+        "Past24HourTemperatureDeparture": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 2,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 1.1,
           },
         },
-        "Precip1hr": Object {
-          "Imperial": Object {
+        "Precip1hr": {
+          "Imperial": {
             "Unit": "in",
             "UnitType": 1,
             "Value": 0,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mm",
             "UnitType": 3,
             "Value": 0,
           },
         },
-        "PrecipitationSummary": Object {
-          "Past12Hours": Object {
-            "Imperial": Object {
+        "PrecipitationSummary": {
+          "Past12Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.28,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 7.2,
             },
           },
-          "Past18Hours": Object {
-            "Imperial": Object {
+          "Past18Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past24Hours": Object {
-            "Imperial": Object {
+          "Past24Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past3Hours": Object {
-            "Imperial": Object {
+          "Past3Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past6Hours": Object {
-            "Imperial": Object {
+          "Past6Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past9Hours": Object {
-            "Imperial": Object {
+          "Past9Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.12,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 3,
             },
           },
-          "PastHour": Object {
-            "Imperial": Object {
+          "PastHour": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Precipitation": Object {
-            "Imperial": Object {
+          "Precipitation": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
@@ -1205,132 +1205,132 @@ Object {
           },
         },
         "PrecipitationType": null,
-        "Pressure": Object {
-          "Imperial": Object {
+        "Pressure": {
+          "Imperial": {
             "Unit": "inHg",
             "UnitType": 12,
             "Value": 29.92,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mb",
             "UnitType": 14,
             "Value": 1013.2,
           },
         },
-        "PressureTendency": Object {
+        "PressureTendency": {
           "Code": "S",
           "LocalizedText": "Steady",
         },
-        "RealFeelTemperature": Object {
-          "Imperial": Object {
+        "RealFeelTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
-        "RealFeelTemperatureShade": Object {
-          "Imperial": Object {
+        "RealFeelTemperatureShade": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
         "RelativeHumidity": 84,
-        "Temperature": Object {
-          "Imperial": Object {
+        "Temperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 10.9,
           },
         },
-        "TemperatureSummary": Object {
-          "Past12HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+        "TemperatureSummary": {
+          "Past12HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 61,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 16.1,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past24HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past24HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 73,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 22.8,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past6HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past6HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 54,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 12.2,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
@@ -1340,13 +1340,13 @@ Object {
         },
         "UVIndex": 0,
         "UVIndexText": "Low",
-        "Visibility": Object {
-          "Imperial": Object {
+        "Visibility": {
+          "Imperial": {
             "Unit": "mi",
             "UnitType": 2,
             "Value": 10,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "km",
             "UnitType": 6,
             "Value": 16.1,
@@ -1354,57 +1354,57 @@ Object {
         },
         "WeatherIcon": 7,
         "WeatherText": "Cloudy",
-        "WetBulbTemperature": Object {
-          "Imperial": Object {
+        "WetBulbTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 49,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 9.7,
           },
         },
-        "Wind": Object {
-          "Direction": Object {
+        "Wind": {
+          "Direction": {
             "Degrees": 270,
             "English": "W",
             "Localized": "W",
           },
-          "Speed": Object {
-            "Imperial": Object {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
             },
           },
         },
-        "WindChillTemperature": Object {
-          "Imperial": Object {
+        "WindChillTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 11.1,
           },
         },
-        "WindGust": Object {
-          "Speed": Object {
-            "Imperial": Object {
+        "WindGust": {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
@@ -1413,9 +1413,9 @@ Object {
         },
       },
     ],
-    "dataLocation": Array [
-      Object {
-        "AdministrativeArea": Object {
+    "dataLocation": [
+      {
+        "AdministrativeArea": {
           "CountryID": "US",
           "EnglishName": "Pennsylvania",
           "EnglishType": "State",
@@ -1424,12 +1424,12 @@ Object {
           "LocalizedName": "Pennsylvania",
           "LocalizedType": "State",
         },
-        "Country": Object {
+        "Country": {
           "EnglishName": "United States",
           "ID": "US",
           "LocalizedName": "United States",
         },
-        "DataSets": Array [
+        "DataSets": [
           "AirQualityCurrentConditions",
           "AirQualityForecasts",
           "Alerts",
@@ -1441,14 +1441,14 @@ Object {
           "Radar",
         ],
         "EnglishName": "Park Forest Village",
-        "GeoPosition": Object {
-          "Elevation": Object {
-            "Imperial": Object {
+        "GeoPosition": {
+          "Elevation": {
+            "Imperial": {
               "Unit": "ft",
               "UnitType": 0,
               "Value": 1400,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "m",
               "UnitType": 5,
               "Value": 427,
@@ -1462,19 +1462,19 @@ Object {
         "LocalizedName": "Park Forest Village",
         "PrimaryPostalCode": "16803",
         "Rank": 65,
-        "Region": Object {
+        "Region": {
           "EnglishName": "North America",
           "ID": "NAM",
           "LocalizedName": "North America",
         },
-        "SupplementalAdminAreas": Array [
-          Object {
+        "SupplementalAdminAreas": [
+          {
             "EnglishName": "Centre",
             "Level": 2,
             "LocalizedName": "Centre",
           },
         ],
-        "TimeZone": Object {
+        "TimeZone": {
           "Code": "EDT",
           "GmtOffset": -4,
           "IsDaylightSaving": true,
@@ -1485,7 +1485,7 @@ Object {
         "Version": 1,
       },
     ],
-    "result": Object {
+    "result": {
       "countryCode": "0x5553",
       "locationFound": true,
       "locationKey": 2097720,
@@ -1506,7 +1506,7 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "countryCode": "0x5553",
     "locationFound": true,
     "locationKey": 2097720,
@@ -1529,42 +1529,42 @@ Object {
 `;
 
 exports[`execute location-current-conditions endpoint success calls when a location is found for the given coordinates returns the result encoded 1`] = `
-Object {
-  "data": Object {
-    "dataCurrentConditions": Array [
-      Object {
-        "ApparentTemperature": Object {
-          "Imperial": Object {
+{
+  "data": {
+    "dataCurrentConditions": [
+      {
+        "ApparentTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 57,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 13.9,
           },
         },
-        "Ceiling": Object {
-          "Imperial": Object {
+        "Ceiling": {
+          "Imperial": {
             "Unit": "ft",
             "UnitType": 0,
             "Value": 1500,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "m",
             "UnitType": 5,
             "Value": 457,
           },
         },
         "CloudCover": 95,
-        "DewPoint": Object {
-          "Imperial": Object {
+        "DewPoint": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 47,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 8.4,
@@ -1578,122 +1578,122 @@ Object {
         "LocalObservationDateTime": "2021-10-22T08:28:00-04:00",
         "MobileLink": "http://www.accuweather.com/en/us/park-forest-village-pa/16803/current-weather/2097720?lang=en-us",
         "ObstructionsToVisibility": "",
-        "Past24HourTemperatureDeparture": Object {
-          "Imperial": Object {
+        "Past24HourTemperatureDeparture": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 2,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 1.1,
           },
         },
-        "Precip1hr": Object {
-          "Imperial": Object {
+        "Precip1hr": {
+          "Imperial": {
             "Unit": "in",
             "UnitType": 1,
             "Value": 0,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mm",
             "UnitType": 3,
             "Value": 0,
           },
         },
-        "PrecipitationSummary": Object {
-          "Past12Hours": Object {
-            "Imperial": Object {
+        "PrecipitationSummary": {
+          "Past12Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.28,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 7.2,
             },
           },
-          "Past18Hours": Object {
-            "Imperial": Object {
+          "Past18Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past24Hours": Object {
-            "Imperial": Object {
+          "Past24Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.44,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 11.2,
             },
           },
-          "Past3Hours": Object {
-            "Imperial": Object {
+          "Past3Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past6Hours": Object {
-            "Imperial": Object {
+          "Past6Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Past9Hours": Object {
-            "Imperial": Object {
+          "Past9Hours": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0.12,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 3,
             },
           },
-          "PastHour": Object {
-            "Imperial": Object {
+          "PastHour": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
             },
           },
-          "Precipitation": Object {
-            "Imperial": Object {
+          "Precipitation": {
+            "Imperial": {
               "Unit": "in",
               "UnitType": 1,
               "Value": 0,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "mm",
               "UnitType": 3,
               "Value": 0,
@@ -1701,132 +1701,132 @@ Object {
           },
         },
         "PrecipitationType": null,
-        "Pressure": Object {
-          "Imperial": Object {
+        "Pressure": {
+          "Imperial": {
             "Unit": "inHg",
             "UnitType": 12,
             "Value": 29.92,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "mb",
             "UnitType": 14,
             "Value": 1013.2,
           },
         },
-        "PressureTendency": Object {
+        "PressureTendency": {
           "Code": "S",
           "LocalizedText": "Steady",
         },
-        "RealFeelTemperature": Object {
-          "Imperial": Object {
+        "RealFeelTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
-        "RealFeelTemperatureShade": Object {
-          "Imperial": Object {
+        "RealFeelTemperatureShade": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 46,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 7.7,
           },
         },
         "RelativeHumidity": 84,
-        "Temperature": Object {
-          "Imperial": Object {
+        "Temperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 10.9,
           },
         },
-        "TemperatureSummary": Object {
-          "Past12HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+        "TemperatureSummary": {
+          "Past12HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 61,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 16.1,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past24HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past24HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 73,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 22.8,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
               },
             },
           },
-          "Past6HourRange": Object {
-            "Maximum": Object {
-              "Imperial": Object {
+          "Past6HourRange": {
+            "Maximum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 54,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 12.2,
               },
             },
-            "Minimum": Object {
-              "Imperial": Object {
+            "Minimum": {
+              "Imperial": {
                 "Unit": "F",
                 "UnitType": 18,
                 "Value": 50,
               },
-              "Metric": Object {
+              "Metric": {
                 "Unit": "C",
                 "UnitType": 17,
                 "Value": 10,
@@ -1836,13 +1836,13 @@ Object {
         },
         "UVIndex": 0,
         "UVIndexText": "Low",
-        "Visibility": Object {
-          "Imperial": Object {
+        "Visibility": {
+          "Imperial": {
             "Unit": "mi",
             "UnitType": 2,
             "Value": 10,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "km",
             "UnitType": 6,
             "Value": 16.1,
@@ -1850,57 +1850,57 @@ Object {
         },
         "WeatherIcon": 7,
         "WeatherText": "Cloudy",
-        "WetBulbTemperature": Object {
-          "Imperial": Object {
+        "WetBulbTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 49,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 9.7,
           },
         },
-        "Wind": Object {
-          "Direction": Object {
+        "Wind": {
+          "Direction": {
             "Degrees": 270,
             "English": "W",
             "Localized": "W",
           },
-          "Speed": Object {
-            "Imperial": Object {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
             },
           },
         },
-        "WindChillTemperature": Object {
-          "Imperial": Object {
+        "WindChillTemperature": {
+          "Imperial": {
             "Unit": "F",
             "UnitType": 18,
             "Value": 52,
           },
-          "Metric": Object {
+          "Metric": {
             "Unit": "C",
             "UnitType": 17,
             "Value": 11.1,
           },
         },
-        "WindGust": Object {
-          "Speed": Object {
-            "Imperial": Object {
+        "WindGust": {
+          "Speed": {
+            "Imperial": {
               "Unit": "mi/h",
               "UnitType": 9,
               "Value": 11.5,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "km/h",
               "UnitType": 7,
               "Value": 18.5,
@@ -1909,9 +1909,9 @@ Object {
         },
       },
     ],
-    "dataLocation": Array [
-      Object {
-        "AdministrativeArea": Object {
+    "dataLocation": [
+      {
+        "AdministrativeArea": {
           "CountryID": "US",
           "EnglishName": "Pennsylvania",
           "EnglishType": "State",
@@ -1920,12 +1920,12 @@ Object {
           "LocalizedName": "Pennsylvania",
           "LocalizedType": "State",
         },
-        "Country": Object {
+        "Country": {
           "EnglishName": "United States",
           "ID": "US",
           "LocalizedName": "United States",
         },
-        "DataSets": Array [
+        "DataSets": [
           "AirQualityCurrentConditions",
           "AirQualityForecasts",
           "Alerts",
@@ -1937,14 +1937,14 @@ Object {
           "Radar",
         ],
         "EnglishName": "Park Forest Village",
-        "GeoPosition": Object {
-          "Elevation": Object {
-            "Imperial": Object {
+        "GeoPosition": {
+          "Elevation": {
+            "Imperial": {
               "Unit": "ft",
               "UnitType": 0,
               "Value": 1400,
             },
-            "Metric": Object {
+            "Metric": {
               "Unit": "m",
               "UnitType": 5,
               "Value": 427,
@@ -1958,19 +1958,19 @@ Object {
         "LocalizedName": "Park Forest Village",
         "PrimaryPostalCode": "16803",
         "Rank": 65,
-        "Region": Object {
+        "Region": {
           "EnglishName": "North America",
           "ID": "NAM",
           "LocalizedName": "North America",
         },
-        "SupplementalAdminAreas": Array [
-          Object {
+        "SupplementalAdminAreas": [
+          {
             "EnglishName": "Centre",
             "Level": 2,
             "LocalizedName": "Centre",
           },
         ],
-        "TimeZone": Object {
+        "TimeZone": {
           "Code": "EDT",
           "GmtOffset": -4,
           "IsDaylightSaving": true,
@@ -1981,7 +1981,7 @@ Object {
         "Version": 1,
       },
     ],
-    "result": Array [
+    "result": [
       true,
       "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000002002380000000000000000000000000000000000000000000000000000000000000060555300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000135061726b20466f726573742056696c6c61676500000000000000000000000000",
       "0x000000000000000000000000000000000000000000000000000000006172ae5000000000000000000000000000000000000000000000000000000000000002d0000000000000000000000000000000000000000000000000000000000000046000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018bc8000000000000000000000000000000000000000000000000000000000000006d000000000000000000000000000000000000000000000000000000000000010e00000000000000000000000000000000000000000000000000000000000000b90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007",
@@ -1989,7 +1989,7 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Array [
+  "result": [
     true,
     "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000002002380000000000000000000000000000000000000000000000000000000000000060555300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000135061726b20466f726573742056696c6c61676500000000000000000000000000",
     "0x000000000000000000000000000000000000000000000000000000006172ae5000000000000000000000000000000000000000000000000000000000000002d0000000000000000000000000000000000000000000000000000000000000046000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018bc8000000000000000000000000000000000000000000000000000000000000006d000000000000000000000000000000000000000000000000000000000000010e00000000000000000000000000000000000000000000000000000000000000b90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007",
@@ -1999,10 +1999,10 @@ Object {
 `;
 
 exports[`execute location-current-conditions endpoint success calls when no location is found for the given coordinates returns the result as JSON 1`] = `
-Object {
-  "data": Object {
-    "dataLocation": Array [],
-    "result": Object {
+{
+  "data": {
+    "dataLocation": [],
+    "result": {
       "countryCode": "0x",
       "locationFound": false,
       "locationKey": 0,
@@ -2023,7 +2023,7 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "countryCode": "0x",
     "locationFound": false,
     "locationKey": 0,
@@ -2046,10 +2046,10 @@ Object {
 `;
 
 exports[`execute location-current-conditions endpoint success calls when no location is found for the given coordinates returns the result encoded 1`] = `
-Object {
-  "data": Object {
-    "dataLocation": Array [],
-    "result": Array [
+{
+  "data": {
+    "dataLocation": [],
+    "result": [
       false,
       "0x",
       "0x",
@@ -2057,7 +2057,7 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Array [
+  "result": [
     false,
     "0x",
     "0x",

@@ -1,26 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute additional input parameter pass through should return the correct price for source amberdata with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -31,26 +31,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source coinapi with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -61,26 +61,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source coingecko with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -91,26 +91,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source coinmarketcap with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -121,26 +121,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source coinpaprika with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -151,26 +151,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source coinranking with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -181,26 +181,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source cryptocompare with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -211,26 +211,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source kaiko with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -241,26 +241,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source nomics with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -271,26 +271,26 @@ Object {
 `;
 
 exports[`execute additional input parameter pass through should return the correct price for source tiingo with additional input   1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -301,26 +301,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source amberdata 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -331,26 +331,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source coinapi 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -361,26 +361,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source coingecko 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -391,26 +391,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source coinmarketcap 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -421,26 +421,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source coinpaprika 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -451,26 +451,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source coinranking 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -481,26 +481,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source cryptocompare 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -511,26 +511,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source kaiko 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -541,26 +541,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source nomics 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -571,26 +571,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price for source tiingo 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -601,26 +601,26 @@ Object {
 `;
 
 exports[`execute marketcap method should return the correct price using a batched request when pulling data from coin API and the quote is USD 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "USD": {
             "marketCap": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "WBTC": {
+        "quote": {
+          "USD": {
             "marketCap": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -631,26 +631,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source amberdata 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -661,26 +661,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source coinapi 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -691,26 +691,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source coingecko 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -721,26 +721,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source coinmarketcap 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -751,26 +751,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source coinpaprika 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -781,26 +781,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source coinranking 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -811,26 +811,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source cryptocompare 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -841,26 +841,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source kaiko 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -871,26 +871,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source nomics 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -901,26 +901,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price for source tiingo 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "EUR": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "EUR": Object {
+      "WBTC": {
+        "quote": {
+          "EUR": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -931,26 +931,26 @@ Object {
 `;
 
 exports[`execute price method should return the correct price using a batched request when pulling data from coin API and the quote is USD 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "USD": {
             "price": 130.27,
           },
         },
       },
-      "WBTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "WBTC": {
+        "quote": {
+          "USD": {
             "price": 130.27,
           },
         },
       },
     },
     "result": 260.54,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
