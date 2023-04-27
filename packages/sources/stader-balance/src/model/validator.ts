@@ -147,7 +147,10 @@ abstract class Validator {
   protected provider: ethers.providers.JsonRpcProvider
   protected logPrefix: string
 
-  abstract calculateBalance(validatorDeposit: BigNumber): Promise<BalanceResponse>
+  abstract calculateBalance(
+    validatorDeposit: BigNumber,
+    depositedBalances?: BalanceResponse[],
+  ): Promise<BalanceResponse>
 
   constructor(params: ValidatorParams) {
     this.addressData = params.addressData
@@ -210,7 +213,10 @@ abstract class Validator {
     }
   }
 
-  protected async fetchDataForBalanceCalculation(validatorDeposit: BigNumber) {
+  protected async fetchDataForBalanceCalculation(
+    validatorDeposit: BigNumber,
+    depositedBalances?: BalanceResponse[],
+  ) {
     // Fetch amount of collateral eth specified in the pool and subtract it from the validator deposit
     const collateralEth = await this.pool.fetchCollateralEth()
     const userDeposit = validatorDeposit.minus(collateralEth)
@@ -222,26 +228,48 @@ abstract class Validator {
     const poolCommission = await this.pool.fetchTotalCommissionPercentage()
     const withdrawalAddressBalance = await this.fetchWithdrawalAddressBalance()
 
+    let depositedEth = BigNumber(0)
+    if (depositedBalances) {
+      const depositeBalance = depositedBalances.find(
+        (balance) => balance.address === this.addressData.address,
+      )
+      // Deposit event balance is maintained in wei so conversion is not needed here
+      depositedEth = BigNumber(depositeBalance?.balance || 0)
+    }
+
     return {
       userDeposit,
       poolCommission,
       withdrawalAddressBalance,
+      depositedEth,
     }
   }
 }
 
 class ActiveValidator extends Validator {
-  async calculateBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
+  async calculateBalance(
+    validatorDeposit: BigNumber,
+    depositedBalances: BalanceResponse[],
+  ): Promise<BalanceResponse> {
     logger.debug(`${this.logPrefix} validator is not done or balance > 0, considering it active`)
-    const { userDeposit, poolCommission, withdrawalAddressBalance } =
-      await this.fetchDataForBalanceCalculation(validatorDeposit)
+    const { userDeposit, poolCommission, withdrawalAddressBalance, depositedEth } =
+      await this.fetchDataForBalanceCalculation(validatorDeposit, depositedBalances)
 
     // Get the current penalty for this validator from the Stader Penalty contract
     const validatorPenalty = await this.fetchPenalty()
-
+    logger.debug(
+      `Validator (${this.addressData.address}), 
+      User deposit: ${userDeposit}. 
+      Pool Commission: ${poolCommission}. 
+      Withdrawal balance: ${withdrawalAddressBalance}. 
+      Deposited Eth: ${depositedEth}`,
+    )
+    // Add deposited ETH to balance found on beacon
+    // Limbo ETH should be included in the calculations
+    const effectiveBalance = this.validatorBalance.plus(depositedEth)
     // Calculate the preliminary user balance
     const preliminaryUserBalance = this.calculatePreliminaryBalance({
-      balance: this.validatorBalance,
+      balance: effectiveBalance,
       validatorDeposit,
       poolCommission,
       userDeposit,
@@ -251,12 +279,12 @@ class ActiveValidator extends Validator {
     // Calculate the node's balance
     const nodeBalance = BigNumber.max(
       0,
-      this.validatorBalance.minus(preliminaryUserBalance).minus(validatorPenalty),
+      effectiveBalance.minus(preliminaryUserBalance).minus(validatorPenalty),
     )
     logger.debug(`${this.logPrefix} calculated node balance: ${nodeBalance}`)
 
     // Calculate user balance
-    const userBalance = this.validatorBalance.minus(nodeBalance)
+    const userBalance = effectiveBalance.minus(nodeBalance)
     logger.debug(`${this.logPrefix} calculated user balance: ${userBalance}`)
 
     // Calculate withdrawal balance
