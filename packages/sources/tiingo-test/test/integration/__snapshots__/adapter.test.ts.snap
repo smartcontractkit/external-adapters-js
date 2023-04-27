@@ -200,7 +200,7 @@ exports[`execute websocket iex endpoint Q request should return success 1`] = `
   },
   "result": 170.285,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
     "providerIndicatedTimeUnixMs": 1645032916595,
