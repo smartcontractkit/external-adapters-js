@@ -35,7 +35,7 @@ export const mockResponseSuccessTickersEndpoint = (): nock.Scope =>
     encodedQueryParams: true,
   })
     .get('/v2/snapshot/locale/global/markets/forex/tickers')
-    .query({ apikey: 'fake-api-key', tickers: 'C:USDGBP' })
+    .query({ apikey: 'fake-api-key', tickers: 'C:USDGBP,C:XAGCAD' })
     .reply(
       200,
       () => ({

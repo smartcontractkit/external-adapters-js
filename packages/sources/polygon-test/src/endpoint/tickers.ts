@@ -3,6 +3,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('Polygon Tickers Logger')
 
@@ -11,19 +12,7 @@ export interface RequestParams {
   quote: string
 }
 
-export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody
-  }
-}
-
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
@@ -36,7 +25,20 @@ export const inputParameters = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-} as const
+})
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Request: {
+    Params: RequestParams
+  }
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
 
 export interface ProviderResponseBody {
   status: string
@@ -78,48 +80,50 @@ export interface Tickers {
   updated: number
 }
 
-// format input as an array regardless of if it is a string or an array already
-const formatArray = (input: string | string[]): string[] =>
-  typeof input === 'string' ? [input] : input
-
 export const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, settings: typeof config.settings) => {
-    return params.map((param) => {
-      const from = param.base.toUpperCase()
-      const to = param.quote.toUpperCase()
-
-      const pairArray = []
-      for (const fromCurrency of formatArray(from)) {
-        for (const toCurrency of formatArray(to)) {
-          pairArray.push(`C:${fromCurrency.toUpperCase()}${toCurrency.toUpperCase()}`)
-        }
-      }
-
-      const pairs = pairArray.toString()
-      const requestConfig = {
+    return {
+      params,
+      request: {
         baseURL: settings.API_ENDPOINT,
         url: '/v2/snapshot/locale/global/markets/forex/tickers',
         method: 'GET',
         params: {
           apikey: settings.API_KEY,
-          tickers: pairs,
+          tickers: [...new Set(params.map((p) => `C:${p.base}${p.quote}`.toUpperCase()))].join(','),
         },
-      }
-      return {
-        params,
-        request: requestConfig,
-      }
-    })
+      },
+    }
   },
   parseResponse: (params, res) => {
     if (res.data.tickers.length === 0) {
       logger.error(`The data provider didn't return any value`)
-      return []
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage: `Data was not found in response for request: ${JSON.stringify(param)},`,
+            statusCode: 502,
+          },
+        }
+      })
     }
+
     return params.map((param) => {
-      const result = res.data.tickers[0]['min']['c']
+      const ticker = `C:${param.base}${param.quote}`.toUpperCase()
+      const tickerResponse = res.data.tickers.find((t) => t.ticker === ticker)
+      if (!tickerResponse) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `Data was not found in response for request: ${JSON.stringify(param)},`,
+            statusCode: 502,
+          },
+        }
+      }
+      const result = tickerResponse.min.c
       return {
-        params: { ...param },
+        params: param,
         response: {
           data: {
             result,

@@ -15,16 +15,20 @@ export const adapter = new Adapter({
         note: 'only mentions monthly limits',
       },
       starter: {
-        rateLimit1h: -1,
+        rateLimit1s: 100,
+        note: 'Considered unlimited tier, but setting reasonable limits',
       },
       developer: {
-        rateLimit1h: -1,
+        rateLimit1s: 100,
+        note: 'Considered unlimited tier, but setting reasonable limits',
       },
       advanced: {
-        rateLimit1h: -1,
+        rateLimit1s: 100,
+        note: 'Considered unlimited tier, but setting reasonable limits',
       },
       enterprise: {
-        rateLimit1h: -1,
+        rateLimit1s: 100,
+        note: 'Considered unlimited tier, but setting reasonable limits',
       },
     },
   },

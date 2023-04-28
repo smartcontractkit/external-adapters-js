@@ -3,19 +3,20 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('Polygon Conversion Logger')
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from'],
-    required: false,
+    required: true,
     description: 'The symbol of the currency to query',
     type: 'string',
   },
   quote: {
     aliases: ['to'],
-    required: false,
+    required: true,
     description: 'The symbol of the currency to convert to',
     type: 'string',
   },
@@ -31,16 +32,17 @@ export const inputParameters = {
     default: 6,
     type: 'number',
   },
-} as const
+})
 
 interface RequestParams {
   base: string
   quote: string
-  amount?: number
-  precision?: number
+  amount: number
+  precision: number
 }
 
 export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
   Request: {
     Params: RequestParams
   }
@@ -74,7 +76,6 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       const requestConfig = {
         baseURL: settings.API_ENDPOINT,
         url,
-        method: 'GET',
         params: {
           apikey: settings.API_KEY,
           amount,
@@ -89,11 +90,13 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   },
   parseResponse: (params, res) => {
     if (!res.data.converted) {
-      const errorMessage = `The data provider didn't return any value`
+      const errorMessage = `The data provider didn't return any value for ${JSON.stringify(
+        params[0],
+      )}`
       logger.error(errorMessage)
       return [
         {
-          params: { ...params[0] },
+          params: params[0],
           response: {
             statusCode: 502,
             errorMessage,
@@ -104,7 +107,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
     return params.map((param) => {
       const result = res.data.converted
       return {
-        params: { ...param },
+        params: param,
         response: {
           data: {
             result,

@@ -62,7 +62,7 @@ describe('rest', () => {
   })
 
   describe('forex batch api', () => {
-    const data = {
+    const requestData1 = {
       id,
       data: {
         endpoint: 'tickers',
@@ -71,16 +71,56 @@ describe('rest', () => {
       },
     }
 
+    const requestData2 = {
+      id,
+      data: {
+        endpoint: 'tickers',
+        base: 'XAG',
+        quote: 'CAD',
+      },
+    }
+
     it('should return success', async () => {
       mockResponseSuccessTickersEndpoint()
+      await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(requestData1)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+
+      await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(requestData2)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+
       const response = await (context.req as SuperTest<Test>)
         .post('/')
-        .send(data)
+        .send(requestData1)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body).toMatchSnapshot()
+
+      const response2 = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(requestData2)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response2.body).toEqual({
+        data: {
+          result: 28.5,
+        },
+        result: 28.5,
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 1641035471111,
+          providerDataRequestedUnixMs: 1641035471111,
+        },
+      })
     })
   })
 })
