@@ -1,14 +1,11 @@
-import {
-  PriceEndpoint,
-  PriceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { config } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import overrides from '../config/overrides.json'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin'],
     required: true,
@@ -23,22 +20,25 @@ const inputParameters = {
   },
   interval: {
     required: false,
+    type: 'string',
     description:
       'The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly',
     default: '2m',
   },
   millisecondsAgo: {
     required: false,
+    type: 'number',
     description:
       'Number of milliseconds from the current time that will determine start_time to use in the query',
     default: 86_400_000, // 24 hours
   },
   sort: {
     required: false,
+    type: 'string',
     description: 'Which way to sort the data returned in the query',
     default: 'desc',
   },
-} satisfies InputParameters & PriceEndpointInputParameters
+})
 
 export interface RequestParams {
   base: string
@@ -77,9 +77,7 @@ export interface ResponseSchema {
 }
 
 type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -144,7 +142,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
   },
 })
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'trades',
   aliases: ['price', 'crypto'],
   transport: httpTransport,

@@ -1,7 +1,6 @@
 import {
   CryptoPriceEndpoint,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
@@ -10,11 +9,14 @@ import {
   ProviderResultGenerics,
 } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 // Note: this adapter is intended for the API with endpoint 'wss://cryptofeed.ws.newchangefx.com'.
 // There is another API with endpoint 'wss://feed.newchangefx.com/cryptodata' that has slightly
 // different behavior, including a different login success message and the price messages being
 // an array of price data objects for each subscribed asset.
+
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 type WsMessage = WsInfoMessage | WsPriceMessage
 
@@ -41,9 +43,7 @@ type Response = {
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: Response
   Settings: typeof config.settings
   Provider: {
@@ -52,7 +52,7 @@ export type EndpointTypes = {
 }
 
 export type MultiVarResult<T extends ProviderResultGenerics> = {
-  params: T['Request']['Params']
+  params: typeof inputParameters.validated
   response: PartialAdapterResponse<T['Response']> & {
     bid: number
     ask: number
@@ -139,5 +139,5 @@ const isInfoMessage = (message: WsMessage): message is WsInfoMessage => {
 export const cryptoEndpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
   transport: cryptoTransport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
 })
