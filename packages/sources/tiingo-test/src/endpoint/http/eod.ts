@@ -64,7 +64,7 @@ export const httpTransport = new HttpTransport<EODEndpointTypes>({
           params: params[0],
           response: {
             errorMessage: (res.data as ErrorResponse).detail,
-            statusCode: 400,
+            statusCode: 502,
           },
         },
       ]
@@ -77,7 +77,7 @@ export const httpTransport = new HttpTransport<EODEndpointTypes>({
           params: { ticker: entry.ticker },
           response: {
             errorMessage: `Could not retrieve valid data from Data Provider for ticket ${entry.ticker}. This is likely an issue with the Data Provider or the input params/overrides`,
-            statusCode: 400,
+            statusCode: 502,
           },
         }
       }

@@ -83,7 +83,7 @@ export const constructEntry = <T extends typeof inputParameters.validated>(
         params: param,
         response: {
           errorMessage: `Tiingo provided no data for ${param.base}/${param.quote}`,
-          statusCode: 400,
+          statusCode: 502,
         },
       }
     })
