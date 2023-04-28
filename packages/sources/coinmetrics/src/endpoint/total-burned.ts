@@ -5,14 +5,18 @@ import { Transport, TransportDependencies } from '@chainlink/external-adapter-fr
 import {
   AdapterRequest,
   AdapterResponse,
-  makeLogger,
   SingleNumberResultResponse,
+  makeLogger,
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  InputParametersDefinition,
+  TypeFromDefinition,
+} from '@chainlink/external-adapter-framework/validation/input-params'
 import { BigNumber, ethers } from 'ethers'
 import { config } from '../config'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('CoinMetricsBurnedTransport')
 
@@ -33,7 +37,7 @@ interface AssetMetrics {
   RevNtv: string
 }
 
-interface ResponseSchema {
+export interface BurnedResponseSchema {
   data: AssetMetrics[]
   next_page_token?: string
   next_page_url?: string
@@ -62,19 +66,7 @@ type ProviderRequestConfig = {
   }
 }
 
-export type EndpointTypes = {
-  Response: SingleNumberResultResponse
-  Request: {
-    Params: RequestParams
-  }
-  Settings: typeof config.settings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
-  }
-}
-
-const inputParams = {
+export const baseInputParametersDefinition = {
   asset: {
     description:
       'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
@@ -94,19 +86,19 @@ const inputParams = {
     type: 'number',
     required: false,
   },
-  startTime: {
-    description:
-      'The start time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
-    type: 'string',
-    required: false,
-  },
-  endTime: {
-    description:
-      'The end time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
-    type: 'string',
-    required: false,
-  },
-} satisfies InputParameters
+} as const satisfies InputParametersDefinition
+
+const inputParameters = new InputParameters(baseInputParametersDefinition)
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+  Provider: {
+    RequestBody: never
+    ResponseBody: BurnedResponseSchema
+  }
+}
 
 export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber => {
   let burnedTKN = BigNumber.from('0')
@@ -128,16 +120,13 @@ export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber 
   return burnedTKN
 }
 
-export class TotalBurnedTransport implements Transport<EndpointTypes> {
+export class TotalBurnedTransport<T extends EndpointTypes> implements Transport<T> {
   name!: string
   requester!: Requester
-  responseCache!: ResponseCache<{
-    Request: EndpointTypes['Request']
-    Response: EndpointTypes['Response']
-  }>
+  responseCache!: ResponseCache<T>
 
   async initialize(
-    dependencies: TransportDependencies<EndpointTypes>,
+    dependencies: TransportDependencies<T>,
     _adapterSettings: EndpointTypes['Settings'],
     _endpointName: string,
     transportName: string,
@@ -148,26 +137,26 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
   }
 
   async foregroundExecute(
-    req: AdapterRequest<EndpointTypes['Request']>,
+    req: AdapterRequest<TypeFromDefinition<T['Parameters']>>,
     settings: typeof config.settings,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     let totalBurnedTKN = BigNumber.from('0')
 
     let lastPage = false
-    const input = req.requestContext.data
+    const input = req.requestContext.data as typeof inputParameters.validated
     const isBurnedEndpoint = req.requestContext.endpointName === 'burned'
     if (isBurnedEndpoint) {
       input.pageSize = 1
     }
-    const requestConfig = this.prepareRequest(req.requestContext.data, settings)
+    const requestConfig = this.prepareRequest(input, settings)
 
     const providerDataRequestedUnixMs = Date.now()
     while (!lastPage) {
-      const result = await this.requester.request<ResponseSchema>(
-        calculateHttpRequestKey({
+      const result = await this.requester.request<BurnedResponseSchema>(
+        calculateHttpRequestKey<EndpointTypes>({
           context: {
             adapterSettings: settings,
-            inputParameters: inputParams,
+            inputParameters,
             endpointName: req.requestContext.endpointName,
           },
           data: requestConfig.params,
@@ -185,8 +174,7 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
 
       if (
         !nextPageToken ||
-        (req.requestContext.data.pageSize &&
-          assetMetricsList.length < req.requestContext.data.pageSize) ||
+        (input.pageSize && assetMetricsList.length < input.pageSize) ||
         isBurnedEndpoint
       ) {
         lastPage = true
@@ -245,5 +233,5 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: ENPDOINT_NAME,
   transport: new TotalBurnedTransport(),
-  inputParameters: inputParams,
+  inputParameters,
 })

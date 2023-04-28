@@ -1,4 +1,6 @@
+import { priceEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from './config'
 
 export interface AuthResponse {
@@ -17,17 +19,12 @@ export interface ProviderMessage {
   errors: string
 }
 
-export interface AdapterRequestParams {
-  base: string
-  quote: string
-}
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 export type PriceEndpointTypes = {
-  Request: {
-    Params: AdapterRequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     WsMessage: ProviderMessage
   }

@@ -9,17 +9,14 @@ import { config, getApiEndpoint } from './config'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   market: {
+    type: 'string',
     aliases: ['to', 'quote'],
     description: 'The ticker of the coin to query',
     required: true,
   },
-} satisfies InputParameters
-
-export interface GlobalRequestParams {
-  market: string
-}
+})
 
 export interface ProviderResponseBody {
   data: {
@@ -37,11 +34,9 @@ export interface ProviderResponseBody {
 }
 
 export type GlobalEndpointTypes = {
-  Request: {
-    Params: GlobalRequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
@@ -49,7 +44,7 @@ export type GlobalEndpointTypes = {
 }
 
 export const buildGlobalRequestBody = (
-  params: GlobalRequestParams[],
+  params: (typeof inputParameters.validated)[],
   settings: typeof config.settings,
 ): ProviderRequestConfig<GlobalEndpointTypes> => {
   return {
@@ -67,7 +62,7 @@ export const buildGlobalRequestBody = (
 
 export const constructEntry = (
   res: ProviderResponseBody,
-  requestPayload: GlobalRequestParams,
+  requestPayload: typeof inputParameters.validated,
   resultPath: 'total_market_cap' | 'market_cap_percentage',
 ): ProviderResult<GlobalEndpointTypes> => {
   const entry = {

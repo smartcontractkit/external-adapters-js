@@ -7,7 +7,7 @@ import overrides from '../config/overrides.json'
 
 const logger = makeLogger('CoinPaprika Global Batched')
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   market: {
     aliases: ['to', 'quote'],
     description: 'The symbol of the currency to convert to',
@@ -18,14 +18,9 @@ export const inputParameters = {
     description: 'The path to the result within the asset quote in the provider response',
     required: false,
     type: 'string',
-    options: ['globalmarketcap', 'dominance'],
+    options: ['market_cap_', '_dominance_percentage'],
   },
-} satisfies InputParameters
-
-export interface GlobalRequestParams {
-  market: string
-  resultPath: '_dominance_percentage' | 'market_cap_'
-}
+})
 
 export interface GlobalResponseBody {
   market_cap_usd: number
@@ -42,11 +37,9 @@ export interface GlobalResponseBody {
 }
 
 export type GlobalEndpointTypes = {
-  Request: {
-    Params: GlobalRequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: GlobalResponseBody

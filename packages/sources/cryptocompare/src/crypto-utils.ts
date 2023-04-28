@@ -1,14 +1,10 @@
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from './config'
-import {
-  PriceEndpointInputParameters,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from './config'
 
 export const logger = makeLogger('CryptoCompare HTTP')
 
-export const cryptoInputParams = {
+export const cryptoInputParams = new InputParameters({
   base: {
     aliases: ['from', 'coin', 'fsym'],
     description: 'The symbol of symbols of the currency to query',
@@ -21,9 +17,7 @@ export const cryptoInputParams = {
     required: true,
     type: 'string',
   },
-} satisfies InputParameters & PriceEndpointInputParameters
-
-export type CryptoEndpointParams = PriceEndpointParams
+})
 
 export interface ProviderCryptoQuoteData {
   TYPE: string
@@ -130,9 +124,7 @@ export interface ProviderCryptoResponseBody {
 }
 
 export type CryptoEndpointTypes = {
-  Request: {
-    Params: CryptoEndpointParams
-  }
+  Parameters: typeof cryptoInputParams.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
@@ -146,13 +138,13 @@ export type HttpEndpointTypes = CryptoEndpointTypes & {
 
 // Cryptocompare has limits for `fsyms` and `tsyms` query params. 1000 characters for `fsyms` and 100 for `tsyms`. We create N number of chunks based on actual lengths of params.
 const chunkByParamsLength = (
-  params: CryptoEndpointParams[],
+  params: (typeof cryptoInputParams.validated)[],
   maxBatchBaseLength = 200,
   maxBatchQuoteLength = 100,
 ) => {
   const uniqueParams: { bases: string[]; quotes: string[] } = { bases: [], quotes: [] }
-  const result: CryptoEndpointParams[][] = []
-  let temp: CryptoEndpointParams[] = []
+  const result: (typeof cryptoInputParams.validated)[][] = []
+  let temp: (typeof cryptoInputParams.validated)[] = []
   const TICKER_MAX_LENGTH = 5
   params.forEach((pair) => {
     // Here we assume that the maximum ticker size is 5. We subtract it to be safe that we don't exceed the limit even when the last ticker has the maximum allowed length.  We also subtract the last comma.
@@ -187,7 +179,7 @@ const chunkByParamsLength = (
 }
 
 export const buildBatchedRequestBody = (
-  params: CryptoEndpointParams[],
+  params: (typeof cryptoInputParams.validated)[],
   settings: typeof config.settings,
 ) => {
   const chunkedMatrix = chunkByParamsLength(params)
@@ -210,7 +202,7 @@ export const buildBatchedRequestBody = (
   })
 }
 
-const errorResponse = (payload: CryptoEndpointParams, message?: string) => {
+const errorResponse = (payload: typeof cryptoInputParams.validated, message?: string) => {
   return {
     params: payload,
     response: {
@@ -223,7 +215,7 @@ const errorResponse = (payload: CryptoEndpointParams, message?: string) => {
 }
 
 export const constructEntry = (
-  requestPayload: CryptoEndpointParams,
+  requestPayload: typeof cryptoInputParams.validated,
   res: ProviderCryptoResponseBody,
   resultPath: keyof Pick<ProviderCryptoQuoteData, 'PRICE' | 'MKTCAP' | 'VOLUME24HOURTO'>,
 ) => {

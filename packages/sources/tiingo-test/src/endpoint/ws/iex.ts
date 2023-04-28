@@ -1,7 +1,5 @@
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../config'
 import { TiingoWebsocketTransport } from '../../ws-utils'
-import { IexRequestParams } from '../common/iex-router'
+import { IEXEndpointTypes } from '../common/iex-router'
 
 interface Message {
   service: string
@@ -12,12 +10,7 @@ interface Message {
 const tickerIndex = 3
 const priceIndex = 5
 
-type EndpointTypes = {
-  Request: {
-    Params: IexRequestParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+type EndpointTypes = IEXEndpointTypes & {
   Provider: {
     WsMessage: Message
   }

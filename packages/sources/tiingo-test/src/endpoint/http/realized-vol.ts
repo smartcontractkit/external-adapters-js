@@ -1,10 +1,10 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
-import overrides from '../../config/overrides.json'
-import { config } from '../../config'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../../config'
+import overrides from '../../config/overrides.json'
 
 const logger = makeLogger('TiingoRealizedVol HTTP')
 
@@ -33,13 +33,7 @@ export type RealizedVolResponse = {
   Data: ResponseData
 }
 
-type RealizedVolRequestParams = {
-  base: string
-  convert: string
-  resultPath: string
-}
-
-const inputParameters = {
+const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin'],
     required: true,
@@ -59,19 +53,18 @@ const inputParameters = {
     type: 'string',
     description: 'The field to return within the result path',
   },
-} satisfies InputParameters
+})
 
 type RealizedVolEndpointTypes = {
-  Request: {
-    Params: RealizedVolRequestParams
-  }
-  Response: RealizedVolResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: RealizedVolResponse
   Provider: {
     RequestBody: unknown
     ResponseBody: RealizedVolResponseBody[]
   }
 }
+
 export const httpTransport = new HttpTransport<RealizedVolEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {

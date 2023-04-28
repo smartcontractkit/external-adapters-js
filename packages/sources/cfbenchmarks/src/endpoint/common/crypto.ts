@@ -1,7 +1,4 @@
-import {
-  CryptoPriceEndpoint,
-  PriceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
@@ -17,7 +14,7 @@ import { makeWsTransport } from '../websocket/crypto'
 export type Params = { index?: string; base?: string; quote?: string }
 export type RequestParams = { Params: Params }
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   index: {
     description: 'The ID of the index. Takes priority over base/quote when provided.',
     type: 'string',
@@ -35,12 +32,12 @@ export const inputParameters = {
     description: 'The symbol of the currency to convert to',
     required: false,
   },
-} satisfies InputParameters & PriceEndpointInputParameters
+})
 
 export type EndpointTypes = {
-  Request: RequestParams
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
 
 export const additionalInputValidation = ({ index, base, quote }: Params): void => {
@@ -54,7 +51,7 @@ export const additionalInputValidation = ({ index, base, quote }: Params): void 
   }
 }
 
-export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void => {
+export const cryptoRequestTransform = (req: AdapterRequest<EndpointTypes['Parameters']>): void => {
   // TODO: Move additional input validations to proper location after framework supports it
   additionalInputValidation(req.requestContext.data)
   if (!req.requestContext.data.index) {
@@ -76,7 +73,7 @@ export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void
 
 export const requestTransforms = [cryptoRequestTransform]
 
-export const endpoint = new CryptoPriceEndpoint({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
   aliases: ['values', 'price'], // Legacy aliases
   inputParameters,

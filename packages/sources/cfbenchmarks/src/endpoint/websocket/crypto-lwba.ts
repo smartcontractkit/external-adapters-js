@@ -1,10 +1,9 @@
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { additionalInputValidation, inputParameters, RequestParams } from '../common/crypto'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { AdapterRequest, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { config } from '../../config'
 import { getSecondaryId } from '../../utils'
-import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import { additionalInputValidation, inputParameters } from '../common/crypto'
 
 const logger = makeLogger('CfbenchmarksCryptoLwbaWebsocketEndpoint')
 
@@ -39,9 +38,9 @@ interface EPResponse {
 }
 
 type WsEndpointTypes = {
-  Request: RequestParams
-  Response: EPResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: EPResponse
   Provider: {
     WsMessage: WSResponse & WSResponseError
   }
@@ -73,7 +72,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
 
       return [
         {
-          params: { index: message.id },
+          params: { index: message.id, base: undefined, quote: undefined },
           response: {
             result: Number(message.value),
             data: {
@@ -111,7 +110,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   },
 })
 
-export const lwbaReqTransformer = (req: AdapterRequest<RequestParams>): void => {
+export const lwbaReqTransformer = (req: AdapterRequest<typeof inputParameters.validated>): void => {
   additionalInputValidation(req.requestContext.data)
 
   if (!req.requestContext.data.index) {

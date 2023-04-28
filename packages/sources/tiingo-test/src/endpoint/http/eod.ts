@@ -1,9 +1,9 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { config } from '../../config'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import overrides from '../../config/overrides.json'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../../config'
+import overrides from '../../config/overrides.json'
 
 interface ProviderResponseBody {
   adjClose: number
@@ -25,21 +25,19 @@ interface ErrorResponse {
   detail: string
 }
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   ticker: {
     aliases: ['base', 'from', 'coin'],
     required: true,
     type: 'string',
     description: 'The stock ticker to query',
   },
-} satisfies InputParameters
+})
 
 type EODEndpointTypes = {
-  Request: {
-    Params: { ticker: string }
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[] | ErrorResponse

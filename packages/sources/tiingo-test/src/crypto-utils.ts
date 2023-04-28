@@ -1,27 +1,9 @@
-import {
-  PriceEndpointInputParameters,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
+import { priceEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from './config'
 
-export const inputParameters = {
-  base: {
-    aliases: ['from', 'coin'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-  },
-} satisfies InputParameters & PriceEndpointInputParameters
-
-export type RouterPriceEndpointParams = PriceEndpointParams
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 export interface ProviderResponseBody {
   ticker: string
@@ -46,11 +28,9 @@ export interface ProviderResponseBody {
 }
 
 export type CryptoEndpointTypes = {
-  Request: {
-    Params: RouterPriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
 
 export type HttpTransportTypes = CryptoEndpointTypes & {
@@ -60,10 +40,10 @@ export type HttpTransportTypes = CryptoEndpointTypes & {
   }
 }
 
-const chunkArray = <T extends PriceEndpointParams>(params: T[], size = 100): T[][] =>
+const chunkArray = <T>(params: T[], size = 100): T[][] =>
   params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
 
-export const buildBatchedRequestBody = <T extends PriceEndpointParams>(
+export const buildBatchedRequestBody = <T extends typeof inputParameters.validated>(
   params: T[],
   settings: typeof config.settings,
   url: string,
@@ -89,7 +69,7 @@ export const buildBatchedRequestBody = <T extends PriceEndpointParams>(
   })
 }
 
-export const constructEntry = <T extends PriceEndpointParams>(
+export const constructEntry = <T extends typeof inputParameters.validated>(
   res: ProviderResponseBody[],
   params: T[],
   resultPath: 'close' | 'volumeNotional' | 'fxClose',
