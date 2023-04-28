@@ -51,7 +51,9 @@ export const additionalInputValidation = ({ index, base, quote }: Params): void 
   }
 }
 
-export const cryptoRequestTransform = (req: AdapterRequest<EndpointTypes['Parameters']>): void => {
+export const cryptoRequestTransform = (
+  req: AdapterRequest<typeof inputParameters.validated>,
+): void => {
   // TODO: Move additional input validations to proper location after framework supports it
   additionalInputValidation(req.requestContext.data)
   if (!req.requestContext.data.index) {

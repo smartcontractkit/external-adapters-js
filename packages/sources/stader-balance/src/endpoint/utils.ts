@@ -52,23 +52,75 @@ export const staderNetworkChainMap: NetworkChainMap = {
   },
 }
 
-export const inputParameters = {
+export enum StaderValidatorStatus {
+  INITIALIZED,
+  INVALID_SIGNATURE,
+  FRONT_RUN,
+  PRE_DEPOSIT,
+  DEPOSITED,
+  IN_ACTIVATION_QUEUE,
+  ACTIVE,
+  IN_EXIT_QUEUE,
+  EXITED,
+  WITHDRAWN,
+}
+
+export const inputParameters = new InputParameters({
   addresses: {
     aliases: ['result'],
     required: true,
-    type: 'array',
     description:
       'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+    type: {
+      address: {
+        type: 'string',
+        required: true,
+        description: 'One of the addresses to get balance of',
+      },
+      poolId: {
+        type: 'number',
+        required: true,
+        description: 'The ID of the validator pool',
+      },
+      network: {
+        type: 'string',
+        description: 'TODO',
+        required: true,
+      },
+      chainId: {
+        type: 'string',
+        description: 'TODO',
+        required: true,
+      },
+      status: {
+        type: 'number',
+        description: 'TODO',
+        required: true,
+        options: Object.values(StaderValidatorStatus),
+      },
+      withdrawVaultAddress: {
+        type: 'string',
+        description: 'TODO',
+        required: true,
+      },
+      operatorId: {
+        type: 'number',
+        description: 'TODO',
+        required: true,
+      },
+    },
   },
   elRewardAddresses: {
     description: 'List of unique execution layer reward addresses',
-    type: 'array',
+    type: 'string',
     required: true,
+    array: true,
   },
   socialPoolAddresses: {
     description: 'List of socializing pool addresses',
-    type: 'array',
+    type: 'string',
     required: true,
+    array: true,
   },
   stateId: {
     type: 'string',
@@ -77,8 +129,9 @@ export const inputParameters = {
   },
   validatorStatus: {
     required: false,
-    type: 'array',
+    type: 'string',
     description: 'A filter to apply validators by their status',
+    array: true,
   },
   penaltyAddress: {
     description: 'The address of the Stader Penalty contract.',
@@ -117,20 +170,7 @@ export const inputParameters = {
     description: 'The number of confirmations to query data from',
     default: 0,
   },
-} satisfies InputParameters
-
-export enum StaderValidatorStatus {
-  INITIALIZED,
-  INVALID_SIGNATURE,
-  FRONT_RUN,
-  PRE_DEPOSIT,
-  DEPOSITED,
-  IN_ACTIVATION_QUEUE,
-  ACTIVE,
-  IN_EXIT_QUEUE,
-  EXITED,
-  WITHDRAWN,
-}
+})
 
 export interface RequestParams {
   addresses: ValidatorAddress[]
@@ -199,11 +239,9 @@ export interface ResponseSchema {
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: ResponseSchema
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: ResponseSchema
 }
 
 export const chunkArray = <T>(addresses: T[], size: number): T[][] =>

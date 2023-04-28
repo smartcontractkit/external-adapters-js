@@ -1,45 +1,19 @@
-import { config } from '../config'
-import { httpTransport } from './http/forex'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { wsTransport } from './ws/forex-ws'
-import overrides from '../config/overrides.json'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import overrides from '../config/overrides.json'
+import { httpTransport } from './http/forex'
+import { PriceEndpointTypes, priceInputParameters } from './types'
+import { wsTransport } from './ws/forex-ws'
 
-export const inputParameters = {
-  base: {
-    aliases: ['from', 'coin', 'symbol'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-  },
-} as const
-
-export type ForexEndpointParams = PriceEndpointParams
-
-export type EndpointTypes = {
-  Request: {
-    Params: ForexEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
-}
-
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new PriceEndpoint<PriceEndpointTypes>({
   name: 'forex',
-  transportRoutes: new TransportRoutes<EndpointTypes>()
+  transportRoutes: new TransportRoutes<PriceEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',
   customRouter: (_req, adapterConfig) => {
     return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
-  inputParameters: inputParameters,
+  inputParameters: priceInputParameters,
   overrides: overrides.finage,
 })

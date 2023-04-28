@@ -19,6 +19,7 @@
 '@chainlink/gsr-adapter': patch
 '@chainlink/historical-average-adapter': patch
 '@chainlink/icap-adapter': patch
+'@chainlink/tp-adapter': patch
 '@chainlink/iex-cloud-adapter': patch
 '@chainlink/intrinio-test-adapter': patch
 '@chainlink/kaiko-test-adapter': patch
@@ -33,7 +34,6 @@
 '@chainlink/stader-balance-adapter': patch
 '@chainlink/tiingo-test-adapter': patch
 '@chainlink/token-allocation-adapter': patch
-'@chainlink/tp-adapter': patch
 '@chainlink/tradermade-test-adapter': patch
 '@chainlink/twosigma-adapter': patch
 ---

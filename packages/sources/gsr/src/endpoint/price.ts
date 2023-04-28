@@ -1,14 +1,14 @@
 import {
   CryptoPriceEndpoint,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
-  makeLogger,
   ProviderResult,
   SingleNumberResultResponse,
+  makeLogger,
 } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import axios from 'axios'
 import crypto from 'crypto'
 import { config } from '../config'
@@ -39,12 +39,12 @@ type WsMessage = {
   }
 }
 
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+
 export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     WsMessage: WsMessage
   }
@@ -144,5 +144,5 @@ export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['price-ws', 'crypto'],
   transport: wsTransport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
 })

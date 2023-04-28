@@ -6,28 +6,28 @@ import {
   AdapterResponse,
   makeLogger,
 } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { config } from '../config'
 
 const logger = makeLogger('PolkadotBalanceLogger')
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   addresses: {
     aliases: ['result'],
     required: true,
-    type: 'array',
+    array: true,
     description:
       'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+    type: {
+      address: {
+        type: 'string',
+        description: 'an address to get the balance of',
+        required: true,
+      },
+    },
   },
-} as const
-
-interface RequestParams {
-  addresses: Address[]
-}
-
-type Address = {
-  address: string
-}
+})
 
 interface BalanceResponse {
   address: string
@@ -49,11 +49,9 @@ interface ResponseSchema {
 }
 
 type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: ResponseSchema
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: ResponseSchema
 }
 
 const chunkArray = (addresses: string[], size: number): string[][] =>
@@ -63,10 +61,7 @@ const chunkArray = (addresses: string[], size: number): string[][] =>
 
 export class BalanceTransport implements Transport<EndpointTypes> {
   name!: string
-  responseCache!: ResponseCache<{
-    Request: EndpointTypes['Request']
-    Response: EndpointTypes['Response']
-  }>
+  responseCache!: ResponseCache<EndpointTypes>
 
   async initialize(
     dependencies: TransportDependencies<EndpointTypes>,
@@ -79,7 +74,7 @@ export class BalanceTransport implements Transport<EndpointTypes> {
   }
 
   async foregroundExecute(
-    req: AdapterRequest<EndpointTypes['Request']>,
+    req: AdapterRequest<typeof inputParameters.validated>,
     settings: typeof config.settings,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const wsProvider = new WsProvider(settings.RPC_URL)
