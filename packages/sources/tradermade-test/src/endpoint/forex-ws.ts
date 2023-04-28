@@ -1,5 +1,5 @@
-import { PriceEndpointTypes } from '../price-utils'
 import { TraderMadeWebsocketReverseMappingTransport } from '../ws-utils'
+import { ForexEndpointTypes } from './forex-router'
 
 interface Message {
   symbol: string
@@ -9,7 +9,7 @@ interface Message {
   mid: number
 }
 
-type EndpointTypes = PriceEndpointTypes & {
+type EndpointTypes = ForexEndpointTypes & {
   Provider: {
     WsMessage: Message
   }
