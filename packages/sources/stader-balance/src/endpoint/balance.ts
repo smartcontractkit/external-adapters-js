@@ -230,8 +230,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   // Get event logs to find deposit events for addresses not on the beacon chain yet
   // Returns deposit amount in wei
   async calculateLimboEthBalances({
-    limboAddresses,
-    depositedAddresses,
+    limboAddresses = [],
+    depositedAddresses = [],
     ethDepositContractAddress,
     blockTag,
   }: {
@@ -248,6 +248,11 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       async () => {
         let limboBalances: BalanceResponse[] = []
         const depositedBalances: BalanceResponse[] = []
+
+        // Skip fetching logs if no addresses in limbo to search for
+        if (limboAddresses.length === 0 && depositedAddresses.length === 0) {
+          return { limboBalances, depositedBalances }
+        }
 
         // Get all the deposit logs from the last DEPOSIT_EVENT_LOOKBACK_WINDOW blocks
         const logs = await this.provider.getLogs({
