@@ -11,7 +11,7 @@ import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
-type RequestParams = typeof inputParameters.validated
+export type RequestParams = typeof inputParameters.validated
 
 // Schema of message sent to Two Sigma to start streaming symbols
 export type WebSocketRequest = {
