@@ -83,30 +83,20 @@ export const inputParameters = new InputParameters({
         required: true,
         description: 'The ID of the validator pool',
       },
-      network: {
-        type: 'string',
-        description: 'TODO',
-        required: true,
-      },
-      chainId: {
-        type: 'string',
-        description: 'TODO',
-        required: true,
-      },
       status: {
         type: 'number',
-        description: 'TODO',
+        description: 'Stader status ID for this particular validator',
         required: true,
         options: Object.values(StaderValidatorStatus) as number[],
       },
       withdrawVaultAddress: {
         type: 'string',
-        description: 'TODO',
+        description: 'Validator withdrawal address for this particular validator',
         required: true,
       },
       operatorId: {
         type: 'number',
-        description: 'TODO',
+        description: 'The Stader assigned operator ID for this particular validator',
         required: true,
       },
     },
@@ -202,8 +192,6 @@ export type PoolAddress = BasicAddress & {
 
 export type ValidatorAddress = BasicAddress &
   PoolAddress & {
-    network: string
-    chainId: string
     status: StaderValidatorStatus
     withdrawVaultAddress: string
     operatorId: number
