@@ -25,6 +25,7 @@ import {
   RequestParams,
   staderNetworkChainMap,
   THIRTY_ONE_ETH_WEI,
+  ValidatorAddress,
   withErrorHandling,
 } from './utils'
 
@@ -105,7 +106,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       stakeManagerBalance,
       validatorDeposit,
       elRewardBalances,
-      { activeValidators, withdrawnValidators, limboAddresses, depositedAddresses },
+      { activeValidators, withdrawnValidators, limboAddressMap, depositedAddressMap },
     ] = await Promise.all([
       // --- Requests to the execution node ---
 
@@ -146,8 +147,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
     // Get balances for all validator addresses in limbo and deposited addresses
     const { limboBalances, depositedBalances } = await this.calculateLimboEthBalances({
-      limboAddresses,
-      depositedAddresses,
+      limboAddressMap,
+      depositedAddressMap,
       ethDepositContractAddress,
       blockTag,
     })
@@ -230,13 +231,13 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   // Get event logs to find deposit events for addresses not on the beacon chain yet
   // Returns deposit amount in wei
   async calculateLimboEthBalances({
-    limboAddresses = [],
-    depositedAddresses = [],
+    limboAddressMap = {},
+    depositedAddressMap = {},
     ethDepositContractAddress,
     blockTag,
   }: {
-    limboAddresses: string[]
-    depositedAddresses: string[]
+    limboAddressMap: Record<string, ValidatorAddress>
+    depositedAddressMap: Record<string, ValidatorAddress>
     ethDepositContractAddress: string
     blockTag: number
   }): Promise<{
@@ -250,7 +251,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         const depositedBalances: BalanceResponse[] = []
 
         // Skip fetching logs if no addresses in limbo to search for
-        if (limboAddresses.length === 0 && depositedAddresses.length === 0) {
+        if (
+          Object.entries(limboAddressMap).length === 0 &&
+          Object.entries(depositedAddressMap).length === 0
+        ) {
           return { limboBalances, depositedBalances }
         }
 
@@ -267,7 +271,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             `No deposit event logs found in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks or the provider failed to return any.`,
           )
           // We're returning this so the EA has an explicit answer for the address balance
-          limboBalances = limboAddresses.map((address) => ({ address, balance: '0' }))
+          limboBalances = Object.entries(limboAddressMap).map(([address, _]) => ({
+            address,
+            balance: '0',
+          }))
           return { limboBalances, depositedBalances }
         }
 
@@ -286,7 +293,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
         for (const { address, amount } of parsedlogs) {
           // Limbo addresses are ones where the first 1 eth was sent from Stader but has not reached the beacon chain yet
-          if (limboAddresses.includes(address)) {
+          if (limboAddressMap[address]) {
             if (amount.eq(ONE_ETH_WEI)) {
               logger.debug(`Found 1 ETH deposit event for validator ${address}`)
               limboBalances.push({
@@ -300,7 +307,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             }
           }
           // Deposited addresses are ones where the first eth has reached the beacon chain, but the second 31eth deposit hasn't
-          if (depositedAddresses.includes(address)) {
+          if (depositedAddressMap[address]) {
             if (amount.eq(THIRTY_ONE_ETH_WEI)) {
               logger.debug(`Found 31 ETH deposit event for deposited validator ${address}`)
               depositedBalances.push({

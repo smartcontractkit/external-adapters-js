@@ -35,8 +35,8 @@ export class ValidatorFactory {
   }): Promise<{
     activeValidators: ActiveValidator[]
     withdrawnValidators: WithdrawnValidator[]
-    limboAddresses: string[]
-    depositedAddresses: string[]
+    limboAddressMap: Record<string, ValidatorAddress>
+    depositedAddressMap: Record<string, ValidatorAddress>
   }> {
     return withErrorHandling(
       `Fetching validator states (state id: ${params.stateId}) from the beacon chain`,
@@ -104,23 +104,29 @@ export class ValidatorFactory {
         }
 
         // The validator addresses that had no state in the beacon chain get stuck in "limbo"
-        const limboAddresses = Object.values(addressMap).map((a) => a.address)
-        logger.debug(`Number of validator addresses not found on beacon: ${limboAddresses.length}`)
+        logger.debug(
+          `Number of validator addresses not found on beacon: ${Object.entries(addressMap).length}`,
+        )
 
         // Deposited addresses will also be present in the main validator list;
         // the balance on the beacon chain for the address would be 1ETH
         // but there could be newer deposits in the event logs
-        const depositedAddresses = activeValidators
+        const depositedAddressMap: Record<string, ValidatorAddress> = {}
+        activeValidators
           .filter((v) => v.isDeposited())
-          .map((v) => v.addressData.address)
-        logger.debug(`Number of deposited validator addresses: ${depositedAddresses.length}`)
+          .forEach((v) => {
+            depositedAddressMap[v.addressData.address] = v.addressData
+          })
+        logger.debug(
+          `Number of deposited validator addresses: ${Object.entries(depositedAddressMap).length}`,
+        )
 
         // Get the validator states from the responses, flatten the groups and return
         return {
           activeValidators,
           withdrawnValidators,
-          limboAddresses,
-          depositedAddresses,
+          limboAddressMap: addressMap,
+          depositedAddressMap,
         }
       },
     )
