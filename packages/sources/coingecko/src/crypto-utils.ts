@@ -1,4 +1,3 @@
-import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/transports'
 import {
   ProviderResult,
@@ -8,17 +7,10 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config, getApiEndpoint } from './config'
 
-export interface CryptoRequestParams {
-  coinid?: string
-  base?: string
-  quote: string
-}
-
-export const cryptoInputParams = {
+export const cryptoInputParams = new InputParameters({
   coinid: {
     description: 'The Coingecko id to query',
     type: 'string',
-    required: false,
   },
   base: {
     aliases: ['from', 'coin'],
@@ -32,7 +24,7 @@ export const cryptoInputParams = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-} satisfies InputParameters & PriceEndpointInputParameters
+})
 
 export interface ProviderResponseBody {
   [base: string]: {
@@ -41,11 +33,9 @@ export interface ProviderResponseBody {
 }
 
 export type CryptoEndpointTypes = {
-  Request: {
-    Params: CryptoRequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof cryptoInputParams.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
@@ -53,7 +43,7 @@ export type CryptoEndpointTypes = {
 }
 
 export const buildBatchedRequestBody = (
-  params: CryptoRequestParams[],
+  params: (typeof cryptoInputParams.validated)[],
   settings: typeof config.settings,
 ): ProviderRequestConfig<CryptoEndpointTypes> => {
   return {
@@ -76,7 +66,7 @@ const logger = makeLogger('CoinGecko Crypto Batched')
 
 export const constructEntry = (
   res: ProviderResponseBody,
-  requestPayload: CryptoRequestParams,
+  requestPayload: typeof cryptoInputParams.validated,
   resultPath: string,
 ): ProviderResult<CryptoEndpointTypes> => {
   const coinId = (requestPayload.coinid ?? (requestPayload.base as string)).toLowerCase()

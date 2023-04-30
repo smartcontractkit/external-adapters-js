@@ -2,7 +2,7 @@ import { ServerInstance } from '@chainlink/external-adapter-framework'
 import {
   PriceAdapter,
   PriceEndpoint,
-  priceEndpointInputParameters,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
@@ -11,6 +11,7 @@ import { SuperTest, Test } from 'supertest'
 import { config } from '../../src/config'
 import { priceTransport } from '../../src/endpoint/price'
 import { mockPriceResponse, mockSubscribeResponse } from './fixtures'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -68,7 +69,7 @@ export const createAdapter = () => {
     name: 'price',
     aliases: ['crypto'],
     transport: priceTransport,
-    inputParameters: priceEndpointInputParameters,
+    inputParameters: new InputParameters(priceEndpointInputParametersDefinition),
   })
 
   return new PriceAdapter({

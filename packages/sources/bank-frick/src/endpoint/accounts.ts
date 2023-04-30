@@ -5,8 +5,8 @@ import { Transport, TransportDependencies } from '@chainlink/external-adapter-fr
 import {
   AdapterRequest,
   AdapterResponse,
-  makeLogger,
   SingleNumberResultResponse,
+  makeLogger,
   sleep,
 } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -29,11 +29,12 @@ const logger = makeLogger('BankFrickTransport')
 
 // Note: this is a shallow pattern that only checks for a country code since IBANs in the sandbox are invalid
 const ibanPattern = /^[A-Z]{2}[A-Z\d]{14,30}$/
-const inputParameters = {
+const inputParameters = new InputParameters({
   ibanIDs: {
     description: 'The list of account ids included in the sum of balances',
     required: true,
-    type: 'array',
+    type: 'string',
+    array: true,
   },
   signingAlgorithm: {
     description:
@@ -43,7 +44,7 @@ const inputParameters = {
     default: 'rsa-sha512',
     options: ['rsa-sha256', 'rsa-sha384', 'rsa-sha512'],
   },
-} satisfies InputParameters
+})
 
 // See here for all expected error returned by the API: https://developers.bankfrick.li/docs#errors
 const AuthErrors: { [key: number]: string } = {
@@ -56,9 +57,7 @@ const FatalErrors: { [key: number]: string } = {
 }
 
 export type AccountsEndpointTypes = {
-  Request: {
-    Params: AdapterInputParameters
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
@@ -78,7 +77,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
   token!: string
 
   cache!: Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
-  responseCache!: ResponseCache<any>
+  responseCache!: ResponseCache<AccountsEndpointTypes>
 
   async initialize(
     dependencies: TransportDependencies<AccountsEndpointTypes>,
@@ -182,7 +181,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
    * of all found accounts. Returns a 404 if any IBAN isn't found.
    */
   async foregroundExecute(
-    req: AdapterRequest<AccountsEndpointTypes['Request']>,
+    req: AdapterRequest<typeof inputParameters.validated>,
     settings: typeof config.settings,
   ): Promise<AdapterResponse<AccountsEndpointTypes['Response']>> {
     const { ibanIDs, signingAlgorithm } = req.requestContext.data

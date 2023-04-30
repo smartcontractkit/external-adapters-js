@@ -1,7 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../config'
-import { StockEndpointParams } from '../stock-router'
+import { StockEndpointTypes } from '../stock-router'
 
 interface Message {
   s: string
@@ -11,12 +9,7 @@ interface Message {
   t: number
 }
 
-type EndpointTypes = {
-  Request: {
-    Params: StockEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+type EndpointTypes = StockEndpointTypes & {
   Provider: {
     WsMessage: Message
   }

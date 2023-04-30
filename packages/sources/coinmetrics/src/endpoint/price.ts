@@ -1,11 +1,11 @@
 import {
   CryptoPriceEndpoint,
-  priceEndpointInputParameters,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { config, VALID_QUOTES } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { VALID_QUOTES, config } from '../config'
 import { httpTransport } from './price-http'
 import { wsTransport } from './price-ws'
 
@@ -14,13 +14,19 @@ export type AssetMetricsRequestBody = {
   quote: VALID_QUOTES
 }
 
+export const assetMetricsInputParameters = new InputParameters({
+  ...priceEndpointInputParametersDefinition,
+  quote: {
+    ...priceEndpointInputParametersDefinition.quote,
+    options: Object.values(VALID_QUOTES),
+  },
+})
+
 // Common endpoint type shared by the REST and WS transports
 export type AssetMetricsEndpointTypes = {
-  Response: SingleNumberResultResponse
-  Request: {
-    Params: AssetMetricsRequestBody
-  }
+  Parameters: typeof assetMetricsInputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
 
 export const transportRoutes = new TransportRoutes<AssetMetricsEndpointTypes>()
@@ -32,13 +38,5 @@ export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
   aliases: ['price-ws'],
   transportRoutes,
   defaultTransport: 'ws',
-  inputParameters: priceEndpointInputParameters,
-  // Custom validation to check that the quote value is valid
-  customInputValidation: (req) =>
-    VALID_QUOTES[req.requestContext.data.quote]
-      ? undefined
-      : new AdapterInputError({
-          statusCode: 400,
-          message: `Value for "quote" parameter must be one of (${Object.values(VALID_QUOTES)})`,
-        }),
+  inputParameters: assetMetricsInputParameters,
 })

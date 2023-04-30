@@ -10,6 +10,7 @@ import {
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
 } from '../../src/endpoint/price-ws'
+import { assetMetricsInputParameters } from '../../src/endpoint/price'
 
 const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   time: Date.now().toString(),
@@ -42,7 +43,7 @@ const EXAMPLE_REORG_MESSAGE = {
 config.initialize()
 const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
   endpointName: 'price',
-  inputParameters: {},
+  inputParameters: assetMetricsInputParameters,
   adapterSettings: config.settings,
 }
 

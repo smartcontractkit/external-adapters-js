@@ -6,6 +6,7 @@ import { encodeAddress } from '@polkadot/keyring'
 import { ethers } from 'ethers'
 import { MoonbeamAddressContract_ABI } from '../abi/MoonbeamAddressContractABI'
 import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 type NetworkChainMap = { [network: string]: { [chain: string]: string } }
 
@@ -19,7 +20,7 @@ const networkChainMap: NetworkChainMap = {
   },
 }
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   contractAddress: {
     description: 'The address of the Address Manager contract holding the custodial addresses.',
     type: 'string',
@@ -36,18 +37,12 @@ const inputParameters = {
     type: 'string',
     default: 'moonbeam',
   },
-} as const
+})
 
 interface PorInputAddress {
   network: string
   chainId: string
   address: string
-}
-
-interface RequestParams {
-  contractAddress: string
-  network: string
-  chainId: string
 }
 
 interface ResponseSchema {
@@ -58,19 +53,14 @@ interface ResponseSchema {
 }
 
 type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: ResponseSchema
   Settings: typeof config.settings
 }
 
 export class AddressTransport implements Transport<EndpointTypes> {
   name!: string
-  responseCache!: ResponseCache<{
-    Request: EndpointTypes['Request']
-    Response: EndpointTypes['Response']
-  }>
+  responseCache!: ResponseCache<EndpointTypes>
 
   async initialize(
     dependencies: TransportDependencies<EndpointTypes>,
@@ -83,7 +73,7 @@ export class AddressTransport implements Transport<EndpointTypes> {
   }
 
   async foregroundExecute(
-    req: AdapterRequest<EndpointTypes['Request']>,
+    req: AdapterRequest<typeof inputParameters.validated>,
     settings: typeof config.settings,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const provider = new ethers.providers.JsonRpcProvider(settings.RPC_URL, settings.CHAIN_ID)

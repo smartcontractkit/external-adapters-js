@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.28.6",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "axios": "1.3.4",
     "bignumber.js": "^9.1.1",
     "ethers": "5.5.1",

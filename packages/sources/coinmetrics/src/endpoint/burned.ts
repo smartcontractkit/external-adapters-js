@@ -1,30 +1,41 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
 import {
-  EndpointTypes,
-  Frequency,
-  FrequencyInputOptions,
+  BurnedResponseSchema,
   TotalBurnedTransport,
+  baseInputParametersDefinition,
 } from './total-burned'
 
-const inputParams = {
-  asset: {
+const inputParameters = new InputParameters({
+  ...baseInputParametersDefinition,
+  startTime: {
     description:
-      'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
-    type: 'string',
-    required: true,
-  },
-  frequency: {
-    description: 'At which interval to calculate the number of coins/tokens burned',
+      'The start time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
     type: 'string',
     required: false,
-    options: FrequencyInputOptions,
-    default: Frequency.ONE_DAY,
   },
-} satisfies InputParameters
+  endTime: {
+    description:
+      'The end time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
+    type: 'string',
+    required: false,
+  },
+})
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+  Provider: {
+    RequestBody: never
+    ResponseBody: BurnedResponseSchema
+  }
+}
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'burned',
-  transport: new TotalBurnedTransport(),
-  inputParameters: inputParams,
+  transport: new TotalBurnedTransport<EndpointTypes>(),
+  inputParameters,
 })

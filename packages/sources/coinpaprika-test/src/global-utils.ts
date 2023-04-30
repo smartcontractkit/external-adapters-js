@@ -5,14 +5,14 @@ import { config, getApiEndpoint, getApiHeaders } from './config'
 
 const logger = makeLogger('CoinPaprika Global Batched')
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   market: {
     aliases: ['to', 'quote'],
     description: 'The symbol of the currency to convert to',
     required: true,
     type: 'string',
   },
-} satisfies InputParameters
+})
 
 export interface GlobalRequestParams {
   market: string

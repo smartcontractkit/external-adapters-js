@@ -7,23 +7,19 @@ import overrides from '../../config/overrides.json'
 import { httpTransport } from '../http/iex'
 import { wsTransport } from '../ws/iex'
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   ticker: {
     aliases: ['base', 'from', 'coin'],
     required: true,
     type: 'string',
     description: 'The stock ticker to query',
   },
-} satisfies InputParameters
-
-export type IexRequestParams = { ticker: string }
+})
 
 export type IEXEndpointTypes = {
-  Request: {
-    Params: IexRequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
 
 export const endpoint = new AdapterEndpoint({

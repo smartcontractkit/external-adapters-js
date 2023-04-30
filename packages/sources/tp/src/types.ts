@@ -1,12 +1,10 @@
 import { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from './config'
+import { inputParameters } from './endpoint/price'
 
 export type TpIcapWebsocketGenerics = WebsocketTransportGenerics & {
-  Request: {
-    Params: PriceEndpointParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
