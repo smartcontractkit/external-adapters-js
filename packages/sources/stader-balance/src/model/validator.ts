@@ -155,7 +155,7 @@ abstract class Validator {
 
   abstract calculateBalance(
     validatorDeposit: BigNumber,
-    depositedBalances?: BalanceResponse[],
+    depositedBalanceMap: Record<string, BigNumber>,
   ): Promise<BalanceResponse>
 
   constructor(params: ValidatorParams) {
@@ -221,7 +221,7 @@ abstract class Validator {
 
   protected async fetchDataForBalanceCalculation(
     validatorDeposit: BigNumber,
-    depositedBalances?: BalanceResponse[],
+    depositedBalances?: Record<string, BigNumber>,
   ) {
     // Fetch amount of collateral eth specified in the pool and subtract it from the validator deposit
     const collateralEth = await this.pool.fetchCollateralEth()
@@ -236,11 +236,9 @@ abstract class Validator {
 
     let depositedEth = BigNumber(0)
     if (depositedBalances) {
-      const depositeBalance = depositedBalances.find(
-        (balance) => balance.address === this.addressData.address,
-      )
+      const depositeBalance = depositedBalances[this.addressData.address]
       // Deposit event balance is maintained in wei so conversion is not needed here
-      depositedEth = BigNumber(depositeBalance?.balance || 0)
+      depositedEth = depositeBalance || BigNumber(0)
     }
 
     return {
@@ -255,11 +253,11 @@ abstract class Validator {
 class ActiveValidator extends Validator {
   async calculateBalance(
     validatorDeposit: BigNumber,
-    depositedBalances: BalanceResponse[],
+    depositedBalanceMap: Record<string, BigNumber>,
   ): Promise<BalanceResponse> {
     logger.debug(`${this.logPrefix} validator is not done or balance > 0, considering it active`)
     const { userDeposit, poolCommission, withdrawalAddressBalance, depositedEth } =
-      await this.fetchDataForBalanceCalculation(validatorDeposit, depositedBalances)
+      await this.fetchDataForBalanceCalculation(validatorDeposit, depositedBalanceMap)
 
     // Get the current penalty for this validator from the Stader Penalty contract
     const validatorPenalty = await this.fetchPenalty()

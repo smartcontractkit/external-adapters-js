@@ -28,6 +28,7 @@ import {
   ValidatorAddress,
   withErrorHandling,
 } from './utils'
+import BigNumber from 'bignumber.js'
 
 const logger = makeLogger('StaderBalanceLogger')
 export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
@@ -146,7 +147,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     )
 
     // Get balances for all validator addresses in limbo and deposited addresses
-    const { limboBalances, depositedBalances } = await this.calculateLimboEthBalances({
+    const { limboBalances, depositedBalanceMap } = await this.calculateLimboEthBalances({
       limboAddressMap,
       depositedAddressMap,
       ethDepositContractAddress,
@@ -165,7 +166,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     for (const batch of batches) {
       validatorBalances.push(
         ...(await Promise.all(
-          batch.map((v) => v.calculateBalance(validatorDeposit, depositedBalances)),
+          batch.map((v) => v.calculateBalance(validatorDeposit, depositedBalanceMap)),
         )),
       )
     }
@@ -242,20 +243,20 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     blockTag: number
   }): Promise<{
     limboBalances: BalanceResponse[]
-    depositedBalances: BalanceResponse[]
+    depositedBalanceMap: Record<string, BigNumber>
   }> {
     return withErrorHandling(
       `Finding ETH for limbo validators and deposited addresses`,
       async () => {
         let limboBalances: BalanceResponse[] = []
-        const depositedBalances: BalanceResponse[] = []
+        const depositedBalanceMap: Record<string, BigNumber> = {}
 
         // Skip fetching logs if no addresses in limbo to search for
         if (
           Object.entries(limboAddressMap).length === 0 &&
           Object.entries(depositedAddressMap).length === 0
         ) {
-          return { limboBalances, depositedBalances }
+          return { limboBalances, depositedBalanceMap }
         }
 
         // Get all the deposit logs from the last DEPOSIT_EVENT_LOOKBACK_WINDOW blocks
@@ -275,7 +276,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             address,
             balance: '0',
           }))
-          return { limboBalances, depositedBalances }
+          return { limboBalances, depositedBalanceMap }
         }
 
         logger.debug(
@@ -310,10 +311,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           if (depositedAddressMap[address]) {
             if (amount.eq(THIRTY_ONE_ETH_WEI)) {
               logger.debug(`Found 31 ETH deposit event for deposited validator ${address}`)
-              depositedBalances.push({
-                address,
-                balance: amount.toString(),
-              })
+              depositedBalanceMap[address] = amount
             } else if (amount.eq(ONE_ETH_WEI)) {
               logger.debug(
                 `Found initial 1 ETH deposit for address ${address}, but it should already be accounted in the main validators list`,
@@ -326,7 +324,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           }
         }
 
-        return { limboBalances, depositedBalances }
+        return { limboBalances, depositedBalanceMap }
       },
     )
   }
