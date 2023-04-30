@@ -42,7 +42,8 @@ export class ValidatorFactory {
       `Fetching validator states (state id: ${params.stateId}) from the beacon chain`,
       async () => {
         const url = `/eth/v1/beacon/states/${params.stateId}/validators`
-        const statusList = params.validatorStatus?.join(',')
+        const statuses = params.validatorStatus
+        const statusList = statuses && statuses.length > 0 ? statuses?.join(',') : undefined
         const batchSize = params.settings.BATCH_SIZE
         const addresses = params.addresses
         const activeValidators: ActiveValidator[] = []

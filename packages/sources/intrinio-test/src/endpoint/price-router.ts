@@ -6,23 +6,21 @@ import { wsTransport } from './price-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'asset'],
     description: 'The symbol of the asset to query',
     type: 'string',
     required: true,
   },
-} satisfies InputParameters
+})
 
 export interface RequestParams {
   base: string
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }

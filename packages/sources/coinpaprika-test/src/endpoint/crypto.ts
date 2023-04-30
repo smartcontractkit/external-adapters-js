@@ -1,14 +1,11 @@
-import {
-  CryptoPriceEndpoint,
-  PriceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config, getApiEndpoint, getApiHeaders } from '../config'
 import overrides from '../config/overrides.json'
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of symbols of the currency to query',
@@ -30,9 +27,9 @@ export const inputParameters = {
     description: 'The path to the result within the asset quote in the provider response',
     required: false,
     type: 'string',
-    options: ['price', 'volume', 'marketcap'],
+    options: ['price', 'volume_24h', 'market_cap'],
   },
-} satisfies InputParameters & PriceEndpointInputParameters
+})
 
 interface CoinInfo {
   price: number
@@ -70,19 +67,10 @@ export interface CryptoResponseSchema {
   cost?: number
 }
 
-export interface CryptoRequestParams {
-  coinid?: string
-  base: string
-  quote: string
-  resultPath: 'price' | 'volume_24h' | 'market_cap'
-}
-
 export type EndpointTypes = {
-  Request: {
-    Params: CryptoRequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: CryptoResponseSchema[]
@@ -102,7 +90,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
     // Group requests by quote. The coinpaprika endpoint accepts multiple quotes, but if one of them is invalid
     // the entire request will fail and we would potentially request more pairs than needed, so it's better to
     // simply batch the bases only.
-    const paramsByQuote: Record<string, CryptoRequestParams[]> = {}
+    const paramsByQuote: Record<string, (typeof inputParameters.validated)[]> = {}
     for (const param of params) {
       if (!paramsByQuote[param.quote]) {
         paramsByQuote[param.quote] = []
@@ -165,7 +153,10 @@ const httpTransport = new HttpTransport<EndpointTypes>({
         }
       }
 
-      const valueRequested = dataForQuote[p.resultPath]
+      // We always set a value for the resultPath in the request transform
+      const resultPath =
+        p.resultPath as (typeof inputParameters.definition.resultPath.options)[number]
+      const valueRequested = dataForQuote[resultPath]
       if (valueRequested == null) {
         return {
           params: p,

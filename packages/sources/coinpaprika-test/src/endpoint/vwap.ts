@@ -4,8 +4,9 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config, getApiEndpoint, getApiHeaders } from '../config'
 import overrides from '../config/overrides.json'
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
+    description: 'The symbol of symbols of the currency to query',
     aliases: ['from', 'coin'],
     type: 'string',
     required: true,
@@ -19,7 +20,7 @@ export const inputParameters = {
     description: 'The coin ID (optional to use in place of `base`)',
     type: 'string',
   },
-} satisfies InputParameters
+})
 
 interface Response {
   timestamp: string
@@ -28,23 +29,15 @@ interface Response {
   market_cap: number
 }
 
-export interface RequestParams {
-  coinid?: string
-  base: string
-  hours: number
-}
-
 type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
   Response: {
     Data: {
       result: number
     }
     Result: number
   }
-  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: Response[]

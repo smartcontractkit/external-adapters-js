@@ -2,15 +2,14 @@ import { config } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin', 'asset', 'symbol'],
     description: 'The symbol to query',
     required: true,
     type: 'string',
   },
-} satisfies InputParameters
-
+})
 interface RequestParams {
   base: string
 }
@@ -75,9 +74,7 @@ interface ResponseSchema {
 }
 
 export type StockEndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {

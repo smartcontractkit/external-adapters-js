@@ -1,7 +1,5 @@
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../config'
-import { RouterPriceEndpointParams } from '../../crypto-utils'
 import { TiingoWebsocketReverseMappingTransport } from '../../ws-utils'
+import { ForexEndpointTypes } from '../common/forex-router'
 
 interface Message {
   service: string
@@ -12,12 +10,7 @@ interface Message {
 const tickerIndex = 1
 const priceIndex = 5
 
-type EndpointTypes = {
-  Request: {
-    Params: RouterPriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+type EndpointTypes = ForexEndpointTypes & {
   Provider: {
     WsMessage: Message
   }

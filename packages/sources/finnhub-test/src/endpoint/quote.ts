@@ -1,21 +1,20 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../config'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
 import overrides from '../config/overrides.json'
 
 const logger = makeLogger('Finnhub quote endpoint')
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['quote', 'asset', 'from'],
     type: 'string',
     description: 'The symbol of symbols of the currency to query',
     required: true,
   },
-} satisfies InputParameters
+})
 
 export interface ProviderResponseBody {
   c: number
@@ -33,11 +32,9 @@ export interface RequestParams {
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody

@@ -1,25 +1,17 @@
+import {
+  PriceEndpoint,
+  PriceEndpointInputParametersDefinition,
+  priceEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
 const logger = makeLogger('Alphavantage HttpEndpoint')
 
-export const inputParameters = {
-  base: {
-    aliases: ['from', 'coin'],
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-    required: true,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-    required: true,
-  },
-} as const
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 export interface ProviderResponseBody {
   'Realtime Currency Exchange Rate': {
@@ -37,9 +29,7 @@ export interface ProviderResponseBody {
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
+  Parameters: PriceEndpointInputParametersDefinition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -106,7 +96,10 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   },
 })
 
-const error502 = (params: PriceEndpointParams[], errorMessage: string) => {
+const error502 = (
+  params: TypeFromDefinition<PriceEndpointInputParametersDefinition>[],
+  errorMessage: string,
+) => {
   logger.error(errorMessage)
   return params.map((param) => {
     return {

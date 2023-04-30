@@ -1,8 +1,8 @@
-import * as process from 'process'
+import { ServerInstance, expose } from '@chainlink/external-adapter-framework'
 import { AddressInfo } from 'net'
-import { createAdapter, setEnvVariables } from './setup'
+import nock from 'nock'
+import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import {
   addressData,
   mockCollateralEthMap,
@@ -13,7 +13,7 @@ import {
   mockPenaltyMap,
   mockProtocolFeePercentMap,
 } from './fixture'
-import nock from 'nock'
+import { createAdapter, setEnvVariables } from './setup'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')

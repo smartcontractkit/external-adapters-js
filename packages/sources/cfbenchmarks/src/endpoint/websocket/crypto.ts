@@ -1,5 +1,5 @@
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { EndpointTypes } from '../common/crypto'
 
 interface Message {
@@ -48,7 +48,7 @@ export const makeWsTransport = (
           const value = Number(message.value)
           return [
             {
-              params: { index },
+              params: { index, base: undefined, quote: undefined },
               response: {
                 result: value,
                 data: {

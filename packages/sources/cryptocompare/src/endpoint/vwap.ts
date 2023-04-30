@@ -1,15 +1,11 @@
-import { config } from '../config'
-import {
-  PriceEndpoint,
-  PriceEndpointInputParameters,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
 import overrides from '../config/overrides.json'
 
-export const inputParams = {
+export const inputParams = new InputParameters({
   base: {
     aliases: ['from', 'coin', 'fsym'],
     description: 'The symbol of symbols of the currency to query',
@@ -27,7 +23,7 @@ export const inputParams = {
     type: 'number',
     default: 24,
   },
-} satisfies InputParameters & PriceEndpointInputParameters
+})
 
 interface ResponseSchema {
   [quoteSymbol: string]: number
@@ -40,11 +36,9 @@ interface ErrorResponse {
 }
 
 type BatchEndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams & { hours: number }
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParams.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema | ErrorResponse
