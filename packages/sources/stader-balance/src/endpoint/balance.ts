@@ -2,6 +2,7 @@ import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-fr
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { DepositEvent_ABI, StaderPenaltyContract_ABI } from '../abi/StaderContractAbis'
 import { config } from '../config'
@@ -12,23 +13,22 @@ import { StakeManager } from '../model/stake-manager'
 import { ValidatorFactory } from '../model/validator'
 import {
   BalanceResponse,
-  chunkArray,
   DEPOSIT_EVENT_LOOKBACK_WINDOW,
   DEPOSIT_EVENT_TOPIC,
   EndpointTypes,
+  ONE_ETH_WEI,
+  RequestParams,
+  THIRTY_ONE_ETH_WEI,
+  ValidatorAddress,
+  chunkArray,
   fetchAddressBalance,
   fetchEthDepositContractAddress,
   formatValueInGwei,
   inputParameters,
-  ONE_ETH_WEI,
   parseLittleEndian,
-  RequestParams,
   staderNetworkChainMap,
-  THIRTY_ONE_ETH_WEI,
-  ValidatorAddress,
   withErrorHandling,
 } from './utils'
-import BigNumber from 'bignumber.js'
 
 const logger = makeLogger('StaderBalanceLogger')
 export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
@@ -166,7 +166,9 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     for (const batch of batches) {
       validatorBalances.push(
         ...(await Promise.all(
-          batch.map((v) => v.calculateBalance(validatorDeposit, depositedBalanceMap)),
+          batch.map((v) =>
+            v.calculateBalance(validatorDeposit, depositedBalanceMap[v.addressData.address]),
+          ),
         )),
       )
     }
