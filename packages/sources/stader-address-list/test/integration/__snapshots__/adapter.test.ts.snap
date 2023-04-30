@@ -62,6 +62,7 @@ exports[`execute addresses should return success 1`] = `
         "poolId": 2,
       },
     ],
+    "validatorStatus": [],
   },
   "result": null,
   "statusCode": 200,

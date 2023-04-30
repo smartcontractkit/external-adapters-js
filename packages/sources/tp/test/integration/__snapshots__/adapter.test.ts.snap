@@ -3,7 +3,7 @@
 exports[`Price Endpoint should return error on empty base 1`] = `
 {
   "error": {
-    "message": "Required parameter base must be non-null and non-empty",
+    "message": "[Param: base] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -14,7 +14,7 @@ exports[`Price Endpoint should return error on empty base 1`] = `
 exports[`Price Endpoint should return error on empty body 1`] = `
 {
   "error": {
-    "message": "Required parameter base must be non-null and non-empty",
+    "message": "[Param: base] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -25,7 +25,7 @@ exports[`Price Endpoint should return error on empty body 1`] = `
 exports[`Price Endpoint should return error on empty data 1`] = `
 {
   "error": {
-    "message": "Required parameter base must be non-null and non-empty",
+    "message": "[Param: base] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -36,7 +36,7 @@ exports[`Price Endpoint should return error on empty data 1`] = `
 exports[`Price Endpoint should return error on empty quote 1`] = `
 {
   "error": {
-    "message": "Required parameter quote must be non-null and non-empty",
+    "message": "[Param: quote] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",

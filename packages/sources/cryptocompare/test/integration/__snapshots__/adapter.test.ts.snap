@@ -3,7 +3,7 @@
 exports[`execute crypto api should return failure for array 1`] = `
 {
   "error": {
-    "message": "base parameter must be of type string",
+    "message": "[Param: base] input type is not the expected one (string)",
     "name": "AdapterError",
   },
   "status": "errored",

@@ -1,18 +1,18 @@
-import * as process from 'process'
-import { AddressInfo } from 'net'
-import request, { SuperTest, Test } from 'supertest'
+import { ServerInstance, expose } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
+import { Server } from 'mock-socket'
+import { AddressInfo } from 'net'
+import * as process from 'process'
+import request, { SuperTest, Test } from 'supertest'
+import { mockBircResponseSuccess, mockResponseSuccess } from './fixtures'
 import {
-  mockWebSocketProvider,
+  createAdapter,
   mockCryptoWebSocketServer,
   mockLwbaWebSocketServer,
+  mockWebSocketProvider,
   setEnvVariables,
 } from './setup'
-import { mockBircResponseSuccess, mockResponseSuccess } from './fixtures'
-import { createAdapter } from './setup'
-import { Server } from 'mock-socket'
 
 describe('rest', () => {
   jest.setTimeout(10000)

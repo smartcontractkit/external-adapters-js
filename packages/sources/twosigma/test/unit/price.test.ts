@@ -4,6 +4,7 @@ import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transp
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports/websocket'
 import { sleep } from '@chainlink/external-adapter-framework/util'
 
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import * as price from '../../src/endpoint/price'
 import { RequestParams } from '../../src/endpoint/price'
 
@@ -21,7 +22,7 @@ describe('Config', () => {
         WS_API_ENDPOINT: 'wss://chainlink.twosigma.com',
       },
       endpointName: 'price',
-      inputParameters: {},
+      inputParameters: new InputParameters({}),
     } as EndpointContext<price.WebSocketEndpointTypes>
 
     it('returns the endpoint URL from the config', () => {
@@ -104,7 +105,7 @@ describe('TwoSigmaWebsocketTransport', () => {
       WS_API_KEY: 'abc',
     },
     endpointName: 'price',
-    inputParameters: {},
+    inputParameters: new InputParameters({}),
   } as any as EndpointContext<price.WebSocketEndpointTypes>
   let transport: price.TwoSigmaWebsocketTransport
   let subscriptions: SubscriptionDeltas<RequestParams>
