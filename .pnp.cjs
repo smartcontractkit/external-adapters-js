@@ -6862,7 +6862,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.5"],\
             ["tslib", "npm:2.3.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"],\
-            ["yaml", "npm:1.10.2"]\
+            ["yaml", "npm:2.2.2"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -37461,6 +37461,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/yaml-npm-2.1.3-654a90032d-9131606232.zip/node_modules/yaml/",\
           "packageDependencies": [\
             ["yaml", "npm:2.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:2.2.2", {\
+          "packageLocation": "./.yarn/cache/yaml-npm-2.2.2-6e3cddb343-d90c235e09.zip/node_modules/yaml/",\
+          "packageDependencies": [\
+            ["yaml", "npm:2.2.2"]\
           ],\
           "linkType": "HARD"\
         }]\
