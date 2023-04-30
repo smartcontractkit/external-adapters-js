@@ -32,7 +32,7 @@ export const httpTransport = new HttpTransport<HttpForexEndpointTypes>({
           params: p,
           response: {
             errorMessage: `Tiingo provided no data for ${p.base}/${p.quote}`,
-            statusCode: 504,
+            statusCode: 502,
           },
         }
       } else {

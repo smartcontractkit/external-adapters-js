@@ -8,6 +8,7 @@ interface Message {
 }
 
 const tickerIndex = 1
+const dateIndex = 2
 const priceIndex = 4
 
 type EndpointTypes = CryptoEndpointTypes & {
@@ -37,6 +38,9 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
                 result: message.data[priceIndex],
               },
               result: message.data[priceIndex],
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(message.data[dateIndex]).getTime(),
+              },
             },
           },
         ]

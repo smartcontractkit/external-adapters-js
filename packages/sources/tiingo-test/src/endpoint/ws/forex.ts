@@ -8,6 +8,7 @@ interface Message {
 }
 
 const tickerIndex = 1
+const dateIndex = 2
 const priceIndex = 5
 
 type EndpointTypes = ForexEndpointTypes & {
@@ -39,6 +40,9 @@ export const wsTransport: TiingoWebsocketReverseMappingTransport<EndpointTypes, 
                 result: message.data[priceIndex],
               },
               result: message.data[priceIndex],
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(message.data[dateIndex]).getTime(),
+              },
             },
           },
         ]

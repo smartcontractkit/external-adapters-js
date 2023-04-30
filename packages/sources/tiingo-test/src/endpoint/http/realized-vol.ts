@@ -95,7 +95,7 @@ export const httpTransport = new HttpTransport<RealizedVolEndpointTypes>({
           params: param,
           response: {
             errorMessage: errorMessage,
-            statusCode: 400,
+            statusCode: 502,
           },
         }
       })
