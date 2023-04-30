@@ -1,7 +1,6 @@
 import { priceEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from './config'
 
 export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
@@ -27,8 +26,6 @@ export interface ProviderResponseBody {
     tradesDone: number
   }[]
 }
-
-export type PriceEndpointParams = TypeFromDefinition<typeof inputParameters.definition>
 
 export type CryptoEndpointTypes = {
   Parameters: typeof inputParameters.definition
