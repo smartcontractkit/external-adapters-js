@@ -1,25 +1,29 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config, AxiosRequestHeaders } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'COINPAPRIKA'
-
-export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinpaprika.com'
 export const PRO_API_ENDPOINT = 'https://api-pro.coinpaprika.com'
 
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  const headers: AxiosRequestHeaders = {}
-  if (config.apiKey) headers['Authorization'] = config.apiKey
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'The HTTP URL to retrieve data from',
+    type: 'string',
+    required: false,
+  },
+  API_KEY: {
+    description: 'An API key for Coinpaprika',
+    type: 'string',
+    required: false,
+    sensitive: true,
+  },
+})
 
-  const isInTestMode = util.parseBool(util.getEnv('IS_TEST_MODE', prefix))
-  if (isInTestMode) headers['COINPAPRIKA-API-KEY-VERIFY'] = 'true'
+export const getApiEndpoint = (settings: typeof config.settings): string =>
+  settings.API_ENDPOINT || (settings.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT)
 
-  config.api = {
-    ...config.api,
-    baseURL: config.api.baseURL || (config.apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT),
-    headers,
+export const getApiHeaders = (settings: typeof config.settings): { Authorization?: string } => {
+  const headers: { Authorization?: string } = {}
+  if (settings.API_KEY) {
+    headers['Authorization'] = settings.API_KEY
   }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
+  return headers
 }
