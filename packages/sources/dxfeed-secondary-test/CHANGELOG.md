@@ -1,5 +1,19 @@
 # @chainlink/dxfeed-secondary-test-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+  - @chainlink/dxfeed-test-adapter@1.2.2
+
 ## 1.1.1
 
 ### Patch Changes

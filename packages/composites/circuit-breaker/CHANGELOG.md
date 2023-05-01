@@ -1,5 +1,13 @@
 # @chainlink/circuit-breaker-adapter
 
+## 1.2.30
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+
 ## 1.2.29
 
 ### Patch Changes

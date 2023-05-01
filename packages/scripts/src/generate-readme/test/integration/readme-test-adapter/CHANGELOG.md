@@ -1,5 +1,14 @@
 # @chainlink/readme-test-adapter
 
+## 1.2.56
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-factories@1.2.30
+
 ## 1.2.55
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-![1.7.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/metalsapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.7.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/metalsapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://metals-api.com/api/
 

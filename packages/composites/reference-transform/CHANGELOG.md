@@ -1,5 +1,15 @@
 # @chainlink/reference-transform-adapter
 
+## 1.2.89
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea@1.3.88
+  - @chainlink/ea-reference-data-reader@1.3.30
+
 ## 1.2.88
 
 ### Patch Changes
