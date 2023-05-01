@@ -1,5 +1,16 @@
 # @chainlink/ea
 
+## 1.3.89
+
+### Patch Changes
+
+- Updated dependencies [7f4476557]
+- Updated dependencies [2c5740879]
+- Updated dependencies [41f253afb]
+  - @chainlink/coinpaprika-adapter@2.0.0
+  - @chainlink/xbto-adapter@1.3.32
+  - @chainlink/kaiko-test-adapter@1.1.12
+
 ## 1.3.88
 
 ### Patch Changes

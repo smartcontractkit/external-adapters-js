@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 7f4476557: Upgraded adapter from v2 to v3 framework
+
 ## 1.10.23
 
 ### Patch Changes
