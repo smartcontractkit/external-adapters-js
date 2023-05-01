@@ -352,10 +352,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinpaprika"\
       },\
       {\
-        "name": "@chainlink/coinpaprika-test-adapter",\
-        "reference": "workspace:packages/sources/coinpaprika-test"\
-      },\
-      {\
         "name": "@chainlink/coinranking-adapter",\
         "reference": "workspace:packages/sources/coinranking"\
       },\
@@ -902,7 +898,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
       ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
-      ["@chainlink/coinpaprika-test-adapter", ["workspace:packages/sources/coinpaprika-test"]],\
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
@@ -6349,24 +6344,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinpaprika/",\
           "packageDependencies": [\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/coinpaprika-test-adapter", [\
-        ["workspace:packages/sources/coinpaprika-test", {\
-          "packageLocation": "./packages/sources/coinpaprika-test/",\
-          "packageDependencies": [\
-            ["@chainlink/coinpaprika-test-adapter", "workspace:packages/sources/coinpaprika-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6941,7 +6918,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/coinpaprika-test-adapter", "workspace:packages/sources/coinpaprika-test"],\
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],\
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],\
             ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],\
