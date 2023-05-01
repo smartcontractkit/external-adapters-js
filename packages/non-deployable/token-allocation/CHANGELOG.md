@@ -1,5 +1,35 @@
 # @chainlink/token-allocation-adapter
 
+## 1.10.9
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [f981f7d54]
+  - @chainlink/cfbenchmarks-adapter@2.0.0
+  - @chainlink/coingecko-adapter@2.0.3
+  - @chainlink/coinmetrics-adapter@3.0.6
+  - @chainlink/ncfx-adapter@3.2.9
+  - @chainlink/cryptocompare-adapter@2.0.2
+  - @chainlink/coinmarketcap-adapter@2.0.6
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-test-helpers@1.4.3
+  - @chainlink/amberdata-adapter@1.8.24
+  - @chainlink/coinapi-adapter@1.3.21
+  - @chainlink/coinpaprika-adapter@1.10.23
+  - @chainlink/coinranking-adapter@2.1.2
+  - @chainlink/finage-adapter@1.6.17
+  - @chainlink/kaiko-adapter@1.5.25
+  - @chainlink/nomics-adapter@1.3.31
+  - @chainlink/tiingo-adapter@1.13.2
+
 ## 1.10.8
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/defi-dozen-adapter",
-  "version": "1.2.51",
+  "version": "1.2.52",
   "description": "Chainlink defi-dozen adapter.",
   "keywords": [
     "Chainlink",
