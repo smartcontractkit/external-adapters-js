@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute api should return success 1`] = `
-Object {
-  "data": Object {
-    "payload": Array [
-      Object {
+{
+  "data": {
+    "payload": [
+      {
         "AsOfUTC": "2022-02-02T02:22:24.293",
         "CategoryName": "Bullion",
         "CustodianID": "CACHE",
@@ -21,7 +21,7 @@ Object {
         "Valuation": 2046.03,
         "VaultID": "IDS_DFW1",
       },
-      Object {
+      {
         "AsOfUTC": "2022-02-02T02:22:24.293",
         "CategoryName": "Bullion",
         "CustodianID": "CACHE",
@@ -38,7 +38,7 @@ Object {
         "Valuation": 18600.27,
         "VaultID": "LoomSWZ1",
       },
-      Object {
+      {
         "AsOfUTC": "2022-02-02T02:22:24.293",
         "CategoryName": "Bullion",
         "CustodianID": "CACHE",

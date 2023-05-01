@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/terra-view-function-adapter",
-  "version": "1.3.30",
+  "version": "1.3.31",
   "description": "Chainlink terra-view-function adapter.",
   "keywords": [
     "Chainlink",
@@ -39,6 +39,6 @@
     "@types/supertest": "2.0.12",
     "nock": "13.2.9",
     "supertest": "6.2.4",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

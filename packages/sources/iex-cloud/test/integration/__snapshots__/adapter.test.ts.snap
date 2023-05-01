@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4539.44,
   },
   "result": 4539.44,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -15,13 +15,13 @@ Object {
 `;
 
 exports[`execute eod endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 48.77,
   },
   "result": 48.77,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },
@@ -29,13 +29,13 @@ Object {
 `;
 
 exports[`execute stock endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 48.77,
   },
   "result": 48.77,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },

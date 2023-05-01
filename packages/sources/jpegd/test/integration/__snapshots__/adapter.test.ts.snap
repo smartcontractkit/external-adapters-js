@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute collections valuation api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 69000000,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute punk valuation api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 14000000,
   },
   "jobRunID": "1",

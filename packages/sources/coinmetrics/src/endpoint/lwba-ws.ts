@@ -1,21 +1,26 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import {
-  makeLogger,
-  PartialAdapterResponse,
-  ProviderResult,
-  ProviderResultGenerics,
-} from '@chainlink/external-adapter-framework/util'
 import {
   AdapterEndpoint,
   EndpointContext,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import {
+  PartialAdapterResponse,
+  ProviderResult,
+  ProviderResultGenerics,
+  makeLogger,
+} from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 
 const logger = makeLogger('CoinMetrics Crypto LWBA WS')
 
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+
 export type WsCryptoLwbaEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
   Response: {
     Result: number
     mid: number
@@ -31,14 +36,10 @@ export type WsCryptoLwbaEndpointTypes = {
   Provider: {
     WsMessage: WsPairQuoteMessage
   }
-  Request: {
-    Params: PriceEndpointParams
-  }
-  Settings: typeof config.settings
 }
 
 export type MultiVarResult<T extends ProviderResultGenerics> = {
-  params: T['Request']['Params']
+  params: TypeFromDefinition<T['Parameters']>
   response: PartialAdapterResponse<T['Response']> & {
     mid: number
     ask: number
@@ -90,7 +91,7 @@ type WsPairQuoteMessage =
 
 export const calculatPairQuotesUrl = (
   context: EndpointContext<WsCryptoLwbaEndpointTypes>,
-  desiredSubs: WsCryptoLwbaEndpointTypes['Request']['Params'][],
+  desiredSubs: (typeof inputParameters.validated)[],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
   const pairs = [
@@ -159,5 +160,5 @@ export const endpoint = new AdapterEndpoint<WsCryptoLwbaEndpointTypes>({
   name: 'crypto-lwba',
   aliases: ['crypto_lwba'],
   transport: wsTransport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
 })

@@ -27,33 +27,33 @@
 // 1.0244322573550728
 
 exports[`execute with request properly formatted should return success 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "USD": {
             "price": 1,
           },
         },
       },
-      "USDC": Object {
-        "quote": Object {
-          "USD": Object {
+      "USDC": {
+        "quote": {
+          "USD": {
             "price": 1,
           },
         },
       },
-      "USDT": Object {
-        "quote": Object {
-          "USD": Object {
+      "USDT": {
+        "quote": {
+          "USD": {
             "price": 1,
           },
         },
       },
     },
     "result": 1.021537702956562,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",
@@ -64,33 +64,33 @@ Object {
 `;
 
 exports[`execute with varying stable prices should return correct result 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "DAI": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "DAI": {
+        "quote": {
+          "USD": {
             "price": 1.01,
           },
         },
       },
-      "USDC": Object {
-        "quote": Object {
-          "USD": Object {
+      "USDC": {
+        "quote": {
+          "USD": {
             "price": 0.998,
           },
         },
       },
-      "USDT": Object {
-        "quote": Object {
-          "USD": Object {
+      "USDT": {
+        "quote": {
+          "USD": {
             "price": 1.002,
           },
         },
       },
     },
     "result": 1.0244322573550728,
-    "sources": Array [],
+    "sources": [],
   },
   "debug": undefined,
   "jobRunID": "1",

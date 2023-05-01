@@ -1,7 +1,6 @@
 import {
   PriceEndpoint,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
@@ -15,15 +14,16 @@ import {
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 interface WsMessage {
   [pair: string]: { price: number; timestamp: string }
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -86,7 +86,7 @@ export const forexTransport = new WebSocketTransport<EndpointTypes>({
 })
 
 export function customInputValidation(
-  _: AdapterRequest<EndpointTypes['Request']>,
+  _: AdapterRequest<typeof inputParameters.validated>,
   settings: typeof config.settings,
 ): AdapterError | undefined {
   if (!settings.FOREX_WS_USERNAME || !settings.FOREX_WS_PASSWORD) {
@@ -101,6 +101,6 @@ export function customInputValidation(
 export const forexEndpoint = new PriceEndpoint<EndpointTypes>({
   name: 'forex',
   transport: forexTransport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
   customInputValidation,
 })

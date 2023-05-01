@@ -104,9 +104,6 @@
       "path": "../../sources/cfbenchmarks"
     },
     {
-      "path": "../../sources/cfbenchmarks-test"
-    },
-    {
       "path": "../../sources/chain-reserve-wallet"
     },
     {
@@ -132,9 +129,6 @@
     },
     {
       "path": "../../sources/coinpaprika"
-    },
-    {
-      "path": "../../sources/coinpaprika-test"
     },
     {
       "path": "../../sources/coinranking"

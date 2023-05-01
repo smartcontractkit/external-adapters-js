@@ -4,7 +4,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],
     description: 'The symbol of the currency to query',
@@ -54,19 +54,7 @@ const inputParameters = {
     required: false,
     type: 'string',
   },
-} satisfies InputParameters
-
-export type RequestParams = {
-  base: string
-  convert: string
-  start: string
-  end: string
-  count: number
-  interval: string
-  cid: string
-  aux: string
-  skipInvalid: string
-}
+})
 
 export interface ResponseSchema {
   status: {
@@ -110,9 +98,7 @@ export interface RequestBody {
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: {
     Data: unknown
     Result: null

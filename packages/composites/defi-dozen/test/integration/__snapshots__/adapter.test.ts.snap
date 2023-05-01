@@ -1,96 +1,96 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with coinmarketcap source should return success 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "AAVE": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "AAVE": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "BAT": Object {
-        "quote": Object {
-          "USD": Object {
+      "BAT": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "BNT": Object {
-        "quote": Object {
-          "USD": Object {
+      "BNT": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "COMP": Object {
-        "quote": Object {
-          "USD": Object {
+      "COMP": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "GRT": Object {
-        "quote": Object {
-          "USD": Object {
+      "GRT": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "LINK": Object {
-        "quote": Object {
-          "USD": Object {
+      "LINK": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "MKR": Object {
-        "quote": Object {
-          "USD": Object {
+      "MKR": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "PERP": Object {
-        "quote": Object {
-          "USD": Object {
+      "PERP": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "SNX": Object {
-        "quote": Object {
-          "USD": Object {
+      "SNX": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "SUSHI": Object {
-        "quote": Object {
-          "USD": Object {
+      "SUSHI": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "UNI": Object {
-        "quote": Object {
-          "USD": Object {
+      "UNI": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
-      "YFI": Object {
-        "quote": Object {
-          "USD": Object {
+      "YFI": {
+        "quote": {
+          "USD": {
             "price": 20.509267101358265,
           },
         },
       },
     },
     "result": 246.11120521629917,
-    "sources": Array [],
+    "sources": [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,

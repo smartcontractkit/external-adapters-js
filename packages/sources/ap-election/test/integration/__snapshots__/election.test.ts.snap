@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with multiple races should return error 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"date\\":\\"2021-06-08\\",\\"statePostal\\":\\"VA\\",\\"level\\":\\"state\\",\\"officeID\\":\\"A\\",\\"raceType\\":\\"D\\",\\"endpoint\\":\\"election\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"date":"2021-06-08","statePostal":"VA","level":"state","officeID":"A","raceType":"D","endpoint":"election"}}",
     "message": "We don't support finding the winner from multiple races",
     "name": "AdapterError",
   },
@@ -14,9 +14,9 @@ Object {
 `;
 
 exports[`execute with national level response should return success 1`] = `
-Object {
-  "data": Object {
-    "candidates": Array [
+{
+  "data": {
+    "candidates": [
       "0x000000000000000000000000000000000000000000000000000000000000cab800000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000004460c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000352657000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006446f6e616c64000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055472756d70000000000000000000000000000000000000000000000000000000",
       "0x000000000000000000000000000000000000000000000000000000000000cb8b00000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000423530000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000344656d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000034a6f6500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005426964656e000000000000000000000000000000000000000000000000000000",
     ],
@@ -24,17 +24,17 @@ Object {
     "nextrequest": "https://api.ap.org/v2/elections/2021-06-08?format=json&level=state&officeid=A&racetypeid=D&resultstype=l&statepostal=VA&winner=X&minDateTime=2021-06-09T20%3a35%3a40.840Z",
     "precinctsReporting": 2584,
     "precinctsReportingPct": 100,
-    "races": Array [
-      Object {
+    "races": [
+      {
         "officeID": "P",
         "officeName": "President",
         "raceID": "0",
         "raceType": "General",
         "raceTypeID": "G",
-        "reportingUnits": Array [
-          Object {
-            "candidates": Array [
-              Object {
+        "reportingUnits": [
+          {
+            "candidates": [
+              {
                 "ballotOrder": 1,
                 "candidateID": "51896",
                 "first": "Donald",
@@ -45,7 +45,7 @@ Object {
                 "polNum": "49353",
                 "voteCount": 280076,
               },
-              Object {
+              {
                 "ballotOrder": 2,
                 "candidateID": "52107",
                 "first": "Joe",
@@ -65,9 +65,9 @@ Object {
             "stateName": "United States",
             "statePostal": "US",
           },
-          Object {
-            "candidates": Array [
-              Object {
+          {
+            "candidates": [
+              {
                 "ballotOrder": 1,
                 "candidateID": "51896",
                 "first": "Donald",
@@ -79,7 +79,7 @@ Object {
                 "voteCount": 10000,
                 "winner": "X",
               },
-              Object {
+              {
                 "ballotOrder": 2,
                 "candidateID": "52107",
                 "first": "Joe",
@@ -119,9 +119,9 @@ Object {
 `;
 
 exports[`execute with no races should return error 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"date\\":\\"2021-06-08\\",\\"statePostal\\":\\"VA\\",\\"level\\":\\"state\\",\\"officeID\\":\\"A\\",\\"raceType\\":\\"D\\",\\"endpoint\\":\\"election\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"date":"2021-06-08","statePostal":"VA","level":"state","officeID":"A","raceType":"D","endpoint":"election"}}",
     "message": "We could not find any races",
     "name": "AdapterError",
   },
@@ -132,9 +132,9 @@ Object {
 `;
 
 exports[`execute with state level response should return success 1`] = `
-Object {
-  "data": Object {
-    "candidates": Array [
+{
+  "data": {
+    "candidates": [
       "0x000000000000000000000000000000000000000000000000000000000000cab800000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000423530000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000344656d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000044d61726b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000748657272696e6700000000000000000000000000000000000000000000000000",
       "0x000000000000000000000000000000000000000000000000000000000000cb8b00000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001400000000000000000000000000000000000000000000000000000000000032bb00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000344656d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084a65727261756c6400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000054a6f6e6573000000000000000000000000000000000000000000000000000000",
     ],
@@ -142,18 +142,18 @@ Object {
     "nextrequest": "https://api.ap.org/v2/elections/2021-06-08?format=json&level=state&officeid=A&racetypeid=D&resultstype=l&statepostal=VA&winner=X&minDateTime=2021-06-09T20%3a35%3a40.840Z",
     "precinctsReporting": 2584,
     "precinctsReportingPct": 100,
-    "races": Array [
-      Object {
+    "races": [
+      {
         "officeID": "A",
         "officeName": "Attorney General",
         "party": "Dem",
         "raceID": "47227",
         "raceType": "Primary",
         "raceTypeID": "D",
-        "reportingUnits": Array [
-          Object {
-            "candidates": Array [
-              Object {
+        "reportingUnits": [
+          {
+            "candidates": [
+              {
                 "ballotOrder": 1,
                 "candidateID": "51896",
                 "first": "Mark",
@@ -165,7 +165,7 @@ Object {
                 "voteCount": 271187,
                 "winner": "X",
               },
-              Object {
+              {
                 "ballotOrder": 2,
                 "candidateID": "52107",
                 "first": "Jerrauld",

@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Balance Endpoint should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "13nogjgyJcGQduHt8RtZiKKbt7Uy6py9hv1WMDZWueEcsHdh",
         "balance": "11039074987459742",
       },
-      Object {
+      {
         "address": "126rjyDQEJm6V6YPDcN85hJDYraqB6hL9bFsvWLDnM8rLc3J",
         "balance": "11040093482701534",
       },
-      Object {
+      {
         "address": "15vJFD1Y8nButjmgjbK5x6SYU2cQnbihM4GgkR5enkwyTVLq",
         "balance": "5514630890463855",
       },
@@ -20,7 +20,7 @@ Object {
   },
   "result": null,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1659338094909,
     "providerDataRequestedUnixMs": 1659338094909,
   },

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`rest quote endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1.15894,
   },
   "result": 1.15894,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
   },

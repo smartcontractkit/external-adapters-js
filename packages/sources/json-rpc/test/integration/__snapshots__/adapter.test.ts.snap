@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute rpc api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "0x2fe84e3113d7b",
   },
   "jobRunID": "1",

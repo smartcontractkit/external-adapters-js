@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`websocket websocket endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1500,
   },
   "result": 1500,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataStreamEstablishedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1591649644000,

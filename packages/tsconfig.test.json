@@ -216,9 +216,6 @@
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
     },
     {
-      "path": "./sources/cfbenchmarks-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
     },
     {
@@ -244,9 +241,6 @@
     },
     {
       "path": "./sources/coinpaprika/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/coinpaprika-test/tsconfig.test.json"
     },
     {
       "path": "./sources/coinranking/tsconfig.test.json"

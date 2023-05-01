@@ -387,10 +387,17 @@ describe('execute', () => {
 
     jest.setTimeout(100000)
 
-    const priceData = {
+    const priceDataAapl = {
       data: {
         endpoint: 'iex',
         base: 'aapl',
+      },
+    }
+
+    const priceDataAmzn = {
+      data: {
+        endpoint: 'iex',
+        base: 'amzn',
       },
     }
 
@@ -413,7 +420,8 @@ describe('execute', () => {
       req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
       // Send initial request to start background execute
-      await req.post('/').send(priceData)
+      await req.post('/').send(priceDataAapl)
+      await req.post('/').send(priceDataAmzn)
       await sleep(5000)
     })
 
@@ -424,11 +432,25 @@ describe('execute', () => {
       fastify?.close(done())
     })
 
-    it('should return success', async () => {
+    it('Q request should return success', async () => {
       const makeRequest = () =>
         req
           .post('/')
-          .send(priceData)
+          .send(priceDataAapl)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+
+    it('T request should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(priceDataAmzn)
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)

@@ -1,5 +1,15 @@
 # @chainlink/augur-adapter
 
+## 2.0.15
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/sportsdataio-adapter@1.3.23
+  - @chainlink/therundown-adapter@1.3.31
+
 ## 2.0.14
 
 ### Patch Changes

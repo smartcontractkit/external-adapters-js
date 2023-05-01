@@ -26,7 +26,7 @@ function createEndpointMap(
     adapter.endpoints.forEach((e) => {
       adapterEndpointMap[e.name] = {
         supportedEndpoints: e.aliases ? [e.name, ...e.aliases] : [e.name],
-        inputParameters: e.inputParameters,
+        inputParameters: e.inputParameters.definition,
       } as APIEndpoint
     })
     return [adapter.name, adapterEndpointMap]

@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute balance endpoint should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
         "balance": "13569890753",
         "chain": "testnet",
@@ -13,8 +13,8 @@ Object {
     ],
   },
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
       "balance": "13569890753",
       "chain": "testnet",
@@ -26,8 +26,8 @@ Object {
 `;
 
 exports[`execute bc_info endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 22674148233453.11,
   },
   "jobRunID": "1",
@@ -38,8 +38,8 @@ Object {
 `;
 
 exports[`execute crypto endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 64671.845340501786,
   },
   "jobRunID": "1",

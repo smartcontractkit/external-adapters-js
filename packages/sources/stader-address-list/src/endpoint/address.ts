@@ -12,15 +12,14 @@ import {
 import { config } from '../config'
 import {
   BasicAddress,
-  calculatePages,
-  EndpointTypes,
-  filterDuplicateAddresses,
   NetworkChainMap,
   PoolAddress,
-  RequestParams,
-  runAllSequentially,
+  ResponseSchema,
   ValidatorAddress,
   ValidatorRegistryResponse,
+  calculatePages,
+  filterDuplicateAddresses,
+  runAllSequentially,
 } from '../utils'
 
 const logger = makeLogger('StaderAddressList')
@@ -41,7 +40,7 @@ const staderNetworkChainMap: NetworkChainMap = {
   },
 }
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   poolFactoryAddress: {
     description: 'The address of the Stader PoolFactory contract.',
     type: 'string',
@@ -85,14 +84,22 @@ const inputParameters = {
   },
   validatorStatus: {
     required: false,
-    type: 'array',
+    type: 'string',
     description: 'A filter to apply validators by their status',
+    array: true,
   },
   batchSize: {
     description: 'The number of addresses to fetch from the contract at a time',
     default: 10,
+    type: 'number',
   },
-} satisfies InputParameters
+})
+
+type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: ResponseSchema
+}
 
 export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   provider!: ethers.providers.JsonRpcProvider
@@ -116,7 +123,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
 
   async backgroundHandler(
     context: EndpointContext<EndpointTypes>,
-    entries: RequestParams[],
+    entries: (typeof inputParameters.validated)[],
   ): Promise<void> {
     if (!entries.length) {
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
@@ -143,7 +150,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     )
   }
 
-  async handleRequest(req: RequestParams): Promise<void> {
+  async handleRequest(req: typeof inputParameters.validated): Promise<void> {
     let response: AdapterResponse<EndpointTypes['Response']>
     try {
       response = await this._handleRequest(req)
@@ -162,7 +169,9 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     await this.responseCache.write(this.name, [{ params: req, response }])
   }
 
-  async _handleRequest(req: RequestParams): Promise<AdapterResponse<EndpointTypes['Response']>> {
+  async _handleRequest(
+    req: typeof inputParameters.validated,
+  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const {
       confirmations,
       poolFactoryAddress: poolFactoryAddressOverride,

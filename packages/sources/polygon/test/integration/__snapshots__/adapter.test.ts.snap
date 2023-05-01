@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute forex api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.7536,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute forex batch api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 28.5,
   },
   "jobRunID": "1",
@@ -25,8 +25,8 @@ Object {
 `;
 
 exports[`execute forex batch api should return the proper warning message when the API does not return a response 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "USD/GBP",
     "message": "Data Provder Issue:  Result could not be found from response.  This is expected for some pairs during the weekend or on public holidays as the market for the pair might be closed.",
     "name": "AdapterError",

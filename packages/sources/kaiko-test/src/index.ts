@@ -12,7 +12,7 @@ export const adapter = new PriceAdapter({
   includes,
   rateLimiting: {
     tiers: {
-      unlimited: {
+      default: {
         rateLimit1s: 100,
         note: 'Considered unlimited tier, but setting reasonable limits',
       },

@@ -1,9 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
-
-export const inputParameters = {} satisfies InputParameters
 
 interface CoinsResponse {
   id: string
@@ -12,14 +10,12 @@ interface CoinsResponse {
 }
 
 type EndpointTypes = {
-  Request: {
-    Params: unknown
-  }
+  Parameters: EmptyInputParameters
+  Settings: typeof config.settings
   Response: {
     Data: CoinsResponse[]
     Result: null
   }
-  Settings: typeof config.settings
   Provider: {
     RequestBody: never
     ResponseBody: CoinsResponse[]
@@ -55,5 +51,4 @@ const transport = new HttpTransport<EndpointTypes>({
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'coins',
   transport,
-  inputParameters,
 })

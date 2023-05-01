@@ -1,6 +1,7 @@
 import nock from 'nock'
 
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 
 export const mockMarketcapSuccess = (): nock.Scope =>
   nock('http://127.0.0.1:8545', { encodedQueryParams: true })
@@ -13,7 +14,11 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }),
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x1',
+      }),
       [
         'Date',
         'Fri, 13 Jan 2023 14:28:09 GMT',
@@ -37,7 +42,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000002710',
@@ -65,7 +70,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x000000000000000000000000000000000000000000000000ed007c9a7fcefc00',
@@ -93,7 +98,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x000000000000000000000000000000000000000000000000000000000000280f',
@@ -121,7 +126,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000004bf0',
@@ -149,7 +154,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000002710',
@@ -177,7 +182,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x000000000000000000000000000000000000000000000000ccca49bbce32d000',
@@ -205,7 +210,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -233,7 +238,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -261,7 +266,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -289,7 +294,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000036daf49111acbcc00',
@@ -317,7 +322,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000004bf9',
@@ -345,7 +350,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000001b71',
@@ -373,7 +378,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -401,7 +406,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000008',
@@ -429,7 +434,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000002710',
@@ -457,7 +462,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000000000020b71bb5c0',
@@ -485,7 +490,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000000000000000026e8',
@@ -513,7 +518,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000005cfb2e807b1e0000',
@@ -541,7 +546,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -569,7 +574,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000002710',
@@ -597,7 +602,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000012664b967bb7a400',
@@ -625,7 +630,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -653,7 +658,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000001714ce0b38d4fc00',
@@ -681,7 +686,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000402f7871f253bb400',
@@ -709,7 +714,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -737,7 +742,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -765,7 +770,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -793,7 +798,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000039743c10ba1e0000',
@@ -821,7 +826,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000020e7073d9a7ae400',
@@ -849,7 +854,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -877,7 +882,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000002710',
@@ -905,7 +910,7 @@ export const mockMarketcapSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: AdapterRequest<EmptyInputParameters>) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000004b35057819f59800',

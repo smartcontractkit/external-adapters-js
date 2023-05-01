@@ -1,8 +1,8 @@
-import overrides from '../../config/overrides.json'
-import { config } from '../../config'
-import { TiingoWebsocketTransport } from '../../ws-utils'
-import { inputParameters, RouterPriceEndpointParams } from '../../crypto-utils'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { config } from '../../config'
+import overrides from '../../config/overrides.json'
+import { inputParameters } from '../../crypto-utils'
+import { TiingoWebsocketTransport } from '../../ws-utils'
 
 interface Message {
   service: string
@@ -38,11 +38,9 @@ interface EPResponse {
 }
 
 type EndpointTypes = {
-  Request: {
-    Params: RouterPriceEndpointParams
-  }
-  Response: EPResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: EPResponse
   Provider: {
     WsMessage: Message
   }

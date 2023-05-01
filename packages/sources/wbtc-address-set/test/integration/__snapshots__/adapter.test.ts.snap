@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute addresses api should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
         "balance": "0",
         "chainId": "mainnet",
@@ -18,8 +18,8 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
       "balance": "0",
       "chainId": "mainnet",
@@ -35,10 +35,10 @@ Object {
 `;
 
 exports[`execute members api should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
         "balance": "0",
         "chainId": "mainnet",
@@ -52,8 +52,8 @@ Object {
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
       "balance": "0",
       "chainId": "mainnet",

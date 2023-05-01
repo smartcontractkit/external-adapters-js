@@ -1,7 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../config'
-import { RequestParams } from '../types'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { EndpointTypes } from './price-router'
 
 const logger = makeLogger('DxFeed Websocket')
 
@@ -18,12 +17,7 @@ export type DXFeedMessage = {
   }
 }[]
 
-export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+export type WsEndpointTypes = EndpointTypes & {
   Provider: {
     WsMessage: DXFeedMessage
   }
@@ -37,7 +31,7 @@ const SERVICE_DATA = '/service/data'
 const tickerIndex = 0
 const priceIndex = 6
 
-class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
+class DxFeedWebsocketTransport extends WebSocketTransport<WsEndpointTypes> {
   private _connectionClientId = ''
   id = 0
 

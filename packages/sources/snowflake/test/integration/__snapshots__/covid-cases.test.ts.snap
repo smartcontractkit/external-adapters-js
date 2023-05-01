@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute basic should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "code": "090001",
     "createdOn": 1638467668319,
-    "data": Array [
-      Array [
+    "data": [
+      [
         "10531",
       ],
     ],
     "message": "Statement executed successfully.",
     "requestId": "e68f6b77-72bd-4b7f-8719-247ac70f6f82",
     "result": 10531,
-    "resultSetMetaData": Object {
+    "resultSetMetaData": {
       "format": "jsonv2",
       "numRows": 1,
-      "partitionInfo": Array [
-        Object {
+      "partitionInfo": [
+        {
           "rowCount": 1,
           "uncompressedSize": 9,
         },
       ],
-      "rowType": Array [
-        Object {
+      "rowType": [
+        {
           "byteLength": null,
           "collation": null,
           "database": "test_database",

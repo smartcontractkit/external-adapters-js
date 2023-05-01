@@ -1,74 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Balance Endpoint should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "0x974Db4Fb26993289CAD9f79Bde4eAE097503064f",
         "balance": "2000000000",
       },
-      Object {
+      {
         "address": "0x8d86bc475bedcb08179c5e6a4d494ebd3b44ea8b",
         "balance": "1000000000",
       },
-      Object {
+      {
         "address": "0xfc07bcb5c142c7c86c84490f068d31499610ccab",
         "balance": "2000000000",
       },
-      Object {
+      {
         "address": "0xEc4166439523e8C2FaE395201f04876Cc7C02d68",
         "balance": "31000000000",
       },
-      Object {
+      {
         "address": "0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc",
         "balance": "22653125000",
       },
-      Object {
+      {
         "address": "0x84d290ec6a766cef753bcce7b6d75f12b405e5c76171f2a456ae415e872d23ea01f869e8f64629a48f0c21f0f86e37d3",
         "balance": "29000000000",
       },
-      Object {
+      {
         "address": "0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95",
         "balance": "28000000000",
       },
-      Object {
+      {
         "address": "0x8cd2726ccd034cf023840c2f76f7bfd4f2e8dbe79ff0e43d2908d1124450ed1c954966a42113787bc930c0e2d73524c0",
         "balance": "32687500000",
       },
-      Object {
+      {
         "address": "0xaaea1a72970d9d8cd5fdee9c41437b24b9c49c34e35cd620c87fc8ad270ed822fe550690581422a90d7538e906f61d11",
         "balance": "31687500000",
       },
-      Object {
+      {
         "address": "0xac41f16bdd583309e5095d475ad1250dabf274045d852bd091e07f03b6de3fc4ad34705c0f1079d516df0b2d8fed0e10",
         "balance": "28111718750",
       },
-      Object {
+      {
         "address": "0x8af03fc3ba342b625c868325386fd421fa677d87cf96d528f4649cf043ea33b8f1466dd6bce66b0c9d949b8b65d1549c",
-        "balance": "1000000000",
+        "balance": "17000000000",
       },
-      Object {
+      {
         "address": "0x10f4F0a7aadfB7E79533090508fADD78FB163068",
         "balance": "4218750000",
       },
-      Object {
+      {
         "address": "0x9CfD5a30DB1B925A92E796e5Ce37Fd0E66390Fe1",
         "balance": "5279296875",
       },
-      Object {
+      {
         "address": "0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6",
         "balance": "1000000000",
-      },
-      Object {
-        "address": "0x8af03fc3ba342b625c868325386fd421fa677d87cf96d528f4649cf043ea33b8f1466dd6bce66b0c9d949b8b65d1549c",
-        "balance": "31000000000",
       },
     ],
   },
   "result": null,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1659338094909,
     "providerDataRequestedUnixMs": 1659338094909,
   },

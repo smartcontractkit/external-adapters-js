@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/blockcypher-adapter",
-  "version": "1.4.30",
+  "version": "1.4.31",
   "description": "Chainlink adapter to query BTC address balance from blockcypher.com.",
   "keywords": [
     "Chainlink",
@@ -44,6 +44,6 @@
     "@types/supertest": "2.0.12",
     "nock": "13.2.9",
     "supertest": "6.2.4",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

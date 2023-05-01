@@ -4,11 +4,10 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../../config'
 import overrides from '../../config/overrides.json'
-import { RouterPriceEndpointParams } from '../../crypto-utils'
 import { httpTransport } from '../http/forex'
 import { wsTransport } from '../ws/forex'
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'market', 'asset'],
     required: true,
@@ -21,14 +20,12 @@ const inputParameters = {
     type: 'string',
     description: 'The quote to convert to',
   },
-} satisfies InputParameters
+})
 
 export type ForexEndpointTypes = {
-  Request: {
-    Params: RouterPriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
 
 export const endpoint = new AdapterEndpoint({

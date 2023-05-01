@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxfeed-test-adapter",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Chainlink dxfeed-test adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.28.6",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "tslib": "2.4.0"
   },
   "devDependencies": {
@@ -38,6 +38,6 @@
     "mock-socket": "9.1.5",
     "nock": "13.2.9",
     "supertest": "6.2.4",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

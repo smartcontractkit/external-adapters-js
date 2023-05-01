@@ -6,9 +6,18 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import axios from 'axios'
 import { config } from './config'
-import { AccessToken, AccessTokenResponse } from './types'
 
 const logger = makeLogger('GalaxyUtil')
+
+export interface AccessTokenResponse {
+  token?: string
+  message?: string
+}
+
+export interface AccessToken {
+  token: string
+  created: number
+}
 
 export const getAccessToken = async (settings: typeof config.settings): Promise<AccessToken> => {
   const requestedTs = Date.now()

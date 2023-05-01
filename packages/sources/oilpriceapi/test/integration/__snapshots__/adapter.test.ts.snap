@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute oilprice api bz should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 70.71,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute oilprice api wti should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 71.47,
   },
   "jobRunID": "1",

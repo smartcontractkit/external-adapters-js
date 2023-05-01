@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto api should return failure for array 1`] = `
-Object {
-  "error": Object {
-    "message": "base parameter must be of type string",
+{
+  "error": {
+    "message": "[Param: base] input type is not the expected one (string)",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -12,13 +12,13 @@ Object {
 `;
 
 exports[`execute crypto api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4226.71,
   },
   "result": 4226.71,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
   },
@@ -26,13 +26,13 @@ Object {
 `;
 
 exports[`execute crypto api should return success for override 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 100,
   },
   "result": 100,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
   },
@@ -40,13 +40,13 @@ Object {
 `;
 
 exports[`execute dominance api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 18.127134683884314,
   },
   "result": 18.127134683884314,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1635189786000,
@@ -55,13 +55,13 @@ Object {
 `;
 
 exports[`execute globalmarketcap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 2744386468602.4453,
   },
   "result": 2744386468602.4453,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1635189786000,
@@ -70,13 +70,13 @@ Object {
 `;
 
 exports[`execute marketcap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 499351414399.08246,
   },
   "result": 499351414399.08246,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
   },
@@ -84,13 +84,13 @@ Object {
 `;
 
 exports[`execute volume api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 17345604238.153397,
   },
   "result": 17345604238.153397,
   "statusCode": 200,
-  "timestamps": Object {
+  "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
   },

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for JPEG'd
 
-![2.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/jpegd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/jpegd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Query NFT collection values from the JPEG'd API.
 

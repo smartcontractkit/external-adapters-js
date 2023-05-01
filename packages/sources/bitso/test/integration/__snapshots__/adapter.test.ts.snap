@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute crypto api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 12806994.53728601,
   },
   "jobRunID": "1",
@@ -13,9 +13,9 @@ Object {
 `;
 
 exports[`execute crypto api with invalid symbol should return failure 1`] = `
-Object {
-  "error": Object {
-    "errorResponse": Object {
+{
+  "error": {
+    "errorResponse": {
       "code": "0301",
       "message": "Unknown OrderBook non_existing",
     },

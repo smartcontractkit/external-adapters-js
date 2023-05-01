@@ -52,23 +52,83 @@ export const staderNetworkChainMap: NetworkChainMap = {
   },
 }
 
-export const inputParameters = {
+export enum StaderValidatorStatus {
+  INITIALIZED,
+  INVALID_SIGNATURE,
+  FRONT_RUN,
+  PRE_DEPOSIT,
+  DEPOSITED,
+  IN_ACTIVATION_QUEUE,
+  ACTIVE,
+  IN_EXIT_QUEUE,
+  EXITED,
+  WITHDRAWN,
+}
+
+export const inputParameters = new InputParameters({
   addresses: {
     aliases: ['result'],
     required: true,
-    type: 'array',
     description:
       'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+    array: true,
+    type: {
+      address: {
+        type: 'string',
+        required: true,
+        description: 'One of the addresses to get balance of',
+      },
+      poolId: {
+        type: 'number',
+        required: true,
+        description: 'The ID of the validator pool',
+      },
+      status: {
+        type: 'number',
+        description: 'Stader status ID for this particular validator',
+        required: true,
+        options: Object.values(StaderValidatorStatus) as number[],
+      },
+      withdrawVaultAddress: {
+        type: 'string',
+        description: 'Validator withdrawal address for this particular validator',
+        required: true,
+      },
+      operatorId: {
+        type: 'number',
+        description: 'The Stader assigned operator ID for this particular validator',
+        required: true,
+      },
+    },
   },
   elRewardAddresses: {
     description: 'List of unique execution layer reward addresses',
-    type: 'array',
+    type: {
+      address: {
+        type: 'string',
+        required: true,
+        description: 'One of the execution layer reward addresses',
+      },
+    },
     required: true,
+    array: true,
   },
   socialPoolAddresses: {
     description: 'List of socializing pool addresses',
-    type: 'array',
+    type: {
+      address: {
+        type: 'string',
+        required: true,
+        description: 'One of the social pool addresses',
+      },
+      poolId: {
+        type: 'number',
+        required: true,
+        description: 'The ID of the social pool',
+      },
+    },
     required: true,
+    array: true,
   },
   stateId: {
     type: 'string',
@@ -77,8 +137,9 @@ export const inputParameters = {
   },
   validatorStatus: {
     required: false,
-    type: 'array',
+    type: 'string',
     description: 'A filter to apply validators by their status',
+    array: true,
   },
   penaltyAddress: {
     description: 'The address of the Stader Penalty contract.',
@@ -117,36 +178,9 @@ export const inputParameters = {
     description: 'The number of confirmations to query data from',
     default: 0,
   },
-} satisfies InputParameters
+})
 
-export enum StaderValidatorStatus {
-  INITIALIZED,
-  INVALID_SIGNATURE,
-  FRONT_RUN,
-  PRE_DEPOSIT,
-  DEPOSITED,
-  IN_ACTIVATION_QUEUE,
-  ACTIVE,
-  IN_EXIT_QUEUE,
-  EXITED,
-  WITHDRAWN,
-}
-
-export interface RequestParams {
-  addresses: ValidatorAddress[]
-  elRewardAddresses: BasicAddress[]
-  socialPoolAddresses: PoolAddress[]
-  stateId: string
-  validatorStatus?: string[]
-  penaltyAddress?: string
-  poolFactoryAddress?: string
-  stakeManagerAddress?: string
-  permissionedPoolAddress?: string
-  staderConfigAddress?: string
-  network: string
-  chainId: string
-  confirmations: number
-}
+export type RequestParams = typeof inputParameters.validated
 
 export type BasicAddress = {
   address: string
@@ -158,8 +192,6 @@ export type PoolAddress = BasicAddress & {
 
 export type ValidatorAddress = BasicAddress &
   PoolAddress & {
-    network: string
-    chainId: string
     status: StaderValidatorStatus
     withdrawVaultAddress: string
     operatorId: number
@@ -199,11 +231,9 @@ export interface ResponseSchema {
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: ResponseSchema
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: ResponseSchema
 }
 
 export const chunkArray = <T>(addresses: T[], size: number): T[][] =>

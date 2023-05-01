@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/alongside-adapter",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "Chainlink alongside adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.28.6",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "@types/crypto-js": "^4.1.1",
     "axios": "0.27.2",
     "crypto-js": "^4.1.1",
@@ -42,6 +42,6 @@
     "@types/supertest": "2.0.12",
     "nock": "13.2.9",
     "supertest": "6.2.4",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

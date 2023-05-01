@@ -1,18 +1,20 @@
 import {
+  AdapterContext,
+  AdapterDataProviderError,
+  AdapterRequest,
+  AdapterResponse,
   InputParameters,
   Logger,
   Requester,
   Validator,
-  AdapterDataProviderError,
   util,
 } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/ea-bootstrap'
-import { ethers, BigNumber, BigNumberish } from 'ethers'
+import { BigNumber, BigNumberish, ethers } from 'ethers'
 import { DateTime } from 'luxon'
 
+import AggregatorV3InterfaceABI from '../abis/AggregatorV3Interface.json'
 import { Config } from '../config'
 import { CRYPTO_ABI } from './index'
-import AggregatorV3InterfaceABI from '../abis/AggregatorV3Interface.json'
 
 class RoundManagement {
   readonly phase: BigNumber
@@ -126,14 +128,14 @@ async function fetchResolutionRoundIds(
 
       // If any of the coins can't be resolved, don't resolve any of them we
       // may want to change this
-      if (roundData.updatedAt < resolutionTime) {
+      if ((roundData.updatedAt as number) < resolutionTime) {
         throw Error(
           `Augur: cryptoMarkets - oracle update for ${coin.name} has not occured yet, resolutionTime is ${resolutionTime} but oracle was updated at ${roundData.updatedAt}`,
         )
       }
 
       let round = RoundManagement.decode(roundData.roundId)
-      while (roundData.updatedAt >= resolutionTime) {
+      while ((roundData.updatedAt as number) >= resolutionTime) {
         roundData = await aggregator.getRoundData(round.prevRound().id)
         round = RoundManagement.decode(roundData.roundId)
       }

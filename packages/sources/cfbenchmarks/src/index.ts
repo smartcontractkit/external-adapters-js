@@ -1,9 +1,13 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { endpointSelector, makeExecute, makeWSHandler } from './adapter'
-import * as endpoints from './endpoint'
-import { makeConfig, NAME } from './config'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
+import { birc, crypto, cryptolwba } from './endpoint'
 
-const adapterContext = { name: NAME }
+export const adapter = new Adapter({
+  name: 'CFBENCHMARKS',
+  endpoints: [crypto, birc, cryptolwba],
+  defaultEndpoint: crypto.name,
+  config,
+})
 
-const { server } = expose(adapterContext, makeExecute(), makeWSHandler(), endpointSelector)
-export { NAME, makeExecute, makeConfig, server, endpoints }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
