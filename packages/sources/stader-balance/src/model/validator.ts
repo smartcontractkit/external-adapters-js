@@ -35,8 +35,8 @@ export class ValidatorFactory {
   }): Promise<{
     activeValidators: ActiveValidator[]
     withdrawnValidators: WithdrawnValidator[]
-    limboAddresses: string[]
-    depositedAddresses: string[]
+    limboAddressMap: Record<string, ValidatorAddress>
+    depositedAddressMap: Record<string, ValidatorAddress>
   }> {
     return withErrorHandling(
       `Fetching validator states (state id: ${params.stateId}) from the beacon chain`,
@@ -104,23 +104,29 @@ export class ValidatorFactory {
         }
 
         // The validator addresses that had no state in the beacon chain get stuck in "limbo"
-        const limboAddresses = Object.values(addressMap).map((a) => a.address)
-        logger.debug(`Number of validator addresses not found on beacon: ${limboAddresses.length}`)
+        logger.debug(
+          `Number of validator addresses not found on beacon: ${Object.entries(addressMap).length}`,
+        )
 
         // Deposited addresses will also be present in the main validator list;
         // the balance on the beacon chain for the address would be 1ETH
         // but there could be newer deposits in the event logs
-        const depositedAddresses = activeValidators
+        const depositedAddressMap: Record<string, ValidatorAddress> = {}
+        activeValidators
           .filter((v) => v.isDeposited())
-          .map((v) => v.addressData.address)
-        logger.debug(`Number of deposited validator addresses: ${depositedAddresses.length}`)
+          .forEach((v) => {
+            depositedAddressMap[v.addressData.address] = v.addressData
+          })
+        logger.debug(
+          `Number of deposited validator addresses: ${Object.entries(depositedAddressMap).length}`,
+        )
 
         // Get the validator states from the responses, flatten the groups and return
         return {
           activeValidators,
           withdrawnValidators,
-          limboAddresses,
-          depositedAddresses,
+          limboAddressMap: addressMap,
+          depositedAddressMap,
         }
       },
     )
@@ -147,7 +153,10 @@ abstract class Validator {
   protected provider: ethers.providers.JsonRpcProvider
   protected logPrefix: string
 
-  abstract calculateBalance(validatorDeposit: BigNumber): Promise<BalanceResponse>
+  abstract calculateBalance(
+    validatorDeposit: BigNumber,
+    depositedEth: BigNumber,
+  ): Promise<BalanceResponse>
 
   constructor(params: ValidatorParams) {
     this.addressData = params.addressData
@@ -231,17 +240,29 @@ abstract class Validator {
 }
 
 class ActiveValidator extends Validator {
-  async calculateBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
+  async calculateBalance(
+    validatorDeposit: BigNumber,
+    depositedEth: BigNumber = BigNumber(0),
+  ): Promise<BalanceResponse> {
     logger.debug(`${this.logPrefix} validator is not done or balance > 0, considering it active`)
     const { userDeposit, poolCommission, withdrawalAddressBalance } =
       await this.fetchDataForBalanceCalculation(validatorDeposit)
 
     // Get the current penalty for this validator from the Stader Penalty contract
     const validatorPenalty = await this.fetchPenalty()
-
+    logger.debug(
+      `Validator (${this.addressData.address}), 
+      User deposit: ${userDeposit}. 
+      Pool Commission: ${poolCommission}. 
+      Withdrawal balance: ${withdrawalAddressBalance}. 
+      Deposited Eth: ${depositedEth}`,
+    )
+    // Add deposited ETH to balance found on beacon
+    // Limbo ETH should be included in the calculations
+    const effectiveBalance = this.validatorBalance.plus(depositedEth)
     // Calculate the preliminary user balance
     const preliminaryUserBalance = this.calculatePreliminaryBalance({
-      balance: this.validatorBalance,
+      balance: effectiveBalance,
       validatorDeposit,
       poolCommission,
       userDeposit,
@@ -251,12 +272,12 @@ class ActiveValidator extends Validator {
     // Calculate the node's balance
     const nodeBalance = BigNumber.max(
       0,
-      this.validatorBalance.minus(preliminaryUserBalance).minus(validatorPenalty),
+      effectiveBalance.minus(preliminaryUserBalance).minus(validatorPenalty),
     )
     logger.debug(`${this.logPrefix} calculated node balance: ${nodeBalance}`)
 
     // Calculate user balance
-    const userBalance = this.validatorBalance.minus(nodeBalance)
+    const userBalance = effectiveBalance.minus(nodeBalance)
     logger.debug(`${this.logPrefix} calculated user balance: ${userBalance}`)
 
     // Calculate withdrawal balance
