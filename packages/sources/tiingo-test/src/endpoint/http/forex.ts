@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { buildBatchedRequestBody, RouterPriceEndpointParams } from '../../crypto-utils'
+import { buildBatchedRequestBody } from '../../crypto-utils'
 import { ForexEndpointTypes } from '../common/forex-router'
 
 interface ProviderResponseBody {
@@ -24,18 +24,27 @@ export const httpTransport = new HttpTransport<HttpForexEndpointTypes>({
     return buildBatchedRequestBody(params, config, 'tiingo/fx/top')
   },
   parseResponse: (params, res) => {
-    return res.data.map((entry) => {
-      const param = params.find(
-        (p) => `${p.base}${p.quote}`.toLowerCase() === entry.ticker,
-      ) as RouterPriceEndpointParams
-      return {
-        params: param,
-        response: {
-          data: {
+    return params.map((p) => {
+      const entry = res.data.find((entry) => `${p.base}${p.quote}`.toLowerCase() === entry.ticker)
+
+      if (!entry) {
+        return {
+          params: p,
+          response: {
+            errorMessage: `Tiingo provided no data for ${p.base}/${p.quote}`,
+            statusCode: 502,
+          },
+        }
+      } else {
+        return {
+          params: p,
+          response: {
+            data: {
+              result: entry.midPrice,
+            },
             result: entry.midPrice,
           },
-          result: entry.midPrice,
-        },
+        }
       }
     })
   },

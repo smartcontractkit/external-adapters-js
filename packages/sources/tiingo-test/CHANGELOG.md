@@ -1,5 +1,15 @@
 # @chainlink/tiingo-test-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- 6783b51c8: Updated IEX ws logic to comply with the metadata dictionary
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
 ## 1.4.1
 
 ### Patch Changes

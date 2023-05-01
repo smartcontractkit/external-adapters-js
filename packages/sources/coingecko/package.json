@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coingecko-adapter",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,7 +20,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.28.6",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "tslib": "2.4.0"
   },
   "devDependencies": {

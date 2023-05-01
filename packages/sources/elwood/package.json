@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/elwood-adapter",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "Chainlink Elwood adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.28.6",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "axios": "0.27.2",
     "tslib": "^2.3.1"
   },

@@ -1,5 +1,11 @@
 # k6
 
+## 2.5.3
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+
 ## 2.5.2
 
 ### Patch Changes

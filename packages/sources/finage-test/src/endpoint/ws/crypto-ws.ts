@@ -1,7 +1,5 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../config'
-import { CryptoEndpointParams } from '../crypto-router'
+import { PriceEndpointTypes } from '../types'
 
 interface Message {
   s: string
@@ -10,12 +8,7 @@ interface Message {
   t: number
 }
 
-type EndpointTypes = {
-  Request: {
-    Params: CryptoEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+type EndpointTypes = PriceEndpointTypes & {
   Provider: {
     WsMessage: Message
   }

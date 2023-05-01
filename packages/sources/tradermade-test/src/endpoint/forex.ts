@@ -1,22 +1,13 @@
-import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { buildBatchedRequestBody, constructEntry, HttpTransportTypes } from '../price-utils'
+import { ResponseSchema, buildBatchedRequestBody, constructEntry } from '../price-utils'
+import { ForexEndpointTypes } from './forex-router'
 
-export const inputParameters = {
-  base: {
-    aliases: ['from', 'coin', 'symbol'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-  },
-  quote: {
-    aliases: ['to', 'market', 'convert'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-  },
-} satisfies InputParameters & PriceEndpointInputParameters
+export type HttpTransportTypes = ForexEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
+  }
+}
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => buildBatchedRequestBody(params, config),

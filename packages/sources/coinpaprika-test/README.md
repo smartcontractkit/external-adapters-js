@@ -1,6 +1,6 @@
 # COINPAPRIKA
 
-![1.2.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -27,12 +27,12 @@ Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |    Name    |    Aliases     |                              Description                               |  Type  |            Options             | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :------------: | :--------------------------------------------------------------------: | :----: | :----------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |    base    | `coin`, `from` |             The symbol of symbols of the currency to query             | string |                                |         |            |                |
-|    ✅     |   quote    | `market`, `to` |                The symbol of the currency to convert to                | string |                                |         |            |                |
-|           |   coinid   |                |            The coin ID (optional to use in place of `base`)            | string |                                |         |            |                |
-|           | resultPath |                | The path to the result within the asset quote in the provider response | string | `marketcap`, `price`, `volume` |         |            |                |
+| Required? |    Name    |    Aliases     |                              Description                               |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :--------------------------------------------------------------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |             The symbol of symbols of the currency to query             | string |                                     |         |            |                |
+|    ✅     |   quote    | `market`, `to` |                The symbol of the currency to convert to                | string |                                     |         |            |                |
+|           |   coinid   |                |            The coin ID (optional to use in place of `base`)            | string |                                     |         |            |                |
+|           | resultPath |                | The path to the result within the asset quote in the provider response | string | `market_cap`, `price`, `volume_24h` |         |            |                |
 
 ### Example
 
@@ -46,10 +46,10 @@ Supported names for this endpoint are: `dominance`, `globalmarketcap`.
 
 ### Input Params
 
-| Required? |    Name    |    Aliases    |                              Description                               |  Type  |            Options             | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----------: | :--------------------------------------------------------------------: | :----: | :----------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |   market   | `quote`, `to` |                The symbol of the currency to convert to                | string |                                |         |            |                |
-|           | resultPath |               | The path to the result within the asset quote in the provider response | string | `dominance`, `globalmarketcap` |         |            |                |
+| Required? |    Name    |    Aliases    |                              Description                               |  Type  |                Options                 | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----------: | :--------------------------------------------------------------------: | :----: | :------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |   market   | `quote`, `to` |                The symbol of the currency to convert to                | string |                                        |         |            |                |
+|           | resultPath |               | The path to the result within the asset quote in the provider response | string | `_dominance_percentage`, `market_cap_` |         |            |                |
 
 ### Example
 
@@ -79,7 +79,7 @@ Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 
 | Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
 | :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `coin`, `from` |                                                  | string |         |         |            |                |
+|    ✅     |  base  | `coin`, `from` |  The symbol of symbols of the currency to query  | string |         |         |            |                |
 |           | hours  |                |         Number of hours to get VWAP for          | number |         |  `24`   |            |                |
 |           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
 

@@ -1,5 +1,14 @@
 # @chainlink/dar-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
 ## 1.2.0
 
 ### Minor Changes

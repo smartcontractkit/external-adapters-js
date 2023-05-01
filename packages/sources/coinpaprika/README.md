@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinPaprika
 
-![1.10.22](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.10.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 

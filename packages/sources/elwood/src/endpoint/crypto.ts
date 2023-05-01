@@ -1,11 +1,11 @@
 import {
   CryptoPriceEndpoint,
   EndpointContext,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import axios from 'axios'
 import { config } from '../config'
 
@@ -43,12 +43,12 @@ export type ErrorResponse = {
 
 export type ResponseMessage = PriceResponse | HeartbeatResponse
 
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+
 type CryptoEndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     WsMessage: ResponseMessage
   }
@@ -167,6 +167,6 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
 export const cryptoEndpoint = new CryptoPriceEndpoint({
   name: 'price',
   aliases: ['crypto'],
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
   transport,
 })

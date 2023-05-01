@@ -10,10 +10,13 @@ interface StarkwareState {
 }
 
 export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Promise<void> => {
-  const starkKeyPair = ec.genKeyPair(DEFAULT_PRIVATE_KEY)
-  const starkKeyPub = ec.getStarkKey(starkKeyPair)
+  const starkKeyPub = ec.starkCurve.getStarkKey(DEFAULT_PRIVATE_KEY)
   const provider = config.starkwareConfig.provider
-  const account = new Account(provider, config.starkwareConfig.dummyAccountAddress, starkKeyPair)
+  const account = new Account(
+    provider,
+    config.starkwareConfig.dummyAccountAddress,
+    DEFAULT_PRIVATE_KEY,
+  )
 
   // We send an empty transaction to Starknet and see if we get back an expected error.
   await race<InvokeFunctionResponse>({

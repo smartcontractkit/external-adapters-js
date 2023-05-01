@@ -152,6 +152,7 @@ exports[`execute websocket crypto endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1646249828102,
   },
 }
 `;
@@ -187,20 +188,37 @@ exports[`execute websocket forex endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1649964792474,
   },
 }
 `;
 
-exports[`execute websocket iex endpoint should return success 1`] = `
+exports[`execute websocket iex endpoint Q request should return success 1`] = `
 {
   "data": {
-    "result": 170.28,
+    "result": 170.285,
   },
-  "result": 170.28,
+  "result": 170.285,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1668165071111,
     "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1645032916595,
+  },
+}
+`;
+
+exports[`execute websocket iex endpoint T request should return success 1`] = `
+{
+  "data": {
+    "result": 106.21,
+  },
+  "result": 106.21,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1645032916595,
   },
 }
 `;

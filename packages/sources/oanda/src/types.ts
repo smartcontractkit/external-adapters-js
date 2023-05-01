@@ -1,11 +1,9 @@
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from './config'
+import { inputParameters } from './endpoint/price'
 
 export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }

@@ -2,6 +2,7 @@ import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-fr
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { DepositEvent_ABI, StaderPenaltyContract_ABI } from '../abi/StaderContractAbis'
 import { config } from '../config'
@@ -12,19 +13,20 @@ import { StakeManager } from '../model/stake-manager'
 import { ValidatorFactory } from '../model/validator'
 import {
   BalanceResponse,
-  chunkArray,
   DEPOSIT_EVENT_LOOKBACK_WINDOW,
   DEPOSIT_EVENT_TOPIC,
   EndpointTypes,
+  ONE_ETH_WEI,
+  RequestParams,
+  THIRTY_ONE_ETH_WEI,
+  ValidatorAddress,
+  chunkArray,
   fetchAddressBalance,
   fetchEthDepositContractAddress,
   formatValueInGwei,
   inputParameters,
-  ONE_ETH_WEI,
   parseLittleEndian,
-  RequestParams,
   staderNetworkChainMap,
-  THIRTY_ONE_ETH_WEI,
   withErrorHandling,
 } from './utils'
 
@@ -105,7 +107,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       stakeManagerBalance,
       validatorDeposit,
       elRewardBalances,
-      { activeValidators, withdrawnValidators, limboAddresses, depositedAddresses },
+      { activeValidators, withdrawnValidators, limboAddressMap, depositedAddressMap },
     ] = await Promise.all([
       // --- Requests to the execution node ---
 
@@ -144,6 +146,14 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       socialPools.map((p) => p.fetchBalance(validatorDeposit)),
     )
 
+    // Get balances for all validator addresses in limbo and deposited addresses
+    const { limboBalances, depositedBalanceMap } = await this.calculateLimboEthBalances({
+      limboAddressMap,
+      depositedAddressMap,
+      ethDepositContractAddress,
+      blockTag,
+    })
+
     // Perform withdrawn validator calculations
     // These we can do all at once, since they shouldn't cause any requests to the ETH node
     const validatorBalances = await Promise.all(
@@ -155,17 +165,13 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const batches = chunkArray(activeValidators, context.adapterSettings.GROUP_SIZE)
     for (const batch of batches) {
       validatorBalances.push(
-        ...(await Promise.all(batch.map((v) => v.calculateBalance(validatorDeposit)))),
+        ...(await Promise.all(
+          batch.map((v) =>
+            v.calculateBalance(validatorDeposit, depositedBalanceMap[v.addressData.address]),
+          ),
+        )),
       )
     }
-
-    // Get balances for all validator addresses in limbo and deposited addresses
-    const limboAndDepositedBalances = await this.calculateLimboEthBalances({
-      limboAddresses,
-      depositedAddresses,
-      ethDepositContractAddress,
-      blockTag,
-    })
 
     // Flatten all the balances out, they'll be aggregated in the proof-of-reserves EA
     const balances = [
@@ -174,7 +180,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       permissionedPoolBalance,
       validatorBalances,
       poolAddressBalances,
-      limboAndDepositedBalances,
+      limboBalances,
     ].flat()
 
     return {
@@ -228,20 +234,32 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   // Get event logs to find deposit events for addresses not on the beacon chain yet
   // Returns deposit amount in wei
   async calculateLimboEthBalances({
-    limboAddresses,
-    depositedAddresses,
+    limboAddressMap = {},
+    depositedAddressMap = {},
     ethDepositContractAddress,
     blockTag,
   }: {
-    limboAddresses: string[]
-    depositedAddresses: string[]
+    limboAddressMap: Record<string, ValidatorAddress>
+    depositedAddressMap: Record<string, ValidatorAddress>
     ethDepositContractAddress: string
     blockTag: number
-  }): Promise<BalanceResponse[]> {
+  }): Promise<{
+    limboBalances: BalanceResponse[]
+    depositedBalanceMap: Record<string, BigNumber>
+  }> {
     return withErrorHandling(
       `Finding ETH for limbo validators and deposited addresses`,
       async () => {
-        const balances: BalanceResponse[] = []
+        let limboBalances: BalanceResponse[] = []
+        const depositedBalanceMap: Record<string, BigNumber> = {}
+
+        // Skip fetching logs if no addresses in limbo to search for
+        if (
+          Object.entries(limboAddressMap).length === 0 &&
+          Object.entries(depositedAddressMap).length === 0
+        ) {
+          return { limboBalances, depositedBalanceMap }
+        }
 
         // Get all the deposit logs from the last DEPOSIT_EVENT_LOOKBACK_WINDOW blocks
         const logs = await this.provider.getLogs({
@@ -256,7 +274,11 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             `No deposit event logs found in the last ${DEPOSIT_EVENT_LOOKBACK_WINDOW} blocks or the provider failed to return any.`,
           )
           // We're returning this so the EA has an explicit answer for the address balance
-          return limboAddresses.map((address) => ({ address, balance: '0' }))
+          limboBalances = Object.entries(limboAddressMap).map(([address, _]) => ({
+            address,
+            balance: '0',
+          }))
+          return { limboBalances, depositedBalanceMap }
         }
 
         logger.debug(
@@ -274,9 +296,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
         for (const { address, amount } of parsedlogs) {
           // Limbo addresses are ones where the first 1 eth was sent from Stader but has not reached the beacon chain yet
-          if (limboAddresses.includes(address)) {
+          if (limboAddressMap[address]) {
             if (amount.eq(ONE_ETH_WEI)) {
-              balances.push({
+              logger.debug(`Found 1 ETH deposit event for validator ${address}`)
+              limboBalances.push({
                 address,
                 balance: formatValueInGwei(amount),
               })
@@ -287,12 +310,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
             }
           }
           // Deposited addresses are ones where the first eth has reached the beacon chain, but the second 31eth deposit hasn't
-          if (depositedAddresses.includes(address)) {
+          if (depositedAddressMap[address]) {
             if (amount.eq(THIRTY_ONE_ETH_WEI)) {
-              balances.push({
-                address,
-                balance: formatValueInGwei(amount),
-              })
+              logger.debug(`Found 31 ETH deposit event for deposited validator ${address}`)
+              depositedBalanceMap[address] = amount
             } else if (amount.eq(ONE_ETH_WEI)) {
               logger.debug(
                 `Found initial 1 ETH deposit for address ${address}, but it should already be accounted in the main validators list`,
@@ -305,7 +326,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
           }
         }
 
-        return balances
+        return { limboBalances, depositedBalanceMap }
       },
     )
   }

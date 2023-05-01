@@ -16,6 +16,7 @@ import { ethers } from 'ethers'
 import BoredApeYachtClub from '../abi/BoredApeYachtClub.json'
 import EACAggregatorProxy from '../abi/EACAggregatorProxy.json'
 import { config } from '../config'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 
 const logger = makeLogger('MarketcapTransport')
 
@@ -84,6 +85,7 @@ const NFT_COLLECTIONS: NFTCollection[] = [
 ]
 
 export type MarketcapTransportGenerics = TransportGenerics & {
+  Parameters: EmptyInputParameters
   Provider: {
     RequestBody: unknown
     ResponseBody: unknown
@@ -120,7 +122,7 @@ export class MarketcapTransport implements Transport<MarketcapTransportGenerics>
   }
 
   async foregroundExecute(
-    req: AdapterRequest<MarketcapTransportGenerics['Request']>,
+    req: AdapterRequest<EmptyInputParameters>,
     settings: typeof config.settings,
   ): Promise<AdapterResponse<MarketcapTransportGenerics['Response']> | undefined> {
     const provider = new ethers.providers.JsonRpcProvider(settings.ETHEREUM_RPC_URL, RPC_CHAIN_ID)

@@ -1,12 +1,8 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import {
-  CryptoPriceEndpoint,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { PriceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 interface ResponseSchema {
   symbol: string
@@ -23,9 +19,7 @@ interface ResponseSchema {
 }
 
 export type CryptoEndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -34,7 +28,7 @@ export type CryptoEndpointTypes = {
   }
 }
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin', 'asset', 'symbol'],
     description: 'The symbol of symbols of the currency to query',
@@ -47,7 +41,7 @@ export const inputParameters = {
     required: true,
     type: 'string',
   },
-} satisfies InputParameters & PriceEndpointInputParameters
+})
 
 export const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {

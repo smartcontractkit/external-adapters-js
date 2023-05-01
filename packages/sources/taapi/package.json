@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/taapi-adapter",
-  "version": "1.2.30",
+  "version": "1.2.31",
   "description": "Chainlink taapi adapter.",
   "keywords": [
     "Chainlink",
