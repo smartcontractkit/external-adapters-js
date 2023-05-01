@@ -1,6 +1,8 @@
 import { balance } from '@chainlink/ea-factories'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
+import { InputParameters as V3InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { InputParametersDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import fs from 'fs'
 import path from 'path'
 import process from 'process'
@@ -14,7 +16,7 @@ import {
   wrapCode,
   wrapJson,
 } from '../shared/docGenUtils'
-import { buildTable, TableText } from '../shared/tableUtils'
+import { TableText, buildTable } from '../shared/tableUtils'
 import { WorkspaceAdapter } from '../workspace'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 
@@ -233,6 +235,44 @@ export class ReadmeGenerator {
     }
   }
 
+  buildV3InputParamsTable(definition: InputParametersDefinition, path: string[] = []): TableText {
+    const text: TableText = []
+
+    for (const [param, attributes] of Object.entries(definition)) {
+      // In order
+      const requiredIcon = attributes.required ? '✅' : ''
+      const name = [...path, param].join('.')
+      const aliases = attributes.aliases ? codeList(attributes.aliases as string[]) : ''
+      const description = attributes.description
+      const type =
+        (typeof attributes.type === 'object' ? 'object' : attributes.type) +
+        (attributes.array ? '[]' : '')
+      const options = attributes.options ? codeList(attributes.options as string[]) : ''
+      const defaultText = attributes.default ? wrapCode(attributes.default) : ''
+      const dependsOn = attributes.dependsOn ? codeList(attributes.dependsOn as string[]) : ''
+      const exclusive = attributes.exclusive ? codeList(attributes.exclusive as string[]) : ''
+
+      text.push([
+        requiredIcon,
+        name,
+        aliases,
+        description,
+        type,
+        options,
+        defaultText,
+        dependsOn,
+        exclusive,
+      ])
+
+      // If the type is a nested definition, add all those params with the current path as a prefix
+      if (typeof attributes.type === 'object') {
+        text.push(...this.buildV3InputParamsTable(attributes.type, [...path, param]))
+      }
+    }
+
+    return text
+  }
+
   addEndpointSections(): void {
     // Store I/O Examples for each endpoint
     const endpointExampleText: { [endpoint: string]: string } = {}
@@ -348,50 +388,57 @@ export class ReadmeGenerator {
         if (endpointDetails.inputParameters === balance.inputParameters) {
           inputTable = getBalanceTable()
         } else {
-          const inputTableText: TableText = Object.entries(endpointDetails.inputParameters).map(
-            ([param, attributes]) => {
-              const name = param ?? ''
+          let inputTableText: TableText
+          if (endpointDetails.inputParameters instanceof V3InputParameters) {
+            inputTableText = this.buildV3InputParamsTable(
+              endpointDetails.inputParameters.definition,
+            )
+          } else {
+            inputTableText = Object.entries(endpointDetails.inputParameters).map(
+              ([param, attributes]) => {
+                const name = param ?? ''
 
-              let requiredIcon = ''
-              let aliases = ''
-              let description = ''
-              let type = ''
-              let options = ''
-              let defaultText = ''
-              let dependsOn = ''
-              let exclusive = ''
+                let requiredIcon = ''
+                let aliases = ''
+                let description = ''
+                let type = ''
+                let options = ''
+                let defaultText = ''
+                let dependsOn = ''
+                let exclusive = ''
 
-              if (typeof attributes === 'boolean') {
-                requiredIcon = attributes ? '✅' : ''
-              } else if (Array.isArray(attributes)) {
-                requiredIcon = '✅'
-                aliases = codeList(attributes)
-              } else {
-                // InputParameter config
-                requiredIcon = attributes.required ? '✅' : ''
-                aliases = codeList(attributes.aliases)
-                description = attributes.description ?? ''
-                type = attributes.type ?? ''
-                options = codeList(attributes.options as Array<string | number>)
-                defaultText = attributes.default
-                  ? wrapCode(attributes.default as string | number | boolean)
-                  : ''
-                dependsOn = codeList(attributes.dependsOn)
-                exclusive = codeList(attributes.exclusive)
-              }
-              return [
-                requiredIcon,
-                name,
-                aliases,
-                description,
-                type,
-                options,
-                defaultText,
-                dependsOn,
-                exclusive,
-              ]
-            },
-          )
+                if (typeof attributes === 'boolean') {
+                  requiredIcon = attributes ? '✅' : ''
+                } else if (Array.isArray(attributes)) {
+                  requiredIcon = '✅'
+                  aliases = codeList(attributes)
+                } else {
+                  // InputParameter config
+                  requiredIcon = attributes.required ? '✅' : ''
+                  aliases = codeList(attributes.aliases)
+                  description = attributes.description ?? ''
+                  type = attributes.type ?? ''
+                  options = codeList(attributes.options as Array<string | number>)
+                  defaultText = attributes.default
+                    ? wrapCode(attributes.default as string | number | boolean)
+                    : ''
+                  dependsOn = codeList(attributes.dependsOn)
+                  exclusive = codeList(attributes.exclusive)
+                }
+                return [
+                  requiredIcon,
+                  name,
+                  aliases,
+                  description,
+                  type,
+                  options,
+                  defaultText,
+                  dependsOn,
+                  exclusive,
+                ]
+              },
+            )
+          }
 
           inputTable = inputTableText.length
             ? buildTable(inputTableText, inputParamHeaders)
