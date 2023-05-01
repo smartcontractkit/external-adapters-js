@@ -27,10 +27,10 @@ const inputParameters = new InputParameters({
   },
   millisecondsAgo: {
     required: false,
-    type: 'number',
+    type: 'string',
     description:
       'Number of milliseconds from the current time that will determine start_time to use in the query',
-    default: 86_400_000, // 24 hours
+    default: '86400000', // 24 hours
   },
   sort: {
     required: false,
@@ -100,7 +100,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
       const url = `/spot_exchange_rate/${base}/${quote}`
 
       const interval = param.interval
-      const start_time = calculateStartTime(param.millisecondsAgo)
+      const start_time = calculateStartTime(Number(param.millisecondsAgo))
       const sort = param.sort
 
       const requestParams = { interval, sort, start_time }
