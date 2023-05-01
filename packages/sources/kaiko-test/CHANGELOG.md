@@ -1,5 +1,11 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.12
+
+### Patch Changes
+
+- 41f253afb: Fixed millisecondsAgo input param type
+
 ## 1.1.11
 
 ### Patch Changes
