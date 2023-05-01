@@ -2590,7 +2590,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.11
+    "@types/supertest": 2.0.12
     ethers: ^5.6.5
     nock: 13.2.9
     supertest: 6.2.4
@@ -2822,7 +2822,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.11
+    "@types/supertest": 2.0.12
     ethers: ^5.5.4
     nock: ^13.2.4
     supertest: ^6.2.2
@@ -4606,7 +4606,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.11
+    "@types/supertest": 2.0.12
     ethers: ^5.5.1
     nock: 13.2.9
     supertest: 6.2.4
@@ -10928,15 +10928,6 @@ __metadata:
     "@types/cookiejar": "*"
     "@types/node": "*"
   checksum: 347cd74ef0a29e6b9c6d32253c3fb0dd39a31618b50752f84d36b6a9246237bb6b68c9b436c1f94adabc2df89d9f1939e4782f4c850f98b9c2fe431ad4e565a4
-  languageName: node
-  linkType: hard
-
-"@types/supertest@npm:2.0.11":
-  version: 2.0.11
-  resolution: "@types/supertest@npm:2.0.11"
-  dependencies:
-    "@types/superagent": "*"
-  checksum: 291abc0d37abe833d517fcfd0c22d51e7d5ffea85ce990603a0d058afa7fe2465b1251d50642ddfd640f66d047029af512793215b612c39adbee72fae5b2ef4f
   languageName: node
   linkType: hard
 
