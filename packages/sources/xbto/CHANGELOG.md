@@ -1,5 +1,11 @@
 # @chainlink/xbto-adapter
 
+## 1.3.32
+
+### Patch Changes
+
+- 2c5740879: Added market input param alias "base"
+
 ## 1.3.31
 
 ### Patch Changes
