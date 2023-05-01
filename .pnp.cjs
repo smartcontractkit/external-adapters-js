@@ -6130,7 +6130,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.11"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
@@ -6390,7 +6390,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.11"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.3.0"],\
             ["supertest", "npm:6.3.0"],\
@@ -8365,7 +8365,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.11"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
@@ -15362,14 +15362,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/supertest", [\
-        ["npm:2.0.11", {\
-          "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.11-a547f689c9-291abc0d37.zip/node_modules/@types/supertest/",\
-          "packageDependencies": [\
-            ["@types/supertest", "npm:2.0.11"],\
-            ["@types/superagent", "npm:4.1.15"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:2.0.12", {\
           "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.12-deccb2551b-f0e2b44f86.zip/node_modules/@types/supertest/",\
           "packageDependencies": [\
