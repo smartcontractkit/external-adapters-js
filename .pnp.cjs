@@ -6843,7 +6843,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/shelljs", "npm:0.8.12"],\
             ["@types/swagger-jsdoc", "npm:6.0.1"],\
             ["@types/yaml", "npm:1.9.7"],\
-            ["airtable", "npm:0.11.4"],\
+            ["airtable", "npm:0.11.6"],\
             ["axios", "npm:0.22.0"],\
             ["axios-mock-adapter", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.20.0"],\
             ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
@@ -16220,10 +16220,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["airtable", [\
-        ["npm:0.11.4", {\
-          "packageLocation": "./.yarn/cache/airtable-npm-0.11.4-644263357c-a5c1d85902.zip/node_modules/airtable/",\
+        ["npm:0.11.6", {\
+          "packageLocation": "./.yarn/cache/airtable-npm-0.11.6-8d4fb5cb8a-758d310991.zip/node_modules/airtable/",\
           "packageDependencies": [\
-            ["airtable", "npm:0.11.4"],\
+            ["airtable", "npm:0.11.6"],\
             ["@types/node", "npm:14.18.36"],\
             ["abort-controller", "npm:3.0.0"],\
             ["abortcontroller-polyfill", "npm:1.7.3"],\
