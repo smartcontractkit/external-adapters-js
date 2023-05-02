@@ -6,10 +6,8 @@ import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { Server, WebSocket } from 'mock-socket'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { endpoint, requestTransforms } from '../../src/endpoint/price-router'
+import { endpoint } from '../../src/endpoint/price-router'
 import { config } from '../../src/config'
-import overrides from '../../src/config/overrides.json'
 import includes from '../../src/config/includes.json'
 
 export type SuiteContext = {
@@ -110,7 +108,7 @@ export const mockWebSocketServer = (url: string) => {
   return mockWsServer
 }
 
-export const createAdapter = (): PriceAdapter<SettingsMap> => {
+export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TRADINGECONOMICS',
     endpoints: [endpoint],
