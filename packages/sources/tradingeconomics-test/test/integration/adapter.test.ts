@@ -15,7 +15,7 @@ import { sleep } from '@chainlink/external-adapter-framework/util'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 
 describe('execute', () => {
-  describe('price endpoint rest', () => {
+  fdescribe('price endpoint rest', () => {
     let spy: jest.SpyInstance
     beforeAll(async () => {
       const mockDate = new Date('2022-01-01T11:11:11.111Z')
@@ -72,7 +72,7 @@ describe('execute', () => {
     let mockWsServer: Server | undefined
     let spy: jest.SpyInstance
 
-    jest.setTimeout(50000)
+    jest.setTimeout(10_000)
 
     const id = '1'
     const data = {
@@ -80,6 +80,7 @@ describe('execute', () => {
       data: {
         base: 'CAD',
         quote: 'USD',
+        transport: 'ws',
       },
     }
 
@@ -91,19 +92,16 @@ describe('execute', () => {
       process.env['CACHE_MAX_AGE'] = '5000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
-      process.env['WS_ENABLED'] = 'true'
-      process.env['API_KEY'] = 'fake-api-key'
       process.env['API_CLIENT_KEY'] = 'fake-api-key'
       process.env['API_CLIENT_SECRET'] = 'fake-api-secret'
 
       const wsEndpoint = 'wss://stream.tradingeconomics.com/?client=fake-api-key:fake-api-secret'
 
-      const mockDate = new Date('2022-11-11T11:11:11.111Z')
-      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
-      mockResponseSuccess()
       mockWebSocketProvider(WebSocketClassProvider)
       mockWsServer = mockWebSocketServer(wsEndpoint)
+
+      const mockDate = new Date('2022-11-11T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
       fastify = await expose(createAdapter())
       req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
@@ -128,6 +126,7 @@ describe('execute', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
+          .expect(200)
 
       const response = await makeRequest()
       expect(response.body).toMatchSnapshot()

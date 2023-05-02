@@ -1,17 +1,11 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import includes from '../config/includes.json'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../config'
+import { EndpointTypes } from './price-router'
 
 const logger = makeLogger('TradingEconomics WS Transport')
 
-export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+type WSEndpointTypes = EndpointTypes & {
   Provider: {
     WsMessage: Message
   }
@@ -63,9 +57,9 @@ const baseFromIncludes = includes.reduce(
   {},
 )
 
-export const wsTransport = new WebSocketTransport<EndpointTypes>({
+export const wsTransport = new WebSocketTransport<WSEndpointTypes>({
   url: (context) => {
-    const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterConfig
+    const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterSettings
     return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
   },
   handlers: {

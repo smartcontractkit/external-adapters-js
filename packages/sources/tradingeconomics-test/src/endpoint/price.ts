@@ -1,24 +1,16 @@
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from '../config'
-const logger = makeLogger('TradinEconomics HTTP')
+import { EndpointTypes } from './price-router'
 
-export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
+const logger = makeLogger('TradingEconomics HTTP')
+
+type HttpEndpointTypes = EndpointTypes & {
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }
-export interface ProviderRequestBody {
-  events: string
-  symbols: string
-}
+
 export interface ProviderResponseBody {
   Symbol: string
   Ticker: string
@@ -56,7 +48,7 @@ export interface ProviderResponseBody {
   LastUpdate: string
 }
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
+export const httpTransport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const symbol = param

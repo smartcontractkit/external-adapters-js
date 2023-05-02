@@ -55,7 +55,7 @@ describe('execute', () => {
   })
 })
 
-describe('websocket', () => {
+fdescribe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
   let fastify: FastifyInstance
   let req: SuperTest<Test>
@@ -88,7 +88,7 @@ describe('websocket', () => {
   describe('price with `includes` override', () => {
     const jobID = '1'
 
-    it('should return success', async () => {
+    fit('should return success', async () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {

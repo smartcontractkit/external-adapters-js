@@ -1,19 +1,15 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { price } from './endpoint'
-import { customSettings } from './config'
+import { config } from './config'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import includes from './config/includes.json'
-import overrides from './config/overrides.json'
-import { requestTransforms } from './endpoint/price-router'
 
 export const adapter = new PriceAdapter({
   name: 'TRADINGECONOMICS',
   endpoints: [price],
   defaultEndpoint: price.name,
-  overrides: overrides['tradingeconomics'],
-  customSettings,
+  config,
   includes,
-  requestTransforms,
   rateLimiting: {
     tiers: {
       standard: {
