@@ -20,22 +20,20 @@ export interface ResponseSchema {
 
 const logger = makeLogger('PriceUtils')
 
-export const buildBatchedRequestBody = <T extends typeof inputParameters.validated>(
+export const buildIndividualRequests = <T extends typeof inputParameters.validated>(
   params: T[],
   settings: typeof config.settings,
 ) => {
-  return {
-    params,
+  return params.map((param) => ({
+    params: [param],
     request: {
       baseURL: settings.API_ENDPOINT,
       params: {
-        currency: [
-          ...new Set(params.map((param) => `${param.base}${param.quote ?? ''}`.toUpperCase())),
-        ].join(','),
+        currency: `${param.base}${param.quote ?? ''}`.toUpperCase(),
         api_key: settings.API_KEY,
       },
     },
-  }
+  }))
 }
 
 export const constructEntry = <T extends typeof inputParameters.validated>(
@@ -43,12 +41,7 @@ export const constructEntry = <T extends typeof inputParameters.validated>(
   params: T[],
 ) => {
   return params.map((param) => {
-    const entry = res.quotes.find(
-      (entry) =>
-        `${param.base}${param.quote}`.toUpperCase() ===
-          `${entry.base_currency}${entry.quote_currency}`.toUpperCase() ||
-        `${param.base}${param.quote ?? ''}`.toUpperCase() === entry.instrument,
-    )
+    const entry = res.quotes[0]
     if (!entry) {
       const errorMessage = `Tradermade provided no data for ${param.base}/${param.quote}`
       logger.info(errorMessage)
