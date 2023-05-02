@@ -71,7 +71,11 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
     context: EndpointContext<WebSocketEndpointTypes>,
     subscriptions: SubscriptionDeltas<WebSocketEndpointTypes['Request']['Params']>,
   ): Promise<void> {
-    if (this.wsConnection && (subscriptions.new.length || subscriptions.stale.length)) {
+    if (
+      this.wsConnection &&
+      !this.connectionClosed() &&
+      (subscriptions.new.length || subscriptions.stale.length)
+    ) {
       logger.debug(
         `closing WS connection for new subscriptions: ${JSON.stringify(subscriptions.desired)}`,
       )
@@ -156,7 +160,7 @@ export const options = {
               result: priceData.price,
             },
             timestamps: {
-              providerIndicatedTimeUnixMs: message.timestamp * 1000,
+              providerIndicatedTimeUnixMs: Math.floor(message.timestamp * 1000),
             },
           },
         })
