@@ -1,5 +1,5 @@
 ---
-'@chainlink/coinmetrics-adapter': minor
+'@chainlink/twosigma-adapter': minor
 ---
 
-Updated coin metrics to use pair-quotes instead of asset-quotes ws endpoint
+Fix websocket bug in two sigma adapter
