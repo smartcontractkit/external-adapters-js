@@ -2,10 +2,7 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-
-const logger = makeLogger('Polygon Conversion Logger')
 
 export const inputParameters = new InputParameters({
   base: {
@@ -73,39 +70,32 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       const amount = param.amount
       const precision = param.precision
       const url = `/v1/conversion/${from}/${to}`
-      const requestConfig = {
-        baseURL: settings.API_ENDPOINT,
-        url,
-        params: {
-          apikey: settings.API_KEY,
-          amount,
-          precision,
-        },
-      }
       return {
-        params,
-        request: requestConfig,
+        params: [param],
+        request: {
+          baseURL: settings.API_ENDPOINT,
+          url,
+          params: {
+            apikey: settings.API_KEY,
+            amount,
+            precision,
+          },
+        },
       }
     })
   },
   parseResponse: (params, res) => {
-    if (!res.data.converted) {
-      const errorMessage = `The data provider didn't return any value for ${JSON.stringify(
-        params[0],
-      )}`
-      logger.error(errorMessage)
-      return [
-        {
-          params: params[0],
+    return params.map((param) => {
+      const result = res.data?.converted
+      if (!result) {
+        return {
+          params: param,
           response: {
             statusCode: 502,
-            errorMessage,
+            errorMessage: `The data provider didn't return any value for ${JSON.stringify(param)}`,
           },
-        },
-      ]
-    }
-    return params.map((param) => {
-      const result = res.data.converted
+        }
+      }
       return {
         params: param,
         response: {
