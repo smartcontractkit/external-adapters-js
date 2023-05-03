@@ -6,7 +6,8 @@ import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { Server, WebSocket } from 'mock-socket'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { endpoint } from '../../src/endpoint/price-router'
+import { endpoint as price } from '../../src/endpoint/price-router'
+import { endpoint as stock } from '../../src/endpoint/stock-router'
 import { config } from '../../src/config'
 import includes from '../../src/config/includes.json'
 
@@ -108,11 +109,28 @@ export const mockWebSocketServer = (url: string) => {
   return mockWsServer
 }
 
+export const mockStockWebSocketServer = (url: string) => {
+  const mockWsServer = new Server(url, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', (_) => {
+      socket.send(
+        JSON.stringify({
+          s: 'AAPL:US',
+          price: 160.32,
+          dt: 1659472542655,
+          topic: 'AAPL:US',
+        }),
+      )
+    })
+  })
+  return mockWsServer
+}
+
 export const createAdapter = () => {
   return new PriceAdapter({
     name: 'TRADINGECONOMICS',
-    endpoints: [endpoint],
-    defaultEndpoint: endpoint.name,
+    endpoints: [price, stock],
+    defaultEndpoint: price.name,
     config,
     includes,
   })

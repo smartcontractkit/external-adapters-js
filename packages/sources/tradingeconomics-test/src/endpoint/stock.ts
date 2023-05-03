@@ -1,59 +1,21 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes } from './price-router'
+import { ProviderResponseBody } from './price'
+import { StockEndpointTypes } from './stock-router'
 
-export interface ProviderResponseBody {
-  Symbol: string
-  Ticker: string
-  Name: string
-  Country: string
-  Date: string
-  Type: string
-  decimals: number
-  state: string
-  Last: number
-  Close: number
-  CloseDate: string
-  MarketCap: number | null
-  URL: string
-  Importance: number
-  DailyChange: number
-  DailyPercentualChange: number
-  WeeklyChange: number
-  WeeklyPercentualChange: number
-  MonthlyChange: number
-  MonthlyPercentualChange: number
-  YearlyChange: number
-  YearlyPercentualChange: number
-  YTDChange: number
-  YTDPercentualChange: number
-  day_high: number
-  day_low: number
-  yesterday: number
-  lastWeek: number
-  lastMonth: number
-  lastYear: number
-  startYear: number
-  ISIN: string | null
-  frequency: string
-  LastUpdate: string
-}
-
-type HttpEndpointTypes = EndpointTypes & {
+type HttpEndpointTypes = StockEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }
-
 export const httpTransport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const symbol = `${param.base}${param.quote}:CUR`
       return {
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `/symbol/${symbol}`,
+          url: `/symbol/${param.base}`,
           params: {
             c: `${config.API_CLIENT_KEY}:${config.API_CLIENT_SECRET}`,
             f: `json`,

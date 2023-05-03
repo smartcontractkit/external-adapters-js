@@ -1,31 +1,10 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import includes from '../config/includes.json'
 import { EndpointTypes } from './price-router'
 
-const logger = makeLogger('TradingEconomics WS Transport')
+const logger = makeLogger('TradingEconomics WS Price')
 
-type WSEndpointTypes = EndpointTypes & {
-  Provider: {
-    WsMessage: Message
-  }
-}
-
-type Includes = {
-  from: string
-  to: string
-  includes: IncludePair[]
-}
-
-export type IncludePair = {
-  from: string // From symbol
-  to: string // To symbol
-  adapters?: string[] // Array of adapters this applies to
-  inverse?: boolean // If the inverse should be calculated instead
-  tokens?: boolean // If the token addresses should be used instead
-}
-
-interface Message {
+export interface Message {
   s: string
   i: string
   pch: number
@@ -43,50 +22,64 @@ interface Message {
   topic: string
 }
 
-const withApiKey = (url: string, key: string, secret: string) => `${url}?client=${key}:${secret}`
-const getSubscription = (to: string) => ({ topic: 'subscribe', to })
+type WSEndpointTypes = EndpointTypes & {
+  Provider: {
+    WsMessage: Message
+  }
+}
 
-const baseFromIncludes = includes.reduce(
-  (basesMap: { [from: string]: string }, includesSet: Includes) => {
-    const { includes } = includesSet
-    for (const includePair of includes) {
-      basesMap[includesSet.from] = includePair.from
-    }
-    return basesMap
-  },
-  {},
-)
+export const withApiKey = (url: string, key: string, secret: string) =>
+  `${url}?client=${key}:${secret}`
 
-export const wsTransport = new WebSocketTransport<WSEndpointTypes>({
-  url: (context) => {
-    const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterSettings
-    return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
-  },
-  handlers: {
-    message: (message) => {
-      if (!message.s) {
-        logger.error('No subscription message found')
-      }
-      const base = baseFromIncludes[message?.s] ?? message?.s
-      return [
-        {
-          params: { base, quote: '' },
-          response: {
-            result: message.price,
-            data: {
-              result: message.price,
+export const wsTransport: WebsocketReverseMappingTransport<WSEndpointTypes, string> =
+  new WebsocketReverseMappingTransport<WSEndpointTypes, string>({
+    url: (context) => {
+      const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterSettings
+      return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
+    },
+    handlers: {
+      message: (message) => {
+        if (!message.topic || message.topic === 'keepalive') {
+          return []
+        }
+        const pair = wsTransport.getReverseMapping(message.s)
+        if (!pair) {
+          logger.error(`Pair not found in websocket reverse map for message symbol - ${message.s}`)
+          return []
+        }
+        if (message.price === undefined) {
+          return [
+            {
+              params: pair,
+              response: {
+                errorMessage: `Tradingeconomics provided no data for ${JSON.stringify(pair)}`,
+                statusCode: 502,
+              },
             },
-            timestamps: {
-              providerIndicatedTimeUnixMs: new Date(message.dt).getTime(),
+          ]
+        }
+
+        return [
+          {
+            params: pair,
+            response: {
+              result: message.price,
+              data: {
+                result: message.price,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(message.dt).getTime(),
+              },
             },
           },
-        },
-      ]
+        ]
+      },
     },
-  },
-  builders: {
-    subscribeMessage: (params) => {
-      return getSubscription(params.base)
+    builders: {
+      subscribeMessage: (param) => {
+        const symbol = `${param.base}${param.quote}:CUR`
+        wsTransport.setReverseMapping(symbol, param)
+        return { topic: 'subscribe', to: symbol }
+      },
     },
-  },
-})
+  })

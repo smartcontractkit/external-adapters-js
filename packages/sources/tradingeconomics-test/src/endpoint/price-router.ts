@@ -5,7 +5,6 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { httpTransport } from './price'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
@@ -20,28 +19,20 @@ export const inputParameters = new InputParameters({
   },
   quote: {
     aliases: ['to', 'market', 'term'],
+    required: true,
     description: 'The symbol of the currency to convert to',
     type: 'string',
-    default: 'USD',
   },
 })
 
 export const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>): void => {
   const base = req.requestContext.data.base
-  const quote = req.requestContext.data.quote
-  const regex = /[A-Z]{3}[A-Z]{3}:CUR/
+  const regex = /[a-zA-Z]{6}:CUR/ //BTCUSD:CUR
 
-  if (!regex.test(base)) {
-    const newBase = `${base}${quote}:CUR`
-    if (!regex.test(newBase)) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Error: there's an error with the parameters format`,
-      })
-    }
-    req.requestContext.data.base = newBase
+  if (regex.test(base)) {
+    req.requestContext.data.base = base.substring(0, 3)
+    req.requestContext.data.quote = base.substring(3, 6)
   }
-  req.requestContext.data.quote = ''
 }
 
 const requestTransforms = [requestTransform]
@@ -59,10 +50,13 @@ export const transportRoutes = new TransportRoutes<EndpointTypes>()
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'price',
-  aliases: ['forex'],
+  aliases: ['forex', 'crypto'],
   transportRoutes,
   inputParameters,
   defaultTransport: 'rest',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+  },
   overrides: overrides.tradingeconomics,
   requestTransforms,
 })

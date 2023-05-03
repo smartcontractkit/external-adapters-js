@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { price } from './endpoint'
+import { price, stock } from './endpoint'
 import { config } from './config'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import includes from './config/includes.json'
 
 export const adapter = new PriceAdapter({
   name: 'TRADINGECONOMICS',
-  endpoints: [price],
+  endpoints: [price, stock],
   defaultEndpoint: price.name,
   config,
   includes,
