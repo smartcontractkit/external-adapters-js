@@ -1,5 +1,14 @@
 # @chainlink/ipfs-adapter
 
+## 1.3.31
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-test-helpers@1.4.3
+
 ## 1.3.30
 
 ### Patch Changes

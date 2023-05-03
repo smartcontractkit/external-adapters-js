@@ -1,7 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../config'
-import { ForexEndpointParams } from '../forex-router'
+import { PriceEndpointTypes } from '../types'
 
 interface Message {
   s: string
@@ -9,12 +7,7 @@ interface Message {
   b: string
   t: number
 }
-type EndpointTypes = {
-  Request: {
-    Params: ForexEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+type EndpointTypes = PriceEndpointTypes & {
   Provider: {
     WsMessage: Message
   }

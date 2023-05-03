@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.27.1
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+
 ## 2.27.0
 
 ### Minor Changes

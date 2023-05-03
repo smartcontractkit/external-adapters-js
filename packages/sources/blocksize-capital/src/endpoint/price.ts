@@ -1,15 +1,15 @@
 import {
   CryptoPriceEndpoint,
   EndpointContext,
-  PriceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import {
-  makeLogger,
   ProviderResult,
   SingleNumberResultResponse,
+  makeLogger,
 } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 
 const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
@@ -31,27 +31,12 @@ export interface Message extends BaseMessage {
   }
 }
 
-const inputParameters = {
-  base: {
-    aliases: ['from', 'coin'],
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-    required: true,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-    required: true,
-  },
-} satisfies PriceEndpointInputParameters
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 export type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     WsMessage: Message
   }

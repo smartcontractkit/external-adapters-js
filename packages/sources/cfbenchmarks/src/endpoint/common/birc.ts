@@ -4,6 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../../config'
 
 export enum VALID_TENORS {
@@ -18,14 +19,14 @@ export enum VALID_TENORS {
   '5M' = '5M',
 }
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   tenor: {
     description: 'The tenor value to pull from the API response',
     type: 'string',
     options: Object.values(VALID_TENORS),
     required: true,
   },
-} as const
+})
 
 export interface RequestParams {
   tenor: string
@@ -53,9 +54,7 @@ interface ProviderResponse {
 }
 
 export type RestEndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {

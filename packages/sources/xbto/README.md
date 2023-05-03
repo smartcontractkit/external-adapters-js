@@ -1,6 +1,6 @@
 # Chainlink External Adapter for XBTO
 
-![1.3.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/xbto/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/xbto/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com
 
@@ -31,7 +31,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 | Required? |  Name  | Aliases | Description |  Type  |    Options     | Default | Depends On | Not Valid With |
 | :-------: | :----: | :-----: | :---------: | :----: | :------------: | :-----: | :--------: | :------------: |
-|           | market |         |             | string | `brent`, `wti` | `brent` |            |                |
+|           | market | `base`  |             | string | `brent`, `wti` | `brent` |            |                |
 
 ### Example
 

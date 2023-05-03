@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxfeed-secondary-test-adapter",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Chainlink dxfeed-secondary-test adapter.",
   "keywords": [
     "Chainlink",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@chainlink/dxfeed-test-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.28.6",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "tslib": "2.4.0"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import {
   CryptoPriceEndpoint,
   PriceAdapter,
   PriceEndpoint,
-  priceEndpointInputParameters,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
@@ -18,6 +18,7 @@ import {
   forexTransport,
 } from '../../src/endpoint/forex'
 import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -85,12 +86,12 @@ export const createAdapter = () => {
   const crypto = new CryptoPriceEndpoint<EndpointTypes>({
     name: 'crypto',
     transport: cryptoTransport,
-    inputParameters: priceEndpointInputParameters,
+    inputParameters: new InputParameters(priceEndpointInputParametersDefinition),
   })
   const forex = new PriceEndpoint<ForexEndpointTypes>({
     name: 'forex',
     transport: forexTransport,
-    inputParameters: priceEndpointInputParameters,
+    inputParameters: new InputParameters(priceEndpointInputParametersDefinition),
     customInputValidation,
   })
   return new PriceAdapter({

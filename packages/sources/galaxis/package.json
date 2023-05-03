@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/galaxis-adapter",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "description": "Chainlink galaxis adapter.",
   "keywords": [
     "Chainlink",
@@ -32,7 +32,7 @@
     "@chainlink/ea-test-helpers": "workspace:*",
     "@ethercards/ec-util": "^1.0.1",
     "ethers": "^5.5.1",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

@@ -1,8 +1,7 @@
 import {
   EndpointContext,
   PriceEndpoint,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport, TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
@@ -21,8 +20,11 @@ import {
   ModifiedSseGenerics,
   RestPairs,
 } from '../types'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('OandaPrice')
+
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 let instrumentMap: InstrumentMap
 
@@ -137,7 +139,7 @@ const sseTransport = new ModifiedSseTransport<ModifiedSseGenerics>({
 
 // See https://developer.oanda.com/exchange-rates-api/#get-/v2/rates/spot.-ext-
 const restTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params: PriceEndpointParams[], config) =>
+  prepareRequests: (params, config) =>
     params.map((p) => {
       const { base, quote } = p
 
@@ -168,15 +170,16 @@ const restTransport = new HttpTransport<HttpTransportTypes>({
   },
 })
 
-export const priceEndpoint = new PriceEndpoint({
+export const priceEndpoint = new PriceEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['forex'],
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
   transportRoutes: new TransportRoutes<EndpointTypes>()
     .register('sse', sseTransport)
     .register('rest', restTransport),
   customRouter: (req, _) => {
-    const { base, quote, transport } = req.requestContext.data
+    const { base, quote, transport } = req.requestContext
+      .data as typeof inputParameters.validated & { transport?: string }
 
     if (transport) return transport
 

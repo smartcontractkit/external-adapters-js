@@ -1,5 +1,5 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../../config'
 import overrides from '../../config/overrides.json'
@@ -26,25 +26,19 @@ interface CryptoYieldResponse {
   Data: ProviderResponseBody
 }
 
-const inputParameters = {
+const inputParameters = new InputParameters({
   aprTerm: {
     type: 'string',
     required: true,
     description: 'Yield apr term',
     options: ['30day', '90day'],
   },
-} satisfies InputParameters
-
-type CryptoYieldRequestParams = {
-  aprTerm: string
-}
+})
 
 type CryptoYieldEndpointTypes = {
-  Request: {
-    Params: CryptoYieldRequestParams
-  }
-  Response: CryptoYieldResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: CryptoYieldResponse
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[]

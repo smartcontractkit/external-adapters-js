@@ -1,11 +1,8 @@
-import {
-  PriceEndpoint,
-  priceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { WS_HEARTBEAT_MS } from '../config'
-import { PriceEndpointTypes } from '../types'
+import { PriceEndpointTypes, inputParameters } from '../types'
 import { getAuthToken } from '../util'
 
 const logger = makeLogger('DarPriceEndpoint')
@@ -88,6 +85,6 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
 export const priceEndpoint = new PriceEndpoint({
   name: 'price',
   transport: priceTransport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
   aliases: ['crypto'],
 })

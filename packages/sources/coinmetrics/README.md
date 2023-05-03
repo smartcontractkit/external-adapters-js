@@ -1,6 +1,6 @@
 # COINMETRICS
 
-![3.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -28,10 +28,10 @@ Supported names for this endpoint are: `crypto`, `price`, `price-ws`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  |          Options           | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |                            |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string | `BTC`, `ETH`, `EUR`, `USD` |         |            |                |
 
 ### Example
 
@@ -67,8 +67,6 @@ There are no examples for this endpoint.
 |    ✅     |   asset   |         | The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets) | string |            |         |            |                |
 |           | frequency |         |                    At which interval to calculate the number of coins/tokens burned                     | string | `1b`, `1d` |  `1d`   |            |                |
 |           | pageSize  |         |                           Number of results to get per page. From 1 to 10000                            | number |            | `10000` |            |                |
-|           | startTime |         |  The start time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)   | string |            |         |            |                |
-|           |  endTime  |         |   The end time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)    | string |            |         |            |                |
 
 ### Example
 
@@ -86,6 +84,9 @@ There are no examples for this endpoint.
 | :-------: | :-------: | :-----: | :-----------------------------------------------------------------------------------------------------: | :----: | :--------: | :-----: | :--------: | :------------: |
 |    ✅     |   asset   |         | The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets) | string |            |         |            |                |
 |           | frequency |         |                    At which interval to calculate the number of coins/tokens burned                     | string | `1b`, `1d` |  `1d`   |            |                |
+|           | pageSize  |         |                           Number of results to get per page. From 1 to 10000                            | number |            | `10000` |            |                |
+|           | startTime |         |  The start time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)   | string |            |         |            |                |
+|           |  endTime  |         |   The end time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)    | string |            |         |            |                |
 
 ### Example
 

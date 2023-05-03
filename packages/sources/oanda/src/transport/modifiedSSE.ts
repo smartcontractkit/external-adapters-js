@@ -17,6 +17,7 @@ import {
 
 import axios from 'axios'
 import { config } from '../config'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 const logger = makeLogger('ModifiedSSETransport')
 
@@ -37,7 +38,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
   constructor(
     private config: {
       prepareSSEConnectionConfig: (
-        subscriptions: SubscriptionDeltas<T['Request']['Params']>['desired'],
+        subscriptions: (string | undefined)[],
         context: EndpointContext<T>,
       ) => ModifiedSSEConfig
       eventListeners: {
@@ -45,7 +46,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
         parseResponse: (event: MessageEvent<any>['data']) => ProviderResult<T>[]
       }[]
       parseSubscriptionList: (
-        subscriptions: SubscriptionDeltas<T['Request']['Params']>['desired'],
+        subscriptions: TypeFromDefinition<T['Parameters']>[],
         context: EndpointContext<T>,
       ) => Promise<(string | undefined)[]>
     },
@@ -68,7 +69,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
 
   async streamHandler(
     context: EndpointContext<T>,
-    subscriptions: SubscriptionDeltas<T['Request']['Params']>,
+    subscriptions: SubscriptionDeltas<TypeFromDefinition<T['Parameters']>>,
   ): Promise<void> {
     if (subscriptions.new.length || subscriptions.stale.length) {
       logger.info({ msg: 'Updating SSE subscriptions', subscriptions })

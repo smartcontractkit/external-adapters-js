@@ -4,7 +4,7 @@ import * as CoinApi from '@chainlink/coinapi-adapter'
 import { adapter as CoinGecko } from '@chainlink/coingecko-adapter'
 import { adapter as CoinMarketCap } from '@chainlink/coinmarketcap-adapter'
 import { adapter as CoinMetrics } from '@chainlink/coinmetrics-adapter'
-import * as CoinPaprika from '@chainlink/coinpaprika-adapter'
+import { adapter as CoinPaprika } from '@chainlink/coinpaprika-adapter'
 import * as CoinRanking from '@chainlink/coinranking-adapter'
 import { adapter as CryptoCompare } from '@chainlink/cryptocompare-adapter'
 import {
@@ -25,7 +25,6 @@ import { Config, SourceRequestOptions } from '../types'
 export const adaptersV2: v2AdapterImplementation[] = [
   Amberdata as unknown as v2AdapterImplementation,
   CoinApi as unknown as v2AdapterImplementation,
-  CoinPaprika as unknown as v2AdapterImplementation,
   CoinRanking as unknown as v2AdapterImplementation,
   Finage as unknown as v2AdapterImplementation,
   Kaiko as unknown as v2AdapterImplementation,
@@ -40,6 +39,7 @@ export const adaptersV3: PriceAdapter<any>[] = [
   CoinGecko,
   CoinMarketCap,
   CoinMetrics,
+  CoinPaprika,
   CryptoCompare,
   NCFX,
 ]

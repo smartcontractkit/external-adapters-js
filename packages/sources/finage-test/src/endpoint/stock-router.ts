@@ -1,36 +1,30 @@
-import { config } from '../config'
-import { httpTransport } from './http/stock'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { wsTransport } from './ws/stock-ws'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import overrides from '../config/overrides.json'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
+import { httpTransport } from './http/stock'
+import { wsTransport } from './ws/stock-ws'
 
-export const inputParameters = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'symbol'],
     required: true,
     type: 'string',
     description: 'The symbol of the currency to query',
   },
-} satisfies InputParameters
+})
 
-export interface StockEndpointParams {
-  base: string
-}
-
-export type EndpointTypes = {
-  Request: {
-    Params: StockEndpointParams
-  }
-  Response: SingleNumberResultResponse
+export type StockEndpointTypes = {
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
 
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
+export const endpoint = new AdapterEndpoint<StockEndpointTypes>({
   name: 'stock',
-  transportRoutes: new TransportRoutes<EndpointTypes>()
+  transportRoutes: new TransportRoutes<StockEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',

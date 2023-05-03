@@ -1,11 +1,13 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   PriceEndpoint,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
 interface ResponseSchema {
   disclaimer: string
@@ -17,10 +19,10 @@ interface ResponseSchema {
   }
 }
 
+type PriceEndpointParams = typeof inputParameters.validated
+
 export type ForexEndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -108,5 +110,5 @@ export const endpoint = new PriceEndpoint<ForexEndpointTypes>({
   name: 'forex',
   aliases: ['price'],
   transport: batchTransport,
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
 })

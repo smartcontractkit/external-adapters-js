@@ -1,6 +1,6 @@
 # COINMARKETCAP
 
-![2.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -317,13 +317,13 @@ Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |    Name    |             Aliases             |                              Description                               |  Type  |            Options             | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----------------------------: | :--------------------------------------------------------------------: | :----: | :----------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |    base    | `coin`, `from`, `sym`, `symbol` |             The symbol of symbols of the currency to query             | string |                                |         |            |                |
-|    ✅     |   quote    |    `convert`, `market`, `to`    |                The symbol of the currency to convert to                | string |                                |         |            |                |
-|           |    cid     |                                 |           The CMC coin ID (optional to use in place of base)           | string |                                |         |            |                |
-|           |    slug    |                                 |           The CMC coin ID (optional to use in place of base)           | string |                                |         |            |                |
-|           | resultPath |                                 | The path to the result within the asset quote in the provider response | string | `marketcap`, `price`, `volume` |         |            |                |
+| Required? |    Name    |             Aliases             |                              Description                               |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----------------------------: | :--------------------------------------------------------------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from`, `sym`, `symbol` |             The symbol of symbols of the currency to query             | string |                                     |         |            |                |
+|    ✅     |   quote    |    `convert`, `market`, `to`    |                The symbol of the currency to convert to                | string |                                     |         |            |                |
+|           |    cid     |                                 |           The CMC coin ID (optional to use in place of base)           | string |                                     |         |            |                |
+|           |    slug    |                                 |           The CMC coin ID (optional to use in place of base)           | string |                                     |         |            |                |
+|           | resultPath |                                 | The path to the result within the asset quote in the provider response | string | `market_cap`, `price`, `volume_24h` |         |            |                |
 
 ### Example
 

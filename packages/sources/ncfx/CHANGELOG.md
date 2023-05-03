@@ -1,5 +1,14 @@
 # @chainlink/ncfx-adapter
 
+## 3.2.9
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
 ## 3.2.8
 
 ### Patch Changes
