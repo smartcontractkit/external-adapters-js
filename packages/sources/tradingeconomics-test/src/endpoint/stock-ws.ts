@@ -1,5 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { Message, withApiKey } from './price-ws'
+import { Message } from './price-ws'
 import { StockEndpointTypes } from './stock-router'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
@@ -13,7 +13,7 @@ export type WSEndpointTypes = StockEndpointTypes & {
 export const wsTransport = new WebSocketTransport<WSEndpointTypes>({
   url: (context) => {
     const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterSettings
-    return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
+    return `${WS_API_ENDPOINT}?client=${API_CLIENT_KEY}:${API_CLIENT_SECRET}`
   },
   handlers: {
     message: (message) => {
@@ -27,11 +27,13 @@ export const wsTransport = new WebSocketTransport<WSEndpointTypes>({
       }
 
       if (message.price === undefined) {
+        const message = `Tradingeconomics provided no data for ${base}`
+        logger.info(message)
         return [
           {
             params: { base },
             response: {
-              errorMessage: `Tradingeconomics provided no data for ${base}`,
+              errorMessage: message,
               statusCode: 502,
             },
           },

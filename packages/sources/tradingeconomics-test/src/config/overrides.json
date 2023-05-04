@@ -1,11 +1,6 @@
 {
   "tradingeconomics": {
     "FTSE": "UKX:IND",
-    "N225": "NKY:IND",
-    "BTC": "BTCUSD:CUR",
-    "ETH": "ETHUSD:CUR",
-    "LTC": "LTCUSD:CUR",
-    "BNB": "BNBUSD:CUR",
-    "XMR": "XMRUSD:CUR"
+    "N225": "NKY:IND"
   }
 }

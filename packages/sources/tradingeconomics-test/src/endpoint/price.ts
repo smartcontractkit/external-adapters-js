@@ -1,5 +1,8 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { EndpointTypes } from './price-router'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('TradingEconomics HTTP Price')
 
 export interface ProviderResponseBody {
   Symbol: string
@@ -66,11 +69,13 @@ export const httpTransport = new HttpTransport<HttpEndpointTypes>({
     const data = res.data[0]
     return params.map((param) => {
       if (!res.data || !data || data.Last === undefined) {
+        const message = `Tradingeconomics provided no data for ${JSON.stringify(param)}`
+        logger.info(message)
         return {
           params: param,
           response: {
             statusCode: 502,
-            errorMessage: `Tradingeconomics provided no data for ${JSON.stringify(param)}`,
+            errorMessage: message,
           },
         }
       }
@@ -81,6 +86,9 @@ export const httpTransport = new HttpTransport<HttpEndpointTypes>({
             result: data.Last,
           },
           result: data.Last,
+          timestamps: {
+            providerIndicatedTimeUnixMs: new Date(data.Date).getTime(),
+          },
         },
       }
     })

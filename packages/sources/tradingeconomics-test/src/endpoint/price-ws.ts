@@ -28,14 +28,11 @@ type WSEndpointTypes = EndpointTypes & {
   }
 }
 
-export const withApiKey = (url: string, key: string, secret: string) =>
-  `${url}?client=${key}:${secret}`
-
 export const wsTransport: WebsocketReverseMappingTransport<WSEndpointTypes, string> =
   new WebsocketReverseMappingTransport<WSEndpointTypes, string>({
     url: (context) => {
       const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterSettings
-      return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
+      return `${WS_API_ENDPOINT}?client=${API_CLIENT_KEY}:${API_CLIENT_SECRET}`
     },
     handlers: {
       message: (message) => {
@@ -48,11 +45,13 @@ export const wsTransport: WebsocketReverseMappingTransport<WSEndpointTypes, stri
           return []
         }
         if (message.price === undefined) {
+          const message = `Tradingeconomics provided no data for ${JSON.stringify(pair)}`
+          logger.info(message)
           return [
             {
               params: pair,
               response: {
-                errorMessage: `Tradingeconomics provided no data for ${JSON.stringify(pair)}`,
+                errorMessage: message,
                 statusCode: 502,
               },
             },

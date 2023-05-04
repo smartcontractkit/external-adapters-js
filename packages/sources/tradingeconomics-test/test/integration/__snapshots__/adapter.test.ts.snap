@@ -10,6 +10,22 @@ exports[`execute rest price endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1636119360000,
+  },
+}
+`;
+
+exports[`execute rest price endpoint with override should return success 1`] = `
+{
+  "data": {
+    "result": 1.15591,
+  },
+  "result": 1.15591,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1636119360000,
   },
 }
 `;
@@ -24,6 +40,7 @@ exports[`execute rest stock endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1683043108920,
   },
 }
 `;

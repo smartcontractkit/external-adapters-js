@@ -29,6 +29,7 @@ export const transportRoutes = new TransportRoutes<StockEndpointTypes>()
 
 export const endpoint = new AdapterEndpoint<StockEndpointTypes>({
   name: 'stock',
+  aliases: ['commodities'],
   transportRoutes,
   inputParameters,
   defaultTransport: 'rest',

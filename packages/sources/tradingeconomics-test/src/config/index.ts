@@ -16,6 +16,7 @@ export const config = new AdapterConfig({
     description: 'The TradingEconomics API client key',
     type: 'string',
     required: true,
+    sensitive: true,
   },
   API_CLIENT_SECRET: {
     description: 'The TradingEconomics API client secret',

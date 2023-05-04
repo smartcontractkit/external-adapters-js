@@ -72,6 +72,35 @@ describe('execute', () => {
     })
   })
 
+  describe('rest price endpoint with override', () => {
+    const data = {
+      id,
+      data: {
+        base: 'EUR',
+        quote: 'XXX',
+        overrides: {
+          tradingeconomics: {
+            EUR: 'EURUSD:CUR',
+          },
+        },
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
   describe('rest stock endpoint', () => {
     const data = {
       id,
