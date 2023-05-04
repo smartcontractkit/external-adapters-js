@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes } from '../stock-router'
+import { StockEndpointTypes } from '../stock-router'
 
 export interface ResponseSchema {
   symbol: string
@@ -10,7 +10,7 @@ export interface ResponseSchema {
   timestamp: number
 }
 
-type HttpTransportTypes = EndpointTypes & {
+type HttpTransportTypes = StockEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema[]

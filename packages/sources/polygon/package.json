@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/polygon-adapter",
-  "version": "1.7.16",
+  "version": "1.7.18",
   "description": "Chainlink polygon adapter.",
   "keywords": [
     "Chainlink",
@@ -38,6 +38,6 @@
     "@types/supertest": "2.0.12",
     "nock": "13.2.9",
     "supertest": "6.2.4",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

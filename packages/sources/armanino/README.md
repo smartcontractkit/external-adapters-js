@@ -1,6 +1,6 @@
 # Armanino Adapter
 
-![1.0.44](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/armanino/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.0.46](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/armanino/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Carbon credit reserves attested by Armanino
 
@@ -42,7 +42,7 @@ Request:
     "resultPath": "totalMCO2"
   },
   "debug": {
-    "cacheKey": "qWnh3HgqoKoepuFKlU/E3H0RhZY="
+    "cacheKey": "jma96ZQNYh/skkagk8dl7s6liBk="
   }
 }
 ```

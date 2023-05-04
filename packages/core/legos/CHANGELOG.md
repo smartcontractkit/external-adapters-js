@@ -1,5 +1,418 @@
 # @chainlink/ea
 
+## 1.3.89
+
+### Patch Changes
+
+- Updated dependencies [7f4476557]
+- Updated dependencies [2c5740879]
+- Updated dependencies [41f253afb]
+  - @chainlink/coinpaprika-adapter@2.0.0
+  - @chainlink/xbto-adapter@1.3.32
+  - @chainlink/kaiko-test-adapter@1.1.12
+
+## 1.3.88
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [6783b51c8]
+- Updated dependencies [48ceec85e]
+- Updated dependencies [6cdb337f2]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [8d15f80bd]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [f981f7d54]
+  - @chainlink/tiingo-test-adapter@1.4.2
+  - @chainlink/stader-balance-adapter@1.0.3
+  - @chainlink/kaiko-test-adapter@1.1.11
+  - @chainlink/stader-address-list-adapter@2.0.3
+  - @chainlink/elwood-adapter@2.1.10
+  - @chainlink/openexchangerates-test-adapter@1.0.6
+  - @chainlink/cfbenchmarks-adapter@2.0.0
+  - @chainlink/gsr-adapter@2.1.10
+  - @chainlink/alongside-adapter@1.3.8
+  - @chainlink/icap-adapter@1.1.4
+  - @chainlink/dar-adapter@1.2.1
+  - @chainlink/intrinio-test-adapter@1.2.2
+  - @chainlink/iex-cloud-adapter@2.0.2
+  - @chainlink/tp-adapter@1.1.4
+  - @chainlink/moonbeam-address-list-adapter@1.1.10
+  - @chainlink/finnhub-test-adapter@1.0.2
+  - @chainlink/tradermade-test-adapter@1.2.2
+  - @chainlink/galaxy-adapter@2.1.10
+  - @chainlink/bank-frick-adapter@1.1.10
+  - @chainlink/polkadot-balance-adapter@1.1.10
+  - @chainlink/coingecko-adapter@2.0.3
+  - @chainlink/dxfeed-test-adapter@1.2.2
+  - @chainlink/nft-blue-chip-adapter@1.1.10
+  - @chainlink/coinmetrics-adapter@3.0.6
+  - @chainlink/finage-test-adapter@1.2.2
+  - @chainlink/oanda-adapter@1.1.10
+  - @chainlink/dxfeed-secondary-test-adapter@1.1.2
+  - @chainlink/blocksize-capital-adapter@2.0.2
+  - @chainlink/alphavantage-test-adapter@1.0.2
+  - @chainlink/ncfx-adapter@3.2.9
+  - @chainlink/cryptocompare-adapter@2.0.2
+  - @chainlink/twosigma-adapter@1.1.10
+  - @chainlink/coinmarketcap-adapter@2.0.6
+  - @chainlink/coinpaprika-test-adapter@1.2.4
+  - @chainlink/layer2-sequencer-health-adapter@2.4.0
+  - @chainlink/reduce-adapter@1.4.18
+  - @chainlink/1forge-adapter@1.6.32
+  - @chainlink/accuweather-adapter@1.3.31
+  - @chainlink/ada-balance-adapter@2.5.31
+  - @chainlink/alphachain-adapter@1.3.31
+  - @chainlink/alphavantage-adapter@1.3.31
+  - @chainlink/alpine-adapter@2.0.2
+  - @chainlink/amberdata-adapter@1.8.24
+  - @chainlink/anyblock-adapter@2.0.4
+  - @chainlink/ap-election-adapter@1.3.31
+  - @chainlink/armanino-adapter@1.0.46
+  - @chainlink/avalanche-platform-adapter@1.0.4
+  - @chainlink/bea-adapter@1.3.31
+  - @chainlink/binance-adapter@1.4.31
+  - @chainlink/binance-dex-adapter@1.6.23
+  - @chainlink/bitex-adapter@1.5.31
+  - @chainlink/bitso-adapter@1.4.31
+  - @chainlink/blockchain.com-adapter@1.3.31
+  - @chainlink/blockchair-adapter@1.3.31
+  - @chainlink/blockcypher-adapter@1.4.31
+  - @chainlink/blockstream-adapter@1.4.31
+  - @chainlink/bob-adapter@2.0.13
+  - @chainlink/bravenewcoin-adapter@1.3.31
+  - @chainlink/btc.com-adapter@1.3.31
+  - @chainlink/cache.gold-adapter@1.3.31
+  - @chainlink/ccip-read-adapter@3.0.2
+  - @chainlink/celsius-address-list-adapter@2.0.15
+  - @chainlink/chain-reserve-wallet-adapter@3.0.15
+  - @chainlink/coinapi-adapter@1.3.21
+  - @chainlink/coinbase-adapter@2.0.15
+  - @chainlink/coincodex-adapter@1.3.31
+  - @chainlink/coinlore-adapter@1.3.31
+  - @chainlink/coinpaprika-adapter@1.10.23
+  - @chainlink/coinranking-adapter@2.1.2
+  - @chainlink/covid-tracker-adapter@1.4.23
+  - @chainlink/cryptex-adapter@2.0.15
+  - @chainlink/cryptoapis-adapter@1.2.31
+  - @chainlink/cryptoapis-v2-adapter@1.2.31
+  - @chainlink/cryptoid-adapter@1.3.31
+  - @chainlink/cryptomkt-adapter@1.3.31
+  - @chainlink/currencylayer-adapter@2.0.23
+  - @chainlink/curve-adapter@2.0.15
+  - @chainlink/deribit-adapter@1.2.31
+  - @chainlink/dns-query-adapter@1.6.23
+  - @chainlink/dwolla-adapter@1.2.31
+  - @chainlink/dxfeed-adapter@1.3.31
+  - @chainlink/dxfeed-secondary-adapter@1.2.32
+  - @chainlink/ens-adapter@2.0.15
+  - @chainlink/enzyme-adapter@2.0.15
+  - @chainlink/eodhistoricaldata-adapter@1.4.1
+  - @chainlink/eth-balance-adapter@2.0.15
+  - @chainlink/eth-beacon-adapter@1.3.7
+  - @chainlink/etherchain-adapter@1.4.31
+  - @chainlink/etherscan-adapter@1.3.31
+  - @chainlink/ethgasstation-adapter@1.4.31
+  - @chainlink/ethgaswatch-adapter@1.3.31
+  - @chainlink/expert-car-broker-adapter@1.3.31
+  - @chainlink/fcsapi-adapter@1.2.31
+  - @chainlink/finage-adapter@1.6.17
+  - @chainlink/finnhub-adapter@1.2.31
+  - @chainlink/fixer-adapter@2.0.23
+  - @chainlink/flightaware-adapter@1.2.31
+  - @chainlink/fluent-finance-adapter@2.0.5
+  - @chainlink/fmpcloud-adapter@1.3.31
+  - @chainlink/galaxis-adapter@4.0.8
+  - @chainlink/gemini-adapter@2.2.31
+  - @chainlink/genesis-volatility-adapter@1.3.31
+  - @chainlink/geodb-adapter@1.2.31
+  - @chainlink/google-bigquery-adapter@1.2.31
+  - @chainlink/gramchain-adapter@1.1.31
+  - @chainlink/graphql-adapter@1.2.31
+  - @chainlink/intrinio-adapter@1.3.31
+  - @chainlink/ipfs-adapter@1.3.31
+  - @chainlink/jpegd-adapter@2.1.31
+  - @chainlink/json-rpc-adapter@1.3.31
+  - @chainlink/kaiko-adapter@1.5.25
+  - @chainlink/lcx-adapter@1.3.31
+  - @chainlink/lido-adapter@2.0.15
+  - @chainlink/linkpool-adapter@1.2.31
+  - @chainlink/lition-adapter@1.2.31
+  - @chainlink/lotus-adapter@2.2.31
+  - @chainlink/marketstack-adapter@1.3.31
+  - @chainlink/messari-adapter@1.2.31
+  - @chainlink/metalsapi-adapter@1.7.31
+  - @chainlink/mock-ea-adapter@2.1.31
+  - @chainlink/mycryptoapi-adapter@1.3.31
+  - @chainlink/nikkei-adapter@1.2.31
+  - @chainlink/nomics-adapter@1.3.31
+  - @chainlink/oilpriceapi-adapter@2.1.31
+  - @chainlink/onchain-gas-adapter@1.3.31
+  - @chainlink/openexchangerates-adapter@1.5.25
+  - @chainlink/orchid-bandwidth-adapter@1.2.31
+  - @chainlink/paxos-adapter@1.4.23
+  - @chainlink/paypal-adapter@1.2.31
+  - @chainlink/poa-adapter@1.3.31
+  - @chainlink/polygon-adapter@1.7.18
+  - @chainlink/por-address-list-adapter@4.0.14
+  - @chainlink/renvm-address-set-adapter@1.5.42
+  - @chainlink/satoshitango-adapter@1.3.31
+  - @chainlink/snowflake-adapter@1.2.31
+  - @chainlink/sochain-adapter@1.3.31
+  - @chainlink/solana-view-function-adapter@2.2.31
+  - @chainlink/spectral-macro-score-adapter@2.0.15
+  - @chainlink/sportsdataio-adapter@1.3.23
+  - @chainlink/stader-labs-adapter@3.0.8
+  - @chainlink/stasis-adapter@1.2.31
+  - @chainlink/swell-address-list-adapter@1.0.14
+  - @chainlink/synthetix-debt-pool-adapter@4.1.1
+  - @chainlink/taapi-adapter@1.2.31
+  - @chainlink/terra-view-function-adapter@1.3.31
+  - @chainlink/therundown-adapter@1.3.31
+  - @chainlink/tiingo-adapter@1.13.2
+  - @chainlink/tradermade-adapter@1.9.14
+  - @chainlink/tradingeconomics-adapter@2.2.17
+  - @chainlink/trueusd-adapter@1.6.20
+  - @chainlink/twelvedata-adapter@1.3.1
+  - @chainlink/unibit-adapter@1.4.31
+  - @chainlink/uniswap-v2-adapter@2.0.15
+  - @chainlink/uniswap-v3-adapter@2.0.15
+  - @chainlink/upvest-adapter@1.3.31
+  - @chainlink/uscpi-one-adapter@1.3.31
+  - @chainlink/view-function-adapter@2.0.15
+  - @chainlink/wbtc-address-set-adapter@1.4.51
+  - @chainlink/wootrade-adapter@1.2.31
+  - @chainlink/wrapped-adapter@2.2.31
+  - @chainlink/xbto-adapter@1.3.31
+
+## 1.3.87
+
+### Patch Changes
+
+- Updated dependencies [ce2cd0f6a]
+- Updated dependencies [de8ce7352]
+- Updated dependencies [830fbab39]
+- Updated dependencies [213c52819]
+- Updated dependencies [9bcb13c90]
+- Updated dependencies [1fa35713b]
+- Updated dependencies [0044182c7]
+  - @chainlink/cfbenchmarks-test-adapter@1.5.0
+  - @chainlink/intrinio-test-adapter@1.2.1
+  - @chainlink/eodhistoricaldata-adapter@1.4.0
+  - @chainlink/twelvedata-adapter@1.3.0
+  - @chainlink/stader-address-list-adapter@2.0.2
+  - @chainlink/elwood-adapter@2.1.9
+  - @chainlink/openexchangerates-test-adapter@1.0.5
+  - @chainlink/gsr-adapter@2.1.9
+  - @chainlink/alongside-adapter@1.3.7
+  - @chainlink/stader-balance-adapter@1.0.2
+  - @chainlink/icap-adapter@1.1.3
+  - @chainlink/dar-adapter@1.2.0
+  - @chainlink/iex-cloud-adapter@2.0.1
+  - @chainlink/tp-adapter@1.1.3
+  - @chainlink/moonbeam-address-list-adapter@1.1.9
+  - @chainlink/finnhub-test-adapter@1.0.1
+  - @chainlink/tradermade-test-adapter@1.2.1
+  - @chainlink/galaxy-adapter@2.1.9
+  - @chainlink/bank-frick-adapter@1.1.9
+  - @chainlink/polkadot-balance-adapter@1.1.9
+  - @chainlink/coingecko-adapter@2.0.2
+  - @chainlink/tiingo-test-adapter@1.4.1
+  - @chainlink/dxfeed-test-adapter@1.2.1
+  - @chainlink/nft-blue-chip-adapter@1.1.9
+  - @chainlink/coinmetrics-adapter@3.0.5
+  - @chainlink/finage-test-adapter@1.2.1
+  - @chainlink/oanda-adapter@1.1.9
+  - @chainlink/dxfeed-secondary-test-adapter@1.1.1
+  - @chainlink/blocksize-capital-adapter@2.0.1
+  - @chainlink/alphavantage-test-adapter@1.0.1
+  - @chainlink/ncfx-adapter@3.2.8
+  - @chainlink/cryptocompare-adapter@2.0.1
+  - @chainlink/kaiko-test-adapter@1.1.10
+  - @chainlink/twosigma-adapter@1.1.9
+  - @chainlink/coinmarketcap-adapter@2.0.5
+  - @chainlink/coinpaprika-test-adapter@1.2.3
+  - @chainlink/synthetix-debt-pool-adapter@4.1.0
+  - @chainlink/renvm-address-set-adapter@1.5.41
+  - @chainlink/wbtc-address-set-adapter@1.4.50
+
+## 1.3.86
+
+### Patch Changes
+
+- Updated dependencies [03910e868]
+- Updated dependencies [60d8f07d1]
+- Updated dependencies [a4794166f]
+- Updated dependencies [f004dfef7]
+- Updated dependencies [e4ec2c3fa]
+- Updated dependencies [29dd7b460]
+- Updated dependencies [31af84e69]
+- Updated dependencies [873f53a8a]
+- Updated dependencies [e0fe0a602]
+- Updated dependencies [9116aa423]
+  - @chainlink/iex-cloud-adapter@2.0.0
+  - @chainlink/blocksize-capital-adapter@2.0.0
+  - @chainlink/twosigma-adapter@1.1.8
+  - @chainlink/finnhub-test-adapter@1.0.0
+  - @chainlink/tiingo-test-adapter@1.4.0
+  - @chainlink/kaiko-test-adapter@1.1.9
+  - @chainlink/stader-address-list-adapter@2.0.1
+  - @chainlink/cfbenchmarks-test-adapter@1.4.6
+  - @chainlink/elwood-adapter@2.1.8
+  - @chainlink/openexchangerates-test-adapter@1.0.4
+  - @chainlink/gsr-adapter@2.1.8
+  - @chainlink/alongside-adapter@1.3.6
+  - @chainlink/stader-balance-adapter@1.0.1
+  - @chainlink/icap-adapter@1.1.2
+  - @chainlink/dar-adapter@1.1.8
+  - @chainlink/intrinio-test-adapter@1.2.0
+  - @chainlink/tp-adapter@1.1.2
+  - @chainlink/moonbeam-address-list-adapter@1.1.8
+  - @chainlink/tradermade-test-adapter@1.2.0
+  - @chainlink/galaxy-adapter@2.1.8
+  - @chainlink/bank-frick-adapter@1.1.8
+  - @chainlink/polkadot-balance-adapter@1.1.8
+  - @chainlink/coingecko-adapter@2.0.1
+  - @chainlink/dxfeed-test-adapter@1.2.0
+  - @chainlink/nft-blue-chip-adapter@1.1.8
+  - @chainlink/coinmetrics-adapter@3.0.4
+  - @chainlink/finage-test-adapter@1.2.0
+  - @chainlink/oanda-adapter@1.1.8
+  - @chainlink/dxfeed-secondary-test-adapter@1.1.0
+  - @chainlink/alphavantage-test-adapter@1.0.0
+  - @chainlink/ncfx-adapter@3.2.7
+  - @chainlink/cryptocompare-adapter@2.0.0
+  - @chainlink/coinmarketcap-adapter@2.0.4
+  - @chainlink/coinpaprika-test-adapter@1.2.2
+  - @chainlink/renvm-address-set-adapter@1.5.40
+  - @chainlink/wbtc-address-set-adapter@1.4.49
+  - @chainlink/reduce-adapter@1.4.17
+  - @chainlink/1forge-adapter@1.6.31
+  - @chainlink/accuweather-adapter@1.3.30
+  - @chainlink/ada-balance-adapter@2.5.30
+  - @chainlink/alphachain-adapter@1.3.30
+  - @chainlink/alphavantage-adapter@1.3.30
+  - @chainlink/amberdata-adapter@1.8.23
+  - @chainlink/anyblock-adapter@2.0.3
+  - @chainlink/ap-election-adapter@1.3.30
+  - @chainlink/armanino-adapter@1.0.45
+  - @chainlink/avalanche-platform-adapter@1.0.3
+  - @chainlink/bea-adapter@1.3.30
+  - @chainlink/binance-adapter@1.4.30
+  - @chainlink/binance-dex-adapter@1.6.22
+  - @chainlink/bitex-adapter@1.5.30
+  - @chainlink/bitso-adapter@1.4.30
+  - @chainlink/blockchain.com-adapter@1.3.30
+  - @chainlink/blockchair-adapter@1.3.30
+  - @chainlink/blockcypher-adapter@1.4.30
+  - @chainlink/blockstream-adapter@1.4.30
+  - @chainlink/bob-adapter@2.0.12
+  - @chainlink/bravenewcoin-adapter@1.3.30
+  - @chainlink/btc.com-adapter@1.3.30
+  - @chainlink/cache.gold-adapter@1.3.30
+  - @chainlink/celsius-address-list-adapter@2.0.14
+  - @chainlink/cfbenchmarks-adapter@1.8.1
+  - @chainlink/chain-reserve-wallet-adapter@3.0.14
+  - @chainlink/coinapi-adapter@1.3.20
+  - @chainlink/coinbase-adapter@2.0.14
+  - @chainlink/coincodex-adapter@1.3.30
+  - @chainlink/coinlore-adapter@1.3.30
+  - @chainlink/coinpaprika-adapter@1.10.22
+  - @chainlink/coinranking-adapter@2.1.1
+  - @chainlink/covid-tracker-adapter@1.4.22
+  - @chainlink/cryptex-adapter@2.0.14
+  - @chainlink/cryptoapis-adapter@1.2.30
+  - @chainlink/cryptoapis-v2-adapter@1.2.30
+  - @chainlink/cryptoid-adapter@1.3.30
+  - @chainlink/cryptomkt-adapter@1.3.30
+  - @chainlink/currencylayer-adapter@2.0.22
+  - @chainlink/curve-adapter@2.0.14
+  - @chainlink/deribit-adapter@1.2.30
+  - @chainlink/dns-query-adapter@1.6.22
+  - @chainlink/dwolla-adapter@1.2.30
+  - @chainlink/dxfeed-adapter@1.3.30
+  - @chainlink/dxfeed-secondary-adapter@1.2.31
+  - @chainlink/ens-adapter@2.0.14
+  - @chainlink/enzyme-adapter@2.0.14
+  - @chainlink/eodhistoricaldata-adapter@1.3.30
+  - @chainlink/eth-balance-adapter@2.0.14
+  - @chainlink/eth-beacon-adapter@1.3.6
+  - @chainlink/etherchain-adapter@1.4.30
+  - @chainlink/etherscan-adapter@1.3.30
+  - @chainlink/ethgasstation-adapter@1.4.30
+  - @chainlink/ethgaswatch-adapter@1.3.30
+  - @chainlink/expert-car-broker-adapter@1.3.30
+  - @chainlink/fcsapi-adapter@1.2.30
+  - @chainlink/finage-adapter@1.6.16
+  - @chainlink/finnhub-adapter@1.2.30
+  - @chainlink/fixer-adapter@2.0.22
+  - @chainlink/flightaware-adapter@1.2.30
+  - @chainlink/fluent-finance-adapter@2.0.4
+  - @chainlink/fmpcloud-adapter@1.3.30
+  - @chainlink/galaxis-adapter@4.0.7
+  - @chainlink/gemini-adapter@2.2.30
+  - @chainlink/genesis-volatility-adapter@1.3.30
+  - @chainlink/geodb-adapter@1.2.30
+  - @chainlink/google-bigquery-adapter@1.2.30
+  - @chainlink/gramchain-adapter@1.1.30
+  - @chainlink/graphql-adapter@1.2.30
+  - @chainlink/intrinio-adapter@1.3.30
+  - @chainlink/ipfs-adapter@1.3.30
+  - @chainlink/jpegd-adapter@2.1.30
+  - @chainlink/json-rpc-adapter@1.3.30
+  - @chainlink/kaiko-adapter@1.5.24
+  - @chainlink/layer2-sequencer-health-adapter@2.3.10
+  - @chainlink/lcx-adapter@1.3.30
+  - @chainlink/lido-adapter@2.0.14
+  - @chainlink/linkpool-adapter@1.2.30
+  - @chainlink/lition-adapter@1.2.30
+  - @chainlink/lotus-adapter@2.2.30
+  - @chainlink/marketstack-adapter@1.3.30
+  - @chainlink/messari-adapter@1.2.30
+  - @chainlink/metalsapi-adapter@1.7.30
+  - @chainlink/mock-ea-adapter@2.1.30
+  - @chainlink/mycryptoapi-adapter@1.3.30
+  - @chainlink/nikkei-adapter@1.2.30
+  - @chainlink/nomics-adapter@1.3.30
+  - @chainlink/oilpriceapi-adapter@2.1.30
+  - @chainlink/onchain-gas-adapter@1.3.30
+  - @chainlink/openexchangerates-adapter@1.5.24
+  - @chainlink/orchid-bandwidth-adapter@1.2.30
+  - @chainlink/paxos-adapter@1.4.22
+  - @chainlink/paypal-adapter@1.2.30
+  - @chainlink/poa-adapter@1.3.30
+  - @chainlink/polygon-adapter@1.7.17
+  - @chainlink/por-address-list-adapter@4.0.13
+  - @chainlink/satoshitango-adapter@1.3.30
+  - @chainlink/snowflake-adapter@1.2.30
+  - @chainlink/sochain-adapter@1.3.30
+  - @chainlink/solana-view-function-adapter@2.2.30
+  - @chainlink/spectral-macro-score-adapter@2.0.14
+  - @chainlink/sportsdataio-adapter@1.3.22
+  - @chainlink/stader-labs-adapter@3.0.7
+  - @chainlink/stasis-adapter@1.2.30
+  - @chainlink/swell-address-list-adapter@1.0.13
+  - @chainlink/synthetix-debt-pool-adapter@4.0.14
+  - @chainlink/taapi-adapter@1.2.30
+  - @chainlink/terra-view-function-adapter@1.3.30
+  - @chainlink/therundown-adapter@1.3.30
+  - @chainlink/tiingo-adapter@1.13.1
+  - @chainlink/tradermade-adapter@1.9.13
+  - @chainlink/tradingeconomics-adapter@2.2.16
+  - @chainlink/trueusd-adapter@1.6.19
+  - @chainlink/twelvedata-adapter@1.2.30
+  - @chainlink/unibit-adapter@1.4.30
+  - @chainlink/uniswap-v2-adapter@2.0.14
+  - @chainlink/uniswap-v3-adapter@2.0.14
+  - @chainlink/upvest-adapter@1.3.30
+  - @chainlink/uscpi-one-adapter@1.3.30
+  - @chainlink/view-function-adapter@2.0.14
+  - @chainlink/wootrade-adapter@1.2.30
+  - @chainlink/wrapped-adapter@2.2.30
+  - @chainlink/xbto-adapter@1.3.30
+
 ## 1.3.85
 
 ### Patch Changes

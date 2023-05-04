@@ -1,18 +1,42 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { PriceEndpointTypes } from '../price-utils'
-import { httpTransport, inputParameters } from './forex'
+import { httpTransport } from './forex'
 import { wsTransport } from './forex-ws'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+export const inputParameters = new InputParameters({
+  base: {
+    aliases: ['from', 'coin', 'symbol'],
+    required: true,
+    type: 'string',
+    description: 'The symbol of symbols of the currency to query',
+  },
+  quote: {
+    aliases: ['to', 'market', 'convert'],
+    required: true,
+    type: 'string',
+    description: 'The symbol of the currency to convert to',
+  },
+})
+
+export type ForexEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+}
 
 function customInputValidation(
-  req: AdapterRequest<PriceEndpointTypes['Request']>,
+  req: AdapterRequest<typeof inputParameters.validated>,
   settings: typeof config.settings,
 ): AdapterError | undefined {
   if (req.requestContext.transportName === 'ws' && !settings.WS_API_KEY) {
@@ -24,14 +48,17 @@ function customInputValidation(
   return
 }
 
-export const endpoint = new PriceEndpoint({
+export const endpoint = new PriceEndpoint<ForexEndpointTypes>({
   name: 'forex',
   aliases: ['batch'],
-  transportRoutes: new TransportRoutes<PriceEndpointTypes>()
+  transportRoutes: new TransportRoutes<ForexEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',
-  inputParameters: inputParameters,
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+  },
+  inputParameters,
   customInputValidation,
   overrides: overrides.tradermade,
 })

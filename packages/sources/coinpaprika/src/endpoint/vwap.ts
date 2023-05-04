@@ -1,19 +1,12 @@
-import { Requester, util, Validator, Overrider } from '@chainlink/ea-bootstrap'
-import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
-import { getCoinIds } from '../util'
-import internalOverrides from '../config/overrides.json'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config, getApiEndpoint, getApiHeaders } from '../config'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['vwap', 'crypto-vwap']
-
-export const endpointResultPaths = {
-  vwap: 'price',
-  'crypto-vwap': 'price',
-}
-
-export type TInputParameters = { base: string; hours: number; coinid: string }
-export const inputParameters: InputParameters<TInputParameters> = {
+export const inputParameters = new InputParameters({
   base: {
+    description: 'The symbol of symbols of the currency to query',
     aliases: ['from', 'coin'],
     type: 'string',
     required: true,
@@ -25,78 +18,82 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
   coinid: {
     description: 'The coin ID (optional to use in place of `base`)',
-    required: false,
     type: 'string',
   },
-}
+})
 
-export type ResponseSchema = {
+interface Response {
   timestamp: string
   price: number
   volume_24h: number
   market_cap: number
-}[]
+}
 
-const customError = (data: ResponseSchema) => !data.length
+type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: {
+    Data: {
+      result: number
+    }
+    Result: number
+  }
+  Provider: {
+    RequestBody: never
+    ResponseBody: Response[]
+  }
+}
 
 const formatUtcDate = (date: Date) => date.toISOString().split('T')[0]
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
-  const jobRunID = validator.validated.id
-  const base = validator.validated.data.base
-  const coinid = validator.validated.data.coinid as string | undefined
+const restEndpointTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      const coin = param.coinid ?? param.base
+      const url = `v1/tickers/${coin?.toLowerCase()}/historical`
 
-  let coin = coinid
-  if (!coin) {
-    const overrider = new Overrider(
-      internalOverrides,
-      request.data?.overrides,
-      AdapterName,
-      jobRunID,
-    )
-    const [overriddenCoin, remainingSym] = overrider.performOverrides(base)
-    if (remainingSym.length === 0) {
-      coin = overriddenCoin[base]
-    } else {
-      const coinsResponse = await getCoinIds(context, jobRunID)
-      const requestedCoin = Overrider.convertRemainingSymbolsToIds(
-        overriddenCoin,
-        remainingSym,
-        coinsResponse,
-      )
-      coin = requestedCoin[base]
-    }
-  }
-  const url = util.buildUrlPath('v1/tickers/:coin/historical', { coin: coin.toLowerCase() })
-  const resultPath = validator.validated.data.resultPath as string
-  const hours = validator.validated.data.hours
+      const baseURL = getApiEndpoint(config)
 
-  const endDate = new Date()
-  const subMs = validator.validated.data.hours * 60 * 60 * 1000
-  const startDate = new Date(endDate.getTime() - subMs)
+      const endDate = new Date()
+      const subMs = param.hours * 60 * 60 * 1000
+      const startDate = new Date(endDate.getTime() - subMs)
 
-  const params = {
-    start: formatUtcDate(startDate),
-    interval: `${hours}h`,
-  }
+      const reqParams = {
+        start: formatUtcDate(startDate),
+        interval: `${param.hours}h`,
+      }
 
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
+      return {
+        params: [{ coinid: param.coinid, base: param.base, hours: param.hours }],
+        request: {
+          baseURL,
+          url,
+          method: 'GET',
+          params: reqParams,
+          headers: getApiHeaders(config),
+        },
+      }
+    })
+  },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      return {
+        params: { coinid: param.coinid, base: param.base, hours: param.hours },
+        response: {
+          data: {
+            result: res.data[0].price,
+          },
+          result: res.data[0].price,
+        },
+      }
+    })
+  },
+})
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, [0, resultPath])
-
-  const returnResponse = {
-    ...response,
-    data: {
-      ...response.data,
-      cost: 2,
-    },
-  }
-
-  return Requester.success(jobRunID, Requester.withResult(returnResponse, result), config.verbose)
-}
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'vwap',
+  aliases: ['crypto-vwap'],
+  transport: restEndpointTransport,
+  inputParameters,
+  overrides: overrides.coinpaprika,
+})

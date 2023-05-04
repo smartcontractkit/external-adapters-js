@@ -1,15 +1,8 @@
-import {
-  makeLogger,
-  ProviderResult,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { config } from './config'
+import { inputParameters } from './endpoint/live'
 
-export interface PriceRequestParams {
-  base: string
-  quote?: string
-}
-interface ResponseSchema {
+export interface ResponseSchema {
   endpoint: string
   quotes: {
     ask: number
@@ -23,42 +16,11 @@ interface ResponseSchema {
   }[]
   requested_time: string
   timestamp: number
-}
-
-interface ResponseSchema {
-  endpoint: string
-  quotes: {
-    ask: number
-    base_currency: string
-    bid: number
-    mid: number
-    quote_currency: string
-    error?: number
-    instrument?: string
-    message?: string
-  }[]
-  requested_time: string
-  timestamp: number
-}
-
-export type PriceEndpointTypes = {
-  Request: {
-    Params: PriceRequestParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
-}
-
-export type HttpTransportTypes = PriceEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
-  }
 }
 
 const logger = makeLogger('PriceUtils')
 
-export const buildBatchedRequestBody = <T extends PriceRequestParams>(
+export const buildBatchedRequestBody = <T extends typeof inputParameters.validated>(
   params: T[],
   settings: typeof config.settings,
 ) => {
@@ -76,37 +38,40 @@ export const buildBatchedRequestBody = <T extends PriceRequestParams>(
   }
 }
 
-export const constructEntry = <T extends PriceRequestParams>(
+export const constructEntry = <T extends typeof inputParameters.validated>(
   res: ResponseSchema,
   params: T[],
-): ProviderResult<HttpTransportTypes>[] => {
-  return res.quotes
-    .map((entry): ProviderResult<HttpTransportTypes> | undefined => {
-      const pair = params.find(
-        (param) =>
-          `${param.base}${param.quote ?? ''}`.toUpperCase() ===
-            `${entry.base_currency}${entry.quote_currency}`.toUpperCase() ||
-          `${param.base}${param.quote ?? ''}`.toUpperCase() === entry.instrument,
-      )
-
-      if (!pair) {
-        logger.error(
-          `No pair was found for entry (base: ${entry.base_currency}, quote: ${entry.quote_currency})`,
-        )
-        return undefined
-      }
-
-      if (entry.error) {
-        return {
-          params: pair,
-          response: {
-            errorMessage: `No data for base - ${pair.base}, quote - ${pair.quote} `,
-            statusCode: 502,
-          },
-        }
-      }
+) => {
+  return params.map((param) => {
+    const entry = res.quotes.find(
+      (entry) =>
+        `${param.base}${param.quote}`.toUpperCase() ===
+          `${entry.base_currency}${entry.quote_currency}`.toUpperCase() ||
+        `${param.base}${param.quote ?? ''}`.toUpperCase() === entry.instrument,
+    )
+    if (!entry) {
+      const errorMessage = `Tradermade provided no data for ${param.base}/${param.quote}`
+      logger.info(errorMessage)
       return {
-        params: pair,
+        params: param,
+        response: {
+          errorMessage,
+          statusCode: 502,
+        },
+      }
+    } else if (entry.error) {
+      const errorMessage = `Tradermade returned error ${entry.error} for ${param.base}/${param.quote}`
+      logger.info(errorMessage)
+      return {
+        params: param,
+        response: {
+          errorMessage,
+          statusCode: 502,
+        },
+      }
+    } else {
+      return {
+        params: param,
         response: {
           data: {
             result: entry.mid,
@@ -114,6 +79,6 @@ export const constructEntry = <T extends PriceRequestParams>(
           result: entry.mid,
         },
       }
-    })
-    .filter((entry) => entry !== undefined) as ProviderResult<HttpTransportTypes>[]
+    }
+  })
 }

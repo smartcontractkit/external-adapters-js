@@ -1,5 +1,22 @@
 # @chainlink/google-weather-adapter
 
+## 1.3.23
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/google-bigquery-adapter@1.2.31
+
+## 1.3.22
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/google-bigquery-adapter@1.2.30
+
 ## 1.3.21
 
 ### Patch Changes

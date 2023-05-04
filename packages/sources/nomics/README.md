@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Nomics
 
-![1.3.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
 
@@ -381,11 +381,11 @@ Request:
     "resultPath": "price"
   },
   "debug": {
-    "cacheKey": "Q8XOjOIavMitS4H7vXDU0zCQDPI=",
-    "batchCacheKey": "taTMTU5+0h1DBPfqhl8DnkxwNVg=",
+    "cacheKey": "ddvw8QbpkwL0/07MqB7W6GbRqvM=",
+    "batchCacheKey": "hKkUywMJxqGMRItXo/4YOoaLMBg=",
     "batchChildrenCacheKeys": [
       [
-        "Q8XOjOIavMitS4H7vXDU0zCQDPI=",
+        "ddvw8QbpkwL0/07MqB7W6GbRqvM=",
         {
           "id": "1",
           "data": {
@@ -523,7 +523,7 @@ Request:
     "resultPath": "price"
   },
   "debug": {
-    "cacheKey": "Mj9Knk3fJxnNi1zzodWBDZfZ090="
+    "cacheKey": "zpqIgVvEnh4X7tqChwaEz9+AiFM="
   }
 }
 ```

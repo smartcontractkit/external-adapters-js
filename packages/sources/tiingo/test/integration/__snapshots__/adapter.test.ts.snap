@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute commodities should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 77.515,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute crypto-vwap api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.7091192957589304,
   },
   "jobRunID": "1",
@@ -25,8 +25,8 @@ Object {
 `;
 
 exports[`execute cryptoyield endpoint with poolCode should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.025501153223986828,
   },
   "jobRunID": "1",
@@ -37,8 +37,8 @@ Object {
 `;
 
 exports[`execute cryptoyield endpoint without poolCode should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.05041705428139954,
   },
   "jobRunID": "1",
@@ -49,8 +49,8 @@ Object {
 `;
 
 exports[`execute eod api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 48.77,
   },
   "jobRunID": "1",
@@ -61,8 +61,8 @@ Object {
 `;
 
 exports[`execute forex should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1.33605,
   },
   "jobRunID": "1",
@@ -73,8 +73,8 @@ Object {
 `;
 
 exports[`execute iex api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 51.27,
   },
   "jobRunID": "1",
@@ -85,8 +85,8 @@ Object {
 `;
 
 exports[`execute prices api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4462.5193860735335,
   },
   "jobRunID": "1",
@@ -97,8 +97,8 @@ Object {
 `;
 
 exports[`execute realized-vol endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.851625908515737,
   },
   "jobRunID": "1",
@@ -109,8 +109,8 @@ Object {
 `;
 
 exports[`execute top api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4471.9,
   },
   "jobRunID": "1",
@@ -121,8 +121,8 @@ Object {
 `;
 
 exports[`execute volume api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4094298121.291589,
   },
   "jobRunID": "1",

@@ -1,5 +1,28 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 7f4476557: Upgraded adapter from v2 to v3 framework
+
+## 1.10.23
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.10.22
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.10.21
 
 ### Patch Changes

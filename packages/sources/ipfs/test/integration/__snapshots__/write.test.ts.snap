@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute successful calls simple text 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
   },
   "debug": undefined,

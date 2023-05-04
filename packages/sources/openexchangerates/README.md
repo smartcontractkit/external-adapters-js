@@ -1,6 +1,6 @@
 # Chainlink Open Exchange Rates External Adapter
 
-![1.5.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/openexchangerates/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.5.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/openexchangerates/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://openexchangerates.org/api/
 

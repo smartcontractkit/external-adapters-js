@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tiingo
 
-![1.13.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.13.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.tiingo.com
 
@@ -48,7 +48,7 @@ Request:
     "resultPath": "close"
   },
   "debug": {
-    "cacheKey": "0gx6fGrPny0znqEADWu2A26fvgc="
+    "cacheKey": "rn5jUNNxMYEb+GpB2c3j3OHq7GE="
   },
   "rateLimitMaxAge": 7999
 }
@@ -112,7 +112,7 @@ Request:
     "resultPath": "tngoLast"
   },
   "debug": {
-    "cacheKey": "SDvITSsCENORfQYpucTxeu6zK1w="
+    "cacheKey": "pas76xQPJqkVCIB809Lj6oafbX4="
   },
   "rateLimitMaxAge": 15999
 }
@@ -182,7 +182,7 @@ Request:
     "resultPath": "lastPrice"
   },
   "debug": {
-    "cacheKey": "R/+oWEtyjnuPLKZDzvcW8wq2oPk="
+    "cacheKey": "XXzVr1BJSz0yu7fS24TstI7/6y8="
   },
   "rateLimitMaxAge": 31999
 }
@@ -258,7 +258,7 @@ Request:
     "resultPath": "fxClose"
   },
   "debug": {
-    "cacheKey": "ahHlkw91jTnrwUAG+KEXi9Uio5Y="
+    "cacheKey": "qJK9lDyUjzztuvwWneexsIO3sDo="
   },
   "rateLimitMaxAge": 24000
 }
@@ -317,7 +317,7 @@ Request:
     "resultPath": "volumeNotional"
   },
   "debug": {
-    "cacheKey": "uylgVIQKV/L+6zgVaUjEMfzoh40="
+    "cacheKey": "HUzumJmEjTuhR5JNeuOCYiBzWN4="
   },
   "rateLimitMaxAge": 39999
 }
@@ -393,7 +393,7 @@ Request:
     "resultPath": "midPrice"
   },
   "debug": {
-    "cacheKey": "nNGTBPQMuNeDIBcqHmoSuDeMaVw="
+    "cacheKey": "sA1ClRAaejm61wjO60JmffINysg="
   },
   "rateLimitMaxAge": 48000
 }
@@ -439,7 +439,7 @@ Request:
     "resultPath": "midPrice"
   },
   "debug": {
-    "cacheKey": "p1BAwN7XZ74iOPHKeVwq2euuWe8="
+    "cacheKey": "SbQFhb2JjSBLEZu27s5Ce6fC27E="
   },
   "rateLimitMaxAge": 56000
 }
@@ -499,7 +499,7 @@ Request:
     "resultPath": "fxClose"
   },
   "debug": {
-    "cacheKey": "pWgCN8xv36qP+Lu3H/SD71Pup88="
+    "cacheKey": "VFdMo5otm0Ls48QOTjRSxhVDDl8="
   },
   "rateLimitMaxAge": 63999
 }

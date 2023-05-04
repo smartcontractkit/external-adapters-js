@@ -37,6 +37,27 @@ export const DEBT_CACHE_ABI = [
   },
 ]
 
+export const DEBT_MIGRATOR_ABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'debtTransferReceived',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'debtTransferSent',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
 export const SYNTHETIX_DEBT_SHARE_ABI = [
   {
     constant: true,

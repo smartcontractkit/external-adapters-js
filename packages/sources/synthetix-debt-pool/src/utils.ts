@@ -106,6 +106,17 @@ export const getSynthetixBridgeName = (networkName: string, jobRunID: string): s
   })
 }
 
+export const getDebtMigratorName = (networkName: string, jobRunID: string): string => {
+  if (networkName === SupportedChains.ETHEREUM || networkName === SupportedChains.GOERLI)
+    return 'DebtMigratorOnEthereum'
+  if (networkName === SupportedChains.OPTIMISM || networkName === SupportedChains.GOERLI_OPTIMISM)
+    return 'DebtMigratorOnOptimism'
+  throw new AdapterInputError({
+    jobRunID,
+    message: `${networkName} is not a supported network.}`,
+  })
+}
+
 export const getLatestBlockByChain = async (
   jobRunID: string,
   config: Config,

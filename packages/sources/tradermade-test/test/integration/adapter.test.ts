@@ -124,6 +124,7 @@ describe('execute', () => {
         process.env['WS_API_KEY'] = 'fake-api-key'
         process.env['API_KEY'] = 'fake-api-key'
         process.env['WS_API_ENDPOINT'] = wsEndpoint
+        process.env['WS_ENABLED'] = 'true'
         const mockDate = new Date('2022-11-11T11:11:11.111Z')
         spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 

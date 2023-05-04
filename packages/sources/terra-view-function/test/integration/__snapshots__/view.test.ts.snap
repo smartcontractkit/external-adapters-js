@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with address/query should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Object {
+{
+  "data": {
+    "result": {
       "answer": "450925174149",
       "answered_in_round": 102601,
       "round_id": 102601,
@@ -12,7 +12,7 @@ Object {
     },
   },
   "jobRunID": "1",
-  "result": Object {
+  "result": {
     "answer": "450925174149",
     "answered_in_round": 102601,
     "round_id": 102601,

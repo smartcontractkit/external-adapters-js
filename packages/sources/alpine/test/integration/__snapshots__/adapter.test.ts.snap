@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`alpine lastblock can get blockNum 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "50",
   },
   "debug": undefined,
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`alpine tvl can get tvl 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "5000",
   },
   "debug": undefined,

@@ -1,5 +1,26 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- f981f7d54: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
+## 1.8.1
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.8.0
 
 ### Minor Changes

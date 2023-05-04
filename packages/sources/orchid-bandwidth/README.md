@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Orchid bandwidth
 
-![1.2.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/orchid-bandwidth/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/orchid-bandwidth/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://chainlink.orchid.com/0
 

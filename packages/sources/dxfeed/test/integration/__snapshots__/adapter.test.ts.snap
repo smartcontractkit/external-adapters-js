@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`dxfeed price endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 239.255,
   },
   "jobRunID": "1",

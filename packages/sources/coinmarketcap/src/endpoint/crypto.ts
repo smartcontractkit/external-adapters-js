@@ -1,9 +1,6 @@
-import {
-  CryptoPriceEndpoint,
-  PriceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
@@ -11,15 +8,7 @@ import presetIds from '../config/presetids.json'
 
 const logger = makeLogger('CryptoCMCEndpoint')
 
-interface CryptoRequestParams {
-  base: string
-  quote: string
-  cid?: string
-  slug?: string
-  resultPath: 'price' | 'volume_24h' | 'market_cap'
-}
-
-const inputParameters = {
+const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],
     description: 'The symbol of symbols of the currency to query',
@@ -46,9 +35,9 @@ const inputParameters = {
     description: 'The path to the result within the asset quote in the provider response',
     required: false,
     type: 'string',
-    options: ['price', 'volume', 'marketcap'],
+    options: ['price', 'volume_24h', 'market_cap'],
   },
-} satisfies InputParameters & PriceEndpointInputParameters
+})
 
 interface PriceInfo {
   price: number
@@ -94,11 +83,9 @@ interface ProviderResponseBody {
 }
 
 type CryptoEndpointTypes = {
-  Request: {
-    Params: CryptoRequestParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
@@ -116,13 +103,13 @@ const resultPathMap = {
 } as const
 
 const httpTransport = new HttpTransport<CryptoEndpointTypes>({
-  prepareRequests: (params: CryptoRequestParams[], settings) => {
+  prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
     const requests = []
     const groupedParams = {
       id: [],
       slug: [],
       symbol: [],
-    } as Record<string, CryptoRequestParams[]>
+    } as Record<string, (typeof inputParameters.validated)[]>
 
     for (const param of params) {
       if (param.cid) {
@@ -197,15 +184,18 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
         }
       }
 
-      const valueRequested = dataForQuote[p.resultPath]
+      // We always set a value for the resultPath in the request transform
+      const resultPath =
+        p.resultPath as (typeof inputParameters.definition.resultPath.options)[number]
+      const valueRequested = dataForQuote[resultPath]
       if (valueRequested == null) {
         return {
           params: p,
           response: {
             statusCode: 502,
-            errorMessage: `Value for "${
-              p.resultPath
-            }" was not found in the quote request: ${JSON.stringify(p)}`,
+            errorMessage: `Value for "${resultPath}" was not found in the quote request: ${JSON.stringify(
+              p,
+            )}`,
           },
         }
       }
@@ -215,9 +205,9 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
       return {
         params: p,
         response: {
-          result: dataForQuote[p.resultPath],
+          result: dataForQuote[resultPath],
           data: {
-            result: dataForQuote[p.resultPath],
+            result: dataForQuote[resultPath],
           },
         },
       }

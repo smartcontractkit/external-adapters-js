@@ -1,14 +1,17 @@
 import {
   EndpointContext,
   PriceEndpoint,
-  priceEndpointInputParameters,
-  PriceEndpointParams,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export type RequestParams = typeof inputParameters.validated
 
 // Schema of message sent to Two Sigma to start streaming symbols
 export type WebSocketRequest = {
@@ -40,12 +43,10 @@ export type SymbolPriceData = {
 }
 
 export type WebSocketEndpointTypes = {
-  Request: {
-    // i.e. { base, quote }
-    // base is the symbol to query, e.g. AAPL
-    // quote is the currency to convert to, e.g. USD
-    Params: PriceEndpointParams
-  }
+  // i.e. { base, quote }
+  // base is the symbol to query, e.g. AAPL
+  // quote is the currency to convert to, e.g. USD
+  Parameters: typeof inputParameters.definition
   Response: {
     Data: {
       result: number
@@ -69,9 +70,13 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
 
   override async streamHandler(
     context: EndpointContext<WebSocketEndpointTypes>,
-    subscriptions: SubscriptionDeltas<WebSocketEndpointTypes['Request']['Params']>,
+    subscriptions: SubscriptionDeltas<RequestParams>,
   ): Promise<void> {
-    if (this.wsConnection && (subscriptions.new.length || subscriptions.stale.length)) {
+    if (
+      this.wsConnection &&
+      !this.connectionClosed() &&
+      (subscriptions.new.length || subscriptions.stale.length)
+    ) {
       logger.debug(
         `closing WS connection for new subscriptions: ${JSON.stringify(subscriptions.desired)}`,
       )
@@ -89,7 +94,7 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
 
   override async sendMessages(
     _context: EndpointContext<WebSocketEndpointTypes>,
-    subscribes: PriceEndpointParams[],
+    subscribes: RequestParams[],
     unsubscribes: unknown[],
   ): Promise<void> {
     // Send a single message containing the entire set of subscribed symbols rather than
@@ -114,7 +119,7 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
   }
 }
 
-export const parseBaseQuote = (symbol: string): PriceEndpointParams | undefined => {
+export const parseBaseQuote = (symbol: string): RequestParams | undefined => {
   // "AAPL/USD" -> { base: AAPL, quote: USD }
   const splits = symbol.split('/')
   if (splits.length !== 2) {
@@ -124,7 +129,7 @@ export const parseBaseQuote = (symbol: string): PriceEndpointParams | undefined 
   return { base, quote }
 }
 
-export const buildSymbol = ({ base, quote }: PriceEndpointParams): string => {
+export const buildSymbol = ({ base, quote }: RequestParams): string => {
   return `${base}/${quote}`
 }
 
@@ -156,7 +161,7 @@ export const options = {
               result: priceData.price,
             },
             timestamps: {
-              providerIndicatedTimeUnixMs: message.timestamp * 1000,
+              providerIndicatedTimeUnixMs: Math.floor(message.timestamp * 1000),
             },
           },
         })
@@ -176,6 +181,6 @@ export const options = {
 export const endpoint = new PriceEndpoint({
   name: 'price',
   aliases: ['stock'],
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
   transport: new TwoSigmaWebsocketTransport(options),
 })

@@ -1,28 +1,56 @@
-import {
-  Requester,
-  Validator,
-  Overrider,
-  CacheKey,
-  OverrideRecord,
-  AdapterError,
-} from '@chainlink/ea-bootstrap'
-import type {
-  ExecuteWithConfig,
-  Config,
-  AdapterRequest,
-  InputParameters,
-  AxiosResponse,
-  AdapterBatchResponse,
-  AdapterContext,
-} from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
-import { getCoin, getCoinIds } from '../util'
-import internalOverrides from '../config/overrides.json'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config, getApiEndpoint, getApiHeaders } from '../config'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
-export const batchablePropertyPath = [{ name: 'base' }]
+export const inputParameters = new InputParameters({
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of symbols of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  coinid: {
+    description: 'The coin ID (optional to use in place of `base`)',
+    required: false,
+    type: 'string',
+  },
+  resultPath: {
+    description: 'The path to the result within the asset quote in the provider response',
+    required: false,
+    type: 'string',
+    options: ['price', 'volume_24h', 'market_cap'],
+  },
+})
 
-export interface ResponseSchema {
+interface CoinInfo {
+  price: number
+  volume_24h: number
+  volume_24h_change_24h: number
+  market_cap: number
+  market_cap_change_24h: number
+  percent_change_15m: number
+  percent_change_30m: number
+  percent_change_1h: number
+  percent_change_6h: number
+  percent_change_12h: number
+  percent_change_24h: number
+  percent_change_7d: number
+  percent_change_30d: number
+  percent_change_1y: number
+  ath_price: number
+  percent_from_price_ath: number
+}
+
+export interface CryptoResponseSchema {
   id: string
   name: string
   symbol: string
@@ -34,220 +62,140 @@ export interface ResponseSchema {
   first_data_at: string
   last_updated: string
   quotes: {
-    [quote: string]: {
-      price: number
-      volume_24h: number
-      volume_24h_change_24h: number
-      market_cap: number
-      market_cap_change_24h: number
-      percent_change_15m: number
-      percent_change_30m: number
-      percent_change_1h: number
-      percent_change_6h: number
-      percent_change_12h: number
-      percent_change_24h: number
-      percent_change_7d: number
-      percent_change_30d: number
-      percent_change_1y: number
-      ath_price: number
-      ath_date: string
-      percent_from_price_ath: number
-    }
+    [key: string]: CoinInfo
+  }
+  cost?: number
+}
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+  Provider: {
+    RequestBody: never
+    ResponseBody: CryptoResponseSchema[]
   }
 }
 
-export const endpointResultPaths = {
-  crypto: 'price',
-  marketcap: 'market_cap',
+// Maps the input parameter value with the value that will be set in the requestContext.data object
+const resultPathMap = {
   price: 'price',
+  crypto: 'price',
   volume: 'volume_24h',
-}
+  marketcap: 'market_cap',
+} as const
 
-export const description = `The \`marketcap\` endpoint fetches market cap of assets, the \`volume\` endpoint fetches 24-hour volume of assets, and the \`crypto\`/\`price\` endpoint fetches current price of asset pairs (https://api.coinpaprika.com/v1/tickers/\`{COIN}\`).
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, settings) => {
+    // Group requests by quote. The coinpaprika endpoint accepts multiple quotes, but if one of them is invalid
+    // the entire request will fail and we would potentially request more pairs than needed, so it's better to
+    // simply batch the bases only.
+    const paramsByQuote: Record<string, (typeof inputParameters.validated)[]> = {}
+    for (const param of params) {
+      if (!paramsByQuote[param.quote]) {
+        paramsByQuote[param.quote] = []
+      }
 
-**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
-
-export type TInputParameters = {
-  base: string | string[]
-  quote: string
-  coinid?: string | string[]
-}
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    aliases: ['from', 'coin'],
-    description: 'The symbol of the currency to query',
-    required: true,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The symbol of the currency to convert to',
-    required: true,
-  },
-  coinid: {
-    description: 'The coin ID (optional to use in place of `base`)',
-    required: false,
-    type: 'string',
-  },
-}
-
-type RequestedCoins = {
-  [originalSymbol: string]: string
-}
-
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-
-  const base: string[] = Array.isArray(validator.validated.data.base)
-    ? validator.validated.data.base
-    : [validator.validated.data.base]
-
-  let coinid: string | string[] | undefined = validator.validated.data.coinid
-
-  const requestedQuotes = validator.validated.data.quote
-  const resultPath = (validator.validated.data.resultPath as string) || endpointResultPaths.crypto
-
-  const quotes = Array.isArray(requestedQuotes)
-    ? requestedQuotes.map((quote) => quote.toUpperCase()).join(',')
-    : requestedQuotes.toUpperCase()
-
-  const options = {
-    ...config.api,
-    url: 'v1/tickers',
-    params: { quotes },
-  }
-  const response = await Requester.request<ResponseSchema[]>(options)
-
-  if (Array.isArray(validator.validated.data.base) || Array.isArray(coinid)) {
-    if (!coinid) {
-      const requestedCoins = await getConvertedCoins(
-        jobRunID,
-        base,
-        request.data.overrides || {},
-        context,
-      )
-      return handleBatchedRequest(jobRunID, request, response, requestedCoins, resultPath)
-    }
-    coinid = Array.isArray(coinid) ? coinid : [coinid]
-    return handleBatchedRequest(jobRunID, request, response, coinid, resultPath)
-  }
-
-  let coin: string
-  if (coinid) {
-    coin = coinid
-  } else {
-    const requestedCoin = await getConvertedCoins(
-      jobRunID,
-      base,
-      request.data.overrides ?? {},
-      context,
-    )
-    coin = Object.values(requestedCoin)[0]
-  }
-
-  const coinData = getCoin(response.data, undefined, coin)
-  if (!coinData) {
-    throw new AdapterError({
-      message: `Unable to find coin: ${coin} in DP response. This could be an issue with input params or the DP`,
-    })
-  }
-
-  const result = Requester.validateResultNumber(coinData, [
-    'quotes',
-    requestedQuotes.toUpperCase(),
-    resultPath,
-  ])
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result),
-    config.verbose,
-    batchablePropertyPath,
-  )
-}
-
-const getConvertedCoins = async (
-  jobRunID: string,
-  base: string | string[],
-  inputOverrides: OverrideRecord,
-  context: AdapterContext,
-): Promise<RequestedCoins> => {
-  const overrider = new Overrider(internalOverrides, inputOverrides, AdapterName, jobRunID)
-  const [overriddenCoins, remainingSyms] = overrider.performOverrides(base)
-  let requestedCoins = overriddenCoins
-  if (remainingSyms.length > 0) {
-    const coinsResponse = await getCoinIds(context, jobRunID)
-    requestedCoins = Overrider.convertRemainingSymbolsToIds(
-      overriddenCoins,
-      remainingSyms,
-      coinsResponse,
-    )
-  }
-  return requestedCoins
-}
-
-const handleBatchedRequest = (
-  jobRunID: string,
-  request: AdapterRequest,
-  response: AxiosResponse,
-  requestedCoins: RequestedCoins | RequestedCoinIds,
-  resultPath: string,
-) => {
-  const responseData = response.data as ResponseSchema[]
-  const payload: AdapterBatchResponse = []
-
-  let requestedIds: RequestedCoinIds = []
-  let idsToSymbols: OverrideToOriginalSymbol = {}
-  if (isRequestedCoinIds(requestedCoins)) {
-    requestedIds = requestedCoins
-  } else {
-    idsToSymbols = Overrider.invertRequestedCoinsObject(requestedCoins)
-    requestedIds = Object.values(requestedCoins)
-  }
-
-  requestedIds.forEach((coinid) => {
-    const coin = getCoin(responseData, undefined, coinid)
-    if (!coin) {
-      throw new AdapterError({
-        message: `Unable to find coinid: ${coinid} in DP response. This could be an issue with input params or the DP`,
-      })
+      paramsByQuote[param.quote].push(param)
     }
 
-    for (const quote in coin.quotes) {
-      const adapterRequest = {
-        ...request,
-        data: {
-          ...(request.data as TInputParameters),
-          quote: quote.toUpperCase(),
+    // The tickers endpoint will return _every_ possible base for the asked quotes, no need to specify them anywhere
+    return Object.entries(paramsByQuote).map(([quote, params]) => ({
+      params,
+      request: {
+        baseURL: getApiEndpoint(settings),
+        url: 'v1/tickers',
+        method: 'GET',
+        headers: getApiHeaders(settings),
+        params: {
+          quotes: quote,
+        },
+      },
+    }))
+  },
+  parseResponse: (params, res) => {
+    // Build a map for faster lookups. Because requests to the EA can either have a symbol or the ID, we have to build both.
+    // Ideally this inefficiency is fixed in the future by always requiring the ID in the input parameters.
+    const resultsBySymbol: Record<string, CryptoResponseSchema> = {}
+    const resultsById: Record<string, CryptoResponseSchema> = {}
+    for (const result of res.data) {
+      resultsById[result.id] = result
+      resultsBySymbol[result.symbol] = result
+    }
+
+    // Now we can build responses using the maps
+    return params.map((p) => {
+      // If we have an id specified in the request, we use that to find the information
+      // If not, we check if the base was overriden to an id, and finally we check if the base is a symbol
+      const data = p.coinid ? resultsById[p.coinid] : resultsById[p.base] || resultsBySymbol[p.base]
+      if (!data) {
+        return {
+          params: p,
+          response: {
+            statusCode: 502,
+            errorMessage: `Data for ${p.coinid ? 'id' : 'symbol'} "${
+              p.coinid || p.base
+            }" was not found in provider response for request: ${JSON.stringify(p)}`,
+          },
+        }
+      }
+
+      const dataForQuote = data.quotes[p.quote]
+      if (!dataForQuote) {
+        return {
+          params: p,
+          response: {
+            statusCode: 502,
+            errorMessage: `Data for quote "${
+              p.quote
+            }" was not found in provider response for request: ${JSON.stringify(p)}`,
+          },
+        }
+      }
+
+      // We always set a value for the resultPath in the request transform
+      const resultPath =
+        p.resultPath as (typeof inputParameters.definition.resultPath.options)[number]
+      const valueRequested = dataForQuote[resultPath]
+      if (valueRequested == null) {
+        return {
+          params: p,
+          response: {
+            statusCode: 502,
+            errorMessage: `Value for "${
+              p.resultPath
+            }" was not found in the quote request: ${JSON.stringify(p)}`,
+          },
+        }
+      }
+
+      return {
+        params: p,
+        response: {
+          result: valueRequested,
+          data: {
+            result: valueRequested,
+          },
         },
       }
-      if (isRequestedCoinIds(requestedCoins)) {
-        adapterRequest.data.base = coinid
-      } else {
-        adapterRequest.data.base = idsToSymbols[coinid].toUpperCase()
+    })
+  },
+})
+
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
+  name: 'crypto',
+  aliases: ['price', 'marketcap', 'volume'],
+  requestTransforms: [
+    (request) => {
+      if (!request.requestContext.data.resultPath) {
+        const endpoint =
+          (request.body.data as { endpoint: keyof typeof resultPathMap }).endpoint ||
+          request.requestContext.endpointName
+        request.requestContext.data.resultPath = resultPathMap[endpoint]
       }
-      payload.push([
-        CacheKey.getCacheKey(adapterRequest, Object.keys(inputParameters)),
-        adapterRequest,
-        Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
-      ])
-    }
-  })
-
-  // We'll reset the response data to not output the entire CP coins list
-  const result = Requester.withResult({ ...response, data: {} }, undefined, payload)
-  return Requester.success(jobRunID, result, true, batchablePropertyPath)
-}
-
-type OverrideToOriginalSymbol = {
-  [id: string]: string
-}
-
-type RequestedCoinIds = string[]
-
-const isRequestedCoinIds = (requestedCoinIds: unknown): requestedCoinIds is RequestedCoinIds => {
-  return (
-    Array.isArray(requestedCoinIds) &&
-    (requestedCoinIds.length === 0 || typeof requestedCoinIds[0] === 'string')
-  )
-}
+    },
+  ],
+  transport: httpTransport,
+  inputParameters: inputParameters,
+  overrides: overrides.coinpaprika,
+})

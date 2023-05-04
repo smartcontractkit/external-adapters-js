@@ -1,5 +1,38 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.2.90
+
+### Patch Changes
+
+- @chainlink/ea@1.3.89
+
+## 1.2.89
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea@1.3.88
+  - @chainlink/ea-reference-data-reader@1.3.30
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.2.88
+
+### Patch Changes
+
+- @chainlink/ea@1.3.87
+
+## 1.2.87
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea@1.3.86
+  - @chainlink/ea-reference-data-reader@1.3.29
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.2.86
 
 ### Patch Changes

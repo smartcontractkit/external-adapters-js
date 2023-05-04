@@ -1,5 +1,30 @@
 # @chainlink/iex-cloud-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
+## 2.0.1
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 2.0.0
+
+### Major Changes
+
+- 03910e868: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 1.2.29
 
 ### Patch Changes

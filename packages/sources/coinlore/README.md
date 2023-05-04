@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coin Lore
 
-![1.3.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinlore/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinlore/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.coinlore.net/api
 
@@ -43,7 +43,7 @@ Request:
     "resultPath": "d"
   },
   "debug": {
-    "cacheKey": "AO8m6F2XcBRVlyUtdLRQMQXQlEI="
+    "cacheKey": "KdycAJUs4f8V6fiG3lVmsYeSSjI="
   }
 }
 ```

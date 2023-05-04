@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute successful calls custom cid 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "some simple text",
   },
   "debug": undefined,
@@ -14,9 +14,9 @@ Object {
 `;
 
 exports[`execute successful calls custom cid with codec 1`] = `
-Object {
-  "data": Object {
-    "result": Object {
+{
+  "data": {
+    "result": {
       "id": 123,
       "name": "my object",
     },
@@ -24,7 +24,7 @@ Object {
   "debug": undefined,
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "id": 123,
     "name": "my object",
   },
@@ -33,14 +33,14 @@ Object {
 `;
 
 exports[`execute successful calls custom cid with codec and link 1`] = `
-Object {
-  "data": Object {
-    "result": Object {
+{
+  "data": {
+    "result": {
       "id": 123,
-      "link": Object {
+      "link": {
         "codec": "dag-pb",
-        "hash": Object {
-          "data": Array [
+        "hash": {
+          "data": [
             18,
             32,
             133,
@@ -86,12 +86,12 @@ Object {
   "debug": undefined,
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": Object {
+  "result": {
     "id": 123,
-    "link": Object {
+    "link": {
       "codec": "dag-pb",
-      "hash": Object {
-        "data": Array [
+      "hash": {
+        "data": [
           18,
           32,
           133,
@@ -138,8 +138,8 @@ Object {
 `;
 
 exports[`execute successful calls id not supplied 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "Hello, <YOUR NAME HERE>",
   },
   "debug": undefined,
@@ -151,8 +151,8 @@ Object {
 `;
 
 exports[`execute successful calls simple cid 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": "Hello, <YOUR NAME HERE>",
   },
   "debug": undefined,

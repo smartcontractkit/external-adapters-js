@@ -1,15 +1,15 @@
 # TWOSIGMA
 
-![1.1.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twosigma/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twosigma/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |                Description                |  Type  | Options | Default |
-| :-------: | :-------------: | :---------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | WS_API_ENDPOINT |           The WebSocket API URL           | string |         |         |
-|    ✅     |   WS_API_KEY    | The API key used to authenticate requests | string |         |         |
+| Required? |      Name       |                                                     Description                                                      |  Type  | Options |                  Default                  |
+| :-------: | :-------------: | :------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------------: |
+|    ✅     | WS_API_ENDPOINT | The WebSocket API URL. Either "wss://chainlinkcloud1.twosigma.com:8765" or "wss://chainlinkcloud1.twosigma.com:8766" | string |         | `wss://chainlinkcloud1.twosigma.com:8765` |
+|    ✅     |   WS_API_KEY    |                                      The API key used to authenticate requests                                       | string |         |                                           |
 
 ---
 

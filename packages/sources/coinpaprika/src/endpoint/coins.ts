@@ -1,30 +1,56 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import { config, getApiEndpoint, getApiHeaders } from '../config'
 
-export const supportedEndpoints = ['coins']
-
-export type TInputParameters = Record<string, never>
-export const inputParameters: InputParameters<TInputParameters> = {}
-
-export interface CoinsResponse {
+interface CoinsResponse {
   id: string
-  name: string
   symbol: string
+  name: string
   rank: number
-  is_new: boolean
-  is_active: boolean
-  type: string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-  const url = '/v1/coins'
-  const options = {
-    ...config.api,
-    url,
+type EndpointTypes = {
+  Settings: typeof config.settings
+  Parameters: EmptyInputParameters
+  Response: {
+    Data: CoinsResponse[]
+    Result: null
   }
-  const response = await Requester.request<CoinsResponse[]>(options)
-  return Requester.success(jobRunID, response, true)
+  Provider: {
+    RequestBody: never
+    ResponseBody: CoinsResponse[]
+  }
 }
+
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
+    const baseURL = getApiEndpoint(config)
+    return {
+      params,
+      request: {
+        baseURL,
+        url: '/v1/coins',
+        method: 'GET',
+        headers: getApiHeaders(config),
+      },
+    }
+  },
+  parseResponse: (params, res) => {
+    return [
+      {
+        params,
+        response: {
+          data: res.data,
+          statusCode: 200,
+          result: null,
+        },
+      },
+    ]
+  },
+})
+
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'coins',
+  transport: httpTransport,
+})

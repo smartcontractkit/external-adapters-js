@@ -2,9 +2,7 @@ import {
   WebSocketTransport,
   WebsocketTransportGenerics,
 } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../config'
-import { RequestParams } from './price-router'
+import { EndpointTypes } from './price-router'
 import { IntrinioRealtime } from './util'
 
 export type IntrinioFeedMessage = {
@@ -19,14 +17,9 @@ export type IntrinioFeedMessage = {
   event: string
 }
 
-export type EndpointTypes = {
-  Request: {
-    Params: RequestParams
-  }
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+export type WsEndpointTypes = EndpointTypes & {
   Provider: {
-    WsMessage: IntrinioFeedMessage[]
+    WsMessage: IntrinioFeedMessage
   }
 }
 
@@ -36,8 +29,8 @@ export class IntrinioWebsocketTransport<
   ws: IntrinioRealtime = null as unknown as IntrinioRealtime
 }
 
-export const wsTransport: IntrinioWebsocketTransport<EndpointTypes> =
-  new IntrinioWebsocketTransport<EndpointTypes>({
+export const wsTransport: IntrinioWebsocketTransport<WsEndpointTypes> =
+  new IntrinioWebsocketTransport<WsEndpointTypes>({
     url: (context) => {
       const { API_KEY } = context.adapterSettings
       if (!wsTransport.ws) {
@@ -54,24 +47,27 @@ export const wsTransport: IntrinioWebsocketTransport<EndpointTypes> =
         connection.send(heartbeatMsg)
       },
       message(message) {
-        return message
-          .filter((msg) => msg.event === 'quote' && msg.payload?.type === 'last')
-          .map((msg) => {
-            const base = msg.payload.ticker
-            const price = msg.payload.price
-            return {
-              params: { base },
-              response: {
+        if (message.event !== 'quote' || !message.payload || message.payload?.type !== 'last') {
+          return []
+        }
+
+        const base = message.payload.ticker
+        const price = message.payload.price
+
+        return [
+          {
+            params: { base },
+            response: {
+              result: price,
+              data: {
                 result: price,
-                data: {
-                  result: price,
-                },
-                timestamps: {
-                  providerIndicatedTimeUnixMs: new Date(msg.payload.timestamp).getTime(),
-                },
               },
-            }
-          })
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(message.payload.timestamp * 1000).getTime(), // Convert to proper timestamp
+              },
+            },
+          },
+        ]
       },
     },
     builders: {

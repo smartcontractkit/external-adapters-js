@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute result is an alias for addresses should return success 1`] = `
-Object {
-  "data": Object {
-    "balances": Array [
-      Object {
+{
+  "data": {
+    "balances": [
+      {
         "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
         "result": "33426744125000000000000",
       },
-      Object {
+      {
         "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
         "result": "850000000000000000",
       },
@@ -23,14 +23,14 @@ Object {
 `;
 
 exports[`execute with multiple addresses should return success 1`] = `
-Object {
-  "data": Object {
-    "balances": Array [
-      Object {
+{
+  "data": {
+    "balances": [
+      {
         "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
         "result": "33426744125000000000000",
       },
-      Object {
+      {
         "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
         "result": "850000000000000000",
       },
@@ -45,10 +45,10 @@ Object {
 `;
 
 exports[`execute with one address should return success 1`] = `
-Object {
-  "data": Object {
-    "balances": Array [
-      Object {
+{
+  "data": {
+    "balances": [
+      {
         "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
         "result": "33426744125000000000000",
       },

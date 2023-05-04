@@ -4,11 +4,12 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
   AdapterResponse,
-  makeLogger,
   SingleNumberResultResponse,
+  makeLogger,
   sleep,
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import CryptoJS from 'crypto-js'
 import { config } from '../../config'
 import { Collateral } from './utils'
@@ -16,9 +17,7 @@ import { Collateral } from './utils'
 const logger = makeLogger('AlongsideLogger')
 
 export type EndpointTypes = {
-  Request: {
-    Params: unknown
-  }
+  Parameters: EmptyInputParameters
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -60,10 +59,7 @@ const sign = (str: string, secret: string) => {
 }
 
 export class AlongsideCollateralTransport extends SubscriptionTransport<EndpointTypes> {
-  responseCache!: ResponseCache<{
-    Request: EndpointTypes['Request']
-    Response: EndpointTypes['Response']
-  }>
+  responseCache!: ResponseCache<EndpointTypes>
   requester!: Requester
   name!: string
 
@@ -193,5 +189,4 @@ export class AlongsideCollateralTransport extends SubscriptionTransport<Endpoint
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'collateral',
   transport: new AlongsideCollateralTransport(),
-  inputParameters: {},
 })

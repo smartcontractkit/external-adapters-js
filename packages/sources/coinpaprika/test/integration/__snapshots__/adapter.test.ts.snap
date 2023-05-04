@@ -1,294 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute crypto api free should apply overrides 1`] = `
-Object {
-  "data": Object {
-    "results": Array [
-      Array [
-        "r6ZXhd+zEdyag6axryIefPg9QnI=",
-        Object {
-          "data": Object {
-            "base": "BTC",
-            "endpoint": "crypto",
-            "overrides": Object {
-              "coinpaprika": Object {
-                "BTC": "btc-bitcoin",
-              },
-            },
-            "quote": "USD",
-            "resultPath": "price",
-          },
-          "debug": Object {
-            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
-                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
-                Object {
-                  "data": Object {
-                    "base": "ETH",
-                    "endpoint": "crypto",
-                    "overrides": Object {
-                      "coinpaprika": Object {
-                        "BTC": "btc-bitcoin",
-                      },
-                    },
-                    "quote": "USD",
-                    "resultPath": "price",
-                  },
-                  "id": "1",
-                },
-              ],
-            ],
-            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
-          },
-          "id": "1",
-        },
-        40000.2425813062,
-      ],
-      Array [
-        "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
-        Object {
-          "data": Object {
-            "base": "ETH",
-            "endpoint": "crypto",
-            "overrides": Object {
-              "coinpaprika": Object {
-                "BTC": "btc-bitcoin",
-              },
-            },
-            "quote": "USD",
-            "resultPath": "price",
-          },
-          "debug": Object {
-            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
-                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
-                Object {
-                  "data": Object {
-                    "base": "ETH",
-                    "endpoint": "crypto",
-                    "overrides": Object {
-                      "coinpaprika": Object {
-                        "BTC": "btc-bitcoin",
-                      },
-                    },
-                    "quote": "USD",
-                    "resultPath": "price",
-                  },
-                  "id": "1",
-                },
-              ],
-            ],
-            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
-          },
-          "id": "1",
-        },
-        3949.2425813062,
-      ],
-    ],
+exports[`execute crypto batch endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 4949.2425813062,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
+  "result": 4949.2425813062,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute crypto api free should return success for multiple symbols 1`] = `
-Object {
-  "data": Object {
-    "results": Array [
-      Array [
-        "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
-        Object {
-          "data": Object {
-            "base": "ETH",
-            "endpoint": "crypto",
-            "quote": "USD",
-            "resultPath": "price",
-          },
-          "debug": Object {
-            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
-                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
-                Object {
-                  "data": Object {
-                    "base": "ETH",
-                    "endpoint": "crypto",
-                    "quote": "USD",
-                    "resultPath": "price",
-                  },
-                  "id": "1",
-                },
-              ],
-            ],
-            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
-          },
-          "id": "1",
-        },
-        3949.2425813062,
-      ],
-      Array [
-        "r6ZXhd+zEdyag6axryIefPg9QnI=",
-        Object {
-          "data": Object {
-            "base": "BTC",
-            "endpoint": "crypto",
-            "quote": "USD",
-            "resultPath": "price",
-          },
-          "debug": Object {
-            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
-                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
-                Object {
-                  "data": Object {
-                    "base": "ETH",
-                    "endpoint": "crypto",
-                    "quote": "USD",
-                    "resultPath": "price",
-                  },
-                  "id": "1",
-                },
-              ],
-            ],
-            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
-          },
-          "id": "1",
-        },
-        0.11,
-      ],
-    ],
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute crypto api free should return success for single coinid 1`] = `
-Object {
-  "data": Object {
-    "result": 3949.2425813062,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 3949.2425813062,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute crypto api free should return success for single symbol 1`] = `
-Object {
-  "data": Object {
-    "result": 3949.2425813062,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 3949.2425813062,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute crypto-single api Successful request with override Should be successful 1`] = `3949.2425813062`;
-
-exports[`execute crypto-single api Successful request with warning about duplicate ticker symbol Should be successful 1`] = `0.11`;
-
-exports[`execute crypto-single api Successful request without override Should be successful 1`] = `3949.2425813062`;
-
-exports[`execute dominance api should return success 1`] = `
-Object {
-  "data": Object {
-    "result": 44.68,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 44.68,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute globalmarketcap api should return success 1`] = `
-Object {
-  "data": Object {
-    "result": 2559344984924,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 2559344984924,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute marketcap api should return success 1`] = `
-Object {
-  "data": Object {
+exports[`execute crypto marketcap endpoint should return success 1`] = `
+{
+  "data": {
     "result": 466143026900,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 466143026900,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute volume api should return success 1`] = `
-Object {
-  "data": Object {
+exports[`execute crypto volume endpoint should return success 1`] = `
+{
+  "data": {
     "result": 24136641726.138,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 24136641726.138,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute vwap api should return success 1`] = `
-Object {
-  "data": Object {
+exports[`execute dominance endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 44.68,
+  },
+  "result": 44.68,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute globalmarketcap endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 2559344984924,
+  },
+  "result": 2559344984924,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute vwap endpoint should return success 1`] = `
+{
+  "data": {
     "result": 4000,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4000,
   "statusCode": 200,
-}
-`;
-
-exports[`execute vwap api should return success with override 1`] = `
-Object {
-  "data": Object {
-    "result": 0.949723,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 0.949723,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute with api key crypto api pro should return success 1`] = `
-Object {
-  "error": Object {
-    "feedID": "ETH/USD",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://api-pro.coinpaprika.com/v1/coins\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json, text/plain, */*\\",
-    \\"authorization\\": \\"fake-api-key\\",
-    \\"user-agent\\": \\"axios/0.24.0\\"
-  }
-}",
-    "name": "AdapterError",
-    "url": "https:/api-pro.coinpaprika.com/v1/coins",
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 0,
-  "status": "errored",
-  "statusCode": 200,
 }
 `;

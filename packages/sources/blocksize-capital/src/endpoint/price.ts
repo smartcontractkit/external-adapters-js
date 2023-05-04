@@ -1,28 +1,134 @@
-import { AdapterConfigError } from '@chainlink/ea-bootstrap'
-import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  CryptoPriceEndpoint,
+  EndpointContext,
+  priceEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import {
+  ProviderResult,
+  SingleNumberResultResponse,
+  makeLogger,
+} from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
 
-export const supportedEndpoints = ['price']
-
-export const description =
-  'The price endpoint is used to fetch a price for a base/quote asset pair. This adapter currently only supports WS connection to the API on this endpoint.'
-
-export type TInputParameters = { base: string; quote: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    aliases: ['from', 'coin'],
-    description: 'The currency ticker to query',
-    required: true,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The currency ticker to convert to',
-    required: true,
-  },
+const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
+interface BaseMessage {
+  jsonrpc: string
+  id?: string | number | null
 }
 
-export const execute: ExecuteWithConfig<Config> = async () => {
-  throw new AdapterConfigError({
-    message:
-      'The Blocksize Capital Adapter does not support HTTP requests. Ensure WS_ENABLED is "true" in the adapter configuration.',
+export interface Message extends BaseMessage {
+  method: 'vwap'
+  params: {
+    updates: {
+      ticker: string
+      price?: number
+      size?: number
+      volume?: number
+      ts: number
+    }[]
+  }
+}
+
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+  Provider: {
+    WsMessage: Message
+  }
+}
+
+export const websocketTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
+  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+    url: ({ adapterSettings: { WS_API_ENDPOINT } }) => {
+      return WS_API_ENDPOINT
+    },
+    handlers: {
+      open: (connection: WebSocket, context: EndpointContext<EndpointTypes>) => {
+        return new Promise((resolve, reject) => {
+          connection.addEventListener('message', (event: MessageEvent<any>) => {
+            const parsed = JSON.parse(event.data.toString())
+            if (parsed.result?.user_id) {
+              logger.debug('Got logged in response, connection is ready')
+              resolve()
+            } else {
+              reject(new Error('Failed to make WS connection'))
+            }
+          })
+          const options = {
+            jsonrpc: '2.0',
+            method: 'authentication_logon',
+            params: { api_key: context.adapterSettings.API_KEY },
+          }
+          connection.send(JSON.stringify(options))
+        })
+      },
+      message: (message) => {
+        if (message.method !== 'vwap') return []
+        const updates = message.params.updates
+        const results: ProviderResult<EndpointTypes>[] = []
+        for (const update of updates) {
+          const params = websocketTransport.getReverseMapping(update.ticker)
+          if (!params) {
+            continue
+          }
+          if (!update.price) {
+            const errorMessage = `The data provider didn't return any value for ${params.base}/${params.quote}`
+            logger.info(errorMessage)
+            results.push({
+              params,
+              response: {
+                statusCode: 502,
+                errorMessage,
+              },
+            })
+          } else {
+            results.push({
+              params,
+              response: {
+                result: update.price,
+                data: {
+                  result: update.price,
+                },
+                timestamps: {
+                  providerIndicatedTimeUnixMs: update.ts,
+                },
+              },
+            })
+          }
+        }
+        return results
+      },
+    },
+    builders: {
+      subscribeMessage: (params) => {
+        const pair = `${params.base}${params.quote}`.toUpperCase()
+        websocketTransport.setReverseMapping(pair, params)
+        return {
+          jsonrpc: '2.0',
+          method: 'vwap_subscribe',
+          params: { tickers: [pair] },
+        }
+      },
+
+      unsubscribeMessage: (params) => {
+        const pair = `${params.base}${params.quote}`.toUpperCase()
+        return {
+          jsonrpc: '2.0',
+          method: 'vwap_unsubscribe',
+          params: { tickers: [pair] },
+        }
+      },
+    },
   })
-}
+
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
+  name: 'price',
+  aliases: ['crypto'],
+  transport: websocketTransport,
+  inputParameters,
+})

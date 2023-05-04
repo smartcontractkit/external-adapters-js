@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes } from '../forex-router'
+import { PriceEndpointTypes } from '../types'
 
 interface ResponseSchema {
   symbol: string
@@ -8,7 +8,7 @@ interface ResponseSchema {
   timestamp: number
 }
 
-type HttpTransportTypes = EndpointTypes & {
+type HttpTransportTypes = PriceEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema

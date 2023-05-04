@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute convert api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1785.0181286441143,
   },
   "jobRunID": "1",
@@ -13,30 +13,30 @@ Object {
 `;
 
 exports[`execute latest api returns success with batched quote symbols 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "base": "BTC",
     "date": "2022-01-12",
-    "rates": Object {
+    "rates": {
       "USD": 42968.36778447169,
       "XAU": 0.04228229144046888,
     },
-    "results": Array [
-      Array [
+    "results": [
+      [
         "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "BTC",
             "endpoint": "latest",
             "quote": "USD",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "BTC",
                     "endpoint": "latest",
                     "quote": "USD",
@@ -52,21 +52,21 @@ Object {
         },
         42968.36778447169,
       ],
-      Array [
+      [
         "jn7Ay27+0XZwS3+kIquAQibbEtg=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "BTC",
             "endpoint": "latest",
             "quote": "XAU",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "BTC",
                     "endpoint": "latest",
                     "quote": "USD",
@@ -94,8 +94,8 @@ Object {
 `;
 
 exports[`execute latest api returns success with single base/quote pair 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 1817.0552439305814,
   },
   "jobRunID": "1",
@@ -106,8 +106,8 @@ Object {
 `;
 
 exports[`execute latest api should error with batched base symbols 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "feedID": "[BTC|XAU]/USD",
     "message": "base parameter must be of type string",
     "name": "AdapterError",

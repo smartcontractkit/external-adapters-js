@@ -1,5 +1,22 @@
 # @chainlink/example-composite-adapter
 
+## 1.3.20
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/example-source-adapter@0.2.31
+
+## 1.3.19
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/example-source-adapter@0.2.30
+
 ## 1.3.18
 
 ### Patch Changes

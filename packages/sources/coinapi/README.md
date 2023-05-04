@@ -1,6 +1,6 @@
 # Chainlink CoinApi External Adapter
 
-![1.3.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://rest.coinapi.io/v1/
 
@@ -123,11 +123,11 @@ Request:
     "resultPath": "price_usd"
   },
   "debug": {
-    "cacheKey": "6hRLa7hFnxY6tCCa+2JjnKoexZ0=",
-    "batchCacheKey": "Nfk2A141x5CRat4rTzPErvOAh1A=",
+    "cacheKey": "Ur/htdfKFQCEg9u3OP04uh/3KH4=",
+    "batchCacheKey": "bw8uI6H3Mcl4otBbQjQdDzp3KUA=",
     "batchChildrenCacheKeys": [
       [
-        "6hRLa7hFnxY6tCCa+2JjnKoexZ0=",
+        "Ur/htdfKFQCEg9u3OP04uh/3KH4=",
         {
           "id": "1",
           "data": {

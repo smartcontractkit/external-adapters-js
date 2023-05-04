@@ -1,5 +1,34 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.12
+
+### Patch Changes
+
+- 41f253afb: Fixed millisecondsAgo input param type
+
+## 1.1.11
+
+### Patch Changes
+
+- 6cdb337f2: Updated rate limit tier name
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
+## 1.1.10
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 1.1.9
+
+### Patch Changes
+
+- 29dd7b460: Set default override for MAX_HTTP_REQUEST_QUEUE_LENGTH to 300
+- 31af84e69: Bumped framework version
+
 ## 1.1.8
 
 ### Patch Changes

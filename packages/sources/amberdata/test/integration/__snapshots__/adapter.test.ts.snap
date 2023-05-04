@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`amberdata when making a request to balance endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
+{
+  "data": {
+    "result": [
+      {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "balance": "0",
         "chain": "mainnet",
         "coin": "btc",
       },
-      Object {
+      {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
         "balance": "2188",
         "chain": "mainnet",
@@ -19,14 +19,14 @@ Object {
     ],
   },
   "jobRunID": "1",
-  "result": Array [
-    Object {
+  "result": [
+    {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
       "balance": "0",
       "chain": "mainnet",
       "coin": "btc",
     },
-    Object {
+    {
       "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
       "balance": "2188",
       "chain": "mainnet",
@@ -38,8 +38,8 @@ Object {
 `;
 
 exports[`amberdata when making a request to crypto endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.06567038,
   },
   "jobRunID": "1",
@@ -50,8 +50,8 @@ Object {
 `;
 
 exports[`amberdata when making a request to crypto endpoint with an override from config/overrides.json should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.0000586300395535625,
   },
   "jobRunID": "1",
@@ -62,8 +62,8 @@ Object {
 `;
 
 exports[`amberdata when making a request to marketcap endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 391118025366,
   },
   "jobRunID": "1",
@@ -74,8 +74,8 @@ Object {
 `;
 
 exports[`amberdata when making a request to volume endpoint should reply with success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 13804511.82541564,
   },
   "jobRunID": "1",

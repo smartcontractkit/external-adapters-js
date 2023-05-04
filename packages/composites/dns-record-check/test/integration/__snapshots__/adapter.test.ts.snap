@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`dns record check record check endpoint should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": true,
   },
   "jobRunID": "1",

@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute forex rate api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 4483.820268,
   },
   "jobRunID": "1",
@@ -13,24 +13,24 @@ Object {
 `;
 
 exports[`execute forex rate api with batched inverse pairs should return success 1`] = `
-Object {
-  "data": Object {
-    "payload": Array [
-      Array [
+{
+  "data": {
+    "payload": [
+      [
         "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "IDR",
             "endpoint": "forex",
             "quote": "USD",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "IDR",
                     "endpoint": "forex",
                     "quote": "USD",
@@ -45,21 +45,21 @@ Object {
         },
         4.273504273504273,
       ],
-      Array [
+      [
         "ZVw0N5MuKAj6k0mm+/DY3WcxiEM=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "IDR",
             "endpoint": "forex",
             "quote": "ETH",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "IDR",
                     "endpoint": "forex",
                     "quote": "USD",
@@ -75,22 +75,22 @@ Object {
         123,
       ],
     ],
-    "results": Array [
-      Array [
+    "results": [
+      [
         "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "IDR",
             "endpoint": "forex",
             "quote": "USD",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "IDR",
                     "endpoint": "forex",
                     "quote": "USD",
@@ -105,21 +105,21 @@ Object {
         },
         4.273504273504273,
       ],
-      Array [
+      [
         "ZVw0N5MuKAj6k0mm+/DY3WcxiEM=",
-        Object {
-          "data": Object {
+        {
+          "data": {
             "base": "IDR",
             "endpoint": "forex",
             "quote": "ETH",
           },
-          "debug": Object {
+          "debug": {
             "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
-            "batchChildrenCacheKeys": Array [
-              Array [
+            "batchChildrenCacheKeys": [
+              [
                 "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
-                Object {
-                  "data": Object {
+                {
+                  "data": {
                     "base": "IDR",
                     "endpoint": "forex",
                     "quote": "USD",
@@ -142,8 +142,8 @@ Object {
 `;
 
 exports[`execute forex rate api with invalid base should return failure 1`] = `
-Object {
-  "error": Object {
+{
+  "error": {
     "errorResponse": true,
     "feedID": "NON-EXISTING/USD",
     "message": "Request failed with status code 400",

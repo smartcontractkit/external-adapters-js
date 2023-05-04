@@ -1,5 +1,26 @@
 # @chainlink/alongside-adapter
 
+## 1.3.8
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
+## 1.3.7
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 1.3.6
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 1.3.5
 
 ### Patch Changes

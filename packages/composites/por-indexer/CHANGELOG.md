@@ -1,5 +1,35 @@
 # @chainlink/por-indexer-adapter
 
+## 1.2.51
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+  - @chainlink/proof-of-reserves-adapter@1.17.3
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.2.50
+
+### Patch Changes
+
+- Updated dependencies [9bcb13c90]
+  - @chainlink/proof-of-reserves-adapter@1.17.2
+
+## 1.2.49
+
+### Patch Changes
+
+- Updated dependencies [31af84e69]
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/proof-of-reserves-adapter@1.17.1
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 1.2.48
 
 ### Patch Changes

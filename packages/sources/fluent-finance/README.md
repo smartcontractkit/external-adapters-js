@@ -1,6 +1,6 @@
 # Fluent Finance Adapter
 
-![2.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Fluent Finance Adapter for retrieving bank balances
 
@@ -44,7 +44,7 @@ Request:
     "resultPath": "availableBalance"
   },
   "debug": {
-    "cacheKey": "mWPeRX530scYe1bqbcESGZsXcqY="
+    "cacheKey": "0hnYhP7n2/kUxBQlfkRr6Xhck4Q="
   }
 }
 ```

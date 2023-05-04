@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nft-blue-chip-adapter",
-  "version": "1.1.7",
+  "version": "1.1.10",
   "description": "Chainlink NFT Blue Chip adapter.",
   "keywords": [
     "Chainlink",
@@ -29,7 +29,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.28.4",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
@@ -41,6 +41,6 @@
     "mock-socket": "9.1.5",
     "nock": "13.2.9",
     "supertest": "6.2.4",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   }
 }

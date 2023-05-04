@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute dnsProof endpoint error calls when successfully requests the API should throw and exception if the response is malformed 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"endpoint\\":\\"dnsProof\\",\\"name\\":\\"www5.infernos.io\\",\\"record\\":\\"0xf75519f611776c22275474151a04183665b7feDe\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"dnsProof","name":"www5.infernos.io","record":"0xf75519f611776c22275474151a04183665b7feDe"}}",
     "message": "Unexpected response from API. Response: linkpool was not an array.",
     "name": "AdapterError",
   },
@@ -14,9 +14,9 @@ Object {
 `;
 
 exports[`execute dnsProof endpoint error calls when unsuccessfully requests the API should throw and exception 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"endpoint\\":\\"dnsProof\\",\\"name\\":\\"www5.infernos.io\\",\\"record\\":\\"0xf75519f611776c22275474151a04183665b7feDe\\"}}",
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"dnsProof","name":"www5.infernos.io","record":"0xf75519f611776c22275474151a04183665b7feDe"}}",
     "message": "Request failed with status code 500",
     "name": "AdapterError",
     "url": "https:/dns.google/resolve",
@@ -29,8 +29,8 @@ Object {
 `;
 
 exports[`execute dnsProof endpoint success calls returns the result 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": true,
   },
   "jobRunID": "1",

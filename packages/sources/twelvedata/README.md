@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Twelvedata
 
-![1.2.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twelvedata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twelvedata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
 
@@ -33,9 +33,9 @@ Supported names for this endpoint are: `closing`, `eod`.
 
 ### Input Params
 
-| Required? | Name |              Aliases               |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `coin`, `from`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+| Required? | Name |                   Aliases                    |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :------------------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from`, `market`, `symbol`, `uk_etf` | The symbol of the currency to query | string |         |         |            |                |
 
 ### Example
 
@@ -83,9 +83,9 @@ Supported names for this endpoint are: `crypto`, `forex`, `price`, `stock`.
 
 ### Input Params
 
-| Required? | Name |              Aliases               |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `coin`, `from`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+| Required? | Name |                   Aliases                    |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :------------------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from`, `market`, `symbol`, `uk_etf` | The symbol of the currency to query | string |         |         |            |                |
 
 ### Example
 

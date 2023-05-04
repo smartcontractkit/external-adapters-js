@@ -1,48 +1,38 @@
-# Chainlink External Adapter for CoinPaprika
+# COINPAPRIKA
 
-![1.10.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-_Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
-
-If network spikes are observed with the coinpaprika adapter, it may be due to not providing a coin-id and instead using a ticker symbol. Ticker symbols must be converted to coin-ids before they are fetched from the data provider. This conversion step requires downloading a large list of every single coin-id and matching ticker symbol from the data provider, impacting network performance. Provide a coin-id directly using the coin-id parameter, or provide a coin-id via the overrides parameter.
-If the adapter still has large spikes in network usage after using the coin-id instead of a ticker symbol, this because, in order to handle requests for multiple price pairs, the data provider requires fetching every price pair the support simultaneously. The resulting response payload is very large (~2 MB), leading to impacted network performance.
-A solution is to use the `crypto-single` endpoint instead to only fetch single price pairs as opposed to all price pairs. This will work, however batching will not be supported.
-This is because, by using the crypto-single endpoint, an individual request is sent to the data provider to fetch each price pair, as opposed to one request for all price pairs. Thus, the total number of API requests is increased by a factor of the number of feeds, but each request will have a much smaller payload.
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     | Description | Type | Options | Default |
-| :-------: | :----------: | :---------: | :--: | :-----: | :-----: |
-|           |   API_KEY    |             |      |         |         |
-|           | IS_TEST_MODE |             |      |         |         |
+| Required? |     Name     |            Description             |  Type  | Options | Default |
+| :-------: | :----------: | :--------------------------------: | :----: | :-----: | :-----: |
+|           | API_ENDPOINT | The HTTP URL to retrieve data from | string |         |         |
+|           |   API_KEY    |     An API key for Coinpaprika     | string |         |         |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                          Options                                                                                                                                                           | Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-single](#cryptosingle-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                         Options                                                                                                                                         | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#globalmarketcap-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
 ## Crypto Endpoint
-
-The `marketcap` endpoint fetches market cap of assets, the `volume` endpoint fetches 24-hour volume of assets, and the `crypto`/`price` endpoint fetches current price of asset pairs (https://api.coinpaprika.com/v1/tickers/`{COIN}`).
-
-**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
 
 Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `coin`, `from` |       The symbol of the currency to query        |        |         |         |            |                |
-|    ✅     | quote  | `market`, `to` |     The symbol of the currency to convert to     |        |         |         |            |                |
-|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
+| Required? |    Name    |    Aliases     |                              Description                               |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :--------------------------------------------------------------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |             The symbol of symbols of the currency to query             | string |                                     |         |            |                |
+|    ✅     |   quote    | `market`, `to` |                The symbol of the currency to convert to                | string |                                     |         |            |                |
+|           |   coinid   |                |            The coin ID (optional to use in place of `base`)            | string |                                     |         |            |                |
+|           | resultPath |                | The path to the result within the asset quote in the provider response | string | `market_cap`, `price`, `volume_24h` |         |            |                |
 
 ### Example
 
@@ -59,11 +49,11 @@ Request:
     "resultPath": "price"
   },
   "debug": {
-    "cacheKey": "/ZZUFW3JdvMNj7qmqWBfjk3M4YU=",
-    "batchCacheKey": "xfc2iTuKJFI92dUpgFzFhVxPrEQ=",
+    "cacheKey": "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
+    "batchCacheKey": "lHEnqy20ZxpTIz2ArGwx40Q8Tyk=",
     "batchChildrenCacheKeys": [
       [
-        "/ZZUFW3JdvMNj7qmqWBfjk3M4YU=",
+        "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
         {
           "id": "1",
           "data": {
@@ -204,203 +194,20 @@ Response:
 
 ---
 
-## CryptoSingle Endpoint
+## Globalmarketcap Endpoint
 
-`crypto-single` is the only supported name for this endpoint.
-
-### Input Params
-
-| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `coin`, `from` |       The symbol of the currency to query        | string |         |         |            |                |
-|    ✅     | quote  | `market`, `to` |     The symbol of the currency to convert to     | string |         |         |            |                |
-|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
-
-### Example
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "AMPL",
-    "quote": "USD",
-    "endpoint": "crypto-single",
-    "resultPath": "quotes.USD.price",
-    "overrides": {
-      "coinpaprika": {
-        "AMPL": "eth-ethereum"
-      }
-    }
-  },
-  "debug": {
-    "cacheKey": "/mWFiJX9XlPfrers69lNKY9syOU="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "id": "eth-ethereum",
-    "name": "Ethereum",
-    "symbol": "ETH",
-    "rank": 2,
-    "circulating_supply": 118033526,
-    "total_supply": 118033574,
-    "max_supply": 0,
-    "beta_value": 1.08967,
-    "first_data_at": "2015-08-07T00:00:00Z",
-    "last_updated": "2021-10-22T18:11:05Z",
-    "quotes": {
-      "USD": {
-        "price": 3949.2425813062,
-        "volume_24h": 24136641726.138,
-        "volume_24h_change_24h": -35.07,
-        "market_cap": 466143026900,
-        "market_cap_change_24h": -3.44,
-        "percent_change_15m": 0.14,
-        "percent_change_30m": -0.18,
-        "percent_change_1h": -0.64,
-        "percent_change_6h": -4.09,
-        "percent_change_12h": -4.65,
-        "percent_change_24h": -3.45,
-        "percent_change_7d": 2.23,
-        "percent_change_30d": 28.11,
-        "percent_change_1y": 844.08,
-        "ath_price": 4365.2053035,
-        "ath_date": "2021-05-12T06:06:20Z",
-        "percent_from_price_ath": -9.53
-      }
-    },
-    "cost": 2,
-    "result": 3949.2425813062
-  },
-  "result": 3949.2425813062,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
-
----
-
-## Dominance Endpoint
-
-Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.com/v1/global)
-
-`dominance` is the only supported name for this endpoint.
+Supported names for this endpoint are: `dominance`, `globalmarketcap`.
 
 ### Input Params
 
-| Required? |  Name  |    Aliases    |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | market | `quote`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
+| Required? |    Name    |    Aliases    |                              Description                               |  Type  |                Options                 | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----------: | :--------------------------------------------------------------------: | :----: | :------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |   market   | `quote`, `to` |                The symbol of the currency to convert to                | string |                                        |         |            |                |
+|           | resultPath |               | The path to the result within the asset quote in the provider response | string | `_dominance_percentage`, `market_cap_` |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "market": "BTC",
-    "endpoint": "dominance"
-  },
-  "debug": {
-    "cacheKey": "68fvKmTaemya72URaHbma8IMB7s="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "market_cap_usd": 2559344984924,
-    "volume_24h_usd": 217605673763,
-    "bitcoin_dominance_percentage": 44.68,
-    "cryptocurrencies_number": 5438,
-    "market_cap_ath_value": 2729904005915,
-    "market_cap_ath_date": "2021-10-21T09:45:00Z",
-    "volume_24h_ath_value": 33401557439370,
-    "volume_24h_ath_date": "2021-10-22T12:50:00Z",
-    "volume_24h_percent_from_ath": -99.35,
-    "volume_24h_percent_to_ath": 9999.99,
-    "market_cap_change_24h": -1.86,
-    "volume_24h_change_24h": -18.21,
-    "last_updated": 1634927806,
-    "result": 44.68
-  },
-  "result": 44.68,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
-
----
-
-## GlobalMarketcap Endpoint
-
-Returns the global market capitilization from the [global endpoint](https://api.coinpaprika.com/v1/global)
-
-`globalmarketcap` is the only supported name for this endpoint.
-
-### Input Params
-
-| Required? |  Name  |    Aliases    |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | market | `quote`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
-
-### Example
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "market": "USD",
-    "endpoint": "globalmarketcap"
-  },
-  "debug": {
-    "cacheKey": "1+HiIBSsojqbfCOU78q7iZbzdWA="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "market_cap_usd": 2559344984924,
-    "volume_24h_usd": 217605673763,
-    "bitcoin_dominance_percentage": 44.68,
-    "cryptocurrencies_number": 5438,
-    "market_cap_ath_value": 2729904005915,
-    "market_cap_ath_date": "2021-10-21T09:45:00Z",
-    "volume_24h_ath_value": 33401557439370,
-    "volume_24h_ath_date": "2021-10-22T12:50:00Z",
-    "volume_24h_percent_from_ath": -99.35,
-    "volume_24h_percent_to_ath": 9999.99,
-    "market_cap_change_24h": -1.86,
-    "volume_24h_change_24h": -18.21,
-    "last_updated": 1634927806,
-    "result": 2559344984924
-  },
-  "result": 2559344984924,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -949,7 +756,7 @@ Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 
 | Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
 | :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `coin`, `from` |                                                  | string |         |         |            |                |
+|    ✅     |  base  | `coin`, `from` |  The symbol of symbols of the currency to query  | string |         |         |            |                |
 |           | hours  |                |         Number of hours to get VWAP for          | number |         |  `24`   |            |                |
 |           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
 
@@ -972,7 +779,7 @@ Request:
     }
   },
   "debug": {
-    "cacheKey": "sMT7ytI4rR7UAXxF4mi7tq5rHIc="
+    "cacheKey": "DvcmCsFPINIx6W1M7OBaRK0sTOw="
   }
 }
 ```

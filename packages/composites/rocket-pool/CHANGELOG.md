@@ -1,5 +1,22 @@
 # @chainlink/rocket-pool-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-reference-data-reader@1.3.30
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-reference-data-reader@1.3.29
+
 ## 1.1.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/observation
 
+## 2.0.2
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+
 ## 2.0.1
 
 ### Patch Changes

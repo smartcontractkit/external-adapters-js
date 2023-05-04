@@ -1,20 +1,30 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'CRYPTOCOMPARE'
-
-export const DEFAULT_ENDPOINT = 'crypto'
-export const DEFAULT_API_ENDPOINT = 'https://min-api.cryptocompare.com'
-export const DEFAULT_WS_API_ENDPOINT = 'wss://streamer.cryptocompare.com/v2'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
-  if (config.apiKey)
-    config.api.headers = {
-      ...config.api.headers,
-      authorization: `Apikey ${config.apiKey}`,
-    }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'The HTTP URL to retrieve data from',
+    type: 'string',
+    default: 'https://min-api.cryptocompare.com',
+  },
+  WS_API_ENDPOINT: {
+    description: 'The WS URL to retrieve data from',
+    type: 'string',
+    default: 'wss://streamer.cryptocompare.com/v2',
+  },
+  API_KEY: {
+    description: 'The CryptoCompare API key',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  WS_API_KEY: {
+    description: 'The websocket API key to authenticate with, if different from API_KEY',
+    type: 'string',
+    sensitive: true,
+  },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
+})

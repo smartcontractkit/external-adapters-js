@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute with calculatorContract/vaultProxy should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "nav": "19995161270996618818245984400",
     "result": "19995161270996618818245984400",
   },

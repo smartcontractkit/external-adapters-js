@@ -1,5 +1,39 @@
 # @chainlink/linear-finance-adapter
 
+## 2.3.42
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.10
+
+## 2.3.41
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+  - @chainlink/token-allocation-adapter@1.10.9
+  - @chainlink/ea-bootstrap@2.27.1
+
+## 2.3.40
+
+### Patch Changes
+
+- Updated dependencies [9bcb13c90]
+  - @chainlink/token-allocation-adapter@1.10.8
+
+## 2.3.39
+
+### Patch Changes
+
+- Updated dependencies [31af84e69]
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/token-allocation-adapter@1.10.7
+  - @chainlink/ea-bootstrap@2.27.0
+
 ## 2.3.38
 
 ### Patch Changes

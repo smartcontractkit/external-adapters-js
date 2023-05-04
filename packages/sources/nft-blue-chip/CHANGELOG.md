@@ -1,5 +1,26 @@
 # @chainlink/nft-blue-chip-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
+## 1.1.9
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 1.1.8
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
 ## 1.1.7
 
 ### Patch Changes

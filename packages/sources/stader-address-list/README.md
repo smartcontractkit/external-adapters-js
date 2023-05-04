@@ -1,6 +1,6 @@
 # STADER_ADDRESS_LIST
 
-![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -28,19 +28,19 @@ Every EA supports base input parameters from [this list](https://github.com/smar
 
 ### Input Params
 
-| Required? |            Name            | Aliases |                           Description                            |  Type  |       Options       |  Default   | Depends On | Not Valid With |
-| :-------: | :------------------------: | :-----: | :--------------------------------------------------------------: | :----: | :-----------------: | :--------: | :--------: | :------------: |
-|           |     poolFactoryAddress     |         |         The address of the Stader PoolFactory contract.          | string |                     |            |            |                |
-|           | permissionlessNodeRegistry |         | The address of the Stader Permissionless Node Registry contract. | string |                     |            |            |                |
-|           |    stakeManagerAddress     |         |         The address of the Stader StakeManager contract.         | string |                     |            |            |                |
-|           |       penaltyAddress       |         |           The address of the Stader Penalty contract.            | string |                     |            |            |                |
-|           |  permissionedPoolAddress   |         |           The address of the Stader Permissioned Pool.           | string |                     |            |            |                |
-|           |    staderConfigAddress     |         |            The address of the Stader Config contract.            | string |                     |            |            |                |
-|           |       confirmations        |         |          The number of confirmations to query data from          | number |                     |            |            |                |
-|           |          chainId           |         |              The name of the target custodial chain              | string | `goerli`, `mainnet` | `mainnet`  |            |                |
-|           |          network           |         |        The name of the target custodial network protocol         | string |     `ethereum`      | `ethereum` |            |                |
-|           |      validatorStatus       |         |           A filter to apply validators by their status           | array  |                     |            |            |                |
-|           |         batchSize          |         |   The number of addresses to fetch from the contract at a time   |        |                     |    `10`    |            |                |
+| Required? |            Name            | Aliases |                           Description                            |   Type   |       Options       |  Default   | Depends On | Not Valid With |
+| :-------: | :------------------------: | :-----: | :--------------------------------------------------------------: | :------: | :-----------------: | :--------: | :--------: | :------------: |
+|           |     poolFactoryAddress     |         |         The address of the Stader PoolFactory contract.          |  string  |                     |            |            |                |
+|           | permissionlessNodeRegistry |         | The address of the Stader Permissionless Node Registry contract. |  string  |                     |            |            |                |
+|           |    stakeManagerAddress     |         |         The address of the Stader StakeManager contract.         |  string  |                     |            |            |                |
+|           |       penaltyAddress       |         |           The address of the Stader Penalty contract.            |  string  |                     |            |            |                |
+|           |  permissionedPoolAddress   |         |           The address of the Stader Permissioned Pool.           |  string  |                     |            |            |                |
+|           |    staderConfigAddress     |         |            The address of the Stader Config contract.            |  string  |                     |            |            |                |
+|           |       confirmations        |         |          The number of confirmations to query data from          |  number  |                     |            |            |                |
+|           |          chainId           |         |              The name of the target custodial chain              |  string  | `goerli`, `mainnet` | `mainnet`  |            |                |
+|           |          network           |         |        The name of the target custodial network protocol         |  string  |     `ethereum`      | `ethereum` |            |                |
+|           |      validatorStatus       |         |           A filter to apply validators by their status           | string[] |                     |            |            |                |
+|           |         batchSize          |         |   The number of addresses to fetch from the contract at a time   |  number  |                     |    `10`    |            |                |
 
 ### Example
 

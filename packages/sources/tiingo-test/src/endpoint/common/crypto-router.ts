@@ -11,7 +11,7 @@ export const endpoint = new CryptoPriceEndpoint({
   transportRoutes: new TransportRoutes<CryptoEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
-  defaultTransport: 'rest',
+  defaultTransport: 'ws',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
 })

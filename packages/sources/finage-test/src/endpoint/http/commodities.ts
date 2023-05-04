@@ -1,27 +1,9 @@
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import {
-  PriceEndpoint,
-  PriceEndpointInputParameters,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../../config'
 import overrides from '../../config/overrides.json'
-
-export const inputParameters = {
-  base: {
-    aliases: ['from', 'coin', 'symbol'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-  },
-} satisfies PriceEndpointInputParameters
+import { priceInputParameters } from '../types'
 
 interface ResponseSchema {
   symbol: string
@@ -30,11 +12,9 @@ interface ResponseSchema {
 }
 
 type EndpointTypes = {
-  Request: {
-    Params: PriceEndpointParams
-  }
-  Response: SingleNumberResultResponse
+  Parameters: typeof priceInputParameters.definition
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -76,6 +56,6 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'commodities',
   transport: httpTransport,
-  inputParameters: inputParameters,
+  inputParameters: priceInputParameters,
   overrides: overrides.finage,
 })

@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute convert api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.862701,
   },
   "jobRunID": "1",
@@ -13,8 +13,8 @@ Object {
 `;
 
 exports[`execute quotes api should return success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "result": 0.8828,
   },
   "jobRunID": "1",

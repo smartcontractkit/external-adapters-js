@@ -1,222 +1,222 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`execute x30 api should return success 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "ADA": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "ADA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ALGO": Object {
-        "quote": Object {
-          "USD": Object {
+      "ALGO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ATOM": Object {
-        "quote": Object {
-          "USD": Object {
+      "ATOM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "AVAX": Object {
-        "quote": Object {
-          "USD": Object {
+      "AVAX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BCH": Object {
-        "quote": Object {
-          "USD": Object {
+      "BCH": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BNB": Object {
-        "quote": Object {
-          "USD": Object {
+      "BNB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "BTC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BUSD": Object {
-        "quote": Object {
-          "USD": Object {
+      "BUSD": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "CRO": Object {
-        "quote": Object {
-          "USD": Object {
+      "CRO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DAI": Object {
-        "quote": Object {
-          "USD": Object {
+      "DAI": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DOGE": Object {
-        "quote": Object {
-          "USD": Object {
+      "DOGE": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DOT": Object {
-        "quote": Object {
-          "USD": Object {
+      "DOT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ETC": Object {
-        "quote": Object {
-          "USD": Object {
+      "ETC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ETH": Object {
-        "quote": Object {
-          "USD": Object {
+      "ETH": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "FTX": Object {
-        "quote": Object {
-          "USD": Object {
+      "FTX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "LEO": Object {
-        "quote": Object {
-          "USD": Object {
+      "LEO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "LINK": Object {
-        "quote": Object {
-          "USD": Object {
+      "LINK": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "LTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "LTC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "MATIC": Object {
-        "quote": Object {
-          "USD": Object {
+      "MATIC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "NEAR": Object {
-        "quote": Object {
-          "USD": Object {
+      "NEAR": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "SHIB": Object {
-        "quote": Object {
-          "USD": Object {
+      "SHIB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "SOL": Object {
-        "quote": Object {
-          "USD": Object {
+      "SOL": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "TRX": Object {
-        "quote": Object {
-          "USD": Object {
+      "TRX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "UNISWAP": Object {
-        "quote": Object {
-          "USD": Object {
+      "UNISWAP": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "USDC": Object {
-        "quote": Object {
-          "USD": Object {
+      "USDC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "USDTERC20": Object {
-        "quote": Object {
-          "USD": Object {
+      "USDTERC20": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XCN": Object {
-        "quote": Object {
-          "USD": Object {
+      "XCN": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XLM": Object {
-        "quote": Object {
-          "USD": Object {
+      "XLM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XMR": Object {
-        "quote": Object {
-          "USD": Object {
+      "XMR": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XRP": Object {
-        "quote": Object {
-          "USD": Object {
+      "XRP": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
     },
     "result": 63605349.41204809,
-    "sources": Array [],
+    "sources": [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
@@ -226,292 +226,292 @@ Object {
 `;
 
 exports[`execute xbci api should return success 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "AAVE": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "AAVE": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ADA": Object {
-        "quote": Object {
-          "USD": Object {
+      "ADA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ALGO": Object {
-        "quote": Object {
-          "USD": Object {
+      "ALGO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ATOM": Object {
-        "quote": Object {
-          "USD": Object {
+      "ATOM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BAT": Object {
-        "quote": Object {
-          "USD": Object {
+      "BAT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BCH": Object {
-        "quote": Object {
-          "USD": Object {
+      "BCH": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BNB": Object {
-        "quote": Object {
-          "USD": Object {
+      "BNB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "BTC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BTT": Object {
-        "quote": Object {
-          "USD": Object {
+      "BTT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "COMP": Object {
-        "quote": Object {
-          "USD": Object {
+      "COMP": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "CRO": Object {
-        "quote": Object {
-          "USD": Object {
+      "CRO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DGB": Object {
-        "quote": Object {
-          "USD": Object {
+      "DGB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DOT": Object {
-        "quote": Object {
-          "USD": Object {
+      "DOT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "EOS": Object {
-        "quote": Object {
-          "USD": Object {
+      "EOS": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ETH": Object {
-        "quote": Object {
-          "USD": Object {
+      "ETH": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "HT": Object {
-        "quote": Object {
-          "USD": Object {
+      "HT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ICX": Object {
-        "quote": Object {
-          "USD": Object {
+      "ICX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "KNC": Object {
-        "quote": Object {
-          "USD": Object {
+      "KNC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "KSM": Object {
-        "quote": Object {
-          "USD": Object {
+      "KSM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "LINK": Object {
-        "quote": Object {
-          "USD": Object {
+      "LINK": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "LTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "LTC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "MIOTA": Object {
-        "quote": Object {
-          "USD": Object {
+      "MIOTA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "MKR": Object {
-        "quote": Object {
-          "USD": Object {
+      "MKR": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "NEO": Object {
-        "quote": Object {
-          "USD": Object {
+      "NEO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "OKB": Object {
-        "quote": Object {
-          "USD": Object {
+      "OKB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "OMG": Object {
-        "quote": Object {
-          "USD": Object {
+      "OMG": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ONT": Object {
-        "quote": Object {
-          "USD": Object {
+      "ONT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "QTUM": Object {
-        "quote": Object {
-          "USD": Object {
+      "QTUM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "REN": Object {
-        "quote": Object {
-          "USD": Object {
+      "REN": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "SNX": Object {
-        "quote": Object {
-          "USD": Object {
+      "SNX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "THETA": Object {
-        "quote": Object {
-          "USD": Object {
+      "THETA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "TRX": Object {
-        "quote": Object {
-          "USD": Object {
+      "TRX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "UMA": Object {
-        "quote": Object {
-          "USD": Object {
+      "UMA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "VET": Object {
-        "quote": Object {
-          "USD": Object {
+      "VET": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XEM": Object {
-        "quote": Object {
-          "USD": Object {
+      "XEM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XLM": Object {
-        "quote": Object {
-          "USD": Object {
+      "XLM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XRP": Object {
-        "quote": Object {
-          "USD": Object {
+      "XRP": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XTZ": Object {
-        "quote": Object {
-          "USD": Object {
+      "XTZ": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "YFI": Object {
-        "quote": Object {
-          "USD": Object {
+      "YFI": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ZRX": Object {
-        "quote": Object {
-          "USD": Object {
+      "ZRX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
     },
     "result": 2834939.3645164976,
-    "sources": Array [],
+    "sources": [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
@@ -521,306 +521,306 @@ Object {
 `;
 
 exports[`execute xlci api should return success 1`] = `
-Object {
-  "data": Object {
-    "payload": Object {
-      "AAVE": Object {
-        "quote": Object {
-          "USD": Object {
+{
+  "data": {
+    "payload": {
+      "AAVE": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ADA": Object {
-        "quote": Object {
-          "USD": Object {
+      "ADA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ALGO": Object {
-        "quote": Object {
-          "USD": Object {
+      "ALGO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ATOM": Object {
-        "quote": Object {
-          "USD": Object {
+      "ATOM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BAT": Object {
-        "quote": Object {
-          "USD": Object {
+      "BAT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BCH": Object {
-        "quote": Object {
-          "USD": Object {
+      "BCH": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BNB": Object {
-        "quote": Object {
-          "USD": Object {
+      "BNB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "BTC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "BTT": Object {
-        "quote": Object {
-          "USD": Object {
+      "BTT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "COMP": Object {
-        "quote": Object {
-          "USD": Object {
+      "COMP": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "CRO": Object {
-        "quote": Object {
-          "USD": Object {
+      "CRO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DGB": Object {
-        "quote": Object {
-          "USD": Object {
+      "DGB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DOGE": Object {
-        "quote": Object {
-          "USD": Object {
+      "DOGE": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "DOT": Object {
-        "quote": Object {
-          "USD": Object {
+      "DOT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "EOS": Object {
-        "quote": Object {
-          "USD": Object {
+      "EOS": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ETH": Object {
-        "quote": Object {
-          "USD": Object {
+      "ETH": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "HT": Object {
-        "quote": Object {
-          "USD": Object {
+      "HT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ICX": Object {
-        "quote": Object {
-          "USD": Object {
+      "ICX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "KNC": Object {
-        "quote": Object {
-          "USD": Object {
+      "KNC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "KSM": Object {
-        "quote": Object {
-          "USD": Object {
+      "KSM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "LINK": Object {
-        "quote": Object {
-          "USD": Object {
+      "LINK": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "LTC": Object {
-        "quote": Object {
-          "USD": Object {
+      "LTC": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "MIOTA": Object {
-        "quote": Object {
-          "USD": Object {
+      "MIOTA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "MKR": Object {
-        "quote": Object {
-          "USD": Object {
+      "MKR": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "NEO": Object {
-        "quote": Object {
-          "USD": Object {
+      "NEO": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "NXM": Object {
-        "quote": Object {
-          "USD": Object {
+      "NXM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "OKB": Object {
-        "quote": Object {
-          "USD": Object {
+      "OKB": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "OMG": Object {
-        "quote": Object {
-          "USD": Object {
+      "OMG": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ONT": Object {
-        "quote": Object {
-          "USD": Object {
+      "ONT": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "QTUM": Object {
-        "quote": Object {
-          "USD": Object {
+      "QTUM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "REN": Object {
-        "quote": Object {
-          "USD": Object {
+      "REN": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "SNX": Object {
-        "quote": Object {
-          "USD": Object {
+      "SNX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "THETA": Object {
-        "quote": Object {
-          "USD": Object {
+      "THETA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "TRX": Object {
-        "quote": Object {
-          "USD": Object {
+      "TRX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "UMA": Object {
-        "quote": Object {
-          "USD": Object {
+      "UMA": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "VET": Object {
-        "quote": Object {
-          "USD": Object {
+      "VET": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XEM": Object {
-        "quote": Object {
-          "USD": Object {
+      "XEM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XLM": Object {
-        "quote": Object {
-          "USD": Object {
+      "XLM": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XRP": Object {
-        "quote": Object {
-          "USD": Object {
+      "XRP": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "XTZ": Object {
-        "quote": Object {
-          "USD": Object {
+      "XTZ": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "YFI": Object {
-        "quote": Object {
-          "USD": Object {
+      "YFI": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
-      "ZRX": Object {
-        "quote": Object {
-          "USD": Object {
+      "ZRX": {
+        "quote": {
+          "USD": {
             "price": 100,
           },
         },
       },
     },
     "result": 59533.932415336036,
-    "sources": Array [],
+    "sources": [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,

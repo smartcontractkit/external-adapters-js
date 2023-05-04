@@ -1,5 +1,26 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.4.0
+
+### Minor Changes
+
+- 8d15f80bd: Update starknet.js dependency to 5.x
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 2.3.10
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
 ## 2.3.9
 
 ### Patch Changes

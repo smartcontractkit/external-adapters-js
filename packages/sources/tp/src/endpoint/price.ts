@@ -1,10 +1,10 @@
 import {
   PriceEndpoint,
-  PriceEndpointInputParameters,
+  PriceEndpointInputParametersDefinition,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { priceEndpointInputParameters } from '@chainlink/external-adapter-framework/adapter'
 
 import Decimal from 'decimal.js'
 
@@ -20,7 +20,7 @@ export type GeneratePriceOptions = {
 }
 
 type GeneratePriceEndpoint = {
-  inputParameters: InputParameters & PriceEndpointInputParameters
+  inputParameters: InputParameters<PriceEndpointInputParametersDefinition>
   transport: WebSocketTransport<TpIcapWebsocketGenerics>
 }
 
@@ -31,8 +31,8 @@ let providerDataStreamEstablishedUnixMs: number
 export const generatePriceEndpoint = (
   generatePriceOptions: GeneratePriceOptions,
 ): GeneratePriceEndpoint => ({
-  inputParameters: {
-    ...priceEndpointInputParameters,
+  inputParameters: new InputParameters({
+    ...priceEndpointInputParametersDefinition,
     [generatePriceOptions.sourceName]: {
       description: `Source of price data for this price pair on the ${generatePriceOptions.streamName} stream`,
       default: 'GBL',
@@ -42,7 +42,7 @@ export const generatePriceEndpoint = (
         ? { options: generatePriceOptions.sourceOptions }
         : {}),
     },
-  },
+  }),
   transport: new WebSocketTransport<TpIcapWebsocketGenerics>({
     url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
     handlers: {
@@ -130,7 +130,7 @@ export const generatePriceEndpoint = (
   }),
 })
 
-const { inputParameters, transport } = generatePriceEndpoint({
+export const { inputParameters, transport } = generatePriceEndpoint({
   sourceName: 'tpSource',
   streamName: 'TP',
 })

@@ -4,6 +4,7 @@ import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 export type TInputParameters = { market: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   market: {
+    aliases: ['base'],
     required: false,
     type: 'string',
     options: ['brent', 'wti'],

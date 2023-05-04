@@ -1,6 +1,6 @@
 # ENS Adapter
 
-![2.0.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 ENS Adapter
 
@@ -48,7 +48,7 @@ Request:
     "resultPath": "address"
   },
   "debug": {
-    "cacheKey": "JSErNmN8G275BpWeOunk+wT/938="
+    "cacheKey": "lBQVhNyHkF8nstGK9E/bmMFenGM="
   }
 }
 ```
@@ -84,7 +84,7 @@ Request:
     "resultPath": "address"
   },
   "debug": {
-    "cacheKey": "v7iYX6aZnnAHPZbnu9UDSLvRrgw="
+    "cacheKey": "PzVHxnsdOTP9OEKRVKRD8YhU2dg="
   }
 }
 ```
@@ -116,7 +116,7 @@ Request:
     "resultPath": "address"
   },
   "debug": {
-    "cacheKey": "ykDmNZC347HfwpLF5sh41ZVPHBQ="
+    "cacheKey": "0LOWogTArOegT4oJa3Twh8ok+IM="
   }
 }
 ```
@@ -148,7 +148,7 @@ Request:
     "resultPath": "address"
   },
   "debug": {
-    "cacheKey": "D5d+Lo5QhukVF6maB6ySrhTLy7E="
+    "cacheKey": "jDkQbMyh5qYQgHSDG0jRWgvx+cE="
   }
 }
 ```
