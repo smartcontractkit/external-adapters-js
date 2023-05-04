@@ -21,11 +21,7 @@ export const THIRTY_ONE_ETH_WEI = BigNumber(ethers.utils.parseEther('31').toStri
 export type NetworkChainMap = {
   [network: string]: {
     [chain: string]: {
-      poolFactory: string
-      penalty: string
-      stakePoolsManager: string
       staderConfig: string
-      permissionedPool: string
     }
   }
 }
@@ -36,18 +32,10 @@ export const chainIds = ['mainnet', 'goerli']
 export const staderNetworkChainMap: NetworkChainMap = {
   ethereum: {
     mainnet: {
-      poolFactory: '',
-      penalty: '',
-      stakePoolsManager: '',
       staderConfig: '',
-      permissionedPool: '',
     },
     goerli: {
-      poolFactory: '0x019a7ced1927946eADb28735f15a20e3ed762240',
-      penalty: '0x3A8F47BcE46bB852FB51021ee87f9fA2329cC70E',
-      stakePoolsManager: '0x974Db4Fb26993289CAD9f79Bde4eAE097503064f',
-      staderConfig: '0xe34c84A15326f7980F59DE6b5A77C57ca2043c48',
-      permissionedPool: '0xEc4166439523e8C2FaE395201f04876Cc7C02d68',
+      staderConfig: '0x198C5bC65acce5a35Ae7A8B7AEf4f92FA94C1c6E',
     },
   },
 }
@@ -322,4 +310,8 @@ export const fetchEthDepositContractAddress = async (
     const response = await axios.request<{ data: { chainId: string; address: string } }>(options)
     return response.data.data.address
   })
+}
+
+export const parseBigNumber = (value: ethers.BigNumber): BigNumber => {
+  return BigNumber(value.toString())
 }

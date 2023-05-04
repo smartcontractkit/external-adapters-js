@@ -89,7 +89,7 @@ jest.mock('ethers', () => {
           getNodeRegistry: jest.fn().mockImplementation((poolId) => {
             return mockNodeRegistryAddresses[poolId]
           }),
-          poolCount: jest.fn().mockReturnValue(2),
+          getPoolIdArray: jest.fn().mockReturnValue([1, 2]),
           getAllActiveValidators: jest.fn().mockImplementation(() => {
             return mockValidatorAddresses[(getAllActiveValidatorsCallCount++ % 2) + 1]
           }),
@@ -101,6 +101,10 @@ jest.mock('ethers', () => {
           }),
           nextValidatorId: jest.fn().mockReturnValue(3),
           nextOperatorId: jest.fn().mockReturnValue(3),
+          getPoolUtils: jest.fn().mockReturnValue('0x9bE5fd05529450c4ABA3c1525b82EF69Af9b3253'),
+          getPermissionlessNodeRegistry: jest
+            .fn()
+            .mockReturnValue('0x28d5FdcE4db361e19FCA420C9b5141bC3DC6aE3B'),
         }
       },
     },
