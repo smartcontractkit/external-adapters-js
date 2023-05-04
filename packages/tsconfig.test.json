@@ -564,6 +564,9 @@
       "path": "./sources/tradingeconomics/tsconfig.test.json"
     },
     {
+      "path": "./sources/tradingeconomics-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/trueusd/tsconfig.test.json"
     },
     {

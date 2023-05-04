@@ -564,6 +564,9 @@
       "path": "./sources/tradingeconomics"
     },
     {
+      "path": "./sources/tradingeconomics-test"
+    },
+    {
       "path": "./sources/trueusd"
     },
     {

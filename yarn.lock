@@ -3425,6 +3425,7 @@ __metadata:
     "@chainlink/tradermade-adapter": "workspace:*"
     "@chainlink/tradermade-test-adapter": "workspace:*"
     "@chainlink/tradingeconomics-adapter": "workspace:*"
+    "@chainlink/tradingeconomics-test-adapter": "workspace:*"
     "@chainlink/trueusd-adapter": "workspace:*"
     "@chainlink/twelvedata-adapter": "workspace:*"
     "@chainlink/twosigma-adapter": "workspace:*"
@@ -5378,6 +5379,22 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/tradingeconomics-test-adapter@workspace:*, @chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.29.8
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1

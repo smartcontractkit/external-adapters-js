@@ -177,6 +177,7 @@
     "@chainlink/tradermade-adapter": "workspace:*",
     "@chainlink/tradermade-test-adapter": "workspace:*",
     "@chainlink/tradingeconomics-adapter": "workspace:*",
+    "@chainlink/tradingeconomics-test-adapter": "workspace:*",
     "@chainlink/trueusd-adapter": "workspace:*",
     "@chainlink/twelvedata-adapter": "workspace:*",
     "@chainlink/twosigma-adapter": "workspace:*",
