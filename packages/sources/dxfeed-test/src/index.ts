@@ -8,6 +8,14 @@ export const adapter = new Adapter({
   name: 'DXFEED',
   config,
   endpoints: [price],
+  rateLimiting: {
+    tiers: {
+      unlimited: {
+        rateLimit1s: 100,
+        note: 'Dxfeed does not describe a rate limit, but setting reasonable limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

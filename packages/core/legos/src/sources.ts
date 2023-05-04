@@ -121,6 +121,7 @@ import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
 import * as polkadot_balance from '@chainlink/polkadot-balance-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
+import * as polygon_test from '@chainlink/polygon-test-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
@@ -145,6 +146,7 @@ import * as tp from '@chainlink/tp-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
+import * as tradingeconomics_test from '@chainlink/tradingeconomics-test-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as twosigma from '@chainlink/twosigma-adapter'
@@ -283,6 +285,7 @@ export default {
   poa,
   polkadot_balance,
   polygon,
+  polygon_test,
   por_address_list,
   reduce,
   renvm_adapter_address,
@@ -307,6 +310,7 @@ export default {
   tradermade,
   tradermade_test,
   tradingeconomics,
+  tradingeconomics_test,
   trueusd,
   twelvedata,
   twosigma,

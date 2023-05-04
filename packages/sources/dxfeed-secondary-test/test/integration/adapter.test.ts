@@ -93,7 +93,6 @@ describe('execute', () => {
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
-      process.env['WS_ENABLED'] = 'true'
       const mockDate = new Date('2022-11-11T11:11:11.111Z')
       spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
