@@ -3,23 +3,17 @@ import {
   BalanceResponse,
   fetchAddressBalance,
   formatValueInGwei,
-  staderNetworkChainMap,
   withErrorHandling,
 } from '../endpoint/utils'
 
 export class PermissionedPool {
-  address: string
   balance?: BalanceResponse
 
   constructor(
-    req: { permissionedPoolAddress?: string; network: string; chainId: string },
+    private address: string,
     private blockTag: number,
     private provider: ethers.providers.JsonRpcProvider,
-  ) {
-    this.address =
-      req.permissionedPoolAddress ||
-      staderNetworkChainMap[req.network][req.chainId].permissionedPool
-  }
+  ) {}
 
   // Get the balance from this one specific permissioned pool contract
   async fetchBalance(): Promise<BalanceResponse> {
