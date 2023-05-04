@@ -776,6 +776,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tradingeconomics"\
       },\
       {\
+        "name": "@chainlink/tradingeconomics-test-adapter",\
+        "reference": "workspace:packages/sources/tradingeconomics-test"\
+      },\
+      {\
         "name": "@chainlink/trueusd-adapter",\
         "reference": "workspace:packages/sources/trueusd"\
       },\
@@ -1044,6 +1048,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradermade-test-adapter", ["workspace:packages/sources/tradermade-test"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
+      ["@chainlink/tradingeconomics-test-adapter", ["workspace:packages/sources/tradingeconomics-test"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
       ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
@@ -7025,6 +7030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
             ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
+            ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
@@ -9331,6 +9337,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/tradingeconomics-test-adapter", [\
+        ["workspace:packages/sources/tradingeconomics-test", {\
+          "packageLocation": "./packages/sources/tradingeconomics-test/",\
+          "packageDependencies": [\
+            ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\

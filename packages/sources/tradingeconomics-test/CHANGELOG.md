@@ -1,0 +1,1 @@
+# @chainlink/tradingeconomics-test-adapter
