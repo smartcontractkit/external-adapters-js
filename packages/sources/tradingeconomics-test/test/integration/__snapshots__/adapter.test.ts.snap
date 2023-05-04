@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute rest price endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.15591,
+  },
+  "result": 1.15591,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1636133760000,
+  },
+}
+`;
+
+exports[`execute rest price endpoint with override should return success 1`] = `
+{
+  "data": {
+    "result": 1.15591,
+  },
+  "result": 1.15591,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1636133760000,
+  },
+}
+`;
+
+exports[`execute rest stock endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 168.54,
+  },
+  "result": 168.54,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1683057508920,
+  },
+}
+`;
+
+exports[`execute websocket price endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.28778,
+  },
+  "result": 1.28778,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1659472542655,
+  },
+}
+`;
+
+exports[`execute websocket stock endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 160.32,
+  },
+  "result": 160.32,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1659472542655,
+  },
+}
+`;
