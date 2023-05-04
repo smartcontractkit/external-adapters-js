@@ -3,22 +3,17 @@ import {
   BalanceResponse,
   fetchAddressBalance,
   formatValueInGwei,
-  staderNetworkChainMap,
   withErrorHandling,
 } from '../endpoint/utils'
 
 export class StakeManager {
-  address: string
   balance?: BalanceResponse
 
   constructor(
-    req: { stakeManagerAddress?: string; network: string; chainId: string },
+    private address: string,
     private blockTag: number,
     private provider: ethers.providers.JsonRpcProvider,
-  ) {
-    this.address =
-      req.stakeManagerAddress || staderNetworkChainMap[req.network][req.chainId].stakePoolsManager
-  }
+  ) {}
 
   // Get inactive pool balance from Stader's StakePoolManager contract
   async fetchBalance(): Promise<BalanceResponse> {

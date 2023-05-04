@@ -4,7 +4,7 @@ const logger = makeLogger('StaderAddressListUtil')
 
 export type NetworkChainMap = {
   [network: string]: {
-    [chain: string]: { poolFactory: string; permissionlessNodeRegistry: string }
+    [chain: string]: { staderConfig: string }
   }
 }
 
@@ -70,16 +70,6 @@ export const filterDuplicateAddresses = <T extends BasicAddress>(addresses: T[])
   return Object.values(addressMap)
 }
 
-export const calculatePages = ({
-  count,
-  batchSize,
-}: {
-  count: number
-  batchSize: number
-}): number => {
-  return count % batchSize === 0 ? count / batchSize : count / batchSize + 1
-}
-
 export async function runAllSequentially<T>({
   count,
   handler,
@@ -88,7 +78,7 @@ export async function runAllSequentially<T>({
   handler: (i: number) => Promise<T>
 }): Promise<T[]> {
   const results: T[] = []
-  for (let i = 1; i <= count; i++) {
+  for (let i = 0; i < count; i++) {
     results.push(await handler(i))
   }
   return results

@@ -100,11 +100,21 @@ jest.mock('ethers', () => {
           totalPenaltyAmount: jest.fn().mockImplementation((address) => {
             return mockPenaltyMap[address]
           }),
-          getStakedEthPerNode: jest.fn().mockReturnValue(32000000000000000000),
+          getStakedEthPerNode: jest.fn().mockReturnValue(32_000_000_000_000_000_000),
           getCollateralETH: jest.fn().mockImplementation((poolId) => {
             return mockCollateralEthMap[poolId]
           }),
-          poolCount: jest.fn().mockReturnValue(5),
+          getPenaltyContract: jest
+            .fn()
+            .mockReturnValue('0x0FB2921fb8ad8C5364a8156693E2D94135d07e02'),
+          getPermissionedPool: jest
+            .fn()
+            .mockReturnValue('0xEc4166439523e8C2FaE395201f04876Cc7C02d68'),
+          getPoolUtils: jest.fn().mockReturnValue('0x019a7ced1927946eADb28735f15a20e3ed762240'),
+          getStakePoolManager: jest
+            .fn()
+            .mockReturnValue('0x974Db4Fb26993289CAD9f79Bde4eAE097503064f'),
+          getPoolIdArray: jest.fn().mockReturnValue([1, 2, 3, 4, 5]),
         }
       },
     },
