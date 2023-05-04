@@ -1,5 +1,22 @@
 import { ethers } from 'ethers'
 
+export const StaderConfigContract_ABI: ethers.ContractInterface = [
+  {
+    inputs: [],
+    name: 'getPermissionlessNodeRegistry',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getPoolUtils',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
 export const StaderPoolFactoryContract_ABI: ethers.ContractInterface = [
   {
     inputs: [{ internalType: 'uint8', name: '_poolId', type: 'uint8' }],
@@ -9,26 +26,16 @@ export const StaderPoolFactoryContract_ABI: ethers.ContractInterface = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'getPoolIdArray',
+    outputs: [{ internalType: 'uint8[]', name: '', type: 'uint8[]' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [{ internalType: 'uint8', name: '_poolId', type: 'uint8' }],
     name: 'getSocializingPoolAddress',
     outputs: [{ internalType: 'address', name: '', type: 'address' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'poolCount',
-    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
-    name: 'pools',
-    outputs: [
-      { internalType: 'string', name: 'poolName', type: 'string' },
-      { internalType: 'address', name: 'poolAddress', type: 'address' },
-    ],
     stateMutability: 'view',
     type: 'function',
   },

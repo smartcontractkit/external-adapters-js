@@ -24,24 +24,42 @@ export const StaderPoolFactoryContract_ABI: ethers.ContractInterface = [
   },
   {
     inputs: [],
-    name: 'poolCount',
-    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
-    name: 'pools',
-    outputs: [
-      { internalType: 'string', name: 'poolName', type: 'string' },
-      { internalType: 'address', name: 'poolAddress', type: 'address' },
-    ],
+    name: 'getPoolIdArray',
+    outputs: [{ internalType: 'uint8[]', name: '', type: 'uint8[]' }],
     stateMutability: 'view',
     type: 'function',
   },
 ]
 
 export const StaderConfigContract_ABI = [
+  {
+    inputs: [],
+    name: 'getPenaltyContract',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getPermissionedPool',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getPoolUtils',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getStakePoolManager',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
   {
     inputs: [],
     name: 'getStakedEthPerNode',
@@ -88,7 +106,7 @@ export const DepositEvent_ABI = [
 
 export const StaderPenaltyContract_ABI: ethers.ContractInterface = [
   {
-    inputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
+    inputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
     name: 'totalPenaltyAmount',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',

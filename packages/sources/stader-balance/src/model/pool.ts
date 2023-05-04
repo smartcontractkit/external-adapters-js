@@ -7,7 +7,6 @@ import {
   fetchAddressBalance,
   formatValueInGwei,
   PoolAddress,
-  staderNetworkChainMap,
   withErrorHandling,
 } from '../endpoint/utils'
 
@@ -27,7 +26,7 @@ export class Pool {
   constructor(params: {
     poolId: number
     blockTag: number
-    poolFactoryAddress?: string
+    poolFactoryAddress: string
     network: string
     chainId: string
     provider: ethers.providers.JsonRpcProvider
@@ -36,7 +35,7 @@ export class Pool {
     this.blockTag = params.blockTag
     this.provider = params.provider
     this.logPrefix = `[Pool ${this.id}]`
-    this.poolFactoryManager = Pool.buildPoolFactoryManager(params, this.provider)
+    this.poolFactoryManager = Pool.buildPoolFactoryManager(params.poolFactoryAddress, this.provider)
   }
 
   // Retrieve the pool's collateral ETH from the Stader Pool Factory contract
@@ -101,7 +100,7 @@ export class Pool {
   static async buildAll(
     params: {
       socialPoolAddresses: PoolAddress[]
-      poolFactoryAddress?: string
+      poolFactoryAddress: string
       network: string
       chainId: string
     },
@@ -113,28 +112,29 @@ export class Pool {
   }> {
     const poolMap: Record<number, Pool> = {}
     const socialPools: SocialPool[] = []
-    const poolFactoryManager = Pool.buildPoolFactoryManager(params, provider)
-    const poolCount = await poolFactoryManager.poolCount({ blockTag })
-    for (let i = 1; i <= poolCount; i++) {
+    const poolFactoryManager = Pool.buildPoolFactoryManager(params.poolFactoryAddress, provider)
+    const poolIdArray = await poolFactoryManager.getPoolIdArray({ blockTag })
+    for (let i = 0; i < poolIdArray.length; i++) {
+      const poolId = poolIdArray[i]
       const socialContractAddress = params.socialPoolAddresses.find(
-        (address) => address.poolId === i,
+        (address) => address.poolId === poolId,
       )
       if (socialContractAddress) {
         const socialPool = new SocialPool(
           {
             ...params,
-            poolId: i,
+            poolId,
             blockTag,
             provider,
           },
           socialContractAddress.address,
         )
-        poolMap[i] = socialPool
+        poolMap[poolId] = socialPool
         socialPools.push(socialPool)
       } else {
-        poolMap[i] = new Pool({
+        poolMap[poolId] = new Pool({
           ...params,
-          poolId: i,
+          poolId,
           blockTag,
           provider,
         })
@@ -148,32 +148,26 @@ export class Pool {
   }
 
   static buildPoolFactoryManager(
-    params: {
-      poolFactoryAddress?: string
-      network: string
-      chainId: string
-    },
+    poolFactoryAddress: string,
     provider: ethers.providers.JsonRpcProvider,
   ): ethers.Contract {
-    const contractAddress =
-      params.poolFactoryAddress || staderNetworkChainMap[params.network][params.chainId].poolFactory
-    return new ethers.Contract(contractAddress, StaderPoolFactoryContract_ABI, provider)
+    return new ethers.Contract(poolFactoryAddress, StaderPoolFactoryContract_ABI, provider)
   }
 }
 
 class SocialPool extends Pool {
   constructor(
-    parms: {
+    params: {
       poolId: number
       blockTag: number
-      poolFactoryAddress?: string
+      poolFactoryAddress: string
       network: string
       chainId: string
       provider: ethers.providers.JsonRpcProvider
     },
     private socialContractAddress: string,
   ) {
-    super(parms)
+    super(params)
   }
 
   async fetchBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
