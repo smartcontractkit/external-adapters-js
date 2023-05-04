@@ -6,12 +6,6 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('Polygon Tickers Logger')
-
-export interface RequestParams {
-  base: string
-  quote: string
-}
-
 export const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin'],
@@ -29,9 +23,6 @@ export const inputParameters = new InputParameters({
 
 export type EndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Request: {
-    Params: RequestParams
-  }
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -97,7 +88,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   },
   parseResponse: (params, res) => {
     if (res.data.tickers.length === 0) {
-      logger.error(`The data provider didn't return any value`)
+      logger.info(`Data provider returned empty response`)
       return params.map((param) => {
         return {
           params: param,
@@ -113,10 +104,12 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       const ticker = `C:${param.base}${param.quote}`.toUpperCase()
       const tickerResponse = res.data.tickers.find((t) => t.ticker === ticker)
       if (!tickerResponse) {
+        const message = `Data was not found in response for request: ${JSON.stringify(param)}`
+        logger.info(message)
         return {
           params: param,
           response: {
-            errorMessage: `Data was not found in response for request: ${JSON.stringify(param)},`,
+            errorMessage: message,
             statusCode: 502,
           },
         }

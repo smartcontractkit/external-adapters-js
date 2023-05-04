@@ -2,7 +2,10 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+const logger = makeLogger('Polygon conversion')
 
 export const inputParameters = new InputParameters({
   base: {
@@ -31,18 +34,8 @@ export const inputParameters = new InputParameters({
   },
 })
 
-interface RequestParams {
-  base: string
-  quote: string
-  amount: number
-  precision: number
-}
-
 export type EndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Request: {
-    Params: RequestParams
-  }
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
   Provider: {
@@ -88,11 +81,13 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
     return params.map((param) => {
       const result = res.data?.converted
       if (!result) {
+        const message = `The data provider didn't return any value for ${JSON.stringify(param)}`
+        logger.info(message)
         return {
           params: param,
           response: {
             statusCode: 502,
-            errorMessage: `The data provider didn't return any value for ${JSON.stringify(param)}`,
+            errorMessage: message,
           },
         }
       }
