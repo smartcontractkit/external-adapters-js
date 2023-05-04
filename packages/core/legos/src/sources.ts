@@ -121,6 +121,7 @@ import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
 import * as polkadot_balance from '@chainlink/polkadot-balance-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
+import * as polygon_test from '@chainlink/polygon-test-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
@@ -284,6 +285,7 @@ export default {
   poa,
   polkadot_balance,
   polygon,
+  polygon_test,
   por_address_list,
   reduce,
   renvm_adapter_address,
