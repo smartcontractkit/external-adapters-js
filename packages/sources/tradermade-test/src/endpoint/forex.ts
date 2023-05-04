@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { ResponseSchema, buildBatchedRequestBody, constructEntry } from '../price-utils'
+import { ResponseSchema, buildIndividualRequests, constructEntry } from '../price-utils'
 import { ForexEndpointTypes } from './forex-router'
 
 export type HttpTransportTypes = ForexEndpointTypes & {
@@ -10,6 +10,6 @@ export type HttpTransportTypes = ForexEndpointTypes & {
 }
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params, config) => buildBatchedRequestBody(params, config),
+  prepareRequests: (params, config) => buildIndividualRequests(params, config),
   parseResponse: (params, res) => constructEntry(res.data, params),
 })
