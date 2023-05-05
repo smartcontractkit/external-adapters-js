@@ -1,6 +1,5 @@
 import { Execute } from '@chainlink/ea-bootstrap'
 // TODO: use all price providers from @chainlink/ea
-import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 
 export enum PriceDataProvider {
@@ -21,8 +20,7 @@ export const getPriceDataProvider = (): PriceDataProvider | undefined => {
 export const getImpl = (type?: PriceDataProvider): Execute => {
   switch (type) {
     case PriceDataProvider.Finnhub:
-      // TODO: makeExecute return types
-      return finnhub.makeExecute() as any
+      throw Error(`Finnhub does not have an execute method`)
     case PriceDataProvider.FCS_API:
       return fcsapi.makeExecute() as any
     default:

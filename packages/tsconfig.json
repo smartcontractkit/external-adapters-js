@@ -342,9 +342,6 @@
       "path": "./sources/finnhub"
     },
     {
-      "path": "./sources/finnhub-test"
-    },
-    {
       "path": "./sources/fixer"
     },
     {
@@ -471,9 +468,6 @@
       "path": "./sources/openexchangerates"
     },
     {
-      "path": "./sources/openexchangerates-test"
-    },
-    {
       "path": "./sources/orchid-bandwidth"
     },
     {
@@ -547,9 +541,6 @@
     },
     {
       "path": "./sources/tiingo"
-    },
-    {
-      "path": "./sources/tiingo-test"
     },
     {
       "path": "./sources/tp"

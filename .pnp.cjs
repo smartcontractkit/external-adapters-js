@@ -484,10 +484,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finnhub"\
       },\
       {\
-        "name": "@chainlink/finnhub-test-adapter",\
-        "reference": "workspace:packages/sources/finnhub-test"\
-      },\
-      {\
         "name": "@chainlink/fixer-adapter",\
         "reference": "workspace:packages/sources/fixer"\
       },\
@@ -656,10 +652,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/openexchangerates"\
       },\
       {\
-        "name": "@chainlink/openexchangerates-test-adapter",\
-        "reference": "workspace:packages/sources/openexchangerates-test"\
-      },\
-      {\
         "name": "@chainlink/orchid-bandwidth-adapter",\
         "reference": "workspace:packages/sources/orchid-bandwidth"\
       },\
@@ -758,10 +750,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/tiingo-adapter",\
         "reference": "workspace:packages/sources/tiingo"\
-      },\
-      {\
-        "name": "@chainlink/tiingo-test-adapter",\
-        "reference": "workspace:packages/sources/tiingo-test"\
       },\
       {\
         "name": "@chainlink/tp-adapter",\
@@ -958,7 +946,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
       ["@chainlink/finage-test-adapter", ["workspace:packages/sources/finage-test"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
-      ["@chainlink/finnhub-test-adapter", ["workspace:packages/sources/finnhub-test"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
       ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
@@ -1010,7 +997,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-      ["@chainlink/openexchangerates-test-adapter", ["workspace:packages/sources/openexchangerates-test"]],\
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
       ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
@@ -1047,7 +1033,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
-      ["@chainlink/tiingo-test-adapter", ["workspace:packages/sources/tiingo-test"]],\
       ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
       ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
@@ -6961,7 +6946,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/finnhub-test-adapter", "workspace:packages/sources/finnhub-test"],\
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],\
             ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
             ["@chainlink/fluent-finance-adapter", "workspace:packages/sources/fluent-finance"],\
@@ -7004,7 +6988,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/openexchangerates-test-adapter", "workspace:packages/sources/openexchangerates-test"],\
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],\
             ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],\
             ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],\
@@ -7031,7 +7014,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
             ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
@@ -7562,24 +7544,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/finnhub-test-adapter", [\
-        ["workspace:packages/sources/finnhub-test", {\
-          "packageLocation": "./packages/sources/finnhub-test/",\
-          "packageDependencies": [\
-            ["@chainlink/finnhub-test-adapter", "workspace:packages/sources/finnhub-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8512,24 +8476,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/openexchangerates/",\
           "packageDependencies": [\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/openexchangerates-test-adapter", [\
-        ["workspace:packages/sources/openexchangerates-test", {\
-          "packageLocation": "./packages/sources/openexchangerates-test/",\
-          "packageDependencies": [\
-            ["@chainlink/openexchangerates-test-adapter", "workspace:packages/sources/openexchangerates-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -9232,24 +9178,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tiingo/",\
           "packageDependencies": [\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/tiingo-test-adapter", [\
-        ["workspace:packages/sources/tiingo-test", {\
-          "packageLocation": "./packages/sources/tiingo-test/",\
-          "packageDependencies": [\
-            ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

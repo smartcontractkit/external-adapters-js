@@ -71,7 +71,6 @@ import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finage_test from '@chainlink/finage-test-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
-import * as finnhub_test from '@chainlink/finnhub-test-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fluent_finance from '@chainlink/fluent-finance-adapter'
@@ -114,7 +113,6 @@ import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
-import * as openexchangerates_test from '@chainlink/openexchangerates-test-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
@@ -141,7 +139,6 @@ import * as taapi from '@chainlink/taapi-adapter'
 import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
-import * as tiingo_test from '@chainlink/tiingo-test-adapter'
 import * as tp from '@chainlink/tp-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradermade_test from '@chainlink/tradermade-test-adapter'
@@ -235,7 +232,6 @@ export default {
   finage,
   finage_test,
   finnhub,
-  finnhub_test,
   fixer,
   flightaware,
   fluent_finance,
@@ -278,7 +274,6 @@ export default {
   oilpriceapi,
   onchain_gas,
   openexchangerates,
-  openexchangerates_test,
   orchid_adapter,
   paxos,
   paypal,
@@ -305,7 +300,6 @@ export default {
   terra_view_function,
   therundown,
   tiingo,
-  tiingo_test,
   tp,
   tradermade,
   tradermade_test,

@@ -1,10 +1,24 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute, endpointSelector } from './adapter'
-import { makeConfig, NAME } from './config'
-import * as types from './endpoint'
-import rateLimit from './config/limits.json'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { quote } from './endpoint'
+import { config } from './config'
 
-const adapterContext = { name: NAME, rateLimit }
+export const adapter = new Adapter({
+  defaultEndpoint: quote.name,
+  name: 'FINNHUB',
+  config,
+  endpoints: [quote],
+  rateLimiting: {
+    tiers: {
+      free: {
+        rateLimit1m: 60,
+      },
+      'all-in-one': {
+        rateLimit1m: 300,
+        note: 'limit is for market data, not fundamental data',
+      },
+    },
+  },
+})
 
-const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, makeExecute, makeConfig, server, types }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
