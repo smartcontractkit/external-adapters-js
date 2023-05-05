@@ -145,7 +145,6 @@
     "@chainlink/oilpriceapi-adapter": "workspace:*",
     "@chainlink/onchain-gas-adapter": "workspace:*",
     "@chainlink/openexchangerates-adapter": "workspace:*",
-    "@chainlink/openexchangerates-test-adapter": "workspace:*",
     "@chainlink/orchid-bandwidth-adapter": "workspace:*",
     "@chainlink/paxos-adapter": "workspace:*",
     "@chainlink/paypal-adapter": "workspace:*",

@@ -3393,7 +3393,6 @@ __metadata:
     "@chainlink/oilpriceapi-adapter": "workspace:*"
     "@chainlink/onchain-gas-adapter": "workspace:*"
     "@chainlink/openexchangerates-adapter": "workspace:*"
-    "@chainlink/openexchangerates-test-adapter": "workspace:*"
     "@chainlink/orchid-bandwidth-adapter": "workspace:*"
     "@chainlink/paxos-adapter": "workspace:*"
     "@chainlink/paypal-adapter": "workspace:*"
@@ -4616,22 +4615,6 @@ __metadata:
 "@chainlink/openexchangerates-adapter@workspace:*, @chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates":
   version: 0.0.0-use.local
   resolution: "@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/openexchangerates-test-adapter@workspace:*, @chainlink/openexchangerates-test-adapter@workspace:packages/sources/openexchangerates-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/openexchangerates-test-adapter@workspace:packages/sources/openexchangerates-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.8
     "@types/jest": 27.5.2

@@ -656,10 +656,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/openexchangerates"\
       },\
       {\
-        "name": "@chainlink/openexchangerates-test-adapter",\
-        "reference": "workspace:packages/sources/openexchangerates-test"\
-      },\
-      {\
         "name": "@chainlink/orchid-bandwidth-adapter",\
         "reference": "workspace:packages/sources/orchid-bandwidth"\
       },\
@@ -1010,7 +1006,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-      ["@chainlink/openexchangerates-test-adapter", ["workspace:packages/sources/openexchangerates-test"]],\
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
       ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
@@ -7004,7 +6999,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/openexchangerates-test-adapter", "workspace:packages/sources/openexchangerates-test"],\
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],\
             ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],\
             ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],\
@@ -8512,24 +8506,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/openexchangerates/",\
           "packageDependencies": [\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/openexchangerates-test-adapter", [\
-        ["workspace:packages/sources/openexchangerates-test", {\
-          "packageLocation": "./packages/sources/openexchangerates-test/",\
-          "packageDependencies": [\
-            ["@chainlink/openexchangerates-test-adapter", "workspace:packages/sources/openexchangerates-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

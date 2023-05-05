@@ -1,14 +1,16 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'OPENEXCHANGERATES'
-
-export const DEFAULT_ENDPOINT = 'forex'
-export const DEFAULT_BASE_URL = 'https://openexchangerates.org/api/'
-
-export const makeConfig = (prefix = ''): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'API endpoint for OpenExchangeRates',
+    default: 'https://openexchangerates.org/api/',
+    type: 'string',
+  },
+  API_KEY: {
+    description:
+      'An API key that can be obtained from [here](https://openexchangerates.org/signup)',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+})

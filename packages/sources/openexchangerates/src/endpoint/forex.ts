@@ -1,43 +1,15 @@
-import { Requester, Validator, CacheKey, util, IncludePair } from '@chainlink/ea-bootstrap'
-import type {
-  ExecuteWithConfig,
-  Config,
-  InputParameters,
-  AdapterRequest,
-  AxiosResponse,
-  PairOptionsMap,
-  AdapterBatchResponse,
-} from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
-import includes from '../config/includes.json'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  PriceEndpoint,
+  priceEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-export const supportedEndpoints = ['forex', 'price']
-export const batchablePropertyPath = [{ name: 'quote' }]
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
-export const description =
-  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.**'
-
-export type TInputParameters = { base: string; quote: string | string[] }
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    aliases: ['from', 'coin'],
-    required: true,
-    description: 'The symbol of the currency to query',
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    required: true,
-    description: 'The symbol of the currency to convert to',
-  },
-}
-
-export type TOptions = {
-  base: string
-  quote: string
-  inverse?: boolean
-}
-
-export interface ResponseSchema {
+interface ResponseSchema {
   disclaimer: string
   license: string
   timestamp: number
@@ -47,121 +19,96 @@ export interface ResponseSchema {
   }
 }
 
-const handleBatchedRequest = (
-  jobRunID: string,
-  request: AdapterRequest,
-  pairOptions: PairOptionsMap<TOptions>,
-  responses: { [base: string]: AxiosResponse<ResponseSchema> },
-) => {
-  const payload: AdapterBatchResponse = []
+type PriceEndpointParams = typeof inputParameters.validated
 
-  for (const base of Object.keys(pairOptions)) {
-    for (const quote of Object.keys(pairOptions[base])) {
-      const individualRequest = {
-        ...request,
-        data: {
-          ...request.data,
-          base: base.toUpperCase(),
-          quote: quote.toUpperCase(),
+export type ForexEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
+  }
+}
+
+const getMappedSymbols = (requestParams: PriceEndpointParams[]) => {
+  const symbolGroupMap: Record<string, { params: PriceEndpointParams[]; base: string }> = {}
+  requestParams.forEach((param) => {
+    const base = param.base.toUpperCase()
+
+    if (!symbolGroupMap[base]) {
+      symbolGroupMap[base] = {
+        base,
+        params: [],
+      }
+    }
+
+    if (!symbolGroupMap[base].params) {
+      symbolGroupMap[base].params = [param]
+    } else {
+      symbolGroupMap[base].params.push(param)
+    }
+  })
+
+  return symbolGroupMap
+}
+
+export const batchTransport = new HttpTransport<ForexEndpointTypes>({
+  prepareRequests: (params, config) => {
+    // OpenExchangeRates supports batching only for base params, so we are grouping params by bases meaning we will send N number of requests to DP where the N is number of unique bases
+    const groupedSymbols = getMappedSymbols(params)
+    return Object.values(groupedSymbols).map((group) => {
+      const { base } = group
+      return {
+        params: group.params,
+        request: {
+          url: 'latest.json',
+          baseURL: config.API_ENDPOINT,
+          params: {
+            app_id: config.API_KEY,
+            base,
+          },
         },
       }
-
-      const pairOption = pairOptions[base][quote]
-
-      const result = Requester.validateResultNumber(
-        responses[pairOption.base].data,
-        ['rates', pairOption.quote],
-        { inverse: pairOption.inverse },
-      )
-
-      payload.push([
-        CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
-        individualRequest,
-        result,
-      ])
+    })
+  },
+  parseResponse: (params, res) => {
+    if (!res.data.rates) {
+      return params.map((param) => ({
+        params: param,
+        response: {
+          errorMessage: `OpenExchangeRates provided no data for base "${param.base}" and quote "${param.quote}"`,
+          statusCode: 502,
+        },
+      }))
     }
-  }
-
-  return Requester.success(
-    jobRunID,
-    { data: { payload, results: payload } },
-    true,
-    batchablePropertyPath,
-  )
-}
-
-const getIncludesOptions = (
-  _: Validator<TInputParameters>,
-  include: IncludePair,
-): TOptions | undefined => ({
-  base: include.from,
-  quote: include.to,
-  inverse: include.inverse,
+    return params.map((param) => {
+      const result = res.data.rates[param.quote.toUpperCase()]
+      if (!result) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `OpenExchangeRates provided no data for base "${param.base}" and quote "${param.quote}"`,
+            statusCode: 502,
+          },
+        }
+      }
+      return {
+        params: param,
+        response: {
+          data: {
+            result: result,
+          },
+          result,
+        },
+      }
+    })
+  },
 })
 
-const defaultGetOptions = (base: string, quote: string): TOptions => ({ base, quote })
-
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { includes })
-
-  const jobRunID = validator.validated.id
-  const url = 'latest.json'
-
-  const pairOptions = util.getBatchedPairOptions<TOptions, TInputParameters>(
-    AdapterName,
-    validator,
-    getIncludesOptions,
-    defaultGetOptions,
-  )
-
-  const requestIsBatched = typeof pairOptions.base !== 'string'
-
-  const responses: { [base: string]: AxiosResponse<ResponseSchema> } = {}
-
-  const requestBases = requestIsBatched
-    ? Object.values(pairOptions as PairOptionsMap<TOptions>).reduce(
-        (bases: string[], quoteOptions): string[] => {
-          for (const includesOptions of Object.values(quoteOptions)) {
-            if (!bases.includes(includesOptions.base)) bases.push(includesOptions.base)
-          }
-          return bases
-        },
-        [],
-      )
-    : [pairOptions.base]
-
-  for (const base of requestBases) {
-    const options = {
-      ...config.api,
-      params: {
-        base,
-        app_id: config.apiKey,
-      },
-      url,
-    }
-
-    responses[base as string] = await Requester.request<ResponseSchema>(options)
-  }
-
-  if (requestIsBatched)
-    return handleBatchedRequest(
-      jobRunID,
-      request,
-      pairOptions as PairOptionsMap<TOptions>,
-      responses,
-    )
-
-  const response = responses[pairOptions.base as string]
-  const result = Requester.validateResultNumber(
-    response.data,
-    ['rates', pairOptions.quote as string],
-    { inverse: pairOptions.inverse as boolean },
-  )
-
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result),
-    config.verbose,
-    batchablePropertyPath,
-  )
-}
+export const endpoint = new PriceEndpoint<ForexEndpointTypes>({
+  name: 'forex',
+  aliases: ['price'],
+  transport: batchTransport,
+  inputParameters,
+})
