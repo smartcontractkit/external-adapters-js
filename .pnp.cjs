@@ -484,10 +484,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finnhub"\
       },\
       {\
-        "name": "@chainlink/finnhub-test-adapter",\
-        "reference": "workspace:packages/sources/finnhub-test"\
-      },\
-      {\
         "name": "@chainlink/fixer-adapter",\
         "reference": "workspace:packages/sources/fixer"\
       },\
@@ -950,7 +946,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
       ["@chainlink/finage-test-adapter", ["workspace:packages/sources/finage-test"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
-      ["@chainlink/finnhub-test-adapter", ["workspace:packages/sources/finnhub-test"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
       ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
@@ -6951,7 +6946,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/finnhub-test-adapter", "workspace:packages/sources/finnhub-test"],\
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],\
             ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
             ["@chainlink/fluent-finance-adapter", "workspace:packages/sources/fluent-finance"],\
@@ -7550,24 +7544,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/finnhub-test-adapter", [\
-        ["workspace:packages/sources/finnhub-test", {\
-          "packageLocation": "./packages/sources/finnhub-test/",\
-          "packageDependencies": [\
-            ["@chainlink/finnhub-test-adapter", "workspace:packages/sources/finnhub-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

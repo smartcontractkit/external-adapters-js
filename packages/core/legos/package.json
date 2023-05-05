@@ -102,7 +102,6 @@
     "@chainlink/finage-adapter": "workspace:*",
     "@chainlink/finage-test-adapter": "workspace:*",
     "@chainlink/finnhub-adapter": "workspace:*",
-    "@chainlink/finnhub-test-adapter": "workspace:*",
     "@chainlink/fixer-adapter": "workspace:*",
     "@chainlink/flightaware-adapter": "workspace:*",
     "@chainlink/fluent-finance-adapter": "workspace:*",
