@@ -205,31 +205,6 @@ export const mockInverseRateResponseSuccess = (): nock.Scope =>
   })
     .persist()
     .get('/latest.json')
-    .query({ app_id: 'fake-api-key', base: 'IDR' })
-    .reply(
-      200,
-      () => ({
-        disclaimer: 'Usage subject to terms: https://openexchangerates.org/terms',
-        license: 'https://openexchangerates.org/license',
-        timestamp: 1636113600,
-        base: 'IDR',
-        rates: {
-          ETH: 123,
-          USD: 0.123,
-        },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
-    .get('/latest.json')
     .query({ app_id: 'fake-api-key', base: 'USD' })
     .reply(
       200,
@@ -242,33 +217,6 @@ export const mockInverseRateResponseSuccess = (): nock.Scope =>
           IDR: 0.234,
           ETH: 234,
         },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
-
-export const mockResponseFailure = (): nock.Scope =>
-  nock('https://openexchangerates.org/api', {
-    encodedQueryParams: true,
-  })
-    .get('/latest.json')
-    .query({ app_id: 'fake-api-key', base: 'NON-EXISTING' })
-    .reply(
-      400,
-      () => ({
-        error: true,
-        status: 400,
-        message: 'invalid_base',
-        description:
-          'Invalid `base` currency [EASDSAF]. Please ensure you use the standard international code, and that it is supported by the API. See our documentation for details: https://openexchangerates.org/documentation/.',
       }),
       [
         'Content-Type',
