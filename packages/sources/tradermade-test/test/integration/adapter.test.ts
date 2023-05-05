@@ -72,16 +72,38 @@ describe('execute', () => {
     })
 
     describe('live endpoint', () => {
-      const data = {
-        id,
-        data: {
-          endpoint: 'live',
-          base: 'aapl',
-        },
-      }
-
       it('should return success', async () => {
         mockForexResponse()
+
+        const data = {
+          id,
+          data: {
+            endpoint: 'live',
+            base: 'aapl',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('override should return success', async () => {
+        mockForexResponse()
+
+        const data = {
+          id,
+          data: {
+            endpoint: 'live',
+            base: 'WTI',
+            quote: 'USD',
+          },
+        }
 
         const response = await (context.req as SuperTest<Test>)
           .post('/')
