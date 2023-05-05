@@ -1,21 +1,22 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['quote', 'common']
+const logger = makeLogger('Finnhub quote endpoint')
 
-const commonKeys: Record<string, string> = {
-  N225: '^N225',
-  FTSE: '^FTSE',
-  XAU: 'OANDA:XAU_USD',
-  XAG: 'OANDA:XAG_USD',
-  AUD: 'OANDA:AUD_USD',
-  EUR: 'OANDA:EUR_USD',
-  GBP: 'OANDA:GBP_USD',
-  // CHF & JPY are not supported
-}
+export const inputParameters = new InputParameters({
+  base: {
+    aliases: ['quote', 'asset', 'from'],
+    type: 'string',
+    description: 'The symbol of symbols of the currency to query',
+    required: true,
+  },
+})
 
-export interface ResponseSchema {
+export interface ProviderResponseBody {
   c: number
   d: number
   dp: number
@@ -26,40 +27,73 @@ export interface ResponseSchema {
   t: number
 }
 
-export type TInputParameters = { base: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    aliases: ['quote', 'asset', 'from'],
-    required: true,
-    description: 'The base key',
-    type: 'string',
+export interface RequestParams {
+  base: string
+}
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
+
+export const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, settings: typeof config.settings) => {
+    return params.map((param) => {
+      const symbol = param.base.toUpperCase()
+      const requestConfig = {
+        baseURL: `${settings.API_ENDPOINT}/quote`,
+        method: 'GET',
+        params: {
+          symbol,
+          token: settings.API_KEY,
+        },
+      }
+      return {
+        params: [param],
+        request: requestConfig,
+      }
+    })
   },
-}
+  parseResponse: (params, res) => {
+    const data = res.data
+    if (!data.c) {
+      return params.map((param) => {
+        const errorMessage = `No data found for ${param.base}`
+        logger.info(errorMessage)
+        return {
+          params: param,
+          response: {
+            statusCode: 502,
+            errorMessage,
+          },
+        }
+      })
+    }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+    return params.map((param) => {
+      const result = data.c
+      return {
+        params: param,
+        response: {
+          data: {
+            result,
+          },
+          result,
+        },
+      }
+    })
+  },
+})
 
-  const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
-
-  let symbol = validator.validated.data.base.toUpperCase()
-  if (commonKeys[symbol]) {
-    symbol = commonKeys[symbol]
-  }
-  const token = util.getRandomRequiredEnv('API_KEY')
-
-  const params = {
-    symbol,
-    token,
-  }
-
-  const options = {
-    ...config.api,
-    params,
-    url: util.buildUrlPath(':endpoint', { endpoint }, ':^'),
-  }
-
-  const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, ['c'])
-  return Requester.success(jobRunID, Requester.withResult(response, result))
-}
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'quote',
+  aliases: ['common'],
+  transport: httpTransport,
+  inputParameters: inputParameters,
+  overrides: overrides.finnhub,
+})
