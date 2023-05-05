@@ -172,7 +172,6 @@
     "@chainlink/terra-view-function-adapter": "workspace:*",
     "@chainlink/therundown-adapter": "workspace:*",
     "@chainlink/tiingo-adapter": "workspace:*",
-    "@chainlink/tiingo-test-adapter": "workspace:*",
     "@chainlink/tp-adapter": "workspace:*",
     "@chainlink/tradermade-adapter": "workspace:*",
     "@chainlink/tradermade-test-adapter": "workspace:*",

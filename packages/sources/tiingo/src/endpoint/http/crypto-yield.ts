@@ -31,7 +31,7 @@ const inputParameters = new InputParameters({
     type: 'string',
     required: true,
     description: 'Yield apr term',
-    options: ['30day', '90day'],
+    options: ['30Day', '90Day'],
   },
 })
 
@@ -65,9 +65,9 @@ const httpTransport = new HttpTransport<CryptoYieldEndpointTypes>({
   parseResponse: (params, res) => {
     return params.map((param) => {
       let resultVal: number | null = null
-      if (param.aprTerm == '30day' && 'apr30Day' in res.data[0]) {
+      if (param.aprTerm == '30Day' && 'apr30Day' in res.data[0]) {
         resultVal = res.data[0].apr30Day
-      } else if (param.aprTerm == '90day' && 'apr90Day' in res.data[0]) {
+      } else if (param.aprTerm == '90Day' && 'apr90Day' in res.data[0]) {
         resultVal = res.data[0].apr90Day
       }
       return {
