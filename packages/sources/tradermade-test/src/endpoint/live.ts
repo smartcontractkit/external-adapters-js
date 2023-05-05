@@ -4,6 +4,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { ResponseSchema, buildIndividualRequests, constructEntry } from '../price-utils'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
+import overrides from '../config/overrides.json'
 
 export const inputParameters = new InputParameters({
   base: {
@@ -40,4 +41,5 @@ export const endpoint = new AdapterEndpoint<LiveEndpointTypes>({
   aliases: ['stock', 'commodities'],
   transport: httpTransport,
   inputParameters,
+  overrides: overrides.tradermade,
 })
