@@ -1,133 +1,224 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute commodities should return success 1`] = `
-{
-  "data": {
-    "result": 77.515,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 77.515,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute crypto-vwap api should return success 1`] = `
-{
-  "data": {
-    "result": 0.7091192957589304,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 0.7091192957589304,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute cryptoyield endpoint with poolCode should return success 1`] = `
-{
-  "data": {
-    "result": 0.025501153223986828,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 0.025501153223986828,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute cryptoyield endpoint without poolCode should return success 1`] = `
-{
-  "data": {
-    "result": 0.05041705428139954,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 0.05041705428139954,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute eod api should return success 1`] = `
-{
-  "data": {
-    "result": 48.77,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 48.77,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute forex should return success 1`] = `
-{
-  "data": {
-    "result": 1.33605,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 1.33605,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute iex api should return success 1`] = `
-{
-  "data": {
-    "result": 51.27,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 51.27,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute prices api should return success 1`] = `
+exports[`execute http crypto endpoint should return success 1`] = `
 {
   "data": {
     "result": 4462.5193860735335,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4462.5193860735335,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute realized-vol endpoint should return success 1`] = `
+exports[`execute http cryptoyield endpoint should return success 1`] = `
 {
   "data": {
-    "result": 0.851625908515737,
+    "apr30Day": 0.05041705428139954,
+    "apr90Day": 0.0509027044623858,
+    "date": "2023-03-28T08:18:37.836912+00:00",
+    "deposits": 0,
+    "divisor": 17818985,
+    "endSlot": 6097247,
+    "epoch": 190538,
+    "startSlot": 6097216,
+    "totalReward": 9.345802312743183,
+    "transactionReward": 0.9943422706363183,
+    "validatorReward": 8.387974508106709,
+    "validatorSubtractions": -0.03651446599984354,
+    "yieldPoolID": 42,
+    "yieldPoolName": "ethnetwork_eth",
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 0.851625908515737,
+  "result": 0.0509027044623858,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute top api should return success 1`] = `
+exports[`execute http eod endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 48.77,
+  },
+  "result": 48.77,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute http forex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.33605,
+  },
+  "result": 1.33605,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute http iex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 51.27,
+  },
+  "result": 51.27,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute http realized-vol endpoint should return success 1`] = `
+{
+  "data": {
+    "realVol1Day": 0.3312392184952228,
+    "realVol30Day": 0.851625908515737,
+    "realVol7Day": 0.6687492814959118,
+  },
+  "result": 0.851625908515737,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1641859200000,
+  },
+}
+`;
+
+exports[`execute http top endpoint should return success 1`] = `
 {
   "data": {
     "result": 4471.9,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4471.9,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute volume api should return success 1`] = `
+exports[`execute http volume endpoint should return success 1`] = `
 {
   "data": {
     "result": 4094298121.291589,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4094298121.291589,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute http vwap endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 0.7091192957589304,
+  },
+  "result": 0.7091192957589304,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute websocket crypto endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 2930.4483973989,
+  },
+  "result": 2930.4483973989,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1646249828102,
+  },
+}
+`;
+
+exports[`execute websocket crypto_lwba endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 1794.2063137650225,
+    "askSize": 126.22352905999999,
+    "bid": 1793.6242715443277,
+    "bidSize": 117.75114002,
+    "datetime": "2023-03-30T14:38:14.577256+00:00",
+    "mid": 1793.915292654675,
+    "ticker": "eth/usd",
+    "weightedSpreadPcnt": 0.00032445356984135313,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1680187094577,
+    "providerDataStreamEstablishedUnixMs": 1680187094577,
+  },
+}
+`;
+
+exports[`execute websocket forex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.08272,
+  },
+  "result": 1.08272,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1649964792474,
+  },
+}
+`;
+
+exports[`execute websocket iex endpoint Q request should return success 1`] = `
+{
+  "data": {
+    "result": 170.285,
+  },
+  "result": 170.285,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1645032916595,
+  },
+}
+`;
+
+exports[`execute websocket iex endpoint T request should return success 1`] = `
+{
+  "data": {
+    "result": 106.21,
+  },
+  "result": 106.21,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1645032916595,
+  },
 }
 `;
