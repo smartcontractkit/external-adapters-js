@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/polygon-test-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink polygon-test adapter.",
   "keywords": [
     "Chainlink",

@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.10.11
+
+### Patch Changes
+
+- Updated dependencies [9fe3bb112]
+  - @chainlink/tiingo-adapter@2.0.0
+
 ## 1.10.10
 
 ### Patch Changes
