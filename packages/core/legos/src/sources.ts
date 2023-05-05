@@ -93,7 +93,6 @@ import * as ipfs from '@chainlink/ipfs-adapter'
 import * as jpegd from '@chainlink/jpegd-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
-import * as kaiko_test from '@chainlink/kaiko-test-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
 import * as lido from '@chainlink/lido-adapter'
@@ -257,7 +256,6 @@ export default {
   jpegd,
   json_adapter,
   kaiko,
-  kaiko_test,
   layer2_sequencer_health,
   lcx,
   lido,

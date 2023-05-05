@@ -124,7 +124,6 @@
     "@chainlink/jpegd-adapter": "workspace:*",
     "@chainlink/json-rpc-adapter": "workspace:*",
     "@chainlink/kaiko-adapter": "workspace:*",
-    "@chainlink/kaiko-test-adapter": "workspace:*",
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*",
     "@chainlink/lcx-adapter": "workspace:*",
     "@chainlink/lido-adapter": "workspace:*",

@@ -15,7 +15,7 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import * as Finage from '@chainlink/finage-adapter'
-import * as Kaiko from '@chainlink/kaiko-adapter'
+import { adapter as Kaiko } from '@chainlink/kaiko-adapter'
 import { adapter as NCFX } from '@chainlink/ncfx-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
@@ -27,7 +27,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   CoinApi as unknown as v2AdapterImplementation,
   CoinRanking as unknown as v2AdapterImplementation,
   Finage as unknown as v2AdapterImplementation,
-  Kaiko as unknown as v2AdapterImplementation,
   Nomics as unknown as v2AdapterImplementation,
   Tiingo as unknown as v2AdapterImplementation,
 ]
@@ -41,6 +40,7 @@ export const adaptersV3: PriceAdapter<any>[] = [
   CoinMetrics,
   CoinPaprika,
   CryptoCompare,
+  Kaiko,
   NCFX,
 ]
 

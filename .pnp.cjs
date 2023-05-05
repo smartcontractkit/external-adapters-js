@@ -572,10 +572,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/kaiko"\
       },\
       {\
-        "name": "@chainlink/kaiko-test-adapter",\
-        "reference": "workspace:packages/sources/kaiko-test"\
-      },\
-      {\
         "name": "@chainlink/layer2-sequencer-health-adapter",\
         "reference": "workspace:packages/sources/layer2-sequencer-health"\
       },\
@@ -984,7 +980,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
-      ["@chainlink/kaiko-test-adapter", ["workspace:packages/sources/kaiko-test"]],\
       ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
       ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
@@ -6983,7 +6978,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/jpegd-adapter", "workspace:packages/sources/jpegd"],\
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/kaiko-test-adapter", "workspace:packages/sources/kaiko-test"],\
             ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],\
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],\
             ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],\
@@ -8043,24 +8037,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/kaiko/",\
           "packageDependencies": [\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/kaiko-test-adapter", [\
-        ["workspace:packages/sources/kaiko-test", {\
-          "packageLocation": "./packages/sources/kaiko-test/",\
-          "packageDependencies": [\
-            ["@chainlink/kaiko-test-adapter", "workspace:packages/sources/kaiko-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
