@@ -18,7 +18,7 @@ import * as Finage from '@chainlink/finage-adapter'
 import * as Kaiko from '@chainlink/kaiko-adapter'
 import { adapter as NCFX } from '@chainlink/ncfx-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
-import * as Tiingo from '@chainlink/tiingo-adapter'
+import { adapter as Tiingo } from '@chainlink/tiingo-adapter'
 import { Config, SourceRequestOptions } from '../types'
 
 // List of v2 adapters
@@ -29,7 +29,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   Finage as unknown as v2AdapterImplementation,
   Kaiko as unknown as v2AdapterImplementation,
   Nomics as unknown as v2AdapterImplementation,
-  Tiingo as unknown as v2AdapterImplementation,
 ]
 
 // List of v3 adapters
@@ -42,6 +41,7 @@ export const adaptersV3: PriceAdapter<any>[] = [
   CoinPaprika,
   CryptoCompare,
   NCFX,
+  Tiingo,
 ]
 
 export const DEFAULT_TOKEN_DECIMALS = 18

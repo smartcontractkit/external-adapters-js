@@ -3419,7 +3419,6 @@ __metadata:
     "@chainlink/terra-view-function-adapter": "workspace:*"
     "@chainlink/therundown-adapter": "workspace:*"
     "@chainlink/tiingo-adapter": "workspace:*"
-    "@chainlink/tiingo-test-adapter": "workspace:*"
     "@chainlink/tp-adapter": "workspace:*"
     "@chainlink/tradermade-adapter": "workspace:*"
     "@chainlink/tradermade-test-adapter": "workspace:*"
@@ -5245,22 +5244,6 @@ __metadata:
 "@chainlink/tiingo-adapter@workspace:*, @chainlink/tiingo-adapter@workspace:packages/sources/tiingo":
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/tiingo-test-adapter@workspace:*, @chainlink/tiingo-test-adapter@workspace:packages/sources/tiingo-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/tiingo-test-adapter@workspace:packages/sources/tiingo-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.8
     "@types/jest": 27.5.2
