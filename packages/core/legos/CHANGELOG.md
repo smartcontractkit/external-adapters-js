@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.3.91
+
+### Patch Changes
+
+- Updated dependencies [6794e4514]
+  - @chainlink/tradermade-test-adapter@1.4.0
+
 ## 1.3.90
 
 ### Patch Changes
