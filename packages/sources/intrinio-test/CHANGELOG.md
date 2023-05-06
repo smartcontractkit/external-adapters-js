@@ -1,5 +1,11 @@
 # @chainlink/intrinio-test-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 11922dbf0: Removed WS_ENABLED env var
+
 ## 1.2.2
 
 ### Patch Changes

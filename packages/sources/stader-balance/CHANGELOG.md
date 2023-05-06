@@ -1,5 +1,11 @@
 # @chainlink/stader-balance-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 80b8c7d95: Updated with new contracts and logic
+
 ## 1.0.3
 
 ### Patch Changes

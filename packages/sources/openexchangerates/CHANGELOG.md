@@ -1,5 +1,11 @@
 # @chainlink/openexchangerates-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- cd220b1be: Upgraded adapter from v2 to v3 framework
+
 ## 1.5.25
 
 ### Patch Changes

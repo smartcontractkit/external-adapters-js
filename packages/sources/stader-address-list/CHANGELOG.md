@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- 80b8c7d95: Updated with new contracts and logic
+
 ## 2.0.3
 
 ### Patch Changes

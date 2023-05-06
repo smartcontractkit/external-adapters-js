@@ -1,5 +1,11 @@
 # @chainlink/twosigma-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- ade7e168b: Fix websocket bug in two sigma adapter
+
 ## 1.1.10
 
 ### Patch Changes
