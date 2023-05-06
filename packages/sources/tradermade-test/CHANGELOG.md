@@ -1,5 +1,11 @@
 # @chainlink/tradermade-test-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- ac4dea150: Accounting for credit based rate limiting by unbatching all endpoints
+
 ## 1.2.2
 
 ### Patch Changes

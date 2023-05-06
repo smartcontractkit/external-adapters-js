@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxfeed-secondary-test-adapter",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Chainlink dxfeed-secondary-test adapter.",
   "keywords": [
     "Chainlink",
