@@ -1,6 +1,7 @@
 .git
 node_modules
 **/dist
+Dockerfile
 
 # Build artifacts
 packages/**/*.zip

@@ -1,14 +1,17 @@
+FROM node:16 as installer
+WORKDIR /home/node/app
+COPY . .
+RUN yarn install
+
+
 FROM node:16 as builder
+WORKDIR /home/node/app
+COPY --from=installer /home/node/app .
 ARG location
 ARG package
-
-WORKDIR /home/node/app
-
-COPY . .
-
-RUN yarn
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
+
 
 FROM node:16-alpine
 ARG location
