@@ -28,7 +28,7 @@ jobs:
 
   # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
   install-packages:
-    name: Verify dependency package archives
+    name: Install and verify dependencies
     runs-on: ubuntu-latest
     outputs:
       changed-packages: ${{ steps.changed-packages.outputs.result }}
@@ -36,15 +36,19 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
       - name: Build list of changed packages
         id: changed-packages
-        run: echo "result=$(yarn workspaces list -R --json --since=$BASE_BRANCH | jq -cr 'select(.location | startswith("packages"))')" >> $GITHUB_OUTPUT
+        run: echo "result=$(yarn workspaces list -R --json --since=$BASE_BRANCH | jq -cs '.' | jq -cr '[.[] | select(.location | startswith("packages"))]')" >> $GITHUB_OUTPUT
       - name: Build list of changed adapters
         id: adapter-list
+        env:
+          CHANGED_PACKAGES: ${{ steps.changed-packages.outputs.result }}
         run: |
-          echo "result=$(echo $CHANGED_PACKAGES | jq -cs '.' | jq -cr '{adapters: [.[] | select(.location | startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | .shortName = (.name | match("@chainlink/(.*)-adapter").captures[0].string)]}'" >> $GITHUB_OUTPUT
+          echo "result=$(echo $CHANGED_PACKAGES | jq -cr '{adapter: [.[] | select(.location | startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | .shortName = (.name | match("@chainlink/(.*)-adapter").captures[0].string)]}')" >> $GITHUB_OUTPUT
 
   # ---------- Adapter checks (only for changed EAs) ----------
 
@@ -63,7 +67,7 @@ jobs:
       - name: Run unit tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-        run: yarn jest $(echo $CHANGED_PACKAGES | yarn workspaces list -R --json --since=origin/master | jq '.location + "/test/unit"' -r | tr '\n' ' ')
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
 
   # Run integration tests
   integration-tests:
@@ -80,7 +84,7 @@ jobs:
       - name: Run integration tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-        run: yarn jest $(echo $CHANGED_PACKAGES | yarn workspaces list -R --json --since=origin/master | jq '.location + "/test/integration"' -r | tail -n +2 | tr '\n' ' ')
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
 
   # Run linters
   linters:
@@ -97,7 +101,7 @@ jobs:
       - name: Lint all files
         run: yarn lint
       - name: Build all files
-        run: yarn setup-=tests
+        run: yarn setup-tests
       - name: Check for formatting errors
         run: yarn format:check
 
@@ -171,30 +175,31 @@ jobs:
 
   # ---------- Build images for changed adapters ----------
 
-  # build-adapter-images:
-  #   name: Build ${{ matrix.adapter.shortName }}
-  #   runs-on: [self-hosted, sdlc-ghr-prod]
-  #   environment: release
-  #   needs:
-  #     - install-packages # To use the built changed adapter list
-  #     - build-base-adapter-image
-  #   strategy:
-  #     matrix: ${{fromJson(needs.install-packages.outputs.adapter-list)}}
-  #   env:
-  #     IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters
-  #     PRIVATE_ECR_ACCOUNT_IDS: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
-  #   steps:
-  #     - name: Check out code
-  #       uses: actions/checkout@v3
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #     - name: Build cache the installer stage of the main image
-  #       uses: docker/build-push-action@v4
-  #       with:
-  #         context: .
-  #         push: false
-  #         tags: adapter-base
-  #         cache-from: type=gha
+  build-adapter-images:
+    name: Build ${{ matrix.adapter.shortName }}
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    environment: release
+    needs:
+      - install-packages # To use the built changed adapter list
+      - build-base-adapter-image
+    strategy:
+      matrix: ${{fromJson(needs.install-packages.outputs.adapter-list)}}
+    env:
+      IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters
+      IMAGE_TAG: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/${{ matrix.adapter.shortName }}:pr-${{ github.event.pull_request.number }}
+      PRIVATE_ECR_ACCOUNT_IDS: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build cache the installer stage of the main image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: false
+          tags: ${{ env.IMAGE_TAG }}
+          cache-from: type=gha
   #     - name: Authenticate to ECR
   #       run: aws ecr get-login-password --region ${{ secrets.AWS_REGION_ECR_PRIVATE }} | docker login --username AWS --password-stdin $IMAGE_PREFIX/
   #     - name: Create a ECR repository if does not exist
