@@ -4771,7 +4771,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 14.18.43
+    "@types/node": 14.18.45
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -10807,10 +10807,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.43":
-  version: 14.18.43
-  resolution: "@types/node@npm:14.18.43"
-  checksum: 3ef43eda265c346597bc5c8329605255550f7a92300a76e9e3c48e07fd685b4a48d47465997bf6f1a68b235c7339e6e583d73515769efcad70e4f8f4c7f47fd4
+"@types/node@npm:14.18.45":
+  version: 14.18.45
+  resolution: "@types/node@npm:14.18.45"
+  checksum: 2857cd1912d70f6a97b9d8085088b12ab80bcaa06e4ea20535020167bfcbc6bea9469fafc437acddd34b07e3d94b1d35bcbd51d960c8841ab1a675166e97d8b9
   languageName: node
   linkType: hard
 
