@@ -7069,7 +7069,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/sinon", "npm:10.0.14"],\
             ["@types/uuid", "npm:8.3.4"],\
             ["@types/ws", "npm:8.5.4"],\
-            ["ajv", "npm:8.11.0"],\
+            ["ajv", "npm:8.12.0"],\
             ["axios", "npm:0.24.0"],\
             ["decimal.js", "npm:10.4.3"],\
             ["fast-redact", "npm:3.1.2"],\
@@ -11747,7 +11747,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@fastify-ajv-compiler-npm-3.3.1-2ffc2c24a5-5e07902003.zip/node_modules/@fastify/ajv-compiler/",\
           "packageDependencies": [\
             ["@fastify/ajv-compiler", "npm:3.3.1"],\
-            ["ajv", "npm:8.11.0"],\
+            ["ajv", "npm:8.12.0"],\
             ["ajv-formats", "virtual:2ffc2c24a5996ccc26158080dbd7f59924dac9c9eb8a062b64a2e3965f5134eb3266f9fa0f5bf6fee1e64a4951b120c4ba784f0fec69f6a67af6d3c41d408363#npm:2.1.1"],\
             ["fast-uri", "npm:2.1.0"]\
           ],\
@@ -16531,6 +16531,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["uri-js", "npm:4.4.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:8.12.0", {\
+          "packageLocation": "./.yarn/cache/ajv-npm-8.12.0-3bf6e30741-4dc13714e3.zip/node_modules/ajv/",\
+          "packageDependencies": [\
+            ["ajv", "npm:8.12.0"],\
+            ["fast-deep-equal", "npm:3.1.3"],\
+            ["json-schema-traverse", "npm:1.0.0"],\
+            ["require-from-string", "npm:2.0.2"],\
+            ["uri-js", "npm:4.4.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["ajv-formats", [\
@@ -16546,7 +16557,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["ajv-formats", "virtual:2ffc2c24a5996ccc26158080dbd7f59924dac9c9eb8a062b64a2e3965f5134eb3266f9fa0f5bf6fee1e64a4951b120c4ba784f0fec69f6a67af6d3c41d408363#npm:2.1.1"],\
             ["@types/ajv", null],\
-            ["ajv", "npm:8.11.0"]\
+            ["ajv", "npm:8.12.0"]\
           ],\
           "packagePeers": [\
             "@types/ajv",\
@@ -22128,7 +22139,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["fast-json-stringify", "npm:5.4.0"],\
             ["@fastify/deepmerge", "npm:1.1.0"],\
-            ["ajv", "npm:8.11.0"],\
+            ["ajv", "npm:8.12.0"],\
             ["ajv-formats", "virtual:2ffc2c24a5996ccc26158080dbd7f59924dac9c9eb8a062b64a2e3965f5134eb3266f9fa0f5bf6fee1e64a4951b120c4ba784f0fec69f6a67af6d3c41d408363#npm:2.1.1"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["fast-uri", "npm:2.1.0"],\
@@ -28116,7 +28127,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/light-my-request-npm-4.12.0-5bdefbeb03-ffaf325a74.zip/node_modules/light-my-request/",\
           "packageDependencies": [\
             ["light-my-request", "npm:4.12.0"],\
-            ["ajv", "npm:8.11.0"],\
+            ["ajv", "npm:8.12.0"],\
             ["cookie", "npm:0.5.0"],\
             ["process-warning", "npm:1.0.0"],\
             ["set-cookie-parser", "npm:2.5.1"]\
