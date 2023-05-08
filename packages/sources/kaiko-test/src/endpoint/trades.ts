@@ -1,9 +1,11 @@
 import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { config } from '../config'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
 import overrides from '../config/overrides.json'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+const logger = makeLogger('KaikoTrades')
 
 const inputParameters = new InputParameters({
   base: {
@@ -119,16 +121,30 @@ const httpTransport = new HttpTransport<EndpointTypes>({
     return params.map((param) => {
       const data = res.data.data.filter((x) => x.price !== null)
       if (data.length === 0) {
+        const errorMessage = `Kaiko is not returning any price data for ${param.base}/${param.quote}, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.`
+        logger.info(errorMessage)
         return {
           params: param,
           response: {
-            statusCode: 400,
-            errorMessage:
-              'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.',
+            statusCode: 502,
+            errorMessage,
           },
         }
       }
       const price = Number(res.data.data[0].price)
+
+      if (price === 0) {
+        const errorMessage = `Kaiko returned price of 0 for ${param.base}/${param.quote}`
+        logger.info(errorMessage)
+        return {
+          params: param,
+          response: {
+            statusCode: 502,
+            errorMessage,
+          },
+        }
+      }
+
       return {
         params: param,
         response: {
