@@ -85,7 +85,7 @@ export class ValidatorFactory {
                   provider: params.provider,
                 }
                 logger.debug(
-                  `[Validator ${validatorAddress}] Found address on beacon chain (status: ${state.status} | balance: ${validatorBalance})`,
+                  `[Validator ${validatorAddress.address}] Found address on beacon chain (status: ${state.status} | balance: ${validatorBalance})`,
                 )
 
                 if (

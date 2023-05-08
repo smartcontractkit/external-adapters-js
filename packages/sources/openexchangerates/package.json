@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/openexchangerates-adapter",
-  "version": "1.5.25",
+  "version": "2.0.0",
   "description": "Chainlink openexchangerates adapter.",
   "keywords": [
     "Chainlink",
@@ -28,8 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
+    "@chainlink/external-adapter-framework": "0.29.8",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

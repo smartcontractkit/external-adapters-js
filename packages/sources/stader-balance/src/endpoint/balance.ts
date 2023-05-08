@@ -26,7 +26,6 @@ import {
   formatValueInGwei,
   inputParameters,
   parseLittleEndian,
-  staderNetworkChainMap,
   withErrorHandling,
 } from './utils'
 
@@ -93,11 +92,20 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     const latestBlockNum = await this.provider.getBlockNumber() // 1X
     const blockTag = latestBlockNum - req.confirmations
 
-    // Create necessary basic constructs
-    const permissionedPool = new PermissionedPool(req, blockTag, this.provider)
-    const stakeManager = new StakeManager(req, blockTag, this.provider)
+    // Fetch addresses for all relevant contracts from the StaderConfig contract
+    // Override with addresses from request, if exist
     const staderConfig = new StaderConfig(req, blockTag, this.provider)
-    const { socialPools, poolMap } = await Pool.buildAll(req, blockTag, this.provider)
+    const { poolFactoryAddress, penaltyAddress, stakeManagerAddress, permissionedPoolAddress } =
+      await staderConfig.fetchContractAddresses(req, blockTag)
+
+    // Create necessary basic constructs
+    const permissionedPool = new PermissionedPool(permissionedPoolAddress, blockTag, this.provider)
+    const stakeManager = new StakeManager(stakeManagerAddress, blockTag, this.provider)
+    const { socialPools, poolMap } = await Pool.buildAll(
+      { ...req, poolFactoryAddress },
+      blockTag,
+      this.provider,
+    )
 
     // Fetch as much data in parallel as we can
     // Max concurrent calls = (batched validator states * settings.GROUP_SIZE) + (EL reward address balance * $batchSize) + 4 single reqs
@@ -133,7 +141,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
         ...req,
         poolMap,
         blockTag,
-        penaltyContract: this.buildPenaltyContract(req),
+        penaltyContract: this.buildPenaltyContract(penaltyAddress),
         settings: context.adapterSettings,
         provider: this.provider,
       }),
@@ -197,13 +205,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     }
   }
 
-  private buildPenaltyContract(params: {
-    penaltyAddress?: string
-    network: string
-    chainId: string
-  }) {
-    const penaltyAddress =
-      params.penaltyAddress || staderNetworkChainMap[params.network][params.chainId].penalty
+  private buildPenaltyContract(penaltyAddress: string) {
     return new ethers.Contract(penaltyAddress, StaderPenaltyContract_ABI, this.provider)
   }
 

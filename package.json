@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.68.0",
+  "version": "1.69.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -39,7 +39,7 @@
     "framework-bump": "./packages/scripts/src/framework/version-bump.sh"
   },
   "dependencies": {
-    "@babel/core": "7.21.5",
+    "@babel/core": "7.21.8",
     "@babel/preset-env": "7.20.2",
     "@babel/preset-typescript": "7.21.5",
     "@changesets/cli": "2.18.1",
@@ -75,7 +75,7 @@
   "lint-staged": {
     "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
   },
-  "packageManager": "yarn@3.5.0",
+  "packageManager": "yarn@3.5.1",
   "resolutions": {
     "ethereum-cryptography@^1.1.2": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch",
     "ethereum-cryptography@^1.0.3": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch"

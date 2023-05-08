@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/outlier-detection-adapter",
-  "version": "1.2.90",
+  "version": "1.2.92",
   "description": "Chainlink Outlier Detection adapter.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

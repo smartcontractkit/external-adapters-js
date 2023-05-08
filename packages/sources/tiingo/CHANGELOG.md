@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.0.0
+
+### Major Changes
+
+- 9fe3bb112: Upgraded adapter from v2 to v3 framework
+
 ## 1.13.2
 
 ### Patch Changes
