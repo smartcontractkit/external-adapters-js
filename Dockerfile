@@ -1,12 +1,9 @@
 FROM node:16 as builder
 ARG location
 ARG package
-
 WORKDIR /home/node/app
-
 COPY . .
-
-RUN yarn
+RUN yarn workspaces focus @chainlink/external-adapters-js $package
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
 

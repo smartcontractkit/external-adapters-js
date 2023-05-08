@@ -1,0 +1,221 @@
+name: PR Checks
+
+on:
+  pull_request: ~
+
+env:
+  BASE_BRANCH: origin/${{ github.base_ref }}
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}-checks
+  cancel-in-progress: true
+
+jobs:
+  # ---------- Initial steps ----------
+
+  # Check that the changes introduced in this PR include changesets for packages that would need them
+  check-changesets:
+    name: Adapter changes accompanied by a changeset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Check whether adapter change also has a changeset
+        id: adapter_change_has_changeset
+        run: ./.github/isvalidadapterchange.sh
+
+  # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
+  install-packages:
+    name: Install and verify dependencies
+    runs-on: ubuntu-latest
+    outputs:
+      changed-packages: ${{ steps.changed-packages.outputs.result }}
+      adapter-list: ${{ steps.adapter-list.outputs.result }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Build list of changed packages
+        id: changed-packages
+        run: echo "result=$(yarn workspaces list -R --json --since=$BASE_BRANCH | jq -cs '.' | jq -cr '[.[] | select(.location | startswith("packages"))]')" >> $GITHUB_OUTPUT
+      - name: Build list of changed adapters
+        id: adapter-list
+        env:
+          CHANGED_PACKAGES: ${{ steps.changed-packages.outputs.result }}
+        run: |
+          echo "result=$(echo $CHANGED_PACKAGES | jq -cr '{adapter: [.[] | select(.location | startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | .shortName = (.name | match("@chainlink/(.*)-adapter").captures[0].string)]}')" >> $GITHUB_OUTPUT
+
+  # ---------- Adapter checks (only for changed EAs) ----------
+
+  # Run unit tests
+  unit-tests:
+    name: Run unit tests for changed adapters
+    runs-on: ubuntu-latest
+    needs:
+      - check-changesets
+      - install-packages
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Run unit tests
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
+
+  # Run integration tests
+  integration-tests:
+    name: Run integration tests for changed adapters
+    runs-on: ubuntu-latest
+    needs:
+      - check-changesets
+      - install-packages
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Run integration tests
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
+
+  # Run linters
+  linters:
+    name: Run linters and formatters
+    runs-on: ubuntu-latest
+    needs:
+      - check-changesets
+      - install-packages
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Lint all files
+        run: yarn lint
+      - name: Build all files
+        run: yarn setup-tests
+      - name: Check for formatting errors
+        run: yarn format:check
+
+  # Run documentation tests (check that the doc generation succeeds to avoid problems downstream)
+  run-documentation-check:
+    name: Documentation generation test
+    runs-on: ubuntu-latest
+    needs:
+      - check-changesets
+      - install-packages
+    env:
+      METRICS_ENABLED: false
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Test Master List Generation
+        run: yarn generate:master-list -v
+      - name: Test README Generation
+        run: yarn generate:readme -v
+        env:
+          UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+
+  # ---------- Prepare build artifacts (after checks passed) ----------
+
+  # Build base image for adapters, with yarn dependencies already installed, and save it to the GHA cache
+  # build-base-adapter-image:
+  #   name: Build base adapter image
+  #   runs-on: [self-hosted, sdlc-ghr-prod]
+  #   needs:
+  #     - unit-tests
+  #     - integration-tests
+  #     - linters
+  #     - run-documentation-check
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
+  #     - name: Build cache the installer stage of the main image
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         context: .
+  #         push: false
+  #         tags: adapter-base
+  #         target: installer
+  #         cache-from: type=gha
+  #         cache-to: type=gha
+
+  # Build base image for the k6 load testing container that will be used for soak tests, and save it to the GHA cache
+  # build-base-k6-image:
+  #   name: Build base adapter image
+  #   runs-on: [self-hosted, sdlc-ghr-prod]
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
+  #     - name: Build cache the installer stage of the main image
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         context: packages/k6
+  #         push: false
+  #         tags: adapter-base
+  #         target: installer
+  #         cache-from: type=gha
+  #         cache-to: type=gha
+
+  # ---------- Build images for changed adapters ----------
+
+  build-adapter-images:
+    name: Build ${{ matrix.adapter.shortName }}
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    environment: release
+    needs:
+      - install-packages # To use the built changed adapter list
+      - unit-tests
+      - integration-tests
+      - linters
+      - run-documentation-check
+    strategy:
+      matrix: ${{fromJson(needs.install-packages.outputs.adapter-list)}}
+    env:
+      IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters
+      IMAGE_TAG: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/${{ matrix.adapter.shortName }}:pr-${{ github.event.pull_request.number }}
+      PRIVATE_ECR_ACCOUNT_IDS: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build cache the installer stage of the main image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: false
+          tags: ${{ env.IMAGE_TAG }}
+          build-args: |
+            package=${{ matrix.adapter.name }}
+            location=${{ matrix.adapter.location }}
+  #     - name: Authenticate to ECR
+  #       run: aws ecr get-login-password --region ${{ secrets.AWS_REGION_ECR_PRIVATE }} | docker login --username AWS --password-stdin $IMAGE_PREFIX/
+  #     - name: Create a ECR repository if does not exist
+  #       run: aws ecr create-repository --region ${{ secrets.AWS_REGION_ECR_PRIVATE }} --repository-name adapters/${{ matrix.adapter }} || true
+  #     - name: Set ECR repository permissions for secondary account access on private ECR repos
+  #       run: >
+  #         aws ecr set-repository-policy
+  #         --region ${{ secrets.AWS_REGION_ECR_PUBLIC }}
+  #         --repository-name adapters/${{ matrix.adapter.shortName }}
+  #         --policy-text "$(jq '.Statement[0].Principal.AWS |= [$PRIVATE_ECR_ACCOUNT_IDS]' .github/actions/release/publish-artifacts/secondary-account-access-policy.json)" &> /dev/null;
+  #     - name: Push to ECR
+  #       run: |
+  #         echo "Would push: $IMAGE_PREFIX/${{ matrix.adapter.shortName }}:pr-${{ github.event.pull_request.number }}"
+  #       # run: docker push $IMAGE_PREFIX/${{ matrix.adapter.shortName }}:pr-${{ github.event.pull_request.number }}
