@@ -1,7 +1,0 @@
-{
- "requests": [{
-    "address": "terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy",
-    "query": { "aggregator_query": { "get_latest_round_data": {} } },
-    "chainId": "bombay-12"
-  }]
-}

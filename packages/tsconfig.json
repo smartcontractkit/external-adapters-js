@@ -2,24 +2,18 @@
   "files": [],
   "include": [],
   "references": [
-    {
-      "path": "./composites/anchor"
-    },
+    {},
     {
       "path": "./composites/apy-finance"
     },
-    {
-      "path": "./composites/augur"
-    },
+    {},
     {
       "path": "./composites/bitcoin-json-rpc"
     },
     {
       "path": "./composites/bsol-price"
     },
-    {
-      "path": "./composites/circuit-breaker"
-    },
+    {},
     {
       "path": "./composites/crypto-volatility-index"
     },
@@ -32,18 +26,12 @@
     {
       "path": "./composites/defi-pulse"
     },
-    {
-      "path": "./composites/dns-record-check"
-    },
+    {},
     {
       "path": "./composites/dxdao"
     },
-    {
-      "path": "./composites/dydx-rewards"
-    },
-    {
-      "path": "./composites/google-weather"
-    },
+    {},
+    {},
     {
       "path": "./composites/historical-average"
     },
@@ -53,9 +41,7 @@
     {
       "path": "./composites/linear-finance"
     },
-    {
-      "path": "./composites/market-closure"
-    },
+    {},
     {
       "path": "./composites/medianizer"
     },
@@ -71,9 +57,7 @@
     {
       "path": "./composites/proof-of-reserves"
     },
-    {
-      "path": "./composites/reference-transform"
-    },
+    {},
     {
       "path": "./composites/rocket-pool"
     },
@@ -86,9 +70,7 @@
     {
       "path": "./composites/synth-index"
     },
-    {
-      "path": "./composites/the-graph"
-    },
+    {},
     {
       "path": "./composites/vesper"
     },
@@ -125,9 +107,7 @@
     {
       "path": "./sources/1forge"
     },
-    {
-      "path": "./sources/accuweather"
-    },
+    {},
     {
       "path": "./sources/ada-balance"
     },
@@ -143,9 +123,7 @@
     {
       "path": "./sources/alphavantage-test"
     },
-    {
-      "path": "./sources/alpine"
-    },
+    {},
     {
       "path": "./sources/amberdata"
     },
@@ -167,12 +145,8 @@
     {
       "path": "./sources/bea"
     },
-    {
-      "path": "./sources/binance"
-    },
-    {
-      "path": "./sources/binance-dex"
-    },
+    {},
+    {},
     {
       "path": "./sources/bitex"
     },
@@ -194,21 +168,15 @@
     {
       "path": "./sources/blockstream"
     },
-    {
-      "path": "./sources/bob"
-    },
+    {},
     {
       "path": "./sources/bravenewcoin"
     },
     {
       "path": "./sources/btc.com"
     },
-    {
-      "path": "./sources/cache.gold"
-    },
-    {
-      "path": "./sources/ccip-read"
-    },
+    {},
+    {},
     {
       "path": "./sources/celsius-address-list"
     },
@@ -224,9 +192,7 @@
     {
       "path": "./sources/coinbase"
     },
-    {
-      "path": "./sources/coincodex"
-    },
+    {},
     {
       "path": "./sources/coingecko"
     },
@@ -254,9 +220,7 @@
     {
       "path": "./sources/cryptoapis"
     },
-    {
-      "path": "./sources/cryptoapis-v2"
-    },
+    {},
     {
       "path": "./sources/cryptocompare"
     },
@@ -275,15 +239,9 @@
     {
       "path": "./sources/dar"
     },
-    {
-      "path": "./sources/deribit"
-    },
-    {
-      "path": "./sources/dns-query"
-    },
-    {
-      "path": "./sources/dwolla"
-    },
+    {},
+    {},
+    {},
     {
       "path": "./sources/dxfeed"
     },
@@ -326,9 +284,7 @@
     {
       "path": "./sources/ethgaswatch"
     },
-    {
-      "path": "./sources/expert-car-broker"
-    },
+    {},
     {
       "path": "./sources/fcsapi"
     },
@@ -344,9 +300,7 @@
     {
       "path": "./sources/fixer"
     },
-    {
-      "path": "./sources/flightaware"
-    },
+    {},
     {
       "path": "./sources/fluent-finance"
     },
@@ -365,18 +319,12 @@
     {
       "path": "./sources/genesis-volatility"
     },
-    {
-      "path": "./sources/geodb"
-    },
-    {
-      "path": "./sources/google-bigquery"
-    },
+    {},
+    {},
     {
       "path": "./sources/gramchain"
     },
-    {
-      "path": "./sources/graphql"
-    },
+    {},
     {
       "path": "./sources/gsr"
     },
@@ -392,9 +340,7 @@
     {
       "path": "./sources/intrinio-test"
     },
-    {
-      "path": "./sources/ipfs"
-    },
+    {},
     {
       "path": "./sources/jpegd"
     },
@@ -425,12 +371,8 @@
     {
       "path": "./sources/lotus"
     },
-    {
-      "path": "./sources/marketstack"
-    },
-    {
-      "path": "./sources/messari"
-    },
+    {},
+    {},
     {
       "path": "./sources/metalsapi"
     },
@@ -473,9 +415,7 @@
     {
       "path": "./sources/paxos"
     },
-    {
-      "path": "./sources/paypal"
-    },
+    {},
     {
       "path": "./sources/poa"
     },
@@ -506,9 +446,7 @@
     {
       "path": "./sources/solana-view-function"
     },
-    {
-      "path": "./sources/spectral-macro-score"
-    },
+    {},
     {
       "path": "./sources/sportsdataio"
     },
@@ -533,12 +471,8 @@
     {
       "path": "./sources/taapi"
     },
-    {
-      "path": "./sources/terra-view-function"
-    },
-    {
-      "path": "./sources/therundown"
-    },
+    {},
+    {},
     {
       "path": "./sources/tiingo"
     },
@@ -572,9 +506,7 @@
     {
       "path": "./sources/uniswap-v2"
     },
-    {
-      "path": "./sources/uniswap-v3"
-    },
+    {},
     {
       "path": "./sources/upvest"
     },
@@ -596,20 +528,12 @@
     {
       "path": "./sources/xbto"
     },
-    {
-      "path": "./targets/agoric"
-    },
-    {
-      "path": "./targets/conflux"
-    },
+    {},
+    {},
     {
       "path": "./targets/dydx-stark"
     },
-    {
-      "path": "./targets/ethwrite"
-    },
-    {
-      "path": "./targets/harmony"
-    }
+    {},
+    {}
   ]
 }
