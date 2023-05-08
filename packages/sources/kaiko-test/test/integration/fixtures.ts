@@ -151,7 +151,7 @@ export const mockRateResponseSuccess = (): nock.Scope =>
         time: '2021-10-21T20:57:28.316Z',
         timestamp: 1634849848316,
         data: [
-          { timestamp: 1634849820000, price: '0.0485267900742041', volume: '12.533', count: 2 },
+          { timestamp: 1634849820000, price: '0', volume: '12.533', count: 2 },
           {
             timestamp: 1634849760000,
             price: '0.048497889663599435',
