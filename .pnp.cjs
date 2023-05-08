@@ -8668,7 +8668,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.43"],\
+            ["@types/node", "npm:14.18.45"],\
             ["decimal.js", "npm:10.4.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -15329,10 +15329,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.43", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.43-f0e28be370-3ef43eda26.zip/node_modules/@types/node/",\
+        ["npm:14.18.45", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.45-5be38770ad-2857cd1912.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:14.18.43"]\
+            ["@types/node", "npm:14.18.45"]\
           ],\
           "linkType": "HARD"\
         }],\
