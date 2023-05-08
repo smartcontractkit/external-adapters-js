@@ -1,5 +1,11 @@
 # @chainlink/tradermade-test-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- 6794e4514: Added overrides to the live endpoint
+
 ## 1.3.0
 
 ### Minor Changes
