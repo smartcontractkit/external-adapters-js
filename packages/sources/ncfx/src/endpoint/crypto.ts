@@ -113,12 +113,12 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
             bid: message.bid || 0, // Already validated in the filter above
             ask: message.offer || 0, // Already validated in the filter above
             data: {
-              result: message.mid || 0, // Already validated in the filter above
               // bid, mid, ask included here again.
               // Also kept outside data for backward compatability
               bid: message.bid || 0,
               mid: message.mid || 0,
               ask: message.offer || 0,
+              result: message.mid || 0, // Already validated in the filter above
             },
             timestamps: {
               providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
