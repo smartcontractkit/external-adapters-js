@@ -11,6 +11,7 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import request, { SuperTest, Test } from 'supertest'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server } from 'mock-socket'
+import { log } from 'console'
 
 describe('websocket', () => {
   let fastify: ServerInstance | undefined
@@ -72,6 +73,7 @@ describe('websocket', () => {
           .expect(200)
 
       const response = await makeRequest()
+      log(response.body)
       expect(response.body).toMatchSnapshot()
     }, 30000)
     it('should return error (empty body)', async () => {

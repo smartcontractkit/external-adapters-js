@@ -82,6 +82,9 @@ describe('websocket', () => {
         spread: 0.000044756626394287605,
         statusCode: 200,
         data: {
+          ask: 1562.4083581615457,
+          bid: 1562.3384315992228,
+          mid: 1562.3733948803842,
           result: 1562.3733948803842,
         },
         timestamps: {
