@@ -73,7 +73,6 @@ describe('websocket', () => {
           .expect(200)
 
       const response = await makeRequest()
-      log(response.body)
       expect(response.body).toMatchSnapshot()
     }, 30000)
     it('should return error (empty body)', async () => {
