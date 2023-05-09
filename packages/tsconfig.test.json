@@ -342,9 +342,6 @@
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
-      "path": "./sources/finnhub-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {
@@ -471,9 +468,6 @@
       "path": "./sources/openexchangerates/tsconfig.test.json"
     },
     {
-      "path": "./sources/openexchangerates-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/orchid-bandwidth/tsconfig.test.json"
     },
     {
@@ -490,6 +484,9 @@
     },
     {
       "path": "./sources/polygon/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/polygon-test/tsconfig.test.json"
     },
     {
       "path": "./sources/por-address-list/tsconfig.test.json"
@@ -546,9 +543,6 @@
       "path": "./sources/tiingo/tsconfig.test.json"
     },
     {
-      "path": "./sources/tiingo-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/tp/tsconfig.test.json"
     },
     {
@@ -559,6 +553,9 @@
     },
     {
       "path": "./sources/tradingeconomics/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/tradingeconomics-test/tsconfig.test.json"
     },
     {
       "path": "./sources/trueusd/tsconfig.test.json"

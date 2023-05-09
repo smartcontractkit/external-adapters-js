@@ -1,549 +1,525 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
-import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import {
-  mockCryptoSubscribeResponse,
-  mockCryptoUnsubscribeResponse,
-  mockForexSubscribeResponse,
-  mockForexUnsubscribeResponse,
-  mockIexSubscribeResponse,
-  mockIexUnsubscribeResponse,
-  mockResponseSuccess,
-} from './fixtures'
-import { AddressInfo } from 'net'
-import {
+  createAdapter,
+  mockCryptoLwbaWebSocketServer,
+  mockCryptoWebSocketServer,
+  mockForexWebSocketServer,
+  mockIexWebSocketServer,
   mockWebSocketProvider,
-  mockWebSocketServer,
-  MockWsServer,
-  mockWebSocketFlow,
   setEnvVariables,
-} from '@chainlink/ea-test-helpers'
-import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
-import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
-import { util } from '@chainlink/ea-bootstrap'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
+  setupExternalAdapterTest,
+  SuiteContext,
+} from './setup'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { mockResponseSuccess } from './fixtures'
+import process from 'process'
+import { Server } from 'mock-socket'
+import { AddressInfo } from 'net'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { sleep } from '@chainlink/external-adapter-framework/util'
 
 describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
+  describe('http', () => {
+    let spy: jest.SpyInstance
+    beforeAll(async () => {
+      const mockDate = new Date('2022-01-01T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+    })
 
-  const envVariables = {
-    API_KEY: process.env.API_KEY || 'fake-api-key',
-  }
+    afterAll((done) => {
+      spy.mockRestore()
+      done()
+    })
 
-  setupExternalAdapterTest(envVariables, context)
-
-  describe('eod api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        endpoint: 'eod',
-        base: 'usd',
-        field: 'close',
+    const context: SuiteContext = {
+      req: null,
+      server: async () => {
+        // workaround for failing integration tests that run in parallel
+        process.env['RATE_LIMIT_CAPACITY_SECOND'] = '10000'
+        process.env['METRICS_ENABLED'] = 'false'
+        const server = (await import('../../src')).server
+        return server() as Promise<ServerInstance>
       },
     }
 
-    it('should return success', async () => {
-      mockResponseSuccess()
+    const envVariables = {
+      API_KEY: process.env.API_KEY || 'fake-api-key',
+    }
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+    setupExternalAdapterTest(envVariables, context)
+
+    describe('cryptoyield endpoint', () => {
+      const data = {
+        data: {
+          endpoint: 'cryptoyield',
+          aprTerm: '90Day',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('crypto endpoint', () => {
+      const data = {
+        data: {
+          base: 'ETH',
+          quote: 'USD',
+          transport: 'rest',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('eod endpoint', () => {
+      const data = {
+        data: {
+          endpoint: 'eod',
+          ticker: 'USD',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('top endpoint', () => {
+      const data = {
+        data: {
+          endpoint: 'top',
+          base: 'ETH',
+          quote: 'USD',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('volume endpoint', () => {
+      const data = {
+        data: {
+          endpoint: 'volume',
+          base: 'ETH',
+          quote: 'USD',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('vwap endpoint', () => {
+      const data = {
+        data: {
+          endpoint: 'vwap',
+          base: 'ampl',
+          quote: 'USD',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('forex endpoint', () => {
+      const data = {
+        data: {
+          endpoint: 'forex',
+          base: 'gbp',
+          quote: 'usd',
+          transport: 'rest',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('iex endpoint', () => {
+      const data = {
+        data: {
+          endpoint: 'iex',
+          ticker: 'aapl',
+          transport: 'rest',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+
+    describe('realized-vol endpoint', () => {
+      const data = {
+        data: {
+          base: 'ETH',
+          endpoint: 'realized-vol',
+        },
+      }
+
+      it('should return success', async () => {
+        mockResponseSuccess()
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+        expect(response.body).toMatchSnapshot()
+      })
     })
   })
 
-  describe('iex api', () => {
-    const data: AdapterRequest = {
-      id,
+  describe('websocket crypto endpoint', () => {
+    let fastify: ServerInstance | undefined
+    let req: SuperTest<Test>
+    let mockWsServer: Server | undefined
+    let spy: jest.SpyInstance
+    const wsEndpoint = 'ws://localhost:9090'
+
+    jest.setTimeout(100000)
+
+    const priceData = {
+      data: {
+        base: 'eth',
+        quote: 'usd',
+      },
+    }
+
+    let oldEnv: NodeJS.ProcessEnv
+    beforeAll(async () => {
+      oldEnv = JSON.parse(JSON.stringify(process.env))
+      process.env['WS_SUBSCRIPTION_TTL'] = '20000'
+      process.env['CACHE_MAX_AGE'] = '20000'
+      process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['WS_API_ENDPOINT'] = wsEndpoint
+      process.env['API_KEY'] = 'fake-api-key'
+      const mockDate = new Date('2022-11-11T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+      mockWebSocketProvider(WebSocketClassProvider)
+      mockWsServer = mockCryptoWebSocketServer(wsEndpoint + '/crypto-synth')
+
+      fastify = await expose(createAdapter())
+      req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+      // Send initial request to start background execute
+      await req.post('/').send(priceData)
+      await sleep(5000)
+    })
+
+    afterAll((done) => {
+      spy.mockRestore()
+      setEnvVariables(oldEnv)
+      mockWsServer?.close()
+      fastify?.close(done())
+    })
+
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(priceData)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
+
+  describe('websocket crypto_lwba endpoint', () => {
+    let fastify: ServerInstance | undefined
+    let req: SuperTest<Test>
+    let mockWsServer: Server | undefined
+    let spy: jest.SpyInstance
+    const wsEndpoint = 'ws://localhost:9090'
+
+    jest.setTimeout(100000)
+
+    const spreadData = {
+      data: {
+        endpoint: 'crypto_lwba',
+        base: 'eth',
+        quote: 'usd',
+      },
+    }
+
+    let oldEnv: NodeJS.ProcessEnv
+    beforeAll(async () => {
+      oldEnv = JSON.parse(JSON.stringify(process.env))
+      process.env['WS_SUBSCRIPTION_TTL'] = '20000'
+      process.env['CACHE_MAX_AGE'] = '20000'
+      process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['WS_API_ENDPOINT'] = wsEndpoint
+      process.env['API_KEY'] = 'fake-api-key'
+      const mockDate = new Date('2023-03-30T14:38:14.577256+00:00')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+      mockWebSocketProvider(WebSocketClassProvider)
+      mockWsServer = mockCryptoLwbaWebSocketServer(wsEndpoint + '/crypto-synth-top')
+
+      fastify = await expose(createAdapter())
+      req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+      // Send initial request to start background execute
+      await req.post('/').send(spreadData)
+      await sleep(5000)
+    })
+
+    afterAll((done) => {
+      spy.mockRestore()
+      setEnvVariables(oldEnv)
+      mockWsServer?.close()
+      fastify?.close(done())
+    })
+
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(spreadData)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
+
+  describe('websocket iex endpoint', () => {
+    let fastify: ServerInstance | undefined
+    let req: SuperTest<Test>
+    let mockWsServer: Server | undefined
+    let spy: jest.SpyInstance
+    const wsEndpoint = 'ws://localhost:9090'
+
+    jest.setTimeout(100000)
+
+    const priceDataAapl = {
       data: {
         endpoint: 'iex',
         base: 'aapl',
       },
     }
 
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('prices api', () => {
-    const data: AdapterRequest = {
-      id,
+    const priceDataAmzn = {
       data: {
-        endpoint: 'prices',
-        base: 'ETH',
-        quote: 'USD',
+        endpoint: 'iex',
+        base: 'amzn',
       },
     }
 
-    it('should return success', async () => {
-      mockResponseSuccess()
+    let oldEnv: NodeJS.ProcessEnv
+    beforeAll(async () => {
+      oldEnv = JSON.parse(JSON.stringify(process.env))
+      process.env['WS_SUBSCRIPTION_TTL'] = '10000'
+      process.env['CACHE_MAX_AGE'] = '20000'
+      process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['WS_API_ENDPOINT'] = wsEndpoint
+      process.env['API_KEY'] = 'fake-api-key'
+      const mockDate = new Date('2022-11-11T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      mockWebSocketProvider(WebSocketClassProvider)
+      mockWsServer = mockIexWebSocketServer(wsEndpoint + '/iex')
+
+      fastify = await expose(createAdapter())
+      req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+      // Send initial request to start background execute
+      await req.post('/').send(priceDataAapl)
+      await req.post('/').send(priceDataAmzn)
+      await sleep(5000)
     })
+
+    afterAll((done) => {
+      spy.mockRestore()
+      setEnvVariables(oldEnv)
+      mockWsServer?.close()
+      fastify?.close(done())
+    })
+
+    it('Q request should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(priceDataAapl)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+
+    it('T request should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(priceDataAmzn)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
   })
 
-  describe('top api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        endpoint: 'top',
-        base: 'ETH',
-        quote: 'USD',
-      },
-    }
+  describe('websocket forex endpoint', () => {
+    let fastify: ServerInstance | undefined
+    let req: SuperTest<Test>
+    let mockWsServer: Server | undefined
+    let spy: jest.SpyInstance
+    const wsEndpoint = 'ws://localhost:9090'
 
-    it('should return success', async () => {
-      mockResponseSuccess()
+    jest.setTimeout(100000)
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('volume api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        endpoint: 'volume',
-        base: 'ETH',
-        quote: 'USD',
-      },
-    }
-
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('forex', () => {
-    const data: AdapterRequest = {
-      id,
+    const priceData = {
       data: {
         endpoint: 'forex',
-        base: 'GBP',
-        quote: 'USD',
+        base: 'eur',
+        quote: 'usd',
       },
     }
 
-    it('should return success', async () => {
-      mockResponseSuccess()
+    let oldEnv: NodeJS.ProcessEnv
+    beforeAll(async () => {
+      oldEnv = JSON.parse(JSON.stringify(process.env))
+      process.env['WS_SUBSCRIPTION_TTL'] = '10000'
+      process.env['CACHE_MAX_AGE'] = '20000'
+      process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['WS_API_ENDPOINT'] = wsEndpoint
+      process.env['API_KEY'] = 'fake-api-key'
+      const mockDate = new Date('2022-11-11T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('commodities', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        endpoint: 'commodities',
-        base: 'USOIL',
-        quote: 'USD',
-      },
-    }
-
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('crypto-vwap api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        endpoint: 'crypto-vwap',
-        base: 'AMPL',
-        quote: 'USD',
-      },
-    }
-
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('cryptoyield endpoint without poolCode', () => {
-    const data = {
-      id,
-      data: {
-        endpoint: 'cryptoyield',
-      },
-    }
-
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('cryptoyield endpoint with poolCode', () => {
-    const data = {
-      id,
-      data: {
-        endpoint: 'cryptoyield',
-        poolCode: 'compound_usdt',
-      },
-    }
-
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('realized-vol endpoint', () => {
-    const data = {
-      id,
-      data: {
-        base: 'ETH',
-        endpoint: 'realized-vol',
-      },
-    }
-
-    it('should return success', async () => {
-      mockResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-})
-
-describe('websocket', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  let oldEnv: NodeJS.ProcessEnv
-  beforeAll(async () => {
-    if (!process.env.RECORD) {
-      process.env.API_KEY = 'fake-api-key'
-      mockedWsServer = mockWebSocketServer(`${DEFAULT_WS_API_ENDPOINT}/crypto-synth`)
       mockWebSocketProvider(WebSocketClassProvider)
-    }
+      mockWsServer = mockForexWebSocketServer(wsEndpoint + '/fx')
 
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '300'
+      fastify = await expose(createAdapter())
+      req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+      // Send initial request to start background execute
+      await req.post('/').send(priceData)
+      await sleep(5000)
+    })
 
-  afterAll((done) => {
-    setEnvVariables(oldEnv)
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
-  describe('crypto endpoint', () => {
-    const jobID = '1'
+    afterAll((done) => {
+      spy.mockRestore()
+      setEnvVariables(oldEnv)
+      mockWsServer?.close()
+      fastify?.close(done())
+    })
 
     it('should return success', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          endpoint: 'price',
-          base: 'ETH',
-          quote: 'USD',
-        },
-      }
-
-      let flowFulfilled = Promise.resolve(true)
-      if (!process.env.RECORD) {
-        mockResponseSuccess() // For the first response
-
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockCryptoSubscribeResponse,
-          mockCryptoUnsubscribeResponse,
-        ])
-      }
-
       const makeRequest = () =>
         req
           .post('/')
-          .send(data)
+          .send(priceData)
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
 
-      // We don't care about the first response, coming from http request
-      // This first request will start both batch warmer & websocket
-      await makeRequest()
-
-      // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
-      // populated cache entries.
-      await util.sleep(10)
       const response = await makeRequest()
-
-      expect(response.body).toEqual({
-        jobRunID: '1',
-        result: 2930.4483973989,
-        statusCode: 200,
-        maxAge: 30000,
-        data: { result: 2930.4483973989 },
-      })
-
-      await flowFulfilled
-    }, 30000)
-  })
-})
-
-describe('websocket', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  let oldEnv: NodeJS.ProcessEnv
-  beforeAll(async () => {
-    if (!process.env.RECORD) {
-      process.env.API_KEY = 'fake-api-key'
-      mockedWsServer = mockWebSocketServer(`${DEFAULT_WS_API_ENDPOINT}/iex`)
-      mockWebSocketProvider(WebSocketClassProvider)
-    }
-
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '300'
-
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    setEnvVariables(oldEnv)
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
-  describe('iex endpoint', () => {
-    const jobID = '1'
-
-    it('should return success', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          endpoint: 'iex',
-          base: 'aapl',
-        },
-      }
-
-      let flowFulfilled = Promise.resolve(true)
-      if (!process.env.RECORD) {
-        mockResponseSuccess() // For the first response
-
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockIexSubscribeResponse,
-          mockIexUnsubscribeResponse,
-        ])
-      }
-
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-
-      // We don't care about the first response, coming from http request
-      // This first request will start both batch warmer & websocket
-      await makeRequest()
-
-      // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
-      // populated cache entries.
-      await util.sleep(100)
-      const response = await makeRequest()
-
-      expect(response.body).toEqual({
-        jobRunID: '1',
-        result: 170.28,
-        statusCode: 200,
-        maxAge: 30000,
-        data: { result: 170.28 },
-      })
-
-      await flowFulfilled
-    }, 30000)
-  })
-})
-
-describe('websocket', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  let oldEnv: NodeJS.ProcessEnv
-  beforeAll(async () => {
-    if (!process.env.RECORD) {
-      process.env.API_KEY = 'fake-api-key'
-      mockedWsServer = mockWebSocketServer(`${DEFAULT_WS_API_ENDPOINT}/fx`)
-      mockWebSocketProvider(WebSocketClassProvider)
-    }
-
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '1000'
-
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    setEnvVariables(oldEnv)
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
-  describe('forex endpoint', () => {
-    const jobID = '1'
-
-    it('should return success', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          endpoint: 'forex',
-          base: 'EUR',
-          quote: 'USD',
-        },
-      }
-
-      let flowFulfilled = Promise.resolve(true)
-      if (!process.env.RECORD) {
-        mockResponseSuccess() // For the first response
-
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockForexSubscribeResponse,
-          mockForexUnsubscribeResponse,
-        ])
-      }
-
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-
-      // We don't care about the first response, coming from http request
-      // This first request will start both batch warmer & websocket
-      await makeRequest()
-
-      // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
-      // populated cache entries.
-      await util.sleep(500)
-      const response = await makeRequest()
-
-      expect(response.body).toEqual({
-        jobRunID: '1',
-        result: 1.08272,
-        statusCode: 200,
-        maxAge: 30000,
-        data: { result: 1.08272 },
-      })
-
-      await flowFulfilled
+      expect(response.body).toMatchSnapshot()
     }, 30000)
   })
 })

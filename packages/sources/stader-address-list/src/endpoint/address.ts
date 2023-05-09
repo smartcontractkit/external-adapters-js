@@ -5,6 +5,7 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { ethers } from 'ethers'
 import {
+  StaderConfigContract_ABI,
   StaderNodeRegistryContract_ABI,
   StaderPermissionlessNodeRegistryContract_ABI,
   StaderPoolFactoryContract_ABI,
@@ -17,7 +18,6 @@ import {
   ResponseSchema,
   ValidatorAddress,
   ValidatorRegistryResponse,
-  calculatePages,
   filterDuplicateAddresses,
   runAllSequentially,
 } from '../utils'
@@ -30,12 +30,10 @@ const chainIds = ['mainnet', 'goerli']
 const staderNetworkChainMap: NetworkChainMap = {
   ethereum: {
     mainnet: {
-      poolFactory: '',
-      permissionlessNodeRegistry: '',
+      staderConfig: '',
     },
     goerli: {
-      poolFactory: '0x019a7ced1927946eADb28735f15a20e3ed762240',
-      permissionlessNodeRegistry: '0x2f454143D26fB4E3C351c65B839AF8A64a1Fa1ea',
+      staderConfig: '0x198C5bC65acce5a35Ae7A8B7AEf4f92FA94C1c6E',
     },
   },
 }
@@ -101,6 +99,8 @@ type EndpointTypes = {
   Response: ResponseSchema
 }
 
+type RequestParams = typeof inputParameters.validated
+
 export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   provider!: ethers.providers.JsonRpcProvider
 
@@ -123,13 +123,17 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
 
   async backgroundHandler(
     context: EndpointContext<EndpointTypes>,
-    entries: (typeof inputParameters.validated)[],
+    entries: RequestParams[],
   ): Promise<void> {
     if (!entries.length) {
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
       return
     }
     await Promise.all(entries.map(async (req) => this.handleRequest(req)))
+  }
+
+  buildStaderConfigContract(staderConfigContract: string): ethers.Contract {
+    return new ethers.Contract(staderConfigContract, StaderConfigContract_ABI, this.provider)
   }
 
   buildFactoryManagerContract(poolFactoryAddress: string): ethers.Contract {
@@ -150,7 +154,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     )
   }
 
-  async handleRequest(req: typeof inputParameters.validated): Promise<void> {
+  async handleRequest(req: RequestParams): Promise<void> {
     let response: AdapterResponse<EndpointTypes['Response']>
     try {
       response = await this._handleRequest(req)
@@ -169,13 +173,10 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     await this.responseCache.write(this.name, [{ params: req, response }])
   }
 
-  async _handleRequest(
-    req: typeof inputParameters.validated,
-  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
+  async _handleRequest(req: RequestParams): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const {
       confirmations,
       poolFactoryAddress: poolFactoryAddressOverride,
-      permissionlessNodeRegistry: permissionlessNodeRegistryOverride,
       stakeManagerAddress,
       chainId,
       network,
@@ -183,15 +184,18 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       batchSize,
       penaltyAddress,
       permissionedPoolAddress,
-      staderConfigAddress,
+      staderConfigAddress: staderConfigAddressOverride,
     } = req
 
-    // Use addresses provided in the request, or default to the hardcoded ones
-    const poolFactoryAddress =
-      poolFactoryAddressOverride || staderNetworkChainMap[network][chainId].poolFactory
-    const permissionlessNodeRegistry =
-      permissionlessNodeRegistryOverride ||
-      staderNetworkChainMap[network][chainId].permissionlessNodeRegistry
+    // Get data for the latest block in the chain
+    const latestBlockNum = await this.provider.getBlockNumber()
+    const blockTag = latestBlockNum - confirmations
+
+    // Fetch contract addresses using overrides from the request with defaults from the StaderConfig contract as fallbacks
+    const { poolFactoryAddress, permissionlessNodeRegistry } = await this.fetchContractAddresses(
+      req,
+      blockTag,
+    )
 
     // Build the necessary contracts using the calculated addresses
     const poolFactoryManager = this.buildFactoryManagerContract(poolFactoryAddress)
@@ -203,11 +207,9 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     // it takes for the provider to reply from here, accounting for all requests involved
     const providerDataRequestedUnixMs = Date.now()
 
-    // Get data for the latest block in the chain, and the number of pools in the pool manager
-    const latestBlockNum = await this.provider.getBlockNumber()
-    const blockTag = latestBlockNum - confirmations
-    const poolCount = await poolFactoryManager.poolCount({ blockTag })
-    logger.debug(`Number of pools in pool factory manager: ${poolCount}`)
+    // Get the number of pools in the pool manager
+    const poolIdArray: number[] = await poolFactoryManager.getPoolIdArray({ blockTag })
+    logger.debug(`Number of pools in pool factory manager: ${poolIdArray.length}`)
 
     const params = {
       provider: this.provider,
@@ -215,7 +217,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       network,
       chainId,
       batchSize,
-      poolCount,
+      poolIdArray,
     }
 
     // Fetch all addresses, parallelizing requests as much as possible
@@ -233,7 +235,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
         poolFactoryAddress: poolFactoryAddressOverride,
         penaltyAddress,
         permissionedPoolAddress,
-        staderConfigAddress,
+        staderConfigAddress: staderConfigAddressOverride,
         validatorStatus,
         socialPoolAddresses,
         elRewardAddresses,
@@ -253,14 +255,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   }
 
   // Fetches all the validator addresses for a specific pool
-  async fetchPoolValidatorAddresses({
-    poolFactoryManager,
-    blockTag,
-    network,
-    chainId,
-    poolId,
-    batchSize,
-  }: {
+  async fetchPoolValidatorAddresses(params: {
     poolFactoryManager: ethers.Contract
     blockTag: number
     network: string
@@ -269,33 +264,41 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     batchSize: number
   }): Promise<ValidatorAddress[]> {
     // Get the address for the pool's node registry from the pool factory manager
-    const nodeRegistryAddress: string = await poolFactoryManager.getNodeRegistry(poolId, {
-      blockTag,
-    })
+    const nodeRegistryAddress: string = await params.poolFactoryManager.getNodeRegistry(
+      params.poolId,
+      {
+        blockTag: params.blockTag,
+      },
+    )
     const nodeRegistryManager = this.buildNodeRegistryManagerContract(nodeRegistryAddress)
 
     // Fetch the number of validators in the pool's node registry
-    const validatorCount = (await nodeRegistryManager.nextValidatorId({ blockTag })) - 1
-    logger.debug(`${validatorCount} addresses in pool ${poolId}. Not all of them may be active.`)
+    const validatorCount =
+      (await nodeRegistryManager.nextValidatorId({ blockTag: params.blockTag })) - 1
+    logger.debug(
+      `${validatorCount} addresses in pool ${params.poolId}. Not all of them may be active.`,
+    )
 
     // Get all validator addresses in batches
-    const pages = calculatePages({ count: validatorCount, batchSize })
     const validators = await runAllSequentially({
-      count: pages,
-      handler: (pageNumber) =>
-        nodeRegistryManager.getAllActiveValidators(pageNumber, batchSize, {
-          blockTag,
-        }) as Promise<ValidatorRegistryResponse[]>,
+      count: validatorCount / params.batchSize,
+      handler: (index) => {
+        // Pages are 1 indexed in the contracts so adding 1 to the index to iterate over the proper range
+        const pageNumber = index + 1
+        return nodeRegistryManager.getAllActiveValidators(pageNumber, params.batchSize, {
+          blockTag: params.blockTag,
+        }) as Promise<ValidatorRegistryResponse[]>
+      },
     })
 
     // Map the node registry response to the validator address list format
     return validators.flat().map(([status, pubkey, , , withdrawVaultAddress, operatorId, , ,]) => ({
       address: pubkey,
       withdrawVaultAddress,
-      network,
-      chainId,
+      network: params.network,
+      chainId: params.chainId,
       operatorId: Number(operatorId),
-      poolId,
+      poolId: params.poolId,
       status,
     }))
   }
@@ -307,15 +310,18 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     network: string
     chainId: string
     batchSize: number
-    poolCount: number
+    poolIdArray: number[]
   }): Promise<ValidatorAddress[]> {
     logger.debug('Fetching validator address list')
 
     try {
       // Get all the validator addresses for each pool
       const addresses = await runAllSequentially({
-        count: params.poolCount,
-        handler: (poolId) => this.fetchPoolValidatorAddresses({ ...params, poolId }),
+        count: params.poolIdArray.length,
+        handler: (index) => {
+          const poolId = params.poolIdArray[index]
+          return this.fetchPoolValidatorAddresses({ ...params, poolId })
+        },
       })
 
       // Flatten the addresses out, remove duplicates, and return
@@ -330,15 +336,16 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
   async fetchSocializingPoolAddresses(params: {
     poolFactoryManager: ethers.Contract
     blockTag: number
-    poolCount: number
+    poolIdArray: number[]
   }): Promise<PoolAddress[]> {
     logger.debug('Fetching socializing pool address list')
 
     try {
       // Get the socializing address for each pool
       const addresses = await runAllSequentially({
-        count: params.poolCount,
-        handler: async (poolId) => {
+        count: params.poolIdArray.length,
+        handler: async (index) => {
+          const poolId = params.poolIdArray[index]
           const address: string = await params.poolFactoryManager.getSocializingPoolAddress(
             poolId,
             {
@@ -371,10 +378,11 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
           blockTag: params.blockTag,
         })) - 1
       logger.debug(`${operatorCount} operators found in permissionless node registry`)
-      const pages = calculatePages({ count: operatorCount, batchSize: params.batchSize })
+      // Pages are 1 indexed in the contracts so adding 1 to the total pages and index to iterate over the proper range
       const addresses = await runAllSequentially({
-        count: pages,
-        handler: async (pageNumber) => {
+        count: operatorCount / params.batchSize,
+        handler: async (index) => {
+          const pageNumber = index + 1
           const addresses: string[] =
             await params.permissionlessNodeRegistryManager.getAllSocializingPoolOptOutOperators(
               pageNumber,
@@ -393,6 +401,35 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
       logger.error({ error: e })
       throw Error('Failed to retrieve node EL reward addresses from contract')
     }
+  }
+
+  async fetchContractAddresses(
+    req: RequestParams,
+    blockTag: number,
+  ): Promise<{
+    poolFactoryAddress: string
+    permissionlessNodeRegistry: string
+  }> {
+    const staderConfigAddress =
+      req.staderConfigAddress || staderNetworkChainMap[req.network][req.chainId].staderConfig
+
+    const staderConfigManager = this.buildStaderConfigContract(staderConfigAddress)
+
+    const [poolFactoryAddressDefault, permissionlessNodeRegistryDefault] = await Promise.all([
+      staderConfigManager.getPoolUtils({ blockTag }),
+      staderConfigManager.getPermissionlessNodeRegistry({ blockTag }),
+    ])
+
+    logger.debug(
+      `Addresses found on the StaderConfig contract. Pool Factory: ${poolFactoryAddressDefault}. Permissionless Node Registry: ${permissionlessNodeRegistryDefault}`,
+    )
+
+    // Override address found on StaderConfig contract with ones sent in the request
+    const poolFactoryAddress = req.poolFactoryAddress || poolFactoryAddressDefault
+    const permissionlessNodeRegistry =
+      req.permissionlessNodeRegistry || permissionlessNodeRegistryDefault
+
+    return { poolFactoryAddress, permissionlessNodeRegistry }
   }
 }
 

@@ -1,5 +1,11 @@
 # @chainlink/finnhub-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 23dd2a109: Upgraded adapter from v2 to v3 framework
+
 ## 1.2.31
 
 ### Patch Changes

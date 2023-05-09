@@ -1,5 +1,41 @@
 # @chainlink/ea
 
+## 1.3.91
+
+### Patch Changes
+
+- Updated dependencies [6794e4514]
+  - @chainlink/tradermade-test-adapter@1.4.0
+
+## 1.3.90
+
+### Patch Changes
+
+- Updated dependencies [11922dbf0]
+- Updated dependencies [80b8c7d95]
+- Updated dependencies [ac4dea150]
+- Updated dependencies [42108d89c]
+- Updated dependencies [ade7e168b]
+- Updated dependencies [7210e0a4f]
+- Updated dependencies [23dd2a109]
+- Updated dependencies [9fe3bb112]
+- Updated dependencies [3469ed6c4]
+- Updated dependencies [cd220b1be]
+  - @chainlink/intrinio-test-adapter@1.3.0
+  - @chainlink/stader-address-list-adapter@2.1.0
+  - @chainlink/stader-balance-adapter@1.1.0
+  - @chainlink/tradermade-test-adapter@1.3.0
+  - @chainlink/dxfeed-test-adapter@1.3.0
+  - @chainlink/dxfeed-secondary-test-adapter@1.2.0
+  - @chainlink/twosigma-adapter@1.2.0
+  - @chainlink/polygon-test-adapter@1.0.0
+  - @chainlink/finnhub-adapter@2.0.0
+  - @chainlink/tiingo-adapter@2.0.0
+  - @chainlink/tradingeconomics-test-adapter@1.0.0
+  - @chainlink/openexchangerates-adapter@2.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.43
+  - @chainlink/wbtc-address-set-adapter@1.4.52
+
 ## 1.3.89
 
 ### Patch Changes

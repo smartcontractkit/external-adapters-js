@@ -4,7 +4,8 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tiingo.com', {
     encodedQueryParams: true,
   })
-    .get('/iex/aapl')
+    .persist()
+    .get('/iex')
     .query({ token: 'fake-api-key', tickers: 'aapl' })
     .reply(
       200,
@@ -73,7 +74,7 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
     .get('/tiingo/crypto/top')
-    .query({ token: 'fake-api-key', tickers: 'ETHusd' })
+    .query({ token: 'fake-api-key', tickers: 'ethusd' })
     .reply(
       200,
       () => [
@@ -113,9 +114,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     .get('/tiingo/crypto/prices')
     .query({
       token: 'fake-api-key',
-      baseCurrency: 'ETH',
-      convertCurrency: 'usd',
-      consolidateBaseCurrency: true,
+      tickers: 'ethusd',
       resampleFreq: '24hour',
     })
     .reply(
@@ -155,8 +154,8 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-    .get('/tiingo/fx/gbpusd/top')
-    .query({ token: 'fake-api-key' })
+    .get('/tiingo/fx/top')
+    .query({ token: 'fake-api-key', tickers: 'gbpusd' })
     .reply(
       200,
       [
@@ -181,36 +180,6 @@ export const mockResponseSuccess = (): nock.Scope =>
         'GET, HEAD, OPTIONS',
         'x-frame-options',
         'SAMEORIGIN',
-        'connection',
-        'close',
-      ],
-    )
-    .get('/tiingo/fx/usoilusd/top')
-    .query({ token: 'fake-api-key' })
-    .reply(
-      200,
-      [
-        {
-          ticker: 'usoilusd',
-          quoteTimestamp: '2021-11-23T15:14:45.768000+00:00',
-          bidPrice: 77.45,
-          bidSize: 1000000,
-          askPrice: 77.58,
-          askSize: 1000000,
-          midPrice: 77.515,
-        },
-      ],
-      [
-        'content-type',
-        'application/json',
-        'content-length',
-        '167',
-        'x-frame-options',
-        'SAMEORIGIN',
-        'vary',
-        'Accept, Cookie, Origin',
-        'allow',
-        'GET, HEAD, OPTIONS',
         'connection',
         'close',
       ],
@@ -379,193 +348,3 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
-export const mockIexSubscribeResponse = {
-  request: {
-    eventName: 'subscribe',
-    authorization: 'fake-api-key',
-    eventData: { thresholdLevel: 5, tickers: ['aapl'] },
-  },
-  response: [
-    {
-      response: {
-        code: 200,
-        message: 'Success',
-      },
-      data: {
-        subscriptionId: 6038597,
-      },
-      messageType: 'I',
-    },
-    {
-      response: {
-        code: 200,
-        message: 'HeartBeat',
-      },
-      messageType: 'H',
-    },
-    {
-      data: [
-        'Q',
-        '2022-02-16T12:35:16.595244526-05:00',
-        1645032916595244500,
-        'aapl',
-        399,
-        170.28,
-        170.285,
-        170.29,
-        100,
-        null,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-      ],
-      messageType: 'A',
-      service: 'iex',
-    },
-  ],
-}
-
-export const mockIexUnsubscribeResponse = {
-  request: {
-    eventName: 'unsubscribe',
-    authorization: 'fake-api-key',
-    eventData: {
-      thresholdLevel: 5,
-      tickers: ['aapl'],
-    },
-  },
-  response: {
-    response: {
-      code: 200,
-      message: 'Success',
-    },
-    data: {
-      thresholdLevel: '5',
-      tickers: [],
-    },
-    messageType: 'I',
-  },
-}
-
-export const mockCryptoSubscribeResponse = {
-  request: {
-    eventName: 'subscribe',
-    authorization: 'fake-api-key',
-    eventData: { thresholdLevel: 6, tickers: ['eth/usd'] },
-  },
-
-  response: [
-    {
-      response: {
-        message: 'Success',
-        code: 200,
-      },
-      data: {
-        subscriptionId: 6034927,
-      },
-      messageType: 'I',
-    },
-    {
-      response: {
-        message: 'HeartBeat',
-        code: 200,
-      },
-      messageType: 'H',
-    },
-    {
-      service: 'crypto_data',
-      messageType: 'A',
-      data: ['SA', 'eth/usd', '2022-03-02T19:37:08.102119+00:00', 'tiingo', 2930.4483973989],
-    },
-  ],
-}
-
-export const mockCryptoUnsubscribeResponse = {
-  request: {
-    eventName: 'unsubscribe',
-    authorization: 'fake-api-key',
-    eventData: {
-      thresholdLevel: 6,
-      tickers: ['eth/usd'],
-    },
-  },
-
-  response: {
-    response: {
-      message: 'Success',
-      code: 200,
-    },
-    data: {
-      tickers: [],
-      thresholdLevel: '6',
-    },
-    messageType: 'I',
-  },
-}
-
-export const mockForexSubscribeResponse = {
-  request: {
-    eventName: 'subscribe',
-    authorization: 'fake-api-key',
-    eventData: {
-      thresholdLevel: 5,
-      tickers: ['eurusd'],
-    },
-  },
-  response: [
-    {
-      messageType: 'I',
-      data: {
-        subscriptionId: 7480745,
-      },
-      response: {
-        code: 200,
-        message: 'Success',
-      },
-    },
-    {
-      messageType: 'H',
-      response: {
-        code: 200,
-        message: 'HeartBeat',
-      },
-    },
-    {
-      messageType: 'A',
-      service: 'fx',
-      data: [
-        'Q',
-        'eurusd',
-        '2022-04-14T19:33:12.474000+00:00',
-        1000000,
-        1.08267,
-        1.08272,
-        1000000,
-        1.08277,
-      ],
-    },
-  ],
-}
-
-export const mockForexUnsubscribeResponse = {
-  request: {
-    eventName: 'unsubscribe',
-    authorization: 'fake-api-key',
-    eventData: { thresholdLevel: 5, tickers: ['eurusd'] },
-  },
-  response: {
-    messageType: 'I',
-    data: {
-      thresholdLevel: 5,
-      tickers: [],
-    },
-    response: {
-      code: 200,
-      message: 'Success',
-    },
-  },
-}

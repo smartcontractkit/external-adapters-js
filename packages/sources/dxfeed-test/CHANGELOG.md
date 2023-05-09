@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-test-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 42108d89c: Removed WS_ENABLED env var. Added reasonable rate limit.
+
 ## 1.2.2
 
 ### Patch Changes
