@@ -138,6 +138,7 @@ const isInfoMessage = (message: WsMessage): message is WsInfoMessage => {
 
 export const cryptoEndpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
+  aliases: ['crypto-lwba'],
   transport: cryptoTransport,
   inputParameters,
 })
