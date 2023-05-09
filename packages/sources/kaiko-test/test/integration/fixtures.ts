@@ -278,6 +278,7 @@ export const mockRateResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
 
 export const mockRateResponseFailure = (): nock.Scope =>
   nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {

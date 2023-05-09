@@ -121,7 +121,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
     return params.map((param) => {
       const data = res.data.data.filter((x) => x.price !== null)
       if (data.length === 0) {
-        const errorMessage = `Kaiko is not returning any price data for ${param.base}/${param.quote}, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.`
+        const errorMessage = `Kaiko is not returning any price data for ${param.base}/${param.quote}, likely due to too low trading volume for the requested interval (${param.interval}). This is not an issue with the external adapter.`
         logger.info(errorMessage)
         return {
           params: param,
