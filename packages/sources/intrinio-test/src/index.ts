@@ -10,8 +10,14 @@ export const adapter = new Adapter({
   endpoints: [price],
   rateLimiting: {
     tiers: {
-      free: {
-        rateLimit1s: 100,
+      bronze: {
+        rateLimit1m: 300,
+      },
+      silver: {
+        rateLimit1m: 2000,
+      },
+      gold: {
+        rateLimit1m: 2000,
       },
     },
   },
