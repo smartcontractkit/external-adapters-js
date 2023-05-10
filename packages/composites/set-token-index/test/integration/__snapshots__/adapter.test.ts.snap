@@ -58,6 +58,9 @@ exports[`execute with coinmarketcap source should return success 1`] = `
     "sources": [],
   },
   "jobRunID": "1",
+  "metricsMeta": {
+    "feedId": "{"data":{"source":"coinmarketcap","address":"0x33d63Ba1E57E54779F7dDAeaA7109349344cf5F1","adapter":"0x78733Fa5e70E3aB61DC49d93921B289e4B667093"}}",
+  },
   "providerStatusCode": 200,
   "result": 6844.061590000509,
   "statusCode": 200,
