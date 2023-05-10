@@ -8,8 +8,8 @@ import { httpTransport } from '../http/iex'
 import { wsTransport } from '../ws/iex'
 
 const inputParameters = new InputParameters({
-  ticker: {
-    aliases: ['base', 'from', 'coin'],
+  base: {
+    aliases: ['ticker', 'from', 'coin'],
     required: true,
     type: 'string',
     description: 'The stock ticker to query',
