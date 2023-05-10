@@ -90,7 +90,7 @@ function tsconfGenerate(
   })
 }
 
-async function generate(type: string) {
+async function generate() {
   let writeData = {} // data struct for writing
 
   // pull latest workspace data after files have been generated
@@ -123,7 +123,7 @@ export async function main(): Promise<void> {
   copyFiles(inputs.type, inputs.n)
 
   log(blue.bold('Regenerating tsconfig and lego files'))
-  const data = await generate(inputs.type)
+  const data = await generate()
 
   log(blue.bold('Resolving workspace and running prettier'))
   writeJson(data)
