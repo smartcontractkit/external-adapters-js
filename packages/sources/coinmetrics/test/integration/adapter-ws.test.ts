@@ -11,7 +11,6 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import request, { SuperTest, Test } from 'supertest'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server } from 'mock-socket'
-import { log } from 'console'
 
 describe('websocket', () => {
   let fastify: ServerInstance | undefined
