@@ -55,6 +55,27 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
 
+    it('should return error', async () => {
+      mockRateResponseSuccess()
+
+      const data = {
+        id,
+        data: {
+          base: 'LTC',
+          quote: 'ETH',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(502)
+      expect(response.body).toMatchSnapshot()
+    })
+
     xit('should return failure', async () => {
       mockRateResponseFailure()
 
