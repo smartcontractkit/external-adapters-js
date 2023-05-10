@@ -37,12 +37,11 @@ const calculateMatrixValue = (adapter: WorkspaceAdapter): MatrixOutput => {
 
 export async function getJobMatrix(): Promise<JobMatrix> {
   // Always build all when specifically instructed, or when something in core or scripts has changed
-  //legos will always change because it depends on all adapters, so ignore it when considering if we need to build all
   const shouldBuildAll =
     process.argv[2] === '-a' ||
     process.env['BUILD_ALL'] === 'true' ||
     getWorkspacePackages(process.env['UPSTREAM_BRANCH']).find(
-      (p) => (p.type === 'core' && !p.location.includes('lego')) || p.type === 'scripts',
+      (p) => p.type === 'core' || p.type === 'scripts',
     )
 
   const adapters = shouldBuildAll

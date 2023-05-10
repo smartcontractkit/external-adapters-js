@@ -1917,7 +1917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/1forge-adapter@workspace:*, @chainlink/1forge-adapter@workspace:packages/sources/1forge":
+"@chainlink/1forge-adapter@workspace:packages/sources/1forge":
   version: 0.0.0-use.local
   resolution: "@chainlink/1forge-adapter@workspace:packages/sources/1forge"
   dependencies:
@@ -1933,7 +1933,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/accuweather-adapter@workspace:*, @chainlink/accuweather-adapter@workspace:packages/sources/accuweather":
+"@chainlink/accuweather-adapter@workspace:packages/sources/accuweather":
   version: 0.0.0-use.local
   resolution: "@chainlink/accuweather-adapter@workspace:packages/sources/accuweather"
   dependencies:
@@ -1985,7 +1985,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alongside-adapter@workspace:*, @chainlink/alongside-adapter@workspace:packages/sources/alongside":
+"@chainlink/alongside-adapter@workspace:packages/sources/alongside":
   version: 0.0.0-use.local
   resolution: "@chainlink/alongside-adapter@workspace:packages/sources/alongside"
   dependencies:
@@ -2005,7 +2005,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alphachain-adapter@workspace:*, @chainlink/alphachain-adapter@workspace:packages/sources/alphachain":
+"@chainlink/alphachain-adapter@workspace:packages/sources/alphachain":
   version: 0.0.0-use.local
   resolution: "@chainlink/alphachain-adapter@workspace:packages/sources/alphachain"
   dependencies:
@@ -2018,7 +2018,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alphavantage-adapter@workspace:*, @chainlink/alphavantage-adapter@workspace:packages/sources/alphavantage":
+"@chainlink/alphavantage-adapter@workspace:packages/sources/alphavantage":
   version: 0.0.0-use.local
   resolution: "@chainlink/alphavantage-adapter@workspace:packages/sources/alphavantage"
   dependencies:
@@ -2034,7 +2034,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alphavantage-test-adapter@workspace:*, @chainlink/alphavantage-test-adapter@workspace:packages/sources/alphavantage-test":
+"@chainlink/alphavantage-test-adapter@workspace:packages/sources/alphavantage-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/alphavantage-test-adapter@workspace:packages/sources/alphavantage-test"
   dependencies:
@@ -2049,7 +2049,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alpine-adapter@workspace:*, @chainlink/alpine-adapter@workspace:packages/sources/alpine":
+"@chainlink/alpine-adapter@workspace:packages/sources/alpine":
   version: 0.0.0-use.local
   resolution: "@chainlink/alpine-adapter@workspace:packages/sources/alpine"
   dependencies:
@@ -2098,7 +2098,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/anyblock-adapter@workspace:*, @chainlink/anyblock-adapter@workspace:packages/sources/anyblock":
+"@chainlink/anyblock-adapter@workspace:packages/sources/anyblock":
   version: 0.0.0-use.local
   resolution: "@chainlink/anyblock-adapter@workspace:packages/sources/anyblock"
   dependencies:
@@ -2114,7 +2114,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ap-election-adapter@workspace:*, @chainlink/ap-election-adapter@workspace:packages/sources/ap-election":
+"@chainlink/ap-election-adapter@workspace:packages/sources/ap-election":
   version: 0.0.0-use.local
   resolution: "@chainlink/ap-election-adapter@workspace:packages/sources/ap-election"
   dependencies:
@@ -2147,7 +2147,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/armanino-adapter@workspace:*, @chainlink/armanino-adapter@workspace:packages/sources/armanino":
+"@chainlink/armanino-adapter@workspace:packages/sources/armanino":
   version: 0.0.0-use.local
   resolution: "@chainlink/armanino-adapter@workspace:packages/sources/armanino"
   dependencies:
@@ -2196,7 +2196,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bank-frick-adapter@workspace:*, @chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
+"@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
   dependencies:
@@ -2213,7 +2213,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bea-adapter@workspace:*, @chainlink/bea-adapter@workspace:packages/sources/bea":
+"@chainlink/bea-adapter@workspace:packages/sources/bea":
   version: 0.0.0-use.local
   resolution: "@chainlink/bea-adapter@workspace:packages/sources/bea"
   dependencies:
@@ -2230,7 +2230,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/binance-adapter@workspace:*, @chainlink/binance-adapter@workspace:packages/sources/binance":
+"@chainlink/binance-adapter@workspace:packages/sources/binance":
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-adapter@workspace:packages/sources/binance"
   dependencies:
@@ -2246,7 +2246,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/binance-dex-adapter@workspace:*, @chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex":
+"@chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex":
   version: 0.0.0-use.local
   resolution: "@chainlink/binance-dex-adapter@workspace:packages/sources/binance-dex"
   dependencies:
@@ -2279,7 +2279,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitex-adapter@workspace:*, @chainlink/bitex-adapter@workspace:packages/sources/bitex":
+"@chainlink/bitex-adapter@workspace:packages/sources/bitex":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitex-adapter@workspace:packages/sources/bitex"
   dependencies:
@@ -2295,7 +2295,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitso-adapter@workspace:*, @chainlink/bitso-adapter@workspace:packages/sources/bitso":
+"@chainlink/bitso-adapter@workspace:packages/sources/bitso":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitso-adapter@workspace:packages/sources/bitso"
   dependencies:
@@ -2358,7 +2358,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blocksize-capital-adapter@workspace:*, @chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital":
+"@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital":
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
   dependencies:
@@ -2374,7 +2374,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockstream-adapter@workspace:*, @chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
+"@chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
   dependencies:
@@ -2390,7 +2390,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bob-adapter@workspace:*, @chainlink/bob-adapter@workspace:packages/sources/bob":
+"@chainlink/bob-adapter@workspace:packages/sources/bob":
   version: 0.0.0-use.local
   resolution: "@chainlink/bob-adapter@workspace:packages/sources/bob"
   dependencies:
@@ -2407,7 +2407,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bravenewcoin-adapter@workspace:*, @chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin":
+"@chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin":
   version: 0.0.0-use.local
   resolution: "@chainlink/bravenewcoin-adapter@workspace:packages/sources/bravenewcoin"
   dependencies:
@@ -2462,7 +2462,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cache.gold-adapter@workspace:*, @chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
+"@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
   version: 0.0.0-use.local
   resolution: "@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold"
   dependencies:
@@ -2478,7 +2478,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ccip-read-adapter@workspace:*, @chainlink/ccip-read-adapter@workspace:packages/sources/ccip-read":
+"@chainlink/ccip-read-adapter@workspace:packages/sources/ccip-read":
   version: 0.0.0-use.local
   resolution: "@chainlink/ccip-read-adapter@workspace:packages/sources/ccip-read"
   dependencies:
@@ -2573,7 +2573,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinbase-adapter@workspace:*, @chainlink/coinbase-adapter@workspace:packages/sources/coinbase":
+"@chainlink/coinbase-adapter@workspace:packages/sources/coinbase":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-adapter@workspace:packages/sources/coinbase"
   dependencies:
@@ -2589,7 +2589,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coincodex-adapter@workspace:*, @chainlink/coincodex-adapter@workspace:packages/sources/coincodex":
+"@chainlink/coincodex-adapter@workspace:packages/sources/coincodex":
   version: 0.0.0-use.local
   resolution: "@chainlink/coincodex-adapter@workspace:packages/sources/coincodex"
   dependencies:
@@ -2621,7 +2621,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinlore-adapter@workspace:*, @chainlink/coinlore-adapter@workspace:packages/sources/coinlore":
+"@chainlink/coinlore-adapter@workspace:packages/sources/coinlore":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinlore-adapter@workspace:packages/sources/coinlore"
   dependencies:
@@ -2733,7 +2733,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/covid-tracker-adapter@workspace:*, @chainlink/covid-tracker-adapter@workspace:packages/sources/covid-tracker":
+"@chainlink/covid-tracker-adapter@workspace:packages/sources/covid-tracker":
   version: 0.0.0-use.local
   resolution: "@chainlink/covid-tracker-adapter@workspace:packages/sources/covid-tracker"
   dependencies:
@@ -2749,7 +2749,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptex-adapter@workspace:*, @chainlink/cryptex-adapter@workspace:packages/sources/cryptex":
+"@chainlink/cryptex-adapter@workspace:packages/sources/cryptex":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptex-adapter@workspace:packages/sources/cryptex"
   dependencies:
@@ -2803,7 +2803,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptoapis-v2-adapter@workspace:*, @chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2":
+"@chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoapis-v2-adapter@workspace:packages/sources/cryptoapis-v2"
   dependencies:
@@ -2834,7 +2834,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptoid-adapter@workspace:*, @chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid":
+"@chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid"
   dependencies:
@@ -2850,7 +2850,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptomkt-adapter@workspace:*, @chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt":
+"@chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt"
   dependencies:
@@ -2866,7 +2866,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/currencylayer-adapter@workspace:*, @chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer":
+"@chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer":
   version: 0.0.0-use.local
   resolution: "@chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer"
   dependencies:
@@ -2898,7 +2898,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/curve-adapter@workspace:*, @chainlink/curve-adapter@workspace:packages/sources/curve":
+"@chainlink/curve-adapter@workspace:packages/sources/curve":
   version: 0.0.0-use.local
   resolution: "@chainlink/curve-adapter@workspace:packages/sources/curve"
   dependencies:
@@ -2916,7 +2916,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dar-adapter@workspace:*, @chainlink/dar-adapter@workspace:packages/sources/dar":
+"@chainlink/dar-adapter@workspace:packages/sources/dar":
   version: 0.0.0-use.local
   resolution: "@chainlink/dar-adapter@workspace:packages/sources/dar"
   dependencies:
@@ -2965,7 +2965,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/deribit-adapter@workspace:*, @chainlink/deribit-adapter@workspace:packages/sources/deribit":
+"@chainlink/deribit-adapter@workspace:packages/sources/deribit":
   version: 0.0.0-use.local
   resolution: "@chainlink/deribit-adapter@workspace:packages/sources/deribit"
   dependencies:
@@ -3015,7 +3015,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dwolla-adapter@workspace:*, @chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
+"@chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
   version: 0.0.0-use.local
   resolution: "@chainlink/dwolla-adapter@workspace:packages/sources/dwolla"
   dependencies:
@@ -3048,6 +3048,40 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
+  dependencies:
+    "@chainlink/dxfeed-adapter": "workspace:*"
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/dxfeed-secondary-test-adapter@workspace:packages/sources/dxfeed-secondary-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dxfeed-secondary-test-adapter@workspace:packages/sources/dxfeed-secondary-test"
+  dependencies:
+    "@chainlink/dxfeed-test-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": 0.29.8
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -3249,175 +3283,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea@workspace:*, @chainlink/ea@workspace:packages/core/legos":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ea@workspace:packages/core/legos"
-  dependencies:
-    "@chainlink/1forge-adapter": "workspace:*"
-    "@chainlink/accuweather-adapter": "workspace:*"
-    "@chainlink/ada-balance-adapter": "workspace:*"
-    "@chainlink/alongside-adapter": "workspace:*"
-    "@chainlink/alphachain-adapter": "workspace:*"
-    "@chainlink/alphavantage-adapter": "workspace:*"
-    "@chainlink/alphavantage-test-adapter": "workspace:*"
-    "@chainlink/alpine-adapter": "workspace:*"
-    "@chainlink/amberdata-adapter": "workspace:*"
-    "@chainlink/anyblock-adapter": "workspace:*"
-    "@chainlink/ap-election-adapter": "workspace:*"
-    "@chainlink/armanino-adapter": "workspace:*"
-    "@chainlink/avalanche-platform-adapter": "workspace:*"
-    "@chainlink/bank-frick-adapter": "workspace:*"
-    "@chainlink/bea-adapter": "workspace:*"
-    "@chainlink/binance-adapter": "workspace:*"
-    "@chainlink/binance-dex-adapter": "workspace:*"
-    "@chainlink/bitex-adapter": "workspace:*"
-    "@chainlink/bitso-adapter": "workspace:*"
-    "@chainlink/blockchain.com-adapter": "workspace:*"
-    "@chainlink/blockchair-adapter": "workspace:*"
-    "@chainlink/blockcypher-adapter": "workspace:*"
-    "@chainlink/blocksize-capital-adapter": "workspace:*"
-    "@chainlink/blockstream-adapter": "workspace:*"
-    "@chainlink/bob-adapter": "workspace:*"
-    "@chainlink/bravenewcoin-adapter": "workspace:*"
-    "@chainlink/btc.com-adapter": "workspace:*"
-    "@chainlink/cache.gold-adapter": "workspace:*"
-    "@chainlink/ccip-read-adapter": "workspace:*"
-    "@chainlink/celsius-address-list-adapter": "workspace:*"
-    "@chainlink/cfbenchmarks-adapter": "workspace:*"
-    "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
-    "@chainlink/coinapi-adapter": "workspace:*"
-    "@chainlink/coinbase-adapter": "workspace:*"
-    "@chainlink/coincodex-adapter": "workspace:*"
-    "@chainlink/coingecko-adapter": "workspace:*"
-    "@chainlink/coinlore-adapter": "workspace:*"
-    "@chainlink/coinmarketcap-adapter": "workspace:*"
-    "@chainlink/coinmetrics-adapter": "workspace:*"
-    "@chainlink/coinpaprika-adapter": "workspace:*"
-    "@chainlink/coinranking-adapter": "workspace:*"
-    "@chainlink/covid-tracker-adapter": "workspace:*"
-    "@chainlink/cryptex-adapter": "workspace:*"
-    "@chainlink/cryptoapis-adapter": "workspace:*"
-    "@chainlink/cryptoapis-v2-adapter": "workspace:*"
-    "@chainlink/cryptocompare-adapter": "workspace:*"
-    "@chainlink/cryptoid-adapter": "workspace:*"
-    "@chainlink/cryptomkt-adapter": "workspace:*"
-    "@chainlink/currencylayer-adapter": "workspace:*"
-    "@chainlink/curve-adapter": "workspace:*"
-    "@chainlink/dar-adapter": "workspace:*"
-    "@chainlink/deribit-adapter": "workspace:*"
-    "@chainlink/dns-query-adapter": "workspace:*"
-    "@chainlink/dwolla-adapter": "workspace:*"
-    "@chainlink/dxfeed-adapter": "workspace:*"
-    "@chainlink/dxfeed-secondary-adapter": "workspace:*"
-    "@chainlink/elwood-adapter": "workspace:*"
-    "@chainlink/ens-adapter": "workspace:*"
-    "@chainlink/enzyme-adapter": "workspace:*"
-    "@chainlink/eodhistoricaldata-adapter": "workspace:*"
-    "@chainlink/eth-balance-adapter": "workspace:*"
-    "@chainlink/eth-beacon-adapter": "workspace:*"
-    "@chainlink/etherchain-adapter": "workspace:*"
-    "@chainlink/etherscan-adapter": "workspace:*"
-    "@chainlink/ethgasstation-adapter": "workspace:*"
-    "@chainlink/ethgaswatch-adapter": "workspace:*"
-    "@chainlink/expert-car-broker-adapter": "workspace:*"
-    "@chainlink/fcsapi-adapter": "workspace:*"
-    "@chainlink/finage-adapter": "workspace:*"
-    "@chainlink/finage-test-adapter": "workspace:*"
-    "@chainlink/finnhub-adapter": "workspace:*"
-    "@chainlink/fixer-adapter": "workspace:*"
-    "@chainlink/flightaware-adapter": "workspace:*"
-    "@chainlink/fluent-finance-adapter": "workspace:*"
-    "@chainlink/fmpcloud-adapter": "workspace:*"
-    "@chainlink/galaxis-adapter": "workspace:*"
-    "@chainlink/galaxy-adapter": "workspace:*"
-    "@chainlink/gemini-adapter": "workspace:*"
-    "@chainlink/genesis-volatility-adapter": "workspace:*"
-    "@chainlink/geodb-adapter": "workspace:*"
-    "@chainlink/google-bigquery-adapter": "workspace:*"
-    "@chainlink/gramchain-adapter": "workspace:*"
-    "@chainlink/graphql-adapter": "workspace:*"
-    "@chainlink/gsr-adapter": "workspace:*"
-    "@chainlink/icap-adapter": "workspace:*"
-    "@chainlink/iex-cloud-adapter": "workspace:*"
-    "@chainlink/intrinio-adapter": "workspace:*"
-    "@chainlink/intrinio-test-adapter": "workspace:*"
-    "@chainlink/ipfs-adapter": "workspace:*"
-    "@chainlink/jpegd-adapter": "workspace:*"
-    "@chainlink/json-rpc-adapter": "workspace:*"
-    "@chainlink/kaiko-adapter": "workspace:*"
-    "@chainlink/kaiko-test-adapter": "workspace:*"
-    "@chainlink/layer2-sequencer-health-adapter": "workspace:*"
-    "@chainlink/lcx-adapter": "workspace:*"
-    "@chainlink/lido-adapter": "workspace:*"
-    "@chainlink/linkpool-adapter": "workspace:*"
-    "@chainlink/lition-adapter": "workspace:*"
-    "@chainlink/lotus-adapter": "workspace:*"
-    "@chainlink/marketstack-adapter": "workspace:*"
-    "@chainlink/messari-adapter": "workspace:*"
-    "@chainlink/metalsapi-adapter": "workspace:*"
-    "@chainlink/mock-ea-adapter": "workspace:*"
-    "@chainlink/moonbeam-address-list-adapter": "workspace:*"
-    "@chainlink/mycryptoapi-adapter": "workspace:*"
-    "@chainlink/ncfx-adapter": "workspace:*"
-    "@chainlink/nft-blue-chip-adapter": "workspace:*"
-    "@chainlink/nikkei-adapter": "workspace:*"
-    "@chainlink/nomics-adapter": "workspace:*"
-    "@chainlink/oanda-adapter": "workspace:*"
-    "@chainlink/oilpriceapi-adapter": "workspace:*"
-    "@chainlink/onchain-gas-adapter": "workspace:*"
-    "@chainlink/openexchangerates-adapter": "workspace:*"
-    "@chainlink/orchid-bandwidth-adapter": "workspace:*"
-    "@chainlink/paxos-adapter": "workspace:*"
-    "@chainlink/paypal-adapter": "workspace:*"
-    "@chainlink/poa-adapter": "workspace:*"
-    "@chainlink/polkadot-balance-adapter": "workspace:*"
-    "@chainlink/polygon-adapter": "workspace:*"
-    "@chainlink/polygon-test-adapter": "workspace:*"
-    "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/reduce-adapter": "workspace:*"
-    "@chainlink/renvm-address-set-adapter": "workspace:*"
-    "@chainlink/satoshitango-adapter": "workspace:*"
-    "@chainlink/snowflake-adapter": "workspace:*"
-    "@chainlink/sochain-adapter": "workspace:*"
-    "@chainlink/solana-view-function-adapter": "workspace:*"
-    "@chainlink/spectral-macro-score-adapter": "workspace:*"
-    "@chainlink/sportsdataio-adapter": "workspace:*"
-    "@chainlink/stader-address-list-adapter": "workspace:*"
-    "@chainlink/stader-balance-adapter": "workspace:*"
-    "@chainlink/stader-labs-adapter": "workspace:*"
-    "@chainlink/stasis-adapter": "workspace:*"
-    "@chainlink/swell-address-list-adapter": "workspace:*"
-    "@chainlink/synthetix-debt-pool-adapter": "workspace:*"
-    "@chainlink/taapi-adapter": "workspace:*"
-    "@chainlink/terra-view-function-adapter": "workspace:*"
-    "@chainlink/therundown-adapter": "workspace:*"
-    "@chainlink/tiingo-adapter": "workspace:*"
-    "@chainlink/tp-adapter": "workspace:*"
-    "@chainlink/tradermade-adapter": "workspace:*"
-    "@chainlink/tradermade-test-adapter": "workspace:*"
-    "@chainlink/tradingeconomics-adapter": "workspace:*"
-    "@chainlink/tradingeconomics-test-adapter": "workspace:*"
-    "@chainlink/trueusd-adapter": "workspace:*"
-    "@chainlink/twelvedata-adapter": "workspace:*"
-    "@chainlink/twosigma-adapter": "workspace:*"
-    "@chainlink/unibit-adapter": "workspace:*"
-    "@chainlink/uniswap-v2-adapter": "workspace:*"
-    "@chainlink/uniswap-v3-adapter": "workspace:*"
-    "@chainlink/upvest-adapter": "workspace:*"
-    "@chainlink/uscpi-one-adapter": "workspace:*"
-    "@chainlink/view-function-adapter": "workspace:*"
-    "@chainlink/wbtc-address-set-adapter": "workspace:*"
-    "@chainlink/wootrade-adapter": "workspace:*"
-    "@chainlink/wrapped-adapter": "workspace:*"
-    "@chainlink/xbto-adapter": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/elwood-adapter@workspace:*, @chainlink/elwood-adapter@workspace:packages/sources/elwood":
+"@chainlink/elwood-adapter@workspace:packages/sources/elwood":
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
   dependencies:
@@ -3434,7 +3300,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ens-adapter@workspace:*, @chainlink/ens-adapter@workspace:packages/sources/ens":
+"@chainlink/ens-adapter@workspace:packages/sources/ens":
   version: 0.0.0-use.local
   resolution: "@chainlink/ens-adapter@workspace:packages/sources/ens"
   dependencies:
@@ -3451,7 +3317,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/enzyme-adapter@workspace:*, @chainlink/enzyme-adapter@workspace:packages/sources/enzyme":
+"@chainlink/enzyme-adapter@workspace:packages/sources/enzyme":
   version: 0.0.0-use.local
   resolution: "@chainlink/enzyme-adapter@workspace:packages/sources/enzyme"
   dependencies:
@@ -3468,7 +3334,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/eodhistoricaldata-adapter@workspace:*, @chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata":
+"@chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata":
   version: 0.0.0-use.local
   resolution: "@chainlink/eodhistoricaldata-adapter@workspace:packages/sources/eodhistoricaldata"
   dependencies:
@@ -3519,7 +3385,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/etherchain-adapter@workspace:*, @chainlink/etherchain-adapter@workspace:packages/sources/etherchain":
+"@chainlink/etherchain-adapter@workspace:packages/sources/etherchain":
   version: 0.0.0-use.local
   resolution: "@chainlink/etherchain-adapter@workspace:packages/sources/etherchain"
   dependencies:
@@ -3535,7 +3401,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/etherscan-adapter@workspace:*, @chainlink/etherscan-adapter@workspace:packages/sources/etherscan":
+"@chainlink/etherscan-adapter@workspace:packages/sources/etherscan":
   version: 0.0.0-use.local
   resolution: "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan"
   dependencies:
@@ -3551,7 +3417,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ethgasstation-adapter@workspace:*, @chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation":
+"@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation":
   version: 0.0.0-use.local
   resolution: "@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation"
   dependencies:
@@ -3567,7 +3433,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ethgaswatch-adapter@workspace:*, @chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
+"@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
   version: 0.0.0-use.local
   resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
   dependencies:
@@ -3629,7 +3495,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/expert-car-broker-adapter@workspace:*, @chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker":
+"@chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker":
   version: 0.0.0-use.local
   resolution: "@chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker"
   dependencies:
@@ -3722,7 +3588,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/finage-test-adapter@workspace:*, @chainlink/finage-test-adapter@workspace:packages/sources/finage-test":
+"@chainlink/finage-test-adapter@workspace:packages/sources/finage-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-test-adapter@workspace:packages/sources/finage-test"
   dependencies:
@@ -3753,7 +3619,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/fixer-adapter@workspace:*, @chainlink/fixer-adapter@workspace:packages/sources/fixer":
+"@chainlink/fixer-adapter@workspace:packages/sources/fixer":
   version: 0.0.0-use.local
   resolution: "@chainlink/fixer-adapter@workspace:packages/sources/fixer"
   dependencies:
@@ -3769,7 +3635,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/flightaware-adapter@workspace:*, @chainlink/flightaware-adapter@workspace:packages/sources/flightaware":
+"@chainlink/flightaware-adapter@workspace:packages/sources/flightaware":
   version: 0.0.0-use.local
   resolution: "@chainlink/flightaware-adapter@workspace:packages/sources/flightaware"
   dependencies:
@@ -3782,7 +3648,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/fluent-finance-adapter@workspace:*, @chainlink/fluent-finance-adapter@workspace:packages/sources/fluent-finance":
+"@chainlink/fluent-finance-adapter@workspace:packages/sources/fluent-finance":
   version: 0.0.0-use.local
   resolution: "@chainlink/fluent-finance-adapter@workspace:packages/sources/fluent-finance"
   dependencies:
@@ -3798,7 +3664,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/fmpcloud-adapter@workspace:*, @chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud":
+"@chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud"
   dependencies:
@@ -3814,7 +3680,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/galaxis-adapter@workspace:*, @chainlink/galaxis-adapter@workspace:packages/sources/galaxis":
+"@chainlink/galaxis-adapter@workspace:packages/sources/galaxis":
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxis-adapter@workspace:packages/sources/galaxis"
   dependencies:
@@ -3833,7 +3699,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/galaxy-adapter@workspace:*, @chainlink/galaxy-adapter@workspace:packages/sources/galaxy":
+"@chainlink/galaxy-adapter@workspace:packages/sources/galaxy":
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
   dependencies:
@@ -3866,7 +3732,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/genesis-volatility-adapter@workspace:*, @chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility":
+"@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility":
   version: 0.0.0-use.local
   resolution: "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility"
   dependencies:
@@ -3882,7 +3748,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/geodb-adapter@workspace:*, @chainlink/geodb-adapter@workspace:packages/sources/geodb":
+"@chainlink/geodb-adapter@workspace:packages/sources/geodb":
   version: 0.0.0-use.local
   resolution: "@chainlink/geodb-adapter@workspace:packages/sources/geodb"
   dependencies:
@@ -3926,7 +3792,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/gramchain-adapter@workspace:*, @chainlink/gramchain-adapter@workspace:packages/sources/gramchain":
+"@chainlink/gramchain-adapter@workspace:packages/sources/gramchain":
   version: 0.0.0-use.local
   resolution: "@chainlink/gramchain-adapter@workspace:packages/sources/gramchain"
   dependencies:
@@ -3955,7 +3821,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/gsr-adapter@workspace:*, @chainlink/gsr-adapter@workspace:packages/sources/gsr":
+"@chainlink/gsr-adapter@workspace:packages/sources/gsr":
   version: 0.0.0-use.local
   resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
   dependencies:
@@ -4013,7 +3879,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/icap-adapter@workspace:*, @chainlink/icap-adapter@workspace:packages/sources/icap":
+"@chainlink/icap-adapter@workspace:packages/sources/icap":
   version: 0.0.0-use.local
   resolution: "@chainlink/icap-adapter@workspace:packages/sources/icap"
   dependencies:
@@ -4030,7 +3896,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/iex-cloud-adapter@workspace:*, @chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
+"@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
   dependencies:
@@ -4063,7 +3929,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/intrinio-adapter@workspace:*, @chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
+"@chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
@@ -4081,7 +3947,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/intrinio-test-adapter@workspace:*, @chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test":
+"@chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test"
   dependencies:
@@ -4119,7 +3985,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/jpegd-adapter@workspace:*, @chainlink/jpegd-adapter@workspace:packages/sources/jpegd":
+"@chainlink/jpegd-adapter@workspace:packages/sources/jpegd":
   version: 0.0.0-use.local
   resolution: "@chainlink/jpegd-adapter@workspace:packages/sources/jpegd"
   dependencies:
@@ -4167,7 +4033,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/kaiko-test-adapter@workspace:*, @chainlink/kaiko-test-adapter@workspace:packages/sources/kaiko-test":
+"@chainlink/kaiko-test-adapter@workspace:packages/sources/kaiko-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-test-adapter@workspace:packages/sources/kaiko-test"
   dependencies:
@@ -4182,7 +4048,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/layer2-sequencer-health-adapter@workspace:*, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
+"@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
   dependencies:
@@ -4201,7 +4067,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lcx-adapter@workspace:*, @chainlink/lcx-adapter@workspace:packages/sources/lcx":
+"@chainlink/lcx-adapter@workspace:packages/sources/lcx":
   version: 0.0.0-use.local
   resolution: "@chainlink/lcx-adapter@workspace:packages/sources/lcx"
   dependencies:
@@ -4217,7 +4083,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lido-adapter@workspace:*, @chainlink/lido-adapter@workspace:packages/sources/lido":
+"@chainlink/lido-adapter@workspace:packages/sources/lido":
   version: 0.0.0-use.local
   resolution: "@chainlink/lido-adapter@workspace:packages/sources/lido"
   dependencies:
@@ -4256,7 +4122,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/linkpool-adapter@workspace:*, @chainlink/linkpool-adapter@workspace:packages/sources/linkpool":
+"@chainlink/linkpool-adapter@workspace:packages/sources/linkpool":
   version: 0.0.0-use.local
   resolution: "@chainlink/linkpool-adapter@workspace:packages/sources/linkpool"
   dependencies:
@@ -4269,7 +4135,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lition-adapter@workspace:*, @chainlink/lition-adapter@workspace:packages/sources/lition":
+"@chainlink/lition-adapter@workspace:packages/sources/lition":
   version: 0.0.0-use.local
   resolution: "@chainlink/lition-adapter@workspace:packages/sources/lition"
   dependencies:
@@ -4317,7 +4183,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/marketstack-adapter@workspace:*, @chainlink/marketstack-adapter@workspace:packages/sources/marketstack":
+"@chainlink/marketstack-adapter@workspace:packages/sources/marketstack":
   version: 0.0.0-use.local
   resolution: "@chainlink/marketstack-adapter@workspace:packages/sources/marketstack"
   dependencies:
@@ -4350,7 +4216,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/messari-adapter@workspace:*, @chainlink/messari-adapter@workspace:packages/sources/messari":
+"@chainlink/messari-adapter@workspace:packages/sources/messari":
   version: 0.0.0-use.local
   resolution: "@chainlink/messari-adapter@workspace:packages/sources/messari"
   dependencies:
@@ -4363,7 +4229,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/metalsapi-adapter@workspace:*, @chainlink/metalsapi-adapter@workspace:packages/sources/metalsapi":
+"@chainlink/metalsapi-adapter@workspace:packages/sources/metalsapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/metalsapi-adapter@workspace:packages/sources/metalsapi"
   dependencies:
@@ -4379,7 +4245,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/mock-ea-adapter@workspace:*, @chainlink/mock-ea-adapter@workspace:packages/sources/mock-ea":
+"@chainlink/mock-ea-adapter@workspace:packages/sources/mock-ea":
   version: 0.0.0-use.local
   resolution: "@chainlink/mock-ea-adapter@workspace:packages/sources/mock-ea"
   dependencies:
@@ -4412,7 +4278,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/mycryptoapi-adapter@workspace:*, @chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi":
+"@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi"
   dependencies:
@@ -4444,7 +4310,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/nft-blue-chip-adapter@workspace:*, @chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip":
+"@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip":
   version: 0.0.0-use.local
   resolution: "@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip"
   dependencies:
@@ -4481,7 +4347,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/nikkei-adapter@workspace:*, @chainlink/nikkei-adapter@workspace:packages/sources/nikkei":
+"@chainlink/nikkei-adapter@workspace:packages/sources/nikkei":
   version: 0.0.0-use.local
   resolution: "@chainlink/nikkei-adapter@workspace:packages/sources/nikkei"
   dependencies:
@@ -4513,7 +4379,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/oanda-adapter@workspace:*, @chainlink/oanda-adapter@workspace:packages/sources/oanda":
+"@chainlink/oanda-adapter@workspace:packages/sources/oanda":
   version: 0.0.0-use.local
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
@@ -4536,7 +4402,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/oilpriceapi-adapter@workspace:*, @chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi":
+"@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi"
   dependencies:
@@ -4552,7 +4418,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/onchain-gas-adapter@workspace:*, @chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas":
+"@chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas":
   version: 0.0.0-use.local
   resolution: "@chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas"
   dependencies:
@@ -4568,7 +4434,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/openexchangerates-adapter@workspace:*, @chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates":
+"@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates":
   version: 0.0.0-use.local
   resolution: "@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates"
   dependencies:
@@ -4583,7 +4449,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/orchid-bandwidth-adapter@workspace:*, @chainlink/orchid-bandwidth-adapter@workspace:packages/sources/orchid-bandwidth":
+"@chainlink/orchid-bandwidth-adapter@workspace:packages/sources/orchid-bandwidth":
   version: 0.0.0-use.local
   resolution: "@chainlink/orchid-bandwidth-adapter@workspace:packages/sources/orchid-bandwidth"
   dependencies:
@@ -4603,7 +4469,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/outlier-detection-adapter@workspace:packages/composites/outlier-detection"
   dependencies:
-    "@chainlink/ea": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -4617,7 +4482,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/paxos-adapter@workspace:*, @chainlink/paxos-adapter@workspace:packages/sources/paxos":
+"@chainlink/paxos-adapter@workspace:packages/sources/paxos":
   version: 0.0.0-use.local
   resolution: "@chainlink/paxos-adapter@workspace:packages/sources/paxos"
   dependencies:
@@ -4633,7 +4498,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/paypal-adapter@workspace:*, @chainlink/paypal-adapter@workspace:packages/sources/paypal":
+"@chainlink/paypal-adapter@workspace:packages/sources/paypal":
   version: 0.0.0-use.local
   resolution: "@chainlink/paypal-adapter@workspace:packages/sources/paypal"
   dependencies:
@@ -4648,7 +4513,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/poa-adapter@workspace:*, @chainlink/poa-adapter@workspace:packages/sources/poa":
+"@chainlink/poa-adapter@workspace:packages/sources/poa":
   version: 0.0.0-use.local
   resolution: "@chainlink/poa-adapter@workspace:packages/sources/poa"
   dependencies:
@@ -4680,7 +4545,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/polygon-adapter@workspace:*, @chainlink/polygon-adapter@workspace:packages/sources/polygon":
+"@chainlink/polygon-adapter@workspace:packages/sources/polygon":
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
   dependencies:
@@ -4696,7 +4561,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/polygon-test-adapter@workspace:*, @chainlink/polygon-test-adapter@workspace:packages/sources/polygon-test":
+"@chainlink/polygon-test-adapter@workspace:packages/sources/polygon-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-test-adapter@workspace:packages/sources/polygon-test"
   dependencies:
@@ -4824,7 +4689,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/reference-transform-adapter@workspace:packages/composites/reference-transform"
   dependencies:
-    "@chainlink/ea": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@types/jest": 27.5.2
@@ -4874,7 +4738,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/satoshitango-adapter@workspace:*, @chainlink/satoshitango-adapter@workspace:packages/sources/satoshitango":
+"@chainlink/satoshitango-adapter@workspace:packages/sources/satoshitango":
   version: 0.0.0-use.local
   resolution: "@chainlink/satoshitango-adapter@workspace:packages/sources/satoshitango"
   dependencies:
@@ -4926,7 +4790,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/snowflake-adapter@workspace:*, @chainlink/snowflake-adapter@workspace:packages/sources/snowflake":
+"@chainlink/snowflake-adapter@workspace:packages/sources/snowflake":
   version: 0.0.0-use.local
   resolution: "@chainlink/snowflake-adapter@workspace:packages/sources/snowflake"
   dependencies:
@@ -4978,7 +4842,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/spectral-macro-score-adapter@workspace:*, @chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score":
+"@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score":
   version: 0.0.0-use.local
   resolution: "@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score"
   dependencies:
@@ -5048,7 +4912,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/stader-labs-adapter@workspace:*, @chainlink/stader-labs-adapter@workspace:packages/sources/stader-labs":
+"@chainlink/stader-labs-adapter@workspace:packages/sources/stader-labs":
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-labs-adapter@workspace:packages/sources/stader-labs"
   dependencies:
@@ -5065,7 +4929,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/stasis-adapter@workspace:*, @chainlink/stasis-adapter@workspace:packages/sources/stasis":
+"@chainlink/stasis-adapter@workspace:packages/sources/stasis":
   version: 0.0.0-use.local
   resolution: "@chainlink/stasis-adapter@workspace:packages/sources/stasis"
   dependencies:
@@ -5118,7 +4982,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/synthetix-debt-pool-adapter@workspace:*, @chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool":
+"@chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool":
   version: 0.0.0-use.local
   resolution: "@chainlink/synthetix-debt-pool-adapter@workspace:packages/sources/synthetix-debt-pool"
   dependencies:
@@ -5134,7 +4998,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/taapi-adapter@workspace:*, @chainlink/taapi-adapter@workspace:packages/sources/taapi":
+"@chainlink/taapi-adapter@workspace:packages/sources/taapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/taapi-adapter@workspace:packages/sources/taapi"
   dependencies:
@@ -5261,7 +5125,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tradermade-adapter@workspace:*, @chainlink/tradermade-adapter@workspace:packages/sources/tradermade":
+"@chainlink/tradermade-adapter@workspace:packages/sources/tradermade":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
   dependencies:
@@ -5277,7 +5141,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tradermade-test-adapter@workspace:*, @chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test":
+"@chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test"
   dependencies:
@@ -5293,7 +5157,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tradingeconomics-adapter@workspace:*, @chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics":
+"@chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics"
   dependencies:
@@ -5309,7 +5173,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/tradingeconomics-test-adapter@workspace:*, @chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test":
+"@chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test"
   dependencies:
@@ -5325,7 +5189,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/trueusd-adapter@workspace:*, @chainlink/trueusd-adapter@workspace:packages/sources/trueusd":
+"@chainlink/trueusd-adapter@workspace:packages/sources/trueusd":
   version: 0.0.0-use.local
   resolution: "@chainlink/trueusd-adapter@workspace:packages/sources/trueusd"
   dependencies:
@@ -5341,7 +5205,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/twelvedata-adapter@workspace:*, @chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
+"@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
   version: 0.0.0-use.local
   resolution: "@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata"
   dependencies:
@@ -5357,7 +5221,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/twosigma-adapter@workspace:*, @chainlink/twosigma-adapter@workspace:packages/sources/twosigma":
+"@chainlink/twosigma-adapter@workspace:packages/sources/twosigma":
   version: 0.0.0-use.local
   resolution: "@chainlink/twosigma-adapter@workspace:packages/sources/twosigma"
   dependencies:
@@ -5374,7 +5238,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/unibit-adapter@workspace:*, @chainlink/unibit-adapter@workspace:packages/sources/unibit":
+"@chainlink/unibit-adapter@workspace:packages/sources/unibit":
   version: 0.0.0-use.local
   resolution: "@chainlink/unibit-adapter@workspace:packages/sources/unibit"
   dependencies:
@@ -5408,7 +5272,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uniswap-v3-adapter@workspace:*, @chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3":
+"@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3":
   version: 0.0.0-use.local
   resolution: "@chainlink/uniswap-v3-adapter@workspace:packages/sources/uniswap-v3"
   dependencies:
@@ -5426,7 +5290,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/upvest-adapter@workspace:*, @chainlink/upvest-adapter@workspace:packages/sources/upvest":
+"@chainlink/upvest-adapter@workspace:packages/sources/upvest":
   version: 0.0.0-use.local
   resolution: "@chainlink/upvest-adapter@workspace:packages/sources/upvest"
   dependencies:
@@ -5442,7 +5306,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/uscpi-one-adapter@workspace:*, @chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one":
+"@chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one":
   version: 0.0.0-use.local
   resolution: "@chainlink/uscpi-one-adapter@workspace:packages/sources/uscpi-one"
   dependencies:
@@ -5472,7 +5336,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/view-function-adapter@workspace:*, @chainlink/view-function-adapter@workspace:packages/sources/view-function":
+"@chainlink/view-function-adapter@workspace:packages/sources/view-function":
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
@@ -5506,7 +5370,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/wootrade-adapter@workspace:*, @chainlink/wootrade-adapter@workspace:packages/sources/wootrade":
+"@chainlink/wootrade-adapter@workspace:packages/sources/wootrade":
   version: 0.0.0-use.local
   resolution: "@chainlink/wootrade-adapter@workspace:packages/sources/wootrade"
   dependencies:
@@ -5538,7 +5402,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/xbto-adapter@workspace:*, @chainlink/xbto-adapter@workspace:packages/sources/xbto":
+"@chainlink/xbto-adapter@workspace:packages/sources/xbto":
   version: 0.0.0-use.local
   resolution: "@chainlink/xbto-adapter@workspace:packages/sources/xbto"
   dependencies:
