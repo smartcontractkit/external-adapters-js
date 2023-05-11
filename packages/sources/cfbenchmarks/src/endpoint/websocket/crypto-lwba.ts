@@ -126,8 +126,8 @@ export const lwbaReqTransformer = (req: AdapterRequest<typeof inputParameters.va
 }
 
 export const endpoint = new AdapterEndpoint<WsEndpointTypes>({
-  name: 'crypto_lwba',
-  aliases: ['cryptolwba'],
+  name: 'crypto-lwba',
+  aliases: ['cryptolwba', 'crypto_lwba'],
   transport: wsTransport,
   inputParameters: inputParameters,
   requestTransforms: [lwbaReqTransformer],
