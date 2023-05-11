@@ -37,7 +37,7 @@ export const httpTransport = new HttpTransport<HttpIEXEndpointTypes>({
         url: 'iex',
         params: {
           token: config.API_KEY,
-          tickers: [...new Set(params.map((p) => `${p.ticker.toLowerCase()}`))].join(','),
+          tickers: [...new Set(params.map((p) => `${p.base.toLowerCase()}`))].join(','),
         },
       },
     }
@@ -45,7 +45,7 @@ export const httpTransport = new HttpTransport<HttpIEXEndpointTypes>({
   parseResponse: (_, res) => {
     return res.data.map((entry) => {
       return {
-        params: { ticker: entry.ticker },
+        params: { base: entry.ticker },
         response: {
           data: {
             result: entry.tngoLast,
