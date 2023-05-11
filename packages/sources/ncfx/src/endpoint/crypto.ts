@@ -39,6 +39,9 @@ type Response = {
   ask: number
   Data: {
     result: number
+    bid: number
+    mid: number
+    ask: number
   }
 }
 
@@ -110,6 +113,11 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
             bid: message.bid || 0, // Already validated in the filter above
             ask: message.offer || 0, // Already validated in the filter above
             data: {
+              // bid, mid, ask included here again.
+              // Also kept outside data for backward compatability
+              bid: message.bid || 0,
+              mid: message.mid || 0,
+              ask: message.offer || 0,
               result: message.mid || 0, // Already validated in the filter above
             },
             timestamps: {
