@@ -106,7 +106,7 @@ export const DepositEvent_ABI = [
 
 export const StaderPenaltyContract_ABI: ethers.ContractInterface = [
   {
-    inputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    inputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
     name: 'totalPenaltyAmount',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
