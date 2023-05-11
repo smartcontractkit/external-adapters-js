@@ -34,4 +34,4 @@ export const config = new AdapterConfig(
   },
 )
 
-export const WS_HEARTBEAT_MS = 60000
+//export const WS_HEARTBEAT_MS = 60000
