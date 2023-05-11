@@ -28,7 +28,7 @@ export const endpoint = new AdapterEndpoint({
   transportRoutes: new TransportRoutes<IEXEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
-  defaultTransport: 'ws',
+  defaultTransport: 'rest',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
 })
