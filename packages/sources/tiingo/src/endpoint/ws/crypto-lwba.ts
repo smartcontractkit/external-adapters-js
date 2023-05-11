@@ -105,8 +105,8 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
   })
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
-  name: 'crypto_lwba',
-  aliases: ['cryptolwba'],
+  name: 'crypto-lwba',
+  aliases: ['cryptolwba', 'crypto_lwba'],
   transport: wsTransport,
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
