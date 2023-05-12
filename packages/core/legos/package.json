@@ -85,8 +85,6 @@
     "@chainlink/dwolla-adapter": "workspace:*",
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",
-    "@chainlink/dxfeed-secondary-test-adapter": "workspace:*",
-    "@chainlink/dxfeed-test-adapter": "workspace:*",
     "@chainlink/elwood-adapter": "workspace:*",
     "@chainlink/ens-adapter": "workspace:*",
     "@chainlink/enzyme-adapter": "workspace:*",

@@ -1,5 +1,8 @@
-import type { TInputParameters as PriceInputParameters } from './price'
-
-export type TInputParameters = PriceInputParameters
-
-export * as price from './price'
+export { buildDxFeedHttpTransport } from './price'
+export {
+  EndpointTypes,
+  customInputValidation,
+  inputParameters,
+  endpoint as price,
+} from './price-router'
+export { buildDxFeedWsTransport } from './price-ws'

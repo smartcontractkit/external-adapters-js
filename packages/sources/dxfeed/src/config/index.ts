@@ -1,25 +1,33 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
-export const NAME = 'DXFEED'
+const logger = makeLogger('Config')
 
-export const DEFAULT_ENDPOINT = 'price'
-export const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.name = NAME
-  config.api.baseURL = config.api.baseURL || DEMO_ENDPOINT
-  config.ws.baseWsURL = config.ws.baseWsURL || ''
-  if (config.api.baseURL === DEMO_ENDPOINT)
-    console.warn(`Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`)
-
-  const username = util.getEnv('API_USERNAME', prefix) || ''
-  const password = util.getEnv('API_PASSWORD', prefix) || ''
-  if (username.length > 0 || password.length > 0) {
-    config.api.auth = { username, password }
-  }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-
-  return config
-}
+export const config = new AdapterConfig({
+  API_USERNAME: {
+    description: 'username for dxfeed API',
+    type: 'string',
+  },
+  API_PASSWORD: {
+    description: 'password for dxfeed API',
+    type: 'string',
+    sensitive: true,
+  },
+  WS_API_ENDPOINT: {
+    description: 'The websocket url for dxfeed',
+    type: 'string',
+  },
+  API_ENDPOINT: {
+    description: 'The API url for dxfeed',
+    type: 'string',
+    default: 'https://tools.dxfeed.com/webservice/rest',
+    validate: (value?: string): string => {
+      if (value === 'https://tools.dxfeed.com/webservice/rest') {
+        logger.warn(
+          `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
+        )
+      }
+      return ''
+    },
+  },
+})
