@@ -1,72 +1,42 @@
-# Chainlink External Adapter for dxFeed
+# DXFEED_SECONDARY
 
-An adapter to add secondary mapping for symbols:
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
-```bash
-TSLA ➡️ 'TSLA.US:TEI'
-```
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-### Environment Variables
+## Environment Variables
 
-| Required? |     Name     |         Description          | Options |                Defaults to                 |
-| :-------: | :----------: | :--------------------------: | :-----: | :----------------------------------------: |
-|    ✅     | API_USERNAME |                              |         |                                            |
-|    ✅     | API_PASSWORD |                              |         |                                            |
-|    🟡     | API_ENDPOINT | The endpoint for your dxFeed |         | `https://tools.dxfeed.com/webservice/rest` |
-
----
-
-### Input Parameters
-
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |   `price`   |
+| Required? |      Name       |         Description          |  Type  | Options |                  Default                   |
+| :-------: | :-------------: | :--------------------------: | :----: | :-----: | :----------------------------------------: |
+|           |  API_USERNAME   |   username for dxfeed API    | string |         |                                            |
+|           |  API_PASSWORD   |   password for dxfeed API    | string |         |                                            |
+|           | WS_API_ENDPOINT | The websocket url for dxfeed | string |         |                                            |
+|           |  API_ENDPOINT   |    The API url for dxfeed    | string |         | `https://tools.dxfeed.com/webservice/rest` |
 
 ---
+
+## Input Parameters
+
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
+
+| Required? |   Name   |     Description     |  Type  |                                                                 Options                                                                 | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#price-endpoint), [crypto](#price-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
+Supported names for this endpoint are: `commodities`, `crypto`, `forex`, `price`, `stock`.
+
 ### Input Params
 
-| Required? |               Name               |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, `coin`, `market` |            The symbol of the currency to query            |                                                                                      |             |
-|    🟡     |           `overrides`            | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? | Name |         Aliases          |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :----------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from`, `market` | The symbol of the currency to query | string |         |         |            |                |
 
-`overrides` should contain the following symbol conversions:
+### Example
 
-```bash
-N225: 'NKY.IND:TEI',
-FTSE: 'UKX.IND:TEI',
-TSLA: 'TSLA.US:TEI',
-```
+There are no examples for this endpoint.
 
-## Output
+---
 
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "status": "OK",
-    "Trade": {
-      "UKX:FTSE": {
-        "eventSymbol": "UKX:FTSE",
-        "eventTime": 0,
-        "time": 1593001772000,
-        "timeNanoPart": 0,
-        "sequence": 115972,
-        "exchangeCode": "",
-        "price": 6194.63,
-        "size": 0,
-        "dayVolume": 0,
-        "dayTurnover": "NaN",
-        "tickDirection": "ZERO_UP",
-        "extendedTradingHours": false
-      }
-    },
-    "result": 6194.63
-  },
-  "result": 6194.63,
-  "statusCode": 200
-}
-```
+MIT License
