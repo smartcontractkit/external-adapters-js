@@ -1,7 +1,6 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { WS_HEARTBEAT_MS } from '../config'
 import { PriceEndpointTypes, inputParameters } from '../types'
 import { getAuthToken } from '../util'
 
@@ -20,14 +19,6 @@ const hitTrackingLevels: { [level: string]: boolean } = {
   trace: true,
 }
 
-function heartbeat(connection: WebSocket): NodeJS.Timeout | undefined {
-  if (!connection) return
-  if (connection.readyState !== 1) return
-  logger.debug('pinging....')
-  connection.send('Ping')
-  return setTimeout(() => heartbeat(connection), WS_HEARTBEAT_MS)
-}
-
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context) => {
@@ -37,12 +28,6 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
     }
   },
   handlers: {
-    open(connection) {
-      const heartbeatTimeout = heartbeat(connection)
-      connection.addEventListener('close', async () => {
-        clearTimeout(heartbeatTimeout)
-      })
-    },
     message(message, context) {
       if (message.errors) {
         logger.error(`Got error from DP: ${message.errors}`)

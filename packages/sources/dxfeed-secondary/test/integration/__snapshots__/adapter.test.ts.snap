@@ -1,25 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`dxfeed secondary price endpoint should not override value with dxfeed symbol overrides 1`] = `
-{
-  "data": {
-    "result": 10,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 10,
-  "statusCode": 200,
-}
-`;
-
-exports[`dxfeed secondary price endpoint should return success 1`] = `
+exports[`execute price endpoint rest should return success 1`] = `
 {
   "data": {
     "result": 7343.84,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 7343.84,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute price endpoint websocket should return success 1`] = `
+{
+  "data": {
+    "result": 170,
+  },
+  "result": 170,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+  },
 }
 `;
