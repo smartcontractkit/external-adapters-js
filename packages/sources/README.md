@@ -60,8 +60,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [dwolla](./dwolla/README.md)
 - [dxfeed](./dxfeed/README.md)
 - [dxfeed-secondary](./dxfeed-secondary/README.md)
-- [dxfeed-secondary-test](./dxfeed-secondary-test/README.md)
-- [dxfeed-test](./dxfeed-test/README.md)
 - [elwood](./elwood/README.md)
 - [ens](./ens/README.md)
 - [enzyme](./enzyme/README.md)

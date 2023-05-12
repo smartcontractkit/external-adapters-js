@@ -1,5 +1,12 @@
 # @chainlink/set-token-index-adapter
 
+## 2.0.36
+
+### Patch Changes
+
+- db304289b: Fixed json file being excluded during image building
+  - @chainlink/token-allocation-adapter@1.10.12
+
 ## 2.0.35
 
 ### Patch Changes

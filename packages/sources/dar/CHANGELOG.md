@@ -1,5 +1,11 @@
 # @chainlink/dar-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- d6a04fbf4: Remove heartbeat timeout from DAR WS
+
 ## 1.2.1
 
 ### Patch Changes
