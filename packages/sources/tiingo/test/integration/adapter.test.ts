@@ -391,6 +391,7 @@ describe('execute', () => {
       data: {
         endpoint: 'iex',
         base: 'aapl',
+        transport: 'ws',
       },
     }
 
@@ -398,6 +399,7 @@ describe('execute', () => {
       data: {
         endpoint: 'iex',
         base: 'amzn',
+        transport: 'ws',
       },
     }
 

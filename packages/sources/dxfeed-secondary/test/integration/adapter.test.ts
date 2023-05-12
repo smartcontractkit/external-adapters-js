@@ -1,169 +1,130 @@
-import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
-import { server as startServer } from '../../src'
-import * as nock from 'nock'
-import { AddressInfo } from 'net'
 import {
-  mockFirstHeartbeatMsg,
-  mockGooglResponse,
-  mockHandshake,
-  mockHeartbeatMsg,
-  mockPriceResponse,
-  mockSubscribe,
-  mockUnsubscribe,
-} from './fixtures'
-import {
+  createAdapter,
   mockWebSocketProvider,
   mockWebSocketServer,
-  MockWsServer,
-  mockWebSocketFlow,
   setEnvVariables,
-} from '@chainlink/ea-test-helpers'
-import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
+  setupExternalAdapterTest,
+  SuiteContext,
+} from './setup'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { mockPriceEndpoint } from './fixtures'
+import process from 'process'
+import { AddressInfo } from 'net'
+import { Server } from 'mock-socket'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { sleep } from '@chainlink/external-adapter-framework/util'
 
-describe('dxfeed secondary', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
-
-  const envVariables = {
-    API_USERNAME: process.env.API_USERNAME || 'fake-api-username',
-    API_PASSWORD: process.env.API_PASSWORD || 'fake-api-password',
-  }
-
-  setupExternalAdapterTest(envVariables, context)
-
-  describe('price endpoint', () => {
-    it('should return success', async () => {
-      const priceRequest: AdapterRequest = {
-        id,
-        data: {
-          base: 'FTSE',
-        },
-      }
-
-      mockPriceResponse()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(priceRequest)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+describe('execute', () => {
+  describe('price endpoint rest', () => {
+    let spy: jest.SpyInstance
+    beforeAll(async () => {
+      const mockDate = new Date('2022-01-01T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
     })
 
-    it('should not override value with dxfeed symbol overrides', async () => {
-      const priceRequest: AdapterRequest = {
-        id,
-        data: {
-          base: 'GOOGL',
-        },
-      }
-
-      mockGooglResponse()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(priceRequest)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+    afterAll((done) => {
+      spy.mockRestore()
+      done()
     })
-  })
-})
 
-describe('websocket', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+    const id = '1'
 
-  let oldEnv: NodeJS.ProcessEnv
-  beforeAll(async () => {
-    if (!process.env.RECORD) {
-      process.env.API_USERNAME = 'fake-api-username'
-      process.env.API_PASSWORD = 'fake-api-password'
-      process.env.WS_API_ENDPOINT = 'wss://localhost:8080'
-      mockedWsServer = mockWebSocketServer(process.env.WS_API_ENDPOINT)
-      mockWebSocketProvider(WebSocketClassProvider)
+    const context: SuiteContext = {
+      req: null,
+      server: async () => {
+        process.env['RATE_LIMIT_CAPACITY_SECOND'] = '6'
+        process.env['METRICS_ENABLED'] = 'false'
+        const server = (await import('../../src')).server
+        return server() as Promise<ServerInstance>
+      },
     }
 
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '300'
+    const envVariables = {
+      CACHE_ENABLED: 'false',
+      API_USERNAME: process.env.API_USERNAME || 'fake-api-username',
+      API_PASSWORD: process.env.API_PASSWORD || 'fake-api-password',
+    }
 
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+    setupExternalAdapterTest(envVariables, context)
 
-  afterAll((done) => {
-    setEnvVariables(oldEnv)
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
-  describe('price endpoint', () => {
-    const jobID = '1'
+    const data = {
+      id,
+      data: {
+        base: 'FTSE',
+      },
+    }
 
     it('should return success', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          base: 'FTSE',
-        },
-      }
+      mockPriceEndpoint()
 
-      let flowFulfilled = Promise.resolve(true)
-      if (!process.env.RECORD) {
-        mockPriceResponse() // For the first response
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 
-        flowFulfilled = mockWebSocketFlow(
-          mockedWsServer,
-          [mockHandshake, mockFirstHeartbeatMsg, mockHeartbeatMsg, mockSubscribe, mockUnsubscribe],
-          {
-            enforceSequence: false,
-            errorOnUnexpectedMessage: false,
-          },
-        )
-      }
+  describe('price endpoint websocket', () => {
+    let fastify: ServerInstance | undefined
+    let req: SuperTest<Test>
+    let mockWsServer: Server | undefined
+    let spy: jest.SpyInstance
+    const wsEndpoint = 'ws://localhost:9090'
 
+    jest.setTimeout(100000)
+
+    const priceData = {
+      data: {
+        base: 'TSLA',
+        transport: 'ws',
+      },
+    }
+
+    let oldEnv: NodeJS.ProcessEnv
+    beforeAll(async () => {
+      oldEnv = JSON.parse(JSON.stringify(process.env))
+      process.env['WS_SUBSCRIPTION_TTL'] = '10000'
+      process.env['CACHE_MAX_AGE'] = '10000'
+      process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+      process.env['METRICS_ENABLED'] = 'false'
+      process.env['WS_API_ENDPOINT'] = wsEndpoint
+      const mockDate = new Date('2022-11-11T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+      mockWebSocketProvider(WebSocketClassProvider)
+      mockWsServer = mockWebSocketServer(wsEndpoint)
+
+      fastify = await expose(createAdapter())
+      req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+      // Send initial request to start background execute
+      await req.post('/').send(priceData)
+      await sleep(5000)
+    })
+
+    afterAll((done) => {
+      spy.mockRestore()
+      setEnvVariables(oldEnv)
+      mockWsServer?.close()
+      fastify?.close(done())
+    })
+
+    it('should return success', async () => {
       const makeRequest = () =>
         req
           .post('/')
-          .send(data)
+          .send(priceData)
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(200)
 
-      // We don't care about the first response, coming from http request
-      // This first request will start both batch warmer & websocket
-      await makeRequest()
-
-      // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
-      // populated cache entries.
-      await util.sleep(100)
       const response = await makeRequest()
-
-      expect(response.body).toEqual({
-        jobRunID: '1',
-        result: 788,
-        statusCode: 200,
-        maxAge: 30000,
-        data: { result: 788 },
-      })
-
-      await flowFulfilled
-    }, 10000)
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
   })
 })
