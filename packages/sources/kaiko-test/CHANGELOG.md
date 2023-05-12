@@ -1,5 +1,11 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.13
+
+### Patch Changes
+
+- cfac404db: Added 0 price validation
+
 ## 1.1.12
 
 ### Patch Changes

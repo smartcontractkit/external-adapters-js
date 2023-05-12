@@ -1,5 +1,12 @@
 # @chainlink/stader-balance-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- 3230358e2: Fixed misconfigured ABI for penalty contract
+- 611d9b17a: Removed balance check to determine withdrawn validator
+
 ## 1.1.0
 
 ### Minor Changes

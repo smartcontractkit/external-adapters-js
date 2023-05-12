@@ -1,5 +1,12 @@
 # @chainlink/ncfx-adapter
 
+## 3.3.0
+
+### Minor Changes
+
+- 2ccb976bf: Normalize crypto-lwba response formats
+- eb498a913: Normalize crypto-lwba endpoint names
+
 ## 3.2.9
 
 ### Patch Changes
