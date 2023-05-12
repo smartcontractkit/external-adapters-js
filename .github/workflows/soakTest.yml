@@ -211,9 +211,11 @@ jobs:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
         run: |
+          TEST_RESULTS="./test_results.txt"
           if [ -n "$TEST_ADAPTERS" ]; then
             for adapter in ${TEST_ADAPTERS}; do
               # verify last comment has no failures for each adapter, otherwise exit with error
-              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("'${adapter}'"))) | last' | cat
+              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("'${adapter}'"))) | last' | grep -q "Soak test failed for ${adapter}" >> ${TEST_RESULTS}
             done
           fi
+          cat $TEST_RESULTS
