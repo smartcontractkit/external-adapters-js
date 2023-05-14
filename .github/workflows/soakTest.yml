@@ -216,7 +216,7 @@ jobs:
           if [ -n "$TEST_ADAPTERS" ]; then
             for adapter in ${TEST_ADAPTERS}; do
               # verify last comment has no failures for each adapter, otherwise exit with error
-              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("'$adapter'"))) | last' | grep -q "Soak test failed for ${adapter}" >> ${TEST_RESULTS}
+              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("'$adapter'"))) | last' | cat >> ${TEST_RESULTS}
             done
           fi
-          cat $TEST_RESULTS
+          cat $TEST_RESULTS | grep -q "Soak test failed" && exit 1 || echo "All tests passed"
