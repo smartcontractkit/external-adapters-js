@@ -88,10 +88,7 @@ export class ValidatorFactory {
                   `[Validator ${validatorAddress.address}] Found address on beacon chain (status: ${state.status} | balance: ${validatorBalance})`,
                 )
 
-                if (
-                  state.status.toLowerCase() !== WITHDRAWAL_DONE_STATUS ||
-                  validatorBalance.gt(0)
-                ) {
+                if (state.status.toLowerCase() !== WITHDRAWAL_DONE_STATUS) {
                   activeValidators.push(new ActiveValidator(validatorParams))
                 } else {
                   withdrawnValidators.push(new WithdrawnValidator(validatorParams))

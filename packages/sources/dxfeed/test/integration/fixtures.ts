@@ -1,9 +1,9 @@
 import nock from 'nock'
 
 export function mockPriceEndpoint(): nock.Scope {
-  return nock('https://tools.dxfeed.com:443', { encodedQueryParams: true })
-    .get('/webservice/rest/events.json')
-    .query({ events: 'Trade', symbols: 'TSLA:BFX' })
+  return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
+    .get('/events.json')
+    .query({ events: 'Trade,Quote', symbols: 'TSLA:BFX' })
     .reply(
       200,
       {
@@ -49,131 +49,4 @@ export function mockPriceEndpoint(): nock.Scope {
         'tools1',
       ],
     )
-}
-
-export const mockHandshake = {
-  request: [
-    {
-      id: '1',
-      version: '1.0',
-      minimumVersion: '1.0',
-      channel: '/meta/handshake',
-      supportedConnectionTypes: ['websocket', 'long-polling', 'callback-polling'],
-      advice: {
-        timeout: 60000,
-        interval: 0,
-      },
-    },
-  ],
-
-  response: [
-    [
-      {
-        minimumVersion: '1.0',
-        clientId: 'dczhok6vqr2dw8pmio9857029',
-        supportedConnectionTypes: ['websocket'],
-        advice: {
-          interval: 0,
-          timeout: 30000,
-          reconnect: 'retry',
-        },
-        channel: '/meta/handshake',
-        id: '1',
-        version: '1.0',
-        successful: true,
-      },
-    ],
-  ],
-}
-
-export const mockFirstHeartbeatMsg = {
-  request: [
-    {
-      id: '2',
-      channel: '/meta/connect',
-      connectionType: 'websocket',
-      advice: {
-        timeout: 0,
-      },
-      clientId: 'dczhok6vqr2dw8pmio9857029',
-    },
-  ],
-
-  response: [
-    [
-      {
-        advice: {
-          interval: 0,
-          timeout: 30000,
-          reconnect: 'retry',
-        },
-        channel: '/meta/connect',
-        id: '2',
-        successful: true,
-      },
-    ],
-  ],
-}
-
-export const mockHeartbeatMsg = {
-  request: [
-    {
-      id: '3',
-      channel: '/meta/connect',
-      connectionType: 'websocket',
-      clientId: 'dczhok6vqr2dw8pmio9857029',
-    },
-  ],
-
-  response: [
-    [
-      {
-        channel: '/meta/connect',
-        id: '3',
-        successful: true,
-      },
-    ],
-  ],
-}
-
-export const mockSubscribe = {
-  request: [
-    {
-      channel: '/service/sub',
-      data: {
-        add: {
-          Quote: ['TSLA'],
-        },
-      },
-      clientId: 'dczhok6vqr2dw8pmio9857029',
-      id: '4',
-    },
-  ],
-
-  response: [
-    [
-      {
-        data: [
-          'Quote',
-          ['TSLA', 0, 0, 0, 1645634934000, 'U', 788.0, 140.0, 1645634934000, 'V', 790.18, 233.0],
-        ],
-        channel: '/service/data',
-      },
-    ],
-  ],
-}
-
-export const mockUnsubscribe = {
-  request: [
-    {
-      channel: '/service/sub',
-      data: {
-        remove: {
-          Quote: ['TSLA'],
-        },
-      },
-    },
-  ],
-
-  response: null,
 }

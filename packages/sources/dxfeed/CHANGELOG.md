@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 620fbe6b4: Upgraded adapter from v2 to v3 framework
+
 ## 1.3.31
 
 ### Patch Changes

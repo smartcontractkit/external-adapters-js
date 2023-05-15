@@ -7,7 +7,7 @@ import * as nock from 'nock'
 import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
 import { price } from '../../src/endpoint'
-import dxfeed from '@chainlink/dxfeed-test-adapter'
+import dxfeed from '@chainlink/dxfeed-adapter'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null

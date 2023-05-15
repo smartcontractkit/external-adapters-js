@@ -1,5 +1,16 @@
 ## v1.1.0
 
+## 2.1.0
+
+### Minor Changes
+
+- eb498a913: Normalize crypto-lwba endpoint names
+
+### Patch Changes
+
+- ad338fc1b: Set stock endpoint default transport to rest
+- 4c7a29532: Fixed iex endpoint overrides and added BRK.B override
+
 ## 2.0.0
 
 ### Major Changes
