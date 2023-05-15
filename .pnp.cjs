@@ -5483,7 +5483,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@cardanosolutions-json-bigint-npm-1.0.0-1a4f51f9ee-5df5986de7.zip/node_modules/@cardanosolutions/json-bigint/",\
           "packageDependencies": [\
             ["@cardanosolutions/json-bigint", "npm:1.0.0"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6070,7 +6070,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["bn.js", "npm:5.2.1"],\
             ["ethers", "npm:5.7.1"],\
             ["supertest", "npm:6.2.4"],\
@@ -6794,7 +6794,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["ethers", "npm:5.7.1"],\
             ["ipfs", "npm:0.60.2"],\
             ["merkletreejs", "npm:0.2.32"],\
@@ -13884,7 +13884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@renproject/interfaces", "npm:2.6.0"],\
             ["@types/node", "npm:18.8.3"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13915,7 +13915,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:18.8.3"],\
             ["axios", "npm:0.21.4"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["bn.js", "npm:5.2.1"],\
             ["bs58", "npm:5.0.0"],\
             ["ethers", "npm:5.7.1"],\
@@ -13933,7 +13933,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@renproject/provider", "npm:2.6.0"],\
             ["@renproject/utils", "npm:2.6.0"],\
             ["@types/node", "npm:18.8.3"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["bn.js", "npm:5.2.1"],\
             ["immutable", "npm:4.1.0"]\
           ],\
@@ -13951,7 +13951,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/keccak", "npm:3.0.1"],\
             ["@types/node", "npm:18.8.3"],\
             ["axios", "npm:0.21.4"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["create-hash", "npm:1.2.0"],\
             ["ethers", "npm:5.7.1"],\
             ["events", "npm:3.3.0"],\
@@ -17623,13 +17623,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:9.1.0", {\
-          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.0-4f54bd1083-52ec2bb5a3.zip/node_modules/bignumber.js/",\
-          "packageDependencies": [\
-            ["bignumber.js", "npm:9.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:9.1.1", {\
           "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.1-5929e8d8dc-ad243b7e2f.zip/node_modules/bignumber.js/",\
           "packageDependencies": [\
@@ -17943,7 +17936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/borc-npm-3.0.0-5bd12c9df0-23e39557ed.zip/node_modules/borc/",\
           "packageDependencies": [\
             ["borc", "npm:3.0.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["buffer", "npm:6.0.3"],\
             ["commander", "npm:2.20.3"],\
             ["ieee754", "npm:1.2.1"],\
@@ -18584,7 +18577,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cbor-npm-5.2.0-4f6440587f-b3c39dae64.zip/node_modules/cbor/",\
           "packageDependencies": [\
             ["cbor", "npm:5.2.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["nofilter", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
@@ -27044,7 +27037,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/json-bigint-npm-1.0.0-8e35bcb143-c67bb93ccb.zip/node_modules/json-bigint/",\
           "packageDependencies": [\
             ["json-bigint", "npm:1.0.0"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -27698,7 +27691,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["abortable-iterator", "npm:3.0.2"],\
             ["aggregate-error", "npm:3.1.0"],\
             ["any-signal", "npm:2.1.2"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["class-is", "npm:1.1.0"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
             ["err-code", "npm:3.0.1"],\
@@ -29037,7 +29030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/merkletreejs-npm-0.2.32-79a2b236fc-041b235add.zip/node_modules/merkletreejs/",\
           "packageDependencies": [\
             ["merkletreejs", "npm:0.2.32"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["buffer-reverse", "npm:1.0.1"],\
             ["crypto-js", "npm:3.3.0"],\
             ["treeify", "npm:1.1.0"],\
@@ -36371,7 +36364,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core", "npm:1.7.4"],\
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:12.20.55"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["web3-core-helpers", "npm:1.7.4"],\
             ["web3-core-method", "npm:1.7.4"],\
             ["web3-core-requestmanager", "npm:1.7.4"],\
@@ -36385,7 +36378,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core", "npm:1.8.0"],\
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:12.20.55"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["web3-core-helpers", "npm:1.8.0"],\
             ["web3-core-method", "npm:1.8.0"],\
             ["web3-core-requestmanager", "npm:1.8.0"],\
