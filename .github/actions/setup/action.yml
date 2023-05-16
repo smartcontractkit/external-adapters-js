@@ -13,6 +13,9 @@ inputs:
     description: Skips cache restores and saves if set to true
     required: false
     default: 'false'
+  upstream-branch:
+    description: The ref to compare to when calculating which packages to build
+    required: false
 
 runs:
   using: 'composite'
@@ -60,24 +63,61 @@ runs:
           ./.yarn/install-state/**
 
     # Build TS files unless it's been specified otherwise
-    # - name: Restore TS built files if present
-    #   id: restore-ts-build
-    #   uses: actions/cache/restore@v3
-    #   if: inputs.skip-setup != 'true' && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
-    #   with:
-    #     key: tsbuild-${{ github.sha }}
-    #     path: |
-    #       ./packages/**/tsconfig.tsbuildinfo
-    #       ./packages/**/dist/
-    # - name: yarn setup
-    #   if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true'
-    #   run: yarn setup
-    #   shell: bash
-    # - name: Cache built files
-    #   if: steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
-    #   uses: actions/cache/save@v3
-    #   with:
-    #     key: tsbuild-${{ github.sha }}
-    #     path: |
-    #       ./packages/**/tsconfig.tsbuildinfo
-    #       ./packages/**/dist/
+    - name: Restore TS built files if present
+      id: restore-ts-build
+      uses: actions/cache/restore@v3
+      if: inputs.skip-setup != 'true' && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
+    - name: 'Example - Get a list of changed files to process (fetching full PR commit history)'
+      shell: bash
+      env:
+        branch_base: origin/${{ github.event.pull_request.base.ref }}
+        branch_pr: origin/${{ github.event.pull_request.head.ref }}
+        refspec_base: +${{ github.event.pull_request.base.sha }}:remotes/origin/${{ github.event.pull_request.base.ref }}
+        refspec_pr: +${{ github.event.pull_request.head.sha }}:remotes/origin/${{ github.event.pull_request.head.ref }}
+      run: |
+        # Fetch enough history to find a common ancestor commit (aka merge-base):
+        git fetch origin ${{ env.refspec_pr }} --depth=$(( ${{ github.event.pull_request.commits }} + 1 )) \
+          --no-tags --prune --no-recurse-submodules
+
+        # `actions/checkout` fetched a specific commit, not a branch (ref), so that commit was checked out in a
+        # detached HEAD state. Depending on what you do, you may want to additionally switch to the branch
+        # the refspec assigned the commit to in the prior fetch command:
+        # git switch -c ${{ env.branch_pr }}
+
+        # This should get the oldest commit in the local fetched history (which may not be the commit the PR branched from):
+        COMMON_ANCESTOR=$( git rev-list --first-parent --max-parents=0 --max-count=1 ${{ env.branch_pr }} )
+        DATE=$( git log --date=iso8601 --format=%cd "${COMMON_ANCESTOR}" )
+
+        # Get all commits since that commit date from the base branch (eg: master or main):
+        git fetch origin ${{ env.refspec_base }} --shallow-since="${DATE}" \
+          --no-tags --prune --no-recurse-submodules
+
+        git branch
+    - name: Debug step 1
+      shell: bash
+      run: git branch
+    - name: Debug step 2
+      shell: bash
+      env:
+        UPSTREAM_BRANCH: ${{ github.base_ref }}
+      run: yarn workspaces list --json -R --since=$UPSTREAM_BRANCH
+    - name: Build files
+      if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true'
+      env:
+        UPSTREAM_BRANCH: ${{ github.base_ref }}
+      run: |
+        yarn workspaces list --json -R --since=$UPSTREAM_BRANCH | jq -csr '.' | jq '{ references: [{ path:  .[] | .location | select(startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | match("packages/(.*)").captures[0].string }] }' > packages/tsconfig.tmp.json && yarn tsc -b packages/tsconfig.tmp.json
+      shell: bash
+    - name: Cache built files
+      if: steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
+      uses: actions/cache/save@v3
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
