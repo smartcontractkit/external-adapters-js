@@ -64,11 +64,10 @@ export async function main(): Promise<void | string> {
       return
     }
 
-    // Legos will always change because it depends on all adapters, so ignore it when considering if we need to build all
     const shouldBuildAll =
       options.all ||
       getWorkspacePackages(process.env['UPSTREAM_BRANCH']).find(
-        (p) => (p.type === 'core' && !p.location.includes('legos')) || p.type === 'scripts',
+        (p) => p.type === 'core' || p.type === 'scripts',
       )
 
     let adapters = shouldBuildAll
