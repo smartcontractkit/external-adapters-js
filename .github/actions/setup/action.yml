@@ -13,6 +13,9 @@ inputs:
     description: Skips cache restores and saves if set to true
     required: false
     default: 'false'
+  upstream-branch:
+    description: The ref to compare to when calculating which packages to build
+    required: false
 
 runs:
   using: 'composite'
@@ -60,24 +63,35 @@ runs:
           ./.yarn/install-state/**
 
     # Build TS files unless it's been specified otherwise
-    # - name: Restore TS built files if present
-    #   id: restore-ts-build
-    #   uses: actions/cache/restore@v3
-    #   if: inputs.skip-setup != 'true' && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
-    #   with:
-    #     key: tsbuild-${{ github.sha }}
-    #     path: |
-    #       ./packages/**/tsconfig.tsbuildinfo
-    #       ./packages/**/dist/
-    # - name: yarn setup
-    #   if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true'
-    #   run: yarn setup
-    #   shell: bash
-    # - name: Cache built files
-    #   if: steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
-    #   uses: actions/cache/save@v3
-    #   with:
-    #     key: tsbuild-${{ github.sha }}
-    #     path: |
-    #       ./packages/**/tsconfig.tsbuildinfo
-    #       ./packages/**/dist/
+    - name: Restore TS built files if present
+      id: restore-ts-build
+      uses: actions/cache/restore@v3
+      if: inputs.skip-setup != 'true' && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
+    - name: Debug step 1
+      shell: bash
+      run: git branch
+    - name: Debug step 2
+      shell: bash
+      env:
+        UPSTREAM_BRANCH: ${{ github.base_ref }}
+      run: yarn workspaces list --json -R --since=$UPSTREAM_BRANCH
+    - name: Build files
+      if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true'
+      env:
+        UPSTREAM_BRANCH: ${{ github.base_ref }}
+      run: |
+        yarn workspaces list --json -R --since=$UPSTREAM_BRANCH | jq -csr '.' | jq '{ references: [{ path:  .[] | .location | select(startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | match("packages/(.*)").captures[0].string }] }' > packages/tsconfig.tmp.json && yarn tsc -b packages/tsconfig.tmp.json
+      shell: bash
+    - name: Cache built files
+      if: steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
+      uses: actions/cache/save@v3
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
