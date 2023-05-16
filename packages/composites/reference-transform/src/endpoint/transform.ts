@@ -1,14 +1,15 @@
 import {
-  Requester,
-  Validator,
-  Logger,
-  InputParameters,
   AdapterInputError,
   AdapterResponseInvalidError,
+  ExecuteWithConfig,
+  InputParameters,
+  Logger,
+  Requester,
+  Validator,
+  util,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
-import { Config, DEFAULT_NETWORK } from '../config'
 import { getRpcLatestAnswer } from '@chainlink/ea-reference-data-reader'
+import { Config, DEFAULT_NETWORK } from '../config'
 
 export const supportedEndpoints = ['transform']
 
@@ -45,9 +46,7 @@ const transform = (offchain: number, onchain: number, operator: string, dividend
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {
-    source: Object.keys(config.sources),
-  })
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const source = validator.validated.data.source
@@ -84,7 +83,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 500,
     })
 
-  const options = config.sources[source]
+  const options = {
+    ...Requester.getDefaultConfig(config.prefix),
+    baseURL: util.getURL(source.toUpperCase()),
+    method: 'post',
+  } as const
+
   const response = (await Requester.request({ ...options, data: request })).data as any
   response.data.result = transform(response.result, price, operator, dividend)
 

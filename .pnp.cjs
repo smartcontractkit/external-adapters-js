@@ -148,10 +148,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core/factories"\
       },\
       {\
-        "name": "@chainlink/ea",\
-        "reference": "workspace:packages/core/legos"\
-      },\
-      {\
         "name": "@chainlink/ea-reference-data-reader",\
         "reference": "workspace:packages/core/reference-data-reader"\
       },\
@@ -911,7 +907,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],\
       ["@chainlink/dydx-rewards-adapter", ["workspace:packages/composites/dydx-rewards"]],\
       ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
-      ["@chainlink/ea", ["workspace:packages/core/legos"]],\
       ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],\
       ["@chainlink/ea-factories", ["workspace:packages/core/factories"]],\
       ["@chainlink/ea-reference-data-reader", ["workspace:packages/core/reference-data-reader"]],\
@@ -6829,176 +6824,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/ea", [\
-        ["workspace:packages/core/legos", {\
-          "packageLocation": "./packages/core/legos/",\
-          "packageDependencies": [\
-            ["@chainlink/ea", "workspace:packages/core/legos"],\
-            ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],\
-            ["@chainlink/accuweather-adapter", "workspace:packages/sources/accuweather"],\
-            ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
-            ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-            ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],\
-            ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-            ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],\
-            ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
-            ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],\
-            ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],\
-            ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
-            ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-            ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],\
-            ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
-            ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],\
-            ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],\
-            ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
-            ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],\
-            ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
-            ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
-            ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
-            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
-            ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
-            ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
-            ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\
-            ["@chainlink/ccip-read-adapter", "workspace:packages/sources/ccip-read"],\
-            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
-            ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
-            ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
-            ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],\
-            ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],\
-            ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],\
-            ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],\
-            ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],\
-            ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],\
-            ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
-            ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],\
-            ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],\
-            ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],\
-            ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\
-            ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],\
-            ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],\
-            ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],\
-            ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],\
-            ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
-            ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
-            ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],\
-            ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],\
-            ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
-            ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],\
-            ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],\
-            ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],\
-            ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],\
-            ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],\
-            ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
-            ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-            ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
-            ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],\
-            ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
-            ["@chainlink/fluent-finance-adapter", "workspace:packages/sources/fluent-finance"],\
-            ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],\
-            ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
-            ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-            ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],\
-            ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],\
-            ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-            ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-            ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
-            ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-            ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-            ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
-            ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
-            ["@chainlink/jpegd-adapter", "workspace:packages/sources/jpegd"],\
-            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
-            ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/kaiko-test-adapter", "workspace:packages/sources/kaiko-test"],\
-            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],\
-            ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],\
-            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],\
-            ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],\
-            ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],\
-            ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-            ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],\
-            ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],\
-            ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],\
-            ["@chainlink/mock-ea-adapter", "workspace:packages/sources/mock-ea"],\
-            ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
-            ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
-            ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
-            ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
-            ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
-            ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],\
-            ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],\
-            ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],\
-            ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
-            ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-            ["@chainlink/polygon-test-adapter", "workspace:packages/sources/polygon-test"],\
-            ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
-            ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
-            ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
-            ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
-            ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
-            ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
-            ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],\
-            ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
-            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-            ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
-            ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
-            ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
-            ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],\
-            ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],\
-            ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
-            ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
-            ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-            ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-            ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
-            ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-            ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
-            ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-            ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],\
-            ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-            ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],\
-            ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
-            ["@chainlink/uniswap-v3-adapter", "workspace:packages/sources/uniswap-v3"],\
-            ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],\
-            ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],\
-            ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-            ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-            ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],\
-            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
-            ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
       ["@chainlink/ea-bootstrap", [\
         ["workspace:packages/core/bootstrap", {\
           "packageLocation": "./packages/core/bootstrap/",\
@@ -8470,7 +8295,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/outlier-detection/",\
           "packageDependencies": [\
             ["@chainlink/outlier-detection-adapter", "workspace:packages/composites/outlier-detection"],\
-            ["@chainlink/ea", "workspace:packages/core/legos"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
@@ -8715,7 +8539,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/reference-transform/",\
           "packageDependencies": [\
             ["@chainlink/reference-transform-adapter", "workspace:packages/composites/reference-transform"],\
-            ["@chainlink/ea", "workspace:packages/core/legos"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
             ["@types/jest", "npm:27.5.2"],\
