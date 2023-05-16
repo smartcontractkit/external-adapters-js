@@ -16,7 +16,7 @@ jobs:
   # Check that the changes introduced in this PR include changesets for packages that would need them
   check-changesets:
     name: Adapter changes accompanied by a changeset
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -29,17 +29,19 @@ jobs:
   # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
   install-packages:
     name: Install and verify dependencies
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     outputs:
       changed-packages: ${{ steps.changed-packages.outputs.result }}
       adapter-list: ${{ steps.adapter-list.outputs.result }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - name: Fetch base branch for comparison in later steps
+        run: git fetch origin ${{ github.base_ref }} --depth 1
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
+        with:
+          upstream-branch: ${{ env.BASE_BRANCH }}
       - name: Build list of changed packages
         id: changed-packages
         run: echo "result=$(yarn workspaces list -R --json --since=$BASE_BRANCH | jq -cs '.' | jq -cr '[.[] | select(.location | startswith("packages"))]')" >> $GITHUB_OUTPUT
@@ -55,7 +57,7 @@ jobs:
   # Run unit tests
   unit-tests:
     name: Run unit tests for changed adapters
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     needs:
       - check-changesets
       - install-packages
@@ -72,7 +74,7 @@ jobs:
   # Run integration tests
   integration-tests:
     name: Run integration tests for changed adapters
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     needs:
       - check-changesets
       - install-packages
@@ -89,7 +91,7 @@ jobs:
   # Run linters
   linters:
     name: Run linters and formatters
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     needs:
       - check-changesets
       - install-packages
@@ -108,7 +110,7 @@ jobs:
   # Run documentation tests (check that the doc generation succeeds to avoid problems downstream)
   run-documentation-check:
     name: Documentation generation test
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, sdlc-ghr-prod]
     needs:
       - check-changesets
       - install-packages

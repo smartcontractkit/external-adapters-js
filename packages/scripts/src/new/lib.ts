@@ -122,7 +122,7 @@ export async function main(): Promise<void> {
   log(blue.bold(`Copying example ${inputs.type} adapter to ${inputs.type}/${inputs.n}`))
   copyFiles(inputs.type, inputs.n)
 
-  log(blue.bold('Regenerating tsconfig and lego files'))
+  log(blue.bold('Regenerating tsconfig'))
   const data = await generate()
 
   log(blue.bold('Resolving workspace and running prettier'))
