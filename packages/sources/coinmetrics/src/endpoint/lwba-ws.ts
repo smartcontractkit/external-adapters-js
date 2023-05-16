@@ -31,6 +31,9 @@ export type WsCryptoLwbaEndpointTypes = {
     spread: number
     Data: {
       result: number
+      bid: number
+      mid: number
+      ask: number
     }
   }
   Provider: {
@@ -132,6 +135,11 @@ export const handleCryptoLwbaMessage = (
           spread: Number(message.spread),
           data: {
             result: res,
+            // bid, mid, ask included here again.
+            // Also kept outside data for backward compatability
+            bid: Number(message.bid_price),
+            mid: res,
+            ask: Number(message.ask_price),
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(message.time).getTime(),

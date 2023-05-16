@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.91",
+  "version": "1.3.92",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -85,8 +85,6 @@
     "@chainlink/dwolla-adapter": "workspace:*",
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",
-    "@chainlink/dxfeed-secondary-test-adapter": "workspace:*",
-    "@chainlink/dxfeed-test-adapter": "workspace:*",
     "@chainlink/elwood-adapter": "workspace:*",
     "@chainlink/ens-adapter": "workspace:*",
     "@chainlink/enzyme-adapter": "workspace:*",

@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- eb498a913: Normalize crypto-lwba endpoint names
+
 ## 2.0.0
 
 ### Major Changes

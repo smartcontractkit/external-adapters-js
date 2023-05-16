@@ -1,6 +1,5 @@
 {
  "requests": [{
-  "base": "TSLA",
-  "endpoint": "stock"
+  "base": "TSLA"
  }]
 }

@@ -3048,40 +3048,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/dxfeed-secondary-adapter@workspace:*, @chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
-  dependencies:
-    "@chainlink/dxfeed-adapter": "workspace:*"
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/dxfeed-secondary-test-adapter@workspace:*, @chainlink/dxfeed-secondary-test-adapter@workspace:packages/sources/dxfeed-secondary-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/dxfeed-secondary-test-adapter@workspace:packages/sources/dxfeed-secondary-test"
-  dependencies:
-    "@chainlink/dxfeed-test-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": 0.29.8
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -3094,10 +3060,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dxfeed-test-adapter@workspace:*, @chainlink/dxfeed-test-adapter@workspace:packages/sources/dxfeed-test":
+"@chainlink/dxfeed-secondary-adapter@workspace:*, @chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dxfeed-test-adapter@workspace:packages/sources/dxfeed-test"
+  resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
   dependencies:
+    "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": 0.29.8
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -3342,8 +3309,6 @@ __metadata:
     "@chainlink/dwolla-adapter": "workspace:*"
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/dxfeed-secondary-adapter": "workspace:*"
-    "@chainlink/dxfeed-secondary-test-adapter": "workspace:*"
-    "@chainlink/dxfeed-test-adapter": "workspace:*"
     "@chainlink/elwood-adapter": "workspace:*"
     "@chainlink/ens-adapter": "workspace:*"
     "@chainlink/enzyme-adapter": "workspace:*"

@@ -70,7 +70,7 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
         }
         return [
           {
-            params: { ticker: message.data[tickerIndex] },
+            params: { base: message.data[tickerIndex] },
             response: {
               data: {
                 result,
@@ -90,14 +90,14 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
         return {
           eventName: 'subscribe',
           authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 5, tickers: [params.ticker] },
+          eventData: { thresholdLevel: 5, tickers: [params.base] },
         }
       },
       unsubscribeMessage: (params) => {
         return {
           eventName: 'unsubscribe',
           authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 5, tickers: [params.ticker] },
+          eventData: { thresholdLevel: 5, tickers: [params.base] },
         }
       },
     },

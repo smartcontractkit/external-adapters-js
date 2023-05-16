@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.1.0
+
+### Minor Changes
+
+- 2ccb976bf: Normalize crypto-lwba response formats
+
 ## 3.0.6
 
 ### Patch Changes

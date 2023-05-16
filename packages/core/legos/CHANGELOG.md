@@ -1,5 +1,32 @@
 # @chainlink/ea
 
+## 1.3.92
+
+### Patch Changes
+
+- Updated dependencies [ad338fc1b]
+- Updated dependencies [cfac404db]
+- Updated dependencies [d6a04fbf4]
+- Updated dependencies [2ccb976bf]
+- Updated dependencies [3230358e2]
+- Updated dependencies [590376288]
+- Updated dependencies [620fbe6b4]
+- Updated dependencies [4c7a29532]
+- Updated dependencies [611d9b17a]
+- Updated dependencies [eb498a913]
+  - @chainlink/tiingo-adapter@2.1.0
+  - @chainlink/kaiko-test-adapter@1.1.13
+  - @chainlink/dar-adapter@1.3.0
+  - @chainlink/coinmetrics-adapter@3.1.0
+  - @chainlink/ncfx-adapter@3.3.0
+  - @chainlink/stader-balance-adapter@1.1.1
+  - @chainlink/intrinio-test-adapter@1.3.1
+  - @chainlink/dxfeed-adapter@2.0.0
+  - @chainlink/dxfeed-secondary-adapter@2.0.0
+  - @chainlink/cfbenchmarks-adapter@2.1.0
+  - @chainlink/renvm-address-set-adapter@1.5.44
+  - @chainlink/wbtc-address-set-adapter@1.4.53
+
 ## 1.3.91
 
 ### Patch Changes

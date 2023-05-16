@@ -1,65 +1,11 @@
-import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
-import {
-  ExecuteWithConfig,
-  Config,
-  InputParameters,
-  AxiosResponse,
-  AdapterRequest,
-  EndpointResultPaths,
-  AdapterBatchResponse,
-} from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
-import overrides from '../config/symbols.json'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import quoteEventSymbols from '../config/quoteSymbols.json'
+import { EndpointTypes } from './price-router'
 
-export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'commodities']
-export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
+const logger = makeLogger('DxFeed Price Batched')
 
-const customError = (data: { status: string }) => data.status !== 'OK'
-
-export type TInputParameters = { base: string | string[] }
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    required: true,
-    aliases: ['from', 'coin', 'market'],
-    description: 'The symbol of the currency to query',
-  },
-}
-
-const quoteEventSymbols: { [key: string]: boolean } = {
-  'USO/USD:AFX': true,
-}
-
-const getBase = (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
-  if (validator.error) throw validator.error
-  return validator.validated.data.base
-}
-
-const getSymbol = (base: string | string[]): string =>
-  Array.isArray(base) ? base.map((symbol) => symbol.toUpperCase()).join(',') : base.toUpperCase()
-
-const getResultPath = (base: string | string[]): Array<string | number> => {
-  const symbol = getSymbol(base)
-  const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
-  const path = events === 'Quote' ? 'bidPrice' : 'price'
-  if (Array.isArray(base)) return [events, symbol, 0, path]
-  return [events, symbol, path]
-}
-
-const buildResultPath = (request: AdapterRequest): Array<string | number> => {
-  const base = getBase(request)
-  return getResultPath(base)
-}
-
-export const endpointResultPaths: EndpointResultPaths = {
-  price: buildResultPath,
-  crypto: buildResultPath,
-  stock: buildResultPath,
-  forex: buildResultPath,
-  commodities: buildResultPath,
-}
-
-export interface ResponseSchema {
+type ProviderResponseBody = {
   status: string
   Trade: {
     [key: string]: {
@@ -78,70 +24,93 @@ export interface ResponseSchema {
       extendedTradingHours: boolean
     }
   }
-}
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
-
-  const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(config.name || AdapterName, validator.validated.data.base)
-  const symbol = getSymbol(base)
-
-  const events: string = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
-  const url = 'events.json'
-
-  const params = {
-    events,
-    symbols: symbol,
-  }
-
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response = await Requester.request<ResponseSchema>(options, customError)
-
-  if (Array.isArray(base)) {
-    return handleBatchedRequest(jobRunID, request, response, events)
-  }
-
-  // NOTE: may need to force entries quoteEventSymbols to not use batching
-
-  const result = Requester.validateResultNumber(response.data, getResultPath(base))
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result),
-    config.verbose,
-    batchablePropertyPath,
-  )
-}
-
-const handleBatchedRequest = (
-  jobRunID: string,
-  request: AdapterRequest,
-  response: AxiosResponse<ResponseSchema>,
-  events: string,
-) => {
-  const payload: AdapterBatchResponse = []
-  for (const base in response.data[events as keyof ResponseSchema] as any) {
-    const individualRequest = {
-      ...request,
-      data: {
-        ...request.data,
-        base: (response as any).data[events][base],
-      },
+  Quote: {
+    [key: string]: {
+      eventSymbol: string
+      eventTime: number
+      timeNanoPart: number
+      bidTime: number
+      bidExchangeCode: string
+      bidPrice: number
+      bidSize: number
+      askTime: number
+      askExchangeCode: string
+      askPrice: number
+      askSize: number
+      sequence: number
     }
-    payload.push([
-      CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
-      individualRequest,
-      Requester.validateResultNumber(response.data, getResultPath(base)),
-    ])
   }
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, undefined, payload),
-    true,
-    batchablePropertyPath,
-  )
+}
+
+type HttpTransportTypes = EndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
+
+export function buildDxFeedHttpTransport(): HttpTransport<HttpTransportTypes> {
+  return new HttpTransport<HttpTransportTypes>({
+    prepareRequests: (params, config) => {
+      const requestConfig = {
+        baseURL: config.API_ENDPOINT,
+        url: '/events.json',
+        method: 'GET',
+        params: {
+          events: 'Trade,Quote',
+          symbols: [...new Set(params.map((p) => p.base.toUpperCase()))].join(','),
+        },
+      }
+      const username = config.API_USERNAME
+      const password = config.API_PASSWORD
+
+      if (username && password) {
+        return {
+          params,
+          request: { ...requestConfig, auth: { username, password } },
+        }
+      }
+      return {
+        params,
+        request: requestConfig,
+      }
+    },
+    parseResponse: (params, res) => {
+      return params.map((requestPayload) => {
+        const entry = {
+          params: requestPayload,
+        }
+        let result: number
+        const events = quoteEventSymbols[requestPayload.base as keyof typeof quoteEventSymbols]
+          ? 'Quote'
+          : 'Trade'
+        try {
+          if (events === 'Quote') {
+            result = res.data[events][requestPayload.base].bidPrice
+          } else {
+            result = res.data[events][requestPayload.base].price
+          }
+        } catch (e) {
+          const errorMessage = `Dxfeed provided no data for token "${requestPayload.base}"`
+          logger.warn(errorMessage)
+          return {
+            ...entry,
+            response: {
+              statusCode: 502,
+              errorMessage,
+            },
+          }
+        }
+        return {
+          ...entry,
+          response: {
+            data: {
+              result,
+            },
+            result,
+          },
+        }
+      })
+    },
+  })
 }
