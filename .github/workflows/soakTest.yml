@@ -209,10 +209,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
         run: |
+          TEST_RESULTS="./test_results.txt"
+          set -e
           if [ -n "$TEST_ADAPTERS" ]; then
             for adapter in ${TEST_ADAPTERS}; do
               # verify last comment has no failures for each adapter, otherwise exit with error
-              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("'${adapter}'"))) | last' | grep -q "Soak test failed for ${adapter}" && exit 1
+              gh pr view $PR_NUMBER --json comments --jq '.comments | map(select(.body | contains("'$adapter'"))) | last' | cat >> ${TEST_RESULTS}
             done
           fi
+          cat $TEST_RESULTS | grep -q "Soak test failed" && exit 1 || echo "All tests passed"

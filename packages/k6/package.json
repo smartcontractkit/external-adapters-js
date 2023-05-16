@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "core-js": "3.20.3",
-    "dotenv": "16.0.2"
+    "dotenv": "16.0.3"
   },
   "scripts": {
     "build": "yarn webpack",
