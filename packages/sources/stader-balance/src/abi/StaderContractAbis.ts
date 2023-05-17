@@ -113,3 +113,13 @@ export const StaderPenaltyContract_ABI: ethers.ContractInterface = [
     type: 'function',
   },
 ]
+
+export const StaderSocialPool_ABI: ethers.ContractInterface = [
+  {
+    inputs: [],
+    name: 'totalOperatorETHRewardsRemaining',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+]

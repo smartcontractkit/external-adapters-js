@@ -1,7 +1,7 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import { StaderPoolFactoryContract_ABI } from '../abi/StaderContractAbis'
+import { StaderPoolFactoryContract_ABI, StaderSocialPool_ABI } from '../abi/StaderContractAbis'
 import {
   BalanceResponse,
   fetchAddressBalance,
@@ -156,6 +156,8 @@ export class Pool {
 }
 
 class SocialPool extends Pool {
+  private socialPoolManager: ethers.Contract
+
   constructor(
     params: {
       poolId: number
@@ -168,6 +170,14 @@ class SocialPool extends Pool {
     private socialContractAddress: string,
   ) {
     super(params)
+    this.socialPoolManager = this.buildSocialPoolManager(socialContractAddress, this.provider)
+  }
+
+  buildSocialPoolManager(
+    socialContractAddress: string,
+    provider: ethers.providers.JsonRpcProvider,
+  ): ethers.Contract {
+    return new ethers.Contract(socialContractAddress, StaderSocialPool_ABI, provider)
   }
 
   async fetchBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
@@ -175,10 +185,12 @@ class SocialPool extends Pool {
     const addressBalance = await this.fetchAddressBalance()
     const commission = await this.fetchTotalCommissionPercentage()
     const collateralEth = await this.fetchCollateralEth()
+    const operatorEthReward = await this.fetchRemainingOperatorEthRewards()
 
     // Calculate the balance
     const userDeposit = validatorDeposit.minus(collateralEth)
-    const balance = addressBalance.times(userDeposit.div(validatorDeposit)).times(1 - commission)
+    const adjustedBalance = addressBalance.minus(operatorEthReward)
+    const balance = adjustedBalance.times(userDeposit.div(validatorDeposit)).times(1 - commission)
 
     logger.debug(`${this.logPrefix} calculated balance (in wei): ${balance}`)
     return {
@@ -190,6 +202,20 @@ class SocialPool extends Pool {
   async fetchAddressBalance(): Promise<BigNumber> {
     return withErrorHandling(`${this.logPrefix} Fetching address balance`, async () =>
       fetchAddressBalance(this.socialContractAddress, this.blockTag, this.provider),
+    )
+  }
+
+  async fetchRemainingOperatorEthRewards(): Promise<BigNumber> {
+    return withErrorHandling(
+      `${this.logPrefix} Fetching remaining operator ETH rewards`,
+      async () =>
+        BigNumber(
+          String(
+            await this.socialPoolManager.totalOperatorETHRewardsRemaining({
+              blockTag: this.blockTag,
+            }),
+          ),
+        ),
     )
   }
 }
