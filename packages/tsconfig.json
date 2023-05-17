@@ -99,9 +99,6 @@
       "path": "./core/factories"
     },
     {
-      "path": "./core/legos"
-    },
-    {
       "path": "./core/reference-data-reader"
     },
     {

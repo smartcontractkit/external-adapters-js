@@ -29,7 +29,6 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea": "workspace:*",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-reference-data-reader": "workspace:*",
     "tslib": "^2.3.1"

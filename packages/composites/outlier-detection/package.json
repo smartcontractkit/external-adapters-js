@@ -16,7 +16,6 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea": "workspace:*",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-reference-data-reader": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",

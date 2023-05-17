@@ -90,14 +90,13 @@ function tsconfGenerate(
   })
 }
 
-async function generate(type: string) {
+async function generate() {
   let writeData = {} // data struct for writing
 
   // pull latest workspace data after files have been generated
   let currentWorkspace: WorkspaceAdapter[] = getWorkspaceAdapters(['scripts', 'core']) //using this alphabetizes everything
   currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/ea-bootstrap') //filter out package
   currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/readme-test-adapter') //filter out package
-  const adapterList = currentWorkspace.filter((w) => w.type === `${type}s`)
 
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
@@ -113,55 +112,6 @@ async function generate(type: string) {
   tsconfigTest.references = tsconfGenerate(currentWorkspace, tsconfigTestPath, 1, true)
   writeData = { ...writeData, [tsconfigTestPath]: tsconfigTest }
 
-  // add to ea legos package for source adapters
-  if (type === 'source') {
-    const legosPath = 'packages/core/legos'
-
-    // update legos/tsconfig.json
-    const legoTsconfigPath = `${legosPath}/tsconfig.json`
-    const legoTsconfig = JSON.parse(
-      JSON.stringify(require(path.relative(__dirname, legoTsconfigPath))),
-    )
-    legoTsconfig.references = tsconfGenerate(adapterList, legosPath)
-    writeData = { ...writeData, [legoTsconfigPath]: legoTsconfig }
-
-    // update legos/package.json
-    const legoPackagePath = `${legosPath}/package.json`
-    const legoPackage = JSON.parse(
-      JSON.stringify(require(path.relative(__dirname, legoPackagePath))),
-    )
-    const otherPackages = Object.keys(legoPackage.dependencies)
-      .filter((k) => !(k.includes('@chainlink') && k.includes('adapter')))
-      .reduce((obj, key) => {
-        return { ...obj, [key]: legoPackage.dependencies[key] }
-      }, {}) // capture other dependencies (non-adapter)
-    legoPackage.dependencies = adapterList.reduce((obj, adapter) => {
-      return { ...obj, [adapter.name]: 'workspace:*' }
-    }, otherPackages)
-    writeData = { ...writeData, [legoPackagePath]: legoPackage }
-
-    // updating legos/src/sources.ts
-    // (not using workspaces because some have custom/non-standardized naming structures)
-    const legoSourcePath = `${legosPath}/src/sources.ts`
-    let output = shell.cat(legoSourcePath).split('\n')
-    const index = output.indexOf('')
-    const importEa = output.slice(0, index)
-    const exportEa = output.slice(index).filter((e) => e !== '' && e !== '}' && !e.includes('{'))
-
-    // checks adapter list for newly generated adapters and adds to the list if not already present
-    adapterList.forEach((a) => {
-      if (!importEa.join().includes(a.name)) {
-        const name = a.name.replace('@chainlink/', '').replace('-adapter', '')
-        const nameNoDash = name.replace(/-/g, '_') // /g to apply to whole string not just first instance
-
-        importEa.push(`import * as ${nameNoDash} from '@chainlink/${name}-adapter'`)
-        exportEa.push(`  ${nameNoDash},`)
-      }
-    })
-
-    output = [...importEa.sort(), '', 'export default {', ...exportEa.sort(), '}'] // create new file with alphabetically sorted EAs
-    writeData = { ...writeData, [legoSourcePath]: output.join('\n') }
-  }
   return writeData
 }
 
@@ -172,8 +122,8 @@ export async function main(): Promise<void> {
   log(blue.bold(`Copying example ${inputs.type} adapter to ${inputs.type}/${inputs.n}`))
   copyFiles(inputs.type, inputs.n)
 
-  log(blue.bold('Regenerating tsconfig and lego files'))
-  const data = await generate(inputs.type)
+  log(blue.bold('Regenerating tsconfig'))
+  const data = await generate()
 
   log(blue.bold('Resolving workspace and running prettier'))
   writeJson(data)
