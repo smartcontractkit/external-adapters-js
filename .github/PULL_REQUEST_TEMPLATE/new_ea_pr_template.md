@@ -19,4 +19,4 @@
 - [ ] All environment variables are defined in `schemas/env.json` (ex. `API_KEY` and `API_SECRET` if applicable).
 - [ ] `config/` contains rate limits in `limits.json`, symbol overrides in `overrides.json`, and special param "includes" in `includes.json` (only a subset of these may be required for a given EA).
 - [ ] Adapter package version set to `0.0.0`.
-- [ ] 2 Changesets: Follow [Generating Changesets](../../CONTRIBUTING.md#generating-changesets) to create 1 Major changeset for the new EA itself, and 1 Minor changeset for `@chainlink/ea` regarding the addition of a new adapter to `legos`.
+- [ ] 2 Changesets: Follow [Generating Changesets](../../CONTRIBUTING.md#generating-changesets) to create 1 Major changeset for the new EA itself.
