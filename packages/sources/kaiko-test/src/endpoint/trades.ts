@@ -131,19 +131,8 @@ const httpTransport = new HttpTransport<EndpointTypes>({
           },
         }
       }
-      const price = Number(res.data.data[0].price)
 
-      if (price === 0) {
-        const errorMessage = `Kaiko returned price of 0 for ${param.base}/${param.quote}`
-        logger.info(errorMessage)
-        return {
-          params: param,
-          response: {
-            statusCode: 502,
-            errorMessage,
-          },
-        }
-      }
+      const price = Number(data[0].price)
 
       return {
         params: param,
@@ -152,6 +141,9 @@ const httpTransport = new HttpTransport<EndpointTypes>({
             result: price,
           },
           result: price,
+          timestamps: {
+            providerIndicatedTimeUnixMs: data[0].timestamp,
+          },
         },
       }
     })
