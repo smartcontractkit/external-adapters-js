@@ -75,7 +75,9 @@ export const inputParameters = new InputParameters({
         type: 'number',
         description: 'Stader status ID for this particular validator',
         required: true,
-        options: Object.values(StaderValidatorStatus) as number[],
+        options: Object.values(StaderValidatorStatus).filter(
+          (value) => typeof value === 'number',
+        ) as number[],
       },
       withdrawVaultAddress: {
         type: 'string',
