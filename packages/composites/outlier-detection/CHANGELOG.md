@@ -1,5 +1,11 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 8b3355394: Remove legos
+
 ## 1.2.93
 
 ### Patch Changes

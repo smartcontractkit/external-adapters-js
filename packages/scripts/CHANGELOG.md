@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.6.0
+
+### Minor Changes
+
+- 8b3355394: Remove legos
+
 ## 2.5.8
 
 ### Patch Changes
