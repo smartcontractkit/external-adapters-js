@@ -58,7 +58,7 @@ export const wsTransport = new WebSocketTransport<WSEndpointTypes>({
   },
   builders: {
     subscribeMessage: (param) => {
-      return { topic: 'subscribe', to: param.base }
+      return { topic: 'subscribe', to: param.base.toUpperCase() }
     },
   },
 })
