@@ -131,7 +131,6 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       } else if (isCrypto(input)) {
         return getCryptoSymbol(input)
       } else if (isEtf(input)) {
-        console.log(getEtfSymbol(input))
         return getEtfSymbol(input)
       }
       return undefined

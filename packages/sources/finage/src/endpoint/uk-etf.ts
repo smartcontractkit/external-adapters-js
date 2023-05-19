@@ -35,9 +35,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const params = {
     apikey: config.apiKey,
+    country: 'uk',
   }
-
-  console.log(url)
 
   const options = {
     ...config.api,
