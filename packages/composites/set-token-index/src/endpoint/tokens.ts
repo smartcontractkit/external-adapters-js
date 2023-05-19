@@ -1,21 +1,20 @@
-import { ethers, utils } from 'ethers'
 import {
+  AdapterDataProviderError,
+  ExecuteWithConfig,
+  InputParameters,
   Logger,
   Requester,
   Validator,
-  AdapterDataProviderError,
   util,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { ethers, utils } from 'ethers'
 import { Config } from '../config'
+import * as directory from './directory.mainnet.json'
 
+const cachedDirectory = directory as Directory
 export const supportedEndpoints = ['tokens']
 
 type Directory = Record<string, { symbol: string; decimals: number }>
-
-const getDirectory = async (network: string): Promise<Directory> => {
-  return await import(`./directory.${network}.json`)
-}
 
 const ERC20ABI = [
   {
@@ -79,16 +78,11 @@ const getOnChainSymbol = async (
   }
 }
 
-let cachedDirectory: Directory
-
 export const getToken = async (
   address: string,
   rpcUrl: string,
   network: string,
 ): Promise<{ symbol: string; decimals: number }> => {
-  if (!cachedDirectory) {
-    cachedDirectory = await getDirectory(network)
-  }
   return cachedDirectory[address] || (await getOnChainErc20Token(rpcUrl, network, address))
 }
 
@@ -109,9 +103,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const address = validator.validated.data.address
 
   try {
-    if (!cachedDirectory) {
-      cachedDirectory = await getDirectory(config.network)
-    }
     const token =
       cachedDirectory[address] ||
       (await getOnChainErc20Token(config.rpcUrl, config.chainId, address))

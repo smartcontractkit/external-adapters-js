@@ -148,10 +148,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core/factories"\
       },\
       {\
-        "name": "@chainlink/ea",\
-        "reference": "workspace:packages/core/legos"\
-      },\
-      {\
         "name": "@chainlink/ea-reference-data-reader",\
         "reference": "workspace:packages/core/reference-data-reader"\
       },\
@@ -414,14 +410,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/dxfeed-secondary-adapter",\
         "reference": "workspace:packages/sources/dxfeed-secondary"\
-      },\
-      {\
-        "name": "@chainlink/dxfeed-secondary-test-adapter",\
-        "reference": "workspace:packages/sources/dxfeed-secondary-test"\
-      },\
-      {\
-        "name": "@chainlink/dxfeed-test-adapter",\
-        "reference": "workspace:packages/sources/dxfeed-test"\
       },\
       {\
         "name": "@chainlink/elwood-adapter",\
@@ -917,11 +905,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],\
-      ["@chainlink/dxfeed-secondary-test-adapter", ["workspace:packages/sources/dxfeed-secondary-test"]],\
-      ["@chainlink/dxfeed-test-adapter", ["workspace:packages/sources/dxfeed-test"]],\
       ["@chainlink/dydx-rewards-adapter", ["workspace:packages/composites/dydx-rewards"]],\
       ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
-      ["@chainlink/ea", ["workspace:packages/core/legos"]],\
       ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],\
       ["@chainlink/ea-factories", ["workspace:packages/core/factories"]],\
       ["@chainlink/ea-reference-data-reader", ["workspace:packages/core/reference-data-reader"]],\
@@ -5493,7 +5478,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@cardanosolutions-json-bigint-npm-1.0.0-1a4f51f9ee-5df5986de7.zip/node_modules/@cardanosolutions/json-bigint/",\
           "packageDependencies": [\
             ["@cardanosolutions/json-bigint", "npm:1.0.0"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6080,7 +6065,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["bn.js", "npm:5.2.1"],\
             ["ethers", "npm:5.7.1"],\
             ["supertest", "npm:6.2.4"],\
@@ -6762,44 +6747,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dxfeed/",\
           "packageDependencies": [\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/dxfeed-secondary-adapter", [\
-        ["workspace:packages/sources/dxfeed-secondary", {\
-          "packageLocation": "./packages/sources/dxfeed-secondary/",\
-          "packageDependencies": [\
-            ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
-            ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/dxfeed-secondary-test-adapter", [\
-        ["workspace:packages/sources/dxfeed-secondary-test", {\
-          "packageLocation": "./packages/sources/dxfeed-secondary-test/",\
-          "packageDependencies": [\
-            ["@chainlink/dxfeed-secondary-test-adapter", "workspace:packages/sources/dxfeed-secondary-test"],\
-            ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6813,11 +6760,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/dxfeed-test-adapter", [\
-        ["workspace:packages/sources/dxfeed-test", {\
-          "packageLocation": "./packages/sources/dxfeed-test/",\
+      ["@chainlink/dxfeed-secondary-adapter", [\
+        ["workspace:packages/sources/dxfeed-secondary", {\
+          "packageLocation": "./packages/sources/dxfeed-secondary/",\
           "packageDependencies": [\
-            ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
+            ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
+            ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6841,7 +6789,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["ethers", "npm:5.7.1"],\
             ["ipfs", "npm:0.60.2"],\
             ["merkletreejs", "npm:0.2.32"],\
@@ -6870,178 +6818,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.2.9"],\
             ["object-path", "npm:0.11.8"],\
             ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/ea", [\
-        ["workspace:packages/core/legos", {\
-          "packageLocation": "./packages/core/legos/",\
-          "packageDependencies": [\
-            ["@chainlink/ea", "workspace:packages/core/legos"],\
-            ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],\
-            ["@chainlink/accuweather-adapter", "workspace:packages/sources/accuweather"],\
-            ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
-            ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-            ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],\
-            ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-            ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],\
-            ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
-            ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],\
-            ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],\
-            ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
-            ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-            ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],\
-            ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
-            ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],\
-            ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],\
-            ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
-            ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],\
-            ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
-            ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
-            ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
-            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
-            ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
-            ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
-            ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\
-            ["@chainlink/ccip-read-adapter", "workspace:packages/sources/ccip-read"],\
-            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
-            ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
-            ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
-            ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],\
-            ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],\
-            ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],\
-            ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],\
-            ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],\
-            ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],\
-            ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
-            ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],\
-            ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],\
-            ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],\
-            ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\
-            ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],\
-            ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],\
-            ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],\
-            ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],\
-            ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
-            ["@chainlink/dxfeed-secondary-test-adapter", "workspace:packages/sources/dxfeed-secondary-test"],\
-            ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
-            ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
-            ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],\
-            ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],\
-            ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
-            ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],\
-            ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],\
-            ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],\
-            ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],\
-            ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],\
-            ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
-            ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-            ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
-            ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],\
-            ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
-            ["@chainlink/fluent-finance-adapter", "workspace:packages/sources/fluent-finance"],\
-            ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],\
-            ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
-            ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-            ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],\
-            ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],\
-            ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-            ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-            ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
-            ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-            ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-            ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
-            ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
-            ["@chainlink/jpegd-adapter", "workspace:packages/sources/jpegd"],\
-            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
-            ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/kaiko-test-adapter", "workspace:packages/sources/kaiko-test"],\
-            ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],\
-            ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],\
-            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],\
-            ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],\
-            ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],\
-            ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-            ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],\
-            ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],\
-            ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],\
-            ["@chainlink/mock-ea-adapter", "workspace:packages/sources/mock-ea"],\
-            ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
-            ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
-            ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
-            ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
-            ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
-            ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],\
-            ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],\
-            ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],\
-            ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
-            ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-            ["@chainlink/polygon-test-adapter", "workspace:packages/sources/polygon-test"],\
-            ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
-            ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
-            ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
-            ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
-            ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
-            ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
-            ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],\
-            ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
-            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-            ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
-            ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
-            ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
-            ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],\
-            ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],\
-            ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
-            ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
-            ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-            ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-            ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
-            ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-            ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
-            ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-            ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],\
-            ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-            ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],\
-            ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
-            ["@chainlink/uniswap-v3-adapter", "workspace:packages/sources/uniswap-v3"],\
-            ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],\
-            ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],\
-            ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-            ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-            ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],\
-            ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
-            ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8294,7 +8070,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["ethers", "npm:5.5.1"],\
+            ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -8519,7 +8295,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/outlier-detection/",\
           "packageDependencies": [\
             ["@chainlink/outlier-detection-adapter", "workspace:packages/composites/outlier-detection"],\
-            ["@chainlink/ea", "workspace:packages/core/legos"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
@@ -8668,7 +8443,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.45"],\
+            ["@types/node", "npm:14.18.47"],\
             ["decimal.js", "npm:10.4.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8764,7 +8539,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/reference-transform/",\
           "packageDependencies": [\
             ["@chainlink/reference-transform-adapter", "workspace:packages/composites/reference-transform"],\
-            ["@chainlink/ea", "workspace:packages/core/legos"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -8984,7 +8758,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["ethers", "npm:5.5.1"],\
+            ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -9002,9 +8776,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["axios", "npm:1.3.4"],\
+            ["axios", "npm:1.3.6"],\
             ["bignumber.js", "npm:9.1.1"],\
-            ["ethers", "npm:5.5.1"],\
+            ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -10921,14 +10695,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:5.5.0", {\
-          "packageLocation": "./.yarn/cache/@ethersproject-networks-npm-5.5.0-f25747e4bd-cadf2280d2.zip/node_modules/@ethersproject/networks/",\
-          "packageDependencies": [\
-            ["@ethersproject/networks", "npm:5.5.0"],\
-            ["@ethersproject/logger", "npm:5.7.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.5.2", {\
           "packageLocation": "./.yarn/cache/@ethersproject-networks-npm-5.5.2-a47d32c156-d6768591ac.zip/node_modules/@ethersproject/networks/",\
           "packageDependencies": [\
@@ -11071,32 +10837,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:5.5.0", {\
-          "packageLocation": "./.yarn/cache/@ethersproject-providers-npm-5.5.0-c1078cc9af-8f29dfd9ef.zip/node_modules/@ethersproject/providers/",\
-          "packageDependencies": [\
-            ["@ethersproject/providers", "npm:5.5.0"],\
-            ["@ethersproject/abstract-provider", "npm:5.7.0"],\
-            ["@ethersproject/abstract-signer", "npm:5.7.0"],\
-            ["@ethersproject/address", "npm:5.7.0"],\
-            ["@ethersproject/basex", "npm:5.7.0"],\
-            ["@ethersproject/bignumber", "npm:5.7.0"],\
-            ["@ethersproject/bytes", "npm:5.7.0"],\
-            ["@ethersproject/constants", "npm:5.7.0"],\
-            ["@ethersproject/hash", "npm:5.7.0"],\
-            ["@ethersproject/logger", "npm:5.7.0"],\
-            ["@ethersproject/networks", "npm:5.7.1"],\
-            ["@ethersproject/properties", "npm:5.7.0"],\
-            ["@ethersproject/random", "npm:5.7.0"],\
-            ["@ethersproject/rlp", "npm:5.7.0"],\
-            ["@ethersproject/sha2", "npm:5.7.0"],\
-            ["@ethersproject/strings", "npm:5.7.0"],\
-            ["@ethersproject/transactions", "npm:5.7.0"],\
-            ["@ethersproject/web", "npm:5.7.1"],\
-            ["bech32", "npm:1.1.4"],\
-            ["ws", "virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.5.3", {\
           "packageLocation": "./.yarn/cache/@ethersproject-providers-npm-5.5.3-409a18e223-abe27d4243.zip/node_modules/@ethersproject/providers/",\
           "packageDependencies": [\
@@ -11165,15 +10905,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@ethersproject-random-npm-5.4.0-985284ce50-7bf0150b63.zip/node_modules/@ethersproject/random/",\
           "packageDependencies": [\
             ["@ethersproject/random", "npm:5.4.0"],\
-            ["@ethersproject/bytes", "npm:5.7.0"],\
-            ["@ethersproject/logger", "npm:5.7.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:5.5.0", {\
-          "packageLocation": "./.yarn/cache/@ethersproject-random-npm-5.5.0-9f3f578e63-7acbe2a5d3.zip/node_modules/@ethersproject/random/",\
-          "packageDependencies": [\
-            ["@ethersproject/random", "npm:5.5.0"],\
             ["@ethersproject/bytes", "npm:5.7.0"],\
             ["@ethersproject/logger", "npm:5.7.0"]\
           ],\
@@ -11639,18 +11370,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@ethersproject-web-npm-5.4.0-f086b549c0-09954d42aa.zip/node_modules/@ethersproject/web/",\
           "packageDependencies": [\
             ["@ethersproject/web", "npm:5.4.0"],\
-            ["@ethersproject/base64", "npm:5.7.0"],\
-            ["@ethersproject/bytes", "npm:5.7.0"],\
-            ["@ethersproject/logger", "npm:5.7.0"],\
-            ["@ethersproject/properties", "npm:5.7.0"],\
-            ["@ethersproject/strings", "npm:5.7.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:5.5.0", {\
-          "packageLocation": "./.yarn/cache/@ethersproject-web-npm-5.5.0-2b9d9746bd-1e02916bc0.zip/node_modules/@ethersproject/web/",\
-          "packageDependencies": [\
-            ["@ethersproject/web", "npm:5.5.0"],\
             ["@ethersproject/base64", "npm:5.7.0"],\
             ["@ethersproject/bytes", "npm:5.7.0"],\
             ["@ethersproject/logger", "npm:5.7.0"],\
@@ -13933,7 +13652,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@renproject/interfaces", "npm:2.6.0"],\
             ["@types/node", "npm:18.8.3"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13964,7 +13683,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:18.8.3"],\
             ["axios", "npm:0.21.4"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["bn.js", "npm:5.2.1"],\
             ["bs58", "npm:5.0.0"],\
             ["ethers", "npm:5.7.1"],\
@@ -13982,7 +13701,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@renproject/provider", "npm:2.6.0"],\
             ["@renproject/utils", "npm:2.6.0"],\
             ["@types/node", "npm:18.8.3"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["bn.js", "npm:5.2.1"],\
             ["immutable", "npm:4.1.0"]\
           ],\
@@ -14000,7 +13719,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/keccak", "npm:3.0.1"],\
             ["@types/node", "npm:18.8.3"],\
             ["axios", "npm:0.21.4"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["create-hash", "npm:1.2.0"],\
             ["ethers", "npm:5.7.1"],\
             ["events", "npm:3.3.0"],\
@@ -15329,10 +15048,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.45", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.45-5be38770ad-2857cd1912.zip/node_modules/@types/node/",\
+        ["npm:14.18.47", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.47-d4b030205d-249467fa37.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:14.18.45"]\
+            ["@types/node", "npm:14.18.47"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -17166,6 +16885,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:1.3.6", {\
+          "packageLocation": "./.yarn/cache/axios-npm-1.3.6-59e004d5b8-c90497ebf7.zip/node_modules/axios/",\
+          "packageDependencies": [\
+            ["axios", "npm:1.3.6"],\
+            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.15.2"],\
+            ["form-data", "npm:4.0.0"],\
+            ["proxy-from-env", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.4.0", {\
           "packageLocation": "./.yarn/cache/axios-npm-1.4.0-4d7ce8ca3e-7fb6a4313b.zip/node_modules/axios/",\
           "packageDependencies": [\
@@ -17672,13 +17401,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:9.1.0", {\
-          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.0-4f54bd1083-52ec2bb5a3.zip/node_modules/bignumber.js/",\
-          "packageDependencies": [\
-            ["bignumber.js", "npm:9.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:9.1.1", {\
           "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.1-5929e8d8dc-ad243b7e2f.zip/node_modules/bignumber.js/",\
           "packageDependencies": [\
@@ -17992,7 +17714,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/borc-npm-3.0.0-5bd12c9df0-23e39557ed.zip/node_modules/borc/",\
           "packageDependencies": [\
             ["borc", "npm:3.0.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["buffer", "npm:6.0.3"],\
             ["commander", "npm:2.20.3"],\
             ["ieee754", "npm:1.2.1"],\
@@ -18633,7 +18355,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cbor-npm-5.2.0-4f6440587f-b3c39dae64.zip/node_modules/cbor/",\
           "packageDependencies": [\
             ["cbor", "npm:5.2.0"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["nofilter", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
@@ -20607,10 +20329,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["dotenv", [\
-        ["npm:16.0.2", {\
-          "packageLocation": "./.yarn/cache/dotenv-npm-16.0.2-80af4821b1-ca8f9ca2d6.zip/node_modules/dotenv/",\
+        ["npm:16.0.3", {\
+          "packageLocation": "./.yarn/cache/dotenv-npm-16.0.3-4cc29121dc-afcf03f373.zip/node_modules/dotenv/",\
           "packageDependencies": [\
-            ["dotenv", "npm:16.0.2"]\
+            ["dotenv", "npm:16.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -21611,43 +21333,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/wallet", "npm:5.4.0"],\
             ["@ethersproject/web", "npm:5.4.0"],\
             ["@ethersproject/wordlists", "npm:5.4.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:5.5.1", {\
-          "packageLocation": "./.yarn/cache/ethers-npm-5.5.1-abb6c1e2d0-ee004e3e2f.zip/node_modules/ethers/",\
-          "packageDependencies": [\
-            ["ethers", "npm:5.5.1"],\
-            ["@ethersproject/abi", "npm:5.5.0"],\
-            ["@ethersproject/abstract-provider", "npm:5.5.1"],\
-            ["@ethersproject/abstract-signer", "npm:5.5.0"],\
-            ["@ethersproject/address", "npm:5.5.0"],\
-            ["@ethersproject/base64", "npm:5.5.0"],\
-            ["@ethersproject/basex", "npm:5.5.0"],\
-            ["@ethersproject/bignumber", "npm:5.5.0"],\
-            ["@ethersproject/bytes", "npm:5.5.0"],\
-            ["@ethersproject/constants", "npm:5.5.0"],\
-            ["@ethersproject/contracts", "npm:5.5.0"],\
-            ["@ethersproject/hash", "npm:5.5.0"],\
-            ["@ethersproject/hdnode", "npm:5.5.0"],\
-            ["@ethersproject/json-wallets", "npm:5.5.0"],\
-            ["@ethersproject/keccak256", "npm:5.5.0"],\
-            ["@ethersproject/logger", "npm:5.5.0"],\
-            ["@ethersproject/networks", "npm:5.5.0"],\
-            ["@ethersproject/pbkdf2", "npm:5.5.0"],\
-            ["@ethersproject/properties", "npm:5.5.0"],\
-            ["@ethersproject/providers", "npm:5.5.0"],\
-            ["@ethersproject/random", "npm:5.5.0"],\
-            ["@ethersproject/rlp", "npm:5.5.0"],\
-            ["@ethersproject/sha2", "npm:5.5.0"],\
-            ["@ethersproject/signing-key", "npm:5.5.0"],\
-            ["@ethersproject/solidity", "npm:5.5.0"],\
-            ["@ethersproject/strings", "npm:5.5.0"],\
-            ["@ethersproject/transactions", "npm:5.5.0"],\
-            ["@ethersproject/units", "npm:5.5.0"],\
-            ["@ethersproject/wallet", "npm:5.5.0"],\
-            ["@ethersproject/web", "npm:5.5.0"],\
-            ["@ethersproject/wordlists", "npm:5.5.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -27093,7 +26778,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/json-bigint-npm-1.0.0-8e35bcb143-c67bb93ccb.zip/node_modules/json-bigint/",\
           "packageDependencies": [\
             ["json-bigint", "npm:1.0.0"],\
-            ["bignumber.js", "npm:9.1.0"]\
+            ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -27365,7 +27050,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.5"],\
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],\
             ["core-js", "npm:3.20.3"],\
-            ["dotenv", "npm:16.0.2"],\
+            ["dotenv", "npm:16.0.3"],\
             ["os-browserify", "npm:0.3.0"],\
             ["path-browserify", "npm:1.0.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
@@ -27747,7 +27432,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["abortable-iterator", "npm:3.0.2"],\
             ["aggregate-error", "npm:3.1.0"],\
             ["any-signal", "npm:2.1.2"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["class-is", "npm:1.1.0"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
             ["err-code", "npm:3.0.1"],\
@@ -29086,7 +28771,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/merkletreejs-npm-0.2.32-79a2b236fc-041b235add.zip/node_modules/merkletreejs/",\
           "packageDependencies": [\
             ["merkletreejs", "npm:0.2.32"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["buffer-reverse", "npm:1.0.1"],\
             ["crypto-js", "npm:3.3.0"],\
             ["treeify", "npm:1.1.0"],\
@@ -36420,7 +36105,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core", "npm:1.7.4"],\
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:12.20.55"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["web3-core-helpers", "npm:1.7.4"],\
             ["web3-core-method", "npm:1.7.4"],\
             ["web3-core-requestmanager", "npm:1.7.4"],\
@@ -36434,7 +36119,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core", "npm:1.8.0"],\
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:12.20.55"],\
-            ["bignumber.js", "npm:9.1.0"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["web3-core-helpers", "npm:1.8.0"],\
             ["web3-core-method", "npm:1.8.0"],\
             ["web3-core-requestmanager", "npm:1.8.0"],\

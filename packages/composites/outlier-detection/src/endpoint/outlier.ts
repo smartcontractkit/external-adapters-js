@@ -3,17 +3,15 @@ import {
   AdapterResponse,
   ExecuteWithConfig,
   InputParameters,
-  AxiosRequestConfig,
+  Requester,
+  Validator,
+  util,
 } from '@chainlink/ea-bootstrap'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
-import { makeOptions, ExtendedConfig } from '../config'
 import { AxiosResponse } from 'axios'
+import { ExtendedConfig } from '../config'
 
 export const supportedEndpoints = ['outlier']
-
-export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
-export type CheckRequestOptions = { [check: string]: AxiosRequestConfig }
 
 export type TInputParameters = {
   referenceContract: string
@@ -69,8 +67,7 @@ const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, config) => {
-  const paramOptions = makeOptions(config)
-  const validator = new Validator(input, inputParameters, paramOptions)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const source = validator.validated.data.source.toUpperCase()
@@ -83,7 +80,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, confi
 
   const onchainValue = await getLatestAnswer(network, referenceContract, multiply, input.meta)
 
-  const sourceMedian = await getExecuteMedian(config.sources, source, input)
+  const sourceMedian = await getExecuteMedian(source, input, config.prefix)
 
   if (onchain_threshold > 0) {
     if (difference(sourceMedian, onchainValue) > onchain_threshold) {
@@ -96,7 +93,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, confi
       throw Error('No check adapters provided')
     }
 
-    const checkMedian = await getExecuteMedian(config.checks, check, input)
+    const checkMedian = await getExecuteMedian(check, input, config.prefix)
     if (difference(sourceMedian, checkMedian) > check_threshold) {
       return success(jobRunID, onchainValue)
     }
@@ -106,15 +103,17 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, confi
 }
 
 const getExecuteMedian = async (
-  options: SourceRequestOptions | CheckRequestOptions,
   adapters: string,
   request: AdapterRequest,
+  prefix: string,
 ): Promise<number> => {
   const responses = await Promise.allSettled(
     adapters.split(',').map(
       async (a) =>
         await Requester.request({
-          ...options[a],
+          ...Requester.getDefaultConfig(prefix).api,
+          method: 'post',
+          url: util.getURL(a.toUpperCase()),
           data: request,
         }),
     ),

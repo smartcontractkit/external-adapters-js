@@ -1,5 +1,16 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 620fbe6b4: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- Updated dependencies [620fbe6b4]
+  - @chainlink/dxfeed-adapter@2.0.0
+
 ## 1.2.32
 
 ### Patch Changes

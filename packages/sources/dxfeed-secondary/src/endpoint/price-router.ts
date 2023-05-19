@@ -4,7 +4,7 @@ import {
   customInputValidation,
   EndpointTypes,
   inputParameters,
-} from '@chainlink/dxfeed-test-adapter'
+} from '@chainlink/dxfeed-adapter'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 

@@ -1,17 +1,21 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import * as dxfeed from '@chainlink/dxfeed-adapter'
-import { makeConfig, NAME } from './config'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { price } from './endpoint'
+import dxfeed from '@chainlink/dxfeed-adapter'
 
-const adapterContext = { name: NAME }
+export const adapter = new Adapter({
+  defaultEndpoint: price.name,
+  name: 'DXFEED_SECONDARY',
+  config: dxfeed.config,
+  endpoints: [price],
+  rateLimiting: {
+    tiers: {
+      unlimited: {
+        rateLimit1s: 100,
+        note: 'Dxfeed does not describe a rate limit, but setting reasonable limits',
+      },
+    },
+  },
+})
 
-const makeExecute = dxfeed.makeExecute
-const { server } = expose(
-  adapterContext,
-  makeExecute(makeConfig()),
-  dxfeed.makeWSHandler(),
-  dxfeed.endpointSelector,
-)
-
-const endpoints = dxfeed.endpoints
-
-export { NAME, endpoints, makeExecute, makeConfig, server }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

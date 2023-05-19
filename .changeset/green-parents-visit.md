@@ -2,4 +2,4 @@
 '@chainlink/kaiko-test-adapter': patch
 ---
 
-Added 0 price validation
+Fixed response parsing to skip null values

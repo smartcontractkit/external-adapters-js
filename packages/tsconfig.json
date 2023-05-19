@@ -99,9 +99,6 @@
       "path": "./core/factories"
     },
     {
-      "path": "./core/legos"
-    },
-    {
       "path": "./core/reference-data-reader"
     },
     {
@@ -289,12 +286,6 @@
     },
     {
       "path": "./sources/dxfeed-secondary"
-    },
-    {
-      "path": "./sources/dxfeed-secondary-test"
-    },
-    {
-      "path": "./sources/dxfeed-test"
     },
     {
       "path": "./sources/elwood"
