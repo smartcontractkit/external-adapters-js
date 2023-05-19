@@ -1,5 +1,12 @@
 # @chainlink/stader-balance-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- 850a33d55: Adding filtering for enum values when creating input parameters
+- 7710eb012: Updated social pool balance calculation logic
+
 ## 1.1.1
 
 ### Patch Changes
