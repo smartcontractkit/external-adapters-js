@@ -51,7 +51,7 @@ type HttpEndpointTypes = EndpointTypes & {
 export const httpTransport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const symbol = `${param.base}${param.quote}:CUR`
+      const symbol = `${param.base}${param.quote}:CUR`.toUpperCase()
       return {
         params: [param],
         request: {
