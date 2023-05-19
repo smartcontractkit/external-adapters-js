@@ -471,5 +471,3 @@ describe('websocket', () => {
     }, 30000)
   })
 })
-
-// dummy change to soak test
