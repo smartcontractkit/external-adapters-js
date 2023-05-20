@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  push:
+    branches:
+      # On develop, we build and publish containers to our *private* ECR repo
+
+      # Ex. If the value of the field "version" in the "package.json" file of the coingecko adapter is "0.0.5-beta",
+      # The "coingecko-adapter" container will be resolvable with the following specifiers:
+      # coingecko-adapter:0.0.5-beta
+      # docker pull <accountid>.dkr.ecr.<region>.amazonaws.com/adapters/coingecko-adapter:0.0.5-beta
+
+      - develop
+
+      # Ex. If the value of the field "version" in the "package.json" file of the coingecko adapter is "0.0.5-beta",
+      # The "coingecko-adapter" container will be resolvable with the following specifiers:
+      # coingecko-adapter:0.0.5-beta
+
+      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
+
+      # You would be able to pull the coingecko adapter with the following commands:
+      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:0.0.5-beta
+      - master
+
+  # A workflow dispatch would trigger the same behaviour as a push to the master branch
+  workflow_dispatch:
+
+env:
+  publicecr-name: chainlink
+jobs:
+  matrix-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.create-matrix.outputs.result }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate job matrix
+        id: create-matrix
+        uses: ./.github/actions/release/matrix-adapters
+
+  publish-artifacts:
+    needs: [matrix-adapters]
+    runs-on: ubuntu-latest
+    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
+    strategy:
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
+      max-parallel: 35
+    environment: release
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+
+      #
+      #
+      # ----- Private ECR publishing logic -----
+      #
+      #
+      - name: Configure AWS Credentials for SDLC Private ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+      - name: Publish adapter to private ECR
+        id: publish-adapter-versioned-private-ecr
+        uses: ./.github/actions/release/publish-artifacts
+        with:
+          # Having both branch and latest be null means that the underlying action will only publish semver-style versions.
+          # Take a look at scripts/src/generate-image-name/__snapshots__/lib.test.ts.snap for example image name outputs based on
+          # branch / latest inputs
+
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+          aws-ecr-private: 'true' # Use of string intentional for evaluation
+          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
+
+      # For our private ECR repo that we use for staging, we keep the latest tag around to have staging auto-update
+      - if: steps.publish-adapter-versioned-private-ecr.outputs.image-exists == 'false'
+        name: Publish adapter to private ECR, with latest tag
+        uses: ./.github/actions/release/publish-artifacts
+        with:
+          latest: true
+
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+          aws-ecr-private: 'true' # Use of string intentional for evaluation
+          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
+
+      #
+      #
+      # ----- Public ECR publishing logic -----
+      #
+      #
+      - name: Configure AWS Credentials for SDLC Public ECR
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PUBLIC }}
+          role-duration-seconds: 1200
+
+      - if: github.ref == 'refs/heads/master'
+        name: Publish adapter to public ECR
+        id: publish-adapter-versioned-public-ecr
+        uses: ./.github/actions/release/publish-artifacts
+        with:
+          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
+          adapter-name: ${{ matrix.adapter.name }}
+          aws-region: us-east-1
+          aws-ecr-private: 'false' # Use of string intentional for evaluation

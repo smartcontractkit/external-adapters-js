@@ -3,28 +3,72 @@ name: Consume changesets
 on:
   push:
     branches:
-      - develop
+      - main
+  workflow_dispatch:
+    inputs:
+      BUILD_ALL:
+        description: whether certain steps should be run against all adapters
+        required: false
+        default: 'false'
 
 jobs:
   consume-changesets:
-    name: Consume changesets
+    name: Consume changesets [NEW]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
+          fetch-depth: 0 # TODO: Change this so it only pulls history for the current branch
       - uses: ./.github/actions/setup
         with:
           skip-setup: true
-      - name: Get release notes
-        run: yarn get-release-notes
-      - name: Create Release Pull Request
-        uses: changesets/action@v1
-        with:
-          version: yarn changeset version
-          title: 'Consume changesets'
-          commit: 'Consume changesets'
+      - name: Generate Documentation
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Run the changeset version command to use the diff to know which EAs to generate readmes for
+          yarn changeset version
+          git commit -m "Changesets mock"
+
+          # Generate the master list and adapter readmes, then stash to undo the changeset version
+          yarn generate:master-list -v
+          yarn generate:readme -v
+          git stash
+
+          # Undo the changeset commit
+          git reset head^ --hard
+
+          # Restore the generated docs and stage the changes
+          git stash pop
+          git add MASTERLIST.md
+          git add "*README.md"
+
+          # Lint the generated files and commit them
+          yarn lint-staged
+          git commit -m "Generated README(s) [no ci]"
+
+          # Increase the monorepo version
+          BUMPED_VERSION=$(jq '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
+          jq ".version = $BUMPED_VERSION" package.json > package.tmp.json
+          mv package.tmp.json package.json
+
+          # Commit the changes and tag it so it will trigger the release once merged
+          git add package.json
+          git commit -m "Bump monorepo version to $BUMPED_VERSION"
+          git tag "changesets-$BUMPED_VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM_BRANCH: 'head~1'
+          BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
+      # - name: Create Release Pull Request
+      #   uses: changesets/action@v1
+      #   with:
+      #     version: yarn changeset version
+      #     title: 'Consume changesets'
+      #     commit: 'Consume changesets'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

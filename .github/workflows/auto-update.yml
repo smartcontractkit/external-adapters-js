@@ -3,7 +3,7 @@ name: Auto update open PRs
 on:
   push:
     branches:
-      - develop
+      - main-asdasdasdasd # TODO: Rename
 
 jobs:
   autoupdate:
@@ -13,6 +13,6 @@ jobs:
         uses: smartcontractkit/update-pr-branch@master
         with:
           token: ${{ secrets.AUTOREBASE_TOKEN }}
-          base: 'develop'
+          base: 'main'
           required_approval_count: 1
           require_passed_checks: false
