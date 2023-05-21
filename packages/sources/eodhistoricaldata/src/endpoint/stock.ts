@@ -1,8 +1,8 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price', 'stock']
+export const supportedEndpoints = ['price', 'stock', 'uk_etf']
 
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**'

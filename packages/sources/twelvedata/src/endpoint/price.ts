@@ -1,8 +1,13 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
+export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'uk_etf']
 
 const customError = (data: ResponseSchema) => data.status === 'error'
 

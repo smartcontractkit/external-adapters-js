@@ -26,9 +26,8 @@ export const inputParameters = new InputParameters({
 })
 
 export const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>): void => {
-  const base = req.requestContext.data.base
-  const regex = /[a-zA-Z]{6}:CUR/ //BTCUSD:CUR
-
+  const base = req.requestContext.data.base.toUpperCase()
+  const regex = /[A-Z]{6}:CUR/ //BTCUSD:CUR
   if (regex.test(base)) {
     req.requestContext.data.base = base.substring(0, 3)
     req.requestContext.data.quote = base.substring(3, 6)
