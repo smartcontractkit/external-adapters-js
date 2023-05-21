@@ -1,5 +1,11 @@
 # @chainlink/twelvedata-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- 83ed06a2d: Added "uk_etf" as a supported endpoint for eodhistoricaldata and twelvedata EAs
+
 ## 1.3.1
 
 ### Patch Changes
