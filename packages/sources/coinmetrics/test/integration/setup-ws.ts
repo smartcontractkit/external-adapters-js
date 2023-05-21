@@ -5,7 +5,7 @@ import { Server, WebSocket } from 'mock-socket'
 import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { config } from '../../src/config'
-import { lwba, price } from '../../src/endpoint'
+import { lwba, price, lwbaAssets } from '../../src/endpoint'
 import { WsCryptoLwbaSuccessResponse } from '../../src/endpoint/lwba-ws'
 import { WsAssetMetricsSuccessResponse } from '../../src/endpoint/price-ws'
 
@@ -94,7 +94,7 @@ export const createAdapter = () => {
   return new Adapter({
     name: 'TEST',
     defaultEndpoint: price.name,
-    endpoints: [price, lwba],
+    endpoints: [price, lwba, lwbaAssets],
     config,
   })
 }

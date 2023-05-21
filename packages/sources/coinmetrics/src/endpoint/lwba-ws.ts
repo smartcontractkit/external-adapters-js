@@ -86,13 +86,13 @@ export type WsCryptoLwbaReorgResponse = {
   cm_sequence_id: number
 }
 
-type WsPairQuoteMessage =
+export type WsPairQuoteMessage =
   | WsCryptoLwbaSuccessResponse
   | WsCryptoLwbaWarningResponse
   | WsCryptoLwbaErrorResponse
   | WsCryptoLwbaReorgResponse
 
-export const calculatPairQuotesUrl = (
+export const calculatePairQuotesUrl = (
   context: EndpointContext<WsCryptoLwbaEndpointTypes>,
   desiredSubs: (typeof inputParameters.validated)[],
 ): string => {
@@ -155,7 +155,7 @@ export const handleCryptoLwbaMessage = (
 
 export const wsTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
   url: (context, desiredSubs) => {
-    return calculatPairQuotesUrl(context, desiredSubs)
+    return calculatePairQuotesUrl(context, desiredSubs)
   },
   handlers: {
     message(message: WsPairQuoteMessage): ProviderResult<WsCryptoLwbaEndpointTypes>[] | undefined {
