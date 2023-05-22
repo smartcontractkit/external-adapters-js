@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Finage
 
-![1.6.17](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.finage.co.uk
 
@@ -22,9 +22,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                                  Options                                                                   | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint) | `stock` |
+| Required? |   Name   |     Description     |  Type  |                                                                                Options                                                                                | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint), [uk_etf](#uketf-endpoint) | `stock` |
 
 ## Stock Endpoint
 
@@ -284,6 +284,56 @@ Response:
     "result": 98.91
   },
   "result": 98.91,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## UkEtf Endpoint
+
+https://finage.co.uk/docs/api/etf-last-price
+The result will be the price field in response.
+
+`uk_etf` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "uk_etf",
+    "base": "IBTA"
+  },
+  "debug": {
+    "cacheKey": "8c633d2d30519e3782eab8b90be59e7cd35bdbe8"
+  },
+  "rateLimitMaxAge": 60000
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "symbol": "IBTA",
+    "price": 5.276,
+    "timestamp": 1684403239105,
+    "result": 5.276
+  },
+  "result": 5.276,
   "statusCode": 200,
   "providerStatusCode": 200
 }
