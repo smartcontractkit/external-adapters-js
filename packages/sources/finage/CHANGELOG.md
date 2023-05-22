@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.7.0
+
+### Minor Changes
+
+- 49e6a992b: Added UK ETF endpoint to finage adapter
+
 ## 1.6.17
 
 ### Patch Changes
