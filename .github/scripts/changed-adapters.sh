@@ -1,12 +1,15 @@
 #!/bin/bash -e
 
+# TODO: Add BUILD_ALL option
+
+# Use yarn to get a list of the packages that have changed (including changes by dependencies)
 CHANGED_PACKAGES=$(
-  yarn workspaces list -R --json --since=head^ \
+  yarn workspaces list -R --json --since=$UPSTREAM_BRANCH \
   | jq -cs '.' \
   | jq -cr '[.[] | select(.location | startswith("packages"))]' \
 )
 
-# Add versions
+# Add versions to the packages
 CHANGED_PACKAGES=$(
   for package in $(echo $CHANGED_PACKAGES | jq -c '.[]'); do
     location=$(echo $package | jq -r '.location')
@@ -15,6 +18,7 @@ CHANGED_PACKAGES=$(
   done | jq -cs '.'
 )
 
+# Build a list to use with matrix strategies
 CHANGED_ADAPTERS=$(
   echo $CHANGED_PACKAGES \
   | jq -cr '{
@@ -28,5 +32,5 @@ CHANGED_ADAPTERS=$(
     }'
 )
 
-echo $CHANGED_ADAPTERS
-# echo "CHANGED_PAC?PTERS=$CHANGED_ADAPTERS" >> $GITHUB_OUTPUT
+echo "CHANGED_PACKAGES=$CHANGED_PACKAGES" >> $GITHUB_OUTPUT
+echo "CHANGED_ADAPTERS=$CHANGED_ADAPTERS" >> $GITHUB_OUTPUT

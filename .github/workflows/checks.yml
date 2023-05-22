@@ -4,7 +4,7 @@ on:
   pull_request: ~
 
 env:
-  BASE_BRANCH: origin/${{ github.base_ref }}
+  UPSTREAM_BRANCH: origin/${{ github.base_ref }}
 
 concurrency:
   group: pr-${{ github.event.pull_request.number }}-checks
@@ -24,18 +24,18 @@ jobs:
           fetch-depth: 2
       - name: Check whether adapter change also has a changeset
         id: adapter_change_has_changeset
-        run: ./.github/isvalidadapterchange.sh
+        run: ./.github/scripts/validate-changesets.sh
 
   # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
   install-packages:
     name: Install and verify dependencies
     runs-on: [self-hosted, sdlc-ghr-prod]
     outputs:
-      changed-packages: ${{ steps.changed-packages.outputs.result }}
-      adapter-list: ${{ steps.adapter-list.outputs.result }}
+      changed-packages: ${{ steps.changed-adapters.outputs.CHANGED_PACKAGES }}
+      adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
-      - name: 'PR commits + 1'
-        run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
+      # - name: 'PR commits + 1'
+      #   run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
       - name: Check out code
         uses: actions/checkout@v3
         with:
@@ -43,36 +43,10 @@ jobs:
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
         with:
-          upstream-branch: ${{ env.BASE_BRANCH }}
-      - name: Build list of changed packages
-        id: changed-packages
-        run: |
-          yarn changeset version
-          git commit -m "Mock changesets"
-          echo "result=$( \
-            yarn workspaces list -R --json --since=head^ \
-            | jq -cs '.' \
-            | jq -cr '[.[] | select(.location | startswith("packages"))]' \
-          )" >> $GITHUB_OUTPUT
-      - name: Build list of changed adapters
-        id: adapter-list
-        env:
-          CHANGED_PACKAGES: ${{ steps.changed-packages.outputs.result }}
-        run: |
-          echo "result=$( \
-            echo $CHANGED_PACKAGES \
-            | jq -cr '{ \
-                adapter: [ \
-                  .[] \
-                  | select( \
-                    .location \
-                    | startswith("packages/sources") \
-                      or startswith("packages/composites") \
-                      or startswith("packages/targets")) \
-                    | .shortName = (.name | match("@chainlink/(.*)-adapter").captures[0].string) \
-                ] \
-              }' \
-            )" >> $GITHUB_OUTPUT
+          upstream-branch: ${{ env.UPSTREAM_BRANCH }}
+      - name: Build list of changed packages and changed adapters
+        id: changed-adapters
+        run: ./.github/scripts/changed-adapters.sh
 
   # ---------- Adapter checks (only for changed EAs) ----------
 
@@ -147,5 +121,3 @@ jobs:
         run: yarn generate:master-list -v
       - name: Test README Generation
         run: yarn generate:readme -v
-        env:
-          UPSTREAM_BRANCH: origin/${{ github.base_ref }}

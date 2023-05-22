@@ -4,61 +4,41 @@
 name: Deploy
 
 on:
-  push:
+  # TODO: turn back to push
+  # push:
+  #   branches:
+  #     - main
+  pull_request:
     branches:
-      - main
+      - pipelines-refactor
 
 concurrency:
   group: deploy
   cancel-in-progress: false
-
-# TODO: add logic to publish to public ECR
 
 jobs:
   calculate-changes:
     name: Compute changed adapters
     runs-on: [self-hosted, sdlc-ghr-prod]
     outputs:
-      adapter-list: ${{ steps.adapter-list.outputs.result }}
+      adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
         with:
           skip-setup: true
-      - name: Build list of changed packages
-        id: changed-packages
+      - name: Build list of changed packages and changed adapters
+        id: changed-adapters
+        env:
+          UPSTREAM_BRANCH: HEAD~1
         run: |
           yarn changeset version
-          git commit -m "Mock changesets"
-          echo "result=$( \
-            yarn workspaces list -R --json --since=head^ \
-            | jq -cs '.' \
-            | jq -cr '[.[] | select(.location | startswith("packages"))]' \
-          )" >> $GITHUB_OUTPUT
-      - name: Build list of changed adapters
-        id: adapter-list
-        env:
-          CHANGED_PACKAGES: ${{ steps.changed-packages.outputs.result }}
-        run: |
-          echo "result=$( \
-            echo $CHANGED_PACKAGES \
-            | jq -cr '{ \
-                adapter: [ \
-                  .[] \
-                  | select( \
-                    .location \
-                    | startswith("packages/sources") \
-                      or startswith("packages/composites") \
-                      or startswith("packages/targets")) \
-                    | .shortName = (.name | match("@chainlink/(.*)-adapter").captures[0].string) \
-                ] \
-              }' \
-            )" >> $GITHUB_OUTPUT
-      # - name: Mock consume changesets to get which adapters to deploy
-      #   run: |
-      #     echo "result='$(yarn workspaces list --json -R --since=head^ | jq -r 'env.AWS_PRIVATE_ECR_PATH + "/adapters/" + (select(.location | startswith("packages/composites") or startswith("packages/sources") or startswith("packages/targets")) | .name[11:])' | tr '\n' ' ')'" >> $GITHUB_OUTPUT
+          git commit -am "Mock changesets"
+          ./.github/scripts/changed-adapters.sh
 
   publish-adapter-images:
     name: Build ${{ matrix.adapter.shortName }}
@@ -72,7 +52,7 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
     env:
-      IMAGE_TAG: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/${{ matrix.adapter.shortName }}:pr-${{ github.event.pull_request.number }}
+      IMAGE_TAG: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/${{ matrix.adapter.shortName }}-adapter:${{ matrix.adapter.version }}
       IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters
       PRIVATE_ECR_ACCOUNT_IDS: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
     steps:

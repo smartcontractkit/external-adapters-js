@@ -3,7 +3,7 @@ ARG location
 ARG package
 WORKDIR /home/node/app
 COPY . .
-RUN yarn workspaces focus @chainlink/external-adapters-js $package
+RUN yarn workspaces focus $package @chainlink/external-adapters-js @chainlink/ea-test-helpers @chainlink/ea-reference-data-reader @chainlink/ea-factories
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
 

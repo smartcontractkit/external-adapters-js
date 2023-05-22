@@ -1,10 +1,10 @@
-#!/bin/bash -e
+#!/bin/zsh -e
 
-git add .github && git commit --amend -m "fixes" && git push -f
+git add .github && git commit --amend --no-edit && git push origin head -f
 git branch -D pipelines-refactor-test || true
 git checkout -b pipelines-refactor-test
 echo "// test" >> packages/sources/coingecko/src/index.ts
-printf '"---\n'@chainlink/coingecko-adapter': patch\n---\n\ntest"' >> .changeset/funny-olives-cover.md
+printf "---\n'@chainlink/coingecko-adapter': patch\n---\n\ntest" > .changeset/funny-olives-cover.md
 git add packages/sources/coingecko/src/index.ts
 git add .changeset/funny-olives-cover.md
 git commit -m "Test"
