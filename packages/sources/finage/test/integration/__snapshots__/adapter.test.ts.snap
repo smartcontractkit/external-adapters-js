@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute commodities api should return success 1`] = `
+{
+  "data": {
+    "result": 98.91,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 98.91,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute commodities api with invalid base should return failure 1`] = `
+{
+  "error": {
+    "errorResponse": "Please check the symbol and try again.",
+    "feedID": "NONEXISTING/USD",
+    "message": "Request failed with status code 400",
+    "name": "AdapterError",
+    "url": "https:/api.finage.co.uk/last/trade/forex/NONEXISTINGUSD",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 400,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute crypto api should return success 1`] = `
 {
   "data": {
@@ -64,26 +92,26 @@ exports[`execute stock api with invalid base should return failure 1`] = `
 }
 `;
 
-exports[`execute commodities api should return success 1`] = `
+exports[`execute uk etf api should return success 1`] = `
 {
   "data": {
-    "result": 98.91,
+    "result": 5.276,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 98.91,
+  "result": 5.276,
   "statusCode": 200,
 }
 `;
 
-exports[`execute commodities api with invalid base should return failure 1`] = `
+exports[`execute uk etf api with invalid base should return failure 1`] = `
 {
   "error": {
     "errorResponse": "Please check the symbol and try again.",
-    "feedID": "NONEXISTING/USD",
+    "feedID": "{"data":{"endpoint":"uk_etf","base":"NON_EXISTING_UK_ETF"}}",
     "message": "Request failed with status code 400",
     "name": "AdapterError",
-    "url": "https:/api.finage.co.uk/last/trade/forex/NONEXISTINGUSD",
+    "url": "https:/api.finage.co.uk/last/etf/NON_EXISTING_UK_ETF",
   },
   "jobRunID": "1",
   "providerStatusCode": 400,
