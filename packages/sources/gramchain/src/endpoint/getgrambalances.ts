@@ -67,7 +67,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = response.data.reduce((sum, item) => sum + item.PureGrams, 0).toFixed(4)
+  const result = parseFloat(response.data.reduce((sum, item) => sum + item.PureGrams, 0).toFixed(4))
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
