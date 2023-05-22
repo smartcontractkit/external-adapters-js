@@ -1,5 +1,11 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.14
+
+### Patch Changes
+
+- 1e8adb216: Fixed response parsing to skip null values
+
 ## 1.1.13
 
 ### Patch Changes

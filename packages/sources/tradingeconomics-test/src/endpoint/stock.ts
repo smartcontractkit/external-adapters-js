@@ -14,11 +14,12 @@ type HttpEndpointTypes = StockEndpointTypes & {
 export const httpTransport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
+      const symbol = param.base.toUpperCase()
       return {
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `/symbol/${param.base}`,
+          url: `/symbol/${symbol}`,
           params: {
             c: `${config.API_CLIENT_KEY}:${config.API_CLIENT_SECRET}`,
             f: `json`,

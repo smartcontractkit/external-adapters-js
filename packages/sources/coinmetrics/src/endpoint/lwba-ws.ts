@@ -164,7 +164,7 @@ export const wsTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
 
 export const endpoint = new AdapterEndpoint<WsCryptoLwbaEndpointTypes>({
   name: 'crypto-lwba',
-  aliases: ['crypto_lwba'],
+  aliases: ['cryptolwba', 'crypto_lwba'],
   transport: wsTransport,
   inputParameters,
 })
