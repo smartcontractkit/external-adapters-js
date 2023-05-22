@@ -87,7 +87,7 @@ runs:
         > packages/tsconfig.tmp.json && yarn tsc -b packages/tsconfig.tmp.json
       shell: bash
     - name: Cache built files
-      if: steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
+      if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
       uses: actions/cache/save@v3
       with:
         key: tsbuild-${{ github.sha }}

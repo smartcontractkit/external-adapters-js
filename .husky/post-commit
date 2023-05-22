@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-./.github/isvalidadapterchange.sh
+./.github/scripts/validate-changesets.sh
