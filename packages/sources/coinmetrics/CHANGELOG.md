@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.1.1
+
+### Patch Changes
+
+- b7dba0ae2: Normalize crypto-lwba endpoint aliases for Mercury adapters
+
 ## 3.1.0
 
 ### Minor Changes

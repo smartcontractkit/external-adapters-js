@@ -115,6 +115,7 @@ jest.mock('ethers', () => {
             .fn()
             .mockReturnValue('0x974Db4Fb26993289CAD9f79Bde4eAE097503064f'),
           getPoolIdArray: jest.fn().mockReturnValue([1, 2, 3, 4, 5]),
+          totalOperatorETHRewardsRemaining: jest.fn().mockReturnValue(100_000_000_000_000_000),
         }
       },
     },

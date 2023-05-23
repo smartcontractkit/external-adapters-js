@@ -1,5 +1,16 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.17.6
+
+### Patch Changes
+
+- Updated dependencies [850a33d55]
+- Updated dependencies [7710eb012]
+  - @chainlink/stader-balance-adapter@1.1.2
+  - @chainlink/por-indexer-adapter@1.2.54
+  - @chainlink/renvm-address-set-adapter@1.5.45
+  - @chainlink/wbtc-address-set-adapter@1.4.54
+
 ## 1.17.5
 
 ### Patch Changes

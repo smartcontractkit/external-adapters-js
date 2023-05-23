@@ -1,5 +1,11 @@
 # @chainlink/reference-transform-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 9f7c9ac80: Remove legos
+
 ## 1.2.93
 
 ### Patch Changes
