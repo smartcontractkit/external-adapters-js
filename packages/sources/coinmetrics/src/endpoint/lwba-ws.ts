@@ -97,18 +97,19 @@ export const calculatePairQuotesUrl = (
   desiredSubs: (typeof inputParameters.validated)[],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
-  const pairs = [
-    ...new Set(desiredSubs.map((sub) => `${sub.base.toLowerCase()}-${sub.quote.toLowerCase()}`)),
-  ].join(',')
 
   let generated = new URL('/v4/timeseries-stream/pair-quotes', WS_API_ENDPOINT)
-  generated.searchParams.append('pairs', pairs)
 
-  // bnb token only available on asset-quotes endpoint
-  if (desiredSubs.map((pair) => pair.base).includes('BNB')) {
-    const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
+  // use asset-quotes api if base=BNB
+  if (desiredSubs.map((subs) => subs.base.toLowerCase()).includes('bnb')) {
     generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
+    const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
     generated.searchParams.append('assets', assets)
+  } else {
+    const pairs = [
+      ...new Set(desiredSubs.map((sub) => `${sub.base.toLowerCase()}-${sub.quote.toLowerCase()}`)),
+    ].join(',')
+    generated.searchParams.append('pairs', pairs)
   }
 
   generated.searchParams.append('api_key', API_KEY)
