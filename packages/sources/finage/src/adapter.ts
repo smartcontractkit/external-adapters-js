@@ -50,6 +50,36 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
         symbols,
       }
     }
+    const isEtf = (input: AdapterRequest): boolean =>
+      !!input.data.endpoint && endpoints.ukEtf.supportedEndpoints.includes(input?.data?.endpoint)
+
+    const isStock = (input: AdapterRequest): boolean =>
+      !!input.data.endpoint && endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
+
+    const isCrypto = (input: AdapterRequest): boolean =>
+      !!input.data.endpoint && endpoints.crypto.supportedEndpoints.includes(input.data.endpoint)
+
+    const isForex = (input: AdapterRequest): boolean =>
+      !!input.data.endpoint && endpoints.forex.supportedEndpoints.includes(input.data.endpoint)
+
+    const getEtfSymbol = (input: AdapterRequest) => {
+      const validator = new Validator(
+        input,
+        endpoints.ukEtf.inputParameters,
+        {},
+        { shouldThrowError: false, overrides },
+      )
+      if (validator.error) return
+      if (Array.isArray(validator.validated.data.base)) {
+        Logger.debug(
+          `[WS]: ${validator.validated.data.base} supplied as base. Only non-array tickers can be used for WS`,
+        )
+        return
+      }
+
+      return validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
+    }
+
     const getStockSymbol = (input: AdapterRequest) => {
       const validator = new Validator(
         input,
@@ -66,11 +96,6 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       }
       return validator.validated.data.base.toUpperCase()
     }
-    const isStock = (input: AdapterRequest): boolean =>
-      !!input.data.endpoint && endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
-
-    const isCrypto = (input: AdapterRequest): boolean =>
-      !!input.data.endpoint && endpoints.crypto.supportedEndpoints.includes(input.data.endpoint)
 
     const getCryptoSymbol = (input: AdapterRequest) => {
       const validator = new Validator(
@@ -97,8 +122,6 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       const to = validator.overrideSymbol(NAME, validator.validated.data.quote).toUpperCase()
       return `${from}/${to}` // Note that this adds the "/", whereas the REST endpoint doesn't use this
     }
-    const isForex = (input: AdapterRequest): boolean =>
-      !!input.data.endpoint && endpoints.forex.supportedEndpoints.includes(input.data.endpoint)
 
     const getSymbol = (input: AdapterRequest): string | undefined => {
       if (isStock(input)) {
@@ -107,6 +130,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
         return getForexSymbol(input)
       } else if (isCrypto(input)) {
         return getCryptoSymbol(input)
+      } else if (isEtf(input)) {
+        return getEtfSymbol(input)
       }
       return undefined
     }
@@ -131,11 +156,16 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
               key: 'crypto',
               url: defaultConfig.cryptoWsEndpoint,
             }
+          } else if (isEtf(input)) {
+            return {
+              key: 'uk_etf',
+              url: defaultConfig.etfWsEndpoint,
+            }
           }
           return undefined
         },
         shouldNotServeInputUsingWS: (input) =>
-          !isForex(input) && !isStock(input) && !isCrypto(input),
+          !isForex(input) && !isStock(input) && !isCrypto(input) && !isEtf(input),
         subscribe: (input) => getSubscription(getSymbol(input)),
         unsubscribe: (input) => getSubscription(getSymbol(input), false),
         subsFromMessage: (message: Message) => {

@@ -50,11 +50,11 @@ exports[`Balance Endpoint should return success 1`] = `
       },
       {
         "address": "0x10f4F0a7aadfB7E79533090508fADD78FB163068",
-        "balance": "4218750000",
+        "balance": "4134375000",
       },
       {
         "address": "0x9CfD5a30DB1B925A92E796e5Ce37Fd0E66390Fe1",
-        "balance": "5279296875",
+        "balance": "5208906250",
       },
       {
         "address": "0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6",

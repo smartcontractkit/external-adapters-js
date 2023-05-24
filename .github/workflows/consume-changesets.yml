@@ -23,51 +23,57 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      UPSTREAM_BRANCH: 'HEAD~1'
-      BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
+      # UPSTREAM_BRANCH: 'HEAD~1'
+      # BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
       - uses: ./.github/actions/setup
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Temporarily calculate changesets to generate readmes with proper versions
-        run: |
-          yarn changeset version
-          git add -A
-          git commit -m "Changesets mock"
-      - name: Generate documentation
-        run: |
-          yarn generate:master-list -v
-          yarn generate:readme -v
-          git stash
-      - name: Undo temporary changesets and commit docs
-        run: |
-          git reset head^ --hard
-          git stash pop
-          git add MASTERLIST.md
-          git add "*README.md"
-          yarn lint-staged
-          git commit -m "Generated README(s)" # TODO: maybe this commit is unnecessary?
-      - name: Increase monorepo version
-        run: |
-          BUMPED_VERSION=$(jq '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
-          jq ".version = $BUMPED_VERSION" package.json > package.tmp.json
-          mv package.tmp.json package.json
-          echo "BUMPED_VERSION=$BUMPED_VERSION" >> $GITHUB_ENV
-      - name: Commit changes and tag
-        run: |
-          git add package.json
-          git commit -m "Bump monorepo version to $BUMPED_VERSION"
-          git tag "v$BUMPED_VERSION"
-      # - name: Create Release Pull Request
-      #   uses: changesets/action@v1
-      #   with:
-      #     version: yarn changeset version
-      #     title: '[WIP] Release v$BUMPED_VERSION'
-      #     commit: '[WIP] Release v$BUMPED_VERSION'
+        with:
+          skip-setup: true
+      # - name: Configure git
+      #   run: |
+      #     git config user.name "github-actions[bot]"
+      #     git config user.email "github-actions[bot]@users.noreply.github.com"
+      # - name: Temporarily calculate changesets to generate readmes with proper versions
+      #   run: |
+      #     yarn changeset version
+      #     git add -A
+      #     git commit -m "Changesets mock"
+      # - name: Generate documentation
+      #   run: |
+      #     yarn generate:master-list -v
+      #     yarn generate:readme -v
+      # - name: Undo temporary changesets and commit docs
+      #   run: |
+      #     git stash
+      #     git reset HEAD^ --hard
+      #     git stash pop
+      # - name: Commit docs
+      #   run: |
+      #     git add MASTERLIST.md
+      #     git add "*README.md"
+      #     yarn lint-staged
+      #     git commit -m "Generated README(s)" # TODO: maybe this commit is unnecessary?
+      # - name: Increase monorepo version
+      #   run: |
+      #     BUMPED_VERSION=$(jq -r '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
+      #     jq ".version = \"$BUMPED_VERSION\"" package.json > package.tmp.json
+      #     mv package.tmp.json package.json
+      #     echo "BUMPED_VERSION=$BUMPED_VERSION" >> $GITHUB_ENV
+      # - name: Commit changes and tag
+      #   run: |
+      #     git add package.json
+      #     git commit -m "Bump monorepo version to $BUMPED_VERSION"
+      #     git tag "v$BUMPED_VERSION"
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          version: yarn changeset version
+          title: '[WIP] Release test'
+          commit: '[WIP] Release test'

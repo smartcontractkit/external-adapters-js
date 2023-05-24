@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EOD Historical Data
 
-![1.4.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eodhistoricaldata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eodhistoricaldata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,15 +17,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#stock-endpoint), [stock](#stock-endpoint) | `stock` |
+| Required? |   Name   |     Description     |  Type  |                                    Options                                    | Default |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [price](#stock-endpoint), [stock](#stock-endpoint), [uk_etf](#stock-endpoint) | `stock` |
 
 ## Stock Endpoint
 
 **NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**
 
-Supported names for this endpoint are: `price`, `stock`.
+Supported names for this endpoint are: `price`, `stock`, `uk_etf`.
 
 ### Input Params
 
