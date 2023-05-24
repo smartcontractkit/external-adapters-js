@@ -42,15 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-      - name: Run unit tests
-        run: yarn test:ci:unit --coverage
-
-      - name: Upload unit-test coverage report
-        if: always()
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
-        with:
-          name: unit-tests-coverage
-          path: ./coverage/lcov.info
+      - run: yarn test:ci:unit
 
   run-basic-checks:
     needs: packages
@@ -59,16 +51,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
+      - run: yarn lint
       - run: yarn setup-tests
       - run: yarn format:check
-      - run: yarn lint -f json -o eslint-report.json
-
-      - name: Upload ESLint report
-        if: always()
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
-        with:
-          name: eslint-report
-          path: ./eslint-report.json
 
   run-documentation-check:
     needs: packages
@@ -120,36 +105,3 @@ jobs:
       - name: Generate docker-compose file
         run: yarn generate:docker-compose
       - run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}
-
-  sonarqube:
-    name: SonarQube Scan
-    needs: [run-unit-tests, run-basic-checks]
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-        with:
-          fetch-depth: 0 # fetches all history for all tags and branches to provide more metadata for sonar reports
-
-      - name: Download all reports
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7 # v3.0.1
-
-      - name: Set SonarQube Reports Paths
-        id: sonarqube_report_paths
-        shell: bash
-        run: |
-          echo "sonarqube_coverage_report_paths=$(find -type f -name 'lcov.info' -printf "%p,")" >> $GITHUB_OUTPUT
-          echo "sonarqube_eslint_report_paths=$(find -type f -name 'eslint-report.json' -printf "%p")" >> $GITHUB_OUTPUT
-
-      - name: Update ESLint report symlinks
-        run: sed -i 's+/home/ec2-user/actions-runner/_work/external-adapters-js/external-adapters-js/+/github/workspace/+g' ${{ steps.sonarqube_report_paths.outputs.sonarqube_eslint_report_paths }}
-
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@a6ba0aafc293e03de5437af7edbc97f7d3ebc91a # v1.2.0
-        with:
-          args: >
-            -Dsonar.javascript.lcov.reportPaths=${{ steps.sonarqube_report_paths.outputs.sonarqube_coverage_report_paths }}
-            -Dsonar.eslint.reportPaths=${{ steps.sonarqube_report_paths.outputs.sonarqube_eslint_report_paths }}
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
