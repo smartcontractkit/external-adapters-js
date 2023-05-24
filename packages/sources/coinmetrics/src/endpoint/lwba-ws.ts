@@ -3,7 +3,10 @@ import {
   EndpointContext,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import {
+  TransportRoutes,
+  WebSocketTransport,
+} from '@chainlink/external-adapter-framework/transports'
 import {
   PartialAdapterResponse,
   ProviderResult,
@@ -95,13 +98,14 @@ type WsPairQuoteMessage =
 export const calculatePairQuotesUrl = (
   context: EndpointContext<WsCryptoLwbaEndpointTypes>,
   desiredSubs: (typeof inputParameters.validated)[],
+  isAssetQuote: boolean,
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
 
   let generated = new URL('/v4/timeseries-stream/pair-quotes', WS_API_ENDPOINT)
 
   // use asset-quotes api if base=BNB
-  if (desiredSubs.map((subs) => subs.base.toLowerCase()).includes('bnb')) {
+  if (isAssetQuote) {
     generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
     const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
     generated.searchParams.append('assets', assets)
@@ -163,9 +167,20 @@ export const handleCryptoLwbaMessage = (
   return undefined
 }
 
-export const wsTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
+export const pairQuoteWebsocketTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
   url: (context, desiredSubs) => {
-    return calculatePairQuotesUrl(context, desiredSubs)
+    return calculatePairQuotesUrl(context, desiredSubs, false)
+  },
+  handlers: {
+    message(message: WsPairQuoteMessage): ProviderResult<WsCryptoLwbaEndpointTypes>[] | undefined {
+      return handleCryptoLwbaMessage(message)
+    },
+  },
+})
+
+export const assetQuoteWebsocketTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
+  url: (context, desiredSubs) => {
+    return calculatePairQuotesUrl(context, desiredSubs, true)
   },
   handlers: {
     message(message: WsPairQuoteMessage): ProviderResult<WsCryptoLwbaEndpointTypes>[] | undefined {
@@ -177,6 +192,16 @@ export const wsTransport = new WebSocketTransport<WsCryptoLwbaEndpointTypes>({
 export const endpoint = new AdapterEndpoint<WsCryptoLwbaEndpointTypes>({
   name: 'crypto-lwba',
   aliases: ['cryptolwba', 'crypto_lwba'],
-  transport: wsTransport,
+  transportRoutes: new TransportRoutes<WsCryptoLwbaEndpointTypes>()
+    .register('asset', assetQuoteWebsocketTransport)
+    .register('pair', pairQuoteWebsocketTransport),
+  customRouter: (req, _) => {
+    const { base } = req.requestContext.data as typeof inputParameters.validated & {
+      transport?: string
+    }
+    const route = base.toLowerCase() === 'bnb' ? 'asset' : 'pair'
+
+    return route
+  },
   inputParameters,
 })
