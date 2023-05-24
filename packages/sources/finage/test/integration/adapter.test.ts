@@ -13,6 +13,8 @@ import {
   mockStockUnsubscribeResponse,
   mockForexSubscribeResponse,
   mockForexUnsubscribeResponse,
+  mockUkEtfSubscribeResponse,
+  mockUkEtfUnsubscribeResponse,
 } from './fixtures'
 import { AddressInfo } from 'net'
 import {
@@ -25,6 +27,7 @@ import {
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import {
   DEFAULT_CRYPTO_WS_API_ENDPOINT,
+  DEFAULT_ETF_WS_API_ENDPOINT,
   DEFAULT_FOREX_WS_API_ENDPOINT,
   DEFAULT_STOCK_WS_API_ENDPOINT,
 } from '../../src/config'
@@ -44,6 +47,52 @@ describe('execute', () => {
   }
 
   setupExternalAdapterTest(envVariables, context)
+
+  describe('uk etf api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'uk_etf',
+        base: 'IBTA',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('uk etf api with invalid base', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'uk_etf',
+        base: 'NON_EXISTING_UK_ETF',
+      },
+    }
+
+    it('should return failure', async () => {
+      mockResponseFailure()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 
   describe('stock api', () => {
     const data: AdapterRequest = {
@@ -465,6 +514,92 @@ describe('websocket', () => {
         statusCode: 200,
         maxAge: 30000,
         data: { result: 43682.66306523 },
+      })
+
+      await flowFulfilled
+    }, 30000)
+  })
+})
+
+describe('websocket', () => {
+  let mockedWsServer: InstanceType<typeof MockWsServer>
+  let fastify: FastifyInstance
+  let req: SuperTest<Test>
+
+  let oldEnv: NodeJS.ProcessEnv
+  beforeAll(async () => {
+    if (!process.env.RECORD) {
+      process.env.API_KEY = 'fake-api-key'
+      process.env.WS_SOCKET_KEY = 'fake-api-key'
+      process.env.ETF_WS_API_ENDPOINT = DEFAULT_ETF_WS_API_ENDPOINT
+
+      mockedWsServer = mockWebSocketServer(process.env.ETF_WS_API_ENDPOINT)
+      mockWebSocketProvider(WebSocketClassProvider)
+    }
+
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.WS_ENABLED = 'true'
+    process.env.WS_SUBSCRIPTION_TTL = '300'
+
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+  })
+
+  afterAll((done) => {
+    setEnvVariables(oldEnv)
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
+    fastify.close(done)
+  })
+
+  describe('uk etf endpoint', () => {
+    const jobID = '1'
+
+    it('should return success', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          endpoint: 'uk_etf',
+          base: 'IBTA',
+        },
+      }
+
+      mockResponseSuccess() // For the first response
+
+      let flowFulfilled = Promise.resolve(true)
+      if (!process.env.RECORD) {
+        mockResponseSuccess()
+
+        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
+          mockUkEtfSubscribeResponse,
+          mockUkEtfUnsubscribeResponse,
+        ])
+      }
+
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      // We don't care about the first response, coming from http request
+      // This first request will start both batch warmer & websocket
+      await makeRequest()
+
+      await util.sleep(100)
+      // This final request should disable the cache warmer
+      const response = await makeRequest()
+      expect(response.body).toEqual({
+        jobRunID: '1',
+        result: 5.276,
+        statusCode: 200,
+        maxAge: 60000,
+        providerStatusCode: 200,
+        data: { result: 5.276 },
       })
 
       await flowFulfilled

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.69.0",
+  "version": "1.71.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -30,6 +30,7 @@
     "generate:readme": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-readme",
     "postinstall": "husky install",
     "cm": "cz",
+    "ci-changeset": "git reset --hard $CURRENT_SHA && yarn changeset version",
     "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
     "qa:flux:configure": "ts-node-transpile-only ./packages/scripts/src/flux-emulator",
     "qa:dependencies": "ts-node-transpile-only ./packages/scripts/src/adapter-dependencies",

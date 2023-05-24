@@ -1,12 +1,12 @@
 name: Consume changesets
 
 on:
-  # TODO: switch back to push
-  # push:
-  #   branches:
-  #     - main
-  #   tags-ignore:
-  #     - v1.*
+  # TODO: switch back to push only
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - v1.*
   pull_request:
     branches:
       - main
@@ -16,6 +16,11 @@ on:
         description: whether certain steps should be run against all adapters
         required: false
         default: 'false'
+
+# TODO: This entire workflow would be immensely sped up (~3min -> 30s tops) if:
+# - Readme generation did not require built TS files
+# - Readme generation was optimized a bit
+# - We only installed the changeset package
 
 jobs:
   consume-changesets:
@@ -27,11 +32,13 @@ jobs:
       BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
       - uses: ./.github/actions/setup
+        with:
+          skip-setup: false # TODO: Once readmes are generated quickly, this should be removed
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
@@ -45,29 +52,41 @@ jobs:
         run: |
           yarn generate:master-list -v
           yarn generate:readme -v
-          git stash
       - name: Undo temporary changesets and commit docs
         run: |
-          git reset head^ --hard
+          git stash
+          git reset HEAD^ --hard
           git stash pop
+      - name: Commit docs
+        run: |
           git add MASTERLIST.md
           git add "*README.md"
           yarn lint-staged
-          git commit -m "Generated README(s)" # TODO: maybe this commit is unnecessary?
       - name: Increase monorepo version
         run: |
-          BUMPED_VERSION=$(jq '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
-          jq ".version = $BUMPED_VERSION" package.json > package.tmp.json
+          BUMPED_VERSION=$(jq -r '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
+          jq ".version = \"$BUMPED_VERSION\"" package.json > package.tmp.json
           mv package.tmp.json package.json
           echo "BUMPED_VERSION=$BUMPED_VERSION" >> $GITHUB_ENV
-      - name: Commit changes and tag
+      - name: Stash changes for changesets action to pick up in custom script
         run: |
-          git add package.json
-          git commit -m "Bump monorepo version to $BUMPED_VERSION"
+          git stash
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # This version command is not only necessary because of yarn pnp, but because the changeset action
+          # performs git resets and we want to keep those changes, so we stash and then pop them here.
+          # All the previuos steps would technically make more sense in the script itself, but we
+          # keep them as separate ones so it's easier to see them from the github UI to debug.
+          version: ./.github/scripts/run-changesets.sh
+          title: '[WIP] Release ${{ env.BUMPED_VERSION }}'
+          commit: '[WIP] Release ${{ env.BUMPED_VERSION }}'
+      - name: Tag changesets commit
+        run: |
+          # Delete the tags if they already exist (ignore errors if they don't)
+          git tag -d "v$BUMPED_VERSION" || true
+          git push --delete origin "v$BUMPED_VERSION" || true
           git tag "v$BUMPED_VERSION"
-      # - name: Create Release Pull Request
-      #   uses: changesets/action@v1
-      #   with:
-      #     version: yarn changeset version
-      #     title: '[WIP] Release v$BUMPED_VERSION'
-      #     commit: '[WIP] Release v$BUMPED_VERSION'
+          git push origin "v$BUMPED_VERSION"

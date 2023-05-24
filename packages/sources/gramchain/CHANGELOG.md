@@ -1,5 +1,11 @@
 # @chainlink/example-source-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- a3017a74e: Fix result to 4 decimals
+
 ## 1.1.31
 
 ### Patch Changes

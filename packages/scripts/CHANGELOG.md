@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- 8b3355394: Remove legos
+- 9f7c9ac80: Remove legos
 
 ## 2.5.8
 
