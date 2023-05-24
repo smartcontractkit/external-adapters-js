@@ -1,70 +1,45 @@
-import { IncludePair, Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { NAME } from '../config'
-import overrides from '../config/symbols.json'
-import includes from '../config/includes.json'
-import * as endpoints from './'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { ResponseSchema, buildIndividualRequests, constructEntry } from '../price-utils'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['live', 'commodities', 'stock']
-
-export type TInputParameters = { base: string; quote: string }
-export const inputParameters: InputParameters<TInputParameters> = {
+export const inputParameters = new InputParameters({
   base: {
-    aliases: ['from', 'symbol', 'market'],
+    aliases: ['from', 'coin', 'symbol', 'market'],
     required: true,
-    description: 'The symbol of the currency to query',
     type: 'string',
+    description: 'The symbol of symbols of the currency to query',
   },
   quote: {
     aliases: ['to', 'convert'],
     required: false,
-    description: 'The quote currency',
     type: 'string',
+    description: 'The symbol of the currency to convert to',
   },
-}
+})
 
-export interface ResponseSchema {
-  endpoint: string
-  quotes: {
-    ask: number
-    base_currency: string
-    bid: number
-    mid: number
-    quote_currency: string
-  }[]
-  requested_time: string
-  timestamp: number
-}
-
-export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters, {}, { includes, overrides })
-  Requester.logConfig(config)
-
-  const jobRunID = validator.validated.id
-
-  const { from, to, inverse } = validator.validated.data.quote
-    ? util.getPairOptions<IncludePair, endpoints.TInputParameters>(
-        NAME,
-        validator,
-        (_, i: IncludePair) => i,
-        (from: string, to: string) => ({ from, to }),
-      )
-    : {
-        from: validator.overrideSymbol(NAME, validator.validated.data.base),
-        to: validator.validated.data.quote || '',
-        inverse: false,
-      }
-
-  const currency = `${from.toUpperCase()}${to.toUpperCase()}`
-
-  const params = {
-    ...config.api?.params,
-    currency,
+export type LiveEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
   }
-
-  const options = { ...config.api, params }
-
-  const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'], { inverse })
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
+
+export const httpTransport = new HttpTransport<LiveEndpointTypes>({
+  prepareRequests: (params, config) => buildIndividualRequests(params, config),
+  parseResponse: (params, res) => constructEntry(res.data, params),
+})
+
+export const endpoint = new AdapterEndpoint<LiveEndpointTypes>({
+  name: 'live',
+  aliases: ['stock', 'commodities'],
+  transport: httpTransport,
+  inputParameters,
+  overrides: overrides.tradermade,
+})

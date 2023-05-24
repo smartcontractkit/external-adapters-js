@@ -748,10 +748,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tradermade"\
       },\
       {\
-        "name": "@chainlink/tradermade-test-adapter",\
-        "reference": "workspace:packages/sources/tradermade-test"\
-      },\
-      {\
         "name": "@chainlink/tradingeconomics-adapter",\
         "reference": "workspace:packages/sources/tradingeconomics"\
       },\
@@ -1021,7 +1017,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
       ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
-      ["@chainlink/tradermade-test-adapter", ["workspace:packages/sources/tradermade-test"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
       ["@chainlink/tradingeconomics-test-adapter", ["workspace:packages/sources/tradingeconomics-test"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
@@ -9029,24 +9024,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradermade/",\
           "packageDependencies": [\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/tradermade-test-adapter", [\
-        ["workspace:packages/sources/tradermade-test", {\
-          "packageLocation": "./packages/sources/tradermade-test/",\
-          "packageDependencies": [\
-            ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

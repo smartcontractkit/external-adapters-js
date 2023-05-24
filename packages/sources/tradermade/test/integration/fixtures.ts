@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockForexSingleSuccess = (): nock.Scope =>
+export const mockForexResponse = (): nock.Scope =>
   nock('https://marketdata.tradermade.com', {
     encodedQueryParams: true,
   })
@@ -35,13 +35,8 @@ export const mockForexSingleSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
-export const mockForexBatchedSuccess = (): nock.Scope =>
-  nock('https://marketdata.tradermade.com', {
-    encodedQueryParams: true,
-  })
     .get('/api/v1/live')
-    .query({ api_key: 'fake-api-key', currency: 'ETHUSD,ETHJPY,BTCUSD,BTCJPY' })
+    .query({ api_key: 'fake-api-key', currency: 'AAPL' })
     .reply(
       200,
       () => {
@@ -49,32 +44,10 @@ export const mockForexBatchedSuccess = (): nock.Scope =>
           endpoint: 'live',
           quotes: [
             {
-              ask: 3388.15,
-              base_currency: 'ETH',
-              bid: 3387.93,
-              mid: 3388.04,
-              quote_currency: 'USD',
-            },
-            {
-              ask: 389663,
-              base_currency: 'ETH',
-              bid: 388814,
-              mid: 389238.5,
-              quote_currency: 'JPY',
-            },
-            {
-              ask: 43833.68,
-              base_currency: 'BTC',
-              bid: 43823.78,
-              mid: 43828.73,
-              quote_currency: 'USD',
-            },
-            {
-              ask: 5036923,
-              base_currency: 'BTC',
-              bid: 5028879,
-              mid: 5032901,
-              quote_currency: 'JPY',
+              ask: 128.79,
+              bid: 128.78,
+              mid: 128.785,
+              instrument: 'AAPL',
             },
           ],
           requested_time: 'Fri, 05 Nov 2021 17:11:25 GMT',
@@ -92,28 +65,25 @@ export const mockForexBatchedSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
-export const mockLiveSuccess = (): nock.Scope =>
-  nock('https://marketdata.tradermade.com', {
-    encodedQueryParams: true,
-  })
     .get('/api/v1/live')
-    .query({ api_key: 'fake-api-key', currency: 'AAPL' })
+    .query({ api_key: 'fake-api-key', currency: 'OILUSD' })
     .reply(
       200,
-      () => ({
-        endpoint: 'live',
-        quotes: [
-          {
-            ask: 150.51,
-            bid: 150.5,
-            instrument: 'AAPL',
-            mid: 150.50501,
-          },
-        ],
-        requested_time: 'Fri, 05 Nov 2021 17:12:07 GMT',
-        timestamp: 1636132328,
-      }),
+      () => {
+        return {
+          endpoint: 'live',
+          quotes: [
+            {
+              ask: 71.292,
+              bid: 71.27,
+              instrument: 'OILUSD',
+              mid: 71.281,
+            },
+          ],
+          requested_time: 'Fri, 05 May 2023 21:56:43 GMT',
+          timestamp: 1683323804,
+        }
+      },
       [
         'Content-Type',
         'application/json',
@@ -125,71 +95,3 @@ export const mockLiveSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
-export const mockResponseFailure = (): nock.Scope =>
-  nock('https://marketdata.tradermade.com', {
-    encodedQueryParams: true,
-  })
-    .get('/api/v1/live')
-    .query({ api_key: 'fake-api-key', currency: 'NON-EXISTING' })
-    .reply(
-      200,
-      () => ({
-        endpoint: 'live',
-        quotes: [
-          {
-            error: 502,
-            instrument: 'NON_EXISTING',
-            message: 'currency code is invalid',
-          },
-        ],
-        requested_time: 'Fri, 05 Nov 2021 17:17:16 GMT',
-        timestamp: 1636132636,
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
-
-export const mockSubscribeResponse = {
-  request: {
-    userKey: 'fake-api-key',
-    symbol: 'ETHUSD',
-  },
-
-  response: [
-    {
-      symbol: 'ETHUSD',
-      ts: '1646073761745',
-      bid: 2797.53,
-      ask: 2798.14,
-      mid: 2797.835,
-    },
-    {
-      symbol: 'ETHUSD',
-      ts: '1646073761745',
-      bid: 2797.53,
-      ask: 2798.14,
-      mid: 2797.835,
-    },
-    {
-      symbol: 'ETHUSD',
-      ts: '1646073761745',
-      bid: 2797.53,
-      ask: 2798.14,
-      mid: 2797.835,
-    },
-  ],
-}
-
-export const mockUnsubscribeResponse = {
-  request: undefined,
-  response: '',
-}

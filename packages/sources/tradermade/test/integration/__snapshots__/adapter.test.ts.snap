@@ -1,38 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute forex api should return success for single base/quote pair 1`] = `
+exports[`execute http forex endpoint should return success 1`] = `
 {
   "data": {
     "result": 4494.0249,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4494.0249,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute live  api should return success 1`] = `
+exports[`execute http live endpoint override should return success 1`] = `
 {
   "data": {
-    "result": 150.50501,
+    "result": 71.281,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 150.50501,
+  "result": 71.281,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute live  api with invalid base should return failure 1`] = `
+exports[`execute http live endpoint should return success 1`] = `
 {
-  "error": {
-    "feedID": "{"data":{"endpoint":"live","base":"NON-EXISTING"}}",
-    "message": "Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.",
-    "name": "AdapterError",
+  "data": {
+    "result": 128.785,
   },
-  "jobRunID": "1",
-  "status": "errored",
-  "statusCode": 502,
+  "result": 128.785,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute websocket forex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 2797.835,
+  },
+  "result": 2797.835,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+  },
 }
 `;
