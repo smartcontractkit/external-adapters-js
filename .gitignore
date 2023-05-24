@@ -17,6 +17,7 @@ node_modules
 *generated*
 vendor
 coverage
+*report.json
 
 # Helm and K6
 cl-adapter-*
