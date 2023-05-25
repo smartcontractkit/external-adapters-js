@@ -143,8 +143,17 @@ export const mockEthBalanceMap: Record<string, string> = {
 
 export const mockGetValidatorStates = (): void => {
   nock('http://localhost:9092', { encodedQueryParams: true })
+    .get('/eth/v1/beacon/genesis')
+    .reply(200, {
+      data: {
+        genesis_time: '1590832934',
+        genesis_validators_root:
+          '0xcf8e0d4e9587369b2301d0790347320302cc0943d5a1884560367e8208d920f2',
+        genesis_fork_version: '0x00000000',
+      },
+    })
     .get(
-      '/eth/v1/beacon/states/finalized/validators?' +
+      '/eth/v1/beacon/states/5708763/validators?' +
         'id=0x8cd2726ccd034cf023840c2f76f7bfd4f2e8dbe79ff0e43d2908d1124450ed1c954966a42113787bc930c0e2d73524c0,' +
         '0xaaea1a72970d9d8cd5fdee9c41437b24b9c49c34e35cd620c87fc8ad270ed822fe550690581422a90d7538e906f61d11,' +
         '0xac41f16bdd583309e5095d475ad1250dabf274045d852bd091e07f03b6de3fc4ad34705c0f1079d516df0b2d8fed0e10,' +

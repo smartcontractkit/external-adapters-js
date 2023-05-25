@@ -10,11 +10,13 @@ import { config } from '../config'
 
 const logger = makeLogger('Balance Utils')
 
-const GWEI_DIVISOR = 1000000000
+const GWEI_DIVISOR = 1_000_000_000
+const SECONDS_PER_SLOT = 12
+
 export const WITHDRAWAL_DONE_STATUS = 'withdrawal_done'
 export const DEPOSIT_EVENT_TOPIC =
   '0x649bbc62d0e31342afea4e5cd82d4049e7e1ee912fc0889aa790803be39038c5'
-export const DEPOSIT_EVENT_LOOKBACK_WINDOW = 10000 // blocks
+export const DEPOSIT_EVENT_LOOKBACK_WINDOW = 10_000 // blocks
 export const ONE_ETH_WEI = BigNumber(ethers.utils.parseEther('1').toString())
 export const THIRTY_ONE_ETH_WEI = BigNumber(ethers.utils.parseEther('31').toString())
 
@@ -226,6 +228,14 @@ export type EndpointTypes = {
   Response: ResponseSchema
 }
 
+interface GenesisResponse {
+  data: {
+    genesis_time: string
+    genesis_validators_root: string
+    genesis_fork_version: string
+  }
+}
+
 export const chunkArray = <T>(addresses: T[], size: number): T[][] =>
   addresses.length > size
     ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
@@ -316,4 +326,31 @@ export const fetchEthDepositContractAddress = async (
 
 export const parseBigNumber = (value: ethers.BigNumber): BigNumber => {
   return BigNumber(value.toString())
+}
+
+export const getSlotNumber = async (
+  provider: ethers.providers.JsonRpcProvider,
+  blockTag: number,
+  beaconRpcUrl: string,
+): Promise<number> => {
+  return withErrorHandling(
+    `Calculating Beacon slot number using execution layer block number ${blockTag}`,
+    async () => {
+      const blockTimestampInSec = (await provider.getBlock(blockTag)).timestamp
+      const genesisTimestampInSec = await getBeaconGenesisTimestamp(beaconRpcUrl)
+      const timeSinceGenesisInSec = blockTimestampInSec - genesisTimestampInSec
+      return Math.floor(timeSinceGenesisInSec / SECONDS_PER_SLOT)
+    },
+  )
+}
+
+const getBeaconGenesisTimestamp = async (beaconRpcUrl: string): Promise<number> => {
+  return withErrorHandling(`Fetching Beacon genesis info`, async () => {
+    const url = `/eth/v1/beacon/genesis`
+    const response = await axios.request<GenesisResponse>({
+      baseURL: beaconRpcUrl,
+      url,
+    })
+    return Number(response.data.data.genesis_time)
+  })
 }
