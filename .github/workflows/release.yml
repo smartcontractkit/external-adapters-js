@@ -5,11 +5,8 @@ on:
   push:
     branches:
       - main
-    tags:
-      - v1.*
-  # pull_request:
-  #   branches:
-  #     - main
+    paths:
+      - MASTERLIST.md
 
 concurrency:
   group: deploy-and-release

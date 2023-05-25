@@ -3,7 +3,7 @@ name: Auto update open PRs
 on:
   push:
     branches:
-      - main-asdasdasdasd # TODO: Rename
+      - main
 
 jobs:
   autoupdate:

@@ -4,15 +4,11 @@
 name: Deploy
 
 on:
-  # TODO: switch back to push
   push:
     branches:
       - main
-    tags-ignore:
-      - v1.*
-  # pull_request:
-  #   branches:
-  #     - main
+    paths-ignore:
+      - MASTERLIST.md
 
 concurrency:
   group: deploy-and-release
