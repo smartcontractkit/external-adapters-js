@@ -33,6 +33,7 @@ export class ValidatorFactory {
     blockTag: number
     settings: typeof config.settings
     provider: ethers.providers.JsonRpcProvider
+    genesisTimestampInSec: number
   }): Promise<{
     activeValidators: ActiveValidator[]
     withdrawnValidators: WithdrawnValidator[]
@@ -45,7 +46,7 @@ export class ValidatorFactory {
     const slotNumber = await getSlotNumber(
       params.provider,
       params.blockTag,
-      params.settings.BEACON_RPC_URL,
+      params.genesisTimestampInSec,
     )
     return withErrorHandling(
       `Fetching validator states (slot number: ${slotNumber}) from the beacon chain`,

@@ -331,20 +331,19 @@ export const parseBigNumber = (value: ethers.BigNumber): BigNumber => {
 export const getSlotNumber = async (
   provider: ethers.providers.JsonRpcProvider,
   blockTag: number,
-  beaconRpcUrl: string,
+  genesisTimestampInSec: number,
 ): Promise<number> => {
   return withErrorHandling(
     `Calculating Beacon slot number using execution layer block number ${blockTag}`,
     async () => {
       const blockTimestampInSec = (await provider.getBlock(blockTag)).timestamp
-      const genesisTimestampInSec = await getBeaconGenesisTimestamp(beaconRpcUrl)
       const timeSinceGenesisInSec = blockTimestampInSec - genesisTimestampInSec
       return Math.floor(timeSinceGenesisInSec / SECONDS_PER_SLOT)
     },
   )
 }
 
-const getBeaconGenesisTimestamp = async (beaconRpcUrl: string): Promise<number> => {
+export const getBeaconGenesisTimestamp = async (beaconRpcUrl: string): Promise<number> => {
   return withErrorHandling(`Fetching Beacon genesis info`, async () => {
     const url = `/eth/v1/beacon/genesis`
     const response = await axios.request<GenesisResponse>({
