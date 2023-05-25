@@ -537,9 +537,6 @@
       "path": "./sources/tradermade/tsconfig.test.json"
     },
     {
-      "path": "./sources/tradermade-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/tradingeconomics/tsconfig.test.json"
     },
     {
