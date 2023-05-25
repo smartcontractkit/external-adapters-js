@@ -384,7 +384,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
         handler: async (index) => {
           const pageNumber = index + 1
           const addresses: string[] =
-            await params.permissionlessNodeRegistryManager.getAllSocializingPoolOptOutOperators(
+            await params.permissionlessNodeRegistryManager.getNodeELVaultAddressForOptOutOperators(
               pageNumber,
               params.batchSize,
               {
