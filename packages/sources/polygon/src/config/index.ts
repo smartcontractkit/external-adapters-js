@@ -1,15 +1,15 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'POLYGON'
-
-export const DEFAULT_ENDPOINT = 'tickers'
-export const DEFAULT_BASE_URL = 'https://api.polygon.io'
-
-export const makeConfig = (prefix = ''): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.api.params = { apikey: config.apiKey }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'The HTTP URL to retrieve data from',
+    type: 'string',
+    default: 'https://api.polygon.io',
+  },
+  API_KEY: {
+    description: 'An API key that can be obtained from [here](https://polygon.io/dashboard/signup)',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+})
