@@ -1,5 +1,11 @@
 # @chainlink/kaiko-test-adapter
 
+## 1.1.15
+
+### Patch Changes
+
+- f8d90dc59: Added 60s API timeout override
+
 ## 1.1.14
 
 ### Patch Changes
