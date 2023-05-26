@@ -1,38 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute forex api should return success 1`] = `
+exports[`rest forex api should return success 1`] = `
 {
   "data": {
     "result": 0.7536,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 0.7536,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute forex batch api should return success 1`] = `
+exports[`rest forex batch api should return success 1`] = `
 {
   "data": {
-    "result": 28.5,
+    "result": 0.73655,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 28.5,
+  "result": 0.73655,
   "statusCode": 200,
-}
-`;
-
-exports[`execute forex batch api should return the proper warning message when the API does not return a response 1`] = `
-{
-  "error": {
-    "feedID": "USD/GBP",
-    "message": "Data Provder Issue:  Result could not be found from response.  This is expected for some pairs during the weekend or on public holidays as the market for the pair might be closed.",
-    "name": "AdapterError",
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
-  "jobRunID": "1",
-  "status": "errored",
-  "statusCode": 502,
 }
 `;

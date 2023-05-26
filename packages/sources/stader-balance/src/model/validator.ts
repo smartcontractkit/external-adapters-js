@@ -9,6 +9,7 @@ import {
   chunkArray,
   fetchAddressBalance,
   formatValueInGwei,
+  getSlotNumber,
   ONE_ETH_WEI,
   ProviderResponse,
   StaderValidatorStatus,
@@ -32,16 +33,25 @@ export class ValidatorFactory {
     blockTag: number
     settings: typeof config.settings
     provider: ethers.providers.JsonRpcProvider
+    genesisTimestampInSec: number
   }): Promise<{
     activeValidators: ActiveValidator[]
     withdrawnValidators: WithdrawnValidator[]
     limboAddressMap: Record<string, ValidatorAddress>
     depositedAddressMap: Record<string, ValidatorAddress>
   }> {
+    // Calculate the slot number to use when querying the beacon chain
+    // Ensures an equivalent point of the beacon chain is being queried as the blockTag
+    // Reduces risk of state change between queries to EL and CL
+    const slotNumber = await getSlotNumber(
+      params.provider,
+      params.blockTag,
+      params.genesisTimestampInSec,
+    )
     return withErrorHandling(
-      `Fetching validator states (state id: ${params.stateId}) from the beacon chain`,
+      `Fetching validator states (slot number: ${slotNumber}) from the beacon chain`,
       async () => {
-        const url = `/eth/v1/beacon/states/${params.stateId}/validators`
+        const url = `/eth/v1/beacon/states/${slotNumber}/validators`
         const statuses = params.validatorStatus
         const statusList = statuses && statuses.length > 0 ? statuses?.join(',') : undefined
         const batchSize = params.settings.BATCH_SIZE

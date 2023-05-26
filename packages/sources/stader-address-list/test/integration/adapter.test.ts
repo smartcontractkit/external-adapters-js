@@ -96,7 +96,7 @@ jest.mock('ethers', () => {
           getSocializingPoolAddress: jest.fn().mockImplementation((poolId) => {
             return mockSocialPoolAddresses[poolId]
           }),
-          getAllSocializingPoolOptOutOperators: jest.fn().mockImplementation(() => {
+          getNodeELVaultAddressForOptOutOperators: jest.fn().mockImplementation(() => {
             return mockElRewardAddresses
           }),
           nextValidatorId: jest.fn().mockReturnValue(3),

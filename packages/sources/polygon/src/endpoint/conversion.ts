@@ -1,24 +1,13 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-const DEFAULT_AMOUNT = 1
-const DEFAULT_PRECISION = 6
+const logger = makeLogger('Polygon conversion')
 
-export const supportedEndpoints = ['conversion']
-
-export interface ErrorResponseSchema {
-  status: string
-  request_id: string
-  error: string
-}
-
-const customError = (data: ResponseSchema | ErrorResponseSchema) => data.status === 'ERROR'
-
-export const description = 'Get FOREX price conversions'
-
-export type TInputParameters = { base: string; quote: string; amount: number; precision: number }
-export const inputParameters: InputParameters<TInputParameters> = {
+export const inputParameters = new InputParameters({
   base: {
     aliases: ['from'],
     required: true,
@@ -43,9 +32,19 @@ export const inputParameters: InputParameters<TInputParameters> = {
     default: 6,
     type: 'number',
   },
+})
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
 }
 
-export interface ResponseSchema {
+export interface ProviderResponseBody {
   converted: number
   from: string
   initialAmount: number
@@ -56,24 +55,57 @@ export interface ResponseSchema {
   to: string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+export const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, settings: typeof config.settings) => {
+    return params.map((param) => {
+      const from = param.base.toUpperCase()
+      const to = param.quote.toUpperCase()
+      const amount = param.amount
+      const precision = param.precision
+      const url = `/v1/conversion/${from}/${to}`
+      return {
+        params: [param],
+        request: {
+          baseURL: settings.API_ENDPOINT,
+          url,
+          params: {
+            apikey: settings.API_KEY,
+            amount,
+            precision,
+          },
+        },
+      }
+    })
+  },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      const result = res.data?.converted
+      if (!result) {
+        const message = `The data provider didn't return any value for ${JSON.stringify(param)}`
+        logger.info(message)
+        return {
+          params: param,
+          response: {
+            statusCode: 502,
+            errorMessage: message,
+          },
+        }
+      }
+      return {
+        params: param,
+        response: {
+          data: {
+            result,
+          },
+          result,
+        },
+      }
+    })
+  },
+})
 
-  const jobRunID = validator.validated.id
-  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
-  const to = validator.validated.data.quote.toUpperCase()
-  const amount = validator.validated.data.amount || DEFAULT_AMOUNT
-  const precision = validator.validated.data.precision || DEFAULT_PRECISION
-  const url = util.buildUrlPath('/v1/conversion/:from/:to', { from, to })
-
-  const params = {
-    ...config.api?.params,
-    amount,
-    precision,
-  }
-
-  const options = { ...config.api, params, url }
-  const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, ['converted'])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'conversion',
+  transport: httpTransport,
+  inputParameters: inputParameters,
+})
