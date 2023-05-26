@@ -1,5 +1,12 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- 64c65128d: Hardcoded switch to asset quotes api when BNB token is queried
+- c226dc6bd: Separated Coinmetrics LWBA endpoint into 2 transports
+
 ## 3.1.1
 
 ### Patch Changes
