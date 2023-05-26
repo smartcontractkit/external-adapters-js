@@ -16,6 +16,7 @@ export const config = new AdapterConfig(
   },
   {
     envDefaultOverrides: {
+      API_TIMEOUT: 60_000,
       MAX_HTTP_REQUEST_QUEUE_LENGTH: 300,
     },
   },
