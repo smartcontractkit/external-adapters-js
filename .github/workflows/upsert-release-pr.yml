@@ -1,4 +1,4 @@
-name: Consume changesets
+name: Upsert Release PR
 
 on:
   push:
@@ -41,10 +41,6 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           skip-setup: false
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
           yarn changeset version

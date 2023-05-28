@@ -20,6 +20,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    # This is a useful step that will help other actions later on
+    - name: Configure git
+      shell: bash
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
     # First, we want to install yarn since our base image doesn't have it installed
     - uses: actions/setup-node@v3
       with:

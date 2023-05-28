@@ -81,25 +81,25 @@ jobs:
   gh-release:
     name: GH Release
     runs-on: ubuntu-latest
-    needs:
-      - publish-adapter-images
+    # TODO: reenable
+    # needs:
+    #   - publish-adapter-images
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
       - name: Get release version
         id: get-version
         run: |
           echo "result=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
       - name: Get release body
-        id: get-body
         run: |
           # Get the PR body to use in the GH release body
-          # TODO: remove disclaimer header
-          gh pr list --search "$(git rev-parse HEAD)" --state merged --json body --jq '.[0].body' > pr_body.tmp
-          echo "result=$(cat pr_body.tmp)" >> $GITHUB_OUTPUT
+          gh pr list --search "$(git rev-parse HEAD)" --state merged --json number,body --jq '"This release was merged in PR #" + (.[0].number | tostring) + "\n" + (.[0].body | split("\n\n\n# Releases") | .[1])' > pr_body.tmp
       - name: Create release
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: v${{ steps.get-version.outputs.result }}
           release_name: Release v${{ steps.get-version.outputs.result }}
-          body: ${{ steps.get-body.outputs.result }}
+          body_path: pr_body.tmp
