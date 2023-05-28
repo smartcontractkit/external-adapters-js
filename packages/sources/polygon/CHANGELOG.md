@@ -1,5 +1,11 @@
 # @chainlink/polygon-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- ff2540d37: Upgraded adapter from v2 to v3 framework
+
 ## 1.7.18
 
 ### Patch Changes
