@@ -1,5 +1,13 @@
 # @chainlink/token-allocation-adapter
 
+## 1.10.15
+
+### Patch Changes
+
+- Updated dependencies [64c65128d]
+- Updated dependencies [c226dc6bd]
+  - @chainlink/coinmetrics-adapter@3.2.0
+
 ## 1.10.14
 
 ### Patch Changes

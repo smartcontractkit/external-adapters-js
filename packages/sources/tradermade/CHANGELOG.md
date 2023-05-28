@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.0.0
+
+### Major Changes
+
+- df83536b2: Upgraded adapter from v2 to v3 framework
+
 ## 1.9.14
 
 ### Patch Changes
