@@ -2,10 +2,11 @@ name: PR Checks
 
 on:
   pull_request:
-    types: # TODO: remove
-      - closed
     branches:
       - main
+    # The only commits that will contain changes to the masterlist will be releases
+    paths-ignore:
+      - MASTERLIST.md
 
 env:
   UPSTREAM_BRANCH: origin/${{ github.base_ref }}

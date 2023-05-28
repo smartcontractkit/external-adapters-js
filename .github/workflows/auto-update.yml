@@ -2,8 +2,9 @@ name: Auto update open PRs
 
 on:
   push:
+    # TODO: Reenable
     branches:
-      - main
+      - main-asdasdasdsasdasd
 
 jobs:
   autoupdate:

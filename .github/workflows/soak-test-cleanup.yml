@@ -1,8 +1,10 @@
 name: Clean up on PR close
 
 on:
-  pull_request:
-    types: [closed]
+  # pull_request:
+  #   types: [closed]
+  # TODO: Reenable
+  workflow_dispatch:
 
 jobs:
   cleanup-ephemeral-adapters-on-pr-close:

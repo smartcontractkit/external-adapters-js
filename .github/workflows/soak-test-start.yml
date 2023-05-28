@@ -1,6 +1,7 @@
 name: Soak test
 
 on:
+  # TODO: Reenable
   # pull_request: ~
   workflow_dispatch:
 

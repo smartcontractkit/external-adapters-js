@@ -4,8 +4,14 @@ on:
   push:
     branches:
       - main
+    # The only commits that will contain changes to the masterlist will be releases
     paths-ignore:
-      - MASTERLIST.md
+      - 'MASTERLIST.md'
+      - 'package.json'
+      - '.changeset/**'
+      - 'packages/**/CHANGELOG.md'
+      - 'packages/**/README.md'
+      - 'packages/**/package.json'
   workflow_dispatch:
     inputs:
       BUILD_ALL:
@@ -77,8 +83,8 @@ jobs:
           # All the previuos steps would technically make more sense in the script itself, but we
           # keep them as separate ones so it's easier to see them from the github UI to debug.
           version: ./.github/scripts/run-changesets.sh
-          title: '[WIP] Release ${{ env.BUMPED_VERSION }}'
-          commit: '[WIP] Release ${{ env.BUMPED_VERSION }}'
+          title: 'Release ${{ env.BUMPED_VERSION }}'
+          commit: 'Release ${{ env.BUMPED_VERSION }}'
       - name: Tag changesets commit
         run: |
           # Delete the tags if they already exist (ignore errors if they don't)

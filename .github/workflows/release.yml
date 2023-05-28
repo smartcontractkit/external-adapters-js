@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+    # The only commits that will contain changes to the masterlist will be releases
     paths:
       - MASTERLIST.md
 
@@ -15,7 +16,8 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ubuntu-latest
+    # runs-on: [self-hosted, sdlc-ghr-prod] # TODO: change back to this
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
@@ -76,4 +78,28 @@ jobs:
           aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-ecr-private: false
 
-    # TODO: Create GH release with PR description
+  gh-release:
+    name: GH Release
+    runs-on: ubuntu-latest
+    needs:
+      - publish-adapter-images
+    steps:
+      - name: Get release version
+        id: get-version
+        run: |
+          echo "result=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+      - name: Get release body
+        id: get-body
+        run: |
+          # Get the PR body to use in the GH release body
+          # TODO: remove disclaimer header
+          gh pr list --search "$(git rev-parse HEAD)" --state merged --json body --jq '.[0].body' > pr_body.tmp
+          echo "result=$(cat pr_body.tmp)" >> $GITHUB_OUTPUT
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: v${{ steps.get-version.outputs.result }}
+          release_name: Release v${{ steps.get-version.outputs.result }}
+          body: ${{ steps.get-body.outputs.result }}

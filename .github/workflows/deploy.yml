@@ -7,8 +7,14 @@ on:
   push:
     branches:
       - main
+    # The only commits that will contain changes to the masterlist will be releases
     paths-ignore:
-      - MASTERLIST.md
+      - 'MASTERLIST.md'
+      - 'package.json'
+      - '.changeset/**'
+      - 'packages/**/CHANGELOG.md'
+      - 'packages/**/README.md'
+      - 'packages/**/package.json'
 
 concurrency:
   group: deploy-and-release
@@ -17,7 +23,8 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ubuntu-latest
+    # runs-on: [self-hosted, sdlc-ghr-prod] # TODO: change back to this
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
