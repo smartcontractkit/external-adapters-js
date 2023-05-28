@@ -45,24 +45,24 @@ runs:
       shell: bash
       run: |
         aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.aws-ecr-url}}/${{ inputs.aws-ecr-repo }}/
-    # - name: Create a ECR repository if does not exist
-    #   shell: bash
-    #   run: |
-    #     aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} create-repository --region ${{ inputs.aws-region }} --repository-name ${{ inputs.aws-ecr-repo }} || true
-    # - name: Set ECR repository permissions for secondary account access on private ECR repos
-    #   shell: bash
-    #   if: inputs.aws-ecr-private == 'true'
-    #   run: |
-    #     aws ecr set-repository-policy
-    #     --region ${{ inputs.aws-region }}
-    #     --repository-name ${{ inputs.aws-ecr-repo }}
-    #     --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ inputs.aws-ecr-account-ids }}]' .github/actions/publish-image/secondary-account-access-policy.json)" &> /dev/null;
-    # - name: Push to ECR
-    #   shell: bash
-    #   run: |
-    #     docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }}
-    # - name: Push to ECR with latest tag
-    #   shell: bash
-    #   run: |
-    #     docker tag ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }} ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest
-    #     docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest
+    - name: Create a ECR repository if does not exist
+      shell: bash
+      run: |
+        aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} create-repository --region ${{ inputs.aws-region }} --repository-name ${{ inputs.aws-ecr-repo }} || true
+    - name: Set ECR repository permissions for secondary account access on private ECR repos
+      shell: bash
+      if: inputs.aws-ecr-private == 'true'
+      run: |
+        aws ecr set-repository-policy
+        --region ${{ inputs.aws-region }}
+        --repository-name ${{ inputs.aws-ecr-repo }}
+        --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ inputs.aws-ecr-account-ids }}]' .github/actions/publish-image/secondary-account-access-policy.json)" &> /dev/null;
+    - name: Push to ECR
+      shell: bash
+      run: |
+        docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }}
+    - name: Push to ECR with latest tag
+      shell: bash
+      run: |
+        docker tag ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }} ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest
+        docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest

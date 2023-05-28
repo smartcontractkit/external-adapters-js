@@ -39,8 +39,6 @@ jobs:
       changed-packages: ${{ steps.changed-adapters.outputs.CHANGED_PACKAGES }}
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
-      # - name: 'PR commits + 1'
-      #   run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
       - name: Check out code
         uses: actions/checkout@v3
         with:

@@ -1,10 +1,15 @@
 #!/bin/bash -e
 
-# TODO: Add BUILD_ALL option
+# If BUILD_ALL is true, then we want to generate lists with all packages regardless of changes
+if [[ $BUILD_ALL = true ]]; then
+  PACKAGE_LIST=$(yarn workspaces list -R --json)
+else
+  PACKAGE_LIST=$(yarn workspaces list -R --json --since=$UPSTREAM_BRANCH)
+fi
 
-# Use yarn to get a list of the packages that have changed (including changes by dependencies)
+# The yarn command used above will give us a list of the packages that have changed (including changes by dependencies)
 CHANGED_PACKAGES=$(
-  yarn workspaces list -R --json --since=$UPSTREAM_BRANCH \
+  echo $PACKAGE_LIST \
   | jq -cs '.' \
   | jq -cr '[.[] | select(.location | startswith("packages"))]' \
 )

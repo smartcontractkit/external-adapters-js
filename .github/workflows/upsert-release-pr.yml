@@ -14,8 +14,9 @@ on:
       - 'packages/**/package.json'
   workflow_dispatch:
     inputs:
-      BUILD_ALL:
-        description: whether certain steps should be run against all adapters
+      # For this workflow, BUILD_ALL will only affect the generate documentation step
+      build-all:
+        description: whether to run steps for all adapters, regardless of whether they were changed in this event
         required: false
         default: 'false'
 
@@ -26,12 +27,12 @@ on:
 
 jobs:
   consume-changesets:
-    name: Consume changesets [NEW]
+    name: Upsert Release PR
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       UPSTREAM_BRANCH: 'HEAD~1'
-      BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
+      BUILD_ALL: ${{ github.event.inputs.build-all }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -76,7 +77,7 @@ jobs:
         with:
           # This version command is not only necessary because of yarn pnp, but because the changeset action
           # performs git resets and we want to keep those changes, so we stash and then pop them here.
-          # All the previuos steps would technically make more sense in the script itself, but we
+          # All the previous steps would technically make more sense in the script itself, but we
           # keep them as separate ones so it's easier to see them from the github UI to debug.
           version: ./.github/scripts/run-changesets.sh
           title: 'Release ${{ env.BUMPED_VERSION }}'

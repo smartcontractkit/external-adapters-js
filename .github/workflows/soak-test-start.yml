@@ -1,9 +1,7 @@
 name: Soak test
 
 on:
-  # TODO: Reenable
-  # pull_request: ~
-  workflow_dispatch:
+  pull_request: ~
 
 jobs:
   run-soak-tests:

@@ -1,13 +1,20 @@
 name: Release
 
 on:
-  # TODO: switch back to push
   push:
     branches:
       - main
     # The only commits that will contain changes to the masterlist will be releases
     paths:
       - MASTERLIST.md
+  workflow_dispatch:
+    inputs:
+      # For this workflow, build-all will cause all adapters to have their image pulled and republished to the public ECR
+      # NOTE: If the images haven't been already published to the private ECR, this will fail; in that case run the deploy workflow first.
+      build-all:
+        description: whether to run steps for all adapters, regardless of whether they were changed in this event
+        required: false
+        default: 'false'
 
 concurrency:
   group: deploy-and-release
@@ -16,8 +23,9 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
-    runs-on: ubuntu-latest
-    # runs-on: [self-hosted, sdlc-ghr-prod] # TODO: change back to this
+    runs-on: [self-hosted, sdlc-ghr-prod] # Running on self hosted because they're a bit faster
+    env:
+      BUILD_ALL: ${{ inputs.build-all }}
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
@@ -81,9 +89,8 @@ jobs:
   gh-release:
     name: GH Release
     runs-on: ubuntu-latest
-    # TODO: reenable
-    # needs:
-    #   - publish-adapter-images
+    needs:
+      - publish-adapter-images
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     steps:
