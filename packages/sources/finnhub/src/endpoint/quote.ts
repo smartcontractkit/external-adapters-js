@@ -11,7 +11,7 @@ export const inputParameters = new InputParameters({
   base: {
     aliases: ['quote', 'asset', 'from'],
     type: 'string',
-    description: 'The symbol of symbols of the currency to query',
+    description: 'The symbol of the currency or asset to query',
     required: true,
   },
 })
@@ -92,7 +92,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'quote',
-  aliases: ['common'],
+  aliases: ['common', 'stock', 'forex'],
   transport: httpTransport,
   inputParameters: inputParameters,
   overrides: overrides.finnhub,
