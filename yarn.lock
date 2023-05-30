@@ -4515,22 +4515,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/polygon-test-adapter@workspace:packages/sources/polygon-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/polygon-test-adapter@workspace:packages/sources/polygon-test"
-  dependencies:
     "@chainlink/external-adapter-framework": 0.29.8
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -5094,22 +5078,6 @@ __metadata:
 "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade":
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.8
     "@types/jest": 27.5.2

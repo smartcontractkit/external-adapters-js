@@ -30,23 +30,12 @@ export const mockResponseSuccessConversionEndpoint = (): nock.Scope =>
       ],
     )
 
-export const mockEmptyResponseSuccessTickersEndpoint = (): nock.Scope =>
-  nock('https://api.polygon.io', {
-    encodedQueryParams: true,
-  })
-    .get('/v2/snapshot/locale/global/markets/forex/tickers')
-    .query({ apikey: 'fake-api-key', tickers: 'C:USDGBP' })
-    .reply(200, () => ({
-      status: 'OK',
-      tickers: [],
-    }))
-
 export const mockResponseSuccessTickersEndpoint = (): nock.Scope =>
   nock('https://api.polygon.io', {
     encodedQueryParams: true,
   })
     .get('/v2/snapshot/locale/global/markets/forex/tickers')
-    .query({ apikey: 'fake-api-key', tickers: 'C:USDGBP' })
+    .query({ apikey: 'fake-api-key', tickers: 'C:USDGBP,C:XAGCAD' })
     .reply(
       200,
       () => ({

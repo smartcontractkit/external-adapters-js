@@ -28,6 +28,9 @@ jest.mock('ethers', () => {
             getBalance: jest.fn().mockImplementation((address) => {
               return mockEthBalanceMap[address]
             }),
+            getBlock: jest.fn().mockImplementation(() => {
+              return { timestamp: new Date('2022-08-01T07:14:54.909Z').getTime() / 1000 }
+            }),
             getLogs: jest.fn().mockImplementation(() => {
               return [
                 {

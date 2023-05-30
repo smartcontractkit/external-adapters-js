@@ -477,9 +477,6 @@
       "path": "./sources/polygon"
     },
     {
-      "path": "./sources/polygon-test"
-    },
-    {
       "path": "./sources/por-address-list"
     },
     {
@@ -538,9 +535,6 @@
     },
     {
       "path": "./sources/tradermade"
-    },
-    {
-      "path": "./sources/tradermade-test"
     },
     {
       "path": "./sources/tradingeconomics"

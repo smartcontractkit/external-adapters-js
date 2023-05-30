@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/polygon-adapter",
-  "version": "1.7.18",
+  "version": "2.0.0",
   "description": "Chainlink polygon adapter.",
   "keywords": [
     "Chainlink",
@@ -28,9 +28,8 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "tslib": "^2.3.1"
+    "@chainlink/external-adapter-framework": "0.29.8",
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",

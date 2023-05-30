@@ -1,5 +1,11 @@
 # @chainlink/stader-balance-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 110fc8d21: Updated to use slot number when querying beacon chain
+
 ## 1.1.2
 
 ### Patch Changes
