@@ -1,5 +1,15 @@
 {
-    "requests": [{
+    "requests": [
+    {
         "base": "EUR"
-    }]
+    },
+    {
+        "base": "EUR",
+        "endpoint": "forex"
+    },
+    {
+        "base": "AAPL",
+        "endpoint": "stock"
+    }
+]
 }
