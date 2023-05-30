@@ -63,6 +63,7 @@ runs:
         docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }}
     - name: Push to ECR with latest tag
       shell: bash
+      if: inputs.latest == 'true'
       run: |
         docker tag ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }} ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest
         docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest
