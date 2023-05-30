@@ -30,7 +30,6 @@
     "enzyme",
     "ethwrite",
     "fcsapi",
-    "finnhub",
     "flightaware",
     "geodb",
     "google-bigquery",

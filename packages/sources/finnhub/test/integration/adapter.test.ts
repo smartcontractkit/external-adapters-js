@@ -22,9 +22,15 @@ describe('rest', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
 
-  const data: AdapterRequestBody = {
+  const fxData: AdapterRequestBody = {
     data: {
       base: 'EUR',
+    },
+  }
+
+  const stockData: AdapterRequestBody = {
+    data: {
+      base: 'AAPL',
     },
   }
 
@@ -38,8 +44,9 @@ describe('rest', () => {
     fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
     mockResponseSuccess()
-    // Send initial request to start background execute
-    await req.post('/').send(data)
+    // Send initial requests to start background execute
+    await req.post('/').send(fxData)
+    await req.post('/').send(stockData)
     await sleep(5000)
   })
 
@@ -53,7 +60,37 @@ describe('rest', () => {
       const makeRequest = () =>
         req
           .post('/')
-          .send(data)
+          .send(fxData)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
+
+  describe('forex endpoint (quote alias)', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: { ...fxData.data, endpoint: 'stock' } })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
+
+  describe('stock endpoint (quote alias)', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: { ...stockData.data, endpoint: 'stock' } })
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
