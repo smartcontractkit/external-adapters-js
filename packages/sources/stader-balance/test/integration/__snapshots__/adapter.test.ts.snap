@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Balance Endpoint should return success 1`] = `
+exports[`Stader Balance balance endpoint should return success 1`] = `
 {
   "data": {
     "result": [
@@ -22,11 +22,11 @@ exports[`Balance Endpoint should return success 1`] = `
       },
       {
         "address": "0x839ca626eccd2edf45ce633e365715bf8610b85c9d24225ac5893d4861e385fb81529880358040bb4b86fea288db4dfc",
-        "balance": "22653125000",
+        "balance": "23403125000",
       },
       {
         "address": "0x84d290ec6a766cef753bcce7b6d75f12b405e5c76171f2a456ae415e872d23ea01f869e8f64629a48f0c21f0f86e37d3",
-        "balance": "29000000000",
+        "balance": "29100000000",
       },
       {
         "address": "0x933ad9491b62059dd065b560d256d8957a8c402cc6e8d8ee7290ae11e8f7329267a8811c397529dac52ae1342ba58c95",
@@ -63,6 +63,20 @@ exports[`Balance Endpoint should return success 1`] = `
     ],
   },
   "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1659338094909,
+    "providerDataRequestedUnixMs": 1659338094909,
+  },
+}
+`;
+
+exports[`Stader Balance total supply endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "786000000000000000000",
+  },
+  "result": "786000000000000000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1659338094909,

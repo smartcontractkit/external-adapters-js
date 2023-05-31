@@ -7,7 +7,9 @@ import {
   addressData,
   mockCollateralEthMap,
   mockEthBalanceMap,
+  mockFinalityCheckpoint,
   mockGetEthDepositContract,
+  mockGetGenesisBlockInfo,
   mockGetValidatorStates,
   mockOperatorFeePercentMap,
   mockPenaltyMap,
@@ -119,16 +121,17 @@ jest.mock('ethers', () => {
             .mockReturnValue('0x974Db4Fb26993289CAD9f79Bde4eAE097503064f'),
           getPoolIdArray: jest.fn().mockReturnValue([1, 2, 3, 4, 5]),
           totalOperatorETHRewardsRemaining: jest.fn().mockReturnValue(100_000_000_000_000_000),
+          getStaderOracle: jest.fn().mockReturnValue('0xAAe724e44766aC7ccaA6f6aA95c8B1659F5FB44D'),
+          getETHxToken: jest.fn().mockReturnValue('0xbB83c4735D8c317e058F59289C6CD26da0D121FD'),
+          getERReportableBlock: jest.fn().mockReturnValue(8000),
+          totalSupply: jest.fn().mockReturnValue(786_000_000_000_000_000_000),
         }
       },
     },
   }
 })
 
-mockGetEthDepositContract()
-mockGetValidatorStates()
-
-describe('Balance Endpoint', () => {
+describe('Stader Balance', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let spy: jest.SpyInstance
@@ -138,6 +141,10 @@ describe('Balance Endpoint', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
+    mockGetGenesisBlockInfo()
+    mockGetEthDepositContract()
+    mockGetValidatorStates()
+    mockFinalityCheckpoint()
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['METRICS_ENABLED'] = 'false'
     process.env['ETHEREUM_RPC_URL'] = 'http://localhost:9091'
@@ -156,41 +163,61 @@ describe('Balance Endpoint', () => {
     setEnvVariables(oldEnv)
     fastify?.close(done())
   })
+  describe('balance endpoint', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(addressData)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
 
-  it('should return success', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send(addressData)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+    it('should return error (empty body)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({})
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
 
-    const response = await makeRequest()
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
-  it('should return error (empty body)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({})
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+    it('should return error (empty data)', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({ data: {} })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
 
-    const response = await makeRequest()
-    expect(response.statusCode).toEqual(400)
-  }, 30000)
-  it('should return error (empty data)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({ data: {} })
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
+      const response = await makeRequest()
+      expect(response.statusCode).toEqual(400)
+    }, 30000)
+  })
+  describe('total supply endpoint', () => {
+    it('should return success', async () => {
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send({
+            data: {
+              endpoint: 'totalSupply',
+              chainId: 'goerli',
+            },
+          })
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
 
-    const response = await makeRequest()
-    expect(response.statusCode).toEqual(400)
-  }, 30000)
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
+    }, 30000)
+  })
 })

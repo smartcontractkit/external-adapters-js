@@ -15,6 +15,13 @@ export const StaderConfigContract_ABI: ethers.ContractInterface = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [],
+    name: 'getStaderOracle',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const StaderPoolFactoryContract_ABI: ethers.ContractInterface = [
@@ -91,6 +98,16 @@ export const StaderPermissionlessNodeRegistryContract_ABI: ethers.ContractInterf
   {
     inputs: [],
     name: 'nextOperatorId',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
+export const StaderOracle_ABI: ethers.ContractInterface = [
+  {
+    inputs: [],
+    name: 'getERReportableBlock',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',

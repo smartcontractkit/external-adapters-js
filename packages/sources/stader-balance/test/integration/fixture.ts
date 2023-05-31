@@ -79,6 +79,7 @@ export const addressData: AdapterRequestBody = {
       { address: '0x8d86bc475bedcb08179c5e6a4d494ebd3b44ea8b' },
       { address: '0xfc07bcb5c142c7c86c84490f068d31499610ccab' },
     ],
+    reportedBlock: 8000,
   },
 }
 
@@ -143,15 +144,6 @@ export const mockEthBalanceMap: Record<string, string> = {
 
 export const mockGetValidatorStates = (): void => {
   nock('http://localhost:9092', { encodedQueryParams: true })
-    .get('/eth/v1/beacon/genesis')
-    .reply(200, {
-      data: {
-        genesis_time: '1590832934',
-        genesis_validators_root:
-          '0xcf8e0d4e9587369b2301d0790347320302cc0943d5a1884560367e8208d920f2',
-        genesis_fork_version: '0x00000000',
-      },
-    })
     .get(
       '/eth/v1/beacon/states/5708763/validators?' +
         'id=0x8cd2726ccd034cf023840c2f76f7bfd4f2e8dbe79ff0e43d2908d1124450ed1c954966a42113787bc930c0e2d73524c0,' +
@@ -294,5 +286,42 @@ export const mockGetEthDepositContract = (): void => {
   nock('http://localhost:9092')
     .get('/eth/v1/config/deposit_contract')
     .reply(200, { data: { chain_id: '5', address: '0x8c5fecdc472e27bc447696f431e425d02dd46a8c' } })
+    .persist()
+}
+
+export const mockGetGenesisBlockInfo = (): void => {
+  nock('http://localhost:9092')
+    .get('/eth/v1/beacon/genesis')
+    .reply(200, {
+      data: {
+        genesis_time: '1590832934',
+        genesis_validators_root:
+          '0xcf8e0d4e9587369b2301d0790347320302cc0943d5a1884560367e8208d920f2',
+        genesis_fork_version: '0x00000000',
+      },
+    })
+    .persist()
+}
+
+export const mockFinalityCheckpoint = (): void => {
+  nock('http://localhost:9092')
+    .get('/eth/v1/beacon/states/finalized/finality_checkpoints')
+    .reply(200, {
+      execution_optimistic: false,
+      data: {
+        previous_justified: {
+          epoch: '178400',
+          root: '0x65a26398c6649107c272814a00b023e3d0678ab6783757b00e27fde34a222944',
+        },
+        current_justified: {
+          epoch: '178401',
+          root: '0xd4f262b241fcfe0e6d82eae70fd3216a742991d8af703358e139a1b1c3e2aa7f',
+        },
+        finalized: {
+          epoch: '178400',
+          root: '0x65a26398c6649107c272814a00b023e3d0678ab6783757b00e27fde34a222944',
+        },
+      },
+    })
     .persist()
 }
