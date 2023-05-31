@@ -4,9 +4,10 @@ import {
   Requester,
   AdapterInputError,
   AxiosRequestConfig,
+  AxiosResponse,
 } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { DEFAULT_BATCH_SIZE } from '../config'
+import { DEFAULT_BATCH_SIZE, DEFAULT_GROUP_SIZE } from '../config'
 
 export const supportedEndpoints = ['balance']
 
@@ -106,17 +107,28 @@ const queryInBatches = async (
     )
   }
 
-  // Make request to beacon API for every batch
-  const responses = await Promise.all(
-    batchedAddresses.map((address) => {
-      const options: AxiosRequestConfig = {
-        ...config.api,
-        url,
-        params: { id: address, status: statusList },
-      }
-      return Requester.request<StateResponseSchema>(options)
-    }),
+  const requestGroups = chunkArray(
+    batchedAddresses,
+    Number(config.adapterSpecificParams?.groupSize) || DEFAULT_GROUP_SIZE,
   )
+
+  const responses: AxiosResponse<StateResponseSchema>[] = []
+  // Make request to beacon API for every batch
+  // Send requests in groups
+  for (const group of requestGroups) {
+    responses.push(
+      ...(await Promise.all(
+        group.map((addresses) => {
+          const options: AxiosRequestConfig = {
+            ...config.api,
+            url,
+            params: { id: addresses, status: statusList },
+          }
+          return Requester.request<StateResponseSchema>(options)
+        }),
+      )),
+    )
+  }
 
   // Flatten the results into single array for validators and balances
   const validatorBatches = responses.map(({ data }) => data)
@@ -153,3 +165,8 @@ const queryInBatches = async (
 
   return Requester.success(jobRunID, result, config.verbose)
 }
+
+const chunkArray = <T>(addresses: T[], size: number): T[][] =>
+  addresses.length > size
+    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
+    : [addresses]
