@@ -4,6 +4,7 @@ import { config } from '../../src/config'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { balanceEndpoint } from '../../src/endpoint/balance'
+import { totalSupplyEndpoint } from '../../src/endpoint/totalSupply'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -19,7 +20,7 @@ export const createAdapter = (): Adapter => {
   return new Adapter({
     name: 'TEST',
     defaultEndpoint: 'balance',
-    endpoints: [balanceEndpoint],
+    endpoints: [balanceEndpoint, totalSupplyEndpoint],
     config,
   })
 }

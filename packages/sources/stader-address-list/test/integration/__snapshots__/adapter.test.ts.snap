@@ -14,6 +14,7 @@ exports[`execute addresses should return success 1`] = `
       },
     ],
     "network": "ethereum",
+    "reportedBlock": 500,
     "result": [
       {
         "address": "0x999d1e56148505251d7a7682996f1d1a7e5ecf4657dcfa9d6d71b97dc1d8755e1cb4451f57f370201c882126e97ca35e",

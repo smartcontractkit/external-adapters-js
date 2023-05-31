@@ -122,6 +122,11 @@ export const inputParameters = new InputParameters({
     required: true,
     array: true,
   },
+  reportedBlock: {
+    type: 'number',
+    description: 'The reported block number retrieved from Stader',
+    required: true,
+  },
   stateId: {
     type: 'string',
     description: 'The beacon chain state ID to query',

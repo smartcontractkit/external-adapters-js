@@ -244,6 +244,19 @@ abstract class Validator {
       withdrawalAddressBalance,
     }
   }
+
+  // Get penalty (in wei) for validator address from Stader's Penalty contract
+  async fetchPenalty(): Promise<BigNumber> {
+    return withErrorHandling(`${this.logPrefix} Fetching validator penalty`, async () =>
+      BigNumber(
+        (
+          await this.penaltyContract.totalPenaltyAmount(this.addressData.address, {
+            blockTag: this.blockTag,
+          })
+        ).toString(),
+      ),
+    )
+  }
 }
 
 class ActiveValidator extends Validator {
@@ -303,19 +316,6 @@ class ActiveValidator extends Validator {
       balance: formatValueInGwei(cumulativeBalance),
     }
   }
-
-  // Get penalty (in wei) for validator address from Stader's Penalty contract
-  async fetchPenalty(): Promise<BigNumber> {
-    return withErrorHandling(`${this.logPrefix} Fetching validator penalty`, async () =>
-      BigNumber(
-        (
-          await this.penaltyContract.totalPenaltyAmount(this.addressData.address, {
-            blockTag: this.blockTag,
-          })
-        ).toString(),
-      ),
-    )
-  }
 }
 
 class WithdrawnValidator extends Validator {
@@ -324,12 +324,25 @@ class WithdrawnValidator extends Validator {
       await this.fetchDataForBalanceCalculation(validatorDeposit)
 
     logger.debug(`${this.logPrefix} considering validator fully withdrawn`)
-    const balance = this.calculatePreliminaryBalance({
+    const validatorPenalty = await this.fetchPenalty()
+    const preliminaryUserBalance = this.calculatePreliminaryBalance({
       balance: withdrawalAddressBalance,
       validatorDeposit,
       poolCommission,
       userDeposit,
     })
+
+    logger.debug(`${this.logPrefix} calculated preliminary user balance: ${preliminaryUserBalance}`)
+
+    // Calculate the node's balance
+    const nodeBalance = BigNumber.max(
+      0,
+      withdrawalAddressBalance.minus(preliminaryUserBalance).minus(validatorPenalty),
+    )
+    logger.debug(`${this.logPrefix} calculated node balance: ${nodeBalance}`)
+
+    // Calculate user balance
+    const balance = withdrawalAddressBalance.minus(nodeBalance)
 
     logger.debug(`${this.logPrefix} calculated balance: ${balance}`)
     return {

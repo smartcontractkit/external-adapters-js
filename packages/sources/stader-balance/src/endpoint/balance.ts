@@ -91,9 +91,8 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
     // it takes for the provider to reply from here, accounting for all requests involved
     const providerDataRequestedUnixMs = Date.now()
 
-    // Get data for the latest block in the chain
-    const latestBlockNum = await this.provider.getBlockNumber() // 1X
-    const blockTag = latestBlockNum - req.confirmations
+    // Use reported block number retrieved from Stader as the block tag
+    const blockTag = req.reportedBlock
 
     // Fetch addresses for all relevant contracts from the StaderConfig contract
     // Override with addresses from request, if exist
@@ -166,16 +165,21 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
       blockTag,
     })
 
-    // Perform withdrawn validator calculations
-    // These we can do all at once, since they shouldn't cause any requests to the ETH node
-    const validatorBalances = await Promise.all(
-      withdrawnValidators.map((v) => v.calculateBalance(validatorDeposit)),
-    )
+    const validatorBalances = []
 
     // Perform active validator calculations
     // These will need a call to get the penalty rate for each of them, so we have to batch these
-    const batches = chunkArray(activeValidators, context.adapterSettings.GROUP_SIZE)
-    for (const batch of batches) {
+    const withdrawnBatches = chunkArray(withdrawnValidators, context.adapterSettings.GROUP_SIZE)
+    for (const batch of withdrawnBatches) {
+      validatorBalances.push(
+        ...(await Promise.all(batch.map((v) => v.calculateBalance(validatorDeposit)))),
+      )
+    }
+
+    // Perform active validator calculations
+    // These will need a call to get the penalty rate for each of them, so we have to batch these
+    const activeBatches = chunkArray(activeValidators, context.adapterSettings.GROUP_SIZE)
+    for (const batch of activeBatches) {
       validatorBalances.push(
         ...(await Promise.all(
           batch.map((v) =>

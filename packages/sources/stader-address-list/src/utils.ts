@@ -50,6 +50,7 @@ export interface ResponseSchema {
     confirmations: number
     network: string
     chainId: string
+    reportedBlock: number
     result: ValidatorAddress[]
   }
   Result: null

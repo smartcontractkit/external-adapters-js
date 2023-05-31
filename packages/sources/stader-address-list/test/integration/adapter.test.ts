@@ -105,6 +105,8 @@ jest.mock('ethers', () => {
           getPermissionlessNodeRegistry: jest
             .fn()
             .mockReturnValue('0x28d5FdcE4db361e19FCA420C9b5141bC3DC6aE3B'),
+          getStaderOracle: jest.fn().mockReturnValue('0xAAe724e44766aC7ccaA6f6aA95c8B1659F5FB44D'),
+          getERReportableBlock: jest.fn().mockReturnValue(500),
         }
       },
     },

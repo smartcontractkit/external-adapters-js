@@ -67,6 +67,20 @@ export const StaderConfigContract_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [],
+    name: 'getStaderOracle',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getETHxToken',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const DepositEvent_ABI = [
@@ -118,6 +132,26 @@ export const StaderSocialPool_ABI: ethers.ContractInterface = [
   {
     inputs: [],
     name: 'totalOperatorETHRewardsRemaining',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
+export const StaderOracle_ABI: ethers.ContractInterface = [
+  {
+    inputs: [],
+    name: 'getERReportableBlock',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
+export const StaderEthX_ABI: ethers.ContractInterface = [
+  {
+    inputs: [],
+    name: 'totalSupply',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
