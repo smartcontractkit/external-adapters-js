@@ -7,6 +7,7 @@ import { ethers } from 'ethers'
 import {
   StaderConfigContract_ABI,
   StaderNodeRegistryContract_ABI,
+  StaderOracle_ABI,
   StaderPermissionlessNodeRegistryContract_ABI,
   StaderPoolFactoryContract_ABI,
 } from '../abi/StaderContractAbis'
@@ -63,6 +64,10 @@ const inputParameters = new InputParameters({
     description: 'The address of the Stader Config contract.',
     type: 'string',
   },
+  staderOracleAddress: {
+    description: 'The address of the Stader Oracle contract.',
+    type: 'string',
+  },
   confirmations: {
     type: 'number',
     description: 'The number of confirmations to query data from',
@@ -89,6 +94,12 @@ const inputParameters = new InputParameters({
   batchSize: {
     description: 'The number of addresses to fetch from the contract at a time',
     default: 10,
+    type: 'number',
+  },
+  syncWindow: {
+    description:
+      "The number of blocks Stader's reported block cannot be within of the current block. Used to ensure the balance and total supply feeds are reporting info from the same block.",
+    default: 300,
     type: 'number',
   },
 })
@@ -132,8 +143,10 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     await Promise.all(entries.map(async (req) => this.handleRequest(req)))
   }
 
-  buildStaderConfigContract(staderConfigContract: string): ethers.Contract {
-    return new ethers.Contract(staderConfigContract, StaderConfigContract_ABI, this.provider)
+  buildStaderConfigContract(req: RequestParams): ethers.Contract {
+    const staderConfigAddress =
+      req.staderConfigAddress || staderNetworkChainMap[req.network][req.chainId].staderConfig
+    return new ethers.Contract(staderConfigAddress, StaderConfigContract_ABI, this.provider)
   }
 
   buildFactoryManagerContract(poolFactoryAddress: string): ethers.Contract {
@@ -142,6 +155,10 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
 
   buildNodeRegistryManagerContract(nodeRegistryAddress: string): ethers.Contract {
     return new ethers.Contract(nodeRegistryAddress, StaderNodeRegistryContract_ABI, this.provider)
+  }
+
+  buildStaderOracleManagerContract(staderOracleAddress: string): ethers.Contract {
+    return new ethers.Contract(staderOracleAddress, StaderOracle_ABI, this.provider)
   }
 
   buildPermissionlessNodeRegistryManagerContract(
@@ -189,13 +206,48 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
 
     // Get data for the latest block in the chain
     const latestBlockNum = await this.provider.getBlockNumber()
-    const blockTag = latestBlockNum - confirmations
+    const currentBlock = latestBlockNum - confirmations
+
+    const staderConfigManager = this.buildStaderConfigContract(req)
+
+    const staderOracleAddress = await this.fetchStaderOracleAddress(
+      req,
+      staderConfigManager,
+      currentBlock,
+    )
+
+    const staderOracleManager = this.buildStaderOracleManagerContract(staderOracleAddress)
+    const reportedBlock = Number(
+      await staderOracleManager.getERReportableBlock({
+        blockTag: currentBlock,
+      }),
+    )
+
+    logger.debug(`Reported block number retrieved from Stader Oracle: ${reportedBlock}`)
 
     // Fetch contract addresses using overrides from the request with defaults from the StaderConfig contract as fallbacks
     const { poolFactoryAddress, permissionlessNodeRegistry } = await this.fetchContractAddresses(
       req,
-      blockTag,
+      staderConfigManager,
+      reportedBlock,
     )
+
+    // Return error if reported block number within sync window
+    // Stader wants to sync the block number that both the balance and totalSupply feed report for
+    // Setting this window helps ensure the reported block didn't change between the two feeds reporting
+    if (reportedBlock >= currentBlock - req.syncWindow) {
+      const errorMessage = `Reported block number ${reportedBlock} within ${req.syncWindow} blocks of current block ${currentBlock}. At risk of being out of sync with total supply feed.`
+      logger.error(errorMessage)
+      return {
+        statusCode: 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
 
     // Build the necessary contracts using the calculated addresses
     const poolFactoryManager = this.buildFactoryManagerContract(poolFactoryAddress)
@@ -208,12 +260,14 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     // Get the number of pools in the pool manager
-    const poolIdArray: number[] = await poolFactoryManager.getPoolIdArray({ blockTag })
+    const poolIdArray: number[] = await poolFactoryManager.getPoolIdArray({
+      blockTag: reportedBlock,
+    })
     logger.debug(`Number of pools in pool factory manager: ${poolIdArray.length}`)
 
     const params = {
       provider: this.provider,
-      blockTag,
+      blockTag: reportedBlock,
       network,
       chainId,
       batchSize,
@@ -242,6 +296,7 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
         confirmations,
         network,
         chainId,
+        reportedBlock,
         result: addressList,
       },
       statusCode: 200,
@@ -403,18 +458,24 @@ export class AddressTransport extends SubscriptionTransport<EndpointTypes> {
     }
   }
 
+  async fetchStaderOracleAddress(
+    req: RequestParams,
+    staderConfigManager: ethers.Contract,
+    blockTag: number,
+  ): Promise<string> {
+    const staderOracleAddressDefault = await staderConfigManager.getStaderOracle({ blockTag })
+    const staderOracleAddress = req.staderOracleAddress || staderOracleAddressDefault
+    return staderOracleAddress
+  }
+
   async fetchContractAddresses(
     req: RequestParams,
+    staderConfigManager: ethers.Contract,
     blockTag: number,
   ): Promise<{
     poolFactoryAddress: string
     permissionlessNodeRegistry: string
   }> {
-    const staderConfigAddress =
-      req.staderConfigAddress || staderNetworkChainMap[req.network][req.chainId].staderConfig
-
-    const staderConfigManager = this.buildStaderConfigContract(staderConfigAddress)
-
     const [poolFactoryAddressDefault, permissionlessNodeRegistryDefault] = await Promise.all([
       staderConfigManager.getPoolUtils({ blockTag }),
       staderConfigManager.getPermissionlessNodeRegistry({ blockTag }),
