@@ -43,11 +43,7 @@ export class ValidatorFactory {
     // Calculate the slot number to use when querying the beacon chain
     // Ensures an equivalent point of the beacon chain is being queried as the blockTag
     // Reduces risk of state change between queries to EL and CL
-    const slotNumber = await getSlotNumber(
-      params.provider,
-      params.blockTag,
-      params.genesisTimestampInSec,
-    )
+    const slotNumber = await getSlotNumber(params)
     return withErrorHandling(
       `Fetching validator states (slot number: ${slotNumber}) from the beacon chain`,
       async () => {

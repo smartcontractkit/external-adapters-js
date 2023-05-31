@@ -12,6 +12,7 @@ const logger = makeLogger('Balance Utils')
 
 const GWEI_DIVISOR = 1_000_000_000
 const SECONDS_PER_SLOT = 12
+const SLOTS_PER_EPOCH = 32
 
 export const WITHDRAWAL_DONE_STATUS = 'withdrawal_done'
 export const DEPOSIT_EVENT_TOPIC =
@@ -241,6 +242,24 @@ interface GenesisResponse {
   }
 }
 
+interface FinalityCheckpointResponse {
+  execution_optimistic: boolean
+  data: {
+    previous_justified: {
+      epoch: string
+      root: string
+    }
+    current_justified: {
+      epoch: string
+      root: string
+    }
+    finalized: {
+      epoch: string
+      root: string
+    }
+  }
+}
+
 export const chunkArray = <T>(addresses: T[], size: number): T[][] =>
   addresses.length > size
     ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
@@ -333,19 +352,37 @@ export const parseBigNumber = (value: ethers.BigNumber): BigNumber => {
   return BigNumber(value.toString())
 }
 
-export const getSlotNumber = async (
-  provider: ethers.providers.JsonRpcProvider,
-  blockTag: number,
-  genesisTimestampInSec: number,
-): Promise<number> => {
+export const getSlotNumber = async (params: {
+  provider: ethers.providers.JsonRpcProvider
+  blockTag: number
+  genesisTimestampInSec: number
+  settings: typeof config.settings
+}): Promise<number> => {
   return withErrorHandling(
-    `Calculating Beacon slot number using execution layer block number ${blockTag}`,
+    `Calculating Beacon slot number using execution layer block number ${params.blockTag}`,
     async () => {
-      const blockTimestampInSec = (await provider.getBlock(blockTag)).timestamp
-      const timeSinceGenesisInSec = blockTimestampInSec - genesisTimestampInSec
-      return Math.floor(timeSinceGenesisInSec / SECONDS_PER_SLOT)
+      const blockTimestampInSec = (await params.provider.getBlock(params.blockTag)).timestamp
+      const timeSinceGenesisInSec = blockTimestampInSec - params.genesisTimestampInSec
+      const slot = Math.floor(timeSinceGenesisInSec / SECONDS_PER_SLOT)
+      const finalizedSlot = await getFinalizedSlotNumber(params.settings.BEACON_RPC_URL)
+      if (slot > finalizedSlot) {
+        throw new Error('Calculated slot is not finalized')
+      }
+      return slot
     },
   )
+}
+
+const getFinalizedSlotNumber = async (beaconRpcUrl: string): Promise<number> => {
+  return withErrorHandling(`Fetching latest finalized slot`, async () => {
+    const url = `/eth/v1/beacon/states/finalized/finality_checkpoints`
+    const response = await axios.request<FinalityCheckpointResponse>({
+      baseURL: beaconRpcUrl,
+      url,
+    })
+    const epoch = Number(response.data.data.finalized.epoch)
+    return epoch * SLOTS_PER_EPOCH
+  })
 }
 
 export const getBeaconGenesisTimestamp = async (beaconRpcUrl: string): Promise<number> => {

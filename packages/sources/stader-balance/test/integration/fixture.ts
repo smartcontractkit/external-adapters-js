@@ -302,3 +302,26 @@ export const mockGetGenesisBlockInfo = (): void => {
     })
     .persist()
 }
+
+export const mockFinalityCheckpoint = (): void => {
+  nock('http://localhost:9092')
+    .get('/eth/v1/beacon/states/finalized/finality_checkpoints')
+    .reply(200, {
+      execution_optimistic: false,
+      data: {
+        previous_justified: {
+          epoch: '178400',
+          root: '0x65a26398c6649107c272814a00b023e3d0678ab6783757b00e27fde34a222944',
+        },
+        current_justified: {
+          epoch: '178401',
+          root: '0xd4f262b241fcfe0e6d82eae70fd3216a742991d8af703358e139a1b1c3e2aa7f',
+        },
+        finalized: {
+          epoch: '178400',
+          root: '0x65a26398c6649107c272814a00b023e3d0678ab6783757b00e27fde34a222944',
+        },
+      },
+    })
+    .persist()
+}

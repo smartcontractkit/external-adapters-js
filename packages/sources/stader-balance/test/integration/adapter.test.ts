@@ -7,6 +7,7 @@ import {
   addressData,
   mockCollateralEthMap,
   mockEthBalanceMap,
+  mockFinalityCheckpoint,
   mockGetEthDepositContract,
   mockGetGenesisBlockInfo,
   mockGetValidatorStates,
@@ -143,6 +144,7 @@ describe('Stader Balance', () => {
     mockGetGenesisBlockInfo()
     mockGetEthDepositContract()
     mockGetValidatorStates()
+    mockFinalityCheckpoint()
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['METRICS_ENABLED'] = 'false'
     process.env['ETHEREUM_RPC_URL'] = 'http://localhost:9091'
