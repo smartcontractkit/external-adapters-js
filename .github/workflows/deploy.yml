@@ -22,10 +22,6 @@ on:
         description: whether to run steps for all adapters, regardless of whether they were changed in this event
         required: false
         default: 'false'
-      trigger-infra-workflow:
-        description: whether to trigger the infra deployment workflow after publishing images
-        required: false
-        default: 'true'
 
 concurrency:
   group: deploy-and-release
@@ -102,11 +98,19 @@ jobs:
   deploy:
     name: Trigger infra deployment
     runs-on: ubuntu-latest
-    needs: publish-adapter-images
-    if: inputs.trigger-infra-workflow == 'true'
+    needs:
+      - calculate-changes
+      - publish-adapter-images
     environment: InfraK8s
+    env:
+      CHANGED_ADAPTERS: ${{ needs.calculate-changes.outputs.adapter-list }}
     steps:
-      - name: 'Trigger Image Dispatcher'
-        run: gh workflow run --repo smartcontractkit/infra-k8s --ref main "Infra-k8s Image Dispatcher" -F imageRepos="${{ steps.get-artifacts.outputs.result }}" -F gitRepo=${{ github.event.repository.name }}
+      - name: Trigger Image Dispatcher
+        run: >
+          gh workflow run 
+          --repo smartcontractkit/infra-k8s
+          --ref main "Infra-k8s Image Dispatcher" 
+          -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' '" 
+          -F gitRepo=${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_K8s_PAT }}
