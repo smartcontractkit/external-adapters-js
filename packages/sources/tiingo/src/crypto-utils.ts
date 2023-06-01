@@ -1,5 +1,8 @@
 import { priceEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  SingleNumberResultResponse,
+  splitArrayIntoChunks,
+} from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from './config'
 
@@ -40,16 +43,13 @@ export type HttpTransportTypes = CryptoEndpointTypes & {
   }
 }
 
-const chunkArray = <T>(params: T[], size = 100): T[][] =>
-  params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
-
 export const buildBatchedRequestBody = <T extends typeof inputParameters.validated>(
   params: T[],
   settings: typeof config.settings,
   url: string,
 ) => {
   // Tiingo supports up to 100 tickers in a single request, so we need to slice it to have 100 element chunks
-  const chunkedMatrix = chunkArray(params)
+  const chunkedMatrix = splitArrayIntoChunks(params, 100)
 
   return chunkedMatrix.map((chunkedParams) => {
     return {
