@@ -1,47 +1,37 @@
-import {
-  mockWebSocketProvider,
-  mockCryptoWebSocketServer,
-  mockForexWebSocketServer,
-} from './fixtures'
 import { Server } from 'mock-socket'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { mockWebSocketServer, mockWebSocketProvider } from './fixtures'
 import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
-
 describe('websocket', () => {
   let mockWsServer: Server | undefined
-  let mockWsServerForex: Server | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
-  const wsEndpointForex = 'ws://localhost:9091'
+
   let oldEnv: NodeJS.ProcessEnv
 
-  const cryptoData = {
-    base: 'ETH',
-    quote: 'USD',
+  const dataCrypto = {
+    index: 'BRTI',
   }
-  const forexData = {
-    base: 'CAD',
-    quote: 'USD',
-    endpoint: 'forex',
+
+  const dataLwba = {
+    index: 'U_ETHUSD_RTI',
+    endpoint: 'cryptolwba',
   }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
     process.env['CACHE_MAX_AGE'] = '5000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
-    process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['FOREX_WS_API_ENDPOINT'] = wsEndpointForex
-    process.env['API_USERNAME'] = 'test-api-username'
-    process.env['API_PASSWORD'] = 'test-api-password'
-    process.env['FOREX_WS_USERNAME'] = 'test-api-password'
-    process.env['FOREX_WS_PASSWORD'] = 'test-api-password'
+    process.env['API_USERNAME'] = 'fake-api-username'
+    process.env['API_PASSWORD'] = 'fake-api-password'
+    process.env['BIRC_RETRY'] = '0'
+    process.env['BIRC_RETRY_DELAY_MS'] = '10'
 
+    // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockCryptoWebSocketServer(wsEndpoint)
-    mockWsServerForex = mockForexWebSocketServer(wsEndpointForex)
+    mockWsServer = mockWebSocketServer(wsEndpoint)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -50,25 +40,26 @@ describe('websocket', () => {
     })
 
     // Send initial request to start background execute and wait for cache to be filled with results
-    await testAdapter.request(cryptoData)
-    await testAdapter.request(forexData)
+    await testAdapter.request(dataCrypto)
+    await testAdapter.request(dataLwba)
     await testAdapter.waitForCache(2)
   })
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
     mockWsServer?.close()
-    mockWsServerForex?.close()
     testAdapter.clock?.uninstall()
     await testAdapter.api.close()
   })
 
   describe('crypto endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(cryptoData)
+      const response = await testAdapter.request(dataCrypto)
       expect(response.json()).toMatchSnapshot()
     })
+  })
 
+  describe('crypto input validation', () => {
     it('should return error (empty data)', async () => {
       const response = await testAdapter.request({})
       expect(response.statusCode).toEqual(400)
@@ -85,12 +76,14 @@ describe('websocket', () => {
     })
   })
 
-  describe('forex endpoint', () => {
+  describe('lwba endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(forexData)
+      const response = await testAdapter.request(dataLwba)
       expect(response.json()).toMatchSnapshot()
     })
+  })
 
+  describe('lwba input validation', () => {
     it('should return error (empty data)', async () => {
       const response = await testAdapter.request({})
       expect(response.statusCode).toEqual(400)

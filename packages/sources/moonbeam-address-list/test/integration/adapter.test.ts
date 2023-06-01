@@ -1,7 +1,4 @@
-import request, { SuperTest, Test } from 'supertest'
-import { createAdapter } from './setup'
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { AddressInfo } from 'net'
+import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
 
 const mockExpectedAddresses = [
   '0x7b67aa8a28a9df5f4a47f364d3d3a4109f009d11d124c5a7babcbf23e653857b',
@@ -32,32 +29,32 @@ jest.mock('ethers', () => {
 })
 
 describe('execute', () => {
-  let fastify: ServerInstance | undefined
-  let req: SuperTest<Test>
   let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  afterAll((done) => {
-    spy.mockRestore()
-    fastify?.close(done())
-  })
-
-  it('addresses should return success', async () => {
-    const data = {
-      data: { network: 'moonbeam', chainId: 'mainnet' },
-    }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['RPC_URL'] = 'http://localhost:9091'
-    fastify = await expose(createAdapter())
-    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
     const mockDate = new Date('2022-08-01T07:14:54.909Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const response = await req
-      .post('/')
-      .send(data)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    spy.mockRestore()
+    await testAdapter.api.close()
+  })
+
+  it('addresses should return success', async () => {
+    const data = { network: 'moonbeam', chainId: 'mainnet' }
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchSnapshot()
   })
 })

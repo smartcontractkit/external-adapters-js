@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 170,
+  },
+  "result": 170,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;

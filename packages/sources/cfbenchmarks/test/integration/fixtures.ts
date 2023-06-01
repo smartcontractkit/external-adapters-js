@@ -1,4 +1,6 @@
 import nock from 'nock'
+import { Server, WebSocket } from 'mock-socket'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://www.cfbenchmarks.com/api')
@@ -51,4 +53,61 @@ export const mockBircResponseSuccess = (): nock.Scope => {
       ],
     })
     .persist()
+}
+
+export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
+  // Extend mock WebSocket class to bypass protocol headers error
+  class MockWebSocket extends WebSocket {
+    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
+      super(url, protocol instanceof Object ? undefined : protocol)
+    }
+    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
+    removeAllListeners() {
+      for (const eventType in this.listeners) {
+        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
+        if (!eventType.startsWith('server')) {
+          delete this.listeners[eventType]
+        }
+      }
+    }
+  }
+
+  // Need to disable typing, the mock-socket impl does not implement the ws interface fully
+  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export const mockWebSocketServer = (URL: string): Server => {
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', (message) => {
+      const parsed = JSON.parse(message as string)
+      if (parsed.id === 'BRTI') {
+        // crypto endpoint
+        return socket.send(
+          JSON.stringify({
+            type: 'value',
+            time: 1645203822000,
+            id: 'BRTI',
+            value: '40067.00',
+          }),
+        )
+      } else if (parsed.id === 'U_ETHUSD_RTI') {
+        // lwba endpoint
+        return socket.send(
+          JSON.stringify({
+            type: 'rti_stats',
+            time: 1677876163000,
+            id: 'U_ETHUSD_RTI',
+            value: '1.1635',
+            utilizedDepth: '1888000.0',
+            valueAsk: '1.1662',
+            valueBid: '1.1607',
+            midPrice: '1.1631',
+          }),
+        )
+      }
+    })
+  })
+
+  return mockWsServer
 }

@@ -21,6 +21,7 @@ export const config = new AdapterConfig({
     description: 'The websocket API key to authenticate with, if different from API_KEY',
     type: 'string',
     sensitive: true,
+    default: '',
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',

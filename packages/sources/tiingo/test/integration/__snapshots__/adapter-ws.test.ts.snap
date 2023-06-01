@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket crypto endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 2930.4483973989,
+  },
+  "result": 2930.4483973989,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1646249828102,
+  },
+}
+`;
+
+exports[`websocket crypto_lwba endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 1794.2063137650225,
+    "askSize": 126.22352905999999,
+    "bid": 1793.6242715443277,
+    "bidSize": 117.75114002,
+    "datetime": "2023-03-30T14:38:14.577256+00:00",
+    "mid": 1793.915292654675,
+    "ticker": "eth/usd",
+    "weightedSpreadPcnt": 0.00032445356984135313,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+  },
+}
+`;
+
+exports[`websocket forex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.08272,
+  },
+  "result": 1.08272,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": 1649964792474,
+  },
+}
+`;
+
+exports[`websocket iex endpoint Q request should return success 1`] = `
+{
+  "data": {
+    "result": 170.285,
+  },
+  "result": 170.285,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 3030,
+    "providerIndicatedTimeUnixMs": 1645032916595,
+  },
+}
+`;
+
+exports[`websocket iex endpoint T request should return success 1`] = `
+{
+  "data": {
+    "result": 106.21,
+  },
+  "result": 106.21,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 3030,
+    "providerIndicatedTimeUnixMs": 1645032916595,
+  },
+}
+`;

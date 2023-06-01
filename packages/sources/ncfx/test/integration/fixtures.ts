@@ -1,3 +1,6 @@
+import { Server, WebSocket } from 'mock-socket'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+
 export const loginResponse = {
   Type: 'Info',
   Message: 'Successfully Authenticated',
@@ -107,4 +110,47 @@ export const mockForexResponse = {
   XAUUSD: { price: 1766.38, timestamp: '2022-08-01T07:14:54.907Z' },
   USDRON: { price: 4.81666, timestamp: '2022-08-01T07:14:51.854Z' },
   XPTUSD: { price: 903.67, timestamp: '2022-08-01T07:14:54.508Z' },
+}
+
+export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
+  // Extend mock WebSocket class to bypass protocol headers error
+  class MockWebSocket extends WebSocket {
+    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
+      super(url, protocol instanceof Object ? undefined : protocol)
+    }
+    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
+    removeAllListeners() {
+      for (const eventType in this.listeners) {
+        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
+        if (!eventType.startsWith('server')) {
+          delete this.listeners[eventType]
+        }
+      }
+    }
+  }
+
+  // Need to disable typing, the mock-socket impl does not implement the ws interface fully
+  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export const mockCryptoWebSocketServer = (URL: string): Server => {
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.send(JSON.stringify(loginResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(subscribeResponse))
+      socket.send(JSON.stringify(mockCryptoResponse))
+    })
+  })
+  return mockWsServer
+}
+
+export const mockForexWebSocketServer = (URL: string): Server => {
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(JSON.stringify(mockForexResponse))
+    })
+  })
+  return mockWsServer
 }
