@@ -3,110 +3,110 @@ name: Release
 on:
   push:
     branches:
-      # On develop, we build and publish containers to our *private* ECR repo
-
-      # Ex. If the value of the field "version" in the "package.json" file of the coingecko adapter is "0.0.5-beta",
-      # The "coingecko-adapter" container will be resolvable with the following specifiers:
-      # coingecko-adapter:0.0.5-beta
-      # docker pull <accountid>.dkr.ecr.<region>.amazonaws.com/adapters/coingecko-adapter:0.0.5-beta
-
-      - develop
-
-      # Ex. If the value of the field "version" in the "package.json" file of the coingecko adapter is "0.0.5-beta",
-      # The "coingecko-adapter" container will be resolvable with the following specifiers:
-      # coingecko-adapter:0.0.5-beta
-
-      # The ECR registry is reachable at public.ecr.aws/chainlink/adapters/
-
-      # You would be able to pull the coingecko adapter with the following commands:
-      # docker pull public.ecr.aws/chainlink/adapters/coingecko-adapter:0.0.5-beta
-      - master
-
-  # A workflow dispatch would trigger the same behaviour as a push to the master branch
+      - main
+    # The only commits that will contain changes to the masterlist will be releases
+    paths:
+      - MASTERLIST.md
   workflow_dispatch:
+    inputs:
+      # For this workflow, build-all will cause all adapters to have their image pulled and republished to the public ECR
+      # NOTE: If the images haven't been already published to the private ECR, this will fail; in that case run the deploy workflow first.
+      build-all:
+        description: whether to run steps for all adapters, regardless of whether they were changed in this event
+        required: false
+        default: 'false'
 
-env:
-  publicecr-name: chainlink
+concurrency:
+  group: deploy-and-release
+  cancel-in-progress: false
+
 jobs:
-  matrix-adapters:
-    runs-on: ubuntu-latest
+  calculate-changes:
+    name: Compute changed adapters
+    runs-on: [self-hosted, sdlc-ghr-prod] # Running on self hosted because they're a bit faster
+    env:
+      BUILD_ALL: ${{ inputs.build-all }}
     outputs:
-      matrix: ${{ steps.create-matrix.outputs.result }}
+      adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Generate job matrix
-        id: create-matrix
-        uses: ./.github/actions/release/matrix-adapters
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+        with:
+          skip-setup: true
+      - name: Build list of changed packages and changed adapters
+        id: changed-adapters
+        env:
+          UPSTREAM_BRANCH: HEAD~1
+        run: |
+          ./.github/scripts/changed-adapters.sh
 
-  publish-artifacts:
-    needs: [matrix-adapters]
+  publish-adapter-images:
+    name: Fetch and publish ${{ matrix.adapter.shortName }}
     runs-on: ubuntu-latest
-    name: (${{ matrix.adapter.type }}) Publish ${{ matrix.adapter.name }} adapter Docker image
-    strategy:
-      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
-      max-parallel: 35
+    needs:
+      - calculate-changes
     environment: release
-    permissions:
+    permissions: # These are needed for the configure-aws-credentials action
       id-token: write
       contents: read
+    strategy:
+      matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
+    env:
+      PUBLIC_ECR_URL: public.ecr.aws/chainlink
+      PRIVATE_ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
+      ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
     steps:
-      - uses: actions/checkout@v2
-
-      #
-      #
-      # ----- Private ECR publishing logic -----
-      #
-      #
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Configure AWS Credentials for SDLC Private ECR
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-      - name: Publish adapter to private ECR
-        id: publish-adapter-versioned-private-ecr
-        uses: ./.github/actions/release/publish-artifacts
+      - name: Authenticate to ECR
+        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION_ECR_PRIVATE }} | docker login --username AWS --password-stdin ${{ env.PRIVATE_ECR_URL }}/adapters/
+      - name: Pull adapter image from private ECR and retag with public ecr details
+        run: |
+          docker pull ${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
+          docker tag ${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }} ${{ env.PUBLIC_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
+      - name: Publish adapter image to public ECR
+        uses: ./.github/actions/publish-image
         with:
-          # Having both branch and latest be null means that the underlying action will only publish semver-style versions.
-          # Take a look at scripts/src/generate-image-name/__snapshots__/lib.test.ts.snap for example image name outputs based on
-          # branch / latest inputs
-
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
-          adapter-name: ${{ matrix.adapter.name }}
-          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          aws-ecr-private: 'true' # Use of string intentional for evaluation
-          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
-
-      # For our private ECR repo that we use for staging, we keep the latest tag around to have staging auto-update
-      - if: steps.publish-adapter-versioned-private-ecr.outputs.image-exists == 'false'
-        name: Publish adapter to private ECR, with latest tag
-        uses: ./.github/actions/release/publish-artifacts
-        with:
-          latest: true
-
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
-          adapter-name: ${{ matrix.adapter.name }}
-          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          aws-ecr-private: 'true' # Use of string intentional for evaluation
-          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
-
-      #
-      #
-      # ----- Public ECR publishing logic -----
-      #
-      #
-      - name: Configure AWS Credentials for SDLC Public ECR
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          adapter-short-name: ${{ matrix.adapter.shortName }}
+          image-version: ${{ matrix.adapter.version }}
+          aws-ecr-url: ${{ env.PUBLIC_ECR_URL }}
+          aws-ecr-repo: ${{ env.ECR_REPO }}
           aws-region: ${{ secrets.AWS_REGION_ECR_PUBLIC }}
-          role-duration-seconds: 1200
+          aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-ecr-private: false
 
-      - if: github.ref == 'refs/heads/master'
-        name: Publish adapter to public ECR
-        id: publish-adapter-versioned-public-ecr
-        uses: ./.github/actions/release/publish-artifacts
+  gh-release:
+    name: GH Release
+    runs-on: ubuntu-latest
+    needs:
+      - publish-adapter-images
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Get release version
+        id: get-version
+        run: |
+          echo "result=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+      - name: Get release body
+        run: |
+          # Get the PR body to use in the GH release body
+          gh pr list --search "$(git rev-parse HEAD)" --state merged --json number,body --jq '"This release was merged in PR #" + (.[0].number | tostring) + "\n" + (.[0].body | split("\n\n\n# Releases") | .[1])' > pr_body.tmp
+      - name: Create release
+        uses: actions/create-release@v1
         with:
-          image-prefix: public.ecr.aws/${{ env.publicecr-name }}/adapters/
-          adapter-name: ${{ matrix.adapter.name }}
-          aws-region: us-east-1
-          aws-ecr-private: 'false' # Use of string intentional for evaluation
+          tag_name: v${{ steps.get-version.outputs.result }}
+          release_name: Release v${{ steps.get-version.outputs.result }}
+          body_path: pr_body.tmp
