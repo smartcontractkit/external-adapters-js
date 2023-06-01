@@ -103,6 +103,7 @@ jobs:
       - publish-adapter-images
     environment: InfraK8s
     env:
+      ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
       CHANGED_ADAPTERS: ${{ needs.calculate-changes.outputs.adapter-list }}
     steps:
       - name: Trigger Image Dispatcher
