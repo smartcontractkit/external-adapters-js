@@ -5751,8 +5751,8 @@ __metadata:
   linkType: hard
 
 "@ethercards/ec-util@npm:^1.0.1":
-  version: 1.0.4
-  resolution: "@ethercards/ec-util@npm:1.0.4"
+  version: 1.0.7
+  resolution: "@ethercards/ec-util@npm:1.0.7"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
     "@ethersproject/bytes": ^5.4.0
@@ -5763,7 +5763,7 @@ __metadata:
     is-svg: ">=4.2.2"
     js-yaml: ">=3.13.1"
     lodash.template: ">=4.5.0"
-  checksum: c6f58be70ec910ae7de689cf0a2ce5e83a258fdf67384b06f97d21d72c0b537ce0c49bc9e1edef86c91518e3646be131b19a0c3f034d7d475f838d5334aac17d
+  checksum: 131bcdad5e5aa0549a1d7b748045f60c03622ae414d42202a12003f34fce5f1c7059084f225c8af937d6594a7d737371e56d8082f6fd560fd50841ccb9678265
   languageName: node
   linkType: hard
 
