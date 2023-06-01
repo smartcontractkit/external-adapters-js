@@ -110,7 +110,7 @@ jobs:
           gh workflow run 
           --repo smartcontractkit/infra-k8s
           --ref main "Infra-k8s Image Dispatcher" 
-          -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' '" 
+          -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' ')" 
           -F gitRepo=${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_K8s_PAT }}
