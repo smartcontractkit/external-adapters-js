@@ -19,7 +19,6 @@
 '@chainlink/tp-adapter': patch
 '@chainlink/moonbeam-address-list-adapter': patch
 '@chainlink/galaxy-adapter': patch
-'@chainlink/bank-frick-adapter': patch
 '@chainlink/finnhub-adapter': patch
 '@chainlink/polkadot-balance-adapter': patch
 '@chainlink/coingecko-adapter': patch
