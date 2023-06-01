@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.3.8
+
+### Patch Changes
+
+- bda124176: Added adjustable request grouping to reduce load on the beacon client
+
 ## 1.3.7
 
 ### Patch Changes

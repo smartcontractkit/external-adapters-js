@@ -1,5 +1,11 @@
 # @chainlink/stader-balance-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- d25ef6507: Pinned block number to Stader reported block. Updated withdrawn validator balance calculations. Added total supply endpoint. Added validation to ensure beacon slot number is finalized.
+
 ## 1.2.0
 
 ### Minor Changes

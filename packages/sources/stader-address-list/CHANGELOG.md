@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- d25ef6507: Pinned block number to Stader reported block
+
 ## 2.2.0
 
 ### Minor Changes

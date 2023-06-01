@@ -1,5 +1,20 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.17.8
+
+### Patch Changes
+
+- d25ef6507: Added reported block field to pass for stader-balance adapter
+- Updated dependencies [d25ef6507]
+- Updated dependencies [d25ef6507]
+- Updated dependencies [bda124176]
+  - @chainlink/stader-address-list-adapter@2.3.0
+  - @chainlink/stader-balance-adapter@1.3.0
+  - @chainlink/eth-beacon-adapter@1.3.8
+  - @chainlink/por-indexer-adapter@1.2.56
+  - @chainlink/renvm-address-set-adapter@1.5.47
+  - @chainlink/wbtc-address-set-adapter@1.4.56
+
 ## 1.17.7
 
 ### Patch Changes
