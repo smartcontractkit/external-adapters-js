@@ -72,6 +72,7 @@ export const runBalanceAdapter = async (
           endpoint: 'balance',
           confirmations,
           validatorStatus: input.data.validatorStatus,
+          searchLimboValidators: input.data.searchLimboValidators,
         },
       }
       break
