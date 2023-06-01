@@ -1,0 +1,69 @@
+name: Publish docker image
+
+description: Publishes a docker image to AWS ECR
+
+inputs:
+  adapter-short-name:
+    description: The short name for the adapter whose image will be published
+    required: true
+  image-version:
+    description: The version to tag the image with
+    required: true
+  aws-ecr-url:
+    description: The aws account URL for ECR repos
+    required: true
+  aws-ecr-repo:
+    description: The repository for the adapter
+    required: true
+  aws-region:
+    description: The AWS region to use
+    required: true
+  aws-role:
+    description: The AWS role to assume
+    required: true
+  aws-ecr-private:
+    description: If this action is being used to publish to private ecr
+    required: true
+  aws-ecr-account-ids:
+    description: A string of comma seperated, double quoted aws account ids (e.g. "1","2","3") that specifies what accounts to allow pull access when "aws-ecr-private" is "true".
+    required: false
+  latest:
+    description: Whether to also push the image with the "latest" tag
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Configure AWS Credentials for SDLC Private ECR
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ inputs.aws-role }}
+        aws-region: ${{ inputs.aws-region }}
+        role-duration-seconds: 1200
+    - name: Authenticate to ECR
+      shell: bash
+      run: |
+        aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} get-login-password --region ${{ inputs.aws-region }} | docker login --username AWS --password-stdin ${{ inputs.aws-ecr-url}}/${{ inputs.aws-ecr-repo }}/
+    - name: Create a ECR repository if does not exist
+      shell: bash
+      run: |
+        aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} create-repository --region ${{ inputs.aws-region }} --repository-name ${{ inputs.aws-ecr-repo }} || true
+    - name: Set ECR repository permissions for secondary account access on private ECR repos
+      shell: bash
+      if: inputs.aws-ecr-private == 'true'
+      run: >
+        aws ecr set-repository-policy
+        --region ${{ inputs.aws-region }}
+        --repository-name ${{ inputs.aws-ecr-repo }}
+        --policy-text "$(jq '.Statement[0].Principal.AWS |= [${{ inputs.aws-ecr-account-ids }}]' .github/actions/publish-image/secondary-account-access-policy.json)" &> /dev/null;
+    - name: Push to ECR
+      shell: bash
+      run: |
+        docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }}
+    - name: Push to ECR with latest tag
+      shell: bash
+      if: inputs.latest == 'true'
+      run: |
+        docker tag ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:${{ inputs.image-version }} ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest
+        docker push ${{ inputs.aws-ecr-url }}/${{ inputs.aws-ecr-repo }}:latest

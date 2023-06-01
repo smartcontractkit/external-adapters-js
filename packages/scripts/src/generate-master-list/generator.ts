@@ -1,13 +1,9 @@
-import process from 'process'
+import Airtable from 'airtable'
+import fs from 'fs'
 import path from 'path'
+import process from 'process'
 import { ls, test } from 'shelljs'
-import {
-  compositeListDescription,
-  sourceListDescription,
-  targetListDescription,
-  nonDeployableListDescription,
-} from './textAssets'
-import { buildTable, TableText } from '../shared/tableUtils'
+import { EndpointDetails, Package, Schema } from '../shared/docGenTypes'
 import {
   codeList,
   getJsonFile,
@@ -16,9 +12,13 @@ import {
   unwrapCode,
   wrapCode,
 } from '../shared/docGenUtils'
-import { EndpointDetails, Package, Schema } from '../shared/docGenTypes'
-import Airtable from 'airtable'
-import fs from 'fs'
+import { TableText, buildTable } from '../shared/tableUtils'
+import {
+  compositeListDescription,
+  nonDeployableListDescription,
+  sourceListDescription,
+  targetListDescription,
+} from './textAssets'
 
 const pathToComposites = 'packages/composites/'
 const pathToSources = 'packages/sources/'
@@ -361,8 +361,9 @@ export const generateMasterList = async (
 
     // If no output is specified or specified value is `fs` generate and save master list data
     if (output?.length && output.includes('fs')) {
-      let allAdapterText =
-        'This document was generated automatically. Please see [Master List Generator](./packages/scripts#master-list-generator) for more info.\n\n'
+      const rootPackage = await require(path.join(process.cwd(), 'package.json'))
+
+      let allAdapterText = `## Release ${rootPackage.version}\n\nThis document was generated automatically. Please see [Master List Generator](./packages/scripts#master-list-generator) for more info.\n\n`
 
       allAdapterText +=
         buildTable(allAdaptersTable, [

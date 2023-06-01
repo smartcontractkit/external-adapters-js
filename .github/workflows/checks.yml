@@ -1,0 +1,126 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+    # The only commits that will contain changes to the masterlist will be releases
+    paths-ignore:
+      - MASTERLIST.md
+
+env:
+  UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}-checks
+  cancel-in-progress: true
+
+jobs:
+  # ---------- Initial steps ----------
+
+  # Check that the changes introduced in this PR include changesets for packages that would need them
+  check-changesets:
+    name: Adapter changes accompanied by a changeset
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Check whether adapter change also has a changeset
+        id: adapter_change_has_changeset
+        run: ./.github/scripts/validate-changesets.sh
+
+  # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
+  install-packages:
+    name: Install and verify dependencies
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    outputs:
+      changed-packages: ${{ steps.changed-adapters.outputs.CHANGED_PACKAGES }}
+      adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+        with:
+          upstream-branch: ${{ env.UPSTREAM_BRANCH }}
+      - name: Build list of changed packages and changed adapters
+        id: changed-adapters
+        run: ./.github/scripts/changed-adapters.sh
+
+  # ---------- Adapter checks (only for changed EAs) ----------
+
+  # Run unit tests
+  unit-tests:
+    name: Run unit tests for changed adapters
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    needs:
+      - check-changesets
+      - install-packages
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Run unit tests
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
+
+  # Run integration tests
+  integration-tests:
+    name: Run integration tests for changed adapters
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    needs:
+      - check-changesets
+      - install-packages
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Run integration tests
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
+
+  # Run linters
+  linters:
+    name: Run linters and formatters
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    needs:
+      - check-changesets
+      - install-packages
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Lint all files
+        run: yarn lint
+      - name: Check for formatting errors
+        run: yarn format:check
+
+  # Run documentation tests (check that the doc generation succeeds to avoid problems downstream)
+  run-documentation-check:
+    name: Documentation generation test
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    needs:
+      - check-changesets
+      - install-packages
+    env:
+      METRICS_ENABLED: false
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Test Master List Generation
+        run: yarn generate:master-list -v
+      - name: Test README Generation
+        run: yarn generate:readme -v

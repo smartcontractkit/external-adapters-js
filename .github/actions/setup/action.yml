@@ -13,10 +13,19 @@ inputs:
     description: Skips cache restores and saves if set to true
     required: false
     default: 'false'
+  upstream-branch:
+    description: The ref to compare to when calculating which packages to build
+    required: false
 
 runs:
   using: 'composite'
   steps:
+    # This is a useful step that will help other actions later on
+    - name: Configure git
+      shell: bash
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
     # First, we want to install yarn since our base image doesn't have it installed
     - uses: actions/setup-node@v3
       with:
@@ -69,12 +78,22 @@ runs:
         path: |
           ./packages/**/tsconfig.tsbuildinfo
           ./packages/**/dist/
-    - name: yarn setup
+    - name: Fetch base branch for comparison in later steps
+      shell: bash
+      run: |
+        git fetch origin ${{ github.base_ref }}:${{ github.base_ref }} --depth 1
+    - name: Build files
       if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true'
-      run: yarn setup
+      env:
+        UPSTREAM_BRANCH: ${{ github.base_ref }}
+      run: |
+        yarn workspaces list --json -R --since=$UPSTREAM_BRANCH \
+        | jq -csr '.' \
+        | jq '{ files: [], include: [], references: [{ path:  .[] | .location | select(startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | match("packages/(.*)").captures[0].string }] }' \
+        > packages/tsconfig.tmp.json && yarn tsc -b packages/tsconfig.tmp.json
       shell: bash
     - name: Cache built files
-      if: steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
+      if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
       uses: actions/cache/save@v3
       with:
         key: tsbuild-${{ github.sha }}

@@ -1,0 +1,91 @@
+name: Upsert Release PR
+
+on:
+  push:
+    branches:
+      - main
+    # The only commits that will contain changes to the masterlist will be releases
+    paths-ignore:
+      - 'MASTERLIST.md'
+      - 'package.json'
+      - '.changeset/**'
+      - 'packages/**/CHANGELOG.md'
+      - 'packages/**/README.md'
+      - 'packages/**/package.json'
+  workflow_dispatch:
+    inputs:
+      # For this workflow, BUILD_ALL will only affect the generate documentation step
+      build-all:
+        description: whether to run steps for all adapters, regardless of whether they were changed in this event
+        required: false
+        default: 'false'
+
+# TODO: This entire workflow would be immensely sped up (~3min -> 30s tops) if:
+# - Readme generation did not require built TS files
+# - Readme generation was optimized a bit
+# - We only installed the changeset package
+
+jobs:
+  consume-changesets:
+    name: Upsert Release PR
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      UPSTREAM_BRANCH: 'HEAD~1'
+      BUILD_ALL: ${{ github.event.inputs.build-all }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+        with:
+          skip-setup: false
+      - name: Temporarily calculate changesets to generate readmes with proper versions
+        run: |
+          yarn changeset version
+          git add -A
+          git commit -m "Changesets mock"
+      - name: Increase monorepo version
+        run: |
+          BUMPED_VERSION=$(jq -r '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
+          jq ".version = \"$BUMPED_VERSION\"" package.json > package.tmp.json
+          mv package.tmp.json package.json
+          echo "BUMPED_VERSION=$BUMPED_VERSION" >> $GITHUB_ENV
+      - name: Generate documentation
+        run: |
+          yarn generate:master-list -v
+          yarn generate:readme -v
+      - name: Undo temporary changesets and commit docs
+        run: |
+          git stash
+          git reset HEAD^ --hard
+          git stash pop
+      - name: Commit docs
+        run: |
+          git add MASTERLIST.md
+          git add "*README.md"
+          yarn lint-staged
+      - name: Stash changes for changesets action to pick up in custom script
+        run: |
+          git stash
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # This version command is not only necessary because of yarn pnp, but because the changeset action
+          # performs git resets and we want to keep those changes, so we stash and then pop them here.
+          # All the previous steps would technically make more sense in the script itself, but we
+          # keep them as separate ones so it's easier to see them from the github UI to debug.
+          version: ./.github/scripts/run-changesets.sh
+          title: 'Release ${{ env.BUMPED_VERSION }}'
+          commit: 'Release ${{ env.BUMPED_VERSION }}'
+      - name: Tag changesets commit
+        run: |
+          # Delete the tags if they already exist (ignore errors if they don't)
+          git tag -d "v$BUMPED_VERSION" || true
+          git push --delete origin "v$BUMPED_VERSION" || true
+          git tag "v$BUMPED_VERSION"
+          git push origin "v$BUMPED_VERSION"
