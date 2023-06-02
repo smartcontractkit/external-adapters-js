@@ -87,6 +87,9 @@ runs:
       env:
         UPSTREAM_BRANCH: ${{ github.base_ref }}
       run: |
+        echo "Build files"
+        echo $UPSTREAM_BRANCH
+        echo $(yarn workspaces list --json -R --since=$UPSTREAM_BRANCH)
         yarn workspaces list --json -R --since=$UPSTREAM_BRANCH \
         | jq -csr '.' \
         | jq '{ files: [], include: [], references: [{ path:  .[] | .location | select(startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | match("packages/(.*)").captures[0].string }] }' \
