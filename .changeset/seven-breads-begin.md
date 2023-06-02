@@ -37,6 +37,7 @@
 '@chainlink/coinmarketcap-adapter': patch
 '@chainlink/coinpaprika-adapter': patch
 '@chainlink/token-allocation-adapter': patch
+'@chainlink/bank-frick-adapter': patch
 ---
 
 Bumped framework version
