@@ -72,7 +72,10 @@ runs:
     - name: Restore TS built files if present
       id: restore-ts-build
       uses: actions/cache/restore@v3
-      if: inputs.skip-setup != 'true' && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
+      if: >
+        inputs.skip-setup != 'true'
+        && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
+        && env.CHANGED_ADAPTERS
       with:
         key: tsbuild-${{ github.sha }}
         path: |
@@ -83,17 +86,42 @@ runs:
       run: |
         git fetch origin ${{ github.base_ref }}:${{ github.base_ref }} --depth 1
     - name: Build files
-      if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true'
+      if: >
+        inputs.skip-setup != 'true'
+        && steps.restore-ts-build.outputs.cache-hit != 'true'
       env:
         UPSTREAM_BRANCH: ${{ github.base_ref }}
       run: |
         yarn workspaces list --json -R --since=$UPSTREAM_BRANCH \
         | jq -csr '.' \
-        | jq '{ files: [], include: [], references: [{ path:  .[] | .location | select(startswith("packages/sources") or startswith("packages/composites") or startswith("packages/targets")) | match("packages/(.*)").captures[0].string }] }' \
-        > packages/tsconfig.tmp.json && yarn tsc -b packages/tsconfig.tmp.json
+        | jq '{ 
+                files: [],
+                include: [],
+                references: [
+                  {
+                    path:  .[]
+                         | .location
+                         | select(
+                                  startswith("packages/sources")
+                                  or startswith("packages/composites")
+                                  or startswith("packages/targets")
+                           )
+                         | match("packages/(.*)").captures[0].string
+                  }
+                ]
+              }' \
+        > packages/tsconfig.tmp.json
+
+        # Only build if there were adapter changes
+        if [[ $(jq -r '.references' packages/tsconfig.tmp.json) != '[]' ]]; then
+          yarn tsc -b packages/tsconfig.tmp.json
+        fi
       shell: bash
     - name: Cache built files
-      if: inputs.skip-setup != 'true' && steps.restore-ts-build.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
+      if: >
+        inputs.skip-setup != 'true'
+        && steps.restore-ts-build.outputs.cache-hit != 'true'
+        && inputs.skip-cache != 'true'
       uses: actions/cache/save@v3
       with:
         key: tsbuild-${{ github.sha }}
