@@ -1,7 +1,12 @@
 name: Soak test
 
 on:
-  pull_request: ~
+  pull_request:
+    paths:
+      - 'packages/sources/**'
+      - 'packages/composites/**'
+      - 'packages/targets/**'
+      - 'packages/core/**'
 
 jobs:
   run-soak-tests:
