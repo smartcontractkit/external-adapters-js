@@ -72,9 +72,9 @@ runs:
     - name: Restore TS built files if present
       id: restore-ts-build
       uses: actions/cache/restore@v3
-      if: >
+      if: |
         inputs.skip-setup != 'true'
-        && inputs.skip-cache != 'true' # Not all jobs, like building gha matrices, require setup
+        && inputs.skip-cache != 'true'
         && env.CHANGED_ADAPTERS
       with:
         key: tsbuild-${{ github.sha }}
@@ -86,7 +86,7 @@ runs:
       run: |
         git fetch origin ${{ github.base_ref }}:${{ github.base_ref }} --depth 1
     - name: Build files
-      if: >
+      if: |
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
       env:
@@ -118,7 +118,7 @@ runs:
         fi
       shell: bash
     - name: Cache built files
-      if: >
+      if: |
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
         && inputs.skip-cache != 'true'
