@@ -39,3 +39,15 @@ export const mockMCO2Response = (): nock.Scope =>
         'max-age=63072000; includeSubDomains; preload',
       ],
     )
+
+export const mockSTBTResponse = (): nock.Scope =>
+  nock('https://api.real-time-attest.trustexplorer.io:443/chainlink', {
+    encodedQueryParams: true,
+  })
+    .get('/STBT')
+    .reply(200, {
+      accountName: 'STBT',
+      totalReserve: 72178807.56,
+      totalToken: 71932154.99,
+      timestamp: '2023-06-02T12:53:23.604Z',
+    })
