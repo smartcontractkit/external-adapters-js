@@ -444,6 +444,7 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
 
 nock('https://api.prime.coinbase.com/v1', {
   encodedQueryParams: true,

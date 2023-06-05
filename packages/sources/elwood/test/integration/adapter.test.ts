@@ -1,90 +1,74 @@
-import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { AddressInfo } from 'net'
-import * as nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
-import { mockSubscribeError, mockSubscribeResponse, mockUnsubscribeResponse } from './fixtures'
-import { mockWebSocketProvider, mockWebSocketServer } from './setup'
+import {
+  mockSubscribeError,
+  mockSubscribeResponse,
+  mockUnsubscribeResponse,
+  mockWebSocketServer,
+} from './fixtures'
+import {
+  TestAdapter,
+  setEnvVariables,
+  mockWebSocketProvider,
+  MockWebsocketServer,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import FakeTimers from '@sinonjs/fake-timers'
 
 describe('websocket', () => {
-  let fastify: ServerInstance
-  let req: SuperTest<Test>
+  let mockWsServer: MockWebsocketServer | undefined
+  let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
-  let spy: jest.SpyInstance
   const apiKey: string = process.env['API_KEY'] ?? 'test-api-key'
-
+  const data = {
+    base: 'ETH',
+    quote: 'USD',
+  }
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = apiKey
-    process.env['WS_SUBSCRIPTION_TTL'] = '3000'
     process.env['METRICS_ENABLED'] = 'false'
-    process.env['RATE_LIMIT_CAPACITY_SECOND'] = '10'
+    // Start mock web socket server
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockWebSocketServer(`wss://api.chk.elwood.systems/v1/stream?apiKey${process.env['API_KEY']}`)
 
-    const mockDate = new Date('2022-05-10T16:09:27.193Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
-    if (!process.env['RECORD']) {
-      mockWebSocketServer(`wss://api.chk.elwood.systems/v1/stream?apiKey${process.env['API_KEY']}`)
-      mockWebSocketProvider(WebSocketClassProvider)
-    } else {
-      nock.recorder.rec()
-    }
-
-    const { server } = await import('../../src')
-    const api = await server()
-    if (!api) {
-      throw 'API did not start'
-    }
-    fastify = api
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      clock: FakeTimers.install(),
+      testAdapter: {} as TestAdapter<never>,
+    })
   })
 
-  afterAll((done) => {
-    spy.mockRestore()
-    process.env = oldEnv
-    fastify.close(done)
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    mockWsServer?.close()
+    testAdapter.clock?.uninstall()
+    await testAdapter.api.close()
   })
 
   describe('price endpoint', () => {
     it('should return success', async () => {
       mockSubscribeResponse(apiKey)
       mockUnsubscribeResponse(apiKey)
-      const data = {
-        id: '1',
-        data: {
-          base: 'ETH',
-          quote: 'USD',
-        },
-      }
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+    })
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-
-      expect(response.body).toMatchSnapshot()
-    }, 10_000)
     it('should return cached subscribe error', async () => {
       mockSubscribeError(apiKey)
       const data = {
-        data: {
-          base: 'XXX',
-          quote: 'USD',
-        },
+        base: 'XXX',
+        quote: 'USD',
       }
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(400)
-
-      expect(response.body).toMatchSnapshot()
-    }, 10_000)
+      await testAdapter.request(data)
+      await testAdapter.waitForCache()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot({
+        timestamps: {
+          providerDataReceivedUnixMs: expect.any(Number),
+          providerDataStreamEstablishedUnixMs: expect.any(Number),
+        },
+      })
+    })
   })
 })

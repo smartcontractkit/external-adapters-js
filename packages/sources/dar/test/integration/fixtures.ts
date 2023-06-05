@@ -1,5 +1,5 @@
 import nock from 'nock'
-
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 export const mockPriceResponse = {
   darAssetID: '12345',
   darAssetTicker: 'ETH',
@@ -29,4 +29,14 @@ export const mockTokenResponse = (): nock.Scope =>
         'Origin',
       ],
     )
-    .persist(true)
+    .persist()
+
+export const mockPriceWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    setTimeout(() => {
+      socket.send(JSON.stringify(mockPriceResponse))
+    }, 100)
+  })
+  return mockWsServer
+}

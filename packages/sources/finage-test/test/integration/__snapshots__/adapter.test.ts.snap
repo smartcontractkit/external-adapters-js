@@ -1,21 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute etf endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 445.76,
-  },
-  "result": 445.76,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
-    "providerIndicatedTimeUnixMs": 1685958155000,
-  },
-}
-`;
-
-exports[`execute http commodities endpoint should return success 1`] = `
+exports[`rest commodities endpoint should return success 1`] = `
 {
   "data": {
     "result": 98.91,
@@ -23,14 +8,14 @@ exports[`execute http commodities endpoint should return success 1`] = `
   "result": 98.91,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1659017220,
   },
 }
 `;
 
-exports[`execute http crypto endpoint should return success 1`] = `
+exports[`rest crypto endpoint should return success 1`] = `
 {
   "data": {
     "result": 50940.12,
@@ -38,14 +23,14 @@ exports[`execute http crypto endpoint should return success 1`] = `
   "result": 50940.12,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1638898619885,
   },
 }
 `;
 
-exports[`execute http eod endpoint should return success 1`] = `
+exports[`rest eod endpoint should return success 1`] = `
 {
   "data": {
     "result": 26.3,
@@ -53,29 +38,14 @@ exports[`execute http eod endpoint should return success 1`] = `
   "result": 26.3,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1628884800000,
   },
 }
 `;
 
-exports[`execute http etf endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 445.64,
-  },
-  "result": 445.64,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
-    "providerIndicatedTimeUnixMs": 1685972473955,
-  },
-}
-`;
-
-exports[`execute http forex endpoint should return success 1`] = `
+exports[`rest forex endpoint should return success 1`] = `
 {
   "data": {
     "result": 1.3443049999999999,
@@ -83,14 +53,14 @@ exports[`execute http forex endpoint should return success 1`] = `
   "result": 1.3443049999999999,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1637060382000,
   },
 }
 `;
 
-exports[`execute http stock endpoint should return success 1`] = `
+exports[`rest stock endpoint should return success 1`] = `
 {
   "data": {
     "result": 26.060000000000002,
@@ -98,54 +68,9 @@ exports[`execute http stock endpoint should return success 1`] = `
   "result": 26.060000000000002,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1628899200621,
-  },
-}
-`;
-
-exports[`execute websocket crypto endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 43682.66306523,
-  },
-  "result": 43682.66306523,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
-    "providerIndicatedTimeUnixMs": 1646151298290,
-  },
-}
-`;
-
-exports[`execute websocket forex endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 1.331345,
-  },
-  "result": 1.331345,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
-    "providerIndicatedTimeUnixMs": 1646157588000,
-  },
-}
-`;
-
-exports[`execute websocket stock endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 163.58,
-  },
-  "result": 163.58,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
-    "providerIndicatedTimeUnixMs": 1646154954689,
   },
 }
 `;
