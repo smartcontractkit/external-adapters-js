@@ -7,7 +7,7 @@ import * as nock from 'nock'
 import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
 import { config } from '../../src/config'
-import { crypto, forex, stock } from '../../src/endpoint'
+import { crypto, forex, stock, ukEtf } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -175,11 +175,34 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
+export const mockEtfWebSocketServer = (URL: string): Server => {
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            s: 'CSPX',
+            p: 445.76,
+            dc: '0.0000',
+            dd: '0.0000',
+            t: 1685958155,
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}
+
 export const createAdapter = () => {
   return new Adapter({
     name: 'TEST',
     defaultEndpoint: stock.name,
-    endpoints: [stock, forex, crypto],
+    endpoints: [stock, forex, crypto, ukEtf],
     config,
   })
 }

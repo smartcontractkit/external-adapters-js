@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 445.76,
+  },
+  "result": 445.76,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
+    "providerIndicatedTimeUnixMs": 1685958155000,
+  },
+}
+`;
+
 exports[`execute http commodities endpoint should return success 1`] = `
 {
   "data": {
@@ -41,6 +56,21 @@ exports[`execute http eod endpoint should return success 1`] = `
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
     "providerIndicatedTimeUnixMs": 1628884800000,
+  },
+}
+`;
+
+exports[`execute http etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 445.64,
+  },
+  "result": 445.64,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1685972473955,
   },
 }
 `;
