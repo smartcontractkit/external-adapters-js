@@ -45,8 +45,6 @@ jobs:
           fetch-depth: 0
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
-        with:
-          upstream-branch: ${{ env.UPSTREAM_BRANCH }}
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
         run: ./.github/scripts/changed-adapters.sh
@@ -57,6 +55,7 @@ jobs:
   unit-tests:
     name: Run unit tests for changed adapters
     runs-on: [self-hosted, sdlc-ghr-prod]
+    if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
       - install-packages
@@ -68,12 +67,13 @@ jobs:
       - name: Run unit tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
 
   # Run integration tests
   integration-tests:
     name: Run integration tests for changed adapters
     runs-on: [self-hosted, sdlc-ghr-prod]
+    if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
       - install-packages
@@ -85,7 +85,7 @@ jobs:
       - name: Run integration tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-        run: EA_PORT=0 METRICS_ENABLED=false yarn jest $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
 
   # Run linters
   linters:
@@ -108,6 +108,7 @@ jobs:
   run-documentation-check:
     name: Documentation generation test
     runs-on: [self-hosted, sdlc-ghr-prod]
+    if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
       - install-packages
