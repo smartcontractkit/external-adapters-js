@@ -69,26 +69,14 @@ runs:
           ./.yarn/install-state/**
 
     # Build TS files unless it's been specified otherwise
-    - name: Restore TS built files if present
-      id: restore-ts-build
-      uses: actions/cache/restore@v3
-      if: |
-        inputs.skip-setup != 'true'
-        && inputs.skip-cache != 'true'
-        && env.CHANGED_ADAPTERS
-      with:
-        key: tsbuild-${{ github.sha }}
-        path: |
-          ./packages/**/tsconfig.tsbuildinfo
-          ./packages/**/dist/
     - name: Fetch base branch for comparison in later steps
       shell: bash
       run: |
         git fetch origin ${{ github.base_ref }}:${{ github.base_ref }} --depth 1
-    - name: Build files
+    - name: Calculate changed EAs
+      shell: bash
       if: |
         inputs.skip-setup != 'true'
-        && steps.restore-ts-build.outputs.cache-hit != 'true'
       env:
         UPSTREAM_BRANCH: ${{ github.base_ref }}
       run: |
@@ -112,16 +100,35 @@ runs:
               }' \
         > packages/tsconfig.tmp.json
 
-        # Only build if there were adapter changes
-        if [[ $(jq -r '.references' packages/tsconfig.tmp.json) != '[]' ]]; then
-          yarn tsc -b packages/tsconfig.tmp.json
-        fi
+        echo "CHANGED_ADAPTERS=$(jq -r '.references' packages/tsconfig.tmp.json)" >> $GITHUB_ENV
+    - name: Restore TS built files if present
+      id: restore-ts-build
+      uses: actions/cache/restore@v3
+      if: |
+        inputs.skip-setup != 'true'
+        && inputs.skip-cache != 'true'
+        && env.CHANGED_ADAPTERS != '[]'
+      with:
+        key: tsbuild-${{ github.sha }}
+        path: |
+          ./packages/**/tsconfig.tsbuildinfo
+          ./packages/**/dist/
+    - name: Build files
+      if: |
+        inputs.skip-setup != 'true'
+        && steps.restore-ts-build.outputs.cache-hit != 'true'
+        && env.CHANGED_ADAPTERS != '[]'
+      env:
+        UPSTREAM_BRANCH: ${{ github.base_ref }}
+      run: |
+        yarn tsc -b packages/tsconfig.tmp.json
       shell: bash
     - name: Cache built files
       if: |
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
         && inputs.skip-cache != 'true'
+        && env.CHANGED_ADAPTERS != '[]'
       uses: actions/cache/save@v3
       with:
         key: tsbuild-${{ github.sha }}
