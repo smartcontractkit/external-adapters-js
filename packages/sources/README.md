@@ -80,7 +80,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [fluent-finance](./fluent-finance/README.md)
 - [fmpcloud](./fmpcloud/README.md)
 - [galaxis](./galaxis/README.md)
-- [galaxy](./galaxy/README.md)
 - [gemini](./gemini/README.md)
 - [genesis-volatility](./genesis-volatility/README.md)
 - [geodb](./geodb/README.md)
