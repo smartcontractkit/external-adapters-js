@@ -3,7 +3,7 @@ name: Changed adapters have the latest EA framework version
 on:
   pull_request:
     branches:
-      - develop
+      - main
 
 jobs:
   adapter-has-latest-ea-framework:
