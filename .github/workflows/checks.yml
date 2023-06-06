@@ -148,10 +148,9 @@ jobs:
           dependency="@chainlink/external-adapter-framework"
           v3_packages=()
           outdated_packages=()
-          # If error happens we don't want to fail the pipeline
-          set +e
+
           packages=$(find packages -name 'package.json')
-          latest_version=$(gh api repos/smartcontractkit/ea-framework-js/contents/package.json | jq -r '.content' | base64 -d | jq -r '.version')
+          latest_version=$(curl -sH "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/smartcontractkit/ea-framework-js/contents/package.json" | jq -r '.content' | base64 -d | jq -r '.version')
 
            # get the list of v3 EAs
            for file in $(echo $packages); do
@@ -166,14 +165,13 @@ jobs:
                 if [[ "$changedFile" == "$package"* ]]; then
                   # found change in v3 EA, comparing versions
                   local_version=$(jq -r ".dependencies[\"$dependency\"]" "$package/package.json")
-                  if [ "$local_version" != $(echo $latest_version) ] && ! grep -q "^$package$" <<< "${outdated_packages[@]}"; then
+                  if [ "$local_version" != "$latest_version" ] && ! grep -q "^$package$" <<< "${outdated_packages[@]}"; then
                     outdated_packages+=("$package")
                   fi
                 fi
              done
             done
 
-            set -e
             # print and error if there are outdated adapters
             if [ ${#outdated_packages[@]} -gt 0 ]; then
               echo "The following packages have an outdated \"$dependency\" dependency:"
