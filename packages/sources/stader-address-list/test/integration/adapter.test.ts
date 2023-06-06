@@ -1,8 +1,10 @@
-import request, { SuperTest, Test } from 'supertest'
-import { createAdapter } from './setup'
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { AddressInfo } from 'net'
 import { ValidatorRegistryResponse } from '../../src/utils'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 const mockNodeRegistryAddresses: Record<number, string> = {
   1: '0xfb2E1e5854Ba5De7e4611E2352cfe85d91106291',
@@ -114,38 +116,35 @@ jest.mock('ethers', () => {
 })
 
 describe('execute', () => {
-  let fastify: ServerInstance | undefined
-  let req: SuperTest<Test>
   let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
-    const mockDate = new Date('2022-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-  })
-
-  afterAll((done) => {
-    spy.mockRestore()
-    fastify?.close(done())
-  })
-
-  it('addresses should return success', async () => {
-    const data = {
-      data: { network: 'ethereum', chainId: 'goerli' },
-    }
+    oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['RPC_URL'] = 'http://localhost:9091'
     process.env['BACKGROUND_EXECUTE_MS'] = '0'
-    fastify = await expose(createAdapter())
-    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
     const mockDate = new Date('2022-08-01T07:14:54.909Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const response = await req
-      .post('/')
-      .send(data)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
+
+  it('addresses should return success', async () => {
+    const data = { network: 'ethereum', chainId: 'goerli' }
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchSnapshot()
   })
 })

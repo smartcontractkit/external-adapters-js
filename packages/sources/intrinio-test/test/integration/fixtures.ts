@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockPriceSuccess = (): nock.Scope =>
   nock('https://api-v2.intrinio.com', {
@@ -43,6 +44,7 @@ export const mockPriceSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
 
 export const mockAuthResponse = (): nock.Scope =>
   nock('https://realtime.intrinio.com', {
@@ -51,3 +53,26 @@ export const mockAuthResponse = (): nock.Scope =>
     .get('/auth')
     .query({ api_key: 'fake-api-key' })
     .reply(200, 'fake-api-token', ['Transfer-Encoding', 'chunked'])
+    .persist()
+
+export const mockWebSocketServer = (url: string) => {
+  const mockWsServer = new MockWebsocketServer(url, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(
+        JSON.stringify({
+          topic: 'iex:securities:AAPL',
+          payload: {
+            type: 'last',
+            timestamp: 1646336888.345325,
+            ticker: 'AAPL',
+            size: 100,
+            price: 166.91,
+          },
+          event: 'quote',
+        }),
+      )
+    })
+  })
+  return mockWsServer
+}

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 100,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1645203822000,
+  },
+}
+`;
+
+exports[`websocket price endpoint should return success 2`] = `
+{
+  "data": {
+    "result": 200,
+  },
+  "result": 200,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2036,
+    "providerDataStreamEstablishedUnixMs": 2028,
+    "providerIndicatedTimeUnixMs": 1645203822000,
+  },
+}
+`;
+
+exports[`websocket price endpoint should return success 3`] = `
+{
+  "data": {
+    "result": 100,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2036,
+    "providerDataStreamEstablishedUnixMs": 2028,
+    "providerIndicatedTimeUnixMs": 1645203822000,
+  },
+}
+`;
+
+exports[`websocket price endpoint should return success 4`] = `
+{
+  "data": {
+    "result": 200,
+  },
+  "result": 200,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2036,
+    "providerDataStreamEstablishedUnixMs": 2028,
+    "providerIndicatedTimeUnixMs": 1645203822000,
+  },
+}
+`;
