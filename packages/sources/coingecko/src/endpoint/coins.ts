@@ -2,6 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
+
 interface CoinsResponse {
   id: string
   symbol: string

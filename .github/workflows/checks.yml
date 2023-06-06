@@ -142,7 +142,6 @@ jobs:
       - name: Check for outdated ea-framework dependencies
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           changed_packages=$(echo $CHANGED_PACKAGES | jq '.[].location' -r | tr '\n' ' ')
           dependency="@chainlink/external-adapter-framework"
