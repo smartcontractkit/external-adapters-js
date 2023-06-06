@@ -54,3 +54,5 @@ export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string
       },
     },
   })
+
+// test
