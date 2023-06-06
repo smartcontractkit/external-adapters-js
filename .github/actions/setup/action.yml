@@ -115,7 +115,7 @@ runs:
               }' \
         > packages/tsconfig.tmp.json
 
-        echo "CHANGED_ADAPTERS=$(jq -r '.references' packages/tsconfig.tmp.json)" >> $GITHUB_ENV
+        echo "CHANGED_ADAPTERS=$(jq -c '.references' packages/tsconfig.tmp.json)" >> $GITHUB_ENV
     - name: Build files
       if: |
         inputs.skip-setup != 'true'
