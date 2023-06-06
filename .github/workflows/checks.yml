@@ -125,3 +125,60 @@ jobs:
         run: yarn generate:master-list -v
       - name: Test README Generation
         run: yarn generate:readme -v
+
+  # Run a script to check that modified v3 adapters have the latest framework version
+  ea-framework-version-check:
+    name: Check that changed adapters have the latest EA framework version
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    if: needs.install-packages.outputs.changed-packages != '[]'
+    needs:
+      - check-changesets
+      - install-packages
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Check for outdated ea-framework dependencies
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          changed_packages=$(echo $CHANGED_PACKAGES | jq '.[].location' -r | tr '\n' ' ')
+          dependency="@chainlink/external-adapter-framework"
+          v3_packages=()
+          outdated_packages=()
+          # If error happens we don't want to fail the pipeline
+          set +e
+          packages=$(find packages -name 'package.json')
+          latest_version=$(gh api repos/smartcontractkit/ea-framework-js/contents/package.json | jq -r '.content' | base64 -d | jq -r '.version')
+
+           # get the list of v3 EAs
+           for file in $(echo $packages); do
+              if jq -e ".dependencies[\"$dependency\"]" "$file" >/dev/null; then
+                v3_packages+=("$(dirname $file)")
+              fi
+           done
+
+           # check if changed code is part of any v3 EA
+            for changedFile in $changed_packages; do
+             for package in "${v3_packages[@]}"; do
+                if [[ "$changedFile" == "$package"* ]]; then
+                  # found change in v3 EA, comparing versions
+                  local_version=$(jq -r ".dependencies[\"$dependency\"]" "$package/package.json")
+                  if [ "$local_version" != $(echo $latest_version) ] && ! grep -q "^$package$" <<< "${outdated_packages[@]}"; then
+                    outdated_packages+=("$package")
+                  fi
+                fi
+             done
+            done
+
+            set -e
+            # print and error if there are outdated adapters
+            if [ ${#outdated_packages[@]} -gt 0 ]; then
+              echo "The following packages have an outdated \"$dependency\" dependency:"
+              for file in "${outdated_packages[@]}"; do
+                echo "- $file"
+              done
+            exit 1
+            fi
