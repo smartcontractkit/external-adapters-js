@@ -5,16 +5,28 @@ import {
   AdapterInputError,
   AxiosRequestConfig,
   AxiosResponse,
+  Logger,
 } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { DEFAULT_BATCH_SIZE, DEFAULT_GROUP_SIZE } from '../config'
+import { fetchLimboEthBalances, chunkArray, formatValueInGwei } from './utils'
+import { ethers } from 'ethers'
+import { DEFAULT_CHAIN_ID } from '../config'
 
 export const supportedEndpoints = ['balance']
 
 export const description =
-  '**NOTE:** The balance output is given in Gwei!\n\n**NOTE**: The balance query is normally quite slow, no matter how many validators are being queried. API_TIMEOUT has been set to default to 60s.\n\nThe balance endpoint will fetch the validator balance of each address in the query. Adapts the response for the Proof Of Reserves adapter.'
+  '**NOTE:** The balance output is given in Gwei!\n\n**NOTE**: The balance query is normally quite slow, ' +
+  'no matter how many validators are being queried. API_TIMEOUT has been set to default to 60s.\n\n' +
+  'The balance endpoint will fetch the validator balance of each address in the query. If the search limbo validator flag is set to true, it ' +
+  'will also fetch balances for validators not found on beacon from deposit events. Adapts the response for the Proof Of Reserves adapter.'
 
-export type TInputParameters = { addresses: Address[]; stateId: string; validatorStatus: string[] }
+export type TInputParameters = {
+  addresses: Address[]
+  stateId: string
+  validatorStatus?: string[]
+  searchLimboValidators: boolean
+}
 export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     aliases: ['result'],
@@ -34,9 +46,16 @@ export const inputParameters: InputParameters<TInputParameters> = {
     type: 'array',
     description: 'A filter to apply validators by their status',
   },
+  searchLimboValidators: {
+    type: 'boolean',
+    description:
+      'Flag to determine if deposit events need to be searched for limbo validators. Only set to true if using an archive node.',
+    default: false,
+    required: false,
+  },
 }
 
-type Address = {
+export type Address = {
   address: string
 }
 
@@ -44,9 +63,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const addresses = validator.validated.data.addresses as Address[]
-  const stateId = validator.validated.data.stateId
-  const validatorStatus = validator.validated.data.validatorStatus
+  const addresses = validator.validated.data.addresses
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterInputError({
@@ -56,7 +73,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  return await queryInBatches(jobRunID, config, stateId, addresses, validatorStatus)
+  return await queryInBatches(jobRunID, config, validator.validated.data)
 }
 
 interface StateResponseSchema {
@@ -80,7 +97,7 @@ interface ValidatorState {
   }
 }
 
-interface BalanceResponse {
+export interface BalanceResponse {
   address: string
   balance: string
 }
@@ -88,19 +105,22 @@ interface BalanceResponse {
 const queryInBatches = async (
   jobRunID: string,
   config: Config,
-  stateId: string,
-  addresses: Address[],
-  validatorStatus: string[],
+  params: {
+    stateId: string
+    addresses: Address[]
+    validatorStatus?: string[]
+    searchLimboValidators?: boolean
+  },
 ) => {
-  const url = `/eth/v1/beacon/states/${stateId}/validators`
-  const statusList = validatorStatus?.join(',')
+  const url = `/eth/v1/beacon/states/${params.stateId}/validators`
+  const statusList = params.validatorStatus?.join(',')
   const batchSize = Number(config.adapterSpecificParams?.batchSize) || DEFAULT_BATCH_SIZE
   const batchedAddresses = []
   // Separate the address set into the specified batch size
   // Add the batches as comma-separated lists to a new list used to make the requests
-  for (let i = 0; i < addresses.length / batchSize; i++) {
+  for (let i = 0; i < params.addresses.length / batchSize; i++) {
     batchedAddresses.push(
-      addresses
+      params.addresses
         .slice(i * batchSize, i * batchSize + batchSize)
         .map(({ address }) => address)
         .join(','),
@@ -144,17 +164,26 @@ const queryInBatches = async (
     })
   })
 
-  // Populate balances list with addresses that were filtered out with a 0 balance
-  // Prevents empty array being returned which would ultimately fail at the reduce step
-  // Keep validators list as is to maintain the response received from consensus client
-  addresses
-    .filter(({ address }) => !balances.find((balance) => balance.address === address))
-    .forEach(({ address }) => {
+  // Get validators not found on the beacon chain
+  const unfoundValidators = params.addresses.filter(
+    ({ address }) => !balances.find((balance) => balance.address === address),
+  )
+
+  // If searchLimboValidators param set to true, search deposit events for validators not found on the beacon chain
+  // Otherwise, record 0 for the balance of missing validators
+  if (params.searchLimboValidators) {
+    balances.push(...(await searchLimboValidators(config, unfoundValidators)))
+  } else {
+    // Populate balances list with addresses that were filtered out with a 0 balance
+    // Prevents empty array being returned which would ultimately fail at the reduce step
+    // Keep validators list as is to maintain the response received from consensus client
+    unfoundValidators.forEach(({ address }) => {
       balances.push({
         address,
         balance: '0',
       })
     })
+  }
 
   const result = {
     data: {
@@ -166,7 +195,55 @@ const queryInBatches = async (
   return Requester.success(jobRunID, result, config.verbose)
 }
 
-const chunkArray = <T>(addresses: T[], size: number): T[][] =>
-  addresses.length > size
-    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
-    : [addresses]
+const searchLimboValidators = async (
+  config: Config,
+  unfoundValidators: Address[],
+): Promise<BalanceResponse[]> => {
+  const balances: BalanceResponse[] = []
+  // ETH EL RPC URL is an optional env var since this is an optional feature
+  // Check if env var is set before doing search
+  if (!config.adapterSpecificParams?.executionRpcUrl) {
+    const message =
+      'ETH_EXECUTION_RPC_URL env var must be set to perform limbo validator search. Please use an archive node.'
+    Logger.error(message)
+    throw new AdapterInputError({
+      statusCode: 400,
+      message,
+    })
+  } else {
+    const limboAddressMap: Record<string, Address> = {}
+    // Parse unfound validators into a map for easier access in limbo search
+    unfoundValidators.forEach((validator) => {
+      limboAddressMap[validator.address.toLowerCase()] = validator
+    })
+
+    const provider = new ethers.providers.JsonRpcProvider(
+      String(config.adapterSpecificParams?.executionRpcUrl),
+      Number(config.adapterSpecificParams?.chainId) || DEFAULT_CHAIN_ID,
+    )
+
+    // Returns map of validators found in limbo with balances in wei
+    const limboBalances = await fetchLimboEthBalances(
+      limboAddressMap,
+      String(config.adapterSpecificParams?.beaconRpcUrl),
+      provider,
+    )
+
+    unfoundValidators.forEach((validator) => {
+      const limboBalance = limboBalances[validator.address.toLowerCase()]
+      if (limboBalance) {
+        balances.push({
+          address: validator.address,
+          balance: formatValueInGwei(limboBalance),
+        })
+      } else {
+        balances.push({
+          address: validator.address,
+          balance: '0',
+        })
+      }
+    })
+
+    return balances
+  }
+}
