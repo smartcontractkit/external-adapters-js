@@ -1,7 +1,12 @@
 name: Soak test
 
 on:
-  pull_request: ~
+  pull_request:
+    paths:
+      - 'packages/sources/**'
+      - 'packages/composites/**'
+      - 'packages/targets/**'
+      - 'packages/core/**'
 
 jobs:
   run-soak-tests:
@@ -17,7 +22,10 @@ jobs:
       group: qa-soaktest-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - uses: jwalton/gh-find-current-pr@v1
         id: findPr
