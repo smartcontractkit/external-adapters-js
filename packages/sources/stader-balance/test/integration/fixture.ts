@@ -263,7 +263,7 @@ export const mockGetValidatorStates = (): void => {
         {
           index: '416580',
           balance: '1000000000',
-          status: 'active_ongoing',
+          status: 'pending_initialized',
           validator: {
             pubkey:
               '0x8af03fc3ba342b625c868325386fd421fa677d87cf96d528f4649cf043ea33b8f1466dd6bce66b0c9d949b8b65d1549c',
