@@ -297,6 +297,23 @@ export const generateMasterList = async (
   output: string[],
 ): Promise<TableText | void> => {
   try {
+    console.log('[APG] GenerateMasterList')
+
+    const currentDir = path.resolve('./')
+    console.log(`[APG] Current dir: ${currentDir}`)
+
+    console.log('[APG] Current dir')
+    console.log(ls('-A').filter(() => true))
+
+    console.log('[APG] Packages dir')
+    console.log(ls('-A', 'packages/').filter(() => true))
+
+    console.log('[APG] packages/sources/dns-query')
+    console.log(ls('-A', 'packages/sources/dns-query').filter(() => true))
+
+    console.log('[APG] packages/sources/finnhub')
+    console.log(ls('-A', 'packages/sources/finnhub').filter(() => true))
+
     const composite = getAdapterList(pathToComposites, compositeListDescription)
     const source = getAdapterList(pathToSources, sourceListDescription)
     const target = getAdapterList(pathToTargets, targetListDescription)

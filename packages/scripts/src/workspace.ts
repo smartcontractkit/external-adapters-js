@@ -34,7 +34,8 @@ const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspaceAdapters>
 export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[] {
-  return s
+  console.log('[APG] GetWorkspacePackages start')
+  const res = s
     .exec(
       changedFromBranch
         ? `yarn workspaces list -R --json --since=${changedFromBranch}`
@@ -57,13 +58,16 @@ export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[]
         framework: '2',
       }
     })
+  console.log('[APG] GetWorkspacePackages end')
+  return res
 }
 export function getWorkspaceAdapters(
   additionalTypes: string[] = [],
   changedFromBranch = '',
 ): WorkspaceAdapter[] {
+  console.log('[APG] getWorkspaceAdapters start')
   const adapterTypes = PUBLIC_ADAPTER_TYPES.concat(additionalTypes)
-  return getWorkspacePackages(changedFromBranch)
+  const res = getWorkspacePackages(changedFromBranch)
     .filter((v) => adapterTypes.includes(v.type))
     .map((p) => {
       let tsconf: TsConfig | undefined
@@ -88,6 +92,9 @@ export function getWorkspaceAdapters(
 
       return { ...p, tsconf, environment }
     })
+
+  console.log('[APG] getWorkspaceAdapters end')
+  return res
 }
 function getJsonFile(path: string) {
   return JSON.parse(readFileSync(path, 'utf-8'))

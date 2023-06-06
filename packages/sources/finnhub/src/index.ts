@@ -21,4 +21,6 @@ export const adapter = new Adapter({
   },
 })
 
+console.log('Test change to mark as changed adapter.')
+
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

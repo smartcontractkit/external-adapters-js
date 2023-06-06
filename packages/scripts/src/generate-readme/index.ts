@@ -12,6 +12,7 @@ const findTypeAndName = new RegExp(
   /packages\/(sources|composites|examples|targets|non-deployable)\/(.*)/,
 )
 export async function main(): Promise<void | string> {
+  console.log(`[APG] generate-readme/index main()`)
   try {
     // Define CLI options
     const commandLineOptions = [
@@ -70,9 +71,14 @@ export async function main(): Promise<void | string> {
         (p) => p.type === 'core' || p.type === 'scripts',
       )
 
+    console.log(`[APG] ShouldBuildAll: ${shouldBuildAll}`)
+
     let adapters = shouldBuildAll
       ? getWorkspaceAdapters()
       : getWorkspaceAdapters([], process.env['UPSTREAM_BRANCH'])
+
+    console.log(`[APG] $UPSTREAM_BRANCH: ${process.env['UPSTREAM_BRANCH']}`)
+    console.log(`[APG] adapters: ${adapters}`)
 
     // Test setting
     if (options.testPath) {
@@ -87,6 +93,11 @@ export async function main(): Promise<void | string> {
       readmeGenerator.createReadmeFile()
       return
     }
+
+    console.log(
+      `[APG] Adapters being considered for readme generation: `,
+      adapters.map((a) => `${a.name}: ${a.location}`),
+    )
 
     options.verbose &&
       console.log(
