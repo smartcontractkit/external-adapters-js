@@ -17,6 +17,10 @@ inputs:
     description: Whether EA changes should be ignored, and all packages built regardless
     required: false
     default: 'false'
+  base-branch:
+    description: The base branch to use for comparison with the head to calculate changed packages
+    required: false
+    default: 'main'
 
 runs:
   using: 'composite'
@@ -90,14 +94,14 @@ runs:
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
       run: |
-        git fetch origin ${{ github.base_ref }}:${{ github.base_ref }} --depth 1
+        git fetch origin ${{ inputs.base-branch }}:${{ inputs.base-branch }} --depth 1
     - name: Calculate changed EAs
       shell: bash
       if: |
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
       env:
-        UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+        UPSTREAM_BRANCH: origin/${{ inputs.base-branch }}
         BUILD_ALL: ${{ inputs.build-all }}
       # We have to add the core/factories package manually always because the readme generation imports it
       run: |
