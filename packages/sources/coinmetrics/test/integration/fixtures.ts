@@ -1,8 +1,7 @@
 import nock from 'nock'
-import { Server, WebSocket } from 'mock-socket'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { WsAssetMetricsSuccessResponse } from '../../src/endpoint/price-ws'
 import { WsCryptoLwbaSuccessResponse } from '../../src/endpoint/lwba-ws'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 
 export const mockCoinmetricsResponseSuccess = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
@@ -51,27 +50,6 @@ export const mockCoinmetricsResponseSuccess2 = (pageSize = 1): nock.Scope =>
       next_page_token: '0.MjAyMS0wOC0wNlQwMDowMDowMFo',
     })
 
-export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
-  // Extend mock WebSocket class to bypass protocol headers error
-  class MockWebSocket extends WebSocket {
-    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
-      super(url, protocol instanceof Object ? undefined : protocol)
-    }
-    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
-    removeAllListeners() {
-      for (const eventType in this.listeners) {
-        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
-        if (!eventType.startsWith('server')) {
-          delete this.listeners[eventType]
-        }
-      }
-    }
-  }
-
-  // Need to disable typing, the mock-socket impl does not implement the ws interface fully
-  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
 const wsResponseBody: WsAssetMetricsSuccessResponse = {
   cm_sequence_id: 0,
   type: 'price',
@@ -96,7 +74,7 @@ const wsLwbaResponseBody: WsCryptoLwbaSuccessResponse = {
 }
 
 export const mockWebSocketServer = (URL: string) => {
-  const mockWsServer = new Server(URL, { mock: false })
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     const parseMessage = () => {
       setTimeout(() => socket.send(JSON.stringify(wsResponseBody)), 10)
@@ -107,7 +85,7 @@ export const mockWebSocketServer = (URL: string) => {
 }
 
 export const mockCryptoLwbaWebSocketServer = (URL: string) => {
-  const mockWsServer = new Server(URL, { mock: false })
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     const parseMessage = () => {
       setTimeout(() => socket.send(JSON.stringify(wsLwbaResponseBody)), 10)

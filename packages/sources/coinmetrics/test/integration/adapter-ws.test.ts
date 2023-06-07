@@ -1,26 +1,24 @@
-import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Server } from 'mock-socket'
 import {
-  mockWebSocketServer,
+  TestAdapter,
+  setEnvVariables,
   mockWebSocketProvider,
-  mockCryptoLwbaWebSocketServer,
-} from './fixtures'
+  MockWebsocketServer,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { mockWebSocketServer, mockCryptoLwbaWebSocketServer } from './fixtures'
 import FakeTimers from '@sinonjs/fake-timers'
 
 describe('websocket', () => {
-  let mockWsServer: Server | undefined
-  let mockWsServerLwba: Server | undefined
+  let mockWsServer: MockWebsocketServer | undefined
+  let mockWsServerLwba: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
   const wsEndpoint = 'ws://localhost:9090/v4/timeseries-stream/asset-metrics'
   const wsEndpointLwba = 'ws://localhost:9090/v4/timeseries-stream/pair-quotes'
-
   const data = {
     base: 'ETH',
     quote: 'USD',
   }
-
   const dataLwba = {
     endpoint: 'crypto-lwba',
     base: 'ETH',

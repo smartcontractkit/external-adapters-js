@@ -1,11 +1,16 @@
-import { Server } from 'mock-socket'
-import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
+import {
+  TestAdapter,
+  setEnvVariables,
+  mockWebSocketProvider,
+  MockWebsocketServer,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockForexWebSocketServer, mockWebSocketProvider } from './fixtures'
+import { mockForexWebSocketServer } from './fixtures'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 describe('websocket', () => {
-  let mockWsServer: Server | undefined
+  let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
@@ -18,9 +23,6 @@ describe('websocket', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_SUBSCRIPTION_TTL'] = '10000'
-    process.env['CACHE_MAX_AGE'] = '10000'
-    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['WS_API_KEY'] = 'fake-api-key'
     process.env['API_KEY'] = 'fake-api-key'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
@@ -29,7 +31,7 @@ describe('websocket', () => {
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockForexWebSocketServer(wsEndpoint)
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,

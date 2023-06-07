@@ -1,4 +1,7 @@
-import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
 
 const mockExpectedAddresses = [
   '0x7b67aa8a28a9df5f4a47f364d3d3a4109f009d11d124c5a7babcbf23e653857b',

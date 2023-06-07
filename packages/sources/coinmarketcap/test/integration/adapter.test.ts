@@ -4,7 +4,10 @@ import {
   mockSuccessfulHistoricalCapResponse,
 } from './fixtures'
 import * as nock from 'nock'
-import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
 
 describe('execute', () => {
   let spy: jest.SpyInstance

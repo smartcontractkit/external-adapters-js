@@ -1,10 +1,10 @@
-import { Server } from 'mock-socket'
 import {
   TestAdapter,
   setEnvVariables,
+  mockWebSocketProvider,
+  MockWebsocketServer,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
-  mockWebSocketProvider,
   mockCryptoWebSocketServer,
   mockCryptoLwbaWebSocketServer,
   mockIexWebSocketServer,
@@ -14,10 +14,10 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import FakeTimers from '@sinonjs/fake-timers'
 
 describe('websocket', () => {
-  let mockWsServerCrypto: Server | undefined
-  let mockWsServerCryptoLwba: Server | undefined
-  let mockWsServerIex: Server | undefined
-  let mockWsServerForex: Server | undefined
+  let mockWsServerCrypto: MockWebsocketServer | undefined
+  let mockWsServerCryptoLwba: MockWebsocketServer | undefined
+  let mockWsServerIex: MockWebsocketServer | undefined
+  let mockWsServerForex: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv

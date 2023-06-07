@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`http forex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 4494.0249,
+  },
+  "result": 4494.0249,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`http live endpoint override should return success 1`] = `
+{
+  "data": {
+    "result": 71.281,
+  },
+  "result": 71.281,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`http live endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 128.785,
+  },
+  "result": 128.785,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

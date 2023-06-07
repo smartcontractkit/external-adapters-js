@@ -1,7 +1,5 @@
 import nock from 'nock'
-import { Server, WebSocket } from 'mock-socket'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tiingo.com', {
     encodedQueryParams: true,
@@ -350,36 +348,15 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
 
-export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
-  // Extend mock WebSocket class to bypass protocol headers error
-  class MockWebSocket extends WebSocket {
-    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
-      super(url, protocol instanceof Object ? undefined : protocol)
-    }
-    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
-    removeAllListeners() {
-      for (const eventType in this.listeners) {
-        // We have to manually check because the mock-socket library shares this instance,
-        // and adds the server listeners to the same obj
-        if (!eventType.startsWith('server')) {
-          delete this.listeners[eventType]
-        }
-      }
-    }
-  }
-
-  // Need to disable typing, the mock-socket impl does not implement the ws interface fully
-  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
-export const mockCryptoWebSocketServer = (URL: string): Server => {
+export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
   const wsResponse = {
     service: 'crypto_data',
     messageType: 'A',
     data: ['SA', 'eth/usd', '2022-03-02T19:37:08.102119+00:00', 'tiingo', 2930.4483973989],
   }
-  const mockWsServer = new Server(URL, { mock: false })
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {
       socket.send(JSON.stringify(wsResponse))
@@ -389,7 +366,7 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const mockCryptoLwbaWebSocketServer = (URL: string): Server => {
+export const mockCryptoLwbaWebSocketServer = (URL: string): MockWebsocketServer => {
   const wsResponse = {
     service: 'crypto_data',
     messageType: 'A',
@@ -406,7 +383,7 @@ export const mockCryptoLwbaWebSocketServer = (URL: string): Server => {
       1794.2063137650225,
     ],
   }
-  const mockWsServer = new Server(URL, { mock: false })
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {
       socket.send(JSON.stringify(wsResponse))
@@ -416,7 +393,7 @@ export const mockCryptoLwbaWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const mockIexWebSocketServer = (URL: string): Server => {
+export const mockIexWebSocketServer = (URL: string): MockWebsocketServer => {
   const wsResponseQ = {
     messageType: 'A',
     service: 'iex',
@@ -461,7 +438,7 @@ export const mockIexWebSocketServer = (URL: string): Server => {
       0,
     ],
   }
-  const mockWsServer = new Server(URL, { mock: false })
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {
       socket.send(JSON.stringify(wsResponseQ))
@@ -472,8 +449,8 @@ export const mockIexWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
-export const mockForexWebSocketServer = (URL: string): Server => {
-  const mockWsServer = new Server(URL, { mock: false })
+export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     let counter = 0
     const parseMessage = () => {

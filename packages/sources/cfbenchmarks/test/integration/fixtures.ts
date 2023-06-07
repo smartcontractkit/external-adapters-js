@@ -1,6 +1,5 @@
 import nock from 'nock'
-import { Server, WebSocket } from 'mock-socket'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://www.cfbenchmarks.com/api')
@@ -55,29 +54,8 @@ export const mockBircResponseSuccess = (): nock.Scope => {
     .persist()
 }
 
-export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
-  // Extend mock WebSocket class to bypass protocol headers error
-  class MockWebSocket extends WebSocket {
-    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
-      super(url, protocol instanceof Object ? undefined : protocol)
-    }
-    // This is part of the 'ws' node library but not the common interface, but it's used in our WS transport
-    removeAllListeners() {
-      for (const eventType in this.listeners) {
-        // We have to manually check because the mock-socket library shares this instance, and adds the server listeners to the same obj
-        if (!eventType.startsWith('server')) {
-          delete this.listeners[eventType]
-        }
-      }
-    }
-  }
-
-  // Need to disable typing, the mock-socket impl does not implement the ws interface fully
-  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
-export const mockWebSocketServer = (URL: string): Server => {
-  const mockWsServer = new Server(URL, { mock: false })
+export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', (message) => {
       const parsed = JSON.parse(message as string)

@@ -1,5 +1,8 @@
 import { mockCryptoSuccess, mockVwapSuccess } from './fixtures'
-import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 
 describe('execute', () => {

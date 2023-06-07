@@ -1,21 +1,21 @@
-import {
-  mockWebSocketProvider,
-  mockCryptoWebSocketServer,
-  mockForexWebSocketServer,
-} from './fixtures'
-import { Server } from 'mock-socket'
+import { mockCryptoWebSocketServer, mockForexWebSocketServer } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { TestAdapter, setEnvVariables } from '@chainlink/external-adapter-framework/util/test-util'
+import {
+  TestAdapter,
+  setEnvVariables,
+  mockWebSocketProvider,
+  MockWebsocketServer,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 describe('websocket', () => {
-  let mockWsServer: Server | undefined
-  let mockWsServerForex: Server | undefined
+  let mockWsServer: MockWebsocketServer | undefined
+  let mockWsServerForex: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
   const wsEndpointForex = 'ws://localhost:9091'
   let oldEnv: NodeJS.ProcessEnv
-
   const cryptoData = {
     base: 'ETH',
     quote: 'USD',
@@ -43,7 +43,7 @@ describe('websocket', () => {
     mockWsServer = mockCryptoWebSocketServer(wsEndpoint)
     mockWsServerForex = mockForexWebSocketServer(wsEndpointForex)
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,
