@@ -13,6 +13,9 @@ export const adapter = new Adapter({
       bronze: {
         rateLimit1m: 300,
       },
+      chainlink: {
+        rateLimit1m: 600,
+      },
       silver: {
         rateLimit1m: 2000,
       },
