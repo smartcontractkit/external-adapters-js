@@ -13,6 +13,10 @@ inputs:
     description: Skips cache restores and saves if set to true
     required: false
     default: 'false'
+  build-all:
+    description: Whether EA changes should be ignored, and all packages built regardless
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -94,26 +98,34 @@ runs:
         && steps.restore-ts-build.outputs.cache-hit != 'true'
       env:
         UPSTREAM_BRANCH: origin/${{ github.base_ref }}
+        BUILD_ALL: ${{ inputs.build-all }}
       run: |
-        yarn workspaces list --json -R --since=$UPSTREAM_BRANCH \
-        | jq -csr '.' \
-        | jq '{ 
-                files: [],
-                include: [],
-                references: [
-                  {
-                    path:  .[]
-                         | .location
-                         | select(
-                                  startswith("packages/sources")
-                                  or startswith("packages/composites")
-                                  or startswith("packages/targets")
-                           )
-                         | match("packages/(.*)").captures[0].string
-                  }
-                ]
-              }' \
-        > packages/tsconfig.tmp.json
+        # If the BUILD_ALL env var is set or there are changes to the scripts (because of the readme generation scripts)
+        # we need to build every possible adapter and their dependencies
+        if [[ $BUILD_ALL = true ]] || git diff $UPSTREAM_BRANCH -- packages/scripts | grep -q . ; then
+          cp packages/tsconfig.json packages/tsconfig.tmp.json
+          exit 0
+        else
+          yarn workspaces list --json -R --since=$UPSTREAM_BRANCH \
+          | jq -csr '.' \
+          | jq '{ 
+                  files: [],
+                  include: [],
+                  references: [
+                    {
+                      path:  .[]
+                          | .location
+                          | select(
+                                    startswith("packages/sources")
+                                    or startswith("packages/composites")
+                                    or startswith("packages/targets")
+                            )
+                          | match("packages/(.*)").captures[0].string
+                    }
+                  ]
+                }' \
+          > packages/tsconfig.tmp.json
+        fi
 
         echo "CHANGED_ADAPTERS=$(jq -c '.references' packages/tsconfig.tmp.json)" >> $GITHUB_ENV
     - name: Build files

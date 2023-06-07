@@ -6,7 +6,6 @@ const environmentVariables = [
   { envKey: 'COINPAPRIKA_ADAPTER_URL', defaultValue: 'coinpaprika' },
   { envKey: 'CRYPTOCOMPARE_ADAPTER_URL', defaultValue: 'cryptocompare' },
   { envKey: 'KAIKO_ADAPTER_URL', defaultValue: 'kaiko' },
-  { envKey: 'NOMICS_ADAPTER_URL', defaultValue: 'nomics' },
 ]
 
 const indices = ['xbci', 'xlci']

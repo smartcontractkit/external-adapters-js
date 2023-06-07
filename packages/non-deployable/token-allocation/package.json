@@ -41,7 +41,6 @@
     "@chainlink/finage-adapter": "workspace:*",
     "@chainlink/kaiko-adapter": "workspace:*",
     "@chainlink/ncfx-adapter": "workspace:*",
-    "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/tiingo-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
