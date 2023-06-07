@@ -17,10 +17,14 @@ inputs:
     description: Whether EA changes should be ignored, and all packages built regardless
     required: false
     default: 'false'
+  fetch-branch:
+    description: The branch that will be fetched from origin for comparison purposes
+    required: false
+    default: 'main'
   base-branch:
     description: The base branch to use for comparison with the head to calculate changed packages
     required: false
-    default: 'main'
+    default: 'origin/main'
 
 runs:
   using: 'composite'
@@ -94,14 +98,14 @@ runs:
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
       run: |
-        git fetch origin ${{ inputs.base-branch }}:${{ inputs.base-branch }} --depth 1 --update-head-ok
+        git fetch origin ${{ inputs.fetch-branch }}:${{ inputs.fetch-branch }} --depth 1 --update-head-ok
     - name: Calculate changed EAs
       shell: bash
       if: |
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
       env:
-        UPSTREAM_BRANCH: origin/${{ inputs.base-branch }}
+        UPSTREAM_BRANCH: ${{ inputs.base-branch }}
         BUILD_ALL: ${{ inputs.build-all }}
       # We have to add the core/factories package manually always because the readme generation imports it
       run: |
