@@ -18,7 +18,7 @@ type HttpTransportTypes = EquitiesEndpointTypes & {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const symbol = `${param.base}`.toUpperCase()
+      const symbol = param.base?.toUpperCase()
       return {
         params: [param],
         request: {
@@ -36,7 +36,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           params: param,
           response: {
             errorMessage:
-              'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+              "Could not retrieve valid data from Data Provider's /last/etf API. This is likely an issue with the Data Provider or the input params/overrides",
             statusCode: 400,
           },
         }
