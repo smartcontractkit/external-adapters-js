@@ -17,7 +17,6 @@ import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import * as Finage from '@chainlink/finage-adapter'
 import * as Kaiko from '@chainlink/kaiko-adapter'
 import { adapter as NCFX } from '@chainlink/ncfx-adapter'
-import * as Nomics from '@chainlink/nomics-adapter'
 import { adapter as Tiingo } from '@chainlink/tiingo-adapter'
 import { Config, SourceRequestOptions } from '../types'
 
@@ -28,7 +27,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   CoinRanking as unknown as v2AdapterImplementation,
   Finage as unknown as v2AdapterImplementation,
   Kaiko as unknown as v2AdapterImplementation,
-  Nomics as unknown as v2AdapterImplementation,
 ]
 
 // List of v3 adapters
