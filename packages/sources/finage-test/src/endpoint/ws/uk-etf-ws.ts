@@ -48,10 +48,10 @@ export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string
 
     builders: {
       subscribeMessage: (params) => {
-        return { action: 'subscribe', symbols: `${params.base}`.toUpperCase() }
+        return { action: 'subscribe', symbols: params.base?.toUpperCase() }
       },
       unsubscribeMessage: (params) => {
-        return { action: 'unsubscribe', symbols: `${params.base}`.toUpperCase() }
+        return { action: 'unsubscribe', symbols: params.base?.toUpperCase() }
       },
     },
   })
