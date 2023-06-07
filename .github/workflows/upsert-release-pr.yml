@@ -43,7 +43,7 @@ jobs:
         # as the setup action will only build the files relevant to the changed adapters
       - name: Install changesets tool
         run: |
-          yarn add @changesets/cli:$(jq -r '.dependencies."@changesets/cli"' package.json)
+          yarn add @changesets/cli@$(jq -r '.dependencies."@changesets/cli"' package.json)
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
           yarn changeset version
