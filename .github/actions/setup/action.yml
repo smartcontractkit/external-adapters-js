@@ -99,6 +99,7 @@ runs:
       env:
         UPSTREAM_BRANCH: origin/${{ github.base_ref }}
         BUILD_ALL: ${{ inputs.build-all }}
+      # We have to add the core/factories package manually always because the readme generation imports it
       run: |
         # If the BUILD_ALL env var is set or there are changes to the scripts (because of the readme generation scripts)
         # we need to build every possible adapter and their dependencies
@@ -112,6 +113,9 @@ runs:
                   files: [],
                   include: [],
                   references: [
+                    {
+                      path: "core/factories"
+                    },
                     {
                       path:  .[]
                           | .location
