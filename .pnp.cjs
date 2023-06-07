@@ -620,10 +620,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/nikkei"\
       },\
       {\
-        "name": "@chainlink/nomics-adapter",\
-        "reference": "workspace:packages/sources/nomics"\
-      },\
-      {\
         "name": "@chainlink/oanda-adapter",\
         "reference": "workspace:packages/sources/oanda"\
       },\
@@ -968,7 +964,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
-      ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
       ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
       ["@chainlink/observation", ["workspace:packages/observation"]],\
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
@@ -7060,6 +7055,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.47"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:1.3.6"],\
+            ["bignumber.js", "npm:9.1.1"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
@@ -8164,24 +8161,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/nomics-adapter", [\
-        ["workspace:packages/sources/nomics", {\
-          "packageLocation": "./packages/sources/nomics/",\
-          "packageDependencies": [\
-            ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
       ["@chainlink/oanda-adapter", [\
         ["workspace:packages/sources/oanda", {\
           "packageLocation": "./packages/sources/oanda/",\
@@ -8965,7 +8944,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

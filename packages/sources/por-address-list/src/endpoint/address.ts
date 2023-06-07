@@ -15,6 +15,7 @@ export type TInputParameters = {
   batchSize: number
   network: string
   chainId: string
+  searchLimboValidators?: boolean
 }
 export const inputParameters: InputParameters<TInputParameters> = {
   confirmations: {
@@ -37,6 +38,11 @@ export const inputParameters: InputParameters<TInputParameters> = {
     description: 'The chain ID to associate with the addresses',
     required: true,
   },
+  searchLimboValidators: {
+    type: 'boolean',
+    description: 'Flag to pass on to the balance adapter to search for limbo validators',
+    required: false,
+  },
 }
 
 interface PorInputAddress {
@@ -47,7 +53,8 @@ interface PorInputAddress {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  const { confirmations, contractAddress, batchSize, network, chainId } = validator.validated.data
+  const { confirmations, contractAddress, batchSize, network, chainId, searchLimboValidators } =
+    validator.validated.data
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const addressManager = new ethers.Contract(contractAddress, POR_ADDRESS_LIST_ABI, provider)
@@ -64,10 +71,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     jobRunID,
     result: addresses,
     data: {
+      searchLimboValidators,
       result: addresses,
-      statusCode: 200,
     },
     statusCode: 200,
   }
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, response, true)
 }
