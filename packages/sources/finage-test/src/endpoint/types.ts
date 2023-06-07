@@ -7,12 +7,27 @@ export const priceInputParameters = new InputParameters({
   ...priceEndpointInputParametersDefinition,
   base: {
     ...priceEndpointInputParametersDefinition.base,
-    aliases: ['from', 'coin', 'symbool'],
+    aliases: ['from', 'coin', 'symbol'],
   },
 })
 
 export type PriceEndpointTypes = {
   Parameters: typeof priceInputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+}
+
+export const equitiesInputParameters = new InputParameters({
+  base: {
+    aliases: ['from', 'symbol'],
+    required: true,
+    type: 'string',
+    description: 'The symbol of the equity to query',
+  },
+})
+
+export type EquitiesEndpointTypes = {
+  Parameters: typeof equitiesInputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
 }
