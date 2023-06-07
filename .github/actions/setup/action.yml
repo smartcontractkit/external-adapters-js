@@ -148,6 +148,10 @@ runs:
       run: |
         yarn tsc -b packages/tsconfig.tmp.json
       shell: bash
+    - name: Clean tmp files
+      shell: bash
+      run: |
+        rm -f packages/tsconfig.tmp.json
     - name: Cache built files
       if: |
         inputs.skip-setup != 'true'
