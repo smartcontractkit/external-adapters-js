@@ -44,6 +44,11 @@ jobs:
       - name: Install changesets tool
         run: |
           yarn add @changesets/cli@$(jq -r '.dependencies."@changesets/cli"' package.json)
+      - name: Configure git
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
           yarn changeset version
