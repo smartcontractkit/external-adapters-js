@@ -1,5 +1,5 @@
 ---
-'@chainlink/finage-test-adapter': minor
+'@chainlink/stader-address-list-adapter': minor
 ---
 
-Added uk_etf endpoint to finage v3
+Updated with Stader contract function name change
