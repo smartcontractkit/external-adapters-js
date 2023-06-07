@@ -147,6 +147,7 @@ export const handleCryptoLwbaMessage = (
           bid: Number(message.bid_price),
           bidsize: Number(message.bid_size),
           spread: Number(message.spread),
+          matttest: 'abc',
           data: {
             result: res,
             // bid, mid, ask included here again.
@@ -154,11 +155,11 @@ export const handleCryptoLwbaMessage = (
             bid: Number(message.bid_price),
             mid: res,
             ask: Number(message.ask_price),
-          },
+          } as any,
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(message.time).getTime(),
           },
-        },
+        } as any,
       },
     ]
   } else {
