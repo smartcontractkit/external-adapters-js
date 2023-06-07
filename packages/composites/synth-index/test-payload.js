@@ -6,7 +6,6 @@ const environmentVariables = [
   { envKey: 'COINPAPRIKA_ADAPTER_URL', value: 'coinpaprika' },
   { envKey: 'CRYPTOCOMPARE_ADAPTER_URL', value: 'cryptocompare' },
   { envKey: 'KAIKO_ADAPTER_URL', value: 'kaiko' },
-  { envKey: 'NOMICS_ADAPTER_URL', value: 'nomics' },
 ]
 
 function searchEnvironment(environmentVariables) {
