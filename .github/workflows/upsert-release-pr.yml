@@ -39,7 +39,8 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
-      - uses: ./.github/actions/setup
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
         with:
           skip-setup: false
       - name: Temporarily calculate changesets to generate readmes with proper versions

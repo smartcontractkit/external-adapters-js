@@ -58,7 +58,6 @@ const environmentVariables = [
   { envKey: 'MESSARI_ADAPTER_URL', value: 'messari' },
   { envKey: 'METALSAPI_ADAPTER_URL', value: 'metalsapi' },
   { envKey: 'NIKKEI_ADAPTER_URL', value: 'nikkei' },
-  { envKey: 'NOMICS_ADAPTER_URL', value: 'nomics' },
   { envKey: 'OILPRICEAPI_ADAPTER_URL', value: 'oilpriceapi' },
   { envKey: 'ONCHAIN_ADAPTER_URL', value: 'onchain' },
   { envKey: 'OPEN_EXCHANGE_RATES_ADAPTER_URL', value: 'open_exchange_rates' },
