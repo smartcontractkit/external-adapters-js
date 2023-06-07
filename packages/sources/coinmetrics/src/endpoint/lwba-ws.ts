@@ -112,7 +112,9 @@ export const calculatePairQuotesUrl = (
   } else {
     const pairs = [
       ...new Set(desiredSubs.map((sub) => `${sub.base.toLowerCase()}-${sub.quote.toLowerCase()}`)),
-    ].join(',')
+    ]
+      .sort()
+      .join(',')
     generated.searchParams.append('pairs', pairs)
   }
 
