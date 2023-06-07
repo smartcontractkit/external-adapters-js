@@ -4331,22 +4331,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/nomics-adapter@workspace:*, @chainlink/nomics-adapter@workspace:packages/sources/nomics":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/nomics-adapter@workspace:packages/sources/nomics"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/oanda-adapter@workspace:packages/sources/oanda":
   version: 0.0.0-use.local
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
@@ -5049,7 +5033,6 @@ __metadata:
     "@chainlink/finage-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
-    "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/tiingo-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51

@@ -240,36 +240,6 @@ exports[`execute additional input parameter pass through should return the corre
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source nomics with additional input   1`] = `
-{
-  "data": {
-    "payload": {
-      "DAI": {
-        "quote": {
-          "EUR": {
-            "price": 130.27,
-          },
-        },
-      },
-      "WBTC": {
-        "quote": {
-          "EUR": {
-            "price": 130.27,
-          },
-        },
-      },
-    },
-    "result": 260.54,
-    "sources": [],
-  },
-  "debug": undefined,
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 260.54,
-  "statusCode": 200,
-}
-`;
-
 exports[`execute additional input parameter pass through should return the correct price for source tiingo with additional input   1`] = `
 {
   "data": {
@@ -511,36 +481,6 @@ exports[`execute marketcap method should return the correct price for source cry
 `;
 
 exports[`execute marketcap method should return the correct price for source kaiko 1`] = `
-{
-  "data": {
-    "payload": {
-      "DAI": {
-        "quote": {
-          "EUR": {
-            "marketCap": 130.27,
-          },
-        },
-      },
-      "WBTC": {
-        "quote": {
-          "EUR": {
-            "marketCap": 130.27,
-          },
-        },
-      },
-    },
-    "result": 260.54,
-    "sources": [],
-  },
-  "debug": undefined,
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 260.54,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute marketcap method should return the correct price for source nomics 1`] = `
 {
   "data": {
     "payload": {
@@ -841,36 +781,6 @@ exports[`execute price method should return the correct price for source cryptoc
 `;
 
 exports[`execute price method should return the correct price for source kaiko 1`] = `
-{
-  "data": {
-    "payload": {
-      "DAI": {
-        "quote": {
-          "EUR": {
-            "price": 130.27,
-          },
-        },
-      },
-      "WBTC": {
-        "quote": {
-          "EUR": {
-            "price": 130.27,
-          },
-        },
-      },
-    },
-    "result": 260.54,
-    "sources": [],
-  },
-  "debug": undefined,
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 260.54,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute price method should return the correct price for source nomics 1`] = `
 {
   "data": {
     "payload": {
