@@ -90,7 +90,7 @@ export const StaderPermissionlessNodeRegistryContract_ABI: ethers.ContractInterf
       { internalType: 'uint256', name: '_pageNumber', type: 'uint256' },
       { internalType: 'uint256', name: '_pageSize', type: 'uint256' },
     ],
-    name: 'getNodeELVaultAddressForOptOutOperators',
+    name: 'getAllNodeELVaultAddress',
     outputs: [{ internalType: 'address[]', name: '', type: 'address[]' }],
     stateMutability: 'view',
     type: 'function',
