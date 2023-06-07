@@ -54,6 +54,7 @@ jobs:
         uses: ./.github/actions/setup
         with:
           build-all: true
+          base-branch: ${{ github.base_ref }}
 
       - name: Check AWS CLI version
         run: aws --version
