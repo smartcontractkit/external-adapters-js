@@ -6,7 +6,7 @@
     "@apidevtools/json-schema-ref-parser": "9.0.9",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.29.8",
+    "@chainlink/external-adapter-framework": "0.29.11",
     "airtable": "0.11.6",
     "axios": "0.22.0",
     "axios-mock-adapter": "1.20.0",
