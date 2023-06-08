@@ -1,6 +1,6 @@
 # PoR Address List Adapter
 
-![4.0.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![4.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This EA fetches the list of custodial addresses that hold the funds for a PoR feed
 
@@ -31,13 +31,14 @@ This EA fetches the list of custodial addresses that hold the funds for a PoR fe
 
 ### Input Params
 
-| Required? |      Name       | Aliases |                         Description                          | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------------: | :-----: | :----------------------------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|           |  confirmations  |         |        The number of confirmations to query data from        |      |         |         |            |                |
-|    ✅     | contractAddress |         |     The contract address holding the custodial addresses     |      |         |         |            |                |
-|           |    batchSize    |         | The number of addresses to fetch from the contract at a time |      |         |  `10`   |            |                |
-|    ✅     |     network     |         |       The network name to associate with the addresses       |      |         |         |            |                |
-|    ✅     |     chainId     |         |         The chain ID to associate with the addresses         |      |         |         |            |                |
+| Required? |         Name          | Aliases |                              Description                              |  Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------------: | :-----: | :-------------------------------------------------------------------: | :-----: | :-----: | :-----: | :--------: | :------------: |
+|           |     confirmations     |         |            The number of confirmations to query data from             |         |         |         |            |                |
+|    ✅     |    contractAddress    |         |         The contract address holding the custodial addresses          |         |         |         |            |                |
+|           |       batchSize       |         |     The number of addresses to fetch from the contract at a time      |         |         |  `10`   |            |                |
+|    ✅     |        network        |         |           The network name to associate with the addresses            |         |         |         |            |                |
+|    ✅     |        chainId        |         |             The chain ID to associate with the addresses              |         |         |         |            |                |
+|           | searchLimboValidators |         | Flag to pass on to the balance adapter to search for limbo validators | boolean |         |         |            |                |
 
 ### Example
 
@@ -117,8 +118,7 @@ Response:
         "network": "ethereum",
         "chainId": "mainnet"
       }
-    ],
-    "statusCode": 200
+    ]
   },
   "result": [
     {

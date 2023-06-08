@@ -50,7 +50,11 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.QA_KUBECONFIG }}
 
-      - uses: ./.github/actions/setup # Yarn install > setup
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+        with:
+          build-all: true
+          base-branch: ${{ github.base_ref }}
 
       - name: Check AWS CLI version
         run: aws --version

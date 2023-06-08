@@ -1,5 +1,11 @@
 # @chainlink/finage-test-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- d2dfa33b3: Added uk_etf endpoint to finage v3
+
 ## 1.2.2
 
 ### Patch Changes

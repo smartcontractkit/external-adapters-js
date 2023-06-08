@@ -46,11 +46,6 @@ export const dataProviderConfig: TokenAllocationTest = {
       sort: 'asc',
     },
   },
-  nomics: {
-    providerUrlEnvVar: 'NOMICS_ADAPTER_URL',
-    providerUrl: 'http://localhost:3007',
-    additional: {},
-  },
   tiingo: {
     providerUrl: 'http://localhost:3008',
     providerUrlEnvVar: 'TIINGO_ADAPTER_URL',
