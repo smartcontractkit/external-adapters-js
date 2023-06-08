@@ -1,5 +1,12 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- f5dc53032: Updated with Stader contract function name change
+- d25ef6507: Pinned block number to Stader reported block
+
 ## 2.2.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @chainlink/token-allocation-adapter
 
+## 1.11.0
+
+### Minor Changes
+
+- 2243835e6: Remove dependency on Nomics External Adapter.
+
+### Patch Changes
+
+- Updated dependencies [d25a72c99]
+  - @chainlink/coinmetrics-adapter@3.2.1
+
 ## 1.10.15
 
 ### Patch Changes
