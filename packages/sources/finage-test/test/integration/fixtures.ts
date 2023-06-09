@@ -96,6 +96,14 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+    .get('/last/etf/CSPX')
+    .query({ apikey: 'fake-api-key' })
+    .reply(200, {
+      symbol: 'CSPX',
+      price: 445.64,
+      timestamp: 1685972473955,
+    })
+    .persist()
 
 export const mockStockWebSocketServer = (URL: string): MockWebsocketServer => {
   const wsResponse = [
@@ -172,6 +180,29 @@ export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
             dex: false,
             src: 'A',
             t: 1646151298290,
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}
+
+export const mockEtfWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            s: 'CSPX',
+            p: 445.76,
+            dc: '0.0000',
+            dd: '0.0000',
+            t: 1685958155,
           }),
         )
       }

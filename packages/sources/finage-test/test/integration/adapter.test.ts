@@ -4,7 +4,6 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 describe('rest', () => {
   let spy: jest.SpyInstance
@@ -18,7 +17,7 @@ describe('rest', () => {
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -92,6 +91,19 @@ describe('rest', () => {
         endpoint: 'commodities',
         base: 'wti',
         quote: 'usd',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('etf endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'uk_etf',
+        base: 'cspx',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

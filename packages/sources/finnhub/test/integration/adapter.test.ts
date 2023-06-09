@@ -3,7 +3,6 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { mockResponseSuccess } from './fixtures'
 
 describe('rest', () => {
@@ -17,7 +16,7 @@ describe('rest', () => {
     const mockDate = new Date('2022-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,

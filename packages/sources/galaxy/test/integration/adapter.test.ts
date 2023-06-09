@@ -1,5 +1,4 @@
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { mockTokenResponse, mockPriceWebSocketServer } from './fixtures'
 import {
   TestAdapter,
@@ -35,7 +34,7 @@ describe('Price Endpoint', () => {
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockPriceWebSocketServer(wsEndpoint)
 
-    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,

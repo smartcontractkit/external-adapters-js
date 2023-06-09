@@ -45,6 +45,21 @@ exports[`rest eod endpoint should return success 1`] = `
 }
 `;
 
+exports[`rest etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 445.64,
+  },
+  "result": 445.64,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1685972473955,
+  },
+}
+`;
+
 exports[`rest forex endpoint should return success 1`] = `
 {
   "data": {

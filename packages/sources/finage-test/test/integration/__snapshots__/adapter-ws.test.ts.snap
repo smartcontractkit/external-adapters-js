@@ -15,6 +15,21 @@ exports[`websocket crypto endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 445.76,
+  },
+  "result": 445.76,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": 1685958155000,
+  },
+}
+`;
+
 exports[`websocket forex endpoint should return success 1`] = `
 {
   "data": {
