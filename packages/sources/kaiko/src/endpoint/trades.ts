@@ -1,78 +1,53 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import type {
-  Config,
-  ExecuteWithConfig,
-  IncludePair,
-  InputParameters,
-} from '@chainlink/ea-bootstrap'
-import {
-  DEFAULT_INTERVAL,
-  DEFAULT_SORT,
-  DEFAULT_MILLISECONDS,
-  NAME as AdapterName,
-} from '../config'
-import includes from '../config/includes.json'
-import overrides from '../config/symbols.json'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { config } from '../config'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import overrides from '../config/overrides.json'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-export const supportedEndpoints = ['trades', 'price']
+const logger = makeLogger('KaikoTrades')
 
-const customError = (data: ResponseSchema) => data.result === 'error'
-
-export type TInputParameters = {
-  base: string
-  quote: string
-  interval: string
-  millisecondsAgo: number
-  sort: string
-}
-
-export const inputParameters: InputParameters<TInputParameters> = {
+const inputParameters = new InputParameters({
   base: {
     aliases: ['from', 'coin'],
     required: true,
-    description: 'The symbol of the currency to query',
+    type: 'string',
+    description: 'The symbol of symbols of the currency to query',
   },
   quote: {
     aliases: ['to', 'market'],
     required: true,
-    description: 'The symbol of the currency to convert',
+    type: 'string',
+    description: 'The symbol of the currency to convert to',
   },
   interval: {
     required: false,
+    type: 'string',
     description:
       'The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly',
     default: '2m',
   },
   millisecondsAgo: {
     required: false,
+    type: 'string',
     description:
       'Number of milliseconds from the current time that will determine start_time to use in the query',
-    default: 86_400_000, // 24 hours
+    default: '86400000', // 24 hours
   },
   sort: {
     required: false,
+    type: 'string',
     description: 'Which way to sort the data returned in the query',
     default: 'desc',
   },
-}
-
-export type TOptions = {
-  url: string
-  inverse?: boolean
-}
-
-const getUrl = (from: string, to: string) => ({
-  url: util.buildUrlPath('/spot_exchange_rate/:from/:to', {
-    from: from.toLowerCase(),
-    to: to.toLowerCase(),
-  }),
 })
 
-const getIncludesOptions = (_: Validator<TInputParameters>, include: IncludePair) => {
-  return {
-    ...getUrl(include.from, include.to),
-    inverse: include.inverse,
-  }
+export interface RequestParams {
+  base: string
+  quote: string
+  interval: string
+  millisecondsAgo: number
+  sort: string
 }
 
 export interface ResponseSchema {
@@ -103,54 +78,82 @@ export interface ResponseSchema {
   }
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { includes, overrides })
-
-  Requester.logConfig(config)
-
-  const jobRunID = validator.validated.id
-
-  // provide a reasonable interval to fetch only recent results
-  function calculateStartTime(millisecondsAgo: number) {
-    const date = new Date()
-    date.setTime(date.getTime() - millisecondsAgo)
-    return date
+type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
   }
-
-  const { url, inverse } = util.getPairOptions<TOptions, TInputParameters>(
-    AdapterName,
-    validator,
-    getIncludesOptions,
-    getUrl,
-  )
-
-  const interval = validator.validated.data.interval || DEFAULT_INTERVAL
-  const start_time = calculateStartTime(
-    validator.validated.data.millisecondsAgo || DEFAULT_MILLISECONDS,
-  )
-  const sort = validator.validated.data.sort || DEFAULT_SORT
-
-  const params = { interval, sort, start_time }
-
-  const requestConfig = {
-    ...config.api,
-    url,
-    params,
-    timeout: 10000,
-  }
-  const response = await Requester.request<ResponseSchema>(requestConfig, customError)
-
-  const data = response.data.data.filter((x) => x.price !== null)
-  if (data.length == 0) {
-    throw 'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.'
-  }
-
-  const result = Requester.validateResultNumber(
-    // sometimes, the most recent(fraction of a second) data contain null price
-    data,
-    [0, 'price'],
-    { inverse },
-  )
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
+
+const calculateStartTime = (millisecondsAgo: number) => {
+  const date = new Date()
+  date.setTime(date.getTime() - millisecondsAgo)
+  return date
+}
+
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      const base = param.base.toLowerCase()
+      const quote = param.quote.toLowerCase()
+      const url = `/spot_exchange_rate/${base}/${quote}`
+
+      const interval = param.interval
+      const start_time = calculateStartTime(Number(param.millisecondsAgo))
+      const sort = param.sort
+
+      const requestParams = { interval, sort, start_time }
+      return {
+        params: [{ ...param }],
+        request: {
+          baseURL: config.API_ENDPOINT,
+          url,
+          params: requestParams,
+          headers: { 'X-Api-Key': config.API_KEY },
+        },
+      }
+    })
+  },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      const data = res.data.data.filter((x) => x.price !== null)
+      if (data.length === 0) {
+        const errorMessage = `Kaiko is not returning any price data for ${param.base}/${param.quote}, likely due to too low trading volume for the requested interval (${param.interval}). This is not an issue with the external adapter.`
+        logger.info(errorMessage)
+        return {
+          params: param,
+          response: {
+            statusCode: 502,
+            errorMessage,
+          },
+        }
+      }
+
+      const price = Number(data[0].price)
+
+      return {
+        params: param,
+        response: {
+          data: {
+            result: price,
+          },
+          result: price,
+          timestamps: {
+            providerIndicatedTimeUnixMs: data[0].timestamp,
+          },
+        },
+      }
+    })
+  },
+})
+
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
+  name: 'trades',
+  aliases: ['price', 'crypto'],
+  transport: httpTransport,
+  inputParameters,
+  overrides: overrides.kaiko,
+})

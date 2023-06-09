@@ -1,18 +1,23 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'KAIKO'
-
-export const DEFAULT_INTERVAL = '1m'
-export const DEFAULT_SORT = 'desc'
-export const DEFAULT_MILLISECONDS = 1800000
-export const DEFAULT_ENDPOINT = 'trades'
-export const DEFAULT_API_ENDPOINT = 'https://us.market-api.kaiko.io/v2/data/trades.v1'
-
-export const makeConfig = (prefix = ''): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
-  if (config.apiKey) config.api.headers = { ...config.api.headers, 'X-Api-Key': config.apiKey }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig(
+  {
+    API_KEY: {
+      description: 'API KEY for  KAIKO',
+      type: 'string',
+      required: true,
+      sensitive: true,
+    },
+    API_ENDPOINT: {
+      description: 'API endpoint for  KAIKO',
+      type: 'string',
+      default: 'https://us.market-api.kaiko.io/v2/data/trades.v1',
+    },
+  },
+  {
+    envDefaultOverrides: {
+      API_TIMEOUT: 60_000,
+      MAX_HTTP_REQUEST_QUEUE_LENGTH: 300,
+    },
+  },
+)

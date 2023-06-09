@@ -1,12 +1,23 @@
-import { AdapterContext, expose } from '@chainlink/ea-bootstrap'
-import { endpointSelector, makeExecute } from './adapter'
-import * as endpoints from './endpoint'
-import { makeConfig, NAME } from './config'
-import * as types from './endpoint'
-import rateLimit from './config/limits.json'
-import { envDefaultOverrides } from './config/envDefaultOverrides'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
+import includes from './config/includes.json'
+import { trades } from './endpoint'
 
-const adapterContext: AdapterContext = { name: NAME, rateLimit, envDefaultOverrides }
+export const adapter = new PriceAdapter({
+  defaultEndpoint: trades.name,
+  name: 'KAIKO',
+  endpoints: [trades],
+  config,
+  includes,
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1s: 100,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
+    },
+  },
+})
 
-const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, endpoints, makeExecute, makeConfig, server, types }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

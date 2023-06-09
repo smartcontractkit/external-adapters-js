@@ -32,7 +32,6 @@
 '@chainlink/ncfx-adapter': patch
 '@chainlink/cryptocompare-adapter': patch
 '@chainlink/tiingo-adapter': patch
-'@chainlink/kaiko-test-adapter': patch
 '@chainlink/twosigma-adapter': patch
 '@chainlink/coinmarketcap-adapter': patch
 '@chainlink/coinpaprika-adapter': patch
