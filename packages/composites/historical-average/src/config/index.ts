@@ -1,6 +1,7 @@
 import { adapter as CoinMarketCap } from '@chainlink/coinmarketcap-adapter'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/ea-bootstrap'
+import { Adapter as AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
 export type SourceRequestOptions = { [source: string]: DefaultConfig }
 export const NAME = 'HISTORICAL_AVERAGE'
@@ -10,7 +11,7 @@ export type Config = DefaultConfig & {
   defaultSource?: string
 }
 
-export const adapters = [CoinMarketCap]
+export const adapters: AdapterImplementation[] = [CoinMarketCap as AdapterImplementation]
 
 export type Source = (typeof adapters)[number]['name']
 

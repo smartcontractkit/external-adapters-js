@@ -6,6 +6,7 @@ import type {
   AdapterContext,
 } from '@chainlink/ea-bootstrap'
 import { makeRequestFactory, callAdapter } from '.'
+import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
 // balance adapters
 import * as amberdata from '@chainlink/amberdata-adapter'
@@ -43,7 +44,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
   avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3 = [polkadotBalance, staderBalance]
+export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance, staderBalance]
 
 // Get balances for address set
 export const runBalanceAdapter = async (
