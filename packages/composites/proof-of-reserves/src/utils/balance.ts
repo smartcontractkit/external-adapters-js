@@ -44,10 +44,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
   avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [
-  polkadotBalance as unknown as v3AdapterImplementation,
-  staderBalance as unknown as v3AdapterImplementation,
-]
+export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance, staderBalance]
 
 // Get balances for address set
 export const runBalanceAdapter = async (
