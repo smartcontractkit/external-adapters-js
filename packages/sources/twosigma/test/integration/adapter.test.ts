@@ -5,7 +5,6 @@ import {
   mockWebSocketProvider,
   MockWebsocketServer,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import FakeTimers from '@sinonjs/fake-timers'
 import { mockWebSocketServer } from './fixtures'
 
@@ -28,7 +27,7 @@ describe('websocket', () => {
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebSocketServer(wsEndpoint)
 
-    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,
