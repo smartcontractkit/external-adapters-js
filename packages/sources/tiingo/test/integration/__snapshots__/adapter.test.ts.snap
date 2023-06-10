@@ -174,6 +174,7 @@ exports[`execute websocket crypto_lwba endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1680187094577,
     "providerDataStreamEstablishedUnixMs": 1680187094577,
+    "providerIndicatedTimeUnixMs": 1680187094577,
   },
 }
 `;
