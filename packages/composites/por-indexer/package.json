@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/por-indexer-adapter",
-  "version": "1.2.55",
+  "version": "1.2.56",
   "description": "Adapter to query a PoR Indexer Service.",
   "license": "MIT",
   "main": "dist/index.js",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "14.18.47",
+    "@types/node": "14.18.48",
     "typescript": "5.0.4"
   }
 }

@@ -21,13 +21,18 @@ export const config = new AdapterConfig({
     description: 'The API url for dxfeed',
     type: 'string',
     default: 'https://tools.dxfeed.com/webservice/rest',
-    validate: (value?: string): string => {
-      if (value === 'https://tools.dxfeed.com/webservice/rest') {
-        logger.warn(
-          `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
-        )
-      }
-      return ''
+    validate: {
+      meta: {
+        details: 'API endpoint warning',
+      },
+      fn: (value?: string): string => {
+        if (value === 'https://tools.dxfeed.com/webservice/rest') {
+          logger.warn(
+            `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
+          )
+        }
+        return ''
+      },
     },
   },
 })

@@ -396,9 +396,6 @@
       "path": "./sources/kaiko/tsconfig.test.json"
     },
     {
-      "path": "./sources/kaiko-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
     },
     {
@@ -442,9 +439,6 @@
     },
     {
       "path": "./sources/nikkei/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nomics/tsconfig.test.json"
     },
     {
       "path": "./sources/oanda/tsconfig.test.json"

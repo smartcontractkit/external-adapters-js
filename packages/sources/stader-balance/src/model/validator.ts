@@ -10,9 +10,10 @@ import {
   fetchAddressBalance,
   formatValueInGwei,
   getSlotNumber,
-  ONE_ETH_WEI,
+  PENDING_INITIALIZED,
   ProviderResponse,
   StaderValidatorStatus,
+  THIRTY_TWO_ETH_WEI,
   ValidatorAddress,
   ValidatorState,
   WITHDRAWAL_DONE_STATUS,
@@ -175,7 +176,8 @@ abstract class Validator {
   isDeposited(): boolean {
     return (
       this.addressData.status === StaderValidatorStatus.DEPOSITED &&
-      this.validatorBalance.eq(ONE_ETH_WEI)
+      this.state.status === PENDING_INITIALIZED &&
+      this.validatorBalance.lt(THIRTY_TWO_ETH_WEI)
     )
   }
 

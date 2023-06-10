@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-adapter",
-  "version": "1.10.15",
+  "version": "1.11.0",
   "description": "Chainlink token allocation adapter",
   "keywords": [
     "Chainlink",
@@ -41,14 +41,13 @@
     "@chainlink/finage-adapter": "workspace:*",
     "@chainlink/kaiko-adapter": "workspace:*",
     "@chainlink/ncfx-adapter": "workspace:*",
-    "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/tiingo-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "0.29.8",
+    "@chainlink/external-adapter-framework": "0.29.12",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "nock": "13.2.9",

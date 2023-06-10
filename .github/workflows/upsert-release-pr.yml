@@ -39,14 +39,25 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
-      - uses: ./.github/actions/setup
-        with:
-          skip-setup: false
+        # We install only the changesets tool so we can do the mock changesets before installing dependencies,
+        # as the setup action will only build the files relevant to the changed adapters
+      - name: Install changesets tool
+        run: |
+          yarn add @changesets/cli@$(jq -r '.dependencies."@changesets/cli"' package.json)
+      - name: Configure git
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
           yarn changeset version
           git add -A
           git commit -m "Changesets mock"
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+        with:
+          base-branch: ${{ env.UPSTREAM_BRANCH }}
       - name: Increase monorepo version
         run: |
           BUMPED_VERSION=$(jq -r '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)

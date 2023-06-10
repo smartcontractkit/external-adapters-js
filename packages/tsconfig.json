@@ -396,9 +396,6 @@
       "path": "./sources/kaiko"
     },
     {
-      "path": "./sources/kaiko-test"
-    },
-    {
       "path": "./sources/layer2-sequencer-health"
     },
     {
@@ -442,9 +439,6 @@
     },
     {
       "path": "./sources/nikkei"
-    },
-    {
-      "path": "./sources/nomics"
     },
     {
       "path": "./sources/oanda"

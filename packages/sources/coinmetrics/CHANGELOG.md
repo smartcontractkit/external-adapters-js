@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.2.1
+
+### Patch Changes
+
+- d25a72c99: Add sorting to Crypto LWBA WS endpoint for asset pairs
+
 ## 3.2.0
 
 ### Minor Changes
