@@ -6840,7 +6840,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prom-client", "npm:13.2.0"],\
             ["promise-timeout", "npm:1.3.0"],\
             ["redis", "npm:4.3.1"],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["redux-logger", "npm:3.0.6"],\
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],\
             ["remote-redux-devtools", "npm:0.5.16"],\
@@ -13543,7 +13543,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["immer", "npm:9.0.15"],\
             ["react", null],\
             ["react-redux", null],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["redux-thunk", "virtual:cab0cbca09e7fd0a1228ed88e507990118cb65577143c821010589daee6fbd553e5c92f88441fb826c9a1da5165f2c5432cbf78baf51c26872f95fa2834c2030#npm:2.4.1"],\
             ["reselect", "npm:4.1.6"]\
           ],\
@@ -15142,7 +15142,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-redux-logger-npm-3.0.9-ac1d3f05fb-c41fdc0919.zip/node_modules/@types/redux-logger/",\
           "packageDependencies": [\
             ["@types/redux-logger", "npm:3.0.9"],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15152,7 +15152,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-remote-redux-devtools-npm-0.5.5-11435f3c9e-1ff59a41e1.zip/node_modules/@types/remote-redux-devtools/",\
           "packageDependencies": [\
             ["@types/remote-redux-devtools", "npm:0.5.5"],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -32062,10 +32062,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["redux", [\
-        ["npm:4.2.0", {\
-          "packageLocation": "./.yarn/cache/redux-npm-4.2.0-4688cc8d65-75f3955c89.zip/node_modules/redux/",\
+        ["npm:4.2.1", {\
+          "packageLocation": "./.yarn/cache/redux-npm-4.2.1-e7e2cf2e37-f63b9060c3.zip/node_modules/redux/",\
           "packageDependencies": [\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["@babel/runtime", "npm:7.20.13"]\
           ],\
           "linkType": "HARD"\
@@ -32133,7 +32133,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],\
             ["@types/redux", null],\
             ["@types/rxjs", null],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["rxjs", "npm:6.6.7"]\
           ],\
           "packagePeers": [\
@@ -32158,7 +32158,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["redux-thunk", "virtual:cab0cbca09e7fd0a1228ed88e507990118cb65577143c821010589daee6fbd553e5c92f88441fb826c9a1da5165f2c5432cbf78baf51c26872f95fa2834c2030#npm:2.4.1"],\
             ["@types/redux", null],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "packagePeers": [\
             "@types/redux",\
