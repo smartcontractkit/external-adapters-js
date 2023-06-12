@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/alphavantage-test-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink alphavantage-test adapter.",
   "keywords": [
     "Chainlink",

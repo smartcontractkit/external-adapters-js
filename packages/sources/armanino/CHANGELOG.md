@@ -1,5 +1,11 @@
 # @chainlink/armanino-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 4818ae84d: Changed default API endpoint. Added STBT endpoint
+
 ## 1.0.46
 
 ### Patch Changes
