@@ -74,6 +74,9 @@ export const wsTransport: TiingoWebsocketTransport<EndpointTypes> =
                 askSize: message.data[dataKeys.askSize],
                 weightedSpreadPcnt: message.data[dataKeys.weightedSpreadPcnt],
               },
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(message.data[dataKeys.datetime]).valueOf(),
+              },
             },
           },
         ]

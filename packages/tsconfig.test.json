@@ -396,9 +396,6 @@
       "path": "./sources/kaiko/tsconfig.test.json"
     },
     {
-      "path": "./sources/kaiko-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
     },
     {

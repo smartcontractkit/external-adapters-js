@@ -1,40 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute exchange direct rate api should return success 1`] = `
-{
-  "data": {
-    "result": 0.0485267900742041,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 0.0485267900742041,
-  "statusCode": 200,
-}
-`;
-
-exports[`execute exchange rate api should return success 1`] = `
+exports[`execute trades endpoint should return success 1`] = `
 {
   "data": {
     "result": 4097.271668358277,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 4097.271668358277,
   "statusCode": 200,
-}
-`;
-
-exports[`execute exchange rate api with invalid token should return failure 1`] = `
-{
-  "error": {
-    "feedID": "XXX/USD",
-    "message": "Request failed with status code 400",
-    "name": "AdapterError",
-    "url": "https:/us.market-api.kaiko.io/v2/data/trades.v1/spot_exchange_rate/xxx/usd",
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1634849580000,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 400,
-  "status": "errored",
-  "statusCode": 200,
 }
 `;

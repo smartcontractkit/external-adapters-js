@@ -556,10 +556,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/kaiko"\
       },\
       {\
-        "name": "@chainlink/kaiko-test-adapter",\
-        "reference": "workspace:packages/sources/kaiko-test"\
-      },\
-      {\
         "name": "@chainlink/layer2-sequencer-health-adapter",\
         "reference": "workspace:packages/sources/layer2-sequencer-health"\
       },\
@@ -944,7 +940,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
-      ["@chainlink/kaiko-test-adapter", ["workspace:packages/sources/kaiko-test"]],\
       ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
       ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
@@ -5549,7 +5544,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alongside/",\
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/crypto-js", "npm:4.1.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -5604,7 +5599,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage-test/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5786,7 +5781,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/bank-frick/",\
           "packageDependencies": [\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5968,7 +5963,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/blocksize-capital/",\
           "packageDependencies": [\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6140,7 +6135,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6245,7 +6240,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6281,7 +6276,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",\
           "packageDependencies": [\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6298,7 +6293,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6317,7 +6312,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinpaprika/",\
           "packageDependencies": [\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6478,7 +6473,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6588,7 +6583,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dar/",\
           "packageDependencies": [\
             ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6668,7 +6663,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.3.1"],\
-            ["supertest", "npm:6.3.0"],\
+            ["supertest", "npm:6.3.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6732,7 +6727,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dxfeed/",\
           "packageDependencies": [\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6751,7 +6746,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6845,7 +6840,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prom-client", "npm:13.2.0"],\
             ["promise-timeout", "npm:1.3.0"],\
             ["redis", "npm:4.3.1"],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["redux-logger", "npm:3.0.6"],\
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],\
             ["remote-redux-devtools", "npm:0.5.16"],\
@@ -6900,7 +6895,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -6955,7 +6950,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7209,10 +7204,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.29.11", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.29.11-0a42721897-c09d30a1c4.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.29.12", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.29.12-c1b878459a-e2a3caba27.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:1.3.4"],\
             ["eventsource", "npm:2.0.2"],\
@@ -7222,7 +7217,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:0a42721897dd6ca1ecd9a6de2d8d74b81acd692692ce50b54fdb0843b34ca8f2fb947240e661203b7649d73f3471b2f0d78a15f726558eaefdf0dbaff1d5d0ad#npm:8.9.0"]\
+            ["ws", "virtual:c1b878459a805a1e4e3c13bafbad9f455044a7261cda8e5f570db23acf069cb5906ba73e0607660fb7735fd2dde66d0e8d5428a46912ce561520a24da7f707a7#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7298,7 +7293,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finage-test/",\
           "packageDependencies": [\
             ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7316,7 +7311,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7423,7 +7418,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7561,7 +7556,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7607,7 +7602,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7625,7 +7620,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/icap/",\
           "packageDependencies": [\
             ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7644,7 +7639,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/iex-cloud/",\
           "packageDependencies": [\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7701,7 +7696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/intrinio-test/",\
           "packageDependencies": [\
             ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7749,7 +7744,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.3.0"],\
+            ["supertest", "npm:6.3.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7779,25 +7774,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/kaiko/",\
           "packageDependencies": [\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/kaiko-test-adapter", [\
-        ["workspace:packages/sources/kaiko-test", {\
-          "packageLocation": "./packages/sources/kaiko-test/",\
-          "packageDependencies": [\
-            ["@chainlink/kaiko-test-adapter", "workspace:packages/sources/kaiko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8041,7 +8018,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.3.0"],\
+            ["supertest", "npm:6.3.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8053,7 +8030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/moonbeam-address-list/",\
           "packageDependencies": [\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8090,7 +8067,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8108,7 +8085,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/nft-blue-chip/",\
           "packageDependencies": [\
             ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8167,7 +8144,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/oanda/",\
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.27.2"],\
             ["decimal.js", "npm:10.4.3"],\
@@ -8230,7 +8207,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/openexchangerates/",\
           "packageDependencies": [\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8337,7 +8314,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polkadot-balance/",\
           "packageDependencies": [\
             ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@polkadot/api", "npm:9.14.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8355,7 +8332,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polygon/",\
           "packageDependencies": [\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8395,7 +8372,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.47"],\
+            ["@types/node", "npm:14.18.50"],\
             ["decimal.js", "npm:10.4.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8423,7 +8400,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8706,7 +8683,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-address-list/",\
           "packageDependencies": [\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8724,7 +8701,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-balance/",\
           "packageDependencies": [\
             ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8912,7 +8889,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tiingo/",\
           "packageDependencies": [\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8941,7 +8918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -8962,7 +8939,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tp/",\
           "packageDependencies": [\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -8980,7 +8957,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradermade/",\
           "packageDependencies": [\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -9016,7 +8993,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradingeconomics-test/",\
           "packageDependencies": [\
             ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -9070,7 +9047,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/twosigma/",\
           "packageDependencies": [\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.11"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -13566,7 +13543,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["immer", "npm:9.0.15"],\
             ["react", null],\
             ["react-redux", null],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["redux-thunk", "virtual:cab0cbca09e7fd0a1228ed88e507990118cb65577143c821010589daee6fbd553e5c92f88441fb826c9a1da5165f2c5432cbf78baf51c26872f95fa2834c2030#npm:2.4.1"],\
             ["reselect", "npm:4.1.6"]\
           ],\
@@ -14981,10 +14958,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.47", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.47-d4b030205d-249467fa37.zip/node_modules/@types/node/",\
+        ["npm:14.18.50", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.50-6763825574-afaa483558.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:14.18.47"]\
+            ["@types/node", "npm:14.18.50"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -15165,7 +15142,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-redux-logger-npm-3.0.9-ac1d3f05fb-c41fdc0919.zip/node_modules/@types/redux-logger/",\
           "packageDependencies": [\
             ["@types/redux-logger", "npm:3.0.9"],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15175,7 +15152,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-remote-redux-devtools-npm-0.5.5-11435f3c9e-1ff59a41e1.zip/node_modules/@types/remote-redux-devtools/",\
           "packageDependencies": [\
             ["@types/remote-redux-devtools", "npm:0.5.5"],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -20019,6 +19996,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["wrappy", "npm:1.0.2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/dezalgo-npm-1.0.4-ae3b673c98-895389c6ae.zip/node_modules/dezalgo/",\
+          "packageDependencies": [\
+            ["dezalgo", "npm:1.0.4"],\
+            ["asap", "npm:2.0.6"],\
+            ["wrappy", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["diff", [\
@@ -22298,6 +22284,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["hexoid", "npm:1.0.0"],\
             ["once", "npm:1.4.0"],\
             ["qs", "npm:6.9.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:2.1.2", {\
+          "packageLocation": "./.yarn/cache/formidable-npm-2.1.2-40ba18d67f-81c8e5d89f.zip/node_modules/formidable/",\
+          "packageDependencies": [\
+            ["formidable", "npm:2.1.2"],\
+            ["dezalgo", "npm:1.0.4"],\
+            ["hexoid", "npm:1.0.0"],\
+            ["once", "npm:1.4.0"],\
+            ["qs", "npm:6.11.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -31656,6 +31653,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:6.11.2", {\
+          "packageLocation": "./.yarn/cache/qs-npm-6.11.2-b118bc1c6f-e812f3c590.zip/node_modules/qs/",\
+          "packageDependencies": [\
+            ["qs", "npm:6.11.2"],\
+            ["side-channel", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:6.5.3", {\
           "packageLocation": "./.yarn/cache/qs-npm-6.5.3-90b2635484-6f20bf08ca.zip/node_modules/qs/",\
           "packageDependencies": [\
@@ -32057,10 +32062,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["redux", [\
-        ["npm:4.2.0", {\
-          "packageLocation": "./.yarn/cache/redux-npm-4.2.0-4688cc8d65-75f3955c89.zip/node_modules/redux/",\
+        ["npm:4.2.1", {\
+          "packageLocation": "./.yarn/cache/redux-npm-4.2.1-e7e2cf2e37-f63b9060c3.zip/node_modules/redux/",\
           "packageDependencies": [\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["@babel/runtime", "npm:7.20.13"]\
           ],\
           "linkType": "HARD"\
@@ -32128,7 +32133,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],\
             ["@types/redux", null],\
             ["@types/rxjs", null],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["rxjs", "npm:6.6.7"]\
           ],\
           "packagePeers": [\
@@ -32153,7 +32158,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["redux-thunk", "virtual:cab0cbca09e7fd0a1228ed88e507990118cb65577143c821010589daee6fbd553e5c92f88441fb826c9a1da5165f2c5432cbf78baf51c26872f95fa2834c2030#npm:2.4.1"],\
             ["@types/redux", null],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "packagePeers": [\
             "@types/redux",\
@@ -33509,16 +33514,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@socket.io/component-emitter", "npm:3.1.0"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
             ["engine.io-client", "npm:6.2.2"],\
-            ["socket.io-parser", "npm:4.2.1"]\
+            ["socket.io-parser", "npm:4.2.4"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["socket.io-parser", [\
-        ["npm:4.2.1", {\
-          "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.1-7ef513b498-2582202f22.zip/node_modules/socket.io-parser/",\
+        ["npm:4.2.4", {\
+          "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.4-bf87f78bcd-61540ef99a.zip/node_modules/socket.io-parser/",\
           "packageDependencies": [\
-            ["socket.io-parser", "npm:4.2.1"],\
+            ["socket.io-parser", "npm:4.2.4"],\
             ["@socket.io/component-emitter", "npm:3.1.0"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"]\
           ],\
@@ -34306,6 +34311,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["semver", "npm:7.3.8"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:8.0.9", {\
+          "packageLocation": "./.yarn/cache/superagent-npm-8.0.9-da05128b97-5d00cdc7ce.zip/node_modules/superagent/",\
+          "packageDependencies": [\
+            ["superagent", "npm:8.0.9"],\
+            ["component-emitter", "npm:1.3.0"],\
+            ["cookiejar", "npm:2.1.4"],\
+            ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
+            ["fast-safe-stringify", "npm:2.1.1"],\
+            ["form-data", "npm:4.0.0"],\
+            ["formidable", "npm:2.1.2"],\
+            ["methods", "npm:1.1.2"],\
+            ["mime", "npm:2.6.0"],\
+            ["qs", "npm:6.11.2"],\
+            ["semver", "npm:7.3.8"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["superstruct", [\
@@ -34327,12 +34349,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:6.3.0", {\
-          "packageLocation": "./.yarn/cache/supertest-npm-6.3.0-0fe74c114e-95062161af.zip/node_modules/supertest/",\
+        ["npm:6.3.3", {\
+          "packageLocation": "./.yarn/cache/supertest-npm-6.3.3-2e2b5bc83a-38239e517f.zip/node_modules/supertest/",\
           "packageDependencies": [\
-            ["supertest", "npm:6.3.0"],\
+            ["supertest", "npm:6.3.3"],\
             ["methods", "npm:1.1.2"],\
-            ["superagent", "npm:8.0.0"]\
+            ["superagent", "npm:8.0.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -37021,23 +37043,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:0a42721897dd6ca1ecd9a6de2d8d74b81acd692692ce50b54fdb0843b34ca8f2fb947240e661203b7649d73f3471b2f0d78a15f726558eaefdf0dbaff1d5d0ad#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-3eb417a7ea/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:0a42721897dd6ca1ecd9a6de2d8d74b81acd692692ce50b54fdb0843b34ca8f2fb947240e661203b7649d73f3471b2f0d78a15f726558eaefdf0dbaff1d5d0ad#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37076,6 +37081,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:c1b878459a805a1e4e3c13bafbad9f455044a7261cda8e5f570db23acf069cb5906ba73e0607660fb7735fd2dde66d0e8d5428a46912ce561520a24da7f707a7#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-17f9e1b5c1/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:c1b878459a805a1e4e3c13bafbad9f455044a7261cda8e5f570db23acf069cb5906ba73e0607660fb7735fd2dde66d0e8d5428a46912ce561520a24da7f707a7#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
