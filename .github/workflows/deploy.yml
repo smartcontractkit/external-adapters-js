@@ -33,6 +33,7 @@ jobs:
     runs-on: [self-hosted, sdlc-ghr-prod] # Running on self hosted because they're a bit faster
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
+      tmp-branch: ${{ steps.push-branch.outputs.TMP_BRANCH }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -53,6 +54,14 @@ jobs:
           yarn changeset version
           git commit -am "Mock changesets"
           ./.github/scripts/changed-adapters.sh
+      # Since we want to publish with the versions updated, we need to store the changes we've made to a temporary branch
+      - name: Publish branch
+        id: push-branch
+        run: |
+          export TMP_BRANCH="tmp-deploy-$(git rev-parse HEAD)"
+          git checkout -b tmp-deploy-$(git rev-parse HEAD)
+          git push origin tmp-deploy-$(git rev-parse HEAD)
+          echo "TMP_BRANCH=$TMP_BRANCH" >> $GITHUB_OUTPUT
 
   publish-adapter-images:
     name: Build and publish ${{ matrix.adapter.shortName }}
@@ -72,6 +81,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
       - name: Build the adapter image
         uses: docker/build-push-action@v4
         with:
@@ -115,3 +126,15 @@ jobs:
           -F gitRepo=${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_K8s_PAT }}
+
+  cleanup:
+    name: Clean up ephemeral items
+    runs-on: ubuntu-latest
+    needs:
+      - calculate-changes
+      - deploy
+    if: always()
+    steps:
+      - name: Delete ephemeral branch
+        run: |
+          git push origin --delete ${{ needs.calculate-changes.outputs.tmp-branch }}
