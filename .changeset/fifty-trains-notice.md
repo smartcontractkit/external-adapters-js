@@ -1,5 +1,5 @@
 ---
-'@chainlink/armanino-adapter': minor
+'@chainlink/armanino-adapter': major
 ---
 
-Added STBT endpoint
+Changed default API endpoint. Added STBT endpoint
