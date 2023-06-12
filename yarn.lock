@@ -1993,13 +1993,11 @@ __metadata:
     "@types/crypto-js": ^4.1.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     axios: 0.27.2
     crypto-js: ^4.1.1
     ethers: ^5.4.2
     mathjs: ^11.5.1
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
@@ -2041,9 +2039,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.29.12
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
@@ -2361,12 +2357,11 @@ __metadata:
   resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -2670,9 +2665,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.29.12
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -2916,13 +2909,12 @@ __metadata:
   resolution: "@chainlink/dar-adapter@workspace:packages/sources/dar"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
+    "@types/sinonjs__fake-timers": 8.1.2
     axios: 0.27.2
-    mock-socket: ^9.1.5
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -3248,13 +3240,12 @@ __metadata:
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
+    "@types/sinonjs__fake-timers": 8.1.2
     axios: 0.27.2
-    mock-socket: ^9.1.5
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -3556,12 +3547,11 @@ __metadata:
   resolution: "@chainlink/finage-test-adapter@workspace:packages/sources/finage-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
@@ -3574,9 +3564,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.29.12
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
@@ -3667,13 +3655,12 @@ __metadata:
   resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
+    "@types/sinonjs__fake-timers": 8.1.2
     axios: 0.27.2
-    mock-socket: ^9.1.5
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -3789,15 +3776,14 @@ __metadata:
   resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
+    "@types/sinonjs__fake-timers": 8.1.2
     "@types/ws": 8.5.4
     axios: 0.27.2
     crypto: 1.0.1
-    mock-socket: ^9.1.5
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
