@@ -1,6 +1,6 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
-import { mockMCO2Response } from './fixtures'
+import { mockMCO2Response, mockSTBTResponse } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
@@ -18,7 +18,7 @@ describe('execute', () => {
   setupExternalAdapterTest(envVariables, context)
 
   describe('mco2 endpoint', () => {
-    const balanceRequest: AdapterRequest = {
+    const request: AdapterRequest = {
       id: '1',
       data: {},
     }
@@ -28,7 +28,28 @@ describe('execute', () => {
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
-        .send(balanceRequest)
+        .send(request)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+  describe('stbt endpoint', () => {
+    const request: AdapterRequest = {
+      id: '1',
+      data: {
+        endpoint: 'stbt',
+      },
+    }
+
+    it('should return success', async () => {
+      mockSTBTResponse()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(request)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
