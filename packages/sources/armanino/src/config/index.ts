@@ -5,7 +5,7 @@ export const NAME = 'ARMANINO'
 
 export const DEFAULT_ENDPOINT = 'mco2'
 export const DEFAULT_BASE_URL =
-  ' https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/'
+  'https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
