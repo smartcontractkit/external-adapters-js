@@ -1,5 +1,12 @@
 # @chainlink/tp-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 1.1.4
 
 ### Patch Changes

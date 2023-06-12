@@ -1,5 +1,21 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+- Updated dependencies [cc0d39064]
+- Updated dependencies [fb1b11b77]
+  - @chainlink/stader-address-list-adapter@2.3.1
+  - @chainlink/stader-balance-adapter@1.3.1
+  - @chainlink/moonbeam-address-list-adapter@1.1.11
+  - @chainlink/polkadot-balance-adapter@1.1.11
+  - @chainlink/por-indexer-adapter@1.2.57
+  - @chainlink/renvm-address-set-adapter@1.5.48
+  - @chainlink/wbtc-address-set-adapter@1.4.57
+
 ## 1.18.0
 
 ### Minor Changes
