@@ -1,4 +1,4 @@
-import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
+import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, ExtendedConfig } from './config'
 
 import {
@@ -33,14 +33,11 @@ export interface NetworkHealthCheck {
   (network: Networks, config: ExtendedConfig): Promise<undefined | boolean>
 }
 
-export interface ResponseSchema {
-  result: number
-}
-
 export const checkSequencerHealth: NetworkHealthCheck = async (
   network: Networks,
 ): Promise<undefined | boolean> => {
   if (!HEALTH_ENDPOINTS[network]?.endpoint) {
+    Logger.info(`Health endpoint not available for network: ${network}`)
     return
   }
   const response = await Requester.request({
@@ -100,57 +97,18 @@ const isExpectedErrorMessage = (network: Networks, e: Error) => {
   return false
 }
 
+const checkNetworkProgressHandlers: {
+  [T in Networks]: (config: ExtendedConfig) => Promise<boolean>
+} = {
+  [Networks.Starkware]: checkStarkwareSequencerPendingTransactions(),
+  [Networks.Optimism]: checkOptimisticRollupBlockHeight(Networks.Optimism),
+  [Networks.Arbitrum]: checkOptimisticRollupBlockHeight(Networks.Arbitrum),
+  [Networks.Metis]: checkOptimisticRollupBlockHeight(Networks.Metis),
+}
+
 export const checkNetworkProgress: NetworkHealthCheck = (
   network: Networks,
   config: ExtendedConfig,
 ) => {
-  switch (network) {
-    case Networks.Starkware:
-      return checkStarkwareSequencerPendingTransactions()(config)
-    default:
-      return checkOptimisticRollupBlockHeight(network)(config)
-  }
-}
-
-export async function retry<T>({
-  promise,
-  retryConfig,
-}: {
-  promise: () => Promise<T>
-  retryConfig: ExtendedConfig['retryConfig']
-}): Promise<T> {
-  let numTries = 0
-  let error
-  while (numTries < retryConfig.numRetries) {
-    try {
-      return await promise()
-    } catch (e) {
-      error = e
-      numTries++
-      await util.sleep(retryConfig.retryInterval)
-    }
-  }
-  throw error
-}
-
-export function race<T>({
-  promise,
-  timeout,
-  error,
-}: {
-  promise: Promise<T>
-  timeout: number
-  error: string
-}): Promise<T> {
-  let timer: NodeJS.Timeout
-
-  return Promise.race([
-    new Promise((_, reject) => {
-      timer = setTimeout(reject, timeout, error)
-    }) as Promise<T>,
-    promise.then((value) => {
-      clearTimeout(timer)
-      return value
-    }),
-  ])
+  return checkNetworkProgressHandlers[network](config)
 }

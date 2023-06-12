@@ -14,7 +14,7 @@ import {
   Networks,
   RPC_ENDPOINTS,
 } from './config'
-import { race, ResponseSchema, retry } from './network'
+import { race, ResponseSchema, retry } from './utils'
 
 export const sendEVMDummyTransaction = async (
   network: EVMNetworks,
@@ -86,12 +86,12 @@ export const checkOptimisticRollupBlockHeight = (
         message: `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
       })
     if (!_isStaleBlock(block, delta)) {
-      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       Logger.info(
         `Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
           lastSeenBlock.block
         } was at ${lastSeenBlock.timestamp}`,
       )
+      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       return true
     }
     Logger.warn(

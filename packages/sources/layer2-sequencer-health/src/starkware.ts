@@ -1,7 +1,7 @@
 import { Logger } from '@chainlink/ea-bootstrap'
 import { DEFAULT_PRIVATE_KEY, ExtendedConfig } from './config'
 import { ec, Account, InvokeFunctionResponse, GetBlockResponse } from 'starknet'
-import { race, retry } from './network'
+import { race, retry } from './utils'
 
 interface StarkwareState {
   lastBlockResponse: GetBlockResponse | null
