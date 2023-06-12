@@ -112,20 +112,3 @@ export const mockRateResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
-
-export const mockRateResponseFailure = (): nock.Scope =>
-  nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
-    encodedQueryParams: true,
-  })
-    .get('/spot_exchange_rate/xxx/usd')
-    .query(() => true)
-    .reply(400, () => 'Invalid base or quote', [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
