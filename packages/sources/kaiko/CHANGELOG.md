@@ -1,5 +1,15 @@
 # @chainlink/kaiko-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- a0646489a: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+
 ## 1.5.25
 
 ### Patch Changes
