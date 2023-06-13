@@ -1,8 +1,3 @@
-import { ServerInstance, expose } from '@chainlink/external-adapter-framework'
-import { AddressInfo } from 'net'
-import nock from 'nock'
-import * as process from 'process'
-import request, { SuperTest, Test } from 'supertest'
 import {
   addressData,
   mockCollateralEthMap,
@@ -15,7 +10,11 @@ import {
   mockPenaltyMap,
   mockProtocolFeePercentMap,
 } from './fixture'
-import { createAdapter, setEnvVariables } from './setup'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -132,12 +131,8 @@ jest.mock('ethers', () => {
 })
 
 describe('Stader Balance', () => {
-  let fastify: ServerInstance | undefined
-  let req: SuperTest<Test>
   let spy: jest.SpyInstance
-
-  jest.setTimeout(30000)
-
+  let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
@@ -146,78 +141,49 @@ describe('Stader Balance', () => {
     mockGetValidatorStates()
     mockFinalityCheckpoint()
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['METRICS_ENABLED'] = 'false'
     process.env['ETHEREUM_RPC_URL'] = 'http://localhost:9091'
     process.env['BEACON_RPC_URL'] = 'http://localhost:9092'
     process.env['BACKGROUND_EXECUTE_MS'] = '0'
     const mockDate = new Date('2022-08-01T07:14:54.909Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    fastify = await expose(createAdapter())
-    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+    const adapter = (await import('./../../src')).adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
   })
 
-  afterAll((done) => {
-    spy.mockRestore()
-    nock.restore()
+  afterAll(async () => {
     setEnvVariables(oldEnv)
-    fastify?.close(done())
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
   })
+
   describe('balance endpoint', () => {
     it('should return success', async () => {
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send(addressData)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
+      const response = await testAdapter.request(addressData.data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
 
-      const response = await makeRequest()
-      expect(response.body).toMatchSnapshot()
-    }, 30000)
-    it('should return error (empty body)', async () => {
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send({})
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-
-      const response = await makeRequest()
-      expect(response.statusCode).toEqual(400)
-    }, 30000)
     it('should return error (empty data)', async () => {
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send({ data: {} })
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-
-      const response = await makeRequest()
-      expect(response.statusCode).toEqual(400)
-    }, 30000)
+      const response = await testAdapter.request({})
+      expect(response.statusCode).toBe(400)
+    })
   })
+
   describe('total supply endpoint', () => {
     it('should return success', async () => {
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send({
-            data: {
-              endpoint: 'totalSupply',
-              chainId: 'goerli',
-            },
-          })
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-
-      const response = await makeRequest()
-      expect(response.body).toMatchSnapshot()
-    }, 30000)
+      const data = {
+        endpoint: 'totalSupply',
+        chainId: 'goerli',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

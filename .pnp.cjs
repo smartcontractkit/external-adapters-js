@@ -5784,11 +5784,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
             ["fastify", "npm:3.29.5"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7638,9 +7636,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7693,13 +7689,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["axios", "npm:0.24.0"],\
-            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7773,9 +7768,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8083,12 +8076,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
             ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8205,9 +8196,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8313,9 +8302,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@polkadot/api", "npm:9.14.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8330,9 +8317,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8681,10 +8666,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8699,12 +8682,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:1.3.6"],\
             ["bignumber.js", "npm:9.1.1"],\
             ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8934,12 +8915,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["mock-socket", "npm:9.1.5"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8987,12 +8967,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -9041,13 +9020,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["@types/ws", "npm:8.5.4"],\
-            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

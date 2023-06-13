@@ -27,3 +27,17 @@ exports[`rest forex batch api should return success 1`] = `
   },
 }
 `;
+
+exports[`rest forex batch api should return success 2`] = `
+{
+  "data": {
+    "result": 28.5,
+  },
+  "result": 28.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

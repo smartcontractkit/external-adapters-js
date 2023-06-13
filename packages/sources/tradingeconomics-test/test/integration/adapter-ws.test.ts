@@ -1,4 +1,3 @@
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
   TestAdapter,
   setEnvVariables,
@@ -6,22 +5,30 @@ import {
   MockWebsocketServer,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { mockWebSocketServer } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
-  const wsEndpoint = 'ws://localhost:9090'
+  const wsEndpoint = 'wss://stream.tradingeconomics.com/?client=fake-api-key:fake-api-secret'
   let oldEnv: NodeJS.ProcessEnv
-  const data = {
-    base: 'AAPL',
+  const dataPrice = {
+    base: 'CAD',
     quote: 'USD',
+    transport: 'ws',
+  }
+  const dataStock = {
+    base: 'AAPL:US',
+    endpoint: 'stock',
+    transport: 'ws',
   }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['WS_API_KEY'] = 'abcdef'
+    process.env['API_CLIENT_KEY'] = 'fake-api-key'
+    process.env['WS_ENABLED'] = 'true'
+    process.env['API_CLIENT_SECRET'] = 'fake-api-secret'
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
@@ -34,7 +41,7 @@ describe('websocket', () => {
     })
 
     // Send initial request to start background execute and wait for cache to be filled with results
-    await testAdapter.request(data)
+    await testAdapter.request(dataPrice)
     await testAdapter.waitForCache()
   })
 
@@ -47,17 +54,15 @@ describe('websocket', () => {
 
   describe('price endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(data)
+      const response = await testAdapter.request(dataPrice)
       expect(response.json()).toMatchSnapshot()
+    })
+  })
 
-      const response2 = await testAdapter.request({ ...data, base: 'AMZN' })
-      expect(response2.json()).toMatchSnapshot()
-
-      const response3 = await testAdapter.request(data)
-      expect(response3.json()).toMatchSnapshot()
-
-      const response4 = await testAdapter.request({ ...data, base: 'AMZN' })
-      expect(response4.json()).toMatchSnapshot()
+  describe('stock endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(dataStock)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })

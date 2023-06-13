@@ -44,33 +44,3 @@ exports[`execute rest stock endpoint should return success 1`] = `
   },
 }
 `;
-
-exports[`execute websocket price endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 1.28778,
-  },
-  "result": 1.28778,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
-    "providerIndicatedTimeUnixMs": 1659472542655,
-  },
-}
-`;
-
-exports[`execute websocket stock endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 160.32,
-  },
-  "result": 160.32,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
-    "providerIndicatedTimeUnixMs": 1659472542655,
-  },
-}
-`;

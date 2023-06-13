@@ -29,6 +29,7 @@ export const mockResponseSuccessConversionEndpoint = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
 
 export const mockResponseSuccessTickersEndpoint = (): nock.Scope =>
   nock('https://api.polygon.io', {
@@ -43268,3 +43269,4 @@ export const mockResponseSuccessTickersEndpoint = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
