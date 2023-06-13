@@ -1,4 +1,4 @@
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
 import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
@@ -6,7 +6,6 @@ import { config } from '../config'
 import {
   BalanceResponse,
   batchValidatorAddresses,
-  chunkArray,
   fetchAddressBalance,
   formatValueInGwei,
   getSlotNumber,
@@ -67,7 +66,7 @@ export class ValidatorFactory {
         const batchedAddresses = batchValidatorAddresses(addresses, batchSize)
 
         // Then, send a group of those requests in parallel and wait to avoid overloading the node
-        const groupedBatches = chunkArray(batchedAddresses, params.settings.GROUP_SIZE)
+        const groupedBatches = splitArrayIntoChunks(batchedAddresses, params.settings.GROUP_SIZE)
         for (const group of groupedBatches) {
           await Promise.all(
             group.map(async (concatenatedAddresses) => {
