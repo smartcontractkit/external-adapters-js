@@ -11,3 +11,15 @@ exports[`execute mco2 endpoint should return success 1`] = `
   "statusCode": 200,
 }
 `;
+
+exports[`execute stbt endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 72178807.56,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 72178807.56,
+  "statusCode": 200,
+}
+`;

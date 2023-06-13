@@ -1,5 +1,13 @@
 ## v1.1.0
 
+## 2.1.1
+
+### Patch Changes
+
+- a0daa408b: Add providerIndicatedTimestampUnixMs to Tiingo crypto LWBA endpoint
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 2.1.0
 
 ### Minor Changes
