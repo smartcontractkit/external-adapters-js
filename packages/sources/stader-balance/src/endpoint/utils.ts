@@ -262,11 +262,6 @@ interface FinalityCheckpointResponse {
   }
 }
 
-export const chunkArray = <T>(addresses: T[], size: number): T[][] =>
-  addresses.length > size
-    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
-    : [addresses]
-
 // Value must be in wei
 export function formatValueInGwei(value: BigNumber): string {
   return value.div(GWEI_DIVISOR).toString()

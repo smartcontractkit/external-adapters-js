@@ -3,7 +3,10 @@ import {
   PriceEndpoint,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  groupArrayByKey,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
@@ -19,8 +22,6 @@ interface ResponseSchema {
   }
 }
 
-type PriceEndpointParams = typeof inputParameters.validated
-
 export type ForexEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
@@ -31,42 +32,19 @@ export type ForexEndpointTypes = {
   }
 }
 
-const getMappedSymbols = (requestParams: PriceEndpointParams[]) => {
-  const symbolGroupMap: Record<string, { params: PriceEndpointParams[]; base: string }> = {}
-  requestParams.forEach((param) => {
-    const base = param.base.toUpperCase()
-
-    if (!symbolGroupMap[base]) {
-      symbolGroupMap[base] = {
-        base,
-        params: [],
-      }
-    }
-
-    if (!symbolGroupMap[base].params) {
-      symbolGroupMap[base].params = [param]
-    } else {
-      symbolGroupMap[base].params.push(param)
-    }
-  })
-
-  return symbolGroupMap
-}
-
 export const batchTransport = new HttpTransport<ForexEndpointTypes>({
   prepareRequests: (params, config) => {
     // OpenExchangeRates supports batching only for base params, so we are grouping params by bases meaning we will send N number of requests to DP where the N is number of unique bases
-    const groupedSymbols = getMappedSymbols(params)
-    return Object.values(groupedSymbols).map((group) => {
-      const { base } = group
+    const groupedSymbols = groupArrayByKey(params, 'base')
+    return Object.entries(groupedSymbols).map(([base, inputParams]) => {
       return {
-        params: group.params,
+        params: inputParams,
         request: {
           url: 'latest.json',
           baseURL: config.API_ENDPOINT,
           params: {
             app_id: config.API_KEY,
-            base,
+            base: base.toUpperCase(),
           },
         },
       }
