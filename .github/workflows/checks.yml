@@ -69,7 +69,7 @@ jobs:
       - name: Run unit tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-        run: EA_PORT=0 METRICS_ENABLED=false yarn jest --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
+        run: METRICS_ENABLED=false yarn jest --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
 
   # Run integration tests
   integration-tests:
