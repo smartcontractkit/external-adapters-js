@@ -151,13 +151,13 @@ export function mockSuccessfulHistoricalCapResponse() {
         'close',
       ],
     )
+    .persist()
 }
 
 export function mockSuccessfulGlobalMetricsResponse(market?: string) {
   let getPath = '/v1/global-metrics/quotes/latest'
   if (market) getPath += `?convert=${market}`
   nock('https://pro-api.coinmarketcap.com')
-    .persist()
     .get(getPath)
     .reply(
       200,
@@ -229,11 +229,11 @@ export function mockSuccessfulGlobalMetricsResponse(market?: string) {
         'close',
       ],
     )
+    .persist()
 }
 
 export function mockSuccessfulCoinMarketCapResponse(query = 'id', id = '1') {
   nock('https://pro-api.coinmarketcap.com')
-    .persist()
     .get(`/v1/cryptocurrency/quotes/latest?convert=USD&${query}=${id}`)
     .reply(
       200,
@@ -292,4 +292,5 @@ export function mockSuccessfulCoinMarketCapResponse(query = 'id', id = '1') {
         'close',
       ],
     )
+    .persist()
 }

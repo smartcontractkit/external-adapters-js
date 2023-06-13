@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://www.cfbenchmarks.com/api')
@@ -51,4 +52,40 @@ export const mockBircResponseSuccess = (): nock.Scope => {
       ],
     })
     .persist()
+}
+
+export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', (message) => {
+      const parsed = JSON.parse(message as string)
+      if (parsed.id === 'BRTI') {
+        // crypto endpoint
+        return socket.send(
+          JSON.stringify({
+            type: 'value',
+            time: 1645203822000,
+            id: 'BRTI',
+            value: '40067.00',
+          }),
+        )
+      } else if (parsed.id === 'U_ETHUSD_RTI') {
+        // lwba endpoint
+        return socket.send(
+          JSON.stringify({
+            type: 'rti_stats',
+            time: 1677876163000,
+            id: 'U_ETHUSD_RTI',
+            value: '1.1635',
+            utilizedDepth: '1888000.0',
+            valueAsk: '1.1662',
+            valueBid: '1.1607',
+            midPrice: '1.1631',
+          }),
+        )
+      }
+    })
+  })
+
+  return mockWsServer
 }
