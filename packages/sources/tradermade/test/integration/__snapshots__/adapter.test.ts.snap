@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute http forex endpoint should return success 1`] = `
+exports[`http forex endpoint should return success 1`] = `
 {
   "data": {
     "result": 4494.0249,
@@ -14,7 +14,7 @@ exports[`execute http forex endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute http live endpoint override should return success 1`] = `
+exports[`http live endpoint override should return success 1`] = `
 {
   "data": {
     "result": 71.281,
@@ -28,7 +28,7 @@ exports[`execute http live endpoint override should return success 1`] = `
 }
 `;
 
-exports[`execute http live endpoint should return success 1`] = `
+exports[`http live endpoint should return success 1`] = `
 {
   "data": {
     "result": 128.785,
@@ -38,20 +38,6 @@ exports[`execute http live endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
-  },
-}
-`;
-
-exports[`execute websocket forex endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 2797.835,
-  },
-  "result": 2797.835,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
   },
 }
 `;

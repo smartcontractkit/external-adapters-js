@@ -1,5 +1,5 @@
 import nock from 'nock'
-
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 export const mockCryptoSuccess = (): nock.Scope =>
   nock('https://min-api.cryptocompare.com', {
     encodedQueryParams: true,
@@ -162,3 +162,31 @@ export const mockVwapSuccess = (): nock.Scope =>
       'Vary',
       'Origin',
     ])
+    .persist()
+
+const base = 'ETH'
+const quote = 'BTC'
+const price = 1234
+
+export const mockWebSocketServer = (URL: string) => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.send(
+      JSON.stringify({
+        MESSAGE: 'STREAMERWELCOME',
+      }),
+    )
+    const parseMessage = () => {
+      socket.send(
+        JSON.stringify({
+          TYPE: '5',
+          FROMSYMBOL: base,
+          TOSYMBOL: quote,
+          PRICE: price,
+        }),
+      )
+    }
+    socket.on('message', parseMessage)
+  })
+  return mockWsServer
+}

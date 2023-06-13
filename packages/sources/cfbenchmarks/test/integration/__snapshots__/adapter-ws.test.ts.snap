@@ -2,35 +2,34 @@
 
 exports[`websocket crypto endpoint should return success 1`] = `
 {
-  "ask": 3107.1275,
-  "bid": 3106.8495,
   "data": {
-    "ask": 3107.1275,
-    "bid": 3106.8495,
-    "mid": 3106.9885,
-    "result": 3106.9885,
+    "result": 40067,
   },
-  "result": 3106.9885,
+  "result": 40067,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1659338094909,
+    "providerIndicatedTimeUnixMs": 1645203822000,
   },
 }
 `;
 
-exports[`websocket forex endpoint should return success 1`] = `
+exports[`websocket lwba endpoint should return success 1`] = `
 {
   "data": {
-    "result": 0.7819647646677041,
+    "ask": 1.1662,
+    "bid": 1.1607,
+    "mid": 1.1635,
+    "midPrice": 1.1631,
+    "utilizedDepth": 1888000,
   },
-  "result": 0.7819647646677041,
+  "result": 1.1635,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1659338092107,
+    "providerIndicatedTimeUnixMs": 1677876163000,
   },
 }
 `;

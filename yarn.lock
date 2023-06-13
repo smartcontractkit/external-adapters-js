@@ -2515,12 +2515,11 @@ __metadata:
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
@@ -2642,9 +2641,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.29.12
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -2655,13 +2652,12 @@ __metadata:
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
+    "@types/sinonjs__fake-timers": 8.1.2
     ethers: ^5.4.6
-    mock-socket: ^9.1.5
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -2821,10 +2817,11 @@ __metadata:
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    "@types/sinonjs__fake-timers": 8.1.2
     "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -3047,12 +3044,11 @@ __metadata:
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
@@ -4245,12 +4241,11 @@ __metadata:
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -4969,12 +4964,11 @@ __metadata:
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
@@ -5030,12 +5024,11 @@ __metadata:
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    mock-socket: 9.1.5
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
-    supertest: 6.2.4
     tslib: 2.4.0
     typescript: 5.0.4
   languageName: unknown
