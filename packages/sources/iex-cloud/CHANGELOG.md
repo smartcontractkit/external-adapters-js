@@ -1,5 +1,12 @@
 # @chainlink/iex-cloud-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 2.0.2
 
 ### Patch Changes
