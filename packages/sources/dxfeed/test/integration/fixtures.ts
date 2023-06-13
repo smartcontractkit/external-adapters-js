@@ -1,5 +1,5 @@
 import nock from 'nock'
-
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 export function mockPriceEndpoint(): nock.Scope {
   return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
     .get('/events.json')
@@ -49,4 +49,32 @@ export function mockPriceEndpoint(): nock.Scope {
         'tools1',
       ],
     )
+    .persist()
+}
+
+export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsReponse = [
+    {
+      data: [
+        'Quote',
+        ['TSLA:BFX', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 172.0, 100.0],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.send(
+      JSON.stringify([
+        {
+          channel: '/meta/connect',
+        },
+      ]),
+    )
+    socket.on('message', () => {
+      socket.send(JSON.stringify(wsReponse))
+    })
+  })
+
+  return mockWsServer
 }

@@ -32,13 +32,12 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
+    "@types/sinonjs__fake-timers": "8.1.2",
     "@types/ws": "8.5.4",
-    "mock-socket": "9.1.5",
     "nock": "13.2.9",
-    "supertest": "6.2.4",
     "typescript": "5.0.4"
   }
 }

@@ -1,9 +1,11 @@
-import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { SuperTest, Test } from 'supertest'
 import { config } from '../../src/config'
 import { generateJWT } from '../../src/util'
 import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
-import { setupExternalAdapterTest, SuiteContext } from './setup'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -11,26 +13,32 @@ jest.mock('crypto', () => ({
 }))
 
 describe('execute', () => {
-  const id = '1'
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  const context: SuiteContext = {
-    req: null,
-    server: async () => {
-      process.env.API_ENDPOINT = 'https://olbsandbox.bankfrick.li/webapi/v2'
-      process.env.API_KEY = 'SOME_API_KEY'
-      process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
-      process.env.NODE_ENV = 'development'
-      const server = (await import('../../src')).server
-      return server() as Promise<ServerInstance>
-    },
-  }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.API_ENDPOINT = 'https://olbsandbox.bankfrick.li/webapi/v2'
+    process.env.API_KEY = 'SOME_API_KEY'
+    process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
+    process.env.NODE_ENV = 'development'
+    const mockDate = new Date('2022-05-10T16:09:27.193Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  setupExternalAdapterTest(
-    {
-      CACHE_ENABLED: 'false',
-    },
-    context,
-  )
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
 
   describe('accounts', () => {
     it('successful authorization', async () => {
@@ -45,20 +53,12 @@ describe('execute', () => {
 
     it('account not found', async () => {
       const data = {
-        id,
-        data: {
-          ibanIDs: ['LI0000000000000000000'],
-        },
+        ibanIDs: ['LI0000000000000000000'],
       }
       mockAccountsSuccess() //We are able to find accounts, BUT, the one we want isn't there
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(404)
-      expect(response.body).toMatchSnapshot({
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(404)
+      expect(response.json()).toMatchSnapshot({
         //We care that the error is there, but don't want to match on content since the stack and message can change between runs
         error: expect.any(Object),
       })
@@ -66,22 +66,14 @@ describe('execute', () => {
 
     it('successful request', async () => {
       const data = {
-        id,
-        data: {
-          ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
-        },
+        ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
       }
       mockAuthorizeSuccess()
       mockAccountsSuccess()
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot({
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot({
         timestamps: {
           providerDataReceivedUnixMs: expect.any(Number),
           providerDataRequestedUnixMs: expect.any(Number),

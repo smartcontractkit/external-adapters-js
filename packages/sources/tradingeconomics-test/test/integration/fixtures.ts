@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tradingeconomics.com/markets', {
@@ -57,6 +58,7 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
     .get('/symbol/AAPL:US')
     .query({ c: 'fake-api-key:fake-api-secret', f: 'json' })
     .reply(
@@ -111,3 +113,45 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
+
+export const mockWebSocketServer = (url: string) => {
+  const mockWsServer = new MockWebsocketServer(url, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', (message) => {
+      if (message.toString().includes(':CUR')) {
+        // price endpoint
+        socket.send(
+          JSON.stringify({
+            s: 'USDCAD:CUR',
+            i: 'USDCAD',
+            pch: 0.26,
+            nch: 0.00328,
+            bid: 1.28778,
+            ask: 1.28778,
+            price: 1.28778,
+            dt: 1659472542655,
+            state: 'open',
+            type: 'currency',
+            dhigh: 1.2887,
+            dlow: 1.2831,
+            o: 1.28707,
+            prev: 1.2845,
+            topic: 'USDCAD',
+          }),
+        )
+      } else {
+        // stock endpoint
+        socket.send(
+          JSON.stringify({
+            s: 'AAPL:US',
+            price: 160.32,
+            dt: 1659472542655,
+            topic: 'AAPL:US',
+          }),
+        )
+      }
+    })
+  })
+  return mockWsServer
+}

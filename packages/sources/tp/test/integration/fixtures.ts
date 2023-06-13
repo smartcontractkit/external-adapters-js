@@ -1,3 +1,5 @@
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+
 export const mockConnectionTime = new Date('2023-03-08T02:30:00.000Z')
 
 export const mockSubscribeResponse = { msg: 'auth', sta: 1 }
@@ -106,4 +108,19 @@ export const adapterResponse = {
     providerDataStreamEstablishedUnixMs: mockConnectionTime.getTime(),
     providerIndicatedTimeUnixMs: undefined,
   },
+}
+
+export const mockPriceWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.send(JSON.stringify(mockSubscribeResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(mockStalePriceResponse))
+      socket.send(JSON.stringify(mockPriceResponse))
+      socket.send(JSON.stringify(mockInversePriceResponse))
+      socket.send(JSON.stringify(mockICPriceResponse))
+      socket.send(JSON.stringify(mockSeparateSourcePriceResponse))
+    })
+  })
+  return mockWsServer
 }
