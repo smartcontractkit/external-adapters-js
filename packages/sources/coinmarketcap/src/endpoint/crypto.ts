@@ -1,6 +1,10 @@
 import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import {
+  SingleNumberResultResponse,
+  makeLogger,
+  splitArrayIntoChunks,
+} from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
@@ -92,9 +96,6 @@ type CryptoEndpointTypes = {
   }
 }
 
-const chunkArray = <T>(params: T[], size = 120): T[][] =>
-  params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
-
 const resultPathMap = {
   price: 'price',
   crypto: 'price',
@@ -130,7 +131,7 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
     for (const [idType, fullList] of Object.entries(groupedParams)) {
       if (fullList && fullList.length > 0) {
         // CMC does not support more than 120 unique quotes
-        const chunkedList = chunkArray(fullList, 120)
+        const chunkedList = splitArrayIntoChunks(fullList, 120)
 
         // This could be further optimized in cases with more than 120 entries, to make sure that
         // chunkes are grouped optimally to avoid sending unnecessary converts

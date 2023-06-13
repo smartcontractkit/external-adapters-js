@@ -1,7 +1,12 @@
 import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterResponse,
+  makeLogger,
+  sleep,
+  splitArrayIntoChunks,
+} from '@chainlink/external-adapter-framework/util'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { DepositEvent_ABI, StaderPenaltyContract_ABI } from '../abi/StaderContractAbis'
@@ -20,7 +25,6 @@ import {
   RequestParams,
   THIRTY_ONE_ETH_WEI,
   ValidatorAddress,
-  chunkArray,
   fetchAddressBalance,
   fetchEthDepositContractAddress,
   formatValueInGwei,
@@ -169,7 +173,10 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
     // Perform active validator calculations
     // These will need a call to get the penalty rate for each of them, so we have to batch these
-    const withdrawnBatches = chunkArray(withdrawnValidators, context.adapterSettings.GROUP_SIZE)
+    const withdrawnBatches = splitArrayIntoChunks(
+      withdrawnValidators,
+      context.adapterSettings.GROUP_SIZE,
+    )
     for (const batch of withdrawnBatches) {
       validatorBalances.push(
         ...(await Promise.all(batch.map((v) => v.calculateBalance(validatorDeposit)))),
@@ -178,7 +185,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
 
     // Perform active validator calculations
     // These will need a call to get the penalty rate for each of them, so we have to batch these
-    const activeBatches = chunkArray(activeValidators, context.adapterSettings.GROUP_SIZE)
+    const activeBatches = splitArrayIntoChunks(activeValidators, context.adapterSettings.GROUP_SIZE)
     for (const batch of activeBatches) {
       validatorBalances.push(
         ...(await Promise.all(
@@ -225,7 +232,7 @@ export class BalanceTransport extends SubscriptionTransport<EndpointTypes> {
   ): Promise<BalanceResponse[]> {
     const balances: BalanceResponse[] = []
     const elRewardAddresses = req.elRewardAddresses.map(({ address }) => address)
-    const groupedBatches = chunkArray(elRewardAddresses, settings.GROUP_SIZE)
+    const groupedBatches = splitArrayIntoChunks(elRewardAddresses, settings.GROUP_SIZE)
 
     return withErrorHandling('Retrieving validator execution layer reward balances', async () => {
       for (const group of groupedBatches) {

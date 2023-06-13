@@ -5,6 +5,7 @@ import {
   AdapterRequest,
   AdapterResponse,
   makeLogger,
+  splitArrayIntoChunks,
 } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { ApiPromise, WsProvider } from '@polkadot/api'
@@ -54,11 +55,6 @@ type EndpointTypes = {
   Response: ResponseSchema
 }
 
-const chunkArray = (addresses: string[], size: number): string[][] =>
-  addresses.length > size
-    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
-    : [addresses]
-
 export class BalanceTransport implements Transport<EndpointTypes> {
   name!: string
   responseCache!: ResponseCache<EndpointTypes>
@@ -90,7 +86,7 @@ export class BalanceTransport implements Transport<EndpointTypes> {
     try {
       // Break addresses down into batches to execute asynchronously
       // Firing requests for all addresses all at once could hit rate limiting for large address pools
-      const batchedAddresses = chunkArray(addresses, settings.BATCH_SIZE)
+      const batchedAddresses = splitArrayIntoChunks(addresses, settings.BATCH_SIZE)
       for (const batch of batchedAddresses) {
         await Promise.all(
           batch.map((address) => {
