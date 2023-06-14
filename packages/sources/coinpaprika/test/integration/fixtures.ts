@@ -4,7 +4,6 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.coinpaprika.com', {
     encodedQueryParams: true,
   })
-    .persist()
     .get('/v1/tickers')
     .query({ quotes: 'USD' })
     .reply(

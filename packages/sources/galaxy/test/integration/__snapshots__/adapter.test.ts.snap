@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Price Endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1279.2012582120603,
+  },
+  "result": 1279.2012582120603,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": Any<Number>,
+    "providerDataStreamEstablishedUnixMs": Any<Number>,
+    "providerIndicatedTimeUnixMs": 1667970828970,
+  },
+}
+`;

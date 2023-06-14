@@ -1,11 +1,9 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope => {
-  const mockServer = nock('https://finnhub.io/api/v1', {
+  return nock('https://finnhub.io/api/v1', {
     encodedQueryParams: true,
   })
-
-  mockServer
     .get('/quote')
     .query({ token: 'fake-api-key', symbol: 'OANDA:EUR_USD' })
     .reply(
@@ -31,8 +29,7 @@ export const mockResponseSuccess = (): nock.Scope => {
         'Origin',
       ],
     )
-
-  mockServer
+    .persist()
     .get('/quote')
     .query({ token: 'fake-api-key', symbol: 'AAPL' })
     .reply(
@@ -58,6 +55,5 @@ export const mockResponseSuccess = (): nock.Scope => {
         'Origin',
       ],
     )
-
-  return mockServer
+    .persist()
 }

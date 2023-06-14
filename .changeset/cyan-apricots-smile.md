@@ -2,7 +2,7 @@
 '@chainlink/bank-frick-adapter': patch
 '@chainlink/iex-cloud-adapter': patch
 '@chainlink/intrinio-test-adapter': patch
-'@chainlink/kaiko-test-adapter': patch
+'@chainlink/kaiko-adapter': patch
 '@chainlink/nft-blue-chip-adapter': patch
 '@chainlink/openexchangerates-adapter': patch
 '@chainlink/polkadot-balance-adapter': patch

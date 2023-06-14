@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockSubscribeResponse = (apiKey: string) => {
   nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
@@ -44,4 +45,29 @@ export const mockSubscribeError = (apiKey: string) => {
         ],
       },
     })
+}
+
+export const mockWebSocketServer = (URL: string) => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    const parseMessage = () => {
+      setTimeout(
+        () =>
+          socket.send(
+            JSON.stringify({
+              type: 'Index',
+              data: {
+                price: '10000',
+                symbol: 'ETH-USD',
+                timestamp: '2022-11-08T04:18:18.736534617Z',
+              },
+              sequence: 123,
+            }),
+          ),
+        10,
+      )
+    }
+    parseMessage()
+  })
+  return mockWsServer
 }

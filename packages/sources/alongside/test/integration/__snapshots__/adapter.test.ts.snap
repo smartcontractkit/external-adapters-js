@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`rest portfolio api should return success 1`] = `
+exports[`execute portfolio api should return success 1`] = `
 {
   "data": {
     "result": 25954.286873113622,
@@ -8,8 +8,8 @@ exports[`rest portfolio api should return success 1`] = `
   "result": 25954.286873113622,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
   },
 }
 `;

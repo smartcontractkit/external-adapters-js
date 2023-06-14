@@ -1,5 +1,5 @@
-import { mockPriceWebSocketServer, mockTokenResponse } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { mockTokenSuccess, mockWebSocketServer } from './fixtures'
 import {
   TestAdapter,
   setEnvVariables,
@@ -8,13 +8,12 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 
-describe('Price Endpoint', () => {
+describe('websocket', () => {
   let spy: jest.SpyInstance
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
-  const tokenEndpoint = process.env.API_ENDPOINT || 'https://test-url.com'
-  const wsEndpoint = process.env.WS_API_ENDPOINT || 'ws://localhost:9090'
+  const wsEndpoint = 'ws://localhost:9090'
   const data = {
     base: 'ETH',
     quote: 'USD',
@@ -22,17 +21,17 @@ describe('Price Endpoint', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['API_ENDPOINT'] = tokenEndpoint
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['WS_API_KEY'] = 'test-key'
-    process.env['WS_API_USERNAME'] = 'test-user'
+    process.env['WS_USER_ID'] = process.env['WS_USER_ID'] || 'test-user-id'
+    process.env['WS_PUBLIC_KEY'] = process.env['WS_PUBLIC_KEY'] || 'test-pub-key'
+    process.env['WS_PRIVATE_KEY'] = process.env['WS_PRIVATE_KEY'] || 'test-priv-key'
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    mockTokenResponse()
+    mockTokenSuccess()
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockPriceWebSocketServer(wsEndpoint)
+    mockWsServer = mockWebSocketServer(wsEndpoint)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -53,28 +52,30 @@ describe('Price Endpoint', () => {
     await testAdapter.api.close()
   })
 
-  it('should return success', async () => {
-    const response = await testAdapter.request(data)
-    expect(response.json()).toMatchSnapshot({
-      timestamps: {
-        providerDataReceivedUnixMs: expect.any(Number),
-        providerDataStreamEstablishedUnixMs: expect.any(Number),
-      },
+  describe('websocket endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot({
+        timestamps: {
+          providerDataReceivedUnixMs: expect.any(Number),
+          providerDataStreamEstablishedUnixMs: expect.any(Number),
+        },
+      })
+    })
+
+    it('should return error (empty data)', async () => {
+      const response = await testAdapter.request({})
+      expect(response.statusCode).toEqual(400)
+    })
+
+    it('should return error (empty base)', async () => {
+      const response = await testAdapter.request({ quote: 'USD' })
+      expect(response.statusCode).toEqual(400)
+    })
+
+    it('should return error (empty quote)', async () => {
+      const response = await testAdapter.request({ base: 'ETH' })
+      expect(response.statusCode).toEqual(400)
     })
   })
-
-  it('should return error (empty data)', async () => {
-    const response = await testAdapter.request({})
-    expect(response.statusCode).toEqual(400)
-  }, 30000)
-
-  it('should return error (empty base)', async () => {
-    const response = await testAdapter.request({ quote: 'BTC' })
-    expect(response.statusCode).toEqual(400)
-  })
-
-  it('should return error (empty quote)', async () => {
-    const response = await testAdapter.request({ base: 'ETH' })
-    expect(response.statusCode).toEqual(400)
-  }, 30000)
 })
