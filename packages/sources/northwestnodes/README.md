@@ -17,7 +17,7 @@ Supported names for this endpoint are: `staking-ethereum-epoch-single`.
 
 | Required? | Name | Aliases |                                                                                 Description                                                                                  |   Type   | Options |   Default   | Depends On | Not Valid With |
 | :-------: | :--: | :-----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :---------: | :--------: | :------------: |
-|    ✅     | `id` |         | The ID of the Ethereum staking Epoch. Defaults to `finalized` to get the latest, can be the numeric ID of a specific epoch within a rolling 90-day, or 21,000 epoch, window. | `string` |         | `finalized` |
+|           | `id` |         | The ID of the Ethereum staking Epoch. Defaults to `finalized` to get the latest, can be the numeric ID of a specific epoch within a rolling 90-day, or 21,000 epoch, window. | `string` |         | `finalized` |
 
 ### Example
 
@@ -64,7 +64,7 @@ Supported names for this endpoint are: `staking-ethereum-epoch-list`.
 
 | Required? |  Name   | Aliases |                                                               Description                                                               |   Type   | Options | Default | Depends On | Not Valid With |
 | :-------: | :-----: | :-----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | `count` |         | The number of the Ethereum staking Epochs to return. Defaults to `225`, or one day of Epochs. Can be a number ranging from 1 to 21,000. | `number` |         |  `255`  |
+|           | `count` |         | The number of the Ethereum staking Epochs to return. Defaults to `225`, or one day of Epochs. Can be a number ranging from 1 to 21,000. | `number` |         |  `255`  |
 
 ### Example
 
