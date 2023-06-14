@@ -13,6 +13,6 @@ export const config = new AdapterConfig({
     description: 'The default HTTP API base url',
     type: 'string',
     required: false,
-    default: 'https://api.northwestnodes.com',
+    default: 'https://api.northwestnodes.com/v2',
   },
 })

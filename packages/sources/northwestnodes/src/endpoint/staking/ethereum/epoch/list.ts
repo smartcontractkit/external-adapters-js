@@ -34,7 +34,7 @@ const transport = new HttpTransport<EndpointType>({
   prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
     const baseURL = settings.API_ENDPOINT
     const count = params[0].count
-    const url = '/v2/staking/ethereum/epoch/list/' + count
+    const url = '/staking/ethereum/epoch/list/' + count
     const query = settings.API_KEY ? { key: settings.API_KEY } : undefined
 
     logger.debug(

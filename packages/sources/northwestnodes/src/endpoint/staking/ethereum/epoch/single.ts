@@ -33,7 +33,7 @@ const transport = new HttpTransport<EndpointType>({
   prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
     const baseURL = settings.API_ENDPOINT
     const id = params[0].id.toLowerCase()
-    const url = '/v2/staking/ethereum/epoch/single/' + id
+    const url = '/staking/ethereum/epoch/single/' + id
     const query = settings.API_KEY ? { key: settings.API_KEY } : undefined
 
     logger.debug(
