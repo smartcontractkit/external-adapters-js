@@ -31,44 +31,40 @@ type EndpointType = {
 }
 
 const transport = new HttpTransport<EndpointType>({
-  prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
-    const baseURL = settings.API_ENDPOINT
-    const count = params[0].count
-    const url = '/v2/staking/ethereum/epoch/list/' + count
-    const query = settings.API_KEY ? { key: settings.API_KEY } : undefined
-    logger.debug('prepareRequests: ' + url)
-    return {
-      params,
-      request: {
-        baseURL,
-        url,
-        method: 'GET',
-        params: query,
-      },
-    }
-  },
+  prepareRequests: (params, settings) =>
+    params.map((p) => {
+      const url = '/staking/ethereum/epoch/list/' + p.count
+      logger.debug('prepareRequests: ' + url)
+      return {
+        params,
+        request: {
+          baseURL: settings.API_ENDPOINT,
+          url: url,
+          method: 'GET',
+          params: settings.API_KEY ? { key: settings.API_KEY } : undefined,
+        },
+      }
+    }),
   parseResponse: (params: (typeof inputParameters.validated)[], res) => {
     return params.map((p) => {
-      const statusCode = res.status
-      const statusText = res.statusText
-      if (statusCode == 200) {
+      if (res.status == 200) {
         const json = JSON.stringify(res.data)
-        logger.debug('parseResponse: ' + statusCode + ' OK; ' + json)
+        logger.debug('parseResponse: ' + res.status + ' OK; ' + json)
         return {
           params: p,
           response: {
             data: json,
             result: json,
-            statusCode,
+            statusCode: res.status,
           },
         }
       } else {
-        logger.error('parseResponse: ' + statusCode + ' ' + statusText)
+        logger.error('parseResponse: ' + res.status + ' ' + res.statusText)
         return {
           params: p,
           response: {
-            statusCode: statusCode,
-            errorMessage: statusText,
+            statusCode: res.status,
+            errorMessage: res.statusText,
           },
         }
       }

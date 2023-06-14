@@ -30,23 +30,21 @@ type EndpointType = {
 }
 
 const transport = new HttpTransport<EndpointType>({
-  prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
-    const baseURL = settings.API_ENDPOINT
-    const id = params[0].id.toLowerCase()
-    const url = '/staking/ethereum/epoch/single/' + id
-    const query = settings.API_KEY ? { key: settings.API_KEY } : undefined
-    logger.debug('prepareRequests: ' + url)
-    return {
-      params,
-      request: {
-        baseURL,
-        url,
-        method: 'GET',
-        params: query,
-      },
-    }
-  },
-  parseResponse: (params: (typeof inputParameters.validated)[], res) => {
+  prepareRequests: (params, settings) =>
+    params.map((p) => {
+      const url = '/staking/ethereum/epoch/single/' + p.id
+      logger.debug('prepareRequests: ' + url)
+      return {
+        params,
+        request: {
+          baseURL: settings.API_ENDPOINT,
+          url: url,
+          method: 'GET',
+          params: settings.API_KEY ? { key: settings.API_KEY } : undefined,
+        },
+      }
+    }),
+  parseResponse: (params, res) => {
     return params.map((p) => {
       const statusCode = res.status
       const statusText = res.statusText
