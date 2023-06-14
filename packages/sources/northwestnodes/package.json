@@ -28,8 +28,6 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/external-adapter-framework": "0.29.8",
     "tslib": "^2.3.1"
   },

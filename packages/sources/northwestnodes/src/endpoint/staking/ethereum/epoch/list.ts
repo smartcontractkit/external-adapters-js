@@ -22,7 +22,7 @@ type EndpointType = {
   Settings: typeof config.settings
   Response: {
     Data: string
-    Result: null
+    Result: string
   }
   Provider: {
     ResponseBody: IEpochResponse[]
@@ -34,21 +34,9 @@ const transport = new HttpTransport<EndpointType>({
   prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
     const baseURL = settings.API_ENDPOINT
     const count = params[0].count
-    const url = '/staking/ethereum/epoch/list/' + count
+    const url = '/v2/staking/ethereum/epoch/list/' + count
     const query = settings.API_KEY ? { key: settings.API_KEY } : undefined
-
-    logger.debug(
-      'prepareRequests: baseURL=' +
-        baseURL +
-        '; count=' +
-        count +
-        '; url=' +
-        url +
-        '; query=' +
-        query +
-        ';',
-    )
-
+    logger.debug('prepareRequests: ' + url)
     return {
       params,
       request: {
@@ -63,25 +51,24 @@ const transport = new HttpTransport<EndpointType>({
     return params.map((p) => {
       const statusCode = res.status
       const statusText = res.statusText
-
-      logger.debug('parseResponse: statusCode=' + statusCode + '; statusText=' + statusText + ';')
-
       if (statusCode == 200) {
+        const json = JSON.stringify(res.data)
+        logger.debug('parseResponse: ' + statusCode + ' OK; ' + json)
         return {
           params: p,
           response: {
-            data: JSON.stringify(res.data),
-            status: res.status,
-            result: null,
+            data: json,
+            result: json,
+            statusCode,
           },
         }
       } else {
+        logger.error('parseResponse: ' + statusCode + ' ' + statusText)
         return {
           params: p,
           response: {
-            data: res.statusText,
-            status: res.status,
-            result: null,
+            statusCode: statusCode,
+            errorMessage: statusText,
           },
         }
       }

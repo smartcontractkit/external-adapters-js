@@ -15,10 +15,4 @@ export const config = new AdapterConfig({
     required: false,
     default: 'https://api.northwestnodes.com/v2',
   },
-  WARMUP_SUBSCRIPTION_TTL: {
-    description: 'Reduced warmup subscription TTL to 10 seconds, for this EA',
-    type: 'number',
-    required: false,
-    default: 10000,
-  },
 })
