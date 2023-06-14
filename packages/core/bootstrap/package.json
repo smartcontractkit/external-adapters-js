@@ -55,7 +55,7 @@
     "@types/remote-redux-devtools": "0.5.5",
     "@types/sinon": "10.0.15",
     "@types/uuid": "8.3.4",
-    "@types/ws": "8.5.4",
+    "@types/ws": "8.5.5",
     "mock-socket": "9.1.5",
     "sinon": "14.0.2",
     "typescript": "5.0.4"

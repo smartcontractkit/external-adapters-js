@@ -5510,7 +5510,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/ws", "npm:8.5.4"],\
+            ["@types/ws", "npm:8.5.5"],\
             ["ethers", "npm:5.7.2"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
@@ -6810,7 +6810,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/remote-redux-devtools", "npm:0.5.5"],\
             ["@types/sinon", "npm:10.0.15"],\
             ["@types/uuid", "npm:8.3.4"],\
-            ["@types/ws", "npm:8.5.4"],\
+            ["@types/ws", "npm:8.5.5"],\
             ["ajv", "npm:8.12.0"],\
             ["axios", "npm:0.24.0"],\
             ["decimal.js", "npm:10.4.3"],\
@@ -7542,7 +7542,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
-            ["@types/ws", "npm:8.5.4"],\
+            ["@types/ws", "npm:8.5.5"],\
             ["axios", "npm:0.27.2"],\
             ["crypto", "npm:1.0.1"],\
             ["nock", "npm:13.2.9"],\
@@ -9010,7 +9010,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
-            ["@types/ws", "npm:8.5.4"],\
+            ["@types/ws", "npm:8.5.5"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -15287,10 +15287,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:8.5.4", {\
-          "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.4-c0237574ef-fefbad20d2.zip/node_modules/@types/ws/",\
+        ["npm:8.5.5", {\
+          "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.5-5f5e3bde2d-d00bf8070e.zip/node_modules/@types/ws/",\
           "packageDependencies": [\
-            ["@types/ws", "npm:8.5.4"],\
+            ["@types/ws", "npm:8.5.5"],\
             ["@types/node", "npm:18.8.3"]\
           ],\
           "linkType": "HARD"\
