@@ -21,7 +21,7 @@ Supported names for this endpoint are: `staking-ethereum-epoch-single`.
 
 ### Example
 
-Example request: `https://api.northwestnodes.com/v2/staking/ethereum/epoch/single/finalized`
+Example request: `GET https://api.northwestnodes.com/v2/staking/ethereum/epoch/single/finalized`
 
 Example response:
 
@@ -68,7 +68,7 @@ Supported names for this endpoint are: `staking-ethereum-epoch-list`.
 
 ### Example
 
-Example request: `https://api.northwestnodes.com/v2/staking/ethereum/epoch/list/225`
+Example request: `GET https://api.northwestnodes.com/v2/staking/ethereum/epoch/list/225`
 
 Example response:
 
