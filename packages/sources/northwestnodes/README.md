@@ -2,10 +2,11 @@
 
 ## Environment Variables
 
-| Required? |      Name      |                 Description                 |   Type   | Options |               Default               |
-| :-------: | :------------: | :-----------------------------------------: | :------: | :-----: | :---------------------------------: |
-|           | `API_ENDPOINT` | Base URL for Northwest Nodes REST endpoints | `string` |         | `https://api.northwestnodes.com/v2` |
-|    ✅     |   `API_KEY`    |       Key for the Northwest Nodes API       | `string` |         |                                     |
+| Required? |           Name            |                 Description                 |   Type   | Options |               Default               |
+| :-------: | :-----------------------: | :-----------------------------------------: | :------: | :-----: | :---------------------------------: |
+|           |      `API_ENDPOINT`       | Base URL for Northwest Nodes REST endpoints | `string` |         | `https://api.northwestnodes.com/v2` |
+|    ✅     |         `API_KEY`         |       Key for the Northwest Nodes API       | `string` |         |                                     |
+|    ✅     | `WARMUP_SUBSCRIPTION_TTL` |          Reduced cache warmup TTL           | `number` |         |                10000                |
 
 ---
 
