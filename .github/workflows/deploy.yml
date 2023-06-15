@@ -144,6 +144,10 @@ jobs:
       - deploy
     if: always() && needs.calculate-changes.outputs.adapter-list != '[]'
     steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
       - name: Delete ephemeral branch
         run: |
           git push origin --delete ${{ needs.calculate-changes.outputs.tmp-branch }}
