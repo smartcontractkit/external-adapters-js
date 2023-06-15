@@ -25,7 +25,7 @@ export type EndpointTypes = {
     ResponseBody: ProviderResponseBody
   }
 }
-
+//test
 export interface BalanceType {
   symbol: string
   amount: number
