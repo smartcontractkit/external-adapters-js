@@ -8,7 +8,7 @@ exports[`execute balance api (stakeAmount) should return success 1`] = `
         "addresses": [
           "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
         ],
-        "balance": "1606136960057",
+        "balance": "2000000000000",
       },
     ],
   },
@@ -18,7 +18,7 @@ exports[`execute balance api (stakeAmount) should return success 1`] = `
       "addresses": [
         "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
       ],
-      "balance": "1606136960057",
+      "balance": "2000000000000",
     },
   ],
   "statusCode": 200,
