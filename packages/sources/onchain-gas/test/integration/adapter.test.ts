@@ -53,7 +53,11 @@ describe('websocket', () => {
       let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockGetBlockByNumber()
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [mockWSResponse])
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore is needed since errorOnUnexpectedMessage has type 'true' instead of value 'true' and type 'boolean'
+        flowFulfilled = mockWebSocketFlow(mockedWsServer, [mockWSResponse], {
+          errorOnUnexpectedMessage: false,
+        })
       }
 
       const makeRequest = () =>
