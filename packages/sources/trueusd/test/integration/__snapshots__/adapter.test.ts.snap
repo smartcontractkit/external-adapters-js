@@ -3,11 +3,11 @@
 exports[`execute should return success for token 1`] = `
 {
   "data": {
-    "result": 1213602213.6176918,
+    "result": 3097573780.109635,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 1213602213.6176918,
+  "result": 3097573780.109635,
   "statusCode": 200,
 }
 `;
@@ -15,11 +15,11 @@ exports[`execute should return success for token 1`] = `
 exports[`execute should return success for trust 1`] = `
 {
   "data": {
-    "result": 1217813909.066,
+    "result": 3117410009.89,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 1217813909.066,
+  "result": 3117410009.89,
   "statusCode": 200,
 }
 `;
@@ -27,11 +27,11 @@ exports[`execute should return success for trust 1`] = `
 exports[`execute should return success when given a chain 1`] = `
 {
   "data": {
-    "result": 1795,
+    "result": 24268.83,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 1795,
+  "result": 24268.83,
   "statusCode": 200,
 }
 `;
@@ -39,11 +39,11 @@ exports[`execute should return success when given a chain 1`] = `
 exports[`execute should return success when given a chain and resultPath 1`] = `
 {
   "data": {
-    "result": 3791570.06,
+    "result": 3005274.95,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 3791570.06,
+  "result": 3005274.95,
   "statusCode": 200,
 }
 `;
