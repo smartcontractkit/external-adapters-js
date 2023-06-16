@@ -3880,24 +3880,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    axios: ^0.24.0
-    intrinio-realtime: ^2.3.0
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test"
-  dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
     "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
@@ -11734,7 +11716,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asap@npm:^2.0.0, asap@npm:~2.0.3":
+"asap@npm:^2.0.0":
   version: 2.0.6
   resolution: "asap@npm:2.0.6"
   checksum: b296c92c4b969e973260e47523207cd5769abd27c245a68c26dc7a0fe8053c55bb04360237cb51cab1df52be939da77150ace99ad331fb7fb13b3423ed73ff3d
@@ -18265,16 +18247,6 @@ __metadata:
   version: 2.2.0
   resolution: "interpret@npm:2.2.0"
   checksum: f51efef7cb8d02da16408ffa3504cd6053014c5aeb7bb8c223727e053e4235bf565e45d67028b0c8740d917c603807aa3c27d7bd2f21bf20b6417e2bb3e5fd6e
-  languageName: node
-  linkType: hard
-
-"intrinio-realtime@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "intrinio-realtime@npm:2.3.0"
-  dependencies:
-    promise: ^7.1.1
-    ws: ^2.0.2
-  checksum: 598cf62927bb8eeaa6b9fe98cc042b49b1b69959e2e2d803dd783a74b62efbdab19480d6ee960bf33adfb8eca7f4188e78b6e7331cce998b0093da247b96cdbf
   languageName: node
   linkType: hard
 
@@ -25021,15 +24993,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"promise@npm:^7.1.1":
-  version: 7.3.1
-  resolution: "promise@npm:7.3.1"
-  dependencies:
-    asap: ~2.0.3
-  checksum: 475bb069130179fbd27ed2ab45f26d8862376a137a57314cf53310bdd85cc986a826fd585829be97ebc0aaf10e9d8e68be1bfe5a4a0364144b1f9eedfa940cf1
-  languageName: node
-  linkType: hard
-
 "prompts@npm:^2.0.1":
   version: 2.4.2
   resolution: "prompts@npm:2.4.2"
@@ -26258,13 +26221,6 @@ __metadata:
   version: 5.2.1
   resolution: "safe-buffer@npm:5.2.1"
   checksum: b99c4b41fdd67a6aaf280fcd05e9ffb0813654894223afb78a31f14a19ad220bba8aba1cb14eddce1fcfb037155fe6de4e861784eb434f7d11ed58d1e70dd491
-  languageName: node
-  linkType: hard
-
-"safe-buffer@npm:~5.0.1":
-  version: 5.0.1
-  resolution: "safe-buffer@npm:5.0.1"
-  checksum: 640f78a802831d8ea6cb60943b8f171854659908b62272acb32d15b5e51583f788e3edaf5827edd6883041432364094e6e551bd0eb6b68f0ac7af7e5a01f9e35
   languageName: node
   linkType: hard
 
@@ -30128,16 +30084,6 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 23aa0f021b2eb65c108ec4c3e08c0d81ba01f82b500432dfe327fd6be36079c1d81fdb0eac6464d2a0eb49904d34a9ab8c59619d673fa07b8346f83aeb0cbf12
-  languageName: node
-  linkType: hard
-
-"ws@npm:^2.0.2":
-  version: 2.3.1
-  resolution: "ws@npm:2.3.1"
-  dependencies:
-    safe-buffer: ~5.0.1
-    ultron: ~1.1.0
-  checksum: a36003bd22fddedb0fa19c406a00fe9801b85bf90f3730638bc5d6410d2f10b42dd64df757cdf9f9f0b5045539fc4c3092be4e13a280da295f8f78c8d296aabd
   languageName: node
   linkType: hard
 

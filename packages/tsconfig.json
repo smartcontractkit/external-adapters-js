@@ -381,9 +381,6 @@
       "path": "./sources/intrinio"
     },
     {
-      "path": "./sources/intrinio-test"
-    },
-    {
       "path": "./sources/ipfs"
     },
     {
