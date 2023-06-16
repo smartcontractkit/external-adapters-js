@@ -212,10 +212,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/alphavantage"\
       },\
       {\
-        "name": "@chainlink/alphavantage-test-adapter",\
-        "reference": "workspace:packages/sources/alphavantage-test"\
-      },\
-      {\
         "name": "@chainlink/alpine-adapter",\
         "reference": "workspace:packages/sources/alpine"\
       },\
@@ -826,7 +822,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/alongside-adapter", ["workspace:packages/sources/alongside"]],\
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],\
-      ["@chainlink/alphavantage-test-adapter", ["workspace:packages/sources/alphavantage-test"]],\
       ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
       ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
@@ -5579,24 +5574,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/alphavantage-test-adapter", [\
-        ["workspace:packages/sources/alphavantage-test", {\
-          "packageLocation": "./packages/sources/alphavantage-test/",\
-          "packageDependencies": [\
-            ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
