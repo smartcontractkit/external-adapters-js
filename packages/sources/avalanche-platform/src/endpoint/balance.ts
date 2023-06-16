@@ -25,6 +25,12 @@ export const inputParameters: InputParameters<TInputParameters> = {
 
 type Address = {
   address: string
+  network: string
+}
+
+const assetIdMap: Record<string, string> = {
+  avalanche: 'FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z',
+  'avalanche-fuji': 'U8iRqJoiJm8xZHAacmvYyZVwqQx6uDNtQeP3CQ6fcgQk3JqnK',
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -45,9 +51,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 }
 
 interface ResponseSchema {
+  jsonrpc: string
   result: {
-    balance: string
+    staked: string
+    stakeds: Record<string, string>
+    stakedOutputs: string[]
+    encoding: string
   }
+  id: number
 }
 
 interface BalanceResponse {
@@ -56,13 +67,15 @@ interface BalanceResponse {
 }
 
 const queryPlatformChain = async (jobRunID: string, config: Config, addresses: Address[]) => {
+  const network = addresses[0].network
+  const assetId = assetIdMap[network]
   const addressList = addresses.map(({ address }) => address)
   const options: AxiosRequestConfig = {
     ...config.api,
     method: 'POST',
     data: {
       jsonrpc: '2.0',
-      method: 'platform.getBalance',
+      method: 'platform.getStake',
       params: { addresses: addressList },
       id: jobRunID,
     },
@@ -71,9 +84,10 @@ const queryPlatformChain = async (jobRunID: string, config: Config, addresses: A
   const response = await Requester.request<ResponseSchema>(options)
   const balances: BalanceResponse[] = []
 
-  // Balances will only have a single entry that contains the balance for all of the addresses specified in the request
-  // The platform.getBalance method only provides the sum so all addresses are grouped in the results
-  balances.push({ addresses: addressList, balance: response.data.result.balance })
+  // The "stakeds" field will aggregate the staked value across all addresses by asset ID
+  // Only need to report the staked value for AVAX
+  const stakedValue = response.data.result.stakeds[assetId] || '0'
+  balances.push({ addresses: addressList, balance: stakedValue })
 
   const result = {
     data: {
