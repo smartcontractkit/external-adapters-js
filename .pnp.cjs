@@ -532,10 +532,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/intrinio"\
       },\
       {\
-        "name": "@chainlink/intrinio-test-adapter",\
-        "reference": "workspace:packages/sources/intrinio-test"\
-      },\
-      {\
         "name": "@chainlink/ipfs-adapter",\
         "reference": "workspace:packages/sources/ipfs"\
       },\
@@ -930,7 +926,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
-      ["@chainlink/intrinio-test-adapter", ["workspace:packages/sources/intrinio-test"]],\
       ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],\
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
@@ -7631,26 +7626,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/intrinio/",\
           "packageDependencies": [\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["axios", "npm:0.24.0"],\
-            ["intrinio-realtime", "npm:2.3.0"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/intrinio-test-adapter", [\
-        ["workspace:packages/sources/intrinio-test", {\
-          "packageLocation": "./packages/sources/intrinio-test/",\
-          "packageDependencies": [\
-            ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -23869,17 +23844,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["intrinio-realtime", [\
-        ["npm:2.3.0", {\
-          "packageLocation": "./.yarn/cache/intrinio-realtime-npm-2.3.0-de7f87a16c-598cf62927.zip/node_modules/intrinio-realtime/",\
-          "packageDependencies": [\
-            ["intrinio-realtime", "npm:2.3.0"],\
-            ["promise", "npm:7.3.1"],\
-            ["ws", "virtual:de7f87a16ca4209cff92876360763f4aa630896bbc5b9c20c48a488c4bf5b6cc68ee75e13f6720169a39633336d2389a63112f3763df6ba669575776ec20bd49#npm:2.3.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["invariant", [\
         ["npm:2.2.4", {\
           "packageLocation": "./.yarn/cache/invariant-npm-2.2.4-717fbdb119-cc3182d793.zip/node_modules/invariant/",\
@@ -31308,16 +31272,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["promise", [\
-        ["npm:7.3.1", {\
-          "packageLocation": "./.yarn/cache/promise-npm-7.3.1-5d81d474c0-475bb06913.zip/node_modules/promise/",\
-          "packageDependencies": [\
-            ["promise", "npm:7.3.1"],\
-            ["asap", "npm:2.0.6"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["promise-inflight", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/promise-inflight-npm-1.0.1-5bb925afac-2274948309.zip/node_modules/promise-inflight/",\
@@ -32694,13 +32648,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["safe-buffer", [\
-        ["npm:5.0.1", {\
-          "packageLocation": "./.yarn/cache/safe-buffer-npm-5.0.1-7d6c7984a2-640f78a802.zip/node_modules/safe-buffer/",\
-          "packageDependencies": [\
-            ["safe-buffer", "npm:5.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.1.2", {\
           "packageLocation": "./.yarn/cache/safe-buffer-npm-5.1.2-c27fedf6c4-f2f1f7943c.zip/node_modules/safe-buffer/",\
           "packageDependencies": [\
@@ -36904,13 +36851,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["ws", [\
-        ["npm:2.3.1", {\
-          "packageLocation": "./.yarn/cache/ws-npm-2.3.1-4fe0df108b-a36003bd22.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "npm:2.3.1"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
         ["npm:3.3.3", {\
           "packageLocation": "./.yarn/cache/ws-npm-3.3.3-30771aa150-20b7bf34bb.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37052,25 +36992,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:de7f87a16ca4209cff92876360763f4aa630896bbc5b9c20c48a488c4bf5b6cc68ee75e13f6720169a39633336d2389a63112f3763df6ba669575776ec20bd49#npm:2.3.1", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-47d0c66892/0/cache/ws-npm-2.3.1-4fe0df108b-a36003bd22.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:de7f87a16ca4209cff92876360763f4aa630896bbc5b9c20c48a488c4bf5b6cc68ee75e13f6720169a39633336d2389a63112f3763df6ba669575776ec20bd49#npm:2.3.1"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["safe-buffer", "npm:5.0.1"],\
-            ["ultron", "npm:1.1.1"],\
             ["utf-8-validate", null]\
           ],\
           "packagePeers": [\

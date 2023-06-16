@@ -1,6 +1,5 @@
 {
  "requests": [{
-  "base": "IWM",
-  "endpoint": "stock"
+  "base": "AAPL"
  }]
 }

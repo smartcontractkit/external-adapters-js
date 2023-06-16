@@ -1,13 +1,15 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'INTRINIO'
-
-export const DEFAULT_BASE_URL = 'https://api-v2.intrinio.com/'
-// const DEFAULT_WS_API_ENDPOINT = ''
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  return config
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'The API url for intrinio',
+    type: 'string',
+    default: 'https://api-v2.intrinio.com/',
+  },
+  API_KEY: {
+    description: 'The API key for intrinio',
+    type: 'string',
+    require: true,
+    sensitive: true,
+  },
+})
