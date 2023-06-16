@@ -1,35 +1,19 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import { NAME as AdapterName } from '../config'
+import {
+  PriceEndpoint,
+  PriceEndpointInputParametersDefinition,
+  priceEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { config } from '../config'
 
-export const supportedEndpoints = ['forex', 'price']
+const logger = makeLogger('Alphavantage HttpEndpoint')
 
-const customError = (data: ResponseSchema): boolean => !!data['Error Message']
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
-export const description = `Returns the exchange rate from a currency's current price to a given currency.
-
-**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`forex\` endpoint instead.**"`
-
-export type TInputParameters = { base: string; quote: string }
-
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    aliases: ['from', 'coin'],
-    type: 'string',
-    description:
-      'The symbol of the currency to query. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
-    required: true,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    type: 'string',
-    description:
-      'The symbol of the currency to convert to. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
-    required: true,
-  },
-}
-
-export interface ResponseSchema {
+export interface ProviderResponseBody {
   'Realtime Currency Exchange Rate': {
     '1. From_Currency Code': string
     '2. From_Currency Name': string
@@ -44,34 +28,93 @@ export interface ResponseSchema {
   'Error Message': string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base)
-  const to = validator.validated.data.quote
-
-  const params = {
-    ...config.api?.params,
-    function: 'CURRENCY_EXCHANGE_RATE',
-    from_currency: from,
-    to_currency: to,
-    from_symbol: from,
-    to_symbol: to,
-    symbol: from,
-    market: to,
+export type EndpointTypes = {
+  Parameters: PriceEndpointInputParametersDefinition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
   }
-
-  const options = {
-    ...config.api,
-    params,
-  }
-
-  const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, [
-    'Realtime Currency Exchange Rate',
-    '5. Exchange Rate',
-  ])
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
+
+export const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, settings: typeof config.settings) => {
+    return params.map((param) => {
+      const from = param.base
+      const to = param.quote
+      const requestConfig = {
+        baseURL: settings.API_ENDPOINT,
+        method: 'GET',
+        params: {
+          function: 'CURRENCY_EXCHANGE_RATE',
+          from_currency: from,
+          to_currency: to,
+          from_symbol: from,
+          to_symbol: to,
+          symbol: from,
+          market: to,
+          apikey: settings.API_KEY,
+        },
+      }
+      return {
+        params: [param],
+        request: requestConfig,
+      }
+    })
+  },
+  parseResponse: (params, res) => {
+    let errorMessage = res.data['Error Message']
+    if (errorMessage) {
+      logger.warn(errorMessage)
+      return error502(params, errorMessage)
+    }
+
+    const realTimeCurrentExchangeRate = res.data['Realtime Currency Exchange Rate']
+    if (!realTimeCurrentExchangeRate) {
+      errorMessage = `There was a problem getting the 'Realtime Currency Exchange Rate' data from the source`
+      return error502(params, errorMessage)
+    }
+
+    const exchangeRate = res.data['Realtime Currency Exchange Rate']['5. Exchange Rate']
+    if (!exchangeRate) {
+      errorMessage = `There was a problem getting the 'Exchange Rate' data from the source`
+      return error502(params, errorMessage)
+    }
+    return params.map((param) => {
+      const result = Number(exchangeRate)
+      return {
+        params: param,
+        response: {
+          data: {
+            result,
+          },
+          result,
+        },
+      }
+    })
+  },
+})
+
+const error502 = (
+  params: TypeFromDefinition<PriceEndpointInputParametersDefinition>[],
+  errorMessage: string,
+) => {
+  logger.error(errorMessage)
+  return params.map((param) => {
+    return {
+      params: param,
+      response: {
+        statusCode: 502,
+        errorMessage,
+      },
+    }
+  })
+}
+
+export const endpoint = new PriceEndpoint<EndpointTypes>({
+  name: 'forex',
+  aliases: ['price'],
+  transport: httpTransport,
+  inputParameters,
+})
