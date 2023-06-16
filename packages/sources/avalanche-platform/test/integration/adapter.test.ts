@@ -27,6 +27,7 @@ describe('execute', () => {
           result: [
             {
               address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
+              network: 'avalanche-fuji',
             },
           ],
         },
