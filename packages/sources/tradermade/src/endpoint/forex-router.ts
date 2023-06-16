@@ -10,8 +10,8 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { httpTransport } from './forex'
-import { wsTransport } from './forex-ws'
+import { httpTransport } from '../transport/forex-http'
+import { wsTransport } from '../transport/forex-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 export const inputParameters = new InputParameters({
@@ -29,12 +29,11 @@ export const inputParameters = new InputParameters({
   },
 })
 
-export type ForexEndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
-
 function customInputValidation(
   req: AdapterRequest<typeof inputParameters.validated>,
   settings: typeof config.settings,
@@ -48,10 +47,10 @@ function customInputValidation(
   return
 }
 
-export const endpoint = new PriceEndpoint<ForexEndpointTypes>({
+export const endpoint = new PriceEndpoint({
   name: 'forex',
   aliases: ['batch'],
-  transportRoutes: new TransportRoutes<ForexEndpointTypes>()
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',

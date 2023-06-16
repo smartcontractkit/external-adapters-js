@@ -1,3 +1,3 @@
-export { endpoint as crypto } from './common/crypto'
-export { endpoint as birc } from './rest/birc'
-export { endpoint as cryptolwba } from './websocket/crypto-lwba'
+export { endpoint as crypto } from './crypto-router'
+export { endpoint as birc } from './birc'
+export { endpoint as cryptolwba } from './crypto-lwba'

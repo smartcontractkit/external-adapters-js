@@ -1,8 +1,8 @@
-export { buildDxFeedHttpTransport } from './price'
+export { buildDxFeedHttpTransport } from '../transport/price-http'
 export {
-  EndpointTypes,
+  BaseEndpointTypes,
   customInputValidation,
   inputParameters,
   endpoint as price,
 } from './price-router'
-export { buildDxFeedWsTransport } from './price-ws'
+export { buildDxFeedWsTransport } from '../transport/price-ws'

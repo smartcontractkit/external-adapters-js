@@ -2,7 +2,7 @@ import {
   buildDxFeedHttpTransport,
   buildDxFeedWsTransport,
   customInputValidation,
-  EndpointTypes,
+  BaseEndpointTypes,
   inputParameters,
 } from '@chainlink/dxfeed-adapter'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
@@ -11,7 +11,7 @@ import { TransportRoutes } from '@chainlink/external-adapter-framework/transport
 export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
-  transportRoutes: new TransportRoutes<EndpointTypes>()
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', buildDxFeedWsTransport())
     .register('rest', buildDxFeedHttpTransport()),
   defaultTransport: 'rest',

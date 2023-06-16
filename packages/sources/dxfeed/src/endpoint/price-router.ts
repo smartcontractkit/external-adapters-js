@@ -11,8 +11,8 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { buildDxFeedHttpTransport } from './price'
-import { buildDxFeedWsTransport } from './price-ws'
+import { buildDxFeedHttpTransport } from '../transport/price-http'
+import { buildDxFeedWsTransport } from '../transport/price-ws'
 
 export const inputParameters = new InputParameters({
   base: {
@@ -23,7 +23,7 @@ export const inputParameters = new InputParameters({
   },
 })
 
-export type EndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
@@ -45,7 +45,7 @@ export function customInputValidation(
 export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
-  transportRoutes: new TransportRoutes<EndpointTypes>()
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', buildDxFeedWsTransport())
     .register('rest', buildDxFeedHttpTransport()),
   defaultTransport: 'rest',
