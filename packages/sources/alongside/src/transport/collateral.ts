@@ -1,30 +1,13 @@
-import { AdapterEndpoint, EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { BaseEndpointTypes } from '../endpoint/collateral'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import {
-  AdapterResponse,
-  SingleNumberResultResponse,
-  makeLogger,
-  sleep,
-} from '@chainlink/external-adapter-framework/util'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
-import CryptoJS from 'crypto-js'
-import { config } from '../../config'
-import { Collateral } from './utils'
-
-const logger = makeLogger('AlongsideLogger')
-
-export type EndpointTypes = {
-  Parameters: EmptyInputParameters
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody
-  }
-}
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { config } from '../config'
+import { Collateral, sign } from './utils'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 
 export interface BalanceType {
   symbol: string
@@ -53,18 +36,21 @@ export interface ProviderResponseBody {
   }
 }
 
-const sign = (str: string, secret: string) => {
-  const hash = CryptoJS.HmacSHA256(str, secret)
-  return hash.toString(CryptoJS.enc.Base64)
-}
+const logger = makeLogger('AlongsideLogger')
 
-export class AlongsideCollateralTransport extends SubscriptionTransport<EndpointTypes> {
-  responseCache!: ResponseCache<EndpointTypes>
+export type CollateralTransportTypes = BaseEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
+}
+export class AlongsideCollateralTransport extends SubscriptionTransport<CollateralTransportTypes> {
+  responseCache!: ResponseCache<CollateralTransportTypes>
   requester!: Requester
   name!: string
 
   async initialize(
-    dependencies: TransportDependencies<EndpointTypes>,
+    dependencies: TransportDependencies<CollateralTransportTypes>,
     adapterSettings: typeof config.settings,
     endpointName: string,
     name: string,
@@ -102,14 +88,14 @@ export class AlongsideCollateralTransport extends SubscriptionTransport<Endpoint
     }
   }
 
-  async backgroundHandler(context: EndpointContext<EndpointTypes>): Promise<void> {
+  async backgroundHandler(context: EndpointContext<CollateralTransportTypes>): Promise<void> {
     const collateral = new Collateral(context.adapterSettings.RPC_URL)
     const providerDataRequestedUnixMs = Date.now()
     logger.debug('Preparing request for trading balance')
     const tradingBalanceRequest = this.prepareRequest('TRADING', context.adapterSettings)
     logger.debug('Preparing request for vault balance')
     const tradingVaultRequest = this.prepareRequest('VAULT', context.adapterSettings)
-    let response: AdapterResponse<EndpointTypes['Response']>
+    let response: AdapterResponse<CollateralTransportTypes['Response']>
 
     try {
       // Initiate trading balance, vault balance, and asset weight requests in parallel
@@ -185,8 +171,3 @@ export class AlongsideCollateralTransport extends SubscriptionTransport<Endpoint
     }
   }
 }
-
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
-  name: 'collateral',
-  transport: new AlongsideCollateralTransport(),
-})

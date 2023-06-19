@@ -1,18 +1,5 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { config } from '../../config'
-import overrides from '../../config/overrides.json'
-
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'symbol'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the currency to query',
-  },
-})
+import { BaseEndpointTypes } from '../endpoint/eod'
 
 interface ResponseSchema {
   symbol: string
@@ -30,17 +17,14 @@ interface ResponseSchema {
   ]
 }
 
-type EndpointTypes = {
-  Parameters: typeof inputParameters.definition
-  Settings: typeof config.settings
-  Response: SingleNumberResultResponse
+export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
+export const transport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
@@ -82,11 +66,4 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       }
     })
   },
-})
-
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
-  name: 'eod',
-  transport: httpTransport,
-  inputParameters: inputParameters,
-  overrides: overrides.finage,
 })

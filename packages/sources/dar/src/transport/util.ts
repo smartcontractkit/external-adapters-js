@@ -5,50 +5,38 @@ import {
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import axios from 'axios'
-import { config } from './config'
+import { config } from '../config'
 
-const logger = makeLogger('GalaxyUtil')
+const logger = makeLogger('DarUtil')
 
-export interface AccessTokenResponse {
-  token?: string
-  message?: string
+export interface AuthResponse {
+  access_token: string
+  expires_in: number
+  token_type: string
 }
 
-export interface AccessToken {
-  token: string
-  created: number
-}
-
-export const getAccessToken = async (settings: typeof config.settings): Promise<AccessToken> => {
+export const getAuthToken = async (settings: typeof config.settings): Promise<string> => {
   const requestedTs = Date.now()
   try {
-    const tokenResponse = await axios.request<AccessTokenResponse>({
-      url: settings.API_ENDPOINT,
-      method: 'GET',
+    const buf = Buffer.from(`${settings.WS_API_USERNAME}:${settings.WS_API_KEY}`)
+    const auth = buf.toString('base64')
+    const jwtRes = await axios.request<AuthResponse>({
+      url: `${settings.API_ENDPOINT}/token-auth`,
+      method: 'POST',
       headers: {
-        'X-GALAXY-APIKEY': settings.WS_API_KEY,
-        'X-GALAXY-PASSWORD': settings.WS_API_PASSWORD,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${auth}`,
       },
     })
 
-    if (!tokenResponse.data.token)
-      throw new AdapterDataProviderError(
-        { message: tokenResponse.data.message || 'Login failed' },
-        {
-          providerDataRequestedUnixMs: requestedTs,
-          providerIndicatedTimeUnixMs: undefined,
-          providerDataReceivedUnixMs: Date.now(),
-        },
-      )
-    return {
-      token: tokenResponse.data.token,
-      created: new Date().getTime(),
-    }
+    return jwtRes.data.access_token
   } catch (e: unknown) {
     const err = e as any
     const message = `Login failed ${err.message ? `with message '${err.message}'` : ''}`
     const error = { ...err, message }
+
     logger.debug(message)
+
     throw error.response
       ? new AdapterDataProviderError(error, {
           providerDataRequestedUnixMs: requestedTs,

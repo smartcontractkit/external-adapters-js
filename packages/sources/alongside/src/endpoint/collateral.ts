@@ -1,25 +1,16 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import { AlongsideCollateralTransport } from '../transport/collateral'
 import { config } from '../config'
-import { transport } from '../transport/coins'
-
-export interface CoinsResponse {
-  id: string
-  symbol: string
-  name: string
-  rank: number
-}
 
 export type BaseEndpointTypes = {
-  Settings: typeof config.settings
   Parameters: EmptyInputParameters
-  Response: {
-    Data: CoinsResponse[]
-    Result: null
-  }
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'coins',
-  transport,
+  name: 'collateral',
+  transport: new AlongsideCollateralTransport(),
 })

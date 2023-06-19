@@ -1,14 +1,14 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpointTypes } from '../types'
+import { BaseEndpointTypes } from '../endpoint/utils'
 
 interface ResponseSchema {
   symbol: string
-  price: number
+  bid: number
+  ask: number
   timestamp: number
-  error?: string
 }
 
-type HttpTransportTypes = PriceEndpointTypes & {
+type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -23,34 +23,22 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `/last/crypto/${symbol}`,
+          url: `/last/forex/${symbol}`,
           params: { apikey: config.API_KEY },
         },
       }
     })
   },
   parseResponse: (params, res) => {
-    if (res.data.error) {
-      return params.map((param) => {
-        return {
-          params: param,
-          response: {
-            errorMessage:
-              'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
-            statusCode: 400,
-          },
-        }
-      })
-    }
-
     return params.map((param) => {
+      const result = (res.data.ask + res.data.bid) / 2
       return {
         params: param,
         response: {
           data: {
-            result: res.data.price,
+            result,
           },
-          result: res.data.price,
+          result,
           timestamps: {
             providerIndicatedTimeUnixMs: res.data.timestamp,
           },

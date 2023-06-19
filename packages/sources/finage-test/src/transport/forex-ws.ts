@@ -1,5 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { PriceEndpointTypes } from '../types'
+import { BaseEndpointTypes } from '../endpoint/utils'
 
 interface Message {
   s: string
@@ -7,13 +7,13 @@ interface Message {
   b: string
   t: number
 }
-type EndpointTypes = PriceEndpointTypes & {
+type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: Message
   }
 }
 
-export const wsTransport = new WebSocketTransport<EndpointTypes>({
+export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => {
     return `${context.adapterSettings.FOREX_WS_API_ENDPOINT}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
   },

@@ -11,7 +11,7 @@ export const priceInputParameters = new InputParameters({
   },
 })
 
-export type PriceEndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof priceInputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse

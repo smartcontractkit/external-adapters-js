@@ -5,33 +5,50 @@ import {
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import axios from 'axios'
-import { config } from './config'
-import { AuthResponse } from './types'
+import { config } from '../config'
 
-const logger = makeLogger('DarUtil')
+const logger = makeLogger('GalaxyUtil')
 
-export const getAuthToken = async (settings: typeof config.settings): Promise<string> => {
+export interface AccessTokenResponse {
+  token?: string
+  message?: string
+}
+
+export interface AccessToken {
+  token: string
+  created: number
+}
+
+export const getAccessToken = async (settings: typeof config.settings): Promise<AccessToken> => {
   const requestedTs = Date.now()
   try {
-    const buf = Buffer.from(`${settings.WS_API_USERNAME}:${settings.WS_API_KEY}`)
-    const auth = buf.toString('base64')
-    const jwtRes = await axios.request<AuthResponse>({
-      url: `${settings.API_ENDPOINT}/token-auth`,
-      method: 'POST',
+    const tokenResponse = await axios.request<AccessTokenResponse>({
+      url: settings.API_ENDPOINT,
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${auth}`,
+        'X-GALAXY-APIKEY': settings.WS_API_KEY,
+        'X-GALAXY-PASSWORD': settings.WS_API_PASSWORD,
       },
     })
 
-    return jwtRes.data.access_token
+    if (!tokenResponse.data.token)
+      throw new AdapterDataProviderError(
+        { message: tokenResponse.data.message || 'Login failed' },
+        {
+          providerDataRequestedUnixMs: requestedTs,
+          providerIndicatedTimeUnixMs: undefined,
+          providerDataReceivedUnixMs: Date.now(),
+        },
+      )
+    return {
+      token: tokenResponse.data.token,
+      created: new Date().getTime(),
+    }
   } catch (e: unknown) {
     const err = e as any
     const message = `Login failed ${err.message ? `with message '${err.message}'` : ''}`
     const error = { ...err, message }
-
     logger.debug(message)
-
     throw error.response
       ? new AdapterDataProviderError(error, {
           providerDataRequestedUnixMs: requestedTs,

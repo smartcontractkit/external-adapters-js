@@ -1,13 +1,13 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import overrides from '../config/overrides.json'
-import { httpTransport } from './http/forex'
-import { PriceEndpointTypes, priceInputParameters } from './types'
-import { wsTransport } from './ws/forex-ws'
+import { httpTransport } from '../transport/forex-http'
+import { BaseEndpointTypes, priceInputParameters } from './utils'
+import { wsTransport } from '../transport/forex-ws'
 
-export const endpoint = new PriceEndpoint<PriceEndpointTypes>({
+export const endpoint = new PriceEndpoint({
   name: 'forex',
-  transportRoutes: new TransportRoutes<PriceEndpointTypes>()
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',

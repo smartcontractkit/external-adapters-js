@@ -1,48 +1,34 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EquitiesEndpointTypes } from '../types'
+import { BaseEndpointTypes } from '../endpoint/commodities'
 
 interface ResponseSchema {
   symbol: string
   price: number
   timestamp: number
-  error?: string
 }
 
-type HttpTransportTypes = EquitiesEndpointTypes & {
+export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
 
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
+export const transport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const symbol = param.base?.toUpperCase()
+      const symbol = `${param.base}${param.quote}`.toUpperCase()
       return {
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `/last/etf/${symbol}`,
+          url: `/last/trade/forex/${symbol}`,
           params: { apikey: config.API_KEY },
         },
       }
     })
   },
   parseResponse: (params, res) => {
-    if (res.data.error) {
-      return params.map((param) => {
-        return {
-          params: param,
-          response: {
-            errorMessage:
-              "Could not retrieve valid data from Data Provider's /last/etf API. This is likely an issue with the Data Provider or the input params/overrides",
-            statusCode: 400,
-          },
-        }
-      })
-    }
-
     return params.map((param) => {
       return {
         params: param,

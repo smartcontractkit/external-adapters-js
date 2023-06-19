@@ -1,11 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import overrides from '../config/overrides.json'
-import { httpTransport } from './http/uk-etf'
-import { wsTransport } from './ws/uk-etf-ws'
-import { EquitiesEndpointTypes, equitiesInputParameters } from './types'
+import { httpTransport } from '../transport/uk-etf-http'
+import { wsTransport } from '../transport/uk-etf-ws'
+import { EquitiesEndpointTypes, equitiesInputParameters } from './utils'
 
-export const endpoint = new AdapterEndpoint<EquitiesEndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'uk_etf',
   transportRoutes: new TransportRoutes<EquitiesEndpointTypes>()
     .register('ws', wsTransport)

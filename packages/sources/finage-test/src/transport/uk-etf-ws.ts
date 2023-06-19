@@ -1,5 +1,5 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { EquitiesEndpointTypes } from '../types'
+import { EquitiesEndpointTypes } from '../endpoint/utils'
 
 interface Message {
   s: string
@@ -9,14 +9,14 @@ interface Message {
   t: number
 }
 
-type EndpointTypes = EquitiesEndpointTypes & {
+type WsTransportTypes = EquitiesEndpointTypes & {
   Provider: {
     WsMessage: Message
   }
 }
 
-export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
-  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
+  new WebsocketReverseMappingTransport<WsTransportTypes, string>({
     url: (context) => {
       return `${context.adapterSettings.ETF_WS_API_ENDPOINT}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
     },

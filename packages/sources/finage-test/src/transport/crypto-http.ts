@@ -1,27 +1,21 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../config'
-import overrides from '../../config/overrides.json'
-import { priceInputParameters } from '../types'
+import { BaseEndpointTypes } from '../endpoint/utils'
 
 interface ResponseSchema {
   symbol: string
   price: number
   timestamp: number
+  error?: string
 }
 
-type EndpointTypes = {
-  Parameters: typeof priceInputParameters.definition
-  Settings: typeof config.settings
-  Response: SingleNumberResultResponse
+type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
 
-export const httpTransport = new HttpTransport<EndpointTypes>({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const symbol = `${param.base}${param.quote}`.toUpperCase()
@@ -29,13 +23,26 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `/last/trade/forex/${symbol}`,
+          url: `/last/crypto/${symbol}`,
           params: { apikey: config.API_KEY },
         },
       }
     })
   },
   parseResponse: (params, res) => {
+    if (res.data.error) {
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage:
+              'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+            statusCode: 400,
+          },
+        }
+      })
+    }
+
     return params.map((param) => {
       return {
         params: param,
@@ -51,11 +58,4 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
       }
     })
   },
-})
-
-export const endpoint = new PriceEndpoint<EndpointTypes>({
-  name: 'commodities',
-  transport: httpTransport,
-  inputParameters: priceInputParameters,
-  overrides: overrides.finage,
 })

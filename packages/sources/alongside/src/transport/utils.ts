@@ -1,11 +1,17 @@
 import { ethers } from 'ethers'
 import { bignumber, number } from 'mathjs'
 import axios from 'axios'
-import abi from './abi.json'
+import abi from '../config/abi.json'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
-import { BalanceType } from '.'
+import { BalanceType } from './collateral'
+import CryptoJS from 'crypto-js'
 
 const logger = makeLogger('Alongside  collateral calculation logger')
+
+export const sign = (str: string, secret: string) => {
+  const hash = CryptoJS.HmacSHA256(str, secret)
+  return hash.toString(CryptoJS.enc.Base64)
+}
 
 export class Collateral {
   provider: ethers.providers.JsonRpcProvider

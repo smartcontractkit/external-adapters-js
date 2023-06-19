@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EquitiesEndpointTypes } from '../types'
+import { EquitiesEndpointTypes } from '../endpoint/utils'
 
 export interface ResponseSchema {
   symbol: string
