@@ -2,7 +2,7 @@ import {
   WebSocketTransport,
   WebsocketTransportGenerics,
 } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes } from './price-router'
+import { BaseEndpointTypes } from '../endpoint/price-router'
 import { IntrinioRealtime } from './util'
 
 export type IntrinioFeedMessage = {
@@ -17,7 +17,7 @@ export type IntrinioFeedMessage = {
   event: string
 }
 
-export type WsEndpointTypes = EndpointTypes & {
+export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: IntrinioFeedMessage
   }
@@ -29,8 +29,8 @@ export class IntrinioWebsocketTransport<
   ws: IntrinioRealtime = null as unknown as IntrinioRealtime
 }
 
-export const wsTransport: IntrinioWebsocketTransport<WsEndpointTypes> =
-  new IntrinioWebsocketTransport<WsEndpointTypes>({
+export const wsTransport: IntrinioWebsocketTransport<WsTransportTypes> =
+  new IntrinioWebsocketTransport<WsTransportTypes>({
     url: (context) => {
       const { API_KEY } = context.adapterSettings
       if (!wsTransport.ws) {

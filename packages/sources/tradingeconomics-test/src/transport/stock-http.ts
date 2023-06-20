@@ -1,17 +1,17 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResponseBody } from './price'
-import { StockEndpointTypes } from './stock-router'
+import { ProviderResponseBody } from './price-http'
+import { BaseEndpointTypes } from '../endpoint/stock-router'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('TradingEconomics HTTP Stock')
 
-type HttpEndpointTypes = StockEndpointTypes & {
+type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }
-export const httpTransport = new HttpTransport<HttpEndpointTypes>({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const symbol = param.base.toUpperCase()

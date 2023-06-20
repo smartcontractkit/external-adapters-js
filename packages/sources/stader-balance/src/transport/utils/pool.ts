@@ -1,14 +1,17 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import { StaderPoolFactoryContract_ABI, StaderSocialPool_ABI } from '../abi/StaderContractAbis'
+import {
+  StaderPoolFactoryContract_ABI,
+  StaderSocialPool_ABI,
+} from '../../config/StaderContractAbis'
 import {
   BalanceResponse,
   fetchAddressBalance,
   formatValueInGwei,
   PoolAddress,
   withErrorHandling,
-} from '../endpoint/utils'
+} from './index'
 
 const logger = makeLogger(`Pool`)
 

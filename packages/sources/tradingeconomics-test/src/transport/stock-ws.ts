@@ -1,16 +1,16 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { Message } from './price-ws'
-import { StockEndpointTypes } from './stock-router'
+import { BaseEndpointTypes } from '../endpoint/stock-router'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('TradingEconomics WS stock')
 
-export type WSEndpointTypes = StockEndpointTypes & {
+export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: Message
   }
 }
-export const wsTransport = new WebSocketTransport<WSEndpointTypes>({
+export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => {
     const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterSettings
     return `${WS_API_ENDPOINT}?client=${API_CLIENT_KEY}:${API_CLIENT_SECRET}`

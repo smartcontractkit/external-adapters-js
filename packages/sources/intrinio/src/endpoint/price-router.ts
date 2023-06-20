@@ -1,8 +1,8 @@
-import { httpTransport } from './price'
+import { httpTransport } from '../transport/price-http'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { wsTransport } from './price-ws'
+import { wsTransport } from '../transport/price-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
@@ -15,20 +15,16 @@ export const inputParameters = new InputParameters({
   },
 })
 
-export interface RequestParams {
-  base: string
-}
-
-export type EndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: ['stock'],
-  transportRoutes: new TransportRoutes<EndpointTypes>()
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',

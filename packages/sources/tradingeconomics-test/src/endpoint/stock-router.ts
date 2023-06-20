@@ -1,6 +1,6 @@
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { httpTransport } from './stock'
-import { wsTransport } from './stock-ws'
+import { httpTransport } from '../transport/stock-http'
+import { wsTransport } from '../transport/stock-ws'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -17,17 +17,17 @@ const inputParameters = new InputParameters({
 })
 
 // Common endpoint type shared by the REST and WS transports
-export type StockEndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
 }
 
-export const transportRoutes = new TransportRoutes<StockEndpointTypes>()
+export const transportRoutes = new TransportRoutes<BaseEndpointTypes>()
   .register('ws', wsTransport)
   .register('rest', httpTransport)
 
-export const endpoint = new AdapterEndpoint<StockEndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'stock',
   aliases: ['commodities'],
   transportRoutes,

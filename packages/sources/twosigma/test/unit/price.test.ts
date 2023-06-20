@@ -5,7 +5,7 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { sleep } from '@chainlink/external-adapter-framework/util'
 
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import * as price from '../../src/endpoint/price'
+import * as price from '../../src/transport/price'
 import { RequestParams } from '../../src/endpoint/price'
 
 const makeParam = (base: string) => {
@@ -23,7 +23,7 @@ describe('Config', () => {
       },
       endpointName: 'price',
       inputParameters: new InputParameters({}),
-    } as EndpointContext<price.WebSocketEndpointTypes>
+    } as EndpointContext<price.WsTransportTypes>
 
     it('returns the endpoint URL from the config', () => {
       expect(price.options.url(context)).toEqual(context.adapterSettings.WS_API_ENDPOINT)
@@ -106,7 +106,7 @@ describe('TwoSigmaWebsocketTransport', () => {
     },
     endpointName: 'price',
     inputParameters: new InputParameters({}),
-  } as any as EndpointContext<price.WebSocketEndpointTypes>
+  } as any as EndpointContext<price.WsTransportTypes>
   let transport: price.TwoSigmaWebsocketTransport
   let subscriptions: SubscriptionDeltas<RequestParams>
   let connClosed: boolean
