@@ -1,5 +1,11 @@
 # @chainlink/avalanche-platform-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 67ba3de4f: Updated logic to return staked value
+
 ## 1.0.4
 
 ### Patch Changes

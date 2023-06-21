@@ -1,5 +1,15 @@
 # @chainlink/finnhub-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- fbe49046b: Update Finnhub EA to use the PriceAdapter interface
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 2.1.1
 
 ### Patch Changes

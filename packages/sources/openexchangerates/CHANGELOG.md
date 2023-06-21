@@ -1,5 +1,12 @@
 # @chainlink/openexchangerates-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- f2d2ae675: Replace internal util functions with ea-framework util functions
+- 862ed8d89: Removed unused dependencies
+
 ## 2.0.1
 
 ### Patch Changes

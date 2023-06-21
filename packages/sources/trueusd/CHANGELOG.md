@@ -1,5 +1,11 @@
 # @chainlink/trueusd-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- f33529235: Updated default endpoint
+
 ## 1.6.20
 
 ### Patch Changes

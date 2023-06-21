@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 2.0.1
 
 ### Patch Changes

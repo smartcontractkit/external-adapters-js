@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 1.1.5
 
 ### Patch Changes

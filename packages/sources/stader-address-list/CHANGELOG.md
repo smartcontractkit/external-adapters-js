@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.3.2
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 2.3.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 2.0.3
 
 ### Patch Changes

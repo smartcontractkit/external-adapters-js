@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 2.1.12
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 2.1.11
 
 ### Patch Changes
