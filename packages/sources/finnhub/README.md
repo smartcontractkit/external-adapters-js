@@ -6,10 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     |            Description             |  Type  | Options |           Default           |
-| :-------: | :----------: | :--------------------------------: | :----: | :-----: | :-------------------------: |
-|           | API_ENDPOINT | The HTTP URL to retrieve data from | string |         | `https://finnhub.io/api/v1` |
-|    ✅     |   API_KEY    |         A Finnhub API key          | string |         |                             |
+| Required? |      Name       |                      Description                      |  Type   | Options |           Default           |
+| :-------: | :-------------: | :---------------------------------------------------: | :-----: | :-----: | :-------------------------: |
+|           |  API_ENDPOINT   |          The HTTP URL to retrieve data from           | string  |         | `https://finnhub.io/api/v1` |
+|    ✅     |     API_KEY     |                   A Finnhub API key                   | string  |         |                             |
+|           | WS_API_ENDPOINT |           The WS URL to retrieve data from            | string  |         |    `wss://ws.finnhub.io`    |
+|           |   WS_ENABLED    | Whether data should be returned from websocket or not | boolean |         |           `false`           |
 
 ---
 

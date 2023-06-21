@@ -3546,8 +3546,10 @@ __metadata:
   resolution: "@chainlink/finnhub-adapter@workspace:packages/sources/finnhub"
   dependencies:
     "@chainlink/external-adapter-framework": 0.29.12
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    "@types/sinonjs__fake-timers": 8.1.2
     nock: 13.2.9
     tslib: 2.4.1
     typescript: 5.0.4
