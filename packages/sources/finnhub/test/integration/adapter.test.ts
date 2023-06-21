@@ -41,6 +41,19 @@ describe('rest', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should return success for requests with overrides', async () => {
+      const data = {
+        base: 'GBP',
+        overrides: {
+          finnhub: { GBP: 'FHFX:GBP-USD' },
+        },
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 
   describe('forex endpoint (quote alias)', () => {
