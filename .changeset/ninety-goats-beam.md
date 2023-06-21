@@ -1,6 +1,5 @@
 ---
 '@chainlink/alongside-adapter': patch
-'@chainlink/alphavantage-test-adapter': patch
 '@chainlink/blocksize-capital-adapter': patch
 '@chainlink/coinpaprika-adapter': patch
 '@chainlink/dar-adapter': patch
