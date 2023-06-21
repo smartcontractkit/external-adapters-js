@@ -8,7 +8,6 @@ import {
   Logger,
 } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { DEFAULT_BATCH_SIZE, DEFAULT_GROUP_SIZE } from '../config'
 import { fetchLimboEthBalances, chunkArray, formatValueInGwei } from './utils'
 import { ethers } from 'ethers'
 import { DEFAULT_CHAIN_ID } from '../config'
@@ -114,23 +113,26 @@ const queryInBatches = async (
 ) => {
   const url = `/eth/v1/beacon/states/${params.stateId}/validators`
   const statusList = params.validatorStatus?.join(',')
-  const batchSize = Number(config.adapterSpecificParams?.batchSize) || DEFAULT_BATCH_SIZE
+  const batchSize = Number(config.adapterSpecificParams?.batchSize)
+  const groupSize = Number(config.adapterSpecificParams?.groupSize)
   const batchedAddresses = []
-  // Separate the address set into the specified batch size
-  // Add the batches as comma-separated lists to a new list used to make the requests
-  for (let i = 0; i < params.addresses.length / batchSize; i++) {
-    batchedAddresses.push(
-      params.addresses
-        .slice(i * batchSize, i * batchSize + batchSize)
-        .map(({ address }) => address)
-        .join(','),
-    )
+  // If adapter configured with 0 batch size, put all validators in one request to allow skipping batching
+  if (batchSize === 0) {
+    batchedAddresses.push(params.addresses.map(({ address }) => address).join(','))
+  } else {
+    // Separate the address set into the specified batch size
+    // Add the batches as comma-separated lists to a new list used to make the requests
+    for (let i = 0; i < params.addresses.length / batchSize; i++) {
+      batchedAddresses.push(
+        params.addresses
+          .slice(i * batchSize, i * batchSize + batchSize)
+          .map(({ address }) => address)
+          .join(','),
+      )
+    }
   }
 
-  const requestGroups = chunkArray(
-    batchedAddresses,
-    Number(config.adapterSpecificParams?.groupSize) || DEFAULT_GROUP_SIZE,
-  )
+  const requestGroups = chunkArray(batchedAddresses, groupSize)
 
   const responses: AxiosResponse<StateResponseSchema>[] = []
   // Make request to beacon API for every batch
