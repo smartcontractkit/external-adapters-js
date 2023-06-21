@@ -1,4 +1,4 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -9,10 +9,15 @@ const logger = makeLogger('Finnhub quote endpoint')
 
 export const inputParameters = new InputParameters({
   base: {
-    aliases: ['quote', 'asset', 'from'],
+    aliases: ['from', 'coin'],
     type: 'string',
-    description: 'The symbol of the currency or asset to query',
+    description: 'The symbol of symbols of the currency to query',
     required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    type: 'string',
+    description: 'The symbol of the currency to convert to',
   },
 })
 
@@ -90,7 +95,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   },
 })
 
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
+export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'quote',
   aliases: ['common', 'stock', 'forex'],
   transport: httpTransport,

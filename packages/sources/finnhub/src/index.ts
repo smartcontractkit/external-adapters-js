@@ -1,9 +1,9 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { quote } from './endpoint'
 import { config } from './config'
 
-export const adapter = new Adapter({
+export const adapter = new PriceAdapter({
   defaultEndpoint: quote.name,
   name: 'FINNHUB',
   config,
