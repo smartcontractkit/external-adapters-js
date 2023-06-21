@@ -1,5 +1,11 @@
 # @chainlink/dar-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 1.3.1
 
 ### Patch Changes

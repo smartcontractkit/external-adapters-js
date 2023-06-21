@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 2.0.1
 
 ### Patch Changes

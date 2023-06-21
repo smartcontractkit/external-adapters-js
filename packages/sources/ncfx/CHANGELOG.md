@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.3.3
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 3.3.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/alphavantage-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- d106f73a4: Upgraded adapter from v2 to v3 framework
+
 ## 1.3.31
 
 ### Patch Changes

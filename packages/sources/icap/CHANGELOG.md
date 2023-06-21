@@ -1,5 +1,12 @@
 # @chainlink/icap-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [862ed8d89]
+  - @chainlink/tp-adapter@1.1.6
+
 ## 1.1.5
 
 ### Patch Changes

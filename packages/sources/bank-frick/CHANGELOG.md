@@ -1,5 +1,11 @@
 # @chainlink/bank-frick-adapter
 
+## 1.1.12
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 1.1.11
 
 ### Patch Changes

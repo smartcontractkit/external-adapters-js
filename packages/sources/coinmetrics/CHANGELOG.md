@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.2.3
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 3.2.2
 
 ### Patch Changes

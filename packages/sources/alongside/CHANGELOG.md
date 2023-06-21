@@ -1,5 +1,11 @@
 # @chainlink/alongside-adapter
 
+## 1.3.10
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 1.3.9
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @chainlink/market-closure-adapter
 
+## 1.3.3
+
+### Patch Changes
+
+- Updated dependencies [fa8b495a3]
+- Updated dependencies [fbe49046b]
+  - @chainlink/finnhub-adapter@2.2.0
+
 ## 1.3.2
 
 ### Patch Changes

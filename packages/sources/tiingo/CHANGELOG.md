@@ -1,5 +1,12 @@
 ## v1.1.0
 
+## 2.1.2
+
+### Patch Changes
+
+- f2d2ae675: Replace internal util functions with ea-framework util functions
+- adc0a8297: Removed unused dependencies
+
 ## 2.1.1
 
 ### Patch Changes
