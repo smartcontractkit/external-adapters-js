@@ -3,7 +3,7 @@ import { BaseEndpointTypes } from '../endpoint/quote'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
-const logger = makeLogger('Finnhub quote endpoint')
+const logger = makeLogger('Finnhub quote endpoint REST')
 interface ProviderResponseBody {
   c: number
   d: number
@@ -22,7 +22,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const transport = new HttpTransport<HttpTransportTypes>({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
       const symbol = param.base.toUpperCase()

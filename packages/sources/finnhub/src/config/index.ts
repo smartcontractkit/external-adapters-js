@@ -12,4 +12,14 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: true,
   },
+  WS_API_ENDPOINT: {
+    description: 'The WS URL to retrieve data from',
+    type: 'string',
+    default: 'wss://ws.finnhub.io',
+  },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
 })
