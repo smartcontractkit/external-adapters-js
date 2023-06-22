@@ -169,14 +169,17 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   },
 })
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
-  name: 'quote',
-  aliases: ['common', 'stock', 'forex'],
-  transportRoutes: new TransportRoutes<EndpointTypes>()
-    .register('ws', wsTransport)
-    .register('rest', httpTransport),
-  defaultTransport: 'rest',
-  customRouter: (_req, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
-  inputParameters: inputParameters,
-  overrides: overrides.finnhub,
-})
+export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
+  new PriceEndpoint<EndpointTypes>({
+    name: 'quote',
+    aliases: ['common', 'stock', 'forex'],
+    transportRoutes: new TransportRoutes<EndpointTypes>()
+      .register('ws', wsTransport)
+      .register('rest', httpTransport),
+    defaultTransport: 'rest',
+    customRouter: (_req, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
+    inputParameters: inputParameters,
+    overrides,
+  })
+
+export const endpoint = buildQuoteEndpoint(overrides.finnhub)
