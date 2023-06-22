@@ -468,6 +468,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finnhub"\
       },\
       {\
+        "name": "@chainlink/finnhub-secondary-adapter",\
+        "reference": "workspace:packages/sources/finnhub-secondary"\
+      },\
+      {\
         "name": "@chainlink/fixer-adapter",\
         "reference": "workspace:packages/sources/fixer"\
       },\
@@ -906,6 +910,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
       ["@chainlink/finage-test-adapter", ["workspace:packages/sources/finage-test"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
+      ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
       ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
@@ -7268,6 +7273,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
             ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
+            ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/finnhub-secondary-adapter", [\
+        ["workspace:packages/sources/finnhub-secondary", {\
+          "packageLocation": "./packages/sources/finnhub-secondary/",\
+          "packageDependencies": [\
+            ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest forex endpoint (quote alias) should return success 1`] = `
+{
+  "data": {
+    "result": 175.43,
+  },
+  "result": 175.43,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests with overrides 1`] = `
+{
+  "data": {
+    "result": 1.2357,
+  },
+  "result": 1.2357,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
