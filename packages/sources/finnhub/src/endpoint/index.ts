@@ -1,1 +1,1 @@
-export { endpoint as quote } from './quote'
+export { endpoint as quote, buildQuoteEndpoint } from './quote'
