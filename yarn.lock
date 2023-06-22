@@ -3556,6 +3556,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/finnhub-secondary-adapter@workspace:packages/sources/finnhub-secondary":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/finnhub-secondary-adapter@workspace:packages/sources/finnhub-secondary"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.29.12
+    "@chainlink/finnhub-adapter": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.0
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/fixer-adapter@workspace:packages/sources/fixer":
   version: 0.0.0-use.local
   resolution: "@chainlink/fixer-adapter@workspace:packages/sources/fixer"
