@@ -1,5 +1,11 @@
 # @chainlink/moonbeam-address-list-adapter
 
+## 1.1.12
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 1.1.11
 
 ### Patch Changes

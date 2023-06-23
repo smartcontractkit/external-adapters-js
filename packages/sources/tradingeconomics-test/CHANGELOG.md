@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-test-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 1.0.2
 
 ### Patch Changes

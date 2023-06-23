@@ -1,5 +1,11 @@
 # @chainlink/iex-cloud-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 2.0.3
 
 ### Patch Changes

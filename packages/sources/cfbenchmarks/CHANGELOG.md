@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.1.2
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 2.1.1
 
 ### Patch Changes

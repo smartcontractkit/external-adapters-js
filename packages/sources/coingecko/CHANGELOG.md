@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 2.0.5
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 2.0.4
 
 ### Patch Changes

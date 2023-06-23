@@ -1,5 +1,12 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies [adc0a8297]
+  - @chainlink/dxfeed-adapter@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes

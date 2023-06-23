@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/trueusd-adapter",
-  "version": "1.6.20",
+  "version": "2.0.0",
   "description": "Chainlink TrueUSD adapter.",
   "keywords": [
     "Chainlink",

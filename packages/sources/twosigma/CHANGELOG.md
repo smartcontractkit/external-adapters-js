@@ -1,5 +1,11 @@
 # @chainlink/twosigma-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 1.2.1
 
 ### Patch Changes
