@@ -1,23 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import {
-  buildGlobalRequestBody,
-  constructEntry,
-  GlobalEndpointTypes,
-  inputParameters,
-} from '../global-utils'
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import overrides from '../config/overrides.json'
-
-const transport = new HttpTransport<GlobalEndpointTypes>({
-  prepareRequests: (params, config) => buildGlobalRequestBody(params, config),
-  parseResponse: (params, res) =>
-    params.map((requestPayload) => constructEntry(res.data, requestPayload, 'total_market_cap')),
-})
-
+import { transport } from '../transport/global-marketcap'
+import { globalInputParameters } from './utils'
 export const endpoint = new AdapterEndpoint({
   name: 'globalmarketcap',
   aliases: ['total_market_cap'],
   transport,
-  inputParameters,
+  inputParameters: globalInputParameters,
   overrides: overrides.coingecko,
 })

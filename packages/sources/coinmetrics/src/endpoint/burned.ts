@@ -2,11 +2,8 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import {
-  BurnedResponseSchema,
-  TotalBurnedTransport,
-  baseInputParametersDefinition,
-} from './total-burned'
+import { baseInputParametersDefinition } from './total-burned'
+import { TotalBurnedTransport, TotalBurnedTransportTypes } from '../transport/total-burned'
 
 const inputParameters = new InputParameters({
   ...baseInputParametersDefinition,
@@ -28,13 +25,10 @@ export type EndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
-  Provider: {
-    RequestBody: never
-    ResponseBody: BurnedResponseSchema
-  }
+  Provider: TotalBurnedTransportTypes['Provider']
 }
 
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'burned',
   transport: new TotalBurnedTransport<EndpointTypes>(),
   inputParameters,
