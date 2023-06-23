@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { AdapterConfigError, AdapterInputError, Logger, Requester } from '@chainlink/ea-bootstrap'
 import { adapter as cmc } from '@chainlink/coinmarketcap-adapter'
-import { ResponseSchema } from '@chainlink/coinmarketcap-adapter/src/endpoint/historical'
+import { ResponseSchema } from '@chainlink/coinmarketcap-adapter/src/transport/historical'
 
 export type ResponsePayload = {
   timestamp: Date
