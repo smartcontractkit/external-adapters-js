@@ -2,7 +2,7 @@ import { makeLogger, splitArrayIntoChunks } from '@chainlink/external-adapter-fr
 import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import { config } from '../config'
+import { config } from '../../config'
 import {
   BalanceResponse,
   batchValidatorAddresses,
@@ -17,7 +17,7 @@ import {
   ValidatorState,
   WITHDRAWAL_DONE_STATUS,
   withErrorHandling,
-} from '../endpoint/utils'
+} from './index'
 import { Pool } from './pool'
 
 const logger = makeLogger(`StaderValidator`)

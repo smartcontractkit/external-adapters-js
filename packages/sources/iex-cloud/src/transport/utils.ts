@@ -1,15 +1,6 @@
-import { config } from './config'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import { StockBaseEndpointTypes } from '../endpoint/utils'
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin', 'asset', 'symbol'],
-    description: 'The symbol to query',
-    required: true,
-    type: 'string',
-  },
-})
 interface RequestParams {
   base: string
 }
@@ -73,16 +64,12 @@ interface ResponseSchema {
   isUSMarketOpen: boolean
 }
 
-export type StockEndpointTypes = {
-  Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
-  Settings: typeof config.settings
+export type HttpTransportTypes = StockBaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
-
 export const buildHttpRequestBody = (params: RequestParams[], c: typeof config.settings) => {
   return params.map((param) => {
     return {
