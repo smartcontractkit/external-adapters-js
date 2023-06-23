@@ -1,10 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { ResponseSchema, buildIndividualRequests, constructEntry } from '../price-utils'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
+import { transport } from '../transport/live'
 
 export const inputParameters = new InputParameters({
   base: {
@@ -21,25 +20,16 @@ export const inputParameters = new InputParameters({
   },
 })
 
-export type LiveEndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
-  }
 }
 
-export const httpTransport = new HttpTransport<LiveEndpointTypes>({
-  prepareRequests: (params, config) => buildIndividualRequests(params, config),
-  parseResponse: (params, res) => constructEntry(res.data, params),
-})
-
-export const endpoint = new AdapterEndpoint<LiveEndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'live',
   aliases: ['stock', 'commodities'],
-  transport: httpTransport,
+  transport,
   inputParameters,
   overrides: overrides.tradermade,
 })
