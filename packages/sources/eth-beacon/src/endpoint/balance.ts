@@ -1,5 +1,4 @@
 import {
-  Config,
   Validator,
   Requester,
   AdapterInputError,
@@ -10,7 +9,7 @@ import {
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { fetchLimboEthBalances, chunkArray, formatValueInGwei } from './utils'
 import { ethers } from 'ethers'
-import { DEFAULT_CHAIN_ID } from '../config'
+import { EthBeaconConfig } from '../config'
 
 export const supportedEndpoints = ['balance']
 
@@ -58,7 +57,7 @@ export type Address = {
   address: string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<EthBeaconConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
@@ -103,7 +102,7 @@ export interface BalanceResponse {
 
 const queryInBatches = async (
   jobRunID: string,
-  config: Config,
+  config: EthBeaconConfig,
   params: {
     stateId: string
     addresses: Address[]
@@ -113,8 +112,8 @@ const queryInBatches = async (
 ) => {
   const url = `/eth/v1/beacon/states/${params.stateId}/validators`
   const statusList = params.validatorStatus?.join(',')
-  const batchSize = Number(config.adapterSpecificParams?.batchSize)
-  const groupSize = Number(config.adapterSpecificParams?.groupSize)
+  const batchSize = config.adapterSpecificParams.batchSize
+  const groupSize = config.adapterSpecificParams.groupSize
   const batchedAddresses = []
   // If adapter configured with 0 batch size, put all validators in one request to allow skipping batching
   if (batchSize === 0) {
@@ -198,13 +197,13 @@ const queryInBatches = async (
 }
 
 const searchLimboValidators = async (
-  config: Config,
+  config: EthBeaconConfig,
   unfoundValidators: Address[],
 ): Promise<BalanceResponse[]> => {
   const balances: BalanceResponse[] = []
   // ETH EL RPC URL is an optional env var since this is an optional feature
   // Check if env var is set before doing search
-  if (!config.adapterSpecificParams?.executionRpcUrl) {
+  if (!config.adapterSpecificParams.executionRpcUrl) {
     const message =
       'ETH_EXECUTION_RPC_URL env var must be set to perform limbo validator search. Please use an archive node.'
     Logger.error(message)
@@ -220,8 +219,8 @@ const searchLimboValidators = async (
     })
 
     const provider = new ethers.providers.JsonRpcProvider(
-      String(config.adapterSpecificParams?.executionRpcUrl),
-      Number(config.adapterSpecificParams?.chainId) || DEFAULT_CHAIN_ID,
+      config.adapterSpecificParams.executionRpcUrl,
+      config.adapterSpecificParams.chainId,
     )
 
     // Returns map of validators found in limbo with balances in wei

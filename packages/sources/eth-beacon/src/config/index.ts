@@ -15,7 +15,17 @@ export const DEFAULT_BATCH_SIZE = 15
 export const DEFAULT_GROUP_SIZE = 15
 export const DEFAULT_CHAIN_ID = 1
 
-export const makeConfig = (prefix?: string): Config => {
+export type EthBeaconConfig = Config & {
+  adapterSpecificParams: {
+    beaconRpcUrl: string
+    executionRpcUrl: string
+    batchSize: number
+    groupSize: number
+    chainId: number
+  }
+}
+
+export const makeConfig = (prefix?: string): EthBeaconConfig => {
   const beaconRpcUrl = util.getRequiredEnvWithFallback(
     ENV_ETH_CONSENSUS_RPC_URL,
     ENV_FALLBACK_ETH_CONSENSUS_RPC_URLS,
