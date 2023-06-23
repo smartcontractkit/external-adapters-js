@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/price-router'
+import { BaseEndpointTypes } from '../endpoint/price'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('TradingEconomics HTTP Price')

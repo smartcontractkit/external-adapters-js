@@ -1,6 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResponseBody } from './price-http'
-import { BaseEndpointTypes } from '../endpoint/stock-router'
+import { BaseEndpointTypes } from '../endpoint/stock'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('TradingEconomics HTTP Stock')

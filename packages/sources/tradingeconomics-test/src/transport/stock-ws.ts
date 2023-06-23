@@ -1,6 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { Message } from './price-ws'
-import { BaseEndpointTypes } from '../endpoint/stock-router'
+import { BaseEndpointTypes } from '../endpoint/stock'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('TradingEconomics WS stock')

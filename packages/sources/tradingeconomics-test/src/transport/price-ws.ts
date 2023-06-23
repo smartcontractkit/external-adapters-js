@@ -1,6 +1,6 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/price-router'
+import { BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('TradingEconomics WS Price')
 

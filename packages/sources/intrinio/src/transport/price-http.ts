@@ -1,5 +1,5 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/price-router'
+import { BaseEndpointTypes } from '../endpoint/price'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('Intrinio Price')
