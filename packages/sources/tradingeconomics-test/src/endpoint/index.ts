@@ -1,2 +1,2 @@
-export { endpoint as price } from './price-router'
-export { endpoint as stock } from './stock-router'
+export { endpoint as price } from './price'
+export { endpoint as stock } from './stock'

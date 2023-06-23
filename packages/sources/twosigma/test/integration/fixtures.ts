@@ -1,5 +1,5 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { WebSocketMessage, WebSocketRequest } from '../../src/endpoint/price'
+import { WebSocketMessage, WebSocketRequest } from '../../src/transport/price'
 
 export const mockWebSocketServer = (url: string) => {
   const mockWsServer = new MockWebsocketServer(url, { mock: false })

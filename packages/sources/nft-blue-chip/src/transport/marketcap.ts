@@ -13,10 +13,11 @@ import {
 import { Decimal } from 'decimal.js'
 import { ethers } from 'ethers'
 
-import BoredApeYachtClub from '../abi/BoredApeYachtClub.json'
-import EACAggregatorProxy from '../abi/EACAggregatorProxy.json'
+import BoredApeYachtClub from '../config/BoredApeYachtClub.json'
+import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
 import { config } from '../config'
 import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import { BaseEndpointTypes } from '../endpoint/marketcap'
 
 const logger = makeLogger('MarketcapTransport')
 
@@ -84,14 +85,7 @@ const NFT_COLLECTIONS: NFTCollection[] = [
   },
 ]
 
-export type MarketcapTransportGenerics = TransportGenerics & {
-  Parameters: EmptyInputParameters
-  Provider: {
-    RequestBody: unknown
-    ResponseBody: unknown
-  }
-  Settings: typeof config.settings
-}
+export type MarketcapTransportGenerics = TransportGenerics & BaseEndpointTypes
 
 export interface MarketcapTransportConfig {
   options: {
@@ -208,3 +202,11 @@ export class MarketcapTransport implements Transport<MarketcapTransportGenerics>
     return response
   }
 }
+
+export const transport = new MarketcapTransport({
+  options: {
+    requestCoalescing: {
+      enabled: true,
+    },
+  },
+})

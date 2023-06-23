@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import { StaderConfigContract_ABI } from '../abi/StaderContractAbis'
-import { RequestParams, staderNetworkChainMap, withErrorHandling } from '../endpoint/utils'
+import { StaderConfigContract_ABI } from '../../config/StaderContractAbis'
+import { RequestParams, staderNetworkChainMap, withErrorHandling } from './index'
 
 export class StaderConfig {
   address: string

@@ -1,12 +1,7 @@
 import { ethers } from 'ethers'
-import {
-  BalanceResponse,
-  fetchAddressBalance,
-  formatValueInGwei,
-  withErrorHandling,
-} from '../endpoint/utils'
+import { BalanceResponse, fetchAddressBalance, formatValueInGwei, withErrorHandling } from './index'
 
-export class PermissionedPool {
+export class StakeManager {
   balance?: BalanceResponse
 
   constructor(
@@ -15,10 +10,10 @@ export class PermissionedPool {
     private provider: ethers.providers.JsonRpcProvider,
   ) {}
 
-  // Get the balance from this one specific permissioned pool contract
+  // Get inactive pool balance from Stader's StakePoolManager contract
   async fetchBalance(): Promise<BalanceResponse> {
     if (!this.balance) {
-      const balance = await withErrorHandling(`Fetching permissioned pool balance`, async () =>
+      const balance = await withErrorHandling(`Fetching stake pool balance`, async () =>
         formatValueInGwei(await fetchAddressBalance(this.address, this.blockTag, this.provider)),
       )
       this.balance = {
