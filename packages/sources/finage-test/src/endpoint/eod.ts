@@ -1,25 +1,16 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { transport } from '../transport/vwap'
+import { transport } from '../transport/eod'
 
 export const inputParameters = new InputParameters({
   base: {
-    description: 'The symbol of symbols of the currency to query',
-    aliases: ['from', 'coin'],
-    type: 'string',
+    aliases: ['from', 'symbol'],
     required: true,
-  },
-  hours: {
-    description: 'Number of hours to get VWAP for',
-    type: 'number',
-    default: 24,
-  },
-  coinid: {
-    description: 'The coin ID (optional to use in place of `base`)',
     type: 'string',
+    description: 'The symbol of the currency to query',
   },
 })
 
@@ -30,9 +21,8 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'vwap',
-  aliases: ['crypto-vwap'],
+  name: 'eod',
   transport,
-  inputParameters,
-  overrides: overrides.coinpaprika,
+  inputParameters: inputParameters,
+  overrides: overrides.finage,
 })
