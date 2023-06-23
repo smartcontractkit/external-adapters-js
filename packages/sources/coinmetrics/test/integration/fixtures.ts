@@ -1,7 +1,7 @@
 import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { WsAssetMetricsSuccessResponse } from '../../src/transport/price-ws'
-import { WsCryptoLwbaSuccessResponse } from '../../src/transport/lwba-ws'
+import { WsCryptoLwbaSuccessResponse } from '../../src/transport/lwba'
 
 export const mockCoinmetricsResponseSuccess = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')

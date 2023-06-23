@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/forex-router'
+import { BaseEndpointTypes } from '../endpoint/forex'
 import { buildIndividualRequests, constructEntry, ResponseSchema } from './utils'
 
 export type HttpTransportTypes = BaseEndpointTypes & {

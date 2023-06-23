@@ -1,4 +1,4 @@
-import { BaseEndpointTypes } from '../endpoint/iex-router'
+import { BaseEndpointTypes } from '../endpoint/iex'
 import { TiingoWebsocketTransport } from './utils'
 
 interface Message {

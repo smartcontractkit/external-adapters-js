@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/iex-router'
+import { BaseEndpointTypes } from '../endpoint/iex'
 
 interface ProviderResponseBody {
   prevClose: number

@@ -5,7 +5,7 @@ import {
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { assetQuoteWebsocketTransport, pairQuoteWebsocketTransport } from '../transport/lwba-ws'
+import { assetQuoteWebsocketTransport, pairQuoteWebsocketTransport } from '../transport/lwba'
 
 export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 

@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/crypto-router'
+import { BaseEndpointTypes } from '../endpoint/crypto'
 
 interface PayloadValue {
   value: string

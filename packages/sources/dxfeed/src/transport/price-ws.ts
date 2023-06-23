@@ -1,6 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/price-router'
+import { BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('DxFeed Websocket')
 

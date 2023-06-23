@@ -4,5 +4,5 @@ export {
   customInputValidation,
   inputParameters,
   endpoint as price,
-} from './price-router'
+} from './price'
 export { buildDxFeedWsTransport } from '../transport/price-ws'

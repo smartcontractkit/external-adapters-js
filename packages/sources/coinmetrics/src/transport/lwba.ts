@@ -1,4 +1,4 @@
-import { BaseEndpointTypes, inputParameters } from '../endpoint/lwba-ws'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/lwba'
 import {
   makeLogger,
   PartialAdapterResponse,

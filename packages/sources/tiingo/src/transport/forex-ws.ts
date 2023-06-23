@@ -1,4 +1,4 @@
-import { BaseEndpointTypes } from '../endpoint/forex-router'
+import { BaseEndpointTypes } from '../endpoint/forex'
 import { TiingoWebsocketReverseMappingTransport } from './utils'
 
 interface Message {

@@ -1,4 +1,4 @@
-import { additionalInputValidation, inputParameters } from './crypto-router'
+import { additionalInputValidation, inputParameters } from './crypto'
 import { getSecondaryId } from './utils'
 import { wsTransport } from '../transport/crypto-lwba'
 import { config } from '../config'

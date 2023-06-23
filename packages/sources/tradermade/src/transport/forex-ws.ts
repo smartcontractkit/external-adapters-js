@@ -1,4 +1,4 @@
-import { BaseEndpointTypes } from '../endpoint/forex-router'
+import { BaseEndpointTypes } from '../endpoint/forex'
 import { TraderMadeWebsocketReverseMappingTransport } from './utils'
 
 interface Message {

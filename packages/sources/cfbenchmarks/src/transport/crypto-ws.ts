@@ -1,6 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/crypto-router'
+import { BaseEndpointTypes } from '../endpoint/crypto'
 
 interface Message {
   type: 'subscribe' | 'unsubscribe' | 'value'

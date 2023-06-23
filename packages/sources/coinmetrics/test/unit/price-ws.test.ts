@@ -8,7 +8,7 @@ import {
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
 } from '../../src/transport/price-ws'
-import { assetMetricsInputParameters, BaseEndpointTypes } from '../../src/endpoint/price-router'
+import { assetMetricsInputParameters, BaseEndpointTypes } from '../../src/endpoint/price'
 
 const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   time: Date.now().toString(),

@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { VALID_QUOTES } from '../config'
-import { BaseEndpointTypes } from '../endpoint/price-router'
+import { BaseEndpointTypes } from '../endpoint/price'
 
 export type MetricData = {
   asset: string

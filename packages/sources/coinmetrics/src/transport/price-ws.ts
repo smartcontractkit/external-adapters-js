@@ -2,7 +2,7 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { VALID_QUOTES } from '../config'
-import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/price-router'
+import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('CoinMetrics WS')
 

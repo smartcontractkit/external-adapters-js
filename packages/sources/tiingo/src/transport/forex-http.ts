@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/forex-router'
+import { BaseEndpointTypes } from '../endpoint/forex'
 import { buildBatchedRequestBody } from './utils'
 
 interface ProviderResponseBody {
