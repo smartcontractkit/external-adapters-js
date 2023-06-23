@@ -1,4 +1,5 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BasicAddress } from '../endpoint/address'
 
 const logger = makeLogger('StaderAddressListUtil')
 
@@ -19,42 +20,6 @@ export type ValidatorRegistryResponse = [
   depositTime: number,
   withdrawnTime: number,
 ]
-
-export type BasicAddress = {
-  address: string
-}
-
-export type PoolAddress = BasicAddress & {
-  poolId: number
-}
-
-export type ValidatorAddress = BasicAddress &
-  PoolAddress & {
-    network: string
-    chainId: string
-    withdrawVaultAddress: string
-    operatorId: number
-    status: number
-  }
-
-export interface ResponseSchema {
-  Data: {
-    stakeManagerAddress?: string
-    poolFactoryAddress?: string
-    penaltyAddress?: string
-    permissionedPoolAddress?: string
-    staderConfigAddress?: string
-    validatorStatus?: string[]
-    socialPoolAddresses: PoolAddress[]
-    elRewardAddresses: BasicAddress[]
-    confirmations: number
-    network: string
-    chainId: string
-    reportedBlock: number
-    result: ValidatorAddress[]
-  }
-  Result: null
-}
 
 export const filterDuplicateAddresses = <T extends BasicAddress>(addresses: T[]): T[] => {
   const addressMap: Record<string, T> = {}

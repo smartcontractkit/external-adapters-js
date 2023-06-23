@@ -1,59 +1,40 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResponseBody } from './price'
-import { StockEndpointTypes } from './stock-router'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { httpTransport } from '../transport/stock-http'
+import { wsTransport } from '../transport/stock-ws'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
 
-const logger = makeLogger('TradingEconomics HTTP Stock')
+const inputParameters = new InputParameters({
+  base: {
+    aliases: ['from', 'coin', 'asset'],
+    required: true,
+    description: 'The symbol of the asset to query',
+    type: 'string',
+  },
+})
 
-type HttpEndpointTypes = StockEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody[]
-  }
+// Common endpoint type shared by the REST and WS transports
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
-export const httpTransport = new HttpTransport<HttpEndpointTypes>({
-  prepareRequests: (params, config) => {
-    return params.map((param) => {
-      const symbol = param.base.toUpperCase()
-      return {
-        params: [param],
-        request: {
-          baseURL: config.API_ENDPOINT,
-          url: `/symbol/${symbol}`,
-          params: {
-            c: `${config.API_CLIENT_KEY}:${config.API_CLIENT_SECRET}`,
-            f: `json`,
-          },
-        },
-      }
-    })
+
+export const transportRoutes = new TransportRoutes<BaseEndpointTypes>()
+  .register('ws', wsTransport)
+  .register('rest', httpTransport)
+
+export const endpoint = new AdapterEndpoint({
+  name: 'stock',
+  aliases: ['commodities'],
+  transportRoutes,
+  inputParameters,
+  defaultTransport: 'rest',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
-  parseResponse: (params, res) => {
-    const data = res.data[0]
-    return params.map((param) => {
-      if (!res.data || !data || data.Last === undefined) {
-        const message = `Tradingeconomics provided no data for ${JSON.stringify(param)}`
-        logger.info(message)
-        return {
-          params: param,
-          response: {
-            statusCode: 502,
-            errorMessage: message,
-          },
-        }
-      }
-      return {
-        params: param,
-        response: {
-          data: {
-            result: data.Last,
-          },
-          result: data.Last,
-          timestamps: {
-            providerIndicatedTimeUnixMs: new Date(data.Date).getTime(),
-          },
-        },
-      }
-    })
-  },
+  overrides: overrides.tradingeconomics,
 })

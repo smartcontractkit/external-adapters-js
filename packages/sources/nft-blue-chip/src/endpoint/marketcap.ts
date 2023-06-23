@@ -1,15 +1,18 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { MarketcapTransport, MarketcapTransportGenerics } from '../transport/marketcap'
+import { transport } from '../transport/marketcap'
+import { config } from '../config'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 
-const marketcapTransport = new MarketcapTransport({
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
-  },
-})
+export type BaseEndpointTypes = {
+  Parameters: EmptyInputParameters
+  Provider: {
+    RequestBody: unknown
+    ResponseBody: unknown
+  }
+  Settings: typeof config.settings
+}
 
-export const endpoint = new AdapterEndpoint<MarketcapTransportGenerics>({
+export const endpoint = new AdapterEndpoint({
   name: 'marketcap',
-  transport: marketcapTransport,
+  transport,
 })

@@ -1,6 +1,6 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { EndpointTypes } from './price-router'
+import { BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('TradingEconomics WS Price')
 
@@ -22,14 +22,14 @@ export interface Message {
   topic: string
 }
 
-type WSEndpointTypes = EndpointTypes & {
+type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: Message
   }
 }
 
-export const wsTransport: WebsocketReverseMappingTransport<WSEndpointTypes, string> =
-  new WebsocketReverseMappingTransport<WSEndpointTypes, string>({
+export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
+  new WebsocketReverseMappingTransport<WsTransportTypes, string>({
     url: (context) => {
       const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterSettings
       return `${WS_API_ENDPOINT}?client=${API_CLIENT_KEY}:${API_CLIENT_SECRET}`

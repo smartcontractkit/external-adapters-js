@@ -1,11 +1,11 @@
 import { config } from '../../src/config'
-import { generateJWT } from '../../src/util'
 import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import { generateJWT } from '../../src/transport/utils'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),

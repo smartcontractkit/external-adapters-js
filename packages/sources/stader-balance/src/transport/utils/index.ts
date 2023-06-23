@@ -6,7 +6,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import axios, { AxiosRequestConfig } from 'axios'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
-import { config } from '../config'
+import { config } from '../../config'
 
 const logger = makeLogger('Balance Utils')
 
