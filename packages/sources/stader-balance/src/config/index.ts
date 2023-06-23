@@ -20,7 +20,7 @@ export const config = new AdapterConfig(
     BATCH_SIZE: {
       type: 'number',
       description:
-        'The size of batches the addresses are split into for each request to the consensus client',
+        'The size of batches the addresses are split into for each request to the consensus client. Set to 0 if consensus client allows unlimited validators in query.',
       default: 15,
     },
     GROUP_SIZE: {

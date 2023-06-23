@@ -301,6 +301,10 @@ export const batchValidatorAddresses = (
   batchSize: number,
 ): string[] => {
   const batchedAddresses: string[] = []
+  // If batch size is 0, send all validators in a single request. Allows skipping batching
+  if (batchSize === 0) {
+    return [addresses.map(({ address }) => address).join(',')]
+  }
   for (let i = 0; i < addresses.length / batchSize; i++) {
     batchedAddresses.push(
       addresses

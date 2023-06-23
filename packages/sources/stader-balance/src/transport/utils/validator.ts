@@ -50,7 +50,6 @@ export class ValidatorFactory {
         const url = `/eth/v1/beacon/states/${slotNumber}/validators`
         const statuses = params.validatorStatus
         const statusList = statuses && statuses.length > 0 ? statuses?.join(',') : undefined
-        const batchSize = params.settings.BATCH_SIZE
         const addresses = params.addresses
         const activeValidators: ActiveValidator[] = []
         const withdrawnValidators: WithdrawnValidator[] = []
@@ -63,7 +62,7 @@ export class ValidatorFactory {
 
         // First, separate the validator addresses into batches.
         // Each one of these will be an RPC call to the beacon
-        const batchedAddresses = batchValidatorAddresses(addresses, batchSize)
+        const batchedAddresses = batchValidatorAddresses(addresses, params.settings.BATCH_SIZE)
 
         // Then, send a group of those requests in parallel and wait to avoid overloading the node
         const groupedBatches = splitArrayIntoChunks(batchedAddresses, params.settings.GROUP_SIZE)
