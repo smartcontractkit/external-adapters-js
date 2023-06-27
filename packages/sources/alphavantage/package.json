@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "0.29.12",
-    "tslib": "2.4.0"
+    "tslib": "2.4.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
