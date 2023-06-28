@@ -330,6 +330,9 @@
       "path": "./sources/finnhub"
     },
     {
+      "path": "./sources/finnhub-secondary"
+    },
+    {
       "path": "./sources/fixer"
     },
     {

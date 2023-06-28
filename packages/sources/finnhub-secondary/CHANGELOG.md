@@ -1,0 +1,1 @@
+# @chainlink/finnhub-secondary-adapter

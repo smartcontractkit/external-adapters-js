@@ -3,7 +3,9 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { transport } from '../transport/quote'
+import { httpTransport } from '../transport/quote-http'
+import { wsTransport } from '../transport/quote-ws'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
 export const inputParameters = new InputParameters({
   base: {
@@ -25,10 +27,17 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const endpoint = new PriceEndpoint({
-  name: 'quote',
-  aliases: ['common', 'stock', 'forex'],
-  transport,
-  inputParameters: inputParameters,
-  overrides: overrides.finnhub,
-})
+export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
+  new PriceEndpoint<BaseEndpointTypes>({
+    name: 'quote',
+    aliases: ['common', 'stock', 'forex'],
+    transportRoutes: new TransportRoutes<BaseEndpointTypes>()
+      .register('ws', wsTransport)
+      .register('rest', httpTransport),
+    defaultTransport: 'rest',
+    customRouter: (_req, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
+    inputParameters: inputParameters,
+    overrides,
+  })
+
+export const endpoint = buildQuoteEndpoint(overrides.finnhub)
