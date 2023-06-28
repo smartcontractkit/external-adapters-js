@@ -330,6 +330,9 @@
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
+      "path": "./sources/finnhub-secondary/tsconfig.test.json"
+    },
+    {
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {

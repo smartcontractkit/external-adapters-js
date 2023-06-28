@@ -4,29 +4,29 @@
             "base": "EUR"
         },
         {
-            "base": "FHFX:EUR-USD"
+            "base": "OANDA:EUR_USD"
         },
         {
-            "base": "FHFX:USD-CAD"
+            "base": "OANDA:USD_CAD"
         },
         {
-            "base": "FHFX:GBP-USD"
+            "base": "OANDA:GBP_USD"
         },
         {
             "base": "EUR",
             "endpoint": "forex"
         },
         {
-            "base": "FHFX:EUR-USD",
+            "base": "OANDA:EUR_USD",
             "endpoint": "forex"
         },
         {
-            "base": "FHFX:USD-CAD",
+            "base": "OANDA:USD_CAD",
             "endpoint": "forex"
         },
 
         {
-            "base": "FHFX:GBP-USD",
+            "base": "OANDA:GBP_USD",
             "endpoint": "forex"
         },
         {
