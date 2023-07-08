@@ -612,6 +612,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/nikkei"\
       },\
       {\
+        "name": "@chainlink/northwestnodes-adapter",\
+        "reference": "workspace:packages/sources/northwestnodes"\
+      },\
+      {\
         "name": "@chainlink/oanda-adapter",\
         "reference": "workspace:packages/sources/oanda"\
       },\
@@ -954,6 +958,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
+      ["@chainlink/northwestnodes-adapter", ["workspace:packages/sources/northwestnodes"]],\
       ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
       ["@chainlink/observation", ["workspace:packages/observation"]],\
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
@@ -7182,6 +7187,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ws", "virtual:c1b878459a805a1e4e3c13bafbad9f455044a7261cda8e5f570db23acf069cb5906ba73e0607660fb7735fd2dde66d0e8d5428a46912ce561520a24da7f707a7#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.29.8", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.29.8-1dec7dbd5a-160ad79359.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:1.3.4"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.13.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:c1b878459a805a1e4e3c13bafbad9f455044a7261cda8e5f570db23acf069cb5906ba73e0607660fb7735fd2dde66d0e8d5428a46912ce561520a24da7f707a7#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@chainlink/external-adapters-js", [\
@@ -8077,6 +8098,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/northwestnodes-adapter", [\
+        ["workspace:packages/sources/northwestnodes", {\
+          "packageLocation": "./packages/sources/northwestnodes/",\
+          "packageDependencies": [\
+            ["@chainlink/northwestnodes-adapter", "workspace:packages/sources/northwestnodes"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
