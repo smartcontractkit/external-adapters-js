@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 2.0.5
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
 ## 2.0.4
 
 ### Patch Changes

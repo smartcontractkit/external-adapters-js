@@ -1,19 +1,19 @@
 # STADER_BALANCE
 
-![1.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name          |                                           Description                                           |  Type  | Options | Default |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |   ETHEREUM_RPC_URL    |                            The RPC URL to connect to the EVM chain.                             | string |         |         |
-|    ✅     |    BEACON_RPC_URL     |                             The RPC URL of an Ethereum beacon node                              | string |         |         |
-|           |       CHAIN_ID        |                                   The chain id to connect to                                    | number |         |   `1`   |
-|           |      BATCH_SIZE       |    The size of batches the addresses are split into for each request to the consensus client    | number |         |  `15`   |
-|           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next batch | number |         |  `25`   |
-|           | BACKGROUND_EXECUTE_MS |    The amount of time the background execute should sleep before performing the next request    | number |         | `10000` |
+| Required? |         Name          |                                                                          Description                                                                          |  Type  | Options | Default |
+| :-------: | :-------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |   ETHEREUM_RPC_URL    |                                                           The RPC URL to connect to the EVM chain.                                                            | string |         |         |
+|    ✅     |    BEACON_RPC_URL     |                                                            The RPC URL of an Ethereum beacon node                                                             | string |         |         |
+|           |       CHAIN_ID        |                                                                  The chain id to connect to                                                                   | number |         |   `1`   |
+|           |      BATCH_SIZE       | The size of batches the addresses are split into for each request to the consensus client. Set to 0 if consensus client allows unlimited validators in query. | number |         |  `15`   |
+|           |      GROUP_SIZE       |                                Number of requests to execute asynchronously before the adapter waits to execute the next batch                                | number |         |  `25`   |
+|           | BACKGROUND_EXECUTE_MS |                                   The amount of time the background execute should sleep before performing the next request                                   | number |         | `10000` |
 
 ---
 

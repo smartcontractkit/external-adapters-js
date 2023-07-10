@@ -1,5 +1,11 @@
 # @chainlink/twosigma-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 1.2.2
 
 ### Patch Changes

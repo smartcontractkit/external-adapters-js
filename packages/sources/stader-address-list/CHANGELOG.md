@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.3.3
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 2.3.2
 
 ### Patch Changes

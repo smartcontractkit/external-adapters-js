@@ -1,5 +1,15 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- a574dbc4a: Added way to configure adapter to skip validator batching. Set BATCH_SIZE to 0.
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 1.3.2
 
 ### Patch Changes

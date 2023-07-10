@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.0.5
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
 ## 2.0.4
 
 ### Patch Changes

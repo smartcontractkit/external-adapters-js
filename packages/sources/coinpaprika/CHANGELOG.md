@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
 ## 2.0.2
 
 ### Patch Changes

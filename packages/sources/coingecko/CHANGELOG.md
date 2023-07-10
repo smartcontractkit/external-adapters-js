@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 2.0.6
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
 ## 2.0.5
 
 ### Patch Changes
