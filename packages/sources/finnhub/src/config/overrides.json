@@ -1,11 +1,23 @@
 {
   "finnhub": {
-    "N225": "^N225",
-    "FTSE": "^FTSE",
-    "XAU": "OANDA:XAU_USD",
-    "XAG": "OANDA:XAG_USD",
-    "AUD": "OANDA:AUD_USD",
-    "EUR": "OANDA:EUR_USD",
-    "GBP": "OANDA:GBP_USD"
+    "HKD": "FHFX:USD-HKD",
+    "SGD": "FHFX:USD-SGD",
+    "SEK": "FHFX:USD-SEK",
+    "TRY": "FHFX:USD-TRY",
+    "PLN": "FHFX:USD-PLN",
+    "NZD": "FHFX:NZD-USD",
+    "AUD": "FHFX:AUD-USD",
+    "EUR": "FHFX:EUR-USD",
+    "CAD": "FHFX:USD-CAD",
+    "DKK": "FHFX:USD-DKK",
+    "CNH": "FHFX:USD-CNH",
+    "GBP": "FHFX:GBP-USD",
+    "CHF": "FHFX:USD-CHF",
+    "JPY": "FHFX:USD-JPY",
+    "NOK": "FHFX:USD-NOK",
+    "CZK": "FHFX:USD-CZK",
+    "HUF": "FHFX:USD-HUF",
+    "MXN": "FHFX:USD-MXN",
+    "ZAR": "FHFX:USD-ZAR"
   }
 }

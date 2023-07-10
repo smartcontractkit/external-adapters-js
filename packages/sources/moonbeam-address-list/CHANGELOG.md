@@ -1,5 +1,11 @@
 # @chainlink/moonbeam-address-list-adapter
 
+## 1.1.13
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
 ## 1.1.12
 
 ### Patch Changes

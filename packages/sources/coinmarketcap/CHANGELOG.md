@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 2.0.9
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
 ## 2.0.8
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.2.4
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
 ## 3.2.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- a574dbc4a: Added way to configure adapter to skip validator batching. Set BATCH_SIZE to 0.
+
 ## 1.4.0
 
 ### Minor Changes

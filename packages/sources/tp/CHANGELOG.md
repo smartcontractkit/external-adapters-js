@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 1.1.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/polkadot-balance-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 1.2.0
 
 ### Minor Changes

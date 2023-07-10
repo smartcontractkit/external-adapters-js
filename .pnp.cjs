@@ -8317,7 +8317,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.51"],\
+            ["@types/node", "npm:14.18.53"],\
             ["decimal.js", "npm:10.4.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -14912,10 +14912,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.51", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.51-a09dee3fa3-0960a31d2a.zip/node_modules/@types/node/",\
+        ["npm:14.18.53", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.53-5f3ed184fc-3acbcf4e38.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:14.18.51"]\
+            ["@types/node", "npm:14.18.53"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -14933,10 +14933,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:17.0.14", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.14-b146771fcf-cc059ce296.zip/node_modules/@types/node/",\
+        ["npm:17.0.45", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.45-fdb38d1624-aa04366b91.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:17.0.14"]\
+            ["@types/node", "npm:17.0.45"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -26918,7 +26918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__core", "npm:7.1.20"],\
             ["@types/babel__preset-env", "npm:7.9.2"],\
             ["@types/k6", "npm:0.37.1"],\
-            ["@types/node", "npm:17.0.14"],\
+            ["@types/node", "npm:17.0.45"],\
             ["@types/rimraf", "npm:3.0.2"],\
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.5"],\
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],\
