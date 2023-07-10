@@ -1,5 +1,11 @@
 # @chainlink/alphavantage-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
 ## 2.0.0
 
 ### Major Changes

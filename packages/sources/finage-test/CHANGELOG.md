@@ -1,5 +1,11 @@
 # @chainlink/finage-test-adapter
 
+## 1.3.3
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
 ## 1.3.2
 
 ### Patch Changes

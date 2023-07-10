@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/twosigma-adapter",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Chainlink twosigma adapter.",
   "keywords": [
     "Chainlink",

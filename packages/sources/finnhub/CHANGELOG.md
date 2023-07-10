@@ -1,5 +1,17 @@
 # @chainlink/finnhub-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- 2ccb7ad2c: Expose function for building the quote endpoint.
+- 634ff0496: Update `finnhub` EA to use FHFX for Forex data by default
+- 2ccb7ad2c: Add WebSocket transport for Quote endpoint. Defaults to Rest transport.
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
 ## 2.2.0
 
 ### Minor Changes

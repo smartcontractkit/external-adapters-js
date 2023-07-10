@@ -1,5 +1,11 @@
 # @chainlink/nft-blue-chip-adapter
 
+## 1.1.13
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 1.1.12
 
 ### Patch Changes

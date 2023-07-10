@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.3.4
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
 ## 3.3.3
 
 ### Patch Changes

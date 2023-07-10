@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
 ## 2.0.2
 
 ### Patch Changes

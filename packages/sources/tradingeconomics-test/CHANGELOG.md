@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-test-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 1.0.3
 
 ### Patch Changes

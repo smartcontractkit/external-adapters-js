@@ -1,5 +1,11 @@
 # @chainlink/synth-index-adapter
 
+## 1.2.62
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.11.3
+
 ## 1.2.61
 
 ### Patch Changes
