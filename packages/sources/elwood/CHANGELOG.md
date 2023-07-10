@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 2.1.13
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
 ## 2.1.12
 
 ### Patch Changes

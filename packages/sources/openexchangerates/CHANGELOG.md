@@ -1,5 +1,11 @@
 # @chainlink/openexchangerates-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
 ## 2.0.2
 
 ### Patch Changes

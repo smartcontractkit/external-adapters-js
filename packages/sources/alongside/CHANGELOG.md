@@ -1,5 +1,11 @@
 # @chainlink/alongside-adapter
 
+## 1.3.11
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
 ## 1.3.10
 
 ### Patch Changes

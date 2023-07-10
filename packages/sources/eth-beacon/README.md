@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Ethereum Beacon API
 
-![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 External adapter for reading from the Ethereum PoS Beacon chain's API and optionally searching deposit events for limbo validator balances.
 
@@ -8,13 +8,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |         Name          |                                                                                            Description                                                                                             |  Type  | Options | Default |
-| :-------: | :-------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ETH_CONSENSUS_RPC_URL |                                                                       RPC URL of an Ethereum consensus client (beacon node)                                                                        | string |         |         |
-|           | ETH_EXECUTION_RPC_URL |                                          RPC URL of an Ethereum execution client (archive node). Required for requests that need a limbo validator search                                          | string |         |         |
-|           |      BATCH_SIZE       |                    Number of validators to send in each request to the consensus client. Setting this lower than the default may result in lower performance from the adapter.                     | number |         |  `15`   |
-|           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |  `15`   |
-|           |       CHAIN_ID        |                                                                                     The chain id to connect to                                                                                     | string |         |   `1`   |
+| Required? |         Name          |                                                                                                                    Description                                                                                                                    |  Type  | Options | Default |
+| :-------: | :-------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ETH_CONSENSUS_RPC_URL |                                                                                               RPC URL of an Ethereum consensus client (beacon node)                                                                                               | string |         |         |
+|           | ETH_EXECUTION_RPC_URL |                                                                 RPC URL of an Ethereum execution client (archive node). Required for requests that need a limbo validator search                                                                  | string |         |         |
+|           |      BATCH_SIZE       | Number of validators to send in each request to the consensus client. Set to 0 if consensus client allows unlimited validators in query. Setting this lower than the default and greater than 0 may result in lower performance from the adapter. | number |         |  `15`   |
+|           |      GROUP_SIZE       |                        Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter.                         | number |         |  `15`   |
+|           |       CHAIN_ID        |                                                                                                            The chain id to connect to                                                                                                             | string |         |   `1`   |
 
 ---
 
