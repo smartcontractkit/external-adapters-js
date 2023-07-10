@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket should return success 1`] = `
+{
+  "data": {
+    "result": 1.098455,
+  },
+  "result": 1.098455,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1641035471111,
+  },
+}
+`;

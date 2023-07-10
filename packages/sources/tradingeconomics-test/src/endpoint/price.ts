@@ -1,96 +1,61 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes } from './price-router'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { wsTransport } from '../transport/price-ws'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import { httpTransport } from '../transport/price-http'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
 
-const logger = makeLogger('TradingEconomics HTTP Price')
+export const inputParameters = new InputParameters({
+  base: {
+    aliases: ['from', 'coin', 'asset'],
+    required: true,
+    description: 'The symbol of symbols of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market', 'term'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
+})
 
-export interface ProviderResponseBody {
-  Symbol: string
-  Ticker: string
-  Name: string
-  Country: string
-  Date: string
-  Type: string
-  decimals: number
-  state: string
-  Last: number
-  Close: number
-  CloseDate: string
-  MarketCap: number | null
-  URL: string
-  Importance: number
-  DailyChange: number
-  DailyPercentualChange: number
-  WeeklyChange: number
-  WeeklyPercentualChange: number
-  MonthlyChange: number
-  MonthlyPercentualChange: number
-  YearlyChange: number
-  YearlyPercentualChange: number
-  YTDChange: number
-  YTDPercentualChange: number
-  day_high: number
-  day_low: number
-  yesterday: number
-  lastWeek: number
-  lastMonth: number
-  lastYear: number
-  startYear: number
-  ISIN: string | null
-  frequency: string
-  LastUpdate: string
-}
-
-type HttpEndpointTypes = EndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderResponseBody[]
+export const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>): void => {
+  const base = req.requestContext.data.base.toUpperCase()
+  const regex = /[A-Z]{6}:CUR/ //BTCUSD:CUR
+  if (regex.test(base)) {
+    req.requestContext.data.base = base.substring(0, 3)
+    req.requestContext.data.quote = base.substring(3, 6)
   }
 }
 
-export const httpTransport = new HttpTransport<HttpEndpointTypes>({
-  prepareRequests: (params, config) => {
-    return params.map((param) => {
-      const symbol = `${param.base}${param.quote}:CUR`.toUpperCase()
-      return {
-        params: [param],
-        request: {
-          baseURL: config.API_ENDPOINT,
-          url: `/symbol/${symbol}`,
-          params: {
-            c: `${config.API_CLIENT_KEY}:${config.API_CLIENT_SECRET}`,
-            f: `json`,
-          },
-        },
-      }
-    })
+const requestTransforms = [requestTransform]
+
+// Common endpoint type shared by the REST and WS transports
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+}
+
+export const transportRoutes = new TransportRoutes<BaseEndpointTypes>()
+  .register('ws', wsTransport)
+  .register('rest', httpTransport)
+
+export const endpoint = new PriceEndpoint({
+  name: 'price',
+  aliases: ['forex', 'crypto'],
+  transportRoutes,
+  inputParameters,
+  defaultTransport: 'rest',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
-  parseResponse: (params, res) => {
-    const data = res.data[0]
-    return params.map((param) => {
-      if (!res.data || !data || data.Last === undefined) {
-        const message = `Tradingeconomics provided no data for ${JSON.stringify(param)}`
-        logger.info(message)
-        return {
-          params: param,
-          response: {
-            statusCode: 502,
-            errorMessage: message,
-          },
-        }
-      }
-      return {
-        params: param,
-        response: {
-          data: {
-            result: data.Last,
-          },
-          result: data.Last,
-          timestamps: {
-            providerIndicatedTimeUnixMs: new Date(data.Date).getTime(),
-          },
-        },
-      }
-    })
-  },
+  overrides: overrides.tradingeconomics,
+  requestTransforms,
 })

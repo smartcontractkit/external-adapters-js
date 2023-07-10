@@ -6,7 +6,7 @@ export const mockResponseSuccess = (): nock.Scope => {
   })
     .persist()
     .get('/quote')
-    .query({ token: 'fake-api-key', symbol: 'OANDA:EUR_USD' })
+    .query({ token: 'fake-api-key', symbol: 'FHFX:EUR-USD' })
     .reply(
       200,
       () => ({

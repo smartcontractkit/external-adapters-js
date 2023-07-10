@@ -74,6 +74,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [finage](./finage/README.md)
 - [finage-test](./finage-test/README.md)
 - [finnhub](./finnhub/README.md)
+- [finnhub-secondary](./finnhub-secondary/README.md)
 - [fixer](./fixer/README.md)
 - [flightaware](./flightaware/README.md)
 - [fluent-finance](./fluent-finance/README.md)

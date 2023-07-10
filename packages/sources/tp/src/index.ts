@@ -5,6 +5,7 @@ import { config } from './config'
 import includes from './config/includes.json'
 
 export * from './endpoint'
+export * from './transport/price'
 
 export const adapter = new PriceAdapter({
   name: 'TP',
@@ -20,5 +21,3 @@ export default {
   config,
   includes,
 }
-
-export * from './types'

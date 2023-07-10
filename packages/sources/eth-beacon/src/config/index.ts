@@ -15,16 +15,26 @@ export const DEFAULT_BATCH_SIZE = 15
 export const DEFAULT_GROUP_SIZE = 15
 export const DEFAULT_CHAIN_ID = 1
 
-export const makeConfig = (prefix?: string): Config => {
+export type EthBeaconConfig = Config & {
+  adapterSpecificParams: {
+    beaconRpcUrl: string
+    executionRpcUrl: string
+    batchSize: number
+    groupSize: number
+    chainId: number
+  }
+}
+
+export const makeConfig = (prefix?: string): EthBeaconConfig => {
   const beaconRpcUrl = util.getRequiredEnvWithFallback(
     ENV_ETH_CONSENSUS_RPC_URL,
     ENV_FALLBACK_ETH_CONSENSUS_RPC_URLS,
     prefix,
   )
   const executionRpcUrl = util.getEnv(ENV_ETH_EXECUTION_RPC_URL) || ''
-  const batchSize = parseInt(util.getEnv(ENV_BATCH_SIZE, prefix) || '') || DEFAULT_BATCH_SIZE
-  const groupSize = parseInt(util.getEnv(ENV_GROUP_SIZE, prefix) || '') || DEFAULT_GROUP_SIZE
-  const chainId = parseInt(util.getEnv(ENV_CHAIN_ID, prefix) || '') || DEFAULT_CHAIN_ID
+  const batchSize = Number(util.getEnv(ENV_BATCH_SIZE, prefix) ?? DEFAULT_BATCH_SIZE)
+  const groupSize = Number(util.getEnv(ENV_GROUP_SIZE, prefix) || DEFAULT_GROUP_SIZE)
+  const chainId = Number(util.getEnv(ENV_CHAIN_ID, prefix) || DEFAULT_CHAIN_ID)
   const defaultConfig = Requester.getDefaultConfig(prefix)
   return {
     ...defaultConfig,
