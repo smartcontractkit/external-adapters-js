@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/northwestnodes-adapter",
-  "version": "1.0",
+  "version": "0.0.1",
   "description": "Chainlink Northwest Nodes API adapter.",
   "keywords": [
     "Chainlink",
