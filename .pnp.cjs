@@ -7187,22 +7187,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ws", "virtual:c1b878459a805a1e4e3c13bafbad9f455044a7261cda8e5f570db23acf069cb5906ba73e0607660fb7735fd2dde66d0e8d5428a46912ce561520a24da7f707a7#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:0.29.8", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.29.8-1dec7dbd5a-160ad79359.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:1.3.4"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.13.0"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:c1b878459a805a1e4e3c13bafbad9f455044a7261cda8e5f570db23acf069cb5906ba73e0607660fb7735fd2dde66d0e8d5428a46912ce561520a24da7f707a7#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["@chainlink/external-adapters-js", [\
@@ -8114,7 +8098,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/northwestnodes/",\
           "packageDependencies": [\
             ["@chainlink/northwestnodes-adapter", "workspace:packages/sources/northwestnodes"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
