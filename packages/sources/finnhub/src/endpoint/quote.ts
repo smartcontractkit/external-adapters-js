@@ -1,5 +1,8 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
@@ -27,6 +30,21 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
+// Forex symbols delimit the exchange from the pair by ":", and the two pair items by "_" or "-". E.g. "FHFX:EUR-USD" or "OANDA:EUR_USD"
+const FOREX_SYMBOL_REGEX = new RegExp(`[:_-]+`)
+
+// Transform Forex symbols into separate exchange, base and quote params.
+export const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>): void => {
+  const requestBase = req.requestContext.data.base.toUpperCase()
+
+  if (FOREX_SYMBOL_REGEX.test(requestBase)) {
+    req.requestContext.data.base = requestBase
+
+    // Discard quote, as base contains the full symbol
+    req.requestContext.data.quote = undefined
+  }
+}
+
 export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
   new PriceEndpoint<BaseEndpointTypes>({
     name: 'quote',
@@ -38,6 +56,7 @@ export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
     customRouter: (_req, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
     inputParameters: inputParameters,
     overrides,
+    requestTransforms: [requestTransform],
   })
 
 export const endpoint = buildQuoteEndpoint(overrides.finnhub)
