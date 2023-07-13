@@ -1,6 +1,6 @@
 import { BaseEndpointTypes } from '../endpoint/quote'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
+import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Finnhub quote endpoint WS')
 
@@ -28,7 +28,7 @@ type WsEndpointTypes = BaseEndpointTypes & {
   }
 }
 
-export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
+export const wsTransport = new WebsocketReverseMappingTransport<WsEndpointTypes, string>({
   url: ({ adapterSettings }) =>
     `${adapterSettings.WS_API_ENDPOINT}?token=${adapterSettings.API_KEY}`,
   handlers: {
@@ -40,18 +40,30 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
 
       if (message.type === 'trade') {
         const trades = message.data
-        return trades.map(({ s, p, t }) => ({
-          params: { base: s },
-          response: {
-            result: p,
-            data: {
+        const results: ProviderResult<WsEndpointTypes>[] = []
+
+        trades.forEach(({ s, p, t }) => {
+          const params = wsTransport.getReverseMapping(s)
+
+          if (!params) {
+            return
+          }
+
+          results.push({
+            params,
+            response: {
               result: p,
+              data: {
+                result: p,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: t,
+              },
             },
-            timestamps: {
-              providerIndicatedTimeUnixMs: t,
-            },
-          },
-        }))
+          })
+        })
+
+        return results
       }
 
       return
@@ -59,10 +71,13 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   },
   builders: {
     subscribeMessage: (params) => {
-      return { type: 'subscribe', symbol: `${params.base}`.toUpperCase() }
+      const symbol = params.base.toUpperCase()
+      wsTransport.setReverseMapping(symbol, params)
+
+      return { type: 'subscribe', symbol }
     },
     unsubscribeMessage: (params) => {
-      return { type: 'unsubscribe', symbol: `${params.base}`.toUpperCase() }
+      return { type: 'unsubscribe', symbol: params.base.toUpperCase() }
     },
   },
 })
