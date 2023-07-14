@@ -32,9 +32,9 @@ describe('rest', () => {
   })
 
   describe('quote endpoint', () => {
-    it('should return success', async () => {
+    it('should return success for full symbol', async () => {
       const data = {
-        base: 'EUR',
+        base: 'FHFX:EUR-USD',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -44,14 +44,58 @@ describe('rest', () => {
 
     it('should return success for requests with overrides', async () => {
       const data = {
-        base: 'GBP',
+        base: 'EUR',
         overrides: {
-          finnhub: { GBP: 'FHFX:GBP-USD' },
+          finnhub: { EUR: 'FHFX:EUR-USD' },
         },
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for requests overriden by default adapter overrides', async () => {
+      const data = {
+        base: 'EUR',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for requests with base and quote', async () => {
+      const data = {
+        base: 'EUR',
+        quote: 'USD',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for requests with base, quote and exchange', async () => {
+      const data = {
+        base: 'EUR',
+        quote: 'USD',
+        exchange: 'FHFX',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return 400 error for invalid exchange', async () => {
+      const data = {
+        base: 'EUR',
+        quote: 'USD',
+        exchange: 'INVALID',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })

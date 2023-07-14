@@ -29,10 +29,11 @@ Supported names for this endpoint are: `common`, `forex`, `quote`, `stock`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|           | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? |   Name   |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   base   | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|           |  quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+|           | exchange |                |         The exchange to fetch data for         | string |         |         |            |                |
 
 ### Example
 
