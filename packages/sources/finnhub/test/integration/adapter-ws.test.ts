@@ -17,7 +17,7 @@ const mockWebSocketServer = (url: string) => {
             {
               c: null,
               p: 1.098455,
-              s: 'OANDA:EUR_USD',
+              s: 'FHFX:EUR-USD',
               t: 1641035471111,
               v: 0,
             },
@@ -34,7 +34,7 @@ describe('websocket', () => {
   const wsEndpoint = 'wss://ws.finnhub.io'
 
   const data = {
-    base: 'OANDA:EUR_USD',
+    base: 'FHFX:EUR-USD',
   }
 
   let spy: jest.SpyInstance
@@ -73,8 +73,28 @@ describe('websocket', () => {
     spy.mockRestore()
   })
 
-  it('should return success', async () => {
-    const response = await testAdapter.request(data)
+  it('should return success for full symbols', async () => {
+    const response = await testAdapter.request({
+      base: 'FHFX:EUR-USD',
+    })
+
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return success for base overriden by default adapter overrides', async () => {
+    const response = await testAdapter.request({
+      base: 'EUR',
+    })
+
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return success for requests with base and quote', async () => {
+    const response = await testAdapter.request({
+      base: 'EUR',
+      quote: 'USD',
+    })
+
     expect(response.json()).toMatchSnapshot()
   })
 })

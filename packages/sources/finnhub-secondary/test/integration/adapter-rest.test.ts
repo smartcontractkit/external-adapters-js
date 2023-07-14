@@ -32,9 +32,9 @@ describe('rest', () => {
   })
 
   describe('quote endpoint', () => {
-    it('should return success', async () => {
+    it('should return success for full symbol', async () => {
       const data = {
-        base: 'EUR',
+        base: 'OANDA:EUR_USD',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -44,10 +44,31 @@ describe('rest', () => {
 
     it('should return success for requests with overrides', async () => {
       const data = {
-        base: 'GBP',
+        base: 'EUR',
         overrides: {
-          finnhub: { GBP: 'OANDA:GBP_USD' },
+          finnhub: { EUR: 'OANDA:EUR_USD' },
         },
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for requests overriden by default adapter overrides', async () => {
+      const data = {
+        base: 'EUR',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for requests with base and quote', async () => {
+      const data = {
+        base: 'EUR',
+        quote: 'USD',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
