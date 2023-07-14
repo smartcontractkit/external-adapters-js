@@ -24,6 +24,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/apy-finance"\
       },\
       {\
+        "name": "@chainlink/apy-finance-test-adapter",\
+        "reference": "workspace:packages/composites/apy-finance-test"\
+      },\
+      {\
         "name": "@chainlink/augur-adapter",\
         "reference": "workspace:packages/composites/augur"\
       },\
@@ -828,6 +832,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
       ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
+      ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
       ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],\
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
       ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
@@ -5688,6 +5693,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.4.7"],\
             ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/apy-finance-test-adapter", [\
+        ["workspace:packages/composites/apy-finance-test", {\
+          "packageLocation": "./packages/composites/apy-finance-test/",\
+          "packageDependencies": [\
+            ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.30.0"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:1.3.4"],\
+            ["ethers", "npm:5.4.7"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

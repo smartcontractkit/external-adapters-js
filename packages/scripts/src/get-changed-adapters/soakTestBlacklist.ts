@@ -7,6 +7,7 @@ export const SoakTestBlacklist: string[] = [
   'anchor', // Missing: RPC URL
   'ap-election',
   'apy-finance', // Missing: Needs registry address, source adapters
+  'apy-finance-test', // Missing: Needs registry address, token allocation adapter
   'augur',
   'avalanche-platform',
   'bea',
