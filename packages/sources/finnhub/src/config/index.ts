@@ -23,3 +23,11 @@ export const config = new AdapterConfig({
     default: false,
   },
 })
+
+// Details that differ depending on which exchange data is being fetched
+// Finnhub separates the Pair symbols by a different character depending on exchange. E.g. "FHFX:EUR-USD" or "OANDA:EUR_USD"
+export const exchanges: Record<string, { pairDelimiter: string }> = {
+  FHFX: { pairDelimiter: '-' },
+  OANDA: { pairDelimiter: '_' },
+  FXCM: { pairDelimiter: '/' },
+}

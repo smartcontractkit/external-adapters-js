@@ -1,4 +1,4 @@
-import { BaseEndpointTypes } from '../endpoint/quote'
+import { BaseEndpointTypes, buildSymbol, splitSymbol } from '../endpoint/quote'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
@@ -41,7 +41,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
       if (message.type === 'trade') {
         const trades = message.data
         return trades.map(({ s, p, t }) => ({
-          params: { base: s },
+          params: splitSymbol(s),
           response: {
             result: p,
             data: {
@@ -59,10 +59,10 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   },
   builders: {
     subscribeMessage: (params) => {
-      return { type: 'subscribe', symbol: `${params.base}`.toUpperCase() }
+      return { type: 'subscribe', symbol: buildSymbol(params) }
     },
     unsubscribeMessage: (params) => {
-      return { type: 'unsubscribe', symbol: `${params.base}`.toUpperCase() }
+      return { type: 'unsubscribe', symbol: buildSymbol(params) }
     },
   },
 })

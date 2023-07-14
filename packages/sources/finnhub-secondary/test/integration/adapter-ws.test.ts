@@ -73,8 +73,28 @@ describe('websocket', () => {
     spy.mockRestore()
   })
 
-  it('should return success', async () => {
-    const response = await testAdapter.request(data)
+  it('should return success for full symbols', async () => {
+    const response = await testAdapter.request({
+      base: 'OANDA:EUR_USD',
+    })
+
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return success for base overriden by default adapter overrides', async () => {
+    const response = await testAdapter.request({
+      base: 'EUR',
+    })
+
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return success for requests with base and quote', async () => {
+    const response = await testAdapter.request({
+      base: 'EUR',
+      quote: 'USD',
+    })
+
     expect(response.json()).toMatchSnapshot()
   })
 })
