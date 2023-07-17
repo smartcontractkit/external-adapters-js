@@ -4,7 +4,7 @@ import {
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { httpTransport } from '../transport/price-http'
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { ForexPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
@@ -47,7 +47,7 @@ export const transportRoutes = new TransportRoutes<BaseEndpointTypes>()
   .register('ws', wsTransport)
   .register('rest', httpTransport)
 
-export const endpoint = new PriceEndpoint({
+export const endpoint = new ForexPriceEndpoint({
   name: 'price',
   aliases: ['forex', 'crypto'],
   transportRoutes,
