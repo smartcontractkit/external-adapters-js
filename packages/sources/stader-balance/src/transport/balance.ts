@@ -36,7 +36,7 @@ import { BaseEndpointTypes } from '../endpoint/balance'
 const logger = makeLogger('StaderBalanceLogger')
 export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   provider!: ethers.providers.JsonRpcProvider
-  genesisTimestampInSec!: Promise<number>
+  genesisTimestampInSec!: number
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -49,7 +49,7 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       adapterSettings.ETHEREUM_RPC_URL,
       adapterSettings.CHAIN_ID,
     )
-    this.genesisTimestampInSec = getBeaconGenesisTimestamp(adapterSettings.BEACON_RPC_URL)
+    this.genesisTimestampInSec = await getBeaconGenesisTimestamp(adapterSettings.BEACON_RPC_URL)
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: typeof config.settings): number {
@@ -152,7 +152,7 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
         penaltyContract: this.buildPenaltyContract(penaltyAddress),
         settings: context.adapterSettings,
         provider: this.provider,
-        genesisTimestampInSec: await this.genesisTimestampInSec,
+        genesisTimestampInSec: this.genesisTimestampInSec,
       }),
     ])
 
