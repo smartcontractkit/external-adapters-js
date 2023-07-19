@@ -1,5 +1,15 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.4
+
+### Patch Changes
+
+- Updated dependencies [78eb636f6]
+  - @chainlink/avalanche-platform-adapter@1.1.1
+  - @chainlink/por-indexer-adapter@1.2.60
+  - @chainlink/renvm-address-set-adapter@1.5.51
+  - @chainlink/wbtc-address-set-adapter@1.4.60
+
 ## 1.18.3
 
 ### Patch Changes

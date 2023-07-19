@@ -1,5 +1,11 @@
 # @chainlink/avalanche-platform-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- 78eb636f6: Increased default API_TIMEOUT to 60s
+
 ## 1.1.0
 
 ### Minor Changes
