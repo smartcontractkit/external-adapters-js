@@ -1,13 +1,14 @@
 import { Logger } from '@chainlink/ea-bootstrap'
-import { getRpcLatestRound } from '@chainlink/ea-reference-data-reader'
+// import { getRpcLatestRound } from '@chainlink/ea-reference-data-reader'
 import { getDerivativesData, CurrencyDerivativesData } from './derivativesDataProvider'
 import { SigmaCalculator } from './sigmaCalculator'
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
 import type { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/ea-bootstrap'
-import { DEFAULT_NETWORK } from '../config'
+// import { DEFAULT_NETWORK } from '../config'
 import { TInputParameters } from '../endpoint/volatilityIndex'
+import { saveToCache, loadFromCache } from './cviCache'
 
 export const calculate = async (
   validated: { data: AdapterRequestData<TInputParameters>; id: string },
@@ -15,15 +16,15 @@ export const calculate = async (
   context: AdapterContext,
 ): Promise<number> => {
   const {
-    contract: oracleAddress,
+    // contract: oracleAddress,
     multiply = 1e18,
-    heartbeatMinutes = 60,
+    heartbeatMinutes = 1,
     isAdaptive = true,
     cryptoCurrencies = ['BTC', 'ETH'],
-    deviationThreshold = 0.11,
-    lambdaMin = 0.031,
-    lambdaK = 0.31,
-    network = DEFAULT_NETWORK,
+    deviationThreshold = 0.2,
+    lambdaMin = 0.008,
+    lambdaK = 0.4,
+    // network = DEFAULT_NETWORK,
   } = validated.data
 
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
@@ -40,21 +41,23 @@ export const calculate = async (
   )
   // Smooth CVI with previous on-chain value if exists
   const cvi = !isAdaptive
-    ? toOnChainValue(weightedCVI, multiply)
+    ? weightedCVI
     : await applySmoothing(
         weightedCVI,
-        oracleAddress,
-        multiply,
+        // oracleAddress,
+        // multiply,
         heartbeatMinutes,
         deviationThreshold,
         lambdaMin,
         lambdaK,
-        network,
+        // network,
+        context,
       )
 
-  Logger.info(`CVI: ${cvi}`)
+  Logger.info(`${isAdaptive ? 'Adaptive ' : ''}CVI: ${cvi}`)
   validateIndex(cvi)
-  return cvi
+  await saveToCache(context, cvi, moment.duration(heartbeatMinutes, 'minutes').asSeconds())
+  return toOnChainValue(cvi, multiply)
 }
 
 const calculateVixValues = async (
@@ -132,22 +135,31 @@ const getDominanceByCurrency = async (
 
 const applySmoothing = async (
   weightedCVI: number,
-  oracleAddress: string,
-  multiply: number,
+  // oracleAddress: string,
+  // multiply: number,
   heartBeatMinutes: number,
   deviationThreshold: number,
   lambdaMin: number,
   lambdaK: number,
-  network: string,
+  // network: string,
+  context: AdapterContext,
 ): Promise<number> => {
-  const roundData = await getRpcLatestRound(network, oracleAddress)
-  const latestIndex = new Decimal(roundData.answer.toString()).div(multiply)
-  const updatedAt = roundData.updatedAt.mul(1000).toNumber()
+  // const roundData = await getRpcLatestRound(network, oracleAddress)
+  // const latestIndex = new Decimal(roundData.answer.toString()).div(multiply)
+  // const updatedAt = roundData.updatedAt.mul(1000).toNumber()
 
-  if (latestIndex.lte(0)) {
-    Logger.warn('No on-chain index value found - Is first run of adapter?')
+  // if (latestIndex.lte(0)) {
+  //   Logger.warn('No on-chain index value found - Is first run of adapter?')
+  //   return weightedCVI
+  // }
+
+  const cachedValue = await loadFromCache(context)
+  if (!cachedValue) {
+    Logger.warn('No cached index value found - Is first run of adapter?')
     return weightedCVI
   }
+  const latestIndex = new Decimal(cachedValue.value)
+  const updatedAt = cachedValue.timestamp
 
   const now = moment().utc()
   const dtSeconds = moment.duration(now.diff(updatedAt)).asSeconds()
