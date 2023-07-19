@@ -1,6 +1,6 @@
 # FINNHUB-SECONDARY
 
-![0.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -29,11 +29,10 @@ Supported names for this endpoint are: `common`, `forex`, `quote`, `stock`.
 
 ### Input Params
 
-| Required? |   Name   |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base   | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|           |  quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
-|           | exchange |                |         The exchange to fetch data for         | string |         |         |            |                |
+| Required? |    Name    |                         Aliases                         | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----------------------------------------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|           | definition |                                                         |             |      |         |         |            |                |
+|    ✅     |   params   | `[object Object]`, `[object Object]`, `[object Object]` |             |      |         |         |            |                |
 
 ### Example
 
