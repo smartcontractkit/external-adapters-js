@@ -16,7 +16,7 @@ inputs:
   build-all:
     description: Whether EA changes should be ignored, and all packages built regardless
     required: false
-    default: 'true'
+    default: 'false'
   fetch-branch:
     description: The branch that will be fetched from origin for comparison purposes
     required: false
