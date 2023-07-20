@@ -21,6 +21,14 @@ export const inputParamHeaders: TextRow = [
   'Not Valid With',
 ]
 
+export const rateLimitHeaders: TextRow = [
+  'Name',
+  'Limit for 1 second',
+  'Limit for 1 minute',
+  'Limit for 1 hour',
+  'Note',
+]
+
 const balanceInputParams: TableText = [
   [
     '✅',

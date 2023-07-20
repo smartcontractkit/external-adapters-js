@@ -7,7 +7,16 @@ import fs from 'fs'
 import path from 'path'
 import process from 'process'
 import { cat, exec, test } from 'shelljs'
-import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
+import {
+  EndpointDetails,
+  EnvVars,
+  IOMap,
+  JsonObject,
+  Package,
+  Schema,
+  RateLimits,
+  RateLimitsSchema,
+} from '../shared/docGenTypes'
 import {
   capitalize,
   codeList,
@@ -18,7 +27,7 @@ import {
 } from '../shared/docGenUtils'
 import { TableText, buildTable } from '../shared/tableUtils'
 import { WorkspaceAdapter } from '../workspace'
-import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
+import { getBalanceTable, inputParamHeaders, paramHeaders, rateLimitHeaders } from './tableAssets'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -56,6 +65,8 @@ export class ReadmeGenerator {
   defaultBaseUrl = ''
   endpointDetails: EndpointDetails = {}
   envVars: EnvVars
+  rateLimitsPath: string
+  rateLimits: RateLimits
   integrationTestPath: string | null
   name: string
   readmeText = ''
@@ -90,6 +101,7 @@ export class ReadmeGenerator {
     this.license = packageJson.license ?? ''
 
     this.schemaPath = this.adapterPath + 'schemas/env.json'
+    this.rateLimitsPath = this.adapterPath + 'src/config/limits.json'
     this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
     this.packageJson = packageJson
     this.skipTests = skipTests
@@ -108,10 +120,17 @@ export class ReadmeGenerator {
       //Is V2. Populate self w/ env.json content
       if (this.verbose) console.log(`${this.adapterPath}: Checking schema/env.json`)
       const schema = getJsonFile(this.schemaPath) as Schema
+      let rateLimits
+      try {
+        rateLimits = getJsonFile(this.rateLimitsPath)
+      } catch (e) {
+        rateLimits = { http: {} }
+      }
       this.frameworkVersion = 'v2'
       this.schemaDescription = schema.description ?? ''
       this.name = schema.title ?? this.packageJson.name ?? ''
       this.envVars = schema.properties ?? {}
+      this.rateLimits = (rateLimits as RateLimitsSchema).http
       this.requiredEnvVars = schema.required ?? []
       this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
       this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
@@ -135,6 +154,8 @@ export class ReadmeGenerator {
       ).settingsDefinition
       this.name = adapter.name
       this.envVars = adapterSettings || {}
+      const rateLimits = adapter.rateLimiting.tiers
+      this.rateLimits = rateLimits || {}
 
       this.endpointDetails = adapter.endpoints?.length
         ? adapter.endpoints.reduce(
@@ -162,6 +183,7 @@ export class ReadmeGenerator {
 
     this.addIntroSection()
     this.addEnvVarSection()
+    this.addRateLimitSection()
     this.addInputParamsSection()
     this.addEndpointSections()
     this.addLicense()
@@ -199,6 +221,27 @@ export class ReadmeGenerator {
       : 'There are no environment variables for this adapter.'
 
     this.readmeText += `## Environment Variables\n\n${envVarTable}\n\n---\n\n`
+  }
+
+  addRateLimitSection(): void {
+    if (this.verbose) console.log(`${this.adapterPath}: Adding rate limits`)
+
+    const rateLimits = this.rateLimits
+
+    const tableText: TableText = Object.entries(rateLimits).map(([key, rateLimit]) => {
+      const name = key ?? ''
+      const rateLimit1s = rateLimit.rateLimit1s?.toString() || ''
+      const rateLimit1m = rateLimit.rateLimit1m?.toString() || ''
+      const rateLimit1h = rateLimit.rateLimit1h?.toString() || ''
+      const notes = rateLimit.note || ''
+      return [name, rateLimit1s, rateLimit1m, rateLimit1h, notes]
+    })
+
+    const rateLimitsTable = tableText.length
+      ? buildTable(tableText, rateLimitHeaders)
+      : 'There are no rate limits for this adapter.'
+
+    this.readmeText += `## Data Provider Rate Limits\n\n${rateLimitsTable}\n\n---\n\n`
   }
 
   addInputParamsSection(): void {
