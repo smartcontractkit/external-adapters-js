@@ -2,4 +2,4 @@
 '@chainlink/stader-balance-adapter': patch
 ---
 
-Await retrieval of genesis timestamp during initialization
+Await retrieval of genesis timestamp during initialization. Bumped framework version.
