@@ -1,8 +1,8 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { StockEndpoint } from '@chainlink/external-adapter-framework/adapter/stock'
 import { stockInputParameters } from './utils'
 import { transport } from '../transport/eod'
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new StockEndpoint({
   name: 'eod',
   aliases: ['eod-close'],
   transport,

@@ -1,4 +1,7 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  StockEndpoint,
+  stockEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter/stock'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -7,14 +10,7 @@ import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/iex-http'
 import { wsTransport } from '../transport/iex-ws'
 
-const inputParameters = new InputParameters({
-  base: {
-    aliases: ['ticker', 'from', 'coin'],
-    required: true,
-    type: 'string',
-    description: 'The stock ticker to query',
-  },
-})
+const inputParameters = new InputParameters(stockEndpointInputParametersDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -22,7 +18,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new StockEndpoint({
   name: 'iex',
   aliases: ['stock'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()

@@ -2,11 +2,14 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports/websocket'
-import { sleep } from '@chainlink/external-adapter-framework/util'
+import { LoggerFactoryProvider, sleep } from '@chainlink/external-adapter-framework/util'
 
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import * as price from '../../src/transport/price'
 import { RequestParams } from '../../src/endpoint/price'
+
+//Since the test is directly using transport functions, we need to initialize the logger here
+LoggerFactoryProvider.set()
 
 const makeParam = (base: string) => {
   return {

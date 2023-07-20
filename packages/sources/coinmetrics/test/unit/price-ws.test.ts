@@ -9,6 +9,10 @@ import {
   WsAssetMetricsWarningResponse,
 } from '../../src/transport/price-ws'
 import { assetMetricsInputParameters, BaseEndpointTypes } from '../../src/endpoint/price'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+
+//Since the test is directly using endpoint functions, we need to initialize the logger here
+LoggerFactoryProvider.set()
 
 const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   time: Date.now().toString(),

@@ -1,5 +1,5 @@
 import {
-  PriceEndpoint,
+  ForexPriceEndpoint,
   PriceEndpointInputParametersDefinition,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
@@ -15,7 +15,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new PriceEndpoint({
+export const endpoint = new ForexPriceEndpoint({
   name: 'forex',
   aliases: ['price'],
   transport,

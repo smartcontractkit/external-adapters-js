@@ -1,19 +1,15 @@
+import {
+  StockEndpoint,
+  stockEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter/stock'
 import { httpTransport } from '../transport/price-http'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { wsTransport } from '../transport/price-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'asset'],
-    description: 'The symbol of the asset to query',
-    type: 'string',
-    required: true,
-  },
-})
+export const inputParameters = new InputParameters(stockEndpointInputParametersDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -21,7 +17,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new StockEndpoint({
   name: 'price',
   aliases: ['stock'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
