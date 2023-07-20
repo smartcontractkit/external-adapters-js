@@ -98,7 +98,7 @@ runs:
         inputs.skip-setup != 'true'
         && steps.restore-ts-build.outputs.cache-hit != 'true'
       run: |
-        git fetch origin ${{ inputs.fetch-branch }}:${{ inputs.fetch-branch }} --depth 10 --update-head-ok || true
+        git fetch origin ${{ inputs.fetch-branch }}:${{ inputs.fetch-branch }} --depth 1 --update-head-ok || true
     - name: Calculate changed EAs
       shell: bash
       if: |
