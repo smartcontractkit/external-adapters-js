@@ -130,7 +130,7 @@ export class ReadmeGenerator {
       this.schemaDescription = schema.description ?? ''
       this.name = schema.title ?? this.packageJson.name ?? ''
       this.envVars = schema.properties ?? {}
-      this.rateLimits = (rateLimits as RateLimitsSchema).http
+      this.rateLimits = (rateLimits as RateLimitsSchema)?.http || {}
       this.requiredEnvVars = schema.required ?? []
       this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
       this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
@@ -154,8 +154,8 @@ export class ReadmeGenerator {
       ).settingsDefinition
       this.name = adapter.name
       this.envVars = adapterSettings || {}
-      const rateLimits = adapter.rateLimiting.tiers
-      this.rateLimits = rateLimits || {}
+      const rateLimits = adapter.rateLimiting?.tiers || {}
+      this.rateLimits = rateLimits
 
       this.endpointDetails = adapter.endpoints?.length
         ? adapter.endpoints.reduce(
