@@ -154,8 +154,7 @@ export class ReadmeGenerator {
       ).settingsDefinition
       this.name = adapter.name
       this.envVars = adapterSettings || {}
-      const rateLimits = adapter.rateLimiting?.tiers || {}
-      this.rateLimits = rateLimits
+      this.rateLimits = adapter.rateLimiting?.tiers || {}
 
       this.endpointDetails = adapter.endpoints?.length
         ? adapter.endpoints.reduce(
