@@ -46,7 +46,7 @@ jobs:
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
         with:
-          base-branch: origin/${{ github.base_ref }}
+          base-branch: origin/${{ github.head_ref }}
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
         run: ./.github/scripts/changed-adapters.sh
