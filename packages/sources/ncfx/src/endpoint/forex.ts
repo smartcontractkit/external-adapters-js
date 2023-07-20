@@ -1,5 +1,5 @@
 import {
-  PriceEndpoint,
+  ForexPriceEndpoint,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import {
@@ -35,7 +35,7 @@ export function customInputValidation(
   return
 }
 
-export const forexEndpoint = new PriceEndpoint({
+export const forexEndpoint = new ForexPriceEndpoint({
   name: 'forex',
   transport,
   inputParameters,

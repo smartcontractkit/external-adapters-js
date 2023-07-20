@@ -1,5 +1,5 @@
 import { generateInputParams, GeneratePriceOptions, generateTransport } from '@chainlink/tp-adapter'
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { ForexPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 
 const options: GeneratePriceOptions = {
   sourceName: 'icapSource',
@@ -10,7 +10,7 @@ const options: GeneratePriceOptions = {
 const inputParameters = generateInputParams(options)
 const transport = generateTransport(options)
 
-export const priceEndpoint = new PriceEndpoint({
+export const priceEndpoint = new ForexPriceEndpoint({
   name: 'price',
   aliases: ['forex'],
   transport,

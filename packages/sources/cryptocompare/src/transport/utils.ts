@@ -2,7 +2,7 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { BaseEndpointTypes, cryptoInputParams } from '../endpoint/utils'
 
-export const logger = makeLogger('CryptoCompare HTTP')
+const logger = makeLogger('CryptoCompare HTTP')
 
 export interface ProviderCryptoQuoteData {
   TYPE: string
