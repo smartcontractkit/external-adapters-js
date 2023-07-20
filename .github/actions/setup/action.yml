@@ -24,7 +24,7 @@ inputs:
   base-branch:
     description: The base branch to use for comparison with the head to calculate changed packages
     required: false
-    default: 'main'
+    default: 'origin/main'
 
 runs:
   using: 'composite'
