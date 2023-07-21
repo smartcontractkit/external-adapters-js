@@ -32,7 +32,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `tiingo/daily/${param.ticker.toLowerCase()}/prices`,
+          url: `tiingo/daily/${param.base.toLowerCase()}/prices`,
           params: { token: config.API_KEY },
         },
       }
@@ -55,16 +55,16 @@ export const transport = new HttpTransport<HttpTransportTypes>({
       const result = (res.data as ProviderResponseBody[])[0]?.close
       if (!result) {
         return {
-          params: { ticker: entry.ticker },
+          params: { base: entry.base },
           response: {
-            errorMessage: `Could not retrieve valid data from Data Provider for ticket ${entry.ticker}. This is likely an issue with the Data Provider or the input params/overrides`,
+            errorMessage: `Could not retrieve valid data from Data Provider for ticket ${entry.base}. This is likely an issue with the Data Provider or the input params/overrides`,
             statusCode: 502,
           },
         }
       }
 
       return {
-        params: { ticker: entry.ticker },
+        params: { base: entry.base },
         response: {
           data: {
             result,

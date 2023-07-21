@@ -113,12 +113,13 @@ const queryInBatches = async (
   const url = `/eth/v1/beacon/states/${params.stateId}/validators`
   const statusList = params.validatorStatus?.join(',')
   const batchSize = config.adapterSpecificParams.batchSize
-  const groupSize = config.adapterSpecificParams.groupSize
-  const batchedAddresses = []
+  const responses: AxiosResponse<StateResponseSchema>[] = []
   // If adapter configured with 0 batch size, put all validators in one request to allow skipping batching
   if (batchSize === 0) {
-    batchedAddresses.push(params.addresses.map(({ address }) => address).join(','))
+    const addresses = params.addresses.map(({ address }) => address).join(',')
+    responses.push(await queryBeaconChain(config, url, addresses, statusList))
   } else {
+    const batchedAddresses = []
     // Separate the address set into the specified batch size
     // Add the batches as comma-separated lists to a new list used to make the requests
     for (let i = 0; i < params.addresses.length / batchSize; i++) {
@@ -129,26 +130,21 @@ const queryInBatches = async (
           .join(','),
       )
     }
-  }
 
-  const requestGroups = chunkArray(batchedAddresses, groupSize)
+    const groupSize = config.adapterSpecificParams.groupSize
+    const requestGroups = chunkArray(batchedAddresses, groupSize)
 
-  const responses: AxiosResponse<StateResponseSchema>[] = []
-  // Make request to beacon API for every batch
-  // Send requests in groups
-  for (const group of requestGroups) {
-    responses.push(
-      ...(await Promise.all(
-        group.map((addresses) => {
-          const options: AxiosRequestConfig = {
-            ...config.api,
-            url,
-            params: { id: addresses, status: statusList },
-          }
-          return Requester.request<StateResponseSchema>(options)
-        }),
-      )),
-    )
+    // Make request to beacon API for every batch
+    // Send requests in groups
+    for (const group of requestGroups) {
+      responses.push(
+        ...(await Promise.all(
+          group.map((addresses) => {
+            return queryBeaconChain(config, url, addresses, statusList)
+          }),
+        )),
+      )
+    }
   }
 
   // Flatten the results into single array for validators and balances
@@ -194,6 +190,20 @@ const queryInBatches = async (
   }
 
   return Requester.success(jobRunID, result, config.verbose)
+}
+
+const queryBeaconChain = async (
+  config: EthBeaconConfig,
+  url: string,
+  addresses: string,
+  statusList?: string,
+): Promise<AxiosResponse<StateResponseSchema>> => {
+  const options: AxiosRequestConfig = {
+    ...config.api,
+    url,
+    params: { id: addresses, status: statusList },
+  }
+  return Requester.request<StateResponseSchema>(options)
 }
 
 const searchLimboValidators = async (

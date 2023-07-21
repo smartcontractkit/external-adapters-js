@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@chainlink/dxfeed-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.29.12",
+    "@chainlink/external-adapter-framework": "0.29.13",
     "tslib": "2.4.1"
   },
   "devDependencies": {
