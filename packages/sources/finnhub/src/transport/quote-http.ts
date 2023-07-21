@@ -1,5 +1,5 @@
 import { config } from '../config'
-import { BaseEndpointTypes } from '../endpoint/quote'
+import { BaseEndpointTypes, buildSymbol } from '../endpoint/quote'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
@@ -25,7 +25,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
-      const symbol = param.base.toUpperCase()
+      const symbol = buildSymbol(param)
       const requestConfig = {
         baseURL: `${settings.API_ENDPOINT}/quote`,
         method: 'GET',

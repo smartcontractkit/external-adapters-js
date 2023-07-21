@@ -1,5 +1,5 @@
 import {
-  PriceEndpoint,
+  ForexPriceEndpoint,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
@@ -14,7 +14,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
-export const endpoint = new PriceEndpoint({
+export const endpoint = new ForexPriceEndpoint({
   name: 'forex',
   aliases: ['price'],
   transport,

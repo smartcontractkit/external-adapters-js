@@ -1,20 +1,16 @@
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { httpTransport } from '../transport/stock-http'
 import { wsTransport } from '../transport/stock-ws'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  StockEndpoint,
+  stockEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter/stock'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 
-const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin', 'asset'],
-    required: true,
-    description: 'The symbol of the asset to query',
-    type: 'string',
-  },
-})
+const inputParameters = new InputParameters(stockEndpointInputParametersDefinition)
 
 // Common endpoint type shared by the REST and WS transports
 export type BaseEndpointTypes = {
@@ -27,7 +23,7 @@ export const transportRoutes = new TransportRoutes<BaseEndpointTypes>()
   .register('ws', wsTransport)
   .register('rest', httpTransport)
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new StockEndpoint({
   name: 'stock',
   aliases: ['commodities'],
   transportRoutes,

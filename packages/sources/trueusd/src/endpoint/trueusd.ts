@@ -1,4 +1,9 @@
-import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterDataProviderError,
+  AdapterInputError,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'trueusd'
@@ -47,6 +52,8 @@ interface ResponseSchema {
       [name: string]: number
     }
   }[]
+  ripcord: boolean
+  ripcordDetails: string[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -61,6 +68,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, url }
 
   const response = await Requester.request<ResponseSchema>(options)
+
+  // Return error if ripcord indicator true
+  if (response.data.ripcord) {
+    const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(', ')}`
+    throw new AdapterDataProviderError({
+      message,
+      statusCode: 502,
+      errorResponse: {
+        ripcord: response.data.ripcord,
+        ripcordDetails: response.data.ripcordDetails,
+      },
+    })
+  }
 
   if (chain) {
     const chainData = response.data.token.find(({ tokenName }) => tokenName.includes(chain))

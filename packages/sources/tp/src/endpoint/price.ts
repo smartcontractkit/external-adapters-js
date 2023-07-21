@@ -1,5 +1,5 @@
 import {
-  PriceEndpoint,
+  ForexPriceEndpoint,
   priceEndpointInputParametersDefinition,
   PriceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
@@ -44,7 +44,7 @@ const tpOptions: GeneratePriceOptions = {
 const inputParameters = generateInputParams(tpOptions)
 const wsTransport = generateTransport(tpOptions)
 
-export const priceEndpoint = new PriceEndpoint({
+export const priceEndpoint = new ForexPriceEndpoint({
   name: 'price',
   aliases: ['forex'],
   transport: wsTransport,

@@ -47,7 +47,7 @@ describe('evm', () => {
     })
 
     it('Blocks are healthy after Delta seconds if blocks change', async () => {
-      const checkBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Arbitrum)
+      const checkBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Metis)
       config.deltaBlocks = 0
       config.delta = 30 * 1000
       const timeBetweenCalls = 10 * 1000

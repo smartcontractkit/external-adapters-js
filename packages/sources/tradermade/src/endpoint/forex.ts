@@ -1,4 +1,4 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { ForexPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
@@ -47,7 +47,7 @@ function customInputValidation(
   return
 }
 
-export const endpoint = new PriceEndpoint({
+export const endpoint = new ForexPriceEndpoint({
   name: 'forex',
   aliases: ['batch'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()

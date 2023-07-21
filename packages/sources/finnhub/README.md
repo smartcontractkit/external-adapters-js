@@ -1,6 +1,6 @@
 # FINNHUB
 
-![2.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -29,10 +29,11 @@ Supported names for this endpoint are: `common`, `forex`, `quote`, `stock`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|           | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? |   Name   |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   base   | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|           |  quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+|           | exchange |                |         The exchange to fetch data for         | string |         |         |            |                |
 
 ### Example
 

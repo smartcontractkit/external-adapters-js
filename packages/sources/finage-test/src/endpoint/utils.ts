@@ -2,6 +2,7 @@ import { priceEndpointInputParametersDefinition } from '@chainlink/external-adap
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
+import { stockEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/stock'
 
 export const priceInputParameters = new InputParameters({
   ...priceEndpointInputParametersDefinition,
@@ -17,14 +18,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const equitiesInputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'symbol'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the equity to query',
-  },
-})
+export const equitiesInputParameters = new InputParameters(stockEndpointInputParametersDefinition)
 
 export type EquitiesEndpointTypes = {
   Parameters: typeof equitiesInputParameters.definition
