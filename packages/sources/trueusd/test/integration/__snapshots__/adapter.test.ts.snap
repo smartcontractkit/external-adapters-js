@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute should return error when ripcord true 1`] = `
+{
+  "error": {
+    "errorResponse": {
+      "ripcord": true,
+      "ripcordDetails": [
+        "Integrations",
+        "Balances",
+      ],
+    },
+    "feedID": "{"data":{"chain":"AVA","resultPath":"totalTrust","endpoint":"trueusd"}}",
+    "message": "Ripcord indicator true. Details: Integrations, Balances",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 502,
+}
+`;
+
 exports[`execute should return success for token 1`] = `
 {
   "data": {
