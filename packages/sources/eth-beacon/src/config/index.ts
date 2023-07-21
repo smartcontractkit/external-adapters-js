@@ -33,7 +33,7 @@ export const makeConfig = (prefix?: string): EthBeaconConfig => {
   )
   const executionRpcUrl = util.getEnv(ENV_ETH_EXECUTION_RPC_URL) || ''
   const batchSize = Number(util.getEnv(ENV_BATCH_SIZE, prefix) ?? DEFAULT_BATCH_SIZE)
-  const groupSize = Number(util.getEnv(ENV_GROUP_SIZE, prefix) || DEFAULT_GROUP_SIZE)
+  const groupSize = Number(util.getEnv(ENV_GROUP_SIZE, prefix)) || DEFAULT_GROUP_SIZE
   const chainId = Number(util.getEnv(ENV_CHAIN_ID, prefix) || DEFAULT_CHAIN_ID)
   const defaultConfig = Requester.getDefaultConfig(prefix)
   return {
