@@ -1,12 +1,10 @@
 import { Logger } from '@chainlink/ea-bootstrap'
-// import { getRpcLatestRound } from '@chainlink/ea-reference-data-reader'
 import { getDerivativesData, CurrencyDerivativesData } from './derivativesDataProvider'
 import { SigmaCalculator } from './sigmaCalculator'
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
 import type { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/ea-bootstrap'
-// import { DEFAULT_NETWORK } from '../config'
 import { TInputParameters } from '../endpoint/volatilityIndex'
 import { saveToCache, loadFromCache } from './cviCache'
 
@@ -16,15 +14,13 @@ export const calculate = async (
   context: AdapterContext,
 ): Promise<number> => {
   const {
-    // contract: oracleAddress,
     multiply = 1e18,
-    heartbeatMinutes = 1,
+    heartbeatMinutes = 20,
     isAdaptive = true,
     cryptoCurrencies = ['BTC', 'ETH'],
     deviationThreshold = 0.2,
     lambdaMin = 0.008,
     lambdaK = 0.4,
-    // network = DEFAULT_NETWORK,
   } = validated.data
 
   // Get all of the required derivatives data for the calculations, for all the relevant currencies
@@ -44,13 +40,10 @@ export const calculate = async (
     ? weightedCVI
     : await applySmoothing(
         weightedCVI,
-        // oracleAddress,
-        // multiply,
         heartbeatMinutes,
         deviationThreshold,
         lambdaMin,
         lambdaK,
-        // network,
         context,
       )
 
@@ -135,24 +128,12 @@ const getDominanceByCurrency = async (
 
 const applySmoothing = async (
   weightedCVI: number,
-  // oracleAddress: string,
-  // multiply: number,
   heartBeatMinutes: number,
   deviationThreshold: number,
   lambdaMin: number,
   lambdaK: number,
-  // network: string,
   context: AdapterContext,
 ): Promise<number> => {
-  // const roundData = await getRpcLatestRound(network, oracleAddress)
-  // const latestIndex = new Decimal(roundData.answer.toString()).div(multiply)
-  // const updatedAt = roundData.updatedAt.mul(1000).toNumber()
-
-  // if (latestIndex.lte(0)) {
-  //   Logger.warn('No on-chain index value found - Is first run of adapter?')
-  //   return weightedCVI
-  // }
-
   const cachedValue = await loadFromCache(context)
   if (!cachedValue) {
     Logger.warn('No cached index value found - Is first run of adapter?')
