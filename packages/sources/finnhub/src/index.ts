@@ -1,24 +1,28 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { quote } from './endpoint'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { quote, buildQuoteEndpoint } from './endpoint'
 import { config } from './config'
 
-export const adapter = new Adapter({
+const rateLimiting = {
+  tiers: {
+    free: {
+      rateLimit1m: 60,
+    },
+    'all-in-one': {
+      rateLimit1m: 300,
+      note: 'limit is for market data, not fundamental data',
+    },
+  },
+}
+
+const adapter = new PriceAdapter({
   defaultEndpoint: quote.name,
   name: 'FINNHUB',
   config,
   endpoints: [quote],
-  rateLimiting: {
-    tiers: {
-      free: {
-        rateLimit1m: 60,
-      },
-      'all-in-one': {
-        rateLimit1m: 300,
-        note: 'limit is for market data, not fundamental data',
-      },
-    },
-  },
+  rateLimiting,
 })
 
-export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
+const server = (): Promise<ServerInstance | undefined> => expose(adapter)
+
+export { adapter, server, config, rateLimiting, buildQuoteEndpoint }

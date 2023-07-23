@@ -1,16 +1,18 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import process from 'process'
 import * as queryString from 'querystring'
 import { config } from '../../src/config'
 import {
   calculateAssetMetricsUrl,
   handleAssetMetricsMessage,
-  WsAssetMetricsEndpointTypes,
   WsAssetMetricsErrorResponse,
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
-} from '../../src/endpoint/price-ws'
-import { assetMetricsInputParameters } from '../../src/endpoint/price'
+} from '../../src/transport/price-ws'
+import { assetMetricsInputParameters, BaseEndpointTypes } from '../../src/endpoint/price'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+
+//Since the test is directly using endpoint functions, we need to initialize the logger here
+LoggerFactoryProvider.set()
 
 const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   time: Date.now().toString(),
@@ -41,7 +43,7 @@ const EXAMPLE_REORG_MESSAGE = {
 }
 
 config.initialize()
-const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
+const EXAMPLE_CONTEXT: EndpointContext<BaseEndpointTypes> = {
   endpointName: 'price',
   inputParameters: assetMetricsInputParameters,
   adapterSettings: config.settings,

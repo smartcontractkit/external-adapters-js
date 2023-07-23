@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket crypto endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 40067,
+  },
+  "result": 40067,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1645203822000,
+  },
+}
+`;
+
+exports[`websocket lwba endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 1.1662,
+    "bid": 1.1607,
+    "mid": 1.1635,
+    "midPrice": 1.1631,
+    "utilizedDepth": 1888000,
+  },
+  "result": 1.1635,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1677876163000,
+  },
+}
+`;

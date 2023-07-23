@@ -1,5 +1,89 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.4
+
+### Patch Changes
+
+- Updated dependencies [78eb636f6]
+  - @chainlink/avalanche-platform-adapter@1.1.1
+  - @chainlink/por-indexer-adapter@1.2.60
+  - @chainlink/renvm-address-set-adapter@1.5.51
+  - @chainlink/wbtc-address-set-adapter@1.4.60
+
+## 1.18.3
+
+### Patch Changes
+
+- Updated dependencies [09a7a4386]
+- Updated dependencies [244e02abf]
+- Updated dependencies [a574dbc4a]
+  - @chainlink/moonbeam-address-list-adapter@1.1.13
+  - @chainlink/polkadot-balance-adapter@1.2.1
+  - @chainlink/stader-address-list-adapter@2.3.3
+  - @chainlink/stader-balance-adapter@1.4.0
+  - @chainlink/eth-beacon-adapter@1.5.0
+  - @chainlink/por-indexer-adapter@1.2.59
+  - @chainlink/renvm-address-set-adapter@1.5.50
+  - @chainlink/wbtc-address-set-adapter@1.4.59
+
+## 1.18.2
+
+### Patch Changes
+
+- Updated dependencies [f2d2ae675]
+- Updated dependencies [862ed8d89]
+- Updated dependencies [d74c218b1]
+- Updated dependencies [67ba3de4f]
+- Updated dependencies [adc0a8297]
+  - @chainlink/polkadot-balance-adapter@1.2.0
+  - @chainlink/stader-balance-adapter@1.3.2
+  - @chainlink/stader-address-list-adapter@2.3.2
+  - @chainlink/avalanche-platform-adapter@1.1.0
+  - @chainlink/moonbeam-address-list-adapter@1.1.12
+  - @chainlink/por-indexer-adapter@1.2.58
+  - @chainlink/renvm-address-set-adapter@1.5.49
+  - @chainlink/wbtc-address-set-adapter@1.4.58
+
+## 1.18.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+- Updated dependencies [cc0d39064]
+- Updated dependencies [fb1b11b77]
+  - @chainlink/stader-address-list-adapter@2.3.1
+  - @chainlink/stader-balance-adapter@1.3.1
+  - @chainlink/moonbeam-address-list-adapter@1.1.11
+  - @chainlink/polkadot-balance-adapter@1.1.11
+  - @chainlink/por-indexer-adapter@1.2.57
+  - @chainlink/renvm-address-set-adapter@1.5.48
+  - @chainlink/wbtc-address-set-adapter@1.4.57
+
+## 1.18.0
+
+### Minor Changes
+
+- 4f4ca79e1: Added search limbo validators flag to pass to eth-beacon
+
+### Patch Changes
+
+- d25ef6507: Added reported block field to pass for stader-balance adapter
+- Updated dependencies [f5dc53032]
+- Updated dependencies [4f4ca79e1]
+- Updated dependencies [f5dc53032]
+- Updated dependencies [d25ef6507]
+- Updated dependencies [4f4ca79e1]
+- Updated dependencies [d25ef6507]
+- Updated dependencies [bda124176]
+  - @chainlink/stader-address-list-adapter@2.3.0
+  - @chainlink/eth-beacon-adapter@1.4.0
+  - @chainlink/stader-balance-adapter@1.3.0
+  - @chainlink/por-address-list-adapter@4.1.0
+  - @chainlink/por-indexer-adapter@1.2.56
+  - @chainlink/renvm-address-set-adapter@1.5.47
+  - @chainlink/wbtc-address-set-adapter@1.4.56
+
 ## 1.17.7
 
 ### Patch Changes

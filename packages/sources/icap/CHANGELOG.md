@@ -1,5 +1,30 @@
 # @chainlink/icap-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+- Updated dependencies [244e02abf]
+  - @chainlink/tp-adapter@1.1.7
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [862ed8d89]
+  - @chainlink/tp-adapter@1.1.6
+
+## 1.1.5
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+- Updated dependencies [cc0d39064]
+- Updated dependencies [fb1b11b77]
+  - @chainlink/tp-adapter@1.1.5
+
 ## 1.1.4
 
 ### Patch Changes

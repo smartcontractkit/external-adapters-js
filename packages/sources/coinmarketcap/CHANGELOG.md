@@ -1,5 +1,25 @@
 # @chainlink/coinmarketcap-adapter
 
+## 2.0.9
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 2.0.8
+
+### Patch Changes
+
+- f2d2ae675: Replace internal util functions with ea-framework util functions
+- adc0a8297: Removed unused dependencies
+
+## 2.0.7
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 2.0.6
 
 ### Patch Changes

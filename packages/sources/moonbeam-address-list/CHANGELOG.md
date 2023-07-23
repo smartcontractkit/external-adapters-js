@@ -1,5 +1,24 @@
 # @chainlink/moonbeam-address-list-adapter
 
+## 1.1.13
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 1.1.12
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
+## 1.1.11
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 1.1.10
 
 ### Patch Changes

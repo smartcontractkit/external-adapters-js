@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.finage.co.uk', {
@@ -95,3 +96,119 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+    .get('/last/etf/CSPX')
+    .query({ apikey: 'fake-api-key' })
+    .reply(200, {
+      symbol: 'CSPX',
+      price: 445.64,
+      timestamp: 1685972473955,
+    })
+    .persist()
+
+export const mockStockWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
+    {
+      message: 'Authorizing...',
+    },
+    {
+      status_code: 200,
+      message: 'Connected to the U.S Market source.',
+    },
+    {
+      s: 'AAPL',
+      p: 163.58,
+      c: [37],
+      v: 50,
+      dp: false,
+      t: 1646154954689,
+    },
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
+    })
+  })
+
+  return mockWsServer
+}
+
+export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
+    {
+      message: 'Authorizing...',
+    },
+    {
+      status_code: 200,
+      message: 'Connected to the Forex Market source.',
+    },
+    {
+      s: 'GBP/USD',
+      a: 1.33139,
+      b: 1.3313,
+      dd: '-0.0108',
+      dc: '-0.8082',
+      ppms: false,
+      t: 1646157588000,
+    },
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
+    })
+  })
+
+  return mockWsServer
+}
+
+export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            s: 'BTCUSD',
+            p: '43682.66306523',
+            q: '0.04582000',
+            dex: false,
+            src: 'A',
+            t: 1646151298290,
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}
+
+export const mockEtfWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            s: 'CSPX',
+            p: 445.76,
+            dc: '0.0000',
+            dd: '0.0000',
+            t: 1685958155,
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}

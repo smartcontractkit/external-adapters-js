@@ -1,5 +1,24 @@
 # @chainlink/polygon-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 2.0.2
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
+## 2.0.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 2.0.0
 
 ### Major Changes

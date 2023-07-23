@@ -138,9 +138,6 @@
       "path": "./sources/alphavantage/tsconfig.test.json"
     },
     {
-      "path": "./sources/alphavantage-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -333,6 +330,9 @@
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
+      "path": "./sources/finnhub-secondary/tsconfig.test.json"
+    },
+    {
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {
@@ -381,9 +381,6 @@
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
-      "path": "./sources/intrinio-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ipfs/tsconfig.test.json"
     },
     {
@@ -394,9 +391,6 @@
     },
     {
       "path": "./sources/kaiko/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/kaiko-test/tsconfig.test.json"
     },
     {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
@@ -442,9 +436,6 @@
     },
     {
       "path": "./sources/nikkei/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nomics/tsconfig.test.json"
     },
     {
       "path": "./sources/oanda/tsconfig.test.json"

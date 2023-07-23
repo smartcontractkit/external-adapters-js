@@ -1,5 +1,39 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- a574dbc4a: Added way to configure adapter to skip validator batching. Set BATCH_SIZE to 0.
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 1.3.2
+
+### Patch Changes
+
+- f2d2ae675: Replace internal util functions with ea-framework util functions
+- 862ed8d89: Removed unused dependencies
+
+## 1.3.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
+## 1.3.0
+
+### Minor Changes
+
+- d25ef6507: Pinned block number to Stader reported block. Updated withdrawn validator balance calculations. Added total supply endpoint. Added validation to ensure beacon slot number is finalized.
+
+### Patch Changes
+
+- f5dc53032: Updated logic to determine deposited validator
+
 ## 1.2.0
 
 ### Minor Changes

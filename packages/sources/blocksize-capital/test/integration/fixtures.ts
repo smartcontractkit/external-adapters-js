@@ -1,3 +1,4 @@
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 export const mockSubscribeResponse = {
   jsonrpc: '2.0',
   method: 'vwap',
@@ -25,4 +26,20 @@ export const mockLoginResponse = {
   result: {
     user_id: 'ABCD',
   },
+}
+
+export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    const data = JSON.stringify(mockSubscribeResponse)
+    socket.on('message', (message) => {
+      const parsed = JSON.parse(message.toString())
+      if (parsed.params?.api_key) {
+        socket.send(JSON.stringify(mockLoginResponse))
+      } else {
+        socket.send(data)
+      }
+    })
+  })
+  return mockWsServer
 }

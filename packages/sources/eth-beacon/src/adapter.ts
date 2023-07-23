@@ -1,20 +1,19 @@
 import { Builder } from '@chainlink/ea-bootstrap'
 import {
-  Config,
   ExecuteWithConfig,
   ExecuteFactory,
   AdapterRequest,
   APIEndpoint,
 } from '@chainlink/ea-bootstrap'
-import { makeConfig } from './config'
+import { EthBeaconConfig, makeConfig } from './config'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+export const execute: ExecuteWithConfig<EthBeaconConfig, endpoints.TInputParameters> = async (
   request,
   context,
   config,
 ) => {
-  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+  return Builder.buildSelector<EthBeaconConfig, endpoints.TInputParameters>(
     request,
     context,
     config,
@@ -24,9 +23,15 @@ export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = as
 
 export const endpointSelector = (
   request: AdapterRequest,
-): APIEndpoint<Config, endpoints.TInputParameters> =>
-  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
+): APIEndpoint<EthBeaconConfig, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<EthBeaconConfig, endpoints.TInputParameters>(
+    request,
+    makeConfig(),
+    endpoints,
+  )
 
-export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
+export const makeExecute: ExecuteFactory<EthBeaconConfig, endpoints.TInputParameters> = (
+  config,
+) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

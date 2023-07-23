@@ -1,5 +1,31 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.3.3
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 2.3.2
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
+## 2.3.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
+## 2.3.0
+
+### Minor Changes
+
+- f5dc53032: Updated with Stader contract function name change
+- d25ef6507: Pinned block number to Stader reported block
+
 ## 2.2.0
 
 ### Minor Changes

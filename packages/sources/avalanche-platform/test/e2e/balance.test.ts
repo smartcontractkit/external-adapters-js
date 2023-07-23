@@ -18,6 +18,7 @@ describe('execute', () => {
             addresses: [
               {
                 address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
+                network: 'avalanche-fuji',
               },
             ],
           },
@@ -31,6 +32,7 @@ describe('execute', () => {
             addresses: [
               {
                 address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
+                network: 'avalanche-fuji',
               },
             ],
           },
@@ -44,9 +46,11 @@ describe('execute', () => {
             result: [
               {
                 address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
+                network: 'avalanche-fuji',
               },
               {
                 address: 'P-fuji1wycv8n7d2fg9aq6unp23pnj4q0arv03ysya8jw',
+                network: 'avalanche-fuji',
               },
             ],
           },

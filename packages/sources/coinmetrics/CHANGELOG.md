@@ -1,5 +1,30 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.2.4
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 3.2.3
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
+## 3.2.2
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
+## 3.2.1
+
+### Patch Changes
+
+- d25a72c99: Add sorting to Crypto LWBA WS endpoint for asset pairs
+
 ## 3.2.0
 
 ### Minor Changes

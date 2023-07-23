@@ -3,6 +3,11 @@ name: Clean up on PR close
 on:
   pull_request:
     types: [closed]
+    paths:
+      - 'packages/sources/**'
+      - 'packages/composites/**'
+      - 'packages/targets/**'
+      - 'packages/core/**'
 
 jobs:
   cleanup-ephemeral-adapters-on-pr-close:

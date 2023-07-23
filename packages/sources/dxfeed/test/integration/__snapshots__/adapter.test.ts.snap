@@ -13,17 +13,3 @@ exports[`execute price endpoint rest should return success 1`] = `
   },
 }
 `;
-
-exports[`execute price endpoint websocket should return success 1`] = `
-{
-  "data": {
-    "result": 170,
-  },
-  "result": 170,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1668165071111,
-    "providerDataStreamEstablishedUnixMs": 1668165071111,
-  },
-}
-`;

@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket price endpoint should return cached subscribe error 1`] = `
+{
+  "errorMessage": "Symbol is not supported",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": Any<Number>,
+    "providerDataStreamEstablishedUnixMs": Any<Number>,
+  },
+}
+`;
+
 exports[`websocket price endpoint should return success 1`] = `
 {
   "data": {
@@ -8,20 +19,9 @@ exports[`websocket price endpoint should return success 1`] = `
   "result": 10000,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1652198967193,
-    "providerDataStreamEstablishedUnixMs": 1652198967193,
+    "providerDataReceivedUnixMs": 1024,
+    "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1667881098736,
-  },
-}
-`;
-
-exports[`websocket price endpoint should return cached subscribe error 1`] = `
-{
-  "errorMessage": "Symbol is not supported",
-  "statusCode": 400,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1652198967193,
-    "providerDataStreamEstablishedUnixMs": 1652198967193,
   },
 }
 `;

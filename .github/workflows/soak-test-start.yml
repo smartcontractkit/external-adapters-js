@@ -1,7 +1,12 @@
 name: Soak test
 
 on:
-  pull_request: ~
+  pull_request:
+    paths:
+      - 'packages/sources/**'
+      - 'packages/composites/**'
+      - 'packages/targets/**'
+      - 'packages/core/**'
 
 jobs:
   run-soak-tests:
@@ -17,7 +22,10 @@ jobs:
       group: qa-soaktest-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - uses: jwalton/gh-find-current-pr@v1
         id: findPr
@@ -42,7 +50,11 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.QA_KUBECONFIG }}
 
-      - uses: ./.github/actions/setup # Yarn install > setup
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+        with:
+          build-all: true
+          base-branch: ${{ github.base_ref }}
 
       - name: Check AWS CLI version
         run: aws --version

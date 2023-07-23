@@ -1,5 +1,21 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- a574dbc4a: Added way to configure adapter to skip validator batching. Set BATCH_SIZE to 0.
+
+## 1.4.0
+
+### Minor Changes
+
+- 4f4ca79e1: Added optional feature to search deposit events for validators in limbo
+
+### Patch Changes
+
+- bda124176: Added adjustable request grouping to reduce load on the beacon client
+
 ## 1.3.7
 
 ### Patch Changes

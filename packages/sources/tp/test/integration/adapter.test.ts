@@ -1,110 +1,88 @@
-import * as process from 'process'
-import { AddressInfo } from 'net'
-import {
-  mockWebSocketProvider,
-  mockPriceWebSocketServer,
-  createAdapter,
-  setEnvVariables,
-} from './setup'
-import request, { SuperTest, Test } from 'supertest'
-import { Server } from 'mock-socket'
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { sleep } from '@chainlink/external-adapter-framework/util'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { mockConnectionTime } from './fixtures'
+import {
+  TestAdapter,
+  setEnvVariables,
+  mockWebSocketProvider,
+  MockWebsocketServer,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import FakeTimers from '@sinonjs/fake-timers'
+import { mockPriceWebSocketServer } from './fixtures'
 
 describe('Price Endpoint', () => {
-  let fastify: ServerInstance | undefined
-  let req: SuperTest<Test>
-  let mockPriceWsServer: Server | undefined
-  let spy: jest.SpyInstance
-
-  const makeRequest = (body: any) =>
-    req
-      .post('/')
-      .send(body)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-
-  jest.setTimeout(10000)
-
+  let mockWsServer: MockWebsocketServer | undefined
+  let testAdapter: TestAdapter
+  const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
+  const data = {
+    base: 'JPY',
+    quote: 'USD',
+  }
 
   beforeAll(async () => {
-    const wsEndpoint = 'ws://localhost:9090'
-
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
-    process.env['CACHE_MAX_AGE'] = '5000'
-    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
-    process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_API_USERNAME'] = 'test-username'
     process.env['WS_API_PASSWORD'] = 'test-password'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
 
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockConnectionTime.getTime())
-
+    // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockPriceWsServer = mockPriceWebSocketServer(wsEndpoint)
+    mockWsServer = mockPriceWebSocketServer(wsEndpoint)
 
-    fastify = await expose(createAdapter())
-    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      clock: FakeTimers.install(),
+      testAdapter: {} as TestAdapter<never>,
+    })
 
-    // Send initial request to start background execute
-    await req.post('/').send({ data: { base: 'JPY', quote: 'USD' } })
-    await sleep(5000)
+    // Send initial request to start background execute and wait for cache to be filled with results
+    await testAdapter.request(data)
+    await testAdapter.waitForCache()
   })
 
-  afterAll((done) => {
-    spy.mockRestore()
+  afterAll(async () => {
     setEnvVariables(oldEnv)
-    mockPriceWsServer?.close()
-    fastify?.close(done())
+    mockWsServer?.close()
+    testAdapter.clock?.uninstall()
+    await testAdapter.api.close()
   })
 
   it('should return price', async () => {
-    const response = await makeRequest({ data: { base: 'EUR', quote: 'USD' } })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({ base: 'EUR', quote: 'USD' })
+    expect(response.json()).toMatchSnapshot()
+  })
 
   it('should return price for inverse pair', async () => {
-    const response = await makeRequest({ data: { base: 'IDR', quote: 'USD' } })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({ base: 'IDR', quote: 'USD' })
+    expect(response.json()).toMatchSnapshot()
+  })
 
   it('should return price for specific source', async () => {
-    const response = await makeRequest({ data: { base: 'EUR', quote: 'USD', tpSource: 'FYI' } })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({ base: 'EUR', quote: 'USD', tpSource: 'FYI' })
+    expect(response.json()).toMatchSnapshot()
+  })
 
   it('should return error when queried for IC price', async () => {
-    const response = await makeRequest({ data: { base: 'ABC', quote: 'USD' } })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({ base: 'ABC', quote: 'USD' })
+    expect(response.json()).toMatchSnapshot()
+  })
 
   it('should return error when queried for stale price', async () => {
-    const response = await makeRequest({ data: { base: 'JPY', quote: 'USD' } })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
-
-  it('should return error on empty body', async () => {
-    const response = await makeRequest({})
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({ base: 'JPY', quote: 'USD' })
+    expect(response.json()).toMatchSnapshot()
+  })
 
   it('should return error on empty data', async () => {
-    const response = await makeRequest({ data: {} })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({})
+    expect(response.json()).toMatchSnapshot()
+  })
 
   it('should return error on empty base', async () => {
-    const response = await makeRequest({ data: { quote: 'USD' } })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({ quote: 'USD' })
+    expect(response.json()).toMatchSnapshot()
+  })
 
   it('should return error on empty quote', async () => {
-    const response = await makeRequest({ data: { base: 'EUR' } })
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
+    const response = await testAdapter.request({ base: 'EUR' })
+    expect(response.json()).toMatchSnapshot()
+  })
 })

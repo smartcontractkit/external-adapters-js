@@ -1,6 +1,6 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseFailure, mockResponseSuccess } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
@@ -88,6 +88,25 @@ describe('execute', () => {
     }
 
     mockResponseSuccess()
+
+    const response = await (context.req as SuperTest<Test>)
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+    expect(response.body).toMatchSnapshot()
+  })
+
+  it('should return error when ripcord true', async () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        chain: 'AVA',
+      },
+    }
+
+    mockResponseFailure()
 
     const response = await (context.req as SuperTest<Test>)
       .post('/')

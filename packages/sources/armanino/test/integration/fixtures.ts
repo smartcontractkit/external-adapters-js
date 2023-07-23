@@ -1,10 +1,10 @@
 import nock from 'nock'
 
 export const mockMCO2Response = (): nock.Scope =>
-  nock('https://api.real-time-attest.trustexplorer.io:443', {
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
     encodedQueryParams: true,
   })
-    .get('/chainlink/MCO2')
+    .get('/MCO2')
     .reply(
       200,
       { totalMCO2: 3041044, totalCarbonCredits: 3041044, timestamp: '2022-04-04T11:00:46.577Z' },
@@ -39,3 +39,15 @@ export const mockMCO2Response = (): nock.Scope =>
         'max-age=63072000; includeSubDomains; preload',
       ],
     )
+
+export const mockSTBTResponse = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/STBT')
+    .reply(200, {
+      accountName: 'STBT',
+      totalReserve: 72178807.56,
+      totalToken: 71932154.99,
+      timestamp: '2023-06-02T12:53:23.604Z',
+    })

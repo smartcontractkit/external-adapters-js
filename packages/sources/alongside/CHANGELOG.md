@@ -1,5 +1,24 @@
 # @chainlink/alongside-adapter
 
+## 1.3.11
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
+## 1.3.10
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
+## 1.3.9
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 1.3.8
 
 ### Patch Changes

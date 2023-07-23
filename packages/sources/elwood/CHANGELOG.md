@@ -1,5 +1,24 @@
 # @chainlink/elwood-adapter
 
+## 2.1.13
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
+## 2.1.12
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
+## 2.1.11
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 2.1.10
 
 ### Patch Changes

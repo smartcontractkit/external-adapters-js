@@ -212,10 +212,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/alphavantage"\
       },\
       {\
-        "name": "@chainlink/alphavantage-test-adapter",\
-        "reference": "workspace:packages/sources/alphavantage-test"\
-      },\
-      {\
         "name": "@chainlink/alpine-adapter",\
         "reference": "workspace:packages/sources/alpine"\
       },\
@@ -472,6 +468,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finnhub"\
       },\
       {\
+        "name": "@chainlink/finnhub-secondary-adapter",\
+        "reference": "workspace:packages/sources/finnhub-secondary"\
+      },\
+      {\
         "name": "@chainlink/fixer-adapter",\
         "reference": "workspace:packages/sources/fixer"\
       },\
@@ -536,10 +536,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/intrinio"\
       },\
       {\
-        "name": "@chainlink/intrinio-test-adapter",\
-        "reference": "workspace:packages/sources/intrinio-test"\
-      },\
-      {\
         "name": "@chainlink/ipfs-adapter",\
         "reference": "workspace:packages/sources/ipfs"\
       },\
@@ -554,10 +550,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/kaiko-adapter",\
         "reference": "workspace:packages/sources/kaiko"\
-      },\
-      {\
-        "name": "@chainlink/kaiko-test-adapter",\
-        "reference": "workspace:packages/sources/kaiko-test"\
       },\
       {\
         "name": "@chainlink/layer2-sequencer-health-adapter",\
@@ -618,10 +610,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/nikkei-adapter",\
         "reference": "workspace:packages/sources/nikkei"\
-      },\
-      {\
-        "name": "@chainlink/nomics-adapter",\
-        "reference": "workspace:packages/sources/nomics"\
       },\
       {\
         "name": "@chainlink/oanda-adapter",\
@@ -834,7 +822,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/alongside-adapter", ["workspace:packages/sources/alongside"]],\
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],\
-      ["@chainlink/alphavantage-test-adapter", ["workspace:packages/sources/alphavantage-test"]],\
       ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
       ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
@@ -923,6 +910,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
       ["@chainlink/finage-test-adapter", ["workspace:packages/sources/finage-test"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
+      ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
       ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
@@ -943,12 +931,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
-      ["@chainlink/intrinio-test-adapter", ["workspace:packages/sources/intrinio-test"]],\
       ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],\
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
-      ["@chainlink/kaiko-test-adapter", ["workspace:packages/sources/kaiko-test"]],\
       ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
       ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
@@ -968,7 +954,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
-      ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
       ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
       ["@chainlink/observation", ["workspace:packages/observation"]],\
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
@@ -5554,18 +5539,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alongside/",\
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/crypto-js", "npm:4.1.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
             ["crypto-js", "npm:4.1.1"],\
             ["ethers", "npm:5.7.2"],\
             ["mathjs", "npm:11.5.1"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -5591,31 +5574,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/alphavantage-test-adapter", [\
-        ["workspace:packages/sources/alphavantage-test", {\
-          "packageLocation": "./packages/sources/alphavantage-test/",\
-          "packageDependencies": [\
-            ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -5791,14 +5754,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/bank-frick/",\
           "packageDependencies": [\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
             ["fastify", "npm:3.29.5"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5973,13 +5934,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/blocksize-capital/",\
           "packageDependencies": [\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6145,13 +6105,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6250,14 +6209,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:1.4.0"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -6286,12 +6245,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",\
           "packageDependencies": [\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6303,14 +6260,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["ethers", "npm:5.7.2"],\
-            ["mock-socket", "npm:9.2.1"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6322,12 +6278,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinpaprika/",\
           "packageDependencies": [\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6483,11 +6437,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -6593,14 +6548,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dar/",\
           "packageDependencies": [\
             ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["axios", "npm:0.27.2"],\
-            ["mock-socket", "npm:9.2.1"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6672,8 +6626,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.3.0"],\
-            ["supertest", "npm:6.3.0"],\
+            ["nock", "npm:13.3.1"],\
+            ["supertest", "npm:6.3.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6737,14 +6691,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dxfeed/",\
           "packageDependencies": [\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -6756,14 +6709,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -6787,7 +6740,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
-            ["web3", "npm:1.8.0"]\
+            ["web3", "npm:1.10.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -6850,7 +6803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prom-client", "npm:13.2.0"],\
             ["promise-timeout", "npm:1.3.0"],\
             ["redis", "npm:4.3.1"],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["redux-logger", "npm:3.0.6"],\
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],\
             ["remote-redux-devtools", "npm:0.5.16"],\
@@ -6905,7 +6858,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -6928,7 +6881,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["shelljs", "npm:0.8.5"],\
             ["snake-case", "npm:3.0.4"],\
             ["swagger-jsdoc", "npm:6.1.0"],\
-            ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.5"],\
+            ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.7"],\
             ["tslib", "npm:2.3.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
             ["yaml", "npm:2.2.2"]\
@@ -6960,14 +6913,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["axios", "npm:0.27.2"],\
-            ["mock-socket", "npm:9.2.1"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7060,7 +7012,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.47"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["ethers", "npm:5.7.1"],\
+            ["axios", "npm:1.3.6"],\
+            ["bignumber.js", "npm:9.1.1"],\
+            ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -7212,19 +7166,37 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.29.8", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.29.8-1dec7dbd5a-160ad79359.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.29.12", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.29.12-c1b878459a-e2a3caba27.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:1.3.4"],\
             ["eventsource", "npm:2.0.2"],\
             ["fastify", "npm:4.13.0"],\
             ["ioredis", "npm:5.2.3"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:1dec7dbd5a4c81f9d324d14923601bbaeec0be79c9b024d3ffbd58bc01936b6e0f705c25f56c7cc2cd81695309929e12db6472661bf6db8d727b07794d3bc5e4#npm:8.9.0"]\
+            ["ws", "virtual:bf4c953d025a92a4d7f5da35e405faca46eda01ae9bd0e859de42c1fcddb8e73818cef4d205dde1d20fcfa8446793513ce10bbe459693cd5747dbf98976ee1a2#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.29.13", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.29.13-bf4c953d02-b12c1a4d77.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:1.3.4"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.13.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:bf4c953d025a92a4d7f5da35e405faca46eda01ae9bd0e859de42c1fcddb8e73818cef4d205dde1d20fcfa8446793513ce10bbe459693cd5747dbf98976ee1a2#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7300,14 +7272,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finage-test/",\
           "packageDependencies": [\
             ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -7318,13 +7289,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/finnhub-secondary-adapter", [\
+        ["workspace:packages/sources/finnhub-secondary", {\
+          "packageLocation": "./packages/sources/finnhub-secondary/",\
+          "packageDependencies": [\
+            ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.12"],\
+            ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
+            ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -7425,14 +7414,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["axios", "npm:0.27.2"],\
-            ["mock-socket", "npm:9.2.1"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7514,7 +7502,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-            ["@types/convert-units", "npm:2.3.5"],\
+            ["@types/convert-units", "npm:2.3.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["convert-units", "npm:2.3.4"],\
@@ -7563,17 +7551,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["@types/ws", "npm:8.5.4"],\
             ["axios", "npm:0.27.2"],\
             ["crypto", "npm:1.0.1"],\
-            ["mock-socket", "npm:9.2.1"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -7609,7 +7596,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7627,7 +7614,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/icap/",\
           "packageDependencies": [\
             ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7646,12 +7633,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/iex-cloud/",\
           "packageDependencies": [\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7683,35 +7668,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/intrinio/",\
           "packageDependencies": [\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["axios", "npm:0.24.0"],\
-            ["intrinio-realtime", "npm:2.3.0"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/intrinio-test-adapter", [\
-        ["workspace:packages/sources/intrinio-test", {\
-          "packageLocation": "./packages/sources/intrinio-test/",\
-          "packageDependencies": [\
-            ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["axios", "npm:0.24.0"],\
-            ["mock-socket", "npm:9.1.5"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -7751,7 +7715,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.3.0"],\
+            ["supertest", "npm:6.3.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7781,30 +7745,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/kaiko/",\
           "packageDependencies": [\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/kaiko-test-adapter", [\
-        ["workspace:packages/sources/kaiko-test", {\
-          "packageLocation": "./packages/sources/kaiko-test/",\
-          "packageDependencies": [\
-            ["@chainlink/kaiko-test-adapter", "workspace:packages/sources/kaiko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8043,7 +7987,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.3.0"],\
+            ["supertest", "npm:6.3.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8055,7 +7999,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/moonbeam-address-list/",\
           "packageDependencies": [\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8092,13 +8036,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8110,15 +8053,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/nft-blue-chip/",\
           "packageDependencies": [\
             ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
             ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8164,30 +8105,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/nomics-adapter", [\
-        ["workspace:packages/sources/nomics", {\
-          "packageLocation": "./packages/sources/nomics/",\
-          "packageDependencies": [\
-            ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
       ["@chainlink/oanda-adapter", [\
         ["workspace:packages/sources/oanda", {\
           "packageLocation": "./packages/sources/oanda/",\
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.27.2"],\
             ["decimal.js", "npm:10.4.3"],\
@@ -8250,12 +8173,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/openexchangerates/",\
           "packageDependencies": [\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8357,13 +8278,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polkadot-balance/",\
           "packageDependencies": [\
             ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@polkadot/api", "npm:9.14.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8375,13 +8294,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polygon/",\
           "packageDependencies": [\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -8415,7 +8332,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.47"],\
+            ["@types/node", "npm:14.18.53"],\
             ["decimal.js", "npm:10.4.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8443,7 +8360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8634,7 +8551,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jsonwebtoken", "npm:8.5.9"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["jsonwebtoken", "npm:9.0.0"],\
+            ["jsonwebtoken", "npm:9.0.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -8726,13 +8643,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-address-list/",\
           "packageDependencies": [\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8744,15 +8659,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-balance/",\
           "packageDependencies": [\
             ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:1.3.6"],\
             ["bignumber.js", "npm:9.1.1"],\
             ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8932,14 +8845,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tiingo/",\
           "packageDependencies": [\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -8961,11 +8873,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8983,13 +8894,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tp/",\
           "packageDependencies": [\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["mock-socket", "npm:9.1.5"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -9001,14 +8911,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradermade/",\
           "packageDependencies": [\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
+            ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
           "linkType": "SOFT"\
@@ -9037,13 +8946,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradingeconomics-test/",\
           "packageDependencies": [\
             ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -9091,14 +8999,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/twosigma/",\
           "packageDependencies": [\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-            ["@chainlink/external-adapter-framework", "npm:0.29.8"],\
+            ["@chainlink/external-adapter-framework", "npm:0.29.13"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["@types/ws", "npm:8.5.4"],\
-            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -9367,7 +9274,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["outdent", "npm:0.5.0"],\
             ["prettier", "npm:1.19.1"],\
             ["resolve-from", "npm:5.0.0"],\
-            ["semver", "npm:5.7.1"]\
+            ["semver", "npm:5.7.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9382,7 +9289,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@changesets/get-dependents-graph", "npm:1.3.4"],\
             ["@changesets/types", "npm:5.2.0"],\
             ["@manypkg/get-packages", "npm:1.1.3"],\
-            ["semver", "npm:5.7.1"]\
+            ["semver", "npm:5.7.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9418,7 +9325,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["outdent", "npm:0.5.0"],\
             ["p-limit", "npm:2.3.0"],\
             ["preferred-pm", "npm:3.0.3"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["spawndamnit", "npm:2.0.0"],\
             ["term-size", "npm:2.2.1"],\
             ["tty-table", "npm:2.8.13"]\
@@ -9475,7 +9382,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@manypkg/get-packages", "npm:1.1.3"],\
             ["chalk", "npm:2.4.2"],\
             ["fs-extra", "npm:7.0.1"],\
-            ["semver", "npm:5.7.1"]\
+            ["semver", "npm:5.7.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9809,6 +9716,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@ethereumjs/common", [\
+        ["npm:2.5.0", {\
+          "packageLocation": "./.yarn/cache/@ethereumjs-common-npm-2.5.0-dabdf45e74-f08830c5b8.zip/node_modules/@ethereumjs/common/",\
+          "packageDependencies": [\
+            ["@ethereumjs/common", "npm:2.5.0"],\
+            ["crc-32", "npm:1.2.2"],\
+            ["ethereumjs-util", "npm:7.1.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:2.6.5", {\
           "packageLocation": "./.yarn/cache/@ethereumjs-common-npm-2.6.5-3cdacd49c9-0143386f26.zip/node_modules/@ethereumjs/common/",\
           "packageDependencies": [\
@@ -9834,6 +9750,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@ethereumjs/tx", [\
+        ["npm:3.3.2", {\
+          "packageLocation": "./.yarn/cache/@ethereumjs-tx-npm-3.3.2-b467d3f146-e18c871fa2.zip/node_modules/@ethereumjs/tx/",\
+          "packageDependencies": [\
+            ["@ethereumjs/tx", "npm:3.3.2"],\
+            ["@ethereumjs/common", "npm:2.6.5"],\
+            ["ethereumjs-util", "npm:7.1.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:3.5.2", {\
           "packageLocation": "./.yarn/cache/@ethereumjs-tx-npm-3.5.2-21a88306e6-a34a7228a6.zip/node_modules/@ethereumjs/tx/",\
           "packageDependencies": [\
@@ -10817,33 +10742,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:5.7.1", {\
-          "packageLocation": "./.yarn/cache/@ethersproject-providers-npm-5.7.1-7ba09fa2d7-673745e967.zip/node_modules/@ethersproject/providers/",\
-          "packageDependencies": [\
-            ["@ethersproject/providers", "npm:5.7.1"],\
-            ["@ethersproject/abstract-provider", "npm:5.7.0"],\
-            ["@ethersproject/abstract-signer", "npm:5.7.0"],\
-            ["@ethersproject/address", "npm:5.7.0"],\
-            ["@ethersproject/base64", "npm:5.7.0"],\
-            ["@ethersproject/basex", "npm:5.7.0"],\
-            ["@ethersproject/bignumber", "npm:5.7.0"],\
-            ["@ethersproject/bytes", "npm:5.7.0"],\
-            ["@ethersproject/constants", "npm:5.7.0"],\
-            ["@ethersproject/hash", "npm:5.7.0"],\
-            ["@ethersproject/logger", "npm:5.7.0"],\
-            ["@ethersproject/networks", "npm:5.7.1"],\
-            ["@ethersproject/properties", "npm:5.7.0"],\
-            ["@ethersproject/random", "npm:5.7.0"],\
-            ["@ethersproject/rlp", "npm:5.7.0"],\
-            ["@ethersproject/sha2", "npm:5.7.0"],\
-            ["@ethersproject/strings", "npm:5.7.0"],\
-            ["@ethersproject/transactions", "npm:5.7.0"],\
-            ["@ethersproject/web", "npm:5.7.1"],\
-            ["bech32", "npm:1.1.4"],\
-            ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.7.2", {\
           "packageLocation": "./.yarn/cache/@ethersproject-providers-npm-5.7.2-88293ff29f-1754c731a5.zip/node_modules/@ethersproject/providers/",\
           "packageDependencies": [\
@@ -11567,10 +11465,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@grpc/grpc-js", [\
-        ["npm:1.7.1", {\
-          "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.7.1-2f8e3ccbdf-ffa9f05122.zip/node_modules/@grpc/grpc-js/",\
+        ["npm:1.8.17", {\
+          "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.8.17-420a6f3a9d-0ac8cd7342.zip/node_modules/@grpc/grpc-js/",\
           "packageDependencies": [\
-            ["@grpc/grpc-js", "npm:1.7.1"],\
+            ["@grpc/grpc-js", "npm:1.8.17"],\
             ["@grpc/proto-loader", "npm:0.7.3"],\
             ["@types/node", "npm:18.8.3"]\
           ],\
@@ -13011,7 +12909,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@substrate/connect", "npm:0.7.19"],\
             ["eventemitter3", "npm:5.0.0"],\
             ["mock-socket", "npm:9.2.1"],\
-            ["nock", "npm:13.3.0"]\
+            ["nock", "npm:13.3.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13614,7 +13512,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["immer", "npm:9.0.15"],\
             ["react", null],\
             ["react-redux", null],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["redux-thunk", "virtual:cab0cbca09e7fd0a1228ed88e507990118cb65577143c821010589daee6fbd553e5c92f88441fb826c9a1da5165f2c5432cbf78baf51c26872f95fa2834c2030#npm:2.4.1"],\
             ["reselect", "npm:4.1.6"]\
           ],\
@@ -14621,10 +14519,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/convert-units", [\
-        ["npm:2.3.5", {\
-          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.5-645185dbb7-326de4dc3d.zip/node_modules/@types/convert-units/",\
+        ["npm:2.3.6", {\
+          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.6-4c6f1d8c71-35cc7548ad.zip/node_modules/@types/convert-units/",\
           "packageDependencies": [\
-            ["@types/convert-units", "npm:2.3.5"]\
+            ["@types/convert-units", "npm:2.3.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15029,10 +14927,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.47", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.47-d4b030205d-249467fa37.zip/node_modules/@types/node/",\
+        ["npm:14.18.53", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.53-5f3ed184fc-3acbcf4e38.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:14.18.47"]\
+            ["@types/node", "npm:14.18.53"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -15050,10 +14948,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:17.0.14", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.14-b146771fcf-cc059ce296.zip/node_modules/@types/node/",\
+        ["npm:17.0.45", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.45-fdb38d1624-aa04366b91.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:17.0.14"]\
+            ["@types/node", "npm:17.0.45"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -15213,7 +15111,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-redux-logger-npm-3.0.9-ac1d3f05fb-c41fdc0919.zip/node_modules/@types/redux-logger/",\
           "packageDependencies": [\
             ["@types/redux-logger", "npm:3.0.9"],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15223,7 +15121,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-remote-redux-devtools-npm-0.5.5-11435f3c9e-1ff59a41e1.zip/node_modules/@types/remote-redux-devtools/",\
           "packageDependencies": [\
             ["@types/remote-redux-devtools", "npm:0.5.5"],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -19440,7 +19338,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["csproj2ts", "npm:1.1.0"],\
             ["es6-promise", "npm:4.2.8"],\
             ["lodash", "npm:4.17.21"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["xml2js", "npm:0.4.23"]\
           ],\
           "linkType": "HARD"\
@@ -20067,6 +19965,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["wrappy", "npm:1.0.2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/dezalgo-npm-1.0.4-ae3b673c98-895389c6ae.zip/node_modules/dezalgo/",\
+          "packageDependencies": [\
+            ["dezalgo", "npm:1.0.4"],\
+            ["asap", "npm:2.0.6"],\
+            ["wrappy", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["diff", [\
@@ -20441,7 +20348,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nugget", "npm:2.2.0"],\
             ["path-exists", "npm:2.1.0"],\
             ["rc", "npm:1.2.8"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["sumchecker", "npm:1.3.1"]\
           ],\
           "linkType": "HARD"\
@@ -21351,43 +21258,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/wallet", "npm:5.5.0"],\
             ["@ethersproject/web", "npm:5.5.1"],\
             ["@ethersproject/wordlists", "npm:5.5.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:5.7.1", {\
-          "packageLocation": "./.yarn/cache/ethers-npm-5.7.1-da167a157a-7a61b7a105.zip/node_modules/ethers/",\
-          "packageDependencies": [\
-            ["ethers", "npm:5.7.1"],\
-            ["@ethersproject/abi", "npm:5.7.0"],\
-            ["@ethersproject/abstract-provider", "npm:5.7.0"],\
-            ["@ethersproject/abstract-signer", "npm:5.7.0"],\
-            ["@ethersproject/address", "npm:5.7.0"],\
-            ["@ethersproject/base64", "npm:5.7.0"],\
-            ["@ethersproject/basex", "npm:5.7.0"],\
-            ["@ethersproject/bignumber", "npm:5.7.0"],\
-            ["@ethersproject/bytes", "npm:5.7.0"],\
-            ["@ethersproject/constants", "npm:5.7.0"],\
-            ["@ethersproject/contracts", "npm:5.7.0"],\
-            ["@ethersproject/hash", "npm:5.7.0"],\
-            ["@ethersproject/hdnode", "npm:5.7.0"],\
-            ["@ethersproject/json-wallets", "npm:5.7.0"],\
-            ["@ethersproject/keccak256", "npm:5.7.0"],\
-            ["@ethersproject/logger", "npm:5.7.0"],\
-            ["@ethersproject/networks", "npm:5.7.1"],\
-            ["@ethersproject/pbkdf2", "npm:5.7.0"],\
-            ["@ethersproject/properties", "npm:5.7.0"],\
-            ["@ethersproject/providers", "npm:5.7.1"],\
-            ["@ethersproject/random", "npm:5.7.0"],\
-            ["@ethersproject/rlp", "npm:5.7.0"],\
-            ["@ethersproject/sha2", "npm:5.7.0"],\
-            ["@ethersproject/signing-key", "npm:5.7.0"],\
-            ["@ethersproject/solidity", "npm:5.7.0"],\
-            ["@ethersproject/strings", "npm:5.7.0"],\
-            ["@ethersproject/transactions", "npm:5.7.0"],\
-            ["@ethersproject/units", "npm:5.7.0"],\
-            ["@ethersproject/wallet", "npm:5.7.0"],\
-            ["@ethersproject/web", "npm:5.7.1"],\
-            ["@ethersproject/wordlists", "npm:5.7.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -22385,6 +22255,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["qs", "npm:6.9.3"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.1.2", {\
+          "packageLocation": "./.yarn/cache/formidable-npm-2.1.2-40ba18d67f-81c8e5d89f.zip/node_modules/formidable/",\
+          "packageDependencies": [\
+            ["formidable", "npm:2.1.2"],\
+            ["dezalgo", "npm:1.0.4"],\
+            ["hexoid", "npm:1.0.0"],\
+            ["once", "npm:1.4.0"],\
+            ["qs", "npm:6.11.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["forwarded", [\
@@ -23129,7 +23010,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash", "npm:4.17.21"],\
             ["ncp", "npm:0.5.1"],\
             ["rimraf", "npm:2.2.6"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["strip-bom", "npm:2.0.0"],\
             ["typescript", null]\
           ],\
@@ -24023,17 +23904,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["intrinio-realtime", [\
-        ["npm:2.3.0", {\
-          "packageLocation": "./.yarn/cache/intrinio-realtime-npm-2.3.0-de7f87a16c-598cf62927.zip/node_modules/intrinio-realtime/",\
-          "packageDependencies": [\
-            ["intrinio-realtime", "npm:2.3.0"],\
-            ["promise", "npm:7.3.1"],\
-            ["ws", "virtual:de7f87a16ca4209cff92876360763f4aa630896bbc5b9c20c48a488c4bf5b6cc68ee75e13f6720169a39633336d2389a63112f3763df6ba669575776ec20bd49#npm:2.3.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["invariant", [\
         ["npm:2.2.4", {\
           "packageLocation": "./.yarn/cache/invariant-npm-2.2.4-717fbdb119-cc3182d793.zip/node_modules/invariant/",\
@@ -24439,7 +24309,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ipfs-grpc-server-npm-0.7.4-cc3283202d-10a42bac8a.zip/node_modules/ipfs-grpc-server/",\
           "packageDependencies": [\
             ["ipfs-grpc-server", "npm:0.7.4"],\
-            ["@grpc/grpc-js", "npm:1.7.1"],\
+            ["@grpc/grpc-js", "npm:1.8.17"],\
             ["change-case", "npm:4.1.2"],\
             ["coercer", "npm:1.1.2"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
@@ -26937,10 +26807,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["jsonwebtoken", [\
-        ["npm:9.0.0", {\
-          "packageLocation": "./.yarn/cache/jsonwebtoken-npm-9.0.0-36fd1594c0-b9181cecf9.zip/node_modules/jsonwebtoken/",\
+        ["npm:9.0.1", {\
+          "packageLocation": "./.yarn/cache/jsonwebtoken-npm-9.0.1-30d1a69741-0eafe26889.zip/node_modules/jsonwebtoken/",\
           "packageDependencies": [\
-            ["jsonwebtoken", "npm:9.0.0"],\
+            ["jsonwebtoken", "npm:9.0.1"],\
             ["jws", "npm:3.2.2"],\
             ["lodash", "npm:4.17.21"],\
             ["ms", "npm:2.1.3"],\
@@ -27063,7 +26933,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__core", "npm:7.1.20"],\
             ["@types/babel__preset-env", "npm:7.9.2"],\
             ["@types/k6", "npm:0.37.1"],\
-            ["@types/node", "npm:17.0.14"],\
+            ["@types/node", "npm:17.0.45"],\
             ["@types/rimraf", "npm:3.0.2"],\
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.5"],\
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],\
@@ -28256,6 +28126,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lodash._renative", "npm:2.3.0"],\
             ["lodash._shimkeys", "npm:2.3.0"],\
             ["lodash.isobject", "npm:2.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["lodash.memoize", [\
+        ["npm:4.1.2", {\
+          "packageLocation": "./.yarn/cache/lodash.memoize-npm-4.1.2-0e6250041f-9ff3942fee.zip/node_modules/lodash.memoize/",\
+          "packageDependencies": [\
+            ["lodash.memoize", "npm:4.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -29782,10 +29661,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:13.3.0", {\
-          "packageLocation": "./.yarn/cache/nock-npm-13.3.0-48c93e5ec9-118d04e95a.zip/node_modules/nock/",\
+        ["npm:13.3.1", {\
+          "packageLocation": "./.yarn/cache/nock-npm-13.3.1-0ba4ee80e1-0f2a73e843.zip/node_modules/nock/",\
           "packageDependencies": [\
-            ["nock", "npm:13.3.0"],\
+            ["nock", "npm:13.3.1"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
             ["json-stringify-safe", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
@@ -29919,7 +29798,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["npmlog", "npm:4.1.2"],\
             ["rc", "npm:1.2.8"],\
             ["rimraf", "npm:2.7.1"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["tar", "npm:4.4.19"]\
           ],\
           "linkType": "HARD"\
@@ -29977,7 +29856,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["normalize-package-data", "npm:2.5.0"],\
             ["hosted-git-info", "npm:2.8.9"],\
             ["resolve", "patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["validate-npm-package-license", "npm:3.0.4"]\
           ],\
           "linkType": "HARD"\
@@ -31462,16 +31341,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["promise", [\
-        ["npm:7.3.1", {\
-          "packageLocation": "./.yarn/cache/promise-npm-7.3.1-5d81d474c0-475bb06913.zip/node_modules/promise/",\
-          "packageDependencies": [\
-            ["promise", "npm:7.3.1"],\
-            ["asap", "npm:2.0.6"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["promise-inflight", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/promise-inflight-npm-1.0.1-5bb925afac-2274948309.zip/node_modules/promise-inflight/",\
@@ -31737,6 +31606,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/qs-npm-6.11.0-caf1bc9dea-6e1f29dd53.zip/node_modules/qs/",\
           "packageDependencies": [\
             ["qs", "npm:6.11.0"],\
+            ["side-channel", "npm:1.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:6.11.2", {\
+          "packageLocation": "./.yarn/cache/qs-npm-6.11.2-b118bc1c6f-e812f3c590.zip/node_modules/qs/",\
+          "packageDependencies": [\
+            ["qs", "npm:6.11.2"],\
             ["side-channel", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
@@ -32142,10 +32019,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["redux", [\
-        ["npm:4.2.0", {\
-          "packageLocation": "./.yarn/cache/redux-npm-4.2.0-4688cc8d65-75f3955c89.zip/node_modules/redux/",\
+        ["npm:4.2.1", {\
+          "packageLocation": "./.yarn/cache/redux-npm-4.2.1-e7e2cf2e37-f63b9060c3.zip/node_modules/redux/",\
           "packageDependencies": [\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["@babel/runtime", "npm:7.20.13"]\
           ],\
           "linkType": "HARD"\
@@ -32213,7 +32090,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],\
             ["@types/redux", null],\
             ["@types/rxjs", null],\
-            ["redux", "npm:4.2.0"],\
+            ["redux", "npm:4.2.1"],\
             ["rxjs", "npm:6.6.7"]\
           ],\
           "packagePeers": [\
@@ -32238,7 +32115,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["redux-thunk", "virtual:cab0cbca09e7fd0a1228ed88e507990118cb65577143c821010589daee6fbd553e5c92f88441fb826c9a1da5165f2c5432cbf78baf51c26872f95fa2834c2030#npm:2.4.1"],\
             ["@types/redux", null],\
-            ["redux", "npm:4.2.0"]\
+            ["redux", "npm:4.2.1"]\
           ],\
           "packagePeers": [\
             "@types/redux",\
@@ -32840,13 +32717,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["safe-buffer", [\
-        ["npm:5.0.1", {\
-          "packageLocation": "./.yarn/cache/safe-buffer-npm-5.0.1-7d6c7984a2-640f78a802.zip/node_modules/safe-buffer/",\
-          "packageDependencies": [\
-            ["safe-buffer", "npm:5.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.1.2", {\
           "packageLocation": "./.yarn/cache/safe-buffer-npm-5.1.2-c27fedf6c4-f2f1f7943c.zip/node_modules/safe-buffer/",\
           "packageDependencies": [\
@@ -33104,10 +32974,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["semver", [\
-        ["npm:5.7.1", {\
-          "packageLocation": "./.yarn/cache/semver-npm-5.7.1-40bcea106b-57fd0acfd0.zip/node_modules/semver/",\
+        ["npm:5.7.2", {\
+          "packageLocation": "./.yarn/cache/semver-npm-5.7.2-938ee91eaa-fb4ab5e0dd.zip/node_modules/semver/",\
           "packageDependencies": [\
-            ["semver", "npm:5.7.1"]\
+            ["semver", "npm:5.7.2"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -33594,16 +33464,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@socket.io/component-emitter", "npm:3.1.0"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
             ["engine.io-client", "npm:6.2.2"],\
-            ["socket.io-parser", "npm:4.2.1"]\
+            ["socket.io-parser", "npm:4.2.4"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["socket.io-parser", [\
-        ["npm:4.2.1", {\
-          "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.1-7ef513b498-2582202f22.zip/node_modules/socket.io-parser/",\
+        ["npm:4.2.4", {\
+          "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.4-bf87f78bcd-61540ef99a.zip/node_modules/socket.io-parser/",\
           "packageDependencies": [\
-            ["socket.io-parser", "npm:4.2.1"],\
+            ["socket.io-parser", "npm:4.2.4"],\
             ["@socket.io/component-emitter", "npm:3.1.0"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"]\
           ],\
@@ -33660,7 +33530,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fs-extra", "npm:0.30.0"],\
             ["memorystream", "npm:0.3.1"],\
             ["require-from-string", "npm:1.2.1"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["yargs", "npm:4.8.1"]\
           ],\
           "linkType": "HARD"\
@@ -33676,7 +33546,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-sha3", "npm:0.8.0"],\
             ["memorystream", "npm:0.3.1"],\
             ["require-from-string", "npm:2.0.2"],\
-            ["semver", "npm:5.7.1"],\
+            ["semver", "npm:5.7.2"],\
             ["tmp", "npm:0.0.33"]\
           ],\
           "linkType": "HARD"\
@@ -34391,6 +34261,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["semver", "npm:7.3.8"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:8.0.9", {\
+          "packageLocation": "./.yarn/cache/superagent-npm-8.0.9-da05128b97-5d00cdc7ce.zip/node_modules/superagent/",\
+          "packageDependencies": [\
+            ["superagent", "npm:8.0.9"],\
+            ["component-emitter", "npm:1.3.0"],\
+            ["cookiejar", "npm:2.1.4"],\
+            ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
+            ["fast-safe-stringify", "npm:2.1.1"],\
+            ["form-data", "npm:4.0.0"],\
+            ["formidable", "npm:2.1.2"],\
+            ["methods", "npm:1.1.2"],\
+            ["mime", "npm:2.6.0"],\
+            ["qs", "npm:6.11.2"],\
+            ["semver", "npm:7.3.8"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["superstruct", [\
@@ -34412,12 +34299,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:6.3.0", {\
-          "packageLocation": "./.yarn/cache/supertest-npm-6.3.0-0fe74c114e-95062161af.zip/node_modules/supertest/",\
+        ["npm:6.3.3", {\
+          "packageLocation": "./.yarn/cache/supertest-npm-6.3.3-2e2b5bc83a-38239e517f.zip/node_modules/supertest/",\
           "packageDependencies": [\
-            ["supertest", "npm:6.3.0"],\
+            ["supertest", "npm:6.3.3"],\
             ["methods", "npm:1.1.2"],\
-            ["superagent", "npm:8.0.0"]\
+            ["superagent", "npm:8.0.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -35058,17 +34945,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["ts-jest", [\
-        ["npm:27.0.5", {\
-          "packageLocation": "./.yarn/cache/ts-jest-npm-27.0.5-9336f30efa-fd53cdb6f9.zip/node_modules/ts-jest/",\
+        ["npm:27.0.7", {\
+          "packageLocation": "./.yarn/cache/ts-jest-npm-27.0.7-ed0add2515-3711361cb5.zip/node_modules/ts-jest/",\
           "packageDependencies": [\
-            ["ts-jest", "npm:27.0.5"]\
+            ["ts-jest", "npm:27.0.7"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.5", {\
-          "packageLocation": "./.yarn/__virtual__/ts-jest-virtual-91b746fd46/0/cache/ts-jest-npm-27.0.5-9336f30efa-fd53cdb6f9.zip/node_modules/ts-jest/",\
+        ["virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.7", {\
+          "packageLocation": "./.yarn/__virtual__/ts-jest-virtual-ecf21b456e/0/cache/ts-jest-npm-27.0.7-ed0add2515-3711361cb5.zip/node_modules/ts-jest/",\
           "packageDependencies": [\
-            ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.5"],\
+            ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.7"],\
             ["@babel/core", null],\
             ["@types/babel-jest", null],\
             ["@types/babel__core", null],\
@@ -35080,7 +34967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", null],\
             ["jest-util", "npm:27.5.1"],\
             ["json5", "npm:2.2.3"],\
-            ["lodash", "npm:4.17.21"],\
+            ["lodash.memoize", "npm:4.1.2"],\
             ["make-error", "npm:1.3.6"],\
             ["semver", "npm:7.3.8"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
@@ -35163,13 +35050,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tslib-npm-2.3.1-0e21e18015-de17a98d46.zip/node_modules/tslib/",\
           "packageDependencies": [\
             ["tslib", "npm:2.3.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:2.4.0", {\
-          "packageLocation": "./.yarn/cache/tslib-npm-2.4.0-9cb6dc5030-8c4aa6a3c5.zip/node_modules/tslib/",\
-          "packageDependencies": [\
-            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -35851,6 +35731,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["which-typed-array", "npm:1.1.8"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.12.5", {\
+          "packageLocation": "./.yarn/cache/util-npm-0.12.5-3668276f26-705e51f0de.zip/node_modules/util/",\
+          "packageDependencies": [\
+            ["util", "npm:0.12.5"],\
+            ["inherits", "npm:2.0.4"],\
+            ["is-arguments", "npm:1.1.1"],\
+            ["is-generator-function", "npm:1.0.10"],\
+            ["is-typed-array", "npm:1.1.9"],\
+            ["which-typed-array", "npm:1.1.8"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["util-deprecate", [\
@@ -35913,6 +35805,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/uuid-npm-8.3.2-eca0baba53-5575a8a75c.zip/node_modules/uuid/",\
           "packageDependencies": [\
             ["uuid", "npm:8.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:9.0.0", {\
+          "packageLocation": "./.yarn/cache/uuid-npm-9.0.0-46c41e3e43-8dd2c83c43.zip/node_modules/uuid/",\
+          "packageDependencies": [\
+            ["uuid", "npm:9.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -36065,6 +35964,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["web3", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/unplugged/web3-npm-1.10.0-00ea68ec19/node_modules/web3/",\
+          "packageDependencies": [\
+            ["web3", "npm:1.10.0"],\
+            ["web3-bzz", "npm:1.10.0"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-eth", "npm:1.10.0"],\
+            ["web3-eth-personal", "npm:1.10.0"],\
+            ["web3-net", "npm:1.10.0"],\
+            ["web3-shh", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/unplugged/web3-npm-1.7.4-a2c19ac964/node_modules/web3/",\
           "packageDependencies": [\
@@ -36078,23 +35991,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/unplugged/web3-npm-1.8.0-d5bf6fa8be/node_modules/web3/",\
-          "packageDependencies": [\
-            ["web3", "npm:1.8.0"],\
-            ["web3-bzz", "npm:1.8.0"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-eth", "npm:1.8.0"],\
-            ["web3-eth-personal", "npm:1.8.0"],\
-            ["web3-net", "npm:1.8.0"],\
-            ["web3-shh", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-bzz", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/unplugged/web3-bzz-npm-1.10.0-e059f9ffce/node_modules/web3-bzz/",\
+          "packageDependencies": [\
+            ["web3-bzz", "npm:1.10.0"],\
+            ["@types/node", "npm:12.20.55"],\
+            ["got", "npm:12.1.0"],\
+            ["swarm-js", "npm:0.1.42"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/unplugged/web3-bzz-npm-1.7.4-44a2ea4084/node_modules/web3-bzz/",\
           "packageDependencies": [\
@@ -36104,19 +36013,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["swarm-js", "npm:0.1.42"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/unplugged/web3-bzz-npm-1.8.0-4b89ccbe29/node_modules/web3-bzz/",\
-          "packageDependencies": [\
-            ["web3-bzz", "npm:1.8.0"],\
-            ["@types/node", "npm:12.20.55"],\
-            ["got", "npm:12.1.0"],\
-            ["swarm-js", "npm:0.1.42"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-core", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-core-npm-1.10.0-4bbeab2cc6-075b6dbf74.zip/node_modules/web3-core/",\
+          "packageDependencies": [\
+            ["web3-core", "npm:1.10.0"],\
+            ["@types/bn.js", "npm:5.1.1"],\
+            ["@types/node", "npm:12.20.55"],\
+            ["bignumber.js", "npm:9.1.1"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["web3-core-requestmanager", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-core-npm-1.7.4-f345fa05f6-9e797df444.zip/node_modules/web3-core/",\
           "packageDependencies": [\
@@ -36130,23 +36043,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-core-npm-1.8.0-e56483fcbc-a524cc2b23.zip/node_modules/web3-core/",\
-          "packageDependencies": [\
-            ["web3-core", "npm:1.8.0"],\
-            ["@types/bn.js", "npm:5.1.1"],\
-            ["@types/node", "npm:12.20.55"],\
-            ["bignumber.js", "npm:9.1.1"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["web3-core-requestmanager", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-core-helpers", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-core-helpers-npm-1.10.0-9d047e1990-3f8b8ed5e3.zip/node_modules/web3-core-helpers/",\
+          "packageDependencies": [\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-eth-iban", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-core-helpers-npm-1.7.4-9c8e12dea1-706b361739.zip/node_modules/web3-core-helpers/",\
           "packageDependencies": [\
@@ -36155,18 +36063,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-core-helpers-npm-1.8.0-ccbbb0bdb7-f0af1cfb79.zip/node_modules/web3-core-helpers/",\
-          "packageDependencies": [\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-eth-iban", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-core-method", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-core-method-npm-1.10.0-d907626036-29c42c92f0.zip/node_modules/web3-core-method/",\
+          "packageDependencies": [\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["@ethersproject/transactions", "npm:5.7.0"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-core-promievent", "npm:1.10.0"],\
+            ["web3-core-subscriptions", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-core-method-npm-1.7.4-5656797b97-48b0dd9bfc.zip/node_modules/web3-core-method/",\
           "packageDependencies": [\
@@ -36178,21 +36089,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-core-method-npm-1.8.0-86e556a41a-5b73af8a34.zip/node_modules/web3-core-method/",\
-          "packageDependencies": [\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["@ethersproject/transactions", "npm:5.7.0"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-core-promievent", "npm:1.8.0"],\
-            ["web3-core-subscriptions", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-core-promievent", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-core-promievent-npm-1.10.0-b44bcba7e0-68e9f40f78.zip/node_modules/web3-core-promievent/",\
+          "packageDependencies": [\
+            ["web3-core-promievent", "npm:1.10.0"],\
+            ["eventemitter3", "npm:4.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-core-promievent-npm-1.7.4-cca3d8cd64-1d3b10f9ba.zip/node_modules/web3-core-promievent/",\
           "packageDependencies": [\
@@ -36200,17 +36107,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eventemitter3", "npm:4.0.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-core-promievent-npm-1.8.0-ff296605ff-0c39987322.zip/node_modules/web3-core-promievent/",\
-          "packageDependencies": [\
-            ["web3-core-promievent", "npm:1.8.0"],\
-            ["eventemitter3", "npm:4.0.4"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-core-requestmanager", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-core-requestmanager-npm-1.10.0-41163ab40d-ce63b521b7.zip/node_modules/web3-core-requestmanager/",\
+          "packageDependencies": [\
+            ["web3-core-requestmanager", "npm:1.10.0"],\
+            ["util", "npm:0.12.5"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-providers-http", "npm:1.10.0"],\
+            ["web3-providers-ipc", "npm:1.10.0"],\
+            ["web3-providers-ws", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-core-requestmanager-npm-1.7.4-031b65a2c0-4e1decb11a.zip/node_modules/web3-core-requestmanager/",\
           "packageDependencies": [\
@@ -36222,21 +36133,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-providers-ws", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-core-requestmanager-npm-1.8.0-91c58d4617-df4d8295a9.zip/node_modules/web3-core-requestmanager/",\
-          "packageDependencies": [\
-            ["web3-core-requestmanager", "npm:1.8.0"],\
-            ["util", "npm:0.12.4"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-providers-http", "npm:1.8.0"],\
-            ["web3-providers-ipc", "npm:1.8.0"],\
-            ["web3-providers-ws", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-core-subscriptions", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-core-subscriptions-npm-1.10.0-95f62b5bba-baca40f4d3.zip/node_modules/web3-core-subscriptions/",\
+          "packageDependencies": [\
+            ["web3-core-subscriptions", "npm:1.10.0"],\
+            ["eventemitter3", "npm:4.0.4"],\
+            ["web3-core-helpers", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-core-subscriptions-npm-1.7.4-c3c249e784-ff2cb87f67.zip/node_modules/web3-core-subscriptions/",\
           "packageDependencies": [\
@@ -36245,18 +36153,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core-helpers", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-core-subscriptions-npm-1.8.0-05b90985ba-934d3b823b.zip/node_modules/web3-core-subscriptions/",\
-          "packageDependencies": [\
-            ["web3-core-subscriptions", "npm:1.8.0"],\
-            ["eventemitter3", "npm:4.0.4"],\
-            ["web3-core-helpers", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-eth", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-eth-npm-1.10.0-ae5062e451-d82332a205.zip/node_modules/web3-eth/",\
+          "packageDependencies": [\
+            ["web3-eth", "npm:1.10.0"],\
+            ["bs58", "npm:5.0.0"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["web3-core-subscriptions", "npm:1.10.0"],\
+            ["web3-eth-abi", "npm:1.10.0"],\
+            ["web3-eth-accounts", "npm:1.10.0"],\
+            ["web3-eth-contract", "npm:1.10.0"],\
+            ["web3-eth-ens", "npm:1.10.0"],\
+            ["web3-eth-iban", "npm:1.10.0"],\
+            ["web3-eth-personal", "npm:1.10.0"],\
+            ["web3-net", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-eth-npm-1.7.4-d681dc07b2-09a016cd76.zip/node_modules/web3-eth/",\
           "packageDependencies": [\
@@ -36276,29 +36195,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-eth-npm-1.8.0-6aa53ca7dc-6c029cdb8a.zip/node_modules/web3-eth/",\
-          "packageDependencies": [\
-            ["web3-eth", "npm:1.8.0"],\
-            ["bs58", "npm:5.0.0"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["web3-core-subscriptions", "npm:1.8.0"],\
-            ["web3-eth-abi", "npm:1.8.0"],\
-            ["web3-eth-accounts", "npm:1.8.0"],\
-            ["web3-eth-contract", "npm:1.8.0"],\
-            ["web3-eth-ens", "npm:1.8.0"],\
-            ["web3-eth-iban", "npm:1.8.0"],\
-            ["web3-eth-personal", "npm:1.8.0"],\
-            ["web3-net", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-eth-abi", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-eth-abi-npm-1.10.0-a8801eabf0-465a4c19d6.zip/node_modules/web3-eth-abi/",\
+          "packageDependencies": [\
+            ["web3-eth-abi", "npm:1.10.0"],\
+            ["@ethersproject/abi", "npm:5.7.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-eth-abi-npm-1.7.4-2d357ee8eb-f0ce4149dc.zip/node_modules/web3-eth-abi/",\
           "packageDependencies": [\
@@ -36319,6 +36227,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["web3-eth-accounts", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-eth-accounts-npm-1.10.0-708ce3852a-9382112913.zip/node_modules/web3-eth-accounts/",\
+          "packageDependencies": [\
+            ["web3-eth-accounts", "npm:1.10.0"],\
+            ["@ethereumjs/common", "npm:2.5.0"],\
+            ["@ethereumjs/tx", "npm:3.3.2"],\
+            ["eth-lib", "npm:0.2.8"],\
+            ["ethereumjs-util", "npm:7.1.5"],\
+            ["scrypt-js", "npm:3.0.1"],\
+            ["uuid", "npm:9.0.0"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-eth-accounts-npm-1.7.4-a42a01ed34-565d57fc07.zip/node_modules/web3-eth-accounts/",\
           "packageDependencies": [\
@@ -36336,27 +36261,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-eth-accounts-npm-1.8.0-3422bf4e6f-20b9c00d58.zip/node_modules/web3-eth-accounts/",\
-          "packageDependencies": [\
-            ["web3-eth-accounts", "npm:1.8.0"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["crypto-browserify", "npm:3.12.0"],\
-            ["eth-lib", "npm:0.2.8"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["scrypt-js", "npm:3.0.1"],\
-            ["uuid", "npm:3.3.2"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-eth-contract", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-eth-contract-npm-1.10.0-997818fb27-7a0c24686a.zip/node_modules/web3-eth-contract/",\
+          "packageDependencies": [\
+            ["web3-eth-contract", "npm:1.10.0"],\
+            ["@types/bn.js", "npm:5.1.1"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["web3-core-promievent", "npm:1.10.0"],\
+            ["web3-core-subscriptions", "npm:1.10.0"],\
+            ["web3-eth-abi", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-eth-contract-npm-1.7.4-1dcf358513-bc420fd3e3.zip/node_modules/web3-eth-contract/",\
           "packageDependencies": [\
@@ -36371,24 +36293,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-eth-contract-npm-1.8.0-d9543a464a-d433984796.zip/node_modules/web3-eth-contract/",\
-          "packageDependencies": [\
-            ["web3-eth-contract", "npm:1.8.0"],\
-            ["@types/bn.js", "npm:5.1.1"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["web3-core-promievent", "npm:1.8.0"],\
-            ["web3-core-subscriptions", "npm:1.8.0"],\
-            ["web3-eth-abi", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-eth-ens", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-eth-ens-npm-1.10.0-690193e87b-31c1c6c430.zip/node_modules/web3-eth-ens/",\
+          "packageDependencies": [\
+            ["web3-eth-ens", "npm:1.10.0"],\
+            ["content-hash", "npm:2.5.2"],\
+            ["eth-ens-namehash", "npm:2.0.8"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-core-promievent", "npm:1.10.0"],\
+            ["web3-eth-abi", "npm:1.10.0"],\
+            ["web3-eth-contract", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-eth-ens-npm-1.7.4-b15de6135d-d4352098ce.zip/node_modules/web3-eth-ens/",\
           "packageDependencies": [\
@@ -36403,24 +36325,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-eth-ens-npm-1.8.0-ab569735b4-8040d0af63.zip/node_modules/web3-eth-ens/",\
-          "packageDependencies": [\
-            ["web3-eth-ens", "npm:1.8.0"],\
-            ["content-hash", "npm:2.5.2"],\
-            ["eth-ens-namehash", "npm:2.0.8"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-core-promievent", "npm:1.8.0"],\
-            ["web3-eth-abi", "npm:1.8.0"],\
-            ["web3-eth-contract", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-eth-iban", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-eth-iban-npm-1.10.0-74c77adf54-ca0921f0a2.zip/node_modules/web3-eth-iban/",\
+          "packageDependencies": [\
+            ["web3-eth-iban", "npm:1.10.0"],\
+            ["bn.js", "npm:5.2.1"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-eth-iban-npm-1.7.4-08d9ff3dcd-81a3c39bae.zip/node_modules/web3-eth-iban/",\
           "packageDependencies": [\
@@ -36429,18 +36345,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-eth-iban-npm-1.8.0-22690cea51-3877b18da7.zip/node_modules/web3-eth-iban/",\
-          "packageDependencies": [\
-            ["web3-eth-iban", "npm:1.8.0"],\
-            ["bn.js", "npm:5.2.1"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-eth-personal", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-eth-personal-npm-1.10.0-18fc148ec2-e6c1f540d7.zip/node_modules/web3-eth-personal/",\
+          "packageDependencies": [\
+            ["web3-eth-personal", "npm:1.10.0"],\
+            ["@types/node", "npm:12.20.55"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["web3-net", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-eth-personal-npm-1.7.4-3fd5207803-9e57f5e7d8.zip/node_modules/web3-eth-personal/",\
           "packageDependencies": [\
@@ -36453,22 +36373,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-eth-personal-npm-1.8.0-8251eaf54e-a333ae7602.zip/node_modules/web3-eth-personal/",\
-          "packageDependencies": [\
-            ["web3-eth-personal", "npm:1.8.0"],\
-            ["@types/node", "npm:12.20.55"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["web3-net", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-net", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-net-npm-1.10.0-72d1d64faa-5183d897cc.zip/node_modules/web3-net/",\
+          "packageDependencies": [\
+            ["web3-net", "npm:1.10.0"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["web3-utils", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-net-npm-1.7.4-e3be2ac599-284af4860a.zip/node_modules/web3-net/",\
           "packageDependencies": [\
@@ -36478,19 +36395,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-utils", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-net-npm-1.8.0-5c1041af47-25d030ebcc.zip/node_modules/web3-net/",\
-          "packageDependencies": [\
-            ["web3-net", "npm:1.8.0"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["web3-utils", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-providers-http", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-providers-http-npm-1.10.0-bcb82970cd-2fe7c34856.zip/node_modules/web3-providers-http/",\
+          "packageDependencies": [\
+            ["web3-providers-http", "npm:1.10.0"],\
+            ["abortcontroller-polyfill", "npm:1.7.3"],\
+            ["cross-fetch", "npm:3.1.5"],\
+            ["es6-promise", "npm:4.2.8"],\
+            ["web3-core-helpers", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-providers-http-npm-1.7.4-f21ff987c6-1235247870.zip/node_modules/web3-providers-http/",\
           "packageDependencies": [\
@@ -36499,20 +36417,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["xhr2-cookies", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-providers-http-npm-1.8.0-7fac461afb-2af709826a.zip/node_modules/web3-providers-http/",\
-          "packageDependencies": [\
-            ["web3-providers-http", "npm:1.8.0"],\
-            ["abortcontroller-polyfill", "npm:1.7.3"],\
-            ["cross-fetch", "npm:3.1.5"],\
-            ["es6-promise", "npm:4.2.8"],\
-            ["web3-core-helpers", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-providers-ipc", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-providers-ipc-npm-1.10.0-848205cbb9-103cb6b26c.zip/node_modules/web3-providers-ipc/",\
+          "packageDependencies": [\
+            ["web3-providers-ipc", "npm:1.10.0"],\
+            ["oboe", "npm:2.1.5"],\
+            ["web3-core-helpers", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-providers-ipc-npm-1.7.4-411319c4f2-e421d788e9.zip/node_modules/web3-providers-ipc/",\
           "packageDependencies": [\
@@ -36521,18 +36437,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core-helpers", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-providers-ipc-npm-1.8.0-a8f1692cc8-b65d7f0f37.zip/node_modules/web3-providers-ipc/",\
-          "packageDependencies": [\
-            ["web3-providers-ipc", "npm:1.8.0"],\
-            ["oboe", "npm:2.1.5"],\
-            ["web3-core-helpers", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-providers-ws", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-providers-ws-npm-1.10.0-192a16ff57-0784334a9a.zip/node_modules/web3-providers-ws/",\
+          "packageDependencies": [\
+            ["web3-providers-ws", "npm:1.10.0"],\
+            ["eventemitter3", "npm:4.0.4"],\
+            ["web3-core-helpers", "npm:1.10.0"],\
+            ["websocket", "npm:1.0.34"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/cache/web3-providers-ws-npm-1.7.4-4f0a67fb87-3be6fe0885.zip/node_modules/web3-providers-ws/",\
           "packageDependencies": [\
@@ -36542,19 +36459,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["websocket", "npm:1.0.34"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/web3-providers-ws-npm-1.8.0-a9aef182c8-61124ae1c6.zip/node_modules/web3-providers-ws/",\
-          "packageDependencies": [\
-            ["web3-providers-ws", "npm:1.8.0"],\
-            ["eventemitter3", "npm:4.0.4"],\
-            ["web3-core-helpers", "npm:1.8.0"],\
-            ["websocket", "npm:1.0.34"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-shh", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/unplugged/web3-shh-npm-1.10.0-b07b96a8e7/node_modules/web3-shh/",\
+          "packageDependencies": [\
+            ["web3-shh", "npm:1.10.0"],\
+            ["web3-core", "npm:1.10.0"],\
+            ["web3-core-method", "npm:1.10.0"],\
+            ["web3-core-subscriptions", "npm:1.10.0"],\
+            ["web3-net", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.7.4", {\
           "packageLocation": "./.yarn/unplugged/web3-shh-npm-1.7.4-486bf4467a/node_modules/web3-shh/",\
           "packageDependencies": [\
@@ -36565,20 +36483,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-net", "npm:1.7.4"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/unplugged/web3-shh-npm-1.8.0-15ebd6ce51/node_modules/web3-shh/",\
-          "packageDependencies": [\
-            ["web3-shh", "npm:1.8.0"],\
-            ["web3-core", "npm:1.8.0"],\
-            ["web3-core-method", "npm:1.8.0"],\
-            ["web3-core-subscriptions", "npm:1.8.0"],\
-            ["web3-net", "npm:1.8.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["web3-utils", [\
+        ["npm:1.10.0", {\
+          "packageLocation": "./.yarn/cache/web3-utils-npm-1.10.0-a52718e66a-c6b7662359.zip/node_modules/web3-utils/",\
+          "packageDependencies": [\
+            ["web3-utils", "npm:1.10.0"],\
+            ["bn.js", "npm:5.2.1"],\
+            ["ethereum-bloom-filters", "npm:1.0.10"],\
+            ["ethereumjs-util", "npm:7.1.5"],\
+            ["ethjs-unit", "npm:0.1.6"],\
+            ["number-to-bn", "npm:1.7.0"],\
+            ["randombytes", "npm:2.1.0"],\
+            ["utf8", "npm:3.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.2.2", {\
           "packageLocation": "./.yarn/cache/web3-utils-npm-1.2.2-30d9c9754b-bbd1189b7b.zip/node_modules/web3-utils/",\
           "packageDependencies": [\
@@ -37033,13 +36954,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["ws", [\
-        ["npm:2.3.1", {\
-          "packageLocation": "./.yarn/cache/ws-npm-2.3.1-4fe0df108b-a36003bd22.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "npm:2.3.1"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
         ["npm:3.3.3", {\
           "packageLocation": "./.yarn/cache/ws-npm-3.3.3-30771aa150-20b7bf34bb.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37106,23 +37020,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:1dec7dbd5a4c81f9d324d14923601bbaeec0be79c9b024d3ffbd58bc01936b6e0f705c25f56c7cc2cd81695309929e12db6472661bf6db8d727b07794d3bc5e4#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-c617e08504/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:1dec7dbd5a4c81f9d324d14923601bbaeec0be79c9b024d3ffbd58bc01936b6e0f705c25f56c7cc2cd81695309929e12db6472661bf6db8d727b07794d3bc5e4#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -37174,10 +37071,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-78c8603bdf/0/cache/ws-npm-7.2.3-e2147dfc25-979c59a706.zip/node_modules/ws/",\
+        ["virtual:bf4c953d025a92a4d7f5da35e405faca46eda01ae9bd0e859de42c1fcddb8e73818cef4d205dde1d20fcfa8446793513ce10bbe459693cd5747dbf98976ee1a2#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-718d220330/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3"],\
+            ["ws", "virtual:bf4c953d025a92a4d7f5da35e405faca46eda01ae9bd0e859de42c1fcddb8e73818cef4d205dde1d20fcfa8446793513ce10bbe459693cd5747dbf98976ee1a2#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
@@ -37191,15 +37088,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:de7f87a16ca4209cff92876360763f4aa630896bbc5b9c20c48a488c4bf5b6cc68ee75e13f6720169a39633336d2389a63112f3763df6ba669575776ec20bd49#npm:2.3.1", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-47d0c66892/0/cache/ws-npm-2.3.1-4fe0df108b-a36003bd22.zip/node_modules/ws/",\
+        ["virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-78c8603bdf/0/cache/ws-npm-7.2.3-e2147dfc25-979c59a706.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:de7f87a16ca4209cff92876360763f4aa630896bbc5b9c20c48a488c4bf5b6cc68ee75e13f6720169a39633336d2389a63112f3763df6ba669575776ec20bd49#npm:2.3.1"],\
+            ["ws", "virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
-            ["safe-buffer", "npm:5.0.1"],\
-            ["ultron", "npm:1.1.1"],\
             ["utf-8-validate", null]\
           ],\
           "packagePeers": [\

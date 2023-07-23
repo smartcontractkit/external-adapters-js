@@ -1,5 +1,54 @@
 # @chainlink/finnhub-adapter
 
+## 2.4.0
+
+### Minor Changes
+
+- fbf3a4dc3: Finnhub: Separate base, quote and exchange params.
+
+  - Separating the base, quote and exchange params allows us to maintain standardised inbound and DP requests.
+  - This fixes an issue where Finnhub EA's would fail for certain requests when using WebSockets. Previously Finnhub WebSocket requests would succeed for full symbols (e.g. {"base": "OANDA:EUR_USD"}), but fail for requests with separate base and quote (e.g. {"base": "EUR", "quote: "USD"}). This is because the WebSocket message returns a single symbol which is cached as the base, and future requests included a quote so did not match the cached key.
+  - This commit introduces a requestTransform for the Finnhub Quote endpoint, which splits full symbols into their constituent base, quote and exchange. We can the consistently build and destructure the symbols in our REST and WS transports. As part of this a new input parameter `exchange` is added, allowing requests to specify the exchange they wish to fetch data for.
+
+## 2.3.0
+
+### Minor Changes
+
+- 2ccb7ad2c: Expose function for building the quote endpoint.
+- 634ff0496: Update `finnhub` EA to use FHFX for Forex data by default
+- 2ccb7ad2c: Add WebSocket transport for Quote endpoint. Defaults to Rest transport.
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
+## 2.2.0
+
+### Minor Changes
+
+- fbe49046b: Update Finnhub EA to use the PriceAdapter interface
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
+## 2.1.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
+## 2.1.0
+
+### Minor Changes
+
+- 201c92cc4: Add `stock` and `forex` aliases for Finnhub EA.
+
+  - Adding `stock` and `forex` aliases for the existing `quote` endpoint.
+  - Feeds pull data from mutliple data providers using the same endpoint name, adding these alises allows feeds to pull stock and forex data from the Finnhub EA.
+  - Enables auto-generation for Finnhub EA README.
+
 ## 2.0.0
 
 ### Major Changes

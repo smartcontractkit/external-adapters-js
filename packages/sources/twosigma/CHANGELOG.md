@@ -1,5 +1,24 @@
 # @chainlink/twosigma-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 1.2.2
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
+## 1.2.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 1.2.0
 
 ### Minor Changes

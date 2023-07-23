@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest forex endpoint (quote alias) should return success 1`] = `
+{
+  "data": {
+    "result": 175.43,
+  },
+  "result": 175.43,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return 400 error for invalid exchange 1`] = `
+{
+  "error": {
+    "message": "INVALID is not a supported exchange, must be one of [FHFX, OANDA, FXCM]",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`rest quote endpoint should return success for full symbol 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests overriden by default adapter overrides 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests with base and quote 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests with base, quote and exchange 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests with overrides 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

@@ -138,9 +138,6 @@
       "path": "./sources/alphavantage"
     },
     {
-      "path": "./sources/alphavantage-test"
-    },
-    {
       "path": "./sources/alpine"
     },
     {
@@ -333,6 +330,9 @@
       "path": "./sources/finnhub"
     },
     {
+      "path": "./sources/finnhub-secondary"
+    },
+    {
       "path": "./sources/fixer"
     },
     {
@@ -381,9 +381,6 @@
       "path": "./sources/intrinio"
     },
     {
-      "path": "./sources/intrinio-test"
-    },
-    {
       "path": "./sources/ipfs"
     },
     {
@@ -394,9 +391,6 @@
     },
     {
       "path": "./sources/kaiko"
-    },
-    {
-      "path": "./sources/kaiko-test"
     },
     {
       "path": "./sources/layer2-sequencer-health"
@@ -442,9 +436,6 @@
     },
     {
       "path": "./sources/nikkei"
-    },
-    {
-      "path": "./sources/nomics"
     },
     {
       "path": "./sources/oanda"

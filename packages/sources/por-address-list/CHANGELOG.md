@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 4.1.0
+
+### Minor Changes
+
+- 4f4ca79e1: Added search limbo validators flag to pass to eth-beacon
+
 ## 4.0.14
 
 ### Patch Changes

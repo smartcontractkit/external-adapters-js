@@ -1,5 +1,24 @@
 # @chainlink/ncfx-adapter
 
+## 3.3.4
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 3.3.3
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
+## 3.3.2
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 3.3.1
 
 ### Patch Changes

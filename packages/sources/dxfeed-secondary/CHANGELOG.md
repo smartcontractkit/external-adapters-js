@@ -1,5 +1,30 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+- Updated dependencies [09a7a4386]
+  - @chainlink/dxfeed-adapter@2.0.3
+
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies [adc0a8297]
+  - @chainlink/dxfeed-adapter@2.0.2
+
+## 2.0.1
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+- Updated dependencies [cc0d39064]
+- Updated dependencies [fb1b11b77]
+  - @chainlink/dxfeed-adapter@2.0.1
+
 ## 2.0.0
 
 ### Major Changes

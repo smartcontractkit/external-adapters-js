@@ -33,6 +33,11 @@ export const config = new AdapterConfig({
     default: 'wss://72x8wsyx7t.finage.ws:6008',
     description: 'The Websocket endpoint to connect to for crypto data',
   },
+  ETF_WS_API_ENDPOINT: {
+    type: 'string',
+    default: 'wss://8umh1cipe9.finage.ws:9001',
+    description: 'The Websocket endpoint to connect to for etf data',
+  },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
     type: 'boolean',

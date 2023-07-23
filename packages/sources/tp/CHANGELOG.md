@@ -1,5 +1,24 @@
 # @chainlink/tp-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 1.1.6
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
+## 1.1.5
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
 ## 1.1.4
 
 ### Patch Changes
