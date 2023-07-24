@@ -111,6 +111,7 @@ runs:
       run: |
         # If the BUILD_ALL env var is set or there are changes to the scripts (because of the readme generation scripts)
         # we need to build every possible adapter and their dependencies
+        git diff
         if [[ $BUILD_ALL = true ]] || git diff $UPSTREAM_BRANCH -- packages/scripts | grep -q . ; then
           cp packages/tsconfig.json packages/tsconfig.tmp.json
           exit 0
