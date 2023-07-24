@@ -1,5 +1,16 @@
 # @chainlink/finnhub-adapter
 
+## 2.4.1
+
+### Patch Changes
+
+- 81a8ac7c7: Downgrade Finnhub EAs to v0.29.12 of the EA Framework
+
+  - Temporary measure to fix Finnhub README's by maintaining the same version as the README generation script
+
+- eff4c4cf5: Bumped framework version
+- e7e30d963: Bumped framework version
+
 ## 2.4.0
 
 ### Minor Changes

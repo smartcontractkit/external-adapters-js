@@ -1,5 +1,25 @@
 # @chainlink/token-allocation-adapter
 
+## 1.11.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [14a549217]
+- Updated dependencies [14a549217]
+- Updated dependencies [14a549217]
+  - @chainlink/cfbenchmarks-adapter@2.1.4
+  - @chainlink/kaiko-adapter@2.0.3
+  - @chainlink/coingecko-adapter@2.0.7
+  - @chainlink/coinmetrics-adapter@3.2.5
+  - @chainlink/ncfx-adapter@3.3.5
+  - @chainlink/cryptocompare-adapter@2.0.6
+  - @chainlink/tiingo-adapter@2.1.4
+  - @chainlink/coinmarketcap-adapter@2.0.10
+  - @chainlink/coinpaprika-adapter@2.0.4
+
 ## 1.11.3
 
 ### Patch Changes

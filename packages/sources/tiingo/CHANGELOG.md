@@ -1,5 +1,12 @@
 ## v1.1.0
 
+## 2.1.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced AdapterEndpoint with StockEndpoint for relevant endpoints
+
 ## 2.1.3
 
 ### Patch Changes

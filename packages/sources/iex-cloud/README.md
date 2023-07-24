@@ -1,6 +1,6 @@
 # IEXCLOUD
 
-![2.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -83,9 +83,9 @@ Response:
 
 ### Input Params
 
-| Required? | Name |              Aliases              |     Description     |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-------------------------------: | :-----------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `coin`, `from`, `symbol` | The symbol to query | string |         |         |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 
@@ -182,9 +182,9 @@ Supported names for this endpoint are: `eod`, `eod-close`.
 
 ### Input Params
 
-| Required? | Name |              Aliases              |     Description     |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-------------------------------: | :-----------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `coin`, `from`, `symbol` | The symbol to query | string |         |         |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 

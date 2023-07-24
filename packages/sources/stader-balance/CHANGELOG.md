@@ -1,5 +1,13 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+- 6840a38d2: Await retrieval of genesis timestamp during initialization. Bumped framework version.
+
 ## 1.4.0
 
 ### Minor Changes

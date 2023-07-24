@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TrueUSD
 
-![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.real-time-reserves.ledgerlens.io/v1/
 
@@ -90,6 +90,8 @@ Response:
         "totalTrustByChain": 0
       }
     ],
+    "ripcord": false,
+    "ripcordDetails": [],
     "result": 3117410009.89
   },
   "result": 3117410009.89,
@@ -154,6 +156,8 @@ Response:
         "totalTrustByChain": 0
       }
     ],
+    "ripcord": false,
+    "ripcordDetails": [],
     "result": 3097573780.109635
   },
   "result": 3097573780.109635,
@@ -216,6 +220,8 @@ Response:
         "totalTrustByChain": 0
       }
     ],
+    "ripcord": false,
+    "ripcordDetails": [],
     "result": 24268.83
   },
   "result": 24268.83,
@@ -278,6 +284,8 @@ Response:
         "totalTrustByChain": 0
       }
     ],
+    "ripcord": false,
+    "ripcordDetails": [],
     "result": 3005274.95
   },
   "result": 3005274.95,

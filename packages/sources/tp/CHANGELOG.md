@@ -1,5 +1,12 @@
 # @chainlink/tp-adapter
 
+## 1.1.8
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced PriceEndpoint with ForexPriceEndpoint for relevant endpoints
+
 ## 1.1.7
 
 ### Patch Changes

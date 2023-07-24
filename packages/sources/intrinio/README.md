@@ -1,6 +1,6 @@
 # INTRINIO
 
-![2.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/intrinio/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/intrinio/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -27,9 +27,9 @@ Supported names for this endpoint are: `price`, `stock`.
 
 ### Input Params
 
-| Required? | Name |     Aliases     |           Description            |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-------------: | :------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `from` | The symbol of the asset to query | string |         |         |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 

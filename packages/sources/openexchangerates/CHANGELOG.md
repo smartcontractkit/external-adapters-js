@@ -1,5 +1,12 @@
 # @chainlink/openexchangerates-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced PriceEndpoint with ForexPriceEndpoint for relevant endpoints
+
 ## 2.0.3
 
 ### Patch Changes

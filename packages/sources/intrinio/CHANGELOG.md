@@ -1,5 +1,12 @@
 # @chainlink/intrinio-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced AdapterEndpoint with StockEndpoint for relevant endpoints
+
 ## 2.0.1
 
 ### Patch Changes

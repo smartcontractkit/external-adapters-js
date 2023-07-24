@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/alongside-adapter",
-  "version": "1.3.11",
+  "version": "1.3.12",
   "description": "Chainlink alongside adapter.",
   "keywords": [
     "Chainlink",

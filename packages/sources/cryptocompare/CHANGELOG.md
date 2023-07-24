@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 2.0.6
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+
 ## 2.0.5
 
 ### Patch Changes
