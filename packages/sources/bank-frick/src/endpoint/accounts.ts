@@ -3,6 +3,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/accounts'
+import { AdapterInputParameters } from '../transport/utils'
 
 export const inputParameters = new InputParameters({
   ibanIDs: {
@@ -34,8 +35,8 @@ export const accountsRestEndpoint = new AdapterEndpoint({
   cacheKeyGenerator: (data) => {
     const sortedData = Object.keys(data)
       .sort()
-      .reduce((a: Record<string, unknown>, i) => {
-        a[i] = data[i]
+      .reduce((a: Record<string, unknown>, i: string) => {
+        a[i] = data[i as keyof AdapterInputParameters]
         return a
       }, {})
     return `accounts-${JSON.stringify(sortedData)}`
