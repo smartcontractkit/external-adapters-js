@@ -1,5 +1,12 @@
 # @chainlink/ncfx-adapter
 
+## 3.3.5
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced PriceEndpoint with ForexPriceEndpoint for relevant endpoints
+
 ## 3.3.4
 
 ### Patch Changes

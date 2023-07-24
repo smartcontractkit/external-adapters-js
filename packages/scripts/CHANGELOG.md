@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.6.1
+
+### Patch Changes
+
+- 14a549217: Bumped framework version
+
 ## 2.6.0
 
 ### Minor Changes

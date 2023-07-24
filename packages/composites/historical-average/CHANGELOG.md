@@ -1,5 +1,15 @@
 # @chainlink/historical-average-adapter
 
+## 1.2.43
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [14a549217]
+  - @chainlink/coinmarketcap-adapter@2.0.10
+
 ## 1.2.42
 
 ### Patch Changes

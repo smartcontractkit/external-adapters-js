@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.4.1
+
+### Patch Changes
+
+- 72e343619: Fixed block staleness check
+
 ## 2.4.0
 
 ### Minor Changes

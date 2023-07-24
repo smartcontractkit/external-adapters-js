@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- 3caaea024: Refactored batch skipping logic.
+
 ## 1.5.0
 
 ### Minor Changes

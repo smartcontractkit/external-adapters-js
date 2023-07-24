@@ -1,5 +1,12 @@
 # @chainlink/tradingeconomics-test-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced PriceEndpoint with ForexPriceEndpoint and AdapterEndpoint with StockEndpoint for relevant endpoints
+
 ## 1.0.4
 
 ### Patch Changes

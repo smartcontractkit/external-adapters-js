@@ -1,5 +1,15 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [14a549217]
+  - @chainlink/dxfeed-adapter@2.0.4
+
 ## 2.0.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/trueusd-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- 8902683dd: Added ripcord indicator check
+
 ## 2.0.0
 
 ### Major Changes
