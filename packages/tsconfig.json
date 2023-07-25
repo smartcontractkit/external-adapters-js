@@ -9,6 +9,9 @@
       "path": "./composites/apy-finance"
     },
     {
+      "path": "./composites/apy-finance-test"
+    },
+    {
       "path": "./composites/augur"
     },
     {

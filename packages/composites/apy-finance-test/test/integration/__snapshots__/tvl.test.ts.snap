@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tvl endpoint returns tvl from token-allocations adapter 1`] = `
+{
+  "payload": {
+    "DAI": {
+      "quote": {
+        "USD": {
+          "price": 0.9997940587259735,
+        },
+      },
+    },
+    "USDC": {
+      "quote": {
+        "USD": {
+          "price": 1.0000065541408647,
+        },
+      },
+    },
+  },
+  "result": 910164.4373738351,
+  "sources": [],
+}
+`;
+
+exports[`tvl endpoint returns tvl from token-allocations adapter 2`] = `910164.4373738351`;
