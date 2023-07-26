@@ -23,9 +23,9 @@ export const inputParamHeaders: TextRow = [
 
 export const rateLimitHeaders: TextRow = [
   'Name',
-  'Limit for 1 second',
-  'Limit for 1 minute',
-  'Limit for 1 hour',
+  'Requests/credits per second',
+  'Requests/credits per minute',
+  'Requests/credits per hour',
   'Note',
 ]
 
