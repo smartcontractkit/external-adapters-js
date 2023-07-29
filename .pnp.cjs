@@ -6651,7 +6651,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.3.1"],\
+            ["nock", "npm:13.3.2"],\
             ["supertest", "npm:6.3.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -12918,7 +12918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@substrate/connect", "npm:0.7.19"],\
             ["eventemitter3", "npm:5.0.0"],\
             ["mock-socket", "npm:9.2.1"],\
-            ["nock", "npm:13.3.1"]\
+            ["nock", "npm:13.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -29670,10 +29670,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:13.3.1", {\
-          "packageLocation": "./.yarn/cache/nock-npm-13.3.1-0ba4ee80e1-0f2a73e843.zip/node_modules/nock/",\
+        ["npm:13.3.2", {\
+          "packageLocation": "./.yarn/cache/nock-npm-13.3.2-a7de3a3615-1d7d5fda18.zip/node_modules/nock/",\
           "packageDependencies": [\
-            ["nock", "npm:13.3.1"],\
+            ["nock", "npm:13.3.2"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
             ["json-stringify-safe", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
