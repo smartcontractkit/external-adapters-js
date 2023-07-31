@@ -288,6 +288,9 @@
       "path": "./sources/dxfeed-secondary/tsconfig.test.json"
     },
     {
+      "path": "./sources/elven/tsconfig.test.json"
+    },
+    {
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
