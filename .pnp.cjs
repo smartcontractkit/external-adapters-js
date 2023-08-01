@@ -780,6 +780,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/wbtc-address-set"\
       },\
       {\
+        "name": "@chainlink/wbtc-address-set-test-adapter",\
+        "reference": "workspace:packages/sources/wbtc-address-set-test"\
+      },\
+      {\
         "name": "@chainlink/wootrade-adapter",\
         "reference": "workspace:packages/sources/wootrade"\
       },\
@@ -1010,6 +1014,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],\
       ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
+      ["@chainlink/wbtc-address-set-test-adapter", ["workspace:packages/sources/wbtc-address-set-test"]],\
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
       ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],\
@@ -9143,6 +9148,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/wbtc-address-set-test-adapter", [\
+        ["workspace:packages/sources/wbtc-address-set-test", {\
+          "packageLocation": "./packages/sources/wbtc-address-set-test/",\
+          "packageDependencies": [\
+            ["@chainlink/wbtc-address-set-test-adapter", "workspace:packages/sources/wbtc-address-set-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.30.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

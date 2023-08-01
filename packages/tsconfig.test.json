@@ -564,6 +564,9 @@
       "path": "./sources/wbtc-address-set/tsconfig.test.json"
     },
     {
+      "path": "./sources/wbtc-address-set-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/wootrade/tsconfig.test.json"
     },
     {
