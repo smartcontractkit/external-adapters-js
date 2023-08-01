@@ -31,6 +31,20 @@ export type EnvVars = {
   }
 }
 
+export type RateLimits = {
+  [tierName: string]: {
+    rateLimit1s?: number
+    rateLimit1m?: number
+    rateLimit1h?: number
+    note?: string
+  }
+}
+
+export type RateLimitsSchema = {
+  http: RateLimits
+  ws: RateLimits
+}
+
 export type FileData = {
   path: string
   text: string
