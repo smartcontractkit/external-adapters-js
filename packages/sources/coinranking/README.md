@@ -12,6 +12,16 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|   Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                          Note                                          |
+| :------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------------------------: |
+|   free   |              5              |                             |       13.8888888889       | 10k/mo on the free tier (with API key) unauthenticated request limits aren't specified |
+| hobbyist |                             |                             |       277.777777778       |                                                                                        |
+|   pro    |                             |                             |            -1             |                                                                                        |
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

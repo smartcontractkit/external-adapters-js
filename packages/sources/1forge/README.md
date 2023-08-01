@@ -15,6 +15,17 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |            Note            |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------: |
+|  starter  |                             |                             |          208.33           | https://1forge.com/pricing |
+|  premium  |                             |                             |          4166.66          |                            |
+| business  |                             |                             |         41666.66          |                            |
+| business+ |                             |                             |         416666.66         |                            |
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

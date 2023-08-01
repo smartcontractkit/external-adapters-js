@@ -1,6 +1,6 @@
 # GALAXY
 
-![2.1.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,6 +12,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |           | WS_API_ENDPOINT |    WS URL for the Galaxy API     | string |         |   `wss://data.galaxy.com/v1.0/ws`    |
 |    ✅     |   WS_API_KEY    |      Key for the Galaxy API      | string |         |                                      |
 |    ✅     | WS_API_PASSWORD |   Password for the Galaxy API    | string |         |                                      |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

@@ -1,5 +1,12 @@
 # @chainlink/gsr-adapter
 
+## 2.1.15
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
 ## 2.1.14
 
 ### Patch Changes

@@ -15,6 +15,17 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|   Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                Note                                                |
+| :------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------------------------------------: |
+|   free   |                             |                             |           10.4            | only mentions daily limit and calls the plan 'limited' no other limiting mentioned for other plans |
+| starter  |             10              |                             |                           |                                                                                                    |
+|  teams   |             10              |                             |                           |                                                                                                    |
+| business |             10              |                             |                           |                                                                                                    |
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

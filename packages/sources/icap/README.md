@@ -1,6 +1,6 @@
 # ICAP
 
-![1.1.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/icap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/icap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -11,6 +11,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     | WS_API_USERNAME |   API user for WS endpoint   | string |         |                                                             |
 |    ✅     | WS_API_PASSWORD | API password for WS endpoint | string |         |                                                             |
 |           | WS_API_ENDPOINT |    Endpoint for WS prices    | string |         | `ws://json.mktdata.portal.apac.parametasolutions.com:12000` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 
