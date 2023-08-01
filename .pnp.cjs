@@ -412,6 +412,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/dxfeed-secondary"\
       },\
       {\
+        "name": "@chainlink/elven-adapter",\
+        "reference": "workspace:packages/sources/elven"\
+      },\
+      {\
         "name": "@chainlink/elwood-adapter",\
         "reference": "workspace:packages/sources/elwood"\
       },\
@@ -896,6 +900,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea-reference-data-reader", ["workspace:packages/core/reference-data-reader"]],\
       ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
+      ["@chainlink/elven-adapter", ["workspace:packages/sources/elven"]],\
       ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
       ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
       ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
@@ -6925,6 +6930,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2"],\
             ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/elven-adapter", [\
+        ["workspace:packages/sources/elven", {\
+          "packageLocation": "./packages/sources/elven/",\
+          "packageDependencies": [\
+            ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
+            ["@chainlink/external-adapter-framework", "npm:0.30.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\

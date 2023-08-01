@@ -288,6 +288,9 @@
       "path": "./sources/dxfeed-secondary"
     },
     {
+      "path": "./sources/elven"
+    },
+    {
       "path": "./sources/elwood"
     },
     {

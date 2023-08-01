@@ -3237,6 +3237,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/elven-adapter@workspace:packages/sources/elven":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/elven-adapter@workspace:packages/sources/elven"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.30.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/elwood-adapter@workspace:packages/sources/elwood":
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
