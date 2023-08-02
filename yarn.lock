@@ -3355,6 +3355,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/eth-beacon-test-adapter@workspace:packages/sources/eth-beacon-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/eth-beacon-test-adapter@workspace:packages/sources/eth-beacon-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.30.1
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    bignumber.js: 9.1.1
+    ethers: 5.7.2
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/etherchain-adapter@workspace:packages/sources/etherchain":
   version: 0.0.0-use.local
   resolution: "@chainlink/etherchain-adapter@workspace:packages/sources/etherchain"
