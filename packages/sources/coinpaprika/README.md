@@ -1,6 +1,6 @@
 # COINPAPRIKA
 
-![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,17 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :--------------------------------: | :----: | :-----: | :-----: |
 |           | API_ENDPOINT | The HTTP URL to retrieve data from | string |         |         |
 |           |   API_KEY    |     An API key for Coinpaprika     | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |         Note         |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------: |
+|    free    |             10              |                             |           69.44           |   50k/mo for free    |
+|    pro     |             10              |                             |          347.22           |   250k/mo for pro    |
+|  business  |             10              |                             |         1388.888          | 1mil/mo for business |
+| enterprise |             10              |                             |                           | unlimited per month  |
 
 ---
 

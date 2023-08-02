@@ -1,5 +1,15 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 0.2.2
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/finnhub-adapter@2.4.2
+
 ## 0.2.1
 
 ### Patch Changes

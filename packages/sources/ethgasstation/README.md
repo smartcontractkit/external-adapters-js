@@ -15,6 +15,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                           Note                                                            |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :-----------------------------------------------------------------------------------------------------------------------: |
+|  trial  |                             |                             |           1.34            |   Taken from the API key limit as 1,000 / 31 / 24 (EGS uses Defi Pulse's API keys): https://data.defipulse.com/#pricing   |
+| starter |                             |                             |          1344.08          | Taken from the API key limit as 1,000,000 / 31 / 24 (EGS uses Defi Pulse's API keys): https://data.defipulse.com/#pricing |
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

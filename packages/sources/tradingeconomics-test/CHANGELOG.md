@@ -1,5 +1,12 @@
 # @chainlink/tradingeconomics-test-adapter
 
+## 1.0.6
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
 ## 1.0.5
 
 ### Patch Changes

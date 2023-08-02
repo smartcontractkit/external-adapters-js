@@ -1,6 +1,6 @@
 # TIINGO
 
-![2.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -11,6 +11,16 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |  API_ENDPOINT   |    API endpoint for tiingo    | string |         | `https://api.tiingo.com/` |
 |    ✅     |     API_KEY     |      API key for tiingo       | string |         |                           |
 |           | WS_API_ENDPOINT | websocket endpoint for tiingo | string |         |  `wss://api.tiingo.com`   |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                             Note                                                             |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------------------------------------------------------------------------------------------------------: |
+|  starter   |                             |                             |            41             |     Starter tier, 50 requests per hour. With a maximum of 1,000 requests per day (https://api.tiingo.com/about/pricing)      |
+|   power    |                             |                             |           2080            |    Power tier, 5,000 requests per hour. With a maximum of 50,000 requests per day (https://api.tiingo.com/about/pricing)     |
+| commercial |                             |                             |           6250            | Commercial tier, 20,000 requests per hour. With a maximum of 150,000 requests per day (https://api.tiingo.com/about/pricing) |
 
 ---
 

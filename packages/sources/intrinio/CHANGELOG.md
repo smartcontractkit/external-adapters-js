@@ -1,5 +1,12 @@
 # @chainlink/intrinio-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
 ## 2.0.2
 
 ### Patch Changes
