@@ -561,6 +561,9 @@
       "path": "./sources/view-function"
     },
     {
+      "path": "./sources/view-function-test"
+    },
+    {
       "path": "./sources/wbtc-address-set"
     },
     {
