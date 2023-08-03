@@ -192,10 +192,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"\
       },\
       {\
-        "name": "@chainlink/0231-adapter",\
-        "reference": "workspace:packages/sources/0231"\
-      },\
-      {\
         "name": "@chainlink/1forge-adapter",\
         "reference": "workspace:packages/sources/1forge"\
       },\
@@ -827,7 +823,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
-      ["@chainlink/0231-adapter", ["workspace:packages/sources/0231"]],\
       ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],\
       ["@chainlink/accuweather-adapter", ["workspace:packages/sources/accuweather"]],\
       ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
@@ -5473,21 +5468,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bignumber.js", "npm:9.1.1"]\
           ],\
           "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@chainlink/0231-adapter", [\
-        ["workspace:packages/sources/0231", {\
-          "packageLocation": "./packages/sources/0231/",\
-          "packageDependencies": [\
-            ["@chainlink/0231-adapter", "workspace:packages/sources/0231"],\
-            ["@chainlink/external-adapter-framework", "npm:0.30.3"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["nock", "npm:13.2.9"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
         }]\
       ]],\
       ["@chainlink/1forge-adapter", [\

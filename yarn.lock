@@ -1917,19 +1917,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/0231-adapter@workspace:packages/sources/0231":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/0231-adapter@workspace:packages/sources/0231"
-  dependencies:
-    "@chainlink/external-adapter-framework": 0.30.3
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    nock: 13.2.9
-    tslib: 2.4.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/1forge-adapter@workspace:packages/sources/1forge":
   version: 0.0.0-use.local
   resolution: "@chainlink/1forge-adapter@workspace:packages/sources/1forge"
