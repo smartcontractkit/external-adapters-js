@@ -27,12 +27,14 @@ export async function generate() {
 
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
+  /* eslint-disable @typescript-eslint/no-var-requires */
   const tsconfig = JSON.parse(JSON.stringify(require(path.relative(__dirname, tsconfigPath))))
   tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
   writeData = { ...writeData, [tsconfigPath]: tsconfig }
 
   // add to packages/tsconfig.test.json
   const tsconfigTestPath = 'packages/tsconfig.test.json'
+  /* eslint-disable @typescript-eslint/no-var-requires */
   const tsconfigTest = JSON.parse(
     JSON.stringify(require(path.relative(__dirname, tsconfigTestPath))),
   )
