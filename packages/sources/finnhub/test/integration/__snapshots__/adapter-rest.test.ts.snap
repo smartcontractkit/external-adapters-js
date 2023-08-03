@@ -17,7 +17,7 @@ exports[`rest forex endpoint (quote alias) should return success 1`] = `
 exports[`rest quote endpoint should return 400 error for invalid exchange 1`] = `
 {
   "error": {
-    "message": "INVALID is not a supported exchange, must be one of [FHFX, OANDA, FXCM]",
+    "message": "'INVALID' is not a supported exchange, must be one of [FHFX, OANDA, FXCM]",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -39,12 +39,12 @@ exports[`rest quote endpoint should return success for full symbol 1`] = `
 }
 `;
 
-exports[`rest quote endpoint should return success for requests overriden by default adapter overrides 1`] = `
+exports[`rest quote endpoint should return success for inverted pairs 1`] = `
 {
   "data": {
-    "result": 1.15894,
+    "result": 0.007010066455429998,
   },
-  "result": 1.15894,
+  "result": 0.007010066455429998,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
@@ -87,6 +87,20 @@ exports[`rest quote endpoint should return success for requests with overrides 1
     "result": 1.15894,
   },
   "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for standard pairs, when pair has inverse config 1`] = `
+{
+  "data": {
+    "result": 142.652,
+  },
+  "result": 142.652,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
