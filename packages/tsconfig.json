@@ -108,12 +108,6 @@
       "path": "./core/test-helpers"
     },
     {
-      "path": "./examples/composite"
-    },
-    {
-      "path": "./examples/source"
-    },
-    {
       "path": "./non-deployable/reduce"
     },
     {

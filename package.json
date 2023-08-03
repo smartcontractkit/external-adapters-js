@@ -28,7 +28,6 @@
     "generate:image-name": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-image-name",
     "generate:master-list": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-master-list",
     "generate:readme": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-readme",
-    "generate-v3-adapter": "ts-node-transpile-only ./packages/scripts/src/generate-v3-adapter",
     "postinstall": "husky install",
     "cm": "cz",
     "ci-changeset": "git reset --hard $CURRENT_SHA && yarn changeset version",
