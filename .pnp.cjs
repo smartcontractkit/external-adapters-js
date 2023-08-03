@@ -232,6 +232,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/avalanche-platform"\
       },\
       {\
+        "name": "@chainlink/avalanche-platform-test-adapter",\
+        "reference": "workspace:packages/sources/avalanche-platform-test"\
+      },\
+      {\
         "name": "@chainlink/bank-frick-adapter",\
         "reference": "workspace:packages/sources/bank-frick"\
       },\
@@ -832,6 +836,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],\
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
       ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
+      ["@chainlink/avalanche-platform-test-adapter", ["workspace:packages/sources/avalanche-platform-test"]],\
       ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
       ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
@@ -5765,6 +5770,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/avalanche-platform-test-adapter", [\
+        ["workspace:packages/sources/avalanche-platform-test", {\
+          "packageLocation": "./packages/sources/avalanche-platform-test/",\
+          "packageDependencies": [\
+            ["@chainlink/avalanche-platform-test-adapter", "workspace:packages/sources/avalanche-platform-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.30.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
