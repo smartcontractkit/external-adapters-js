@@ -744,6 +744,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/trueusd"\
       },\
       {\
+        "name": "@chainlink/trueusd-test-adapter",\
+        "reference": "workspace:packages/sources/trueusd-test"\
+      },\
+      {\
         "name": "@chainlink/twelvedata-adapter",\
         "reference": "workspace:packages/sources/twelvedata"\
       },\
@@ -1000,6 +1004,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
       ["@chainlink/tradingeconomics-test-adapter", ["workspace:packages/sources/tradingeconomics-test"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
+      ["@chainlink/trueusd-test-adapter", ["workspace:packages/sources/trueusd-test"]],\
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
       ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
@@ -8959,6 +8964,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/trueusd-test-adapter", [\
+        ["workspace:packages/sources/trueusd-test", {\
+          "packageLocation": "./packages/sources/trueusd-test/",\
+          "packageDependencies": [\
+            ["@chainlink/trueusd-test-adapter", "workspace:packages/sources/trueusd-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.30.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
