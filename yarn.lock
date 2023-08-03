@@ -3436,35 +3436,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/example-composite-adapter@workspace:packages/examples/composite":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/example-composite-adapter@workspace:packages/examples/composite"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/example-source-adapter": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/example-source-adapter@workspace:*, @chainlink/example-source-adapter@workspace:packages/examples/source":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/example-source-adapter@workspace:packages/examples/source"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker":
   version: 0.0.0-use.local
   resolution: "@chainlink/expert-car-broker-adapter@workspace:packages/sources/expert-car-broker"

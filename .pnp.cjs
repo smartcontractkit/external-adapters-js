@@ -160,14 +160,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core/test-helpers"\
       },\
       {\
-        "name": "@chainlink/example-composite-adapter",\
-        "reference": "workspace:packages/examples/composite"\
-      },\
-      {\
-        "name": "@chainlink/example-source-adapter",\
-        "reference": "workspace:packages/examples/source"\
-      },\
-      {\
         "name": "k6",\
         "reference": "workspace:packages/k6"\
       },\
@@ -912,8 +904,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
       ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
       ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],\
-      ["@chainlink/example-composite-adapter", ["workspace:packages/examples/composite"]],\
-      ["@chainlink/example-source-adapter", ["workspace:packages/examples/source"]],\
       ["@chainlink/expert-car-broker-adapter", ["workspace:packages/sources/expert-car-broker"]],\
       ["@chainlink/external-adapters-js", ["workspace:."]],\
       ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
@@ -7155,39 +7145,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/example-composite-adapter", [\
-        ["workspace:packages/examples/composite", {\
-          "packageLocation": "./packages/examples/composite/",\
-          "packageDependencies": [\
-            ["@chainlink/example-composite-adapter", "workspace:packages/examples/composite"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/example-source-adapter", "workspace:packages/examples/source"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/example-source-adapter", [\
-        ["workspace:packages/examples/source", {\
-          "packageLocation": "./packages/examples/source/",\
-          "packageDependencies": [\
-            ["@chainlink/example-source-adapter", "workspace:packages/examples/source"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
