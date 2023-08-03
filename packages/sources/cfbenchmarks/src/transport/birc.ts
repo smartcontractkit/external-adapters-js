@@ -59,11 +59,10 @@ class CfBenchmarksBIRCTransport extends HttpTransport<BircTransportTypes> {
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.requester = dependencies.requester = new Requester(dependencies.rateLimiter, {
-      ...adapterSettings,
-      RETRY: adapterSettings.BIRC_RETRY,
-      REQUESTER_SLEEP_BEFORE_REQUEUEING_MS: adapterSettings.BIRC_RETRY_DELAY_MS,
-    })
+    this.requester = dependencies.requester = new Requester(
+      dependencies.rateLimiter,
+      adapterSettings,
+    )
   }
 }
 

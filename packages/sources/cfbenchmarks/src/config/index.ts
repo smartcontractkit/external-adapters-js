@@ -42,16 +42,4 @@ export const config = new AdapterConfig({
     required: false,
     default: 'wss://unregprod.cfbenchmarks.com/ws/v4',
   },
-  BIRC_RETRY: {
-    description: 'How many times to retry if the BIRC API request fails',
-    type: 'number',
-    required: false,
-    default: 3,
-  },
-  BIRC_RETRY_DELAY_MS: {
-    description: 'How many miliseconds to wait between BIRC API request retries',
-    type: 'number',
-    required: false,
-    default: 1000,
-  },
 })
