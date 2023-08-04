@@ -4,9 +4,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "HKD",
+        "from": "FHFX:USD-HKD",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "HKD",
+    "includes": [
+      {
+        "from": "FHFX:USD-HKD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -15,9 +26,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "SGD",
+        "from": "FHFX:USD-SGD",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "SGD",
+    "includes": [
+      {
+        "from": "FHFX:USD-SGD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -26,9 +48,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "SEK",
+        "from": "FHFX:USD-SEK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "SEK",
+    "includes": [
+      {
+        "from": "FHFX:USD-SEK",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -37,9 +70,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "TRY",
+        "from": "FHFX:USD-TRY",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "TRY",
+    "includes": [
+      {
+        "from": "FHFX:USD-TRY",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -48,9 +92,53 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "PLN",
+        "from": "FHFX:USD-PLN",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "PLN",
+    "includes": [
+      {
+        "from": "FHFX:USD-PLN",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "NZD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:NZD-USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "AUD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:AUD-USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EUR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:EUR-USD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -59,9 +147,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CAD",
+        "from": "FHFX:USD-CAD",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CAD",
+    "includes": [
+      {
+        "from": "FHFX:USD-CAD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -70,9 +169,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "DKK",
+        "from": "FHFX:USD-DKK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "DKK",
+    "includes": [
+      {
+        "from": "FHFX:USD-DKK",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -81,9 +191,31 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CNH",
+        "from": "FHFX:USD-CNH",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CNH",
+    "includes": [
+      {
+        "from": "FHFX:USD-CNH",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "GBP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:GBP-USD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -92,9 +224,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CHF",
+        "from": "FHFX:USD-CHF",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CHF",
+    "includes": [
+      {
+        "from": "FHFX:USD-CHF",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -103,9 +246,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "JPY",
+        "from": "FHFX:USD-JPY",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "JPY",
+    "includes": [
+      {
+        "from": "FHFX:USD-JPY",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -114,9 +268,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "NOK",
+        "from": "FHFX:USD-NOK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "NOK",
+    "includes": [
+      {
+        "from": "FHFX:USD-NOK",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -125,9 +290,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CZK",
+        "from": "FHFX:USD-CZK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CZK",
+    "includes": [
+      {
+        "from": "FHFX:USD-CZK",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -136,9 +312,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "HUF",
+        "from": "FHFX:USD-HUF",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "HUF",
+    "includes": [
+      {
+        "from": "FHFX:USD-HUF",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -147,9 +334,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "MXN",
+        "from": "FHFX:USD-MXN",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "MXN",
+    "includes": [
+      {
+        "from": "FHFX:USD-MXN",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -158,9 +356,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "ZAR",
+        "from": "FHFX:USD-ZAR",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "ZAR",
+    "includes": [
+      {
+        "from": "FHFX:USD-ZAR",
+        "to": "",
+        "inverse": false
       }
     ]
   }

@@ -113,9 +113,20 @@ describe('rest', () => {
   })
 
   describe('forex endpoint (quote alias)', () => {
-    it('should return success', async () => {
+    it('should return success when providing base', async () => {
       const data = {
         base: 'AAPL',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success when providing base and quote', async () => {
+      const data = {
+        base: 'AAPL',
+        quote: 'USD',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

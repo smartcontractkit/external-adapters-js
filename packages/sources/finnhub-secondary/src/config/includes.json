@@ -1,12 +1,199 @@
 [
   {
+    "from": "XPT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:XPT_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BCO",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:BCO_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "UK10YB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:UK10YB_GBP",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "UK10YB",
+    "includes": [
+      {
+        "from": "OANDA:UK10YB_GBP",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USB05Y",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:USB05Y_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SPX500",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:SPX500_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "DKK",
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "DKK",
+        "from": "OANDA:USD_DKK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "DKK",
+    "includes": [
+      {
+        "from": "OANDA:USD_DKK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CN50",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:CN50_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "NAS100",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:NAS100_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "AU200",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:AU200_AUD",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "AU200",
+    "includes": [
+      {
+        "from": "OANDA:AU200_AUD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "US30",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:US30_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SG30",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:SG30_SGD",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "SG30",
+    "includes": [
+      {
+        "from": "OANDA:SG30_SGD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XCU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:XCU_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "UK100",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:UK100_GBP",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "UK100",
+    "includes": [
+      {
+        "from": "OANDA:UK100_GBP",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -15,9 +202,42 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "JPY",
+        "from": "OANDA:USD_JPY",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "JPY",
+    "includes": [
+      {
+        "from": "OANDA:USD_JPY",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SUGAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:SUGAR_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EUR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:EUR_USD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -26,9 +246,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "TRY",
+        "from": "OANDA:USD_TRY",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "TRY",
+    "includes": [
+      {
+        "from": "OANDA:USD_TRY",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -37,9 +268,42 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "MXN",
+        "from": "OANDA:USD_MXN",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "MXN",
+    "includes": [
+      {
+        "from": "OANDA:USD_MXN",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "JP225Y",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:JP225Y_JPY",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "JP225Y",
+    "includes": [
+      {
+        "from": "OANDA:JP225Y_JPY",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -48,9 +312,64 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "ZAR",
+        "from": "OANDA:USD_ZAR",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "ZAR",
+    "includes": [
+      {
+        "from": "OANDA:USD_ZAR",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "GBP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:GBP_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CORN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:CORN_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "HK33",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:HK33_HKD",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "HK33",
+    "includes": [
+      {
+        "from": "OANDA:HK33_HKD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -59,9 +378,64 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "HKD",
+        "from": "OANDA:USD_HKD",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "HKD",
+    "includes": [
+      {
+        "from": "OANDA:USD_HKD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "JP225",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:JP225_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "NATGAS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:NATGAS_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EU50",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:EU50_EUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "EU50",
+    "includes": [
+      {
+        "from": "OANDA:EU50_EUR",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -70,9 +444,64 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "NOK",
+        "from": "OANDA:USD_NOK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "NOK",
+    "includes": [
+      {
+        "from": "OANDA:USD_NOK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "WHEAT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:WHEAT_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "DE10YB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:DE10YB_EUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "DE10YB",
+    "includes": [
+      {
+        "from": "OANDA:DE10YB_EUR",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XAU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:XAU_USD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -81,9 +510,42 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "HUF",
+        "from": "OANDA:USD_HUF",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "HUF",
+    "includes": [
+      {
+        "from": "OANDA:USD_HUF",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "FR40",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:FR40_EUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "FR40",
+    "includes": [
+      {
+        "from": "OANDA:FR40_EUR",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -92,9 +554,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CNH",
+        "from": "OANDA:USD_CNH",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CNH",
+    "includes": [
+      {
+        "from": "OANDA:USD_CNH",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -103,9 +576,42 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "SEK",
+        "from": "OANDA:USD_SEK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "SEK",
+    "includes": [
+      {
+        "from": "OANDA:USD_SEK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "US2000",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:US2000_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "NZD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:NZD_USD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -114,9 +620,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "PLN",
+        "from": "OANDA:USD_PLN",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "PLN",
+    "includes": [
+      {
+        "from": "OANDA:USD_PLN",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -125,9 +642,31 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "SGD",
+        "from": "OANDA:USD_SGD",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "SGD",
+    "includes": [
+      {
+        "from": "OANDA:USD_SGD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USB30Y",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:USB30Y_USD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -136,9 +675,42 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CZK",
+        "from": "OANDA:USD_CZK",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CZK",
+    "includes": [
+      {
+        "from": "OANDA:USD_CZK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USB10Y",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:USB10Y_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SOYBN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:SOYBN_USD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -147,8 +719,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "WTICO",
-        "to": "USD",
+        "from": "OANDA:WTICO_USD",
+        "to": "",
         "inverse": false
       }
     ]
@@ -158,9 +730,75 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "THB",
+        "from": "OANDA:USD_THB",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "THB",
+    "includes": [
+      {
+        "from": "OANDA:USD_THB",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "TWIX",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:TWIX_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "NL25",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:NL25_EUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "NL25",
+    "includes": [
+      {
+        "from": "OANDA:NL25_EUR",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "DE30",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:DE30_EUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "DE30",
+    "includes": [
+      {
+        "from": "OANDA:DE30_EUR",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -169,9 +807,20 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CAD",
+        "from": "OANDA:USD_CAD",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CAD",
+    "includes": [
+      {
+        "from": "OANDA:USD_CAD",
+        "to": "",
+        "inverse": false
       }
     ]
   },
@@ -180,9 +829,64 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USD",
-        "to": "CHF",
+        "from": "OANDA:USD_CHF",
+        "to": "",
         "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CHF",
+    "includes": [
+      {
+        "from": "OANDA:USD_CHF",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "AUD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:AUD_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XAG",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:XAG_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XPD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:XPD_USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USB02Y",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "OANDA:USB02Y_USD",
+        "to": "",
+        "inverse": false
       }
     ]
   }

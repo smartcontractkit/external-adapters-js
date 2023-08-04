@@ -35,6 +35,11 @@
             "endpoint": "stock"
         },
         {
+            "base": "AAPL",
+            "quote": "USD",
+            "endpoint": "stock"
+        },
+        {
             "base": "MSFT",
             "endpoint": "stock"
         }

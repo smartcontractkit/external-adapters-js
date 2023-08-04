@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`rest forex endpoint (quote alias) should return success 1`] = `
+exports[`rest forex endpoint (quote alias) should return success when providing base 1`] = `
+{
+  "data": {
+    "result": 175.43,
+  },
+  "result": 175.43,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest forex endpoint (quote alias) should return success when providing base and quote 1`] = `
 {
   "data": {
     "result": 175.43,

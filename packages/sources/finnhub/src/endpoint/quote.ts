@@ -72,6 +72,10 @@ export const buildSymbol = ({
   quote,
   exchange,
 }: typeof inputParameters.validated): string => {
+  if (isExchangeSymbol(base)) {
+    return base
+  }
+
   if (base && quote && exchange) {
     const exchangePairDelimiter: string = exchanges[exchange].pairDelimiter
 
@@ -81,45 +85,33 @@ export const buildSymbol = ({
   return base
 }
 
-const requestTransform =
-  (defaultExchange: string) => (req: AdapterRequest<typeof inputParameters.validated>) => {
-    req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
-    req.requestContext.data.quote = req.requestContext.data.quote?.toUpperCase()
-    req.requestContext.data.exchange = req.requestContext.data.exchange?.toUpperCase()
+const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>) => {
+  req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
+  req.requestContext.data.quote = req.requestContext.data.quote?.toUpperCase()
+  req.requestContext.data.exchange = req.requestContext.data.exchange?.toUpperCase()
 
-    const originalRequest = { ...req.requestContext.data }
+  const originalRequest = { ...req.requestContext.data }
 
-    // If the symbol is a full symbol (containing Exchange and Pair), split into the separate params
-    if (isExchangeSymbol(originalRequest.base)) {
-      const params = splitSymbol(originalRequest.base)
+  // If the symbol is a full symbol (containing Exchange and Pair), split into the separate params
+  if (isExchangeSymbol(originalRequest.base)) {
+    const params = splitSymbol(originalRequest.base)
 
-      // If exchange is provided in request, prefer that over the exchange split from the symbol
-      const exchange = originalRequest.exchange || params.exchange
+    // If exchange is provided in request, prefer that over the exchange split from the symbol
+    const exchange = originalRequest.exchange || params.exchange
 
-      req.requestContext.data.base = params.base
-      req.requestContext.data.quote = params.quote
-      req.requestContext.data.exchange = exchange
+    req.requestContext.data.base = params.base
+    req.requestContext.data.quote = params.quote
+    req.requestContext.data.exchange = exchange
 
-      logger.debug(
-        `FX symbol detected, extracting ${JSON.stringify(originalRequest)} into ${JSON.stringify(
-          req.requestContext.data,
-        )}`,
-      )
+    logger.debug(
+      `FX symbol detected, extracting ${JSON.stringify(originalRequest)} into ${JSON.stringify(
+        req.requestContext.data,
+      )}`,
+    )
 
-      return
-    }
-
-    // Use default exchange if none is provided
-    if (originalRequest.base && originalRequest.quote && originalRequest.exchange == undefined) {
-      req.requestContext.data.exchange = defaultExchange
-
-      logger.debug(
-        `Base and quote provided with no exchange, setting to default: ${defaultExchange}`,
-      )
-
-      return
-    }
+    return
   }
+}
 
 // Check that the exchange is in our list of exchange configs, else throw an error
 const validateExchange = (req: AdapterRequest<typeof inputParameters.validated>) => {
@@ -135,7 +127,7 @@ const validateExchange = (req: AdapterRequest<typeof inputParameters.validated>)
   }
 }
 
-export const buildQuoteEndpoint = (defaultExchange: string, overrides?: Record<string, string>) =>
+export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
   new PriceEndpoint<BaseEndpointTypes>({
     name: 'quote',
     aliases: ['common', 'stock', 'forex'],
@@ -144,9 +136,9 @@ export const buildQuoteEndpoint = (defaultExchange: string, overrides?: Record<s
       .register('rest', httpTransport),
     defaultTransport: 'rest',
     customRouter: (_req, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
-    requestTransforms: [requestTransform(defaultExchange), validateExchange],
+    requestTransforms: [requestTransform, validateExchange],
     inputParameters: inputParameters,
     overrides,
   })
 
-export const endpoint = buildQuoteEndpoint('FHFX')
+export const endpoint = buildQuoteEndpoint()
