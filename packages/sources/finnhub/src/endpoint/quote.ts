@@ -9,6 +9,9 @@ import { httpTransport } from '../transport/quote-http'
 import { wsTransport } from '../transport/quote-ws'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('Finnhub Quote')
 
 export const inputParameters = new InputParameters({
   base: {
@@ -84,27 +87,36 @@ const requestTransform =
     req.requestContext.data.quote = req.requestContext.data.quote?.toUpperCase()
     req.requestContext.data.exchange = req.requestContext.data.exchange?.toUpperCase()
 
-    const requestBase = req.requestContext.data.base
-    const requestQuote = req.requestContext.data.quote
-    const requestExchange = req.requestContext.data.exchange
+    const originalRequest = { ...req.requestContext.data }
 
     // If the symbol is a full symbol (containing Exchange and Pair), split into the separate params
-    if (isExchangeSymbol(requestBase)) {
-      const params = splitSymbol(requestBase)
+    if (isExchangeSymbol(originalRequest.base)) {
+      const params = splitSymbol(originalRequest.base)
 
       // If exchange is provided in request, prefer that over the exchange split from the symbol
-      const exchange = requestExchange || params.exchange
+      const exchange = originalRequest.exchange || params.exchange
 
       req.requestContext.data.base = params.base
       req.requestContext.data.quote = params.quote
       req.requestContext.data.exchange = exchange
 
+      logger.debug(
+        `FX symbol detected, extracting ${JSON.stringify(originalRequest)} into ${JSON.stringify(
+          req.requestContext.data,
+        )}`,
+      )
+
       return
     }
 
     // Use default exchange if none is provided
-    if (requestBase && requestQuote) {
-      req.requestContext.data.exchange = requestExchange || defaultExchange
+    if (originalRequest.base && originalRequest.quote && originalRequest.exchange == undefined) {
+      req.requestContext.data.exchange = defaultExchange
+
+      logger.debug(
+        `Base and quote provided with no exchange, setting to default: ${defaultExchange}`,
+      )
+
       return
     }
   }
