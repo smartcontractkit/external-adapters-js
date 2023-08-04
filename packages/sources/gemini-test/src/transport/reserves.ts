@@ -14,12 +14,12 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params) => {
+  prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
         params: [param],
         request: {
-          baseURL: `https://api.gemini.com`,
+          baseURL: config.API_ENDPOINT,
           url: `/v1/tokens/${param.token.toLowerCase()}/reserves`,
         },
       }

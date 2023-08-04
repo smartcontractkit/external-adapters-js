@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { httpTransport } from '../transport/reserves'
-import { BaseAdapterSettings } from '@chainlink/external-adapter-framework/config'
+import { config } from '../config'
 
 export const inputParameters = new InputParameters({
   token: {
@@ -30,7 +30,7 @@ export type BaseEndpointTypes = {
     }
     Result: null
   }
-  Settings: BaseAdapterSettings
+  Settings: typeof config.settings
 }
 
 export const endpoint = new AdapterEndpoint({
