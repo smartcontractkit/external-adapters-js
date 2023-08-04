@@ -1,6 +1,6 @@
 # STADER_ADDRESS_LIST
 
-![2.3.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.3.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -11,6 +11,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |        RPC_URL        |   The RPC URL to connect to the EVM chain the address manager contract is deployed to.    | string |         |         |
 |           |       CHAIN_ID        |                                The chain id to connect to                                 | number |         |   `1`   |
 |           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

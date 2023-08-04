@@ -13,6 +13,18 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|     free     |              3              |                             |           20.83           |      |
+|    growth    |             10              |                             |       104.166666667       |      |
+|   startup    |             20              |                             |           312.5           |      |
+| partnership  |             30              |                             |           937.5           |      |
+| professional |             40              |                             |          2812.5           |      |
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

@@ -1,5 +1,13 @@
 # @chainlink/defi-dozen-adapter
 
+## 1.2.64
+
+### Patch Changes
+
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/token-allocation-adapter@1.11.5
+
 ## 1.2.63
 
 ### Patch Changes

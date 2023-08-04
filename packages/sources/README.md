@@ -59,6 +59,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [dwolla](./dwolla/README.md)
 - [dxfeed](./dxfeed/README.md)
 - [dxfeed-secondary](./dxfeed-secondary/README.md)
+- [elven](./elven/README.md)
 - [elwood](./elwood/README.md)
 - [ens](./ens/README.md)
 - [enzyme](./enzyme/README.md)

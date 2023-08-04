@@ -17,6 +17,23 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|    Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |         Note         |
+| :---------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------: |
+|    basic    |                             |              8              |       33.3333333333       | 800 API requests/day |
+|    grow1    |                             |             55              |                           |                      |
+|    grow2    |                             |             144             |                           |                      |
+|    grow3    |                             |             377             |                           |                      |
+|    pro1     |                             |             610             |                           |                      |
+|    pro2     |                             |             987             |                           |                      |
+|    pro3     |                             |            1597             |                           |                      |
+| enterprise1 |                             |                             |           2584            |                      |
+| enterprise2 |                             |                             |           4181            |                      |
+| enterprise3 |                             |                             |           10946           |                      |
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.6.2
+
+### Patch Changes
+
+- c1c883367: Modified readme generator to add adapter rate limits to readmes
+
 ## 2.6.1
 
 ### Patch Changes

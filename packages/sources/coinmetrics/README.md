@@ -1,6 +1,6 @@
 # COINMETRICS
 
-![3.2.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.2.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -11,6 +11,15 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |     API_KEY     |      The coinmetrics API key      | string |         |                                 |
 |           | WS_API_ENDPOINT | The websocket url for coinmetrics | string |         |  `wss://api.coinmetrics.io/v4`  |
 |           |  API_ENDPOINT   |    The API url for coinmetrics    | string |         | `https://api.coinmetrics.io/v4` |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| community |                             |             100             |                           |      |
+|   paid    |             300             |                             |                           |      |
 
 ---
 
