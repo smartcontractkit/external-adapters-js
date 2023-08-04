@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute balance endpoint result is an alias for addresses 1`] = `
+{
+  "data": {
+    "balances": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "result": "33426744125000000000000",
+      },
+      {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+        "result": "850000000000000000",
+      },
+    ],
+    "result": "33427594125000000000000",
+  },
+  "result": "33427594125000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute balance endpoint should return success multiple addresses 1`] = `
+{
+  "data": {
+    "balances": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "result": "33426744125000000000000",
+      },
+      {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+        "result": "850000000000000000",
+      },
+    ],
+    "result": "33427594125000000000000",
+  },
+  "result": "33427594125000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute balance endpoint should return success with one address 1`] = `
+{
+  "data": {
+    "balances": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "result": "33426744125000000000000",
+      },
+    ],
+    "result": "33426744125000000000000",
+  },
+  "result": "33426744125000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

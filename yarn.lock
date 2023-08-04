@@ -4088,6 +4088,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/lotus-test-adapter@workspace:packages/sources/lotus-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/lotus-test-adapter@workspace:packages/sources/lotus-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.30.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    ethers: ^5.4.7
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/market-closure-adapter@workspace:packages/composites/market-closure":
   version: 0.0.0-use.local
   resolution: "@chainlink/market-closure-adapter@workspace:packages/composites/market-closure"
