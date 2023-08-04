@@ -1,6 +1,6 @@
-import { BaseEndpointTypes, buildSymbol, splitSymbol } from '../endpoint/quote'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes, buildSymbol } from '../endpoint/quote'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
+import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Finnhub quote endpoint WS')
 
@@ -28,7 +28,7 @@ type WsEndpointTypes = BaseEndpointTypes & {
   }
 }
 
-export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
+export const wsTransport = new WebsocketReverseMappingTransport<WsEndpointTypes, string>({
   url: ({ adapterSettings }) =>
     `${adapterSettings.WS_API_ENDPOINT}?token=${adapterSettings.API_KEY}`,
   handlers: {
@@ -39,19 +39,33 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
       }
 
       if (message.type === 'trade') {
+        const results: ProviderResult<WsEndpointTypes>[] = []
+
         const trades = message.data
-        return trades.map(({ s, p, t }) => ({
-          params: splitSymbol(s),
-          response: {
-            result: p,
-            data: {
+
+        trades.forEach(({ s, p, t }) => {
+          const params = wsTransport.getReverseMapping(s)
+
+          if (!params) {
+            logger.error(`Pair not found in websocket reverse map for message symbol '${s}'`)
+            return
+          }
+
+          results.push({
+            params,
+            response: {
               result: p,
+              data: {
+                result: p,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: t,
+              },
             },
-            timestamps: {
-              providerIndicatedTimeUnixMs: t,
-            },
-          },
-        }))
+          })
+        })
+
+        return results
       }
 
       return
@@ -59,6 +73,8 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   },
   builders: {
     subscribeMessage: (params) => {
+      const symbol = buildSymbol(params)
+      wsTransport.setReverseMapping(symbol, params)
       return { type: 'subscribe', symbol: buildSymbol(params) }
     },
     unsubscribeMessage: (params) => {

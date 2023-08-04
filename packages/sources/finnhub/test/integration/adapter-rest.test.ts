@@ -55,16 +55,6 @@ describe('rest', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return success for requests overriden by default adapter overrides', async () => {
-      const data = {
-        base: 'EUR',
-      }
-      mockResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
     it('should return success for requests with base and quote', async () => {
       const data = {
         base: 'EUR',
@@ -98,12 +88,45 @@ describe('rest', () => {
       expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should return success for standard pairs, when pair has inverse config', async () => {
+      const data = {
+        base: 'USD',
+        quote: 'JPY',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for inverted pairs', async () => {
+      const data = {
+        base: 'JPY',
+        quote: 'USD',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 
   describe('forex endpoint (quote alias)', () => {
-    it('should return success', async () => {
+    it('should return success when providing base', async () => {
       const data = {
         base: 'AAPL',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success when providing base and quote', async () => {
+      const data = {
+        base: 'AAPL',
+        quote: 'USD',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
