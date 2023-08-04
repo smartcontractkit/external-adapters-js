@@ -1,0 +1,167 @@
+[
+  {
+    "from": "HKD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "HKD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SGD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SGD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SEK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SEK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TRY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TRY",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PLN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PLN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CAD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "DKK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "DKK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CNH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CNH",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CHF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CHF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "JPY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "JPY",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "NOK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "NOK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CZK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CZK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "HUF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "HUF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MXN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MXN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ZAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ZAR",
+        "inverse": true
+      }
+    ]
+  }
+]
