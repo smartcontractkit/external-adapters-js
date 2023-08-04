@@ -1,6 +1,9 @@
 {
     "requests": [
         {
+            "base": "EUR"
+        },
+        {
             "base": "OANDA:EUR_USD"
         },
         {
@@ -10,12 +13,8 @@
             "base": "OANDA:GBP_USD"
         },
         {
-            "base": "JPY",
-            "quote": "USD"
-        },
-        {
-            "base": "USD",
-            "quote": "JPY"
+            "base": "EUR",
+            "endpoint": "forex"
         },
         {
             "base": "OANDA:EUR_USD",
@@ -33,7 +32,8 @@
         {
             "base": "AAPL",
             "endpoint": "stock"
-        },
+        }
+        ,
         {
             "base": "MSFT",
             "endpoint": "stock"

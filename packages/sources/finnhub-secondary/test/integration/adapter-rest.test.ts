@@ -46,12 +46,21 @@ describe('rest', () => {
       const data = {
         base: 'EUR',
         overrides: {
-          'finnhub-secondary': { EUR: 'OANDA:EUR_USD' },
+          finnhub: { EUR: 'OANDA:EUR_USD' },
         },
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
 
+    it('should return success for requests overriden by default adapter overrides', async () => {
+      const data = {
+        base: 'EUR',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
@@ -59,28 +68,6 @@ describe('rest', () => {
     it('should return success for requests with base and quote', async () => {
       const data = {
         base: 'EUR',
-        quote: 'USD',
-      }
-      mockResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return success for standard pairs, when pair has inverse config', async () => {
-      const data = {
-        base: 'USD',
-        quote: 'JPY',
-      }
-      mockResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return success for inverted pairs', async () => {
-      const data = {
-        base: 'JPY',
         quote: 'USD',
       }
       mockResponseSuccess()
