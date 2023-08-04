@@ -3684,6 +3684,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/gemini-test-adapter@workspace:packages/sources/gemini-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gemini-test-adapter@workspace:packages/sources/gemini-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.30.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility":
   version: 0.0.0-use.local
   resolution: "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility"

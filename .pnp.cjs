@@ -500,6 +500,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/gemini"\
       },\
       {\
+        "name": "@chainlink/gemini-test-adapter",\
+        "reference": "workspace:packages/sources/gemini-test"\
+      },\
+      {\
         "name": "@chainlink/genesis-volatility-adapter",\
         "reference": "workspace:packages/sources/genesis-volatility"\
       },\
@@ -918,6 +922,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
       ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
       ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
+      ["@chainlink/gemini-test-adapter", ["workspace:packages/sources/gemini-test"]],\
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
       ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
@@ -7422,6 +7427,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/gemini-test-adapter", [\
+        ["workspace:packages/sources/gemini-test", {\
+          "packageLocation": "./packages/sources/gemini-test/",\
+          "packageDependencies": [\
+            ["@chainlink/gemini-test-adapter", "workspace:packages/sources/gemini-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.30.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
