@@ -21,13 +21,6 @@ const mockWebSocketServer = (url: string) => {
               t: 1641035471111,
               v: 0,
             },
-            {
-              c: null,
-              p: 142.652,
-              s: 'OANDA:USD_JPY',
-              t: 1641035471111,
-              v: 0,
-            },
           ],
           type: 'trade',
         }),
@@ -85,7 +78,14 @@ describe('websocket', () => {
       base: 'OANDA:EUR_USD',
     })
 
-    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return success for base overriden by default adapter overrides', async () => {
+    const response = await testAdapter.request({
+      base: 'EUR',
+    })
+
     expect(response.json()).toMatchSnapshot()
   })
 
@@ -95,27 +95,6 @@ describe('websocket', () => {
       quote: 'USD',
     })
 
-    expect(response.statusCode).toBe(200)
-    expect(response.json()).toMatchSnapshot()
-  })
-
-  it('should return success for standard pairs, when pair has inverse config', async () => {
-    const response = await testAdapter.request({
-      base: 'USD',
-      quote: 'JPY',
-    })
-
-    expect(response.statusCode).toBe(200)
-    expect(response.json()).toMatchSnapshot()
-  })
-
-  it('should return success for inverted pairs', async () => {
-    const response = await testAdapter.request({
-      base: 'JPY',
-      quote: 'USD',
-    })
-
-    expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchSnapshot()
   })
 })

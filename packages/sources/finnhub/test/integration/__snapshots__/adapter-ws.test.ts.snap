@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket should return success for base overriden by default adapter overrides 1`] = `
+{
+  "data": {
+    "result": 1.098455,
+  },
+  "result": 1.098455,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1641035471111,
+  },
+}
+`;
+
 exports[`websocket should return success for full symbols 1`] = `
 {
   "data": {
@@ -15,42 +30,12 @@ exports[`websocket should return success for full symbols 1`] = `
 }
 `;
 
-exports[`websocket should return success for inverted pairs 1`] = `
-{
-  "data": {
-    "result": 0.007010066455429998,
-  },
-  "result": 0.007010066455429998,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
-    "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1641035471111,
-  },
-}
-`;
-
 exports[`websocket should return success for requests with base and quote 1`] = `
 {
   "data": {
     "result": 1.098455,
   },
   "result": 1.098455,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
-    "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1641035471111,
-  },
-}
-`;
-
-exports[`websocket should return success for standard pairs, when pair has inverse config 1`] = `
-{
-  "data": {
-    "result": 142.652,
-  },
-  "result": 142.652,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,

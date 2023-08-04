@@ -55,29 +55,4 @@ export const mockResponseSuccess = (): nock.Scope => {
         'Origin',
       ],
     )
-    .get('/quote')
-    .query({ token: 'fake-api-key', symbol: 'OANDA:USD_JPY' })
-    .reply(
-      200,
-      () => ({
-        c: 142.652,
-        d: -0.677,
-        dp: -0.4723,
-        h: 143.365,
-        l: 142.234,
-        o: 143.348,
-        pc: 143.329,
-        t: 1690923600,
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
 }

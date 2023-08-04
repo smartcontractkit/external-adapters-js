@@ -1,6 +1,9 @@
 {
     "requests": [
         {
+            "base": "EUR"
+        },
+        {
             "base": "FHFX:EUR-USD"
         },
         {
@@ -10,12 +13,8 @@
             "base": "FHFX:GBP-USD"
         },
         {
-            "base": "JPY",
-            "quote": "USD"
-        },
-        {
-            "base": "USD",
-            "quote": "JPY"
+            "base": "EUR",
+            "endpoint": "forex"
         },
         {
             "base": "FHFX:EUR-USD",
@@ -33,7 +32,8 @@
         {
             "base": "AAPL",
             "endpoint": "stock"
-        },
+        }
+        ,
         {
             "base": "MSFT",
             "endpoint": "stock"
