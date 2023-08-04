@@ -23,18 +23,7 @@
   },
   {
     "from": "UK10YB",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:UK10YB_GBP",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "UK10YB",
+    "to": "GBP",
     "includes": [
       {
         "from": "OANDA:UK10YB_GBP",
@@ -111,18 +100,7 @@
   },
   {
     "from": "AU200",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:AU200_AUD",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "AU200",
+    "to": "AUD",
     "includes": [
       {
         "from": "OANDA:AU200_AUD",
@@ -144,18 +122,7 @@
   },
   {
     "from": "SG30",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:SG30_SGD",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "SG30",
+    "to": "SGD",
     "includes": [
       {
         "from": "OANDA:SG30_SGD",
@@ -177,18 +144,7 @@
   },
   {
     "from": "UK100",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:UK100_GBP",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "UK100",
+    "to": "GBP",
     "includes": [
       {
         "from": "OANDA:UK100_GBP",
@@ -287,18 +243,7 @@
   },
   {
     "from": "JP225Y",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:JP225Y_JPY",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "JP225Y",
+    "to": "JPY",
     "includes": [
       {
         "from": "OANDA:JP225Y_JPY",
@@ -353,18 +298,7 @@
   },
   {
     "from": "HK33",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:HK33_HKD",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "HK33",
+    "to": "HKD",
     "includes": [
       {
         "from": "OANDA:HK33_HKD",
@@ -419,18 +353,7 @@
   },
   {
     "from": "EU50",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:EU50_EUR",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "EU50",
+    "to": "EUR",
     "includes": [
       {
         "from": "OANDA:EU50_EUR",
@@ -474,18 +397,7 @@
   },
   {
     "from": "DE10YB",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:DE10YB_EUR",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "DE10YB",
+    "to": "EUR",
     "includes": [
       {
         "from": "OANDA:DE10YB_EUR",
@@ -529,18 +441,7 @@
   },
   {
     "from": "FR40",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:FR40_EUR",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "FR40",
+    "to": "EUR",
     "includes": [
       {
         "from": "OANDA:FR40_EUR",
@@ -760,18 +661,7 @@
   },
   {
     "from": "NL25",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:NL25_EUR",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "NL25",
+    "to": "EUR",
     "includes": [
       {
         "from": "OANDA:NL25_EUR",
@@ -782,18 +672,7 @@
   },
   {
     "from": "DE30",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:DE30_EUR",
-        "to": "",
-        "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "USD",
-    "to": "DE30",
+    "to": "EUR",
     "includes": [
       {
         "from": "OANDA:DE30_EUR",
