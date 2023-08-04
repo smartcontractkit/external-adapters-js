@@ -5,11 +5,13 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config, exchanges } from '../config'
-import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/quote-http'
 import { wsTransport } from '../transport/quote-ws'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('Finnhub Quote')
 
 export const inputParameters = new InputParameters({
   base: {
@@ -79,39 +81,61 @@ export const buildSymbol = ({
   return base
 }
 
-const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>) => {
-  req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
-  req.requestContext.data.quote = req.requestContext.data.quote?.toUpperCase()
-  req.requestContext.data.exchange = req.requestContext.data.exchange?.toUpperCase()
+const requestTransform =
+  (defaultExchange: string) => (req: AdapterRequest<typeof inputParameters.validated>) => {
+    req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
+    req.requestContext.data.quote = req.requestContext.data.quote?.toUpperCase()
+    req.requestContext.data.exchange = req.requestContext.data.exchange?.toUpperCase()
 
-  const requestBase = req.requestContext.data.base
-  const requestExchange = req.requestContext.data.exchange
+    const originalRequest = { ...req.requestContext.data }
 
-  // If the symbol is a full symbol (containing Exchange and Pair), split into the separate params
-  if (isExchangeSymbol(requestBase)) {
-    const params = splitSymbol(requestBase)
+    // If the symbol is a full symbol (containing Exchange and Pair), split into the separate params
+    if (isExchangeSymbol(originalRequest.base)) {
+      const params = splitSymbol(originalRequest.base)
 
-    // If exchange is provided in request, prefer that over the exchange split from the symbol
-    const exchange = requestExchange || params.exchange
+      // If exchange is provided in request, prefer that over the exchange split from the symbol
+      const exchange = originalRequest.exchange || params.exchange
 
-    if (exchange && exchanges[exchange] == undefined) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `${exchange} is not a supported exchange, must be one of [${Object.keys(
-          exchanges,
-        ).join(', ')}]`,
-      })
+      req.requestContext.data.base = params.base
+      req.requestContext.data.quote = params.quote
+      req.requestContext.data.exchange = exchange
+
+      logger.debug(
+        `FX symbol detected, extracting ${JSON.stringify(originalRequest)} into ${JSON.stringify(
+          req.requestContext.data,
+        )}`,
+      )
+
+      return
     }
 
-    req.requestContext.data.base = params.base
-    req.requestContext.data.quote = params.quote
-    req.requestContext.data.exchange = exchange
+    // Use default exchange if none is provided
+    if (originalRequest.base && originalRequest.quote && originalRequest.exchange == undefined) {
+      req.requestContext.data.exchange = defaultExchange
 
-    return
+      logger.debug(
+        `Base and quote provided with no exchange, setting to default: ${defaultExchange}`,
+      )
+
+      return
+    }
+  }
+
+// Check that the exchange is in our list of exchange configs, else throw an error
+const validateExchange = (req: AdapterRequest<typeof inputParameters.validated>) => {
+  const exchange = req.requestContext.data.exchange
+
+  if (exchange && exchanges[exchange] == undefined) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `'${exchange}' is not a supported exchange, must be one of [${Object.keys(
+        exchanges,
+      ).join(', ')}]`,
+    })
   }
 }
 
-export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
+export const buildQuoteEndpoint = (defaultExchange: string, overrides?: Record<string, string>) =>
   new PriceEndpoint<BaseEndpointTypes>({
     name: 'quote',
     aliases: ['common', 'stock', 'forex'],
@@ -120,9 +144,9 @@ export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
       .register('rest', httpTransport),
     defaultTransport: 'rest',
     customRouter: (_req, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
-    requestTransforms: [requestTransform],
+    requestTransforms: [requestTransform(defaultExchange), validateExchange],
     inputParameters: inputParameters,
     overrides,
   })
 
-export const endpoint = buildQuoteEndpoint(overrides.finnhub)
+export const endpoint = buildQuoteEndpoint('FHFX')
