@@ -516,6 +516,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/gramchain"\
       },\
       {\
+        "name": "@chainlink/gramchain-test-adapter",\
+        "reference": "workspace:packages/sources/gramchain-test"\
+      },\
+      {\
         "name": "@chainlink/graphql-adapter",\
         "reference": "workspace:packages/sources/graphql"\
       },\
@@ -923,6 +927,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
       ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],\
       ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
+      ["@chainlink/gramchain-test-adapter", ["workspace:packages/sources/gramchain-test"]],\
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
       ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
@@ -7508,6 +7513,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/gramchain-test-adapter", [\
+        ["workspace:packages/sources/gramchain-test", {\
+          "packageLocation": "./packages/sources/gramchain-test/",\
+          "packageDependencies": [\
+            ["@chainlink/gramchain-test-adapter", "workspace:packages/sources/gramchain-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.30.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

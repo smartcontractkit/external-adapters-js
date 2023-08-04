@@ -3760,6 +3760,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/gramchain-test-adapter@workspace:packages/sources/gramchain-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gramchain-test-adapter@workspace:packages/sources/gramchain-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.30.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/graphql-adapter@workspace:*, @chainlink/graphql-adapter@workspace:packages/sources/graphql":
   version: 0.0.0-use.local
   resolution: "@chainlink/graphql-adapter@workspace:packages/sources/graphql"
