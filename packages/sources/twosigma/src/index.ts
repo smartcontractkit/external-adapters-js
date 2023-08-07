@@ -6,6 +6,7 @@ import { priceEndpoint } from './endpoint'
 const makeAdapter = () => {
   // Factory method because the adapter loads configs from env vars at initialization
   // time, so this is useful in tests for example.
+  // test comment
   return new PriceAdapter({
     name: 'TWOSIGMA',
     endpoints: [priceEndpoint],
