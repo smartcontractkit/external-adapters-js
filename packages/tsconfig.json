@@ -564,9 +564,6 @@
       "path": "./sources/wbtc-address-set"
     },
     {
-      "path": "./sources/wbtc-address-set-test"
-    },
-    {
       "path": "./sources/wootrade"
     },
     {
