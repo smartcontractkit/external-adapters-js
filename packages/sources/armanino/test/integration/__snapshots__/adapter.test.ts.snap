@@ -5,10 +5,12 @@ exports[`execute mco2 endpoint should return success 1`] = `
   "data": {
     "result": 3041044,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 3041044,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
@@ -36,9 +38,11 @@ exports[`execute stbt endpoint should return success 1`] = `
   "data": {
     "result": 72178807.56,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 72178807.56,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;

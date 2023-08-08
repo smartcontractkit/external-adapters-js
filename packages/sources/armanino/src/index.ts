@@ -1,11 +1,13 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute, endpointSelector } from './adapter'
-import * as endpoints from './endpoint'
-import { makeConfig, NAME } from './config'
-import type * as types from './endpoint'
-import * as rateLimit from './config/limits.json'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
+import { mco2, stbt } from './endpoint'
 
-const adapterContext = { name: NAME, rateLimit }
+export const adapter = new Adapter({
+  defaultEndpoint: mco2.name,
+  name: 'ARMANINO',
+  config,
+  endpoints: [mco2, stbt],
+})
 
-const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, makeExecute, makeConfig, server, types, endpoints }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

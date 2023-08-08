@@ -39,6 +39,7 @@ export const mockMCO2Response = (): nock.Scope =>
         'max-age=63072000; includeSubDomains; preload',
       ],
     )
+    .persist()
 
 export const mockSTBTResponseSuccess = (): nock.Scope =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
@@ -67,3 +68,4 @@ export const mockSTBTResponseFailure = (): nock.Scope =>
       ripcord: true,
       ripcordDetails: ['Balances'],
     })
+    .persist()
