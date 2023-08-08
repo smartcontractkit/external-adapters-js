@@ -67,6 +67,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.ETH_CONSENSUS_RPC_URL = process.env.ETH_CONSENSUS_RPC_UR ?? 'http://localhost:3500'
     process.env.ETH_EXECUTION_RPC_URL = process.env.ETH_EXECUTION_RPC_URL ?? 'http://localhost:3501'
+    process.env['BACKGROUND_EXECUTE_MS'] = '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 

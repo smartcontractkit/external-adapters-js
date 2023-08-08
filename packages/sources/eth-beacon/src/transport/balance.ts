@@ -1,10 +1,9 @@
-import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
-  AdapterRequest,
   AdapterResponse,
   makeLogger,
+  sleep,
   splitArrayIntoChunks,
 } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
@@ -19,6 +18,8 @@ import { ethers } from 'ethers'
 import BigNumber from 'bignumber.js'
 import { DepositEvent_ABI } from '../config/DepositAbi'
 import { PoRBalance } from '@chainlink/external-adapter-framework/adapter/por'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 
 const logger = makeLogger('BalanceTransport')
 
@@ -53,43 +54,70 @@ export type Address = {
   address: string
 }
 
-export class BalanceTransport implements Transport<BalanceTransportTypes> {
-  name!: string
-  responseCache!: ResponseCache<BalanceTransportTypes>
+type RequestParams = typeof inputParameters.validated
+
+export class BalanceTransport extends SubscriptionTransport<BalanceTransportTypes> {
+  provider!: ethers.providers.JsonRpcProvider
   requester!: Requester
+  config!: BalanceTransportTypes['Settings']
+  endpointName!: string
 
   async initialize(
     dependencies: TransportDependencies<BalanceTransportTypes>,
-    _adapterSettings: BalanceTransportTypes['Settings'],
-    _endpointName: string,
+    adapterSettings: BalanceTransportTypes['Settings'],
+    endpointName: string,
     transportName: string,
   ): Promise<void> {
-    this.responseCache = dependencies.responseCache
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.config = adapterSettings
+    this.provider = new ethers.providers.JsonRpcProvider(
+      adapterSettings.ETH_EXECUTION_RPC_URL,
+      adapterSettings.CHAIN_ID,
+    )
     this.requester = dependencies.requester
-    this.name = transportName
+    this.endpointName = endpointName
   }
-  async foregroundExecute(
-    req: AdapterRequest<typeof inputParameters.validated>,
-    adapterSettings: BalanceTransportTypes['Settings'],
-  ): Promise<AdapterResponse<BalanceTransportTypes['Response']>> {
-    const params = req.requestContext.data
 
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+    if (!entries.length) {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+      return
+    }
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+  }
+
+  async handleRequest(param: RequestParams) {
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(param)
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      response = {
+        statusCode: 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    params: RequestParams,
+  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const url = `/eth/v1/beacon/states/${params.stateId}/validators`
     const statusList = params.validatorStatus?.join(',')
-    const batchSize = adapterSettings.BATCH_SIZE
+    const batchSize = this.config.BATCH_SIZE
     const responses = []
 
     // If adapter configured with 0 batch size, put all validators in one request to allow skipping batching
     if (batchSize === 0) {
       const addresses = params.addresses.map(({ address }) => address).join(',')
       responses.push(
-        await this.queryBeaconChain(
-          adapterSettings,
-          req.requestContext.endpointName,
-          url,
-          addresses,
-          statusList,
-        ),
+        await this.queryBeaconChain(this.config, this.endpointName, url, addresses, statusList),
       )
     } else {
       const batchedAddresses = []
@@ -104,7 +132,7 @@ export class BalanceTransport implements Transport<BalanceTransportTypes> {
         )
       }
 
-      const groupSize = adapterSettings.GROUP_SIZE
+      const groupSize = this.config.GROUP_SIZE
       const requestGroups = splitArrayIntoChunks(batchedAddresses, groupSize)
 
       // Make request to beacon API for every batch
@@ -114,8 +142,8 @@ export class BalanceTransport implements Transport<BalanceTransportTypes> {
           ...(await Promise.all(
             group.map((addresses) => {
               return this.queryBeaconChain(
-                adapterSettings,
-                req.requestContext.endpointName,
+                this.config,
+                this.endpointName,
                 url,
                 addresses,
                 statusList,
@@ -149,11 +177,7 @@ export class BalanceTransport implements Transport<BalanceTransportTypes> {
     // Otherwise, record 0 for the balance of missing validators
     if (params.searchLimboValidators) {
       balances.push(
-        ...(await this.searchLimboValidators(
-          adapterSettings,
-          unfoundValidators,
-          req.requestContext.endpointName,
-        )),
+        ...(await this.searchLimboValidators(this.config, unfoundValidators, this.endpointName)),
       )
     } else {
       // Populate balances list with addresses that were filtered out with a 0 balance
@@ -179,14 +203,11 @@ export class BalanceTransport implements Transport<BalanceTransportTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.responseCache.write(this.name, [
-      {
-        params: req.requestContext.data,
-        response,
-      },
-    ])
-
     return response
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 
   private async queryBeaconChain(
@@ -230,16 +251,11 @@ export class BalanceTransport implements Transport<BalanceTransportTypes> {
       limboAddressMap[validator.address.toLowerCase()] = validator
     })
 
-    const provider = new ethers.providers.JsonRpcProvider(
-      config.ETH_EXECUTION_RPC_URL,
-      config.CHAIN_ID,
-    )
-
     // Returns map of validators found in limbo with balances in wei
     const limboBalances = await this.fetchLimboEthBalances(
       limboAddressMap,
       String(config.ETH_CONSENSUS_RPC_URL),
-      provider,
+      this.provider,
       config,
       endpointName,
     )
