@@ -1,5 +1,11 @@
 # @chainlink/polkadot-balance-adapter
 
+## 1.2.4
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 1.2.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/finnhub-adapter
 
+## 2.5.1
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 2.5.0
 
 ### Minor Changes

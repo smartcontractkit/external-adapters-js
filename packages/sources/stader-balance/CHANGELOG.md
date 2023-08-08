@@ -1,5 +1,11 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.3
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 1.4.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/dar-adapter
 
+## 1.3.6
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 1.3.5
 
 ### Patch Changes
