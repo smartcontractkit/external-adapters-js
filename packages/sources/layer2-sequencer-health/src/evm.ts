@@ -39,6 +39,12 @@ export const sendEVMDummyTransaction = async (
       gasPrice: 0,
       to: wallet.address,
     },
+    [Networks.Base]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
     [Networks.Metis]: {
       value: 0,
       gasLimit: 0,
@@ -59,6 +65,10 @@ const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> =
     timestamp: 0,
   },
   [Networks.Optimism]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Base]: {
     block: 0,
     timestamp: 0,
   },

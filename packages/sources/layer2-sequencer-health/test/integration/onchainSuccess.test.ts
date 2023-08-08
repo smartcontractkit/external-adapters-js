@@ -177,4 +177,43 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
   })
+
+  describe('base network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'base',
+      },
+    }
+
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 })
