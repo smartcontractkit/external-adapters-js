@@ -5,7 +5,7 @@ import { addresses, members } from './endpoint'
 
 export const adapter = new PoRAdapter({
   defaultEndpoint: addresses.name,
-  name: 'WBTC-ADDRESS-SET-TEST',
+  name: 'WBTC',
   config,
   endpoints: [addresses, members],
 })
