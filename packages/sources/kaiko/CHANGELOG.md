@@ -1,5 +1,11 @@
 # @chainlink/kaiko-adapter
 
+## 2.0.5
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 2.0.4
 
 ### Patch Changes
