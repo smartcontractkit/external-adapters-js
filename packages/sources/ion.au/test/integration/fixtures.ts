@@ -1,15 +1,12 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://dataproviderapi.com', {
+  nock('https://ion-digital-proof-of-reserve.instruxi.dev/', {
     encodedQueryParams: true,
   })
-    .get('/cryptocurrency/price')
-    .query({
-      symbol: 'ETH',
-      convert: 'USD',
-    })
-    .reply(200, () => ({ ETH: { price: 10000 } }), [
+    .get('/')
+    .query({})
+    .reply(200, () => ({ total_reserve: 180 }), [
       'Content-Type',
       'application/json',
       'Connection',

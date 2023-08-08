@@ -34,8 +34,6 @@ describe('execute', () => {
   describe('total_reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
         endpoint: 'total_reserve',
         transport: 'rest',
       }
