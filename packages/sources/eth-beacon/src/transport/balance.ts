@@ -18,6 +18,7 @@ import {
 import { ethers } from 'ethers'
 import BigNumber from 'bignumber.js'
 import { DepositEvent_ABI } from '../config/DepositAbi'
+import { PoRBalance } from '@chainlink/external-adapter-framework/adapter/por'
 
 const logger = makeLogger('BalanceTransport')
 
@@ -42,17 +43,12 @@ interface ValidatorState {
   }
 }
 
-export interface BalanceResponse {
+export interface BalanceResponse extends PoRBalance {
   address: string
-  balance: string
 }
 
-export type BalanceTransportTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: any
-  }
-}
+export type BalanceTransportTypes = BaseEndpointTypes
+
 export type Address = {
   address: string
 }

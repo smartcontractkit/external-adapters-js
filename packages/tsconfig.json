@@ -303,9 +303,6 @@
       "path": "./sources/eth-beacon"
     },
     {
-      "path": "./sources/eth-beacon-test"
-    },
-    {
       "path": "./sources/etherchain"
     },
     {

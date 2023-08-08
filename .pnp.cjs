@@ -432,10 +432,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/eth-beacon"\
       },\
       {\
-        "name": "@chainlink/eth-beacon-test-adapter",\
-        "reference": "workspace:packages/sources/eth-beacon-test"\
-      },\
-      {\
         "name": "@chainlink/etherchain-adapter",\
         "reference": "workspace:packages/sources/etherchain"\
       },\
@@ -903,7 +899,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
       ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
       ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
-      ["@chainlink/eth-beacon-test-adapter", ["workspace:packages/sources/eth-beacon-test"]],\
       ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],\
       ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
@@ -7051,28 +7046,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/eth-beacon/",\
           "packageDependencies": [\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.47"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["axios", "npm:1.3.6"],\
-            ["bignumber.js", "npm:9.1.1"],\
-            ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/eth-beacon-test-adapter", [\
-        ["workspace:packages/sources/eth-beacon-test", {\
-          "packageLocation": "./packages/sources/eth-beacon-test/",\
-          "packageDependencies": [\
-            ["@chainlink/eth-beacon-test-adapter", "workspace:packages/sources/eth-beacon-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.30.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["bignumber.js", "npm:9.1.1"],\
