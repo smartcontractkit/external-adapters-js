@@ -9,6 +9,7 @@ import { SuperTest, Test } from 'supertest'
 const mockMessages = {
   'https://arb1.arbitrum.io/rpc': 'gas price too low',
   'https://mainnet.optimism.io': 'cannot accept 0 gas price transaction',
+  'https://mainnet.base.org': 'transaction underpriced',
 }
 
 jest.mock('ethers', () => {
@@ -72,6 +73,30 @@ describe('execute', () => {
       id,
       data: {
         network: 'optimism',
+      },
+    }
+
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('base network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'base',
       },
     }
 
