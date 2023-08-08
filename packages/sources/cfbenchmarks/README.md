@@ -2,13 +2,11 @@
 
 ### Environment variables
 
-| Required? |         Name          |                          Description                          |   Options    | Defaults to |
-| :-------: | :-------------------: | :-----------------------------------------------------------: | :----------: | :---------: |
-|    ✅     |    `API_USERNAME`     |                                                               |              |             |
-|    ✅     |    `API_PASSWORD`     |                                                               |              |             |
-|           |    `API_SECONDARY`    |         Use the secondary endpoint from cfbenchmarks          | true / false |    false    |
-|           |     `BIRC_RETRY`      |     How many times to retry if the BIRC API request fails     |              |      3      |
-|           | `BIRC_RETRY_DELAY_MS` | How many miliseconds to wait between BIRC API request retries |              |    1000     |
+| Required? |      Name       |                 Description                  |   Options    | Defaults to |
+| :-------: | :-------------: | :------------------------------------------: | :----------: | :---------: |
+|    ✅     | `API_USERNAME`  |                                              |              |             |
+|    ✅     | `API_PASSWORD`  |                                              |              |             |
+|           | `API_SECONDARY` | Use the secondary endpoint from cfbenchmarks | true / false |    false    |
 
 ---
 
