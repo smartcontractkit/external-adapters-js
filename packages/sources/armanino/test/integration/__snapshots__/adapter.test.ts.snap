@@ -12,6 +12,25 @@ exports[`execute mco2 endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute stbt endpoint should return error when ripcord true 1`] = `
+{
+  "error": {
+    "errorResponse": {
+      "ripcord": true,
+      "ripcordDetails": [
+        "Balances",
+      ],
+    },
+    "feedID": "{"data":{"endpoint":"stbt"}}",
+    "message": "Ripcord indicator true. Details: Balances",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 502,
+}
+`;
+
 exports[`execute stbt endpoint should return success 1`] = `
 {
   "data": {
