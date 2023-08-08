@@ -2,8 +2,8 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/total_reserve'
 
 export interface ResponseSchema {
-    total_reserve: number
-    errorMessage?: string
+  total_reserve: number
+  errorMessage?: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -46,8 +46,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         response: {
           result,
           data: {
-            result
-          }
+            result,
+          },
         },
       }
     })

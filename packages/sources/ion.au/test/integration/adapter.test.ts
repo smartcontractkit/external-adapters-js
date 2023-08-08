@@ -31,14 +31,13 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  
   describe('total_reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'total_reserve',
-        transport: 'rest'
+        transport: 'rest',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -46,5 +45,4 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
 })

@@ -5,7 +5,6 @@ import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/total_reserve'
 
-
 export const inputParameters = new InputParameters({})
 
 export type BaseEndpointTypes = {
@@ -19,5 +18,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['ion.au']
+  overrides: overrides['ion.au'],
 })
