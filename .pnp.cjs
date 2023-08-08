@@ -7191,6 +7191,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yeoman-generator", "npm:3.1.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.31.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.31.0-710681b9c8-9c8099e3b8.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:1.3.4"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.13.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["redlock", "npm:5.0.0-beta.2"],\
+            ["ws", "virtual:5aeb731ab2205b73ffebb216a4e187431be4ccd267893b7fe7611090ae6107a63d47ef052e0e827804831af35bc9bf8d2f1ce0d21f3432aef708b6225e3d245c#npm:8.9.0"],\
+            ["yeoman-generator", "npm:3.1.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@chainlink/external-adapters-js", [\
@@ -9121,14 +9140,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/view-function/",\
           "packageDependencies": [\
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

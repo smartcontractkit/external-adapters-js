@@ -561,9 +561,6 @@
       "path": "./sources/view-function/tsconfig.test.json"
     },
     {
-      "path": "./sources/view-function-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/wbtc-address-set/tsconfig.test.json"
     },
     {
