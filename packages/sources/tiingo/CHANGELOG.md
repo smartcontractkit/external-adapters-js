@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.1.6
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 2.1.5
 
 ### Patch Changes

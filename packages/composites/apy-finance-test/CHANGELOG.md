@@ -1,5 +1,13 @@
 # @chainlink/apy-finance-test-adapter
 
+## 0.1.1
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+- Updated dependencies [011aec39e]
+  - @chainlink/token-allocation-adapter@1.11.6
+
 ## 0.1.0
 
 ### Minor Changes

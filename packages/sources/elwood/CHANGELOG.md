@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 2.1.16
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 2.1.15
 
 ### Patch Changes

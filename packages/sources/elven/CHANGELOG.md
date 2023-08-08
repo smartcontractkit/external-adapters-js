@@ -1,5 +1,11 @@
 # @chainlink/elven-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 1.0.0
 
 ### Major Changes

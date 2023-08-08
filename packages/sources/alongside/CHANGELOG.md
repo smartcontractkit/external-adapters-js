@@ -1,5 +1,11 @@
 # @chainlink/alongside-adapter
 
+## 1.3.14
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 1.3.13
 
 ### Patch Changes

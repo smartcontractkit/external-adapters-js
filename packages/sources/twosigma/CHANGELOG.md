@@ -1,5 +1,11 @@
 # @chainlink/twosigma-adapter
 
+## 1.2.6
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
 ## 1.2.5
 
 ### Patch Changes
