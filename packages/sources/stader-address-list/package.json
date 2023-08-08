@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.30.3",
+    "@chainlink/external-adapter-framework": "0.31.0",
     "ethers": "5.5.4",
     "tslib": "^2.3.1"
   },
