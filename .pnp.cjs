@@ -776,10 +776,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/view-function"\
       },\
       {\
-        "name": "@chainlink/view-function-test-adapter",\
-        "reference": "workspace:packages/sources/view-function-test"\
-      },\
-      {\
         "name": "@chainlink/wbtc-address-set-adapter",\
         "reference": "workspace:packages/sources/wbtc-address-set"\
       },\
@@ -1013,7 +1009,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],\
       ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
-      ["@chainlink/view-function-test-adapter", ["workspace:packages/sources/view-function-test"]],\
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
       ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
@@ -9141,22 +9136,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
             ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/view-function-test-adapter", [\
-        ["workspace:packages/sources/view-function-test", {\
-          "packageLocation": "./packages/sources/view-function-test/",\
-          "packageDependencies": [\
-            ["@chainlink/view-function-test-adapter", "workspace:packages/sources/view-function-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.30.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.7.2"],\
