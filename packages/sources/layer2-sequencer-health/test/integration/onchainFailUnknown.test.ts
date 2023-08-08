@@ -108,4 +108,28 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
   })
+
+  describe('base network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'base',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 })

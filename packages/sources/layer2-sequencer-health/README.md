@@ -15,6 +15,9 @@ Adapter that checks the Layer 2 Sequencer status
 |           |      `OPTIMISM_RPC_ENDPOINT`      |                              Optimism RPC Endpoint                              |         |                   https://mainnet.optimism.io                    |
 |           |    `OPTIMISM_HEALTH_ENDPOINT`     |                            Optimism Health Endpoint                             |         |           https://mainnet-sequencer.optimism.io/health           |
 |           |        `OPTIMISM_CHAIN_ID`        |                           The chain id to connect to                            |         |                                10                                |
+|           |        `BASE_RPC_ENDPOINT`        |                                Base RPC Endpoint                                |         |                     https://mainnet.base.org                     |
+|           |      `BASE_HEALTH_ENDPOINT`       |                              Base Health Endpoint                               |         |                                                                  |
+|           |          `BASE_CHAIN_ID`          |                           The chain id to connect to                            |         |                               8453                               |
 |           |       `METIS_RPC_ENDPOINT`        |                               Metis RPC Endpoint                                |         |              https://andromeda.metis.io/?owner=1088              |
 |           |      `METIS_HEALTH_ENDPOINT`      |                              Metis Health Endpoint                              |         |            https://tokenapi.metis.io/andromeda/health            |
 |           |         `METIS_CHAIN_ID`          |                           The chain id to connect to                            |         |                               1088                               |
@@ -29,9 +32,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                   Options                    | Defaults to |
-| :-------: | :-----: | :----------------------: | :------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `metis`, `starkware` |             |
+| Required? |  Name   |       Description        |                       Options                        | Defaults to |
+| :-------: | :-----: | :----------------------: | :--------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `metis`, `starkware` |             |
 
 ---
 
