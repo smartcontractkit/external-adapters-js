@@ -5,7 +5,7 @@ import { functionEndpoint } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: functionEndpoint.name,
-  name: 'VIEW-FUNCTION',
+  name: 'VIEW_FUNCTION',
   config,
   endpoints: [functionEndpoint],
 })
