@@ -14,17 +14,6 @@ exports[`execute mco2 endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute stbt endpoint should return error when ripcord true 1`] = `
-{
-  "errorMessage": "Ripcord indicator true. Details: Balances",
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
 exports[`execute stbt endpoint should return success 1`] = `
 {
   "data": {

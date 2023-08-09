@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

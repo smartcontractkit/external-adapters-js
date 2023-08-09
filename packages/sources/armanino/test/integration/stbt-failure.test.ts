@@ -3,9 +3,11 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockMCO2Response, mockSTBTResponseSuccess } from './fixtures'
+import { mockSTBTResponseFailure } from './fixtures'
 
-describe('execute', () => {
+// The reason why the failure case of 'stbt' endpoint is in a separate file is because of race conditions causing tests to fail
+// as both success and failure cases use the same input params and connect to the same endpoint.
+describe('execute stbt', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
@@ -29,24 +31,14 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('mco2 endpoint', () => {
-    it('should return success', async () => {
-      mockMCO2Response()
-      const response = await testAdapter.request()
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-  })
-
-  describe('stbt endpoint', () => {
-    it('should return success', async () => {
+  describe('endpoint when ripcord true ', () => {
+    it('should return error', async () => {
       const data = {
         endpoint: 'stbt',
       }
-      mockSTBTResponseSuccess()
-
+      mockSTBTResponseFailure()
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
+      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })

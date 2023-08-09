@@ -41,17 +41,17 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       ]
     }
 
-    return params.map((param) => {
-      const result = response.data.totalReserve
-      return {
-        params: param,
+    const result = response.data.totalReserve
+    return [
+      {
+        params: params[0],
         response: {
           result,
           data: {
             result,
           },
         },
-      }
-    })
+      },
+    ]
   },
 })
