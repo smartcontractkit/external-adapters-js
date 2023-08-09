@@ -7177,25 +7177,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.30.3", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.30.3-5aeb731ab2-fb7d9adf08.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.30.3"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:1.3.4"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.13.0"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["mock-socket", "npm:9.1.5"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["redlock", "npm:5.0.0-beta.2"],\
-            ["ws", "virtual:710681b9c89834a1d33544848ca54ed544f650c61c70746107a092ffad9d8804a02c88bc41a4e7447158c371bd8110f2d3d397299a7216a4315ddd534ee719c4#npm:8.9.0"],\
-            ["yeoman-generator", "npm:3.1.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.31.0", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.31.0-710681b9c8-9c8099e3b8.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -7703,7 +7684,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ion.au/",\
           "packageDependencies": [\
             ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
-            ["@chainlink/external-adapter-framework", "npm:0.30.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
