@@ -21,10 +21,10 @@ import * as sochain from '@chainlink/sochain-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
 import * as ethBalance from '@chainlink/eth-balance-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
-import * as ethBeacon from '@chainlink/eth-beacon-adapter'
 import * as avalanchePlatform from '@chainlink/avalanche-platform-adapter'
 import { adapter as polkadotBalance } from '@chainlink/polkadot-balance-adapter'
 import { adapter as staderBalance } from '@chainlink/stader-balance-adapter'
+import { adapter as ethBeacon } from '@chainlink/eth-beacon-adapter'
 
 // TODO: type
 export const adaptersV2: v2AdapterImplementation[] = [
@@ -40,11 +40,10 @@ export const adaptersV2: v2AdapterImplementation[] = [
   lotus as unknown as v2AdapterImplementation,
   ethBalance as unknown as v2AdapterImplementation,
   adaBalance as unknown as v2AdapterImplementation,
-  ethBeacon as unknown as v2AdapterImplementation,
   avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance, staderBalance]
+export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance, staderBalance, ethBeacon]
 
 // Get balances for address set
 export const runBalanceAdapter = async (
@@ -63,7 +62,7 @@ export const runBalanceAdapter = async (
     case porIndexer.NAME:
       next = buildPorIndexerRequest(input, confirmations)
       break
-    case ethBeacon.NAME:
+    case ethBeacon.name:
       next = {
         id: input.jobRunID,
         data: {

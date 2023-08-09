@@ -1,54 +1,45 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'ETH_BEACON'
-
-export const DEFAULT_ENDPOINT = 'balance'
-export const ENV_ETH_CONSENSUS_RPC_URL = 'ETH_CONSENSUS_RPC_URL'
-export const ENV_ETH_EXECUTION_RPC_URL = 'ETH_EXECUTION_RPC_URL'
-export const ENV_FALLBACK_ETH_CONSENSUS_RPC_URLS = ['RPC_URL', 'ETHEREUM_RPC_URL']
-export const ENV_BATCH_SIZE = 'BATCH_SIZE'
-export const ENV_GROUP_SIZE = 'GROUP_SIZE'
-export const ENV_CHAIN_ID = 'CHAIN_ID'
-
-export const DEFAULT_BATCH_SIZE = 15
-export const DEFAULT_GROUP_SIZE = 15
-export const DEFAULT_CHAIN_ID = 1
-
-export type EthBeaconConfig = Config & {
-  adapterSpecificParams: {
-    beaconRpcUrl: string
-    executionRpcUrl: string
-    batchSize: number
-    groupSize: number
-    chainId: number
-  }
-}
-
-export const makeConfig = (prefix?: string): EthBeaconConfig => {
-  const beaconRpcUrl = util.getRequiredEnvWithFallback(
-    ENV_ETH_CONSENSUS_RPC_URL,
-    ENV_FALLBACK_ETH_CONSENSUS_RPC_URLS,
-    prefix,
-  )
-  const executionRpcUrl = util.getEnv(ENV_ETH_EXECUTION_RPC_URL) || ''
-  const batchSize = Number(util.getEnv(ENV_BATCH_SIZE, prefix) ?? DEFAULT_BATCH_SIZE)
-  const groupSize = Number(util.getEnv(ENV_GROUP_SIZE, prefix)) || DEFAULT_GROUP_SIZE
-  const chainId = Number(util.getEnv(ENV_CHAIN_ID, prefix) || DEFAULT_CHAIN_ID)
-  const defaultConfig = Requester.getDefaultConfig(prefix)
-  return {
-    ...defaultConfig,
-    api: {
-      ...defaultConfig.api,
-      baseURL: beaconRpcUrl,
+export const config = new AdapterConfig(
+  {
+    ETH_CONSENSUS_RPC_URL: {
+      description: 'RPC URL of an Ethereum consensus client (beacon node)',
+      type: 'string',
+      required: true,
     },
-    defaultEndpoint: DEFAULT_ENDPOINT,
-    adapterSpecificParams: {
-      beaconRpcUrl,
-      executionRpcUrl,
-      batchSize,
-      groupSize,
-      chainId,
+    ETH_EXECUTION_RPC_URL: {
+      description:
+        'RPC URL of an Ethereum execution client (archive node). Required for requests that need a limbo validator search',
+      type: 'string',
+      default: '',
     },
-  }
-}
+    BATCH_SIZE: {
+      description:
+        'Number of validators to send in each request to the consensus client. Set to 0 if consensus client allows unlimited validators in query. Setting this lower than the default and greater than 0 may result in lower performance from the adapter.',
+      type: 'number',
+      default: 15,
+    },
+    GROUP_SIZE: {
+      description:
+        'Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. Unused if BATCH_SIZE is set to 0.',
+      type: 'number',
+      default: 15,
+    },
+    CHAIN_ID: {
+      description: 'The chain id to connect to',
+      type: 'number',
+      default: 1,
+    },
+    BACKGROUND_EXECUTE_MS: {
+      description:
+        'The amount of time the background execute should sleep before performing the next request',
+      type: 'number',
+      default: 10_000,
+    },
+  },
+  {
+    envDefaultOverrides: {
+      API_TIMEOUT: 60000,
+    },
+  },
+)
