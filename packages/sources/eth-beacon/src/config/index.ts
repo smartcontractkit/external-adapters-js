@@ -40,6 +40,7 @@ export const config = new AdapterConfig(
   {
     envDefaultOverrides: {
       API_TIMEOUT: 60000,
+      BACKGROUND_EXECUTE_TIMEOUT: 180_000,
     },
   },
 )
