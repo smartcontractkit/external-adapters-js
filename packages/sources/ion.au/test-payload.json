@@ -1,6 +1,5 @@
 {
  "requests": [{
-  "from": "BTC",
-  "to": "USD"
+  "endpoint": "total_reserve"
  }]
 }
