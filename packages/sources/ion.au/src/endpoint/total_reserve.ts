@@ -15,8 +15,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'total_reserve',
-  aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['ion.au'],
 })
