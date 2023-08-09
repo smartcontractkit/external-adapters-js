@@ -4,6 +4,7 @@ export const mockMCO2Response = (): nock.Scope =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/MCO2')
     .reply(
       200,
@@ -41,24 +42,16 @@ export const mockMCO2Response = (): nock.Scope =>
     )
     .persist()
 
-export const mockSTBTResponseSuccess = (): nock.Scope =>
+export const mockSTBTResponseSuccessInterceptor = (): nock.Interceptor =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
     encodedQueryParams: true,
-  })
-    .get('/STBT')
-    .reply(200, {
-      accountName: 'STBT',
-      totalReserve: 72178807.56,
-      totalToken: 71932154.99,
-      timestamp: '2023-06-02T12:53:23.604Z',
-      ripcord: false,
-      ripcordDetails: [],
-    })
+  }).get('/STBT')
 
 export const mockSTBTResponseFailure = (): nock.Scope =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/STBT')
     .reply(200, {
       accountName: 'STBT',

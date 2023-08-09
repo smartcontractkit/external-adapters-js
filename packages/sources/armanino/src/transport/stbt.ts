@@ -6,6 +6,8 @@ export interface ResponseSchema {
   totalReserve: number
   totalToken: number
   timestamp: string
+  ripcord: boolean
+  ripcordDetails: string[]
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -25,6 +27,20 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }
   },
   parseResponse: (params, response) => {
+    // Return error if ripcord indicator true
+    if (response.data.ripcord) {
+      const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(', ')}`
+      return [
+        {
+          params: params[0],
+          response: {
+            errorMessage: message,
+            statusCode: 502,
+          },
+        },
+      ]
+    }
+
     return params.map((param) => {
       const result = response.data.totalReserve
       return {
