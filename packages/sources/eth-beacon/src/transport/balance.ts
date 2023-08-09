@@ -236,7 +236,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     })
 
     // Returns map of validators found in limbo with balances in wei
-    const limboBalances = await this.fetchLimboEthBalances(limboAddressMap, this.provider)
+    const limboBalances = await this.fetchLimboEthBalances(limboAddressMap)
 
     unfoundValidators.forEach((validator) => {
       const limboBalance = limboBalances[validator.address.toLowerCase()]
@@ -282,7 +282,6 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
   // Returns deposit amount in wei
   private async fetchLimboEthBalances(
     limboAddressMap: Record<string, Address> = {},
-    provider: ethers.providers.JsonRpcProvider,
   ): Promise<Record<string, BigNumber>> {
     // Aggregate balances in map in case validators have multiple deposit events
     const limboBalances: Record<string, BigNumber> = {}
@@ -292,12 +291,12 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       return limboBalances
     }
 
-    const latestBlockNum = await provider.getBlockNumber()
+    const latestBlockNum = await this.provider.getBlockNumber()
 
     const ethDepositContractAddress = await this.fetchEthDepositContractAddress()
 
     // Get all the deposit logs from the last DEPOSIT_EVENT_LOOKBACK_WINDOW blocks
-    const logs = await provider.getLogs({
+    const logs = await this.provider.getLogs({
       address: ethDepositContractAddress,
       topics: [DEPOSIT_EVENT_TOPIC],
       fromBlock: latestBlockNum - DEPOSIT_EVENT_LOOKBACK_WINDOW,
