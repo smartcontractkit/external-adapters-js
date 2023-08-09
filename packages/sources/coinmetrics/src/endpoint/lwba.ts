@@ -9,6 +9,8 @@ import { assetQuoteWebsocketTransport, pairQuoteWebsocketTransport } from '../tr
 
 export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
+const assets: string[] = ['bnb', 'uni', 'sol', 'ltc', 'xrp']
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
@@ -39,7 +41,7 @@ export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
     const { base } = req.requestContext.data as typeof inputParameters.validated & {
       transport?: string
     }
-    const route = base.toLowerCase() === 'bnb' ? 'asset' : 'pair'
+    const route = assets.includes(base.toLowerCase()) ? 'asset' : 'pair'
 
     return route
   },
