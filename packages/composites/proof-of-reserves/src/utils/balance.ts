@@ -21,7 +21,7 @@ import * as sochain from '@chainlink/sochain-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
 import * as ethBalance from '@chainlink/eth-balance-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
-import * as avalanchePlatform from '@chainlink/avalanche-platform-adapter'
+import { adapter as avalanchePlatform } from '@chainlink/avalanche-platform-adapter'
 import { adapter as polkadotBalance } from '@chainlink/polkadot-balance-adapter'
 import { adapter as staderBalance } from '@chainlink/stader-balance-adapter'
 import { adapter as ethBeacon } from '@chainlink/eth-beacon-adapter'
@@ -43,7 +43,12 @@ export const adaptersV2: v2AdapterImplementation[] = [
   avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [polkadotBalance, staderBalance, ethBeacon]
+export const adaptersV3: v3AdapterImplementation[] = [
+  polkadotBalance,
+  staderBalance,
+  ethBeacon,
+  avalanchePlatform,
+]
 
 // Get balances for address set
 export const runBalanceAdapter = async (
