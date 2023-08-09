@@ -75,7 +75,6 @@ export const calculatePairQuotesUrl = (
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
 
   let generated = new URL('/v4/timeseries-stream/pair-quotes', WS_API_ENDPOINT)
-  console.log({ isAssetQuote })
 
   // use asset-quotes api if base=[BNB,UNI,SOL,LTC,XRP]
   if (isAssetQuote) {
