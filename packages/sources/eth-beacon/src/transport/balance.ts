@@ -116,9 +116,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     // If adapter configured with 0 batch size, put all validators in one request to allow skipping batching
     if (batchSize === 0) {
       const addresses = params.addresses.map(({ address }) => address).join(',')
-      responses.push(
-        await this.queryBeaconChain(this.config, this.endpointName, url, addresses, statusList),
-      )
+      responses.push(await this.queryBeaconChain(url, addresses, statusList))
     } else {
       const batchedAddresses = []
       // Separate the address set into the specified batch size
@@ -141,13 +139,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
         responses.push(
           ...(await Promise.all(
             group.map((addresses) => {
-              return this.queryBeaconChain(
-                this.config,
-                this.endpointName,
-                url,
-                addresses,
-                statusList,
-              )
+              return this.queryBeaconChain(url, addresses, statusList)
             }),
           )),
         )
@@ -176,9 +168,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     // If searchLimboValidators param set to true, search deposit events for validators not found on the beacon chain
     // Otherwise, record 0 for the balance of missing validators
     if (params.searchLimboValidators) {
-      balances.push(
-        ...(await this.searchLimboValidators(this.config, unfoundValidators, this.endpointName)),
-      )
+      balances.push(...(await this.searchLimboValidators(unfoundValidators)))
     } else {
       // Populate balances list with addresses that were filtered out with a 0 balance
       // Prevents empty array being returned which would ultimately fail at the reduce step
@@ -211,14 +201,12 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
   }
 
   private async queryBeaconChain(
-    config: BalanceTransportTypes['Settings'],
-    endpointName: string,
     url: string,
     addresses: string,
     statusList?: string,
   ): Promise<StateResponseSchema> {
     const requestConfig = {
-      baseURL: config.ETH_CONSENSUS_RPC_URL,
+      baseURL: this.config.ETH_CONSENSUS_RPC_URL,
       url,
       params: { id: addresses, status: statusList || undefined },
     }
@@ -226,9 +214,9 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     const res = await this.requester.request<StateResponseSchema>(
       calculateHttpRequestKey<BalanceTransportTypes>({
         context: {
-          adapterSettings: config,
+          adapterSettings: this.config,
           inputParameters,
-          endpointName,
+          endpointName: this.endpointName,
         },
         data: requestConfig.params,
         transportName: this.name,
@@ -239,11 +227,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     return res.response.data
   }
 
-  private async searchLimboValidators(
-    config: BalanceTransportTypes['Settings'],
-    unfoundValidators: Address[],
-    endpointName: string,
-  ): Promise<BalanceResponse[]> {
+  private async searchLimboValidators(unfoundValidators: Address[]): Promise<BalanceResponse[]> {
     const balances: BalanceResponse[] = []
     const limboAddressMap: Record<string, Address> = {}
     // Parse unfound validators into a map for easier access in limbo search
@@ -252,13 +236,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     })
 
     // Returns map of validators found in limbo with balances in wei
-    const limboBalances = await this.fetchLimboEthBalances(
-      limboAddressMap,
-      String(config.ETH_CONSENSUS_RPC_URL),
-      this.provider,
-      config,
-      endpointName,
-    )
+    const limboBalances = await this.fetchLimboEthBalances(limboAddressMap, this.provider)
 
     unfoundValidators.forEach((validator) => {
       const limboBalance = limboBalances[validator.address.toLowerCase()]
@@ -278,23 +256,19 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     return balances
   }
 
-  private async fetchEthDepositContractAddress(
-    config: BalanceTransportTypes['Settings'],
-    endpointName: string,
-    baseURL: string,
-  ): Promise<string> {
+  private async fetchEthDepositContractAddress(): Promise<string> {
     const url = `/eth/v1/config/deposit_contract`
     const requestConfig = {
-      baseURL,
+      baseURL: this.config.ETH_CONSENSUS_RPC_URL,
       url,
     }
 
     const res = await this.requester.request<{ data: { chainId: string; address: string } }>(
       calculateHttpRequestKey<BalanceTransportTypes>({
         context: {
-          adapterSettings: config,
+          adapterSettings: this.config,
           inputParameters,
-          endpointName,
+          endpointName: this.endpointName,
         },
         data: {},
         transportName: this.name,
@@ -308,10 +282,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
   // Returns deposit amount in wei
   private async fetchLimboEthBalances(
     limboAddressMap: Record<string, Address> = {},
-    beaconRpcUrl: string,
     provider: ethers.providers.JsonRpcProvider,
-    config: BalanceTransportTypes['Settings'],
-    endpointName: string,
   ): Promise<Record<string, BigNumber>> {
     // Aggregate balances in map in case validators have multiple deposit events
     const limboBalances: Record<string, BigNumber> = {}
@@ -323,11 +294,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
 
     const latestBlockNum = await provider.getBlockNumber()
 
-    const ethDepositContractAddress = await this.fetchEthDepositContractAddress(
-      config,
-      endpointName,
-      beaconRpcUrl,
-    )
+    const ethDepositContractAddress = await this.fetchEthDepositContractAddress()
 
     // Get all the deposit logs from the last DEPOSIT_EVENT_LOOKBACK_WINDOW blocks
     const logs = await provider.getLogs({
