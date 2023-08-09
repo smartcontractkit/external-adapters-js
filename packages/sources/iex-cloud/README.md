@@ -1,6 +1,6 @@
 # IEXCLOUD
 
-![2.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,15 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :-------------------------------------------------------------------------------------: | :----: | :-----: | :--------------------------------: |
 |           | API_ENDPOINT |                               API endpoint for iex-cloud                                | string |         | `https://cloud.iexapis.com/stable` |
 |    ✅     |   API_KEY    | An API key that can be obtained from [here](https://iexcloud.io/cloud-login#/register/) | string |         |                                    |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |            Note             |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------: |
+| individual |                             |                             |       6944.44444444       | only mentions monthly limit |
+|  business  |                             |                             |       208333.333333       | only mentions monthly limit |
 
 ---
 

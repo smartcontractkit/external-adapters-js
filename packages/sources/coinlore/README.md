@@ -12,6 +12,12 @@ There are no environment variables for this adapter.
 
 ---
 
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

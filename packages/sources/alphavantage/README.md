@@ -1,6 +1,6 @@
 # ALPHAVANTAGE
 
-![2.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/alphavantage/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/alphavantage/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,19 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------: |
 |           | API_ENDPOINT |                            The HTTP URL to retrieve data from                             | string |         | `https://www.alphavantage.co/query` |
 |    ✅     |   API_KEY    | An API key that can be obtained from [here](https://www.alphavantage.co/support/#api-key) | string |         |                                     |
+
+---
+
+## Data Provider Rate Limits
+
+|  Name  | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|  free  |                             |              5              |           20.83           |      |
+| 49.99  |                             |             75              |                           |      |
+| 99.99  |                             |             150             |                           |      |
+| 149.99 |                             |             300             |                           |      |
+| 199.99 |                             |             600             |                           |      |
+| 249.99 |                             |            1200             |                           |      |
 
 ---
 

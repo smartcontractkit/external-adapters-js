@@ -15,6 +15,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address', 'intrinsic gas too low'],
   // TODO: Optimism error needs to be confirmed by their team
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
+  [Networks.Base]: ['transaction underpriced'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
   // Sending an empty transaction to the dummy Starknet address should return one
   // of the following error messages.  The Sequencer is considered healthy if the
@@ -81,9 +82,10 @@ const sendEmptyTransaction = async (network: Networks, config: ExtendedConfig): 
 
 const isExpectedErrorMessage = (network: Networks, e: Error) => {
   const _getErrorMessage = (e: Error): string => {
-    const paths = {
+    const paths: Record<Networks, string[]> = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
+      [Networks.Base]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
       [Networks.Starkware]: ['errorCode'],
     }

@@ -1,6 +1,6 @@
 # Chainlink External Adapters for querying wBTC custodial address set
 
-![1.4.61](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wbtc-address-set/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.63](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wbtc-address-set/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------------: | :---------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |           |  MEMBERS_ENDPOINT  | wBTC endpoint of members (and their addresses). Required for members endpoint | string |         |         |
 |           | ADDRESSES_ENDPOINT |          wBTC endpoint of addresses. Required for addresses endpoint          | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

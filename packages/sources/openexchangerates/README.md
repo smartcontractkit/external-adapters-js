@@ -1,6 +1,6 @@
 # OPENEXCHANGERATES
 
-![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/openexchangerates/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/openexchangerates/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,16 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :-------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------: |
 |           | API_ENDPOINT |                        API endpoint for OpenExchangeRates                         | string |         | `https://openexchangerates.org/api/` |
 |    ✅     |   API_KEY    | An API key that can be obtained from [here](https://openexchangerates.org/signup) | string |         |                                      |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+| developer  |                             |                             |           13.69           |               only mentions monthly limits               |
+| enterprise |                             |                             |           136.9           |                                                          |
+| unlimited  |             100             |            6000             |                           | Considered unlimited tier, but setting reasonable limits |
 
 ---
 

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`allocations endpoint returns allocations from registry contract 1`] = `
+[
+  {
+    "balance": "0",
+    "decimals": 18,
+    "symbol": "DAI",
+  },
+  {
+    "balance": "721288687299",
+    "decimals": 6,
+    "symbol": "USDC",
+  },
+]
+`;
+
+exports[`allocations endpoint returns allocations from registry contract 2`] = `null`;

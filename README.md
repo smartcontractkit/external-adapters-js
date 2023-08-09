@@ -59,8 +59,6 @@ Clears all build files/directories. Useful in case of issues when installing dep
     ║
     ╠══ core - the internal framework used across all external adapters
     ║
-    ╠══ examples - example templates for new external adapters
-    ║
     ╠══ scripts - additional Node.js scripts for mono-repository management
     ║
     ╠══ sources - adapters that read data from a data provider's API.

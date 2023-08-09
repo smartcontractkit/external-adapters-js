@@ -1,6 +1,6 @@
 # FINAGE
 
-![1.3.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,6 +16,14 @@ This document was generated automatically. Please see [README Generator](../../s
 |           | CRYPTO_WS_API_ENDPOINT |          The Websocket endpoint to connect to for crypto data           | string  |         | `wss://72x8wsyx7t.finage.ws:6008` |
 |           |  ETF_WS_API_ENDPOINT   |            The Websocket endpoint to connect to for etf data            | string  |         | `wss://8umh1cipe9.finage.ws:9001` |
 |           |       WS_ENABLED       |          Whether data should be returned from websocket or not          | boolean |         |              `false`              |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+| unlimited |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
 
 ---
 

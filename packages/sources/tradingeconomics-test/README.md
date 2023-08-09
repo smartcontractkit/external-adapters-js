@@ -1,6 +1,6 @@
 # TRADINGECONOMICS
 
-![1.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -13,6 +13,16 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |  API_CLIENT_KEY   |          The TradingEconomics API client key          | string  |         |                                            |
 |    ✅     | API_CLIENT_SECRET |        The TradingEconomics API client secret         | string  |         |                                            |
 |           |    WS_ENABLED     | Whether data should be returned from websocket or not | boolean |         |                  `false`                   |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                         Note                         |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------------------------------: |
+|   standard   |              1              |                             |            500            | http://api.tradingeconomics.com/documentation/Limits |
+| professional |              1              |                             |            800            |                                                      |
+|  enterprise  |              1              |                             |            100            |                                                      |
 
 ---
 

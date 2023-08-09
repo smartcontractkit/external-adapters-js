@@ -1,5 +1,26 @@
 # @chainlink/finnhub-adapter
 
+## 2.5.1
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.5.0
+
+### Minor Changes
+
+- 0395ad50a: Add inverse config to Finnhub EA's.
+
+  - Add's support for inverse pairs to Finnhub EAs.
+
+## 2.4.2
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
 ## 2.4.1
 
 ### Patch Changes

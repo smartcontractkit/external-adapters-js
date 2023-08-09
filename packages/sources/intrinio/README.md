@@ -1,6 +1,6 @@
 # INTRINIO
 
-![2.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/intrinio/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/intrinio/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,17 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :----------------------: | :----: | :-----: | :----------------------------: |
 |           | API_ENDPOINT | The API url for intrinio | string |         | `https://api-v2.intrinio.com/` |
 |           |   API_KEY    | The API key for intrinio | string |         |                                |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|  bronze   |                             |             300             |                           |      |
+| chainlink |                             |             600             |                           |      |
+|  silver   |                             |            2000             |                           |      |
+|   gold    |                             |            2000             |                           |      |
 
 ---
 

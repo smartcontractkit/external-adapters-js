@@ -1,5 +1,18 @@
 # @chainlink/oanda-adapter
 
+## 1.1.14
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 1.1.13
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
 ## 1.1.12
 
 ### Patch Changes

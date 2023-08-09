@@ -18,6 +18,16 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                         Note                         |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------------------------------: |
+|   standard   |              1              |                             |            500            | http://api.tradingeconomics.com/documentation/Limits |
+| professional |              1              |                             |            800            |                                                      |
+|  enterprise  |              1              |                             |            100            |                                                      |
+
+---
+
 ## Input Parameters
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)

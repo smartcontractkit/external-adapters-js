@@ -1,6 +1,6 @@
 # ELWOOD
 
-![2.1.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -11,6 +11,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |     API_KEY     |              API key              | string |         |                                            |
 |           | WS_API_ENDPOINT | The websocket url for coinmetrics | string |         |  `wss://api.chk.elwood.systems/v1/stream`  |
 |           |  API_ENDPOINT   |    The API url for coinmetrics    | string |         | `https://api.chk.elwood.systems/v1/stream` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

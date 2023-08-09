@@ -1,6 +1,6 @@
 # BANK_FRICK
 
-![1.1.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bank-frick/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bank-frick/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,6 +12,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |   API_KEY    |          The API key to use for making requests to the Bank Frick API           | string |         |                                             |
 |           |  PAGE_SIZE   | The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500. | number |         |                    `500`                    |
 |    ✅     | PRIVATE_KEY  |                                                                                 | string |         |                                             |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

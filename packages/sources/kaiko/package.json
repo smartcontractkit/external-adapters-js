@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/kaiko-adapter",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "Chainlink kaiko adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.30.0",
+    "@chainlink/external-adapter-framework": "0.31.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

@@ -1,0 +1,12 @@
+{
+    "requests": [
+        {
+            "endpoint": "allocations"
+        },
+        {
+            "source": "tiingo",
+            "quote": "USD",
+            "endpoint": "tvl"
+        }
+    ]
+}

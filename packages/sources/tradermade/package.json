@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tradermade-adapter",
-  "version": "2.0.4",
+  "version": "2.0.6",
   "description": "Chainlink tradermade adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.30.0",
+    "@chainlink/external-adapter-framework": "0.31.0",
     "tslib": "2.4.1"
   },
   "devDependencies": {

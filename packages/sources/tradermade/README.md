@@ -1,6 +1,6 @@
 # TRADERMADE
 
-![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -13,6 +13,19 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |   WS_API_KEY    | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) | string  |         |                                                 |
 |           | WS_API_ENDPOINT |                       The Websocket endpoint to connect to for forex data                       | string  |         |    `wss://marketdata.tradermade.com/feedadv`    |
 |           |   WS_ENABLED    |                      Whether data should be returned from websocket or not                      | boolean |         |                     `false`                     |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name      | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|     basic     |                             |                             |           1.369           |      |
+| professional  |                             |                             |           13.69           |      |
+|   business    |                             |                             |           68.49           |      |
+|   advanced    |                             |                             |          342.46           |      |
+|  enterprise   |                             |                             |          833.33           |      |
+| enterprise-xl |                             |                             |          1736.11          |      |
 
 ---
 

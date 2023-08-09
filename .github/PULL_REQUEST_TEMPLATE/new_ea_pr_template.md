@@ -11,7 +11,6 @@
 ## New Adapter Checklist
 
 - [ ] Adapter was created by following [Creating a New Adapter](../../CONTRIBUTING.md#creating-a-new-adapter)
-- [ ] Endpoints are built following the style of the [example adapters](../../packages/examples).
 - [ ] Unit and integration tests cover all helper methods and endpoints.
 - [ ] Input/outputs are built to spec.
 - [ ] Code is documented with `const description = "..."` in each endpoint, and `description: "..."` in `schemas/env.json`.

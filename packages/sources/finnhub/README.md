@@ -1,6 +1,6 @@
 # FINNHUB
 
-![2.4.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,6 +12,15 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |     API_KEY     |                   A Finnhub API key                   | string  |         |                             |
 |           | WS_API_ENDPOINT |           The WS URL to retrieve data from            | string  |         |    `wss://ws.finnhub.io`    |
 |           |   WS_ENABLED    | Whether data should be returned from websocket or not | boolean |         |           `false`           |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                      Note                      |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------------------------: |
+|    free    |                             |             60              |                           |                                                |
+| all-in-one |                             |             300             |                           | limit is for market data, not fundamental data |
 
 ---
 
