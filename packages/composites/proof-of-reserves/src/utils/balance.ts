@@ -40,7 +40,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   lotus as unknown as v2AdapterImplementation,
   ethBalance as unknown as v2AdapterImplementation,
   adaBalance as unknown as v2AdapterImplementation,
-  avalanchePlatform as unknown as v2AdapterImplementation,
 ]
 
 export const adaptersV3: v3AdapterImplementation[] = [
