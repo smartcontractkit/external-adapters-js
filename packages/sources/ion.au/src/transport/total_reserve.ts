@@ -32,13 +32,12 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         return {
           params: param,
           response: {
-            errorMessage: response.data.errorMessage,
+            errorMessage: `There was an error from the source API`,
             statusCode: 502,
           },
         }
       })
     }
-
     if (!response.data.total_reserve && response.data.total_reserve !== 0) {
       return params.map((param) => {
         return {

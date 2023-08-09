@@ -2,7 +2,6 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/total_reserve'
 
 export const inputParameters = new InputParameters({})
