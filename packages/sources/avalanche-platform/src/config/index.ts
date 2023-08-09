@@ -1,20 +1,17 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'AVALANCHE_PLATFORM'
-
-export const DEFAULT_ENDPOINT = 'balance'
-export const ENV_P_CHAIN_RPC_URL = 'P_CHAIN_RPC_URL'
-
-export const makeConfig = (prefix?: string): Config => {
-  const rpcURL = util.getRequiredEnv(ENV_P_CHAIN_RPC_URL, prefix)
-  const defaultConfig = Requester.getDefaultConfig(prefix)
-  return {
-    ...defaultConfig,
-    api: {
-      ...defaultConfig.api,
-      baseURL: rpcURL,
+export const config = new AdapterConfig(
+  {
+    P_CHAIN_RPC_URL: {
+      description:
+        'Full RPC URL for the avalanche platform chain (e.g. https://api.avax.network/ext/bc/P)',
+      type: 'string',
+      required: true,
     },
-    defaultEndpoint: DEFAULT_ENDPOINT,
-  }
-}
+  },
+  {
+    envDefaultOverrides: {
+      API_TIMEOUT: 60000,
+    },
+  },
+)
