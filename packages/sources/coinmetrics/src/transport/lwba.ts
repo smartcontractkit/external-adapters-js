@@ -76,7 +76,7 @@ export const calculatePairQuotesUrl = (
 
   let generated = new URL('/v4/timeseries-stream/pair-quotes', WS_API_ENDPOINT)
 
-  // use asset-quotes api if base=BNB
+  // use asset-quotes api if base=[BNB,UNI,SOL,LTC,XRP]
   if (isAssetQuote) {
     generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
     const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
