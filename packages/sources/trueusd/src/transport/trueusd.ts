@@ -26,12 +26,12 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params) => {
+  prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
         params: [param],
         request: {
-          baseURL: 'https://api.real-time-reserves.ledgerlens.io/v1/',
+          baseURL: config.API_ENDPOINT,
           url: '/chainlink/proof-of-reserves/TrueUSD',
         },
       }
@@ -54,6 +54,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
 
       const chain = param.chain as string
+      const resultPath = param.field || ''
 
       if (chain) {
         const chainData = response.data.token.find(({ tokenName }) => tokenName.includes(chain))
@@ -68,25 +69,50 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           }
         }
 
-        const result = chainData.totalTrustByChain
+        const result =
+          resultPath === 'totalTrust'
+            ? chainData.totalTrustByChain
+            : chainData[resultPath as keyof typeof chainData]
+
+        if (isNaN(result as number)) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Value for '${resultPath}' is not a number.`,
+              statusCode: 502,
+            },
+          }
+        }
+
         return {
           params: param,
           response: {
-            result,
+            result: result as number,
             data: {
-              result,
+              result: result as number,
             },
           },
         }
       }
 
-      const result = response.data.totalTrust
+      const result = response.data[resultPath as keyof typeof response.data]
+
+      if (isNaN(result as number)) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `Value for '${resultPath}' is not a number.`,
+            statusCode: 502,
+          },
+        }
+      }
+
       return {
         params: param,
         response: {
-          result,
+          result: result as number,
           data: {
-            result,
+            result: result as number,
           },
         },
       }

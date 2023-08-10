@@ -1,69 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute should return error when ripcord true 1`] = `
+exports[`execute trueusd endpoint should return error when ripcord true 1`] = `
 {
-  "error": {
-    "errorResponse": {
-      "ripcord": true,
-      "ripcordDetails": [
-        "Integrations",
-        "Balances",
-      ],
-    },
-    "feedID": "{"data":{"chain":"AVA","resultPath":"totalTrust","endpoint":"trueusd"}}",
-    "message": "Ripcord indicator true. Details: Integrations, Balances",
-    "name": "AdapterError",
-  },
-  "jobRunID": "1",
-  "status": "errored",
+  "errorMessage": "Ripcord indicator true. Details: Integrations, Balances",
   "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
-exports[`execute should return success for token 1`] = `
+exports[`execute trueusd endpoint should return success for token 1`] = `
 {
   "data": {
     "result": 3097573780.109635,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 3097573780.109635,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
-exports[`execute should return success for trust 1`] = `
+exports[`execute trueusd endpoint should return success trust 1`] = `
 {
   "data": {
     "result": 3117410009.89,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 3117410009.89,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
-exports[`execute should return success when given a chain 1`] = `
+exports[`execute trueusd endpoint should return success when given a chain 1`] = `
 {
   "data": {
     "result": 24268.83,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 24268.83,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
-exports[`execute should return success when given a chain and resultPath 1`] = `
+exports[`execute trueusd endpoint should return success when given a chain and field 1`] = `
 {
   "data": {
     "result": 3005274.95,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 3005274.95,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;

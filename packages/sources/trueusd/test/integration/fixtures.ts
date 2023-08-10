@@ -53,12 +53,14 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
 
 export const mockResponseFailure = (): nock.Scope =>
   nock('https://api.real-time-reserves.ledgerlens.io/v1/', {
     encodedQueryParams: true,
   })
     .get('/chainlink/proof-of-reserves/TrueUSD')
+    .query(() => true)
     .reply(
       200,
       () => ({
@@ -107,3 +109,4 @@ export const mockResponseFailure = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()

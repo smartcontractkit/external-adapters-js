@@ -5045,23 +5045,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/trueusd-adapter@workspace:packages/sources/trueusd"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/trueusd-test-adapter@workspace:packages/sources/trueusd-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/trueusd-test-adapter@workspace:packages/sources/trueusd-test"
-  dependencies:
-    "@chainlink/external-adapter-framework": 0.30.2
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     nock: 13.2.9
