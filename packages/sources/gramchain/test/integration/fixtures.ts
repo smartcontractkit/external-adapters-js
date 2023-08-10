@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockGramChainResponseSuccess = (): nock.Scope =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api-prod.gramchain.net/api/public', { encodedQueryParams: true })
     .persist()
     .get('/getgrambalances?custodianID=Cache&metalCode=AU&utilizationLockCode=Locked')
