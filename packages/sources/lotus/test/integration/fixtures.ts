@@ -1,10 +1,10 @@
 import nock from 'nock'
 
-export const mockLotusResponseSuccess = (): nock.Scope =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('http://127.0.0.1:1234', {
     encodedQueryParams: true,
     reqheaders: {
-      authorization: 'Bearer test_api_key',
+      authorization: 'Bearer fake-api-key',
     },
   })
     .persist()
@@ -24,6 +24,7 @@ export const mockLotusResponseSuccess = (): nock.Scope =>
       'Connection',
       'close',
     ])
+    .persist()
     .post('/rpc/v0', {
       id: 2,
       jsonrpc: '2.0',
@@ -40,3 +41,4 @@ export const mockLotusResponseSuccess = (): nock.Scope =>
       'Connection',
       'close',
     ])
+    .persist()

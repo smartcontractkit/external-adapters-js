@@ -580,10 +580,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/lotus"\
       },\
       {\
-        "name": "@chainlink/lotus-test-adapter",\
-        "reference": "workspace:packages/sources/lotus-test"\
-      },\
-      {\
         "name": "@chainlink/marketstack-adapter",\
         "reference": "workspace:packages/sources/marketstack"\
       },\
@@ -947,7 +943,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
       ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
-      ["@chainlink/lotus-test-adapter", ["workspace:packages/sources/lotus-test"]],\
       ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],\
       ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],\
       ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
@@ -7872,27 +7867,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/lotus/",\
           "packageDependencies": [\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/lotus-test-adapter", [\
-        ["workspace:packages/sources/lotus-test", {\
-          "packageLocation": "./packages/sources/lotus-test/",\
-          "packageDependencies": [\
-            ["@chainlink/lotus-test-adapter", "workspace:packages/sources/lotus-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.30.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.7.2"],\
