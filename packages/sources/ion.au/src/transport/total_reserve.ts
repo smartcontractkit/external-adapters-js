@@ -28,15 +28,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     if (response.data.errorMessage) {
-      return params.map((param) => {
-        return {
-          params: param,
+      return [{
+          params,
           response: {
             errorMessage: `There was an error from the source API. ${response.data.errorMessage}`,
             statusCode: 502,
           },
-        }
-      })
+        }]
     }
     if (!response.data.total_reserve && response.data.total_reserve !== 0) {
       return params.map((param) => {
