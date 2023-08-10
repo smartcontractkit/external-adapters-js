@@ -11,6 +11,7 @@ export class FunctionTransport implements Transport<FunctionTransportTypes> {
   name!: string
   responseCache!: ResponseCache<FunctionTransportTypes>
   requester!: Requester
+  provider!: ethers.providers.JsonRpcProvider
 
   async initialize(
     dependencies: TransportDependencies<FunctionTransportTypes>,
@@ -21,18 +22,16 @@ export class FunctionTransport implements Transport<FunctionTransportTypes> {
     this.responseCache = dependencies.responseCache
     this.requester = dependencies.requester
     this.name = transportName
+    this.provider = new ethers.providers.JsonRpcProvider(
+      _adapterSettings.ETHEREUM_RPC_URL,
+      _adapterSettings.ETHEREUM_CHAIN_ID,
+    )
   }
 
   async foregroundExecute(
     req: AdapterRequest<typeof inputParameters.validated>,
-    settings: FunctionTransportTypes['Settings'],
   ): Promise<AdapterResponse<FunctionTransportTypes['Response']>> {
     const { address, signature, inputParams } = req.requestContext.data
-
-    const provider = new ethers.providers.JsonRpcProvider(
-      settings.ETHEREUM_RPC_URL,
-      settings.ETHEREUM_CHAIN_ID,
-    )
 
     const iface = new utils.Interface([signature])
     const fnName = iface.functions[Object.keys(iface.functions)[0]].name
@@ -40,7 +39,7 @@ export class FunctionTransport implements Transport<FunctionTransportTypes> {
     const encoded = iface.encodeFunctionData(fnName, [...(inputParams || [])])
 
     const providerDataRequestedUnixMs = Date.now()
-    const result = await provider.call({
+    const result = await this.provider.call({
       to: address,
       data: encoded,
     })
