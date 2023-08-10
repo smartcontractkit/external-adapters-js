@@ -18,13 +18,13 @@ import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as btcCom from '@chainlink/btc.com-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
-import * as lotus from '@chainlink/lotus-adapter'
 import * as ethBalance from '@chainlink/eth-balance-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
 import { adapter as avalanchePlatform } from '@chainlink/avalanche-platform-adapter'
 import { adapter as polkadotBalance } from '@chainlink/polkadot-balance-adapter'
 import { adapter as staderBalance } from '@chainlink/stader-balance-adapter'
 import { adapter as ethBeacon } from '@chainlink/eth-beacon-adapter'
+import { adapter as lotus } from '@chainlink/lotus-adapter'
 
 // TODO: type
 export const adaptersV2: v2AdapterImplementation[] = [
@@ -37,7 +37,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   btcCom as unknown as v2AdapterImplementation,
   cryptoapis as unknown as v2AdapterImplementation,
   sochain as unknown as v2AdapterImplementation,
-  lotus as unknown as v2AdapterImplementation,
   ethBalance as unknown as v2AdapterImplementation,
   adaBalance as unknown as v2AdapterImplementation,
 ]
@@ -47,6 +46,7 @@ export const adaptersV3: v3AdapterImplementation[] = [
   staderBalance,
   ethBeacon,
   avalanchePlatform,
+  lotus
 ]
 
 // Get balances for address set
