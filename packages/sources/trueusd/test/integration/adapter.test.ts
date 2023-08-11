@@ -1,119 +1,83 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { server as startServer } from '../../src'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 import { mockResponseFailure, mockResponseSuccess } from './fixtures'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
-import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  const envVariables = {
-    CACHE_ENABLED: 'false',
-  }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  setupExternalAdapterTest(envVariables, context)
-
-  it('should return success for trust', async () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        resultPath: 'totalTrust',
-      },
-    }
-
-    mockResponseSuccess()
-
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send(data)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const adapter = (await import('./../../src')).adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
   })
 
-  it('should return success for token', async () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        resultPath: 'totalToken',
-      },
-    }
-
-    mockResponseSuccess()
-
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send(data)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
   })
 
-  it('should return success when given a chain', async () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
+  describe('trueusd endpoint', () => {
+    it('should return success trust', async () => {
+      mockResponseSuccess()
+      const response = await testAdapter.request({ field: 'totalTrust' })
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for token', async () => {
+      mockResponseSuccess()
+      const response = await testAdapter.request({ field: 'totalToken' })
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success when given a chain', async () => {
+      mockResponseSuccess()
+      const data = {
         chain: 'AVA',
-      },
-    }
+      }
 
-    mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send(data)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
-  })
-
-  it('should return success when given a chain and resultPath', async () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
+    it('should return success when given a chain and field', async () => {
+      mockResponseSuccess()
+      const data = {
         chain: 'TUSD (AVAX)',
-        resultPath: 'totalTokenByChain',
-      },
-    }
+        field: 'totalTokenByChain',
+      }
 
-    mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send(data)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-    expect(response.body).toMatchSnapshot()
-  })
-
-  it('should return error when ripcord true', async () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
+    it('should return error when ripcord true', async () => {
+      nock.cleanAll()
+      mockResponseFailure()
+      const data = {
         chain: 'AVA',
-      },
-    }
-
-    mockResponseFailure()
-
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send(data)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-    expect(response.body).toMatchSnapshot()
+        field: 'test',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
