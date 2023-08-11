@@ -1,13 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute symbol api should return success 1`] = `
+exports[`execute rest price endpoint should return success 1`] = `
 {
   "data": {
     "result": 1.15591,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 1.15591,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1636133760000,
+  },
+}
+`;
+
+exports[`execute rest price endpoint with override should return success 1`] = `
+{
+  "data": {
+    "result": 1.15591,
+  },
+  "result": 1.15591,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1636133760000,
+  },
+}
+`;
+
+exports[`execute rest stock endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 168.54,
+  },
+  "result": 168.54,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1683057508920,
+  },
 }
 `;
