@@ -7,6 +7,7 @@ exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1685710403604,
   },
 }
 `;

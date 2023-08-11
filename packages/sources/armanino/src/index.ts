@@ -8,6 +8,14 @@ export const adapter = new Adapter({
   name: 'ARMANINO',
   config,
   endpoints: [mco2, stbt],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1s: 50,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

@@ -15,28 +15,29 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 }
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
-    return params.map((param) => {
-      return {
-        params: [param],
-        request: {
-          baseURL: config.API_ENDPOINT,
-          url: 'MCO2',
-        },
-      }
-    })
+    return {
+      params,
+      request: {
+        baseURL: config.API_ENDPOINT,
+        url: 'MCO2',
+      },
+    }
   },
   parseResponse: (params, response) => {
-    return params.map((param) => {
-      const result = response.data.totalMCO2
-      return {
-        params: param,
+    const result = response.data.totalMCO2
+    return [
+      {
+        params: params[0],
         response: {
           result,
           data: {
             result,
           },
+          timestamps: {
+            providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+          },
         },
-      }
-    })
+      },
+    ]
   },
 })

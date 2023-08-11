@@ -10,6 +10,7 @@ exports[`execute mco2 endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1649070046577,
   },
 }
 `;
@@ -24,6 +25,7 @@ exports[`execute stbt endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1685710403604,
   },
 }
 `;

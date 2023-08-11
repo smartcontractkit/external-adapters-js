@@ -36,6 +36,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           response: {
             errorMessage: message,
             statusCode: 502,
+            timestamps: {
+              providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+            },
           },
         },
       ]
@@ -49,6 +52,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           result,
           data: {
             result,
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
           },
         },
       },
