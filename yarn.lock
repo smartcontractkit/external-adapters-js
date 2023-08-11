@@ -2149,14 +2149,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/armanino-adapter@workspace:packages/sources/armanino"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -3900,6 +3897,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/ion.au-adapter@workspace:packages/sources/ion.au":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.31.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/ipfs-adapter@workspace:*, @chainlink/ipfs-adapter@workspace:packages/sources/ipfs":
   version: 0.0.0-use.local
   resolution: "@chainlink/ipfs-adapter@workspace:packages/sources/ipfs"
@@ -5014,22 +5024,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradingeconomics-adapter@workspace:packages/sources/tradingeconomics"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test"
-  dependencies:
     "@chainlink/external-adapter-framework": 0.31.0
     "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
@@ -5188,15 +5182,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -5205,15 +5196,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/proof-of-reserves-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft

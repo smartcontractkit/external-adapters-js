@@ -1,9 +1,43 @@
 import nock from 'nock'
 
+export const mockAddressesResponseSuccess = (): nock.Scope =>
+  nock('http://localhost:8082', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/')
+    .reply(
+      200,
+      () => ({
+        result: [
+          {
+            id: '601c5e4b11b1d4001e37091aa2618ee9',
+            address: '31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY',
+            balance: '0',
+            type: 'custodial',
+            verified: false,
+          },
+        ],
+        count: 1,
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+
 export const mockMembersResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8081', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/')
     .reply(
       200,
@@ -57,34 +91,4 @@ export const mockMembersResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
-export const mockAddressesResponseSuccess = (): nock.Scope =>
-  nock('http://localhost:8082', {
-    encodedQueryParams: true,
-  })
-    .get('/')
-    .reply(
-      200,
-      () => ({
-        result: [
-          {
-            id: '601c5e4b11b1d4001e37091aa2618ee9',
-            address: '31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY',
-            balance: '0',
-            type: 'custodial',
-            verified: false,
-          },
-        ],
-        count: 1,
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
+    .persist()

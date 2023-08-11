@@ -4,6 +4,7 @@ export const mockMCO2Response = (): nock.Scope =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/MCO2')
     .reply(
       200,
@@ -39,6 +40,7 @@ export const mockMCO2Response = (): nock.Scope =>
         'max-age=63072000; includeSubDomains; preload',
       ],
     )
+    .persist()
 
 export const mockSTBTResponseSuccess = (): nock.Scope =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
@@ -50,9 +52,8 @@ export const mockSTBTResponseSuccess = (): nock.Scope =>
       totalReserve: 72178807.56,
       totalToken: 71932154.99,
       timestamp: '2023-06-02T12:53:23.604Z',
-      ripcord: false,
-      ripcordDetails: [],
     })
+    .persist()
 
 export const mockSTBTResponseFailure = (): nock.Scope =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
@@ -67,3 +68,4 @@ export const mockSTBTResponseFailure = (): nock.Scope =>
       ripcord: true,
       ripcordDetails: ['Balances'],
     })
+    .persist()

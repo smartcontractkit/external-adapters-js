@@ -4,8 +4,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDCAD:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "CAD",
         "inverse": true
       }
     ]
@@ -15,8 +15,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDCHF:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "CHF",
         "inverse": true
       }
     ]
@@ -26,8 +26,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDCNY:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "CNY",
         "inverse": true
       }
     ]
@@ -37,8 +37,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDJPY:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "JPY",
         "inverse": true
       }
     ]
@@ -48,8 +48,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDKRW:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "KRW",
         "inverse": true
       }
     ]
@@ -59,8 +59,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDMXN:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "MXN",
         "inverse": true
       }
     ]
@@ -70,8 +70,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDPLN:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "PLN",
         "inverse": true
       }
     ]
@@ -81,8 +81,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDSEK:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "SEK",
         "inverse": true
       }
     ]
@@ -92,8 +92,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDSGD:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "SGD",
         "inverse": true
       }
     ]
@@ -103,8 +103,8 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDTRY:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "TRY",
         "inverse": true
       }
     ]
@@ -114,59 +114,9 @@
     "to": "USD",
     "includes": [
       {
-        "from": "USDZAR:CUR",
-        "to": "",
+        "from": "USD",
+        "to": "ZAR",
         "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "BTC",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "BTCUSD:CUR",
-        "to": ""
-      }
-    ]
-  },
-  {
-    "from": "ETH",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "ETHUSD:CUR",
-        "to": ""
-      }
-    ]
-  },
-  {
-    "from": "LTC",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "LTCUSD:CUR",
-        "to": ""
-      }
-    ]
-  },
-  {
-    "from": "BNB",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "BNBUSD:CUR",
-        "to": ""
-      }
-    ]
-  },
-  {
-    "from": "XMR",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "XMRUSD:CUR",
-        "to": ""
       }
     ]
   }
