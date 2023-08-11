@@ -8,6 +8,14 @@ export const adapter = new PoRAdapter({
   name: 'WBTC',
   config,
   endpoints: [addresses, members],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 6,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
