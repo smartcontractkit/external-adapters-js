@@ -1,37 +1,61 @@
-import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { ethers, utils } from 'ethers'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
 
 export type FunctionTransportTypes = BaseEndpointTypes
 
-export class FunctionTransport implements Transport<FunctionTransportTypes> {
-  name!: string
-  responseCache!: ResponseCache<FunctionTransportTypes>
-  requester!: Requester
+type RequestParams = typeof inputParameters.validated
+
+export class FunctionTransport extends SubscriptionTransport<FunctionTransportTypes> {
   provider!: ethers.providers.JsonRpcProvider
 
   async initialize(
     dependencies: TransportDependencies<FunctionTransportTypes>,
-    _adapterSettings: FunctionTransportTypes['Settings'],
-    _endpointName: string,
+    adapterSettings: FunctionTransportTypes['Settings'],
+    endpointName: string,
     transportName: string,
   ): Promise<void> {
-    this.responseCache = dependencies.responseCache
-    this.requester = dependencies.requester
-    this.name = transportName
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.provider = new ethers.providers.JsonRpcProvider(
-      _adapterSettings.ETHEREUM_RPC_URL,
-      _adapterSettings.ETHEREUM_CHAIN_ID,
+      adapterSettings.ETHEREUM_RPC_URL,
+      adapterSettings.ETHEREUM_CHAIN_ID,
     )
   }
 
-  async foregroundExecute(
-    req: AdapterRequest<typeof inputParameters.validated>,
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+    if (!entries.length) {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+      return
+    }
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+  }
+
+  async handleRequest(param: RequestParams) {
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(param)
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      response = {
+        statusCode: 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    param: RequestParams,
   ): Promise<AdapterResponse<FunctionTransportTypes['Response']>> {
-    const { address, signature, inputParams } = req.requestContext.data
+    const { address, signature, inputParams } = param
 
     const iface = new utils.Interface([signature])
     const fnName = iface.functions[Object.keys(iface.functions)[0]].name
@@ -44,7 +68,7 @@ export class FunctionTransport implements Transport<FunctionTransportTypes> {
       data: encoded,
     })
 
-    const response = {
+    return {
       data: {
         result,
       },
@@ -56,14 +80,10 @@ export class FunctionTransport implements Transport<FunctionTransportTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.responseCache.write(this.name, [
-      {
-        params: req.requestContext.data,
-        response,
-      },
-    ])
+  }
 
-    return response
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
