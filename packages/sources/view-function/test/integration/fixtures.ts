@@ -46,3 +46,4 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
