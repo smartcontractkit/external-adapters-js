@@ -1,62 +1,61 @@
-import { AdapterResponseEmptyError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { wsTransport } from '../transport/price-ws'
 import {
   AdapterRequest,
-  ExecuteWithConfig,
-  InputParameters,
-  AxiosResponse,
-} from '@chainlink/ea-bootstrap'
-import { Config, NAME } from '../config'
-import overrides from '../config/symbols.json'
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import { httpTransport } from '../transport/price-http'
+import { ForexPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
 
-export const supportedEndpoints = ['price']
-
-export type TInputParameters = { base: string; quote: string }
-export const inputParameters: InputParameters<TInputParameters> = {
+export const inputParameters = new InputParameters({
   base: {
-    aliases: ['from', 'asset'],
+    aliases: ['from', 'coin', 'asset'],
     required: true,
-    description: 'The symbol of the asset to query',
+    description: 'The symbol of symbols of the currency to query',
     type: 'string',
   },
   quote: {
-    aliases: ['to', 'term'],
-    description: 'The quote symbol of the asset to query',
+    aliases: ['to', 'market', 'term'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
     type: 'string',
-    default: 'USD',
   },
+})
+
+export const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>): void => {
+  const base = req.requestContext.data.base.toUpperCase()
+  const regex = /[A-Z]{6}:CUR/ //BTCUSD:CUR
+  if (regex.test(base)) {
+    req.requestContext.data.base = base.substring(0, 3)
+    req.requestContext.data.quote = base.substring(3, 6)
+  }
 }
 
-export const execute: ExecuteWithConfig<Config> = async (
-  input: AdapterRequest,
-  _,
-  config: Config,
-) => {
-  const validator = new Validator(input, inputParameters, {}, { overrides })
+const requestTransforms = [requestTransform]
 
-  const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
-
-  // Fall back to getting the data from HTTP endpoint
-  const url = util.buildUrlPath('/symbol/:symbol', { symbol }, ':')
-
-  const params = {
-    c: `${config.client.key}:${config.client.secret}`,
-  }
-
-  const request = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response: AxiosResponse = await Requester.request(request)
-  if (!response.data || response.data.length < 1) {
-    throw new AdapterResponseEmptyError({ jobRunID, message: 'no result for query' })
-  }
-  // Replace array by the first object in array
-  // to avoid unexpected behavior when returning arrays.
-  response.data = response.data[0]
-
-  response.data.result = Requester.validateResultNumber(response.data, ['Last'])
-  return Requester.success(jobRunID, response)
+// Common endpoint type shared by the REST and WS transports
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
+
+export const transportRoutes = new TransportRoutes<BaseEndpointTypes>()
+  .register('ws', wsTransport)
+  .register('rest', httpTransport)
+
+export const endpoint = new ForexPriceEndpoint({
+  name: 'price',
+  aliases: ['forex', 'crypto'],
+  transportRoutes,
+  inputParameters,
+  defaultTransport: 'rest',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+  },
+  overrides: overrides.tradingeconomics,
+  requestTransforms,
+})
