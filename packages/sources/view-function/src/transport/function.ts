@@ -26,11 +26,8 @@ export class FunctionTransport extends SubscriptionTransport<FunctionTransportTy
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    if (!entries.length) {
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-      return
-    }
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
   async handleRequest(param: RequestParams) {
