@@ -25,7 +25,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       },
     }
   },
-  parseResponse: ({}, response) => {
+  parseResponse: (_params, response) => {
     if (response.data.errorMessage) {
       return [
         {
