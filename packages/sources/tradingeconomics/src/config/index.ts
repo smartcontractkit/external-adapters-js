@@ -1,29 +1,32 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export type Config = config & {
-  client: {
-    key: string
-    secret: string
-  }
-}
-
-export const NAME = 'TRADINGECONOMICS'
-export const DEFAULT_ENDPOINT = 'price-ws'
-
-export const DEFAULT_API_ENDPOINT = 'https://api.tradingeconomics.com/markets'
-export const DEFAULT_WS_API_ENDPOINT = 'wss://stream.tradingeconomics.com/'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-
-  return {
-    ...config,
-    client: {
-      key: util.getRequiredEnv('API_CLIENT_KEY', prefix),
-      secret: util.getRequiredEnv('API_CLIENT_SECRET', prefix),
-    },
-  }
-}
+export const defaultEndpoint = 'price'
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'The HTTP URL to retrieve data from',
+    type: 'string',
+    default: 'https://api.tradingeconomics.com/markets',
+  },
+  WS_API_ENDPOINT: {
+    description: 'The WS URL to retrieve data from',
+    type: 'string',
+    default: 'wss://stream.tradingeconomics.com/',
+  },
+  API_CLIENT_KEY: {
+    description: 'The TradingEconomics API client key',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  API_CLIENT_SECRET: {
+    description: 'The TradingEconomics API client secret',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
+})
