@@ -2,13 +2,13 @@ import nock from 'nock'
 
 export const mockBalanceSuccess = (): nock.Scope =>
   nock('http://localhost:3500')
+    .persist()
     .post('/ext/bc/P', {
       jsonrpc: '2.0',
       method: 'platform.getStake',
       params: {
         addresses: ['P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt'],
       },
-      id: '1',
     })
     .reply(
       200,
@@ -37,3 +37,4 @@ export const mockBalanceSuccess = (): nock.Scope =>
         'Wed, 21 Sep 2022 10:58:34 GMT',
       ],
     )
+    .persist()
