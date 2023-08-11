@@ -7,6 +7,7 @@ exports[`execute trueusd endpoint should return error when ripcord true 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1686848387538,
   },
 }
 `;
@@ -21,6 +22,7 @@ exports[`execute trueusd endpoint should return success for token 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1686848387538,
   },
 }
 `;
@@ -35,6 +37,7 @@ exports[`execute trueusd endpoint should return success trust 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1686848387538,
   },
 }
 `;
@@ -49,6 +52,7 @@ exports[`execute trueusd endpoint should return success when given a chain 1`] =
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1686848387538,
   },
 }
 `;
@@ -63,6 +67,7 @@ exports[`execute trueusd endpoint should return success when given a chain and f
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1686848387538,
   },
 }
 `;
