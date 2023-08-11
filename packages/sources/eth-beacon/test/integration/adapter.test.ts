@@ -1,13 +1,14 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { SuperTest, Test } from 'supertest'
-import { server as startServer } from '../../src'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 import {
   mockBalanceLimboValidator,
   mockBalanceSuccess,
   mockBalanceWithStatusSuccess,
   mockGetEthDepositContract,
 } from './fixtures'
-import { setupExternalAdapterTest, SuiteContext } from '@chainlink/ea-test-helpers'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -58,117 +59,99 @@ jest.mock('ethers', () => {
 })
 
 describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  const envVariables = {
-    CACHE_ENABLED: 'false',
-    ETH_CONSENSUS_RPC_URL: 'http://localhost:3500',
-    ETH_EXECUTION_RPC_URL: 'http://localhost:3501',
-  }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.ETH_CONSENSUS_RPC_URL = process.env.ETH_CONSENSUS_RPC_UR ?? 'http://localhost:3500'
+    process.env.ETH_EXECUTION_RPC_URL = process.env.ETH_EXECUTION_RPC_URL ?? 'http://localhost:3501'
+    process.env['BACKGROUND_EXECUTE_MS'] = '0'
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  setupExternalAdapterTest(envVariables, context)
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
 
-  describe('balance api', () => {
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
+
+  describe('balance endpoint', () => {
     it('should return success', async () => {
-      const data: AdapterRequest = {
-        id,
-        data: {
-          result: [
-            {
-              address:
-                '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
-            },
-            {
-              address:
-                '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
-            },
-          ],
-        },
+      const data = {
+        result: [
+          {
+            address:
+              '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
+          },
+          {
+            address:
+              '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
+          },
+        ],
       }
-
       mockBalanceSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should return success with validator that is not on the beacon chain', async () => {
-      const data: AdapterRequest = {
-        id,
-        data: {
-          result: [
-            {
-              address:
-                '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
-            },
-            {
-              address:
-                '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
-            },
-            {
-              address:
-                '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-            },
-          ],
-          validatorStatus: ['active'],
-        },
+      const data = {
+        result: [
+          {
+            address:
+              '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
+          },
+          {
+            address:
+              '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
+          },
+          {
+            address:
+              '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+          },
+        ],
+        validatorStatus: ['active'],
       }
-
       mockBalanceWithStatusSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should return success with limbo validator balance', async () => {
-      const data: AdapterRequest = {
-        id,
-        data: {
-          searchLimboValidators: true,
-          result: [
-            {
-              address:
-                '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
-            },
-            {
-              address:
-                '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
-            },
-            {
-              address:
-                '0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6',
-            },
-          ],
-        },
+      const data = {
+        searchLimboValidators: true,
+        result: [
+          {
+            address:
+              '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
+          },
+          {
+            address:
+              '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
+          },
+          {
+            address:
+              '0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6',
+          },
+        ],
       }
-
       mockGetEthDepositContract()
       mockBalanceLimboValidator()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })
