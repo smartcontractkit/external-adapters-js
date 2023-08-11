@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/armanino-adapter",
-  "version": "2.0.0",
-  "description": "Chainlink armanino adapter.",
+  "name": "@chainlink/ion.au-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink ion.au adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "armanino"
+    "ion.au"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

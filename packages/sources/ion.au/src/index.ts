@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { mco2, stbt } from './endpoint'
+import { total_reserve } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: mco2.name,
-  name: 'ARMANINO',
+  defaultEndpoint: total_reserve.name,
+  name: 'ION.AU',
   config,
-  endpoints: [mco2, stbt],
+  endpoints: [total_reserve],
   rateLimiting: {
     tiers: {
       default: {

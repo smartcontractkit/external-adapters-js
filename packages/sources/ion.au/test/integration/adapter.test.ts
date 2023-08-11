@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockMCO2Response, mockSTBTResponseSuccess } from './fixtures'
+import { mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -12,6 +12,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -30,22 +31,13 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('mco2 endpoint', () => {
-    it('should return success', async () => {
-      mockMCO2Response()
-      const response = await testAdapter.request()
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-  })
-
-  describe('stbt endpoint', () => {
+  describe('total_reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'stbt',
+        endpoint: 'total_reserve',
+        transport: 'rest',
       }
-      mockSTBTResponseSuccess()
-
+      mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
