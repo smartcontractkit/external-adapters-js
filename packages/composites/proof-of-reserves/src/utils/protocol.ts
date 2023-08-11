@@ -17,14 +17,13 @@ import * as porAddressList from '@chainlink/por-address-list-adapter'
 import * as renVM from '@chainlink/renvm-address-set-adapter'
 import { adapter as staderList } from '@chainlink/stader-address-list-adapter'
 import * as swellList from '@chainlink/swell-address-list-adapter'
-import * as wBTC from '@chainlink/wbtc-address-set-adapter'
+import { adapter as wBTC } from '@chainlink/wbtc-address-set-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
 // TODO: consistent package exports
 export const adaptersV2: v2AdapterImplementation[] = [
-  wBTC as unknown as v2AdapterImplementation,
   renVM as unknown as v2AdapterImplementation,
   Gemini as unknown as v2AdapterImplementation,
   celsiusAddressList as unknown as v2AdapterImplementation,
@@ -34,7 +33,7 @@ export const adaptersV2: v2AdapterImplementation[] = [
   porAddressList as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [moonbeamAddressList, staderList]
+export const adaptersV3: v3AdapterImplementation[] = [moonbeamAddressList, staderList, wBTC]
 
 type AddressData = { token: string; chainId: string; network: string } | AddressList
 

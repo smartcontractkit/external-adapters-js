@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute addresses api should return success 1`] = `
+exports[`execute addresses endpoint should return success 1`] = `
 {
   "data": {
     "result": [
@@ -16,25 +16,16 @@ exports[`execute addresses api should return success 1`] = `
       },
     ],
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": [
-    {
-      "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
-      "balance": "0",
-      "chainId": "mainnet",
-      "coin": "btc",
-      "id": "601c5e4b11b1d4001e37091aa2618ee9",
-      "network": "bitcoin",
-      "type": "custodial",
-      "verified": false,
-    },
-  ],
+  "result": null,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
-exports[`execute members api should return success 1`] = `
+exports[`execute members endpoint should return success 1`] = `
 {
   "data": {
     "result": [
@@ -50,20 +41,11 @@ exports[`execute members api should return success 1`] = `
       },
     ],
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": [
-    {
-      "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
-      "balance": "0",
-      "chainId": "mainnet",
-      "coin": "btc",
-      "id": "601323767069d60008cb538b32c33cb1",
-      "network": "bitcoin",
-      "type": "custodial",
-      "verified": false,
-    },
-  ],
+  "result": null,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
