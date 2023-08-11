@@ -113,6 +113,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     const batchSize = this.config.BATCH_SIZE
     const responses = []
 
+    const providerDataRequestedUnixMs = Date.now()
     // If adapter configured with 0 batch size, put all validators in one request to allow skipping batching
     if (batchSize === 0) {
       const addresses = params.addresses.map(({ address }) => address).join(',')
@@ -188,7 +189,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       statusCode: 200,
       result: null,
       timestamps: {
-        providerDataRequestedUnixMs: Date.now(),
+        providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
