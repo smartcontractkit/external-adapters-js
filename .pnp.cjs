@@ -5721,13 +5721,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/armanino/",\
           "packageDependencies": [\
             ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

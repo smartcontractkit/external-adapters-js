@@ -5,29 +5,13 @@ exports[`execute mco2 endpoint should return success 1`] = `
   "data": {
     "result": 3041044,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 3041044,
   "statusCode": 200,
-}
-`;
-
-exports[`execute stbt endpoint should return error when ripcord true 1`] = `
-{
-  "error": {
-    "errorResponse": {
-      "ripcord": true,
-      "ripcordDetails": [
-        "Balances",
-      ],
-    },
-    "feedID": "{"data":{"endpoint":"stbt"}}",
-    "message": "Ripcord indicator true. Details: Balances",
-    "name": "AdapterError",
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1649070046577,
   },
-  "jobRunID": "1",
-  "status": "errored",
-  "statusCode": 502,
 }
 `;
 
@@ -36,9 +20,12 @@ exports[`execute stbt endpoint should return success 1`] = `
   "data": {
     "result": 72178807.56,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 72178807.56,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1685710403604,
+  },
 }
 `;
