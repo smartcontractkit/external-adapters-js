@@ -3897,6 +3897,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/ion.au-adapter@workspace:packages/sources/ion.au":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.31.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/ipfs-adapter@workspace:*, @chainlink/ipfs-adapter@workspace:packages/sources/ipfs":
   version: 0.0.0-use.local
   resolution: "@chainlink/ipfs-adapter@workspace:packages/sources/ipfs"
