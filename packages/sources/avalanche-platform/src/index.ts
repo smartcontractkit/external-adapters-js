@@ -8,6 +8,14 @@ export const adapter = new PoRAdapter({
   name: 'AVALANCHE_PLATFORM',
   config,
   endpoints: [balance],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1s: 5,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
