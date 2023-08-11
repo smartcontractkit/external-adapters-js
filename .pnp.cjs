@@ -536,6 +536,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/intrinio"\
       },\
       {\
+        "name": "@chainlink/ion.au-adapter",\
+        "reference": "workspace:packages/sources/ion.au"\
+      },\
+      {\
         "name": "@chainlink/ipfs-adapter",\
         "reference": "workspace:packages/sources/ipfs"\
       },\
@@ -736,10 +740,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tradingeconomics"\
       },\
       {\
-        "name": "@chainlink/tradingeconomics-test-adapter",\
-        "reference": "workspace:packages/sources/tradingeconomics-test"\
-      },\
-      {\
         "name": "@chainlink/trueusd-adapter",\
         "reference": "workspace:packages/sources/trueusd"\
       },\
@@ -931,6 +931,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
+      ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
       ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],\
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
@@ -998,7 +999,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
-      ["@chainlink/tradingeconomics-test-adapter", ["workspace:packages/sources/tradingeconomics-test"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
       ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
@@ -5721,13 +5721,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/armanino/",\
           "packageDependencies": [\
             ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7670,6 +7667,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/ion.au-adapter", [\
+        ["workspace:packages/sources/ion.au", {\
+          "packageLocation": "./packages/sources/ion.au/",\
+          "packageDependencies": [\
+            ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/ipfs-adapter", [\
         ["workspace:packages/sources/ipfs", {\
           "packageLocation": "./packages/sources/ipfs/",\
@@ -8917,24 +8929,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradingeconomics/",\
           "packageDependencies": [\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/tradingeconomics-test-adapter", [\
-        ["workspace:packages/sources/tradingeconomics-test", {\
-          "packageLocation": "./packages/sources/tradingeconomics-test/",\
-          "packageDependencies": [\
-            ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -9132,14 +9126,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/wbtc-address-set/",\
           "packageDependencies": [\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
