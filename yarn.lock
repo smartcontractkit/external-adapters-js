@@ -3448,7 +3448,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:0.31.0, @chainlink/external-adapter-framework@npm:^0.31.0":
+"@chainlink/external-adapter-framework@npm:0.31.0":
   version: 0.31.0
   resolution: "@chainlink/external-adapter-framework@npm:0.31.0"
   dependencies:
@@ -3477,7 +3477,7 @@ __metadata:
     "@babel/core": 7.21.8
     "@babel/preset-env": 7.20.2
     "@babel/preset-typescript": 7.21.5
-    "@chainlink/external-adapter-framework": ^0.31.0
+    "@chainlink/external-adapter-framework": 0.31.0
     "@changesets/cli": 2.18.1
     "@types/babel__core": 7.1.20
     "@types/babel__preset-env": 7.9.2
@@ -3904,7 +3904,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
   dependencies:
-    "@chainlink/external-adapter-framework": ^0.31.0
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     nock: 13.2.9
