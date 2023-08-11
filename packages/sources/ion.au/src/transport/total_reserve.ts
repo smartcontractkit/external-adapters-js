@@ -12,55 +12,54 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
+
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
-    return params.map((param) => {
-      return {
-        params: [param],
-        request: {
-          baseURL: config.API_ENDPOINT,
-          url: '/',
-          headers: {},
-          params: {},
-        },
-      }
-    })
+    return {
+      params,
+      request: {
+        baseURL: config.API_ENDPOINT,
+        url: '/',
+        headers: {},
+        params: {},
+      },
+    }
   },
-  parseResponse: (params, response) => {
+  parseResponse: ({}, response) => {
     if (response.data.errorMessage) {
-      return params.map((param) => {
-        return {
-          params: param,
+      return [
+        {
+          params: {},
           response: {
             errorMessage: `There was an error from the source API. ${response.data.errorMessage}`,
             statusCode: 502,
           },
-        }
-      })
+        },
+      ]
     }
     if (!response.data.total_reserve && response.data.total_reserve !== 0) {
-      return params.map((param) => {
-        return {
-          params: param,
+      return [
+        {
+          params: {},
           response: {
             errorMessage: `The data provider didn't return any value for total_reserve`,
             statusCode: 502,
           },
-        }
-      })
+        },
+      ]
     }
 
-    return params.map((param) => {
-      const result = response.data.total_reserve
-      return {
-        params: param,
+    const result = response.data.total_reserve
+    return [
+      {
+        params: {},
         response: {
           result,
           data: {
             result,
           },
         },
-      }
-    })
+      },
+    ]
   },
 })
