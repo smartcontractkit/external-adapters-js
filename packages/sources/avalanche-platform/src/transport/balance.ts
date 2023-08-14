@@ -40,6 +40,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
             jsonrpc: '2.0',
             method: 'platform.getStake',
             params: { addresses: param.addresses.map(({ address }) => address) },
+            id: '1',
           },
         },
       }

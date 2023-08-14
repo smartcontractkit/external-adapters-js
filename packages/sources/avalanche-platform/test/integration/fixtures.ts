@@ -9,6 +9,7 @@ export const mockBalanceSuccess = (): nock.Scope =>
       params: {
         addresses: ['P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt'],
       },
+      id: '1',
     })
     .reply(
       200,
