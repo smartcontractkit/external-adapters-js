@@ -32,10 +32,6 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
     context: EndpointContext<AddressTransportTypes>,
     entries: RequestParams[],
   ) {
-    if (!entries.length) {
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-      return
-    }
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
