@@ -1,46 +1,45 @@
-import {
-  TestAdapter,
-  setEnvVariables,
-} from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as nock from 'nock'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import * as process from 'process'
+import { server as startServer } from '../../src'
 import { mockContractCallResponseSuccess } from './fixtures'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
-  let spy: jest.SpyInstance
-  let testAdapter: TestAdapter
-  let oldEnv: NodeJS.ProcessEnv
+  const id = '1'
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL ?? 'http://localhost:8545'
-    process.env.BACKGROUND_EXECUTE_MS = '0'
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    RPC_URL: process.env.RPC_URL || 'http://localhost:8545',
+  }
 
-    const adapter = (await import('./../../src')).adapter
-    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter<never>,
-    })
-  })
+  setupExternalAdapterTest(envVariables, context)
 
-  afterAll(async () => {
-    setEnvVariables(oldEnv)
-    await testAdapter.api.close()
-    nock.restore()
-    nock.cleanAll()
-    spy.mockRestore()
-  })
-
-  describe('function endpoint', () => {
-    it('should return success', async () => {
-      const data = {
+  describe('function call', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
         contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
         function: 'function symbol() view returns (string)',
-      }
+      },
+    }
+
+    it('should return success', async () => {
       mockContractCallResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 })

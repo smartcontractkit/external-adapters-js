@@ -1,11 +1,13 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { config } from '../config'
-import { functionTransport } from '../transport/function'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { Config } from '../config'
+import { utils } from 'ethers'
 
-export const inputParameters = new InputParameters({
+export const supportedEndpoints = ['function']
+
+export type TInputParameters = { signature: string; address: string; inputParams: string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   signature: {
-    type: 'string',
     aliases: ['function'],
     required: true,
     description:
@@ -18,25 +20,38 @@ export const inputParameters = new InputParameters({
     type: 'string',
   },
   inputParams: {
-    array: true,
+    required: false,
     description: 'Array of function parameters in order',
-    type: 'string',
+    type: 'array',
   },
-})
-
-export type BaseEndpointTypes = {
-  Parameters: typeof inputParameters.definition
-  Response: {
-    Data: {
-      result: string
-    }
-    Result: string
-  }
-  Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
-  name: 'function',
-  transport: functionTransport,
-  inputParameters,
-})
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+  const validator = new Validator(request, inputParameters)
+
+  const jobRunID = validator.validated.id
+  const address = validator.validated.data.address
+  const fnSignature = validator.validated.data.signature
+  const params = validator.validated.data.inputParams || []
+
+  const iface = new utils.Interface([fnSignature])
+  const fnName = iface.functions[Object.keys(iface.functions)[0]].name
+
+  const encoded = iface.encodeFunctionData(fnName, [...params])
+
+  const result = await config.provider.call({
+    to: address,
+    data: encoded,
+  })
+
+  const response = {
+    jobRunID,
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config: {},
+    data: result,
+  }
+
+  return Requester.success(jobRunID, Requester.withResult(response, result))
+}
