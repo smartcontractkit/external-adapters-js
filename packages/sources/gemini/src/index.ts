@@ -5,7 +5,7 @@ import { reserves } from './endpoint'
 
 export const adapter = new PoRAdapter({
   defaultEndpoint: reserves.name,
-  name: 'GEMINI-TEST',
+  name: 'GEMINI',
   config,
   rateLimiting: {
     tiers: {
