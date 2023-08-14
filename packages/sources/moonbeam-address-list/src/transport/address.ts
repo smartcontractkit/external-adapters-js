@@ -5,7 +5,8 @@ import { Transport, TransportDependencies } from '@chainlink/external-adapter-fr
 import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import { encodeAddress } from '@polkadot/keyring'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes, inputParameters, PorInputAddress } from '../endpoint/address'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
+import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 
 type NetworkChainMap = { [network: string]: { [chain: string]: string } }
 
@@ -48,7 +49,7 @@ export class AddressTransport implements Transport<BaseEndpointTypes> {
     const publicKeyAddresses: string[] = await addressManager.getStashAccounts()
     const providerDataReceivedUnixMs = Date.now()
 
-    const result: PorInputAddress[] = []
+    const result: PoRAddress[] = []
     publicKeyAddresses.forEach((publicKey) => {
       result.push({
         address: encodeAddress(publicKey, 0),

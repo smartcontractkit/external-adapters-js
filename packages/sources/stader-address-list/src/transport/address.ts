@@ -64,11 +64,8 @@ export class AddressTransport extends SubscriptionTransport<BaseEndpointTypes> {
     context: EndpointContext<BaseEndpointTypes>,
     entries: RequestParams[],
   ): Promise<void> {
-    if (!entries.length) {
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-      return
-    }
     await Promise.all(entries.map(async (req) => this.handleRequest(req)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
   buildStaderConfigContract(req: RequestParams): ethers.Contract {
