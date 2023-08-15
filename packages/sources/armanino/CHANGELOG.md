@@ -1,5 +1,19 @@
 # @chainlink/armanino-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- 71371ae73: Upgraded adapter from v2 to v3 framework
+
+### Minor Changes
+
+- 0bd58495f: Added ripcord indicator check to STBT endpoint
+
+### Patch Changes
+
+- b17835a13: Adjusted rate limit defaults
+
 ## 2.0.0
 
 ### Major Changes

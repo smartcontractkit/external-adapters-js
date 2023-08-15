@@ -1,5 +1,15 @@
 # @chainlink/avalanche-platform-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 540a254e5: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- d47d09570: Changed rate limit config, fixed a bug related to request to DP
+
 ## 1.1.1
 
 ### Patch Changes
