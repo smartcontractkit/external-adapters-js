@@ -1,5 +1,11 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 494f83ca9: Upgraded adapter from v2 to v3 framework
+
 ## 1.4.63
 
 ### Patch Changes

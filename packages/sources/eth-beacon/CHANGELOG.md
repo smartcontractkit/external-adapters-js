@@ -1,5 +1,16 @@
 # @chainlink/eth-beacon-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 2f72e4178: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- 1b0d1a84e: Added sleep to background execute to limit request processing
+- aa2d3e74c: Fixed response providerDataRequestedUnixMs timestamp value
+
 ## 1.5.1
 
 ### Patch Changes

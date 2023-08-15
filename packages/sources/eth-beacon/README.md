@@ -1,8 +1,6 @@
-# Chainlink External Adapter for Ethereum Beacon API
+# ETH_BEACON
 
-![1.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-External adapter for reading from the Ethereum PoS Beacon chain's API and optionally searching deposit events for limbo validator balances.
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -11,10 +9,11 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |         Name          |                                                                                                                    Description                                                                                                                    |  Type  | Options | Default |
 | :-------: | :-------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     | ETH_CONSENSUS_RPC_URL |                                                                                               RPC URL of an Ethereum consensus client (beacon node)                                                                                               | string |         |         |
-|           | ETH_EXECUTION_RPC_URL |                                                                 RPC URL of an Ethereum execution client (archive node). Required for requests that need a limbo validator search                                                                  | string |         |         |
+|           | ETH_EXECUTION_RPC_URL |                                                                 RPC URL of an Ethereum execution client (archive node). Required for requests that need a limbo validator search                                                                  | string |         |   ``    |
 |           |      BATCH_SIZE       | Number of validators to send in each request to the consensus client. Set to 0 if consensus client allows unlimited validators in query. Setting this lower than the default and greater than 0 may result in lower performance from the adapter. | number |         |  `15`   |
 |           |      GROUP_SIZE       |       Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. Unused if BATCH_SIZE is set to 0.        | number |         |  `15`   |
-|           |       CHAIN_ID        |                                                                                                            The chain id to connect to                                                                                                             | string |         |   `1`   |
+|           |       CHAIN_ID        |                                                                                                            The chain id to connect to                                                                                                             | number |         |   `1`   |
+|           | BACKGROUND_EXECUTE_MS |                                                                             The amount of time the background execute should sleep before performing the next request                                                                             | number |         | `10000` |
 
 ---
 
@@ -26,7 +25,7 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
@@ -34,22 +33,17 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ## Balance Endpoint
 
-**NOTE:** The balance output is given in Gwei!
-
-**NOTE**: The balance query is normally quite slow, no matter how many validators are being queried. API_TIMEOUT has been set to default to 60s.
-
-The balance endpoint will fetch the validator balance of each address in the query. If the search limbo validator flag is set to true, it will also fetch balances for validators not found on beacon from deposit events. Adapts the response for the Proof Of Reserves adapter.
-
 `balance` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |         Name          | Aliases  |                                                       Description                                                        |  Type   | Options |   Default   | Depends On | Not Valid With |
-| :-------: | :-------------------: | :------: | :----------------------------------------------------------------------------------------------------------------------: | :-----: | :-----: | :---------: | :--------: | :------------: |
-|    ✅     |       addresses       | `result` |            An array of addresses to get the balances of (as an object with string `address` as an attribute)             |  array  |         |             |            |                |
-|           |        stateId        |          |                                            The beacon chain state ID to query                                            | string  |         | `finalized` |            |                |
-|           |    validatorStatus    |          |                                       A filter to apply validators by their status                                       |  array  |         |             |            |                |
-|           | searchLimboValidators |          | Flag to determine if deposit events need to be searched for limbo validators. Only set to true if using an archive node. | boolean |         |             |            |                |
+| Required? |         Name          | Aliases  |                                                       Description                                                        |   Type   | Options |   Default   | Depends On | Not Valid With |
+| :-------: | :-------------------: | :------: | :----------------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :---------: | :--------: | :------------: |
+|    ✅     |       addresses       | `result` |            An array of addresses to get the balances of (as an object with string `address` as an attribute)             | object[] |         |             |            |                |
+|    ✅     |   addresses.address   |          |                                             an address to get the balance of                                             |  string  |         |             |            |                |
+|           |        stateId        |          |                                            The beacon chain state ID to query                                            |  string  |         | `finalized` |            |                |
+|           |    validatorStatus    |          |                                       A filter to apply validators by their status                                       | string[] |         |             |            |                |
+|           | searchLimboValidators |          | Flag to determine if deposit events need to be searched for limbo validators. Only set to true if using an archive node. | boolean  |         |             |            |                |
 
 ### Example
 

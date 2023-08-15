@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- 256fb4663: Upgraded adapter from v2 to v3 framework
+
 ## 2.2.17
 
 ### Patch Changes
