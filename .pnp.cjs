@@ -9224,7 +9224,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["it-pipe", "npm:1.1.0"],\
             ["libp2p-crypto", "npm:0.19.7"],\
             ["peer-id", "npm:0.15.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -14359,7 +14359,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@terra-money/terra.proto", "npm:0.1.7"],\
             ["google-protobuf", "npm:3.21.1"],\
             ["long", "npm:4.0.0"],\
-            ["protobufjs", "npm:6.11.3"]\
+            ["protobufjs", "npm:6.11.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -25447,7 +25447,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["multiaddr", "npm:10.0.1"],\
             ["multiformats", "npm:9.9.0"],\
             ["native-abort-controller", "virtual:14d42817b2231f8a8dd06edeb23b1acf2fa57fb20de602da61a3ef140a00ff0e827e59e2af2d696c0e64f98737ed7cb42c5d09825e00687282afb3fce105533f#npm:1.0.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["readable-stream", "npm:3.6.0"],\
             ["uint8arrays", "npm:3.1.0"],\
             ["varint", "npm:6.0.0"],\
@@ -25740,7 +25740,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["it-pushable", "npm:1.4.2"],\
             ["multiaddr", "npm:10.0.1"],\
             ["nanoid", "npm:3.3.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["ws", "virtual:f6e474cf40bbabeb7f1fe6c393b6955df38a58db2d59ee7489b1a74f73c369a1f22a33bd1aedfcae125bddf304fd7dc4ee8d6311eaf92ab0350b94d49e9a172e#npm:7.5.9"]\
           ],\
           "linkType": "HARD"\
@@ -25935,7 +25935,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["interface-datastore", "npm:6.1.1"],\
             ["it-length", "npm:1.0.4"],\
             ["multiformats", "npm:9.9.0"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"],\
             ["varint", "npm:6.0.0"]\
           ],\
@@ -25948,7 +25948,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["ipfs-unixfs", "npm:6.0.9"],\
             ["err-code", "npm:3.0.1"],\
-            ["protobufjs", "npm:6.11.3"]\
+            ["protobufjs", "npm:6.11.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -26071,7 +26071,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["long", "npm:4.0.0"],\
             ["multiformats", "npm:9.9.0"],\
             ["peer-id", "npm:0.15.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["timestamp-nano", "npm:1.0.0"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
@@ -28980,7 +28980,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["p-settle", "npm:4.1.1"],\
             ["peer-id", "npm:0.15.4"],\
             ["private-ip", "npm:2.3.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["retimer", "npm:3.0.0"],\
             ["sanitize-filename", "npm:1.6.3"],\
             ["set-delayed-interval", "npm:1.0.0"],\
@@ -29019,7 +29019,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["multiformats", "npm:9.9.0"],\
             ["node-forge", "npm:0.10.0"],\
             ["pem-jwk", "npm:2.0.0"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["secp256k1", "npm:4.0.3"],\
             ["uint8arrays", "npm:3.1.0"],\
             ["ursa-optional", "npm:0.10.2"]\
@@ -29038,7 +29038,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["noble-secp256k1", "npm:1.2.14"],\
             ["node-forge", "npm:0.10.0"],\
             ["pem-jwk", "npm:2.0.0"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"],\
             ["ursa-optional", "npm:0.10.2"]\
           ],\
@@ -29054,7 +29054,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["iso-random-stream", "npm:2.0.2"],\
             ["multiformats", "npm:9.9.0"],\
             ["node-forge", "npm:1.3.1"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -29114,7 +29114,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["it-pipe", "npm:1.1.0"],\
             ["libp2p-interfaces", "npm:1.3.1"],\
             ["peer-id", "npm:0.15.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["time-cache", "npm:0.3.0"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
@@ -29138,7 +29138,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["multiformats", "npm:9.9.0"],\
             ["p-queue", "npm:6.6.2"],\
             ["peer-id", "npm:0.15.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -29169,7 +29169,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["p-queue", "npm:6.6.2"],\
             ["p-timeout", "npm:4.1.0"],\
             ["peer-id", "npm:0.15.4"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["streaming-iterables", "npm:6.2.0"],\
             ["uint8arrays", "npm:3.1.0"],\
             ["varint", "npm:6.0.0"]\
@@ -29213,7 +29213,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libp2p-record", "npm:0.10.6"],\
             ["err-code", "npm:3.0.1"],\
             ["multiformats", "npm:9.9.0"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -33356,7 +33356,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libp2p-crypto", "npm:0.20.0"],\
             ["minimist", "npm:1.2.6"],\
             ["multiformats", "npm:9.9.0"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -33368,7 +33368,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["class-is", "npm:1.1.0"],\
             ["libp2p-crypto", "npm:0.21.2"],\
             ["multiformats", "npm:9.9.0"],\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["uint8arrays", "npm:3.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -33954,10 +33954,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["protobufjs", [\
-        ["npm:6.11.3", {\
-          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.11.3-566fb31188/node_modules/protobufjs/",\
+        ["npm:6.11.4", {\
+          "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.11.4-af11968b80/node_modules/protobufjs/",\
           "packageDependencies": [\
-            ["protobufjs", "npm:6.11.3"],\
+            ["protobufjs", "npm:6.11.4"],\
             ["@protobufjs/aspromise", "npm:1.1.2"],\
             ["@protobufjs/base64", "npm:1.1.2"],\
             ["@protobufjs/codegen", "npm:2.0.4"],\
