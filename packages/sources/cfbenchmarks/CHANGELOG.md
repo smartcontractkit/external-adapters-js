@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.1.7
+
+### Patch Changes
+
+- c7282e15f: Removed BIRC-specific retry logic
+
 ## 2.1.6
 
 ### Patch Changes

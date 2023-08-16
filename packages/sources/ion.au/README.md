@@ -1,3 +1,45 @@
-# Chainlink External Adapter for ion.au
+# ION.AU
 
-This README will be generated automatically when code is merged to `main`. If you would like to generate a preview of the README, please run `yarn generate:readme ion.au`.
+![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ion.au/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Environment Variables
+
+| Required? |     Name     |            Description            |  Type  | Options |                       Default                       |
+| :-------: | :----------: | :-------------------------------: | :----: | :-----: | :-------------------------------------------------: |
+|           | API_ENDPOINT | An API endpoint for Data Provider | string |         | `https://ion-digital-proof-of-reserve.instruxi.dev` |
+
+---
+
+## Data Provider Rate Limits
+
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+| default |             50              |                             |                           | Considered unlimited tier, but setting reasonable limits |
+
+---
+
+## Input Parameters
+
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
+
+| Required? |   Name   |     Description     |  Type  |                 Options                  |     Default     |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------: | :-------------: |
+|           | endpoint | The endpoint to use | string | [total_reserve](#total_reserve-endpoint) | `total_reserve` |
+
+## Total_reserve Endpoint
+
+`total_reserve` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+MIT License

@@ -1,5 +1,15 @@
 # @chainlink/trueusd-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- f1644f40e: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- b17835a13: Adjusted rate limit defaults
+
 ## 2.1.0
 
 ### Minor Changes

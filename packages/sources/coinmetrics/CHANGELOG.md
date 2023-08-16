@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.3.0
+
+### Minor Changes
+
+- bae30aad1: Add XRP, UNI,SOL and LTC to coinmetrics EA asset-pairs endpoint hardcoded.
+
 ## 3.2.7
 
 ### Patch Changes
