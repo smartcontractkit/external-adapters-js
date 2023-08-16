@@ -40,11 +40,8 @@ export class TotalSupplyTransport extends SubscriptionTransport<BaseEndpointType
     context: EndpointContext<BaseEndpointTypes>,
     entries: RequestParams[],
   ): Promise<void> {
-    if (!entries.length) {
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-      return
-    }
     await Promise.all(entries.map(async (req) => this.handleRequest(req)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
   async handleRequest(req: RequestParams): Promise<void> {

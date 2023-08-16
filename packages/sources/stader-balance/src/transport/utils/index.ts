@@ -7,6 +7,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import { config } from '../../config'
+import { PoRBalance } from '@chainlink/external-adapter-framework/adapter/por'
 
 const logger = makeLogger('Balance Utils')
 
@@ -197,9 +198,8 @@ export type ValidatorAddress = BasicAddress &
     operatorId: number
   }
 
-export interface BalanceResponse {
+export interface BalanceResponse extends PoRBalance {
   address: string
-  balance: string
 }
 
 export interface ProviderResponse {
@@ -221,19 +221,6 @@ export interface ValidatorState {
     exit_epoch: string
     withdrawable_epoch: string
   }
-}
-
-export interface ResponseSchema {
-  Data: {
-    result: BalanceResponse[]
-  }
-  Result: null
-}
-
-export type EndpointTypes = {
-  Parameters: typeof inputParameters.definition
-  Settings: typeof config.settings
-  Response: ResponseSchema
 }
 
 interface GenesisResponse {

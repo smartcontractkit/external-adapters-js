@@ -1,5 +1,5 @@
 import { config } from '../config'
-import { BalanceResponse, BaseEndpointTypes, inputParameters } from '../endpoint/balance'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies, Transport } from '@chainlink/external-adapter-framework/transports'
 import {
@@ -42,7 +42,7 @@ export class BalanceTransport implements Transport<BaseEndpointTypes> {
     await api.isReady
 
     const providerDataRequestedUnixMs = Date.now()
-    const result: BalanceResponse[] = []
+    const result: { address: string; balance: string }[] = []
 
     // Can't utilize a "multi" query here since it doesn't retrieve a snapshot of the balance directly
     // Also addresses are not returned in the results preventing balances to be mapped to them

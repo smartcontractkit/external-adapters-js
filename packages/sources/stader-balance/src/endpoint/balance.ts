@@ -1,8 +1,12 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PoRBalanceEndpoint,
+  PoRBalanceResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/balance'
-import { StaderValidatorStatus, ResponseSchema, networks, chainIds } from '../transport/utils'
+import { StaderValidatorStatus, networks, chainIds } from '../transport/utils'
+
 export const inputParameters = new InputParameters({
   addresses: {
     aliases: ['result'],
@@ -14,7 +18,7 @@ export const inputParameters = new InputParameters({
       address: {
         type: 'string',
         required: true,
-        description: 'One of the addresses to get balance of',
+        description: 'an address to get the balance of',
       },
       poolId: {
         type: 'number',
@@ -128,10 +132,10 @@ export const inputParameters = new InputParameters({
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: ResponseSchema
+  Response: PoRBalanceResponse
 }
 
-export const balanceEndpoint = new AdapterEndpoint({
+export const balanceEndpoint = new PoRBalanceEndpoint({
   name: 'balance',
   transport,
   inputParameters,

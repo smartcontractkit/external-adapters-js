@@ -1,4 +1,4 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { PoRAddressEndpoint } from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/address'
@@ -113,7 +113,7 @@ export type BaseEndpointTypes = {
   Response: ResponseSchema
 }
 
-export const addressEndpoint = new AdapterEndpoint({
+export const addressEndpoint = new PoRAddressEndpoint({
   name: 'address',
   transport,
   inputParameters,
