@@ -27,6 +27,15 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
+      if (!response.data?.addresses?.length) {
+        return {
+          params: param,
+          response: {
+            statusCode: 502,
+            errorMessage: `gemini provided no data for ${JSON.stringify(param)}`,
+          },
+        }
+      }
       const result = response.data.addresses.map((address) => ({
         address,
         network: param.network,
