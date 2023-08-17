@@ -11,7 +11,7 @@ export const config = new AdapterConfig({
   FILECOIN_RPC_URL: {
     description: 'RPC URL of Filecoin node',
     type: 'string',
-    default: 'http://localhost:8545',
+    required: true,
   },
   BACKGROUND_EXECUTE_MS: {
     description:

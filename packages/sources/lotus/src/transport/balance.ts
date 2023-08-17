@@ -28,25 +28,22 @@ export class TotalBalanceTransport extends SubscriptionTransport<BalanceTranspor
 
   async initialize(
     dependencies: TransportDependencies<BalanceTransportTypes>,
-    _adapterSettings: BalanceTransportTypes['Settings'],
-    _endpointName: string,
+    adapterSettings: BalanceTransportTypes['Settings'],
+    endpointName: string,
     transportName: string,
   ): Promise<void> {
-    await super.initialize(dependencies, _adapterSettings, _endpointName, transportName)
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
-    this.settings = _adapterSettings
-    this.endpointName = _endpointName
+    this.settings = adapterSettings
+    this.endpointName = endpointName
   }
 
   async backgroundHandler(
     context: EndpointContext<BalanceTransportTypes>,
     entries: RequestParams[],
   ) {
-    if (!entries.length) {
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-      return
-    }
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
   async handleRequest(param: RequestParams) {
@@ -80,7 +77,7 @@ export class TotalBalanceTransport extends SubscriptionTransport<BalanceTranspor
     )
 
     const result = balances
-      .reduce((sum, balance) => sum.add(balance.result as unknown as BigNumber), BigNumber.from(0))
+      .reduce((sum, balance) => sum.add(BigNumber.from(balance.result)), BigNumber.from(0))
       .toString()
 
     return {
