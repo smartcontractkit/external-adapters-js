@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute with token should return success 1`] = `
+exports[`execute reserves endpoint should return success 1`] = `
 {
   "data": {
     "addresses": [
@@ -22,20 +22,11 @@ exports[`execute with token should return success 1`] = `
       },
     ],
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": [
-    {
-      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "chainId": "mainnet",
-      "network": "filecoin",
-    },
-    {
-      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-      "chainId": "mainnet",
-      "network": "filecoin",
-    },
-  ],
+  "result": null,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
