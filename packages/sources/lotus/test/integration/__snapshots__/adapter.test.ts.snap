@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute result is an alias for addresses should return success 1`] = `
+exports[`execute balance endpoint result is an alias for addresses 1`] = `
 {
   "data": {
     "balances": [
@@ -15,14 +15,27 @@ exports[`execute result is an alias for addresses should return success 1`] = `
     ],
     "result": "33427594125000000000000",
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": "33427594125000000000000",
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
-exports[`execute with multiple addresses should return success 1`] = `
+exports[`execute balance endpoint should return error with empty addresses 1`] = `
+{
+  "error": {
+    "message": "Input, at 'addresses' or 'result' path, must be a non-empty array.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute balance endpoint should return success multiple addresses 1`] = `
 {
   "data": {
     "balances": [
@@ -37,14 +50,16 @@ exports[`execute with multiple addresses should return success 1`] = `
     ],
     "result": "33427594125000000000000",
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": "33427594125000000000000",
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
-exports[`execute with one address should return success 1`] = `
+exports[`execute balance endpoint should return success with one address 1`] = `
 {
   "data": {
     "balances": [
@@ -55,9 +70,11 @@ exports[`execute with one address should return success 1`] = `
     ],
     "result": "33426744125000000000000",
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": "33426744125000000000000",
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
