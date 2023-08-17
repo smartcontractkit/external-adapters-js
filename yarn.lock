@@ -4916,6 +4916,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.31.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/therundown-adapter@workspace:*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"

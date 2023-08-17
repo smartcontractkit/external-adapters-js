@@ -516,6 +516,9 @@
       "path": "./sources/terra-view-function/tsconfig.test.json"
     },
     {
+      "path": "./sources/the-network-firm/tsconfig.test.json"
+    },
+    {
       "path": "./sources/therundown/tsconfig.test.json"
     },
     {
