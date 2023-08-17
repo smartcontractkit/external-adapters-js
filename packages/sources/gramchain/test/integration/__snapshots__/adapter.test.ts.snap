@@ -10,7 +10,7 @@ exports[`execute getgrambalances endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 1643754144293,
+    "providerIndicatedTimeUnixMs": 1643768544293,
   },
 }
 `;
