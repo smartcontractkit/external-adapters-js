@@ -31,7 +31,13 @@ export const adaptersV2: v2AdapterImplementation[] = [
   swellList as unknown as v2AdapterImplementation,
 ]
 
-export const adaptersV3: v3AdapterImplementation[] = [moonbeamAddressList, staderList, wBTC, gemini, porAddressList]
+export const adaptersV3: v3AdapterImplementation[] = [
+  moonbeamAddressList,
+  staderList,
+  wBTC,
+  gemini,
+  porAddressList,
+]
 
 type AddressData = { token: string; chainId: string; network: string } | AddressList
 
