@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockGeminiResponseSuccess = (): nock.Scope =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.gemini.com:443', { encodedQueryParams: true })
     .persist()
     .get('/v1/tokens/efil/reserves')
