@@ -147,9 +147,6 @@
       "path": "./sources/ap-election/tsconfig.test.json"
     },
     {
-      "path": "./sources/armanino/tsconfig.test.json"
-    },
-    {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
     },
     {

@@ -2145,19 +2145,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/armanino-adapter@workspace:packages/sources/armanino":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/armanino-adapter@workspace:packages/sources/armanino"
-  dependencies:
-    "@chainlink/external-adapter-framework": 0.31.0
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    nock: 13.2.9
-    tslib: 2.4.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/augur-adapter@workspace:packages/composites/augur":
   version: 0.0.0-use.local
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
