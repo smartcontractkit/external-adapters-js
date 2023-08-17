@@ -5,6 +5,8 @@ import {
   porBalanceEndpointInputParametersDefinition,
   PoRTotalBalanceEndpoint,
 } from '@chainlink/external-adapter-framework/adapter/por'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters = new InputParameters(porBalanceEndpointInputParametersDefinition)
 
@@ -25,4 +27,15 @@ export const endpoint = new PoRTotalBalanceEndpoint({
   aliases: ['Filecoin.WalletBalance'],
   transport: balanceTransport,
   inputParameters,
+  customInputValidation: (
+    req: AdapterRequest<typeof inputParameters.validated>,
+  ): AdapterInputError | undefined => {
+    if (req.requestContext.data.addresses.length === 0) {
+      return new AdapterInputError({
+        statusCode: 400,
+        message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      })
+    }
+    return
+  },
 })
