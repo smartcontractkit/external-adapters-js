@@ -46,7 +46,7 @@ export const adaptersV3: v3AdapterImplementation[] = [
   staderBalance,
   ethBeacon,
   avalanchePlatform,
-  lotus
+  lotus,
 ]
 
 // Get balances for address set
