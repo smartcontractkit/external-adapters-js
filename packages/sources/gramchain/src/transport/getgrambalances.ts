@@ -45,14 +45,25 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   parseResponse: (params, response) => {
     return params.map((param) => {
       const result = parseFloat(
-        response.data.reduce((sum, item) => sum + item.PureGrams, 0).toFixed(4),
+        response.data
+          .reduce((sum, item) => {
+            if (item.PureGrams && typeof item.PureGrams === 'number') {
+              return sum + item.PureGrams
+            }
+            return sum
+          }, 0)
+          .toFixed(4),
       )
+
       return {
         params: param,
         response: {
           result,
           data: {
             result,
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs: new Date(response.data[0].AsOfUTC).getTime(),
           },
         },
       }
