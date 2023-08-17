@@ -5,7 +5,7 @@ import { mco2, stbt } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: mco2.name,
-  name: 'ARMANINO',
+  name: 'THE_NETWORK_FIRM',
   config,
   endpoints: [mco2, stbt],
   rateLimiting: {

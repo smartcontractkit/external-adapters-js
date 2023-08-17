@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/armanino-adapter",
-  "version": "3.0.0",
-  "description": "Chainlink armanino adapter.",
+  "name": "@chainlink/the-network-firm-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink's The Network Firm adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "armanino"
+    "the-network-firm"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

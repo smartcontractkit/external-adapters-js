@@ -224,10 +224,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ap-election"\
       },\
       {\
-        "name": "@chainlink/armanino-adapter",\
-        "reference": "workspace:packages/sources/armanino"\
-      },\
-      {\
         "name": "@chainlink/avalanche-platform-adapter",\
         "reference": "workspace:packages/sources/avalanche-platform"\
       },\
@@ -720,6 +716,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/terra-view-function"\
       },\
       {\
+        "name": "@chainlink/the-network-firm-adapter",\
+        "reference": "workspace:packages/sources/the-network-firm"\
+      },\
+      {\
         "name": "@chainlink/therundown-adapter",\
         "reference": "workspace:packages/sources/therundown"\
       },\
@@ -829,7 +829,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
       ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
-      ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],\
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
       ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
       ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
@@ -993,6 +992,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],\
       ["@chainlink/terra-view-function-adapter", ["workspace:packages/sources/terra-view-function"]],\
       ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
+      ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
       ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
@@ -5716,21 +5716,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/armanino-adapter", [\
-        ["workspace:packages/sources/armanino", {\
-          "packageLocation": "./packages/sources/armanino/",\
-          "packageDependencies": [\
-            ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
-            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["nock", "npm:13.2.9"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
       ["@chainlink/augur-adapter", [\
         ["workspace:packages/composites/augur", {\
           "packageLocation": "./packages/composites/augur/",\
@@ -8804,6 +8789,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/the-network-firm-adapter", [\
+        ["workspace:packages/sources/the-network-firm", {\
+          "packageLocation": "./packages/sources/the-network-firm/",\
+          "packageDependencies": [\
+            ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

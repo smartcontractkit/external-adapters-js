@@ -147,9 +147,6 @@
       "path": "./sources/ap-election"
     },
     {
-      "path": "./sources/armanino"
-    },
-    {
       "path": "./sources/avalanche-platform"
     },
     {
@@ -514,6 +511,9 @@
     },
     {
       "path": "./sources/terra-view-function"
+    },
+    {
+      "path": "./sources/the-network-firm"
     },
     {
       "path": "./sources/therundown"
