@@ -3,6 +3,9 @@
 exports[`websocket websocket endpoint should return success 1`] = `
 {
   "data": {
+    "ask": 1235,
+    "bid": 1233,
+    "mid": 1234,
     "result": 1234,
   },
   "result": 1234,

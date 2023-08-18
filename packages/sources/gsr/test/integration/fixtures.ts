@@ -35,6 +35,8 @@ export const mockTokenSuccess = (): nock.Scope =>
 const base = 'ETH'
 const quote = 'USD'
 const price = 1234
+const bidPrice = 1233
+const askPrice = 1235
 const time = 1669345393482
 
 export const mockWebSocketServer = (URL: string) => {
@@ -47,6 +49,8 @@ export const mockWebSocketServer = (URL: string) => {
           data: {
             symbol: `${base.toUpperCase()}.${quote.toUpperCase()}`,
             price,
+            bidPrice,
+            askPrice,
             ts: time * 1e6,
           },
         }),
