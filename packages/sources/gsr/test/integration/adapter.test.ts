@@ -63,6 +63,20 @@ describe('websocket', () => {
       })
     })
 
+    it('lwba endpoint alias should return success', async () => {
+      const response = await testAdapter.request({
+        base: 'ETH',
+        quote: 'USD',
+        endpoint: 'crypto-lwba',
+      })
+      expect(response.json()).toMatchSnapshot({
+        timestamps: {
+          providerDataReceivedUnixMs: expect.any(Number),
+          providerDataStreamEstablishedUnixMs: expect.any(Number),
+        },
+      })
+    })
+
     it('should return error (empty data)', async () => {
       const response = await testAdapter.request({})
       expect(response.statusCode).toEqual(400)
