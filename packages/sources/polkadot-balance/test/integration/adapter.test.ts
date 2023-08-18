@@ -134,5 +134,6 @@ describe('Balance Endpoint', () => {
   it('should return error (empty addresses)', async () => {
     const response = await testAdapter.request({ addresses: [] })
     expect(response.statusCode).toEqual(400)
+    expect(response.json()).toMatchSnapshot()
   })
 })
