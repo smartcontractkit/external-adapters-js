@@ -50,6 +50,13 @@ export const endpoint = new PoRBalanceEndpoint({
         message: `ETH_EXECUTION_RPC_URL env var must be set to perform limbo validator search. Please use an archive node.`,
       })
     }
+    if (request.requestContext.data.addresses.length === 0) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      })
+    }
+
     return
   },
 })
