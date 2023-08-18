@@ -1,6 +1,11 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@1.6.1/schema.json",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "smartcontractkit/external-adapters-js"
+    }
+  ],
   "commit": false,
   "linked": [],
   "access": "restricted",
