@@ -375,6 +375,9 @@
       "path": "./sources/intrinio"
     },
     {
+      "path": "./sources/ion.au"
+    },
+    {
       "path": "./sources/ipfs"
     },
     {
