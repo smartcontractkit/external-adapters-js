@@ -1,15 +1,17 @@
-import { BaseEndpointTypes } from '../endpoint/price'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import { getToken } from './authutils'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 
-const logger = makeLogger('GSR WS price')
+const logger = makeLogger('GSR WS LWBA price')
 
 type WsMessage = {
   type: string
   data: {
     symbol: string
     price: number
+    bidPrice: number
+    askPrice: number
     ts: number
   }
 }
@@ -21,18 +23,19 @@ export type WsTransportTypes = BaseEndpointTypes & {
 }
 
 export const transport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.LWBA_WS_API_ENDPOINT,
   options: async (context) => ({
     headers: {
       'x-auth-token': await getToken(
-        context.adapterSettings.API_ENDPOINT,
-        context.adapterSettings.WS_USER_ID,
-        context.adapterSettings.WS_PUBLIC_KEY,
-        context.adapterSettings.WS_PRIVATE_KEY,
+        context.adapterSettings.LWBA_API_ENDPOINT,
+        context.adapterSettings.LWBA_WS_USER_ID,
+        context.adapterSettings.LWBA_WS_PUBLIC_KEY,
+        context.adapterSettings.LWBA_WS_PRIVATE_KEY,
       ),
-      'x-auth-userid': context.adapterSettings.WS_USER_ID,
+      'x-auth-userid': context.adapterSettings.LWBA_WS_USER_ID,
     },
   }),
+
   handlers: {
     open: () => {
       return
@@ -58,9 +61,11 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
             quote: pair[1].toString(),
           },
           response: {
-            result: message.data.price,
+            result: null,
             data: {
-              result: message.data.price,
+              mid: message.data.price,
+              bid: message.data.bidPrice,
+              ask: message.data.askPrice,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
@@ -70,9 +75,8 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       ]
     },
   },
+
   builders: {
-    // Note: As of writing this (2022-11-07), GSR has a bug where you cannot subscribe to a pair
-    // after you've already subscribed & unsubscribed to that pair on the same WS connection.
     subscribeMessage: (params) => ({
       action: 'subscribe',
       symbols: [`${params.base.toUpperCase()}.${params.quote.toUpperCase()}`],

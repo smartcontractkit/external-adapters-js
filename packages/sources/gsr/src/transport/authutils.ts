@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 import axios from 'axios'
-import { config } from '../config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('GSR Auth Token Utils')
@@ -28,15 +27,18 @@ const generateSignature = (userId: string, publicKey: string, privateKey: string
     .update(`userId=${userId}&apiKey=${publicKey}&ts=${ts}`)
     .digest('hex')
 
-export const getToken = async (settings: typeof config.settings) => {
+// restApiEndpoint is used for token auth
+export const getToken = async (
+  restApiEndpoint: string,
+  userId: string,
+  publicKey: string,
+  privateKey: string,
+) => {
   logger.debug('Fetching new access token')
 
-  const userId = settings.WS_USER_ID
-  const publicKey = settings.WS_PUBLIC_KEY
-  const privateKey = settings.WS_PRIVATE_KEY
   const ts = currentTimeNanoSeconds()
   const signature = generateSignature(userId, publicKey, privateKey, ts)
-  const response = await axios.post<AccessTokenResponse>(`${settings.API_ENDPOINT}/token`, {
+  const response = await axios.post<AccessTokenResponse>(`${restApiEndpoint}/token`, {
     apiKey: publicKey,
     userId,
     ts,
@@ -44,7 +46,7 @@ export const getToken = async (settings: typeof config.settings) => {
   })
 
   if (!response.data.success) {
-    logger.error('Unable to get access token')
+    logger.error(`Unable to get access token: ${response.data.error}`)
     throw new Error(response.data.error)
   }
 

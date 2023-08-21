@@ -1,8 +1,8 @@
 import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
-export const mockTokenSuccess = (): nock.Scope =>
-  nock('https://oracle.prod.gsr.io', {
+const generateMockTokenSuccess = (basePath: string): nock.Scope =>
+  nock(basePath, {
     encodedQueryParams: true,
   })
     .post('/v1/token', {
@@ -32,6 +32,9 @@ export const mockTokenSuccess = (): nock.Scope =>
     )
     .persist()
 
+export const mockTokenSuccess = () => generateMockTokenSuccess('https://oracle.prod.gsr.io')
+export const mockLwbaTokenSuccess = () => generateMockTokenSuccess('https://oracle.pre-prod.gsr.io')
+
 const base = 'ETH'
 const quote = 'USD'
 const price = 1234
@@ -40,6 +43,25 @@ const askPrice = 1235
 const time = 1669345393482
 
 export const mockWebSocketServer = (URL: string) => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(
+        JSON.stringify({
+          type: 'ticker',
+          data: {
+            symbol: `${base.toUpperCase()}.${quote.toUpperCase()}`,
+            price,
+            ts: time * 1e6,
+          },
+        }),
+      )
+    })
+  })
+  return mockWsServer
+}
+
+export const mockLwbaWebSocketServer = (URL: string) => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {

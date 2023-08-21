@@ -1,14 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket websocket endpoint lwba endpoint alias should return success 1`] = `
+exports[`websocket websocket endpoint lwba endpoint should return success 1`] = `
 {
   "data": {
     "ask": 1235,
     "bid": 1233,
     "mid": 1234,
-    "result": 1234,
   },
-  "result": 1234,
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": Any<Number>,
@@ -21,9 +20,6 @@ exports[`websocket websocket endpoint lwba endpoint alias should return success 
 exports[`websocket websocket endpoint should return success 1`] = `
 {
   "data": {
-    "ask": 1235,
-    "bid": 1233,
-    "mid": 1234,
     "result": 1234,
   },
   "result": 1234,
