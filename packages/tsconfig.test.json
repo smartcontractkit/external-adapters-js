@@ -69,9 +69,6 @@
       "path": "./composites/outlier-detection/tsconfig.test.json"
     },
     {
-      "path": "./composites/por-indexer/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
@@ -466,6 +463,9 @@
     },
     {
       "path": "./sources/por-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/por-indexer/tsconfig.test.json"
     },
     {
       "path": "./sources/renvm-address-set/tsconfig.test.json"

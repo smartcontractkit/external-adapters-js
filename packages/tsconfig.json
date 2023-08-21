@@ -69,9 +69,6 @@
       "path": "./composites/outlier-detection"
     },
     {
-      "path": "./composites/por-indexer"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {
@@ -466,6 +463,9 @@
     },
     {
       "path": "./sources/por-address-list"
+    },
+    {
+      "path": "./sources/por-indexer"
     },
     {
       "path": "./sources/renvm-address-set"
