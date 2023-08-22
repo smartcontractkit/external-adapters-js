@@ -59,9 +59,9 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     const { minConfirmations, addresses } = params
     const porServiceRequests = new Map<string, string[]>()
 
+    // Collect addresses into their respective PoR requests
+    // Mapping from PoR ID to list of addresses
     for (const { network, chainId, address } of addresses) {
-      // Collect addresses into their respective PoR requests
-      // Mapping from PoR ID to list of addresses
       const id = `${network}_${chainId}`.toUpperCase()
       const existingAddresses = porServiceRequests.get(id) || []
       porServiceRequests.set(id, [...existingAddresses, address])
