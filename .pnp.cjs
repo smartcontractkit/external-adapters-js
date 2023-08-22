@@ -104,10 +104,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/outlier-detection"\
       },\
       {\
-        "name": "@chainlink/por-indexer-adapter",\
-        "reference": "workspace:packages/composites/por-indexer"\
-      },\
-      {\
         "name": "@chainlink/proof-of-reserves-adapter",\
         "reference": "workspace:packages/composites/proof-of-reserves"\
       },\
@@ -656,6 +652,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/por-address-list"\
       },\
       {\
+        "name": "@chainlink/por-indexer-adapter",\
+        "reference": "workspace:packages/sources/por-indexer"\
+      },\
+      {\
         "name": "@chainlink/renvm-address-set-adapter",\
         "reference": "workspace:packages/sources/renvm-address-set"\
       },\
@@ -967,7 +967,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
       ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
-      ["@chainlink/por-indexer-adapter", ["workspace:packages/composites/por-indexer"]],\
+      ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
       ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
       ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
@@ -8297,16 +8297,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/por-indexer-adapter", [\
-        ["workspace:packages/composites/por-indexer", {\
-          "packageLocation": "./packages/composites/por-indexer/",\
+        ["workspace:packages/sources/por-indexer", {\
+          "packageLocation": "./packages/sources/por-indexer/",\
           "packageDependencies": [\
-            ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
+            ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.54"],\
+            ["@types/node", "npm:16.11.51"],\
             ["decimal.js", "npm:10.4.3"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8339,7 +8338,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
             ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],\
+            ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
             ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
@@ -15101,13 +15100,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-14.18.36-af3afe44ce-da7f479b3f.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:14.18.36"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:14.18.54", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.54-59b82113de-9fd66f91fc.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:14.18.54"]\
           ],\
           "linkType": "HARD"\
         }],\
