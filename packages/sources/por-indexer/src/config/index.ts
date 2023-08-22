@@ -1,6 +1,6 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const config = new AdapterConfig({
+export const configDefinition = {
   BITCOIN_MAINNET_POR_INDEXER_URL: {
     description: 'Indexer URL for Bitcoin mainnet',
     type: 'string',
@@ -21,6 +21,10 @@ export const config = new AdapterConfig({
     type: 'string',
     default: '',
   },
+} as const
+
+export const config = new AdapterConfig({
+  ...configDefinition,
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

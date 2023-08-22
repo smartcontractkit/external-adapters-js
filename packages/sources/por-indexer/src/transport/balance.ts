@@ -3,11 +3,10 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
-
-const logger = makeLogger('PorIndexerTransport')
 
 export type TotalBalanceTransportTypes = BaseEndpointTypes
 
@@ -61,11 +60,14 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     const porServiceRequests = new Map<string, string[]>()
 
     for (const { network, chainId, address } of addresses) {
+      // Collect addresses into their respective PoR requests
+      // Mapping from PoR ID to list of addresses
       const id = `${network}_${chainId}`.toUpperCase()
       const existingAddresses = porServiceRequests.get(id) || []
       porServiceRequests.set(id, [...existingAddresses, address])
     }
 
+    // Fire off requests to each PoR indexer
     const requestResultPromises = []
     const providerDataRequestedUnixMs = Date.now()
 
@@ -78,13 +80,15 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
       requestResultPromises.push(requestResult)
     }
 
+    // Sum up the total reserves from each PoR indexer
     const requestResults = await Promise.all(requestResultPromises)
     const summedTotalReserves = requestResults
       .map((requestResult) => {
         const totalReserves = new Decimal(requestResult.response.data.data.totalReserves)
         if (!totalReserves.isFinite() || totalReserves.isNaN()) {
-          logger.warn(`Invalid totalReserves answer: ${totalReserves.toString()}`)
-          return new Decimal(0)
+          throw new AdapterError({
+            message: `Invalid totalReserves answer: ${totalReserves.toString()}`,
+          })
         }
         return totalReserves
       })

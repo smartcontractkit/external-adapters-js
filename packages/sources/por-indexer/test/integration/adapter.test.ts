@@ -63,11 +63,6 @@ describe('execute', () => {
             chainId: 'mainnet',
             address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
           },
-          {
-            network: 'bitcoin',
-            chainId: 'testnet',
-            address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
-          },
         ],
         minConfirmations: 6,
       }

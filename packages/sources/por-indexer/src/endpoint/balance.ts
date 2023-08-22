@@ -1,6 +1,6 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { PoRTotalBalanceEndpoint } from '@chainlink/external-adapter-framework/adapter/por'
-import { config } from '../config'
+import { config, configDefinition } from '../config'
 import { balanceTransport } from '../transport/balance'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -19,11 +19,13 @@ export const inputParameters = new InputParameters({
         description: 'The name of the target network protocol',
         required: true,
         type: 'string',
+        options: ['bitcoin', 'dogecoin'],
       },
       chainId: {
         description: 'The name of the target chain',
         required: true,
         type: 'string',
+        options: ['mainnet', 'testnet'],
       },
     },
     description:
@@ -66,41 +68,25 @@ export const endpoint = new PoRTotalBalanceEndpoint({
       })
     }
 
-    const btcMainnet = addresses.some(
-      (a) => `${a.network}_${a.chainId}`.toUpperCase() === 'BITCOIN_MAINNET',
-    )
-    const btcTestnet = addresses.some(
-      (a) => `${a.network}_${a.chainId}`.toUpperCase() === 'BITCOIN_TESTNET',
-    )
-    const dogeMainnet = addresses.some(
-      (a) => `${a.network}_${a.chainId}`.toUpperCase() === 'DOGECOIN_MAINNET',
-    )
-    const dogeTestnet = addresses.some(
-      (a) => `${a.network}_${a.chainId}`.toUpperCase() === 'DOGECOIN_TESTNET',
-    )
-    const missingEnv = []
+    // Check if based on input parameters corresponding env vars are set
+    const foundEnv = new Map()
+    const envVarsToCheck = Object.keys(configDefinition)
 
-    if (btcMainnet && !settings.BITCOIN_MAINNET_POR_INDEXER_URL) {
-      missingEnv.push('BITCOIN_MAINNET_POR_INDEXER_URL')
-    }
-    if (btcTestnet && !settings.BITCOIN_TESTNET_POR_INDEXER_URL) {
-      missingEnv.push('BITCOIN_TESTNET_POR_INDEXER_URL')
-    }
-    if (dogeMainnet && !settings.DOGECOIN_MAINNET_POR_INDEXER_URL) {
-      missingEnv.push('DOGECOIN_MAINNET_POR_INDEXER_URL')
-    }
-    if (dogeTestnet && !settings.DOGECOIN_TESTNET_POR_INDEXER_URL) {
-      missingEnv.push('DOGECOIN_TESTNET_POR_INDEXER_URL')
-    }
+    for (const address of addresses) {
+      const id = `${address.network}_${address.chainId}`
+      const env = `${id}_POR_INDEXER_URL`.toUpperCase()
+      if (!settings[env as keyof typeof settings]) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `'${env}' environment variable is required.`,
+        })
+      }
 
-    if (missingEnv.length > 0) {
-      const message = `'${missingEnv}' environment ${
-        missingEnv.length === 1 ? 'variable is' : 'variables are'
-      } required.`
-      throw new AdapterInputError({
-        statusCode: 400,
-        message,
-      })
+      foundEnv.set(env, true)
+      // Stop the loop if all `network_chainId` env vars are found
+      if (foundEnv.size === envVarsToCheck.length) {
+        break
+      }
     }
 
     return
