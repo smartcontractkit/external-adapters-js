@@ -480,6 +480,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/fmpcloud"\
       },\
       {\
+        "name": "@chainlink/frxeth-exchange-rate-adapter",\
+        "reference": "workspace:packages/sources/frxeth-exchange-rate"\
+      },\
+      {\
         "name": "@chainlink/galaxis-adapter",\
         "reference": "workspace:packages/sources/galaxis"\
       },\
@@ -914,6 +918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
       ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
+      ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
       ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
       ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
       ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
@@ -7350,6 +7355,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/frxeth-exchange-rate-adapter", [\
+        ["workspace:packages/sources/frxeth-exchange-rate", {\
+          "packageLocation": "./packages/sources/frxeth-exchange-rate/",\
+          "packageDependencies": [\
+            ["@chainlink/frxeth-exchange-rate-adapter", "workspace:packages/sources/frxeth-exchange-rate"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["ethers", "npm:5.7.2"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
