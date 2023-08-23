@@ -56,3 +56,18 @@ exports[`execute stbt endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute usdr endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 39138216.32189752,
+  },
+  "result": 39138216.32189752,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1692831653859,
+  },
+}
+`;

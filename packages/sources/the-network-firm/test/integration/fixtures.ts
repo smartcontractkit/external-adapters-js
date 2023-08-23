@@ -127,3 +127,45 @@ export const mockBackedResponseFailure = (): nock.Scope =>
       ripcordDetails: ['Balances'],
     })
     .persist()
+
+export const mockUSDRResponseSuccess = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/USDR')
+    .reply(200, {
+      accountName: 'USDR',
+      totalReserve: 39138216.32189752,
+      totalToken: 8368048.75007513,
+      detailedReserve: {
+        DAI: 1999280.1996740077,
+        realEstate: 24368253.51404984,
+        TNGBL: 8543905.044571292,
+        insuranceFund: 4226777.563602379,
+      },
+      timestamp: '2023-08-23T23:00:53.859Z',
+      ripcord: false,
+      ripcordDetails: [],
+    })
+    .persist()
+
+export const mockUSDRResponseFailure = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/USDR')
+    .reply(200, {
+      accountName: 'USDR',
+      totalReserve: 39138216.32189752,
+      totalToken: 8368048.75007513,
+      detailedReserve: {
+        DAI: 1999280.1996740077,
+        realEstate: 24368253.51404984,
+        TNGBL: 8543905.044571292,
+        insuranceFund: 4226777.563602379,
+      },
+      timestamp: '2023-08-23T23:00:53.859Z',
+      ripcord: true,
+      ripcordDetails: ['Balances'],
+    })
+    .persist()
