@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`frxETH - ETH exchange rate crypto endpoint should return error for invalid priceType 1`] = `
+{
+  "error": {
+    "message": "priceType input parameter must be one of 'HIGH' or 'LOW'.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`frxETH - ETH exchange rate crypto endpoint should return error for missing priceType 1`] = `
+{
+  "error": {
+    "message": "[Param: priceType] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`frxETH - ETH exchange rate crypto endpoint should return success for priceType: HIGH 1`] = `
+{
+  "data": {
+    "result": "1000000000000000000",
+  },
+  "result": "1000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`frxETH - ETH exchange rate crypto endpoint should return success for priceType: LOW 1`] = `
+{
+  "data": {
+    "result": "998800960669793168",
+  },
+  "result": "998800960669793168",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

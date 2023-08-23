@@ -339,6 +339,9 @@
       "path": "./sources/fmpcloud"
     },
     {
+      "path": "./sources/frxeth-exchange-rate"
+    },
+    {
       "path": "./sources/galaxis"
     },
     {

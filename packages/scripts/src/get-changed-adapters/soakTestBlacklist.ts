@@ -33,6 +33,7 @@ export const SoakTestBlacklist: string[] = [
   'expert-car-broker',
   'flightaware',
   'fmpcloud',
+  'frxeth-exchange-rate',
   'genesis-volatility',
   'google-bigquery',
   'google-weather',

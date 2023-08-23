@@ -3620,6 +3620,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/frxeth-exchange-rate-adapter@workspace:packages/sources/frxeth-exchange-rate":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/frxeth-exchange-rate-adapter@workspace:packages/sources/frxeth-exchange-rate"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.31.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    ethers: 5.7.2
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/galaxis-adapter@workspace:packages/sources/galaxis":
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxis-adapter@workspace:packages/sources/galaxis"
