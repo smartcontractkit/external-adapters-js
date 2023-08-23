@@ -1,5 +1,11 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.4
+
+### Patch Changes
+
+- aeab26fa0: Added PoR subclasses. Added sleep to background execute to limit request processing
+
 ## 1.4.3
 
 ### Patch Changes

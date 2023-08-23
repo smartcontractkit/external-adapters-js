@@ -1,5 +1,15 @@
 # @chainlink/lotus-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- ff7b89c0f: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
 ## 2.2.31
 
 ### Patch Changes

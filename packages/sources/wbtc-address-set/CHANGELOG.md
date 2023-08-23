@@ -1,5 +1,11 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
 ## 2.0.0
 
 ### Major Changes
