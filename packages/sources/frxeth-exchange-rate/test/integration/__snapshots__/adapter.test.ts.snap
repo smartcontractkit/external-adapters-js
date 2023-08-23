@@ -3,11 +3,11 @@
 exports[`frxETH - ETH exchange rate crypto endpoint should return error for invalid priceType 1`] = `
 {
   "error": {
-    "message": "priceType input parameter must be one of 'HIGH' or 'LOW'.",
+    "message": "[Param: priceType] input is not one of valid options (HIGH,LOW,high,low)",
     "name": "AdapterError",
   },
   "status": "errored",
-  "statusCode": 500,
+  "statusCode": 400,
 }
 `;
 

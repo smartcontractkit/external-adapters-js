@@ -11,7 +11,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |         RPC_URL         |                              The RPC URL to connect to the EVM chain                              | string |         |                                              |
 |    ✅     |        CHAIN_ID         |                                    The chain id to connect to                                     | number |         |                     `1`                      |
 |    ✅     | FRAX_ETH_PRICE_CONTRACT |                 The address of the deployed Frax Dual Oracle Price Logic contract                 | string |         | `0xb12c19c838499e3447afd9e59274b1be56b1546a` |
-|           |  BACKGROUND_EXECUTE_MS  | The number of milliseconds the background execute should sleep before performing the next request | number |         |                   `10000`                    |
+|           |  BACKGROUND_EXECUTE_MS  | The number of milliseconds the background execute should sleep before performing the next request | number |         |                    `1000`                    |
 
 ---
 
@@ -35,9 +35,9 @@ Every EA supports base input parameters from [this list](https://github.com/smar
 
 ### Input Params
 
-| Required? |   Name    | Aliases |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :-----: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | priceType |         | The price type to fetch, either 'HIGH' or 'LOW'. | string |         |         |            |                |
+| Required? |   Name    | Aliases |                   Description                    |  Type  |           Options            | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :-----: | :----------------------------------------------: | :----: | :--------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | priceType |         | The price type to fetch, either 'HIGH' or 'LOW'. | string | `HIGH`, `LOW`, `high`, `low` |         |            |                |
 
 ### Example
 

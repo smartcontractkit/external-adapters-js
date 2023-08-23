@@ -75,7 +75,7 @@ describe('frxETH - ETH exchange rate', () => {
         endpoint: 'crypto',
       }
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(500)
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })
