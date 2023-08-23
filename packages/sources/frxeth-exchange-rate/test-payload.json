@@ -1,0 +1,12 @@
+{
+    "requests": [
+        {
+            "priceType": "high",
+            "endpoint": "crypto"
+        },
+        {
+            "priceType": "low",
+            "endpoint": "crypto"
+        }
+    ]
+}
