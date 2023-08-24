@@ -69,9 +69,6 @@
       "path": "./composites/outlier-detection/tsconfig.test.json"
     },
     {
-      "path": "./composites/por-indexer/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
@@ -342,6 +339,9 @@
       "path": "./sources/fmpcloud/tsconfig.test.json"
     },
     {
+      "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
+    },
+    {
       "path": "./sources/galaxis/tsconfig.test.json"
     },
     {
@@ -376,6 +376,9 @@
     },
     {
       "path": "./sources/intrinio/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
       "path": "./sources/ipfs/tsconfig.test.json"
@@ -466,6 +469,9 @@
     },
     {
       "path": "./sources/por-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/por-indexer/tsconfig.test.json"
     },
     {
       "path": "./sources/renvm-address-set/tsconfig.test.json"

@@ -1,5 +1,28 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.9
+
+### Patch Changes
+
+- Updated dependencies [737c6d094]
+- Updated dependencies [1a27d62df]
+- Updated dependencies [aeab26fa0]
+- Updated dependencies [f743aabb6]
+- Updated dependencies [aeab26fa0]
+- Updated dependencies [ff7b89c0f]
+- Updated dependencies [d21ac3bb9]
+  - @chainlink/avalanche-platform-adapter@2.0.1
+  - @chainlink/eth-beacon-adapter@2.0.1
+  - @chainlink/gemini-adapter@3.0.0
+  - @chainlink/lotus-adapter@3.0.0
+  - @chainlink/wbtc-address-set-adapter@2.0.1
+  - @chainlink/por-indexer-adapter@2.0.0
+  - @chainlink/stader-address-list-adapter@2.3.7
+  - @chainlink/stader-balance-adapter@1.4.4
+  - @chainlink/polkadot-balance-adapter@1.2.5
+  - @chainlink/moonbeam-address-list-adapter@1.1.17
+  - @chainlink/renvm-address-set-adapter@1.5.56
+
 ## 1.18.8
 
 ### Patch Changes

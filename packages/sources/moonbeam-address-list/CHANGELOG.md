@@ -1,5 +1,11 @@
 # @chainlink/moonbeam-address-list-adapter
 
+## 1.1.17
+
+### Patch Changes
+
+- aeab26fa0: Added PoR subclasses
+
 ## 1.1.16
 
 ### Patch Changes
