@@ -1,5 +1,11 @@
 # @chainlink/finage-test-adapter
 
+## 1.3.7
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
 ## 1.3.6
 
 ### Patch Changes

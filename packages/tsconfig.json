@@ -69,9 +69,6 @@
       "path": "./composites/outlier-detection"
     },
     {
-      "path": "./composites/por-indexer"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {
@@ -342,6 +339,9 @@
       "path": "./sources/fmpcloud"
     },
     {
+      "path": "./sources/frxeth-exchange-rate"
+    },
+    {
       "path": "./sources/galaxis"
     },
     {
@@ -376,6 +376,9 @@
     },
     {
       "path": "./sources/intrinio"
+    },
+    {
+      "path": "./sources/ion.au"
     },
     {
       "path": "./sources/ipfs"
@@ -466,6 +469,9 @@
     },
     {
       "path": "./sources/por-address-list"
+    },
+    {
+      "path": "./sources/por-indexer"
     },
     {
       "path": "./sources/renvm-address-set"

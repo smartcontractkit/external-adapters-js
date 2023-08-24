@@ -1,5 +1,12 @@
 # @chainlink/eth-beacon-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+- f743aabb6: Add validation for 'addresses' input param
+
 ## 2.0.0
 
 ### Major Changes
