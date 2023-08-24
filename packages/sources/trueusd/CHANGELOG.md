@@ -1,5 +1,11 @@
 # @chainlink/trueusd-adapter
 
+## 3.0.1
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
 ## 3.0.0
 
 ### Major Changes
