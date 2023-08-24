@@ -80,11 +80,11 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
     // after you've already subscribed & unsubscribed to that pair on the same WS connection.
     subscribeMessage: (params) => ({
       action: 'subscribe',
-      symbols: [`${params.base.toUpperCase()}.${params.quote.toUpperCase()}`],
+      symbols: [`${params.base}.${params.quote}`.toUpperCase()],
     }),
     unsubscribeMessage: (params) => ({
       action: 'unsubscribe',
-      symbols: [`${params.base.toUpperCase()}.${params.quote.toUpperCase()}`],
+      symbols: [`${params.base}.${params.quote}`.toUpperCase()],
     }),
   },
 })
