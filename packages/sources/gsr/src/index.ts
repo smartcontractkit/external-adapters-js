@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { price, crypto_lwba } from './endpoint'
+import { price } from './endpoint'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: price.name,
   name: 'GSR',
-  endpoints: [price, crypto_lwba],
+  endpoints: [price],
   config,
 })
 

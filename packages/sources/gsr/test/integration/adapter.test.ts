@@ -1,10 +1,5 @@
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import {
-  mockTokenSuccess,
-  mockWebSocketServer,
-  mockLwbaTokenSuccess,
-  mockLwbaWebSocketServer,
-} from './fixtures'
+import { mockTokenSuccess, mockWebSocketServer } from './fixtures'
 import {
   TestAdapter,
   setEnvVariables,
@@ -16,11 +11,9 @@ import FakeTimers from '@sinonjs/fake-timers'
 describe('websocket', () => {
   let spy: jest.SpyInstance
   let mockWsServer: MockWebsocketServer | undefined
-  let mockLwbaWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
   const wsEndpoint = 'ws://localhost:9090'
-  const lwbaWsEndpoint = 'ws://localhost:9091'
   const data = {
     base: 'ETH',
     quote: 'USD',
@@ -37,19 +30,13 @@ describe('websocket', () => {
     process.env['WS_USER_ID'] = process.env['WS_USER_ID'] || 'test-user-id'
     process.env['WS_PUBLIC_KEY'] = process.env['WS_PUBLIC_KEY'] || 'test-pub-key'
     process.env['WS_PRIVATE_KEY'] = process.env['WS_PRIVATE_KEY'] || 'test-priv-key'
-    process.env['LWBA_WS_API_ENDPOINT'] = lwbaWsEndpoint
-    process.env['LWBA_WS_USER_ID'] = process.env['LWBA_WS_USER_ID'] || 'test-user-id'
-    process.env['LWBA_WS_PUBLIC_KEY'] = process.env['LWBA_WS_PUBLIC_KEY'] || 'test-pub-key'
-    process.env['LWBA_WS_PRIVATE_KEY'] = process.env['LWBA_WS_PRIVATE_KEY'] || 'test-priv-key'
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     mockTokenSuccess()
-    mockLwbaTokenSuccess()
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebSocketServer(wsEndpoint)
-    mockLwbaWsServer = mockLwbaWebSocketServer(lwbaWsEndpoint)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -59,15 +46,13 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(data)
-    await testAdapter.request(lwbaData)
-    await testAdapter.waitForCache(2)
+    await testAdapter.waitForCache()
   })
 
   afterAll(async () => {
     spy.mockRestore()
     setEnvVariables(oldEnv)
     mockWsServer?.close()
-    mockLwbaWsServer?.close()
     testAdapter.clock?.uninstall()
     await testAdapter.api.close()
   })

@@ -6,8 +6,9 @@ exports[`websocket websocket endpoint lwba endpoint should return success 1`] = 
     "ask": 1235,
     "bid": 1233,
     "mid": 1234,
+    "result": 1234,
   },
-  "result": null,
+  "result": 1234,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": Any<Number>,
@@ -20,6 +21,9 @@ exports[`websocket websocket endpoint lwba endpoint should return success 1`] = 
 exports[`websocket websocket endpoint should return success 1`] = `
 {
   "data": {
+    "ask": 1235,
+    "bid": 1233,
+    "mid": 1234,
     "result": 1234,
   },
   "result": 1234,

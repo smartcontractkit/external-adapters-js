@@ -9,15 +9,23 @@ import { transport } from '../transport/price'
 
 const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
+type EndpointResponse = SingleNumberResultResponse & {
+  Data: {
+    mid: number
+    ask: number
+    bid: number
+  }
+}
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: SingleNumberResultResponse
+  Response: EndpointResponse
 }
 
 export const endpoint = new CryptoPriceEndpoint({
   name: 'price',
-  aliases: ['price-ws', 'crypto'],
+  aliases: ['price-ws', 'crypto', 'crypto-lwba', 'cryptolwba', 'crypto_lwba'],
   transport,
   inputParameters,
 })

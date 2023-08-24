@@ -10,6 +10,8 @@ type WsMessage = {
   data: {
     symbol: string
     price: number
+    bidPrice: number
+    askPrice: number
     ts: number
   }
 }
@@ -61,6 +63,9 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
             result: message.data.price,
             data: {
               result: message.data.price,
+              mid: message.data.price,
+              bid: message.data.bidPrice,
+              ask: message.data.askPrice,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
