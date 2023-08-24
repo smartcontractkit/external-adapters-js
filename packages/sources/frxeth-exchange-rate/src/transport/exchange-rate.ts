@@ -43,51 +43,74 @@ class ExchangeRateTransport extends SubscriptionTransport<ExchangeRateTransportT
     param: RequestParams,
   ) {
     const providerDataRequestedUnixMs = Date.now()
-
     const { RPC_URL, CHAIN_ID, FRAX_ETH_PRICE_CONTRACT } = adapterSettings
 
-    const provider = new ethers.providers.JsonRpcProvider(RPC_URL, CHAIN_ID)
-    const fraxEthPrice = new ethers.Contract(
-      FRAX_ETH_PRICE_CONTRACT,
-      fraxEthDualOracleAbi,
-      provider,
-    )
+    try {
+      const provider = new ethers.providers.JsonRpcProvider(RPC_URL, CHAIN_ID)
+      const fraxEthPrice = new ethers.Contract(
+        FRAX_ETH_PRICE_CONTRACT,
+        fraxEthDualOracleAbi,
+        provider,
+      )
 
-    const { isBadData, priceLow, priceHigh } = (await fraxEthPrice.getPrices()) as GetPricesResponse
+      const { isBadData, priceLow, priceHigh } =
+        (await fraxEthPrice.getPrices()) as GetPricesResponse
 
-    let response: TimestampedAdapterResponse
+      let response: TimestampedAdapterResponse
 
-    if (isBadData != false) {
-      response = {
-        statusCode: 502,
-        errorMessage: 'Contract is reporting stale or bad data for getPrices.',
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
-    } else {
-      const price = param.priceType.toUpperCase() == 'HIGH' ? priceHigh : priceLow
-      response = {
-        data: {
+      if (isBadData != false) {
+        response = {
+          statusCode: 502,
+          errorMessage: 'Contract is reporting stale or bad data for getPrices.',
+          timestamps: {
+            providerDataRequestedUnixMs,
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        }
+      } else {
+        const price = param.priceType.toUpperCase() == 'HIGH' ? priceHigh : priceLow
+        response = {
+          data: {
+            result: price.toString(),
+          },
           result: price.toString(),
+          timestamps: {
+            providerDataRequestedUnixMs,
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        }
+      }
+
+      this.responseCache.write(this.name, [
+        {
+          params: param,
+          response: response as TimestampedAdapterResponse<ExchangeRateTransportTypes['Response']>,
         },
-        result: price.toString(),
+      ])
+    } catch (e) {
+      const response = {
+        statusCode: 502,
+        errorMessage: `Error: ${JSON.stringify({
+          RPC_URL,
+          CHAIN_ID,
+          FRAX_ETH_PRICE_CONTRACT,
+        })} ${JSON.stringify(e)}`,
         timestamps: {
           providerDataRequestedUnixMs,
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-    }
 
-    this.responseCache.write(this.name, [
-      {
-        params: param,
-        response: response as TimestampedAdapterResponse<ExchangeRateTransportTypes['Response']>,
-      },
-    ])
+      this.responseCache.write(this.name, [
+        {
+          params: param,
+          response: response as TimestampedAdapterResponse<ExchangeRateTransportTypes['Response']>,
+        },
+      ])
+    }
   }
 }
 
