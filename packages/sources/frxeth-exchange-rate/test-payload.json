@@ -7,6 +7,12 @@
         {
             "priceType": "low",
             "endpoint": "crypto"
+        },
+        {
+            "priceType": "high"
+        },
+        {
+            "priceType": "low"
         }
     ]
 }
