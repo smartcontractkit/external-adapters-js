@@ -1,5 +1,11 @@
 # @chainlink/curve-3pool-adapter
 
+## 3.0.48
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.11.8
+
 ## 3.0.47
 
 ### Patch Changes

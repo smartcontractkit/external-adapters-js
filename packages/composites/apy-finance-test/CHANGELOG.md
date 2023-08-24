@@ -1,5 +1,11 @@
 # @chainlink/apy-finance-test-adapter
 
+## 0.1.3
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.11.8
+
 ## 0.1.2
 
 ### Patch Changes

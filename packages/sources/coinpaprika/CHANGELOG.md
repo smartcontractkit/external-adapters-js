@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.0.7
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
 ## 2.0.6
 
 ### Patch Changes

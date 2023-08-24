@@ -1,5 +1,12 @@
 # @chainlink/polkadot-balance-adapter
 
+## 1.2.5
+
+### Patch Changes
+
+- f743aabb6: Add validation for 'addresses' input param
+- aeab26fa0: Added PoR subclasses
+
 ## 1.2.4
 
 ### Patch Changes

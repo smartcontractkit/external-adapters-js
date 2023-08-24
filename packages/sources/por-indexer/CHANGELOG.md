@@ -1,5 +1,11 @@
 # @chainlink/por-indexer-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 1a27d62df: Upgraded adapter from v2 to v3 framework
+
 ## 1.2.64
 
 ### Patch Changes
