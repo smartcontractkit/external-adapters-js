@@ -3,7 +3,12 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockMCO2Response, mockSTBTResponseSuccess } from './fixtures'
+import {
+  mockBackedResponseSuccess,
+  mockMCO2Response,
+  mockSTBTResponseSuccess,
+  mockUSDRResponseSuccess,
+} from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -45,6 +50,43 @@ describe('execute', () => {
         endpoint: 'stbt',
       }
       mockSTBTResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('backed endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'backed',
+        accountName: 'IBTA',
+      }
+      mockBackedResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('account name not found should return error', async () => {
+      const data = {
+        endpoint: 'backed',
+        accountName: 'QQQ',
+      }
+      mockBackedResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('usdr endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'usdr',
+      }
+      mockUSDRResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)

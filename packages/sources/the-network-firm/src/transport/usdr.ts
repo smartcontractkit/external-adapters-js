@@ -1,10 +1,16 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/stbt'
+import { BaseEndpointTypes } from '../endpoint/usdr'
 
 export interface ResponseSchema {
   accountName: string
   totalReserve: number
   totalToken: number
+  detailedReserve: {
+    DAI: number
+    realEstate: number
+    TNGBL: number
+    insuranceFund: number
+  }
   timestamp: string
   ripcord: boolean
   ripcordDetails: string[]
@@ -22,7 +28,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       params: params,
       request: {
         baseURL: config.API_ENDPOINT,
-        url: '/STBT',
+        url: '/USDR',
       },
     }
   },
