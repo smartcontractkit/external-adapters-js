@@ -3,7 +3,11 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockBackedResponseFailure, mockSTBTResponseFailure } from './fixtures'
+import {
+  mockBackedResponseFailure,
+  mockSTBTResponseFailure,
+  mockUSDRResponseFailure,
+} from './fixtures'
 
 // The reason why the failure case of 'stbt' endpoint is in a separate file is because of race conditions causing tests to fail
 // as both success and failure cases use the same input params and connect to the same endpoint.
@@ -44,13 +48,25 @@ describe('execute', () => {
     })
   })
 
-  describe('backed endpoint', () => {
-    it('when ripcord true should return error', async () => {
+  describe('backed endpoint when ripcord true', () => {
+    it('should return error', async () => {
       const data = {
         endpoint: 'backed',
         accountName: 'IBTA',
       }
       mockBackedResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('usdr endpoint when ripcord true ', () => {
+    it('should return error', async () => {
+      const data = {
+        endpoint: 'usdr',
+      }
+      mockUSDRResponseFailure()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
