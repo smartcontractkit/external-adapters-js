@@ -9,6 +9,9 @@
    },
    {
       "endpoint": "usdr"
+   },
+   {
+      "endpoint": "eurr"
    }
 ]
 }

@@ -5,6 +5,7 @@ import {
 import * as nock from 'nock'
 import {
   mockBackedResponseFailure,
+  mockEurrResponseFailure,
   mockSTBTResponseFailure,
   mockUSDRResponseFailure,
 } from './fixtures'
@@ -67,6 +68,18 @@ describe('execute', () => {
         endpoint: 'usdr',
       }
       mockUSDRResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('eurr endpoint when ripcord true ', () => {
+    it('should return error', async () => {
+      const data = {
+        endpoint: 'eurr',
+      }
+      mockEurrResponseFailure()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
