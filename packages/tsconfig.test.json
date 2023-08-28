@@ -69,9 +69,6 @@
       "path": "./composites/outlier-detection/tsconfig.test.json"
     },
     {
-      "path": "./composites/por-indexer/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
@@ -145,9 +142,6 @@
     },
     {
       "path": "./sources/ap-election/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/armanino/tsconfig.test.json"
     },
     {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
@@ -345,6 +339,9 @@
       "path": "./sources/fmpcloud/tsconfig.test.json"
     },
     {
+      "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
+    },
+    {
       "path": "./sources/galaxis/tsconfig.test.json"
     },
     {
@@ -379,6 +376,9 @@
     },
     {
       "path": "./sources/intrinio/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
       "path": "./sources/ipfs/tsconfig.test.json"
@@ -471,6 +471,9 @@
       "path": "./sources/por-address-list/tsconfig.test.json"
     },
     {
+      "path": "./sources/por-indexer/tsconfig.test.json"
+    },
+    {
       "path": "./sources/renvm-address-set/tsconfig.test.json"
     },
     {
@@ -514,6 +517,9 @@
     },
     {
       "path": "./sources/terra-view-function/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/the-network-firm/tsconfig.test.json"
     },
     {
       "path": "./sources/therundown/tsconfig.test.json"

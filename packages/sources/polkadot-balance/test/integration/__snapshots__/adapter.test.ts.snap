@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Balance Endpoint should return error (empty addresses) 1`] = `
+{
+  "error": {
+    "message": "Input, at 'addresses' or 'result' path, must be a non-empty array.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`Balance Endpoint should return success 1`] = `
 {
   "data": {

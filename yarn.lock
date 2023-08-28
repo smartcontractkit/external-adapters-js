@@ -2145,19 +2145,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/armanino-adapter@workspace:packages/sources/armanino":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/armanino-adapter@workspace:packages/sources/armanino"
-  dependencies:
-    "@chainlink/external-adapter-framework": 0.31.0
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    nock: 13.2.9
-    tslib: 2.4.1
-    typescript: 5.0.4
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/augur-adapter@workspace:packages/composites/augur":
   version: 0.0.0-use.local
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
@@ -3633,6 +3620,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/frxeth-exchange-rate-adapter@workspace:packages/sources/frxeth-exchange-rate":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/frxeth-exchange-rate-adapter@workspace:packages/sources/frxeth-exchange-rate"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.31.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    ethers: 5.7.2
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/galaxis-adapter@workspace:packages/sources/galaxis":
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxis-adapter@workspace:packages/sources/galaxis"
@@ -3672,14 +3673,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -3748,14 +3746,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gramchain-adapter@workspace:packages/sources/gramchain"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -4077,16 +4072,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/json-rpc-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
     ethers: ^5.4.7
     nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -4477,17 +4468,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/por-indexer-adapter@workspace:*, @chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer":
+"@chainlink/por-indexer-adapter@workspace:*, @chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer":
   version: 0.0.0-use.local
-  resolution: "@chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer"
+  resolution: "@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/proof-of-reserves-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.31.0
     "@types/jest": 27.5.2
-    "@types/node": 14.18.54
+    "@types/node": 16.11.51
     decimal.js: ^10.3.1
-    tslib: ^2.3.1
+    nock: 13.2.9
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -4922,6 +4912,19 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     tslib: ^2.3.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.31.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -10632,13 +10635,6 @@ __metadata:
   version: 11.11.6
   resolution: "@types/node@npm:11.11.6"
   checksum: 075f1c011cf568e49701419acbcb55c24906b3bb5a34d9412a3b88f228a7a78401a5ad4d3e1cd6855c99aaea5ef96e37fc86ca097e50f06da92cf822befc1fff
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:14.18.54":
-  version: 14.18.54
-  resolution: "@types/node@npm:14.18.54"
-  checksum: 9fd66f91fcd8e9b25067f784a9c60bd710ef86a89c838c131ab2b1921398adc53b1c70d741bceed48bb2403b75c434b1bbbb255240773819cde36295c4b6abf1
   languageName: node
   linkType: hard
 
