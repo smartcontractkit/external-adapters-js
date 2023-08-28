@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute backed endpoint when ripcord true should return error 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1692716431529,
+  },
+}
+`;
+
+exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1685710403604,
+  },
+}
+`;
+
+exports[`execute usdr endpoint when ripcord true  should return error 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1692831653859,
+  },
+}
+`;

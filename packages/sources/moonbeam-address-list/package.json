@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/moonbeam-address-list-adapter",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "description": "Chainlink Moonbeam address list adapter.",
   "keywords": [
     "Chainlink",

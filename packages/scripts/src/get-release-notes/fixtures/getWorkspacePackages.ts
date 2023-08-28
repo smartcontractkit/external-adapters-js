@@ -419,28 +419,6 @@ export const mockGetWorkspacePackagesResponse = [
     },
   },
   {
-    location: 'packages/composites/por-indexer',
-    name: '@chainlink/por-indexer-adapter',
-    descopedName: 'por-indexer-adapter',
-    type: 'composites',
-    version: '1.0.19',
-    tsconf: {
-      extends: '../../tsconfig.base.json',
-      compilerOptions: [Object],
-      include: [Array],
-      exclude: [Array],
-      references: [Array],
-    },
-    environment: {
-      $id: 'https://external-adapters.chainlinklabs.com/schemas/por-indexer-adapter.json',
-      title: '@chainlink/por-indexer-adapter env var schema',
-      required: [],
-      type: 'object',
-      properties: [Object],
-      allOf: [Array],
-    },
-  },
-  {
     location: 'packages/composites/proof-of-reserves',
     name: '@chainlink/proof-of-reserves-adapter',
     descopedName: 'proof-of-reserves-adapter',
