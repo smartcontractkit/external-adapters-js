@@ -1,5 +1,27 @@
 # @chainlink/ea-scripts
 
+## 2.7.0
+
+### Minor Changes
+
+- 314fb1600: Changed EA generation script
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.6.2
+
+### Patch Changes
+
+- c1c883367: Modified readme generator to add adapter rate limits to readmes
+
+## 2.6.1
+
+### Patch Changes
+
+- 14a549217: Bumped framework version
+
 ## 2.6.0
 
 ### Minor Changes

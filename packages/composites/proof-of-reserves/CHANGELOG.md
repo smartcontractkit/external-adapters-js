@@ -1,5 +1,139 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.9
+
+### Patch Changes
+
+- Updated dependencies [737c6d094]
+- Updated dependencies [1a27d62df]
+- Updated dependencies [aeab26fa0]
+- Updated dependencies [f743aabb6]
+- Updated dependencies [aeab26fa0]
+- Updated dependencies [ff7b89c0f]
+- Updated dependencies [d21ac3bb9]
+  - @chainlink/avalanche-platform-adapter@2.0.1
+  - @chainlink/eth-beacon-adapter@2.0.1
+  - @chainlink/gemini-adapter@3.0.0
+  - @chainlink/lotus-adapter@3.0.0
+  - @chainlink/wbtc-address-set-adapter@2.0.1
+  - @chainlink/por-indexer-adapter@2.0.0
+  - @chainlink/stader-address-list-adapter@2.3.7
+  - @chainlink/stader-balance-adapter@1.4.4
+  - @chainlink/polkadot-balance-adapter@1.2.5
+  - @chainlink/moonbeam-address-list-adapter@1.1.17
+  - @chainlink/renvm-address-set-adapter@1.5.56
+
+## 1.18.8
+
+### Patch Changes
+
+- Updated dependencies [d47d09570]
+- Updated dependencies [1b0d1a84e]
+- Updated dependencies [aa2d3e74c]
+- Updated dependencies [494f83ca9]
+- Updated dependencies [540a254e5]
+- Updated dependencies [2f72e4178]
+  - @chainlink/avalanche-platform-adapter@2.0.0
+  - @chainlink/eth-beacon-adapter@2.0.0
+  - @chainlink/wbtc-address-set-adapter@2.0.0
+  - @chainlink/por-indexer-adapter@1.2.64
+  - @chainlink/renvm-address-set-adapter@1.5.55
+
+## 1.18.7
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+- Updated dependencies [011aec39e]
+  - @chainlink/moonbeam-address-list-adapter@1.1.16
+  - @chainlink/polkadot-balance-adapter@1.2.4
+  - @chainlink/stader-address-list-adapter@2.3.6
+  - @chainlink/stader-balance-adapter@1.4.3
+  - @chainlink/por-indexer-adapter@1.2.63
+  - @chainlink/renvm-address-set-adapter@1.5.54
+  - @chainlink/wbtc-address-set-adapter@1.4.63
+
+## 1.18.6
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/stader-address-list-adapter@2.3.5
+  - @chainlink/stader-balance-adapter@1.4.2
+  - @chainlink/moonbeam-address-list-adapter@1.1.15
+  - @chainlink/polkadot-balance-adapter@1.2.3
+  - @chainlink/por-indexer-adapter@1.2.62
+  - @chainlink/renvm-address-set-adapter@1.5.53
+  - @chainlink/wbtc-address-set-adapter@1.4.62
+
+## 1.18.5
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 6840a38d2: Bumped framework version
+- 14a549217: Bumped framework version
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [6840a38d2]
+- Updated dependencies [14a549217]
+- Updated dependencies [3caaea024]
+- Updated dependencies [6840a38d2]
+  - @chainlink/stader-address-list-adapter@2.3.4
+  - @chainlink/stader-balance-adapter@1.4.1
+  - @chainlink/moonbeam-address-list-adapter@1.1.14
+  - @chainlink/polkadot-balance-adapter@1.2.2
+  - @chainlink/eth-beacon-adapter@1.5.1
+  - @chainlink/por-indexer-adapter@1.2.61
+  - @chainlink/renvm-address-set-adapter@1.5.52
+  - @chainlink/wbtc-address-set-adapter@1.4.61
+
+## 1.18.4
+
+### Patch Changes
+
+- Updated dependencies [78eb636f6]
+  - @chainlink/avalanche-platform-adapter@1.1.1
+  - @chainlink/por-indexer-adapter@1.2.60
+  - @chainlink/renvm-address-set-adapter@1.5.51
+  - @chainlink/wbtc-address-set-adapter@1.4.60
+
+## 1.18.3
+
+### Patch Changes
+
+- Updated dependencies [09a7a4386]
+- Updated dependencies [244e02abf]
+- Updated dependencies [a574dbc4a]
+  - @chainlink/moonbeam-address-list-adapter@1.1.13
+  - @chainlink/polkadot-balance-adapter@1.2.1
+  - @chainlink/stader-address-list-adapter@2.3.3
+  - @chainlink/stader-balance-adapter@1.4.0
+  - @chainlink/eth-beacon-adapter@1.5.0
+  - @chainlink/por-indexer-adapter@1.2.59
+  - @chainlink/renvm-address-set-adapter@1.5.50
+  - @chainlink/wbtc-address-set-adapter@1.4.59
+
+## 1.18.2
+
+### Patch Changes
+
+- Updated dependencies [f2d2ae675]
+- Updated dependencies [862ed8d89]
+- Updated dependencies [d74c218b1]
+- Updated dependencies [67ba3de4f]
+- Updated dependencies [adc0a8297]
+  - @chainlink/polkadot-balance-adapter@1.2.0
+  - @chainlink/stader-balance-adapter@1.3.2
+  - @chainlink/stader-address-list-adapter@2.3.2
+  - @chainlink/avalanche-platform-adapter@1.1.0
+  - @chainlink/moonbeam-address-list-adapter@1.1.12
+  - @chainlink/por-indexer-adapter@1.2.58
+  - @chainlink/renvm-address-set-adapter@1.5.49
+  - @chainlink/wbtc-address-set-adapter@1.4.58
+
 ## 1.18.1
 
 ### Patch Changes

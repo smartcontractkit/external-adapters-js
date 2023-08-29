@@ -1,0 +1,47 @@
+{
+    "requests": [
+        {
+            "base": "OANDA:EUR_USD"
+        },
+        {
+            "base": "OANDA:USD_CAD"
+        },
+        {
+            "base": "OANDA:GBP_USD"
+        },
+        {
+            "base": "JPY",
+            "quote": "USD"
+        },
+        {
+            "base": "USD",
+            "quote": "JPY"
+        },
+        {
+            "base": "OANDA:EUR_USD",
+            "endpoint": "forex"
+        },
+        {
+            "base": "OANDA:USD_CAD",
+            "endpoint": "forex"
+        },
+
+        {
+            "base": "OANDA:GBP_USD",
+            "endpoint": "forex"
+        },
+        {
+            "base": "AAPL",
+            "endpoint": "stock"
+        },
+        {
+            "base": "AAPL",
+            "quote": "USD",
+            "endpoint": "stock"
+        },
+        {
+            "base": "MSFT",
+            "endpoint": "stock"
+        }
+    ]
+}

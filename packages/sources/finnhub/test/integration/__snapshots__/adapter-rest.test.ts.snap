@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest forex endpoint (quote alias) should return success when providing base 1`] = `
+{
+  "data": {
+    "result": 175.43,
+  },
+  "result": 175.43,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest forex endpoint (quote alias) should return success when providing base and quote 1`] = `
+{
+  "data": {
+    "result": 175.43,
+  },
+  "result": 175.43,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return 400 error for invalid exchange 1`] = `
+{
+  "error": {
+    "message": "'INVALID' is not a supported exchange, must be one of [FHFX, OANDA, FXCM]",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`rest quote endpoint should return success for full symbol 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for inverted pairs 1`] = `
+{
+  "data": {
+    "result": 0.007010066455429998,
+  },
+  "result": 0.007010066455429998,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests with base and quote 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests with base, quote and exchange 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for requests with overrides 1`] = `
+{
+  "data": {
+    "result": 1.15894,
+  },
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest quote endpoint should return success for standard pairs, when pair has inverse config 1`] = `
+{
+  "data": {
+    "result": 142.652,
+  },
+  "result": 142.652,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

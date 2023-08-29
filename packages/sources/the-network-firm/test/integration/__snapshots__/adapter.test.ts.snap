@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute backed endpoint account name not found should return error 1`] = `
+{
+  "errorMessage": "Account with name QQQ could not be found",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1692716431529,
+  },
+}
+`;
+
+exports[`execute backed endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 195605,
+  },
+  "result": 195605,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1692716431529,
+  },
+}
+`;
+
+exports[`execute mco2 endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 3041044,
+  },
+  "result": 3041044,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1649070046577,
+  },
+}
+`;
+
+exports[`execute stbt endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 72178807.56,
+  },
+  "result": 72178807.56,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1685710403604,
+  },
+}
+`;
+
+exports[`execute usdr endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 39138216.32189752,
+  },
+  "result": 39138216.32189752,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1692831653859,
+  },
+}
+`;

@@ -17,36 +17,27 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 
 ## Creating A New Adapter
 
-To get started from one of the example adapters seen in [examples](./packages/examples) use the `new` script with two arguments:
+To get started use the `new` script with one argument:
 
 ```bash
-$ yarn new [template-type] [name-of-adapter]
+$ yarn new [template-type]
 ```
 
-|     Parameter     |           Description           |        Options        |
-| :---------------: | :-----------------------------: | :-------------------: |
-|  `template-type`  | the name of the template to use | `composite`, `source` |
-| `name-of-adapter` |  what to call the new adapter   |     user-defined      |
+This will start interactive command line interface, where you can provide additional information.
+
+|    Parameter    |           Description           |             Options             |
+| :-------------: | :-----------------------------: | :-----------------------------: |
+| `template-type` | the name of the template to use | `composite`, `source`, `target` |
 
 For example
 
 ```bash
-$ yarn new source my-new-adapter
+$ yarn new source
 ```
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
 
 You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md)
-
-_Note - at the moment, adding a new adapter will also add the following lines to `tsconfig.json`:_
-
-```
-  {
-    "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
-  },
-```
-
-_Make sure to remove these lines after they are added. A long term solution to this will be implemented later._
 
 ## Input
 

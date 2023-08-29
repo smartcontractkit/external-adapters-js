@@ -1,6 +1,6 @@
 # ALONGSIDE
 
-![1.3.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/alongside/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/alongside/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,6 +15,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |      SIGNING_KEY      |                                      The signing Key                                      | string |         |                                     |
 |    ✅     |        RPC_URL        |            The RPC URL to connect to the EVM chain the contract is deployed to            | string |         |                                     |
 |           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |               `10000`               |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

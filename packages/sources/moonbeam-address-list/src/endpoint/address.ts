@@ -1,26 +1,15 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
-import { encodeAddress } from '@polkadot/keyring'
-import { ethers } from 'ethers'
-import { MoonbeamAddressContract_ABI } from '../abi/MoonbeamAddressContractABI'
+import {
+  PoRAddressEndpoint,
+  PoRAddressResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-
-type NetworkChainMap = { [network: string]: { [chain: string]: string } }
+import { AddressTransport } from '../transport/address'
 
 const networks = ['moonbeam']
 const chainIds = ['mainnet', 'testnet']
 
-const networkChainMap: NetworkChainMap = {
-  moonbeam: {
-    mainnet: '0xFA36Fe1dA08C89eC72Ea1F0143a35bFd5DAea108',
-    testnet: '',
-  },
-}
-
-const inputParameters = new InputParameters({
+export const inputParameters = new InputParameters({
   contractAddress: {
     description: 'The address of the Address Manager contract holding the custodial addresses.',
     type: 'string',
@@ -39,84 +28,13 @@ const inputParameters = new InputParameters({
   },
 })
 
-interface PorInputAddress {
-  network: string
-  chainId: string
-  address: string
-}
-
-interface ResponseSchema {
-  Data: {
-    result: PorInputAddress[]
-  }
-  Result: null
-}
-
-type EndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: ResponseSchema
+  Response: PoRAddressResponse
   Settings: typeof config.settings
 }
 
-export class AddressTransport implements Transport<EndpointTypes> {
-  name!: string
-  responseCache!: ResponseCache<EndpointTypes>
-
-  async initialize(
-    dependencies: TransportDependencies<EndpointTypes>,
-    _: typeof config.settings,
-    __: string,
-    name: string,
-  ): Promise<void> {
-    this.responseCache = dependencies.responseCache
-    this.name = name
-  }
-
-  async foregroundExecute(
-    req: AdapterRequest<typeof inputParameters.validated>,
-    settings: typeof config.settings,
-  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
-    const provider = new ethers.providers.JsonRpcProvider(settings.RPC_URL, settings.CHAIN_ID)
-    const contractAddress =
-      req.requestContext.data.contractAddress ||
-      networkChainMap[req.requestContext.data.network][req.requestContext.data.chainId]
-    const addressManager = new ethers.Contract(
-      contractAddress,
-      MoonbeamAddressContract_ABI,
-      provider,
-    )
-
-    const providerDataRequestedUnixMs = Date.now()
-    const publicKeyAddresses: string[] = await addressManager.getStashAccounts()
-    const providerDataReceivedUnixMs = Date.now()
-
-    const result: PorInputAddress[] = []
-    publicKeyAddresses.forEach((publicKey) => {
-      result.push({
-        address: encodeAddress(publicKey, 0),
-        network: req.requestContext.data.network,
-        chainId: req.requestContext.data.chainId,
-      })
-    })
-
-    const response = {
-      data: {
-        result,
-      },
-      result: null,
-      statusCode: 200,
-      timestamps: {
-        providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs,
-        providerIndicatedTimeUnixMs: undefined,
-      },
-    }
-    await this.responseCache.write(this.name, [{ params: req.requestContext.data, response }])
-    return response
-  }
-}
-
-export const addressEndpoint = new AdapterEndpoint<EndpointTypes>({
+export const addressEndpoint = new PoRAddressEndpoint({
   name: 'address',
   transport: new AddressTransport(),
   inputParameters,

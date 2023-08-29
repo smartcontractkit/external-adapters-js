@@ -4,8 +4,9 @@ export const mockResponseSuccess = (): nock.Scope => {
   return nock('https://finnhub.io/api/v1', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/quote')
-    .query({ token: 'fake-api-key', symbol: 'OANDA:EUR_USD' })
+    .query({ token: 'fake-api-key', symbol: 'FHFX:EUR-USD' })
     .reply(
       200,
       () => ({
@@ -29,7 +30,6 @@ export const mockResponseSuccess = (): nock.Scope => {
         'Origin',
       ],
     )
-    .persist()
     .get('/quote')
     .query({ token: 'fake-api-key', symbol: 'AAPL' })
     .reply(
@@ -55,5 +55,29 @@ export const mockResponseSuccess = (): nock.Scope => {
         'Origin',
       ],
     )
-    .persist()
+    .get('/quote')
+    .query({ token: 'fake-api-key', symbol: 'FHFX:USD-JPY' })
+    .reply(
+      200,
+      () => ({
+        c: 142.652,
+        d: -0.677,
+        dp: -0.4723,
+        h: 143.365,
+        l: 142.234,
+        o: 143.348,
+        pc: 143.329,
+        t: 1690923600,
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
 }

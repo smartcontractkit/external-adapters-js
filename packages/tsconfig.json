@@ -9,6 +9,9 @@
       "path": "./composites/apy-finance"
     },
     {
+      "path": "./composites/apy-finance-test"
+    },
+    {
       "path": "./composites/augur"
     },
     {
@@ -66,9 +69,6 @@
       "path": "./composites/outlier-detection"
     },
     {
-      "path": "./composites/por-indexer"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {
@@ -105,12 +105,6 @@
       "path": "./core/test-helpers"
     },
     {
-      "path": "./examples/composite"
-    },
-    {
-      "path": "./examples/source"
-    },
-    {
       "path": "./non-deployable/reduce"
     },
     {
@@ -138,9 +132,6 @@
       "path": "./sources/alphavantage"
     },
     {
-      "path": "./sources/alphavantage-test"
-    },
-    {
       "path": "./sources/alpine"
     },
     {
@@ -151,9 +142,6 @@
     },
     {
       "path": "./sources/ap-election"
-    },
-    {
-      "path": "./sources/armanino"
     },
     {
       "path": "./sources/avalanche-platform"
@@ -288,6 +276,9 @@
       "path": "./sources/dxfeed-secondary"
     },
     {
+      "path": "./sources/elven"
+    },
+    {
       "path": "./sources/elwood"
     },
     {
@@ -333,6 +324,9 @@
       "path": "./sources/finnhub"
     },
     {
+      "path": "./sources/finnhub-secondary"
+    },
+    {
       "path": "./sources/fixer"
     },
     {
@@ -343,6 +337,9 @@
     },
     {
       "path": "./sources/fmpcloud"
+    },
+    {
+      "path": "./sources/frxeth-exchange-rate"
     },
     {
       "path": "./sources/galaxis"
@@ -381,7 +378,7 @@
       "path": "./sources/intrinio"
     },
     {
-      "path": "./sources/intrinio-test"
+      "path": "./sources/ion.au"
     },
     {
       "path": "./sources/ipfs"
@@ -474,6 +471,9 @@
       "path": "./sources/por-address-list"
     },
     {
+      "path": "./sources/por-indexer"
+    },
+    {
       "path": "./sources/renvm-address-set"
     },
     {
@@ -519,6 +519,9 @@
       "path": "./sources/terra-view-function"
     },
     {
+      "path": "./sources/the-network-firm"
+    },
+    {
       "path": "./sources/therundown"
     },
     {
@@ -532,9 +535,6 @@
     },
     {
       "path": "./sources/tradingeconomics"
-    },
-    {
-      "path": "./sources/tradingeconomics-test"
     },
     {
       "path": "./sources/trueusd"

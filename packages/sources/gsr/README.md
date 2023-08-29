@@ -1,6 +1,6 @@
 # GSR
 
-![2.1.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gsr/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gsr/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -13,6 +13,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |   WS_USER_ID    |   The user ID used to authenticate   | string |         |                                   |
 |    ✅     |  WS_PUBLIC_KEY  | The public key used to authenticate  | string |         |                                   |
 |    ✅     | WS_PRIVATE_KEY  | The private key used to authenticate | string |         |                                   |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

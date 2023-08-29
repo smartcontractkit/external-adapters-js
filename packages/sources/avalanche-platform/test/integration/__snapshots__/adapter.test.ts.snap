@@ -1,6 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute balance api (stakeAmount) should return success 1`] = `
+exports[`execute balance endpoint should return error with empty addresses 1`] = `
+{
+  "error": {
+    "message": "Input, at 'addresses' or 'result' path, must be a non-empty array.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute balance endpoint should return success 1`] = `
 {
   "data": {
     "result": [
@@ -8,19 +19,15 @@ exports[`execute balance api (stakeAmount) should return success 1`] = `
         "addresses": [
           "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
         ],
-        "balance": "1606136960057",
+        "balance": "2000000000000",
       },
     ],
   },
-  "jobRunID": "1",
-  "result": [
-    {
-      "addresses": [
-        "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
-      ],
-      "balance": "1606136960057",
-    },
-  ],
+  "result": null,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;

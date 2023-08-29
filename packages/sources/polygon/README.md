@@ -1,6 +1,6 @@
 # POLYGON
 
-![2.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polygon/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polygon/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,18 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :------------------------------------------------------------------------------: | :----: | :-----: | :----------------------: |
 |           | API_ENDPOINT |                        The HTTP URL to retrieve data from                        | string |         | `https://api.polygon.io` |
 |    ✅     |   API_KEY    | An API key that can be obtained from [here](https://polygon.io/dashboard/signup) | string |         |                          |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+|    free    |                             |              5              |                           |               only mentions monthly limits               |
+|  starter   |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
+| developer  |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
+|  advanced  |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
+| enterprise |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
 
 ---
 

@@ -1,5 +1,35 @@
 # @chainlink/eth-beacon-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+- f743aabb6: Add validation for 'addresses' input param
+
+## 2.0.0
+
+### Major Changes
+
+- 2f72e4178: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- 1b0d1a84e: Added sleep to background execute to limit request processing
+- aa2d3e74c: Fixed response providerDataRequestedUnixMs timestamp value
+
+## 1.5.1
+
+### Patch Changes
+
+- 3caaea024: Refactored batch skipping logic.
+
+## 1.5.0
+
+### Minor Changes
+
+- a574dbc4a: Added way to configure adapter to skip validator batching. Set BATCH_SIZE to 0.
+
 ## 1.4.0
 
 ### Minor Changes

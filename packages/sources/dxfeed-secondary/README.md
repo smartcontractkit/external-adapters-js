@@ -1,6 +1,6 @@
 # DXFEED_SECONDARY
 
-![2.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,6 +12,14 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |  API_PASSWORD   |   password for dxfeed API    | string |         |                                            |
 |           | WS_API_ENDPOINT | The websocket url for dxfeed | string |         |                                            |
 |           |  API_ENDPOINT   |    The API url for dxfeed    | string |         | `https://tools.dxfeed.com/webservice/rest` |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                 Note                                 |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------: |
+| unlimited |             100             |                             |                           | Dxfeed does not describe a rate limit, but setting reasonable limits |
 
 ---
 

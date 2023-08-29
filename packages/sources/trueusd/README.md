@@ -1,30 +1,34 @@
-# Chainlink External Adapter for TrueUSD
+# TRUEUSD
 
-![1.6.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-Base URL https://api.real-time-attest.trustexplorer.io
+![3.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |                       Default                        |
-| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------------------------------------: |
-|           | API_ENDPOINT |             | string |         | `https://core-api.real-time-attest.trustexplorer.io` |
+| Required? |     Name     |       Description       |  Type  | Options |                      Default                       |
+| :-------: | :----------: | :---------------------: | :----: | :-----: | :------------------------------------------------: |
+|           | API_ENDPOINT | API endpoint of adapter | string |         | `https://api.real-time-reserves.ledgerlens.io/v1/` |
+
+---
+
+## Data Provider Rate Limits
+
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| default |                             |              6              |                           |      |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [trueusd](#trueusd-endpoint) | `trueusd` |
 
 ## Trueusd Endpoint
-
-https://api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD
 
 `trueusd` is the only supported name for this endpoint.
 
@@ -60,64 +64,41 @@ Response:
   "jobRunID": "1",
   "data": {
     "accountName": "TrueUSD",
-    "totalTrust": 1217813909.066,
-    "totalToken": 1213602213.6176918,
-    "updatedAt": "2022-08-10T14:22:39.011Z",
+    "totalTrust": 3117410009.89,
+    "totalToken": 3097573780.109635,
+    "updatedAt": "2023-06-15T16:59:47.538Z",
     "token": [
       {
         "tokenName": "TUSD (AVAX)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1794,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0,
-          "Other": 1
-        },
-        "totalTokenByChain": 3791570.06,
-        "totalTrustByChain": 1795
+        "totalTokenByChain": 3005274.95,
+        "totalTrustByChain": 24268.83
       },
       {
         "tokenName": "TUSD (ETH)",
-        "bankBalances": {
-          "Prime Trust": 134055616.61,
-          "BitGo": 16.12,
-          "First Digital Trust": 594966145.326,
-          "Silvergate": 113846225.15,
-          "Signature Bank": 0,
-          "Signet": 274940619.86,
-          "Customers Bank": 100000000
-        },
-        "totalTokenByChain": 879902244.54,
-        "totalTrustByChain": 1217808623.066
+        "totalTokenByChain": 728134669.6,
+        "totalTrustByChain": 2917383739.66
       },
       {
         "tokenName": "TUSD (TRON)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1600,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 329515277.3,
-        "totalTrustByChain": 1600
+        "totalTokenByChain": 2336157454.81,
+        "totalTrustByChain": 200002001.4
       },
       {
         "tokenName": "TUSD (BNB)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1891,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 393121.7176917,
-        "totalTrustByChain": 1891
+        "totalTokenByChain": 145015.86963478,
+        "totalTrustByChain": 0
+      },
+      {
+        "tokenName": "TUSD (BSC)",
+        "totalTokenByChain": 30131364.88,
+        "totalTrustByChain": 0
       }
     ],
-    "result": 1217813909.066
+    "ripcord": false,
+    "ripcordDetails": [],
+    "result": 3117410009.89
   },
-  "result": 1217813909.066,
+  "result": 3117410009.89,
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -149,64 +130,41 @@ Response:
   "jobRunID": "1",
   "data": {
     "accountName": "TrueUSD",
-    "totalTrust": 1217813909.066,
-    "totalToken": 1213602213.6176918,
-    "updatedAt": "2022-08-10T14:22:39.011Z",
+    "totalTrust": 3117410009.89,
+    "totalToken": 3097573780.109635,
+    "updatedAt": "2023-06-15T16:59:47.538Z",
     "token": [
       {
         "tokenName": "TUSD (AVAX)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1794,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0,
-          "Other": 1
-        },
-        "totalTokenByChain": 3791570.06,
-        "totalTrustByChain": 1795
+        "totalTokenByChain": 3005274.95,
+        "totalTrustByChain": 24268.83
       },
       {
         "tokenName": "TUSD (ETH)",
-        "bankBalances": {
-          "Prime Trust": 134055616.61,
-          "BitGo": 16.12,
-          "First Digital Trust": 594966145.326,
-          "Silvergate": 113846225.15,
-          "Signature Bank": 0,
-          "Signet": 274940619.86,
-          "Customers Bank": 100000000
-        },
-        "totalTokenByChain": 879902244.54,
-        "totalTrustByChain": 1217808623.066
+        "totalTokenByChain": 728134669.6,
+        "totalTrustByChain": 2917383739.66
       },
       {
         "tokenName": "TUSD (TRON)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1600,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 329515277.3,
-        "totalTrustByChain": 1600
+        "totalTokenByChain": 2336157454.81,
+        "totalTrustByChain": 200002001.4
       },
       {
         "tokenName": "TUSD (BNB)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1891,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 393121.7176917,
-        "totalTrustByChain": 1891
+        "totalTokenByChain": 145015.86963478,
+        "totalTrustByChain": 0
+      },
+      {
+        "tokenName": "TUSD (BSC)",
+        "totalTokenByChain": 30131364.88,
+        "totalTrustByChain": 0
       }
     ],
-    "result": 1213602213.6176918
+    "ripcord": false,
+    "ripcordDetails": [],
+    "result": 3097573780.109635
   },
-  "result": 1213602213.6176918,
+  "result": 3097573780.109635,
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -236,64 +194,41 @@ Response:
   "jobRunID": "1",
   "data": {
     "accountName": "TrueUSD",
-    "totalTrust": 1217813909.066,
-    "totalToken": 1213602213.6176918,
-    "updatedAt": "2022-08-10T14:22:39.011Z",
+    "totalTrust": 3117410009.89,
+    "totalToken": 3097573780.109635,
+    "updatedAt": "2023-06-15T16:59:47.538Z",
     "token": [
       {
         "tokenName": "TUSD (AVAX)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1794,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0,
-          "Other": 1
-        },
-        "totalTokenByChain": 3791570.06,
-        "totalTrustByChain": 1795
+        "totalTokenByChain": 3005274.95,
+        "totalTrustByChain": 24268.83
       },
       {
         "tokenName": "TUSD (ETH)",
-        "bankBalances": {
-          "Prime Trust": 134055616.61,
-          "BitGo": 16.12,
-          "First Digital Trust": 594966145.326,
-          "Silvergate": 113846225.15,
-          "Signature Bank": 0,
-          "Signet": 274940619.86,
-          "Customers Bank": 100000000
-        },
-        "totalTokenByChain": 879902244.54,
-        "totalTrustByChain": 1217808623.066
+        "totalTokenByChain": 728134669.6,
+        "totalTrustByChain": 2917383739.66
       },
       {
         "tokenName": "TUSD (TRON)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1600,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 329515277.3,
-        "totalTrustByChain": 1600
+        "totalTokenByChain": 2336157454.81,
+        "totalTrustByChain": 200002001.4
       },
       {
         "tokenName": "TUSD (BNB)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1891,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 393121.7176917,
-        "totalTrustByChain": 1891
+        "totalTokenByChain": 145015.86963478,
+        "totalTrustByChain": 0
+      },
+      {
+        "tokenName": "TUSD (BSC)",
+        "totalTokenByChain": 30131364.88,
+        "totalTrustByChain": 0
       }
     ],
-    "result": 1795
+    "ripcord": false,
+    "ripcordDetails": [],
+    "result": 24268.83
   },
-  "result": 1795,
+  "result": 24268.83,
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -323,64 +258,41 @@ Response:
   "jobRunID": "1",
   "data": {
     "accountName": "TrueUSD",
-    "totalTrust": 1217813909.066,
-    "totalToken": 1213602213.6176918,
-    "updatedAt": "2022-08-10T14:22:39.011Z",
+    "totalTrust": 3117410009.89,
+    "totalToken": 3097573780.109635,
+    "updatedAt": "2023-06-15T16:59:47.538Z",
     "token": [
       {
         "tokenName": "TUSD (AVAX)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1794,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0,
-          "Other": 1
-        },
-        "totalTokenByChain": 3791570.06,
-        "totalTrustByChain": 1795
+        "totalTokenByChain": 3005274.95,
+        "totalTrustByChain": 24268.83
       },
       {
         "tokenName": "TUSD (ETH)",
-        "bankBalances": {
-          "Prime Trust": 134055616.61,
-          "BitGo": 16.12,
-          "First Digital Trust": 594966145.326,
-          "Silvergate": 113846225.15,
-          "Signature Bank": 0,
-          "Signet": 274940619.86,
-          "Customers Bank": 100000000
-        },
-        "totalTokenByChain": 879902244.54,
-        "totalTrustByChain": 1217808623.066
+        "totalTokenByChain": 728134669.6,
+        "totalTrustByChain": 2917383739.66
       },
       {
         "tokenName": "TUSD (TRON)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1600,
-          "Silvergate": 0,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 329515277.3,
-        "totalTrustByChain": 1600
+        "totalTokenByChain": 2336157454.81,
+        "totalTrustByChain": 200002001.4
       },
       {
         "tokenName": "TUSD (BNB)",
-        "bankBalances": {
-          "Prime Trust": 0,
-          "First Digital Trust": 1891,
-          "Signature Bank": 0,
-          "Signet": 0
-        },
-        "totalTokenByChain": 393121.7176917,
-        "totalTrustByChain": 1891
+        "totalTokenByChain": 145015.86963478,
+        "totalTrustByChain": 0
+      },
+      {
+        "tokenName": "TUSD (BSC)",
+        "totalTokenByChain": 30131364.88,
+        "totalTrustByChain": 0
       }
     ],
-    "result": 3791570.06
+    "ripcord": false,
+    "ripcordDetails": [],
+    "result": 3005274.95
   },
-  "result": 3791570.06,
+  "result": 3005274.95,
   "statusCode": 200,
   "providerStatusCode": 200
 }

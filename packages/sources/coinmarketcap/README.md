@@ -1,6 +1,6 @@
 # COINMARKETCAP
 
-![2.0.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,18 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :-----------------------------------------------------------------: | :----: | :-----: | :-------------------------------------: |
 |    ✅     |   API_KEY    | An API key that can be obtained from https://coinmarketcap.com/api/ | string |         |                                         |
 |           | API_ENDPOINT |                  An API endpoint for coinmarketcap                  | string |         | `https://pro-api.coinmarketcap.com/v1/` |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                                    Note                                                                     |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+|     free     |                             |             7.5             |             3             | 10k credits/month, 730h in a month, ignoring daily limits since they're soft caps. Divided by 4 to account for multiple credits per request |
+|   hobbyist   |                             |             7.5             |            13             |                                                                                                                                             |
+|   startup    |                             |             7.5             |            41             |                                                                                                                                             |
+|   standard   |                             |             15              |            171            |                                                                                                                                             |
+| professional |                             |            22.5             |           1027            |                                                                                                                                             |
 
 ---
 

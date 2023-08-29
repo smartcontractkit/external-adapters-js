@@ -1,8 +1,6 @@
-# Avalanche Platform Adapter
+# AVALANCHE_PLATFORM
 
-![1.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-Chainlink External adapter for reading from the Avalanche Platform chain's API
+![2.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,9 +12,17 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+| default |                             |              6              |                           | Considered unlimited tier, but setting reasonable limits |
+
+---
+
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
@@ -24,15 +30,15 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ## Balance Endpoint
 
-The balance endpoint will fetch the validator balance of each address in the query. Adapts the response for the Proof of Reserves adapter.
-
 `balance` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |   Name    | Aliases  |                                            Description                                            | Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :------: | :-----------------------------------------------------------------------------------------------: | :---: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | addresses | `result` | An array of addresses to get the balances of (as an object with string `address` as an attribute) | array |         |         |            |                |
+| Required? |       Name        | Aliases  |                                            Description                                            |   Type   | Options |   Default   | Depends On | Not Valid With |
+| :-------: | :---------------: | :------: | :-----------------------------------------------------------------------------------------------: | :------: | :-----: | :---------: | :--------: | :------------: |
+|    ✅     |     addresses     | `result` | An array of addresses to get the balances of (as an object with string `address` as an attribute) | object[] |         |             |            |                |
+|    ✅     | addresses.address |          |                                 an address to get the balance of                                  |  string  |         |             |            |                |
+|           | addresses.network |          |                                 the name of the network protocol                                  |  string  |         | `avalanche` |            |                |
 
 ### Example
 
@@ -44,13 +50,14 @@ Request:
   "data": {
     "addresses": [
       {
-        "address": "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"
+        "address": "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
+        "network": "avalanche-fuji"
       }
     ],
     "endpoint": "balance"
   },
   "debug": {
-    "cacheKey": "SkzkleTHgWIgT8DKedJBufUt5sc="
+    "cacheKey": "PGHFasc8hN3lzGuA6s9gTgp1Pbc="
   }
 }
 ```
@@ -64,14 +71,14 @@ Response:
     "result": [
       {
         "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
-        "balance": "1606136960057"
+        "balance": "2000000000000"
       }
     ]
   },
   "result": [
     {
       "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
-      "balance": "1606136960057"
+      "balance": "2000000000000"
     }
   ],
   "statusCode": 200

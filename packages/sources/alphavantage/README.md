@@ -1,10 +1,6 @@
-# Chainlink External Adapter for AlphaVantage
+# ALPHAVANTAGE
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/alphavantage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage.co/documentation/) from a Chainlink node.
-
-Base URL https://www.alphavantage.co/query
+![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/alphavantage/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,14 +8,27 @@ This document was generated automatically. Please see [README Generator](../../s
 
 | Required? |     Name     |                                        Description                                        |  Type  | Options |               Default               |
 | :-------: | :----------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------: |
-|           | API_ENDPOINT |                                                                                           | string |         | `https://www.alphavantage.co/query` |
+|           | API_ENDPOINT |                            The HTTP URL to retrieve data from                             | string |         | `https://www.alphavantage.co/query` |
 |    ✅     |   API_KEY    | An API key that can be obtained from [here](https://www.alphavantage.co/support/#api-key) | string |         |                                     |
+
+---
+
+## Data Provider Rate Limits
+
+|  Name  | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|  free  |                             |              5              |           20.83           |      |
+| 49.99  |                             |             75              |                           |      |
+| 99.99  |                             |             150             |                           |      |
+| 149.99 |                             |             300             |                           |      |
+| 199.99 |                             |             600             |                           |      |
+| 249.99 |                             |            1200             |                           |      |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
 | Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
@@ -27,18 +36,14 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ## Forex Endpoint
 
-Returns the exchange rate from a currency's current price to a given currency.
-
-**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.**"
-
 Supported names for this endpoint are: `forex`, `price`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                                                                                                                   Description                                                                                                                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)    | string |         |         |            |                |
-|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) | string |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 

@@ -1,5 +1,111 @@
 # @chainlink/token-allocation-adapter
 
+## 1.11.8
+
+### Patch Changes
+
+- Updated dependencies [737c6d094]
+  - @chainlink/coinmarketcap-adapter@2.0.13
+  - @chainlink/coinpaprika-adapter@2.0.7
+
+## 1.11.7
+
+### Patch Changes
+
+- Updated dependencies [bae30aad1]
+- Updated dependencies [c7282e15f]
+  - @chainlink/coinmetrics-adapter@3.3.0
+  - @chainlink/cfbenchmarks-adapter@2.1.7
+
+## 1.11.6
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+- Updated dependencies [011aec39e]
+  - @chainlink/cfbenchmarks-adapter@2.1.6
+  - @chainlink/coingecko-adapter@2.0.9
+  - @chainlink/coinmarketcap-adapter@2.0.12
+  - @chainlink/coinmetrics-adapter@3.2.7
+  - @chainlink/coinpaprika-adapter@2.0.6
+  - @chainlink/cryptocompare-adapter@2.0.8
+  - @chainlink/kaiko-adapter@2.0.5
+  - @chainlink/ncfx-adapter@3.3.7
+  - @chainlink/tiingo-adapter@2.1.6
+
+## 1.11.5
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/cfbenchmarks-adapter@2.1.5
+  - @chainlink/kaiko-adapter@2.0.4
+  - @chainlink/coingecko-adapter@2.0.8
+  - @chainlink/coinmetrics-adapter@3.2.6
+  - @chainlink/ncfx-adapter@3.3.6
+  - @chainlink/cryptocompare-adapter@2.0.7
+  - @chainlink/tiingo-adapter@2.1.5
+  - @chainlink/coinmarketcap-adapter@2.0.11
+  - @chainlink/coinpaprika-adapter@2.0.5
+
+## 1.11.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [14a549217]
+- Updated dependencies [14a549217]
+- Updated dependencies [14a549217]
+  - @chainlink/cfbenchmarks-adapter@2.1.4
+  - @chainlink/kaiko-adapter@2.0.3
+  - @chainlink/coingecko-adapter@2.0.7
+  - @chainlink/coinmetrics-adapter@3.2.5
+  - @chainlink/ncfx-adapter@3.3.5
+  - @chainlink/cryptocompare-adapter@2.0.6
+  - @chainlink/tiingo-adapter@2.1.4
+  - @chainlink/coinmarketcap-adapter@2.0.10
+  - @chainlink/coinpaprika-adapter@2.0.4
+
+## 1.11.3
+
+### Patch Changes
+
+- Updated dependencies [6062242a8]
+- Updated dependencies [09a7a4386]
+- Updated dependencies [244e02abf]
+  - @chainlink/coinpaprika-adapter@2.0.3
+  - @chainlink/cfbenchmarks-adapter@2.1.3
+  - @chainlink/coingecko-adapter@2.0.6
+  - @chainlink/coinmarketcap-adapter@2.0.9
+  - @chainlink/coinmetrics-adapter@3.2.4
+  - @chainlink/cryptocompare-adapter@2.0.5
+  - @chainlink/ncfx-adapter@3.3.4
+  - @chainlink/tiingo-adapter@2.1.3
+  - @chainlink/kaiko-adapter@2.0.2
+
+## 1.11.2
+
+### Patch Changes
+
+- Updated dependencies [f2d2ae675]
+- Updated dependencies [862ed8d89]
+- Updated dependencies [adc0a8297]
+- Updated dependencies [fa8b495a3]
+  - @chainlink/coinmarketcap-adapter@2.0.8
+  - @chainlink/tiingo-adapter@2.1.2
+  - @chainlink/kaiko-adapter@2.0.1
+  - @chainlink/cfbenchmarks-adapter@2.1.2
+  - @chainlink/coingecko-adapter@2.0.5
+  - @chainlink/coinmetrics-adapter@3.2.3
+  - @chainlink/cryptocompare-adapter@2.0.4
+  - @chainlink/ncfx-adapter@3.3.3
+  - @chainlink/coinpaprika-adapter@2.0.2
+
 ## 1.11.1
 
 ### Patch Changes

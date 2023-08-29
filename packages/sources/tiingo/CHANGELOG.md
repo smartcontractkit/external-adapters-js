@@ -1,5 +1,38 @@
 ## v1.1.0
 
+## 2.1.6
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.1.5
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 2.1.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced AdapterEndpoint with StockEndpoint for relevant endpoints
+
+## 2.1.3
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 2.1.2
+
+### Patch Changes
+
+- f2d2ae675: Replace internal util functions with ea-framework util functions
+- adc0a8297: Removed unused dependencies
+
 ## 2.1.1
 
 ### Patch Changes

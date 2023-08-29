@@ -1,41 +1,49 @@
-# Chainlink External Adapter for Tradingeconomics
+# TRADINGECONOMICS
 
-![2.2.17](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-This adapter uses the Tradingeconomics WS stream
-
-Base URL wss://stream.tradingeconomics.com/
+![3.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |       Name        |        Description         |  Type  | Options |                                     Default                                      |
-| :-------: | :---------------: | :------------------------: | :----: | :-----: | :------------------------------------------------------------------------------: |
-|           |      API_URL      | The URL of the WS endpoint | string |         | `wss://stream.tradingeconomics.com/ or https://api.tradingeconomics.com/markets` |
-|    ✅     |  API_CLIENT_KEY   |    Your API client key     | string |         |                                                                                  |
-|    ✅     | API_CLIENT_SECRET |   Your API client secret   | string |         |                                                                                  |
+| Required? |       Name        |                      Description                      |  Type   | Options |                  Default                   |
+| :-------: | :---------------: | :---------------------------------------------------: | :-----: | :-----: | :----------------------------------------: |
+|           |   API_ENDPOINT    |          The HTTP URL to retrieve data from           | string  |         | `https://api.tradingeconomics.com/markets` |
+|           |  WS_API_ENDPOINT  |           The WS URL to retrieve data from            | string  |         |    `wss://stream.tradingeconomics.com/`    |
+|    ✅     |  API_CLIENT_KEY   |          The TradingEconomics API client key          | string  |         |                                            |
+|    ✅     | API_CLIENT_SECRET |        The TradingEconomics API client secret         | string  |         |                                            |
+|           |    WS_ENABLED     | Whether data should be returned from websocket or not | boolean |         |                  `false`                   |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                         Note                         |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------------------------------: |
+|   standard   |              1              |                             |            500            | http://api.tradingeconomics.com/documentation/Limits |
+| professional |              1              |                             |            800            |                                                      |
+|  enterprise  |              1              |                             |            100            |                                                      |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                         Options                          |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [price-ws](#price_ws-endpoint), [price](#price-endpoint) | `price-ws` |
+| Required? |   Name   |     Description     |  Type  |                                                                 Options                                                                 | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#stock-endpoint), [crypto](#price-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#stock-endpoint) | `price` |
 
 ## Price Endpoint
 
-`price` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto`, `forex`, `price`.
 
 ### Input Params
 
-| Required? | Name  |     Aliases     |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-------------: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `asset`, `from` |    The symbol of the asset to query    | string |         |         |            |                |
-|           | quote |  `term`, `to`   | The quote symbol of the asset to query | string |         |  `USD`  |            |                |
+| Required? | Name  |         Aliases         |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :---------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `asset`, `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `term`, `to`  |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
@@ -72,16 +80,15 @@ Response:
 
 ---
 
-## Price_ws Endpoint
+## Stock Endpoint
 
-`price-ws` is the only supported name for this endpoint.
+Supported names for this endpoint are: `commodities`, `stock`.
 
 ### Input Params
 
-| Required? | Name  |     Aliases     |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-------------: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `asset`, `from` |    The symbol of the asset to query    | string |         |         |            |                |
-|           | quote |  `term`, `to`   | The quote symbol of the asset to query | string |         |  `USD`  |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 

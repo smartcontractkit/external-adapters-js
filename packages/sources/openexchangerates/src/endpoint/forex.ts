@@ -1,92 +1,22 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import {
-  PriceEndpoint,
+  ForexPriceEndpoint,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
-import {
-  groupArrayByKey,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { transport } from '../transport/forex'
 
 export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
 
-interface ResponseSchema {
-  disclaimer: string
-  license: string
-  timestamp: number
-  base: string
-  rates: {
-    [key: string]: number
-  }
-}
-
-export type ForexEndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
-  }
 }
-
-export const batchTransport = new HttpTransport<ForexEndpointTypes>({
-  prepareRequests: (params, config) => {
-    // OpenExchangeRates supports batching only for base params, so we are grouping params by bases meaning we will send N number of requests to DP where the N is number of unique bases
-    const groupedSymbols = groupArrayByKey(params, 'base')
-    return Object.entries(groupedSymbols).map(([base, inputParams]) => {
-      return {
-        params: inputParams,
-        request: {
-          url: 'latest.json',
-          baseURL: config.API_ENDPOINT,
-          params: {
-            app_id: config.API_KEY,
-            base: base.toUpperCase(),
-          },
-        },
-      }
-    })
-  },
-  parseResponse: (params, res) => {
-    if (!res.data.rates) {
-      return params.map((param) => ({
-        params: param,
-        response: {
-          errorMessage: `OpenExchangeRates provided no data for base "${param.base}" and quote "${param.quote}"`,
-          statusCode: 502,
-        },
-      }))
-    }
-    return params.map((param) => {
-      const result = res.data.rates[param.quote.toUpperCase()]
-      if (!result) {
-        return {
-          params: param,
-          response: {
-            errorMessage: `OpenExchangeRates provided no data for base "${param.base}" and quote "${param.quote}"`,
-            statusCode: 502,
-          },
-        }
-      }
-      return {
-        params: param,
-        response: {
-          data: {
-            result: result,
-          },
-          result,
-        },
-      }
-    })
-  },
-})
-
-export const endpoint = new PriceEndpoint<ForexEndpointTypes>({
+export const endpoint = new ForexPriceEndpoint({
   name: 'forex',
   aliases: ['price'],
-  transport: batchTransport,
+  transport,
   inputParameters,
 })

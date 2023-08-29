@@ -1,4 +1,5 @@
-import { getIdFromBaseQuote, latestUpdateIsCurrentDay, tenorInRange } from '../../src/utils'
+import { latestUpdateIsCurrentDay, tenorInRange } from '../../src/transport/utils'
+import { getIdFromBaseQuote } from '../../src/endpoint/utils'
 
 describe('getIdFromBaseQuote', () => {
   const tests: {

@@ -1,5 +1,49 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.4
+
+### Patch Changes
+
+- aeab26fa0: Added PoR subclasses. Added sleep to background execute to limit request processing
+
+## 1.4.3
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 1.4.2
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 1.4.1
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+- 6840a38d2: Await retrieval of genesis timestamp during initialization. Bumped framework version.
+
+## 1.4.0
+
+### Minor Changes
+
+- a574dbc4a: Added way to configure adapter to skip validator batching. Set BATCH_SIZE to 0.
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 1.3.2
+
+### Patch Changes
+
+- f2d2ae675: Replace internal util functions with ea-framework util functions
+- 862ed8d89: Removed unused dependencies
+
 ## 1.3.1
 
 ### Patch Changes

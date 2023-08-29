@@ -1,5 +1,43 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.3.0
+
+### Minor Changes
+
+- bae30aad1: Add XRP, UNI,SOL and LTC to coinmetrics EA asset-pairs endpoint hardcoded.
+
+## 3.2.7
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 3.2.6
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 3.2.5
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 3.2.4
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 3.2.3
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 3.2.2
 
 ### Patch Changes

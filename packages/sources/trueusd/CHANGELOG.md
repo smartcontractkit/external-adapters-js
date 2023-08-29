@@ -1,5 +1,33 @@
 # @chainlink/trueusd-adapter
 
+## 3.0.1
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
+## 3.0.0
+
+### Major Changes
+
+- f1644f40e: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- b17835a13: Adjusted rate limit defaults
+
+## 2.1.0
+
+### Minor Changes
+
+- 8902683dd: Added ripcord indicator check
+
+## 2.0.0
+
+### Major Changes
+
+- f33529235: Updated default endpoint
+
 ## 1.6.20
 
 ### Patch Changes

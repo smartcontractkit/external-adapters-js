@@ -1,5 +1,44 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.3.7
+
+### Patch Changes
+
+- aeab26fa0: Added PoR subclasses. Added sleep to background execute to limit request processing
+
+## 2.3.6
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.3.5
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 2.3.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 6840a38d2: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 2.3.3
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 2.3.2
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 2.3.1
 
 ### Patch Changes

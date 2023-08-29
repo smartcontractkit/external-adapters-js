@@ -1,5 +1,43 @@
 # @chainlink/bank-frick-adapter
 
+## 1.1.17
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
+## 1.1.16
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 1.1.15
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 1.1.14
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 1.1.13
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 1.1.12
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 1.1.11
 
 ### Patch Changes

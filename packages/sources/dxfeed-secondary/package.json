@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxfeed-secondary-adapter",
-  "version": "2.0.1",
+  "version": "2.0.6",
   "description": "Chainlink dxfeed secondary adapter.",
   "keywords": [
     "Chainlink",
@@ -29,8 +29,8 @@
   },
   "dependencies": {
     "@chainlink/dxfeed-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.29.12",
-    "tslib": "2.4.0"
+    "@chainlink/external-adapter-framework": "0.31.0",
+    "tslib": "2.4.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",

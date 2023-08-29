@@ -1,5 +1,17 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.5.0
+
+### Minor Changes
+
+- 4af9088cf: Layer2 Sequencer Health: Support Base chain
+
+## 2.4.1
+
+### Patch Changes
+
+- 72e343619: Fixed block staleness check
+
 ## 2.4.0
 
 ### Minor Changes

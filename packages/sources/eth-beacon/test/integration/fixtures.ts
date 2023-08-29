@@ -2,6 +2,7 @@ import nock from 'nock'
 
 export const mockBalanceSuccess = (): nock.Scope =>
   nock('http://localhost:3500', { encodedQueryParams: true })
+    .persist()
     .get(
       '/eth/v1/beacon/states/finalized/validators?id=0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21,0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
     )
@@ -57,9 +58,11 @@ export const mockBalanceSuccess = (): nock.Scope =>
         'Wed, 21 Sep 2022 10:58:34 GMT',
       ],
     )
+    .persist()
 
 export const mockBalanceWithStatusSuccess = (): void => {
   nock('http://localhost:3500', { encodedQueryParams: true })
+    .persist()
     .get(
       '/eth/v1/beacon/states/finalized/validators?status=active&' +
         'id=0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21,' +
@@ -118,12 +121,14 @@ export const mockBalanceWithStatusSuccess = (): void => {
         'Wed, 21 Sep 2022 10:58:34 GMT',
       ],
     )
+    .persist()
 }
 
 export const mockGetEthDepositContract = (): void => {
   nock('http://localhost:3500')
     .get('/eth/v1/config/deposit_contract')
     .reply(200, { data: { chain_id: '5', address: '0x8c5fecdc472e27bc447696f431e425d02dd46a8c' } })
+    .persist()
 }
 
 export const mockBalanceLimboValidator = (): void => {
@@ -186,4 +191,5 @@ export const mockBalanceLimboValidator = (): void => {
         'Wed, 21 Sep 2022 10:58:34 GMT',
       ],
     )
+    .persist()
 }

@@ -1,5 +1,43 @@
 # @chainlink/dar-adapter
 
+## 1.3.7
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
+## 1.3.6
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 1.3.5
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 1.3.4
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 1.3.3
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
+## 1.3.2
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 1.3.1
 
 ### Patch Changes

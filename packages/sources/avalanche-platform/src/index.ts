@@ -1,9 +1,21 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute, endpointSelector } from './adapter'
-import * as endpoints from './endpoint'
-import { makeConfig, NAME } from './config'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
+import { config } from './config'
+import { balance } from './endpoint'
 
-const adapterContext = { name: NAME }
+export const adapter = new PoRAdapter({
+  defaultEndpoint: balance.name,
+  name: 'AVALANCHE_PLATFORM',
+  config,
+  endpoints: [balance],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 6,
+        note: 'Considered unlimited tier, but setting reasonable limits',
+      },
+    },
+  },
+})
 
-const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, makeExecute, makeConfig, server, endpoints }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

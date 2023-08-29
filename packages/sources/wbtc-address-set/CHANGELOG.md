@@ -1,5 +1,59 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
+## 2.0.0
+
+### Major Changes
+
+- 494f83ca9: Upgraded adapter from v2 to v3 framework
+
+## 1.4.63
+
+### Patch Changes
+
+- Updated dependencies [011aec39e]
+  - @chainlink/proof-of-reserves-adapter@1.18.7
+
+## 1.4.62
+
+### Patch Changes
+
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/proof-of-reserves-adapter@1.18.6
+
+## 1.4.61
+
+### Patch Changes
+
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [6840a38d2]
+- Updated dependencies [14a549217]
+  - @chainlink/proof-of-reserves-adapter@1.18.5
+
+## 1.4.60
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.4
+
+## 1.4.59
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.3
+
+## 1.4.58
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.2
+
 ## 1.4.57
 
 ### Patch Changes

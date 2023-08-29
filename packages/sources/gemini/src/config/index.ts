@@ -1,14 +1,9 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'GEMINI'
-
-export const DEFAULT_ENDPOINT = 'reserves'
-export const DEFAULT_BASE_URL = 'https://api.gemini.com'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'API endpoint of gemini',
+    type: 'string',
+    default: 'https://api.gemini.com',
+  },
+})

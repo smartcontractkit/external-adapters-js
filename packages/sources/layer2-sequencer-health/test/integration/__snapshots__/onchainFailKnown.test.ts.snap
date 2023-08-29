@@ -11,6 +11,17 @@ exports[`execute arbitrum network should return success when transaction submiss
 }
 `;
 
+exports[`execute base network should return success when transaction submission is known 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute optimism network should return success when transaction submission is known 1`] = `
 {
   "data": {

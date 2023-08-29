@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hope endpoint should return error if provider returns a total value which is inconsistent with aggregated reserve values 1`] = `
+{
+  "errorMessage": "Invalid total_value_in_usd returned from provider - does not match aggregated reserves value.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+  },
+}
+`;
+
+exports[`hope endpoint should return error if provider returns an error status 1`] = `
+{
+  "errorMessage": "Invalid status returned from provider: 'error'.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+  },
+}
+`;
+
+exports[`hope endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 4336387.72,
+  },
+  "result": 4336387.72,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1690797903000,
+  },
+}
+`;

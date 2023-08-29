@@ -1,5 +1,34 @@
 # @chainlink/avalanche-platform-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+- f743aabb6: Add validation for 'addresses' input param
+
+## 2.0.0
+
+### Major Changes
+
+- 540a254e5: Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- d47d09570: Changed rate limit config, fixed a bug related to request to DP
+
+## 1.1.1
+
+### Patch Changes
+
+- 78eb636f6: Increased default API_TIMEOUT to 60s
+
+## 1.1.0
+
+### Minor Changes
+
+- 67ba3de4f: Updated logic to return staked value
+
 ## 1.0.4
 
 ### Patch Changes

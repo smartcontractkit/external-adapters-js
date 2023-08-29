@@ -2,11 +2,14 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports/websocket'
-import { sleep } from '@chainlink/external-adapter-framework/util'
+import { LoggerFactoryProvider, sleep } from '@chainlink/external-adapter-framework/util'
 
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import * as price from '../../src/endpoint/price'
+import * as price from '../../src/transport/price'
 import { RequestParams } from '../../src/endpoint/price'
+
+//Since the test is directly using transport functions, we need to initialize the logger here
+LoggerFactoryProvider.set()
 
 const makeParam = (base: string) => {
   return {
@@ -23,7 +26,7 @@ describe('Config', () => {
       },
       endpointName: 'price',
       inputParameters: new InputParameters({}),
-    } as EndpointContext<price.WebSocketEndpointTypes>
+    } as EndpointContext<price.WsTransportTypes>
 
     it('returns the endpoint URL from the config', () => {
       expect(price.options.url(context)).toEqual(context.adapterSettings.WS_API_ENDPOINT)
@@ -106,7 +109,7 @@ describe('TwoSigmaWebsocketTransport', () => {
     },
     endpointName: 'price',
     inputParameters: new InputParameters({}),
-  } as any as EndpointContext<price.WebSocketEndpointTypes>
+  } as any as EndpointContext<price.WsTransportTypes>
   let transport: price.TwoSigmaWebsocketTransport
   let subscriptions: SubscriptionDeltas<RequestParams>
   let connClosed: boolean

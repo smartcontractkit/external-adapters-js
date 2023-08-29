@@ -1,8 +1,8 @@
 import crypto from 'crypto'
-import { SigningAlgorithm } from '../types'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { validator } from '@chainlink/external-adapter-framework/validation/utils'
+import { SigningAlgorithm } from '../transport/utils'
 
 const logger = makeLogger('BankFrickConfig')
 

@@ -1,5 +1,37 @@
 # @chainlink/iex-cloud-adapter
 
+## 2.0.8
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.0.7
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 2.0.6
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced AdapterEndpoint with StockEndpoint for relevant endpoints
+
+## 2.0.5
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 2.0.4
+
+### Patch Changes
+
+- 862ed8d89: Removed unused dependencies
+
 ## 2.0.3
 
 ### Patch Changes

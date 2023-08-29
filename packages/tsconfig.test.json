@@ -9,6 +9,9 @@
       "path": "./composites/apy-finance/tsconfig.test.json"
     },
     {
+      "path": "./composites/apy-finance-test/tsconfig.test.json"
+    },
+    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
@@ -66,9 +69,6 @@
       "path": "./composites/outlier-detection/tsconfig.test.json"
     },
     {
-      "path": "./composites/por-indexer/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
@@ -105,12 +105,6 @@
       "path": "./core/test-helpers/tsconfig.test.json"
     },
     {
-      "path": "./examples/composite/tsconfig.test.json"
-    },
-    {
-      "path": "./examples/source/tsconfig.test.json"
-    },
-    {
       "path": "./non-deployable/reduce/tsconfig.test.json"
     },
     {
@@ -138,9 +132,6 @@
       "path": "./sources/alphavantage/tsconfig.test.json"
     },
     {
-      "path": "./sources/alphavantage-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -151,9 +142,6 @@
     },
     {
       "path": "./sources/ap-election/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/armanino/tsconfig.test.json"
     },
     {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
@@ -288,6 +276,9 @@
       "path": "./sources/dxfeed-secondary/tsconfig.test.json"
     },
     {
+      "path": "./sources/elven/tsconfig.test.json"
+    },
+    {
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
@@ -333,6 +324,9 @@
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
+      "path": "./sources/finnhub-secondary/tsconfig.test.json"
+    },
+    {
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {
@@ -343,6 +337,9 @@
     },
     {
       "path": "./sources/fmpcloud/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
     },
     {
       "path": "./sources/galaxis/tsconfig.test.json"
@@ -381,7 +378,7 @@
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
-      "path": "./sources/intrinio-test/tsconfig.test.json"
+      "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
       "path": "./sources/ipfs/tsconfig.test.json"
@@ -474,6 +471,9 @@
       "path": "./sources/por-address-list/tsconfig.test.json"
     },
     {
+      "path": "./sources/por-indexer/tsconfig.test.json"
+    },
+    {
       "path": "./sources/renvm-address-set/tsconfig.test.json"
     },
     {
@@ -519,6 +519,9 @@
       "path": "./sources/terra-view-function/tsconfig.test.json"
     },
     {
+      "path": "./sources/the-network-firm/tsconfig.test.json"
+    },
+    {
       "path": "./sources/therundown/tsconfig.test.json"
     },
     {
@@ -532,9 +535,6 @@
     },
     {
       "path": "./sources/tradingeconomics/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/tradingeconomics-test/tsconfig.test.json"
     },
     {
       "path": "./sources/trueusd/tsconfig.test.json"

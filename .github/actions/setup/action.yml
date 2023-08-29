@@ -109,9 +109,10 @@ runs:
         BUILD_ALL: ${{ inputs.build-all }}
       # We have to add the core/factories package manually always because the readme generation imports it
       run: |
-        # If the BUILD_ALL env var is set or there are changes to the scripts (because of the readme generation scripts)
+        # If the BUILD_ALL env var is set or there are changes to the scripts or core (because of the readme generation scripts)
         # we need to build every possible adapter and their dependencies
-        if [[ $BUILD_ALL = true ]] || git diff $UPSTREAM_BRANCH -- packages/scripts | grep -q . ; then
+        diff_output=$(git diff $UPSTREAM_BRANCH -- packages/scripts packages/core)
+        if [[ $BUILD_ALL = true ]] || [[ -n $diff_output ]]; then
           cp packages/tsconfig.json packages/tsconfig.tmp.json
           exit 0
         else

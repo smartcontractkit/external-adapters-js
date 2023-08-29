@@ -1,5 +1,48 @@
 # @chainlink/icap-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+- Updated dependencies [011aec39e]
+  - @chainlink/tp-adapter@1.1.10
+
+## 1.1.9
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/tp-adapter@1.1.9
+
+## 1.1.8
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced PriceEndpoint with ForexPriceEndpoint for relevant endpoints
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [14a549217]
+  - @chainlink/tp-adapter@1.1.8
+
+## 1.1.7
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+- Updated dependencies [244e02abf]
+  - @chainlink/tp-adapter@1.1.7
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [862ed8d89]
+  - @chainlink/tp-adapter@1.1.6
+
 ## 1.1.5
 
 ### Patch Changes

@@ -1,5 +1,50 @@
 # @chainlink/polkadot-balance-adapter
 
+## 1.2.5
+
+### Patch Changes
+
+- f743aabb6: Add validation for 'addresses' input param
+- aeab26fa0: Added PoR subclasses
+
+## 1.2.4
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 1.2.3
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 1.2.2
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 6840a38d2: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 1.2.1
+
+### Patch Changes
+
+- 244e02abf: Refactored file structure
+
+## 1.2.0
+
+### Minor Changes
+
+- d74c218b1: Update dev dependencies
+
+### Patch Changes
+
+- f2d2ae675: Replace internal util functions with ea-framework util functions
+- 862ed8d89: Removed unused dependencies
+
 ## 1.1.11
 
 ### Patch Changes

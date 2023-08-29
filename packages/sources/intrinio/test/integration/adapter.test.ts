@@ -1,147 +1,46 @@
-import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
-import { server as startServer } from '../../src'
-import * as nock from 'nock'
+import { mockPriceSuccess } from './fixtures'
 import {
-  mockAuthResponse,
-  mockRateResponseSuccess,
-  mockSubscribeResponse,
-  mockUnsubscribeResponse,
-} from './fixtures'
-import { AddressInfo } from 'net'
-import {
-  mockWebSocketProvider,
-  mockWebSocketServer,
-  MockWsServer,
-  mockWebSocketFlow,
+  TestAdapter,
   setEnvVariables,
-  setupExternalAdapterTest,
-} from '@chainlink/ea-test-helpers'
-import type { SuiteContext, TestOptions } from '@chainlink/ea-test-helpers'
-import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  const options: TestOptions = {
-    cleanNock: false,
-    fastify: false,
-  }
-  const envVariables = {
-    API_KEY: process.env.API_KEY || 'fake-api-key',
-  }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['API_KEY'] = process.env['API_KEY'] || 'fake-api-key'
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  setupExternalAdapterTest(envVariables, context, options)
-
-  describe('price api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        base: 'AAPL',
-      },
-    }
-
-    it('should return success', async () => {
-      mockRateResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
     })
   })
-})
 
-describe('websocket', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  let oldEnv: NodeJS.ProcessEnv
-  beforeAll(async () => {
-    if (!process.env.RECORD) {
-      process.env.API_KEY = 'fake-api-key'
-      mockedWsServer = mockWebSocketServer(
-        `wss://realtime.intrinio.com/socket/websocket?vsn=1.0.0&token=fake-api-token`,
-      )
-      mockWebSocketProvider(WebSocketClassProvider)
-    }
-
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '300'
-
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
+  afterAll(async () => {
     setEnvVariables(oldEnv)
+    await testAdapter.api.close()
     nock.restore()
     nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
+    spy.mockRestore()
   })
 
-  describe('iex endpoint', () => {
-    const jobID = '1'
-
+  describe('price endpoint rest', () => {
     it('should return success', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          endpoint: 'iex',
-          base: 'AAPL',
-        },
+      const data = {
+        base: 'AAPL',
       }
-
-      let flowFulfilled = Promise.resolve(true)
-      if (!process.env.RECORD) {
-        mockAuthResponse()
-        mockRateResponseSuccess()
-
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockSubscribeResponse,
-          mockUnsubscribeResponse,
-        ])
-      }
-
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-
-      // We don't care about the first response, coming from http request
-      // This first request will start both batch warmer & websocket
-      await makeRequest()
-
-      // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
-      // populated cache entries.
-      await util.sleep(100)
-      const response = await makeRequest()
-
-      expect(response.body).toEqual({
-        jobRunID: '1',
-        result: 166.91,
-        statusCode: 200,
-        maxAge: 30000,
-        data: { result: 166.91 },
-      })
-
-      await flowFulfilled
-    }, 30000)
+      mockPriceSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

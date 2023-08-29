@@ -1,0 +1,28 @@
+{
+  "name": "@chainlink/finnhub-secondary-adapter",
+  "version": "0.3.1",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "0.31.0",
+    "@chainlink/finnhub-adapter": "workspace:*",
+    "tslib": "2.4.1"
+  },
+  "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.51",
+    "@types/sinonjs__fake-timers": "8.1.2",
+    "nock": "13.2.9",
+    "typescript": "5.0.4"
+  }
+}

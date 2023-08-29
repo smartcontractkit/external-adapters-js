@@ -1,5 +1,37 @@
 # @chainlink/gsr-adapter
 
+## 2.1.16
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.1.15
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 2.1.14
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 2.1.13
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
+## 2.1.12
+
+### Patch Changes
+
+- fa8b495a3: Removed unused dependencies
+
 ## 2.1.11
 
 ### Patch Changes

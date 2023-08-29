@@ -1,4 +1,4 @@
-import { ValidatorRegistryResponse } from '../../src/utils'
+import { ValidatorRegistryResponse } from '../../src/transport/utils'
 import {
   TestAdapter,
   setEnvVariables,

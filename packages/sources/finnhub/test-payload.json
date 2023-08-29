@@ -1,20 +1,21 @@
 {
     "requests": [
         {
-            "base": "EUR"
-        },
-        {
             "base": "FHFX:EUR-USD"
         },
         {
             "base": "FHFX:USD-CAD"
         },
         {
-            "base": "OANDA:GBP_USD"
+            "base": "FHFX:GBP-USD"
         },
         {
-            "base": "EUR",
-            "endpoint": "forex"
+            "base": "JPY",
+            "quote": "USD"
+        },
+        {
+            "base": "USD",
+            "quote": "JPY"
         },
         {
             "base": "FHFX:EUR-USD",
@@ -26,14 +27,18 @@
         },
 
         {
-            "base": "OANDA:GBP_USD",
+            "base": "FHFX:GBP-USD",
             "endpoint": "forex"
         },
         {
             "base": "AAPL",
             "endpoint": "stock"
-        }
-        ,
+        },
+        {
+            "base": "AAPL",
+            "quote": "USD",
+            "endpoint": "stock"
+        },
         {
             "base": "MSFT",
             "endpoint": "stock"

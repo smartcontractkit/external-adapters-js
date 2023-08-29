@@ -1,5 +1,37 @@
 # @chainlink/alphavantage-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.0.3
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 2.0.2
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version. Replaced PriceEndpoint with ForexPriceEndpoint for relevant endpoints
+
+## 2.0.1
+
+### Patch Changes
+
+- 6062242a8: Refactored file structure
+
+## 2.0.0
+
+### Major Changes
+
+- d106f73a4: Upgraded adapter from v2 to v3 framework
+
 ## 1.3.31
 
 ### Patch Changes

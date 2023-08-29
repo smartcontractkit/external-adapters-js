@@ -1,5 +1,44 @@
 # @chainlink/moonbeam-address-list-adapter
 
+## 1.1.17
+
+### Patch Changes
+
+- aeab26fa0: Added PoR subclasses
+
+## 1.1.16
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 1.1.15
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 1.1.14
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 6840a38d2: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 1.1.13
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 1.1.12
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
 ## 1.1.11
 
 ### Patch Changes
