@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/twosigma-adapter",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Chainlink twosigma adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/sinonjs__fake-timers": "8.1.2",
-    "@types/ws": "8.5.4",
+    "@types/ws": "8.5.5",
     "nock": "13.2.9",
     "typescript": "5.0.4"
   }

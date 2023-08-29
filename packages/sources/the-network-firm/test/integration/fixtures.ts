@@ -69,3 +69,103 @@ export const mockSTBTResponseFailure = (): nock.Scope =>
       ripcordDetails: ['Balances'],
     })
     .persist()
+
+export const mockBackedResponseSuccess = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/backed')
+    .reply(200, {
+      timestamp: '2023-08-22T15:00:31.529Z',
+      accounts: [
+        {
+          accountName: 'IBTA',
+          totalReserve: 195605,
+          totalToken: 195584.9637993383,
+        },
+        {
+          accountName: 'IB01',
+          totalReserve: 350628,
+          totalToken: 350607.90039302636,
+        },
+        {
+          accountName: 'CSPX',
+          totalReserve: 1833,
+          totalToken: 1828.687926481026,
+        },
+      ],
+      ripcord: false,
+      ripcordDetails: [],
+    })
+    .persist()
+
+export const mockBackedResponseFailure = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/backed')
+    .reply(200, {
+      timestamp: '2023-08-22T15:00:31.529Z',
+      accounts: [
+        {
+          accountName: 'IBTA',
+          totalReserve: 195605,
+          totalToken: 195584.9637993383,
+        },
+        {
+          accountName: 'IB01',
+          totalReserve: 350628,
+          totalToken: 350607.90039302636,
+        },
+        {
+          accountName: 'CSPX',
+          totalReserve: 1833,
+          totalToken: 1828.687926481026,
+        },
+      ],
+      ripcord: true,
+      ripcordDetails: ['Balances'],
+    })
+    .persist()
+
+export const mockUSDRResponseSuccess = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/USDR')
+    .reply(200, {
+      accountName: 'USDR',
+      totalReserve: 39138216.32189752,
+      totalToken: 8368048.75007513,
+      detailedReserve: {
+        DAI: 1999280.1996740077,
+        realEstate: 24368253.51404984,
+        TNGBL: 8543905.044571292,
+        insuranceFund: 4226777.563602379,
+      },
+      timestamp: '2023-08-23T23:00:53.859Z',
+      ripcord: false,
+      ripcordDetails: [],
+    })
+    .persist()
+
+export const mockUSDRResponseFailure = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/USDR')
+    .reply(200, {
+      accountName: 'USDR',
+      totalReserve: 39138216.32189752,
+      totalToken: 8368048.75007513,
+      detailedReserve: {
+        DAI: 1999280.1996740077,
+        realEstate: 24368253.51404984,
+        TNGBL: 8543905.044571292,
+        insuranceFund: 4226777.563602379,
+      },
+      timestamp: '2023-08-23T23:00:53.859Z',
+      ripcord: true,
+      ripcordDetails: ['Balances'],
+    })
+    .persist()

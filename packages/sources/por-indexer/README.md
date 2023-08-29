@@ -1,6 +1,6 @@
 # POR_INDEXER
 
-![1.2.64](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-indexer/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-indexer/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -36,13 +36,13 @@ Supported names for this endpoint are: `balance`, `index`.
 
 ### Input Params
 
-| Required? |       Name        | Aliases  |                                             Description                                              |   Type   | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------------: | :------: | :--------------------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |     addresses     | `result` |  An array of addresses to get the balances of (as an object with string `address` as an attribute)   | object[] |         |         |            |                |
-|    ✅     | addresses.address |          |                                   an address to get the balance of                                   |  string  |         |         |            |                |
-|    ✅     | addresses.network |          |                               The name of the target network protocol                                |  string  |         |         |            |                |
-|    ✅     | addresses.chainId |          |                                     The name of the target chain                                     |  string  |         |         |            |                |
-|           | minConfirmations  |          | Number of blocks that must have been confirmed after the point against which the balance is checked. |  number  |         |         |            |                |
+| Required? |       Name        | Aliases  |                                             Description                                              |   Type   |        Options        | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :------: | :--------------------------------------------------------------------------------------------------: | :------: | :-------------------: | :-----: | :--------: | :------------: |
+|    ✅     |     addresses     | `result` |  An array of addresses to get the balances of (as an object with string `address` as an attribute)   | object[] |                       |         |            |                |
+|    ✅     | addresses.address |          |                                   an address to get the balance of                                   |  string  |                       |         |            |                |
+|    ✅     | addresses.network |          |                               The name of the target network protocol                                |  string  | `bitcoin`, `dogecoin` |         |            |                |
+|    ✅     | addresses.chainId |          |                                     The name of the target chain                                     |  string  | `mainnet`, `testnet`  |         |            |                |
+|           | minConfirmations  |          | Number of blocks that must have been confirmed after the point against which the balance is checked. |  number  |                       |         |            |                |
 
 ### Example
 

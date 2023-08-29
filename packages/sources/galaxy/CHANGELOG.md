@@ -1,5 +1,11 @@
 # @chainlink/galaxy-source-adapter
 
+## 2.1.17
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
 ## 2.1.16
 
 ### Patch Changes

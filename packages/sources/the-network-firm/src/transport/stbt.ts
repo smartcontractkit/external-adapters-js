@@ -45,6 +45,22 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }
 
     const result = response.data.totalReserve
+
+    if (typeof response.data.totalReserve === 'undefined') {
+      return [
+        {
+          params: params[0],
+          response: {
+            errorMessage: `Response missing totalReserve`,
+            statusCode: 502,
+            timestamps: {
+              providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+            },
+          },
+        },
+      ]
+    }
+
     return [
       {
         params: params[0],

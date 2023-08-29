@@ -1,5 +1,11 @@
 # @chainlink/twosigma-adapter
 
+## 1.2.7
+
+### Patch Changes
+
+- 737c6d094: Cleaned up tsconfig
+
 ## 1.2.6
 
 ### Patch Changes
