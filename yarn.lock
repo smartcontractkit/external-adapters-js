@@ -3113,7 +3113,7 @@ __metadata:
     "@types/promise-timeout": 1.3.0
     "@types/redux-logger": 3.0.9
     "@types/remote-redux-devtools": 0.5.5
-    "@types/sinon": 10.0.15
+    "@types/sinon": 10.0.16
     "@types/uuid": 8.3.4
     "@types/ws": 8.5.5
     ajv: ^8.6.2
@@ -4379,7 +4379,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/sinon": 10.0.15
+    "@types/sinon": 10.0.16
     axios: ^0.24.0
     sinon: 12.0.1
     tslib: ^2.3.1
@@ -4734,7 +4734,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/sinon": 10.0.15
+    "@types/sinon": 10.0.16
     ethers: ^5.4.2
     nock: 13.2.9
     sinon: 12.0.1
@@ -10915,12 +10915,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sinon@npm:10.0.15":
-  version: 10.0.15
-  resolution: "@types/sinon@npm:10.0.15"
+"@types/sinon@npm:10.0.16":
+  version: 10.0.16
+  resolution: "@types/sinon@npm:10.0.16"
   dependencies:
     "@types/sinonjs__fake-timers": "*"
-  checksum: cec6d7d9d5582ca3ac851b029d5d90451bfe6d376164253792a6eb6ddcd609a0411a7fac9ed92e1879e7d3ec091d2ea2e8dbb4f6140a1065439b81dc20cafa7c
+  checksum: 1216aac584500d6bf845ca76f57e82f8459cf9de4ed80a55e50aa4438360fc418789a42181e211c5d279e97f86a3a994e3c81e43971d540737caca0193242bbf
   languageName: node
   linkType: hard
 
