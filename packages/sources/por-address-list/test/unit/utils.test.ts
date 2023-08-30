@@ -1,5 +1,5 @@
-import { fetchAddressList } from '../../src/endpoint/utils'
 import { ethers } from 'ethers'
+import { fetchAddressList } from '../../src/transport/utils'
 
 const DEFAULT_EXPECTED_ADDRESSES = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
