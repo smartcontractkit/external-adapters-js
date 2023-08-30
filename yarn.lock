@@ -3468,8 +3468,8 @@ __metadata:
     "@babel/preset-env": 7.20.2
     "@babel/preset-typescript": 7.21.5
     "@chainlink/external-adapter-framework": 0.31.1
-    "@changesets/changelog-github": ^0.4.8
-    "@changesets/cli": ^2.26.2
+    "@changesets/changelog-github": 0.4.8
+    "@changesets/cli": 2.26.2
     "@types/babel__core": 7.1.20
     "@types/babel__preset-env": 7.9.2
     "@types/eslint": 8.37.0
@@ -3487,7 +3487,7 @@ __metadata:
     source-map-support: 0.5.21
     ts-node: 10.9.1
     typescript: 5.0.4
-    yo: ^4.3.1
+    yo: 4.3.1
   languageName: unknown
   linkType: soft
 
@@ -5347,7 +5347,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/changelog-github@npm:^0.4.8":
+"@changesets/changelog-github@npm:0.4.8":
   version: 0.4.8
   resolution: "@changesets/changelog-github@npm:0.4.8"
   dependencies:
@@ -5358,7 +5358,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/cli@npm:^2.26.2":
+"@changesets/cli@npm:2.26.2":
   version: 2.26.2
   resolution: "@changesets/cli@npm:2.26.2"
   dependencies:
@@ -34127,7 +34127,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yo@npm:^4.3.1":
+"yo@npm:4.3.1":
   version: 4.3.1
   resolution: "yo@npm:4.3.1"
   dependencies:
