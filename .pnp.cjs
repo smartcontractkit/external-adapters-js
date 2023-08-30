@@ -8313,7 +8313,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/por-address-list/",\
           "packageDependencies": [\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.31.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.31.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.7.2"],\

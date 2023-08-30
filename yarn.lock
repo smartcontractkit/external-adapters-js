@@ -4465,7 +4465,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.31.0
+    "@chainlink/external-adapter-framework": 0.31.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     ethers: ^5.5.1
