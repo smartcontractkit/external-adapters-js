@@ -47,6 +47,7 @@ jobs:
         id: changed-adapters
         env:
           UPSTREAM_BRANCH: HEAD~1
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # The deployment will overwrite existing ones, so in order to calculate all adapters that have been changed,
           # we can mock running the changesets version command to have them present in the diff.
