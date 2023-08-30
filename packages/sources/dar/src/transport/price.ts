@@ -1,5 +1,8 @@
 import { getAuthToken } from './util'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  WebSocketTransport,
+  WebSocketTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
@@ -36,7 +39,7 @@ const hitTrackingLevels: { [level: string]: boolean } = {
   trace: true,
 }
 
-export const options = {
+export const config: WebSocketTransportConfig<WsTransportTypes> = {
   url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context: EndpointContext<WsTransportTypes>) => {
     const token = await getAuthToken(context.adapterSettings)
@@ -45,7 +48,7 @@ export const options = {
     }
   },
   handlers: {
-    message(message: any, context: EndpointContext<WsTransportTypes>) {
+    message(message: ProviderMessage, context: EndpointContext<WsTransportTypes>) {
       if (message.errors) {
         logger.error(`Got error from DP: ${message.errors}`)
         return []
@@ -85,16 +88,28 @@ export const options = {
 }
 
 export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
+  constructor(config: WebSocketTransportConfig<WsTransportTypes>) {
+    super(config)
+  }
+
   override async streamHandler(
     context: EndpointContext<WsTransportTypes>,
     subscriptions: SubscriptionDeltas<RequestParams>,
   ): Promise<void> {
     let subscribeAssets = ''
+
+    console.log(`${Array.from(subscriptions.desired.values())}`)
+
+    //parse subscriptions.desired, convert it into lower case and join into string
     for (const pair of subscriptions.desired) {
-      subscribeAssets = subscribeAssets.concat(`${pair['base'].toString().toLowerCase()},`)
+      subscribeAssets = subscribeAssets.concat(`${pair['base'].toLowerCase()},`)
     }
 
-    if (this.wsConnection && !this.connectionClosed() && subscriptions.new.length) {
+    if (
+      this.wsConnection &&
+      !this.connectionClosed() &&
+      (subscriptions.new.length || subscriptions.stale.length)
+    ) {
       logger.debug(
         `closing WS connection for new subscriptions: ${JSON.stringify(subscriptions.desired)}`,
       )
@@ -105,7 +120,7 @@ export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> 
 
     subscriptions.new = subscriptions.desired
 
-    options.options = async (context: EndpointContext<WsTransportTypes>) => {
+    config.options = async (context: EndpointContext<WsTransportTypes>) => {
       const token = await getAuthToken(context.adapterSettings)
       return {
         headers: { Authorization: token, assets: subscribeAssets },
@@ -116,4 +131,4 @@ export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> 
   }
 }
 
-export const transport = new DarWebsocketTransport(options)
+export const transport = new DarWebsocketTransport(config)
