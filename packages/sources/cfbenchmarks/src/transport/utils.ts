@@ -1,4 +1,4 @@
-const LAST_UPDATE_ALLOWANCE_MS = 88200000 // 1 day + 30 mins in ms
+const LAST_UPDATE_ALLOWANCE_MS = 88_200_000 // 1 day + 30 mins in ms
 
 // Tenor must be between -1 and 1
 export const tenorInRange = (tenor: number): boolean => tenor >= -1 && tenor <= 1
