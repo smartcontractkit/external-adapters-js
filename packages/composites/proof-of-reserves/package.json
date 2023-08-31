@@ -65,7 +65,7 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "0.32.0",
+    "@chainlink/external-adapter-framework": "0.32.1",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
