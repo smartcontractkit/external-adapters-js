@@ -5211,7 +5211,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.31.1
+    "@chainlink/external-adapter-framework": 0.32.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     ethers: ^5.4.6
