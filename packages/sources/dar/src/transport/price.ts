@@ -41,10 +41,17 @@ const hitTrackingLevels: { [level: string]: boolean } = {
 
 export const config: WebSocketTransportConfig<WsTransportTypes> = {
   url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
-  options: async (context: EndpointContext<WsTransportTypes>) => {
+  options: async (context, desiredSubs) => {
     const token = await getAuthToken(context.adapterSettings)
+
+    const subscribeAssets: string[] = []
+    for (const pair in desiredSubs) {
+      subscribeAssets.push(desiredSubs[pair]['base'].toLowerCase())
+    }
+    const subscribe_assets = subscribeAssets.join(',')
+
     return {
-      headers: { Authorization: token, assets: '' },
+      headers: { Authorization: token, assets: subscribe_assets },
     }
   },
   handlers: {
@@ -88,23 +95,10 @@ export const config: WebSocketTransportConfig<WsTransportTypes> = {
 }
 
 export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
-  constructor(config: WebSocketTransportConfig<WsTransportTypes>) {
-    super(config)
-  }
-
   override async streamHandler(
     context: EndpointContext<WsTransportTypes>,
     subscriptions: SubscriptionDeltas<RequestParams>,
   ): Promise<void> {
-    let subscribeAssets = ''
-
-    console.log(`${Array.from(subscriptions.desired.values())}`)
-
-    //parse subscriptions.desired, convert it into lower case and join into string
-    for (const pair of subscriptions.desired) {
-      subscribeAssets = subscribeAssets.concat(`${pair['base'].toLowerCase()},`)
-    }
-
     if (
       this.wsConnection &&
       !this.connectionClosed() &&
@@ -119,14 +113,6 @@ export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> 
     }
 
     subscriptions.new = subscriptions.desired
-
-    config.options = async (context: EndpointContext<WsTransportTypes>) => {
-      const token = await getAuthToken(context.adapterSettings)
-      return {
-        headers: { Authorization: token, assets: subscribeAssets },
-      }
-    }
-
     await super.streamHandler(context, subscriptions)
   }
 }
