@@ -150,7 +150,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [twosigma](./twosigma/README.md)
 - [unibit](./unibit/README.md)
 - [uniswap-v2](./uniswap-v2/README.md)
-- [uniswap-v3](./uniswap-v3/README.md)
 - [upvest](./upvest/README.md)
 - [uscpi-one](./uscpi-one/README.md)
 - [view-function](./view-function/README.md)

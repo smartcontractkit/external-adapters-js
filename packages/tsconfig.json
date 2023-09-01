@@ -552,9 +552,6 @@
       "path": "./sources/uniswap-v2"
     },
     {
-      "path": "./sources/uniswap-v3"
-    },
-    {
       "path": "./sources/upvest"
     },
     {
