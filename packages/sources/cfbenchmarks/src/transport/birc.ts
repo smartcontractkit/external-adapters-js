@@ -4,7 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { latestUpdateIsCurrentDay, tenorInRange } from './utils'
+import { latestUpdateIsWithinLast24h, tenorInRange } from './utils'
 import { AdapterCustomError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/birc'
 
@@ -93,8 +93,8 @@ export const transport = new CfBenchmarksBIRCTransport({
       const key = param.tenor as VALID_TENORS
       const value = Number(latestUpdate.tenors[key])
 
-      if (!latestUpdateIsCurrentDay(latestUpdate.time)) {
-        const warning = 'Latest update from response is not in current day'
+      if (!latestUpdateIsWithinLast24h(latestUpdate.time)) {
+        const warning = 'Latest update from response is not in current day %o'
         logger.warn(warning, { latestUpdate })
       }
 
