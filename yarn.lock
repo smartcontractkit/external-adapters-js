@@ -5077,6 +5077,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/trumatic-matic-exchange-rate-adapter@workspace:packages/sources/trumatic-matic-exchange-rate":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/trumatic-matic-exchange-rate-adapter@workspace:packages/sources/trumatic-matic-exchange-rate"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.32.1
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    ethers: 5.7.2
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata":
   version: 0.0.0-use.local
   resolution: "@chainlink/twelvedata-adapter@workspace:packages/sources/twelvedata"

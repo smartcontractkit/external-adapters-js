@@ -540,6 +540,9 @@
       "path": "./sources/trueusd/tsconfig.test.json"
     },
     {
+      "path": "./sources/trumatic-matic-exchange-rate/tsconfig.test.json"
+    },
+    {
       "path": "./sources/twelvedata/tsconfig.test.json"
     },
     {

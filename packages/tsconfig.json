@@ -540,6 +540,9 @@
       "path": "./sources/trueusd"
     },
     {
+      "path": "./sources/trumatic-matic-exchange-rate"
+    },
+    {
       "path": "./sources/twelvedata"
     },
     {

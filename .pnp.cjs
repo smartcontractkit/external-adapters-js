@@ -748,6 +748,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/trueusd"\
       },\
       {\
+        "name": "@chainlink/trumatic-matic-exchange-rate-adapter",\
+        "reference": "workspace:packages/sources/trumatic-matic-exchange-rate"\
+      },\
+      {\
         "name": "@chainlink/twelvedata-adapter",\
         "reference": "workspace:packages/sources/twelvedata"\
       },\
@@ -1001,6 +1005,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
+      ["@chainlink/trumatic-matic-exchange-rate-adapter", ["workspace:packages/sources/trumatic-matic-exchange-rate"]],\
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
       ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
@@ -8977,6 +8982,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/trumatic-matic-exchange-rate-adapter", [\
+        ["workspace:packages/sources/trumatic-matic-exchange-rate", {\
+          "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
+          "packageDependencies": [\
+            ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
