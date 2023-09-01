@@ -644,10 +644,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "name": "uniswap-v3-adapter",
-      "type": "sources",
-    },
-    Object {
       "name": "upvest-adapter",
       "type": "sources",
     },
