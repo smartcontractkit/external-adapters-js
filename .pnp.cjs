@@ -764,10 +764,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/uniswap-v2"\
       },\
       {\
-        "name": "@chainlink/uniswap-v3-adapter",\
-        "reference": "workspace:packages/sources/uniswap-v3"\
-      },\
-      {\
         "name": "@chainlink/upvest-adapter",\
         "reference": "workspace:packages/sources/upvest"\
       },\
@@ -1009,7 +1005,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
-      ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],\
       ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
       ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],\
@@ -9048,26 +9043,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/uniswap-v2/",\
           "packageDependencies": [\
             ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["decimal.js", "npm:10.4.3"],\
-            ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/uniswap-v3-adapter", [\
-        ["workspace:packages/sources/uniswap-v3", {\
-          "packageLocation": "./packages/sources/uniswap-v3/",\
-          "packageDependencies": [\
-            ["@chainlink/uniswap-v3-adapter", "workspace:packages/sources/uniswap-v3"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
