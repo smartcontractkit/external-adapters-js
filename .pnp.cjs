@@ -5550,7 +5550,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alongside/",\
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/crypto-js", "npm:4.1.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -5585,7 +5585,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -5710,7 +5710,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/apy-finance-test/",\
           "packageDependencies": [\
             ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -5749,7 +5749,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/avalanche-platform/",\
           "packageDependencies": [\
             ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -5764,7 +5764,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/bank-frick/",\
           "packageDependencies": [\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.27.2"],\
@@ -5944,7 +5944,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/blocksize-capital/",\
           "packageDependencies": [\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6115,7 +6115,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6219,7 +6219,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6255,7 +6255,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",\
           "packageDependencies": [\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -6270,7 +6270,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6288,7 +6288,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinpaprika/",\
           "packageDependencies": [\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -6447,7 +6447,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6558,7 +6558,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dar/",\
           "packageDependencies": [\
             ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6701,7 +6701,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dxfeed/",\
           "packageDependencies": [\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6719,7 +6719,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6868,7 +6868,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -6923,7 +6923,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elven/",\
           "packageDependencies": [\
             ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6940,7 +6940,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7034,7 +7034,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/eth-beacon/",\
           "packageDependencies": [\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["bignumber.js", "npm:9.1.1"],\
@@ -7175,10 +7175,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.32.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.32.0-62664e4e2f-76307b813c.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.32.1", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.32.1-33eef5e206-b341acd7f0.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:1.3.4"],\
             ["eventsource", "npm:2.0.2"],\
@@ -7269,7 +7269,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finage-test/",\
           "packageDependencies": [\
             ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7286,7 +7286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7303,7 +7303,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub-secondary/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -7390,7 +7390,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/frxeth-exchange-rate/",\
           "packageDependencies": [\
             ["@chainlink/frxeth-exchange-rate-adapter", "workspace:packages/sources/frxeth-exchange-rate"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.7.2"],\
@@ -7427,7 +7427,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7445,7 +7445,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gemini/",\
           "packageDependencies": [\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -7528,7 +7528,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gramchain/",\
           "packageDependencies": [\
             ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -7558,7 +7558,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7603,7 +7603,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7621,7 +7621,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/icap/",\
           "packageDependencies": [\
             ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7640,7 +7640,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/iex-cloud/",\
           "packageDependencies": [\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -7675,7 +7675,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/intrinio/",\
           "packageDependencies": [\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7693,7 +7693,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ion.au/",\
           "packageDependencies": [\
             ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -7767,7 +7767,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/kaiko/",\
           "packageDependencies": [\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -7894,7 +7894,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/lotus/",\
           "packageDependencies": [\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.7.2"],\
@@ -8017,7 +8017,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/moonbeam-address-list/",\
           "packageDependencies": [\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8054,7 +8054,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8071,7 +8071,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/nft-blue-chip/",\
           "packageDependencies": [\
             ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["decimal.js", "npm:10.4.3"],\
@@ -8128,7 +8128,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/oanda/",\
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.27.2"],\
             ["decimal.js", "npm:10.4.3"],\
@@ -8191,7 +8191,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/openexchangerates/",\
           "packageDependencies": [\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -8296,7 +8296,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polkadot-balance/",\
           "packageDependencies": [\
             ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@polkadot/api", "npm:9.14.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8312,7 +8312,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polygon/",\
           "packageDependencies": [\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -8327,7 +8327,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/por-address-list/",\
           "packageDependencies": [\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.7.2"],\
@@ -8343,7 +8343,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/por-indexer/",\
           "packageDependencies": [\
             ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["decimal.js", "npm:10.4.3"],\
@@ -8374,7 +8374,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8657,7 +8657,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-address-list/",\
           "packageDependencies": [\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.5.4"],\
@@ -8673,7 +8673,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-balance/",\
           "packageDependencies": [\
             ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:1.3.6"],\
@@ -8841,7 +8841,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/the-network-firm/",\
           "packageDependencies": [\
             ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -8874,7 +8874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tiingo/",\
           "packageDependencies": [\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8902,7 +8902,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -8923,7 +8923,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tp/",\
           "packageDependencies": [\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8940,7 +8940,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradermade/",\
           "packageDependencies": [\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8957,7 +8957,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradingeconomics/",\
           "packageDependencies": [\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -8974,7 +8974,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/trueusd/",\
           "packageDependencies": [\
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
@@ -9007,7 +9007,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/twosigma/",\
           "packageDependencies": [\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -9115,7 +9115,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/view-function/",\
           "packageDependencies": [\
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["ethers", "npm:5.7.2"],\
@@ -9131,7 +9131,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/wbtc-address-set/",\
           "packageDependencies": [\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-            ["@chainlink/external-adapter-framework", "npm:0.32.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.32.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["nock", "npm:13.2.9"],\
