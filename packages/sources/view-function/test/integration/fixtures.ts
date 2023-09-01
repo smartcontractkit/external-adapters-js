@@ -1,5 +1,12 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
+
+type JsonRpcPayload = {
+  id: number
+  method: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params: Array<any> | Record<string, any>
+  jsonrpc: '2.0'
+}
 
 export const mockContractCallResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8545', {
@@ -9,7 +16,7 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }),
+      (_, request: JsonRpcPayload) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }),
       [
         'Content-Type',
         'application/json',
@@ -29,7 +36,7 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request: AdapterRequest) => ({
+      (_, request: JsonRpcPayload) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
