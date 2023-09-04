@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.7.1
+
+### Patch Changes
+
+- [#2953](https://github.com/smartcontractkit/external-adapters-js/pull/2953) [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.7.0
 
 ### Minor Changes
