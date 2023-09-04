@@ -146,6 +146,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [tradermade](./tradermade/README.md)
 - [tradingeconomics](./tradingeconomics/README.md)
 - [trueusd](./trueusd/README.md)
+- [trumatic-matic-exchange-rate](./trumatic-matic-exchange-rate/README.md)
 - [twelvedata](./twelvedata/README.md)
 - [twosigma](./twosigma/README.md)
 - [unibit](./unibit/README.md)

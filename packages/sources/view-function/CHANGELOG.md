@@ -1,5 +1,17 @@
 # @chainlink/view-function-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#2930](https://github.com/smartcontractkit/external-adapters-js/pull/2930) [`34036c7a5`](https://github.com/smartcontractkit/external-adapters-js/commit/34036c7a53397b18a225f8c2a8668fec8a3addc5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- [#2961](https://github.com/smartcontractkit/external-adapters-js/pull/2961) [`4ebf1ef41`](https://github.com/smartcontractkit/external-adapters-js/commit/4ebf1ef41b9b96a2970b7d6de5e92b8d72156986) Thanks [@alecgard](https://github.com/alecgard)! - Stop using EA Bootstrap type in V3 EA tests.
+
+- [#2959](https://github.com/smartcontractkit/external-adapters-js/pull/2959) [`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02) Thanks [@amit-momin](https://github.com/amit-momin)! - Bumped framework version
+
 ## 2.0.15
 
 ### Patch Changes
