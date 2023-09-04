@@ -19,13 +19,8 @@ exports[`websocket crypto_lwba endpoint should return success 1`] = `
 {
   "data": {
     "ask": 1794.2063137650225,
-    "askSize": 126.22352905999999,
     "bid": 1793.6242715443277,
-    "bidSize": 117.75114002,
-    "datetime": "2023-03-30T14:38:14.577256+00:00",
     "mid": 1793.915292654675,
-    "ticker": "eth/usd",
-    "weightedSpreadPcnt": 0.00032445356984135313,
   },
   "result": null,
   "statusCode": 200,

@@ -13,14 +13,7 @@ const logger = makeLogger('CoinMetrics Crypto LWBA WS')
 
 export type MultiVarResult<T extends ProviderResultGenerics> = {
   params: TypeFromDefinition<T['Parameters']>
-  response: PartialAdapterResponse<T['Response']> & {
-    mid: number
-    ask: number
-    asksize: number
-    bid: number
-    bidsize: number
-    spread: number
-  }
+  response: PartialAdapterResponse<T['Response']>
 }
 
 export type WsCryptoLwbaSuccessResponse = {
@@ -114,15 +107,8 @@ export const handleCryptoLwbaMessage = (
           quote,
         },
         response: {
-          result: res,
-          mid: res,
-          ask: Number(message.ask_price),
-          asksize: Number(message.ask_size),
-          bid: Number(message.bid_price),
-          bidsize: Number(message.bid_size),
-          spread: Number(message.spread),
+          result: null,
           data: {
-            result: res,
             // bid, mid, ask included here again.
             // Also kept outside data for backward compatability
             bid: Number(message.bid_price),
