@@ -324,12 +324,19 @@ export class ReadmeGenerator {
 
       for (const endpointName of Object.keys(this.endpointDetails)) {
         const examplesText: string[] = []
-        const inputExamples = (this.endpointDetails[endpointName]?.inputParameters?.examples ||
-          []) as Record<string, unknown>[]
 
-        for (const example of inputExamples) {
-          const exText = JSON.stringify({ data: { endpoint: endpointName, ...example } }, null, 2)
+        // If EA has no input params, use only `endpoint` as request example
+        if (!Object.keys(this.endpointDetails[endpointName]?.inputParameters.definition).length) {
+          const exText = JSON.stringify({ data: { endpoint: endpointName } }, null, 2)
           examplesText.push(`Request:\n\n${wrapJson(exText)}`)
+        } else {
+          const inputExamples = (this.endpointDetails[endpointName]?.inputParameters?.examples ||
+            []) as Record<string, unknown>[]
+
+          for (const example of inputExamples) {
+            const exText = JSON.stringify({ data: { endpoint: endpointName, ...example } }, null, 2)
+            examplesText.push(`Request:\n\n${wrapJson(exText)}`)
+          }
         }
 
         let endpointExamples = exampleTextHeader
