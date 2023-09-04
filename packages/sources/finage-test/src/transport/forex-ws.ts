@@ -1,5 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { BaseEndpointTypes } from '../endpoint/utils'
+import { ForexBaseEndpointTypes } from '../endpoint/utils'
 
 interface Message {
   s: string
@@ -7,7 +7,7 @@ interface Message {
   b: string
   t: number
 }
-type WsTransportTypes = BaseEndpointTypes & {
+type WsTransportTypes = ForexBaseEndpointTypes & {
   Provider: {
     WsMessage: Message
   }

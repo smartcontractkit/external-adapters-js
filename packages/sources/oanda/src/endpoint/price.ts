@@ -24,7 +24,12 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 
 const logger = makeLogger('OandaPrice')
 
-export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
+  {
+    base: 'CAD',
+    quote: 'USD',
+  },
+])
 
 let instrumentMap: InstrumentMap
 

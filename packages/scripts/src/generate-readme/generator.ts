@@ -269,7 +269,7 @@ export class ReadmeGenerator {
       : 'There are no input parameters for this adapter.'
 
     if (this.frameworkVersion === 'v3') {
-      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)\n\n${inputParamTable}\n\n`
+      this.readmeText += `## Input Parameters\n\n${inputParamTable}\n\n`
     } else {
       this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
     }
@@ -328,8 +328,8 @@ export class ReadmeGenerator {
           []) as Record<string, unknown>[]
 
         for (const example of inputExamples) {
-          const exText = JSON.stringify({ endpoint: endpointName, ...example }, null, 2)
-          examplesText.push(`Request:\n${wrapJson(exText)}`)
+          const exText = JSON.stringify({ data: { endpoint: endpointName, ...example } }, null, 2)
+          examplesText.push(`Request:\n\n${wrapJson(exText)}`)
         }
 
         let endpointExamples = exampleTextHeader

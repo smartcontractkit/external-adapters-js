@@ -14,20 +14,28 @@ import { httpTransport } from '../transport/forex-http'
 import { wsTransport } from '../transport/forex-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin', 'symbol'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'coin', 'symbol'],
+      required: true,
+      type: 'string',
+      description: 'The symbol of symbols of the currency to query',
+    },
+    quote: {
+      aliases: ['to', 'market', 'convert'],
+      required: true,
+      type: 'string',
+      description: 'The symbol of the currency to convert to',
+    },
   },
-  quote: {
-    aliases: ['to', 'market', 'convert'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-  },
-})
+  [
+    {
+      base: 'ETH',
+      quote: 'USD',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

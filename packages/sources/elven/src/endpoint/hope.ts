@@ -1,12 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 
-export const inputParameters = new InputParameters({})
 export type EndpointTypes = {
-  Parameters: typeof inputParameters.definition
+  Parameters: EmptyInputParameters
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
 }
@@ -134,5 +133,4 @@ const httpTransport = new HttpTransport<HttpTransportTypes>({
 export const endpoint = new AdapterEndpoint({
   name: 'hope',
   transport: httpTransport,
-  inputParameters,
 })

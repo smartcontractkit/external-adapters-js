@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/utils'
+import { CryptoBaseEndpointTypes } from '../endpoint/utils'
 
 interface ResponseSchema {
   symbol: string
@@ -8,7 +8,7 @@ interface ResponseSchema {
   error?: string
 }
 
-type HttpTransportTypes = BaseEndpointTypes & {
+type HttpTransportTypes = CryptoBaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema

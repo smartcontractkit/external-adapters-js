@@ -35,7 +35,13 @@ export const baseInputParametersDefinition = {
   },
 } as const satisfies InputParametersDefinition
 
-export const inputParameters = new InputParameters(baseInputParametersDefinition)
+export const inputParameters = new InputParameters(baseInputParametersDefinition, [
+  {
+    asset: 'eth',
+    frequency: Frequency.ONE_DAY,
+    pageSize: 10000,
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

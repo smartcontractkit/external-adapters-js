@@ -5,40 +5,54 @@ import { balanceTransport } from '../transport/balance'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
-export const inputParameters = new InputParameters({
-  addresses: {
-    aliases: ['result'],
-    array: true,
-    type: {
-      address: {
-        type: 'string',
-        description: 'an address to get the balance of',
-        required: true,
+export const inputParameters = new InputParameters(
+  {
+    addresses: {
+      aliases: ['result'],
+      array: true,
+      type: {
+        address: {
+          type: 'string',
+          description: 'an address to get the balance of',
+          required: true,
+        },
+        network: {
+          description: 'The name of the target network protocol',
+          required: true,
+          type: 'string',
+          options: ['bitcoin', 'dogecoin'],
+        },
+        chainId: {
+          description: 'The name of the target chain',
+          required: true,
+          type: 'string',
+          options: ['mainnet', 'testnet'],
+        },
       },
-      network: {
-        description: 'The name of the target network protocol',
-        required: true,
-        type: 'string',
-        options: ['bitcoin', 'dogecoin'],
-      },
-      chainId: {
-        description: 'The name of the target chain',
-        required: true,
-        type: 'string',
-        options: ['mainnet', 'testnet'],
-      },
+      description:
+        'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+      required: true,
     },
-    description:
-      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
-    required: true,
+    minConfirmations: {
+      type: 'number',
+      default: 0,
+      description:
+        'Number of blocks that must have been confirmed after the point against which the balance is checked.',
+    },
   },
-  minConfirmations: {
-    type: 'number',
-    default: 0,
-    description:
-      'Number of blocks that must have been confirmed after the point against which the balance is checked.',
-  },
-})
+  [
+    {
+      addresses: [
+        {
+          address: 'bc1qlh50jpjrrlcuy6sslrucksjg22h6e0d65ken6sc54exfkrln932snwg523',
+          chainId: 'mainnet',
+          network: 'bitcoin',
+        },
+      ],
+      minConfirmations: 0,
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

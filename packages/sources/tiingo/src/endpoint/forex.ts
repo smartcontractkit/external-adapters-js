@@ -7,20 +7,28 @@ import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/forex-http'
 import { wsTransport } from '../transport/forex-ws'
 
-const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'market', 'asset'],
-    required: true,
-    type: 'string',
-    description: 'The asset to query',
+const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'market', 'asset'],
+      required: true,
+      type: 'string',
+      description: 'The asset to query',
+    },
+    quote: {
+      aliases: ['to'],
+      required: true,
+      type: 'string',
+      description: 'The quote to convert to',
+    },
   },
-  quote: {
-    aliases: ['to'],
-    required: true,
-    type: 'string',
-    description: 'The quote to convert to',
-  },
-})
+  [
+    {
+      base: 'GBP',
+      quote: 'USD',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
