@@ -1,18 +1,16 @@
-# Chainlink External Adapter for View-Function
+# VIEW_FUNCTION
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
-
-External adapter for executing contract function and returning the result
+![3.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |       Name        |               Description                |  Type  | Options | Default |
-| :-------: | :---------------: | :--------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ETHEREUM_RPC_URL  |      RPC URL of a Mainnet ETH node       | string |         |         |
-|           |      RPC_URL      | A fallback RPC URL of a Mainnet ETH node | string |         |         |
-|           | ETHEREUM_CHAIN_ID |        The chain id to connect to        | string |         |   `1`   |
+| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |   ETHEREUM_RPC_URL    |                               RPC URL of a Mainnet ETH node                               | string |         |         |
+|           |   ETHEREUM_CHAIN_ID   |                                The chain id to connect to                                 | number |         |   `1`   |
+|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
 
 ---
 
@@ -24,55 +22,27 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |             Options             |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :-----------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [function](#endpoints-endpoint) | `function` |
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [function](#function-endpoint) | `function` |
 
-## Endpoints Endpoint
+## Function Endpoint
 
 `function` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |    Name     |  Aliases   |                                                                         Description                                                                         |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------: | :--------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  signature  | `function` | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |        |         |         |            |                |
-|    ✅     |   address   | `contract` |                                                                   Address of the contract                                                                   | string |         |         |            |                |
-|           | inputParams |            |                                                            Array of function parameters in order                                                            | array  |         |         |            |                |
+| Required? |    Name     |  Aliases   |                                                                         Description                                                                         |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------: | :--------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  signature  | `function` | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |  string  |         |         |            |                |
+|    ✅     |   address   | `contract` |                                                                   Address of the contract                                                                   |  string  |         |         |            |                |
+|           | inputParams |            |                                                            Array of function parameters in order                                                            | string[] |         |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "signature": "function symbol() view returns (string)",
-    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "endpoint": "function"
-  },
-  "debug": {
-    "cacheKey": "i+gWrJZw68WU1SlaR+u5dJb+fbA="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000"
-  },
-  "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

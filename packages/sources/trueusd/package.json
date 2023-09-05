@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/trueusd-adapter",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Chainlink TrueUSD adapter.",
   "keywords": [
     "Chainlink",
@@ -33,7 +33,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.31.1",
+    "@chainlink/external-adapter-framework": "0.32.1",
     "tslib": "2.4.1"
   }
 }

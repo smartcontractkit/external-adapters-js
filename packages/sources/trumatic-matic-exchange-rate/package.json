@@ -1,0 +1,41 @@
+{
+  "name": "@chainlink/trumatic-matic-exchange-rate-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink trumatic-matic-exchange-rate adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "trumatic-matic-exchange-rate"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.51",
+    "nock": "13.2.9",
+    "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "0.32.1",
+    "ethers": "5.7.2",
+    "tslib": "2.4.1"
+  }
+}

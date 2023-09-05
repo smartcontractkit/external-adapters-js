@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finnhub-adapter",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.31.1",
+    "@chainlink/external-adapter-framework": "0.32.1",
     "tslib": "2.4.1"
   },
   "devDependencies": {

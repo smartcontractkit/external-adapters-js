@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/moonbeam-address-list-adapter",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "description": "Chainlink Moonbeam address list adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.31.1",
+    "@chainlink/external-adapter-framework": "0.32.1",
     "@polkadot/keyring": "10.4.2",
     "ethers": "5.5.4",
     "tslib": "^2.3.1"

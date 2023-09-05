@@ -1,5 +1,29 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.10
+
+### Patch Changes
+
+- [#2959](https://github.com/smartcontractkit/external-adapters-js/pull/2959) [`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02) Thanks [@amit-momin](https://github.com/amit-momin)! - Bumped framework version
+
+- [#2957](https://github.com/smartcontractkit/external-adapters-js/pull/2957) [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
+- [#2953](https://github.com/smartcontractkit/external-adapters-js/pull/2953) [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02), [`bf65aed42`](https://github.com/smartcontractkit/external-adapters-js/commit/bf65aed4268999716561c236bb1b7d0756757ab8), [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c), [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc)]:
+  - @chainlink/stader-address-list-adapter@2.3.8
+  - @chainlink/eth-beacon-adapter@2.0.2
+  - @chainlink/gemini-adapter@3.0.1
+  - @chainlink/por-indexer-adapter@2.0.1
+  - @chainlink/stader-balance-adapter@1.4.5
+  - @chainlink/avalanche-platform-adapter@2.0.2
+  - @chainlink/lotus-adapter@3.0.1
+  - @chainlink/por-address-list-adapter@5.0.0
+  - @chainlink/moonbeam-address-list-adapter@1.1.18
+  - @chainlink/wbtc-address-set-adapter@2.0.2
+  - @chainlink/polkadot-balance-adapter@1.2.6
+  - @chainlink/renvm-address-set-adapter@1.5.57
+
 ## 1.18.9
 
 ### Patch Changes
