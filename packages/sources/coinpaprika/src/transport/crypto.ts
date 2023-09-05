@@ -62,7 +62,6 @@ export const transport = new HttpTransport<HttpTransportTypes>({
     return Object.entries(paramsByQuote).map(([quote, params]) => ({
       params,
       request: {
-        // baseURL: getApiEndpoint(settings),
         baseURL: settings.API_ENDPOINT,
         url: 'v1/tickers',
         method: 'GET',
