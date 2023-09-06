@@ -51,7 +51,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       }
     }
     const isEtf = (input: AdapterRequest): boolean =>
-      !!input.data.endpoint && endpoints.ukEtf.supportedEndpoints.includes(input?.data?.endpoint)
+      !!input.data.endpoint &&
+      (endpoints.etf.supportedEndpoints.includes(input?.data?.endpoint) ||
+        endpoints.ukEtf.supportedEndpoints.includes(input?.data?.endpoint))
 
     const isStock = (input: AdapterRequest): boolean =>
       !!input.data.endpoint && endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
@@ -65,7 +67,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
     const getEtfSymbol = (input: AdapterRequest) => {
       const validator = new Validator(
         input,
-        endpoints.ukEtf.inputParameters,
+        endpoints.etf.inputParameters,
         {},
         { shouldThrowError: false, overrides },
       )
@@ -158,7 +160,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
             }
           } else if (isEtf(input)) {
             return {
-              key: 'uk_etf',
+              key: 'etf',
               url: defaultConfig.etfWsEndpoint,
             }
           }
