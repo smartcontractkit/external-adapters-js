@@ -37,13 +37,12 @@ export const makeEtfExecute =
 
     const params = {
       apikey: config.apiKey,
-      country: executeConfig.country,
     }
 
     const options = {
       ...config.api,
       url,
-      params,
+      params: executeConfig.country ? { ...params, country: executeConfig.country } : params,
     }
 
     const response = await Requester.request<ResponseSchema | ResponseSchema[]>(options)
