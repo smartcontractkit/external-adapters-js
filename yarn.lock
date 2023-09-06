@@ -2900,11 +2900,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dar-adapter@workspace:packages/sources/dar"
   dependencies:
-<<<<<<< HEAD
-    "@chainlink/external-adapter-framework": 0.33.0
-=======
     "@chainlink/external-adapter-framework": 0.32.0
->>>>>>> 587556e3a (yarn.lock updated)
     "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -3464,28 +3460,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/external-adapter-framework@npm:0.33.0":
-  version: 0.33.0
-  resolution: "@chainlink/external-adapter-framework@npm:0.33.0"
-  dependencies:
-    ajv: 8.11.0
-    axios: 1.3.4
-    eventsource: 2.0.2
-    fastify: 4.13.0
-    ioredis: 5.2.3
-    mock-socket: 9.1.5
-    pino: 8.6.1
-    pino-pretty: 9.1.0
-    prom-client: 13.2.0
-    redlock: 5.0.0-beta.2
-    ws: 8.9.0
-    yeoman-generator: 3.1.1
-  bin:
-    create-external-adapter: adapter-generator.js
-  checksum: 65709438d672c731f754d0380f74f38126c3982fe43506a3c4bce9797231e1e9417178d80901b6f0d4c3a2e440f71ddf7eaed17ccaea4e7cee575e624d2e2652
-  languageName: node
-  linkType: hard
-
 "@chainlink/external-adapter-framework@npm:0.32.0":
   version: 0.32.0
   resolution: "@chainlink/external-adapter-framework@npm:0.32.0"
@@ -3505,6 +3479,28 @@ __metadata:
   bin:
     create-external-adapter: adapter-generator.js
   checksum: 76307b813cddcfe475c54aca0e47390c087f20340cdf508fe102be9f607d84ff6530bd0857b55f143f26dc8c7c3171cbbabb73e50882bffa0d4ad1e3216e535d
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:0.33.0":
+  version: 0.33.0
+  resolution: "@chainlink/external-adapter-framework@npm:0.33.0"
+  dependencies:
+    ajv: 8.11.0
+    axios: 1.3.4
+    eventsource: 2.0.2
+    fastify: 4.13.0
+    ioredis: 5.2.3
+    mock-socket: 9.1.5
+    pino: 8.6.1
+    pino-pretty: 9.1.0
+    prom-client: 13.2.0
+    redlock: 5.0.0-beta.2
+    ws: 8.9.0
+    yeoman-generator: 3.1.1
+  bin:
+    create-external-adapter: adapter-generator.js
+  checksum: 65709438d672c731f754d0380f74f38126c3982fe43506a3c4bce9797231e1e9417178d80901b6f0d4c3a2e440f71ddf7eaed17ccaea4e7cee575e624d2e2652
   languageName: node
   linkType: hard
 
