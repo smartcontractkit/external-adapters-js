@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/frxeth-exchange-rate-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink frxeth-exchange-rate adapter.",
   "keywords": [
     "Chainlink",
