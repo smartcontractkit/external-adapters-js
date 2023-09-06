@@ -40,6 +40,8 @@ interface Message {
   s: string
 }
 
+const etfEndpoints = [...endpoints.etf.supportedEndpoints, ...endpoints.ukEtf.supportedEndpoints]
+
 export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
   // TODO : WS message types
   {
@@ -51,9 +53,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       }
     }
     const isEtf = (input: AdapterRequest): boolean =>
-      !!input.data.endpoint &&
-      (endpoints.etf.supportedEndpoints.includes(input?.data?.endpoint) ||
-        endpoints.ukEtf.supportedEndpoints.includes(input?.data?.endpoint))
+      !!input.data.endpoint && etfEndpoints.includes(input?.data?.endpoint)
 
     const isStock = (input: AdapterRequest): boolean =>
       !!input.data.endpoint && endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
