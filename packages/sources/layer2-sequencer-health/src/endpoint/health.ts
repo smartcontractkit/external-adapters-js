@@ -54,14 +54,14 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
         const isHealthy = await fn(network, config)
         if (isHealthy === false) {
           Logger.warn(
-            `Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
+            `[${network}] Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
           )
           return false
         }
       } catch (e: any) {
         const error = e as Error
         Logger.error(
-          `Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
+          `[${network}] Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
         )
         return false
       }
@@ -79,7 +79,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config)
     if (!isHealthy) {
-      Logger.info(`Checking unhealthy network ${network} with transaction submission`)
+      Logger.info(`[${network}] Checking unhealthy network ${network} with transaction submission`)
       let isHealthyByTransaction
       try {
         isHealthyByTransaction = await getStatusByTransaction(network, config)
@@ -92,7 +92,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       }
       if (isHealthyByTransaction) {
         Logger.info(
-          `Transaction submission check succeeded. Network ${network} can be considered healthy`,
+          `[${network}] Transaction submission check succeeded. Network ${network} can be considered healthy`,
         )
         return _respond(true)
       }

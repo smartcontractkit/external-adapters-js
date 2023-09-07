@@ -34,7 +34,7 @@ export const makeExecute: ExecuteFactory<ExtendedConfig, endpoints.TInputParamet
   // Disclaimer on startup
   Object.keys(HEALTH_ENDPOINTS).forEach((network) => {
     if (!HEALTH_ENDPOINTS[network as Networks]?.endpoint)
-      Logger.info(`Health endpoint not available for network: ${network}`)
+      Logger.info(`[${network}] Health endpoint not available for network: ${network}`)
   })
   return async (request, context) => execute(request, context, config || makeConfig())
 }
