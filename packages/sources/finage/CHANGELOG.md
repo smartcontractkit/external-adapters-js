@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.8.0
+
+### Minor Changes
+
+- [#2972](https://github.com/smartcontractkit/external-adapters-js/pull/2972) [`f3f1113ba`](https://github.com/smartcontractkit/external-adapters-js/commit/f3f1113bac1ad1ee69dc3cf03ca787c4f9a68743) Thanks [@alecgard](https://github.com/alecgard)! - Add ETF endpoint.
+
 ## 1.7.0
 
 ### Minor Changes
