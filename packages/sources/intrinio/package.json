@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/intrinio-adapter",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Chainlink intrinio adapter.",
   "keywords": [
     "Chainlink",
