@@ -5720,7 +5720,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["axios", "npm:1.3.4"],\
+            ["axios", "npm:1.3.6"],\
             ["ethers", "npm:5.4.7"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
