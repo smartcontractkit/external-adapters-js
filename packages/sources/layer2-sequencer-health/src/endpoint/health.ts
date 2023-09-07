@@ -88,7 +88,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     const isHealthy = await method(network, config)
     if (!isHealthy) {
       if (validator.validated.data.requireTxFailure) {
-        Logger.info(`[${network}] Checking unhealthy network ${network} with transaction submission`)
+        Logger.info(
+          `[${network}] Checking unhealthy network ${network} with transaction submission`,
+        )
         let isHealthyByTransaction
         try {
           isHealthyByTransaction = await getStatusByTransaction(network, config)

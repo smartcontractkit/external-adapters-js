@@ -245,7 +245,7 @@ describe('execute', () => {
       id,
       data: {
         network: 'base',
-        requireTxFailure: true
+        requireTxFailure: true,
       },
     }
 
