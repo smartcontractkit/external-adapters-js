@@ -71,8 +71,6 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
           response: {
             result: message.mid || 0, // Already validated in the filter above
             data: {
-              // bid, mid, ask included here again.
-              // Also kept outside data for backward compatability
               bid: message.bid || 0,
               mid: message.mid || 0,
               ask: message.offer || 0,
