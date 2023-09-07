@@ -111,7 +111,25 @@ describe('adapter', () => {
       expect(response.data.result).toBe(1)
     })
 
-    it('Empty transaction check has the final word on unhealthy method responses', async () => {
+    it('Empty transaction check has the final word on unhealthy method responses if requireTxFailure = true', async () => {
+      jest.spyOn(network, 'checkSequencerHealth').mockReturnValue(Promise.resolve(false))
+      jest.spyOn(network, 'checkNetworkProgress').mockReturnValue(Promise.resolve(false))
+      jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(true))
+
+      const response = await execute(
+        {
+          data: {
+            network: 'arbitrum',
+            requireTxFailure: true,
+          },
+        } as AdapterRequest<TInputParameters>,
+        {},
+      )
+
+      expect(response.data.result).toBe(0)
+    })
+
+    it('Empty transaction check does not impact response if requireTxFailure = false (default)', async () => {
       jest.spyOn(network, 'checkSequencerHealth').mockReturnValue(Promise.resolve(false))
       jest.spyOn(network, 'checkNetworkProgress').mockReturnValue(Promise.resolve(false))
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(true))
@@ -125,7 +143,7 @@ describe('adapter', () => {
         {},
       )
 
-      expect(response.data.result).toBe(0)
+      expect(response.data.result).toBe(1)
     })
 
     it('Empty transaction confirms rest of methods', async () => {
