@@ -45,16 +45,17 @@ describe('execute', () => {
   setupExternalAdapterTest(envVariables, context)
 
   describe('arbitrum network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'arbitrum',
-      },
-    }
-
     it('should return success when transaction submission is known', async () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+          requireTxFailure: true,
+        },
+      }
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
@@ -64,21 +65,44 @@ describe('execute', () => {
         .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
       expect(response.body).toMatchSnapshot()
     })
   })
 
   describe('optimism network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'optimism',
-      },
-    }
-
     it('should return success when transaction submission is known', async () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+          requireTxFailure: true,
+        },
+      }
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
@@ -90,19 +114,42 @@ describe('execute', () => {
       expect(response.body.result).toEqual(0)
       expect(response.body).toMatchSnapshot()
     })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
+      expect(response.body).toMatchSnapshot()
+    })
   })
 
   describe('base network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'base',
-      },
-    }
-
     it('should return success when transaction submission is known', async () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+          requireTxFailure: true
+        },
+      }
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
@@ -112,6 +159,28 @@ describe('execute', () => {
         .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
       expect(response.body).toMatchSnapshot()
     })
   })

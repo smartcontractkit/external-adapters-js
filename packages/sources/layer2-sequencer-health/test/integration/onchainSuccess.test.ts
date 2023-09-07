@@ -105,6 +105,7 @@ describe('execute', () => {
       id,
       data: {
         network: 'arbitrum',
+        requireTxFailure: true,
       },
     }
 
@@ -144,6 +145,7 @@ describe('execute', () => {
       id,
       data: {
         network: 'optimism',
+        requireTxFailure: true,
       },
     }
 
@@ -183,6 +185,7 @@ describe('execute', () => {
       id,
       data: {
         network: 'base',
+        requireTxFailure: true
       },
     }
 

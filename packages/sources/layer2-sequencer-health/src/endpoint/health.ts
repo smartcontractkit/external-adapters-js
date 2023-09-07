@@ -16,10 +16,18 @@ import {
 
 export const supportedEndpoints = ['health']
 
-export type TInputParameters = { network: string }
+export type TInputParameters = {
+  network: string
+  requireTxFailure?: boolean
+}
 export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: true,
+  },
+  requireTxFailure: {
+    required: false,
+    default: false,
+    description: 'require the EA to attempt a tx as final proof whether the chain is healthy',
   },
 }
 
@@ -79,22 +87,24 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config)
     if (!isHealthy) {
-      Logger.info(`[${network}] Checking unhealthy network ${network} with transaction submission`)
-      let isHealthyByTransaction
-      try {
-        isHealthyByTransaction = await getStatusByTransaction(network, config)
-      } catch (e: any) {
-        throw new AdapterDataProviderError({
-          network,
-          message: util.mapRPCErrorMessage(e?.code, e?.message),
-          cause: e,
-        })
-      }
-      if (isHealthyByTransaction) {
-        Logger.info(
-          `[${network}] Transaction submission check succeeded. Network ${network} can be considered healthy`,
-        )
-        return _respond(true)
+      if (validator.validated.data.requireTxFailure) {
+        Logger.info(`[${network}] Checking unhealthy network ${network} with transaction submission`)
+        let isHealthyByTransaction
+        try {
+          isHealthyByTransaction = await getStatusByTransaction(network, config)
+        } catch (e: any) {
+          throw new AdapterDataProviderError({
+            network,
+            message: util.mapRPCErrorMessage(e?.code, e?.message),
+            cause: e,
+          })
+        }
+        if (isHealthyByTransaction) {
+          Logger.info(
+            `[${network}] Transaction submission check succeeded. Network ${network} can be considered healthy`,
+          )
+          return _respond(true)
+        }
       }
       return _respond(false)
     }
