@@ -1,31 +1,23 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { inputParameters } from './utils'
 import { transport } from '../transport/crypto-lwba'
-interface EPResponse {
-  Result: null
-  Data: {
-    ticker: string
-    datetime: string
-    mid: number
-    bid: number
-    bidSize: number
-    ask: number
-    askSize: number
-    weightedSpreadPcnt: number
-  }
-}
+import {
+  LwbaEndpoint,
+  LwbaResponseDataFields,
+  lwbaEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
+
+export const inputParameters = new InputParameters(lwbaEndpointInputParametersDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: EPResponse
+  Response: LwbaResponseDataFields
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new LwbaEndpoint({
   name: 'crypto-lwba',
-  aliases: ['cryptolwba', 'crypto_lwba'],
   transport,
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
