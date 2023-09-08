@@ -42,7 +42,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
   requireTxFailure: {
     required: false,
     description:
-      'Require the EA to attempt a tx as final proof whether the chain is healthy. This is `true` by default when `network`=`base`',
+      'Require the EA to attempt a tx as final proof whether the chain is healthy. This is `true` by default except when `network`=`base`',
   },
 }
 
