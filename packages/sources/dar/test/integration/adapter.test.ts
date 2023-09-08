@@ -78,7 +78,7 @@ describe('Price Endpoint', () => {
     expect(response.statusCode).toEqual(400)
   }, 30000)
 
-  it('should return error (unsubscribed asset pair)', async () => {
+  it('should return error (not subscribed asset)', async () => {
     const response = await testAdapter.request({ base: 'BTC', quote: 'USD' })
     expect(response.statusCode).toEqual(504)
   }, 30000)

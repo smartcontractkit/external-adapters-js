@@ -43,15 +43,11 @@ export const config: WebSocketTransportConfig<WsTransportTypes> = {
   url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context, desiredSubs) => {
     const token = await getAuthToken(context.adapterSettings)
-
-    const subscribeAssets: string[] = []
-    for (const pair in desiredSubs) {
-      subscribeAssets.push(desiredSubs[pair]['base'].toLowerCase())
-    }
-    const subscribe_assets = subscribeAssets.join(',')
-
     return {
-      headers: { Authorization: token, assets: subscribe_assets },
+      headers: {
+        Authorization: token,
+        assets: desiredSubs.map((pair) => pair['base'].toLowerCase()).join(','),
+      },
     }
   },
   handlers: {
@@ -113,6 +109,7 @@ export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> 
     }
 
     subscriptions.new = subscriptions.desired
+    subscriptions.stale = []
     await super.streamHandler(context, subscriptions)
   }
 }
