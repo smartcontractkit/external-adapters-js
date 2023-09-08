@@ -109,7 +109,6 @@ describe('execute', () => {
         id,
         data: {
           network: 'arbitrum',
-          requireTxFailure: true,
         },
       }
 
@@ -132,7 +131,6 @@ describe('execute', () => {
         id,
         data: {
           network: 'arbitrum',
-          requireTxFailure: true,
         },
       }
 
@@ -155,6 +153,7 @@ describe('execute', () => {
         id,
         data: {
           network: 'arbitrum',
+          requireTxFailure: false,
         },
       }
 
@@ -179,7 +178,6 @@ describe('execute', () => {
         id,
         data: {
           network: 'optimism',
-          requireTxFailure: true,
         },
       }
 
@@ -202,7 +200,6 @@ describe('execute', () => {
         id,
         data: {
           network: 'optimism',
-          requireTxFailure: true,
         },
       }
 
@@ -225,6 +222,7 @@ describe('execute', () => {
         id,
         data: {
           network: 'optimism',
+          requireTxFailure: false,
         },
       }
 
@@ -249,7 +247,6 @@ describe('execute', () => {
         id,
         data: {
           network: 'base',
-          requireTxFailure: true,
         },
       }
 
@@ -319,7 +316,6 @@ describe('execute', () => {
         id,
         data: {
           network: 'metis',
-          requireTxFailure: true,
         },
       }
 
@@ -342,7 +338,6 @@ describe('execute', () => {
         id,
         data: {
           network: 'metis',
-          requireTxFailure: true,
         },
       }
 
@@ -365,6 +360,7 @@ describe('execute', () => {
         id,
         data: {
           network: 'metis',
+          requireTxFailure: false,
         },
       }
 

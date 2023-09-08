@@ -138,6 +138,7 @@ describe('adapter', () => {
         {
           data: {
             network: 'arbitrum',
+            requireTxFailure: false,
           },
         } as AdapterRequest<TInputParameters>,
         {},

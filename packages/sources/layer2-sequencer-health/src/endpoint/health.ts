@@ -16,6 +16,14 @@ import {
 
 export const supportedEndpoints = ['health']
 
+const defaultRequireTxFailure = {
+  [Networks.Arbitrum]: true,
+  [Networks.Base]: false,
+  [Networks.Metis]: true,
+  [Networks.Optimism]: true,
+  [Networks.Starkware]: true,
+}
+
 export type TInputParameters = {
   network: string
   requireTxFailure?: boolean
@@ -23,11 +31,18 @@ export type TInputParameters = {
 export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: true,
+    options: [
+      Networks.Arbitrum,
+      Networks.Base,
+      Networks.Metis,
+      Networks.Optimism,
+      Networks.Starkware,
+    ],
   },
   requireTxFailure: {
     required: false,
-    default: false,
-    description: 'require the EA to attempt a tx as final proof whether the chain is healthy',
+    description:
+      'Require the EA to attempt a tx as final proof whether the chain is healthy. This is `true` by default when `network`=`base`',
   },
 }
 
@@ -36,6 +51,10 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
 
   const jobRunID = validator.validated.id
   const network = validator.validated.data.network as Networks
+  const requireTxFailure =
+    typeof validator.validated.data.requireTxFailure === 'boolean'
+      ? validator.validated.data.requireTxFailure
+      : defaultRequireTxFailure[network]
 
   const _translateIntoFeedResponse = (isHealthy: boolean): number => {
     return isHealthy ? 0 : 1
@@ -87,7 +106,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config)
     if (!isHealthy) {
-      if (validator.validated.data.requireTxFailure) {
+      if (requireTxFailure) {
         Logger.info(
           `[${network}] Checking unhealthy network ${network} with transaction submission`,
         )
