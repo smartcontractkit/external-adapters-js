@@ -76,6 +76,9 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         return
       }
 
+      const providerTime = message.timestamp.includes('Z')
+        ? message.timestamp
+        : `${message.timestamp}Z`
       const [base, quote] = message.currencyPair.split('/')
       return [
         {
@@ -93,7 +96,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
               result: message.mid || 0, // Already validated in the filter above
             },
             timestamps: {
-              providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
+              providerIndicatedTimeUnixMs: new Date(`${providerTime}`).getTime(),
             },
           },
         },
