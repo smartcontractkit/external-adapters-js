@@ -64,6 +64,8 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         return
       }
 
+      // Expected timestamp in datetime format from NCFX API is missing timezone
+      // Documented as UTC eg: "2023-06-06 16:03:47.750"
       const providerTime = message.timestamp.includes('Z')
         ? message.timestamp
         : `${message.timestamp}Z`
