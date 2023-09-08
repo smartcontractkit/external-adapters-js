@@ -25,8 +25,8 @@
 |    ✅     | `base`, `from`, or `coin`  |                                          The symbol of the currency to query                                          |                                                                                      |             |
 |    ✅     | `quote`, `to`, or `market` |                                       The symbol of the currency to convert to                                        |                                                                                      |             |
 |    🟡     |        `overrides`         |                               If base provided is found in overrides, that will be used                               | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
-|    🟡     |         `interval`         | The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly |                                                                                      |    `1m`     |
-|    🟡     |     `millisecondsAgo`      |            Number of milliseconds from the current time that will determine start_time to use in the query            |                                                                                      |  `1800000`  |
+|    🟡     |         `interval`         | The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly |                                                                                      |    `2m`     |
+|    🟡     |     `millisecondsAgo`      |            Number of milliseconds from the current time that will determine start_time to use in the query            |                                                                                      | `86400000`  |
 |    🟡     |           `sort`           |                                   Which way to sort the data returned in the query                                    |                                                                                      |   `desc`    |
 
 ### Sample Input

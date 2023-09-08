@@ -11,7 +11,7 @@ export const config = new AdapterConfig(
     API_ENDPOINT: {
       description: 'API endpoint for  KAIKO',
       type: 'string',
-      default: 'https://us.market-api.kaiko.io/v2/data/trades.v1',
+      default: 'https://us.market-api.kaiko.io/v2/data/trades.v2',
     },
   },
   {
