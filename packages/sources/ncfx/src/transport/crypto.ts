@@ -96,7 +96,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
               result: message.mid || 0, // Already validated in the filter above
             },
             timestamps: {
-              providerIndicatedTimeUnixMs: new Date(`${providerTime}`).getTime(),
+              providerIndicatedTimeUnixMs: new Date(providerTime).getTime(),
             },
           },
         },
