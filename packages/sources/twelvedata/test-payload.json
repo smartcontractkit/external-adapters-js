@@ -1,5 +1,20 @@
 {
-    "requests": [{
-        "base": "VXX"
-    }]
+    "requests": [
+        {
+            "base": "VXX"
+        },
+        {
+            "base": "IB01",
+            "endpoint": "uk_etf",
+            "overrides": {
+             "twelvedata": { 
+                "IB01": "IB01.LSE"
+             }
+            }
+        },
+        {
+            "base": "C3M",
+            "endpoint": "etf"
+        }
+    ]
 }

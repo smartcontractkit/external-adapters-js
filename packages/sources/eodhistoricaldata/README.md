@@ -37,9 +37,9 @@ Supported names for this endpoint are: `price`, `stock`, `uk_etf`.
 
 ### Input Params
 
-| Required? | Name |               Aliases               |                                                       Description                                                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :---------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `from`, `symbol`, `uk_etf` | The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/) | string |         |         |            |                |
+| Required? | Name |                  Aliases                   |                                                       Description                                                        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :----------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `etf`, `from`, `symbol`, `uk_etf` | The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/) | string |         |         |            |                |
 
 ### Example
 

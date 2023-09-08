@@ -38,9 +38,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                          Options                                                                                           |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [closing](#closing-endpoint), [crypto](#price-endpoint), [eod](#closing-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint), [uk_etf](#price-endpoint) | `closing` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                      Options                                                                                                       |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [closing](#closing-endpoint), [crypto](#price-endpoint), [eod](#closing-endpoint), [etf](#price-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint), [uk_etf](#price-endpoint) | `closing` |
 
 ## Closing Endpoint
 
@@ -96,7 +96,7 @@ Response:
 
 This `price` endpoint provides the real-time price as detailed in [Twelvedata documentation](https://twelvedata.com/docs#real-time-price).
 
-Supported names for this endpoint are: `crypto`, `forex`, `price`, `stock`, `uk_etf`.
+Supported names for this endpoint are: `crypto`, `etf`, `forex`, `price`, `stock`, `uk_etf`.
 
 ### Input Params
 
