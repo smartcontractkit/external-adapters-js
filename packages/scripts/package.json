@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-scripts",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "dependencies": {
     "@actions/core": "1.9.1",
     "@apidevtools/json-schema-ref-parser": "9.0.9",

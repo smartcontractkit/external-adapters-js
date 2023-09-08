@@ -15,6 +15,20 @@ export const mockResponseSuccessHealth = (): void => {
       'Vary',
       'Origin',
     ])
+
+  nock('https://tokenapi.metis.io/andromeda/health')
+    .get('')
+    .query(() => true)
+    .reply(200, (_) => ({ healthy: 'true' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
 }
 
 export const mockResponseSuccessBlock = (): void => {
@@ -57,6 +71,19 @@ export const mockResponseSuccessBlock = (): void => {
       'Vary',
       'Origin',
     ])
+
+  nock('https://andromeda.metis.io/?owner=1088')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
 }
 
 export const mockResponseSuccessRollup = (): void => {
@@ -71,6 +98,20 @@ export const mockResponseFailureHealth = (): void => {
   })
     .get('/')
     .reply(500, () => ({ healthy: 'false' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://tokenapi.metis.io/andromeda/health')
+    .get('')
+    .query(() => true)
+    .reply(200, (_) => ({ healthy: 'false' }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -111,6 +152,19 @@ export const mockResponseFailureBlock = (): void => {
     ])
 
   nock('https://mainnet.base.org')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://andromeda.metis.io/?owner=1088')
     .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
       'Content-Type',
