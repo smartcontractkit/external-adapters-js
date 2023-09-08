@@ -16,10 +16,33 @@ import {
 
 export const supportedEndpoints = ['health']
 
-export type TInputParameters = { network: string }
+const defaultRequireTxFailure = {
+  [Networks.Arbitrum]: true,
+  [Networks.Base]: false,
+  [Networks.Metis]: true,
+  [Networks.Optimism]: true,
+  [Networks.Starkware]: true,
+}
+
+export type TInputParameters = {
+  network: string
+  requireTxFailure?: boolean
+}
 export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: true,
+    options: [
+      Networks.Arbitrum,
+      Networks.Base,
+      Networks.Metis,
+      Networks.Optimism,
+      Networks.Starkware,
+    ],
+  },
+  requireTxFailure: {
+    required: false,
+    description:
+      'Require the EA to attempt a tx as final proof whether the chain is healthy. This is `true` by default except when `network`=`base`',
   },
 }
 
@@ -28,6 +51,10 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
 
   const jobRunID = validator.validated.id
   const network = validator.validated.data.network as Networks
+  const requireTxFailure =
+    typeof validator.validated.data.requireTxFailure === 'boolean'
+      ? validator.validated.data.requireTxFailure
+      : defaultRequireTxFailure[network]
 
   const _translateIntoFeedResponse = (isHealthy: boolean): number => {
     return isHealthy ? 0 : 1
@@ -79,22 +106,26 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config)
     if (!isHealthy) {
-      Logger.info(`[${network}] Checking unhealthy network ${network} with transaction submission`)
-      let isHealthyByTransaction
-      try {
-        isHealthyByTransaction = await getStatusByTransaction(network, config)
-      } catch (e: any) {
-        throw new AdapterDataProviderError({
-          network,
-          message: util.mapRPCErrorMessage(e?.code, e?.message),
-          cause: e,
-        })
-      }
-      if (isHealthyByTransaction) {
+      if (requireTxFailure) {
         Logger.info(
-          `[${network}] Transaction submission check succeeded. Network ${network} can be considered healthy`,
+          `[${network}] Checking unhealthy network ${network} with transaction submission`,
         )
-        return _respond(true)
+        let isHealthyByTransaction
+        try {
+          isHealthyByTransaction = await getStatusByTransaction(network, config)
+        } catch (e: any) {
+          throw new AdapterDataProviderError({
+            network,
+            message: util.mapRPCErrorMessage(e?.code, e?.message),
+            cause: e,
+          })
+        }
+        if (isHealthyByTransaction) {
+          Logger.info(
+            `[${network}] Transaction submission check succeeded. Network ${network} can be considered healthy`,
+          )
+          return _respond(true)
+        }
       }
       return _respond(false)
     }
