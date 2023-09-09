@@ -3181,7 +3181,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/external-adapter-framework": 0.33.0
-    "@types/command-line-args": 5.2.0
+    "@types/command-line-args": 5.2.1
     "@types/command-line-usage": 5.0.2
     "@types/jest": 27.5.2
     "@types/shelljs": 0.8.12
@@ -10291,10 +10291,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/command-line-args@npm:5.2.0":
-  version: 5.2.0
-  resolution: "@types/command-line-args@npm:5.2.0"
-  checksum: 423121d2d083765f5b78d090115f3be82d53a39cec9de63719cbd07021e6330fab19b75e2290af1f7dda84efd7964dc498eb10b2b465991de27045db95aa1eef
+"@types/command-line-args@npm:5.2.1":
+  version: 5.2.1
+  resolution: "@types/command-line-args@npm:5.2.1"
+  checksum: a5df8562a7a0eb7c4da218661360ff8369a63c0fd783310d1940f0ece55826d5173eeb3732bab48dbfb60b1614d61989a9d87c6cdbee04353c4df6f45387d417
   languageName: node
   linkType: hard
 
