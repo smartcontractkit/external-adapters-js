@@ -11,7 +11,7 @@ export const inputParameters = new InputParameters(priceEndpointInputParametersD
   {
     base: 'ETH',
     quote: 'USD',
-  }
+  },
 ])
 export type RequestParams = typeof inputParameters.validated
 
