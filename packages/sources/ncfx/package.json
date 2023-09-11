@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ncfx-adapter",
-  "version": "3.3.8",
+  "version": "3.3.9",
   "description": "Chainlink NCFX adapter.",
   "keywords": [
     "Chainlink",

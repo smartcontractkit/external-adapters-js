@@ -101,16 +101,16 @@ describe('execute', () => {
   })
 
   describe('arbitrum network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'arbitrum',
-      },
-    }
-
     it('should return success when all methods succeed', async () => {
       mockResponseSuccessHealth()
       mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+        },
+      }
 
       const response = await req
         .post('/')
@@ -127,6 +127,13 @@ describe('execute', () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+        },
+      }
+
       const response = await req
         .post('/')
         .send(data)
@@ -135,21 +142,44 @@ describe('execute', () => {
         .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+          requireTxFailure: false,
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
       expect(response.body).toMatchSnapshot()
     })
   })
 
   describe('optimism network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'optimism',
-      },
-    }
-
     it('should return success when all methods succeed', async () => {
       mockResponseSuccessHealth()
       mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+        },
+      }
 
       const response = await req
         .post('/')
@@ -166,6 +196,13 @@ describe('execute', () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+        },
+      }
+
       const response = await req
         .post('/')
         .send(data)
@@ -174,21 +211,44 @@ describe('execute', () => {
         .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+          requireTxFailure: false,
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
       expect(response.body).toMatchSnapshot()
     })
   })
 
   describe('base network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'base',
-      },
-    }
-
     it('should return success when all methods succeed', async () => {
       mockResponseSuccessHealth()
       mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+        },
+      }
 
       const response = await req
         .post('/')
@@ -205,6 +265,14 @@ describe('execute', () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+          requireTxFailure: true,
+        },
+      }
+
       const response = await req
         .post('/')
         .send(data)
@@ -213,6 +281,97 @@ describe('execute', () => {
         .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('metis network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'metis',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'metis',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(0)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'metis',
+          requireTxFailure: false,
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.result).toEqual(1)
       expect(response.body).toMatchSnapshot()
     })
   })
