@@ -6,6 +6,9 @@ import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/pric
 
 const logger = makeLogger('CoinMetrics WS')
 
+// base currencies that break the ws connection
+const invalid_base_currencies: string[] = []
+
 export type WsAssetMetricsSuccessResponse = {
   time: string
   asset: string
@@ -60,6 +63,16 @@ export const calculateAssetMetricsUrl = (
   desiredSubs: (typeof assetMetricsInputParameters.validated)[],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
+
+  //remove assets from desiredSubs that are invalid
+  const updated_desiredSubs: (typeof assetMetricsInputParameters.validated)[] = []
+  desiredSubs.forEach((pair) => {
+    if (!invalid_base_currencies.includes(pair['base'].toLowerCase())) {
+      updated_desiredSubs.push(pair)
+    }
+  })
+  desiredSubs = updated_desiredSubs
+
   const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].sort().join(',')
   const metrics = [...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`))]
     .sort()
@@ -78,9 +91,19 @@ export const handleAssetMetricsMessage = (
   message: WsAssetMetricsMessage,
 ): ProviderResult<WsTransportTypes>[] | undefined => {
   logger.trace(message, 'Got response from websocket')
+
   if ('error' in message) {
     // Is WsAssetMetricsErrorResponse
     logger.error(message, `Error response from websocket`)
+
+    const regex = /'([^']+)'/g
+    if (message['error']['type'] === 'bad_parameters') {
+      const matches = [...message['error']['message'].matchAll(regex)]
+
+      if (matches && !invalid_base_currencies.includes(matches[2][1])) {
+        invalid_base_currencies.push(matches[2][1])
+      }
+    }
   } else if ('warning' in message) {
     // Is WsAssetMetricsWarningResponse
     logger.warn(message, `Warning response from websocket`)
