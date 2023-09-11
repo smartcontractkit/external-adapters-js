@@ -6874,7 +6874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
-            ["@types/command-line-args", "npm:5.2.0"],\
+            ["@types/command-line-args", "npm:5.2.1"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/shelljs", "npm:0.8.12"],\
@@ -14721,10 +14721,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/command-line-args", [\
-        ["npm:5.2.0", {\
-          "packageLocation": "./.yarn/cache/@types-command-line-args-npm-5.2.0-3454e6d6cf-423121d2d0.zip/node_modules/@types/command-line-args/",\
+        ["npm:5.2.1", {\
+          "packageLocation": "./.yarn/cache/@types-command-line-args-npm-5.2.1-683037333d-a5df8562a7.zip/node_modules/@types/command-line-args/",\
           "packageDependencies": [\
-            ["@types/command-line-args", "npm:5.2.0"]\
+            ["@types/command-line-args", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
