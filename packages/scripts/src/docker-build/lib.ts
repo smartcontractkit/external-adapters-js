@@ -1,12 +1,16 @@
 import * as fs from 'fs'
-import { join } from 'path'
+import { join, resolve } from 'path'
 import * as yaml from 'yaml'
 import { flattenAllSchemas, FlattenedSchema } from '../schema-flatten/lib'
 import { getWorkspaceAdapters, WorkspacePackages } from '../workspace'
 
 export async function writeFile(): Promise<void> {
   const path = process.env.GITHUB_WORKSPACE || ''
-  fs.writeFileSync(join(path, 'docker-compose.generated.yaml'), await generateFile())
+
+  const filePath = join(path, 'docker-compose.generated.yaml')
+  fs.writeFileSync(filePath, await generateFile())
+
+  console.log(`Docker compose file written to: ${resolve(filePath)}`)
 }
 
 export interface ComposeFileOptions {
