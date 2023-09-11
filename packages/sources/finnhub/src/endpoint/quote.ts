@@ -13,25 +13,33 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Finnhub Quote')
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin'],
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-    required: true,
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'coin'],
+      type: 'string',
+      description: 'The symbol of symbols of the currency to query',
+      required: true,
+    },
+    quote: {
+      aliases: ['to', 'market'],
+      type: 'string',
+      description: 'The symbol of the currency to convert to',
+      required: false,
+    },
+    exchange: {
+      type: 'string',
+      description: 'The exchange to fetch data for',
+      required: false,
+    },
   },
-  quote: {
-    aliases: ['to', 'market'],
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-    required: false,
-  },
-  exchange: {
-    type: 'string',
-    description: 'The exchange to fetch data for',
-    required: false,
-  },
-})
+  [
+    {
+      base: 'EUR',
+      quote: 'USD',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

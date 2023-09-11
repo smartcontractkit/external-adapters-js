@@ -14,14 +14,21 @@ import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { buildDxFeedWsTransport } from '../transport/price-ws'
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin', 'market'],
-    type: 'string',
-    description: 'The symbol of the currency to query',
-    required: true,
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'coin', 'market'],
+      type: 'string',
+      description: 'The symbol of the currency to query',
+      required: true,
+    },
   },
-})
+  [
+    {
+      base: 'TSLA',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

@@ -2,18 +2,18 @@ import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapt
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/crypto-http'
-import { BaseEndpointTypes, priceInputParameters } from './utils'
+import { CryptoBaseEndpointTypes, cryptoPriceInputParameters } from './utils'
 import { wsTransport } from '../transport/crypto-ws'
 
 export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',
-  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
+  transportRoutes: new TransportRoutes<CryptoBaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',
   customRouter: (_req, adapterConfig) => {
     return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
-  inputParameters: priceInputParameters,
+  inputParameters: cryptoPriceInputParameters,
   overrides: overrides.finage,
 })

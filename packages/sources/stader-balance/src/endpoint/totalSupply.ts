@@ -4,35 +4,45 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { chainIds, networks } from '../transport/utils'
 import { transport } from '../transport/totalSupply'
 
-export const inputParameters = new InputParameters({
-  staderConfigAddress: {
-    description: 'The address of the Stader Config contract.',
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    staderConfigAddress: {
+      description: 'The address of the Stader Config contract.',
+      type: 'string',
+    },
+    network: {
+      description: 'The name of the target custodial network protocol',
+      options: networks,
+      type: 'string',
+      default: 'ethereum',
+    },
+    chainId: {
+      description: 'The name of the target custodial chain',
+      options: chainIds,
+      type: 'string',
+      default: 'mainnet',
+    },
+    confirmations: {
+      type: 'number',
+      description: 'The number of confirmations to query data from',
+      default: 0,
+    },
+    syncWindow: {
+      description:
+        "The number of blocks Stader's reported block cannot be within of the current block. Used to ensure the balance and total supply feeds are reporting info from the same block.",
+      default: 300,
+      type: 'number',
+    },
   },
-  network: {
-    description: 'The name of the target custodial network protocol',
-    options: networks,
-    type: 'string',
-    default: 'ethereum',
-  },
-  chainId: {
-    description: 'The name of the target custodial chain',
-    options: chainIds,
-    type: 'string',
-    default: 'mainnet',
-  },
-  confirmations: {
-    type: 'number',
-    description: 'The number of confirmations to query data from',
-    default: 0,
-  },
-  syncWindow: {
-    description:
-      "The number of blocks Stader's reported block cannot be within of the current block. Used to ensure the balance and total supply feeds are reporting info from the same block.",
-    default: 300,
-    type: 'number',
-  },
-})
+  [
+    {
+      chainId: 'goerli',
+      network: 'ethereum',
+      confirmations: 0,
+      syncWindow: 300,
+    },
+  ],
+)
 
 interface ResponseSchema {
   Data: {

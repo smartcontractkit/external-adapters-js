@@ -7,7 +7,12 @@ import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { transport } from '../transport/forex'
 
-export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
+  {
+    base: 'ETH',
+    quote: 'USD',
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

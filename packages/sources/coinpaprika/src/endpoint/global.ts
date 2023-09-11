@@ -4,20 +4,28 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { transport } from '../transport/global'
 import overrides from '../config/overrides.json'
-export const inputParameters = new InputParameters({
-  market: {
-    aliases: ['to', 'quote'],
-    description: 'The symbol of the currency to convert to',
-    required: true,
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    market: {
+      aliases: ['to', 'quote'],
+      description: 'The symbol of the currency to convert to',
+      required: true,
+      type: 'string',
+    },
+    resultPath: {
+      description: 'The path to the result within the asset quote in the provider response',
+      required: false,
+      type: 'string',
+      options: ['market_cap_', '_dominance_percentage'],
+    },
   },
-  resultPath: {
-    description: 'The path to the result within the asset quote in the provider response',
-    required: false,
-    type: 'string',
-    options: ['market_cap_', '_dominance_percentage'],
-  },
-})
+  [
+    {
+      market: 'USD',
+      resultPath: 'market_cap_',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
