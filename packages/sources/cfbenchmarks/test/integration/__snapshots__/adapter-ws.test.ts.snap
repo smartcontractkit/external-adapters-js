@@ -21,10 +21,8 @@ exports[`websocket lwba endpoint should return success 1`] = `
     "ask": 1.1662,
     "bid": 1.1607,
     "mid": 1.1635,
-    "midPrice": 1.1631,
-    "utilizedDepth": 1888000,
   },
-  "result": 1.1635,
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,

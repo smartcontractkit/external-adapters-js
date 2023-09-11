@@ -43,7 +43,7 @@
   "devDependencies": {
     "@types/fast-redact": "3.0.2",
     "@types/jest": "27.5.2",
-    "@types/lodash": "4.14.197",
+    "@types/lodash": "4.14.198",
     "@types/lru-cache": "5.1.1",
     "@types/node": "16.11.51",
     "@types/object-hash": "2.1.1",

@@ -7,7 +7,7 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'uk_etf']
+export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'uk_etf', 'etf']
 
 const customError = (data: ResponseSchema) => data.status === 'error'
 
