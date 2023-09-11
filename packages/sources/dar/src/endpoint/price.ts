@@ -8,6 +8,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { transport } from '../transport/price'
 
 export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export type RequestParams = typeof inputParameters.validated
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
