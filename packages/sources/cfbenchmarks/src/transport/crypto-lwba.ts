@@ -57,13 +57,11 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         {
           params: { index: message.id, base: undefined, quote: undefined },
           response: {
-            result: Number(message.value),
+            result: null,
             data: {
               bid: Number(message.valueBid),
               ask: Number(message.valueAsk),
               mid: Number(message.value),
-              midPrice: Number(message.midPrice),
-              utilizedDepth: Number(message.utilizedDepth),
             },
             timestamps: {
               providerIndicatedTimeUnixMs: message.time,

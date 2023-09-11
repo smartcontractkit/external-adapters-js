@@ -46,6 +46,15 @@ export const mockResponseSuccess = (): nock.Scope =>
       price: 5.276,
       timestamp: 1684403239105,
     })
+    .get('/last/etf/C3M')
+    .query({
+      ...API_KEY_QUERY,
+    })
+    .reply(200, {
+      symbol: 'C3M',
+      price: 117.38,
+      timestamp: 1684403239105,
+    })
 
 export const mockResponseFailure = (): nock.Scope =>
   nock('https://api.finage.co.uk', {
@@ -60,6 +69,11 @@ export const mockResponseFailure = (): nock.Scope =>
     .get('/last/etf/NON_EXISTING_UK_ETF')
     .query({
       country: 'uk',
+      ...API_KEY_QUERY,
+    })
+    .reply(400, () => ({ error: 'Please check the symbol and try again.' }))
+    .get('/last/etf/NON_EXISTING_ETF')
+    .query({
       ...API_KEY_QUERY,
     })
     .reply(400, () => ({ error: 'Please check the symbol and try again.' }))

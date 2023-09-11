@@ -1,20 +1,8 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/crypto'
-import {
-  makeLogger,
-  PartialAdapterResponse,
-  ProviderResultGenerics,
-} from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/crypto'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('NcfxCryptoEndpoint')
-
-export type MultiVarResult<T extends ProviderResultGenerics> = {
-  params: typeof inputParameters.validated
-  response: PartialAdapterResponse<T['Response']> & {
-    bid: number
-    ask: number
-  }
-}
 
 type WsMessage = WsInfoMessage | WsPriceMessage
 
@@ -65,7 +53,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       })
     },
 
-    message(message: WsMessage): MultiVarResult<WsTransportTypes>[] | undefined {
+    message(message: WsMessage) {
       if (isInfoMessage(message)) {
         logger.debug(`Received message ${message.Type}: ${message.Message}`)
         return
@@ -76,24 +64,25 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         return
       }
 
+      // Expected timestamp in datetime format from NCFX API is missing timezone
+      // Documented as UTC eg: "2023-06-06 16:03:47.750"
+      const providerTime = message.timestamp.includes('Z')
+        ? message.timestamp
+        : `${message.timestamp}Z`
       const [base, quote] = message.currencyPair.split('/')
       return [
         {
           params: { base, quote },
           response: {
             result: message.mid || 0, // Already validated in the filter above
-            bid: message.bid || 0, // Already validated in the filter above
-            ask: message.offer || 0, // Already validated in the filter above
             data: {
-              // bid, mid, ask included here again.
-              // Also kept outside data for backward compatability
               bid: message.bid || 0,
               mid: message.mid || 0,
               ask: message.offer || 0,
               result: message.mid || 0, // Already validated in the filter above
             },
             timestamps: {
-              providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
+              providerIndicatedTimeUnixMs: new Date(providerTime).getTime(),
             },
           },
         },
