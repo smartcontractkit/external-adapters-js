@@ -6794,7 +6794,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/object-hash", "npm:2.1.1"],\
-            ["@types/object-path", "npm:0.11.1"],\
+            ["@types/object-path", "npm:0.11.2"],\
             ["@types/pino", "npm:6.3.12"],\
             ["@types/pino-pretty", "npm:4.7.5"],\
             ["@types/promise-timeout", "npm:1.3.0"],\
@@ -6840,7 +6840,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/object-path", "npm:0.11.1"],\
+            ["@types/object-path", "npm:0.11.2"],\
             ["object-path", "npm:0.11.8"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -15249,10 +15249,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/object-path", [\
-        ["npm:0.11.1", {\
-          "packageLocation": "./.yarn/cache/@types-object-path-npm-0.11.1-c406d07d1c-007e819d1d.zip/node_modules/@types/object-path/",\
+        ["npm:0.11.2", {\
+          "packageLocation": "./.yarn/cache/@types-object-path-npm-0.11.2-b12f03769f-f97e1233e5.zip/node_modules/@types/object-path/",\
           "packageDependencies": [\
-            ["@types/object-path", "npm:0.11.1"]\
+            ["@types/object-path", "npm:0.11.2"]\
           ],\
           "linkType": "HARD"\
         }]\
