@@ -8,11 +8,11 @@ interface ResponseSchema {
   query: {
     page_size: number
     start_time: string
+    end_time: string
     interval: string
     sort: string
     base_asset: string
     sources: boolean
-    ch: boolean
     include_exchanges: string[]
     exclude_exchanges: string[]
     quote_asset: string
@@ -21,10 +21,12 @@ interface ResponseSchema {
     request_time: string
     instruments: string[]
     start_timestamp: number
+    end_timestamp: number
+    extrapolate_missing_values: boolean
   }
   time: string
   timestamp: number
-  data: { timestamp: number; price: string }[]
+  data: { timestamp: number; price: string; extrapolated: boolean }[]
   result: string
   access: {
     access_range: { start_timestamp: number; end_timestamp: number }
@@ -39,10 +41,8 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const calculateStartTime = (millisecondsAgo: number) => {
-  const date = new Date()
-  date.setTime(date.getTime() - millisecondsAgo)
-  return date
+const calculateStartTime = (end_time: Date, millisecondsAgo: number) => {
+  return new Date(end_time.getTime() - millisecondsAgo)
 }
 
 export const transport = new HttpTransport<HttpTransportTypes>({
@@ -53,10 +53,12 @@ export const transport = new HttpTransport<HttpTransportTypes>({
       const url = `/spot_exchange_rate/${base}/${quote}`
 
       const interval = param.interval
-      const start_time = calculateStartTime(Number(param.millisecondsAgo))
+      const end_time = new Date()
+
+      const start_time = calculateStartTime(end_time, Number(param.millisecondsAgo))
       const sort = param.sort
 
-      const requestParams = { interval, sort, start_time }
+      const requestParams = { interval, sort, start_time, end_time }
       return {
         params: [{ ...param }],
         request: {
