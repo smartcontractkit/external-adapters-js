@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#2970](https://github.com/smartcontractkit/external-adapters-js/pull/2970) [`875b24bf6`](https://github.com/smartcontractkit/external-adapters-js/commit/875b24bf6a7e0b4496519b54798d741ab26aa73e) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Standardize LWBA endpoints
+
 ## 2.1.9
 
 ### Patch Changes
