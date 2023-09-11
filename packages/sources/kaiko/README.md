@@ -45,7 +45,40 @@ Supported names for this endpoint are: `crypto`, `price`, `trades`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "data": {
+    "result": 1556.3953823343438
+  },
+  "result": 1556.3953823343438,
+  "timestamps": {
+    "providerDataRequestedUnixMs": 1694451765892,
+    "providerDataReceivedUnixMs": 1694451766532,
+    "providerIndicatedTimeUnixMs": 1694451720000
+  },
+  "statusCode": 200,
+  "meta": {
+    "adapterName": "KAIKO",
+    "metrics": {
+      "feedId": "{\"base\":\"eth\",\"quote\":\"usd\",\"interval\":\"2m\",\"millisecondsAgo\":\"86400000\",\"sort\":\"desc\"}"
+    }
+  }
+}
+```
 
 ---
 
