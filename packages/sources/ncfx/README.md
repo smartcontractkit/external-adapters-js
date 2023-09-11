@@ -1,6 +1,6 @@
 # NCFX
 
-![3.3.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ncfx/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ncfx/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,11 +25,11 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                  Options                                                                                                   |    Default    |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------: |
-|           | endpoint | The endpoint to use | string | [crypto-lwba](#crypto-lwba-endpoint), [crypto](#crypto-lwba-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [forex](#forex-endpoint), [price](#crypto-lwba-endpoint) | `crypto-lwba` |
+| Required? |   Name   |     Description     |  Type  |                                                                                      Options                                                                                      | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#crypto-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto-endpoint), [cryptolwba](#crypto-endpoint), [forex](#forex-endpoint), [price](#crypto-endpoint) | `crypto` |
 
-## Crypto-lwba Endpoint
+## Crypto Endpoint
 
 Supported names for this endpoint are: `crypto`, `crypto-lwba`, `crypto_lwba`, `cryptolwba`, `price`.
 
@@ -47,7 +47,7 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "crypto-lwba",
+    "endpoint": "crypto",
     "base": "ETH",
     "quote": "USD"
   }

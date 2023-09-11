@@ -1,5 +1,14 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 0.3.4
+
+### Patch Changes
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+- Updated dependencies [[`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30)]:
+  - @chainlink/finnhub-adapter@2.5.4
+
 ## 0.3.3
 
 ### Patch Changes

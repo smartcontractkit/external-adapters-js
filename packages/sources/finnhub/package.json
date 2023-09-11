@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finnhub-adapter",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
