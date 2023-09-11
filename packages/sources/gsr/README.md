@@ -24,13 +24,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                     Options                                      | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                     Options                                                                                     | Default |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#price-endpoint), [crypto](#price-endpoint), [crypto_lwba](#price-endpoint), [cryptolwba](#price-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `crypto`, `price`, `price-ws`.
+Supported names for this endpoint are: `crypto`, `crypto-lwba`, `crypto_lwba`, `cryptolwba`, `price`, `price-ws`.
 
 ### Input Params
 
