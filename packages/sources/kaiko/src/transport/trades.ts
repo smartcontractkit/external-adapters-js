@@ -22,7 +22,7 @@ interface ResponseSchema {
     instruments: string[]
     start_timestamp: number
     end_timestamp: number
-    extrapolate_missing_values: string
+    extrapolate_missing_values: boolean
   }
   time: string
   timestamp: number
