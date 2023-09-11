@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.0.9
+
+### Patch Changes
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
 ## 2.0.8
 
 ### Patch Changes
