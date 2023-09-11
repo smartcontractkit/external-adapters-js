@@ -10,7 +10,11 @@ import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/iex-http'
 import { wsTransport } from '../transport/iex-ws'
 
-const inputParameters = new InputParameters(stockEndpointInputParametersDefinition)
+const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
+  {
+    base: 'aapl',
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

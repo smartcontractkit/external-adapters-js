@@ -71,7 +71,6 @@ export class ReadmeGenerator {
   name: string
   readmeText = ''
   requiredEnvVars: string[]
-  skipTests: boolean
   verbose: boolean
   version: string
   versionBadgeUrl: string
@@ -79,7 +78,7 @@ export class ReadmeGenerator {
   frameworkVersion: 'v2' | 'v3'
   frameworkVersionBadgeUrl: string
 
-  constructor(adapter: WorkspaceAdapter, verbose = false, skipTests = false) {
+  constructor(adapter: WorkspaceAdapter, verbose = false) {
     this.verbose = verbose
     this.adapterPath = adapter.location
 
@@ -104,7 +103,6 @@ export class ReadmeGenerator {
     this.rateLimitsPath = this.adapterPath + 'src/config/limits.json'
     this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
     this.packageJson = packageJson
-    this.skipTests = skipTests
   }
 
   // We need to require/import adapter contents to generate the README.
@@ -271,7 +269,7 @@ export class ReadmeGenerator {
       : 'There are no input parameters for this adapter.'
 
     if (this.frameworkVersion === 'v3') {
-      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)\n\n${inputParamTable}\n\n`
+      this.readmeText += `## Input Parameters\n\n${inputParamTable}\n\n`
     } else {
       this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
     }
@@ -318,23 +316,42 @@ export class ReadmeGenerator {
   addEndpointSections(): void {
     // Store I/O Examples for each endpoint
     const endpointExampleText: { [endpoint: string]: string } = {}
-    // V3 does not print the same debug output used to generate these
-    if (this.skipTests || this.frameworkVersion === 'v3') {
-      // If skipping tests, pull from existing README
-      if (this.verbose)
-        console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
+    // V3 uses examples provided in input parameters
+    if (this.frameworkVersion === 'v3') {
+      if (this.verbose) {
+        console.log(`${this.adapterPath}: Pulling examples from input parameters`)
+      }
 
-      const currentReadmeText = cat(this.adapterPath + 'README.md').toString()
-
-      let regex: RegExp
-      const defaultText = exampleTextHeader + noExampleText
       for (const endpointName of Object.keys(this.endpointDetails)) {
-        regex = new RegExp(
-          `## ${capitalize(endpointName)} Endpoint(\n|.)*?(?<text>### Example(\n|.)*?)\n\n---`,
-        )
+        const examplesText: string[] = []
 
-        endpointExampleText[endpointName] =
-          currentReadmeText.match(regex)?.groups?.text ?? defaultText
+        // If EA has no input params, use only `endpoint` as request example
+        if (!Object.keys(this.endpointDetails[endpointName]?.inputParameters.definition).length) {
+          const exText = JSON.stringify({ data: { endpoint: endpointName } }, null, 2)
+          examplesText.push(`Request:\n\n${wrapJson(exText)}`)
+        } else {
+          const inputExamples = (this.endpointDetails[endpointName]?.inputParameters?.examples ||
+            []) as Record<string, unknown>[]
+
+          for (const example of inputExamples) {
+            const exText = JSON.stringify({ data: { endpoint: endpointName, ...example } }, null, 2)
+            examplesText.push(`Request:\n\n${wrapJson(exText)}`)
+          }
+        }
+
+        let endpointExamples = exampleTextHeader
+        if (examplesText.length === 0) {
+          endpointExamples += noExampleText
+        } else {
+          endpointExamples += examplesText[0]
+        }
+
+        if (examplesText.length > 1)
+          endpointExamples += `\n<details>\n<summary>Additional Examples</summary>\n\n${examplesText
+            .slice(1)
+            .join('\n')}\n</details>`
+
+        endpointExampleText[endpointName] = endpointExamples
       }
     } else {
       // If not skipping tests, run through yarn test with testEnvOverrides variables

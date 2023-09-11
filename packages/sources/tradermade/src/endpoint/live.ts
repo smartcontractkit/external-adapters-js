@@ -5,20 +5,31 @@ import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/live'
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin', 'symbol', 'market'],
-    required: true,
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'coin', 'symbol', 'market'],
+      required: true,
+      type: 'string',
+      description: 'The symbol of symbols of the currency to query',
+    },
+    quote: {
+      aliases: ['to', 'convert'],
+      required: false,
+      type: 'string',
+      description: 'The symbol of the currency to convert to',
+    },
   },
-  quote: {
-    aliases: ['to', 'convert'],
-    required: false,
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-  },
-})
+  [
+    {
+      base: 'AAPL',
+    },
+    {
+      base: 'WTI',
+      quote: 'USD',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

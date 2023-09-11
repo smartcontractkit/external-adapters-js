@@ -8,27 +8,39 @@ import { httpTransport } from '../transport/balance'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
-export const inputParameters = new InputParameters({
-  addresses: {
-    aliases: ['result'],
-    array: true,
-    type: {
-      address: {
-        type: 'string',
-        description: 'an address to get the balance of',
-        required: true,
+export const inputParameters = new InputParameters(
+  {
+    addresses: {
+      aliases: ['result'],
+      array: true,
+      type: {
+        address: {
+          type: 'string',
+          description: 'an address to get the balance of',
+          required: true,
+        },
+        network: {
+          type: 'string',
+          description: 'the name of the network protocol',
+          default: 'avalanche',
+        },
       },
-      network: {
-        type: 'string',
-        description: 'the name of the network protocol',
-        default: 'avalanche',
-      },
+      description:
+        'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+      required: true,
     },
-    description:
-      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
-    required: true,
   },
-})
+  [
+    {
+      addresses: [
+        {
+          address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
+          network: 'avalanche-fuji',
+        },
+      ],
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

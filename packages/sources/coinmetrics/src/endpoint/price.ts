@@ -9,13 +9,21 @@ import { VALID_QUOTES, config } from '../config'
 import { httpTransport } from '../transport/price-http'
 import { wsTransport } from '../transport/price-ws'
 
-export const assetMetricsInputParameters = new InputParameters({
-  ...priceEndpointInputParametersDefinition,
-  quote: {
-    ...priceEndpointInputParametersDefinition.quote,
-    options: Object.values(VALID_QUOTES),
+export const assetMetricsInputParameters = new InputParameters(
+  {
+    ...priceEndpointInputParametersDefinition,
+    quote: {
+      ...priceEndpointInputParametersDefinition.quote,
+      options: Object.values(VALID_QUOTES),
+    },
   },
-})
+  [
+    {
+      base: 'BTC',
+      quote: VALID_QUOTES.USD,
+    },
+  ],
+)
 
 // Common endpoint type shared by the REST and WS transports
 export type BaseEndpointTypes = {

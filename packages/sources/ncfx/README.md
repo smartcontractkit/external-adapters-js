@@ -1,6 +1,6 @@
 # NCFX
 
-![1.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ncfx/package.json)
+![3.3.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ncfx/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,17 +17,21 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
+
+---
+
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+| Required? |   Name   |     Description     |  Type  |                                                                                                  Options                                                                                                   |    Default    |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#crypto-lwba-endpoint), [crypto](#crypto-lwba-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [forex](#forex-endpoint), [price](#crypto-lwba-endpoint) | `crypto-lwba` |
 
-| Required? |   Name   |     Description     |  Type  |                       Options                        | Default  |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [forex](#forex-endpoint) | `crypto` |
+## Crypto-lwba Endpoint
 
-## Crypto Endpoint
-
-`crypto` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto`, `crypto-lwba`, `crypto_lwba`, `cryptolwba`, `price`.
 
 ### Input Params
 
@@ -38,7 +42,17 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "crypto-lwba",
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
 
 ---
 
@@ -55,7 +69,17 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "forex",
+    "base": "CAD",
+    "quote": "USD"
+  }
+}
+```
 
 ---
 

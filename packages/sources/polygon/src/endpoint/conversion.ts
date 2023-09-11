@@ -4,32 +4,42 @@ import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { transport } from '../transport/conversion'
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from'],
-    required: true,
-    description: 'The symbol of the currency to query',
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from'],
+      required: true,
+      description: 'The symbol of the currency to query',
+      type: 'string',
+    },
+    quote: {
+      aliases: ['to'],
+      required: true,
+      description: 'The symbol of the currency to convert to',
+      type: 'string',
+    },
+    amount: {
+      required: false,
+      description: 'The amount of the `base` to convert ',
+      default: 1,
+      type: 'number',
+    },
+    precision: {
+      required: false,
+      description: 'The number of significant figures to include',
+      default: 6,
+      type: 'number',
+    },
   },
-  quote: {
-    aliases: ['to'],
-    required: true,
-    description: 'The symbol of the currency to convert to',
-    type: 'string',
-  },
-  amount: {
-    required: false,
-    description: 'The amount of the `base` to convert ',
-    default: 1,
-    type: 'number',
-  },
-  precision: {
-    required: false,
-    description: 'The number of significant figures to include',
-    default: 6,
-    type: 'number',
-  },
-})
+  [
+    {
+      base: 'GBP',
+      quote: 'USD',
+      amount: 1,
+      precision: 6,
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

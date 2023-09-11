@@ -14,7 +14,12 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 // different behavior, including a different login success message and the price messages being
 // an array of price data objects for each subscribed asset.
 
-export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
+  {
+    base: 'ETH',
+    quote: 'USD',
+  },
+])
 
 type OmitResultFromLwba = Omit<LwbaResponseDataFields, 'Result'>
 

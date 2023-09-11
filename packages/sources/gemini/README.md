@@ -22,8 +22,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
 |           | endpoint | The endpoint to use | string | [reserves](#reserves-endpoint) | `reserves` |
@@ -46,58 +44,12 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
-    "token": "EFIL",
+    "endpoint": "reserves",
     "chainId": "mainnet",
     "network": "filecoin",
-    "endpoint": "reserves"
-  },
-  "debug": {
-    "cacheKey": "AeB8DrMgHWj63Dzq1Lv1k7MaCyE="
+    "token": "EFIL"
   }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "addresses": [
-      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
-    ],
-    "ethereum_supply": 33427.594125,
-    "currency": "EFIL",
-    "result": [
-      {
-        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-        "network": "filecoin",
-        "chainId": "mainnet"
-      },
-      {
-        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-        "network": "filecoin",
-        "chainId": "mainnet"
-      }
-    ]
-  },
-  "result": [
-    {
-      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "network": "filecoin",
-      "chainId": "mainnet"
-    },
-    {
-      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-      "network": "filecoin",
-      "chainId": "mainnet"
-    }
-  ],
-  "statusCode": 200,
-  "providerStatusCode": 200
 }
 ```
 

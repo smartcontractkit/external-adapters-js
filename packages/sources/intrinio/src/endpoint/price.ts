@@ -9,7 +9,11 @@ import { wsTransport } from '../transport/price-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 
-export const inputParameters = new InputParameters(stockEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
+  {
+    base: 'AAPL',
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

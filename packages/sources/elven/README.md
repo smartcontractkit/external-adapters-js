@@ -24,8 +24,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |        Options         | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [hope](#hope-endpoint) | `hope`  |

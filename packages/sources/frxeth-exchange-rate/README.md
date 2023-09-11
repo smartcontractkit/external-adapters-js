@@ -23,8 +23,6 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |          Options           | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
@@ -45,24 +43,10 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
-    "priceType": "high",
-    "endpoint": "crypto"
+    "endpoint": "crypto",
+    "priceType": "high"
   }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "statusCode": 200,
-  "data": {
-    "result": "998705372346160519"
-  },
-  "result": "998705372346160519"
 }
 ```
 
