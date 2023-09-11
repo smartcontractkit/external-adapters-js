@@ -26,8 +26,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |                                                 Options                                                 | Default |
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [common](#quote-endpoint), [forex](#quote-endpoint), [quote](#quote-endpoint), [stock](#quote-endpoint) | `quote` |
@@ -51,27 +49,10 @@ Request:
 ```json
 {
   "data": {
-    "base": "AAPL"
+    "endpoint": "quote",
+    "base": "EUR",
+    "quote": "USD"
   }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "c": 244.59,
-    "h": 258.25,
-    "l": 244.3,
-    "o": 250.75,
-    "pc": 246.88,
-    "t": 1585143000,
-    "result": 244.59
-  },
-  "result": 244.59,
-  "statusCode": 200
 }
 ```
 

@@ -1,5 +1,5 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { BaseEndpointTypes } from '../endpoint/utils'
+import { CryptoBaseEndpointTypes } from '../endpoint/utils'
 
 interface Message {
   s: string
@@ -8,7 +8,7 @@ interface Message {
   t: number
 }
 
-type WsTransportTypes = BaseEndpointTypes & {
+type WsTransportTypes = CryptoBaseEndpointTypes & {
   Provider: {
     WsMessage: Message
   }

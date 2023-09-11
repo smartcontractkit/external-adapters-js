@@ -10,20 +10,32 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin', 'asset'],
-    required: true,
-    description: 'The symbol of symbols of the currency to query',
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'coin', 'asset'],
+      required: true,
+      description: 'The symbol of symbols of the currency to query',
+      type: 'string',
+    },
+    quote: {
+      aliases: ['to', 'market', 'term'],
+      required: true,
+      description: 'The symbol of the currency to convert to',
+      type: 'string',
+    },
   },
-  quote: {
-    aliases: ['to', 'market', 'term'],
-    required: true,
-    description: 'The symbol of the currency to convert to',
-    type: 'string',
-  },
-})
+  [
+    {
+      base: 'EUR',
+      quote: 'USD',
+    },
+    {
+      base: 'EURUSD:CUR',
+      quote: 'USD',
+    },
+  ],
+)
 
 export const requestTransform = (req: AdapterRequest<typeof inputParameters.validated>): void => {
   const base = req.requestContext.data.base.toUpperCase()

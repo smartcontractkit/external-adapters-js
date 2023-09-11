@@ -21,8 +21,6 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [price](#price-endpoint), [stock](#price-endpoint) | `price` |
@@ -40,7 +38,17 @@ Supported names for this endpoint are: `price`, `stock`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "price",
+    "base": "AAPL",
+    "quote": "USD"
+  }
+}
+```
 
 ---
 

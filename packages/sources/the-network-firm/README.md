@@ -22,8 +22,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |                                                            Options                                                            | Default |
 | :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [mco2](#mco2-endpoint), [stbt](#stbt-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
@@ -68,7 +66,16 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "backed",
+    "accountName": "IBTA"
+  }
+}
+```
 
 ---
 

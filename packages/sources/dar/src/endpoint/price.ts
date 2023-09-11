@@ -7,7 +7,12 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { transport } from '../transport/price'
 
-export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
+  {
+    base: 'ETH',
+    quote: 'USD',
+  },
+])
 export type RequestParams = typeof inputParameters.validated
 
 export type BaseEndpointTypes = {

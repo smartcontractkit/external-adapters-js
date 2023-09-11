@@ -23,8 +23,6 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
 |           | endpoint | The endpoint to use | string | [accounts](#accounts-endpoint) | `accounts` |
@@ -42,7 +40,17 @@ Every EA supports base input parameters from [this list](https://github.com/smar
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "accounts",
+    "ibanIDs": ["LI6808811000000012345", "LI6808811000000045345"],
+    "signingAlgorithm": "rsa-sha512"
+  }
+}
+```
 
 ---
 

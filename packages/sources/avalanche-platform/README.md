@@ -22,8 +22,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
@@ -46,42 +44,15 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
+    "endpoint": "balance",
     "addresses": [
       {
         "address": "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
         "network": "avalanche-fuji"
       }
-    ],
-    "endpoint": "balance"
-  },
-  "debug": {
-    "cacheKey": "PGHFasc8hN3lzGuA6s9gTgp1Pbc="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": [
-      {
-        "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
-        "balance": "2000000000000"
-      }
     ]
-  },
-  "result": [
-    {
-      "addresses": ["P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt"],
-      "balance": "2000000000000"
-    }
-  ],
-  "statusCode": 200
+  }
 }
 ```
 

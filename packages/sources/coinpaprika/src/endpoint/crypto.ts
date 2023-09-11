@@ -4,31 +4,46 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { transport } from '../transport/crypto'
 import overrides from '../config/overrides.json'
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin'],
-    description: 'The symbol of symbols of the currency to query',
-    required: true,
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'coin'],
+      description: 'The symbol of symbols of the currency to query',
+      required: true,
+      type: 'string',
+    },
+    quote: {
+      aliases: ['to', 'market'],
+      description: 'The symbol of the currency to convert to',
+      required: true,
+      type: 'string',
+    },
+    coinid: {
+      description: 'The coin ID (optional to use in place of `base`)',
+      required: false,
+      type: 'string',
+    },
+    resultPath: {
+      description: 'The path to the result within the asset quote in the provider response',
+      required: false,
+      type: 'string',
+      options: ['price', 'volume_24h', 'market_cap'],
+    },
   },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The symbol of the currency to convert to',
-    required: true,
-    type: 'string',
-  },
-  coinid: {
-    description: 'The coin ID (optional to use in place of `base`)',
-    required: false,
-    type: 'string',
-  },
-  resultPath: {
-    description: 'The path to the result within the asset quote in the provider response',
-    required: false,
-    type: 'string',
-    options: ['price', 'volume_24h', 'market_cap'],
-  },
-})
+  [
+    {
+      base: 'AAAA',
+      coinid: 'eth-ethereum',
+      quote: 'USD',
+      resultPath: 'price',
+    },
+    {
+      base: 'ETH',
+      quote: 'USD',
+      resultPath: 'volume_24h',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

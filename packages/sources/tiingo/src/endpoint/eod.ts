@@ -8,7 +8,11 @@ import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/eod'
 
-const inputParameters = new InputParameters(stockEndpointInputParametersDefinition)
+const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
+  {
+    base: 'USD',
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
