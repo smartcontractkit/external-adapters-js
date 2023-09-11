@@ -1,7 +1,7 @@
 import nock from 'nock'
 
 export const mockRateResponseSuccess = (): nock.Scope =>
-  nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
+  nock('https://us.market-api.kaiko.io/v2/data/trades.v2', {
     encodedQueryParams: true,
     reqheaders: {
       'X-Api-Key': 'fake-api-key',
@@ -19,7 +19,6 @@ export const mockRateResponseSuccess = (): nock.Scope =>
           sort: 'desc',
           base_asset: 'eth',
           sources: false,
-          ch: true,
           include_exchanges: ['*'],
           exclude_exchanges: [],
           quote_asset: 'usd',
@@ -58,6 +57,8 @@ export const mockRateResponseSuccess = (): nock.Scope =>
             'stmp:spot:usdt-usd',
           ],
           start_timestamp: 1634847827224,
+          end_timestamp: 1634934227224,
+          extrapolate_missing_values: false,
         },
         time: '2021-10-21T20:53:58.409Z',
         timestamp: 1634849638409,

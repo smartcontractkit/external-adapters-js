@@ -1,35 +1,51 @@
-# Chainlink Kaiko External Adapter
+# KAIKO
 
-### Environment Variables
+![2.0.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/kaiko/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
-| Required? |  Name   |                Description                 | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be obtained from Kaiko |         |             |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
----
+## Environment Variables
 
-### Input Parameters
-
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](##-Price-Endpoint) |    price    |
+| Required? |     Name     |      Description       |  Type  | Options |                      Default                       |
+| :-------: | :----------: | :--------------------: | :----: | :-----: | :------------------------------------------------: |
+|    ✅     |   API_KEY    |   API KEY for KAIKO    | string |         |                                                    |
+|           | API_ENDPOINT | API endpoint for KAIKO | string |         | `https://us.market-api.kaiko.io/v2/data/trades.v2` |
 
 ---
 
-## Price Endpoint
+## Data Provider Rate Limits
+
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+| default |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
+
+---
+
+## Input Parameters
+
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
+
+| Required? |   Name   |     Description     |  Type  |                                      Options                                      | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#trades-endpoint), [price](#trades-endpoint), [trades](#trades-endpoint) | `trades` |
+
+## Trades Endpoint
+
+Supported names for this endpoint are: `crypto`, `price`, `trades`.
 
 ### Input Params
 
-| Required? |            Name            |                                                      Description                                                      |                                       Options                                        | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |                                          The symbol of the currency to query                                          |                                                                                      |             |
-|    ✅     | `quote`, `to`, or `market` |                                       The symbol of the currency to convert to                                        |                                                                                      |             |
-|    🟡     |        `overrides`         |                               If base provided is found in overrides, that will be used                               | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
-|    🟡     |         `interval`         | The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly |                                                                                      |    `1m`     |
-|    🟡     |     `millisecondsAgo`      |            Number of milliseconds from the current time that will determine start_time to use in the query            |                                                                                      |  `1800000`  |
-|    🟡     |           `sort`           |                                   Which way to sort the data returned in the query                                    |                                                                                      |   `desc`    |
+| Required? |      Name       |    Aliases     |                                                      Description                                                      |  Type  | Options |  Default   | Depends On | Not Valid With |
+| :-------: | :-------------: | :------------: | :-------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :--------: | :--------: | :------------: |
+|    ✅     |      base       | `coin`, `from` |                                    The symbol of symbols of the currency to query                                     | string |         |            |            |                |
+|    ✅     |      quote      | `market`, `to` |                                       The symbol of the currency to convert to                                        | string |         |            |            |                |
+|           |    interval     |                | The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly | string |         |    `2m`    |            |                |
+|           | millisecondsAgo |                |            Number of milliseconds from the current time that will determine start_time to use in the query            | string |         | `86400000` |            |                |
+|           |      sort       |                |                                   Which way to sort the data returned in the query                                    | string |         |   `desc`   |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
@@ -41,84 +57,29 @@
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
   "data": {
-    "query": {
-      "page_size": 100,
-      "start_time": "2020-04-17T16:29:13.277Z",
-      "interval": "1m",
-      "sort": "desc",
-      "base_asset": "eth",
-      "quote_asset": "usd",
-      "sources": false,
-      "data_version": "v1",
-      "commodity": "trades",
-      "request_time": "2020-04-17T16:45:53.234Z",
-      "instruments": [
-        "bequ:spot:eth-usd",
-        "bfnx:spot:eth-usd",
-        "btby:spot:eth-usd",
-        "btca:spot:eth-usd",
-        "bnus:spot:eth-usd",
-        "btrx:spot:eth-usd",
-        "btsh:spot:eth-usd",
-        "cbse:spot:eth-usd",
-        "cexi:spot:eth-usd",
-        "cnhd:spot:eth-usd",
-        "ethx:spot:eth-usd",
-        "exxa:spot:eth-usd",
-        "gmni:spot:eth-usd",
-        "gacn:spot:eth-usd",
-        "itbi:spot:eth-usd",
-        "kcon:spot:eth-usd",
-        "krkn:spot:eth-usd",
-        "okcn:spot:eth-usd",
-        "lmax:spot:eth-usd",
-        "yobt:spot:eth-usd",
-        "quon:spot:eth-usd",
-        "stmp:spot:eth-usd",
-        "tbit:spot:eth-usd",
-        "wexn:spot:eth-usd"
-      ],
-      "start_timestamp": 1587140953277
-    },
-    "time": "2020-04-17T16:45:53.336Z",
-    "timestamp": 1587141953336,
-    "data": [
-      {
-        "timestamp": 1587141900000,
-        "price": "170.5073255331914"
-      },
-      {
-        "timestamp": 1587141600000,
-        "price": "170.64267792770045"
-      },
-      {
-        "timestamp": 1587141300000,
-        "price": "170.42193163824737"
-      },
-      {
-        "timestamp": 1587141000000,
-        "price": "170.55189478953133"
-      }
-    ],
-    "result": "170.5073255331914",
-    "access": {
-      "access_range": {
-        "start_timestamp": null,
-        "end_timestamp": 1606495255000
-      },
-      "data_range": {
-        "start_timestamp": 1572912000000,
-        "end_timestamp": null
-      }
-    }
+    "result": 1556.3953823343438
   },
-  "result": "170.5073255331914",
-  "statusCode": 200
+  "result": 1556.3953823343438,
+  "timestamps": {
+    "providerDataRequestedUnixMs": 1694451765892,
+    "providerDataReceivedUnixMs": 1694451766532,
+    "providerIndicatedTimeUnixMs": 1694451720000
+  },
+  "statusCode": 200,
+  "meta": {
+    "adapterName": "KAIKO",
+    "metrics": {
+      "feedId": "{\"base\":\"eth\",\"quote\":\"usd\",\"interval\":\"2m\",\"millisecondsAgo\":\"86400000\",\"sort\":\"desc\"}"
+    }
+  }
 }
 ```
+
+---
+
+MIT License
