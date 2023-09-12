@@ -7,7 +7,7 @@ import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/pric
 const logger = makeLogger('CoinMetrics WS')
 
 // base currencies that break the ws connection
-const invalid_base_currencies: string[] = []
+export const invalid_base_currencies: string[] = []
 
 export type WsAssetMetricsSuccessResponse = {
   time: string

@@ -1,12 +1,13 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import * as queryString from 'querystring'
-import { config } from '../../src/config'
+import { config, VALID_QUOTES } from '../../src/config'
 import {
   calculateAssetMetricsUrl,
   handleAssetMetricsMessage,
   WsAssetMetricsErrorResponse,
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
+  invalid_base_currencies,
 } from '../../src/transport/price-ws'
 import { assetMetricsInputParameters, BaseEndpointTypes } from '../../src/endpoint/price'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
@@ -51,6 +52,7 @@ const EXAMPLE_CONTEXT: EndpointContext<BaseEndpointTypes> = {
 
 describe('price-ws url generator', () => {
   let oldEnv: NodeJS.ProcessEnv
+  const invalid_currencies = invalid_base_currencies
   beforeAll(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = 'someKey'
@@ -67,7 +69,6 @@ describe('price-ws url generator', () => {
         quote: 'usd'.toLowerCase(), //Deliberately use the wrong case
       },
     ])
-
     expect(url).toContain(queryString.stringify({ assets: 'eth' }))
     expect(url).toContain(queryString.stringify({ metrics: 'ReferenceRateUSD' }))
   })
@@ -84,13 +85,29 @@ describe('price-ws url generator', () => {
         quote: 'EUR', //Deliberately use the wrong case
       },
     ])
-
     expect(url).toContain(new URLSearchParams({ assets: 'btc,eth' }).toString())
     expect(url).toContain(
       new URLSearchParams({ metrics: 'ReferenceRateEUR,ReferenceRateUSD' }).toString(),
     )
   })
+
+  it('invalid request, should compose url with invalid pair', async () => {
+    invalid_currencies.push('usd')
+    const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
+      {
+        base: 'BTC'.toUpperCase(),
+        quote: VALID_QUOTES.USD,
+      },
+      {
+        base: 'USD',
+        quote: VALID_QUOTES.BTC,
+      },
+    ])
+    expect(url).toContain(new URLSearchParams({ assets: 'btc' }).toString())
+    expect(url).toContain(new URLSearchParams({ metrics: 'ReferenceRateUSD' }).toString())
+  })
 })
+
 describe('price-ws message handler', () => {
   it('success message results in value', () => {
     const res = handleAssetMetricsMessage({ ...EXAMPLE_SUCCESS_MESSAGE })
