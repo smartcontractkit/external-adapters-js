@@ -24,7 +24,7 @@
 
 ## Quality Assurance
 
-- [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `<ADAPTER_PACKAGE>/schemas/env.json` and `<ADAPTER_PACKAGE>/README.md`
+- [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `<ADAPTER_PACKAGE>/src/config/index.ts` and `<ADAPTER_PACKAGE>/README.md`
 - [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `infra-k8s` configuration file.
 - [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `adapter-secrets` configuration file or update the [soak testing blacklist](/packages/scripts/src/get-changed-adapters/soakTestBlacklist.ts).
 - [ ] If a new adapter was made, or a new endpoint was added, update the `test-payload.json` file with relevant requests.

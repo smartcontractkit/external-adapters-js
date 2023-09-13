@@ -53,11 +53,17 @@ Clears all build files/directories. Useful in case of issues when installing dep
 ║
 ╠═.yarn - yarn 2 dependencies
 ║
+╠═grafana - utilities and configurations related to Grafana
+║
 ╚═packages
     ║
     ╠══ composites - adapters composed of multiple other adapters for complex functionality
     ║
     ╠══ core - the internal framework used across all external adapters
+    ║
+    ╠══ k6 - performance testing scripts and configurations using k6
+    ║
+    ╠══ non-deployable - adapters that are not mean to be ran independently
     ║
     ╠══ scripts - additional Node.js scripts for mono-repository management
     ║
@@ -74,7 +80,7 @@ External adapters should be run as long-lived processes, either directly as [HTT
 
 There may be required environment variables that must be provided to run an External Adapter. Please see the respective adapter's README for more specific information on the External Adapter that you would like to run.
 
-Every External Adapter has some optional environment variables for customizing behavior and turning on advanced features. More documentation for these can be seen [here](./packages/core/bootstrap/README.md).
+Every External Adapter has some optional environment variables for customizing behavior and turning on advanced features. The list of all available options can be seen [here](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/reference-tables/ea-settings.md).
 
 ### Run as HTTP server
 
@@ -181,9 +187,8 @@ coincodex-adapter:
 
 ## Testing
 
-In order to test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the `README.md` for every adapter.
-
-When running integration tests make sure that metrics are disabled (`export METRICS_ENABLED=false`) and EA server is running on random available port (`export EA_PORT=0`).
+In order to e2e test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the `README.md` for every adapter.
+Integration and unit tests use mocks, so there is no need to set environment variables.
 
 Make sure you run these commands from the ROOT of this monorepo.
 
@@ -262,90 +267,6 @@ Sometimes when looking at the releases for an EA you might see it jumped a versi
 ## Advanced Features
 
 <details>
-<summary>Performance and Caching</summary>
-
-The following section details mechanisms that reduce the number of API calls made from external adapters. It is highly recommended to turn on the following three middlewares.
-
-#### Caching
-
-Caching allows for the EA to store successful responses and facilitate faster future response times. See [here](./packages/core/bootstrap/README.md#caching) for more information.
-
-> ### ⚠️ Note
->
-> Please check and ensure caching is allowed and not in violation of the Terms of Service of the data provider's API. Disable caching flags if it is not supported by the specified API provider's TOS.
-
-Caching is enabled by default. It can be turned off using:
-
-```sh
-export CACHE_ENABLED=false
-```
-
-#### Rate Limiting
-
-The Rate Limit middleware prevents hitting rate limit issues with data providers. This is done by adjusting how long a request lives in the cache based on the available capacity of your API subscription plan. The cache must be enabled to use this middleware. See [here](./packages/core/bootstrap/README.md#rate-limit) for more information.
-
-Rate Limiting is enabled by default. It can be turned off using:
-
-```sh
-export RATE_LIMIT_ENABLED=false
-```
-
-There are two options for defining API subscription capacity:
-
-1. Manual setting (example shown for limit at 10 requests/minute)
-
-```sh
-export RATE_LIMIT_CAPACITY=60
-```
-
-2. Limits by provider data (example for Coingecko free tier)
-
-```sh
-export RATE_LIMIT_API_PROVIDER=coingecko RATE_LIMIT_API_TIER=free
-```
-
-The `RATE_LIMIT_API_PROVIDER` environment variable is optional as when not given it will derive from the running adapter.
-
-Preset tiers/plans can be found [here](./packages/core/bootstrap/src/lib/provider-limits/limits.json) and use the corresponding `provider` and `tierName`.
-
-#### Cache Warming
-
-When a new unique request comes in to an EA the Cache Warming middleware will begin polling the API on an interval ensure that data is always ready to be served and is as fresh as possible. The cache must be enabled to use this middleware. See [here](./packages/core/bootstrap/README.md#cache-warmer) for more information.
-
-Cache Warming is enabled by default. It can be turned off using:
-
-```sh
-export WARMUP_ENABLED=false
-```
-
-The cache will begin polling once the first request has been received.
-It will also attempt to use batch requests to save API credits when possible.
-
-</details>
-
-<details>
-<summary>Multiple API Key Support</summary>
-
-In order to use multiple API keys for an adapter, simply comma delimit the keys where you define the environment variable. This will work for an arbitrary number of keys.
-
-```sh
-export API_KEY=myapikey1,myapikey2,myapikey3
-```
-
-The external adapter will then randomly rotate the keys. Over time this should balance out the number of requests between each of the API keys.
-
-</details>
-
-<details>
-<summary>Bridge URL Query String Parameters</summary>
-
-Additional input parameters can be passed to an External Adapter through the Bridge URL that is specified when connecting an External Adapter to the core node.
-
-This is useful in scenarios where when running multiple External Adapters to service a job spec there is a single External Adapter's behavior needs to be customized without affecting the others.
-
-</details>
-
-<details>
 <summary>Ticker Overrides</summary>
 
 There are cases where a certain data provider might have different ticker symbol to represent a cryptocurrency, often when there are multiple cryptocurrencies that share the same ticker.
@@ -363,3 +284,5 @@ To help query the correct symbols the External Adapter request can contain an ob
 In the above example when the `coinmarketcap` External Adapter is requested with a `base` of `RAI` the ticker will be changed to `RAI2`.
 
 </details>
+
+Please refer to [ea-framework-js](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/basics.md) docs for topics like performance, rate limiting, caching and other advanced features.
