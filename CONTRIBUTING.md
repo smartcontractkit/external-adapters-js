@@ -35,7 +35,7 @@ For example
 $ yarn new source
 ```
 
-You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/main...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md)
+You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/main...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/main...<branch>?quick_pull=1&template=new_ea_pr_template.md)
 
 Please refer to this [guide](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/guides/creating-a-new-v3-ea.md) that explains in more detail how to create a new adapter.
 
