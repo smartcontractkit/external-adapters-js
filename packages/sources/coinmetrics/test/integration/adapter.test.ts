@@ -1,4 +1,8 @@
-import { mockCoinmetricsResponseSuccess, mockCoinmetricsResponseSuccess2 } from './fixtures'
+import {
+  mockCoinmetricsRealizedVolResponseSuccess,
+  mockCoinmetricsResponseSuccess,
+  mockCoinmetricsResponseSuccess2,
+} from './fixtures'
 import {
   TestAdapter,
   setEnvVariables,
@@ -68,6 +72,39 @@ describe('http', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('realized-vol endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'realized-vol',
+        from: 'eth',
+        to: 'usd',
+        resultPath: 'realVol7Day',
+      }
+
+      mockCoinmetricsRealizedVolResponseSuccess()
+      const response = (await testAdapter.request(data)).json()
+
+      expect(response.statusCode).toBe(200)
+      expect(response.result).toEqual(response.data[data.resultPath])
+      expect(response).toMatchSnapshot()
+    })
+
+    it('should return error if unsupported resultPath provided', async () => {
+      const data = {
+        endpoint: 'realized-vol',
+        from: 'eth',
+        to: 'usd',
+        resultPath: 'INVALID_RESULT_PATH',
+      }
+
+      mockCoinmetricsRealizedVolResponseSuccess()
+      const response = (await testAdapter.request(data)).json()
+
+      expect(response.statusCode).toBe(400)
+      expect(response).toMatchSnapshot()
     })
   })
 })
