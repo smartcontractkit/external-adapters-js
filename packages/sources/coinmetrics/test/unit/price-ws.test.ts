@@ -7,7 +7,7 @@ import {
   WsAssetMetricsErrorResponse,
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
-  invalid_base_currencies,
+  invalidBaseAssets,
 } from '../../src/transport/price-ws'
 import { assetMetricsInputParameters, BaseEndpointTypes } from '../../src/endpoint/price'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
@@ -52,7 +52,7 @@ const EXAMPLE_CONTEXT: EndpointContext<BaseEndpointTypes> = {
 
 describe('price-ws url generator', () => {
   let oldEnv: NodeJS.ProcessEnv
-  const invalid_currencies = invalid_base_currencies
+  const invalid_currencies = invalidBaseAssets
   beforeAll(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = 'someKey'
