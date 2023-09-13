@@ -7,7 +7,7 @@ import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/pric
 const logger = makeLogger('CoinMetrics WS')
 
 // base currencies that break the ws connection
-export const invalid_base_currencies: string[] = []
+export const invalidBaseAssets: string[] = []
 
 export type WsAssetMetricsSuccessResponse = {
   time: string
@@ -65,13 +65,7 @@ export const calculateAssetMetricsUrl = (
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
 
   //remove assets from desiredSubs that are invalid
-  const updated_desiredSubs: (typeof assetMetricsInputParameters.validated)[] = []
-  desiredSubs.forEach((pair) => {
-    if (!invalid_base_currencies.includes(pair['base'].toLowerCase())) {
-      updated_desiredSubs.push(pair)
-    }
-  })
-  desiredSubs = updated_desiredSubs
+  desiredSubs = desiredSubs.filter(({ base }) => !invalidBaseAssets.includes(base.toLowerCase()))
 
   const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].sort().join(',')
   const metrics = [...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`))]
@@ -96,12 +90,16 @@ export const handleAssetMetricsMessage = (
     // Is WsAssetMetricsErrorResponse
     logger.error(message, `Error response from websocket`)
 
-    const regex = /'([^']+)'/g
+    const findBaseCurrenciesRegex = new RegExp(/'([^']+)'/g)
     if (message['error']['type'] === 'bad_parameters') {
-      const matches = [...message['error']['message'].matchAll(regex)]
+      //Bad Parameter Error Message
+      //   {error: {
+      //     type: "bad_parameter",
+      //     message: "Metric 'ReferenceRateBTC' with frequency '1s' is not supported for 'cron'."}}
+      const matches = [...message['error']['message'].matchAll(findBaseCurrenciesRegex)]
 
-      if (matches && !invalid_base_currencies.includes(matches[2][1])) {
-        invalid_base_currencies.push(matches[2][1])
+      if (matches && !invalidBaseAssets.includes(matches[2][1])) {
+        invalidBaseAssets.push(matches[2][1])
       }
     }
   } else if ('warning' in message) {
