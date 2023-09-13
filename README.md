@@ -63,7 +63,7 @@ Clears all build files/directories. Useful in case of issues when installing dep
     ║
     ╠══ k6 - performance testing scripts and configurations using k6
     ║
-    ╠══ non-deployable - adapters that are not mean to be ran independently
+    ╠══ non-deployable - adapters that are not meant to be ran independently
     ║
     ╠══ scripts - additional Node.js scripts for mono-repository management
     ║
@@ -266,23 +266,4 @@ Sometimes when looking at the releases for an EA you might see it jumped a versi
 
 ## Advanced Features
 
-<details>
-<summary>Ticker Overrides</summary>
-
-There are cases where a certain data provider might have different ticker symbol to represent a cryptocurrency, often when there are multiple cryptocurrencies that share the same ticker.
-
-To help query the correct symbols the External Adapter request can contain an object of symbol overrides named `overrides`:
-
-```json
-"overrides": {
-      "coinmarketcap": {
-        "RAI": "RAI2"
-      }
-    },
-```
-
-In the above example when the `coinmarketcap` External Adapter is requested with a `base` of `RAI` the ticker will be changed to `RAI2`.
-
-</details>
-
-Please refer to [ea-framework-js](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/basics.md) docs for topics like performance, rate limiting, caching and other advanced features.
+Please refer to [ea-framework-js docs](https://github.com/smartcontractkit/ea-framework-js/tree/main/docs) for topics like performance, rate limiting, caching, overrides and other advanced features.

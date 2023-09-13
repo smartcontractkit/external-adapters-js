@@ -78,7 +78,7 @@ The External Adapter will do some processing, often request data from an API, an
 
 ## Adding Provider API Rate Limits
 
-When adding a new adapter the tiers from that provider will need to be added to the Adapter class as [parameter](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/components/adapter.md#rate-limiting-tiers).
+When adding a new adapter, the tiers from that provider will need to be added to the Adapter class as a [parameter](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/components/adapter.md#rate-limiting-tiers).
 
 ## Mock Integration Testing
 
@@ -95,9 +95,10 @@ To create a fixture, you'll need to make a real request to the data provider's A
 ### Testing WebSocket Messages
 
 1. Setup the test, see the [ncfx](./packages/sources/ncfx/test/integration/adapter.test.ts) test for a code sample.
-2. Make a request to the Data Provider and copy the websocket messages. For websocket requests, you can use tools like [wscat](https://github.com/websockets/wscat). Change/mock any sensitive data that it contains.
-3. Using the copied messages, write a `fixtures.ts` file. Create mock function in `fixtures.ts` that will return mock messages. See [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts).
-4. Run the tests. Websocket requests should now be intercepted and mocked using the fixture data.
+2. Connect and send an authentication message request to Data Provider. Change/mock any sensitive data in the response and copy it. For websocket requests, you can use tools like [wscat](https://github.com/websockets/wscat).
+3. Make a request to the Data Provider to fetch actual data, and copy the websocket messages. Change/mock any sensitive data that it contains.
+4. Using the copied messages in step 2 and 3, write a `fixtures.ts` file. Create mock function in `fixtures.ts` that will return mocked authentication and data messages. See [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts).
+5. Run the tests. Websocket requests should now be intercepted and mocked using the fixture data.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
 
