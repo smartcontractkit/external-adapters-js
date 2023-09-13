@@ -96,7 +96,7 @@ export const handleAssetMetricsMessage = (
       //   {error: {
       //     type: "bad_parameter",
       //     message: "Metric 'ReferenceRateBTC' with frequency '1s' is not supported for 'cron'."}}
-      const matches = [...message['error']['message'].matchAll(findBaseCurrenciesRegex)]
+      const matches = [...message.error.message.matchAll(findBaseCurrenciesRegex)]
 
       if (matches && !invalidBaseAssets.includes(matches[2][1])) {
         invalidBaseAssets.push(matches[2][1])
