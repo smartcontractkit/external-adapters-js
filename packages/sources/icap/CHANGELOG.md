@@ -1,5 +1,23 @@
 # @chainlink/icap-adapter
 
+## 1.1.13
+
+### Patch Changes
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+- Updated dependencies [[`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30)]:
+  - @chainlink/tp-adapter@1.1.13
+
+## 1.1.12
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941)]:
+  - @chainlink/tp-adapter@1.1.12
+
 ## 1.1.11
 
 ### Patch Changes

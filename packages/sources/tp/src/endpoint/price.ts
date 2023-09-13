@@ -23,18 +23,26 @@ export type GeneratePriceOptions = {
 export const generateInputParams = (
   generatePriceOptions: GeneratePriceOptions,
 ): InputParameters<PriceEndpointInputParametersDefinition> =>
-  new InputParameters({
-    ...priceEndpointInputParametersDefinition,
-    [generatePriceOptions.sourceName]: {
-      description: `Source of price data for this price pair on the ${generatePriceOptions.streamName} stream`,
-      default: 'GBL',
-      required: false,
-      type: 'string',
-      ...(generatePriceOptions.sourceOptions
-        ? { options: generatePriceOptions.sourceOptions }
-        : {}),
+  new InputParameters(
+    {
+      ...priceEndpointInputParametersDefinition,
+      [generatePriceOptions.sourceName]: {
+        description: `Source of price data for this price pair on the ${generatePriceOptions.streamName} stream`,
+        default: 'GBL',
+        required: false,
+        type: 'string',
+        ...(generatePriceOptions.sourceOptions
+          ? { options: generatePriceOptions.sourceOptions }
+          : {}),
+      },
     },
-  })
+    [
+      {
+        base: 'EUR',
+        quote: 'USD',
+      },
+    ],
+  )
 
 const tpOptions: GeneratePriceOptions = {
   sourceName: 'tpSource',

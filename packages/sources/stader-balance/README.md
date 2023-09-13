@@ -1,6 +1,6 @@
 # STADER_BALANCE
 
-![1.4.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.4.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -24,8 +24,6 @@ There are no rate limits for this adapter.
 ---
 
 ## Input Parameters
-
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
 | Required? |   Name   |     Description     |  Type  |                              Options                               |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------: | :-------: |
@@ -64,7 +62,55 @@ Every EA supports base input parameters from [this list](https://github.com/smar
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "balance",
+    "addresses": [
+      {
+        "address": "0x8cd2726ccd034cf023840c2f76f7bfd4f2e8dbe79ff0e43d2908d1124450ed1c954966a42113787bc930c0e2d73524c0",
+        "withdrawVaultAddress": "0x8c78BdB9CBB273ea295Cd8eEF198467d16c932cc",
+        "poolId": 1,
+        "operatorId": 1,
+        "status": 6
+      },
+      {
+        "address": "0xac41f16bdd583309e5095d475ad1250dabf274045d852bd091e07f03b6de3fc4ad34705c0f1079d516df0b2d8fed0e10",
+        "withdrawVaultAddress": "0x9ab0017DC97FD6A8f907f5a60FC35DB36B581783",
+        "poolId": 2,
+        "operatorId": 1,
+        "status": 6
+      }
+    ],
+    "chainId": "goerli",
+    "confirmations": 0,
+    "elRewardAddresses": [
+      {
+        "address": "0x8d86bc475bedcb08179c5e6a4d494ebd3b44ea8b"
+      },
+      {
+        "address": "0xfc07bcb5c142c7c86c84490f068d31499610ccab"
+      }
+    ],
+    "network": "ethereum",
+    "reportedBlock": 8000,
+    "socialPoolAddresses": [
+      {
+        "address": "0x10f4F0a7aadfB7E79533090508fADD78FB163068",
+        "poolId": 1
+      },
+      {
+        "address": "0x9CfD5a30DB1B925A92E796e5Ce37Fd0E66390Fe1",
+        "poolId": 2
+      }
+    ],
+    "stateId": "finalized",
+    "validatorStatus": []
+  }
+}
+```
 
 ---
 
@@ -84,7 +130,19 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "totalsupply",
+    "chainId": "goerli",
+    "network": "ethereum",
+    "confirmations": 0,
+    "syncWindow": 300
+  }
+}
+```
 
 ---
 

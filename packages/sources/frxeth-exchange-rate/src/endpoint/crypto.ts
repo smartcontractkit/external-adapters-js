@@ -5,14 +5,21 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
-export const inputParameters = new InputParameters({
-  priceType: {
-    description: "The price type to fetch, either 'HIGH' or 'LOW'.",
-    required: true,
-    options: ['HIGH', 'LOW', 'high', 'low'],
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    priceType: {
+      description: "The price type to fetch, either 'HIGH' or 'LOW'.",
+      required: true,
+      options: ['HIGH', 'LOW', 'high', 'low'],
+      type: 'string',
+    },
   },
-})
+  [
+    {
+      priceType: 'high',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

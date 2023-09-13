@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/utils'
+import { ForexBaseEndpointTypes } from '../endpoint/utils'
 
 interface ResponseSchema {
   symbol: string
@@ -8,7 +8,7 @@ interface ResponseSchema {
   timestamp: number
 }
 
-type HttpTransportTypes = BaseEndpointTypes & {
+type HttpTransportTypes = ForexBaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema

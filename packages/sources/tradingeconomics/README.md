@@ -1,6 +1,6 @@
 # TRADINGECONOMICS
 
-![3.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -28,8 +28,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |                                                                 Options                                                                 | Default |
 | :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [commodities](#stock-endpoint), [crypto](#price-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#stock-endpoint) | `price` |
@@ -51,32 +49,30 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
-    "base": "EURUSD:CUR",
-    "quote": "USD",
-    "endpoint": "price"
-  },
-  "debug": {
-    "cacheKey": "G72mWx8TQqfLPgLuCIW2YPsN/9s="
-  },
-  "rateLimitMaxAge": 7999
+    "endpoint": "price",
+    "base": "EUR",
+    "quote": "USD"
+  }
 }
 ```
 
-Response:
+<details>
+<summary>Additional Examples</summary>
+
+Request:
 
 ```json
 {
-  "jobRunID": "1",
   "data": {
-    "result": 1.15591
-  },
-  "result": 1.15591,
-  "statusCode": 200,
-  "providerStatusCode": 200
+    "endpoint": "price",
+    "base": "EURUSD:CUR",
+    "quote": "USD"
+  }
 }
 ```
+
+</details>
 
 ---
 
@@ -92,7 +88,16 @@ Supported names for this endpoint are: `commodities`, `stock`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stock",
+    "base": "AAPL:US"
+  }
+}
+```
 
 ---
 

@@ -5469,7 +5469,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@cardanosolutions-json-bigint-npm-1.0.0-1a4f51f9ee-5df5986de7.zip/node_modules/@cardanosolutions/json-bigint/",\
           "packageDependencies": [\
             ["@cardanosolutions/json-bigint", "npm:1.0.0"],\
-            ["bignumber.js", "npm:9.1.1"]\
+            ["bignumber.js", "npm:9.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5556,7 +5556,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
-            ["@types/crypto-js", "npm:4.1.1"],\
+            ["@types/crypto-js", "npm:4.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.27.2"],\
@@ -6030,7 +6030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["bn.js", "npm:5.2.1"],\
             ["ethers", "npm:5.7.2"],\
             ["supertest", "npm:6.2.4"],\
@@ -6747,7 +6747,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["ethers", "npm:5.7.2"],\
             ["ipfs", "npm:0.60.2"],\
             ["merkletreejs", "npm:0.2.32"],\
@@ -6790,11 +6790,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.5"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.197"],\
+            ["@types/lodash", "npm:4.14.198"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/object-hash", "npm:2.1.1"],\
-            ["@types/object-path", "npm:0.11.1"],\
+            ["@types/object-path", "npm:0.11.2"],\
             ["@types/pino", "npm:6.3.12"],\
             ["@types/pino-pretty", "npm:4.7.5"],\
             ["@types/promise-timeout", "npm:1.3.0"],\
@@ -6840,7 +6840,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/object-path", "npm:0.11.1"],\
+            ["@types/object-path", "npm:0.11.2"],\
             ["object-path", "npm:0.11.8"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6874,7 +6874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
-            ["@types/command-line-args", "npm:5.2.0"],\
+            ["@types/command-line-args", "npm:5.2.1"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/shelljs", "npm:0.8.12"],\
@@ -7042,7 +7042,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
@@ -7517,7 +7517,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-            ["@types/convert-units", "npm:2.3.6"],\
+            ["@types/convert-units", "npm:2.3.7"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["convert-units", "npm:2.3.4"],\
@@ -8682,7 +8682,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:1.3.6"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
@@ -13747,7 +13747,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@renproject/interfaces", "npm:2.6.0"],\
             ["@types/node", "npm:18.8.3"],\
-            ["bignumber.js", "npm:9.1.1"]\
+            ["bignumber.js", "npm:9.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13778,7 +13778,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:18.8.3"],\
             ["axios", "npm:0.21.4"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["bn.js", "npm:5.2.1"],\
             ["bs58", "npm:5.0.0"],\
             ["ethers", "npm:5.7.2"],\
@@ -13796,7 +13796,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@renproject/provider", "npm:2.6.0"],\
             ["@renproject/utils", "npm:2.6.0"],\
             ["@types/node", "npm:18.8.3"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["bn.js", "npm:5.2.1"],\
             ["immutable", "npm:4.1.0"]\
           ],\
@@ -13814,7 +13814,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/keccak", "npm:3.0.1"],\
             ["@types/node", "npm:18.8.3"],\
             ["axios", "npm:0.21.4"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["create-hash", "npm:1.2.0"],\
             ["ethers", "npm:5.7.2"],\
             ["events", "npm:3.3.0"],\
@@ -14721,10 +14721,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/command-line-args", [\
-        ["npm:5.2.0", {\
-          "packageLocation": "./.yarn/cache/@types-command-line-args-npm-5.2.0-3454e6d6cf-423121d2d0.zip/node_modules/@types/command-line-args/",\
+        ["npm:5.2.1", {\
+          "packageLocation": "./.yarn/cache/@types-command-line-args-npm-5.2.1-683037333d-a5df8562a7.zip/node_modules/@types/command-line-args/",\
           "packageDependencies": [\
-            ["@types/command-line-args", "npm:5.2.0"]\
+            ["@types/command-line-args", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14749,10 +14749,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/convert-units", [\
-        ["npm:2.3.6", {\
-          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.6-4c6f1d8c71-35cc7548ad.zip/node_modules/@types/convert-units/",\
+        ["npm:2.3.7", {\
+          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.7-dfd529f70e-7cb3102353.zip/node_modules/@types/convert-units/",\
           "packageDependencies": [\
-            ["@types/convert-units", "npm:2.3.6"]\
+            ["@types/convert-units", "npm:2.3.7"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14777,10 +14777,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/crypto-js", [\
-        ["npm:4.1.1", {\
-          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.1-1c4ce3312a-ea3d6a67b6.zip/node_modules/@types/crypto-js/",\
+        ["npm:4.1.2", {\
+          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.2-450346db06-9a39c66271.zip/node_modules/@types/crypto-js/",\
           "packageDependencies": [\
-            ["@types/crypto-js", "npm:4.1.1"]\
+            ["@types/crypto-js", "npm:4.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15062,10 +15062,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/lodash", [\
-        ["npm:4.14.197", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.197-8db1555bb5-53d7567d17.zip/node_modules/@types/lodash/",\
+        ["npm:4.14.198", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.198-92ef32a77d-b290e44807.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.197"]\
+            ["@types/lodash", "npm:4.14.198"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15249,10 +15249,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/object-path", [\
-        ["npm:0.11.1", {\
-          "packageLocation": "./.yarn/cache/@types-object-path-npm-0.11.1-c406d07d1c-007e819d1d.zip/node_modules/@types/object-path/",\
+        ["npm:0.11.2", {\
+          "packageLocation": "./.yarn/cache/@types-object-path-npm-0.11.2-b12f03769f-f97e1233e5.zip/node_modules/@types/object-path/",\
           "packageDependencies": [\
-            ["@types/object-path", "npm:0.11.1"]\
+            ["@types/object-path", "npm:0.11.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17629,10 +17629,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:9.1.1", {\
-          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.1-5929e8d8dc-ad243b7e2f.zip/node_modules/bignumber.js/",\
+        ["npm:9.1.2", {\
+          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.2-c2228c6a4a-582c03af77.zip/node_modules/bignumber.js/",\
           "packageDependencies": [\
-            ["bignumber.js", "npm:9.1.1"]\
+            ["bignumber.js", "npm:9.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -18015,7 +18015,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/borc-npm-3.0.0-5bd12c9df0-23e39557ed.zip/node_modules/borc/",\
           "packageDependencies": [\
             ["borc", "npm:3.0.0"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["buffer", "npm:6.0.3"],\
             ["commander", "npm:2.20.3"],\
             ["ieee754", "npm:1.2.1"],\
@@ -18738,7 +18738,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cbor-npm-5.2.0-4f6440587f-b3c39dae64.zip/node_modules/cbor/",\
           "packageDependencies": [\
             ["cbor", "npm:5.2.0"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["nofilter", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
@@ -28451,7 +28451,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/json-bigint-npm-1.0.0-8e35bcb143-c67bb93ccb.zip/node_modules/json-bigint/",\
           "packageDependencies": [\
             ["json-bigint", "npm:1.0.0"],\
-            ["bignumber.js", "npm:9.1.1"]\
+            ["bignumber.js", "npm:9.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -29180,7 +29180,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["abortable-iterator", "npm:3.0.2"],\
             ["aggregate-error", "npm:3.1.0"],\
             ["any-signal", "npm:2.1.2"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["class-is", "npm:1.1.0"],\
             ["debug", "virtual:1ca322a4d66c7a41fb1e112226317c5a21fb69ea7d45c9d09b748ed5b9f833c84750b4efbc0ff288a6bf112667942c8baf99cbcdf6d047bbf8cc131896c14fd5#npm:4.3.4"],\
             ["err-code", "npm:3.0.1"],\
@@ -30891,7 +30891,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/merkletreejs-npm-0.2.32-79a2b236fc-041b235add.zip/node_modules/merkletreejs/",\
           "packageDependencies": [\
             ["merkletreejs", "npm:0.2.32"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["buffer-reverse", "npm:1.0.1"],\
             ["crypto-js", "npm:3.3.0"],\
             ["treeify", "npm:1.1.0"],\
@@ -39650,7 +39650,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core", "npm:1.10.0"],\
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:12.20.55"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["web3-core-helpers", "npm:1.10.0"],\
             ["web3-core-method", "npm:1.10.0"],\
             ["web3-core-requestmanager", "npm:1.10.0"],\
@@ -39664,7 +39664,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web3-core", "npm:1.7.4"],\
             ["@types/bn.js", "npm:5.1.1"],\
             ["@types/node", "npm:12.20.55"],\
-            ["bignumber.js", "npm:9.1.1"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["web3-core-helpers", "npm:1.7.4"],\
             ["web3-core-method", "npm:1.7.4"],\
             ["web3-core-requestmanager", "npm:1.7.4"],\

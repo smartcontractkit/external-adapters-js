@@ -10,7 +10,11 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 
-const inputParameters = new InputParameters(stockEndpointInputParametersDefinition)
+const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
+  {
+    base: 'AAPL:US',
+  },
+])
 
 // Common endpoint type shared by the REST and WS transports
 export type BaseEndpointTypes = {

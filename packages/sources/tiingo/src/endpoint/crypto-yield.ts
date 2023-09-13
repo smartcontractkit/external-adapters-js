@@ -25,14 +25,21 @@ interface CryptoYieldResponse {
   Data: ProviderResponseBody
 }
 
-const inputParameters = new InputParameters({
-  aprTerm: {
-    type: 'string',
-    required: true,
-    description: 'Yield apr term',
-    options: ['30Day', '90Day'],
+const inputParameters = new InputParameters(
+  {
+    aprTerm: {
+      type: 'string',
+      required: true,
+      description: 'Yield apr term',
+      options: ['30Day', '90Day'],
+    },
   },
-})
+  [
+    {
+      aprTerm: '30Day',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

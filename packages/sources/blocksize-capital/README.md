@@ -1,6 +1,6 @@
 # BLOCKSIZE_CAPITAL
 
-![2.0.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blocksize-capital/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blocksize-capital/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -21,8 +21,6 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |                       Options                       | Default |
 | :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price](#price-endpoint) | `price` |
@@ -40,7 +38,17 @@ Supported names for this endpoint are: `crypto`, `price`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "price",
+    "base": "ETH",
+    "quote": "EUR"
+  }
+}
+```
 
 ---
 

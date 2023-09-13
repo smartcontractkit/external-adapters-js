@@ -1,5 +1,11 @@
 # @chainlink/eodhistoricaldata-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#2979](https://github.com/smartcontractkit/external-adapters-js/pull/2979) [`f7ee48382`](https://github.com/smartcontractkit/external-adapters-js/commit/f7ee48382e46951ec7f9492af0d40c70a1079ffa) Thanks [@alecgard](https://github.com/alecgard)! - Add ETF alias to EODHistoricalData.
+
 ## 1.4.2
 
 ### Patch Changes

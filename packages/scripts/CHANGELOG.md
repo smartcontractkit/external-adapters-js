@@ -1,5 +1,19 @@
 # @chainlink/ea-scripts
 
+## 2.7.3
+
+### Patch Changes
+
+- [#2973](https://github.com/smartcontractkit/external-adapters-js/pull/2973) [`82588b6c0`](https://github.com/smartcontractkit/external-adapters-js/commit/82588b6c01be101f5c18de2efbc73acf2f56db67) Thanks [@alecgard](https://github.com/alecgard)! - Log docker-compose.generated.yaml file location
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+## 2.7.2
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.7.1
 
 ### Patch Changes

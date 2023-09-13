@@ -1,5 +1,17 @@
 # @chainlink/kaiko-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#2982](https://github.com/smartcontractkit/external-adapters-js/pull/2982) [`134b21da2`](https://github.com/smartcontractkit/external-adapters-js/commit/134b21da2f154551b396aff7de5ab63dd6061931) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update Kaiko to v2 API endpoint
+
+## 2.0.7
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.0.6
 
 ### Patch Changes
