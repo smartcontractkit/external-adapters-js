@@ -7,7 +7,7 @@ exports[`execute realized-vol endpoint default should return success 1`] = `
     "realVol30Day": 0.5291809,
     "realVol7Day": 0.2474815,
   },
-  "result": null,
+  "result": 0.5291809,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,

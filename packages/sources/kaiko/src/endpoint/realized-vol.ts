@@ -30,7 +30,7 @@ const inputParameters = new InputParameters(
     },
     resultPath: {
       required: false,
-      default: 'result',
+      default: 'realVol30Day',
       type: 'string',
       description: 'The field to return within the result path',
     },
@@ -39,7 +39,7 @@ const inputParameters = new InputParameters(
     {
       base: 'ETH',
       quote: 'USD',
-      resultPath: 'result',
+      resultPath: 'realVol30Day',
     },
   ],
 )
