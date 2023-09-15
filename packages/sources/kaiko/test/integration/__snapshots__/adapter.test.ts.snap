@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute realized-vol endpoint default should return success 1`] = `
+{
+  "data": {
+    "realVol1Day": 0.5302169,
+    "realVol30Day": 0.5291809,
+    "realVol7Day": 0.2474815,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1641035400000,
+  },
+}
+`;
+
+exports[`execute should return null result with bad resultPath input 1`] = `
+{
+  "data": {
+    "realVol1Day": 0.5302169,
+    "realVol30Day": 0.5291809,
+    "realVol7Day": 0.2474815,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1641035400000,
+  },
+}
+`;
+
 exports[`execute trades endpoint should return success 1`] = `
 {
   "data": {

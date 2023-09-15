@@ -12,6 +12,12 @@ export const config = new AdapterConfig(
       description: 'API endpoint for KAIKO',
       type: 'string',
       default: 'https://us.market-api.kaiko.io/v2/data/trades.v2',
+      deprecated: true,
+    },
+    BASE_API_ENDPOINT: {
+      description: 'Base API endpoint for KAIKO',
+      type: 'string',
+      default: 'https://us.market-api.kaiko.io/v2/data',
     },
   },
   {
