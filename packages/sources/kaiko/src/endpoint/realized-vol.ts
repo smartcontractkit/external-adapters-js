@@ -4,6 +4,9 @@ import overrides from '../config/overrides.json'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { transport } from '../transport/realized-vol'
 
+const RESULT_PATHS = ['realVol1Day', 'realVol7Day', 'realVol30Day']
+const DEFAULT_RESULT_PATH = RESULT_PATHS[2]
+
 export type ResponseData = {
   [key: string]: number
 }
@@ -30,7 +33,8 @@ const inputParameters = new InputParameters(
     },
     resultPath: {
       required: false,
-      default: 'realVol30Day',
+      default: DEFAULT_RESULT_PATH,
+      options: RESULT_PATHS,
       type: 'string',
       description: 'The field to return within the result path',
     },
@@ -39,7 +43,7 @@ const inputParameters = new InputParameters(
     {
       base: 'ETH',
       quote: 'USD',
-      resultPath: 'realVol30Day',
+      resultPath: DEFAULT_RESULT_PATH,
     },
   ],
 )

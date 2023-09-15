@@ -66,7 +66,7 @@ describe('execute', () => {
     }
     mockRateResponseSuccess()
     const response = await testAdapter.request(data)
-    expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toBe(400)
     expect(response.json()).toMatchSnapshot()
   })
 })
