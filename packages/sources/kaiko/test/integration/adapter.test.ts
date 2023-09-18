@@ -57,7 +57,7 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-  it('should return null result with bad resultPath input', async () => {
+  it('should return 400 error with bad resultPath input', async () => {
     const data = {
       base: 'BTC',
       quote: 'USD',

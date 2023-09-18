@@ -29,7 +29,8 @@ interface ProviderResponseBody {
 const TEN_MINS_MS = 600_000
 const DEFAULT_FREQUENCY = '10m'
 const REALIZED_VOL_URL = `analytics.v2/realized_volatility`
-const LOOKBACK_WINDOWS = ['1d', '7d', '30d']
+const LOOKBACK_WINDOWS = ['1d', '7d', '30d'] as const
+type LookbackWindow = (typeof LOOKBACK_WINDOWS)[number]
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -44,7 +45,7 @@ const computeStartTime = (endTime: Date) => new Date(endTime.getTime() - TEN_MIN
 const constructAssetCode = (
   base: string,
   quote: string,
-  lookback: string,
+  lookback: LookbackWindow,
   frequency = DEFAULT_FREQUENCY,
 ) => `${base.toLowerCase()}-${quote.toLowerCase()}:${lookback}_${frequency}`
 
@@ -111,6 +112,11 @@ export const transport = new HttpTransport<HttpTransportTypes>({
         realVol7Day: realVol7Day.value,
         realVol30Day: realVol30Day.value,
       }
+      const dates = {
+        realVol1Day: realVol1Day.datetime,
+        realVol7Day: realVol7Day.datetime,
+        realVol30Day: realVol30Day.datetime,
+      }
 
       return {
         params: entry,
@@ -118,7 +124,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
           data: data,
           result: data[entry.resultPath] ? data[entry.resultPath] : null,
           timestamps: {
-            providerIndicatedTimeUnixMs: new Date(realVol1Day.datetime).getTime(),
+            providerIndicatedTimeUnixMs: new Date(dates[entry.resultPath]).getTime(),
           },
         },
       }

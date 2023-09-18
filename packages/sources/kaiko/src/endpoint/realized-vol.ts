@@ -4,13 +4,12 @@ import overrides from '../config/overrides.json'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { transport } from '../transport/realized-vol'
 
-const RESULT_PATHS = ['realVol1Day', 'realVol7Day', 'realVol30Day']
-const DEFAULT_RESULT_PATH = RESULT_PATHS[2]
+const RESULT_PATHS = ['realVol1Day', 'realVol7Day', 'realVol30Day'] as const
+type ResultPath = (typeof RESULT_PATHS)[number]
+const DEFAULT_RESULT_PATH: ResultPath = RESULT_PATHS[2]
+const DEFAULT_QUOTE = 'USD'
 
-export type ResponseData = {
-  [key: string]: number
-}
-
+export type ResponseData = Record<ResultPath, number>
 export type RealizedVolResponse = {
   Result: number | null
   Data: ResponseData
@@ -27,7 +26,7 @@ const inputParameters = new InputParameters(
     quote: {
       aliases: ['to', 'market', 'convert'],
       required: false,
-      default: 'USD',
+      default: DEFAULT_QUOTE,
       type: 'string',
       description: 'The quote currency to convert the realized volatility to',
     },
@@ -42,7 +41,7 @@ const inputParameters = new InputParameters(
   [
     {
       base: 'ETH',
-      quote: 'USD',
+      quote: DEFAULT_QUOTE,
       resultPath: DEFAULT_RESULT_PATH,
     },
   ],

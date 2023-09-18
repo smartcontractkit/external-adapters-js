@@ -54,11 +54,11 @@ Supported names for this endpoint are: `realized-vol`, `realized-volatility`.
 
 ### Input Params
 
-| Required? |    Name    |          Aliases          |                       Description                        |  Type  | Options | Default  | Depends On | Not Valid With |
-| :-------: | :--------: | :-----------------------: | :------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
-|    ✅     |    base    |      `coin`, `from`       |  The base currency to query the realized volatility for  | string |         |          |            |                |
-|           |   quote    | `convert`, `market`, `to` | The quote currency to convert the realized volatility to | string |         |  `USD`   |            |                |
-|           | resultPath |                           |        The field to return within the result path        | string |         | `result` |            |                |
+| Required? |    Name    |          Aliases          |                       Description                        |  Type  |                   Options                    |    Default     | Depends On | Not Valid With |
+| :-------: | :--------: | :-----------------------: | :------------------------------------------------------: | :----: | :------------------------------------------: | :------------: | :--------: | :------------: |
+|    ✅     |    base    |      `coin`, `from`       |  The base currency to query the realized volatility for  | string |                                              |                |            |                |
+|           |   quote    | `convert`, `market`, `to` | The quote currency to convert the realized volatility to | string |                                              |     `USD`      |            |                |
+|           | resultPath |                           |        The field to return within the result path        | string | `realVol1Day`, `realVol30Day`, `realVol7Day` | `realVol30Day` |            |                |
 
 ### Example
 
@@ -70,7 +70,7 @@ Request:
     "endpoint": "realized-vol",
     "base": "ETH",
     "quote": "USD",
-    "resultPath": "result"
+    "resultPath": "realVol30Day"
   }
 }
 ```
