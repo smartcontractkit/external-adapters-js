@@ -10261,11 +10261,11 @@ __metadata:
   linkType: hard
 
 "@types/bn.js@npm:^5.1.0, @types/bn.js@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "@types/bn.js@npm:5.1.1"
+  version: 5.1.2
+  resolution: "@types/bn.js@npm:5.1.2"
   dependencies:
     "@types/node": "*"
-  checksum: e50ed2dd3abe997e047caf90e0352c71e54fc388679735217978b4ceb7e336e51477791b715f49fd77195ac26dd296c7bad08a3be9750e235f9b2e1edb1b51c2
+  checksum: 8d9fdb43836646c2ecd445041de03e057f9b459885be57faee64104160487a63730b9f371e8ad7d33f360b3cc6dc0e323543962fc5fa296b92b322b946732be0
   languageName: node
   linkType: hard
 
