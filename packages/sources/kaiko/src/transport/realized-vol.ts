@@ -94,15 +94,9 @@ export const transport = new HttpTransport<HttpTransportTypes>({
 
     return params.map((entry) => {
       const assetData = res.data.data
-      const assetCodes = {
-        '1d': constructAssetCode(entry.base, entry.quote, '1d'),
-        '7d': constructAssetCode(entry.base, entry.quote, '7d'),
-        '30d': constructAssetCode(entry.base, entry.quote, '30d'),
-      }
-
-      const realVol1DayData = assetData[assetCodes['1d']]
-      const realVol7DayData = assetData[assetCodes['7d']]
-      const realVol30DayData = assetData[assetCodes['30d']]
+      const realVol1DayData = assetData[constructAssetCode(entry.base, entry.quote, '1d')]
+      const realVol7DayData = assetData[constructAssetCode(entry.base, entry.quote, '7d')]
+      const realVol30DayData = assetData[constructAssetCode(entry.base, entry.quote, '30d')]
 
       // take last entry in array because it is asc ordered (earliest to most recent)
       const realVol1Day =
