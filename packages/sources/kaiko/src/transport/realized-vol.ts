@@ -46,9 +46,7 @@ const constructAssetCode = (
   quote: string,
   lookback: string,
   frequency = DEFAULT_FREQUENCY,
-) => {
-  return `${base.toLowerCase()}-${quote.toLowerCase()}:${lookback}_${frequency}`
-}
+) => `${base.toLowerCase()}-${quote.toLowerCase()}:${lookback}_${frequency}`
 
 export const transport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
