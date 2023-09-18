@@ -50,6 +50,30 @@ export const mockCoinmetricsResponseSuccess2 = (pageSize = 1): nock.Scope =>
       next_page_token: '0.MjAyMS0wOC0wNlQwMDowMDowMFo',
     })
 
+export const mockCoinmetricsRealizedVolResponseSuccess = (): nock.Scope =>
+  nock('https://api.coinmetrics.io/v4')
+    .persist()
+    .get('/timeseries/asset-metrics')
+    .query({
+      assets: 'eth',
+      metrics:
+        'volatility_realized_usd_rolling_24h,volatility_realized_usd_rolling_7d,volatility_realized_usd_rolling_30d',
+      frequency: '10m',
+      limit_per_asset: 1,
+      api_key: 'fake-api-key',
+    })
+    .reply(200, {
+      data: [
+        {
+          asset: 'eth',
+          time: '2023-09-13T10:20:00.000000000Z',
+          volatility_realized_usd_rolling_24h: '0.4853062',
+          volatility_realized_usd_rolling_30d: '0.427451',
+          volatility_realized_usd_rolling_7d: '0.3781615',
+        },
+      ],
+    })
+
 const wsResponseBody: WsAssetMetricsSuccessResponse = {
   cm_sequence_id: 0,
   type: 'price',

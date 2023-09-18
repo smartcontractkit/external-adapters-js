@@ -28,6 +28,34 @@ exports[`http price endpoint should return success 1`] = `
 }
 `;
 
+exports[`http realized-vol endpoint should return error if unsupported resultPath provided 1`] = `
+{
+  "error": {
+    "message": "[Param: resultPath] input is not one of valid options (realVol1Day,realVol7Day,realVol30Day)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`http realized-vol endpoint should return success 1`] = `
+{
+  "data": {
+    "realVol1Day": "0.4853062",
+    "realVol30Day": "0.427451",
+    "realVol7Day": "0.3781615",
+  },
+  "result": "0.3781615",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1694600400000,
+  },
+}
+`;
+
 exports[`http total-burned endpoint should return success 1`] = `
 {
   "data": {
