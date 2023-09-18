@@ -1035,7 +1035,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@changesets/changelog-github", "npm:0.4.8"],\
             ["@changesets/cli", "npm:2.26.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
-            ["@types/babel__preset-env", "npm:7.9.2"],\
+            ["@types/babel__preset-env", "npm:7.9.3"],\
             ["@types/eslint", "npm:8.37.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -7212,7 +7212,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@changesets/changelog-github", "npm:0.4.8"],\
             ["@changesets/cli", "npm:2.26.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
-            ["@types/babel__preset-env", "npm:7.9.2"],\
+            ["@types/babel__preset-env", "npm:7.9.3"],\
             ["@types/eslint", "npm:8.37.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -14711,10 +14711,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/babel__preset-env", [\
-        ["npm:7.9.2", {\
-          "packageLocation": "./.yarn/cache/@types-babel__preset-env-npm-7.9.2-1a8f8f7ac1-a905ed92a3.zip/node_modules/@types/babel__preset-env/",\
+        ["npm:7.9.3", {\
+          "packageLocation": "./.yarn/cache/@types-babel__preset-env-npm-7.9.3-1881e2aadf-7e89a37c4a.zip/node_modules/@types/babel__preset-env/",\
           "packageDependencies": [\
-            ["@types/babel__preset-env", "npm:7.9.2"]\
+            ["@types/babel__preset-env", "npm:7.9.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28846,7 +28846,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:7.18.10"],\
             ["@babel/preset-typescript", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:7.17.12"],\
             ["@types/babel__core", "npm:7.1.20"],\
-            ["@types/babel__preset-env", "npm:7.9.2"],\
+            ["@types/babel__preset-env", "npm:7.9.3"],\
             ["@types/k6", "npm:0.37.1"],\
             ["@types/node", "npm:17.0.45"],\
             ["@types/rimraf", "npm:3.0.2"],\
