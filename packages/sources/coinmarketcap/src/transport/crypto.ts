@@ -1,6 +1,9 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  HttpTransport,
+  ProviderRequestConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/crypto'
-import { makeLogger, splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CryptoCMCEndpoint')
 
@@ -56,7 +59,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
-    const requests = []
+    const requests: ProviderRequestConfig<HttpTransportTypes>[] = []
     const groupedParams = {
       id: [],
       slug: [],
@@ -79,14 +82,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     }
 
-    for (const [idType, fullList] of Object.entries(groupedParams)) {
-      if (fullList && fullList.length > 0) {
-        // CMC does not support more than 120 unique quotes
-        const chunkedList = splitArrayIntoChunks(fullList, 120)
-
-        // This could be further optimized in cases with more than 120 entries, to make sure that
-        // chunkes are grouped optimally to avoid sending unnecessary converts
-        for (const list of chunkedList) {
+    for (const [idType, list] of Object.entries(groupedParams)) {
+      if (list && list.length > 0) {
+        const batchedBaseCurrencies = [...new Set(list.map((p) => p.cid || p.slug || p.base))].join(
+          ',',
+        )
+        // We don't want to batch quotes but only base currencies, so for each unique quote in each list we create a request
+        ;[...new Set(list.map((p) => p.quote.toUpperCase()))].forEach((uniqueQuote) => {
           requests.push({
             params: list,
             request: {
@@ -96,12 +98,12 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
                 'X-CMC_PRO_API_KEY': settings.API_KEY,
               },
               params: {
-                [idType]: [...new Set(list.map((p) => p.cid || p.slug || p.base))].join(','),
-                convert: [...new Set(list.map((p) => p.quote))].join(','),
+                [idType]: batchedBaseCurrencies,
+                convert: uniqueQuote,
               },
             },
           })
-        }
+        })
       }
     }
 

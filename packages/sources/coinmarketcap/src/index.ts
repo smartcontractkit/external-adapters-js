@@ -10,25 +10,25 @@ export const adapter = new PriceAdapter({
   rateLimiting: {
     tiers: {
       free: {
-        rateLimit1m: 7.5,
-        rateLimit1h: 3,
-        note: "10k credits/month, 730h in a month, ignoring daily limits since they're soft caps. Divided by 4 to account for multiple credits per request",
+        rateLimit1m: 30,
+        rateLimit1h: 13,
+        note: "10k credits/month, 730h in a month, ignoring daily limits since they're soft caps",
       },
       hobbyist: {
-        rateLimit1m: 7.5,
-        rateLimit1h: 13,
+        rateLimit1m: 30,
+        rateLimit1h: 54,
       },
       startup: {
-        rateLimit1m: 7.5,
-        rateLimit1h: 41,
+        rateLimit1m: 30,
+        rateLimit1h: 164,
       },
       standard: {
-        rateLimit1m: 15,
-        rateLimit1h: 171,
+        rateLimit1m: 60,
+        rateLimit1h: 684,
       },
       professional: {
-        rateLimit1m: 22.5,
-        rateLimit1h: 1027,
+        rateLimit1m: 90,
+        rateLimit1h: 4108,
       },
     },
   },
