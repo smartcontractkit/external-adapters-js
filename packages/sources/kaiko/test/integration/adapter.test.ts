@@ -43,4 +43,30 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
+
+  describe('realized-vol endpoint', () => {
+    it('default should return success', async () => {
+      const data = {
+        base: 'BTC',
+        quote: 'USD',
+        endpoint: 'realized-vol',
+      }
+      mockRateResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+  it('should return 400 error with bad resultPath input', async () => {
+    const data = {
+      base: 'BTC',
+      quote: 'USD',
+      endpoint: 'realized-vol',
+      resultPath: 'INVALID',
+    }
+    mockRateResponseSuccess()
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toMatchSnapshot()
+  })
 })

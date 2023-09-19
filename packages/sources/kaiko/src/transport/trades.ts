@@ -50,7 +50,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
     return params.map((param) => {
       const base = param.base.toLowerCase()
       const quote = param.quote.toLowerCase()
-      const url = `/spot_exchange_rate/${base}/${quote}`
+      const url = `/trades.v2/spot_exchange_rate/${base}/${quote}`
 
       const interval = param.interval
       const end_time = new Date()
