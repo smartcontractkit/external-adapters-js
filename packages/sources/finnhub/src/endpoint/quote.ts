@@ -138,7 +138,15 @@ const validateExchange = (req: AdapterRequest<typeof inputParameters.validated>)
 export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
   new PriceEndpoint<BaseEndpointTypes>({
     name: 'quote',
-    aliases: ['common', 'stock', 'forex'],
+    aliases: [
+      'common',
+      'stock',
+      'forex',
+      'commodities',
+      'forex-quote',
+      'equity-quote',
+      'commodity-quote',
+    ],
     transportRoutes: new TransportRoutes<BaseEndpointTypes>()
       .register('ws', wsTransport)
       .register('rest', httpTransport),
