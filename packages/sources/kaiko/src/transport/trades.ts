@@ -62,7 +62,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
       return {
         params: [{ ...param }],
         request: {
-          baseURL: config.BASE_API_ENDPOINT,
+          baseURL: config.API_ENDPOINT,
           url,
           params: requestParams,
           headers: { 'X-Api-Key': config.API_KEY },

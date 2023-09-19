@@ -6,11 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |       Name        |         Description         |  Type  | Options |                      Default                       |
-| :-------: | :---------------: | :-------------------------: | :----: | :-----: | :------------------------------------------------: |
-|    ✅     |      API_KEY      |      API KEY for KAIKO      | string |         |                                                    |
-|           |   API_ENDPOINT    |   API endpoint for KAIKO    | string |         | `https://us.market-api.kaiko.io/v2/data/trades.v2` |
-|           | BASE_API_ENDPOINT | Base API endpoint for KAIKO | string |         |      `https://us.market-api.kaiko.io/v2/data`      |
+| Required? |     Name     |      Description       |  Type  | Options |                 Default                  |
+| :-------: | :----------: | :--------------------: | :----: | :-----: | :--------------------------------------: |
+|    ✅     |   API_KEY    |   API KEY for KAIKO    | string |         |                                          |
+|           | API_ENDPOINT | API endpoint for KAIKO | string |         | `https://us.market-api.kaiko.io/v2/data` |
 
 ---
 
