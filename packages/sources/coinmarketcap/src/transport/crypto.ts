@@ -89,7 +89,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         )
         // We don't want to batch quotes but only base currencies, so for each unique quote in each list we create a request
         // This could be further optimized to make sure that lists are grouped optimally to avoid sending unnecessary bases
-        ;[...new Set(list.map((p) => p.quote.toUpperCase()))].forEach((uniqueQuote) => {
+        const uniqueQuotes = [...new Set(list.map((p) => p.quote.toUpperCase()))]
+        uniqueQuotes.forEach((uniqueQuote) => {
           requests.push({
             params: list,
             request: {
