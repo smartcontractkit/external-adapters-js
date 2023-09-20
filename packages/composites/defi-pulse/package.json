@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/defi-pulse-adapter",
-  "version": "1.2.70",
+  "version": "1.2.71",
   "description": "Chainlink defi pulse adapter",
   "keywords": [
     "Chainlink",

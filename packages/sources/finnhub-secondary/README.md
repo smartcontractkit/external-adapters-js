@@ -1,6 +1,6 @@
 # FINNHUB-SECONDARY
 
-![0.3.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.3.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -26,13 +26,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                 Options                                                 | Default |
-| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [common](#quote-endpoint), [forex](#quote-endpoint), [quote](#quote-endpoint), [stock](#quote-endpoint) | `quote` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                   Options                                                                                                                    | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#quote-endpoint), [commodity-quote](#quote-endpoint), [common](#quote-endpoint), [equity-quote](#quote-endpoint), [forex-quote](#quote-endpoint), [forex](#quote-endpoint), [quote](#quote-endpoint), [stock](#quote-endpoint) | `quote` |
 
 ## Quote Endpoint
 
-Supported names for this endpoint are: `common`, `forex`, `quote`, `stock`.
+Supported names for this endpoint are: `commodities`, `commodity-quote`, `common`, `equity-quote`, `forex`, `forex-quote`, `quote`, `stock`.
 
 ### Input Params
 

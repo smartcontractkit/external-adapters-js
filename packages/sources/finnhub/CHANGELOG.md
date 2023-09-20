@@ -1,5 +1,11 @@
 # @chainlink/finnhub-adapter
 
+## 2.6.0
+
+### Minor Changes
+
+- [#2999](https://github.com/smartcontractkit/external-adapters-js/pull/2999) [`51304c8e6`](https://github.com/smartcontractkit/external-adapters-js/commit/51304c8e658d9f6f6f41f7731ca50d7ca4cbff8b) Thanks [@boxhock](https://github.com/boxhock)! - Added additional endpoint aliases: "commodities", "forex-quote", "equity-quote" and "commodity-quote"
+
 ## 2.5.4
 
 ### Patch Changes
