@@ -1,11 +1,15 @@
 import * as starkwareCrypto from '@authereum/starkware-crypto'
-import { AdapterError } from '@chainlink/ea-bootstrap'
 import {
   PriceDataPoint,
   getKeyPair,
   requireNormalizedPrice,
   getPricePayload,
-} from '../../src/endpoint/starkex'
+} from '../../src/transport/utils'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+
+//Since the test is directly using transport functions, we need to initialize the logger here
+LoggerFactoryProvider.set()
 
 describe('starkex', () => {
   describe('getKeyPair', () => {
@@ -33,7 +37,7 @@ describe('starkex', () => {
       it(`${t.name}`, async () => {
         const keyPair = await getKeyPair(t.testData.privateKey, t.testData.starkMessage)
         const pk = starkwareCrypto.getStarkPublicKey(keyPair)
-        const pkNormalized = '0x' + pk.substr(3)
+        const pkNormalized = '0x' + pk.substring(3)
         expect(pkNormalized).toEqual(t.testData.expected)
       })
     })
@@ -43,7 +47,7 @@ describe('starkex', () => {
     type PriceNormalizationTest = {
       name: string
       testData: {
-        price: number | string
+        price: number
         expected: undefined | string
         error: boolean
       }
@@ -51,7 +55,7 @@ describe('starkex', () => {
 
     const tests: PriceNormalizationTest[] = [
       {
-        name: 'price number (zero)',
+        name: 'price (zero)',
         testData: {
           price: 0,
           expected: '0',
@@ -59,15 +63,7 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price string (zero)',
-        testData: {
-          price: '0',
-          expected: '0',
-          error: false,
-        },
-      },
-      {
-        name: 'price number (no decimals)',
+        name: 'price (no decimals)',
         testData: {
           price: 11512,
           expected: '11512000000000000000000',
@@ -75,15 +71,7 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price string (no decimals)',
-        testData: {
-          price: '11512',
-          expected: '11512000000000000000000',
-          error: false,
-        },
-      },
-      {
-        name: 'price number (decimals)',
+        name: 'price (decimals)',
         testData: {
           price: 11512.34,
           expected: '11512340000000000000000',
@@ -91,33 +79,9 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price string (decimals)',
-        testData: {
-          price: '11512.34',
-          expected: '11512340000000000000000',
-          error: false,
-        },
-      },
-      {
-        name: 'price string (no decimals) #2',
-        testData: {
-          price: '1151234',
-          expected: '1151234000000000000000000',
-          error: false,
-        },
-      },
-      {
         name: 'Error: price number negative',
         testData: {
           price: -1151234,
-          expected: undefined,
-          error: true,
-        },
-      },
-      {
-        name: 'Error: price string negative',
-        testData: {
-          price: '-1151234',
           expected: undefined,
           error: true,
         },
@@ -139,15 +103,7 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price string over max safe number',
-        testData: {
-          price: '9007199254740999',
-          expected: '9007199254740999000000000000000000',
-          error: false,
-        },
-      },
-      {
-        name: 'price number many decimals',
+        name: 'price many decimals',
         testData: {
           price: 0.1234567899999999,
           expected: '123456789999999900',
@@ -155,7 +111,7 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price number many decimals #2',
+        name: 'price many decimals #2',
         testData: {
           price: 12.34567899999999,
           expected: '12345678999999990000',
@@ -163,7 +119,7 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price number with 18 decimals',
+        name: 'price with 18 decimals',
         testData: {
           price: 0.000000000000000001,
           expected: '1',
@@ -171,7 +127,7 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price number with 18 decimals #2',
+        name: 'price with 18 decimals #2',
         testData: {
           price: 1.000000000000000001,
           expected: '1000000000000000000', // TODO: can we detect precision loss and throw?
@@ -179,7 +135,7 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price number scientific notation',
+        name: 'price scientific notation',
         testData: {
           price: 2.32323300000012e-12,
           expected: '2323233',
@@ -187,33 +143,9 @@ describe('starkex', () => {
         },
       },
       {
-        name: 'price string with 18 decimals',
-        testData: {
-          price: '0.000000000000000001',
-          expected: '1',
-          error: false,
-        },
-      },
-      {
-        name: 'price string with 18 decimals #2',
-        testData: {
-          price: '1.000000000000000001',
-          expected: '1000000000000000001',
-          error: false,
-        },
-      },
-      {
-        name: 'price number with more than 18 decimals',
+        name: 'price with more than 18 decimals',
         testData: {
           price: 0.0000000000000000001,
-          expected: '0', // TODO: can we detect precision loss and throw?
-          error: false,
-        },
-      },
-      {
-        name: 'Error: price string with more than 18 decimals',
-        testData: {
-          price: '0.0000000000000000001',
           expected: '0', // TODO: can we detect precision loss and throw?
           error: false,
         },
@@ -227,7 +159,7 @@ describe('starkex', () => {
           expect(normalizedPrice).toEqual(t.testData.expected)
           expect(t.testData.error).toBe(false)
         } catch (err) {
-          if (!(err instanceof AdapterError)) throw err
+          if (!(err instanceof AdapterInputError)) throw err
           expect(t.testData.error).toBe(true)
         }
       })
@@ -259,7 +191,7 @@ describe('starkex', () => {
             oracleName: 'Maker',
             assetName: 'BTCUSD',
             timestamp: 1577836800,
-            price: requireNormalizedPrice('11512.34'),
+            price: requireNormalizedPrice(11512.34),
           },
           expected: {
             signatureR: '0x6a7a118a6fa508c4f0eb77ea0efbc8d48a64d4a570d93f5c61cd886877cb920',
