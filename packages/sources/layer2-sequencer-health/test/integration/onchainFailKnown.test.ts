@@ -101,6 +101,7 @@ describe('execute', () => {
         id,
         data: {
           network: 'optimism',
+          requireTxFailure: true,
         },
       }
 

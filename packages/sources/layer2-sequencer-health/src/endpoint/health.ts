@@ -20,7 +20,7 @@ const defaultRequireTxFailure = {
   [Networks.Arbitrum]: true,
   [Networks.Base]: false,
   [Networks.Metis]: true,
-  [Networks.Optimism]: true,
+  [Networks.Optimism]: false,
   [Networks.Starkware]: true,
 }
 
