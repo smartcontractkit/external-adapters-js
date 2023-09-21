@@ -1,7 +1,12 @@
 {
-    "requests": [{
-         "index": "ETHUSD_RTI"
-    }]
+    "requests": [
+        {
+            "index": "ETHUSD_RTI"
+        },
+        {
+            "endpoint": "crypto",
+            "from": "BCH",
+            "to": "USD"
+        }
+    ]
 }
-
-
