@@ -1,5 +1,11 @@
 # @chainlink/kaiko-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#2993](https://github.com/smartcontractkit/external-adapters-js/pull/2993) [`e216ddfc0`](https://github.com/smartcontractkit/external-adapters-js/commit/e216ddfc01f6697a31d396c81223b4a7216c204b) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add realized-vol endpoint to Kaiko EA
+
 ## 2.1.0
 
 ### Minor Changes

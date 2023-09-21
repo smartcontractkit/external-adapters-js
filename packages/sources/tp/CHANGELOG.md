@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3000](https://github.com/smartcontractkit/external-adapters-js/pull/3000) [`e5743fc20`](https://github.com/smartcontractkit/external-adapters-js/commit/e5743fc2031b309e4bf6cb9ceb1d52f7ea06386d) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - fix on JPY/USD - returning 100x the expected value. Implement inverse.
+
 ## 1.1.13
 
 ### Patch Changes
