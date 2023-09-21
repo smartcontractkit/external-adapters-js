@@ -5,7 +5,7 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 const logger = makeLogger('Coinmetrics RealizedVol HTTP')
 
 interface RealizedVolResponseBody {
-  data: (Record<string, number> & {
+  data: (Record<string, string> & {
     asset: string
     time: string // DateTime (e.g. '2022-12-08T23:50:00.000000000Z')
   })[]
@@ -66,9 +66,9 @@ export const transport = new HttpTransport<HttpTransportTypes>({
       const realizedVolData = res.data.data[0]
 
       const data: ResponseData = {
-        realVol1Day: realizedVolData[constructLookbackMetric(param.quote, '24h')],
-        realVol7Day: realizedVolData[constructLookbackMetric(param.quote, '7d')],
-        realVol30Day: realizedVolData[constructLookbackMetric(param.quote, '30d')],
+        realVol1Day: Number(realizedVolData[constructLookbackMetric(param.quote, '24h')]),
+        realVol7Day: Number(realizedVolData[constructLookbackMetric(param.quote, '7d')]),
+        realVol30Day: Number(realizedVolData[constructLookbackMetric(param.quote, '30d')]),
       }
 
       return {
