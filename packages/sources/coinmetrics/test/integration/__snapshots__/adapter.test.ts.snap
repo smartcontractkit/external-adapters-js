@@ -42,11 +42,11 @@ exports[`http realized-vol endpoint should return error if unsupported resultPat
 exports[`http realized-vol endpoint should return success 1`] = `
 {
   "data": {
-    "realVol1Day": "0.4853062",
-    "realVol30Day": "0.427451",
-    "realVol7Day": "0.3781615",
+    "realVol1Day": 0.4853062,
+    "realVol30Day": 0.427451,
+    "realVol7Day": 0.3781615,
   },
-  "result": "0.3781615",
+  "result": 0.3781615,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
