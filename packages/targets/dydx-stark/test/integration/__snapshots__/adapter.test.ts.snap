@@ -5,13 +5,10 @@ exports[`execute send endpoint should return success 1`] = `
   "data": {
     "result": {
       "market": "BTCUSD",
-      "price": 27000,
+      "price": "27000",
     },
   },
-  "result": {
-    "market": "BTCUSD",
-    "price": 27000,
-  },
+  "result": "27000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1577836800000,

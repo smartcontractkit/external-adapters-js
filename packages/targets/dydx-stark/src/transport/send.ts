@@ -80,8 +80,7 @@ export class DyDxTransport implements Transport<DyDxTransportTypes> {
         result: providerResponse.response.data,
       },
       statusCode: 200,
-      // see the endpoint file for explanation why the type cast is needed
-      result: providerResponse.response.data as unknown as string,
+      result: providerResponse.response.data.price,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),

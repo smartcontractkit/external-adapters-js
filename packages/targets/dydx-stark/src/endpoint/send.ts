@@ -30,8 +30,6 @@ export type DyDxResponse = { market: string; price: string }
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    // The actual Result from transport has DyDxResponse type.
-    //'string' is used as ea-framework doesn't support complex types for Response.Result
     Result: string
     Data: {
       result: DyDxResponse
