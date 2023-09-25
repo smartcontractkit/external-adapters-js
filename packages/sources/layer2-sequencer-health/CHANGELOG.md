@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.6.1
+
+### Patch Changes
+
+- [#3004](https://github.com/smartcontractkit/external-adapters-js/pull/3004) [`bcc834129`](https://github.com/smartcontractkit/external-adapters-js/commit/bcc83412932e1440441e4aca390df5505ee53d85) Thanks [@alecgard](https://github.com/alecgard)! - L2 Sequencer Health: Default Optimism to not use the Transaction check as final decider of health.
+
 ## 2.6.0
 
 ### Minor Changes
