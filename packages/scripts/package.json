@@ -3,7 +3,7 @@
   "version": "2.7.3",
   "dependencies": {
     "@actions/core": "1.9.1",
-    "@apidevtools/json-schema-ref-parser": "9.0.9",
+    "@apidevtools/json-schema-ref-parser": "9.1.2",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
     "@chainlink/external-adapter-framework": "0.33.0",
