@@ -14,7 +14,7 @@ export const inputParameters = new InputParameters(
       aliases: ['price'],
       required: true,
       type: 'number',
-      description: 'Price data that will  be sent to dydx',
+      description: 'Price data that will be sent to dydx',
     },
   },
   [
