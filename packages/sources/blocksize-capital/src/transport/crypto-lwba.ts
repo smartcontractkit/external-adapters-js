@@ -1,19 +1,21 @@
-import { BaseEndpointTypes } from '../endpoint/price'
+import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseMessage, blocksizeDefaultWebsocketOpenHandler } from './transportutils'
 
-const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
+const logger = makeLogger('BlocksizeCapitalLwbaWebsocketEndpoint')
 
 export interface Message extends BaseMessage {
-  method: 'vwap'
+  method: 'bidask'
   params: {
     updates: {
       ticker: string
-      price?: number
-      size?: number
-      volume?: number
-      ts: number
+      agg_ask_price: string
+      agg_ask_size: string
+      agg_bid_price: string
+      agg_bid_size: string
+      agg_mid_price: string
+      ts: string
     }[]
   }
 }
@@ -32,7 +34,7 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
     handlers: {
       open: blocksizeDefaultWebsocketOpenHandler,
       message: (message) => {
-        if (message.method !== 'vwap') return []
+        if (message.method !== 'bidask') return []
         const updates = message.params.updates
         const results: ProviderResult<WsTransportTypes>[] = []
         for (const update of updates) {
@@ -40,8 +42,8 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
           if (!params) {
             continue
           }
-          if (!update.price) {
-            const errorMessage = `The data provider didn't return any value for ${params.base}/${params.quote}`
+          if (!update.agg_ask_price || !update.agg_bid_price || !update.agg_mid_price) {
+            const errorMessage = `The data provider bid/ask update is incomplete for ${params.base}/${params.quote}`
             logger.info(errorMessage)
             results.push({
               params,
@@ -54,12 +56,14 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
             results.push({
               params,
               response: {
-                result: update.price,
+                result: null,
                 data: {
-                  result: update.price,
+                  ask: Number(update.agg_ask_price),
+                  bid: Number(update.agg_bid_price),
+                  mid: Number(update.agg_mid_price),
                 },
                 timestamps: {
-                  providerIndicatedTimeUnixMs: update.ts,
+                  providerIndicatedTimeUnixMs: Number(update.ts),
                 },
               },
             })
@@ -74,7 +78,7 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
         transport.setReverseMapping(pair, params)
         return {
           jsonrpc: '2.0',
-          method: 'vwap_subscribe',
+          method: 'bidask_subscribe',
           params: { tickers: [pair] },
         }
       },
@@ -83,7 +87,7 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
         const pair = `${params.base}${params.quote}`.toUpperCase()
         return {
           jsonrpc: '2.0',
-          method: 'vwap_unsubscribe',
+          method: 'bidask_subscribe',
           params: { tickers: [pair] },
         }
       },
