@@ -95,7 +95,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@authereum/starkware-crypto@npm:^1.9.7-beta.7":
+"@authereum/starkware-crypto@npm:1.9.7-beta.7":
   version: 1.9.7-beta.7
   resolution: "@authereum/starkware-crypto@npm:1.9.7-beta.7"
   dependencies:
@@ -3156,18 +3156,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dydx-stark-adapter@workspace:packages/targets/dydx-stark"
   dependencies:
-    "@authereum/starkware-crypto": ^1.9.7-beta.7
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@authereum/starkware-crypto": 1.9.7-beta.7
+    "@chainlink/external-adapter-framework": 0.33.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    decimal.js: ^10.3.1
-    ethers: ^5.4.6
+    decimal.js: 10.3.1
+    ethers: 5.4.6
     nock: 13.2.9
-    object-path: ^0.11.5
-    supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -6201,6 +6197,17 @@ __metadata:
     "@ethersproject/logger": ^5.0.8
     bn.js: ^4.4.0
   checksum: 849dce7f93fb931d50ca0ff58b6e22c752a9dbdcb48abb999a4c906cbe2095571151e100b87f81c4eb3bf2dbf39a6899e07ce0b103de9c835b726b4b52b24d9b
+  languageName: node
+  linkType: hard
+
+"@ethersproject/bignumber@npm:5.4.1":
+  version: 5.4.1
+  resolution: "@ethersproject/bignumber@npm:5.4.1"
+  dependencies:
+    "@ethersproject/bytes": ^5.4.0
+    "@ethersproject/logger": ^5.4.0
+    bn.js: ^4.11.9
+  checksum: ba154500635ed4545ba2e2a06ed1b4f07738956e131f1a4c0fc706f8eed80d89c9cc93fdf1a71f95e4f943e29faf8b3644cc1226c51f9280d26dc6783089f976
   languageName: node
   linkType: hard
 
@@ -15200,6 +15207,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decimal.js@npm:10.3.1":
+  version: 10.3.1
+  resolution: "decimal.js@npm:10.3.1"
+  checksum: 0351ac9f05fe050f23227aa6a4573bee2d58fa7378fcf28d969a8c789525032effb488a90320fd3fe86a66e17b4bc507d811b15eada5b7f0e7ec5d2af4c24a59
+  languageName: node
+  linkType: hard
+
 "decimal.js@npm:^10.2.1, decimal.js@npm:^10.3.1, decimal.js@npm:^10.4.3":
   version: 10.4.3
   resolution: "decimal.js@npm:10.4.3"
@@ -16852,6 +16866,44 @@ __metadata:
     "@ethersproject/web": 5.0.14
     "@ethersproject/wordlists": 5.0.10
   checksum: 22ee093638689fb2f945c88aeadd44990ac8e130f0fd0d96575db15772b7ee3ef0ab5e8acf48adc9b330a8a455487305b1181ee7c444db1d5937d8a6346ff745
+  languageName: node
+  linkType: hard
+
+"ethers@npm:5.4.6":
+  version: 5.4.6
+  resolution: "ethers@npm:5.4.6"
+  dependencies:
+    "@ethersproject/abi": 5.4.1
+    "@ethersproject/abstract-provider": 5.4.1
+    "@ethersproject/abstract-signer": 5.4.1
+    "@ethersproject/address": 5.4.0
+    "@ethersproject/base64": 5.4.0
+    "@ethersproject/basex": 5.4.0
+    "@ethersproject/bignumber": 5.4.1
+    "@ethersproject/bytes": 5.4.0
+    "@ethersproject/constants": 5.4.0
+    "@ethersproject/contracts": 5.4.1
+    "@ethersproject/hash": 5.4.0
+    "@ethersproject/hdnode": 5.4.0
+    "@ethersproject/json-wallets": 5.4.0
+    "@ethersproject/keccak256": 5.4.0
+    "@ethersproject/logger": 5.4.1
+    "@ethersproject/networks": 5.4.2
+    "@ethersproject/pbkdf2": 5.4.0
+    "@ethersproject/properties": 5.4.1
+    "@ethersproject/providers": 5.4.5
+    "@ethersproject/random": 5.4.0
+    "@ethersproject/rlp": 5.4.0
+    "@ethersproject/sha2": 5.4.0
+    "@ethersproject/signing-key": 5.4.0
+    "@ethersproject/solidity": 5.4.0
+    "@ethersproject/strings": 5.4.0
+    "@ethersproject/transactions": 5.4.0
+    "@ethersproject/units": 5.4.0
+    "@ethersproject/wallet": 5.4.0
+    "@ethersproject/web": 5.4.0
+    "@ethersproject/wordlists": 5.4.0
+  checksum: 3750ca9532b1413ef2b1bd611f4a8c74aa6413cbe47dd443d52430e4457a1343ea84c334e99018f816ea19e2848bb885146421c86101fe4570292b43c7762081
   languageName: node
   linkType: hard
 

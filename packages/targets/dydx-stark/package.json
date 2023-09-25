@@ -27,21 +27,17 @@
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
-  "dependencies": {
-    "@authereum/starkware-crypto": "^1.9.7-beta.7",
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "decimal.js": "^10.3.1",
-    "ethers": "^5.4.6",
-    "object-path": "^0.11.5",
-    "tslib": "^2.3.1"
-  },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
     "nock": "13.2.9",
-    "supertest": "6.2.4",
     "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "@authereum/starkware-crypto": "1.9.7-beta.7",
+    "@chainlink/external-adapter-framework": "0.33.0",
+    "decimal.js": "10.3.1",
+    "ethers": "5.4.6",
+    "tslib": "2.4.1"
   }
 }
