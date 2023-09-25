@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.5.1
+
+### Patch Changes
+
+- [#3007](https://github.com/smartcontractkit/external-adapters-js/pull/3007) [`85a562ddc`](https://github.com/smartcontractkit/external-adapters-js/commit/85a562ddc89babed67f542f5e1243bba3abb5670) Thanks [@alecgard](https://github.com/alecgard)! - Coinmetrics: Return Realized Vol data as number
+
 ## 3.5.0
 
 ### Minor Changes

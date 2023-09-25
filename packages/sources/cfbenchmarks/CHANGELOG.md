@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.2.1
+
+### Patch Changes
+
+- [#3002](https://github.com/smartcontractkit/external-adapters-js/pull/3002) [`0527b7173`](https://github.com/smartcontractkit/external-adapters-js/commit/0527b7173baaeed5553eb91b714d75587f0dfa64) Thanks [@alecgard](https://github.com/alecgard)! - Fix bug where CFBenchmarks Crypto endpoint would fail if `API_SECONDARY` is explicitly set to false.
+
 ## 2.2.0
 
 ### Minor Changes

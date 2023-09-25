@@ -1,5 +1,12 @@
 # @chainlink/historical-average-adapter
 
+## 1.2.50
+
+### Patch Changes
+
+- Updated dependencies [[`112d9c967`](https://github.com/smartcontractkit/external-adapters-js/commit/112d9c9679fdcb3210ec53a17b6b8f0016ad0a0d)]:
+  - @chainlink/coinmarketcap-adapter@2.0.17
+
 ## 1.2.49
 
 ### Patch Changes
