@@ -1057,10 +1057,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@actions/core", [\
-        ["npm:1.9.1", {\
-          "packageLocation": "./.yarn/cache/@actions-core-npm-1.9.1-108e26d1ac-8f9823bed2.zip/node_modules/@actions/core/",\
+        ["npm:1.10.1", {\
+          "packageLocation": "./.yarn/cache/@actions-core-npm-1.10.1-3cb1000b4d-96524c2725.zip/node_modules/@actions/core/",\
           "packageDependencies": [\
-            ["@actions/core", "npm:1.9.1"],\
+            ["@actions/core", "npm:1.10.1"],\
             ["@actions/http-client", "npm:2.0.1"],\
             ["uuid", "npm:8.3.2"]\
           ],\
@@ -6880,7 +6880,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/scripts/",\
           "packageDependencies": [\
             ["@chainlink/ea-scripts", "workspace:packages/scripts"],\
-            ["@actions/core", "npm:1.9.1"],\
+            ["@actions/core", "npm:1.10.1"],\
             ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
