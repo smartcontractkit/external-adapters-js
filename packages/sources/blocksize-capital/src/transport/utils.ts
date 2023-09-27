@@ -1,5 +1,3 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { WsTransportTypes } from './price'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('BlocksizeCapitalTransportUtils')
@@ -13,10 +11,10 @@ export interface BaseMessage {
 // use as open handler for standard WS connections
 export const blocksizeDefaultWebsocketOpenHandler = (
   connection: WebSocket,
-  context: EndpointContext<WsTransportTypes>,
+  apiKey: string,
 ): Promise<void> | void => {
   return new Promise((resolve, reject) => {
-    connection.addEventListener('message', (event: MessageEvent<any>) => {
+    connection.addEventListener('message', (event: MessageEvent<BaseMessage>) => {
       const parsed = JSON.parse(event.data.toString())
       if (parsed.result?.user_id) {
         logger.debug('Got logged in response, connection is ready')
@@ -28,7 +26,7 @@ export const blocksizeDefaultWebsocketOpenHandler = (
     const options = {
       jsonrpc: '2.0',
       method: 'authentication_logon',
-      params: { api_key: context.adapterSettings.API_KEY },
+      params: { api_key: apiKey },
     }
     connection.send(JSON.stringify(options))
   })

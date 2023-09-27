@@ -1,7 +1,7 @@
 import { BaseEndpointTypes } from '../endpoint/price'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { BaseMessage, blocksizeDefaultWebsocketOpenHandler } from './transportutils'
+import { BaseMessage, blocksizeDefaultWebsocketOpenHandler } from './utils'
 
 const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
 
@@ -26,11 +26,10 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 export const transport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
   new WebsocketReverseMappingTransport<WsTransportTypes, string>({
-    url: ({ adapterSettings: { WS_API_ENDPOINT } }) => {
-      return WS_API_ENDPOINT
-    },
+    url: (context) => context.adapterSettings.WS_API_ENDPOINT,
     handlers: {
-      open: blocksizeDefaultWebsocketOpenHandler,
+      open: (connection, context) =>
+        blocksizeDefaultWebsocketOpenHandler(connection, context.adapterSettings.API_KEY),
       message: (message) => {
         if (message.method !== 'vwap') return []
         const updates = message.params.updates
