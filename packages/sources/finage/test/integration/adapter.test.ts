@@ -54,6 +54,7 @@ describe('execute', () => {
       data: {
         endpoint: 'uk_etf',
         base: 'IBTA',
+        country: 'uk',
       },
     }
 
@@ -75,8 +76,9 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        endpoint: 'uk_etf',
+        endpoint: 'etf',
         base: 'NON_EXISTING_UK_ETF',
+        country: 'uk',
       },
     }
 
@@ -606,8 +608,9 @@ describe('websocket', () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
-          endpoint: 'uk_etf',
+          endpoint: 'etf',
           base: 'IBTA',
+          country: 'uk',
         },
       }
 
