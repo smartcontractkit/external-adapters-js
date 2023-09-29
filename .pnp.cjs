@@ -1031,7 +1031,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.22.20"],\
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.22.20"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.22.15"],\
-            ["@chainlink/external-adapter-framework", "npm:0.31.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
             ["@changesets/changelog-github", "npm:0.4.8"],\
             ["@changesets/cli", "npm:2.26.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
@@ -6212,25 +6212,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.31.1", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.31.1-aa9e7dac7b-b61f676b87.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.31.1"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:1.3.4"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.13.0"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["mock-socket", "npm:9.1.5"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["redlock", "npm:5.0.0-beta.2"],\
-            ["ws", "virtual:aa9e7dac7b983c6921db6ad5e3baa1a6cab1fd21208f6b58ebe0abb1f46fec5df74de19fb2941c41ce090163d190084d829726541f3dfa4ff00430df7016c100#npm:8.9.0"],\
-            ["yeoman-generator", "npm:3.1.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.33.0", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.33.0-393b4eb5cd-65709438d6.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -6245,7 +6226,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
             ["redlock", "npm:5.0.0-beta.2"],\
-            ["ws", "virtual:aa9e7dac7b983c6921db6ad5e3baa1a6cab1fd21208f6b58ebe0abb1f46fec5df74de19fb2941c41ce090163d190084d829726541f3dfa4ff00430df7016c100#npm:8.9.0"],\
+            ["ws", "virtual:393b4eb5cd5b426016a867893d1f256e5dcd9a5de150c798f77c2d1875c2272a9b8d9ab4ad668bec1af348b12c9f1ec0c22a3cf1d2ca338290ea4b1da25dadc6#npm:8.9.0"],\
             ["yeoman-generator", "npm:3.1.1"]\
           ],\
           "linkType": "HARD"\
@@ -6259,7 +6240,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.22.20"],\
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.22.20"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.22.15"],\
-            ["@chainlink/external-adapter-framework", "npm:0.31.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
             ["@changesets/changelog-github", "npm:0.4.8"],\
             ["@changesets/cli", "npm:2.26.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
@@ -39876,6 +39857,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["virtual:393b4eb5cd5b426016a867893d1f256e5dcd9a5de150c798f77c2d1875c2272a9b8d9ab4ad668bec1af348b12c9f1ec0c22a3cf1d2ca338290ea4b1da25dadc6#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-c448c32797/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:393b4eb5cd5b426016a867893d1f256e5dcd9a5de150c798f77c2d1875c2272a9b8d9ab4ad668bec1af348b12c9f1ec0c22a3cf1d2ca338290ea4b1da25dadc6#npm:8.9.0"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -39914,23 +39912,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:aa9e7dac7b983c6921db6ad5e3baa1a6cab1fd21208f6b58ebe0abb1f46fec5df74de19fb2941c41ce090163d190084d829726541f3dfa4ff00430df7016c100#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-45feebf309/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:aa9e7dac7b983c6921db6ad5e3baa1a6cab1fd21208f6b58ebe0abb1f46fec5df74de19fb2941c41ce090163d190084d829726541f3dfa4ff00430df7016c100#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
