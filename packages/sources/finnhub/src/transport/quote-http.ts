@@ -2,14 +2,7 @@ import { config } from '../config'
 import { BaseEndpointTypes, buildSymbol } from '../endpoint/quote'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-
-export function parseResult(ticker: string, result: number) {
-  if (ticker == 'OANDA:WHEAT_USD') {
-    // if Ticket ONADA:WHEAT_USD convert result from dollar to cents
-    return result * 100
-  }
-  return result
-}
+import { parseResult } from './utils'
 
 const logger = makeLogger('Finnhub quote endpoint REST')
 interface ProviderResponseBody {

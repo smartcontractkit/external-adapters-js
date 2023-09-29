@@ -1,7 +1,7 @@
 import { BaseEndpointTypes, buildSymbol } from '../endpoint/quote'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
-import { parseResult } from './quote-http'
+import { parseResult } from './utils'
 
 const logger = makeLogger('Finnhub quote endpoint WS')
 
