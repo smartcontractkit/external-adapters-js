@@ -5848,7 +5848,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/object-path", "npm:0.11.2"],\
             ["@types/pino", "npm:6.3.12"],\
             ["@types/pino-pretty", "npm:4.7.5"],\
-            ["@types/promise-timeout", "npm:1.3.0"],\
+            ["@types/promise-timeout", "npm:1.3.1"],\
             ["@types/redux-logger", "npm:3.0.9"],\
             ["@types/remote-redux-devtools", "npm:0.5.5"],\
             ["@types/sinon", "npm:10.0.16"],\
@@ -14433,10 +14433,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/promise-timeout", [\
-        ["npm:1.3.0", {\
-          "packageLocation": "./.yarn/cache/@types-promise-timeout-npm-1.3.0-57a2a96ae0-f85137ead8.zip/node_modules/@types/promise-timeout/",\
+        ["npm:1.3.1", {\
+          "packageLocation": "./.yarn/cache/@types-promise-timeout-npm-1.3.1-3d1be00153-ed916e3095.zip/node_modules/@types/promise-timeout/",\
           "packageDependencies": [\
-            ["@types/promise-timeout", "npm:1.3.0"]\
+            ["@types/promise-timeout", "npm:1.3.1"]\
           ],\
           "linkType": "HARD"\
         }]\
