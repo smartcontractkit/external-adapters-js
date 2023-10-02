@@ -4935,7 +4935,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/express", "npm:4.17.17"],\
+            ["@types/express", "npm:4.17.18"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5838,7 +5838,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/core/bootstrap/",\
           "packageDependencies": [\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.5"],\
+            ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.6"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/lodash", "npm:4.14.199"],\
@@ -5848,7 +5848,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/object-path", "npm:0.11.2"],\
             ["@types/pino", "npm:6.3.12"],\
             ["@types/pino-pretty", "npm:4.7.5"],\
-            ["@types/promise-timeout", "npm:1.3.0"],\
+            ["@types/promise-timeout", "npm:1.3.1"],\
             ["@types/redux-logger", "npm:3.0.9"],\
             ["@types/remote-redux-devtools", "npm:0.5.5"],\
             ["@types/sinon", "npm:10.0.16"],\
@@ -7303,7 +7303,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@paypal/payouts-sdk", "npm:1.1.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/paypal__payouts-sdk", "npm:1.0.3"],\
+            ["@types/paypal__payouts-sdk", "npm:1.0.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -12797,24 +12797,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@reduxjs/toolkit", [\
-        ["npm:1.9.5", {\
-          "packageLocation": "./.yarn/cache/@reduxjs-toolkit-npm-1.9.5-4da955008b-54672c5593.zip/node_modules/@reduxjs/toolkit/",\
+        ["npm:1.9.6", {\
+          "packageLocation": "./.yarn/cache/@reduxjs-toolkit-npm-1.9.6-51e88ccdbd-61d445f7e0.zip/node_modules/@reduxjs/toolkit/",\
           "packageDependencies": [\
-            ["@reduxjs/toolkit", "npm:1.9.5"]\
+            ["@reduxjs/toolkit", "npm:1.9.6"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.5", {\
-          "packageLocation": "./.yarn/__virtual__/@reduxjs-toolkit-virtual-5b1ba5590c/0/cache/@reduxjs-toolkit-npm-1.9.5-4da955008b-54672c5593.zip/node_modules/@reduxjs/toolkit/",\
+        ["virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.6", {\
+          "packageLocation": "./.yarn/__virtual__/@reduxjs-toolkit-virtual-efbe41d014/0/cache/@reduxjs-toolkit-npm-1.9.6-51e88ccdbd-61d445f7e0.zip/node_modules/@reduxjs/toolkit/",\
           "packageDependencies": [\
-            ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.5"],\
+            ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.6"],\
             ["@types/react", null],\
             ["@types/react-redux", null],\
             ["immer", "npm:9.0.21"],\
             ["react", null],\
             ["react-redux", null],\
             ["redux", "npm:4.2.1"],\
-            ["redux-thunk", "virtual:5b1ba5590c650ff446d5ddf620a70c366d1f00b6d9f40899d2a9ff449aa93c669a78f7155dcfdaf6a12743cfb378f6ef9338f754ea4d62065c7eb6be88ec1d2b#npm:2.4.2"],\
+            ["redux-thunk", "virtual:efbe41d0147b567e2b92496b5faf530acb19ff6f54132c96f4e2ed530b28239213e8c26c457cbd7a9bdd84e15c970e17fc9f2bb49e6a93e6aeaeac2c8d95ab04#npm:2.4.2"],\
             ["reselect", "npm:4.1.8"]\
           ],\
           "packagePeers": [\
@@ -13965,10 +13965,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/express", [\
-        ["npm:4.17.17", {\
-          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.17-46fe8173db-0196dacc27.zip/node_modules/@types/express/",\
+        ["npm:4.17.18", {\
+          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.18-c095318854-8c178da4f0.zip/node_modules/@types/express/",\
           "packageDependencies": [\
-            ["@types/express", "npm:4.17.17"],\
+            ["@types/express", "npm:4.17.18"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/express-serve-static-core", "npm:4.17.33"],\
             ["@types/qs", "npm:6.9.7"],\
@@ -14371,10 +14371,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/paypal__payouts-sdk", [\
-        ["npm:1.0.3", {\
-          "packageLocation": "./.yarn/cache/@types-paypal__payouts-sdk-npm-1.0.3-262e9f7394-83ee9b0003.zip/node_modules/@types/paypal__payouts-sdk/",\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/@types-paypal__payouts-sdk-npm-1.0.4-c0b64894f3-91326bad32.zip/node_modules/@types/paypal__payouts-sdk/",\
           "packageDependencies": [\
-            ["@types/paypal__payouts-sdk", "npm:1.0.3"]\
+            ["@types/paypal__payouts-sdk", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14433,10 +14433,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/promise-timeout", [\
-        ["npm:1.3.0", {\
-          "packageLocation": "./.yarn/cache/@types-promise-timeout-npm-1.3.0-57a2a96ae0-f85137ead8.zip/node_modules/@types/promise-timeout/",\
+        ["npm:1.3.1", {\
+          "packageLocation": "./.yarn/cache/@types-promise-timeout-npm-1.3.1-3d1be00153-ed916e3095.zip/node_modules/@types/promise-timeout/",\
           "packageDependencies": [\
-            ["@types/promise-timeout", "npm:1.3.0"]\
+            ["@types/promise-timeout", "npm:1.3.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34282,10 +34282,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:5b1ba5590c650ff446d5ddf620a70c366d1f00b6d9f40899d2a9ff449aa93c669a78f7155dcfdaf6a12743cfb378f6ef9338f754ea4d62065c7eb6be88ec1d2b#npm:2.4.2", {\
-          "packageLocation": "./.yarn/__virtual__/redux-thunk-virtual-4f890b316b/0/cache/redux-thunk-npm-2.4.2-3acdaaf7b0-c7f757f6c3.zip/node_modules/redux-thunk/",\
+        ["virtual:efbe41d0147b567e2b92496b5faf530acb19ff6f54132c96f4e2ed530b28239213e8c26c457cbd7a9bdd84e15c970e17fc9f2bb49e6a93e6aeaeac2c8d95ab04#npm:2.4.2", {\
+          "packageLocation": "./.yarn/__virtual__/redux-thunk-virtual-3532437c56/0/cache/redux-thunk-npm-2.4.2-3acdaaf7b0-c7f757f6c3.zip/node_modules/redux-thunk/",\
           "packageDependencies": [\
-            ["redux-thunk", "virtual:5b1ba5590c650ff446d5ddf620a70c366d1f00b6d9f40899d2a9ff449aa93c669a78f7155dcfdaf6a12743cfb378f6ef9338f754ea4d62065c7eb6be88ec1d2b#npm:2.4.2"],\
+            ["redux-thunk", "virtual:efbe41d0147b567e2b92496b5faf530acb19ff6f54132c96f4e2ed530b28239213e8c26c457cbd7a9bdd84e15c970e17fc9f2bb49e6a93e6aeaeac2c8d95ab04#npm:2.4.2"],\
             ["@types/redux", null],\
             ["redux", "npm:4.2.1"]\
           ],\
