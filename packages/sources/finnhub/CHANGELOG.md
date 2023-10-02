@@ -1,5 +1,13 @@
 # @chainlink/finnhub-adapter
 
+## 2.7.0
+
+### Minor Changes
+
+- [#3016](https://github.com/smartcontractkit/external-adapters-js/pull/3016) [`f5162abff`](https://github.com/smartcontractkit/external-adapters-js/commit/f5162abff871d5733f5e4bbc07c349b0aa41afc8) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - finnhub secondary handling of WHEAT price. Should divide by 100.
+
+- [#3016](https://github.com/smartcontractkit/external-adapters-js/pull/3016) [`f5162abff`](https://github.com/smartcontractkit/external-adapters-js/commit/f5162abff871d5733f5e4bbc07c349b0aa41afc8) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - finnhub secondary handling of WHEAT price. Should divide by 100.
+
 ## 2.6.0
 
 ### Minor Changes
