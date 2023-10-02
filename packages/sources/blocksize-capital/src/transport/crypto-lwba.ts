@@ -86,7 +86,7 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
         const pair = `${params.base}${params.quote}`.toUpperCase()
         return {
           jsonrpc: '2.0',
-          method: 'bidask_subscribe',
+          method: 'bidask_unsubscribe',
           params: { tickers: [pair] },
         }
       },
