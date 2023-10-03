@@ -30,3 +30,18 @@ exports[`websocket price endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`websocket vwap endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.7748077041598187,
+  },
+  "result": 1.7748077041598187,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3042,
+    "providerDataStreamEstablishedUnixMs": 3030,
+    "providerIndicatedTimeUnixMs": 1670630400000,
+  },
+}
+`;
