@@ -196,6 +196,35 @@ describe('Validates Cardano addresses', () => {
     ]
     expect(validateAddresses('1', 'cardano', invalidBech32Address)).toEqual([])
   })
+
+  it('Validates testnet addresses', () => {
+    const validTestnetAddress = [
+      {
+        address:
+          'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
+        network: 'cardano',
+        chainId: 'testnet',
+      },
+      {
+        address:
+          'addr_test1qqr585tvlc7ylnqvz8pyqwauzrdu0mxag3m7q56grgmgu7sxu2hyfhlkwuxupa9d5085eunq2qywy7hvmvej456flknswgndm3',
+        network: 'cardano',
+        chainId: 'testnet',
+      },
+    ]
+    expect(validateAddresses('1', 'ada_balance', validTestnetAddress)).toEqual(validTestnetAddress)
+  })
+
+  it('Does not validate invalid testnet addresses', () => {
+    const invalidTestnetAddress = [
+      {
+        address: 'addr_test1vpu5Olrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg0yu80w',
+        network: 'cardano',
+        chainId: 'testnet',
+      },
+    ]
+    expect(validateAddresses('1', 'ada_balance', invalidTestnetAddress)).toEqual([])
+  })
 })
 
 describe('Validates Dogecoin addresses', () => {
@@ -276,5 +305,97 @@ describe('Validates Filecoin addresses', () => {
       },
     ]
     expect(validateAddresses('1', 'filecoin', invalidAddresses)).toEqual([])
+  })
+})
+
+describe('Validates Beacon validator addresses', () => {
+  it('Validates valid address', () => {
+    const validAddresses = [
+      {
+        address:
+          '0x89c1fa47be0aff073afe98720d9524534bd7cd6fdaf065e205cd290766c044eb0c39a5ed7977f7e7f3747ba550e0b0e4',
+        network: 'mainnet',
+        chainId: '1',
+      },
+      {
+        address:
+          '0x8000909f19cc28cd4335da3fe5dd3d84049259217d236a466885877cae255a3d30021aa25b50038ccf377b3e2e538284',
+        network: 'mainnet',
+        chainId: '1',
+      },
+      {
+        address:
+          '0x8000553d719a1b09006c80da3d6efb8227f5184512e89096e56f3b7ee6d29c45e44227415be00cfda05c0b3c85fe3048',
+        network: 'mainnet',
+        chainId: '1',
+      },
+    ]
+    expect(validateAddresses('1', 'eth_beacon', validAddresses)).toEqual(validAddresses)
+  })
+
+  it('Does not validate invalid address', () => {
+    const invalidAddresses = [
+      {
+        address:
+          '0x89c1fa47be0aff073afe98720d9524534bd7cd6fdaf065e20544eb0c39a5ed7977f7e7f3747ba550e0b0e4',
+        network: 'mainnet',
+        chainId: '1',
+      },
+      {
+        address: '1abjxfbp274xpdqcpuaykwkfb43omjotacm2p3za',
+        network: 'mainnet',
+        chainId: '1',
+      },
+    ]
+    expect(validateAddresses('1', 'eth_beacon', invalidAddresses)).toEqual([])
+  })
+})
+
+describe('Validates Avalanche addresses', () => {
+  it('Validates valid address', () => {
+    const validAddresses = [
+      {
+        address: 'P-avax1k9z2fnqu2nwvy23lf3ztgku6jdp22u6etv4ewc',
+        network: 'avalanche',
+        chainId: '43114',
+      },
+      {
+        address: '0x74170Ba6590254c52d7786d3F590316c5BDE66a5',
+        network: 'avalanche',
+        chainId: '43114',
+      },
+      {
+        address: 'X-avax1k9z2fnqu2nwvy23lf3ztgku6jdp22u6etv4ewc',
+        network: 'avalanche',
+        chainId: '43114',
+      },
+      {
+        address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
+        network: 'avalanche-fuji',
+        chainId: '43113',
+      },
+    ]
+    expect(validateAddresses('1', 'avalanche_platform', validAddresses)).toEqual(validAddresses)
+  })
+
+  it('Does not validate invalid address', () => {
+    const invalidAddresses = [
+      {
+        address: 'P-avax1k9z2fn1u2nwvy23lf3ztgku6jdp22u6etv4ewc',
+        network: 'avalanche',
+        chainId: '43114',
+      },
+      {
+        address: '0x74170Ba6590254c52d73422786d3F590316c5BDE66a5',
+        network: 'avalanche',
+        chainId: '43114',
+      },
+      {
+        address: 'Xdsfsavax1k9z2fnqu2nwvy23lf3ztgku6jdp22u6etv4ewc',
+        network: 'avalanche',
+        chainId: '43114',
+      },
+    ]
+    expect(validateAddresses('1', 'avalanche_platform', invalidAddresses)).toEqual([])
   })
 })
