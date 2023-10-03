@@ -608,7 +608,7 @@ describe('websocket', () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
-          endpoint: 'etf',
+          endpoint: 'uk_etf',
           base: 'IBTA',
           country: 'uk',
         },
