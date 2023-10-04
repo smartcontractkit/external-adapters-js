@@ -25,11 +25,11 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       },
     }
   },
-  parseResponse: (_params, response) => {
+  parseResponse: (params, response) => {
     if (response.data.errorMessage) {
       return [
         {
-          params: {},
+          params: params[0],
           response: {
             errorMessage: `There was an error from the source API. ${response.data.errorMessage}`,
             statusCode: 502,
@@ -40,7 +40,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     if (!response.data.total_reserve && response.data.total_reserve !== 0) {
       return [
         {
-          params: {},
+          params: params[0],
           response: {
             errorMessage: `The data provider didn't return any value for total_reserve`,
             statusCode: 502,
@@ -52,7 +52,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     const result = response.data.total_reserve
     return [
       {
-        params: {},
+        params: params[0],
         response: {
           result,
           data: {
