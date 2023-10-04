@@ -1,5 +1,6 @@
 {
-    "requests": [{
-        "base": "EURUSD:CUR"
-    }]
+ "requests": [{
+  "from": "CAD",
+  "to": "USD"
+ }]
 }
