@@ -9,7 +9,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 
 const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
-    base: 'ETH',
+    base: 'AMPL',
     quote: 'USD',
   },
 ])
