@@ -199,3 +199,33 @@ export const mockEurrResponseFailure = (): nock.Scope =>
       ripcordDetails: ['Balances'],
     })
     .persist()
+
+export const mockGiftResponseSuccess = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/GIFT')
+    .reply(200, {
+      accountName: 'GIFT',
+      totalReserve: 10000000,
+      totalToken: 9999999.58,
+      timestamp: '2023-09-25T13:20:40.048Z',
+      ripcord: false,
+      ripcordDetails: [],
+    })
+    .persist()
+
+export const mockGiftResponseFailure = (): nock.Scope =>
+  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
+    encodedQueryParams: true,
+  })
+    .get('/GIFT')
+    .reply(200, {
+      accountName: 'GIFT',
+      totalReserve: 10000000,
+      totalToken: 9999999.58,
+      timestamp: '2023-09-25T13:20:40.048Z',
+      ripcord: true,
+      ripcordDetails: ['Balances'],
+    })
+    .persist()

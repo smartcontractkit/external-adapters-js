@@ -24,6 +24,18 @@ exports[`execute eurr endpoint when ripcord true  should return error 1`] = `
 }
 `;
 
+exports[`execute gift endpoint when ripcord true  should return error 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1695648040048,
+  },
+}
+`;
+
 exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
