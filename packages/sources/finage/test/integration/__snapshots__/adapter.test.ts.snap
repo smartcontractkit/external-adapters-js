@@ -64,6 +64,18 @@ exports[`execute etf api should return success 1`] = `
 }
 `;
 
+exports[`execute etf api using country:uk  should return success 1`] = `
+{
+  "data": {
+    "result": 5.276,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 5.276,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute etf api with invalid base should return failure 1`] = `
 {
   "error": {
@@ -120,18 +132,6 @@ exports[`execute stock api with invalid base should return failure 1`] = `
 }
 `;
 
-exports[`execute uk etf api should return success 1`] = `
-{
-  "data": {
-    "result": 5.276,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 5.276,
-  "statusCode": 200,
-}
-`;
-
 exports[`execute uk etf api with invalid base should return failure 1`] = `
 {
   "error": {
@@ -144,6 +144,18 @@ exports[`execute uk etf api with invalid base should return failure 1`] = `
   "jobRunID": "1",
   "providerStatusCode": 400,
   "status": "errored",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute uk-etf endpoint api should return success 1`] = `
+{
+  "data": {
+    "result": 5.276,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 5.276,
   "statusCode": 200,
 }
 `;
