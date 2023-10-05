@@ -1,7 +1,12 @@
 import { getAuthToken } from './util'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  WebSocketTransport,
+  WebSocketTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/price'
+import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { BaseEndpointTypes, RequestParams } from '../endpoint/price'
 
 const logger = makeLogger('DarPriceEndpoint')
 
@@ -34,16 +39,19 @@ const hitTrackingLevels: { [level: string]: boolean } = {
   trace: true,
 }
 
-export const transport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
-  options: async (context) => {
+export const config: WebSocketTransportConfig<WsTransportTypes> = {
+  url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
+  options: async (context, desiredSubs) => {
     const token = await getAuthToken(context.adapterSettings)
     return {
-      headers: { Authorization: token },
+      headers: {
+        Authorization: token,
+        assets: desiredSubs.map((pair) => pair['base'].toLowerCase()).join(','),
+      },
     }
   },
   handlers: {
-    message(message, context) {
+    message(message: ProviderMessage, context: EndpointContext<WsTransportTypes>) {
       if (message.errors) {
         logger.error(`Got error from DP: ${message.errors}`)
         return []
@@ -80,4 +88,30 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       ]
     },
   },
-})
+}
+
+export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
+  override async streamHandler(
+    context: EndpointContext<WsTransportTypes>,
+    subscriptions: SubscriptionDeltas<RequestParams>,
+  ): Promise<void> {
+    if (
+      this.wsConnection &&
+      !this.connectionClosed() &&
+      (subscriptions.new.length || subscriptions.stale.length)
+    ) {
+      logger.debug(
+        `closing WS connection for new subscriptions: ${JSON.stringify(subscriptions.desired)}`,
+      )
+      const closed = new Promise<void>((resolve) => (this.wsConnection.onclose = resolve))
+      this.wsConnection.close()
+      await closed
+    }
+
+    subscriptions.new = subscriptions.desired
+    subscriptions.stale = []
+    await super.streamHandler(context, subscriptions)
+  }
+}
+
+export const transport = new DarWebsocketTransport(config)

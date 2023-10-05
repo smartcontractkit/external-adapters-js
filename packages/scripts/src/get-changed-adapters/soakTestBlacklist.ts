@@ -67,6 +67,7 @@ export const SoakTestBlacklist: string[] = [
   'terra-view-function', // Missing: RPC URL
   'therundown',
   'token-allocation',
+  'trumatic-matic-exchange-rate', // Missing: RPC URL
   'twelvedata',
   'unibit',
 ]

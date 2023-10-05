@@ -1,5 +1,35 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.2.1
+
+### Patch Changes
+
+- [#3002](https://github.com/smartcontractkit/external-adapters-js/pull/3002) [`0527b7173`](https://github.com/smartcontractkit/external-adapters-js/commit/0527b7173baaeed5553eb91b714d75587f0dfa64) Thanks [@alecgard](https://github.com/alecgard)! - Fix bug where CFBenchmarks Crypto endpoint would fail if `API_SECONDARY` is explicitly set to false.
+
+## 2.2.0
+
+### Minor Changes
+
+- [#2970](https://github.com/smartcontractkit/external-adapters-js/pull/2970) [`875b24bf6`](https://github.com/smartcontractkit/external-adapters-js/commit/875b24bf6a7e0b4496519b54798d741ab26aa73e) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Standardize LWBA endpoints
+
+## 2.1.9
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 2.1.8
+
+### Patch Changes
+
+- [#2959](https://github.com/smartcontractkit/external-adapters-js/pull/2959) [`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02) Thanks [@amit-momin](https://github.com/amit-momin)! - Bumped framework version
+
+- [#2958](https://github.com/smartcontractkit/external-adapters-js/pull/2958) [`a70ba131a`](https://github.com/smartcontractkit/external-adapters-js/commit/a70ba131adb5dfab3582d5d90441528e0a3db5ab) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - BIRC noisy log fix
+
+- [#2957](https://github.com/smartcontractkit/external-adapters-js/pull/2957) [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
+- [#2953](https://github.com/smartcontractkit/external-adapters-js/pull/2953) [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.1.7
 
 ### Patch Changes

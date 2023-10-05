@@ -5,23 +5,31 @@ import overrides from '../config/overrides.json'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { transport } from '../transport/vwap'
 
-export const inputParameters = new InputParameters({
-  base: {
-    description: 'The symbol of symbols of the currency to query',
-    aliases: ['from', 'coin'],
-    type: 'string',
-    required: true,
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      description: 'The symbol of symbols of the currency to query',
+      aliases: ['from', 'coin'],
+      type: 'string',
+      required: true,
+    },
+    hours: {
+      description: 'Number of hours to get VWAP for',
+      type: 'number',
+      default: 24,
+    },
+    coinid: {
+      description: 'The coin ID (optional to use in place of `base`)',
+      type: 'string',
+    },
   },
-  hours: {
-    description: 'Number of hours to get VWAP for',
-    type: 'number',
-    default: 24,
-  },
-  coinid: {
-    description: 'The coin ID (optional to use in place of `base`)',
-    type: 'string',
-  },
-})
+  [
+    {
+      base: 'ETH',
+      hours: 24,
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

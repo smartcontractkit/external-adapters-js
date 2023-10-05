@@ -7,7 +7,12 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/forex'
-export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
+  {
+    base: 'GBP',
+    quote: 'USD',
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: PriceEndpointInputParametersDefinition

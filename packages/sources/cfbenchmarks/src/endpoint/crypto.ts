@@ -53,11 +53,12 @@ export const additionalInputValidation = ({ index, base, quote }: Params): void 
 
 export const cryptoRequestTransform = (
   req: AdapterRequest<typeof inputParameters.validated>,
+  settings: BaseEndpointTypes['Settings'],
 ): void => {
   // TODO: Move additional input validations to proper location after framework supports it
   additionalInputValidation(req.requestContext.data)
   if (!req.requestContext.data.index) {
-    const isSecondary = process.env.API_SECONDARY
+    const isSecondary = settings.API_SECONDARY
     const type = isSecondary ? 'secondary' : 'primary'
     // If there is no index set
     // we know that base and quote exist from the extra input validation above

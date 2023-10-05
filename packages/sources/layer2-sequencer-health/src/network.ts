@@ -49,7 +49,7 @@ export const checkSequencerHealth: NetworkHealthCheck = async (
   })
   const isHealthy = !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
   Logger.info(
-    `Health endpoint for network ${network} returned a ${
+    `[${network}] Health endpoint for network ${network} returned a ${
       isHealthy ? 'healthy' : 'unhealthy'
     } response`,
   )
@@ -62,7 +62,7 @@ export const getStatusByTransaction = async (
 ): Promise<boolean> => {
   let isSequencerHealthy = true
   try {
-    Logger.info(`Submitting empty transaction for network: ${network}`)
+    Logger.info(`[${network}] Submitting empty transaction for network: ${network}`)
     await sendEmptyTransaction(network, config)
   } catch (e) {
     isSequencerHealthy = isExpectedErrorMessage(network, e as Error)
@@ -92,12 +92,15 @@ const isExpectedErrorMessage = (network: Networks, e: Error) => {
     return (Requester.getResult(e, paths[network]) as string) || ''
   }
   const error = e as Error
-  if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
-    Logger.debug(`Transaction submission failed with an expected error ${_getErrorMessage(error)}.`)
+  const errorMessage = _getErrorMessage(error)
+  if (sequencerOnlineErrors[network].includes(errorMessage)) {
+    Logger.debug(
+      `[${network}] Transaction submission failed with an expected error ${errorMessage}.`,
+    )
     return true
   }
   Logger.error(
-    `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
+    `[${network}] Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
   )
   return false
 }

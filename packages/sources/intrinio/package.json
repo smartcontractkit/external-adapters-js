@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/intrinio-adapter",
-  "version": "2.0.4",
+  "version": "2.0.7",
   "description": "Chainlink intrinio adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.31.0",
+    "@chainlink/external-adapter-framework": "0.33.0",
     "axios": "^0.24.0",
     "tslib": "2.4.1"
   },

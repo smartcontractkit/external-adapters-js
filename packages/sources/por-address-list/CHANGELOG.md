@@ -1,5 +1,23 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.0.1
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 5.0.0
+
+### Major Changes
+
+- [#2923](https://github.com/smartcontractkit/external-adapters-js/pull/2923) [`bf65aed42`](https://github.com/smartcontractkit/external-adapters-js/commit/bf65aed4268999716561c236bb1b7d0756757ab8) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- [#2959](https://github.com/smartcontractkit/external-adapters-js/pull/2959) [`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02) Thanks [@amit-momin](https://github.com/amit-momin)! - Bumped framework version
+
+- [#2957](https://github.com/smartcontractkit/external-adapters-js/pull/2957) [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
 ## 4.1.0
 
 ### Minor Changes

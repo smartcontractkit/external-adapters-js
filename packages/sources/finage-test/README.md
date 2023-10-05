@@ -1,6 +1,6 @@
 # FINAGE
 
-![1.3.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -29,8 +29,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
 | Required? |   Name   |     Description     |  Type  |                                                                                              Options                                                                                              | Default |
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [price](#crypto-endpoint), [stock](#stock-endpoint), [uk_etf](#uk_etf-endpoint) | `stock` |
@@ -48,7 +46,17 @@ Supported names for this endpoint are: `crypto`, `price`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "crypto",
+    "base": "BTC",
+    "quote": "USD"
+  }
+}
+```
 
 ---
 
@@ -64,7 +72,16 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stock",
+    "base": "AAPL"
+  }
+}
+```
 
 ---
 
@@ -80,7 +97,16 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "eod",
+    "base": "ETH"
+  }
+}
+```
 
 ---
 
@@ -97,7 +123,17 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "commodities",
+    "base": "WTI",
+    "quote": "USD"
+  }
+}
+```
 
 ---
 
@@ -114,7 +150,17 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "forex",
+    "base": "GBP",
+    "quote": "USD"
+  }
+}
+```
 
 ---
 
@@ -130,7 +176,16 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "uk_etf",
+    "base": "CSPX"
+  }
+}
+```
 
 ---
 

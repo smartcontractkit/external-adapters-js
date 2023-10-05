@@ -107,14 +107,14 @@ export const checkOptimisticRollupBlockHeight = (
     if (!_isStaleBlock(block, delta)) {
       if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       Logger.info(
-        `Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
+        `[${network}] Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
           lastSeenBlock[network].block
         } was at ${lastSeenBlock[network].timestamp}`,
       )
       return true
     }
     Logger.warn(
-      `Block #${block} is considered stale at ${Date.now()}. Last seen block #${
+      `[${network}] Block #${block} is considered stale at ${Date.now()}. Last seen block #${
         lastSeenBlock[network].block
       } was at ${lastSeenBlock[network].timestamp}, more than ${delta} milliseconds ago.`,
     )

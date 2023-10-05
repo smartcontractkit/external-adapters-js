@@ -1,6 +1,6 @@
 # BLOCKSIZE_CAPITAL
 
-![2.0.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blocksize-capital/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blocksize-capital/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -21,11 +21,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
-| Required? |   Name   |     Description     |  Type  |                       Options                       | Default |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                               Options                                                                                | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#crypto-lwba-endpoint), [crypto](#price-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
@@ -40,7 +38,44 @@ Supported names for this endpoint are: `crypto`, `price`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "price",
+    "base": "ETH",
+    "quote": "EUR"
+  }
+}
+```
+
+---
+
+## Crypto-lwba Endpoint
+
+Supported names for this endpoint are: `crypto-lwba`, `crypto_lwba`, `cryptolwba`.
+
+### Input Params
+
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "crypto-lwba",
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
 
 ---
 

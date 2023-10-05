@@ -52,6 +52,34 @@ exports[`execute eod api should return success 1`] = `
 }
 `;
 
+exports[`execute etf api should return success 1`] = `
+{
+  "data": {
+    "result": 117.38,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 117.38,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute etf api with invalid base should return failure 1`] = `
+{
+  "error": {
+    "errorResponse": "Please check the symbol and try again.",
+    "feedID": "{"data":{"endpoint":"etf","base":"NON_EXISTING_ETF"}}",
+    "message": "Request failed with status code 400",
+    "name": "AdapterError",
+    "url": "https:/api.finage.co.uk/last/etf/NON_EXISTING_ETF",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 400,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute forex api should return success 1`] = `
 {
   "data": {

@@ -2,8 +2,6 @@
 
 exports[`websocket crypto endpoint should return success 1`] = `
 {
-  "ask": 3107.1275,
-  "bid": 3106.8495,
   "data": {
     "ask": 3107.1275,
     "bid": 3106.8495,

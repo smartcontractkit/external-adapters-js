@@ -1,13 +1,13 @@
 import nock from 'nock'
 
 export const mockRateResponseSuccess = (): nock.Scope =>
-  nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
+  nock('https://us.market-api.kaiko.io/v2/data', {
     encodedQueryParams: true,
     reqheaders: {
       'X-Api-Key': 'fake-api-key',
     },
   })
-    .get('/spot_exchange_rate/eth/usd')
+    .get('/trades.v2/spot_exchange_rate/eth/usd')
     .query(() => true)
     .reply(
       200,
@@ -19,7 +19,6 @@ export const mockRateResponseSuccess = (): nock.Scope =>
           sort: 'desc',
           base_asset: 'eth',
           sources: false,
-          ch: true,
           include_exchanges: ['*'],
           exclude_exchanges: [],
           quote_asset: 'usd',
@@ -58,6 +57,8 @@ export const mockRateResponseSuccess = (): nock.Scope =>
             'stmp:spot:usdt-usd',
           ],
           start_timestamp: 1634847827224,
+          end_timestamp: 1634934227224,
+          extrapolate_missing_values: false,
         },
         time: '2021-10-21T20:53:58.409Z',
         timestamp: 1634849638409,
@@ -110,5 +111,56 @@ export const mockRateResponseSuccess = (): nock.Scope =>
         'Vary',
         'Origin',
       ],
+    )
+    .get('/analytics.v2/realized_volatility')
+    .query(() => true)
+    .reply(
+      200,
+      () => ({
+        query: {
+          start_time: '2022-01-01T11:01:11.111Z',
+          end_time: '2022-01-01T11:11:11.111Z',
+          parameters_code: 'btc-usd:1d_10m,btc-usd:7d_10m,btc-usd:30d_10m',
+          request_time: '2022-01-01T11:11:11.111Z',
+          commodity: 'analytics',
+          data_version: 'v2',
+        },
+        data: {
+          'btc-usd:1d_10m': {
+            pair: 'btc-usd',
+            lookback_window: '1d',
+            returns_frequency: '10m',
+            realized_volatilities: [
+              {
+                datetime: '2022-01-01T11:10:00.000Z',
+                value: 0.5302169,
+              },
+            ],
+          },
+          'btc-usd:30d_10m': {
+            pair: 'btc-usd',
+            lookback_window: '30d',
+            returns_frequency: '10m',
+            realized_volatilities: [
+              {
+                datetime: '2022-01-01T11:10:00.000Z',
+                value: 0.5291809,
+              },
+            ],
+          },
+          'btc-usd:7d_10m': {
+            pair: 'btc-usd',
+            lookback_window: '7d',
+            returns_frequency: '10m',
+            realized_volatilities: [
+              {
+                datetime: '2022-01-01T11:10:00.000Z',
+                value: 0.2474815,
+              },
+            ],
+          },
+        },
+      }),
+      ['Content-Type', 'application/json'],
     )
     .persist()

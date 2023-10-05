@@ -10,20 +10,28 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const inputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'coin', 'asset', 'symbol'],
-    description: 'The symbol of symbols of the currency to query',
-    required: true,
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'coin', 'asset', 'symbol'],
+      description: 'The symbol of symbols of the currency to query',
+      required: true,
+      type: 'string',
+    },
+    quote: {
+      aliases: ['to', 'market'],
+      description: 'The symbol of the currency to convert to',
+      required: true,
+      type: 'string',
+    },
   },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The symbol of the currency to convert to',
-    required: true,
-    type: 'string',
-  },
-})
+  [
+    {
+      base: 'ETH',
+      quote: 'USD',
+    },
+  ],
+)
 
 export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',

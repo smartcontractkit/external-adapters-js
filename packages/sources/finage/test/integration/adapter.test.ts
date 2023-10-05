@@ -94,6 +94,52 @@ describe('execute', () => {
     })
   })
 
+  describe('etf api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'etf',
+        base: 'C3M',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('etf api with invalid base', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'etf',
+        base: 'NON_EXISTING_ETF',
+      },
+    }
+
+    it('should return failure', async () => {
+      mockResponseFailure()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
   describe('stock api', () => {
     const data: AdapterRequest = {
       id,

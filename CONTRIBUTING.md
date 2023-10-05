@@ -25,9 +25,9 @@ $ yarn new [template-type]
 
 This will start interactive command line interface, where you can provide additional information.
 
-|    Parameter    |           Description           |             Options             |
-| :-------------: | :-----------------------------: | :-----------------------------: |
-| `template-type` | the name of the template to use | `composite`, `source`, `target` |
+|    Parameter    |           Description           |             Options             | Default  |
+| :-------------: | :-----------------------------: | :-----------------------------: | :------: |
+| `template-type` | the name of the template to use | `composite`, `source`, `target` | `source` |
 
 For example
 
@@ -35,9 +35,9 @@ For example
 $ yarn new source
 ```
 
-_If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
+You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/main...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/main...<branch>?quick_pull=1&template=new_ea_pr_template.md)
 
-You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md)
+Please refer to this [guide](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/guides/creating-a-new-v3-ea.md) that explains in more detail how to create a new adapter.
 
 ## Input
 
@@ -55,8 +55,6 @@ When flux monitor or OCR jobs from the core Chainlink node post to external adap
 ```
 
 The `updatedAt` field is a unix timestamp representing when the `latestAnswer` was computed.
-
-Optionally `data` parameters can also be passed via a query string added to the [Bridge](https://docs.chain.link/docs/node-operators) URL like: `{ENDPOINT}?from=ETH&to=USD`. This is useful when trying to conform to unified input parameters.
 
 ## Output
 
@@ -80,35 +78,31 @@ The External Adapter will do some processing, often request data from an API, an
 
 ## Adding Provider API Rate Limits
 
-When adding a new adapter the tiers from that provider will need to be added to the [static configurations](packages/core/bootstrap/src/lib/provider-limits/limits.json) under the `NAME` given to the adapter.
+When adding a new adapter, the tiers from that provider will need to be added to the Adapter class as a [parameter](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/components/adapter.md#rate-limiting-tiers).
 
 ## Mock Integration Testing
 
 We use [Nock](https://github.com/nock/nock) for intercepting HTTP requests in integration tests and returning mock data.
-The [recording](https://github.com/nock/nock#recording) functionality of nock is used when first writing the test to automatically generate accurate fixture data.
-
-For example, take a look at the [synth-index](./packages/composites/synth-index/test/integration/adapter.test.ts) test to see it in usage. When the `RECORD` environment variable is truthy, nock will proxy HTTP requests and generate fixture data that can be used to contruct the integration test.
+To create a fixture, you'll need to make a real request to the data provider's API.
 
 ### Testing HTTP Requests
 
-1. Setup nock to record HTTP requests, see the [synth-index](./packages/composites/synth-index/test/integration/adapter.test.ts) test for a code sample.
-2. Run the test, using live API endpoints for the external adapter under test to hit, with nock recording on (`export RECORD=true`).
-3. Using the generated fixture data from step 2, write a `fixtures.ts` file to return the mock data instead.
-4. Run the tests again with nock recording disabled (`unset RECORD`). API requests should now be intercepted and mocked using the fixture data. Be sure to run tests with the `--updateSnapshot` flags to update the integration snapshot if necessary.
+1. Setup the test, see the [coingecko](./packages/sources/coingecko/test/integration/adapter.test.ts) test for a code sample.
+2. Make a request to the Data Provider and copy the response. For HTTP requests, you can use tools like `curl`. Change/mock any sensitive data that it contains.
+3. Using the mock data from step 2, write a `fixtures.ts` file to return the mock data instead.
+4. Run the tests. API requests should now be intercepted and mocked using the fixture data.
 
 ### Testing WebSocket Messages
 
-1. Run your tests, using live API endpoints with recording on (`export RECORD=true`) and with a TTL for the connections long enough for the normal requests to go through, but lower than the jest timeout (this will depend on the test, but one example would be `export WS_SUBSCRIPTION_TTL=3000`)
-2. You will see a log statement with the message "Recorded WebSocketMessages: {JSON Object}". This JSON object contains all the WebSocket messages sent and received, but they are not printed as code as in the case of the Nock features, due to their asynchronous nature.
-3. Using the recorded messages, write a `fixtures.ts` file with "Exchanges", i.e. request and response(s) pairs that will be asserted as part of your test (see this [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts)).
-4. Write your tests (example in [ncfx adapter test](./packages/sources/ncfx/test/integration/adapter.test.ts)) using the helper functions from the [test-helpers](./packages/core/test-helpers/src/websocket.ts) package. Note the necessary setup performed in the `beforeAll` function. Also note the path for the `WebSocketClassProvider` import, it has to be that one due to the way Singleton patterns work (or rather don't work) across dependencies.
-5. Finally, run your tests with recording disabled (`unset RECORD`). The WebSocket connection should be replaced and mocked.
+1. Setup the test, see the [ncfx](./packages/sources/ncfx/test/integration/adapter.test.ts) test for a code sample.
+2. Connect and send an authentication message request to Data Provider. Change/mock any sensitive data in the response and copy it. For websocket requests, you can use tools like [wscat](https://github.com/websockets/wscat).
+3. Make a request to the Data Provider to fetch actual data, and copy the websocket messages. Change/mock any sensitive data that it contains.
+4. Using the copied messages in step 2 and 3, write a `fixtures.ts` file. Create mock function in `fixtures.ts` that will return mocked authentication and data messages. See [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts).
+5. Run the tests. Websocket requests should now be intercepted and mocked using the fixture data.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
 
-## Running Integration Tests
-
-When running integration tests (for example `yarn test packages/sources/binance/test/integration`) make sure that metrics are disabled (`export METRICS_ENABLED=false`) and EA server is running on random available port (`export EA_PORT=0`).
+For more information on how to write integration tests, see [ea-framework-js docs](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/components/tests.md).
 
 ## Generating Changesets
 
@@ -127,11 +121,6 @@ When making changes to an adapter, a changeset should be added for each feature 
 ```js
 Decimal.set({ precision: 100 })
 ```
-
-- Handling "includes" in the request should be done with the following priority:
-  1. Full-featured "includes" array (in the format of [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
-  2. Pre-set includes from the EA (set in [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
-  3. String array as "includes"
 
 ## Soak Testing (Chainlink Labs)
 
@@ -263,25 +252,3 @@ Available types of assertions:
 - `minItems` - list contains at least the required number of items
 - `contains` - list contains a specific item (string or number)
 - `hasKey` - an object contains a specific key
-
-## Logging Censorship
-
-If you are introducing a new env var that contains sensitive data, ensure that it is added to our logging configurations to help censor it in the logs. Follow the steps below to do so.
-
-In the case that the env var's value it not altered by the adapter such as Base64 encoding, add the env var to the `configRedactEnvVars` list in packages/core/bootstrap/src/lib/config/logging.ts
-
-In the case that the env var's value is altered in the adapter prior to use, add the JSON path of the key containing the sensitive value (i.e. `config.api.apiKey`) to the `redactPaths` list in packages/core/bootstrap/src/lib/config/logging.ts
-
-As an example, the path `config.api.apiKey` would alter logs in the following way:
-
-```js
-{
-  "config": {
-    ...
-    "api": {
-      ...
-      "apiKey": "[REDACTED]"
-    }
-  }
-}
-```

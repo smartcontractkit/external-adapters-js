@@ -6,24 +6,33 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { httpTransport } from '../transport/reserves'
 import { config } from '../config'
 
-export const inputParameters = new InputParameters({
-  token: {
-    aliases: ['asset', 'coin'],
-    description: 'The symbol of the token to query',
-    default: 'EFIL',
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    token: {
+      aliases: ['asset', 'coin'],
+      description: 'The symbol of the token to query',
+      default: 'EFIL',
+      type: 'string',
+    },
+    chainId: {
+      description: 'An identifier for which network of the blockchain to use',
+      type: 'string',
+      default: 'mainnet',
+    },
+    network: {
+      type: 'string',
+      default: 'filecoin',
+      description: 'The name of the target network protocol',
+    },
   },
-  chainId: {
-    description: 'An identifier for which network of the blockchain to use',
-    type: 'string',
-    default: 'mainnet',
-  },
-  network: {
-    type: 'string',
-    default: 'filecoin',
-    description: 'The name of the target network protocol',
-  },
-})
+  [
+    {
+      chainId: 'mainnet',
+      network: 'filecoin',
+      token: 'EFIL',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
