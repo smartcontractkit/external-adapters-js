@@ -12,18 +12,23 @@ import {
 
 const logger = makeLogger('BlocksizeCapitalVwapWebsocketEndpoint')
 
-// On subscription to Blocksize-Capital WS API, the initial response is sent as a
-// snapshot (in result.snapshot) of the most recent data.
-// Subsequent responses are sent as notifications in params.updates
-export interface FixedVwapMessage extends BaseMessage {
-  method?: 'fixedvwap'
-  params?: {
-    updates: VwapUpdate[]
-  }
-  result?: {
+interface FixedVwapSnapshot extends BaseMessage {
+  result: {
     snapshot: VwapUpdate[]
   }
 }
+
+interface FixedVwapUpdate extends BaseMessage {
+  method: 'fixedvwap'
+  params: {
+    updates: VwapUpdate[]
+  }
+}
+
+// On subscription to Blocksize-Capital WS API, the initial response is sent as a
+// snapshot (in result.snapshot) of the most recent data.
+// Subsequent responses are sent as notifications in params.updates
+export type FixedVwapMessage = FixedVwapSnapshot | FixedVwapUpdate
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -33,9 +38,9 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const preProcessFixedVwapMessage = (message: FixedVwapMessage): VwapUpdate[] => {
   let updates: VwapUpdate[] = []
-  if (!message.method && message.result?.snapshot?.length) {
+  if ('result' in message) {
     updates = message.result.snapshot
-  } else if (message.method === 'fixedvwap' && message.params) {
+  } else if ('method' in message && message.method === 'fixedvwap' && message.params) {
     updates = message.params.updates
   } else {
     logger.info(`Received unexpected message: ${message}`)
