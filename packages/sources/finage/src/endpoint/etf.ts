@@ -36,11 +36,7 @@ export const makeEtfExecute =
     const jobRunID = validator.validated.id
     const base = validator.validated.data.base
     const symbol = validator.overrideSymbol(NAME, base).toUpperCase()
-    const param_country = validator.validated.data.country
-      ? validator.validated.data.country.toLocaleLowerCase()
-      : country
-      ? country
-      : null
+    const param_country = validator.validated.data.country?.toLocaleLowerCase() || country || null
 
     const url = util.buildUrlPath('/last/etf/:symbol', { symbol })
 
