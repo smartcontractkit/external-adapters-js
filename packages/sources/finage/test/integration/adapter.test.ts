@@ -54,7 +54,6 @@ describe('execute', () => {
       data: {
         endpoint: 'uk_etf',
         base: 'IBTA',
-        country: 'uk',
       },
     }
 
@@ -610,7 +609,6 @@ describe('websocket', () => {
         data: {
           endpoint: 'uk_etf',
           base: 'IBTA',
-          country: 'uk',
         },
       }
 
