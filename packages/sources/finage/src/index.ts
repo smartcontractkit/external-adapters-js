@@ -6,5 +6,7 @@ import rateLimit from './config/limits.json'
 
 const adapterContext = { name: NAME, rateLimit }
 
+console.log("Test commit")
+
 const { server } = expose(adapterContext, makeExecute(), makeWSHandler())
 export { NAME, makeExecute, makeConfig, server, endpoints }
