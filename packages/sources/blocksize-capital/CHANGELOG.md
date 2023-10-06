@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.1.1
+
+### Patch Changes
+
+- [#3022](https://github.com/smartcontractkit/external-adapters-js/pull/3022) [`fc9f556fc`](https://github.com/smartcontractkit/external-adapters-js/commit/fc9f556fc1503b16000b10927e9664075f540795) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Blocksize Capital LWBA unsubscribe fix
+
 ## 2.1.0
 
 ### Minor Changes

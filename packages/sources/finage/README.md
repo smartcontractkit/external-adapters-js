@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Finage
 
-![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.9.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.finage.co.uk
 
@@ -309,9 +309,10 @@ The result will be the price field in response.
 
 ### Input Params
 
-| Required? | Name |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+| Required? |  Name   |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+|           | country |                  |          Country code          |      |         |         |            |                |
 
 ### Example
 
@@ -359,11 +360,49 @@ The result will be the price field in response.
 
 ### Input Params
 
-| Required? | Name |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+| Required? |  Name   |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+|           | country |                  |          Country code          |      |         |         |            |                |
 
 ### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "etf",
+    "base": "IBTA",
+    "country": "uk"
+  },
+  "debug": {
+    "cacheKey": "aa6ce6cc584450db899dd840b24bf24118612ced"
+  },
+  "rateLimitMaxAge": 60000
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "symbol": "IBTA",
+    "price": 5.276,
+    "timestamp": 1684403239105,
+    "result": 5.276
+  },
+  "result": 5.276,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
 
 Request:
 
@@ -397,6 +436,8 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+</details>
 
 ---
 

@@ -1,5 +1,14 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.14
+
+### Patch Changes
+
+- [#3021](https://github.com/smartcontractkit/external-adapters-js/pull/3021) [`7833c6081`](https://github.com/smartcontractkit/external-adapters-js/commit/7833c60818434709792bf744eb83070ed883efb4) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add validation for cardano testnet, avalanche and ETH beacon addresses
+
+- Updated dependencies []:
+  - @chainlink/renvm-address-set-adapter@1.5.61
+
 ## 1.18.13
 
 ### Patch Changes
