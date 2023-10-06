@@ -2,6 +2,7 @@ import { config } from '../config'
 import { BaseEndpointTypes, buildSymbol } from '../endpoint/quote'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { parseResult } from './utils'
 
 const logger = makeLogger('Finnhub quote endpoint REST')
 interface ProviderResponseBody {
@@ -57,7 +58,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }
 
     return params.map((param) => {
-      const result = data.c
+      const result = parseResult(param.base, data.c)
+
       return {
         params: param,
         response: {

@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3014](https://github.com/smartcontractkit/external-adapters-js/pull/3014) [`78215b834`](https://github.com/smartcontractkit/external-adapters-js/commit/78215b8345e7c4f48641430efe74c90b3c754230) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add LWBA endpoint for blocksize-capital
+
 ## 2.0.11
 
 ### Patch Changes

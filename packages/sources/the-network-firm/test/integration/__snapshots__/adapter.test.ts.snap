@@ -27,6 +27,36 @@ exports[`execute backed endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute eurr endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 10000000,
+  },
+  "result": 10000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1692617659477,
+  },
+}
+`;
+
+exports[`execute gift endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 10000000,
+  },
+  "result": 10000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1695648040048,
+  },
+}
+`;
+
 exports[`execute mco2 endpoint should return success 1`] = `
 {
   "data": {

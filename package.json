@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.91.0",
+  "version": "1.92.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -53,7 +53,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "0.31.1",
+    "@chainlink/external-adapter-framework": "0.33.0",
     "@changesets/changelog-github": "0.4.8",
     "@changesets/cli": "2.26.2",
     "@types/babel__core": "7.1.20",
