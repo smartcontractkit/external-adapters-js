@@ -6,6 +6,7 @@ import * as nock from 'nock'
 import {
   mockBackedResponseSuccess,
   mockEurrResponseSuccess,
+  mockGiftResponseSuccess,
   mockMCO2Response,
   mockSTBTResponseSuccess,
   mockUSDRResponseSuccess,
@@ -101,6 +102,19 @@ describe('execute', () => {
         endpoint: 'eurr',
       }
       mockEurrResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('gift endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'gift',
+      }
+      mockGiftResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)

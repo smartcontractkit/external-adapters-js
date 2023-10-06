@@ -6,6 +6,7 @@ import * as nock from 'nock'
 import {
   mockBackedResponseFailure,
   mockEurrResponseFailure,
+  mockGiftResponseFailure,
   mockSTBTResponseFailure,
   mockUSDRResponseFailure,
 } from './fixtures'
@@ -80,6 +81,18 @@ describe('execute', () => {
         endpoint: 'eurr',
       }
       mockEurrResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('gift endpoint when ripcord true ', () => {
+    it('should return error', async () => {
+      const data = {
+        endpoint: 'gift',
+      }
+      mockGiftResponseFailure()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
