@@ -2,6 +2,8 @@
 
 ![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
+Test change to trigger soak tests
+
 Base URL https://api.finage.co.uk
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
