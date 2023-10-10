@@ -43,7 +43,7 @@ const preProcessFixedVwapMessage = (message: FixedVwapMessage): VwapUpdate[] => 
   } else if ('method' in message && message.method === 'fixedvwap' && message.params) {
     updates = message.params.updates
   } else {
-    logger.info(`Received unexpected message: ${message}`)
+    logger.info(`Received unexpected message: ${JSON.stringify(message)}`)
   }
   return updates
 }

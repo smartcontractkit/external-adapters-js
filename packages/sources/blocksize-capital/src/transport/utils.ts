@@ -58,7 +58,7 @@ export const blocksizeDefaultWebsocketOpenHandler = (
         logger.debug('Got logged in response, connection is ready')
         resolve()
       } else {
-        reject(new Error('Failed to make WS connection'))
+        reject(new Error(`Failed to make WS connection: ${JSON.stringify(parsed)}`))
       }
     })
     const message = buildBlocksizeWebsocketAuthMessage(apiKey)
