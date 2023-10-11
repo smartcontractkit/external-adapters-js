@@ -91,15 +91,15 @@ export const handleAssetMetricsMessage = (
     logger.error(message, `Error response from websocket`)
 
     const findBaseCurrenciesRegex = new RegExp(/'([^']+)'/g)
-    if (message['error']['type'] === 'bad_parameters') {
+    if (message['error']['type'] === 'bad_parameter') {
       //Bad Parameter Error Message
-      //   {error: {
-      //     type: "bad_parameter",
-      //     message: "Metric 'ReferenceRateBTC' with frequency '1s' is not supported for 'cron'."}}
+      // type: 'bad_paramter'
+      // message: 'Bad parameter 'assets'. Value 'ohmv2' is not supported.'
+
       const matches = [...message.error.message.matchAll(findBaseCurrenciesRegex)]
 
-      if (matches && !invalidBaseAssets.includes(matches[2][1])) {
-        invalidBaseAssets.push(matches[2][1])
+      if (matches && !invalidBaseAssets.includes(matches[1][1])) {
+        invalidBaseAssets.push(matches[1][1])
       }
     }
   } else if ('warning' in message) {
