@@ -93,9 +93,8 @@ export const handleAssetMetricsMessage = (
     const findBaseCurrenciesRegex = new RegExp(/'([^']+)'/g)
     if (message['error']['type'] === 'bad_parameter') {
       //Bad Parameter Error Message
-      //   {error: {
-      //     type: "bad_parameter",
-      //     message: "Metric 'ReferenceRateBTC' with frequency '1s' is not supported for 'cron'."}}
+      // type: 'bad_paramter'
+      // message: 'Bad parameter 'assets'. Value 'ohmv2' is not supported.'
 
       const matches = [...message.error.message.matchAll(findBaseCurrenciesRegex)]
 
