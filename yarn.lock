@@ -3256,7 +3256,7 @@ __metadata:
     "@types/command-line-args": 5.2.1
     "@types/command-line-usage": 5.0.2
     "@types/jest": 27.5.2
-    "@types/shelljs": 0.8.12
+    "@types/shelljs": 0.8.13
     "@types/swagger-jsdoc": 6.0.1
     "@types/yaml": 1.9.7
     airtable: 0.11.6
@@ -11042,13 +11042,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/shelljs@npm:0.8.12":
-  version: 0.8.12
-  resolution: "@types/shelljs@npm:0.8.12"
+"@types/shelljs@npm:0.8.13":
+  version: 0.8.13
+  resolution: "@types/shelljs@npm:0.8.13"
   dependencies:
     "@types/glob": ~7.2.0
     "@types/node": "*"
-  checksum: ffb47809abef9ee53f900c6b49adb1382d1d78af7f8b50dd474534e3f73127bc4a3849394e4c9de16481cd50203b12464141b4b49d48e88ba6b4c7cc2c85948c
+  checksum: 86ac87f4688aeb578c3a85fad1c6b4a740f3951d4c9b1d5e5fd9240225589b2c7a10aacff5c857a5f12961e55ffef40698a46e41d7b27cbdf9cf4bcaf1349a7a
   languageName: node
   linkType: hard
 
