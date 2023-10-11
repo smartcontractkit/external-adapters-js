@@ -3,17 +3,17 @@ import { StockEndpoint } from '@chainlink/external-adapter-framework/adapter/sto
 import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/stock-http'
 import { wsTransport } from '../transport/stock-ws'
-import { EquitiesEndpointTypes, equitiesInputParameters } from './utils'
+import { StockEndpointTypes, stockInputParameters } from './utils'
 
 export const endpoint = new StockEndpoint({
   name: 'stock',
-  transportRoutes: new TransportRoutes<EquitiesEndpointTypes>()
+  transportRoutes: new TransportRoutes<StockEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
   defaultTransport: 'rest',
   customRouter: (_req, adapterConfig) => {
     return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
-  inputParameters: equitiesInputParameters,
+  inputParameters: stockInputParameters,
   overrides: overrides.finage,
 })

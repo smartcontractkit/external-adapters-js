@@ -23,8 +23,8 @@ function bump() (
     changed=true
   fi
 
-  # Ignore scripts, that's not an adapter
-  if [[ $changed ]]; then
+  # Ignore scripts and root, those are not adapters
+  if [[ $changed && "$package" != "../" && "$package" != "scripts" ]]; then
     echo "Package $package was changed, adding to list..."
     echo "'$(jq -r '.name' package.json)': patch" >> ../../../changed_eas.tmp
   fi
@@ -39,8 +39,9 @@ if [[ -n "$1" ]]; then
   packages=$@
 else
   echo "Building list with all packages..."
-  packages=$(find . -type d \( -path "*/sources/*" -o -path "*/composites/*" -o -path "*/non-deployable/*" \) -maxdepth 2 -print)
+  packages=$(find . -type d \( -path "*/sources/*" -o -path "*/composites/*" -o -path "*/targets/*" -o -path "*/non-deployable/*" \) -maxdepth 2 -print)
   packages+=('scripts')
+  packages+=('../') # root package
 fi
 
 # Do a manual replacement of the versions

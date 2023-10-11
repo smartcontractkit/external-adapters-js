@@ -1,5 +1,25 @@
 {
- "requests": [{
-  "from": "N225"
- }]
+    "requests": [
+        {
+            "from": "N225"
+        },
+        {
+            "base": "IB01",
+            "endpoint": "uk_etf",
+            "overrides": {
+             "eodhistoricaldata": { 
+                "IB01": "IB01.LSE"
+             }
+            }
+        },
+        {
+            "base": "C3M",
+            "endpoint": "etf",
+            "overrides": {
+             "eodhistoricaldata": {
+              "C3M": "C3M.MI"
+             }
+            }
+        }
+    ]
 }

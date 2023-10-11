@@ -3,23 +3,15 @@ import { getSecondaryId } from './utils'
 import { wsTransport } from '../transport/crypto-lwba'
 import { config } from '../config'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-export interface EPResponse {
-  Result: number
-  Data: {
-    bid: number
-    ask: number
-    mid: number
-    midPrice: number
-    utilizedDepth: number
-  }
-}
+import { LwbaEndpoint, LwbaResponseDataFields } from '@chainlink/external-adapter-framework/adapter'
 
 export type BaseEndpointTypes = {
+  // leaving Parameters as crypto inputParameters for backward compatibility
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: EPResponse
+  Response: LwbaResponseDataFields
 }
+
 export const lwbaReqTransformer = (req: AdapterRequest<typeof inputParameters.validated>): void => {
   additionalInputValidation(req.requestContext.data)
 
@@ -35,9 +27,8 @@ export const lwbaReqTransformer = (req: AdapterRequest<typeof inputParameters.va
   delete req.requestContext.data.quote
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new LwbaEndpoint({
   name: 'crypto-lwba',
-  aliases: ['cryptolwba', 'crypto_lwba'],
   transport: wsTransport,
   inputParameters: inputParameters,
   requestTransforms: [lwbaReqTransformer],

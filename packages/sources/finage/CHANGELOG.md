@@ -1,5 +1,17 @@
 ## v1.1.0
 
+## 1.9.0
+
+### Minor Changes
+
+- [#3023](https://github.com/smartcontractkit/external-adapters-js/pull/3023) [`eb0823596`](https://github.com/smartcontractkit/external-adapters-js/commit/eb08235969634f82dfac840a7b60eeece9d8e3e8) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - country as input param
+
+## 1.8.0
+
+### Minor Changes
+
+- [#2972](https://github.com/smartcontractkit/external-adapters-js/pull/2972) [`f3f1113ba`](https://github.com/smartcontractkit/external-adapters-js/commit/f3f1113bac1ad1ee69dc3cf03ca787c4f9a68743) Thanks [@alecgard](https://github.com/alecgard)! - Add ETF endpoint.
+
 ## 1.7.0
 
 ### Minor Changes

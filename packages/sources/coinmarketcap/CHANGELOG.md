@@ -1,5 +1,23 @@
 # @chainlink/coinmarketcap-adapter
 
+## 2.0.17
+
+### Patch Changes
+
+- [#3001](https://github.com/smartcontractkit/external-adapters-js/pull/3001) [`112d9c967`](https://github.com/smartcontractkit/external-adapters-js/commit/112d9c9679fdcb3210ec53a17b6b8f0016ad0a0d) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Unbatch requests on quotes for crypto endpoint
+
+## 2.0.16
+
+### Patch Changes
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+## 2.0.15
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.0.14
 
 ### Patch Changes

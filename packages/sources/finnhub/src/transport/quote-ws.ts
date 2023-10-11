@@ -1,6 +1,7 @@
 import { BaseEndpointTypes, buildSymbol } from '../endpoint/quote'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { parseResult } from './utils'
 
 const logger = makeLogger('Finnhub quote endpoint WS')
 
@@ -51,12 +52,14 @@ export const wsTransport = new WebsocketReverseMappingTransport<WsEndpointTypes,
             return
           }
 
+          const value = parseResult(s, p)
+
           results.push({
             params,
             response: {
-              result: p,
+              result: value,
               data: {
-                result: p,
+                result: value,
               },
               timestamps: {
                 providerIndicatedTimeUnixMs: t,

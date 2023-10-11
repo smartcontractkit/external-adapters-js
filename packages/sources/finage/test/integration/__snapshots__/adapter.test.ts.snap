@@ -52,6 +52,46 @@ exports[`execute eod api should return success 1`] = `
 }
 `;
 
+exports[`execute etf api should return success 1`] = `
+{
+  "data": {
+    "result": 117.38,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 117.38,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute etf api using country:uk  should return success 1`] = `
+{
+  "data": {
+    "result": 5.276,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 5.276,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute etf api with invalid base should return failure 1`] = `
+{
+  "error": {
+    "errorResponse": "Please check the symbol and try again.",
+    "feedID": "{"data":{"endpoint":"etf","base":"NON_EXISTING_ETF"}}",
+    "message": "Request failed with status code 400",
+    "name": "AdapterError",
+    "url": "https:/api.finage.co.uk/last/etf/NON_EXISTING_ETF",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 400,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute forex api should return success 1`] = `
 {
   "data": {
@@ -92,23 +132,11 @@ exports[`execute stock api with invalid base should return failure 1`] = `
 }
 `;
 
-exports[`execute uk etf api should return success 1`] = `
-{
-  "data": {
-    "result": 5.276,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 5.276,
-  "statusCode": 200,
-}
-`;
-
 exports[`execute uk etf api with invalid base should return failure 1`] = `
 {
   "error": {
     "errorResponse": "Please check the symbol and try again.",
-    "feedID": "{"data":{"endpoint":"uk_etf","base":"NON_EXISTING_UK_ETF"}}",
+    "feedID": "{"data":{"endpoint":"etf","base":"NON_EXISTING_UK_ETF","country":"uk"}}",
     "message": "Request failed with status code 400",
     "name": "AdapterError",
     "url": "https:/api.finage.co.uk/last/etf/NON_EXISTING_UK_ETF",
@@ -116,6 +144,18 @@ exports[`execute uk etf api with invalid base should return failure 1`] = `
   "jobRunID": "1",
   "providerStatusCode": 400,
   "status": "errored",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute uk-etf endpoint api should return success 1`] = `
+{
+  "data": {
+    "result": 5.276,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 5.276,
   "statusCode": 200,
 }
 `;

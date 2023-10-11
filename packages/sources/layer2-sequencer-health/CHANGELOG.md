@@ -1,5 +1,21 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.6.1
+
+### Patch Changes
+
+- [#3004](https://github.com/smartcontractkit/external-adapters-js/pull/3004) [`bcc834129`](https://github.com/smartcontractkit/external-adapters-js/commit/bcc83412932e1440441e4aca390df5505ee53d85) Thanks [@alecgard](https://github.com/alecgard)! - L2 Sequencer Health: Default Optimism to not use the Transaction check as final decider of health.
+
+## 2.6.0
+
+### Minor Changes
+
+- [#2977](https://github.com/smartcontractkit/external-adapters-js/pull/2977) [`d271dd2d7`](https://github.com/smartcontractkit/external-adapters-js/commit/d271dd2d7a7fa58ce1b3a8cd480e77bc69805c3b) Thanks [@austinborn](https://github.com/austinborn)! - Add a requireTxFailure input param which has conditional defaults depending on the network. The default behavior is the same as before for all networks except Base, which now does not use a tx call as the final decider of health.
+
+### Patch Changes
+
+- [#2975](https://github.com/smartcontractkit/external-adapters-js/pull/2975) [`b0ae518ab`](https://github.com/smartcontractkit/external-adapters-js/commit/b0ae518ab8c684db9f334f948fdd072d2133202d) Thanks [@alecgard](https://github.com/alecgard)! - Include the network in L2 Sequencer Health logs
+
 ## 2.5.0
 
 ### Minor Changes

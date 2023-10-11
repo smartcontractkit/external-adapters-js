@@ -1,6 +1,6 @@
 # THE_NETWORK_FIRM
 
-![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,45 +16,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 |  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
 | :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
-| default |                             |              6              |                           |      |
+| default |                             |             30              |                           |      |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
-
-| Required? |   Name   |     Description     |  Type  |                                                            Options                                                            | Default |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [mco2](#mco2-endpoint), [stbt](#stbt-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
-
-## Mco2 Endpoint
-
-Supported names for this endpoint are: `balance`, `mco2`.
-
-### Input Params
-
-There are no input parameters for this endpoint.
-
-### Example
-
-There are no examples for this endpoint.
-
----
-
-## Stbt Endpoint
-
-`stbt` is the only supported name for this endpoint.
-
-### Input Params
-
-There are no input parameters for this endpoint.
-
-### Example
-
-There are no examples for this endpoint.
-
----
+| Required? |   Name   |     Description     |  Type  |                                                                                    Options                                                                                    | Default |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [eurr](#eurr-endpoint), [gift](#gift-endpoint), [mco2](#mco2-endpoint), [stbt](#stbt-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
 
 ## Backed Endpoint
 
@@ -68,7 +38,104 @@ There are no examples for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "backed",
+    "accountName": "IBTA"
+  }
+}
+```
+
+---
+
+## Eurr Endpoint
+
+`eurr` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "eurr"
+  }
+}
+```
+
+---
+
+## Gift Endpoint
+
+`gift` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "gift"
+  }
+}
+```
+
+---
+
+## Mco2 Endpoint
+
+Supported names for this endpoint are: `balance`, `mco2`.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "mco2"
+  }
+}
+```
+
+---
+
+## Stbt Endpoint
+
+`stbt` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stbt"
+  }
+}
+```
 
 ---
 
@@ -82,7 +149,15 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "usdr"
+  }
+}
+```
 
 ---
 

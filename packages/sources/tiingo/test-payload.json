@@ -10,7 +10,7 @@
       "endpoint": "realized-vol"
     },
     {
-      "aprTerm": "30day",
+      "aprTerm": "30Day",
       "endpoint": "cryptoyield"
     }
   ]

@@ -1,5 +1,17 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- [#2989](https://github.com/smartcontractkit/external-adapters-js/pull/2989) [`a2b5b01b4`](https://github.com/smartcontractkit/external-adapters-js/commit/a2b5b01b4a731807d6a9dbfa7dbaf0ddb863b860) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Add workaround to disable validation on CACHE_MAX_AGE and WARMUP_SUBSCRIPTION_TTL
+
+## 2.0.3
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.0.2
 
 ### Patch Changes

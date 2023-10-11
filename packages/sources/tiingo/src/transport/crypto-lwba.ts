@@ -44,14 +44,9 @@ export const transport: TiingoWebsocketTransport<WsTransportTypes> =
             response: {
               result: null,
               data: {
-                ticker: message.data[dataKeys.ticker],
-                datetime: message.data[dataKeys.datetime],
                 mid: message.data[dataKeys.weightedMidPrice],
                 bid: message.data[dataKeys.bidPrice],
-                bidSize: message.data[dataKeys.bidSize],
                 ask: message.data[dataKeys.askPrice],
-                askSize: message.data[dataKeys.askSize],
-                weightedSpreadPcnt: message.data[dataKeys.weightedSpreadPcnt],
               },
               timestamps: {
                 providerIndicatedTimeUnixMs: new Date(message.data[dataKeys.datetime]).valueOf(),

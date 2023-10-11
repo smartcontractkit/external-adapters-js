@@ -1,5 +1,29 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.1.1
+
+### Patch Changes
+
+- [#3022](https://github.com/smartcontractkit/external-adapters-js/pull/3022) [`fc9f556fc`](https://github.com/smartcontractkit/external-adapters-js/commit/fc9f556fc1503b16000b10927e9664075f540795) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Blocksize Capital LWBA unsubscribe fix
+
+## 2.1.0
+
+### Minor Changes
+
+- [#3014](https://github.com/smartcontractkit/external-adapters-js/pull/3014) [`78215b834`](https://github.com/smartcontractkit/external-adapters-js/commit/78215b8345e7c4f48641430efe74c90b3c754230) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add LWBA endpoint for blocksize-capital
+
+## 2.0.11
+
+### Patch Changes
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+## 2.0.10
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.0.9
 
 ### Patch Changes

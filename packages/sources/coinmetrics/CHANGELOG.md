@@ -1,5 +1,35 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.5.1
+
+### Patch Changes
+
+- [#3007](https://github.com/smartcontractkit/external-adapters-js/pull/3007) [`85a562ddc`](https://github.com/smartcontractkit/external-adapters-js/commit/85a562ddc89babed67f542f5e1243bba3abb5670) Thanks [@alecgard](https://github.com/alecgard)! - Coinmetrics: Return Realized Vol data as number
+
+## 3.5.0
+
+### Minor Changes
+
+- [#2988](https://github.com/smartcontractkit/external-adapters-js/pull/2988) [`6da10160a`](https://github.com/smartcontractkit/external-adapters-js/commit/6da10160a31fc38c91a13c74279f8a22766d02e0) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Coinmetrics EA failing to serve new valid requests after being hit with invalid request.
+
+- [#2991](https://github.com/smartcontractkit/external-adapters-js/pull/2991) [`597d6ae89`](https://github.com/smartcontractkit/external-adapters-js/commit/597d6ae89689f6c4379a3bbef5141e050721746a) Thanks [@alecgard](https://github.com/alecgard)! - Add `realized-vol` endpoint to Coinmetrics EA.
+
+## 3.4.0
+
+### Minor Changes
+
+- [#2970](https://github.com/smartcontractkit/external-adapters-js/pull/2970) [`875b24bf6`](https://github.com/smartcontractkit/external-adapters-js/commit/875b24bf6a7e0b4496519b54798d741ab26aa73e) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Standardize LWBA endpoints
+
+### Patch Changes
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+## 3.3.2
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 3.3.1
 
 ### Patch Changes

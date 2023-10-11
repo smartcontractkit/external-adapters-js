@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Finage
 
-![1.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.9.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.finage.co.uk
 
@@ -31,9 +31,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                Options                                                                                | Default |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint), [uk_etf](#uketf-endpoint) | `stock` |
+| Required? |   Name   |     Description     |  Type  |                                                                                           Options                                                                                           | Default |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [etf](#etf-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint), [uk_etf](#uketf-endpoint) | `stock` |
 
 ## Stock Endpoint
 
@@ -309,9 +309,10 @@ The result will be the price field in response.
 
 ### Input Params
 
-| Required? | Name |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+| Required? |  Name   |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+|           | country |                  |          Country code          |      |         |         |            |                |
 
 ### Example
 
@@ -347,6 +348,96 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+---
+
+## Etf Endpoint
+
+https://finage.co.uk/docs/api/etf-last-price
+The result will be the price field in response.
+
+`etf` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name   |     Aliases      |          Description           | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :--------------: | :----------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `from`, `symbol` | The symbol of the etf to query |      |         |         |            |                |
+|           | country |                  |          Country code          |      |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "etf",
+    "base": "IBTA",
+    "country": "uk"
+  },
+  "debug": {
+    "cacheKey": "aa6ce6cc584450db899dd840b24bf24118612ced"
+  },
+  "rateLimitMaxAge": 60000
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "symbol": "IBTA",
+    "price": 5.276,
+    "timestamp": 1684403239105,
+    "result": 5.276
+  },
+  "result": 5.276,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "etf",
+    "base": "C3M"
+  },
+  "debug": {
+    "cacheKey": "0d9256e97e16ac94e4fd9561e32092741958cef4"
+  },
+  "rateLimitMaxAge": 60000
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "symbol": "C3M",
+    "price": 117.38,
+    "timestamp": 1684403239105,
+    "result": 117.38
+  },
+  "result": 117.38,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 
