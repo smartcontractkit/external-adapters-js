@@ -3888,6 +3888,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/harris-and-trotter-adapter@workspace:packages/sources/harris-and-trotter":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/harris-and-trotter-adapter@workspace:packages/sources/harris-and-trotter"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average":
   version: 0.0.0-use.local
   resolution: "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average"
