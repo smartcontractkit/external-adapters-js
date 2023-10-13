@@ -369,6 +369,9 @@
       "path": "./sources/gsr"
     },
     {
+      "path": "./sources/harris-and-trotter"
+    },
+    {
       "path": "./sources/icap"
     },
     {

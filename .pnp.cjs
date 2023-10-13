@@ -520,6 +520,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/gsr"\
       },\
       {\
+        "name": "@chainlink/harris-and-trotter-adapter",\
+        "reference": "workspace:packages/sources/harris-and-trotter"\
+      },\
+      {\
         "name": "@chainlink/icap-adapter",\
         "reference": "workspace:packages/sources/icap"\
       },\
@@ -930,6 +934,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
       ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
+      ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
       ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
@@ -6626,6 +6631,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.4.7"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/harris-and-trotter-adapter", [\
+        ["workspace:packages/sources/harris-and-trotter", {\
+          "packageLocation": "./packages/sources/harris-and-trotter/",\
+          "packageDependencies": [\
+            ["@chainlink/harris-and-trotter-adapter", "workspace:packages/sources/harris-and-trotter"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

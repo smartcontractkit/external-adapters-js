@@ -369,6 +369,9 @@
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {
+      "path": "./sources/harris-and-trotter/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
