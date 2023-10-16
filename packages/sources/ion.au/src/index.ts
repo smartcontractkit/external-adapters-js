@@ -11,7 +11,7 @@ export const adapter = new Adapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1m: 55555,
+        rateLimit1m: 5,
         note: 'Considered unlimited tier, but setting reasonable limits',
       },
     },
