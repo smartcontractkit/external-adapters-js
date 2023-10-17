@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.6.0
+
+### Minor Changes
+
+- [#3034](https://github.com/smartcontractkit/external-adapters-js/pull/3034) [`c4fe7b75d`](https://github.com/smartcontractkit/external-adapters-js/commit/c4fe7b75d4a48d8857bc1a288b5a959665aff2ba) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Coinmetrics EA failing to serve new valid requests after being hit with invalid request.
+
 ## 3.5.1
 
 ### Patch Changes
