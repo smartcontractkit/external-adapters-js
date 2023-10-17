@@ -1,11 +1,16 @@
 import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { BaseMessage, blocksizeDefaultWebsocketOpenHandler } from './utils'
+import {
+  BaseMessage,
+  blocksizeDefaultUnsubscribeMessageBuilder,
+  blocksizeDefaultWebsocketOpenHandler,
+  buildBlocksizeWebsocketTickersMessage,
+} from './utils'
 
 const logger = makeLogger('BlocksizeCapitalLwbaWebsocketEndpoint')
 
-export interface Message extends BaseMessage {
+export interface BidAskMessage extends BaseMessage {
   method: 'bidask'
   params: {
     updates: {
@@ -22,7 +27,7 @@ export interface Message extends BaseMessage {
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
-    WsMessage: Message
+    WsMessage: BidAskMessage
   }
 }
 
@@ -75,20 +80,9 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
       subscribeMessage: (params) => {
         const pair = `${params.base}${params.quote}`.toUpperCase()
         transport.setReverseMapping(pair, params)
-        return {
-          jsonrpc: '2.0',
-          method: 'bidask_subscribe',
-          params: { tickers: [pair] },
-        }
+        return buildBlocksizeWebsocketTickersMessage('bidask_subscribe', pair)
       },
-
-      unsubscribeMessage: (params) => {
-        const pair = `${params.base}${params.quote}`.toUpperCase()
-        return {
-          jsonrpc: '2.0',
-          method: 'bidask_unsubscribe',
-          params: { tickers: [pair] },
-        }
-      },
+      unsubscribeMessage: (params) =>
+        blocksizeDefaultUnsubscribeMessageBuilder(params.base, params.quote, 'bidask_unsubscribe'),
     },
   })

@@ -62,4 +62,15 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
+  describe('vwap endpoint', () => {
+    it('should return success', async () => {
+      const vwapData = {
+        base: 'AMPL',
+        quote: 'USD',
+        endpoint: 'vwap',
+      }
+      const response = await testAdapter.request(vwapData)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
 })
