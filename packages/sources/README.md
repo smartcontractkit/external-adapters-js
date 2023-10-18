@@ -89,6 +89,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [gramchain](./gramchain/README.md)
 - [graphql](./graphql/README.md)
 - [gsr](./gsr/README.md)
+- [harris-and-trotter](./harris-and-trotter/README.md)
 - [icap](./icap/README.md)
 - [iex-cloud](./iex-cloud/README.md)
 - [intrinio](./intrinio/README.md)

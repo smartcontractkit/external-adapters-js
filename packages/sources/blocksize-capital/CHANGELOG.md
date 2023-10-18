@@ -1,5 +1,17 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#3025](https://github.com/smartcontractkit/external-adapters-js/pull/3025) [`9a977115d`](https://github.com/smartcontractkit/external-adapters-js/commit/9a977115dc38791617d4512f364aae3d91919f2a) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add vwap endpoint to blocksize-capital EA
+
+## 2.1.1
+
+### Patch Changes
+
+- [#3022](https://github.com/smartcontractkit/external-adapters-js/pull/3022) [`fc9f556fc`](https://github.com/smartcontractkit/external-adapters-js/commit/fc9f556fc1503b16000b10927e9664075f540795) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Blocksize Capital LWBA unsubscribe fix
+
 ## 2.1.0
 
 ### Minor Changes
