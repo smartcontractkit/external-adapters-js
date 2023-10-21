@@ -5927,7 +5927,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.0"],\
             ["@types/command-line-args", "npm:5.2.1"],\
-            ["@types/command-line-usage", "npm:5.0.2"],\
+            ["@types/command-line-usage", "npm:5.0.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/shelljs", "npm:0.8.13"],\
             ["@types/swagger-jsdoc", "npm:6.0.1"],\
@@ -13859,10 +13859,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/command-line-usage", [\
-        ["npm:5.0.2", {\
-          "packageLocation": "./.yarn/cache/@types-command-line-usage-npm-5.0.2-e127800321-9c0eabf5e8.zip/node_modules/@types/command-line-usage/",\
+        ["npm:5.0.3", {\
+          "packageLocation": "./.yarn/cache/@types-command-line-usage-npm-5.0.3-ad6787b6f3-3f2fc365c1.zip/node_modules/@types/command-line-usage/",\
           "packageDependencies": [\
-            ["@types/command-line-usage", "npm:5.0.2"]\
+            ["@types/command-line-usage", "npm:5.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
