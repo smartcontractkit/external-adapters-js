@@ -3250,8 +3250,8 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/external-adapter-framework": 0.33.0
-    "@types/command-line-args": 5.2.1
-    "@types/command-line-usage": 5.0.2
+    "@types/command-line-args": 5.2.2
+    "@types/command-line-usage": 5.0.3
     "@types/jest": 27.5.2
     "@types/shelljs": 0.8.13
     "@types/swagger-jsdoc": 6.0.1
@@ -3540,7 +3540,7 @@ __metadata:
     "@changesets/changelog-github": 0.4.8
     "@changesets/cli": 2.26.2
     "@types/babel__core": 7.1.20
-    "@types/babel__preset-env": 7.9.3
+    "@types/babel__preset-env": 7.9.4
     "@types/eslint": 8.37.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -10367,10 +10367,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__preset-env@npm:7.9.3":
-  version: 7.9.3
-  resolution: "@types/babel__preset-env@npm:7.9.3"
-  checksum: 7e89a37c4a7ebe841e0bc610e19497fe0642d741e8651c52ea4727782e46ea47d2aaf2656927a684c6618d8981b0febc1fc8c82c4a1d84b4ec5793a283e1ef7f
+"@types/babel__preset-env@npm:7.9.4":
+  version: 7.9.4
+  resolution: "@types/babel__preset-env@npm:7.9.4"
+  checksum: a4580b541d4fe7bdf9ecb9695cb90827f96c75e5c807e6fcf6cbca3beeb9106019dc322b2d08de03025d57c6f3f1431d80eb3ea6d9416e90bc8ee15460efa27d
   languageName: node
   linkType: hard
 
@@ -10403,11 +10403,11 @@ __metadata:
   linkType: hard
 
 "@types/bn.js@npm:^5.1.0, @types/bn.js@npm:^5.1.1":
-  version: 5.1.2
-  resolution: "@types/bn.js@npm:5.1.2"
+  version: 5.1.3
+  resolution: "@types/bn.js@npm:5.1.3"
   dependencies:
     "@types/node": "*"
-  checksum: 8d9fdb43836646c2ecd445041de03e057f9b459885be57faee64104160487a63730b9f371e8ad7d33f360b3cc6dc0e323543962fc5fa296b92b322b946732be0
+  checksum: 6cd144b8192b6655a009021a4f838a725ea3eb4c5e6425ffc5b144788f7612fb09018c2359954edef32ab7db15f7070b77d05499318b6d9824a55cb7e6776620
   languageName: node
   linkType: hard
 
@@ -10433,17 +10433,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/command-line-args@npm:5.2.1":
-  version: 5.2.1
-  resolution: "@types/command-line-args@npm:5.2.1"
-  checksum: a5df8562a7a0eb7c4da218661360ff8369a63c0fd783310d1940f0ece55826d5173eeb3732bab48dbfb60b1614d61989a9d87c6cdbee04353c4df6f45387d417
+"@types/command-line-args@npm:5.2.2":
+  version: 5.2.2
+  resolution: "@types/command-line-args@npm:5.2.2"
+  checksum: 572a8b5b60a5b9a885c1627fb22223667e154cfaa399b7967ebc694beb0b38f204d0ebd42de678057e2e30580b4e922cfcca713670a29f5c85eae4faa4cd5b87
   languageName: node
   linkType: hard
 
-"@types/command-line-usage@npm:5.0.2":
-  version: 5.0.2
-  resolution: "@types/command-line-usage@npm:5.0.2"
-  checksum: 9c0eabf5e86a405d118dcfb5f4bceae43080efe603a0f240664716a05283dcb389e94e999188d12b10a0aa4452a920445131f1011e7484403f146607cd2577f0
+"@types/command-line-usage@npm:5.0.3":
+  version: 5.0.3
+  resolution: "@types/command-line-usage@npm:5.0.3"
+  checksum: 3f2fc365c11bd7ef2359d94878ea6622be777e24f68dbe04e1932880a1f4ffa07713c27d060e2f80232553e952657571ef8f806b008ddffbfb253396f4aa5bca
   languageName: node
   linkType: hard
 
@@ -22960,7 +22960,7 @@ __metadata:
     "@babel/preset-env": 7.22.20
     "@babel/preset-typescript": 7.22.15
     "@types/babel__core": 7.1.20
-    "@types/babel__preset-env": 7.9.3
+    "@types/babel__preset-env": 7.9.4
     "@types/k6": 0.37.1
     "@types/node": 17.0.45
     "@types/rimraf": 3.0.2
