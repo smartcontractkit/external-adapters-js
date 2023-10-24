@@ -19,6 +19,9 @@ export type PriceResponse = {
   type: 'Index'
   data: {
     price: string
+    bid: string
+    ask: string
+    mid: string
     symbol: string
     timestamp: string
   }
@@ -90,7 +93,12 @@ export const transport: WebSocketTransport<WsTransportTypes> =
                 },
                 response: {
                   result: value,
-                  data: { result: value },
+                  data: {
+                    result: value,
+                    bid: Number(message.data.bid),
+                    ask: Number(message.data.ask),
+                    mid: Number(message.data.mid),
+                  },
                   timestamps: {
                     providerIndicatedTimeUnixMs: new Date(message.data.timestamp).getTime(),
                   },
