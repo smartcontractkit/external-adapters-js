@@ -2,12 +2,14 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { crypto, vwap, volume, marketcap } from './endpoint'
 import { config } from './config'
+import includes from './config/includes.json'
 
 export const adapter = new PriceAdapter({
   name: 'CRYPTOCOMPARE',
   defaultEndpoint: 'crypto',
   config,
   endpoints: [crypto, vwap, volume, marketcap],
+  includes,
   rateLimiting: {
     tiers: {
       free: {
