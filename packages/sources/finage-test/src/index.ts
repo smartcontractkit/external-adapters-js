@@ -2,6 +2,7 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
 import { commodities, crypto, eod, forex, stock, ukEtf } from './endpoint'
+import includes from './config/includes.json'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: stock.name,
@@ -16,6 +17,7 @@ export const adapter = new PriceAdapter({
       },
     },
   },
+  includes,
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

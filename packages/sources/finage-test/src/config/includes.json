@@ -1,0 +1,90 @@
+[
+  {
+    "from": "USD",
+    "to": "EUR",
+    "includes": [
+      {
+        "from": "EUR",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "GBP",
+    "includes": [
+      {
+        "from": "GBP",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "NZD",
+    "includes": [
+      {
+        "from": "NZD",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "XAG",
+    "includes": [
+      {
+        "from": "XAG",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "XAU",
+    "includes": [
+      {
+        "from": "XAU",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "XPT",
+    "includes": [
+      {
+        "from": "XPT",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "XPD",
+    "includes": [
+      {
+        "from": "XPD",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "XCU",
+    "includes": [
+      {
+        "from": "XCU",
+        "to": "USD",
+        "inverse": true
+      }
+    ]
+  }
+]

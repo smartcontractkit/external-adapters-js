@@ -1,6 +1,7 @@
 import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
+import includes from './../config/includes.json'
 import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['forex']
@@ -32,7 +33,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator(request, inputParameters, {}, { includes, overrides })
 
   const jobRunID = validator.validated.id
   const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
