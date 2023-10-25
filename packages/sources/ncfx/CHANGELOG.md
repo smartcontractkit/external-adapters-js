@@ -1,5 +1,17 @@
 # @chainlink/ncfx-adapter
 
+## 3.4.0
+
+### Minor Changes
+
+- [#2970](https://github.com/smartcontractkit/external-adapters-js/pull/2970) [`875b24bf6`](https://github.com/smartcontractkit/external-adapters-js/commit/875b24bf6a7e0b4496519b54798d741ab26aa73e) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Standardize LWBA endpoints
+
+### Patch Changes
+
+- [#2978](https://github.com/smartcontractkit/external-adapters-js/pull/2978) [`6e9fb4bba`](https://github.com/smartcontractkit/external-adapters-js/commit/6e9fb4bba076ae9c16601f7aa12d3629787477fd) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Fix providerIndicatedTimeUnixMs timezone
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
 ## 3.3.9
 
 ### Patch Changes

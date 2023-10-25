@@ -48,7 +48,7 @@ describe('execute', () => {
 
   setupExternalAdapterTest(envVariables, context)
 
-  describe('uk etf api', () => {
+  describe('uk-etf endpoint api', () => {
     const data: AdapterRequest = {
       id,
       data: {
@@ -71,12 +71,37 @@ describe('execute', () => {
     })
   })
 
+  describe('etf api using country:uk ', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'etf',
+        base: 'IBTA',
+        country: 'uk',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
   describe('uk etf api with invalid base', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        endpoint: 'uk_etf',
+        endpoint: 'etf',
         base: 'NON_EXISTING_UK_ETF',
+        country: 'uk',
       },
     }
 
@@ -599,7 +624,7 @@ describe('websocket', () => {
     fastify.close(done)
   })
 
-  describe('uk etf endpoint', () => {
+  describe('uk-etf endpoint', () => {
     const jobID = '1'
 
     it('should return success', async () => {

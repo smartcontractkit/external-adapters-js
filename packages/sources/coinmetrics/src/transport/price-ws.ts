@@ -6,6 +6,9 @@ import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/pric
 
 const logger = makeLogger('CoinMetrics WS')
 
+// base currencies that break the ws connection
+export const invalidBaseAssets: string[] = []
+
 export type WsAssetMetricsSuccessResponse = {
   time: string
   asset: string
@@ -60,6 +63,10 @@ export const calculateAssetMetricsUrl = (
   desiredSubs: (typeof assetMetricsInputParameters.validated)[],
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
+
+  //remove assets from desiredSubs that are invalid
+  desiredSubs = desiredSubs.filter(({ base }) => !invalidBaseAssets.includes(base.toLowerCase()))
+
   const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].sort().join(',')
   const metrics = [...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`))]
     .sort()
@@ -78,9 +85,23 @@ export const handleAssetMetricsMessage = (
   message: WsAssetMetricsMessage,
 ): ProviderResult<WsTransportTypes>[] | undefined => {
   logger.trace(message, 'Got response from websocket')
+
   if ('error' in message) {
     // Is WsAssetMetricsErrorResponse
     logger.error(message, `Error response from websocket`)
+
+    const findBaseCurrenciesRegex = new RegExp(/'([^']+)'/g)
+    if (message['error']['type'] === 'bad_parameter') {
+      //Bad Parameter Error Message
+      // type: 'bad_paramter'
+      // message: 'Bad parameter 'assets'. Value 'ohmv2' is not supported.'
+
+      const matches = [...message.error.message.matchAll(findBaseCurrenciesRegex)]
+
+      if (matches && !invalidBaseAssets.includes(matches[1][1])) {
+        invalidBaseAssets.push(matches[1][1])
+      }
+    }
   } else if ('warning' in message) {
     // Is WsAssetMetricsWarningResponse
     logger.warn(message, `Warning response from websocket`)

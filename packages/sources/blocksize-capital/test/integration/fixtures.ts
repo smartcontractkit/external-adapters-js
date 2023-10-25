@@ -1,5 +1,5 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
-export const mockSubscribeResponse = {
+export const mockPriceResponse = {
   jsonrpc: '2.0',
   method: 'vwap',
   params: {
@@ -20,6 +20,48 @@ export const mockSubscribeResponse = {
   },
 }
 
+export const mockLwbaResponse = {
+  jsonrpc: '2.0',
+  method: 'bidask',
+  params: {
+    updates: [
+      {
+        ticker: 'BTCUSD',
+        agg_bid_price: '27202.99036601005',
+        agg_bid_size: '36.57941309',
+        agg_ask_price: '27206.54222704013',
+        agg_ask_size: '6.76037062',
+        agg_mid_price: '27204.76629652509',
+        ts: 1693425803031,
+      },
+      {
+        ticker: 'ETHUSD',
+        agg_bid_price: '1701.844873967814',
+        agg_bid_size: '208.51838798',
+        agg_ask_price: '1702.223427255888',
+        agg_ask_size: '11.44083383',
+        agg_mid_price: '1702.034150611851',
+        ts: 1693425803028,
+      },
+    ],
+  },
+}
+
+export const mockFixedVwapSnapshotResponse = {
+  jsonrpc: '2.0',
+  result: {
+    snapshot: [
+      {
+        ticker: 'AMPLUSD',
+        price: 1.7748077041598187,
+        size: 451648.70693599945,
+        volume: 801589.604643832,
+        ts: 1670630400000,
+      },
+    ],
+  },
+}
+
 export const mockLoginResponse = {
   jsonrpc: '2.0',
   id: 0,
@@ -31,12 +73,18 @@ export const mockLoginResponse = {
 export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    const data = JSON.stringify(mockSubscribeResponse)
+    const data = JSON.stringify(mockPriceResponse)
+    const lwbaData = JSON.stringify(mockLwbaResponse)
     socket.on('message', (message) => {
       const parsed = JSON.parse(message.toString())
       if (parsed.params?.api_key) {
         socket.send(JSON.stringify(mockLoginResponse))
+      } else if (parsed?.method === 'bidask_subscribe') {
+        socket.send(lwbaData)
+      } else if (parsed?.method === 'fixedvwap_subscribe') {
+        socket.send(JSON.stringify(mockFixedVwapSnapshotResponse))
       } else {
+        // method === 'vwap'
         socket.send(data)
       }
     })

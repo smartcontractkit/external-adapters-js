@@ -1,5 +1,11 @@
 # @chainlink/dydx-stark-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#3006](https://github.com/smartcontractkit/external-adapters-js/pull/3006) [`fb25ae19c`](https://github.com/smartcontractkit/external-adapters-js/commit/fb25ae19cafcdc7b57833a4b7c9cf3179c7c4877) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Upgraded adapter from v2 to v3 framework
+
 ## 1.1.31
 
 ### Patch Changes

@@ -1,9 +1,21 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute } from './adapter'
-import { makeConfig, NAME } from './config'
-import rateLimit from './config/limits.json'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { config } from './config'
+import { send } from './endpoint'
 
-const adapterContext = { name: NAME, rateLimit }
+export const adapter = new Adapter({
+  defaultEndpoint: send.name,
+  name: 'DYDX_STARK',
+  config,
+  rateLimiting: {
+    tiers: {
+      free: {
+        rateLimit1s: 10,
+        note: '100req/10s',
+      },
+    },
+  },
+  endpoints: [send],
+})
 
-const { server } = expose(adapterContext, makeExecute())
-export { NAME, makeExecute, makeConfig, server }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

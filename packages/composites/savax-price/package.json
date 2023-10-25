@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/savax-price-adapter",
-  "version": "3.0.51",
+  "version": "3.0.56",
   "description": "Chainlink savax-price adapter.",
   "keywords": [
     "Chainlink",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
+    "@types/supertest": "2.0.14",
     "nock": "13.2.9",
     "supertest": "6.2.4",
     "typescript": "5.0.4"

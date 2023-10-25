@@ -51,4 +51,26 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
+  describe('lwba endpoint', () => {
+    it('should return success', async () => {
+      const lwbaData = {
+        base: 'ETH',
+        quote: 'USD',
+        endpoint: 'crypto-lwba',
+      }
+      const response = await testAdapter.request(lwbaData)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+  describe('vwap endpoint', () => {
+    it('should return success', async () => {
+      const vwapData = {
+        base: 'AMPL',
+        quote: 'USD',
+        endpoint: 'vwap',
+      }
+      const response = await testAdapter.request(vwapData)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
 })

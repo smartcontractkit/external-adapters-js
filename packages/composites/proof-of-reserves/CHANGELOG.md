@@ -1,5 +1,37 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.14
+
+### Patch Changes
+
+- [#3021](https://github.com/smartcontractkit/external-adapters-js/pull/3021) [`7833c6081`](https://github.com/smartcontractkit/external-adapters-js/commit/7833c60818434709792bf744eb83070ed883efb4) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add validation for cardano testnet, avalanche and ETH beacon addresses
+
+- Updated dependencies []:
+  - @chainlink/renvm-address-set-adapter@1.5.61
+
+## 1.18.13
+
+### Patch Changes
+
+- Updated dependencies [[`a2b5b01b4`](https://github.com/smartcontractkit/external-adapters-js/commit/a2b5b01b4a731807d6a9dbfa7dbaf0ddb863b860)]:
+  - @chainlink/wbtc-address-set-adapter@2.0.4
+  - @chainlink/renvm-address-set-adapter@1.5.60
+
+## 1.18.12
+
+### Patch Changes
+
+- Updated dependencies [[`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30)]:
+  - @chainlink/moonbeam-address-list-adapter@1.1.20
+  - @chainlink/stader-address-list-adapter@2.3.10
+  - @chainlink/avalanche-platform-adapter@2.0.4
+  - @chainlink/polkadot-balance-adapter@1.2.8
+  - @chainlink/stader-balance-adapter@1.4.7
+  - @chainlink/por-indexer-adapter@2.0.3
+  - @chainlink/eth-beacon-adapter@2.0.4
+  - @chainlink/gemini-adapter@3.0.3
+  - @chainlink/renvm-address-set-adapter@1.5.59
+
 ## 1.18.11
 
 ### Patch Changes

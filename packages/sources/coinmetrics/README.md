@@ -1,6 +1,6 @@
 # COINMETRICS
 
-![3.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,9 +25,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                Options                                                                                                                                | Default |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [burned](#burned-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto](#price-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint), [total-burned](#total-burned-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                           Options                                                                                                                                                                            | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [burned](#burned-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto](#price-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [total-burned](#total-burned-endpoint) | `price` |
 
 ## Price Endpoint
 
@@ -137,6 +137,35 @@ Request:
     "asset": "eth",
     "frequency": "1d",
     "pageSize": 1
+  }
+}
+```
+
+---
+
+## Realized-vol Endpoint
+
+Supported names for this endpoint are: `realized-vol`, `realized-volatility`.
+
+### Input Params
+
+| Required? |    Name    |     Aliases     |                       Description                        |  Type  |                   Options                    |    Default     | Depends On | Not Valid With |
+| :-------: | :--------: | :-------------: | :------------------------------------------------------: | :----: | :------------------------------------------: | :------------: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from`  |  The base currency to query the realized volatility for  | string |                                              |                |            |                |
+|           |   quote    | `convert`, `to` | The quote currency to convert the realized volatility to | string |                                              |     `USD`      |            |                |
+|           | resultPath |                 |        The field to return within the result path        | string | `realVol1Day`, `realVol30Day`, `realVol7Day` | `realVol30Day` |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "realized-vol",
+    "base": "ETH",
+    "quote": "USD",
+    "resultPath": "realVol30Day"
   }
 }
 ```

@@ -85,7 +85,7 @@ runs:
         inputs.skip-setup != 'true'
         && inputs.skip-cache != 'true'
       with:
-        key: tsbuild-${{ github.sha }}
+        key: tsbuild-${{ github.sha }}-${{ github.run_id }}
         # Add the masterlist to always cache the result, even if there are no adapters to build.
         # That way we can skip the following steps in other jobs where there were no adapters built but this action is called still.
         path: |
@@ -159,7 +159,7 @@ runs:
         && inputs.skip-cache != 'true'
       uses: actions/cache/save@v3
       with:
-        key: tsbuild-${{ github.sha }}
+        key: tsbuild-${{ github.sha }}-${{ github.run_id }}
         path: |
           ./packages/**/tsconfig.tsbuildinfo
           ./packages/**/dist/

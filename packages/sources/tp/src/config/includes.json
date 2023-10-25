@@ -594,6 +594,17 @@
     ]
   },
   {
+    "from": "JPY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "JPY",
+        "inverse": true
+      }
+    ]
+  },
+  {
     "from": "KES",
     "to": "USD",
     "includes": [
