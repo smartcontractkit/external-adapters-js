@@ -123,7 +123,7 @@ describe('execute', () => {
       expect(response.body.result).toBeGreaterThan(0)
     })
 
-    it('should return 504 message for bad symbol', async () => {
+    it('should return 400 message for bad symbol', async () => {
       const response = await req
         .post('/')
         .send(errorRequests.cryptoWithBadSymbol)
@@ -142,7 +142,7 @@ describe('execute', () => {
         .expect(200)
       expect(response.body.result).toBeGreaterThan(0)
     })
-    it('should return 504 for bad override', async () => {
+    it('should return 400 for bad override', async () => {
       const response = await req
         .post('/')
         .send(errorRequests.cryptoWithBadOverride)
@@ -177,7 +177,7 @@ describe('execute', () => {
       expect(response.body.result).toBeGreaterThan(0)
     })
 
-    it('should return 504 message for bad symbol', async () => {
+    it('should return 400 message for bad symbol', async () => {
       const response = await req
         .post('/')
         .send(withCryptoWs(errorRequests.cryptoWithBadSymbol))
@@ -196,7 +196,7 @@ describe('execute', () => {
         .expect(200)
       expect(response.body.result).toBeGreaterThan(0)
     })
-    it('should return 504 for bad override', async () => {
+    it('should return 400 for bad override', async () => {
       const response = await req
         .post('/')
         .send(withCryptoWs(errorRequests.cryptoWithBadOverride))
