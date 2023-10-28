@@ -10480,9 +10480,9 @@ __metadata:
   linkType: hard
 
 "@types/crypto-js@npm:^4.1.1":
-  version: 4.1.2
-  resolution: "@types/crypto-js@npm:4.1.2"
-  checksum: 9a39c6627186f53a1885647889ee376f5858604316023ff2c8226869ad51c9c57ff49bd730deaa751f729fbf611296896e1392862752c5ae9fadf61c64ef3fd2
+  version: 4.1.3
+  resolution: "@types/crypto-js@npm:4.1.3"
+  checksum: 4489854579c1b90b77da881fc980e3f05ab1e9c68b18ae580fedbb7b0fb40d531fda7bdc05f1b3bd5d4218c1d97c2f821bbac57eb3d7d9e505ce5a2c5b034166
   languageName: node
   linkType: hard
 
