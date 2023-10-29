@@ -16,7 +16,7 @@ exports[`websocket price endpoint should return success 1`] = `
   "data": {
     "ask": 10002,
     "bid": 10001,
-    "mid": 10003,
+    "mid": 10000,
     "result": 10000,
   },
   "result": 10000,

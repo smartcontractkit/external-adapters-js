@@ -21,7 +21,6 @@ export type PriceResponse = {
     price: string
     bid: string
     ask: string
-    mid: string
     symbol: string
     timestamp: string
   }
@@ -79,8 +78,8 @@ export const transport: WebSocketTransport<WsTransportTypes> =
               return
             }
 
-            const value = Number(message.data.price)
-            if (value < 0) {
+            const result = Number(message.data.price)
+            if (result < 0) {
               logger.warn(`Got invalid price "${message.data.price}" in WS message of type Index`)
               return
             }
@@ -92,12 +91,12 @@ export const transport: WebSocketTransport<WsTransportTypes> =
                   quote,
                 },
                 response: {
-                  result: value,
+                  result,
                   data: {
-                    result: value,
+                    result,
                     bid: Number(message.data.bid),
                     ask: Number(message.data.ask),
-                    mid: Number(message.data.mid),
+                    mid: result,
                   },
                   timestamps: {
                     providerIndicatedTimeUnixMs: new Date(message.data.timestamp).getTime(),
