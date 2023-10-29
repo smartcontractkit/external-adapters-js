@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.coinpaprika.com', {
@@ -317,3 +318,26 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
       },
     ])
     .persist()
+
+export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(
+        JSON.stringify({
+          id: 'eth-ethereum',
+          sym: 'ETH',
+          ts: 1676916987,
+          quotes: {
+            USD: {
+              m: 218206664352,
+              p: 1820,
+              v24h: 18368605422,
+            },
+          },
+        }),
+      )
+    })
+  })
+  return mockWsServer
+}

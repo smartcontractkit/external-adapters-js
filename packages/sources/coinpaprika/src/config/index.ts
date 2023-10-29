@@ -15,6 +15,11 @@ export const config = new AdapterConfig({
     required: false,
     sensitive: true,
   },
+  WS_API_ENDPOINT: {
+    description: 'The WS API endpoint for Coinpaprika',
+    default: 'wss://streaming.coinpaprika.com/ticks',
+    type: 'string',
+  },
 })
 
 export const getApiEndpoint = (settings: typeof config.settings): string =>

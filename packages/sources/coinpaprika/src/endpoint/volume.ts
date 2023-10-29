@@ -1,15 +1,14 @@
-import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import overrides from '../config/overrides.json'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { buildCryptoHttpTransport, buildWebsocketTransport } from '../transport/utils'
 import { BaseEndpointTypes, cryptoInputParameters, customInputValidation } from './utils'
-import overrides from '../config/overrides.json'
 
-export const endpoint = new CryptoPriceEndpoint({
-  name: 'crypto',
-  aliases: ['price'],
+export const endpoint = new PriceEndpoint({
+  name: 'volume',
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
-    .register('ws', buildWebsocketTransport('p'))
-    .register('rest', buildCryptoHttpTransport('price')),
+    .register('ws', buildWebsocketTransport('v24h'))
+    .register('rest', buildCryptoHttpTransport('volume_24h')),
   defaultTransport: 'rest',
   inputParameters: cryptoInputParameters,
   overrides: overrides.coinpaprika,

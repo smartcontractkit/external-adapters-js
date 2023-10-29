@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket crypto endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1820,
+  },
+  "result": 1820,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1676916987000,
+  },
+}
+`;
+
+exports[`websocket marketcap endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 218206664352,
+  },
+  "result": 218206664352,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1676916987000,
+  },
+}
+`;
+
+exports[`websocket volume endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 18368605422,
+  },
+  "result": 18368605422,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1676916987000,
+  },
+}
+`;

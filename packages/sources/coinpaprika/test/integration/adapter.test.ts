@@ -4,6 +4,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -15,7 +16,7 @@ describe('execute', () => {
     const mockDate = new Date('2022-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -49,6 +50,21 @@ describe('execute', () => {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'volume',
+      }
+      mockCryptoResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('crypto volume endpoint with custom resultPath', () => {
+    it('should return success', async () => {
+      const data = {
+        base: 'ETH',
+        quote: 'USD',
+        endpoint: 'volume',
+        resultPath: 'market_cap',
       }
       mockCryptoResponseSuccess()
       const response = await testAdapter.request(data)

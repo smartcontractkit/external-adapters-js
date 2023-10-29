@@ -42,6 +42,20 @@ exports[`execute crypto volume endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute crypto volume endpoint with custom resultPath should return success 1`] = `
+{
+  "data": {
+    "result": 466143026900,
+  },
+  "result": 466143026900,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
 exports[`execute dominance endpoint should return success 1`] = `
 {
   "data": {
