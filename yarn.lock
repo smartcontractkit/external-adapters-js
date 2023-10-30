@@ -3170,7 +3170,7 @@ __metadata:
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
     "@reduxjs/toolkit": ^1.6.1
-    "@types/fast-redact": 3.0.2
+    "@types/fast-redact": 3.0.3
     "@types/jest": 27.5.2
     "@types/lodash": 4.14.199
     "@types/lru-cache": 5.1.1
@@ -10576,10 +10576,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fast-redact@npm:3.0.2":
-  version: 3.0.2
-  resolution: "@types/fast-redact@npm:3.0.2"
-  checksum: d53f271ef024aebe292d0fad7863554ba3d7ad930faa7c53d3cc5b7c059639b579de5775f9944b6be7cb4ae878da8a78df1b8f9c1de9b803026c176dd067ceb0
+"@types/fast-redact@npm:3.0.3":
+  version: 3.0.3
+  resolution: "@types/fast-redact@npm:3.0.3"
+  checksum: be462ed7e953b4736ddb2fe598c7a8b184a210f6535a60b11812fc6c1298aafa04b079315aae35aef143f7d841ff2f5b8f54bd8879e809103bd968bb2f7042a3
   languageName: node
   linkType: hard
 
