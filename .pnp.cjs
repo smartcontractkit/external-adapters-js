@@ -4612,7 +4612,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.1"],\
-            ["@types/crypto-js", "npm:4.1.2"],\
+            ["@types/crypto-js", "npm:4.1.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.27.2"],\
@@ -4936,7 +4936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/express", "npm:4.17.19"],\
+            ["@types/express", "npm:4.17.20"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.14"],\
@@ -5840,7 +5840,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
-            ["@types/fast-redact", "npm:3.0.2"],\
+            ["@types/fast-redact", "npm:3.0.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/lodash", "npm:4.14.199"],\
             ["@types/lru-cache", "npm:5.1.1"],\
@@ -6550,7 +6550,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-            ["@types/convert-units", "npm:2.3.7"],\
+            ["@types/convert-units", "npm:2.3.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["convert-units", "npm:2.3.4"],\
@@ -13878,10 +13878,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/convert-units", [\
-        ["npm:2.3.7", {\
-          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.7-dfd529f70e-7cb3102353.zip/node_modules/@types/convert-units/",\
+        ["npm:2.3.8", {\
+          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.8-092f17fe38-bacd4554b2.zip/node_modules/@types/convert-units/",\
           "packageDependencies": [\
-            ["@types/convert-units", "npm:2.3.7"]\
+            ["@types/convert-units", "npm:2.3.8"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13906,10 +13906,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/crypto-js", [\
-        ["npm:4.1.2", {\
-          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.2-450346db06-9a39c66271.zip/node_modules/@types/crypto-js/",\
+        ["npm:4.1.3", {\
+          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.3-2aa04b4dd5-4489854579.zip/node_modules/@types/crypto-js/",\
           "packageDependencies": [\
-            ["@types/crypto-js", "npm:4.1.2"]\
+            ["@types/crypto-js", "npm:4.1.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13990,10 +13990,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/express", [\
-        ["npm:4.17.19", {\
-          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.19-4471e6ee35-3d39d0655e.zip/node_modules/@types/express/",\
+        ["npm:4.17.20", {\
+          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.20-a63c9e93d3-bf8a97d283.zip/node_modules/@types/express/",\
           "packageDependencies": [\
-            ["@types/express", "npm:4.17.19"],\
+            ["@types/express", "npm:4.17.20"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/express-serve-static-core", "npm:4.17.33"],\
             ["@types/qs", "npm:6.9.7"],\
@@ -14015,10 +14015,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/fast-redact", [\
-        ["npm:3.0.2", {\
-          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.2-a0597f0d84-d53f271ef0.zip/node_modules/@types/fast-redact/",\
+        ["npm:3.0.3", {\
+          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.3-8a0eaec9c2-be462ed7e9.zip/node_modules/@types/fast-redact/",\
           "packageDependencies": [\
-            ["@types/fast-redact", "npm:3.0.2"]\
+            ["@types/fast-redact", "npm:3.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17290,10 +17290,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["browserify-sign", [\
-        ["npm:4.2.1", {\
-          "packageLocation": "./.yarn/cache/browserify-sign-npm-4.2.1-9a8530ca87-0221f190e3.zip/node_modules/browserify-sign/",\
+        ["npm:4.2.2", {\
+          "packageLocation": "./.yarn/cache/browserify-sign-npm-4.2.2-92f50c6d35-b622730c0f.zip/node_modules/browserify-sign/",\
           "packageDependencies": [\
-            ["browserify-sign", "npm:4.2.1"],\
+            ["browserify-sign", "npm:4.2.2"],\
             ["bn.js", "npm:5.2.1"],\
             ["browserify-rsa", "npm:4.1.0"],\
             ["create-hash", "npm:1.2.0"],\
@@ -17301,7 +17301,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["elliptic", "npm:6.5.4"],\
             ["inherits", "npm:2.0.4"],\
             ["parse-asn1", "npm:5.1.6"],\
-            ["readable-stream", "npm:3.6.0"],\
+            ["readable-stream", "npm:3.6.2"],\
             ["safe-buffer", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
@@ -19094,7 +19094,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["crypto-browserify", "npm:3.12.0"],\
             ["browserify-cipher", "npm:1.0.1"],\
-            ["browserify-sign", "npm:4.2.1"],\
+            ["browserify-sign", "npm:4.2.2"],\
             ["create-ecdh", "npm:4.0.4"],\
             ["create-hash", "npm:1.2.0"],\
             ["create-hmac", "npm:1.1.7"],\
