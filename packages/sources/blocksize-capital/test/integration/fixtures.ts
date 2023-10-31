@@ -47,6 +47,21 @@ export const mockLwbaResponse = {
   },
 }
 
+export const mockFixedVwapSnapshotResponse = {
+  jsonrpc: '2.0',
+  result: {
+    snapshot: [
+      {
+        ticker: 'AMPLUSD',
+        price: 1.7748077041598187,
+        size: 451648.70693599945,
+        volume: 801589.604643832,
+        ts: 1670630400000,
+      },
+    ],
+  },
+}
+
 export const mockLoginResponse = {
   jsonrpc: '2.0',
   id: 0,
@@ -66,6 +81,8 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
         socket.send(JSON.stringify(mockLoginResponse))
       } else if (parsed?.method === 'bidask_subscribe') {
         socket.send(lwbaData)
+      } else if (parsed?.method === 'fixedvwap_subscribe') {
+        socket.send(JSON.stringify(mockFixedVwapSnapshotResponse))
       } else {
         // method === 'vwap'
         socket.send(data)

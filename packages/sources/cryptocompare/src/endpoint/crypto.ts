@@ -14,6 +14,12 @@ export const endpoint = new CryptoPriceEndpoint({
   customRouter: (_req, adapterConfig) => {
     return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
+  requestTransforms: [
+    (req) => {
+      req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
+      req.requestContext.data.quote = req.requestContext.data.quote?.toUpperCase()
+    },
+  ],
   inputParameters: cryptoInputParams,
   overrides: overrides.cryptocompare,
 })

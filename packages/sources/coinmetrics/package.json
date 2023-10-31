@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinmetrics-adapter",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "description": "Chainlink coinmetrics adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.0",
+    "@chainlink/external-adapter-framework": "0.33.1",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
@@ -36,7 +36,7 @@
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "@types/sinonjs__fake-timers": "8.1.2",
+    "@types/sinonjs__fake-timers": "8.1.3",
     "nock": "13.2.9",
     "typescript": "5.0.4"
   }
