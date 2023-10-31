@@ -1,5 +1,5 @@
 ---
-'@chainlink/ion.au-adapter': major
+'@chainlink/ion.au-adapter': patch
 ---
 
-rate limit
+Reduced default rate limit to 5 requests per minute
