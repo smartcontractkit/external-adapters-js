@@ -63,7 +63,7 @@ Clears all build files/directories. Useful in case of issues when installing dep
     ║
     ╠══ k6 - performance testing scripts and configurations using k6
     ║
-    ╠══ non-deployable - adapters that are not meant to be ran independently
+    ╠══ non-deployable - adapters that are not meant to be run independently
     ║
     ╠══ scripts - additional Node.js scripts for mono-repository management
     ║
@@ -136,7 +136,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 This command will start all of your external adapters with performance features enabled and with pre-defined metrics charts for each EA on a single server.
 
 The first step will be to load up all of the environment variables that are needed across all of the External Adapters that will be ran. These can either be already be loaded into the environment or supplied to the startup script as a text file.
-Also make sure that [Grafana dependencies](./grafana/README.md#deployment) are installed.
+Also, make sure that [Grafana dependencies](./grafana/README.md#deployment) are installed.
 
 Starting from the root of the repository:
 
@@ -262,7 +262,7 @@ Best practice is to try to always keep it up to date!
 
 ### Why do the versions jump up sometimes?
 
-Sometimes when looking at the releases for an EA you might see it jumped a version number. For example, the previous release might be 1.2.3 and then the next release is 1.2.5. The reason being is that each week we publish a new release. Whenever we make a change it includes a [changeset](https://github.com/changesets/changesets), which uses versioning semantics above (major, minor, and patch). Sometimes over the course of a given week, more than one changes are included in an adapter, so more than one changeset gets ingested into the release, thus causing the release number to jump. So if a version went from 1.2.3 to 1.2.5, that means two patches were pushed that week.
+Sometimes when looking at the releases for an EA you might see it jumped a version number. For example, the previous release might be 1.2.3 and then the next release is 1.2.5. The reason is that each week we publish a new release. Whenever we make a change it includes a [changeset](https://github.com/changesets/changesets), which uses versioning semantics above (major, minor, and patch). Sometimes over the course of a given week, more than one change is included in an adapter, so more than one changeset gets ingested into the release, thus causing the release number to jump. So if a version went from 1.2.3 to 1.2.5, that means two patches were pushed that week.
 
 ## Advanced Features
 
