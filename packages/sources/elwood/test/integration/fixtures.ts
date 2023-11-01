@@ -58,6 +58,8 @@ export const mockWebSocketServer = (URL: string) => {
               type: 'Index',
               data: {
                 price: '10000',
+                bid: '10001',
+                ask: '10002',
                 symbol: 'ETH-USD',
                 timestamp: '2022-11-08T04:18:18.736534617Z',
               },
