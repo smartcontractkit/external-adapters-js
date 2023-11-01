@@ -28,7 +28,7 @@ export const endpoint = new StockEndpoint({
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
-  defaultTransport: 'rest',
+  defaultTransport: 'ws',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
 })

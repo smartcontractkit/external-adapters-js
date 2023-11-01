@@ -1,0 +1,13 @@
+[
+  {
+    "from": "BTC",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "ETH",
+        "to": "BTC",
+        "inverse": true
+      }
+    ]
+  }
+]
