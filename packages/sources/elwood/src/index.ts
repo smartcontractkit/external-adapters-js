@@ -5,7 +5,7 @@ import { config } from './config'
 
 export const adapter = new PriceAdapter({
   name: 'ELWOOD',
-  defaultEndpoint: 'crypto',
+  defaultEndpoint: cryptoEndpoint.name,
   config,
   endpoints: [cryptoEndpoint],
 })

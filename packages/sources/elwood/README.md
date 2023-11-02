@@ -6,11 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       |            Description            |  Type  | Options |                  Default                   |
-| :-------: | :-------------: | :-------------------------------: | :----: | :-----: | :----------------------------------------: |
-|    ✅     |     API_KEY     |              API key              | string |         |                                            |
-|           | WS_API_ENDPOINT | The websocket url for coinmetrics | string |         |  `wss://api.chk.elwood.systems/v1/stream`  |
-|           |  API_ENDPOINT   |    The API url for coinmetrics    | string |         | `https://api.chk.elwood.systems/v1/stream` |
+| Required? |      Name       |         Description          |  Type  | Options |                  Default                   |
+| :-------: | :-------------: | :--------------------------: | :----: | :-----: | :----------------------------------------: |
+|    ✅     |     API_KEY     |           API key            | string |         |                                            |
+|           | WS_API_ENDPOINT | The websocket url for elwood | string |         |  `wss://api.chk.elwood.systems/v1/stream`  |
+|           |  API_ENDPOINT   |    The API url for elwood    | string |         | `https://api.chk.elwood.systems/v1/stream` |
 
 ---
 
@@ -22,13 +22,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                       Options                       | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price](#price-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                      Options                                                                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#price-endpoint), [crypto](#price-endpoint), [crypto_lwba](#price-endpoint), [cryptolwba](#price-endpoint), [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `crypto`, `price`.
+Supported names for this endpoint are: `crypto`, `crypto-lwba`, `crypto_lwba`, `cryptolwba`, `price`.
 
 ### Input Params
 
