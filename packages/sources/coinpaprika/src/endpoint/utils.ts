@@ -4,7 +4,7 @@ import {
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 
-import { config } from '../config'
+import { AVAILABLE_WS_QUOTES, config } from '../config'
 import {
   AdapterError,
   AdapterInputError,
@@ -66,6 +66,17 @@ export function customInputValidation(
     return new AdapterInputError({
       statusCode: 400,
       message: 'WS_API_ENDPOINT is required for streaming data',
+    })
+  }
+  if (
+    req.requestContext.transportName === 'ws' &&
+    !AVAILABLE_WS_QUOTES.includes(
+      req.requestContext.data.quote as (typeof AVAILABLE_WS_QUOTES)[number],
+    )
+  ) {
+    return new AdapterInputError({
+      statusCode: 400,
+      message: `Invalid quote. Available quotes for websocket are - ${AVAILABLE_WS_QUOTES}`,
     })
   }
   return

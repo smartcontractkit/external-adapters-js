@@ -3,8 +3,9 @@ import {
   HttpTransport,
   WebsocketReverseMappingTransport,
 } from '@chainlink/external-adapter-framework/transports'
-import { getApiEndpoint, getApiHeaders } from '../config'
+import { AVAILABLE_WS_QUOTES, getApiEndpoint, getApiHeaders } from '../config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinPaprika')
 
@@ -27,36 +28,46 @@ type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-// Factory function that returns WebsocketReverseMappingTransport with provided resultPath as a default option
+// Factory function that returns WebsocketReverseMappingTransport with provided resultPath as a default option.
+// WebsocketReverseMappingTransport is needed because the adapter accepts `coinid` param in which case required `base` param is ignored
+// but needs to be provided for `ProviderResult`.
 export const buildWebsocketTransport = (resultPath: keyof WsMessage['quotes']['quote']) => {
   const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
     new WebsocketReverseMappingTransport<WsTransportTypes, string>({
       url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+      options: async (context) => ({
+        headers: {
+          Authorization: context.adapterSettings.API_KEY,
+        },
+      }),
       handlers: {
         message(message: WsMessage) {
-          const quote = Object.keys(message.quotes)[0]
-          const reverseMapKey = `${message.id ?? message.sym}_${quote}`.toUpperCase()
-          const pair: typeof cryptoInputParameters.validated | undefined =
-            wsTransport.getReverseMapping(reverseMapKey)
-          if (!pair) {
-            logger.warn(`Pair doesn't exist for key - ${reverseMapKey}`)
-            return
-          }
-          const providerTime = message.ts * 1000
-          const dataForQuote = message.quotes[quote]
-          if (!dataForQuote) {
-            logger.warn(
-              `Data for quote "${
-                pair.quote
-              }" was not found in provider response for the request: ${JSON.stringify(pair)}`,
-            )
-            return
-          }
-
-          const valueRequested = dataForQuote[resultPath]
-          return [
-            {
-              params: pair,
+          const result: ProviderResult<WsTransportTypes>[] = []
+          // For each quote for given base construct a result and save it.
+          // For example, for BTC/ETH request, we will also save a result for BTC/USD, BTC/MATIC and other BTC/AVAILABLE_WS_QUOTES.
+          // This is due to limitation on coinpaprika side as if there is already a subscription for BTC/ETH, coinpaprika won't accept
+          // another subscription for different quote with existing base (BTC/USD, BTC/MATIC).
+          Object.keys(message.quotes).forEach((quote) => {
+            const reverseMapKey = `${message.id ?? message.sym}_${quote}`.toUpperCase()
+            const pair: typeof cryptoInputParameters.validated | undefined =
+              wsTransport.getReverseMapping(reverseMapKey)
+            if (!pair) {
+              logger.warn(`Pair doesn't exist for key - ${reverseMapKey}`)
+              return
+            }
+            const providerTime = message.ts * 1000
+            const dataForQuote = message.quotes[quote]
+            if (!dataForQuote) {
+              logger.warn(
+                `Data for quote "${quote}" was not found in provider response for the request: ${JSON.stringify(
+                  pair,
+                )}`,
+              )
+              return
+            }
+            const valueRequested = dataForQuote[resultPath]
+            result.push({
+              params: { ...pair, quote },
               response: {
                 result: valueRequested,
                 data: {
@@ -66,18 +77,23 @@ export const buildWebsocketTransport = (resultPath: keyof WsMessage['quotes']['q
                   providerIndicatedTimeUnixMs: new Date(providerTime).getTime(),
                 },
               },
-            },
-          ]
+            })
+          })
+          return result
         },
       },
       builders: {
         subscribeMessage: (params) => {
-          const reverseMapKey = `${params.coinid ?? params.base}_${params.quote}`.toUpperCase()
-          wsTransport.setReverseMapping(reverseMapKey, params)
+          AVAILABLE_WS_QUOTES.forEach((quote) => {
+            const reverseMapKey = `${params.coinid ?? params.base}_${quote}`.toUpperCase()
+            wsTransport.setReverseMapping(reverseMapKey, params)
+          })
           return {
             event: 'subscribe',
             ids: [params.coinid ?? params.base],
-            quotes: [params.quote.toUpperCase()],
+            // If there is already a subscription for BASE/QUOTE, coinpaprika won't accept another subscription for a different quote
+            // Due to how coinpaprika WS works, we request all available quotes for given base.
+            quotes: AVAILABLE_WS_QUOTES,
           }
         },
         unsubscribeMessage: (params) => ({

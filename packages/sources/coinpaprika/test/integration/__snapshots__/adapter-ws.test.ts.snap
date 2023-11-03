@@ -15,6 +15,17 @@ exports[`websocket crypto endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket invalid quote should return error 1`] = `
+{
+  "error": {
+    "message": "Invalid quote. Available quotes for websocket are - USD,BTC,ETH,BNB,MATIC",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`websocket marketcap endpoint should return success 1`] = `
 {
   "data": {

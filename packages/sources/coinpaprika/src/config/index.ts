@@ -32,3 +32,5 @@ export const getApiHeaders = (settings: typeof config.settings): { Authorization
   }
   return headers
 }
+
+export const AVAILABLE_WS_QUOTES = ['USD', 'BTC', 'ETH', 'BNB', 'MATIC'] as const

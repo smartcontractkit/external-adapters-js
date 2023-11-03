@@ -8,6 +8,8 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import process from 'process'
+import { sleep } from '@chainlink/external-adapter-framework/util'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -57,7 +59,8 @@ describe('websocket', () => {
     await testAdapter.request(cryptoData)
     await testAdapter.request(volumeData)
     await testAdapter.request(marketcapData)
-    await testAdapter.waitForCache(3)
+    // the cache size should be 15 since for each request we save 5 cache entries based on 5 quotes (see fixtures.ts)
+    await testAdapter.waitForCache(15)
   })
 
   afterAll(async () => {
@@ -87,6 +90,19 @@ describe('websocket', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(marketcapData)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('invalid quote', () => {
+    it('should return error', async () => {
+      const response = await testAdapter.request({
+        base: 'AAA',
+        coinid: 'eth-ethereum',
+        quote: 'LTC',
+        transport: 'ws',
+      })
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })
