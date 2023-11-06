@@ -7319,7 +7319,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@paypal/payouts-sdk", "npm:1.1.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["@types/paypal__payouts-sdk", "npm:1.0.4"],\
+            ["@types/paypal__payouts-sdk", "npm:1.0.5"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -14396,10 +14396,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/paypal__payouts-sdk", [\
-        ["npm:1.0.4", {\
-          "packageLocation": "./.yarn/cache/@types-paypal__payouts-sdk-npm-1.0.4-c0b64894f3-91326bad32.zip/node_modules/@types/paypal__payouts-sdk/",\
+        ["npm:1.0.5", {\
+          "packageLocation": "./.yarn/cache/@types-paypal__payouts-sdk-npm-1.0.5-d1db6fa77d-4bc1f0bc8f.zip/node_modules/@types/paypal__payouts-sdk/",\
           "packageDependencies": [\
-            ["@types/paypal__payouts-sdk", "npm:1.0.4"]\
+            ["@types/paypal__payouts-sdk", "npm:1.0.5"]\
           ],\
           "linkType": "HARD"\
         }]\
