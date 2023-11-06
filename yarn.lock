@@ -3178,7 +3178,7 @@ __metadata:
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
-    "@types/object-path": 0.11.2
+    "@types/object-path": 0.11.3
     "@types/pino": 6.3.12
     "@types/pino-pretty": 4.7.5
     "@types/promise-timeout": 1.3.1
@@ -3222,7 +3222,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/object-path": 0.11.2
+    "@types/object-path": 0.11.3
     object-path: ^0.11.5
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -10895,10 +10895,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/object-path@npm:0.11.2":
-  version: 0.11.2
-  resolution: "@types/object-path@npm:0.11.2"
-  checksum: f97e1233e5d4840a33921c6aa2794f17da78dba68a93c560626383188eab0b0c4b10b53c3e8add61683623685c7534168713c19c9374cffdfe7c071848607c28
+"@types/object-path@npm:0.11.3":
+  version: 0.11.3
+  resolution: "@types/object-path@npm:0.11.3"
+  checksum: 9c2f1ec11d9d15df1682ab1483c0f51cac3ff8c3a951662a50d15fd48824fc43a052041503d0761790a29a4100e33989eb519889948c3592d0bf6bde59d3ec79
   languageName: node
   linkType: hard
 
