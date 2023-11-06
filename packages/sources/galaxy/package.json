@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/galaxy-adapter",
-  "version": "2.1.20",
+  "version": "2.1.21",
   "description": "Chainlink Galaxy adapter.",
   "keywords": [
     "Chainlink",

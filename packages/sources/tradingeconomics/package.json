@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tradingeconomics-adapter",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Chainlink TradingEconomics adapter.",
   "keywords": [
     "Chainlink",
