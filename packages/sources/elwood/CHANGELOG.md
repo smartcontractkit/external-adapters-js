@@ -1,5 +1,13 @@
 # @chainlink/elwood-adapter
 
+## 2.1.20
+
+### Patch Changes
+
+- [#3055](https://github.com/smartcontractkit/external-adapters-js/pull/3055) [`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
+- [#3061](https://github.com/smartcontractkit/external-adapters-js/pull/3061) [`3dbbc533d`](https://github.com/smartcontractkit/external-adapters-js/commit/3dbbc533d0692951b91de7ea35592443a64512f9) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Convert crypto to lwba endpoint
+
 ## 2.1.19
 
 ### Patch Changes
