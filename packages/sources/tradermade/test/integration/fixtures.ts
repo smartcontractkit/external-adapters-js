@@ -106,7 +106,7 @@ export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
       if (counter++ === 0) {
         socket.send(
           JSON.stringify({
-            symbol: 'ETHUSD',
+            symbol: 'USDJPY',
             ts: '1646073761745',
             bid: 2797.53,
             ask: 2798.14,

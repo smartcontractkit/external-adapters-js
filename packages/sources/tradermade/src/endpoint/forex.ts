@@ -2,6 +2,7 @@ import { ForexPriceEndpoint } from '@chainlink/external-adapter-framework/adapte
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
+  AdapterRequestData,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import {
@@ -13,6 +14,7 @@ import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/forex-http'
 import { wsTransport } from '../transport/forex-ws'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import wsPairs from '../config/wsPairs.json'
 
 export const inputParameters = new InputParameters(
   {
@@ -61,9 +63,21 @@ export const endpoint = new ForexPriceEndpoint({
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
-  defaultTransport: 'rest',
-  customRouter: (_req, adapterConfig) => {
-    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+  customRouter: (req, adapterConfig) => {
+    const { base, quote } = req.requestContext.data as typeof inputParameters.validated
+
+    const rawRequestBody = req.body as unknown as { data: AdapterRequestData }
+    if (rawRequestBody.data?.transport) {
+      return rawRequestBody.data?.transport
+    }
+
+    if (
+      adapterConfig.WS_ENABLED &&
+      (wsPairs as Record<string, boolean>)[`${base}${quote}`.toUpperCase()]
+    ) {
+      return 'ws'
+    }
+    return 'rest'
   },
   inputParameters,
   customInputValidation,
