@@ -19,7 +19,7 @@ interface TokenSuccess {
 
 type AccessTokenResponse = TokenError | TokenSuccess
 
-const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1000000
+const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1_000_000
 
 const generateSignature = (userId: string, publicKey: string, privateKey: string, ts: number) =>
   crypto
