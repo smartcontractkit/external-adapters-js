@@ -90,6 +90,7 @@ describe('Balance Endpoint', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['RPC_URL'] = 'http://localhost:9091'
+    process.env['BACKGROUND_EXECUTE_MS'] = '0'
     const mockDate = new Date('2022-08-01T07:14:54.909Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
