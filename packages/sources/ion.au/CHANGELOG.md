@@ -1,5 +1,13 @@
 # @chainlink/ion.au-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- [#3055](https://github.com/smartcontractkit/external-adapters-js/pull/3055) [`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
+- [#3043](https://github.com/smartcontractkit/external-adapters-js/pull/3043) [`1c1f20f5e`](https://github.com/smartcontractkit/external-adapters-js/commit/1c1f20f5e47fdc3e6b9fc650cda395c18f525b81) Thanks [@austpryb](https://github.com/austpryb)! - Reduced default rate limit to 5 requests per minute
+
 ## 1.0.2
 
 ### Patch Changes

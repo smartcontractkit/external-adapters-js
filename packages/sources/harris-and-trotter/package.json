@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/harris-and-trotter-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink harris-and-trotter adapter.",
   "keywords": [
     "Chainlink",

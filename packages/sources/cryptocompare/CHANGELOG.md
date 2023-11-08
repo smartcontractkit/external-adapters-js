@@ -1,5 +1,15 @@
 # @chainlink/cryptocompare-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3049](https://github.com/smartcontractkit/external-adapters-js/pull/3049) [`a4a03624d`](https://github.com/smartcontractkit/external-adapters-js/commit/a4a03624da483f135453e523ef98394b7f80230e) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - inverse behaviour to support BTC/ETH pair
+
+### Patch Changes
+
+- [#3055](https://github.com/smartcontractkit/external-adapters-js/pull/3055) [`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
 ## 2.0.11
 
 ### Patch Changes
