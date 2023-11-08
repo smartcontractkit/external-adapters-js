@@ -1,12 +1,8 @@
-import {
-  AdapterConfigError,
-  AdapterConnectionError,
-  AdapterDataProviderError,
-  AdapterError,
-} from '@chainlink/ea-bootstrap'
+import { AdapterConfigError } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import {
+  errorResponse,
   getAddressResolver,
   getContractAddress,
   getDataFromAcrossChains,
@@ -53,19 +49,33 @@ const getDebtRatio = async (
           statusCode: 500,
           message: `Chain ${network} not configured`,
         })
-      const networkProvider = new ethers.providers.JsonRpcProvider(
-        config.chains[network].rpcURL,
-        config.chains[network].chainId,
-      )
+      let networkProvider
+      try {
+        networkProvider = new ethers.providers.JsonRpcProvider(
+          config.chains[network].rpcURL,
+          config.chains[network].chainId,
+        )
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Unable to connect to RPC provider. Network - ${network}`,
+        )
+      }
       try {
         const addressResolverAddress = await getAddressResolver(
           networkProvider,
           config.chains[network].chainAddressResolverProxyAddress,
+          jobRunID,
+          network,
         )
         const synthetixDebtShareAddress = await getContractAddress(
           networkProvider,
           addressResolverAddress,
           'SynthetixDebtShare',
+          jobRunID,
+          network,
         )
         const synthetixDebtShare = new ethers.Contract(
           synthetixDebtShareAddress,
@@ -78,6 +88,8 @@ const getDebtRatio = async (
           networkProvider,
           addressResolverAddress,
           getDebtMigratorName(network, jobRunID),
+          jobRunID,
+          network,
         )
         const debtMigrator = new ethers.Contract(
           debtMigratorAddress,
@@ -96,16 +108,12 @@ const getDebtRatio = async (
           totalDebtShares: chainTotalDebtShare,
         }
       } catch (e: any) {
-        const error = e as any
-        const errorPayload = {
+        return errorResponse(
+          e,
           jobRunID,
-          message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${error.message}`,
-        }
-        throw error.response
-          ? new AdapterDataProviderError(errorPayload)
-          : error.request
-          ? new AdapterConnectionError(errorPayload)
-          : new AdapterError(errorPayload)
+          network,
+          `Failed to fetch debt ratio from chain ${network}. Error Message: ${e.message}`,
+        )
       }
     }),
   )
