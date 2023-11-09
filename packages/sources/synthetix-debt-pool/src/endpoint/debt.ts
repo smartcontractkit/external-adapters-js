@@ -58,86 +58,77 @@ export const getDebtIssued = async (
         )
       }
 
+      const addressResolverAddress = await getAddressResolver(
+        networkProvider,
+        config.chains[network].chainAddressResolverProxyAddress,
+        jobRunID,
+        network,
+      )
+
+      const debtCacheAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        'DebtCache',
+        jobRunID,
+        network,
+      )
+      let debtIssued
       try {
-        const addressResolverAddress = await getAddressResolver(
-          networkProvider,
-          config.chains[network].chainAddressResolverProxyAddress,
-          jobRunID,
-          network,
-        )
-
-        const debtCacheAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          'DebtCache',
-          jobRunID,
-          network,
-        )
-        let debtIssued
-        try {
-          const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
-          debtIssued = await debtCache.currentDebt({ blockTag: blockNumber })[0]
-        } catch (e) {
-          return errorResponse(
-            e,
-            jobRunID,
-            network,
-            `Failed to fetch current debt from DebtCache contract. Error Message: ${e}`,
-          )
-        }
-
-        const synthetixBridgeAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          getSynthetixBridgeName(network, jobRunID),
-          jobRunID,
-          network,
-        )
-        let synthetixBridge
-        let synthTransferReceived
-        try {
-          synthetixBridge = new ethers.Contract(
-            synthetixBridgeAddress,
-            SYNTHETIX_BRIDGE_ABI,
-            networkProvider,
-          )
-          synthTransferReceived = await synthetixBridge.synthTransferReceived({
-            blockTag: blockNumber,
-          })
-        } catch (e) {
-          return errorResponse(
-            e,
-            jobRunID,
-            network,
-            `Failed to fetch synthTransferReceived.  Error Message: ${e}`,
-          )
-        }
-
-        let issuedSynths
-
-        try {
-          const synthTransferSent = await synthetixBridge.synthTransferSent({
-            blockTag: blockNumber,
-          })
-          issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
-        } catch (e) {
-          return errorResponse(
-            e,
-            jobRunID,
-            network,
-            `Failed to fetch synthTransferSent or calculate issued synths.  Error Message: ${e}`,
-          )
-        }
-
-        return [network, blockNumber, issuedSynths]
-      } catch (e: any) {
+        const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
+        debtIssued = await debtCache.currentDebt({ blockTag: blockNumber })[0]
+      } catch (e) {
         return errorResponse(
           e,
           jobRunID,
           network,
-          `Failed to fetch debt data from chain ${network}.  Error Message: ${e}`,
+          `Failed to fetch current debt from DebtCache contract. Error Message: ${e}`,
         )
       }
+
+      const synthetixBridgeAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        getSynthetixBridgeName(network, jobRunID),
+        jobRunID,
+        network,
+      )
+      let synthetixBridge
+      let synthTransferReceived
+      try {
+        synthetixBridge = new ethers.Contract(
+          synthetixBridgeAddress,
+          SYNTHETIX_BRIDGE_ABI,
+          networkProvider,
+        )
+        synthTransferReceived = await synthetixBridge.synthTransferReceived({
+          blockTag: blockNumber,
+        })
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch synthTransferReceived.  Error Message: ${e}`,
+        )
+      }
+
+      let issuedSynths
+
+      try {
+        const synthTransferSent = await synthetixBridge.synthTransferSent({
+          blockTag: blockNumber,
+        })
+        issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch synthTransferSent or calculate issued synths. Error Message: ${e}`,
+        )
+      }
+
+      return [network, blockNumber, issuedSynths]
     }),
   )
 

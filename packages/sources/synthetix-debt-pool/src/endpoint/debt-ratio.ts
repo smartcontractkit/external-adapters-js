@@ -63,57 +63,74 @@ const getDebtRatio = async (
           `Unable to connect to RPC provider. Network - ${network}`,
         )
       }
+      const addressResolverAddress = await getAddressResolver(
+        networkProvider,
+        config.chains[network].chainAddressResolverProxyAddress,
+        jobRunID,
+        network,
+      )
+      const synthetixDebtShareAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        'SynthetixDebtShare',
+        jobRunID,
+        network,
+      )
+      let debtShareTotalSupply
       try {
-        const addressResolverAddress = await getAddressResolver(
-          networkProvider,
-          config.chains[network].chainAddressResolverProxyAddress,
-          jobRunID,
-          network,
-        )
-        const synthetixDebtShareAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          'SynthetixDebtShare',
-          jobRunID,
-          network,
-        )
         const synthetixDebtShare = new ethers.Contract(
           synthetixDebtShareAddress,
           SYNTHETIX_DEBT_SHARE_ABI,
           networkProvider,
         )
-        const debtShareTotalSupply = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
-
-        const debtMigratorAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          getDebtMigratorName(network, jobRunID),
-          jobRunID,
-          network,
-        )
-        const debtMigrator = new ethers.Contract(
-          debtMigratorAddress,
-          DEBT_MIGRATOR_ABI,
-          networkProvider,
-        )
-        const debtTransferReceived = await debtMigrator.debtTransferReceived({
-          blockTag: blockNumber,
-        })
-        const debtTransferSent = await debtMigrator.debtTransferSent({ blockTag: blockNumber })
-        const chainTotalDebtShare = debtShareTotalSupply.add(
-          debtTransferSent.sub(debtTransferReceived),
-        )
-        return {
-          totalDebtIssued: issuedSynths,
-          totalDebtShares: chainTotalDebtShare,
-        }
-      } catch (e: any) {
+        debtShareTotalSupply = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
+      } catch (e) {
         return errorResponse(
           e,
           jobRunID,
           network,
-          `Failed to fetch debt ratio from chain ${network}. Error Message: ${e.message}`,
+          `Failed to fetch depth share total supply. Error Message: ${e}`,
         )
+      }
+
+      const debtMigratorAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        getDebtMigratorName(network, jobRunID),
+        jobRunID,
+        network,
+      )
+      let debtTransferReceived
+      let debtMigrator
+      try {
+        debtMigrator = new ethers.Contract(debtMigratorAddress, DEBT_MIGRATOR_ABI, networkProvider)
+        debtTransferReceived = await debtMigrator.debtTransferReceived({
+          blockTag: blockNumber,
+        })
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch debtTransferReceived. Error Message: ${e}`,
+        )
+      }
+      let chainTotalDebtShare
+      try {
+        const debtTransferSent = await debtMigrator.debtTransferSent({ blockTag: blockNumber })
+        chainTotalDebtShare = debtShareTotalSupply.add(debtTransferSent.sub(debtTransferReceived))
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch debtTransferSent or calculate total depth shares.  Error Message: ${e}`,
+        )
+      }
+
+      return {
+        totalDebtIssued: issuedSynths,
+        totalDebtShares: chainTotalDebtShare,
       }
     }),
   )
