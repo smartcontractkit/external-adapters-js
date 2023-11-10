@@ -1,5 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { ForexBaseEndpointTypes } from '../endpoint/utils'
+import { invertResult, createForexWsSymbol } from '../utils'
 
 interface Message {
   s: string
@@ -22,8 +23,19 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       if (!message.a || !message.b) {
         return []
       }
-      const result = (Number(message.a) + Number(message.b)) / 2
-      const [base, quote] = message.s.split('/')
+      let [base, quote] = message.s.split('/')
+
+      //USDJPY
+      if (base == 'USD') {
+        // Exception case: where base is USD
+        // TODO add checks for that
+        ;[quote, base] = [base, quote]
+      }
+
+      const result = invertResult(base, quote, (Number(message.a) + Number(message.b)) / 2)
+
+      //EURUSD
+
       return [
         {
           params: { base, quote },
@@ -43,10 +55,10 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
   builders: {
     subscribeMessage: (params) => {
-      return { action: 'subscribe', symbols: `${params.base}/${params.quote}`.toUpperCase() }
+      return { action: 'subscribe', symbols: createForexWsSymbol(params.base, params.quote) }
     },
     unsubscribeMessage: (params) => {
-      return { action: 'unsubscribe', symbols: `${params.base}/${params.quote}`.toUpperCase() }
+      return { action: 'unsubscribe', symbols: createForexWsSymbol(params.base, params.quote) }
     },
   },
 })

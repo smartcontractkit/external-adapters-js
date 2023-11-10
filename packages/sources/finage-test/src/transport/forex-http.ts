@@ -1,5 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { ForexBaseEndpointTypes } from '../endpoint/utils'
+import { createForexRestSymbol, invertResult } from '../utils'
 
 interface ResponseSchema {
   symbol: string
@@ -18,7 +19,8 @@ type HttpTransportTypes = ForexBaseEndpointTypes & {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const symbol = `${param.base}${param.quote}`.toUpperCase()
+      const symbol = createForexRestSymbol(param.base, param.quote)
+
       return {
         params: [param],
         request: {
@@ -31,7 +33,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
-      const result = (res.data.ask + res.data.bid) / 2
+      const result = invertResult(param.base, param.quote, (res.data.ask + res.data.bid) / 2)
+
       return {
         params: param,
         response: {
