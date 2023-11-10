@@ -1,4 +1,3 @@
-import { getApiEndpoint, getApiHeaders } from '../config'
 import { BaseEndpointTypes } from '../endpoint/global'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
@@ -34,10 +33,10 @@ export const transport = new HttpTransport<HttpTransportTypes>({
     return {
       params,
       request: {
-        baseURL: getApiEndpoint(settings),
+        baseURL: settings.API_ENDPOINT,
         url: '/v1/global',
         method: 'GET',
-        headers: getApiHeaders(settings),
+        headers: { Authorization: settings.API_KEY },
       },
     }
   },

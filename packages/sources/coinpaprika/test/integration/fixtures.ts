@@ -1,7 +1,7 @@
 import nock from 'nock'
 
 export const mockCryptoResponseSuccess = (): nock.Scope =>
-  nock('https://api.coinpaprika.com', {
+  nock('https://api-pro.coinpaprika.com', {
     encodedQueryParams: true,
   })
     .get('/v1/tickers')

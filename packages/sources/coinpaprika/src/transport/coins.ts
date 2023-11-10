@@ -1,4 +1,3 @@
-import { getApiEndpoint, getApiHeaders } from '../config'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes, CoinsResponse } from '../endpoint/coins'
 
@@ -11,14 +10,14 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 export const transport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
-    const baseURL = getApiEndpoint(config)
+    const baseURL = config.API_ENDPOINT
     return {
       params,
       request: {
         baseURL,
         url: '/v1/coins',
         method: 'GET',
-        headers: getApiHeaders(config),
+        headers: { Authorization: config.API_KEY },
       },
     }
   },

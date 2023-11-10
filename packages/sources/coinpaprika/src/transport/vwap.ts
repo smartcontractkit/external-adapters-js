@@ -1,4 +1,3 @@
-import { getApiEndpoint, getApiHeaders } from '../config'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/vwap'
 
@@ -23,7 +22,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
       const coin = param.coinid ?? param.base
       const url = `v1/tickers/${coin?.toLowerCase()}/historical`
 
-      const baseURL = getApiEndpoint(config)
+      const baseURL = config.API_ENDPOINT
 
       const endDate = new Date()
       const subMs = param.hours * 60 * 60 * 1000
@@ -41,7 +40,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
           url,
           method: 'GET',
           params: reqParams,
-          headers: getApiHeaders(config),
+          headers: { Authorization: config.API_KEY },
         },
       }
     })
