@@ -253,7 +253,7 @@ export class Requester {
    */
 
   static withResult<T extends Record<string, unknown> | unknown>(
-    response: AxiosResponse<T>,
+    response: Omit<AxiosResponse<T>, 'config'>,
     result?: number | string,
     results?: AdapterBatchResponse,
   ): AxiosReponseWithResult<T> {
