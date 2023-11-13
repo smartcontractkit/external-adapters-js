@@ -5082,7 +5082,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@solana/web3.js", "npm:1.63.1"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.14"],\
@@ -12330,7 +12330,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@polkadot/x-global", "npm:10.4.2"],\
             ["@polkadot/x-textdecoder", "npm:10.4.2"],\
             ["@polkadot/x-textencoder", "npm:10.4.2"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["bn.js", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
@@ -12885,7 +12885,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@renproject/provider", "npm:2.6.0"],\
             ["@renproject/rpc", "npm:2.6.0"],\
             ["@renproject/utils", "npm:2.6.0"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["@types/node", "npm:18.8.3"],\
             ["axios", "npm:0.21.4"],\
             ["bignumber.js", "npm:9.1.2"],\
@@ -13816,10 +13816,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:5.1.4", {\
-          "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.1.4-0b18cd3d4b-56f69334a3.zip/node_modules/@types/bn.js/",\
+        ["npm:5.1.5", {\
+          "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.1.5-c2195eccd3-c87b28c4af.zip/node_modules/@types/bn.js/",\
           "packageDependencies": [\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["@types/node", "npm:18.8.3"]\
           ],\
           "linkType": "HARD"\
@@ -21214,7 +21214,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ethereumjs-util-npm-7.1.5-5bb4d00000-27a3c79d6e.zip/node_modules/ethereumjs-util/",\
           "packageDependencies": [\
             ["ethereumjs-util", "npm:7.1.5"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["bn.js", "npm:5.2.1"],\
             ["create-hash", "npm:1.2.0"],\
             ["ethereum-cryptography", "npm:0.1.3"],\
@@ -23681,7 +23681,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@metamask/eth-sig-util", "npm:4.0.1"],\
             ["@sentry/node", "npm:5.30.0"],\
             ["@solidity-parser/parser", "npm:0.14.3"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/ts-node", null],\
             ["@types/typescript", null],\
@@ -38853,7 +38853,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/web3-core-npm-1.10.2-ee4f679dd7-c959bb041e.zip/node_modules/web3-core/",\
           "packageDependencies": [\
             ["web3-core", "npm:1.10.2"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["@types/node", "npm:12.20.55"],\
             ["bignumber.js", "npm:9.1.2"],\
             ["web3-core-helpers", "npm:1.10.2"],\
@@ -38867,7 +38867,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/web3-core-npm-1.7.4-f345fa05f6-9e797df444.zip/node_modules/web3-core/",\
           "packageDependencies": [\
             ["web3-core", "npm:1.7.4"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["@types/node", "npm:12.20.55"],\
             ["bignumber.js", "npm:9.1.2"],\
             ["web3-core-helpers", "npm:1.7.4"],\
@@ -39101,7 +39101,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/web3-eth-contract-npm-1.10.2-0b0af6ec4f-e3a75fa8cf.zip/node_modules/web3-eth-contract/",\
           "packageDependencies": [\
             ["web3-eth-contract", "npm:1.10.2"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["web3-core", "npm:1.10.2"],\
             ["web3-core-helpers", "npm:1.10.2"],\
             ["web3-core-method", "npm:1.10.2"],\
@@ -39116,7 +39116,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/web3-eth-contract-npm-1.7.4-1dcf358513-bc420fd3e3.zip/node_modules/web3-eth-contract/",\
           "packageDependencies": [\
             ["web3-eth-contract", "npm:1.7.4"],\
-            ["@types/bn.js", "npm:5.1.4"],\
+            ["@types/bn.js", "npm:5.1.5"],\
             ["web3-core", "npm:1.7.4"],\
             ["web3-core-helpers", "npm:1.7.4"],\
             ["web3-core-method", "npm:1.7.4"],\
