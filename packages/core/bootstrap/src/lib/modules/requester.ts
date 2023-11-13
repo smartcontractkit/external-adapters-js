@@ -103,7 +103,7 @@ export class Requester {
             providerStatusCode,
             message: error?.message,
             cause: error,
-            errorResponse: error?.response?.data?.error,
+            errorResponse: (error?.response?.data as { error: unknown })?.error,
             url,
           })
         }
@@ -117,7 +117,7 @@ export class Requester {
             providerStatusCode,
             message: error?.message,
             cause: error,
-            errorResponse: error?.response?.data?.error,
+            errorResponse: (error?.response?.data as { error: unknown })?.error,
             url,
           }
           if (providerStatusCode === 0) {
