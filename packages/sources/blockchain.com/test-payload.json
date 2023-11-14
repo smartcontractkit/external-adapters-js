@@ -3,5 +3,15 @@
   "blockchain": "BTC",
   "endpoint": "difficulty",
   "network": "mainnet"
- }]
+ },
+  {
+   "endpoint": "height"
+  },
+  {
+   "addresses": [
+    { "address": "bc1qlqspq0q9sywxryk8dh8g6yx0uudjjzrjs83282" }
+   ],
+   "dataPath": "addresses",
+   "endpoint": "balance"
+  }]
 }

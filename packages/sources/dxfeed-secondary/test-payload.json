@@ -1,5 +1,26 @@
 {
  "requests": [{
   "base": "TSLA"
- }]
+ },
+  {
+   "base": "TSLA",
+   "endpoint": "price"
+  },
+  {
+   "base": "TSLA",
+   "endpoint": "stock"
+  },
+  {
+   "base": "BTC",
+   "endpoint": "crypto"
+  },
+  {
+   "base": "GBP",
+   "endpoint": "forex"
+  },
+  {
+   "base": "TSLA",
+   "endpoint": "commodities"
+  }
+ ]
 }

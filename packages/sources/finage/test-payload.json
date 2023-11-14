@@ -1,6 +1,9 @@
 {
     "requests": [
         {
+            "base": "IWM"
+        },
+        {
             "base": "IWM",
             "endpoint": "stock"
         },
@@ -11,6 +14,25 @@
         {
             "base": "C3M",
             "endpoint": "etf"
+        },
+        {
+            "base": "LINK",
+            "quote": "USD",
+            "endpoint": "crypto"
+        },
+        {
+            "base": "ETH",
+            "endpoint": "eod"
+        },
+        {
+            "from": "GBP",
+            "to": "USD",
+            "endpoint": "forex"
+        },
+        {
+            "from": "WTI",
+            "to": "USD",
+            "endpoint": "commodities"
         }
     ]
 }

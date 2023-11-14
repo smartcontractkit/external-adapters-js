@@ -2,5 +2,25 @@
  "requests": [{
   "from": "JPY",
   "to": "USD"
- }]
+ },
+  {
+   "from": "JPY",
+   "to": "USD",
+   "endpoint": "live"
+  },
+  {
+   "from": "JPY",
+   "to": "USD",
+   "endpoint": "forex"
+  },
+  {
+   "from": "JPY",
+   "to": "USD",
+   "endpoint": "price"
+  },
+  {
+   "from": "BTC",
+   "to": "USD",
+   "endpoint": "convert"
+  }]
 }

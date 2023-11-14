@@ -1,5 +1,7 @@
 import { latestUpdateIsWithinLast24h, tenorInRange } from '../../src/transport/utils'
 import { getIdFromBaseQuote } from '../../src/endpoint/utils'
+import { adapter } from '../../src'
+import testPayload from '../../test-payload.json'
 
 describe('getIdFromBaseQuote', () => {
   const tests: {
@@ -108,5 +110,16 @@ describe('latestUpdateIsCurrentDay', () => {
     const yesterdayLastMsTimestamp = new Date(`2023-08-30T15:00:00.000Z`).getTime()
     const latestUpdateIsCurrentDayResult = latestUpdateIsWithinLast24h(yesterdayLastMsTimestamp)
     expect(latestUpdateIsCurrentDayResult).toBe(false)
+  })
+})
+
+describe('test-payload.json', () => {
+  it('should contain all endpoints/aliases', () => {
+    const endpointsWithAliases = adapter.endpoints.map((e) => [e.name, ...(e.aliases || [])]).flat()
+    endpointsWithAliases.forEach((alias) => {
+      const requests = testPayload.requests as { endpoint?: string }[]
+      const aliasedRequest = requests.find((req) => req?.endpoint === alias)
+      expect(aliasedRequest).toBeDefined()
+    })
   })
 })

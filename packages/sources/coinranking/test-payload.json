@@ -1,5 +1,31 @@
 {
     "requests": [{
-        "base": "ETH"
-    }]
+        "base": "ETH",
+        "quote": "USD"
+    },
+        {
+            "base": "ETH",
+            "quote": "USD",
+            "endpoint": "crypto"
+        },
+        {
+            "base": "ETH",
+            "quote": "USD",
+            "endpoint": "price"
+        },
+        {
+            "base": "ETH",
+            "quote": "USD",
+            "endpoint": "marketcap"
+        },
+        {
+            "endpoint": "totalMarketCap"
+        },
+        {
+            "endpoint": "totalmcap"
+        },
+        {
+            "endpoint": "globalmarketcap"
+        }
+    ]
 }

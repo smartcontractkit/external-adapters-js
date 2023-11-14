@@ -7,6 +7,35 @@
             "endpoint": "crypto",
             "from": "BCH",
             "to": "USD"
+        },
+        {
+            "from": "BCH",
+            "to": "USD",
+            "endpoint": "price"
+        },
+        {
+            "from": "BCH",
+            "to": "USD",
+            "endpoint": "values"
+        },
+        {
+            "tenor": "1W",
+            "endpoint": "birc"
+        },
+        {
+            "from": "BCH",
+            "to": "USD",
+            "endpoint": "crypto-lwba"
+        },
+        {
+            "from": "BCH",
+            "to": "USD",
+            "endpoint": "crypto_lwba"
+        },
+        {
+            "from": "BCH",
+            "to": "USD",
+            "endpoint": "cryptolwba"
         }
     ]
 }

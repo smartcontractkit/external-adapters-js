@@ -1,6 +1,13 @@
 {
     "requests": [{
-     "coin": "BTC",
      "market": "ARS"
-    }]
+    },
+      {
+        "market": "ARS",
+        "endpoint": "assets"
+      },
+      {
+        "market": "ARS",
+        "endpoint": "dominance"
+      }]
 }

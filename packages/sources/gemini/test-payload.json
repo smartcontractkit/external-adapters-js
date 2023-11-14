@@ -1,6 +1,3 @@
 {
- "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+ "requests": [{}, {"endpoint":  "reserves"}]
 }

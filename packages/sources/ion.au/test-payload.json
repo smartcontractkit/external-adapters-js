@@ -1,5 +1,7 @@
 {
- "requests": [{
+ "requests": [
+  {},
+  {
   "endpoint": "total_reserve"
  }]
 }

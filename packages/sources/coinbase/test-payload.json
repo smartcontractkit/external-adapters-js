@@ -2,6 +2,20 @@
     "requests": [{
         "base": "ETH",
         "quote": "USD"
+    },{
+        "base": "ETH",
+        "quote": "USD",
+        "endpoint": "crypto"
+    },{
+        "base": "ETH",
+        "quote": "USD",
+        "endpoint": "price"
+    },{
+        "contractAddress": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+        "endpoint": "nft-floor-price"
+    },{
+        "contractAddress": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+        "endpoint": "nft-floor"
     }]
 }
 

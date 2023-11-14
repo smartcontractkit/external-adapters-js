@@ -5,6 +5,26 @@
       "to": "USD"
     },
     {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "crypto"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "price"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "cryptolwba"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "crypto_lwba"
+    },
+    {
       "from": "ETH",
       "to": "USD",
       "endpoint": "crypto-lwba"

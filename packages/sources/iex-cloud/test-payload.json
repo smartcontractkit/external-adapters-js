@@ -1,6 +1,29 @@
 {
- "requests": [{
+ "requests": [
+  {
+   "base": "IWM"
+  },
+  {
   "base": "IWM",
   "endpoint": "stock"
- }]
+ },
+  {
+   "base": "ETH",
+   "quote": "USD",
+   "endpoint": "crypto"
+  },
+  {
+   "base": "LINK",
+   "quote": "USD",
+   "endpoint": "price"
+  },
+  {
+   "base": "USD",
+   "endpoint": "eod"
+  },
+  {
+   "base": "USD",
+   "endpoint": "eod-close"
+  }
+ ]
 }

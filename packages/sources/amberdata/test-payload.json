@@ -2,5 +2,39 @@
  "requests": [{
   "from": "SUSHI",
   "to": "ETH"
+ },
+  {
+   "from": "SUSHI",
+   "to": "ETH",
+   "endpoint": "crypto"
+  },
+  {
+   "from": "SUSHI",
+   "to": "ETH",
+   "endpoint": "price"
+  },
+  {
+   "from": "SUSHI",
+   "to": "ETH",
+   "endpoint": "volume"
+  },
+  {
+   "base": "ETH",
+   "endpoint": "gasprice"
+  },
+  {
+   "base": "ETH",
+   "endpoint": "marketcap"
+  },
+  {
+   "endpoint": "token"
+  },
+  {
+  "endpoint": "balance",
+  "addresses": [
+   { "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1" },
+   { "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF" }
+  ],
+  "dataPath": "addresses"
  }]
 }

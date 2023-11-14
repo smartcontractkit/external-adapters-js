@@ -20,6 +20,24 @@
               "C3M": "C3M.MI"
              }
             }
+        },
+      {
+        "base": "IB01",
+        "endpoint": "price",
+        "overrides": {
+          "eodhistoricaldata": {
+            "IB01": "IB01.LSE"
+          }
         }
+      },
+      {
+        "base": "IB01",
+        "endpoint": "stock",
+        "overrides": {
+          "eodhistoricaldata": {
+            "IB01": "IB01.LSE"
+          }
+        }
+      }
     ]
 }

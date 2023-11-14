@@ -1,5 +1,9 @@
 {
  "requests": [{
     "ensName": "name.eth"
-}]
+},
+   {
+     "ensName": "name.eth",
+     "endpoint": "lookup"
+   }]
 }

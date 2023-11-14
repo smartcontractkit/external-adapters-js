@@ -1,5 +1,8 @@
 {
     "requests": [{
      "from": "ETH"
+    },{
+     "from": "ETH",
+      "endpoint": "getcoin"
     }]
    }

@@ -6,15 +6,18 @@
       },
       {
         "from": "ETH",
-        "to": "USDT"
+        "to": "USDT",
+        "endpoint": "price"
       },
       {
         "from": "OGN",
-        "to": "ETH"
+        "to": "ETH",
+        "endpoint": "crypto"
       },
       {
         "from": "CSPR",
-        "to": "USD"
+        "to": "USD",
+        "endpoint": "trades"
       },
       {
         "from": "CTSI",
@@ -428,6 +431,11 @@
         "from": "BTC",
         "to": "ETH",
         "endpoint": "realized-vol"
+      },
+      {
+        "from": "BTC",
+        "to": "ETH",
+        "endpoint": "realized-volatility"
       }
     ]
   }

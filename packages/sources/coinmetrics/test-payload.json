@@ -5,6 +5,21 @@
       "to": "USD"
     },
     {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "price"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "price-ws"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "crypto"
+    },
+    {
       "from": "ETH",
       "to": "USD",
       "endpoint": "crypto-lwba"
@@ -19,13 +34,36 @@
       "from": "ETH",
       "to": "USD",
       "resultPath": "realVol7Day",
-      "endpoint": "realized-vol"
+      "endpoint": "realized-volatility"
     },
     {
       "from": "ETH",
       "to": "USD",
       "resultPath": "realVol30Day",
       "endpoint": "realized-vol"
+    },
+    {
+      "asset": "eth",
+      "endpoint": "total-burned"
+    },
+    {
+      "asset": "eth",
+      "endpoint": "burned"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "crypto-lwba"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "cryptolwba"
+    },
+    {
+      "from": "LINK",
+      "to": "USD",
+      "endpoint": "crypto_lwba"
     }
   ]
 }

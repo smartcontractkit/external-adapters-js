@@ -2,5 +2,15 @@
  "requests": [{
   "from": "LINK",
   "to": "USD"
- }]
+ },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "crypto"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "price"
+  }]
 }

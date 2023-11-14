@@ -1,5 +1,10 @@
 {
     "requests": [{
         "source": "1"
-    }]
+    },
+     {
+        "source": "1",
+         "endpoint": "energy"
+    }
+    ]
 }

@@ -2,7 +2,7 @@
   "requests": [
     { "from": "EUR", "to": "USD" },
     { "from": "GBP", "to": "USD" },
-    { "from": "NZD", "to": "USD" },
-    { "from": "JPY", "to": "USD" }
+    { "from": "NZD", "to": "USD", "endpoint": "forex" },
+    { "from": "JPY", "to": "USD", "endpoint": "price" }
   ]
 }

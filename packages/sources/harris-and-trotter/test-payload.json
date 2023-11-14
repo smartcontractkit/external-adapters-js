@@ -1,6 +1,9 @@
 {
     "requests": [
         {
+            "clientName": "TUSD"
+        },
+        {
             "clientName": "TUSD",
             "endpoint": "balance"
         }
