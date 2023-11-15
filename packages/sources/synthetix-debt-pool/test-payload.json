@@ -1,7 +1,3 @@
 {
- "requests": [{
-    "id": 1,
-    "data": {
-    }
- }]
+ "requests": [{}, {"endpoint":  "debt"}, {"endpoint":  "debt-ratio"}]
 }

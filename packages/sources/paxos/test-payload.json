@@ -1,5 +1,8 @@
 {
  "requests": [{
   "asset": "PAX"
+ },{
+  "asset": "PAX",
+  "endpoint": "assetAttestation"
  }]
 }

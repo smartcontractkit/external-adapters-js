@@ -32,6 +32,17 @@
         ],
         "dataPath": "addresses",
         "confirmations": 3
+        },
+        {
+            "addresses": [
+                {
+                    "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
+                    "coin": "btc"
+                }
+            ],
+            "dataPath": "addresses",
+            "confirmations": 3,
+            "endpoint": "balance"
         }
     ]
 }

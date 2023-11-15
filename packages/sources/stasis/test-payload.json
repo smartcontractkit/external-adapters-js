@@ -1,6 +1,3 @@
 {
- "requests": [{
-  "from": "EURS",
-  "to": "RESERVES"
- }]
+ "requests": [{}, {"endpoint":  "supply"}]
 }

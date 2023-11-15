@@ -1,4 +1,6 @@
 import { DEFAULT_SAVAX_ADDRESS, makeConfig } from '../../src/config'
+import * as endpoints from '../../src/endpoint'
+import testPayload from '../../test-payload.json'
 
 describe('execute', () => {
   describe('config', () => {
@@ -22,6 +24,19 @@ describe('execute', () => {
       const config = makeConfig()
       expect(config.rpcUrl).toEqual(process.env.AVALANCHE_RPC_URL)
       expect(config.sAvaxAddress).toEqual(process.env.SAVAX_ADDRESS)
+    })
+  })
+})
+
+describe('test-payload.json', () => {
+  it('should contain all endpoints/aliases', () => {
+    const endpointsWithAliases = Object.keys(endpoints)
+      .map((e) => [...(endpoints[e as keyof typeof endpoints].supportedEndpoints || [])])
+      .flat()
+    endpointsWithAliases.forEach((alias) => {
+      const requests = testPayload.requests as { endpoint?: string }[]
+      const aliasedRequest = requests.find((req) => req?.endpoint === alias)
+      expect(aliasedRequest).toBeDefined()
     })
   })
 })

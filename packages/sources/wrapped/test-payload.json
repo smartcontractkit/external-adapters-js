@@ -1,5 +1,8 @@
 {
  "requests": [{
   "symbol": "ETH"
+ },{
+  "symbol": "ETH",
+  "endpoint": "deposits"
  }]
 }

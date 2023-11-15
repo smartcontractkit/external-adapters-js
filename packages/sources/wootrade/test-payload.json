@@ -2,5 +2,16 @@
     "requests": [{
       "base": "ETH",
       "quote": "USDT"
-    }]
+    },
+      {
+        "base": "ETH",
+        "quote": "USDT",
+        "endpoint": "crypto"
+      },
+      {
+        "base": "ETH",
+        "quote": "USDT",
+        "endpoint": "ticker"
+      }
+    ]
 }

@@ -4,6 +4,8 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
 import process from 'process'
 import { TInputParameters } from '../../src/utils'
+import * as endpoints from '../../src/endpoint'
+import testPayload from '../../test-payload.json'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -35,6 +37,19 @@ describe('execute', () => {
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
+    })
+  })
+})
+
+describe('test-payload.json', () => {
+  it('should contain all endpoints/aliases', () => {
+    const endpointsWithAliases = Object.keys(endpoints)
+      .map((e) => [...(endpoints[e as keyof typeof endpoints].supportedEndpoints || [])])
+      .flat()
+    endpointsWithAliases.forEach((alias) => {
+      const requests = testPayload.requests as { endpoint?: string }[]
+      const aliasedRequest = requests.find((req) => req?.endpoint === alias)
+      expect(aliasedRequest).toBeDefined()
     })
   })
 })

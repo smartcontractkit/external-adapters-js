@@ -5,13 +5,109 @@
       "to": "USD"
     },
     {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "crypto"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "price"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "prices"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "crypto-synth"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "crypto-lwba"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "cryptolwba"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "crypto_lwba"
+    },
+    {
+      "aprTerm": "30Day",
+      "endpoint": "yield"
+    },
+    {
+      "base": "USD",
+      "endpoint": "eod"
+    },
+    {
+      "from": "GBP",
+      "to": "USD",
+      "endpoint": "forex"
+    },
+    {
+      "from": "GBP",
+      "to": "USD",
+      "endpoint": "fx"
+    },
+    {
+      "from": "GBP",
+      "to": "USD",
+      "endpoint": "commodities"
+    },
+    {
+      "base": "aapl",
+      "endpoint": "iex"
+    },
+    {
+      "base": "aapl",
+      "endpoint": "stock"
+    },
+    {
       "base": "ETH",
       "convert": "USD",
       "endpoint": "realized-vol"
     },
     {
+      "base": "ETH",
+      "convert": "USD",
+      "endpoint": "realized-volatility"
+    },
+    {
       "aprTerm": "30Day",
       "endpoint": "cryptoyield"
+    },
+    {
+      "base": "ETH",
+      "convert": "USD",
+      "endpoint": "top"
+    },
+    {
+      "base": "ETH",
+      "convert": "USD",
+      "endpoint": "volume"
+    },
+    {
+      "base": "ETH",
+      "convert": "USD",
+      "endpoint": "vwap"
+    },
+    {
+      "base": "ETH",
+      "convert": "USD",
+      "endpoint": "vwap"
+    },
+    {
+      "base": "ETH",
+      "convert": "USD",
+      "endpoint": "crypto-vwap"
     }
   ]
 }

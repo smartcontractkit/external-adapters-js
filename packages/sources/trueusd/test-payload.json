@@ -1,5 +1,8 @@
 {
  "requests": [{
   "field": "totalToken"
+ },{
+  "field": "totalToken",
+  "endpoint": "trueusd"
  }]
 }

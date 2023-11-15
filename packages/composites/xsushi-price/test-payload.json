@@ -2,5 +2,22 @@
  "requests": [{
   "from": "xSUSHI",
   "to": "USD"
- }]
+ },
+  {
+   "from": "xSUSHI",
+   "to": "USD",
+   "endpoint": "price"
+  },
+  {
+   "from": "xSUSHI",
+   "to": "USD",
+   "endpoint": "crypto"
+  },
+  {
+   "endpoint": "ratio"
+  },
+  {
+   "endpoint": "sushi"
+  }
+ ]
 }

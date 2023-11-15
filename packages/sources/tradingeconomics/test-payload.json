@@ -2,5 +2,29 @@
  "requests": [{
   "from": "CAD",
   "to": "USD"
- }]
+ },
+  {
+   "from": "CAD",
+   "to": "USD",
+   "endpoint": "price"
+  },
+  {
+   "from": "CAD",
+   "to": "USD",
+   "endpoint": "forex"
+  },
+  {
+   "from": "CAD",
+   "to": "USD",
+   "endpoint": "crypto"
+  },
+  {
+   "base": "AAPL:US",
+   "endpoint": "stock"
+  },
+  {
+   "base": "AAPL:US",
+   "endpoint": "commodities"
+  }
+ ]
 }

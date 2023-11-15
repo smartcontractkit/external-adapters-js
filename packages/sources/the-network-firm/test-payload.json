@@ -1,6 +1,14 @@
 {
    "requests": [
       {
+      },
+      {
+         "endpoint": "mco2"
+      },
+      {
+         "endpoint": "balance"
+      },
+      {
          "endpoint": "stbt"
       },
       {

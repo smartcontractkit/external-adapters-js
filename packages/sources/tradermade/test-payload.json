@@ -2,5 +2,30 @@
  "requests": [{
   "from": "LINK",
   "to": "USD"
- }]
+ },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "live"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "stock"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "commodities"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "forex"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "batch"
+  }]
 }

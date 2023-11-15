@@ -12,6 +12,8 @@ import {
   TraderMadeWebsocketReverseMappingTransport,
 } from '../../src/transport/utils'
 import { config } from '../../src/transport/forex-ws'
+import { adapter } from '../../src'
+import testPayload from '../../test-payload.json'
 
 //Since the test is directly using transport functions, we need to initialize the logger here
 LoggerFactoryProvider.set()
@@ -133,6 +135,17 @@ describe('TraderMadeWebsocketReverseMappingTransport', () => {
       await transport.streamHandler(context, subscriptions)
       expect(connClosed).toEqual(true)
       expect(transport.connectionClosed()).toEqual(true)
+    })
+  })
+})
+
+describe('test-payload.json', () => {
+  it('should contain all endpoints/aliases', () => {
+    const endpointsWithAliases = adapter.endpoints.map((e) => [e.name, ...(e.aliases || [])]).flat()
+    endpointsWithAliases.forEach((alias) => {
+      const requests = testPayload.requests as { endpoint?: string }[]
+      const aliasedRequest = requests.find((req) => req?.endpoint === alias)
+      expect(aliasedRequest).toBeDefined()
     })
   })
 })
