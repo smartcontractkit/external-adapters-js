@@ -2,5 +2,15 @@
  "requests": [{
   "from": "JPY",
   "to": "USD"
- }]
+ },
+  {
+   "from": "JPY",
+   "to": "USD",
+   "endpoint": "forex"
+  },
+  {
+   "from": "JPY",
+   "to": "USD",
+   "endpoint": "price"
+  }]
 }

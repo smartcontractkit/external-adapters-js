@@ -4,5 +4,12 @@
   "secondarySource": "coinmarketcap",
   "base": "ETH",
   "quote": "USD"
- }]
+ },
+  {
+   "primarySource": "coingecko",
+   "secondarySource": "coinmarketcap",
+   "base": "ETH",
+   "quote": "USD",
+   "endpoint": "circuit"
+  }]
 }

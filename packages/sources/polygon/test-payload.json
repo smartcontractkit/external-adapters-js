@@ -2,5 +2,26 @@
  "requests": [{
   "from": "LINK",
   "to": "USD"
- }]
+ },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "tickers"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "forex"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "price"
+  },
+  {
+   "from": "GBP",
+   "to": "USD",
+   "endpoint": "conversion"
+  }
+ ]
 }
