@@ -1,6 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { ForexBaseEndpointTypes } from '../endpoint/utils'
-import { invertResult, createForexWsSymbol } from '../utils'
 
 interface Message {
   s: string
