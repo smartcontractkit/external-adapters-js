@@ -23,19 +23,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       if (!message.a || !message.b) {
         return []
       }
-      let [base, quote] = message.s.split('/')
-
-      //USDJPY
-      if (base == 'USD') {
-        // Exception case: where base is USD
-        // TODO add checks for that
-        ;[quote, base] = [base, quote]
-      }
-
-      const result = invertResult(base, quote, (Number(message.a) + Number(message.b)) / 2)
-
-      //EURUSD
-
+      const result = (Number(message.a) + Number(message.b)) / 2
+      const [base, quote] = message.s.split('/')
       return [
         {
           params: { base, quote },
@@ -55,10 +44,10 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
   builders: {
     subscribeMessage: (params) => {
-      return { action: 'subscribe', symbols: createForexWsSymbol(params.base, params.quote) }
+      return { action: 'subscribe', symbols: `${params.base}/${params.quote}`.toUpperCase() }
     },
     unsubscribeMessage: (params) => {
-      return { action: 'unsubscribe', symbols: createForexWsSymbol(params.base, params.quote) }
+      return { action: 'unsubscribe', symbols: `${params.base}/${params.quote}`.toUpperCase() }
     },
   },
 })
