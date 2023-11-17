@@ -10,6 +10,7 @@ import {
   AdapterRequestContext,
   AdapterResponse,
 } from '@chainlink/external-adapter-framework/util'
+import { CustomSettingsDefinition } from '@chainlink/external-adapter-framework/config'
 
 export type PriceAdapterRequest<T> = AdapterRequest<T> & {
   requestContext: AdapterRequestContext<T> & {
@@ -19,9 +20,9 @@ export type PriceAdapterRequest<T> = AdapterRequest<T> & {
   }
 }
 
-class FinageAdapter extends PriceAdapter<any> {
+class FinageAdapter<T extends CustomSettingsDefinition> extends PriceAdapter<T> {
   constructor(
-    params: AdapterParams<any> & {
+    params: AdapterParams<T> & {
       includes?: IncludesFile
     },
   ) {
