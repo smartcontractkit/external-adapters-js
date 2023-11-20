@@ -5840,7 +5840,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
-            ["@types/fast-redact", "npm:3.0.3"],\
+            ["@types/fast-redact", "npm:3.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/lodash", "npm:4.14.200"],\
             ["@types/lru-cache", "npm:5.1.1"],\
@@ -14015,10 +14015,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/fast-redact", [\
-        ["npm:3.0.3", {\
-          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.3-8a0eaec9c2-be462ed7e9.zip/node_modules/@types/fast-redact/",\
+        ["npm:3.0.4", {\
+          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.4-b7abf9a463-d130c7c2d3.zip/node_modules/@types/fast-redact/",\
           "packageDependencies": [\
-            ["@types/fast-redact", "npm:3.0.3"]\
+            ["@types/fast-redact", "npm:3.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
