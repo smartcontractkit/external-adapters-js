@@ -1,4 +1,7 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PriceEndpoint,
+  priceEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -6,18 +9,7 @@ import { transport } from '../transport/conversion'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from'],
-      required: true,
-      description: 'The symbol of the currency to query',
-      type: 'string',
-    },
-    quote: {
-      aliases: ['to'],
-      required: true,
-      description: 'The symbol of the currency to convert to',
-      type: 'string',
-    },
+    ...priceEndpointInputParametersDefinition,
     amount: {
       required: false,
       description: 'The amount of the `base` to convert ',
@@ -47,7 +39,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PriceEndpoint({
   name: 'conversion',
   transport,
   inputParameters: inputParameters,
