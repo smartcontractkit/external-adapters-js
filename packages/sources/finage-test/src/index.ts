@@ -39,9 +39,14 @@ class FinageAdapter<T extends CustomSettingsDefinition> extends PriceAdapter<T> 
     req: PriceAdapterRequest<PriceEndpointInputParametersDefinition>,
     replySent: Promise<unknown>,
   ): Promise<AdapterResponse> {
+    /* 
+    overrides PriceAdapter.handleRequest [https://github.com/smartcontractkit/ea-framework-js/blob/main/src/adapter/price.ts#L160] 
+    to implement inverse behavior for forex endpoint see: endpoint/forex.ts/excludesMap
+    
+    */
     const response = await super.handleRequest(req, replySent)
 
-    if (req.requestContext.endpointName == 'forex') {
+    if (req.requestContext.endpointName == this.endpointsMap.forex.name) {
       if (req.requestContext.priceMeta.inverse) {
         // Deep clone the response, as it may contain objects which won't be cloned by simply destructuring
         const cloneResponse = JSON.parse(JSON.stringify(response))
