@@ -1,12 +1,8 @@
-import {
-  AdapterConfigError,
-  AdapterConnectionError,
-  AdapterDataProviderError,
-  AdapterError,
-} from '@chainlink/ea-bootstrap'
+import { AdapterConfigError } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import {
+  errorResponse,
   getAddressResolver,
   getContractAddress,
   getDataFromAcrossChains,
@@ -53,59 +49,88 @@ const getDebtRatio = async (
           statusCode: 500,
           message: `Chain ${network} not configured`,
         })
-      const networkProvider = new ethers.providers.JsonRpcProvider(
-        config.chains[network].rpcURL,
-        config.chains[network].chainId,
-      )
+      let networkProvider
       try {
-        const addressResolverAddress = await getAddressResolver(
-          networkProvider,
-          config.chains[network].chainAddressResolverProxyAddress,
+        networkProvider = new ethers.providers.JsonRpcProvider(
+          config.chains[network].rpcURL,
+          config.chains[network].chainId,
         )
-        const synthetixDebtShareAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          'SynthetixDebtShare',
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Unable to connect to RPC provider. Network - ${network}`,
         )
+      }
+      const addressResolverAddress = await getAddressResolver(
+        networkProvider,
+        config.chains[network].chainAddressResolverProxyAddress,
+        jobRunID,
+        network,
+      )
+      const synthetixDebtShareAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        'SynthetixDebtShare',
+        jobRunID,
+        network,
+      )
+      let debtShareTotalSupply
+      try {
         const synthetixDebtShare = new ethers.Contract(
           synthetixDebtShareAddress,
           SYNTHETIX_DEBT_SHARE_ABI,
           networkProvider,
         )
-        const debtShareTotalSupply = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
+        debtShareTotalSupply = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch depth share total supply. Error Message: ${e}`,
+        )
+      }
 
-        const debtMigratorAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          getDebtMigratorName(network, jobRunID),
-        )
-        const debtMigrator = new ethers.Contract(
-          debtMigratorAddress,
-          DEBT_MIGRATOR_ABI,
-          networkProvider,
-        )
-        const debtTransferReceived = await debtMigrator.debtTransferReceived({
+      const debtMigratorAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        getDebtMigratorName(network, jobRunID),
+        jobRunID,
+        network,
+      )
+      let debtTransferReceived
+      let debtMigrator
+      try {
+        debtMigrator = new ethers.Contract(debtMigratorAddress, DEBT_MIGRATOR_ABI, networkProvider)
+        debtTransferReceived = await debtMigrator.debtTransferReceived({
           blockTag: blockNumber,
         })
-        const debtTransferSent = await debtMigrator.debtTransferSent({ blockTag: blockNumber })
-        const chainTotalDebtShare = debtShareTotalSupply.add(
-          debtTransferSent.sub(debtTransferReceived),
-        )
-        return {
-          totalDebtIssued: issuedSynths,
-          totalDebtShares: chainTotalDebtShare,
-        }
-      } catch (e: any) {
-        const error = e as any
-        const errorPayload = {
+      } catch (e) {
+        return errorResponse(
+          e,
           jobRunID,
-          message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${error.message}`,
-        }
-        throw error.response
-          ? new AdapterDataProviderError(errorPayload)
-          : error.request
-          ? new AdapterConnectionError(errorPayload)
-          : new AdapterError(errorPayload)
+          network,
+          `Failed to fetch debtTransferReceived. Error Message: ${e}`,
+        )
+      }
+      let chainTotalDebtShare
+      try {
+        const debtTransferSent = await debtMigrator.debtTransferSent({ blockTag: blockNumber })
+        chainTotalDebtShare = debtShareTotalSupply.add(debtTransferSent.sub(debtTransferReceived))
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch debtTransferSent or calculate total depth shares.  Error Message: ${e}`,
+        )
+      }
+
+      return {
+        totalDebtIssued: issuedSynths,
+        totalDebtShares: chainTotalDebtShare,
       }
     }),
   )

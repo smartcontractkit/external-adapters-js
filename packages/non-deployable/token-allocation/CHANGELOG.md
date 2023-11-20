@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.11.17
+
+### Patch Changes
+
+- Updated dependencies [[`9f6633890`](https://github.com/smartcontractkit/external-adapters-js/commit/9f6633890aed89566a3f54f6109e577b18858ca6)]:
+  - @chainlink/cryptocompare-adapter@2.1.1
+
 ## 1.11.16
 
 ### Patch Changes
