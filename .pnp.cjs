@@ -6550,7 +6550,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-            ["@types/convert-units", "npm:2.3.8"],\
+            ["@types/convert-units", "npm:2.3.9"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["convert-units", "npm:2.3.4"],\
@@ -13878,10 +13878,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/convert-units", [\
-        ["npm:2.3.8", {\
-          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.8-092f17fe38-bacd4554b2.zip/node_modules/@types/convert-units/",\
+        ["npm:2.3.9", {\
+          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.9-a6a7f9f26b-2d72c4ccef.zip/node_modules/@types/convert-units/",\
           "packageDependencies": [\
-            ["@types/convert-units", "npm:2.3.8"]\
+            ["@types/convert-units", "npm:2.3.9"]\
           ],\
           "linkType": "HARD"\
         }]\
