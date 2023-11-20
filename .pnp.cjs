@@ -4936,7 +4936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/express", "npm:4.17.20"],\
+            ["@types/express", "npm:4.17.21"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.14"],\
@@ -5840,7 +5840,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
-            ["@types/fast-redact", "npm:3.0.3"],\
+            ["@types/fast-redact", "npm:3.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/lodash", "npm:4.14.200"],\
             ["@types/lru-cache", "npm:5.1.1"],\
@@ -5927,7 +5927,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.1"],\
             ["@types/command-line-args", "npm:5.2.3"],\
-            ["@types/command-line-usage", "npm:5.0.3"],\
+            ["@types/command-line-usage", "npm:5.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/shelljs", "npm:0.8.13"],\
             ["@types/swagger-jsdoc", "npm:6.0.1"],\
@@ -6550,7 +6550,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-            ["@types/convert-units", "npm:2.3.8"],\
+            ["@types/convert-units", "npm:2.3.9"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["convert-units", "npm:2.3.4"],\
@@ -13859,10 +13859,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/command-line-usage", [\
-        ["npm:5.0.3", {\
-          "packageLocation": "./.yarn/cache/@types-command-line-usage-npm-5.0.3-ad6787b6f3-3f2fc365c1.zip/node_modules/@types/command-line-usage/",\
+        ["npm:5.0.4", {\
+          "packageLocation": "./.yarn/cache/@types-command-line-usage-npm-5.0.4-a0c17413f5-7173c356ca.zip/node_modules/@types/command-line-usage/",\
           "packageDependencies": [\
-            ["@types/command-line-usage", "npm:5.0.3"]\
+            ["@types/command-line-usage", "npm:5.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13878,10 +13878,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/convert-units", [\
-        ["npm:2.3.8", {\
-          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.8-092f17fe38-bacd4554b2.zip/node_modules/@types/convert-units/",\
+        ["npm:2.3.9", {\
+          "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.9-a6a7f9f26b-2d72c4ccef.zip/node_modules/@types/convert-units/",\
           "packageDependencies": [\
-            ["@types/convert-units", "npm:2.3.8"]\
+            ["@types/convert-units", "npm:2.3.9"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13990,10 +13990,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/express", [\
-        ["npm:4.17.20", {\
-          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.20-a63c9e93d3-bf8a97d283.zip/node_modules/@types/express/",\
+        ["npm:4.17.21", {\
+          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.21-be92a0245e-fb23829863.zip/node_modules/@types/express/",\
           "packageDependencies": [\
-            ["@types/express", "npm:4.17.20"],\
+            ["@types/express", "npm:4.17.21"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/express-serve-static-core", "npm:4.17.33"],\
             ["@types/qs", "npm:6.9.7"],\
@@ -14015,10 +14015,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/fast-redact", [\
-        ["npm:3.0.3", {\
-          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.3-8a0eaec9c2-be462ed7e9.zip/node_modules/@types/fast-redact/",\
+        ["npm:3.0.4", {\
+          "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.4-b7abf9a463-d130c7c2d3.zip/node_modules/@types/fast-redact/",\
           "packageDependencies": [\
-            ["@types/fast-redact", "npm:3.0.3"]\
+            ["@types/fast-redact", "npm:3.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\

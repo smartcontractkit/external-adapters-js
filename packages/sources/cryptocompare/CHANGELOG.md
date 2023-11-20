@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 2.1.1
+
+### Patch Changes
+
+- [#3073](https://github.com/smartcontractkit/external-adapters-js/pull/3073) [`9f6633890`](https://github.com/smartcontractkit/external-adapters-js/commit/9f6633890aed89566a3f54f6109e577b18858ca6) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add missing apikey header to vwap request
+
 ## 2.1.0
 
 ### Minor Changes

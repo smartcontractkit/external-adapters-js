@@ -2360,7 +2360,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/express": 4.17.20
+    "@types/express": 4.17.21
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.14
@@ -3170,7 +3170,7 @@ __metadata:
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
     "@reduxjs/toolkit": ^1.6.1
-    "@types/fast-redact": 3.0.3
+    "@types/fast-redact": 3.0.4
     "@types/jest": 27.5.2
     "@types/lodash": 4.14.200
     "@types/lru-cache": 5.1.1
@@ -3251,7 +3251,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/external-adapter-framework": 0.33.1
     "@types/command-line-args": 5.2.3
-    "@types/command-line-usage": 5.0.3
+    "@types/command-line-usage": 5.0.4
     "@types/jest": 27.5.2
     "@types/shelljs": 0.8.13
     "@types/swagger-jsdoc": 6.0.1
@@ -3811,7 +3811,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/google-bigquery-adapter": "workspace:*"
-    "@types/convert-units": 2.3.8
+    "@types/convert-units": 2.3.9
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     convert-units: ^2.3.4
@@ -10440,10 +10440,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/command-line-usage@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@types/command-line-usage@npm:5.0.3"
-  checksum: 3f2fc365c11bd7ef2359d94878ea6622be777e24f68dbe04e1932880a1f4ffa07713c27d060e2f80232553e952657571ef8f806b008ddffbfb253396f4aa5bca
+"@types/command-line-usage@npm:5.0.4":
+  version: 5.0.4
+  resolution: "@types/command-line-usage@npm:5.0.4"
+  checksum: 7173c356ca8c9507feeeda8e660c52498929556e90be0cf2d09d35270c597481121cd0f006a74167c5577feebfbc75b648c0f8f01b8f06ce30bde9fe30d5ba40
   languageName: node
   linkType: hard
 
@@ -10456,10 +10456,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/convert-units@npm:2.3.8":
-  version: 2.3.8
-  resolution: "@types/convert-units@npm:2.3.8"
-  checksum: bacd4554b23571eb4e6a9f26caadd55d7a7a25594fbc10adf1c2ba5a1b8e5c661ebfd29dfe9f414365683bf33299131892c743b596e79513848d491080a7f026
+"@types/convert-units@npm:2.3.9":
+  version: 2.3.9
+  resolution: "@types/convert-units@npm:2.3.9"
+  checksum: 2d72c4ccefa2edfd738a344a50be08376b25f8a5f59969393c13bb80d1b348daf3a3a577f57b41bb7d99f05e9eb5f6e48ac4ae3de2a41e2a4fc117ca9e390f0b
   languageName: node
   linkType: hard
 
@@ -10564,22 +10564,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:4.17.20":
-  version: 4.17.20
-  resolution: "@types/express@npm:4.17.20"
+"@types/express@npm:4.17.21":
+  version: 4.17.21
+  resolution: "@types/express@npm:4.17.21"
   dependencies:
     "@types/body-parser": "*"
     "@types/express-serve-static-core": ^4.17.33
     "@types/qs": "*"
     "@types/serve-static": "*"
-  checksum: bf8a97d283128e5129f9ccabbeef728ff3f0484465e0ae74a304bd0588fa6cb715ae68845650caba9a641944b7791ba125d02ddbd47a7e62aaefdd036570c6c5
+  checksum: fb238298630370a7392c7abdc80f495ae6c716723e114705d7e3fb67e3850b3859bbfd29391463a3fb8c0b32051847935933d99e719c0478710f8098ee7091c5
   languageName: node
   linkType: hard
 
-"@types/fast-redact@npm:3.0.3":
-  version: 3.0.3
-  resolution: "@types/fast-redact@npm:3.0.3"
-  checksum: be462ed7e953b4736ddb2fe598c7a8b184a210f6535a60b11812fc6c1298aafa04b079315aae35aef143f7d841ff2f5b8f54bd8879e809103bd968bb2f7042a3
+"@types/fast-redact@npm:3.0.4":
+  version: 3.0.4
+  resolution: "@types/fast-redact@npm:3.0.4"
+  checksum: d130c7c2d322e761c65ec8ecd821bf56e132672cd9de1703a53a65e051d2f43af6062040d3f0afdd48b364e1e4b29b858a748517ba9a6a7f1dab12ce7000103a
   languageName: node
   linkType: hard
 

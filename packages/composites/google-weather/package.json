@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@chainlink/ea-test-helpers": "workspace:*",
-    "@types/convert-units": "2.3.8",
+    "@types/convert-units": "2.3.9",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "typescript": "5.0.4"
