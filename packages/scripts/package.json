@@ -26,8 +26,8 @@
     "yaml": "2.2.2"
   },
   "devDependencies": {
-    "@types/command-line-args": "5.2.2",
-    "@types/command-line-usage": "5.0.3",
+    "@types/command-line-args": "5.2.3",
+    "@types/command-line-usage": "5.0.4",
     "@types/jest": "27.5.2",
     "@types/shelljs": "0.8.13",
     "@types/swagger-jsdoc": "6.0.1",

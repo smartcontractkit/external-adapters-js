@@ -29,6 +29,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         request: {
           baseURL: config.API_ENDPOINT,
           url: '/data/dayAvg',
+          headers: {
+            authorization: `Apikey ${config.API_KEY}`,
+          },
           params: {
             fsym: param.base.toUpperCase(),
             tsym: param.quote.toUpperCase(),
