@@ -1,5 +1,13 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.16
+
+### Patch Changes
+
+- Updated dependencies [[`d41fd516b`](https://github.com/smartcontractkit/external-adapters-js/commit/d41fd516b43bdb61cfe22b384be4e70767a125c3)]:
+  - @chainlink/polkadot-balance-adapter@1.3.0
+  - @chainlink/renvm-address-set-adapter@1.5.63
+
 ## 1.18.15
 
 ### Patch Changes

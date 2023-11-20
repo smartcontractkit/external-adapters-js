@@ -41,7 +41,7 @@
     "ws": "^7.4.4"
   },
   "devDependencies": {
-    "@types/fast-redact": "3.0.3",
+    "@types/fast-redact": "3.0.4",
     "@types/jest": "27.5.2",
     "@types/lodash": "4.14.200",
     "@types/lru-cache": "5.1.1",
