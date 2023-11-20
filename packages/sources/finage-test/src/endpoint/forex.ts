@@ -23,18 +23,17 @@ export const forexReqTransformer = (req: AdapterRequest<any>): void => {
   if (req.requestContext.endpointName == endpoint.name) {
     const priceRequest = req as PriceAdapterRequest<any>
 
-    const quote = String(req.requestContext.data.quote).toUpperCase()
-    const base = String(req.requestContext.data.base).toUpperCase()
-    let inverse
-    if (excludesMap[quote].includes(base)) inverse = false
-    else {
-      inverse = true
-      priceRequest.requestContext.data.base = quote
-      priceRequest.requestContext.data.quote = base
+    priceRequest.requestContext.priceMeta = {
+      inverse: false,
     }
 
-    priceRequest.requestContext.priceMeta = {
-      inverse,
+    const quote = String(req.requestContext.data.quote).toUpperCase()
+    const base = String(req.requestContext.data.base).toUpperCase()
+
+    if (!excludesMap[quote].includes(base)) {
+      priceRequest.requestContext.data.base = quote
+      priceRequest.requestContext.data.quote = base
+      priceRequest.requestContext.priceMeta.inverse = true
     }
   }
 }

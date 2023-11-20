@@ -30,7 +30,7 @@ class FinageAdapter<T extends CustomSettingsDefinition> extends PriceAdapter<T> 
 
     if (params.includes) {
       throw Error(
-        'Includes.json cannot be used for inverse behavior due to alternate implementation. refer https://smartcontract-it.atlassian.net/browse/DF-18867',
+        'Includes.json cannot be used for inverse behavior due to alternate implementation. See endpoint/forex.ts',
       )
     }
   }
