@@ -19,9 +19,11 @@ const excludesMap: Record<string, string[]> = {
   USD: ['EUR', 'GBP', 'AUD', 'NZD', 'XAG', 'XAU', 'XPT', 'XPD', 'XCU'],
 }
 
-export const forexReqTransformer = (req: AdapterRequest<any>): void => {
+export const forexReqTransformer = (
+  req: AdapterRequest<typeof forexPriceInputParameters.validated>,
+): void => {
   if (req.requestContext.endpointName == endpoint.name) {
-    const priceRequest = req as PriceAdapterRequest<any>
+    const priceRequest = req as PriceAdapterRequest<typeof forexPriceInputParameters.validated>
 
     priceRequest.requestContext.priceMeta = {
       inverse: false,
