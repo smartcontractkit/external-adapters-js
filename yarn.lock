@@ -3811,7 +3811,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/google-bigquery-adapter": "workspace:*"
-    "@types/convert-units": 2.3.8
+    "@types/convert-units": 2.3.9
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     convert-units: ^2.3.4
@@ -10456,10 +10456,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/convert-units@npm:2.3.8":
-  version: 2.3.8
-  resolution: "@types/convert-units@npm:2.3.8"
-  checksum: bacd4554b23571eb4e6a9f26caadd55d7a7a25594fbc10adf1c2ba5a1b8e5c661ebfd29dfe9f414365683bf33299131892c743b596e79513848d491080a7f026
+"@types/convert-units@npm:2.3.9":
+  version: 2.3.9
+  resolution: "@types/convert-units@npm:2.3.9"
+  checksum: 2d72c4ccefa2edfd738a344a50be08376b25f8a5f59969393c13bb80d1b348daf3a3a577f57b41bb7d99f05e9eb5f6e48ac4ae3de2a41e2a4fc117ca9e390f0b
   languageName: node
   linkType: hard
 
