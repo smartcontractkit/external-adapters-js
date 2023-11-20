@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/frxeth-exchange-rate-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chainlink frxeth-exchange-rate adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.0",
+    "@chainlink/external-adapter-framework": "0.33.1",
     "ethers": "5.7.2",
     "tslib": "2.4.1"
   }

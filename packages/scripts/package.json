@@ -6,7 +6,7 @@
     "@apidevtools/json-schema-ref-parser": "9.1.2",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.33.0",
+    "@chainlink/external-adapter-framework": "0.33.1",
     "airtable": "0.11.6",
     "axios": "0.22.0",
     "axios-mock-adapter": "1.20.0",
@@ -26,8 +26,8 @@
     "yaml": "2.2.2"
   },
   "devDependencies": {
-    "@types/command-line-args": "5.2.2",
-    "@types/command-line-usage": "5.0.3",
+    "@types/command-line-args": "5.2.3",
+    "@types/command-line-usage": "5.0.4",
     "@types/jest": "27.5.2",
     "@types/shelljs": "0.8.13",
     "@types/swagger-jsdoc": "6.0.1",

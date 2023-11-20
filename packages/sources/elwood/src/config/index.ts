@@ -8,12 +8,12 @@ export const config = new AdapterConfig({
     sensitive: true,
   },
   WS_API_ENDPOINT: {
-    description: 'The websocket url for coinmetrics',
+    description: 'The websocket url for elwood',
     type: 'string',
     default: 'wss://api.chk.elwood.systems/v1/stream',
   },
   API_ENDPOINT: {
-    description: 'The API url for coinmetrics',
+    description: 'The API url for elwood',
     type: 'string',
     default: 'https://api.chk.elwood.systems/v1/stream',
   },
