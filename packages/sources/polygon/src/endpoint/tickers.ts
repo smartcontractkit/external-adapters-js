@@ -1,4 +1,4 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -33,7 +33,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PriceEndpoint({
   name: 'tickers',
   aliases: ['forex', 'price'],
   transport,
