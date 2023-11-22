@@ -300,6 +300,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/chain-reserve-wallet"\
       },\
       {\
+        "name": "@chainlink/clear-bank-adapter",\
+        "reference": "workspace:packages/sources/clear-bank"\
+      },\
+      {\
         "name": "@chainlink/coinapi-adapter",\
         "reference": "workspace:packages/sources/coinapi"\
       },\
@@ -861,6 +865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
+      ["@chainlink/clear-bank-adapter", ["workspace:packages/sources/clear-bank"]],\
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
       ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],\
@@ -5214,6 +5219,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["axios", "npm:0.24.0"],\
+            ["nock", "npm:13.2.9"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/clear-bank-adapter", [\
+        ["workspace:packages/sources/clear-bank", {\
+          "packageLocation": "./packages/sources/clear-bank/",\
+          "packageDependencies": [\
+            ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["axios", "npm:1.3.4"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\

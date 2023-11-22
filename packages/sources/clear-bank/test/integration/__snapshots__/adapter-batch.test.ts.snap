@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute accounts endpoint should return error, missing account 1`] = `
+{
+  "errorMessage": "Did not find balances for all accounts. Missing accounts: ["GB49CLRB04084000000020"]",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute accounts endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 4000000,
+  },
+  "result": 4000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
