@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.2.3
+
+### Patch Changes
+
+- [#3072](https://github.com/smartcontractkit/external-adapters-js/pull/3072) [`a33290ca3`](https://github.com/smartcontractkit/external-adapters-js/commit/a33290ca3049edd95631ea05d2e41f0c22037bbf) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - EA converted to PriceAdapter
+
 ## 2.2.2
 
 ### Patch Changes

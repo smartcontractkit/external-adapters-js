@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.0.12
+
+### Patch Changes
+
+- [#3063](https://github.com/smartcontractkit/external-adapters-js/pull/3063) [`0a5e11e1d`](https://github.com/smartcontractkit/external-adapters-js/commit/0a5e11e1ddfabb6b7d5ef2fc9f7ecaf972859159) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added websocket transport for crypto(price), volume and marketcap endpoints. Refactored crypto endpoint/transport
+
 ## 2.0.11
 
 ### Patch Changes

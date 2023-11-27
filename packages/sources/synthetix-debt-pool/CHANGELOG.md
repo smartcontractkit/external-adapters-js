@@ -1,5 +1,11 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 4.1.2
+
+### Patch Changes
+
+- [#3071](https://github.com/smartcontractkit/external-adapters-js/pull/3071) [`82f3591ea`](https://github.com/smartcontractkit/external-adapters-js/commit/82f3591ea931975ccb61a8cc860dc0b797449ab7) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Expanded error tracking for RPC calls
+
 ## 4.1.1
 
 ### Patch Changes
