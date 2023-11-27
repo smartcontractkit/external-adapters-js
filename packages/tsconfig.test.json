@@ -204,6 +204,9 @@
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
     },
     {
+      "path": "./sources/clear-bank/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
