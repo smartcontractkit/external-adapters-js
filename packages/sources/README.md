@@ -34,6 +34,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [celsius-address-list](./celsius-address-list/README.md)
 - [cfbenchmarks](./cfbenchmarks/README.md)
 - [chain-reserve-wallet](./chain-reserve-wallet/README.md)
+- [clear-bank](./clear-bank/README.md)
 - [coinapi](./coinapi/README.md)
 - [coinbase](./coinbase/README.md)
 - [coincodex](./coincodex/README.md)

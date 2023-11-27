@@ -1,5 +1,13 @@
 # @chainlink/polygon-adapter
 
+## 2.0.11
+
+### Patch Changes
+
+- [#3072](https://github.com/smartcontractkit/external-adapters-js/pull/3072) [`a33290ca3`](https://github.com/smartcontractkit/external-adapters-js/commit/a33290ca3049edd95631ea05d2e41f0c22037bbf) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - EA converted to PriceAdapter
+
+- [#3044](https://github.com/smartcontractkit/external-adapters-js/pull/3044) [`6a4c95402`](https://github.com/smartcontractkit/external-adapters-js/commit/6a4c9540278ef4755d6a574dfeffd7136bc4b390) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Converted ticker and conversion endpoints to PriceEndpoint. Added inverse pair for TZS/USD
+
 ## 2.0.10
 
 ### Patch Changes

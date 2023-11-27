@@ -1,5 +1,11 @@
 # @chainlink/nft-blue-chip-adapter
 
+## 1.1.20
+
+### Patch Changes
+
+- [#3087](https://github.com/smartcontractkit/external-adapters-js/pull/3087) [`4042dbd5d`](https://github.com/smartcontractkit/external-adapters-js/commit/4042dbd5de2dda825a601b98ec31378ab0012333) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Refactored marketcap endpoint to reduce RPC cals
+
 ## 1.1.19
 
 ### Patch Changes

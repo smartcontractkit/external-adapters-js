@@ -1,5 +1,15 @@
 # @chainlink/finage-test-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#3074](https://github.com/smartcontractkit/external-adapters-js/pull/3074) [`f1a972cc9`](https://github.com/smartcontractkit/external-adapters-js/commit/f1a972cc968b33adc26f76013bba6d66babb78b5) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Finage v2 and v3 inverse behavior
+
+### Patch Changes
+
+- [#3089](https://github.com/smartcontractkit/external-adapters-js/pull/3089) [`d94f8fd71`](https://github.com/smartcontractkit/external-adapters-js/commit/d94f8fd71edefea57d045ff242a6ad7d47cd650f) Thanks [@amit-momin](https://github.com/amit-momin)! - Added custom request routing to REST for specific pairs
+
 ## 1.3.11
 
 ### Patch Changes

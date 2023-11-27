@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.0.11
+
+### Patch Changes
+
+- [#3068](https://github.com/smartcontractkit/external-adapters-js/pull/3068) [`cf4b4d7e7`](https://github.com/smartcontractkit/external-adapters-js/commit/cf4b4d7e7b35030380f57cc4e0d09d9df8322d0d) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Modified tradermade forex customRouter to use ws/rest depending on requested pair
+
 ## 2.0.10
 
 ### Patch Changes
