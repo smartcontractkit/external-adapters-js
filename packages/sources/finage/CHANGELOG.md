@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.10.0
+
+### Minor Changes
+
+- [#3074](https://github.com/smartcontractkit/external-adapters-js/pull/3074) [`f1a972cc9`](https://github.com/smartcontractkit/external-adapters-js/commit/f1a972cc968b33adc26f76013bba6d66babb78b5) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Finage v2 and v3 inverse behavior
+
 ## 1.9.0
 
 ### Minor Changes
