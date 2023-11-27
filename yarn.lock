@@ -3174,7 +3174,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.6.1
     "@types/fast-redact": 3.0.4
     "@types/jest": 27.5.2
-    "@types/lodash": 4.14.200
+    "@types/lodash": 4.14.202
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
@@ -10731,10 +10731,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.200":
-  version: 4.14.200
-  resolution: "@types/lodash@npm:4.14.200"
-  checksum: 6471f8bb5da692a6ecf03a8da4935bfbc341e67ee9bcb4f5730bfacff0c367232548f0a01e8ac5ea18c6fe78fb085d502494e33ccb47a7ee87cbdee03b47d00d
+"@types/lodash@npm:4.14.202":
+  version: 4.14.202
+  resolution: "@types/lodash@npm:4.14.202"
+  checksum: a91acf3564a568c6f199912f3eb2c76c99c5a0d7e219394294213b3f2d54f672619f0fde4da22b29dc5d4c31457cd799acc2e5cb6bd90f9af04a1578483b6ff7
   languageName: node
   linkType: hard
 
