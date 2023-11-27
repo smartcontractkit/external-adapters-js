@@ -4496,7 +4496,7 @@ __metadata:
     "@paypal/payouts-sdk": ^1.1.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/paypal__payouts-sdk": 1.0.5
+    "@types/paypal__payouts-sdk": 1.0.6
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -10909,10 +10909,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/paypal__payouts-sdk@npm:1.0.5":
-  version: 1.0.5
-  resolution: "@types/paypal__payouts-sdk@npm:1.0.5"
-  checksum: 4bc1f0bc8ff7e71c990840ef9a7c480fe9fac46693e74289ea9c23364a2199d446a60c1ad5c5ceb44f8c6469092db815870b9b6b0991285d04bb34b705ddafa8
+"@types/paypal__payouts-sdk@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@types/paypal__payouts-sdk@npm:1.0.6"
+  checksum: e8b75fbdff48cde52ad0d7cccc942bde820f9df94e3ab1ff0212eac97bf775966e4b4bf428b58eea5fb45c4ae472be6e9848bd8ab19df7d4bf24e00319e1be78
   languageName: node
   linkType: hard
 
