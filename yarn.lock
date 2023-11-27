@@ -3188,11 +3188,11 @@ __metadata:
     "@reduxjs/toolkit": ^1.6.1
     "@types/fast-redact": 3.0.4
     "@types/jest": 27.5.2
-    "@types/lodash": 4.14.200
+    "@types/lodash": 4.14.202
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
-    "@types/object-path": 0.11.3
+    "@types/object-path": 0.11.4
     "@types/pino": 6.3.12
     "@types/pino-pretty": 4.7.5
     "@types/promise-timeout": 1.3.1
@@ -3236,7 +3236,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/object-path": 0.11.3
+    "@types/object-path": 0.11.4
     object-path: ^0.11.5
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -3556,7 +3556,7 @@ __metadata:
     "@changesets/changelog-github": 0.4.8
     "@changesets/cli": 2.26.2
     "@types/babel__core": 7.1.20
-    "@types/babel__preset-env": 7.9.5
+    "@types/babel__preset-env": 7.9.6
     "@types/eslint": 8.37.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -4510,7 +4510,7 @@ __metadata:
     "@paypal/payouts-sdk": ^1.1.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/paypal__payouts-sdk": 1.0.5
+    "@types/paypal__payouts-sdk": 1.0.6
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -10383,10 +10383,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__preset-env@npm:7.9.5":
-  version: 7.9.5
-  resolution: "@types/babel__preset-env@npm:7.9.5"
-  checksum: 9bd303d2665f7c05c147f0b1699c68d080ed1d06bc7b1ff1a26d0b2cb952afdb4d4ef27a9d99d02432c003370b054eadf17fb0034f82f9477be25444b0d5e6ca
+"@types/babel__preset-env@npm:7.9.6":
+  version: 7.9.6
+  resolution: "@types/babel__preset-env@npm:7.9.6"
+  checksum: 4783334e18e4a2e72314b900f9ac6bda002f05e91208cf88a1f631022443004f552565da4cacfebb9686ef9b06191972222d3395be1f2825cfe53cb77c5b856a
   languageName: node
   linkType: hard
 
@@ -10745,10 +10745,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.200":
-  version: 4.14.200
-  resolution: "@types/lodash@npm:4.14.200"
-  checksum: 6471f8bb5da692a6ecf03a8da4935bfbc341e67ee9bcb4f5730bfacff0c367232548f0a01e8ac5ea18c6fe78fb085d502494e33ccb47a7ee87cbdee03b47d00d
+"@types/lodash@npm:4.14.202":
+  version: 4.14.202
+  resolution: "@types/lodash@npm:4.14.202"
+  checksum: a91acf3564a568c6f199912f3eb2c76c99c5a0d7e219394294213b3f2d54f672619f0fde4da22b29dc5d4c31457cd799acc2e5cb6bd90f9af04a1578483b6ff7
   languageName: node
   linkType: hard
 
@@ -10909,10 +10909,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/object-path@npm:0.11.3":
-  version: 0.11.3
-  resolution: "@types/object-path@npm:0.11.3"
-  checksum: 9c2f1ec11d9d15df1682ab1483c0f51cac3ff8c3a951662a50d15fd48824fc43a052041503d0761790a29a4100e33989eb519889948c3592d0bf6bde59d3ec79
+"@types/object-path@npm:0.11.4":
+  version: 0.11.4
+  resolution: "@types/object-path@npm:0.11.4"
+  checksum: 7f1f5cb18b651d21e7861da176d8f87526c936ed949a8126a2692195cbe65734ed1a1a22c06a24a54afe1890483a3d6b074b402ebfca7a7567c1c287b588f563
   languageName: node
   linkType: hard
 
@@ -10923,10 +10923,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/paypal__payouts-sdk@npm:1.0.5":
-  version: 1.0.5
-  resolution: "@types/paypal__payouts-sdk@npm:1.0.5"
-  checksum: 4bc1f0bc8ff7e71c990840ef9a7c480fe9fac46693e74289ea9c23364a2199d446a60c1ad5c5ceb44f8c6469092db815870b9b6b0991285d04bb34b705ddafa8
+"@types/paypal__payouts-sdk@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@types/paypal__payouts-sdk@npm:1.0.6"
+  checksum: e8b75fbdff48cde52ad0d7cccc942bde820f9df94e3ab1ff0212eac97bf775966e4b4bf428b58eea5fb45c4ae472be6e9848bd8ab19df7d4bf24e00319e1be78
   languageName: node
   linkType: hard
 
@@ -22976,7 +22976,7 @@ __metadata:
     "@babel/preset-env": 7.22.20
     "@babel/preset-typescript": 7.22.15
     "@types/babel__core": 7.1.20
-    "@types/babel__preset-env": 7.9.5
+    "@types/babel__preset-env": 7.9.6
     "@types/k6": 0.37.1
     "@types/node": 17.0.45
     "@types/rimraf": 3.0.2
