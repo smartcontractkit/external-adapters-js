@@ -26,22 +26,26 @@ export const ENV_ARBITRUM_RPC_ENDPOINT = 'ARBITRUM_RPC_ENDPOINT'
 export const ENV_OPTIMISM_RPC_ENDPOINT = 'OPTIMISM_RPC_ENDPOINT'
 export const ENV_BASE_RPC_ENDPOINT = 'BASE_RPC_ENDPOINT'
 export const ENV_METIS_RPC_ENDPOINT = 'METIS_RPC_ENDPOINT'
+export const ENV_SCROLL_RPC_ENDPOINT = 'SCROLL_RPC_ENDPOINT'
 
 export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
 export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
 export const ENV_BASE_CHAIN_ID = 'BASE_CHAIN_ID'
 export const ENV_METIS_CHAIN_ID = 'METIS_CHAIN_ID'
+export const ENV_SCROLL_CHAIN_ID = 'SCROLL_CHAIN_ID'
 
 export const DEFAULT_ARBITRUM_CHAIN_ID = '42161'
 export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
 export const DEFAULT_BASE_CHAIN_ID = '8453'
 export const DEFAULT_METIS_CHAIN_ID = '1088'
+export const DEFAULT_SCROLL_CHAIN_ID = '534352'
 
 export enum Networks {
   Arbitrum = 'arbitrum',
   Optimism = 'optimism',
   Base = 'base',
   Metis = 'metis',
+  Scroll = 'scroll',
   Starkware = 'starkware',
 }
 
@@ -51,12 +55,14 @@ const DEFAULT_ARBITRUM_RPC_ENDPOINT = 'https://arb1.arbitrum.io/rpc'
 const DEFAULT_OPTIMISM_RPC_ENDPOINT = 'https://mainnet.optimism.io'
 const DEFAULT_BASE_RPC_ENDPOINT = 'https://mainnet.base.org'
 const DEFAULT_METIS_RPC_ENDPOINT = 'https://andromeda.metis.io/?owner=1088'
+const DEFAULT_SCROLL_RPC_ENDPOINT = 'https://rpc.scroll.io'
 
 export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Arbitrum]: util.getEnv(ENV_ARBITRUM_RPC_ENDPOINT) || DEFAULT_ARBITRUM_RPC_ENDPOINT,
   [Networks.Optimism]: util.getEnv(ENV_OPTIMISM_RPC_ENDPOINT) || DEFAULT_OPTIMISM_RPC_ENDPOINT,
   [Networks.Base]: util.getEnv(ENV_BASE_RPC_ENDPOINT) || DEFAULT_BASE_RPC_ENDPOINT,
   [Networks.Metis]: util.getEnv(ENV_METIS_RPC_ENDPOINT) || DEFAULT_METIS_RPC_ENDPOINT,
+  [Networks.Scroll]: util.getEnv(ENV_SCROLL_RPC_ENDPOINT) || DEFAULT_SCROLL_RPC_ENDPOINT,
 }
 
 export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
@@ -72,6 +78,9 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
   [Networks.Metis]:
     parseInt(util.getEnv(ENV_METIS_CHAIN_ID) || DEFAULT_METIS_CHAIN_ID) ||
     util.getEnv(ENV_METIS_CHAIN_ID),
+  [Networks.Scroll]:
+    parseInt(util.getEnv(ENV_SCROLL_CHAIN_ID) || DEFAULT_SCROLL_CHAIN_ID) ||
+    util.getEnv(ENV_SCROLL_CHAIN_ID),
 }
 
 const DEFAULT_OPTIMISM_HEALTH_ENDPOINT = 'https://mainnet-sequencer.optimism.io/health'
@@ -95,6 +104,10 @@ export const HEALTH_ENDPOINTS: Record<
   [Networks.Metis]: {
     endpoint: util.getEnv('METIS_HEALTH_ENDPOINT') || DEFAULT_METIS_HEALTH_ENDPOINT,
     responsePath: ['healthy'],
+  },
+  [Networks.Scroll]: {
+    endpoint: util.getEnv('SCROLL_HEALTH_ENDPOINT'),
+    responsePath: [],
   },
   [Networks.Starkware]: {
     endpoint: util.getEnv('STARKWARE_HEALTH_ENDPOINT'),
