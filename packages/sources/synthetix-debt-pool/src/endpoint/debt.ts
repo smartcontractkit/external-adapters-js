@@ -75,7 +75,7 @@ export const getDebtIssued = async (
       let debtIssued
       try {
         const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
-        debtIssued = await debtCache.currentDebt({ blockTag: blockNumber })[0]
+        debtIssued = (await debtCache.currentDebt({ blockTag: blockNumber }))[0]
       } catch (e) {
         return errorResponse(
           e,
