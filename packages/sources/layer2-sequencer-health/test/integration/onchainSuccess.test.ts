@@ -100,6 +100,18 @@ describe('execute', () => {
     fastify.close(done)
   })
 
+  async function sendRequestAndExpectStatus(data: AdapterRequest, status: number) {
+    const response = await req
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body.result).toEqual(status)
+    expect(response.body).toMatchSnapshot()
+  }
+
   describe('arbitrum network', () => {
     it('should return success when all methods succeed', async () => {
       mockResponseSuccessHealth()
@@ -111,16 +123,7 @@ describe('execute', () => {
           network: 'arbitrum',
         },
       }
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return transaction submission is successful', async () => {
@@ -134,15 +137,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return failure if tx not required even if it would be successful', async () => {
@@ -157,15 +152,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(1)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 
@@ -181,15 +168,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return transaction submission is successful', async () => {
@@ -204,15 +183,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return failure if tx not required even if it would be successful', async () => {
@@ -227,15 +198,50 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(1)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('scroll network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'scroll',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'scroll',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'scroll',
+          requireTxFailure: false,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 
@@ -251,15 +257,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return transaction submission is successful', async () => {
@@ -274,15 +272,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return failure if tx not required even if it would be successful', async () => {
@@ -296,15 +286,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(1)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 
@@ -320,15 +302,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return transaction submission is successful', async () => {
@@ -342,15 +316,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return failure if tx not required even if it would be successful', async () => {
@@ -365,15 +331,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(1)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 })

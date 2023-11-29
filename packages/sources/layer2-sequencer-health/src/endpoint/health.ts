@@ -21,6 +21,7 @@ const defaultRequireTxFailure = {
   [Networks.Base]: false,
   [Networks.Metis]: true,
   [Networks.Optimism]: false,
+  [Networks.Scroll]: false,
   [Networks.Starkware]: true,
 }
 
@@ -36,6 +37,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
       Networks.Base,
       Networks.Metis,
       Networks.Optimism,
+      Networks.Scroll,
       Networks.Starkware,
     ],
   },
@@ -74,26 +76,28 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     )
   }
 
-  const _tryMethod =
-    (fn: NetworkHealthCheck) =>
-    async (network: Networks, config: ExtendedConfig): Promise<boolean> => {
-      try {
-        const isHealthy = await fn(network, config)
-        if (isHealthy === false) {
-          Logger.warn(
-            `[${network}] Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
-          )
-          return false
-        }
-      } catch (e: any) {
-        const error = e as Error
-        Logger.error(
-          `[${network}] Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
+  const _tryMethod = async (
+    fn: NetworkHealthCheck,
+    network: Networks,
+    config: ExtendedConfig,
+  ): Promise<boolean> => {
+    try {
+      const isHealthy = await fn(network, config)
+      if (isHealthy === false) {
+        Logger.warn(
+          `[${network}] Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
         )
         return false
       }
-      return true
+    } catch (e: any) {
+      const error = e as Error
+      Logger.error(
+        `[${network}] Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
+      )
+      return false
     }
+    return true
+  }
 
   // #1 Option: Direct check on health endpoint
   // #2 Option: Check block height
@@ -101,10 +105,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   // If any method fails, the EA sends an empty transaction to the network.  The
   // Sequencer is considered to be healthy if the networks returns an expected
   // error and does not timeout.
-  const wrappedMethods = [checkSequencerHealth, checkNetworkProgress].map(_tryMethod)
-  for (let i = 0; i < wrappedMethods.length; i++) {
-    const method = wrappedMethods[i]
-    const isHealthy = await method(network, config)
+  const methods = [checkSequencerHealth, checkNetworkProgress]
+  for (const method of methods) {
+    const isHealthy = await _tryMethod(method, network, config)
     if (!isHealthy) {
       if (requireTxFailure) {
         Logger.info(

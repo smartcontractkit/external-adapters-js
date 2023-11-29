@@ -17,6 +17,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
   [Networks.Base]: ['transaction underpriced'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
+  [Networks.Scroll]: ['invalid transaction: insufficient funds for l1fee + gas * price + value'],
   // Sending an empty transaction to the dummy Starknet address should return one
   // of the following error messages.  The Sequencer is considered healthy if the
   // EA gets back one of the errors below.
@@ -80,18 +81,18 @@ const sendEmptyTransaction = async (network: Networks, config: ExtendedConfig): 
   }
 }
 
-const isExpectedErrorMessage = (network: Networks, e: Error) => {
-  const _getErrorMessage = (e: Error): string => {
+const isExpectedErrorMessage = (network: Networks, error: Error) => {
+  const _getErrorMessage = (error: Error): string => {
     const paths: Record<Networks, string[]> = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
       [Networks.Base]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
+      [Networks.Scroll]: ['error', 'error', 'message'],
       [Networks.Starkware]: ['errorCode'],
     }
-    return (Requester.getResult(e, paths[network]) as string) || ''
+    return (Requester.getResult(error, paths[network]) as string) || ''
   }
-  const error = e as Error
   const errorMessage = _getErrorMessage(error)
   if (sequencerOnlineErrors[network].includes(errorMessage)) {
     Logger.debug(
