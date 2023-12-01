@@ -1353,6 +1353,28 @@
     ]
   },
   {
+    "from": "XAU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XAU",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "XAG",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XAG",
+        "inverse": true
+      }
+    ]
+  },
+  {
     "from": "XAF",
     "to": "USD",
     "includes": [
