@@ -9,6 +9,6 @@
   "references": [
     { "path": "../../core/test-helpers" },
     { "path": "../../core/bootstrap" },
-    { "path": "../../non-deployable/token-allocation" }
+    { "path": "../../non-deployable/token-allocation-test" }
   ]
 }
