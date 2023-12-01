@@ -1,15 +1,12 @@
 {
-  "name": "@chainlink/defi-dozen-adapter",
-  "version": "1.2.79",
-  "description": "Chainlink defi-dozen adapter.",
+  "name": "@chainlink/token-allocation-test-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink token allocation test adapter",
   "keywords": [
     "Chainlink",
     "LINK",
-    "BTC",
-    "Bitcoin",
     "blockchain",
-    "oracle",
-    "defi-dozen"
+    "oracle"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,23 +21,19 @@
   "scripts": {
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",
-    "build": "tsc -b",
-    "server": "node -e 'require(\"./index.js\").server()'",
-    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
-    "start": "yarn server:dist"
+    "build": "tsc -b"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "@chainlink/token-allocation-test-adapter": "workspace:*",
+    "@chainlink/external-adapter-framework": "0.33.1",
+    "axios": "1.6.0",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "@types/supertest": "2.0.14",
     "nock": "13.2.9",
-    "supertest": "6.2.4",
     "typescript": "5.0.4"
   }
 }

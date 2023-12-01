@@ -1,16 +1,23 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterResponse } from '@chainlink/external-adapter-framework/util'
+import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { types } from '@chainlink/token-allocation-adapter'
 import { config } from '../config'
 import { CompositeHttpTransport } from '../transports/composite-http'
 import { AllocationsResponse, endpoint as allocationsEndpoint } from './allocations'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
+import {
+  getTotalAllocations,
+  TAResponse,
+  TASourceEnvName,
+} from '@chainlink/token-allocation-test-adapter'
 
 const inputParameters = new InputParameters({
   source: {
     description: 'The data provider to query data from',
-    required: false,
+    required: true,
     type: 'string',
   },
   quote: {
@@ -22,11 +29,7 @@ const inputParameters = new InputParameters({
 })
 
 type TokenAllocationsResponse = {
-  Data: {
-    sources: void[]
-    payload: types.ResponsePayload
-    result: number
-  }
+  Data: TAResponse
   Result: number
 }
 
@@ -40,7 +43,7 @@ const compositeTransport = new CompositeHttpTransport<EndpointTypes>({
   performRequest: async (params, settings, requestHandler) => {
     const providerDataRequested = Date.now()
 
-    const { EA_PORT, BASE_URL, TOKEN_ALLOCATION_ADAPTER_URL } = settings
+    const { EA_PORT, BASE_URL } = settings
 
     // Fetch allocations from the /allocations endpoint on this Adapter
     const apyFinanceAdapterUrl = `http://localhost:${EA_PORT}${BASE_URL}`
@@ -69,24 +72,23 @@ const compositeTransport = new CompositeHttpTransport<EndpointTypes>({
       )
     }
 
-    // Fetch calculated allocation values from the Token Allocation Adapter
-    const { data, result } = await requestHandler<AdapterResponse<TokenAllocationsResponse>>({
-      url: TOKEN_ALLOCATION_ADAPTER_URL,
-      method: 'POST',
-      data: {
-        data: {
-          ...params,
-          allocations,
-        },
-      },
-    }).then((res) => res.data)
+    // Fetch calculated allocation values from the Token Allocation Utility Adapter
+    // We cast the types since endpoints' customInputValidation already checks for env var with source prefix
+    const sourceEnvName = `${params.source?.toUpperCase()}_ADAPTER_URL` as TASourceEnvName
+    const sourceUrl = settings[sourceEnvName] as string
 
-    if (!data || result == undefined) {
+    const data = await getTotalAllocations({
+      allocations,
+      sourceUrl,
+      quote: params.quote,
+    })
+
+    if (!data || data.result == undefined) {
       throw new AdapterDataProviderError(
         {
           statusCode: 502,
           url: apyFinanceAdapterUrl,
-          cause: 'No data and/or result recived from Token Allocations adapter',
+          cause: 'No data and/or result received from Token Allocations adapter',
         },
         {
           providerDataRequestedUnixMs: providerDataRequested,
@@ -99,8 +101,8 @@ const compositeTransport = new CompositeHttpTransport<EndpointTypes>({
     return {
       params: params,
       response: {
-        data: data,
-        result: result,
+        data,
+        result: data.result,
         timestamps: {
           providerDataRequestedUnixMs: providerDataRequested,
           providerDataReceivedUnixMs: Date.now(),
@@ -115,4 +117,19 @@ export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'tvl',
   transport: compositeTransport,
   inputParameters: inputParameters,
+  customInputValidation: (
+    req: AdapterRequest<typeof inputParameters.validated>,
+    settings: typeof config.settings,
+  ): AdapterInputError | undefined => {
+    const { source } = req.requestContext.data
+    const sourceEnvName = `${source?.toUpperCase()}_ADAPTER_URL` as TASourceEnvName
+    const sourceEAUrl = settings[sourceEnvName]
+    if (!sourceEAUrl) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Missing ${sourceEnvName} env variable.`,
+      })
+    }
+    return
+  },
 })

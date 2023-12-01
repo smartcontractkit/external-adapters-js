@@ -1,6 +1,7 @@
-import * as TokenAllocation from '@chainlink/token-allocation-adapter'
-import { Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { getTotalAllocations, TALegacyConfig } from '@chainlink/token-allocation-test-adapter'
+import { Config } from '../config'
 
 export const supportedEndpoints = ['allocation']
 
@@ -19,10 +20,28 @@ export const getSymbols = async (): Promise<Array<{ symbol: string }>> => {
   return symbols.default
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, context, _) => {
+export const execute: ExecuteWithConfig<Config> = async (input, _, config: Config) => {
   const validator = new Validator(input, inputParameters)
   const jobRunID = validator.validated.id
+  const source = validator.validated.data.source.toLowerCase()
+  const sourceUrl = config[source as keyof TALegacyConfig]
+  if (!sourceUrl) {
+    throw new AdapterInputError({
+      message: `Missing ${source.toUpperCase()}_ADAPTER_URL.`,
+      statusCode: 400,
+    })
+  }
   const allocations = await getSymbols()
-  const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
+  const response = await getTotalAllocations({
+    allocations,
+    sourceUrl,
+  })
+  return Requester.success(
+    jobRunID,
+    {
+      status: 200,
+      data: response,
+    },
+    true,
+  )
 }
