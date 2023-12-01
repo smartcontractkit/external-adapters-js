@@ -7,7 +7,14 @@ import {
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { transport } from '../transport/crypto'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 // Note: this adapter is intended for the API with endpoint 'wss://cryptofeed.ws.newchangefx.com'.
 // There is another API with endpoint 'wss://feed.newchangefx.com/cryptodata' that has slightly
@@ -29,9 +36,23 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
+export function customInputValidation(
+  _: AdapterRequest<typeof inputParameters.validated>,
+  settings: typeof config.settings,
+): AdapterError | undefined {
+  if (!settings.API_PASSWORD || !settings.API_USERNAME) {
+    return new AdapterInputError({
+      statusCode: 400,
+      message: 'API_PASSWORD and/or API_USERNAME is not set',
+    })
+  }
+  return
+}
+
 export const cryptoEndpoint = new CryptoPriceEndpoint({
   name: 'crypto',
   aliases: DEFAULT_LWBA_ALIASES,
   transport,
+  customInputValidation,
   inputParameters,
 })

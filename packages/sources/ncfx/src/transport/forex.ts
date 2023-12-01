@@ -17,17 +17,7 @@ type WsTransportTypes = BaseEndpointTypes & {
 export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.FOREX_WS_API_ENDPOINT,
   options: (context) => {
-    const forexEncodedCreds =
-      context.adapterSettings.FOREX_WS_USERNAME && context.adapterSettings.FOREX_WS_PASSWORD
-        ? Buffer.from(
-            JSON.stringify({
-              grant_type: 'password',
-              username: context.adapterSettings.FOREX_WS_USERNAME,
-              password: context.adapterSettings.FOREX_WS_PASSWORD,
-            }),
-          ).toString('base64')
-        : ''
-    return { headers: { ncfxauth: forexEncodedCreds } }
+    return { headers: { 'x-api-key': context.adapterSettings.FOREX_WS_API_KEY } }
   },
   handlers: {
     message(message): ProviderResult<WsTransportTypes>[] {
