@@ -14,19 +14,27 @@ import {
   TASourceEnvName,
 } from '@chainlink/token-allocation-test-adapter'
 
-const inputParameters = new InputParameters({
-  source: {
-    description: 'The data provider to query data from',
-    required: true,
-    type: 'string',
+const inputParameters = new InputParameters(
+  {
+    source: {
+      description: 'The data provider to query data from',
+      required: true,
+      type: 'string',
+    },
+    quote: {
+      aliases: ['to', 'market'],
+      description: 'The symbol of the currency to convert to',
+      required: false,
+      type: 'string',
+    },
   },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The symbol of the currency to convert to',
-    required: false,
-    type: 'string',
-  },
-})
+  [
+    {
+      source: 'coingecko',
+      quote: 'EUR',
+    },
+  ],
+)
 
 type TokenAllocationsResponse = {
   Data: TAResponse

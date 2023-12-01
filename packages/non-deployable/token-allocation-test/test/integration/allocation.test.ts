@@ -1,5 +1,4 @@
 import nock from 'nock'
-import * as process from 'process'
 import { getTotalAllocations } from '../../src'
 import { mockSourceEAResponse } from './fixtures'
 
