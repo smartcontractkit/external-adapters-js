@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#3112](https://github.com/smartcontractkit/external-adapters-js/pull/3112) [`e614829b4`](https://github.com/smartcontractkit/external-adapters-js/commit/e614829b4bb2d919b8e14c5f97233bc4655ede1d) Thanks [@alecgard](https://github.com/alecgard)! - Add XAU and DAG inverse config
+
 ## 1.2.2
 
 ### Patch Changes

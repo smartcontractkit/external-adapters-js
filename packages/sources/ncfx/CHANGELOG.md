@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.5.0
+
+### Minor Changes
+
+- [#3101](https://github.com/smartcontractkit/external-adapters-js/pull/3101) [`0ddb8f746`](https://github.com/smartcontractkit/external-adapters-js/commit/0ddb8f746739a255cef4c82c868682212766574d) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - FOREX_WS_USERNAME and FOREX_WS_PASSWORD env vars replaced with FOREX_WS_API_KEY
+
 ## 3.4.1
 
 ### Patch Changes
