@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/synth-index-adapter",
-  "version": "1.2.77",
+  "version": "1.2.78",
   "description": "Chainlink Synth Index adapter",
   "keywords": [
     "Chainlink",
