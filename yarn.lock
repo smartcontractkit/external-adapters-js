@@ -3197,7 +3197,7 @@ __metadata:
     "@types/pino-pretty": 4.7.5
     "@types/promise-timeout": 1.3.1
     "@types/redux-logger": 3.0.10
-    "@types/remote-redux-devtools": 0.5.6
+    "@types/remote-redux-devtools": 0.5.8
     "@types/sinon": 10.0.19
     "@types/uuid": 8.3.4
     "@types/ws": 8.5.5
@@ -11007,12 +11007,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/remote-redux-devtools@npm:0.5.6":
-  version: 0.5.6
-  resolution: "@types/remote-redux-devtools@npm:0.5.6"
+"@types/remote-redux-devtools@npm:0.5.8":
+  version: 0.5.8
+  resolution: "@types/remote-redux-devtools@npm:0.5.8"
   dependencies:
     redux: ^4.0.0
-  checksum: a8069b53714c58cd23f53351ee13ce0defbf1ca053915baf90a7f97422c9eb047b35dc460b4d23692ebe3ac49d4517614bd85633ac3fcca837c806eef5f9453f
+  checksum: 74fb60f2c52643e64cc036d1f7eecae7f189dd7d820684ee5700cb27ba245091a60db9c0c782d211980a52fcd30346c93e855c95aaf7a136bf8a95f37679c401
   languageName: node
   linkType: hard
 
