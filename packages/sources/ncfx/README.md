@@ -8,8 +8,8 @@ This document was generated automatically. Please see [README Generator](../../s
 
 | Required? |         Name          |                    Description                     |  Type  | Options |                     Default                     |
 | :-------: | :-------------------: | :------------------------------------------------: | :----: | :-----: | :---------------------------------------------: |
-|           |     API_USERNAME      |             Username for the NCFX API              | string |         |                                                 |
-|           |     API_PASSWORD      |             Password for the NCFX API              | string |         |                                                 |
+|           |     API_USERNAME      |          Username for the NCFX Crypto API          | string |         |                                                 |
+|           |     API_PASSWORD      |          Password for the NCFX Crypto API          | string |         |                                                 |
 |           |   FOREX_WS_API_KEY    |        API key for Forex websocket endpoint        | string |         |                                                 |
 |           |    WS_API_ENDPOINT    | The WS API endpoint to use for the crypto endpoint | string |         |      `wss://cryptofeed.ws.newchangefx.com`      |
 |           | FOREX_WS_API_ENDPOINT | The WS API endpoint to use for the forex endpoint  | string |         | `wss://fiat.ws.newchangefx.com/sub/fiat/ws/ref` |
