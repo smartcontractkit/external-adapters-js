@@ -2,11 +2,11 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
   API_USERNAME: {
-    description: 'Username for the NCFX API',
+    description: 'Username for the NCFX Crypto API',
     type: 'string',
   },
   API_PASSWORD: {
-    description: 'Password for the NCFX API',
+    description: 'Password for the NCFX Crypto API',
     type: 'string',
     sensitive: true,
   },
