@@ -5874,7 +5874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pino-pretty", "npm:4.7.5"],\
             ["@types/promise-timeout", "npm:1.3.1"],\
             ["@types/redux-logger", "npm:3.0.10"],\
-            ["@types/remote-redux-devtools", "npm:0.5.6"],\
+            ["@types/remote-redux-devtools", "npm:0.5.8"],\
             ["@types/sinon", "npm:10.0.19"],\
             ["@types/uuid", "npm:8.3.4"],\
             ["@types/ws", "npm:8.5.5"],\
@@ -14518,10 +14518,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/remote-redux-devtools", [\
-        ["npm:0.5.6", {\
-          "packageLocation": "./.yarn/cache/@types-remote-redux-devtools-npm-0.5.6-07a3aff8d3-a8069b5371.zip/node_modules/@types/remote-redux-devtools/",\
+        ["npm:0.5.8", {\
+          "packageLocation": "./.yarn/cache/@types-remote-redux-devtools-npm-0.5.8-fdbe5e07f9-74fb60f2c5.zip/node_modules/@types/remote-redux-devtools/",\
           "packageDependencies": [\
-            ["@types/remote-redux-devtools", "npm:0.5.6"],\
+            ["@types/remote-redux-devtools", "npm:0.5.8"],\
             ["redux", "npm:4.2.1"]\
           ],\
           "linkType": "HARD"\
