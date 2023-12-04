@@ -5952,7 +5952,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/command-line-args", "npm:5.2.3"],\
             ["@types/command-line-usage", "npm:5.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/shelljs", "npm:0.8.13"],\
+            ["@types/shelljs", "npm:0.8.15"],\
             ["@types/swagger-jsdoc", "npm:6.0.1"],\
             ["@types/yaml", "npm:1.9.7"],\
             ["airtable", "npm:0.11.6"],\
@@ -14595,10 +14595,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/shelljs", [\
-        ["npm:0.8.13", {\
-          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.13-7f2e250416-86ac87f468.zip/node_modules/@types/shelljs/",\
+        ["npm:0.8.15", {\
+          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.15-4684136e20-94939421c6.zip/node_modules/@types/shelljs/",\
           "packageDependencies": [\
-            ["@types/shelljs", "npm:0.8.13"],\
+            ["@types/shelljs", "npm:0.8.15"],\
             ["@types/glob", "npm:7.2.0"],\
             ["@types/node", "npm:18.8.3"]\
           ],\
