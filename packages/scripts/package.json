@@ -29,7 +29,7 @@
     "@types/command-line-args": "5.2.3",
     "@types/command-line-usage": "5.0.4",
     "@types/jest": "27.5.2",
-    "@types/shelljs": "0.8.13",
+    "@types/shelljs": "0.8.15",
     "@types/swagger-jsdoc": "6.0.1",
     "@types/yaml": "1.9.7",
     "human-id": "4.0.0",
