@@ -2,15 +2,25 @@
 
 ## Configuration
 
-**Environment variables must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
+The adapter takes the following environment variables:
+
+To be functional, at least one of the following underlying adapter locations will need to be provided.
+
+| Required? |            Name             |                   Description                    | Options | Defaults to |
+| :-------: | :-------------------------: | :----------------------------------------------: | :-----: | :---------: |
+|           |   `AMBERDATA_ADAPTER_URL`   |  The location of an Amberdata external adapter   |         |             |
+|           |    `COINAPI_ADAPTER_URL`    |    The location of a CoinAPI external adapter    |         |             |
+|           |   `COINGECKO_ADAPTER_URL`   |   The location of a CoinGecko external adapter   |         |             |
+|           | `COINMARKETCAP_ADAPTER_URL` | The location of a CoinMarketCap external adapter |         |             |
+|           |  `COINPAPRIKA_ADAPTER_URL`  |  The location of a CoinPaprika external adapter  |         |             |
+|           |  `COINRANKING_ADAPTER_URL`  |  The location of a CoinRanking external adapter  |         |             |
+|           | `CRYPTOCOMPARE_ADAPTER_URL` | The location of a CryptoCompare external adapter |         |             |
+|           |     `KAIKO_ADAPTER_URL`     |     The location of a Kaiko external adapter     |         |             |
+|           |    `TIINGO_ADAPTER_URL`     |    The location of a Tiingo external adapter     |         |             |
 
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
-
-**Additional environment input params must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 ### Sample Input
 
