@@ -165,10 +165,36 @@ describe('DarWebsocketTransport', () => {
       expect(subscriptions['new']).toEqual([{ base: 'BTC', quote: 'USD' }])
       transport.wsConnection.close()
     })
+
+    it('new subscription with existing base does not close the connection', async () => {
+      subscriptions = {
+        desired: [{ base: 'BTC', quote: 'USD' }],
+        new: [],
+        stale: [],
+      }
+
+      await transport.streamHandler(context, subscriptions)
+      await sleep(100)
+      expect(connClosed).toEqual(false)
+      expect(transport.connectionClosed()).toEqual(false)
+
+      subscriptions = {
+        desired: [
+          { base: 'BTC', quote: 'USD' },
+          { base: 'BTC', quote: 'ETH' },
+        ],
+        new: [{ base: 'BTC', quote: 'ETH' }],
+        stale: [],
+      }
+
+      await transport.streamHandler(context, subscriptions)
+      expect(connClosed).toEqual(false)
+      expect(transport.connectionClosed()).toEqual(false)
+    })
   })
 
   describe('test closing of connection', () => {
-    it('new subscription, closes existing connection', async () => {
+    it('new subscription, closes existing connection and resubscribes', async () => {
       subscriptions = {
         desired: [{ base: 'BTC', quote: 'USD' }],
         new: [{ base: 'BTC', quote: 'USD' }],
@@ -181,14 +207,18 @@ describe('DarWebsocketTransport', () => {
       expect(transport.connectionClosed()).toEqual(false)
 
       subscriptions = {
-        desired: [],
+        desired: [
+          { base: 'BTC', quote: 'USD' },
+          { base: 'ETH', quote: 'USD' },
+        ],
         new: [{ base: 'ETH', quote: 'USD' }],
         stale: [],
       }
 
       await transport.streamHandler(context, subscriptions)
+      // we close the connection however since we have a new unique base ('ETH') we will resubscribe again
       expect(connClosed).toEqual(true)
-      expect(transport.connectionClosed()).toEqual(true)
+      expect(transport.connectionClosed()).toEqual(false)
     })
 
     it('stale connection, closes existing connection', async () => {
@@ -206,7 +236,7 @@ describe('DarWebsocketTransport', () => {
       subscriptions = {
         desired: [],
         new: [],
-        stale: [{ base: 'ETH', quote: 'USD' }],
+        stale: [{ base: 'BTC', quote: 'USD' }],
       }
 
       await transport.streamHandler(context, subscriptions)

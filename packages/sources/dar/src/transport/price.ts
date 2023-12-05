@@ -46,7 +46,7 @@ export const config: WebSocketTransportConfig<WsTransportTypes> = {
     return {
       headers: {
         Authorization: token,
-        assets: desiredSubs.map((pair) => pair['base'].toLowerCase()).join(','),
+        assets: [...new Set(desiredSubs.map((pair) => pair['base'].toLowerCase()))].join(','),
       },
     }
   },
@@ -95,11 +95,17 @@ export class DarWebsocketTransport extends WebSocketTransport<WsTransportTypes> 
     context: EndpointContext<WsTransportTypes>,
     subscriptions: SubscriptionDeltas<RequestParams>,
   ): Promise<void> {
-    if (
-      this.wsConnection &&
-      !this.connectionClosed() &&
-      (subscriptions.new.length || subscriptions.stale.length)
-    ) {
+    const desiredBases = subscriptions.desired.map((s) => s.base)
+    const shouldUnsubscribe = () => {
+      // we unsubscribe and resubscribe if a new subscription (base) is present in desired subscriptions only once or
+      // when stale subscription (base) is not part of desired subscriptions
+      return (
+        subscriptions.new.some((s) => desiredBases.filter((a) => a === s.base).length === 1) ||
+        subscriptions.stale.some((s) => desiredBases.indexOf(s.base) === -1)
+      )
+    }
+
+    if (this.wsConnection && !this.connectionClosed() && shouldUnsubscribe()) {
       logger.debug(
         `closing WS connection for new subscriptions: ${JSON.stringify(subscriptions.desired)}`,
       )
