@@ -3007,7 +3007,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-test-adapter": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.14

@@ -25,7 +25,7 @@ export const dataProviderConfig = {
 export const mockDataProviderResponses = (): void => {
   for (const symbol of symbols) {
     nock(dataProviderConfig.coinmarketcap.providerUrl)
-      .post('/', { data: { base: symbol, quote: 'USD', endpoint: 'crypto' } })
+      .post('/', { id: '1', data: { base: symbol, quote: 'USD', endpoint: 'crypto' } })
       .reply(
         200,
         {

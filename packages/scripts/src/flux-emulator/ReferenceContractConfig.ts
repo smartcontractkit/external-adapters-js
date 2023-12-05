@@ -337,7 +337,7 @@ export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Pa
       name: config.name,
       id,
       method: 'POST',
-      data: JSON.stringify({ data: config.data?.data || config.data }),
+      data: JSON.stringify({ data: config.data }),
     }
     payloads.push(payload)
   }

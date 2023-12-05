@@ -1,3 +1,6 @@
 {
- "requests": []
+ "requests": [{
+  "from": "LINK",
+  "to": "USD"
+ }]
 }
