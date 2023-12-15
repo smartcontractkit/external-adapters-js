@@ -35,6 +35,7 @@ export const SoakTestBlacklist: string[] = [
   'fmpcloud',
   'frxeth-exchange-rate',
   'genesis-volatility',
+  'gm-token',
   'google-bigquery',
   'google-weather',
   'harmony',
