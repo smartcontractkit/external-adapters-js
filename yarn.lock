@@ -3806,6 +3806,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/gm-token-adapter@workspace:packages/composites/gm-token":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gm-token-adapter@workspace:packages/composites/gm-token"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.1
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    decimal.js: ^10.3.1
+    ethers: ^5.4.6
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/google-bigquery-adapter@workspace:*, @chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery":
   version: 0.0.0-use.local
   resolution: "@chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery"
