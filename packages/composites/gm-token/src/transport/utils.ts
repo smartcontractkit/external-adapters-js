@@ -3,7 +3,7 @@ import Decimal from 'decimal.js'
 // The signed prices represent the price of one unit of the token using a value with 30 decimals of precision.
 export const SIGNED_PRICE_DECIMALS = 30
 
-export type PriceData = { [asset: string]: { bids: number[]; asks: number[]; sources?: string[] } }
+export type PriceData = { [asset: string]: { bids: number[]; asks: number[] } }
 
 export type Source = { url: string; name: string }
 
