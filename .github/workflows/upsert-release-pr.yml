@@ -82,7 +82,7 @@ jobs:
         run: |
           git stash
       - name: Create Release Pull Request
-        uses: changesets/action@v1
+        uses: smartcontractkit/.github/actions/signed-commits@95b6030f4d23d5d87f53eb0f018f51806afa4da3 # changesets-signed-commits@1.0.1
         with:
           # This version command is not only necessary because of yarn pnp, but because the changeset action
           # performs git resets and we want to keep those changes, so we stash and then pop them here.
