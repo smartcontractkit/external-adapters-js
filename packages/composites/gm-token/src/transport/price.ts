@@ -265,9 +265,11 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
         throw new AdapterDataProviderError(
           {
             statusCode: 502,
-            message: `Cannot calculate median price for '${asset}'. Missing responses from '${missingSources.join(
-              ',',
-            )}'.`,
+            message: `Cannot calculate median price for '${asset}'. At least ${
+              this.settings.MIN_REQUIRED_SOURCE_SUCCESS
+            } EAs are required to provide a response but response was received only from ${
+              respondedSources.length
+            } EA(s). Missing responses from '${missingSources.join(',')}'.`,
           },
           {
             providerDataRequestedUnixMs: dataRequestedTimestamp,

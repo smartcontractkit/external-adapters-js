@@ -2,7 +2,7 @@
 
 exports[`execute price endpoint should return error when fewer than required source EAs respond 1`] = `
 {
-  "errorMessage": "Cannot calculate median price for 'ETH'. Missing responses from 'coinmetrics,ncfx'.",
+  "errorMessage": "Cannot calculate median price for 'ETH'. At least 2 EAs are required to provide a response but response was received only from 1 EA(s). Missing responses from 'coinmetrics,ncfx'.",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
