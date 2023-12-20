@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockTiingoEAResponseSuccess = (): nock.Scope =>
+export const mockTiingoEAResponseSuccess = (base): nock.Scope =>
   nock('http://localhost:8081', {
     encodedQueryParams: true,
   })
     .post('/', {
       data: {
         endpoint: 'crypto-lwba',
-        base: 'LINK',
+        base,
         quote: 'USD',
       },
     })
@@ -75,14 +75,14 @@ export const mockTiingoEAResponseSuccess = (): nock.Scope =>
     )
     .persist()
 
-export const mockNCFXEAResponseSuccess = (): nock.Scope =>
+export const mockNCFXEAResponseSuccess = (base): nock.Scope =>
   nock('http://localhost:8082', {
     encodedQueryParams: true,
   })
     .post('/', {
       data: {
         endpoint: 'crypto-lwba',
-        base: 'LINK',
+        base,
         quote: 'USD',
       },
     })
@@ -150,14 +150,14 @@ export const mockNCFXEAResponseSuccess = (): nock.Scope =>
     )
     .persist()
 
-export const mockCoinmetricsEAResponseSuccess = (): nock.Scope =>
+export const mockCoinmetricsEAResponseSuccess = (base): nock.Scope =>
   nock('http://localhost:8083', {
     encodedQueryParams: true,
   })
     .post('/', {
       data: {
         endpoint: 'crypto-lwba',
-        base: 'LINK',
+        base,
         quote: 'USD',
       },
     })
@@ -223,6 +223,88 @@ export const mockCoinmetricsEAResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
+
+export const mockNCFXEAResponseFailure = (base): nock.Scope =>
+  nock('http://localhost:8082', {
+    encodedQueryParams: true,
+  })
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base,
+        quote: 'USD',
+      },
+    })
+    .reply(500, () => ({}), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .persist()
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base: 'USDC',
+        quote: 'USD',
+      },
+    })
+    .reply(500, () => ({}), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .persist()
+
+export const mockCoinmetricsEAResponseFailure = (base): nock.Scope =>
+  nock('http://localhost:8083', {
+    encodedQueryParams: true,
+  })
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base,
+        quote: 'USD',
+      },
+    })
+    .reply(500, () => ({}), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .persist()
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base: 'USDC',
+        quote: 'USD',
+      },
+    })
+    .reply(500, () => ({}), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
     .persist()
 
 export const mockRPCResponses = (): nock.Scope =>

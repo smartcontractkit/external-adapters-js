@@ -1,9 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute price endpoint should return error when fewer than required source EAs respond 1`] = `
+{
+  "errorMessage": "Cannot calculate median price for 'ETH'. Missing responses from 'coinmetrics,ncfx'.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute price endpoint should return success 1`] = `
 {
   "data": {
     "result": 1.3774681066355723,
+    "sources": {
+      "LINK": [
+        "tiingo",
+        "coinmetrics",
+        "ncfx",
+      ],
+      "USDC": [
+        "tiingo",
+        "coinmetrics",
+        "ncfx",
+      ],
+    },
   },
   "result": 1.3774681066355723,
   "statusCode": 200,

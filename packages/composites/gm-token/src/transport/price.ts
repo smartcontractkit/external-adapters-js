@@ -17,6 +17,7 @@ import {
   PriceData,
   SIGNED_PRICE_DECIMALS,
   tokenAddresses,
+  Source,
 } from './utils'
 import abi from './../config/readerAbi.json'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
@@ -53,7 +54,6 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       abi,
       this.provider,
     )
-    this.abiEncoder = utils.defaultAbiCoder
     this.requester = dependencies.requester
   }
 
@@ -90,10 +90,10 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
 
     const providerDataRequestedUnixMs = Date.now()
 
-    const [indexPrices, longPrices, shortPrices] = await this.fetchPrices(
-      assets,
-      providerDataRequestedUnixMs,
-    )
+    const {
+      prices: [indexPrices, longPrices, shortPrices],
+      sources,
+    } = await this.fetchPrices(assets, providerDataRequestedUnixMs)
 
     const indexToken = tokenAddresses.arbitrum[index]
     const longToken = tokenAddresses.arbitrum[long]
@@ -105,7 +105,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       [indexPrices.ask, indexPrices.bid],
       [longPrices.ask, longPrices.bid],
       [shortPrices.ask, shortPrices.bid],
-      utils.keccak256(this.abiEncoder.encode(['string'], [this.settings.PNL_FACTOR_TYPE])),
+      utils.keccak256(utils.defaultAbiCoder.encode(['string'], [this.settings.PNL_FACTOR_TYPE])),
     ]
 
     // Prices have a spread from min to max. The last param (maximize-true/false) decides whether to maximize the market token price
@@ -122,6 +122,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
     return {
       data: {
         result,
+        sources,
       },
       statusCode: 200,
       result,
@@ -137,15 +138,15 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   private async fetchPrices(assets: string[], dataRequestedTimestamp: number) {
     // priceData holds raw bid/ask values per asset from source EAs response
     const priceData = {} as PriceData
-    assets.forEach((a) => {
-      priceData[a] = { bids: [], asks: [] }
-    })
 
     const sources = [
-      this.settings.TIINGO_ADAPTER_URL,
-      this.settings.COINMETRICS_ADAPTER_URL,
-      this.settings.NCFX_ADAPTER_URL,
+      { url: this.settings.TIINGO_ADAPTER_URL, name: 'tiingo' },
+      { url: this.settings.COINMETRICS_ADAPTER_URL, name: 'coinmetrics' },
+      { url: this.settings.NCFX_ADAPTER_URL, name: 'ncfx' },
     ]
+
+    //priceProviders contains assets with a list of sources where asset price was successfully fetched
+    const priceProviders: Record<string, string[]> = {}
 
     const promises = []
 
@@ -153,20 +154,21 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       const source = sources[i]
 
       const assetPromises = assets.map(async (asset) => {
+        const base = this.unwrapAsset(asset)
         const requestConfig = {
-          url: source,
+          url: source.url,
           method: 'POST',
           data: {
             data: {
               endpoint: 'crypto-lwba',
-              base: this.unwrapAsset(asset),
+              base,
               quote: 'USD',
             },
           },
         }
 
-        // try/catch is mostly needed in a case if one of source EAs fails to return a response,
-        // we will still get and calculate the median price based on responses of remaining EAs
+        // try/catch is needed in a case if one of source EAs fails to return a response,
+        // we will still get and calculate the median price based on responses of remaining EAs (based on MIN_REQUIRED_SOURCE_SUCCESS setting)
         try {
           const response = await this.requester.request<{ data: LwbaResponseDataFields['Data'] }>(
             JSON.stringify(requestConfig),
@@ -175,12 +177,18 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
           const { bid, ask } = response.response.data.data
 
           priceData[asset] = {
-            bids: [...priceData[asset].bids, bid],
-            asks: [...priceData[asset].asks, ask],
+            bids: [...(priceData[asset]?.bids || []), bid],
+            asks: [...(priceData[asset]?.asks || []), ask],
           }
+
+          priceProviders[base] = priceProviders[base]
+            ? [...new Set([...priceProviders[base], source.name])]
+            : [source.name]
         } catch (error) {
           const e = error as Error
-          logger.error(`Error fetching data for ${asset} from ${source}: ${e.message}`)
+          logger.error(
+            `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
+          )
         }
       })
 
@@ -189,30 +197,24 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
 
     await Promise.all(promises)
 
-    const medianValues = this.calculateMedian(assets, priceData, dataRequestedTimestamp)
+    this.validateRequiredResponses(priceProviders, sources, assets, dataRequestedTimestamp)
 
-    return medianValues.map((v) => ({
+    const medianValues = this.calculateMedian(assets, priceData)
+
+    const prices = medianValues.map((v) => ({
       ...v,
       ask: toFixed(v.ask, decimals[v.asset as keyof typeof decimals]),
       bid: toFixed(v.bid, decimals[v.asset as keyof typeof decimals]),
     }))
+
+    return {
+      prices,
+      sources: priceProviders,
+    }
   }
 
-  private calculateMedian(assets: string[], priceData: PriceData, dataRequestedTimestamp: number) {
+  private calculateMedian(assets: string[], priceData: PriceData) {
     return assets.map((asset) => {
-      if (!priceData[asset].bids.length || !priceData[asset].asks.length) {
-        throw new AdapterDataProviderError(
-          {
-            statusCode: 502,
-            message: `No data received for asset '${asset}' from all data providers.`,
-          },
-          {
-            providerDataRequestedUnixMs: dataRequestedTimestamp,
-            providerDataReceivedUnixMs: Date.now(),
-            providerIndicatedTimeUnixMs: undefined,
-          },
-        )
-      }
       // Since most of the gm markets have the same long and index tokens, we need to remove duplicate values from duplicate requests
       const medianBid = median([...new Set(priceData[asset].bids)])
       const medianAsk = median([...new Set(priceData[asset].asks)])
@@ -228,6 +230,53 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       return 'ETH'
     }
     return asset
+  }
+
+  /*
+    For every asset check that we received responses from the required number of source EAs to accurately calculate the median price of the asset.
+  */
+  private validateRequiredResponses(
+    priceProviders: Record<string, string[]> = {},
+    sources: Source[],
+    assets: string[],
+    dataRequestedTimestamp: number,
+  ) {
+    const allSource = sources.map((s) => s.name)
+    if (!Object.entries(priceProviders)?.length) {
+      throw new AdapterDataProviderError(
+        {
+          statusCode: 502,
+          message: `Missing responses from '${allSource.join(',')}' for all assets.`,
+        },
+        {
+          providerDataRequestedUnixMs: dataRequestedTimestamp,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      )
+    }
+
+    assets.forEach((asset) => {
+      const base = this.unwrapAsset(asset)
+      const respondedSources = priceProviders[base]
+
+      if (respondedSources.length < this.settings.MIN_REQUIRED_SOURCE_SUCCESS) {
+        const missingSources = allSource.filter((s) => !respondedSources.includes(s))
+        throw new AdapterDataProviderError(
+          {
+            statusCode: 502,
+            message: `Cannot calculate median price for '${asset}'. Missing responses from '${missingSources.join(
+              ',',
+            )}'.`,
+          },
+          {
+            providerDataRequestedUnixMs: dataRequestedTimestamp,
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        )
+      }
+    })
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

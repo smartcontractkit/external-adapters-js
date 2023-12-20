@@ -35,7 +35,7 @@ export const SoakTestBlacklist: string[] = [
   'fmpcloud',
   'frxeth-exchange-rate',
   'genesis-volatility',
-  'gm-token',
+  'gm-token', // Composite EA - Missing underlying source EAs
   'google-bigquery',
   'google-weather',
   'harmony',
