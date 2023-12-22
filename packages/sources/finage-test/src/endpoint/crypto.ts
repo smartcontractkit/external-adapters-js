@@ -9,6 +9,8 @@ import { wsTransport } from '../transport/crypto-ws'
 const assets: Record<string, string[]> = {
   AUTO: ['USD'],
   EOS: ['BNB'],
+  MIM: ['USD'],
+  RAI: ['USD'],
   USDP: ['USD'],
   WSTETH: ['ETH'],
   YFI: ['ETH'],
