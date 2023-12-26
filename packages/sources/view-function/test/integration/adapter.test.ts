@@ -65,5 +65,15 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should return error for invalid input', async () => {
+      const data = {
+        contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+        function: 'symbol() view returns (string)', // missing 'function' keyword
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
