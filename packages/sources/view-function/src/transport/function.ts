@@ -1,9 +1,11 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { ethers, utils } from 'ethers'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
+
+const logger = makeLogger('View Function')
 
 export type FunctionTransportTypes = BaseEndpointTypes
 
@@ -35,6 +37,7 @@ export class FunctionTransport extends SubscriptionTransport<FunctionTransportTy
     try {
       response = await this._handleRequest(param)
     } catch (e) {
+      logger.error(e)
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       response = {
         statusCode: 502,

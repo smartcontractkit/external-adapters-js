@@ -13,3 +13,31 @@ exports[`execute function endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute function endpoint should return success 2 1`] = `
+{
+  "data": {
+    "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute function endpoint should return success with parameters 1`] = `
+{
+  "data": {
+    "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
