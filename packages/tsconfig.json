@@ -45,6 +45,9 @@
       "path": "./composites/dydx-rewards"
     },
     {
+      "path": "./composites/gm-token"
+    },
+    {
       "path": "./composites/google-weather"
     },
     {
