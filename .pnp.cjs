@@ -72,6 +72,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/dydx-rewards"\
       },\
       {\
+        "name": "@chainlink/gm-token-adapter",\
+        "reference": "workspace:packages/composites/gm-token"\
+      },\
+      {\
         "name": "@chainlink/google-weather-adapter",\
         "reference": "workspace:packages/composites/google-weather"\
       },\
@@ -933,6 +937,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
+      ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
       ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
       ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],\
       ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
@@ -6543,6 +6548,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/gm-token-adapter", [\
+        ["workspace:packages/composites/gm-token", {\
+          "packageLocation": "./packages/composites/gm-token/",\
+          "packageDependencies": [\
+            ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["decimal.js", "npm:10.4.3"],\
+            ["ethers", "npm:5.7.2"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
