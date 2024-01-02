@@ -8,6 +8,7 @@ import { wsTransport } from '../transport/crypto-ws'
 // List of base to quote arrays that should be routed to REST only
 const assets: Record<string, string[]> = {
   AUTO: ['USD'],
+  BUSD: ['USD'],
   EOS: ['BNB'],
   MIM: ['USD'],
   RAI: ['USD'],
