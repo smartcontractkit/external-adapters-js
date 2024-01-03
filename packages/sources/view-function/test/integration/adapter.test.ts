@@ -42,5 +42,38 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should return success 2', async () => {
+      const data = {
+        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+        function: 'function latestAnswer() external view returns (int256)',
+      }
+      mockContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with parameters', async () => {
+      const data = {
+        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+        function: 'function getAnswer(uint256 roundId) external view returns (int256)',
+        inputParams: ['110680464442257317364'],
+      }
+      mockContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error for invalid input', async () => {
+      const data = {
+        contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+        function: 'symbol() view returns (string)', // missing 'function' keyword
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

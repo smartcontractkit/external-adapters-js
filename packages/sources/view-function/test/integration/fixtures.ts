@@ -54,3 +54,59 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+    .post('/', {
+      method: 'eth_call',
+      params: [{ to: '0x2c1d072e956affc0d435cb7ac38ef18d24d9127c', data: '0x50d25bcd' }, 'latest'],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request: JsonRpcPayload) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x000000000000000000000000000000000000000000000000000000005ad789f8',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+    .post('/', {
+      method: 'eth_call',
+      params: [
+        {
+          to: '0x2c1d072e956affc0d435cb7ac38ef18d24d9127c',
+          data: '0xb5ab58dc0000000000000000000000000000000000000000000000060000000000001df4',
+        },
+        'latest',
+      ],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request: JsonRpcPayload) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x000000000000000000000000000000000000000000000000000000005cf7ff3b',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
