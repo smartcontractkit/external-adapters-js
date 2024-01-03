@@ -16,7 +16,7 @@ On receiving FOO/USD request, if FOO is on the list of assets that are queried i
 excludesMap includes currency pairs {quote: [base ...]} which should not be inverted.
 */
 const excludesMap: Record<string, string[]> = {
-  USD: ['EUR', 'GBP', 'AUD', 'NZD', 'XAG', 'XAU', 'XPT', 'XPD', 'XCU'],
+  USD: ['EUR', 'GBP', 'AUD', 'NZD', 'XAG', 'XAU', 'XPT', 'XPD', 'XCU', 'PLN'],
 }
 
 export const forexReqTransformer = (
