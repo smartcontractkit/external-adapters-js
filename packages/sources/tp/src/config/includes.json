@@ -1408,6 +1408,17 @@
     ]
   },
   {
+    "from": "XPT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XPT",
+        "inverse": true
+      }
+    ]
+  },
+  {
     "from": "YER",
     "to": "USD",
     "includes": [
