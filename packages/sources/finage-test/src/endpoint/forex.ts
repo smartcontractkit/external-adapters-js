@@ -32,7 +32,7 @@ export const forexReqTransformer = (
     const quote = String(req.requestContext.data.quote).toUpperCase()
     const base = String(req.requestContext.data.base).toUpperCase()
 
-    if (!excludesMap[quote].includes(base)) {
+    if (excludesMap[quote] && !excludesMap[quote].includes(base)) {
       priceRequest.requestContext.data.base = quote
       priceRequest.requestContext.data.quote = base
       priceRequest.requestContext.priceMeta.inverse = true
@@ -50,12 +50,14 @@ export const endpoint = new ForexPriceEndpoint({
     .register('rest', httpTransport),
   defaultTransport: 'rest',
   customRouter: (req, adapterConfig) => {
-    const { base } = req.requestContext.data as typeof forexPriceInputParameters.validated & {
+    const { base, quote } = req.requestContext
+      .data as typeof forexPriceInputParameters.validated & {
       transport?: string
     }
     // Always route the listed assets to rest since Finage does not provide adequate
     // updates for them over websocket
-    if (assets.includes(base.toUpperCase())) {
+    // Checking both 'base' and 'quote' due to inverses of pairs
+    if (assets.includes(base.toUpperCase()) || assets.includes(quote.toUpperCase())) {
       return 'rest'
     } else {
       return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
