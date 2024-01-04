@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#3127](https://github.com/smartcontractkit/external-adapters-js/pull/3127) [`fa78cc773`](https://github.com/smartcontractkit/external-adapters-js/commit/fa78cc773dbe01d75cdb3cb69c00fec0cede2da5) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Support inverse for XPT
+
 ## 1.3.0
 
 ### Minor Changes
