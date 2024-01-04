@@ -30,12 +30,12 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "axios": "1.3.4",
+    "axios": "1.6.0",
     "nock": "13.2.9",
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.1",
+    "@chainlink/external-adapter-framework": "0.33.2",
     "tslib": "2.4.1"
   }
 }
