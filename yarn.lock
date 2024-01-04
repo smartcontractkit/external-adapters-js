@@ -2075,7 +2075,7 @@ __metadata:
     "@types/crypto-js": ^4.1.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    axios: 0.27.2
+    axios: 1.6.0
     crypto-js: ^4.2.0
     ethers: ^5.4.2
     mathjs: ^11.5.1
