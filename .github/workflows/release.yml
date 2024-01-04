@@ -83,6 +83,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION_ECR_PUBLIC }}
           aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-ecr-private: false
+          latest: true
 
   gh-release:
     name: GH Release
