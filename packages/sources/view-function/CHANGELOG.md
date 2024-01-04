@@ -1,5 +1,11 @@
 # @chainlink/view-function-adapter
 
+## 3.0.3
+
+### Patch Changes
+
+- [#3126](https://github.com/smartcontractkit/external-adapters-js/pull/3126) [`5a5d7775c`](https://github.com/smartcontractkit/external-adapters-js/commit/5a5d7775ce568e5bd9317c072c2fc8f134c41128) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added logger to FunctionTransport
+
 ## 3.0.2
 
 ### Patch Changes
