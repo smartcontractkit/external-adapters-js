@@ -2994,7 +2994,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/sinonjs__fake-timers": 8.1.5
-    axios: 0.27.2
+    axios: 1.6.0
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
