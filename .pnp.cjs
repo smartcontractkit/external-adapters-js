@@ -6647,7 +6647,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
             ["@types/ws", "npm:8.5.5"],\
-            ["axios", "npm:0.27.2"],\
+            ["axios", "npm:1.6.0"],\
             ["crypto", "npm:1.0.1"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\

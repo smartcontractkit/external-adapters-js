@@ -3888,7 +3888,7 @@ __metadata:
     "@types/node": 16.11.51
     "@types/sinonjs__fake-timers": 8.1.5
     "@types/ws": 8.5.5
-    axios: 0.27.2
+    axios: 1.6.0
     crypto: 1.0.1
     nock: 13.2.9
     tslib: 2.4.1
