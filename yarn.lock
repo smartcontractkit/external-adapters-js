@@ -3273,7 +3273,7 @@ __metadata:
     "@types/swagger-jsdoc": 6.0.1
     "@types/yaml": 1.9.7
     airtable: 0.11.6
-    axios: 0.22.0
+    axios: 1.6.0
     axios-mock-adapter: 1.20.0
     axios-observable: 1.3.0
     backoff-rxjs: 6.5.7
@@ -12439,15 +12439,6 @@ __metadata:
     axios: ^0.21.1
     rxjs: ^7.0.0
   checksum: e2af06de27b278779c24068a9091a65679e5a53d233508aaa786dce7295baad53d21187547363c847ad74702dc139642e3d3f2375d7ba9033b84b64332910cc0
-  languageName: node
-  linkType: hard
-
-"axios@npm:0.22.0":
-  version: 0.22.0
-  resolution: "axios@npm:0.22.0"
-  dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 83dc4d02e180f69aa9f0d1d0d50b84ec3603517230d58b4c3720ebd440c7e64ea86c5e892dc6e19061608e8e1103504a709d8baa4051c4b7652101b523d04b63
   languageName: node
   linkType: hard
 
