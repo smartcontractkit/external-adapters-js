@@ -4625,7 +4625,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/crypto-js", "npm:4.1.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["axios", "npm:0.27.2"],\
+            ["axios", "npm:1.6.0"],\
             ["crypto-js", "npm:4.2.0"],\
             ["ethers", "npm:5.7.2"],\
             ["mathjs", "npm:11.5.1"],\
