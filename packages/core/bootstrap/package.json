@@ -53,7 +53,7 @@
     "@types/promise-timeout": "1.3.1",
     "@types/redux-logger": "3.0.12",
     "@types/remote-redux-devtools": "0.5.8",
-    "@types/sinon": "10.0.19",
+    "@types/sinon": "10.0.20",
     "@types/uuid": "8.3.4",
     "@types/ws": "8.5.5",
     "mock-socket": "9.1.5",
