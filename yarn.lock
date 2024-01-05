@@ -2264,7 +2264,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    axios: 0.27.2
+    axios: 1.6.0
     fastify: ^3.29.4
     nock: 13.2.9
     tslib: ^2.3.1
