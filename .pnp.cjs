@@ -4625,7 +4625,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/crypto-js", "npm:4.1.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["axios", "npm:0.27.2"],\
+            ["axios", "npm:1.6.0"],\
             ["crypto-js", "npm:4.2.0"],\
             ["ethers", "npm:5.7.2"],\
             ["mathjs", "npm:11.5.1"],\
@@ -4838,7 +4838,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["axios", "npm:0.27.2"],\
+            ["axios", "npm:1.6.0"],\
             ["fastify", "npm:3.29.5"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
@@ -6030,7 +6030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:0.27.2"],\
+            ["axios", "npm:1.6.0"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6498,7 +6498,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:0.27.2"],\
+            ["axios", "npm:1.6.0"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6647,7 +6647,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
             ["@types/ws", "npm:8.5.5"],\
-            ["axios", "npm:0.27.2"],\
+            ["axios", "npm:1.6.0"],\
             ["crypto", "npm:1.0.1"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
