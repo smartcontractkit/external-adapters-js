@@ -4625,7 +4625,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/crypto-js", "npm:4.1.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["crypto-js", "npm:4.2.0"],\
             ["ethers", "npm:5.7.2"],\
             ["mathjs", "npm:11.5.1"],\
@@ -4786,7 +4786,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["ethers", "npm:5.4.7"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
@@ -4838,7 +4838,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["fastify", "npm:3.29.5"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
@@ -5239,7 +5239,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5652,7 +5652,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5961,7 +5961,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/swagger-jsdoc", "npm:6.0.1"],\
             ["@types/yaml", "npm:1.9.7"],\
             ["airtable", "npm:0.11.6"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["axios-mock-adapter", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.20.0"],\
             ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
             ["backoff-rxjs", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:6.5.7"],\
@@ -6030,7 +6030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6498,7 +6498,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6647,7 +6647,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
             ["@types/ws", "npm:8.5.5"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["crypto", "npm:1.0.1"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
@@ -16302,6 +16302,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["proxy-from-env", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.6.5", {\
+          "packageLocation": "./.yarn/cache/axios-npm-1.6.5-87404a12d6-e28d67b2d9.zip/node_modules/axios/",\
+          "packageDependencies": [\
+            ["axios", "npm:1.6.5"],\
+            ["follow-redirects", "virtual:87404a12d617a0f284f46fa368966665b2913bbd41d7ad24d282540aefa3360d8754e9717ae9b8aa4b57d1893372657e94658e9e39b9d068bbcf6ea38c2ceb2f#npm:1.15.4"],\
+            ["form-data", "npm:4.0.0"],\
+            ["proxy-from-env", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["axios-mock-adapter", [\
@@ -16317,7 +16327,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["axios-mock-adapter", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.20.0"],\
             ["@types/axios", null],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["is-blob", "npm:2.1.0"],\
             ["is-buffer", "npm:2.0.5"]\
@@ -16343,7 +16353,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
             ["@types/axios", null],\
             ["@types/rxjs", null],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.5"],\
             ["rxjs", "npm:7.4.0"]\
           ],\
           "packagePeers": [\
@@ -22383,6 +22393,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["follow-redirects", "npm:1.15.2"]\
           ],\
           "linkType": "SOFT"\
+        }],\
+        ["npm:1.15.4", {\
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.4-3384d6a415-e178d1deff.zip/node_modules/follow-redirects/",\
+          "packageDependencies": [\
+            ["follow-redirects", "npm:1.15.4"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:87404a12d617a0f284f46fa368966665b2913bbd41d7ad24d282540aefa3360d8754e9717ae9b8aa4b57d1893372657e94658e9e39b9d068bbcf6ea38c2ceb2f#npm:1.15.4", {\
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-74c4962fb5/0/cache/follow-redirects-npm-1.15.4-3384d6a415-e178d1deff.zip/node_modules/follow-redirects/",\
+          "packageDependencies": [\
+            ["follow-redirects", "virtual:87404a12d617a0f284f46fa368966665b2913bbd41d7ad24d282540aefa3360d8754e9717ae9b8aa4b57d1893372657e94658e9e39b9d068bbcf6ea38c2ceb2f#npm:1.15.4"],\
+            ["@types/debug", null],\
+            ["debug", "virtual:4758feee42453c0e31b0d2032a7b1362d6b06281699830d2da9a056f2cca72bd2c5cfdb74005fdf03a64876be8eaca2dd7b0fc2dc59d14318badf19cb22ba18e#npm:4.3.4"]\
+          ],\
+          "packagePeers": [\
+            "@types/debug"\
+          ],\
+          "linkType": "HARD"\
         }],\
         ["virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.2", {\
           "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-3a716be5a9/0/cache/follow-redirects-npm-1.15.2-1ec1dd82be-faa66059b6.zip/node_modules/follow-redirects/",\
