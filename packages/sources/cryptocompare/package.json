@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptocompare-adapter",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Chainlink cryptocompare adapter.",
   "keywords": [
     "Chainlink",
@@ -28,15 +28,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.1",
+    "@chainlink/external-adapter-framework": "0.33.2",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
-    "@types/sinonjs__fake-timers": "8.1.3",
-    "@types/supertest": "2.0.14",
+    "@types/sinonjs__fake-timers": "8.1.5",
+    "@types/supertest": "2.0.16",
     "nock": "13.2.9",
     "supertest": "6.2.4",
     "typescript": "5.0.4"

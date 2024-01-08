@@ -35,9 +35,9 @@
   },
   "dependencies": {
     "@authereum/starkware-crypto": "1.9.7-beta.7",
-    "@chainlink/external-adapter-framework": "0.33.1",
+    "@chainlink/external-adapter-framework": "0.33.2",
     "decimal.js": "10.3.1",
-    "ethers": "5.4.6",
+    "ethers": "5.4.7",
     "tslib": "2.4.1"
   }
 }

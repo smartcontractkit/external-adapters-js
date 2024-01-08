@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.7.0
+
+### Minor Changes
+
+- [#3108](https://github.com/smartcontractkit/external-adapters-js/pull/3108) [`2ead0dc48`](https://github.com/smartcontractkit/external-adapters-js/commit/2ead0dc48a71a2dd20f5822eb9c0b07d61d00eae) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds Scroll network layer 2 sequencer health adapter
+
 ## 2.6.1
 
 ### Patch Changes

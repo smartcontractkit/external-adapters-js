@@ -36,8 +36,7 @@ describe('websocket', () => {
     process.env['FOREX_WS_API_ENDPOINT'] = wsEndpointForex
     process.env['API_USERNAME'] = 'test-api-username'
     process.env['API_PASSWORD'] = 'test-api-password'
-    process.env['FOREX_WS_USERNAME'] = 'test-api-password'
-    process.env['FOREX_WS_PASSWORD'] = 'test-api-password'
+    process.env['FOREX_WS_API_KEY'] = 'test-api-key'
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockCryptoWebSocketServer(wsEndpoint)

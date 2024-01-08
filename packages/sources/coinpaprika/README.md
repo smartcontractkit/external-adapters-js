@@ -1,15 +1,16 @@
 # COINPAPRIKA
 
-![2.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     |            Description             |  Type  | Options | Default |
-| :-------: | :----------: | :--------------------------------: | :----: | :-----: | :-----: |
-|           | API_ENDPOINT | The HTTP URL to retrieve data from | string |         |         |
-|           |   API_KEY    |     An API key for Coinpaprika     | string |         |         |
+| Required? |      Name       |             Description             |  Type  | Options |                 Default                 |
+| :-------: | :-------------: | :---------------------------------: | :----: | :-----: | :-------------------------------------: |
+|           |  API_ENDPOINT   | The HTTP URL to retrieve data from  | string |         |                                         |
+|           |     API_KEY     |     An API key for Coinpaprika      | string |         |                                         |
+|           | WS_API_ENDPOINT | The WS API endpoint for Coinpaprika | string |         | `wss://streaming.coinpaprika.com/ticks` |
 
 ---
 
@@ -26,22 +27,22 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                         Options                                                                                                                                         | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#globalmarketcap-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                          Options                                                                                                                                           | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#globalmarketcap-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#marketcap-endpoint), [price](#crypto-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
-Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? |    Name    |    Aliases     |                              Description                               |  Type  |               Options               | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :------------: | :--------------------------------------------------------------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |    base    | `coin`, `from` |             The symbol of symbols of the currency to query             | string |                                     |         |            |                |
-|    ✅     |   quote    | `market`, `to` |                The symbol of the currency to convert to                | string |                                     |         |            |                |
-|           |   coinid   |                |            The coin ID (optional to use in place of `base`)            | string |                                     |         |            |                |
-|           | resultPath |                | The path to the result within the asset quote in the provider response | string | `market_cap`, `price`, `volume_24h` |         |            |                |
+| Required? |    Name    |    Aliases     |                                      Description                                       |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :------------------------------------------------------------------------------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |                     The symbol of symbols of the currency to query                     | string |                                     |         |            |                |
+|    ✅     |   quote    | `market`, `to` |                        The symbol of the currency to convert to                        | string |                                     |         |            |                |
+|           |   coinid   |                |                    The coin ID (optional to use in place of `base`)                    | string |                                     |         |            |                |
+|           | resultPath |                | The path to the result within the asset quote in the provider response (only for REST) | string | `market_cap`, `price`, `volume_24h` |         |            |                |
 
 ### Example
 
@@ -153,6 +154,104 @@ Request:
   }
 }
 ```
+
+---
+
+## Volume Endpoint
+
+`volume` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |    Name    |    Aliases     |                                      Description                                       |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :------------------------------------------------------------------------------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |                     The symbol of symbols of the currency to query                     | string |                                     |         |            |                |
+|    ✅     |   quote    | `market`, `to` |                        The symbol of the currency to convert to                        | string |                                     |         |            |                |
+|           |   coinid   |                |                    The coin ID (optional to use in place of `base`)                    | string |                                     |         |            |                |
+|           | resultPath |                | The path to the result within the asset quote in the provider response (only for REST) | string | `market_cap`, `price`, `volume_24h` |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "volume",
+    "base": "AAAA",
+    "coinid": "eth-ethereum",
+    "quote": "USD",
+    "resultPath": "price"
+  }
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "volume",
+    "base": "ETH",
+    "quote": "USD",
+    "resultPath": "volume_24h"
+  }
+}
+```
+
+</details>
+
+---
+
+## Marketcap Endpoint
+
+`marketcap` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |    Name    |    Aliases     |                                      Description                                       |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :------------------------------------------------------------------------------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |                     The symbol of symbols of the currency to query                     | string |                                     |         |            |                |
+|    ✅     |   quote    | `market`, `to` |                        The symbol of the currency to convert to                        | string |                                     |         |            |                |
+|           |   coinid   |                |                    The coin ID (optional to use in place of `base`)                    | string |                                     |         |            |                |
+|           | resultPath |                | The path to the result within the asset quote in the provider response (only for REST) | string | `market_cap`, `price`, `volume_24h` |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "marketcap",
+    "base": "AAAA",
+    "coinid": "eth-ethereum",
+    "quote": "USD",
+    "resultPath": "price"
+  }
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "marketcap",
+    "base": "ETH",
+    "quote": "USD",
+    "resultPath": "volume_24h"
+  }
+}
+```
+
+</details>
 
 ---
 

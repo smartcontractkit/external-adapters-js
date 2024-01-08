@@ -1,5 +1,35 @@
 # @chainlink/token-allocation-adapter
 
+## 1.11.20
+
+### Patch Changes
+
+- Updated dependencies [[`7ab888d56`](https://github.com/smartcontractkit/external-adapters-js/commit/7ab888d56115a059e61b6693f6a0ad0f3e6b7c7f)]:
+  - @chainlink/ncfx-adapter@3.5.1
+
+## 1.11.19
+
+### Patch Changes
+
+- Updated dependencies [[`0ddb8f746`](https://github.com/smartcontractkit/external-adapters-js/commit/0ddb8f746739a255cef4c82c868682212766574d)]:
+  - @chainlink/ncfx-adapter@3.5.0
+
+## 1.11.18
+
+### Patch Changes
+
+- Updated dependencies [[`a33290ca3`](https://github.com/smartcontractkit/external-adapters-js/commit/a33290ca3049edd95631ea05d2e41f0c22037bbf), [`0a5e11e1d`](https://github.com/smartcontractkit/external-adapters-js/commit/0a5e11e1ddfabb6b7d5ef2fc9f7ecaf972859159), [`f1a972cc9`](https://github.com/smartcontractkit/external-adapters-js/commit/f1a972cc968b33adc26f76013bba6d66babb78b5)]:
+  - @chainlink/cfbenchmarks-adapter@2.2.3
+  - @chainlink/coinpaprika-adapter@2.0.12
+  - @chainlink/finage-adapter@1.10.0
+
+## 1.11.17
+
+### Patch Changes
+
+- Updated dependencies [[`9f6633890`](https://github.com/smartcontractkit/external-adapters-js/commit/9f6633890aed89566a3f54f6109e577b18858ca6)]:
+  - @chainlink/cryptocompare-adapter@2.1.1
+
 ## 1.11.16
 
 ### Patch Changes

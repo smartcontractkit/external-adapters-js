@@ -45,6 +45,9 @@
       "path": "./composites/dydx-rewards"
     },
     {
+      "path": "./composites/gm-token"
+    },
+    {
       "path": "./composites/google-weather"
     },
     {
@@ -202,6 +205,9 @@
     },
     {
       "path": "./sources/chain-reserve-wallet"
+    },
+    {
+      "path": "./sources/clear-bank"
     },
     {
       "path": "./sources/coinapi"

@@ -21,6 +21,9 @@ Adapter that checks the Layer 2 Sequencer status
 |           |       `METIS_RPC_ENDPOINT`        |                               Metis RPC Endpoint                                |         |              https://andromeda.metis.io/?owner=1088              |
 |           |      `METIS_HEALTH_ENDPOINT`      |                              Metis Health Endpoint                              |         |            https://tokenapi.metis.io/andromeda/health            |
 |           |         `METIS_CHAIN_ID`          |                           The chain id to connect to                            |         |                               1088                               |
+|           |       `SCROLL_RPC_ENDPOINT`       |                               Scroll RPC Endpoint                               |         |                      https://rpc.scroll.io                       |
+|           |     `SCROLL_HEALTH_ENDPOINT`      |                             Scroll Health Endpoint                              |         |                                                                  |
+|           |         `SCROLL_CHAIN_ID`         |                           The chain id to connect to                            |         |                              534352                              |
 |           |  `STARKWARE_SEQUENCER_ENDPOINT`   |                       The Starkware Sequencer's endpoint                        |         |                https://alpha-mainnet.starknet.io                 |
 |           |  `STARKWARE_FEEDER_GATEWAY_URL`   |                  The Starkware Sequencer's feeder gateway URL                   |         |                          feeder_gateway                          |
 |           |      `STARKWARE_GATEWAY_URL`      |                      The Starkware Sequencer's gateway URL                      |         |                             gateway                              |

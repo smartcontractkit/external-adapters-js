@@ -45,6 +45,9 @@
       "path": "./composites/dydx-rewards/tsconfig.test.json"
     },
     {
+      "path": "./composites/gm-token/tsconfig.test.json"
+    },
+    {
       "path": "./composites/google-weather/tsconfig.test.json"
     },
     {
@@ -202,6 +205,9 @@
     },
     {
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/clear-bank/tsconfig.test.json"
     },
     {
       "path": "./sources/coinapi/tsconfig.test.json"

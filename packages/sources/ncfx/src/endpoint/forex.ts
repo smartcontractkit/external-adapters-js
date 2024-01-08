@@ -31,10 +31,10 @@ export function customInputValidation(
   _: AdapterRequest<typeof inputParameters.validated>,
   settings: typeof config.settings,
 ): AdapterError | undefined {
-  if (!settings.FOREX_WS_USERNAME || !settings.FOREX_WS_PASSWORD) {
+  if (!settings.FOREX_WS_API_KEY) {
     return new AdapterInputError({
       statusCode: 400,
-      message: 'Forex endpoint credentials are not set',
+      message: 'FOREX_WS_API_KEY is not set',
     })
   }
   return

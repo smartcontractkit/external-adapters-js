@@ -21,6 +21,7 @@ import {
   capitalize,
   codeList,
   getJsonFile,
+  getMdFile,
   saveText,
   wrapCode,
   wrapJson,
@@ -77,6 +78,8 @@ export class ReadmeGenerator {
   license: string
   frameworkVersion: 'v2' | 'v3'
   frameworkVersionBadgeUrl: string
+  knownIssuesPath: string
+  knownIssuesSection: string | null
 
   constructor(adapter: WorkspaceAdapter, verbose = false) {
     this.verbose = verbose
@@ -99,6 +102,7 @@ export class ReadmeGenerator {
     this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
     this.license = packageJson.license ?? ''
 
+    this.knownIssuesPath = this.adapterPath + 'docs/known-issues.md'
     this.schemaPath = this.adapterPath + 'schemas/env.json'
     this.rateLimitsPath = this.adapterPath + 'src/config/limits.json'
     this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
@@ -173,12 +177,17 @@ export class ReadmeGenerator {
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
     }
+
+    if (fs.existsSync(this.knownIssuesPath)) {
+      this.knownIssuesSection = getMdFile(this.knownIssuesPath) || null
+    }
   }
 
   buildReadme(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Generating README text`)
 
     this.addIntroSection()
+    this.addKnownIssuesSection()
     this.addEnvVarSection()
     this.addRateLimitSection()
     this.addInputParamsSection()
@@ -196,6 +205,11 @@ export class ReadmeGenerator {
       this.readmeText += `Base URL ${this.defaultBaseUrl}\n\n`
     }
     this.readmeText += `${genSig}\n\n`
+  }
+
+  addKnownIssuesSection(): void {
+    if (this.verbose) console.log(`${this.adapterPath}: Adding known issues`)
+    if (this.knownIssuesSection) this.readmeText += `${this.knownIssuesSection}\n\n`
   }
 
   addEnvVarSection(): void {

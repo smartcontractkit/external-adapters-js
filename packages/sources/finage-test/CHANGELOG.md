@@ -1,5 +1,23 @@
 # @chainlink/finage-test-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- [#3125](https://github.com/smartcontractkit/external-adapters-js/pull/3125) [`f4e4c55a2`](https://github.com/smartcontractkit/external-adapters-js/commit/f4e4c55a2600d6bc22b9c4e03e0acc06635072bc) Thanks [@amit-momin](https://github.com/amit-momin)! - Fix forex endpoint custom routing to account for inverses. Add pairs to the rest only routing list.
+
+- [#3128](https://github.com/smartcontractkit/external-adapters-js/pull/3128) [`118ccca02`](https://github.com/smartcontractkit/external-adapters-js/commit/118ccca02328b32d1e8cd92da1065330b0ad9c1f) Thanks [@amit-momin](https://github.com/amit-momin)! - Added pair to the forex endpoint exclude inverse list
+
+## 1.4.0
+
+### Minor Changes
+
+- [#3074](https://github.com/smartcontractkit/external-adapters-js/pull/3074) [`f1a972cc9`](https://github.com/smartcontractkit/external-adapters-js/commit/f1a972cc968b33adc26f76013bba6d66babb78b5) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Finage v2 and v3 inverse behavior
+
+### Patch Changes
+
+- [#3089](https://github.com/smartcontractkit/external-adapters-js/pull/3089) [`d94f8fd71`](https://github.com/smartcontractkit/external-adapters-js/commit/d94f8fd71edefea57d045ff242a6ad7d47cd650f) Thanks [@amit-momin](https://github.com/amit-momin)! - Added custom request routing to REST for specific pairs
+
 ## 1.3.11
 
 ### Patch Changes

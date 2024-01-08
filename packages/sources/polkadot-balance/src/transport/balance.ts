@@ -1,11 +1,11 @@
-import { config } from '../config'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { TransportDependencies, Transport } from '@chainlink/external-adapter-framework/transports'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
-  AdapterRequest,
   AdapterResponse,
   makeLogger,
+  sleep,
   splitArrayIntoChunks,
 } from '@chainlink/external-adapter-framework/util'
 import { ApiPromise, WsProvider } from '@polkadot/api'
@@ -19,42 +19,70 @@ interface ProviderResponse {
   }
 }
 
-export class BalanceTransport implements Transport<BaseEndpointTypes> {
-  name!: string
-  responseCache!: ResponseCache<BaseEndpointTypes>
+export type BalanceTransportTypes = BaseEndpointTypes
+
+type RequestParams = typeof inputParameters.validated
+
+export class BalanceTransport extends SubscriptionTransport<BalanceTransportTypes> {
+  api!: ApiPromise
+  config!: BalanceTransportTypes['Settings']
+  endpointName!: string
 
   async initialize(
-    dependencies: TransportDependencies<BaseEndpointTypes>,
-    _: typeof config.settings,
-    __: string,
-    name: string,
+    dependencies: TransportDependencies<BalanceTransportTypes>,
+    adapterSettings: BalanceTransportTypes['Settings'],
+    endpointName: string,
+    transportName: string,
   ): Promise<void> {
-    this.responseCache = dependencies.responseCache
-    this.name = name
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.config = adapterSettings
+    this.endpointName = endpointName
+    const wsProvider = new WsProvider(adapterSettings.RPC_URL)
+    this.api = await ApiPromise.create({ provider: wsProvider })
+    await this.api.isReady
   }
 
-  async foregroundExecute(
-    req: AdapterRequest<typeof inputParameters.validated>,
-    settings: typeof config.settings,
-  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const wsProvider = new WsProvider(settings.RPC_URL)
-    const api = await ApiPromise.create({ provider: wsProvider })
-    await api.isReady
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  }
 
+  async handleRequest(param: RequestParams) {
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(param)
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      response = {
+        statusCode: 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    params: RequestParams,
+  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
     const result: { address: string; balance: string }[] = []
 
     // Can't utilize a "multi" query here since it doesn't retrieve a snapshot of the balance directly
     // Also addresses are not returned in the results preventing balances to be mapped to them
-    const addresses = req.requestContext.data.addresses.map(({ address }) => address)
+    const addresses = params.addresses.map(({ address }) => address)
     try {
       // Break addresses down into batches to execute asynchronously
       // Firing requests for all addresses all at once could hit rate limiting for large address pools
-      const batchedAddresses = splitArrayIntoChunks(addresses, settings.BATCH_SIZE)
+      const batchedAddresses = splitArrayIntoChunks(addresses, this.config.BATCH_SIZE)
       for (const batch of batchedAddresses) {
         await Promise.all(
           batch.map((address) => {
-            const balancePromise = api.query.system.account(address).then((codec) => {
+            const balancePromise = this.api.query.system.account(address).then((codec) => {
               const balance = codec.toJSON() as unknown as ProviderResponse
               if (balance) {
                 result.push({
@@ -79,7 +107,6 @@ export class BalanceTransport implements Transport<BaseEndpointTypes> {
         },
       }
     }
-    const providerDataReceivedUnixMs = Date.now()
 
     const response = {
       data: {
@@ -89,12 +116,15 @@ export class BalanceTransport implements Transport<BaseEndpointTypes> {
       statusCode: 200,
       timestamps: {
         providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.responseCache.write(this.name, [{ params: req.requestContext.data, response }])
     return response
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 

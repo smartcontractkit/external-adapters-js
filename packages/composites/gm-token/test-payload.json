@@ -1,0 +1,8 @@
+{
+ "requests": [{
+  "index":"LINK",
+  "long": "LINK",
+  "short": "USDC",
+  "market": "0x7f1fa204bb700853D36994DA19F830b6Ad18455C"
+ }]
+}

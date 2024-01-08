@@ -1,11 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute function endpoint should return error for invalid input 1`] = `
+{
+  "errorMessage": "unsupported fragment (argument="value", value="symbol () view returns (string)", code=INVALID_ARGUMENT, version=abi/5.7.0)",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute function endpoint should return success 1`] = `
 {
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute function endpoint should return success 2 1`] = `
+{
+  "data": {
+    "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute function endpoint should return success with parameters 1`] = `
+{
+  "data": {
+    "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

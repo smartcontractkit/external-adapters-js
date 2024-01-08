@@ -15,10 +15,9 @@ describe('websocket', () => {
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
   const data = {
-    base: 'ETH',
-    quote: 'USD',
+    base: 'USD',
+    quote: 'JPY',
     endpoint: 'forex',
-    transport: 'ws',
   }
 
   beforeAll(async () => {

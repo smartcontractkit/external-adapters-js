@@ -12,6 +12,7 @@ export const codeList = (a: (string | number)[] = []): string =>
     .join(', ')
 
 export const getJsonFile = (path: string): JsonObject => JSON.parse(cat(path).toString())
+export const getMdFile = (path: string): string => cat(path).toString()
 
 export const saveText = (fileData: FileData | FileData[]): void => {
   if (!Array.isArray(fileData)) fileData = [fileData]

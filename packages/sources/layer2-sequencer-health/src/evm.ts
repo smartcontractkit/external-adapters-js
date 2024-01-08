@@ -51,6 +51,12 @@ export const sendEVMDummyTransaction = async (
       gasPrice: 0,
       to: wallet.address,
     },
+    [Networks.Scroll]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
   }
   await race<ethers.providers.TransactionResponse>({
     timeout,
@@ -73,6 +79,10 @@ const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> =
     timestamp: 0,
   },
   [Networks.Metis]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Scroll]: {
     block: 0,
     timestamp: 0,
   },
@@ -105,12 +115,12 @@ export const checkOptimisticRollupBlockHeight = (
         message: `Block found #${block} is previous to last seen #${lastSeenBlock[network].block} with more than ${deltaBlocks} difference`,
       })
     if (!_isStaleBlock(block, delta)) {
-      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       Logger.info(
         `[${network}] Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
           lastSeenBlock[network].block
         } was at ${lastSeenBlock[network].timestamp}`,
       )
+      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       return true
     }
     Logger.warn(
