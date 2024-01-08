@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stader-balance-adapter",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "description": "Chainlink Stader balance adapter.",
   "keywords": [
     "Chainlink",
