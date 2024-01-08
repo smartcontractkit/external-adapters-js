@@ -2041,7 +2041,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    "@types/ws": 8.5.5
+    "@types/ws": 8.5.10
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -3200,7 +3200,7 @@ __metadata:
     "@types/remote-redux-devtools": 0.5.8
     "@types/sinon": 10.0.20
     "@types/uuid": 8.3.4
-    "@types/ws": 8.5.5
+    "@types/ws": 8.5.10
     ajv: ^8.6.2
     axios: ^0.24.0
     decimal.js: ^10.3.1
@@ -3887,7 +3887,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/sinonjs__fake-timers": 8.1.5
-    "@types/ws": 8.5.5
+    "@types/ws": 8.5.10
     axios: 1.6.0
     crypto: 1.0.1
     nock: 13.2.9
@@ -5207,7 +5207,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/sinonjs__fake-timers": 8.1.5
-    "@types/ws": 8.5.5
+    "@types/ws": 8.5.10
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -11178,12 +11178,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:8.5.5":
-  version: 8.5.5
-  resolution: "@types/ws@npm:8.5.5"
+"@types/ws@npm:8.5.10":
+  version: 8.5.10
+  resolution: "@types/ws@npm:8.5.10"
   dependencies:
     "@types/node": "*"
-  checksum: d00bf8070e6938e3ccf933010921c6ce78ac3606696ce37a393b27a9a603f7bd93ea64f3c5fa295a2f743575ba9c9a9fdb904af0f5fe2229bf2adf0630386e4a
+  checksum: 3ec416ea2be24042ebd677932a462cf16d2080393d8d7d0b1b3f5d6eaa4a7387aaf0eefb99193c0bfd29444857cf2e0c3ac89899e130550dc6c14ada8a46d25e
   languageName: node
   linkType: hard
 
