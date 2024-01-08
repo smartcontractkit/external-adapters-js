@@ -3270,7 +3270,7 @@ __metadata:
     "@types/command-line-usage": 5.0.4
     "@types/jest": 27.5.2
     "@types/shelljs": 0.8.15
-    "@types/swagger-jsdoc": 6.0.1
+    "@types/swagger-jsdoc": 6.0.4
     "@types/yaml": 1.9.7
     airtable: 0.11.6
     axios: 1.6.0
@@ -11138,10 +11138,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/swagger-jsdoc@npm:6.0.1":
-  version: 6.0.1
-  resolution: "@types/swagger-jsdoc@npm:6.0.1"
-  checksum: c15fcbf7415d7da6bfe908a44160a96ed9706844f74187f3424a6e65f822e08bc4f26e0fffd3bedb0f1eff60d8618952d105f31c0742df8c94e6c6b0fa9de59a
+"@types/swagger-jsdoc@npm:6.0.4":
+  version: 6.0.4
+  resolution: "@types/swagger-jsdoc@npm:6.0.4"
+  checksum: 1fa9310435653c51e1a0a82b777bf87b416f5a20e5bea99d9e4343589ad73e9403b5c417381c1f061810ca74ecda6a2e05acd4bf3c6c8bd1d005edc4f006f0af
   languageName: node
   linkType: hard
 
