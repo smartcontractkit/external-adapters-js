@@ -5958,7 +5958,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/command-line-usage", "npm:5.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/shelljs", "npm:0.8.15"],\
-            ["@types/swagger-jsdoc", "npm:6.0.1"],\
+            ["@types/swagger-jsdoc", "npm:6.0.4"],\
             ["@types/yaml", "npm:1.9.7"],\
             ["airtable", "npm:0.11.6"],\
             ["axios", "npm:1.6.0"],\
@@ -14674,10 +14674,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/swagger-jsdoc", [\
-        ["npm:6.0.1", {\
-          "packageLocation": "./.yarn/cache/@types-swagger-jsdoc-npm-6.0.1-086ace7e7d-c15fcbf741.zip/node_modules/@types/swagger-jsdoc/",\
+        ["npm:6.0.4", {\
+          "packageLocation": "./.yarn/cache/@types-swagger-jsdoc-npm-6.0.4-595c64efe2-1fa9310435.zip/node_modules/@types/swagger-jsdoc/",\
           "packageDependencies": [\
-            ["@types/swagger-jsdoc", "npm:6.0.1"]\
+            ["@types/swagger-jsdoc", "npm:6.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
