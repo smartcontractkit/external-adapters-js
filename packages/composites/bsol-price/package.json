@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bsol-price-adapter",
-  "version": "2.2.79",
+  "version": "2.2.80",
   "description": "Chainlink bsol-price adapter.",
   "keywords": [
     "Chainlink",
