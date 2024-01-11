@@ -4,7 +4,7 @@ import { config } from './config'
 import { price } from './endpoint'
 
 export const adapter = new PriceAdapter({
-  defaultEndpoint: 'price',
+  defaultEndpoint: price.name,
   name: 'GSR',
   endpoints: [price],
   config,

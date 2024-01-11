@@ -18,6 +18,11 @@ describe('websocket', () => {
     base: 'ETH',
     quote: 'USD',
   }
+  const lwbaData = {
+    base: 'ETH',
+    quote: 'USD',
+    endpoint: 'crypto-lwba',
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -55,6 +60,16 @@ describe('websocket', () => {
   describe('websocket endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot({
+        timestamps: {
+          providerDataReceivedUnixMs: expect.any(Number),
+          providerDataStreamEstablishedUnixMs: expect.any(Number),
+        },
+      })
+    })
+
+    it('lwba endpoint should return success', async () => {
+      const response = await testAdapter.request(lwbaData)
       expect(response.json()).toMatchSnapshot({
         timestamps: {
           providerDataReceivedUnixMs: expect.any(Number),
