@@ -1,5 +1,6 @@
 import { BaseEndpointTypes } from '../endpoint/forex'
 import { TraderMadeWebsocketReverseMappingTransport } from './utils'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 
 interface Message {
   symbol: string
@@ -15,40 +16,33 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const wsTransport: TraderMadeWebsocketReverseMappingTransport<WsTransportTypes, string> =
-  new TraderMadeWebsocketReverseMappingTransport<WsTransportTypes, string>({
-    url: (context) => {
-      wsTransport.apiKey = context.adapterSettings.WS_API_KEY as string
-      return context.adapterSettings.WS_API_ENDPOINT
-    },
-    handlers: {
-      message(message) {
-        const pair = wsTransport.getReverseMapping(message.symbol.toLowerCase())
+export const config = {
+  url: (context: EndpointContext<WsTransportTypes>) => {
+    wsTransport.apiKey = context.adapterSettings.WS_API_KEY as string
+    return context.adapterSettings.WS_API_ENDPOINT
+  },
+  handlers: {
+    message(message: Message) {
+      const pair = wsTransport.getReverseMapping(message.symbol.toUpperCase())
 
-        if (!pair) {
-          return []
-        }
-        return [
-          {
-            params: pair,
-            response: {
-              data: {
-                result: message.mid,
-              },
+      if (!pair) {
+        return []
+      }
+      return [
+        {
+          params: pair,
+          response: {
+            data: {
               result: message.mid,
             },
+            result: message.mid,
           },
-        ]
-      },
+        },
+      ]
     },
+  },
+  builders: {},
+}
 
-    builders: {
-      subscribeMessage: (params) => {
-        wsTransport.setReverseMapping(`${params.base}${params.quote}`.toLowerCase(), params)
-        return {
-          userKey: wsTransport.apiKey,
-          symbol: `${params.base}${params.quote}`.toUpperCase(),
-        }
-      },
-    },
-  })
+export const wsTransport: TraderMadeWebsocketReverseMappingTransport =
+  new TraderMadeWebsocketReverseMappingTransport(config)
