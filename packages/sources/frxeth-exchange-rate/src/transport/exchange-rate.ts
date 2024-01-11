@@ -9,9 +9,9 @@ import { TimestampedAdapterResponse, sleep } from '@chainlink/external-adapter-f
 type ExchangeRateTransportTypes = BaseEndpointTypes
 type RequestParams = typeof inputParameters.validated
 type GetPricesResponse = {
-  isBadData: boolean
-  priceLow: BigNumber
-  priceHigh: BigNumber
+  _isBadData: boolean
+  _priceLow: BigNumber
+  _priceHigh: BigNumber
 }
 
 class ExchangeRateTransport extends SubscriptionTransport<ExchangeRateTransportTypes> {
@@ -53,11 +53,12 @@ class ExchangeRateTransport extends SubscriptionTransport<ExchangeRateTransportT
       provider,
     )
 
-    const { isBadData, priceLow, priceHigh } = (await fraxEthPrice.getPrices()) as GetPricesResponse
+    const { _isBadData, _priceLow, _priceHigh } =
+      (await fraxEthPrice.getPrices()) as GetPricesResponse
 
     let response: TimestampedAdapterResponse
 
-    if (isBadData != false) {
+    if (_isBadData != false) {
       response = {
         statusCode: 502,
         errorMessage: 'Contract is reporting stale or bad data for getPrices.',
@@ -68,7 +69,7 @@ class ExchangeRateTransport extends SubscriptionTransport<ExchangeRateTransportT
         },
       }
     } else {
-      const price = param.priceType.toUpperCase() == 'HIGH' ? priceHigh : priceLow
+      const price = param.priceType.toUpperCase() == 'HIGH' ? _priceHigh : _priceLow
       response = {
         data: {
           result: price.toString(),
