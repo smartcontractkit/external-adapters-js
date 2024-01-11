@@ -31,3 +31,20 @@ exports[`websocket lwba endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`websocket lwba endpoint with override should return success 1`] = `
+{
+  "data": {
+    "ask": 2651.01,
+    "bid": 2652.26,
+    "mid": 2651.63,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1677876163000,
+  },
+}
+`;

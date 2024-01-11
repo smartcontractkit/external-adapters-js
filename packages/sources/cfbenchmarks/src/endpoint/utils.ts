@@ -1,3 +1,10 @@
+import { inputParameters } from './crypto'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
+
 export const getPrimaryId = (base: string, quote: string): string => `${base}${quote}_RTI`
 export const getSecondaryId = (base: string, quote: string): string => `U_${base}${quote}_RTI`
 
@@ -8,6 +15,22 @@ type BaseQuoteToIdLookup = { [id: string]: { base: string; quote: string } }
 const overridenBaseQuoteFromId: BaseQuoteToIdLookup = {
   BRTI: { base: 'BTC', quote: 'USD' },
 }
+
+export function customInputValidation(
+  req: AdapterRequest<typeof inputParameters.validated>,
+): AdapterError | undefined {
+  const { base, quote, index } = req.requestContext.data
+  // Base and quote must be provided OR index must be provided
+  if (!(index || (base && quote))) {
+    const missingInput = !index ? 'index' : 'base /or quote'
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Error: missing ${missingInput} input parameters`,
+    })
+  }
+  return
+}
+
 export const getBaseQuoteFromId = (id: string): { base: string; quote: string } => {
   const override = overridenBaseQuoteFromId[id]
   if (override) return override

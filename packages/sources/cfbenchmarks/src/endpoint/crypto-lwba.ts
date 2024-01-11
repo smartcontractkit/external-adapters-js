@@ -1,5 +1,5 @@
-import { additionalInputValidation, inputParameters } from './crypto'
-import { getSecondaryId } from './utils'
+import { inputParameters } from './crypto'
+import { customInputValidation, getSecondaryId } from './utils'
 import { wsTransport } from '../transport/crypto-lwba'
 import { config } from '../config'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
@@ -13,13 +13,12 @@ export type BaseEndpointTypes = {
 }
 
 export const lwbaReqTransformer = (req: AdapterRequest<typeof inputParameters.validated>): void => {
-  additionalInputValidation(req.requestContext.data)
-
-  if (!req.requestContext.data.index) {
-    req.requestContext.data.index = getSecondaryId(
-      req.requestContext.data.base as string,
-      req.requestContext.data.quote as string,
-    )
+  const { base, quote, index } = req.requestContext.data
+  if (base?.endsWith('_RTI')) {
+    // If 'base' ends with _RTI it means the value is overridden, use that value for index
+    req.requestContext.data.index = base
+  } else if (!index) {
+    req.requestContext.data.index = getSecondaryId(base as string, quote as string)
   }
 
   // Clear base quote to ensure an exact match in the cache with index
@@ -32,4 +31,5 @@ export const endpoint = new LwbaEndpoint({
   transport: wsTransport,
   inputParameters: inputParameters,
   requestTransforms: [lwbaReqTransformer],
+  customInputValidation,
 })

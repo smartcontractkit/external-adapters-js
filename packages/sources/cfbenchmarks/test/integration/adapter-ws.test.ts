@@ -20,6 +20,16 @@ describe('websocket', () => {
     index: 'U_ETHUSD_RTI',
     endpoint: 'cryptolwba',
   }
+  const dataLwbaOverride = {
+    endpoint: 'cryptolwba',
+    base: 'LINK',
+    quote: 'USD',
+    overrides: {
+      cfbenchmarks: {
+        LINK: 'U_LINKUSD_CHA_RTI',
+      },
+    },
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -42,7 +52,8 @@ describe('websocket', () => {
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(dataCrypto)
     await testAdapter.request(dataLwba)
-    await testAdapter.waitForCache(2)
+    await testAdapter.request(dataLwbaOverride)
+    await testAdapter.waitForCache(3)
   })
 
   afterAll(async () => {
@@ -79,6 +90,12 @@ describe('websocket', () => {
   describe('lwba endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(dataLwba)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('with override should return success', async () => {
+      const response = await testAdapter.request(dataLwbaOverride)
+      expect(response.statusCode).toEqual(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
