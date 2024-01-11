@@ -1,5 +1,11 @@
 # @chainlink/frxeth-exchange-rate-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3142](https://github.com/smartcontractkit/external-adapters-js/pull/3142) [`0734e093e`](https://github.com/smartcontractkit/external-adapters-js/commit/0734e093e1c10f338aaace13d552f0060576ec23) Thanks [@alecgard](https://github.com/alecgard)! - Update FraxEthDualOracle contract address and ABI.
+
 ## 1.0.5
 
 ### Patch Changes
