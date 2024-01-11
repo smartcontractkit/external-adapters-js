@@ -105,7 +105,7 @@
           }
         ],
         "internalType": "struct ConstructorParams",
-        "name": "params",
+        "name": "_params",
         "type": "tuple"
       }
     ],
@@ -578,7 +578,7 @@
     "inputs": [
       {
         "internalType": "contract IPriceSourceReceiver",
-        "name": "fraxOracle",
+        "name": "_fraxOracle",
         "type": "address"
       }
     ],
@@ -591,32 +591,32 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "ethPerFrxEthCurveEma",
+        "name": "_ethPerFrxEthCurveEma",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "fraxPerFrxEthTwap",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "isBadDataEthUsdChainlink",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "usdPerEthChainlink",
+        "name": "_fraxPerFrxEthTwap",
         "type": "uint256"
       },
       {
         "internalType": "bool",
-        "name": "isBadDataFraxUsdChainlink",
+        "name": "_isBadDataEthUsdChainlink",
         "type": "bool"
       },
       {
         "internalType": "uint256",
-        "name": "usdPerFraxChainlink",
+        "name": "_usdPerEthChainlink",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isBadDataFraxUsdChainlink",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdPerFraxChainlink",
         "type": "uint256"
       }
     ],
@@ -624,17 +624,17 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "isBadData",
+        "name": "_isBadData",
         "type": "bool"
       },
       {
         "internalType": "uint256",
-        "name": "priceLow",
+        "name": "_priceLow",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "priceHigh",
+        "name": "_priceHigh",
         "type": "uint256"
       }
     ],
@@ -660,12 +660,12 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "isBadData",
+        "name": "_isBadData",
         "type": "bool"
       },
       {
         "internalType": "uint256",
-        "name": "usdPerFrax",
+        "name": "_usdPerFrax",
         "type": "uint256"
       }
     ],
@@ -678,7 +678,7 @@
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "ethPerFrxEth",
+        "name": "_ethPerFrxEth",
         "type": "uint256"
       }
     ],
@@ -750,17 +750,17 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "isBadData",
+        "name": "_isBadData",
         "type": "bool"
       },
       {
         "internalType": "uint256",
-        "name": "priceLow",
+        "name": "_priceLow",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "priceHigh",
+        "name": "_priceHigh",
         "type": "uint256"
       }
     ],
@@ -773,17 +773,17 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "isBadDataNormal",
+        "name": "_isBadDataNormal",
         "type": "bool"
       },
       {
         "internalType": "uint256",
-        "name": "priceLowNormal",
+        "name": "_priceLowNormal",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "priceHighNormal",
+        "name": "_priceHighNormal",
         "type": "uint256"
       }
     ],
@@ -809,12 +809,12 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "isBadData",
+        "name": "_isBadData",
         "type": "bool"
       },
       {
         "internalType": "uint256",
-        "name": "usdPerEth",
+        "name": "_usdPerEth",
         "type": "uint256"
       }
     ],
@@ -883,7 +883,7 @@
         "type": "string"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -910,7 +910,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "maximumPrice",
+        "name": "_maximumPrice",
         "type": "uint256"
       }
     ],
@@ -923,7 +923,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "newMaxOracleDelay",
+        "name": "_newMaxOracleDelay",
         "type": "uint256"
       }
     ],
@@ -936,7 +936,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "newMaxOracleDelay",
+        "name": "_newMaxOracleDelay",
         "type": "uint256"
       }
     ],
@@ -949,7 +949,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "minimumPrice",
+        "name": "_minimumPrice",
         "type": "uint256"
       }
     ],
@@ -962,7 +962,7 @@
     "inputs": [
       {
         "internalType": "uint32",
-        "name": "newTwapDuration",
+        "name": "_newTwapDuration",
         "type": "uint32"
       }
     ],
