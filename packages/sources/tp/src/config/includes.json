@@ -1359,7 +1359,7 @@
       {
         "from": "USD",
         "to": "XAU",
-        "inverse": true
+        "inverse": false
       }
     ]
   },
@@ -1370,7 +1370,7 @@
       {
         "from": "USD",
         "to": "XAG",
-        "inverse": true
+        "inverse": false
       }
     ]
   },
@@ -1414,7 +1414,7 @@
       {
         "from": "USD",
         "to": "XPT",
-        "inverse": true
+        "inverse": false
       }
     ]
   },
