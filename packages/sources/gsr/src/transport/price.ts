@@ -1,9 +1,7 @@
-import crypto from 'crypto'
-import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import axios from 'axios'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { getToken } from './authutils'
 
 const logger = makeLogger('GSR WS price')
 
@@ -12,6 +10,8 @@ type WsMessage = {
   data: {
     symbol: string
     price: number
+    bidPrice: number
+    askPrice: number
     ts: number
   }
 }
@@ -22,57 +22,16 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export interface TokenError {
-  success: false
-  ts: number
-  error: string
-}
-
-export interface TokenSuccess {
-  success: true
-  ts: number
-  token: string
-  validUntil: string
-}
-
-export type AccessTokenResponse = TokenError | TokenSuccess
-
-const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1000000
-
-const generateSignature = (userId: string, publicKey: string, privateKey: string, ts: number) =>
-  crypto
-    .createHmac('sha256', privateKey)
-    .update(`userId=${userId}&apiKey=${publicKey}&ts=${ts}`)
-    .digest('hex')
-
-const getToken = async (settings: typeof config.settings) => {
-  logger.debug('Fetching new access token')
-
-  const userId = settings.WS_USER_ID
-  const publicKey = settings.WS_PUBLIC_KEY
-  const privateKey = settings.WS_PRIVATE_KEY
-  const ts = currentTimeNanoSeconds()
-  const signature = generateSignature(userId, publicKey, privateKey, ts)
-  const response = await axios.post<AccessTokenResponse>(`${settings.API_ENDPOINT}/token`, {
-    apiKey: publicKey,
-    userId,
-    ts,
-    signature,
-  })
-
-  if (!response.data.success) {
-    logger.error('Unable to get access token')
-    throw new Error(response.data.error)
-  }
-
-  return response.data.token
-}
-
 export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context) => ({
     headers: {
-      'x-auth-token': await getToken(context.adapterSettings),
+      'x-auth-token': await getToken(
+        context.adapterSettings.API_ENDPOINT,
+        context.adapterSettings.WS_USER_ID,
+        context.adapterSettings.WS_PUBLIC_KEY,
+        context.adapterSettings.WS_PRIVATE_KEY,
+      ),
       'x-auth-userid': context.adapterSettings.WS_USER_ID,
     },
   }),
@@ -104,6 +63,9 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
             result: message.data.price,
             data: {
               result: message.data.price,
+              mid: message.data.price,
+              bid: message.data.bidPrice,
+              ask: message.data.askPrice,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
@@ -118,11 +80,11 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
     // after you've already subscribed & unsubscribed to that pair on the same WS connection.
     subscribeMessage: (params) => ({
       action: 'subscribe',
-      symbols: [`${params.base.toUpperCase()}.${params.quote.toUpperCase()}`],
+      symbols: [`${params.base}.${params.quote}`.toUpperCase()],
     }),
     unsubscribeMessage: (params) => ({
       action: 'unsubscribe',
-      symbols: [`${params.base.toUpperCase()}.${params.quote.toUpperCase()}`],
+      symbols: [`${params.base}.${params.quote}`.toUpperCase()],
     }),
   },
 })
