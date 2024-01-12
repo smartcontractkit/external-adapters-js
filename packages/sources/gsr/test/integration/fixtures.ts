@@ -1,8 +1,8 @@
 import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
-export const mockTokenSuccess = (): nock.Scope =>
-  nock('https://oracle.prod.gsr.io', {
+const generateMockTokenSuccess = (basePath: string): nock.Scope =>
+  nock(basePath, {
     encodedQueryParams: true,
   })
     .post('/v1/token', {
@@ -32,9 +32,13 @@ export const mockTokenSuccess = (): nock.Scope =>
     )
     .persist()
 
+export const mockTokenSuccess = () => generateMockTokenSuccess('https://oracle.prod.gsr.io')
+
 const base = 'ETH'
 const quote = 'USD'
 const price = 1234
+const bidPrice = 1233
+const askPrice = 1235
 const time = 1669345393482
 
 export const mockWebSocketServer = (URL: string) => {
@@ -47,6 +51,8 @@ export const mockWebSocketServer = (URL: string) => {
           data: {
             symbol: `${base.toUpperCase()}.${quote.toUpperCase()}`,
             price,
+            bidPrice,
+            askPrice,
             ts: time * 1e6,
           },
         }),
