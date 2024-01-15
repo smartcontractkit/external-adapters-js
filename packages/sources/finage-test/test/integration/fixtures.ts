@@ -82,7 +82,7 @@ export const mockResponseSuccess = (): nock.Scope =>
       {
         symbol: 'WTIUSD',
         price: 98.91,
-        timestamp: 1659017220,
+        timestamp: 1514764861000,
       },
       [
         'Content-Type',
@@ -97,10 +97,18 @@ export const mockResponseSuccess = (): nock.Scope =>
     )
     .persist()
     .get('/last/etf/CSPX')
-    .query({ apikey: 'fake-api-key' })
+    .query({ apikey: 'fake-api-key', country: 'uk' })
     .reply(200, {
       symbol: 'CSPX',
       price: 445.64,
+      timestamp: 1685972473955,
+    })
+    .persist()
+    .get('/last/etf/C3M')
+    .query({ apikey: 'fake-api-key' })
+    .reply(200, {
+      symbol: 'C3M',
+      price: 118.78,
       timestamp: 1685972473955,
     })
     .persist()
@@ -191,23 +199,32 @@ export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
 }
 
 export const mockEtfWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
+    {
+      s: 'CSPX',
+      p: 445.76,
+      dc: '0.0000',
+      dd: '0.0000',
+      t: 1514764861000,
+    },
+    {
+      s: 'C3M',
+      p: 118.78,
+      dc: '0.0000',
+      dd: '0.0000',
+      t: 1514764861000,
+    },
+  ]
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    let counter = 0
     const parseMessage = () => {
-      if (counter++ === 0) {
-        socket.send(
-          JSON.stringify({
-            s: 'CSPX',
-            p: 445.76,
-            dc: '0.0000',
-            dd: '0.0000',
-            t: 1685958155,
-          }),
-        )
-      }
+      setTimeout(() => {
+        wsResponse.forEach((message) => {
+          socket.send(JSON.stringify(message))
+        })
+      }, 10)
     }
-    socket.on('message', parseMessage)
+    parseMessage()
   })
 
   return mockWsServer

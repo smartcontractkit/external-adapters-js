@@ -10,7 +10,7 @@ exports[`rest commodities endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
-    "providerIndicatedTimeUnixMs": 1659017220,
+    "providerIndicatedTimeUnixMs": 1514764861000,
   },
 }
 `;
@@ -48,9 +48,9 @@ exports[`rest eod endpoint should return success 1`] = `
 exports[`rest etf endpoint should return success 1`] = `
 {
   "data": {
-    "result": 445.64,
+    "result": 118.78,
   },
-  "result": 445.64,
+  "result": 118.78,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1652198967193,
@@ -86,6 +86,21 @@ exports[`rest stock endpoint should return success 1`] = `
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataRequestedUnixMs": 1652198967193,
     "providerIndicatedTimeUnixMs": 1628899200621,
+  },
+}
+`;
+
+exports[`rest uk etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 445.64,
+  },
+  "result": 445.64,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1685972473955,
   },
 }
 `;

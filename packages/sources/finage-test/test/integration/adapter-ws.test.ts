@@ -39,9 +39,14 @@ describe('websocket', () => {
     quote: 'USD',
     transport: 'ws',
   }
-  const etfData = {
+  const ukEtfData = {
     endpoint: 'uk_etf',
     base: 'CSPX',
+    transport: 'ws',
+  }
+  const etfData = {
+    endpoint: 'etf',
+    base: 'C3M',
     transport: 'ws',
   }
 
@@ -72,8 +77,9 @@ describe('websocket', () => {
     await testAdapter.request(stockData)
     await testAdapter.request(forexData)
     await testAdapter.request(cryptoData)
+    await testAdapter.request(ukEtfData)
     await testAdapter.request(etfData)
-    await testAdapter.waitForCache(4)
+    await testAdapter.waitForCache(5)
   })
 
   afterAll(async () => {
@@ -103,6 +109,13 @@ describe('websocket', () => {
   describe('crypto endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(cryptoData)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('uk etf endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(ukEtfData)
       expect(response.json()).toMatchSnapshot()
     })
   })
