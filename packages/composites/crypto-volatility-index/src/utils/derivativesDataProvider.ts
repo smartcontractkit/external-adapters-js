@@ -13,10 +13,12 @@ const currencyEndpoint = `${EXCHANGE_URL}/get_index`
 const bookDataEndpoint = `${EXCHANGE_URL}/get_book_summary_by_currency`
 const instrumentEndpoint = `${EXCHANGE_URL}/get_instruments`
 const expirationHour = 8
+const markPriceDeviationThreashold = 1
 
 export type DeribitOptionDataResponse = {
   instrument_name: string
   mid_price: string
+  mark_price: string
   underlying_price: number
 }
 
@@ -24,6 +26,7 @@ export type OptionData = {
   instrumentName: string
   strikePrice: Decimal
   midPrice: Decimal | undefined
+  markPrice: Decimal
   underlyingPrice: Decimal
   expiration: number
   type: string
@@ -116,11 +119,20 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
     const hourAgo = moment().utc().subtract(1, 'hours').unix() * 1000
 
     result.map(convertToOptionData).forEach((optionData: OptionData) => {
-      const { instrumentName, expiration, type } = optionData
+      const { instrumentName, expiration, type, markPrice, midPrice } = optionData
       if (
         olderThanHour(instrumentName, hourAgo, instruments) &&
         moment.unix(expiration).utc().weekday() == 5
       ) {
+        if (
+          markPrice &&
+          midPrice &&
+          Decimal.abs(midPrice.sub(markPrice))
+            .div(markPrice)
+            .greaterThan(markPriceDeviationThreashold)
+        ) {
+          optionData.midPrice = optionData.markPrice
+        }
         if (type === 'C') {
           if (!calls[expiration]) calls[expiration] = []
           calls[expiration].push(optionData)
@@ -185,12 +197,13 @@ function findNearMonthExpirations(calls: Record<number, Array<OptionData>>) {
 }
 
 function convertToOptionData(option: DeribitOptionDataResponse) {
-  const { instrument_name, mid_price, underlying_price } = option
+  const { instrument_name, mid_price, underlying_price, mark_price } = option
   const [, expiration, strikePrice, type] = instrument_name.split('-')
   const optionData: OptionData = {
     instrumentName: instrument_name,
     strikePrice: new Decimal(strikePrice),
     midPrice: mid_price ? new Decimal(mid_price) : undefined,
+    markPrice: new Decimal(mark_price),
     underlyingPrice: new Decimal(underlying_price),
     expiration: moment.utc(expiration, 'DDMMMYY').unix(),
     type,
