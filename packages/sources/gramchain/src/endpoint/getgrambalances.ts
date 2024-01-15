@@ -4,23 +4,26 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { httpTransport } from '../transport/getgrambalances'
 import { config } from '../config'
 
-export const inputParameters = new InputParameters({
-  custodianID: {
-    type: 'string',
-    default: 'Cache',
-    description: 'The identifier of the custodian',
+export const inputParameters = new InputParameters(
+  {
+    custodianID: {
+      type: 'string',
+      default: 'Cache',
+      description: 'The identifier of the custodian',
+    },
+    metalCode: {
+      type: 'string',
+      default: 'AU',
+      description: 'The symbol of the metal',
+    },
+    utilizationLockCode: {
+      type: 'string',
+      default: 'Locked',
+      description: 'The status of the utilization',
+    },
   },
-  metalCode: {
-    type: 'string',
-    default: 'AU',
-    description: 'The symbol of the metal',
-  },
-  utilizationLockCode: {
-    type: 'string',
-    default: 'Locked',
-    description: 'The status of the utilization',
-  },
-})
+  [{ custodianID: 'Cache', metalCode: 'AU', utilizationLockCode: 'Locked' }],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
