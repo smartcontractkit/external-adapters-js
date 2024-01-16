@@ -1,5 +1,11 @@
 # @chainlink/polkadot-balance-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- [#3130](https://github.com/smartcontractkit/external-adapters-js/pull/3130) [`45038be71`](https://github.com/smartcontractkit/external-adapters-js/commit/45038be71ca433291229324174c50023b2513afc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 1.3.0
 
 ### Minor Changes

@@ -16,7 +16,7 @@ export const config = new AdapterConfig({
     description: 'The address of the deployed Frax Dual Oracle Price Logic contract',
     type: 'string',
     required: true,
-    default: '0xb12c19c838499e3447afd9e59274b1be56b1546a',
+    default: '0x350a9841956D8B0212EAdF5E14a449CA85FAE1C0',
   },
   BACKGROUND_EXECUTE_MS: {
     description:

@@ -1,5 +1,17 @@
 ## v1.1.0
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3139](https://github.com/smartcontractkit/external-adapters-js/pull/3139) [`aa1a0b6ce`](https://github.com/smartcontractkit/external-adapters-js/commit/aa1a0b6ce2526841581878a63ff7c425590ea0f8) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Changed asset subscription logic to reconnect on every asset change
+
+## 2.0.12
+
+### Patch Changes
+
+- [#3130](https://github.com/smartcontractkit/external-adapters-js/pull/3130) [`45038be71`](https://github.com/smartcontractkit/external-adapters-js/commit/45038be71ca433291229324174c50023b2513afc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 2.0.11
 
 ### Patch Changes

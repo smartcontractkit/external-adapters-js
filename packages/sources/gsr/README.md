@@ -1,6 +1,6 @@
 # GSR
 
-![2.1.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gsr/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gsr/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -24,13 +24,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                     Options                                      | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                     Options                                                                                     | Default |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#price-endpoint), [crypto](#price-endpoint), [crypto_lwba](#price-endpoint), [cryptolwba](#price-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `crypto`, `price`, `price-ws`.
+Supported names for this endpoint are: `crypto`, `crypto-lwba`, `crypto_lwba`, `cryptolwba`, `price`, `price-ws`.
 
 ### Input Params
 
