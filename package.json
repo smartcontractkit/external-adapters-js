@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.100.0",
+  "version": "1.101.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -64,7 +64,7 @@
     "lint-staged": "11.2.6",
     "prettier": "2.8.8",
     "source-map-support": "0.5.21",
-    "ts-node": "10.9.1",
+    "ts-node": "10.9.2",
     "typescript": "5.0.4",
     "yo": "4.3.1"
   },

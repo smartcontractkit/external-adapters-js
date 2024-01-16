@@ -72,8 +72,9 @@ export const mockResponseSuccessBlock = (): void => {
       'Origin',
     ])
 
-  nock('https://andromeda.metis.io/?owner=1088')
+  nock('https://andromeda.metis.io/')
     .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .query({ owner: 1088 })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
       'Content-Type',
       'application/json',
@@ -177,8 +178,9 @@ export const mockResponseFailureBlock = (): void => {
       'Origin',
     ])
 
-  nock('https://andromeda.metis.io/?owner=1088')
+  nock('https://andromeda.metis.io')
     .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .query({ owner: 1088 })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
       'Content-Type',
       'application/json',

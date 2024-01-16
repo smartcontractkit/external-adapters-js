@@ -114,7 +114,6 @@ describe('execute', () => {
 
   describe('arbitrum network', () => {
     it('should return success when all methods succeed', async () => {
-      mockResponseSuccessHealth()
       mockResponseSuccessBlock()
 
       const data: AdapterRequest = {
@@ -127,13 +126,13 @@ describe('execute', () => {
     })
 
     it('should return transaction submission is successful', async () => {
-      mockResponseFailureHealth()
       mockResponseFailureBlock()
 
       const data: AdapterRequest = {
         id,
         data: {
           network: 'arbitrum',
+          requireTxFailure: true,
         },
       }
 
@@ -141,7 +140,6 @@ describe('execute', () => {
     })
 
     it('should return failure if tx not required even if it would be successful', async () => {
-      mockResponseFailureHealth()
       mockResponseFailureBlock()
 
       const data: AdapterRequest = {
@@ -313,6 +311,7 @@ describe('execute', () => {
         id,
         data: {
           network: 'metis',
+          requireTxFailure: true,
         },
       }
 
