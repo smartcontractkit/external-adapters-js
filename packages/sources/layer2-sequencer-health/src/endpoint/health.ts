@@ -17,9 +17,9 @@ import {
 export const supportedEndpoints = ['health']
 
 const defaultRequireTxFailure = {
-  [Networks.Arbitrum]: true,
+  [Networks.Arbitrum]: false,
   [Networks.Base]: false,
-  [Networks.Metis]: true,
+  [Networks.Metis]: false,
   [Networks.Optimism]: false,
   [Networks.Scroll]: false,
   [Networks.Starkware]: true,
@@ -44,7 +44,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
   requireTxFailure: {
     required: false,
     description:
-      'Require the EA to attempt a tx as final proof whether the chain is healthy. This is `true` by default except when `network`=`base`',
+      'Require the EA to attempt a tx as final proof whether the chain is healthy. This is `false` by default except when `network`=`starkware`',
   },
 }
 
