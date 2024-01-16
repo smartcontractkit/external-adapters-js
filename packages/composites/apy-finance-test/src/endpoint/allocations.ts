@@ -2,20 +2,20 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
-import { types } from '@chainlink/token-allocation-adapter'
 import { BigNumber, ethers } from 'ethers'
 import assetAllocationAbi from '../abi/IAssetAllocation.json'
 import registryAbi from '../abi/IRegistry.json'
 import { config } from '../config'
 import { CompositeHttpTransport } from '../transports/composite-http'
 import { Multicall } from '../utils/multicall'
+import { TokenAllocation } from '@chainlink/token-allocation-test-adapter'
 
 const logger = makeLogger('apy-finance-test allocations')
 
 const inputParameters = new InputParameters({})
 
 export type AllocationsResponse = {
-  Data: types.TokenAllocation[]
+  Data: TokenAllocation[]
   Result: null
 }
 
@@ -65,7 +65,7 @@ const compositeTransport = new CompositeHttpTransport<EndpointTypes>({
         allocationIds,
       )
 
-      const allocations: types.TokenAllocation[] = allocationIds.map((_id, index) => ({
+      const allocations: TokenAllocation[] = allocationIds.map((_id, index) => ({
         symbol: symbols[index],
         balance: BigNumber.from(balances[index]).toString(),
         decimals: BigNumber.from(decimals[index]).toNumber(),

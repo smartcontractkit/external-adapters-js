@@ -1,144 +1,92 @@
-# Chainlink Apy-finance-test Composite Adapter
+# APY_FINANCE_TEST
 
-This adapter calculates APY Finance TVL (Total Value Locked).
+![0.1.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/apy-finance-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
-## Configuration
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-The adapter takes the following environment variables:
+## Environment Variables
 
-| Required? |              Name              |                        Description                        | Options |                 Defaults to                  |
-| :-------: | :----------------------------: | :-------------------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |           `RPC_URL`            |          The RPC URL to connect to the EVM chain          |         |                                              |
-|    ✅     |           `CHAIN_ID`           |                The chain id to connect to                 |         |                      1                       |
-|    ✅     |       `REGISTRY_ADDRESS`       | The address of the deployed APY.Finance Registry contract |         |                                              |
-|    ✅     |      `MULTICALL_ADDRESS`       |          The address of the Multicall3 contract           |         | `0xcA11bde05977b3631167028862bE2a173976CA11` |
-|    ✅     | `TOKEN_ALLOCATION_ADAPTER_URL` |      The URL of a Token Allocation external adapter       |         |                                              |
+| Required? |           Name            |                        Description                        |  Type  | Options |                   Default                    |
+| :-------: | :-----------------------: | :-------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
+|           |   COINGECKO_ADAPTER_URL   |       The location of a CoinGecko external adapter        | string |         |                                              |
+|           | COINMARKETCAP_ADAPTER_URL |     The location of a CoinMarketCap external adapter      | string |         |                                              |
+|           |  COINMETRICS_ADAPTER_URL  |      The location of a CoinMetrics external adapter       | string |         |                                              |
+|           |  COINPAPRIKA_ADAPTER_URL  |      The location of a CoinPaprika external adapter       | string |         |                                              |
+|           |  COINRANKING_ADAPTER_URL  |      The location of a CoinRanking external adapter       | string |         |                                              |
+|           | CRYPTOCOMPARE_ADAPTER_URL |     The location of a CryptoCompare external adapter      | string |         |                                              |
+|           |     KAIKO_ADAPTER_URL     |         The location of a Kaiko external adapter          | string |         |                                              |
+|           |    TIINGO_ADAPTER_URL     |         The location of a Tiingo external adapter         | string |         |                                              |
+|           |   AMBERDATA_ADAPTER_URL   |       The location of a Amberdata external adapter        | string |         |                                              |
+|           |    COINAPI_ADAPTER_URL    |        The location of a CoinApi external adapter         | string |         |                                              |
+|           |     NCFX_ADAPTER_URL      |          The location of a NCFX external adapter          | string |         |                                              |
+|           | CFBENCHMARKS_ADAPTER_URL  |      The location of a CFBenchmarks external adapter      | string |         |                                              |
+|           |    FINAGE_ADAPTER_URL     |         The location of a Finage external adapter         | string |         |                                              |
+|    ✅     |          RPC_URL          |          The RPC URL to connect to the EVM chain          | string |         |                                              |
+|    ✅     |         CHAIN_ID          |                The chain id to connect to                 | number |         |                     `1`                      |
+|    ✅     |     MULTICALL_ADDRESS     |          The address of the Multicall3 contract           | string |         | `0xcA11bde05977b3631167028862bE2a173976CA11` |
+|    ✅     |     REGISTRY_ADDRESS      | The address of the deployed APY.Finance Registry contract | string |         |                                              |
 
-**Additional defaults will be set on the Token Allocation adapter**
+---
 
-This composite adapter calls the Token Allocation adapter, which is run separately. As such, configuration for the Token Allocation adapter will apply to this adapter. See the [Token Allocation README](../../non-deployable/token-allocation/README.md) for more details.
+## Data Provider Rate Limits
 
-## Running
+There are no rate limits for this adapter.
 
-See the [Composite Adapter README](../README.md) for more information on how to get started.
+---
 
-## TVL endpoint
+## Input Parameters
 
-### Input Params
+| Required? |   Name   |     Description     |  Type  |                          Options                           | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [allocations](#allocations-endpoint), [tvl](#tvl-endpoint) |  `tvl`  |
 
-| Required? |            Name            |               Description                | Options |            Defaults to            |
-| :-------: | :------------------------: | :--------------------------------------: | :-----: | :-------------------------------: |
-|           |          `source`          |   The data provider to query data from   |         | Token Allocation adapter defaults |
-|           | `quote`, `to`, or `market` | The symbol of the currency to convert to |         | Token Allocation adapter defaults |
+## Allocations Endpoint
 
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "source": "tiingo",
-    "quote": "USD",
-    "endpoint": "tvl"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "data": {
-    "sources": [],
-    "payload": {
-      "DAI": {
-        "quote": {
-          "USD": {
-            "price": 1.000068324337687
-          }
-        }
-      },
-      "USDC": {
-        "quote": {
-          "USD": {
-            "price": 1.0002022721488166
-          }
-        }
-      },
-      "USDT": {
-        "quote": {
-          "USD": {
-            "price": 1.000222811595245
-          }
-        }
-      }
-    },
-    "result": 902487.3652257232
-  },
-  "result": 902487.3652257232,
-  "timestamps": {
-    "providerDataRequestedUnixMs": 1687278960418,
-    "providerDataReceivedUnixMs": 1687278960436
-  },
-  "statusCode": 200,
-  "meta": {
-    "adapterName": "APY_FINANCE",
-    "metrics": {
-      "feedId": "{\"source\":\"tiingo\",\"quote\":\"usd\"}"
-    }
-  }
-}
-```
-
-## Allocations endpoint
+`allocations` is the only supported name for this endpoint.
 
 ### Input Params
 
-None
+There are no input parameters for this endpoint.
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
-  "id": "1",
   "data": {
     "endpoint": "allocations"
   }
 }
 ```
 
-### Sample Output
+---
+
+## Tvl Endpoint
+
+`tvl` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | source |                |   The data provider to query data from   | string |         |         |            |                |
+|           | quote  | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
+
+### Example
+
+Request:
 
 ```json
 {
-  "data": [
-    {
-      "symbol": "DAI",
-      "balance": "0",
-      "decimals": 18
-    },
-    {
-      "symbol": "USDC",
-      "balance": "902304854084",
-      "decimals": 6
-    },
-    {
-      "symbol": "USDT",
-      "balance": "0",
-      "decimals": 6
-    }
-  ],
-  "result": null,
-  "timestamps": {
-    "providerDataRequestedUnixMs": 1687278825996,
-    "providerDataReceivedUnixMs": 1687278851062
-  },
-  "statusCode": 200,
-  "meta": {
-    "adapterName": "APY_FINANCE",
-    "metrics": {
-      "feedId": "N/A"
-    }
+  "data": {
+    "endpoint": "tvl",
+    "source": "coingecko",
+    "quote": "EUR"
   }
 }
 ```
+
+---
+
+MIT License

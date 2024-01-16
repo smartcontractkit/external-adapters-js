@@ -4,6 +4,8 @@ import { DNSQueryResponse } from './../types'
 
 export const supportedEndpoints = ['dnsQuery']
 
+export const description = 'DNS Query lets query DNS over HTTPS (DoH)'
+
 export type TInputParameters = { name: string; type: string; do: string; cd: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   name: {
