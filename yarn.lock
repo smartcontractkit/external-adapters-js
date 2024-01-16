@@ -2607,7 +2607,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
-    axios: ^0.24.0
+    axios: ^1.0.0
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -3202,7 +3202,7 @@ __metadata:
     "@types/uuid": 8.3.4
     "@types/ws": 8.5.10
     ajv: ^8.6.2
-    axios: ^0.24.0
+    axios: ^1.0.0
     decimal.js: ^10.3.1
     fast-redact: ^3.0.1
     fastify: ^3.29.4
@@ -3987,7 +3987,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.16
-    axios: ^0.26.1
+    axios: ^1.0.0
     decimal.js: ^10.3.1
     nock: 13.2.9
     supertest: 6.2.4
@@ -4005,7 +4005,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/sinonjs__fake-timers": 8.1.5
-    axios: ^0.24.0
+    axios: ^1.0.0
     nock: 13.2.9
     tslib: 2.4.1
     typescript: 5.0.4
@@ -4153,7 +4153,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.16
-    axios: ^0.24.0
+    axios: ^1.0.0
     csv-parse: ^4.16.0
     decimal.js: ^10.3.1
     moment: ^2.29.4
@@ -4247,7 +4247,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.16
-    axios: ^0.24.0
+    axios: ^1.0.0
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -4405,7 +4405,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/node": 16.11.51
-    axios: 0.27.2
+    axios: 1.6.0
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -4416,7 +4416,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
   dependencies:
-    axios: ^0.24.0
+    axios: ^1.0.0
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -4493,7 +4493,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/sinon": 10.0.20
-    axios: ^0.24.0
+    axios: ^1.0.0
     sinon: 12.0.1
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -12447,16 +12447,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.27.2":
-  version: 0.27.2
-  resolution: "axios@npm:0.27.2"
-  dependencies:
-    follow-redirects: ^1.14.9
-    form-data: ^4.0.0
-  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
-  languageName: node
-  linkType: hard
-
 "axios@npm:1.3.6":
   version: 1.3.6
   resolution: "axios@npm:1.3.6"
@@ -12488,21 +12478,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.24.0":
-  version: 0.24.0
-  resolution: "axios@npm:0.24.0"
+"axios@npm:^1.0.0":
+  version: 1.6.5
+  resolution: "axios@npm:1.6.5"
   dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
-  dependencies:
-    follow-redirects: ^1.14.8
-  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
+    follow-redirects: ^1.15.4
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: e28d67b2d9134cb4608c44d8068b0678cfdccc652742e619006f27264a30c7aba13b2cd19c6f1f52ae195b5232734925928fb192d5c85feea7edd2f273df206d
   languageName: node
   linkType: hard
 
@@ -17904,13 +17887,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.0":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.15.0":
   version: 1.15.4
   resolution: "follow-redirects@npm:1.15.4"
   peerDependenciesMeta:
     debug:
       optional: true
   checksum: e178d1deff8b23d5d24ec3f7a94cde6e47d74d0dc649c35fc9857041267c12ec5d44650a0c5597ef83056ada9ea6ca0c30e7c4f97dbf07d035086be9e6a5b7b6
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.4":
+  version: 1.15.5
+  resolution: "follow-redirects@npm:1.15.5"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 5ca49b5ce6f44338cbfc3546823357e7a70813cecc9b7b768158a1d32c1e62e7407c944402a918ea8c38ae2e78266312d617dc68783fac502cbb55e1047b34ec
   languageName: node
   linkType: hard
 
