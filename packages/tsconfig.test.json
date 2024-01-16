@@ -114,6 +114,9 @@
       "path": "./non-deployable/token-allocation/tsconfig.test.json"
     },
     {
+      "path": "./non-deployable/token-allocation-test/tsconfig.test.json"
+    },
+    {
       "path": "./scripts/tsconfig.test.json"
     },
     {

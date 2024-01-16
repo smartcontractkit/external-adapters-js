@@ -2214,7 +2214,7 @@ __metadata:
   resolution: "@chainlink/apy-finance-test-adapter@workspace:packages/composites/apy-finance-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.33.2
-    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/token-allocation-test-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.16
@@ -5102,6 +5102,22 @@ __metadata:
     "@chainlink/tiingo-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    decimal.js: ^10.3.1
+    ethers: ^5.4.6
+    nock: 13.2.9
+    tslib: ^2.3.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/token-allocation-test-adapter@workspace:*, @chainlink/token-allocation-test-adapter@workspace:packages/non-deployable/token-allocation-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/token-allocation-test-adapter@workspace:packages/non-deployable/token-allocation-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    axios: 1.6.0
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.9

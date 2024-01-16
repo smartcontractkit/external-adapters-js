@@ -4,7 +4,7 @@ import { AddressInfo } from 'net'
 import nock from 'nock'
 import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
-import { createAdapter, mockAllocationsEndpoint, mockTokenAllocationsAdapter } from './fixtures'
+import { createAdapter, mockAllocationsEndpoint, mockSourceAdapter } from './fixtures'
 import { config } from '../../src/config'
 
 describe('tvl endpoint', () => {
@@ -31,15 +31,14 @@ describe('tvl endpoint', () => {
   }
 
   const EA_PORT = 8071
-  const TOKEN_ALLOCATION_ADAPTER_URL = 'http://localhost:8081/'
+  const TIINGO_ADAPTER_URL = 'http://localhost:8081/'
 
   const adapterSettings: Record<string, any> = {
     RPC_URL: 'http://localhost:8545',
     CHAIN_ID: 1,
     REGISTRY_ADDRESS: '0x7ec81b7035e91f8435bdeb2787dcbd51116ad303',
-    EA_HOST: '127.0.0.1',
     EA_PORT: EA_PORT,
-    TOKEN_ALLOCATION_ADAPTER_URL: TOKEN_ALLOCATION_ADAPTER_URL,
+    TIINGO_ADAPTER_URL: TIINGO_ADAPTER_URL,
   } as Partial<typeof config.settings>
 
   beforeAll(async () => {
@@ -54,7 +53,7 @@ describe('tvl endpoint', () => {
       nock.recorder.rec()
     } else {
       mockAllocationsEndpoint(`http://localhost:${EA_PORT}`)
-      mockTokenAllocationsAdapter(TOKEN_ALLOCATION_ADAPTER_URL)
+      mockSourceAdapter(TIINGO_ADAPTER_URL)
     }
 
     // Send initial requests to start background execute
@@ -84,5 +83,20 @@ describe('tvl endpoint', () => {
     expect(statusCode).toBe(200)
     expect(data).toMatchSnapshot()
     expect(result).toMatchSnapshot()
+  })
+
+  test('missing env var for source EA returns error', async () => {
+    const { statusCode } = await req
+      .post('/')
+      .send({
+        data: {
+          source: 'ncfx',
+          quote: 'USD',
+          endpoint: 'tvl',
+        },
+      })
+      .then((res) => res.body)
+
+    expect(statusCode).toBe(400)
   })
 })

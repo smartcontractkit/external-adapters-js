@@ -8,7 +8,14 @@ import {
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 
-export const inputParameters = new InputParameters(porBalanceEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(porBalanceEndpointInputParametersDefinition, [
+  {
+    addresses: [
+      { address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi' },
+      { address: 'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay' },
+    ],
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

@@ -11,7 +11,7 @@ type JsonRpcPayload = {
   jsonrpc: '2.0'
 }
 
-export const createAdapter = (): Adapter => {
+export const createAdapter = () => {
   return new Adapter({
     name: 'APY_FINANCE',
     endpoints: [allocations, tvl],
@@ -56,56 +56,31 @@ export const mockAllocationsEndpoint = (allocationsAdapterUrl: string): nock.Sco
     )
 }
 
-export const mockTokenAllocationsAdapter = (tokenAllocationAdapterUrl: string): nock.Scope => {
-  return nock(tokenAllocationAdapterUrl, { encodedQueryParams: true })
+export const mockSourceAdapter = (eaURL: string) => {
+  nock(eaURL, { encodedQueryParams: true })
     .persist()
-    .post('/', {
-      data: {
-        source: 'tiingo',
-        quote: 'USD',
-        allocations: [
-          {
-            symbol: 'DAI',
-            balance: '0',
-            decimals: 18,
-          },
-          {
-            symbol: 'USDC',
-            balance: '910158472067',
-            decimals: 6,
-          },
-        ],
-      },
-    })
+    .post('/', { data: { base: 'USDC', quote: 'USD', endpoint: 'crypto' } })
     .reply(200, {
       jobRunID: '1',
-      result: 910164.4373738351,
       providerStatusCode: 200,
-      statusCode: 200,
       data: {
-        sources: [],
-        payload: {
-          DAI: {
-            quote: {
-              USD: {
-                price: 0.9997940587259735,
-              },
-            },
-          },
-          USDC: {
-            quote: {
-              USD: {
-                price: 1.0000065541408647,
-              },
-            },
-          },
-        },
-        result: 910164.4373738351,
+        result: 1.0000065541408647,
       },
-      metricsMeta: {
-        feedId:
-          '{"data":{"source":"tiingo","quote":"USD","allocations":[{"symbol":"DAI","balance":"0","decimals":18},{"symbol":"USDC","balance":"910158472067","decimals":6}]}}',
+      result: 1.0000065541408647,
+      statusCode: 200,
+    })
+
+  nock(eaURL, { encodedQueryParams: true })
+    .persist()
+    .post('/', { data: { base: 'DAI', quote: 'USD', endpoint: 'crypto' } })
+    .reply(200, {
+      jobRunID: '1',
+      providerStatusCode: 200,
+      data: {
+        result: 0.9997940587259735,
       },
+      result: 0.9997940587259735,
+      statusCode: 200,
     })
 }
 
