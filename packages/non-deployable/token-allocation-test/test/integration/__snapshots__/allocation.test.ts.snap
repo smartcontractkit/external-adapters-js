@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute marketcap method should return the correct data for marketcap method 1`] = `
+{
+  "payload": {
+    "DAI": {
+      "quote": {
+        "USD": {
+          "marketcap": 130.27,
+        },
+      },
+    },
+    "WBTC": {
+      "quote": {
+        "USD": {
+          "marketcap": 130.27,
+        },
+      },
+    },
+  },
+  "result": 260.54,
+  "sources": [],
+}
+`;
+
+exports[`execute marketcap method should return the correct data for marketcap method with explicit quote 1`] = `
+{
+  "payload": {
+    "DAI": {
+      "quote": {
+        "EUR": {
+          "marketcap": 130.27,
+        },
+      },
+    },
+    "WBTC": {
+      "quote": {
+        "EUR": {
+          "marketcap": 130.27,
+        },
+      },
+    },
+  },
+  "result": 260.54,
+  "sources": [],
+}
+`;
+
+exports[`execute price method should return the correct data for price method 1`] = `
+{
+  "payload": {
+    "DAI": {
+      "quote": {
+        "USD": {
+          "price": 130.27,
+        },
+      },
+    },
+    "WBTC": {
+      "quote": {
+        "USD": {
+          "price": 130.27,
+        },
+      },
+    },
+  },
+  "result": 260.54,
+  "sources": [],
+}
+`;
+
+exports[`execute price method should return the correct data for price method with explicit quote and method 1`] = `
+{
+  "payload": {
+    "DAI": {
+      "quote": {
+        "EUR": {
+          "price": 130.27,
+        },
+      },
+    },
+    "WBTC": {
+      "quote": {
+        "EUR": {
+          "price": 130.27,
+        },
+      },
+    },
+  },
+  "result": 260.54,
+  "sources": [],
+}
+`;
