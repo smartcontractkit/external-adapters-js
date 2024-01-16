@@ -9,14 +9,21 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
-export const inputParameters = new InputParameters({
-  tenor: {
-    description: 'The tenor value to pull from the API response',
-    type: 'string',
-    options: Object.values(VALID_TENORS),
-    required: true,
+export const inputParameters = new InputParameters(
+  {
+    tenor: {
+      description: 'The tenor value to pull from the API response',
+      type: 'string',
+      options: Object.values(VALID_TENORS),
+      required: true,
+    },
   },
-})
+  [
+    {
+      tenor: VALID_TENORS.SIRB,
+    },
+  ],
+)
 export const endpoint = new AdapterEndpoint({
   name: 'birc',
   transport,
