@@ -30,6 +30,7 @@ export const config = new AdapterConfig(
   {
     envDefaultOverrides: {
       CACHE_MAX_AGE: 20 * 60 * 1000, //20 minutes
+      WS_CONNECTION_OPEN_TIMEOUT: 30_000,
     },
   },
 )
