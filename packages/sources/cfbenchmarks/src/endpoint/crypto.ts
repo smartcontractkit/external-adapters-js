@@ -14,25 +14,33 @@ import { makeWsTransport } from '../transport/crypto-ws'
 export type Params = { index?: string; base?: string; quote?: string }
 export type RequestParams = { Params: Params }
 
-export const inputParameters = new InputParameters({
-  index: {
-    description: 'The ID of the index. Takes priority over base/quote when provided.',
-    type: 'string',
-    required: false,
+export const inputParameters = new InputParameters(
+  {
+    index: {
+      description: 'The ID of the index. Takes priority over base/quote when provided.',
+      type: 'string',
+      required: false,
+    },
+    base: {
+      aliases: ['from', 'coin'],
+      type: 'string',
+      description: 'The symbol of symbols of the currency to query',
+      required: false,
+    },
+    quote: {
+      aliases: ['to', 'market'],
+      type: 'string',
+      description: 'The symbol of the currency to convert to',
+      required: false,
+    },
   },
-  base: {
-    aliases: ['from', 'coin'],
-    type: 'string',
-    description: 'The symbol of symbols of the currency to query',
-    required: false,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    type: 'string',
-    description: 'The symbol of the currency to convert to',
-    required: false,
-  },
-})
+  [
+    {
+      base: 'LINK',
+      quote: 'USD',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

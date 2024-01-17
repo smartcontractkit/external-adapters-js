@@ -6,5 +6,5 @@
   },
   "include": ["src/**/*", "src/**/*.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../../non-deployable/token-allocation" }]
+  "references": [{ "path": "../../non-deployable/token-allocation-test" }]
 }
