@@ -2,7 +2,7 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { IncludesFile } from '@chainlink/external-adapter-framework/adapter'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { commodities, crypto, eod, forex, stock, ukEtf } from './endpoint'
+import { commodities, crypto, eod, etf, forex, stock, ukEtf } from './endpoint'
 import { PriceEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/price'
 import { AdapterParams } from '@chainlink/external-adapter-framework/adapter/types'
 import {
@@ -70,10 +70,10 @@ export const adapter = new FinageAdapter({
   defaultEndpoint: stock.name,
   name: 'FINAGE',
   config,
-  endpoints: [crypto, stock, eod, commodities, forex, ukEtf],
+  endpoints: [crypto, stock, eod, commodities, forex, ukEtf, etf],
   rateLimiting: {
     tiers: {
-      unlimited: {
+      professionalstocksusstockmarket: {
         rateLimit1s: 100,
         note: 'Considered unlimited tier, but setting reasonable limits',
       },

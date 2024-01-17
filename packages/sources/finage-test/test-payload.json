@@ -1,6 +1,16 @@
 {
- "requests": [{
-  "base": "IWM",
-  "endpoint": "stock"
- }]
+    "requests": [
+        {
+            "base": "IWM",
+            "endpoint": "stock"
+        },
+        {
+            "base": "IB01",
+            "endpoint": "uk_etf"
+        },
+        {
+            "base": "C3M",
+            "endpoint": "etf"
+        }
+    ]
 }
