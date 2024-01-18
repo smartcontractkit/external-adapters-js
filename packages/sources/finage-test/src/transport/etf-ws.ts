@@ -1,8 +1,8 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { UkEtfEndpointTypes } from '../endpoint/utils'
+import { EtfEndpointTypes } from '../endpoint/utils'
 import { EtfMessage, makeEtfWsMessage, makeEtfWsUrl, parseEtfWsMessage } from './utils'
 
-type WsTransportTypes = UkEtfEndpointTypes & {
+type WsTransportTypes = EtfEndpointTypes & {
   Provider: {
     WsMessage: EtfMessage
   }

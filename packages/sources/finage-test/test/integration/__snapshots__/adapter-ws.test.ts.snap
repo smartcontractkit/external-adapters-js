@@ -18,14 +18,14 @@ exports[`websocket crypto endpoint should return success 1`] = `
 exports[`websocket etf endpoint should return success 1`] = `
 {
   "data": {
-    "result": 445.76,
+    "result": 118.78,
   },
-  "result": 445.76,
+  "result": 118.78,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 4048,
-    "providerDataStreamEstablishedUnixMs": 4040,
-    "providerIndicatedTimeUnixMs": 1685958155000,
+    "providerDataReceivedUnixMs": 5064,
+    "providerDataStreamEstablishedUnixMs": 5050,
+    "providerIndicatedTimeUnixMs": 1514764861000000,
   },
 }
 `;
@@ -56,6 +56,21 @@ exports[`websocket stock endpoint should return success 1`] = `
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1646154954689,
+  },
+}
+`;
+
+exports[`websocket uk etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 445.76,
+  },
+  "result": 445.76,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4054,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": 1514764861000000,
   },
 }
 `;

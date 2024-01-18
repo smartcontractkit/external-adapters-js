@@ -99,11 +99,24 @@ describe('rest', () => {
     })
   })
 
-  describe('etf endpoint', () => {
+  describe('uk etf endpoint', () => {
     it('should return success', async () => {
       const data = {
         endpoint: 'uk_etf',
         base: 'cspx',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('etf endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'etf',
+        base: 'C3M',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

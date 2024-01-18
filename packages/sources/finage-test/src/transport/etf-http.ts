@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { UkEtfEndpointTypes } from '../endpoint/utils'
+import { EtfEndpointTypes } from '../endpoint/utils'
 import {
   EtfResponseSchema,
   makeEtfHttpError,
@@ -7,7 +7,7 @@ import {
   makeEtfHttpResponse,
 } from './utils'
 
-type HttpTransportTypes = UkEtfEndpointTypes & {
+type HttpTransportTypes = EtfEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: EtfResponseSchema

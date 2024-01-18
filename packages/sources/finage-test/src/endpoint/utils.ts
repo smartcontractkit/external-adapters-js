@@ -12,6 +12,20 @@ const priceParams = {
   },
 } as const
 
+const etfParams = {
+  base: {
+    required: true,
+    aliases: ['from', 'symbol'],
+    description: 'The symbol of the etf to query',
+    type: 'string',
+  },
+  country: {
+    required: false,
+    description: 'Country code',
+    type: 'string',
+  },
+} as const
+
 export const cryptoPriceInputParameters = new InputParameters(
   {
     ...priceParams,
@@ -60,14 +74,42 @@ export type ForexBaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const equitiesInputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
+export const etfInputParameters = new InputParameters(
   {
-    base: 'CSPX',
+    ...etfParams,
   },
-])
+  [
+    {
+      base: 'C3M',
+    },
+  ],
+)
 
-export type EquitiesEndpointTypes = {
-  Parameters: typeof equitiesInputParameters.definition
+export type EtfEndpointTypes = {
+  Parameters: typeof etfInputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+}
+
+export const ukEtfInputParameters = new InputParameters(
+  {
+    ...etfParams,
+    country: {
+      default: 'uk',
+      description: 'Country code',
+      type: 'string',
+    },
+  },
+  [
+    {
+      base: 'CSPX',
+      country: 'uk',
+    },
+  ],
+)
+
+export type UkEtfEndpointTypes = {
+  Parameters: typeof ukEtfInputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
 }
