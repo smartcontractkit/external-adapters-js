@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "0.33.2",
-    "axios": "1.6.0",
+    "axios": "1.6.5",
     "fastify": "^3.29.4",
     "tslib": "^2.3.1"
   },
