@@ -1,5 +1,11 @@
 # @chainlink/dar-adapter
 
+## 1.4.3
+
+### Patch Changes
+
+- [#3119](https://github.com/smartcontractkit/external-adapters-js/pull/3119) [`988a72e0c`](https://github.com/smartcontractkit/external-adapters-js/commit/988a72e0c623d4c8aeb52d482f3fdfd0370361a1) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed bug that was causing EA to unsubscribe/resubscribe to the same assets
+
 ## 1.4.2
 
 ### Patch Changes

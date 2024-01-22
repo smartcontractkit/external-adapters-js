@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.1.1
+
+### Patch Changes
+
+- [#3156](https://github.com/smartcontractkit/external-adapters-js/pull/3156) [`d2f02c946`](https://github.com/smartcontractkit/external-adapters-js/commit/d2f02c9462a3e414013284e69e2637b45f2dd630) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added pairs for inversion
+
 ## 2.1.0
 
 ### Minor Changes

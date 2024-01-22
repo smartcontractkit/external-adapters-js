@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#3153](https://github.com/smartcontractkit/external-adapters-js/pull/3153) [`b1bfa12b3`](https://github.com/smartcontractkit/external-adapters-js/commit/b1bfa12b36b5ce66631a440127e18ca497ce7df5) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Disable empty transaction check for Arbitrum and Metis
+
 ## 2.7.0
 
 ### Minor Changes
