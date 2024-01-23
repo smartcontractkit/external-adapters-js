@@ -18,16 +18,14 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Base]: ['transaction underpriced'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
   [Networks.Scroll]: ['invalid transaction: insufficient funds for l1fee + gas * price + value'],
-  // Sending an empty transaction to the dummy Starknet address should return one
-  // of the following error messages.  The Sequencer is considered healthy if the
-  // EA gets back one of the errors below.
-  // UNINITIALIZED_CONTRACT is thrown whenever the dummy address has not been
-  // deployed to the network
-  // OUT_OF_RANGE_FEE is thrown when the network detects a transaction sent
-  // with 0 gas
+  // Sending an empty transaction to the dummy Starknet address should return
+  // one of the following error messages. The errors defined below must EXACTLY
+  // match the actual errors thrown. The Sequencer is considered healthy if the
+  // EA returns one of the errors below before the pre-configured timeout expires.
+  // The 'Contract not found' error is thrown whenever the dummy address has not
+  // been deployed to the network.
   [Networks.Starkware]: [
-    'StarknetErrorCode.UNINITIALIZED_CONTRACT',
-    'StarknetErrorCode.OUT_OF_RANGE_FEE',
+    'RPC: starknet_getNonce with params {"contract_address":"0x1","block_id":"pending"}\n 20: Contract not found: undefined',
   ],
 }
 
@@ -89,7 +87,7 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Base]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
       [Networks.Scroll]: ['error', 'error', 'message'],
-      [Networks.Starkware]: ['errorCode'],
+      [Networks.Starkware]: ['message'],
     }
     return (Requester.getResult(error, paths[network]) as string) || ''
   }

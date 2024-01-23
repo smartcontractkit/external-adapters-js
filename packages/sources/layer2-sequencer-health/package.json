@@ -30,7 +30,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "ethers": "^5.4.6",
-    "starknet": "5.8.0",
+    "starknet": "5.24.3",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

@@ -6893,7 +6893,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["sinon", "npm:12.0.1"],\
-            ["starknet", "npm:5.8.0"],\
+            ["starknet", "npm:5.24.3"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -11780,27 +11780,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@noble/curves", [\
-        ["npm:0.8.3", {\
-          "packageLocation": "./.yarn/cache/@noble-curves-npm-0.8.3-c1804f74f8-caab73fbd0.zip/node_modules/@noble/curves/",\
-          "packageDependencies": [\
-            ["@noble/curves", "npm:0.8.3"],\
-            ["@noble/hashes", "npm:1.3.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:1.0.0", {\
-          "packageLocation": "./.yarn/cache/@noble-curves-npm-1.0.0-c66b2d9876-6bcef44d62.zip/node_modules/@noble/curves/",\
-          "packageDependencies": [\
-            ["@noble/curves", "npm:1.0.0"],\
-            ["@noble/hashes", "npm:1.3.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:1.1.0", {\
           "packageLocation": "./.yarn/cache/@noble-curves-npm-1.1.0-dccaf3c158-2658cdd3f8.zip/node_modules/@noble/curves/",\
           "packageDependencies": [\
             ["@noble/curves", "npm:1.1.0"],\
             ["@noble/hashes", "npm:1.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/@noble-curves-npm-1.2.0-9b40ee1239-bb798d7a66.zip/node_modules/@noble/curves/",\
+          "packageDependencies": [\
+            ["@noble/curves", "npm:1.2.0"],\
+            ["@noble/hashes", "npm:1.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -11854,6 +11846,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.2-1e619f9da0-fe23536b43.zip/node_modules/@noble/hashes/",\
           "packageDependencies": [\
             ["@noble/hashes", "npm:1.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.3", {\
+          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.3-f7374e6cdf-8a6496d1c0.zip/node_modules/@noble/hashes/",\
+          "packageDependencies": [\
+            ["@noble/hashes", "npm:1.3.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13000,6 +12999,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/base", "npm:1.1.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.1.5", {\
+          "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.5-d9203f3027-9e9ee6088c.zip/node_modules/@scure/base/",\
+          "packageDependencies": [\
+            ["@scure/base", "npm:1.1.5"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@scure/bip32", [\
@@ -13040,6 +13046,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/bip39", "npm:1.2.1"],\
             ["@noble/hashes", "npm:1.3.0"],\
             ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@scure/starknet", [\
+        ["npm:0.3.0", {\
+          "packageLocation": "./.yarn/cache/@scure-starknet-npm-0.3.0-5be8d450eb-2f291a7aef.zip/node_modules/@scure/starknet/",\
+          "packageDependencies": [\
+            ["@scure/starknet", "npm:0.3.0"],\
+            ["@noble/curves", "npm:1.2.0"],\
+            ["@noble/hashes", "npm:1.3.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -30100,17 +30117,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["micro-starknet", [\
-        ["npm:0.2.3", {\
-          "packageLocation": "./.yarn/cache/micro-starknet-npm-0.2.3-3811d44914-f1ae152348.zip/node_modules/micro-starknet/",\
-          "packageDependencies": [\
-            ["micro-starknet", "npm:0.2.3"],\
-            ["@noble/curves", "npm:1.0.0"],\
-            ["@noble/hashes", "npm:1.3.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["micromatch", [\
         ["npm:3.1.10", {\
           "packageLocation": "./.yarn/cache/micromatch-npm-3.1.10-016e80c79d-ad226cba4d.zip/node_modules/micromatch/",\
@@ -36291,14 +36297,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["starknet", [\
-        ["npm:5.8.0", {\
-          "packageLocation": "./.yarn/cache/starknet-npm-5.8.0-63c02a3e9f-929a0d00ba.zip/node_modules/starknet/",\
+        ["npm:5.24.3", {\
+          "packageLocation": "./.yarn/cache/starknet-npm-5.24.3-119b6a7dd9-92179e331b.zip/node_modules/starknet/",\
           "packageDependencies": [\
-            ["starknet", "npm:5.8.0"],\
-            ["@noble/curves", "npm:0.8.3"],\
+            ["starknet", "npm:5.24.3"],\
+            ["@noble/curves", "npm:1.2.0"],\
+            ["@scure/base", "npm:1.1.5"],\
+            ["@scure/starknet", "npm:0.3.0"],\
             ["isomorphic-fetch", "npm:3.0.0"],\
             ["lossless-json", "npm:2.0.8"],\
-            ["micro-starknet", "npm:0.2.3"],\
             ["pako", "npm:2.0.4"],\
             ["url-join", "npm:4.0.1"]\
           ],\

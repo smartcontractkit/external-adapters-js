@@ -1,7 +1,7 @@
 import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
 import { AdapterContext, Config } from '@chainlink/ea-bootstrap'
 import { envDefaultOverrides } from './envDefaultOverrides'
-import { SequencerProvider } from 'starknet'
+import { RpcProvider } from 'starknet'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
 export const DEFAULT_PRIVATE_KEY =
@@ -124,7 +124,7 @@ export interface ExtendedConfig extends Config {
     retryInterval: number
   }
   starkwareConfig: {
-    provider: SequencerProvider
+    provider: RpcProvider
     dummyAccountAddress: string
   }
 }
@@ -150,27 +150,17 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   return { ...config, delta, deltaBlocks, timeoutLimit, retryConfig, starkwareConfig }
 }
 
-const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'
-const DEFAULT_STARKWARE_FEEDER_GATEWAY_URL = 'feeder_gateway'
-const DEFAULT_STARKWARE_GATEWAY_URL = 'gateway'
+const DEFAULT_STARKWARE_RPC_ENDPOINT = 'https://starknet-mainnet.public.blastapi.io'
 const DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS =
   '0x00000000000000000000000000000000000000000000000000000000000001'
 
 const instantiateStarkwareConfig = (): ExtendedConfig['starkwareConfig'] => {
-  const baseUrl =
-    util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT
-  const feederGatewayUrl =
-    util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL
-  const gatewayUrl = util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL
-  const dummyAccountAddress =
-    util.getEnv('DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS') ||
-    DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS
+  const dummyAddr = util.getEnv('DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS')
+  const rpcUrl = util.getEnv('STARKWARE_RPC_ENDPOINT')
   return {
-    provider: new SequencerProvider({
-      baseUrl,
-      feederGatewayUrl: `${baseUrl}/${feederGatewayUrl}`,
-      gatewayUrl: `${baseUrl}/${gatewayUrl}`,
+    dummyAccountAddress: dummyAddr ?? DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS,
+    provider: new RpcProvider({
+      nodeUrl: rpcUrl ?? DEFAULT_STARKWARE_RPC_ENDPOINT,
     }),
-    dummyAccountAddress,
   }
 }
