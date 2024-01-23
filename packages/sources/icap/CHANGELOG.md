@@ -1,5 +1,12 @@
 # @chainlink/icap-adapter
 
+## 1.1.20
+
+### Patch Changes
+
+- Updated dependencies [[`0ba803f66`](https://github.com/smartcontractkit/external-adapters-js/commit/0ba803f667fd4a52678bfca48d37aa8b44d5139d)]:
+  - @chainlink/tp-adapter@1.4.2
+
 ## 1.1.19
 
 ### Patch Changes

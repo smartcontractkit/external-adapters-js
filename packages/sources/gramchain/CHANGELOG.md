@@ -1,5 +1,11 @@
 # @chainlink/example-source-adapter
 
+## 2.0.5
+
+### Patch Changes
+
+- [#3151](https://github.com/smartcontractkit/external-adapters-js/pull/3151) [`ac9ebd643`](https://github.com/smartcontractkit/external-adapters-js/commit/ac9ebd64346104673bd6139c3ab12ba12125ab69) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added missing information for readme generation
+
 ## 2.0.4
 
 ### Patch Changes

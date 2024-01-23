@@ -1,5 +1,12 @@
 # @chainlink/dns-record-check-adapter
 
+## 1.3.32
+
+### Patch Changes
+
+- Updated dependencies [[`ac9ebd643`](https://github.com/smartcontractkit/external-adapters-js/commit/ac9ebd64346104673bd6139c3ab12ba12125ab69)]:
+  - @chainlink/dns-query-adapter@1.6.24
+
 ## 1.3.31
 
 ### Patch Changes
