@@ -22,6 +22,16 @@
    "from": "ETH",
    "to": "USD",
    "endpoint": "crypto-lwba"
+  },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "cryptolwba"
+  },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "crypto_lwba"
   }
  ]
 }
