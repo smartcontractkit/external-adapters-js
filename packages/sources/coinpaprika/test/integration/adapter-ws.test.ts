@@ -35,7 +35,6 @@ describe('websocket', () => {
     base: 'AAA',
     coinid: 'eth-ethereum',
     quote: 'USD',
-    transport: 'ws',
     endpoint: 'marketcap',
   }
 
@@ -44,6 +43,7 @@ describe('websocket', () => {
     process.env['CACHE_POLLING_MAX_RETRIES'] = process.env['CACHE_POLLING_MAX_RETRIES'] ?? '0'
     process.env['METRICS_ENABLED'] = process.env['METRICS_ENABLED'] ?? 'false'
     process.env['WS_API_ENDPOINT'] = process.env['WS_API_ENDPOINT'] ?? wsEndpoint
+    process.env['WS_ENABLED'] = process.env['WS_ENABLED'] ?? 'true'
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockCryptoWebSocketServer(wsEndpoint)

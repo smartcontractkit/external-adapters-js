@@ -1,6 +1,7 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
   AdapterRequest,
+  AdapterRequestData,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 
@@ -80,4 +81,15 @@ export function customInputValidation(
     })
   }
   return
+}
+
+export const customRouter = (
+  req: AdapterRequest<typeof cryptoInputParameters.validated>,
+  adapterConfig: typeof config.settings,
+) => {
+  const rawRequestBody = req.body as unknown as { data: AdapterRequestData }
+  if (rawRequestBody.data?.transport) {
+    return rawRequestBody.data?.transport
+  }
+  return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
 }
