@@ -8,3 +8,4 @@ This document was generated automatically. Please see [Master List Generator](..
 
 - [reduce](./reduce/README.md)
 - [token-allocation](./token-allocation/README.md)
+- [token-allocation-test](./token-allocation-test/README.md)

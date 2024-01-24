@@ -1,5 +1,12 @@
 # @chainlink/market-closure-adapter
 
+## 1.3.17
+
+### Patch Changes
+
+- Updated dependencies [[`ac9ebd643`](https://github.com/smartcontractkit/external-adapters-js/commit/ac9ebd64346104673bd6139c3ab12ba12125ab69)]:
+  - @chainlink/fcsapi-adapter@1.2.32
+
 ## 1.3.16
 
 ### Patch Changes
