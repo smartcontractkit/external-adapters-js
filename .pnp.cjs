@@ -612,6 +612,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/moonbeam-address-list"\
       },\
       {\
+        "name": "@chainlink/moore-hk-adapter",\
+        "reference": "workspace:packages/sources/moore-hk"\
+      },\
+      {\
         "name": "@chainlink/mycryptoapi-adapter",\
         "reference": "workspace:packages/sources/mycryptoapi"\
       },\
@@ -973,6 +977,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],\
       ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
       ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
+      ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
       ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
       ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
@@ -7128,6 +7133,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.5.4"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/moore-hk-adapter", [\
+        ["workspace:packages/sources/moore-hk", {\
+          "packageLocation": "./packages/sources/moore-hk/",\
+          "packageDependencies": [\
+            ["@chainlink/moore-hk-adapter", "workspace:packages/sources/moore-hk"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.68"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
