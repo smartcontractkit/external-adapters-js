@@ -35,8 +35,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
-      // console.log(param)
-      // console.log(response.data)
       // Return error if ripcord indicator true
       if (response.data.ripcord) {
         const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(

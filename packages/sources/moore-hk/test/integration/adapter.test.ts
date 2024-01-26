@@ -3,12 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import {
-  mockResponseFieldDoesNotExist,
-  mockResponseRipcordTrue,
-  mockResponseSuccess,
-  cleanNock,
-} from './fixtures'
+import { mockResponseRipcordTrue, mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -60,7 +55,7 @@ describe('execute', () => {
 
     it('should return 502 when ripcord: true', async () => {
       nock.cleanAll()
-      await mockResponseRipcordTrue()
+      mockResponseRipcordTrue()
       const data = {
         endpoint: 'trueusd',
         field: 'totalToken',
