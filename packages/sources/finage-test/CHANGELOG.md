@@ -1,5 +1,11 @@
 # @chainlink/finage-test-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#3150](https://github.com/smartcontractkit/external-adapters-js/pull/3150) [`7db8e02f2`](https://github.com/smartcontractkit/external-adapters-js/commit/7db8e02f265468abbf50a8a6575d16b9d9e7a53a) Thanks [@amit-momin](https://github.com/amit-momin)! - Added etf endpoint. Aligned rate limit tier name to Finage v2 adapter.
+
 ## 1.4.2
 
 ### Patch Changes

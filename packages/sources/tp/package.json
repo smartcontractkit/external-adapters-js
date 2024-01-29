@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tp-adapter",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Chainlink TP adapter (sister to ICAP adapter).",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
+    "@types/node": "16.11.68",
     "@types/sinonjs__fake-timers": "8.1.5",
     "typescript": "5.0.4"
   }

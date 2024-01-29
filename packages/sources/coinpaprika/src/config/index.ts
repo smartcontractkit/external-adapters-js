@@ -20,6 +20,11 @@ export const config = new AdapterConfig({
     default: 'wss://streaming.coinpaprika.com/ticks',
     type: 'string',
   },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
 })
 
 export const getApiEndpoint = (settings: typeof config.settings): string =>

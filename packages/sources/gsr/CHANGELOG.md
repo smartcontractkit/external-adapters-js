@@ -1,5 +1,11 @@
 # @chainlink/gsr-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#2938](https://github.com/smartcontractkit/external-adapters-js/pull/2938) [`816452beb`](https://github.com/smartcontractkit/external-adapters-js/commit/816452beb81d624bce0430ba03ea0f08a53e7a16) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Added LWBA endpoint for GSR EA
+
 ## 2.1.21
 
 ### Patch Changes
