@@ -15,7 +15,7 @@ export const inputParameters = new InputParameters(lwbaEndpointInputParametersDe
   },
 ])
 
-const assets: string[] = ['bnb', 'uni', 'sol', 'ltc', 'xrp']
+const assets: string[] = ['bnb', 'uni', 'sol', 'ltc', 'xrp', 'arb']
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

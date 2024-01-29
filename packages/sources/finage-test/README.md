@@ -1,6 +1,6 @@
 # FINAGE
 
-![1.4.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -21,17 +21,17 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Data Provider Rate Limits
 
-|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
-| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
-| unlimited |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
+|              Name               | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :-----------------------------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+| professionalstocksusstockmarket |             100             |                             |                           | Considered unlimited tier, but setting reasonable limits |
 
 ---
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                              Options                                                                                              | Default |
-| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [price](#crypto-endpoint), [stock](#stock-endpoint), [uk_etf](#uk_etf-endpoint) | `stock` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                         Options                                                                                                         | Default |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [etf](#etf-endpoint), [forex](#forex-endpoint), [price](#crypto-endpoint), [stock](#stock-endpoint), [uk_etf](#uk_etf-endpoint) | `stock` |
 
 ## Crypto Endpoint
 
@@ -170,9 +170,10 @@ Request:
 
 ### Input Params
 
-| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
+| Required? |  Name   |     Aliases      |          Description           |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :--------------: | :----------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `from`, `symbol` | The symbol of the etf to query | string |         |         |            |                |
+|           | country |                  |          Country code          | string |         |  `uk`   |            |                |
 
 ### Example
 
@@ -182,7 +183,34 @@ Request:
 {
   "data": {
     "endpoint": "uk_etf",
-    "base": "CSPX"
+    "base": "CSPX",
+    "country": "uk"
+  }
+}
+```
+
+---
+
+## Etf Endpoint
+
+`etf` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name   |     Aliases      |          Description           |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :--------------: | :----------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `from`, `symbol` | The symbol of the etf to query | string |         |         |            |                |
+|           | country |                  |          Country code          | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "etf",
+    "base": "C3M"
   }
 }
 ```

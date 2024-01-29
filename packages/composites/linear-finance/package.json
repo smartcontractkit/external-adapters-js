@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/linear-finance-adapter",
-  "version": "2.3.69",
+  "version": "2.3.70",
   "description": "Chainlink linear-finance adapter.",
   "keywords": [
     "Chainlink",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@chainlink/ea-test-helpers": "workspace:*",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
+    "@types/node": "16.11.68",
     "@types/supertest": "2.0.16",
     "nock": "13.2.9",
     "supertest": "6.2.4",
