@@ -6479,7 +6479,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@ethercards/ec-util", "npm:1.0.4"],\
+            ["@ethercards/ec-util", "npm:1.0.8"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
@@ -8809,10 +8809,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@ethercards/ec-util", [\
-        ["npm:1.0.4", {\
-          "packageLocation": "./.yarn/cache/@ethercards-ec-util-npm-1.0.4-e6fbb944c3-c6f58be70e.zip/node_modules/@ethercards/ec-util/",\
+        ["npm:1.0.8", {\
+          "packageLocation": "./.yarn/cache/@ethercards-ec-util-npm-1.0.8-9982887bc1-54401b660a.zip/node_modules/@ethercards/ec-util/",\
           "packageDependencies": [\
-            ["@ethercards/ec-util", "npm:1.0.4"],\
+            ["@ethercards/ec-util", "npm:1.0.8"],\
             ["@ethersproject/bignumber", "npm:5.7.0"],\
             ["@ethersproject/bytes", "npm:5.7.0"],\
             ["bitwise", "npm:2.1.0"],\
