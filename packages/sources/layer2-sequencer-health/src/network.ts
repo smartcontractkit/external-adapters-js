@@ -94,7 +94,7 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
   for (const expectedError of sequencerOnlineErrors[network]) {
     if (actualError.includes(expectedError)) {
       Logger.debug(
-        `[${network}] Transaction submission failed with an expected error ${expectedError}.`,
+        `[${network}] Transaction submission failed with an expected error ${actualError}.`,
       )
       return true
     }
