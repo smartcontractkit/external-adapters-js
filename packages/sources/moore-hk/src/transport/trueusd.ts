@@ -36,6 +36,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   parseResponse: (params, response) => {
     return params.map((param) => {
       // Return error if ripcord indicator true
+      const providerIndicatedTimeUnixMs = new Date(response.data.updatedAt).getTime()
       if (response.data.ripcord) {
         const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(
           ', ',
@@ -46,7 +47,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
             errorMessage: message,
             statusCode: 502,
             timestamps: {
-              providerIndicatedTimeUnixMs: new Date(response.data.updatedAt).getTime(),
+              providerIndicatedTimeUnixMs,
             },
           },
         }
@@ -73,7 +74,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
             result: result as number,
           },
           timestamps: {
-            providerIndicatedTimeUnixMs: new Date(response.data.updatedAt).getTime(),
+            providerIndicatedTimeUnixMs,
           },
         },
       }

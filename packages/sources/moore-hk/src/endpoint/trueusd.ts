@@ -8,8 +8,7 @@ export const inputParameters = new InputParameters(
   {
     field: {
       default: 'totalTrust',
-      description:
-        'The object-path string to parse a single `result` value. When not provided the entire response will be provided.',
+      description: 'The object-path string to parse a single `result` value.',
       type: 'string',
     },
   },
