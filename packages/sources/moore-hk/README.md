@@ -32,9 +32,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-| Required? | Name  | Aliases |                                                   Description                                                    |  Type  | Options |   Default    | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :--------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------: | :--------: | :------------: |
-|           | field |         | The object-path string to parse a single `result` value. When not provided the entire response will be provided. | string |         | `totalTrust` |            |                |
+| Required? | Name  | Aliases |                       Description                        |  Type  | Options |   Default    | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :------------------------------------------------------: | :----: | :-----: | :----------: | :--------: | :------------: |
+|           | field |         | The object-path string to parse a single `result` value. | string |         | `totalTrust` |            |                |
 
 ### Example
 
