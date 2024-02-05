@@ -1,5 +1,11 @@
 # @chainlink/apy-finance-test-adapter
 
+## 0.2.0
+
+### Minor Changes
+
+- [#3110](https://github.com/smartcontractkit/external-adapters-js/pull/3110) [`9c66de0ad`](https://github.com/smartcontractkit/external-adapters-js/commit/9c66de0ad56e245de8d3ec4c736c7bd22c6341d1) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - TokenAllocation depenedncy replaced with token-allocation-test utility EA
+
 ## 0.1.16
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Enzyme
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/enzyme/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/enzyme/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Adapter to interact with Enzyme contracts.
 
@@ -66,10 +66,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "netShareValue": "1000000000000000000",
-    "result": "1000000000000000000"
+    "gav": "19995161270996618818245984471",
+    "result": "19995161270996618818245984471"
   },
-  "result": "1000000000000000000",
+  "result": "19995161270996618818245984471",
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -92,7 +92,36 @@ Endpoint to call the `calcNav` function on the contract.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "calculatorContract": "0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A",
+    "vaultProxy": "0x44902e5a88371224d9ac172e391C64257B701Ade",
+    "endpoint": "calcNav"
+  },
+  "debug": {
+    "cacheKey": "940HZR6f+3OIPsgqg47sxUwf0zE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "nav": "19995161270996618818245984400",
+    "result": "19995161270996618818245984400"
+  },
+  "result": "19995161270996618818245984400",
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
@@ -112,7 +141,37 @@ Endpoint to call the `calcNetValueForSharesHolder` function on the contract.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "calculatorContract": "0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A",
+    "vaultProxy": "0x399acf6102c466a3e4c5f94cd00fc1bfb071d3c1",
+    "sharesHolder": "0x31d675bd2bdfdd3e332311bef7cb6ba357a5d4e3",
+    "endpoint": "calcNetValueForSharesHolder"
+  },
+  "debug": {
+    "cacheKey": "a85ZghFmLyLIxhxF64JD0l84PlE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "netShareValue": "1000000000000000000",
+    "result": "1000000000000000000"
+  },
+  "result": "1000000000000000000",
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

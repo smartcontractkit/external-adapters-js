@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- [#3144](https://github.com/smartcontractkit/external-adapters-js/pull/3144) [`0ba803f66`](https://github.com/smartcontractkit/external-adapters-js/commit/0ba803f667fd4a52678bfca48d37aa8b44d5139d) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - set inverse:false for XAU, XAG, XPT
+
 ## 1.4.1
 
 ### Patch Changes

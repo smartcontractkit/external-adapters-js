@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.6.3
+
+### Patch Changes
+
+- [#3157](https://github.com/smartcontractkit/external-adapters-js/pull/3157) [`8899eff0c`](https://github.com/smartcontractkit/external-adapters-js/commit/8899eff0c9c9b4de1c7728b1dcb675a981427c18) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added ARB to LWBA assets list
+
 ## 3.6.2
 
 ### Patch Changes
