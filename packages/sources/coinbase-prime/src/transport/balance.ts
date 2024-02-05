@@ -63,20 +63,38 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
-    // The adapter only supports querying one asset at a time so the balances list should only contain 1 element
-    if (!response.data || !response.data.balances || response.data.balances.length !== 1) {
-      return params.map((param) => {
+    return params.map((param) => {
+      if (!response.data) {
         return {
           params: param,
           response: {
-            errorMessage: `The data provider did not return a proper response for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
+            errorMessage: `The data provider did not return data for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
             statusCode: 502,
           },
         }
-      })
-    }
+      }
 
-    return params.map((param) => {
+      if (!response.data.balances) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `The data provider response does not contain a balances list for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
+            statusCode: 502,
+          },
+        }
+      }
+
+      // The adapter only supports querying one asset at a time so the balances list should only contain 1 element
+      if (response.data.balances.length !== 1) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `The data provider response does not contain exactly one element in the balances list for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
+            statusCode: 502,
+          },
+        }
+      }
+
       const result = Number(response.data.balances[0].amount)
       if (isNaN(result)) {
         return {
