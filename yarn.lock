@@ -2804,6 +2804,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/coinbase-prime-adapter@workspace:packages/sources/coinbase-prime":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/coinbase-prime-adapter@workspace:packages/sources/coinbase-prime"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.2
+    "@types/crypto-js": 4.2.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    crypto-js: 4.2.0
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/coincodex-adapter@workspace:packages/sources/coincodex":
   version: 0.0.0-use.local
   resolution: "@chainlink/coincodex-adapter@workspace:packages/sources/coincodex"
@@ -10651,6 +10666,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/crypto-js@npm:4.2.2":
+  version: 4.2.2
+  resolution: "@types/crypto-js@npm:4.2.2"
+  checksum: 727daa0d2db35f0abefbab865c23213b6ee6a270e27e177939bbe4b70d1e84c2202d9fac4ea84859c4b4d49a4ee50f948f601327a39b69ec013288018ba07ca5
+  languageName: node
+  linkType: hard
+
 "@types/crypto-js@npm:^4.1.1":
   version: 4.1.3
   resolution: "@types/crypto-js@npm:4.1.3"
@@ -10990,6 +11012,13 @@ __metadata:
   version: 11.11.6
   resolution: "@types/node@npm:11.11.6"
   checksum: 075f1c011cf568e49701419acbcb55c24906b3bb5a34d9412a3b88f228a7a78401a5ad4d3e1cd6855c99aaea5ef96e37fc86ca097e50f06da92cf822befc1fff
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:16.11.51":
+  version: 16.11.51
+  resolution: "@types/node@npm:16.11.51"
+  checksum: b4193d3f9d4240d866db0ca50de4a8c3b68fd81754d0a572712b559497d0f34931e4246ce0b2692afc8f8def9fcc69fd176bd7176af896d07eefa6d78d886425
   languageName: node
   linkType: hard
 
@@ -15098,17 +15127,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"crypto-js@npm:4.2.0, crypto-js@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "crypto-js@npm:4.2.0"
+  checksum: f051666dbc077c8324777f44fbd3aaea2986f198fe85092535130d17026c7c2ccf2d23ee5b29b36f7a4a07312db2fae23c9094b644cc35f7858b1b4fcaf27774
+  languageName: node
+  linkType: hard
+
 "crypto-js@npm:^3.1.9-1":
   version: 3.3.0
   resolution: "crypto-js@npm:3.3.0"
   checksum: 193923143a4784b2f974366068d96fe8280168fd3fef2bfea9551a5c3e32096f5a8fa49ff4eeb5bd0b9716d325618d38cfbe6125e359a4ef488fbca93e600824
-  languageName: node
-  linkType: hard
-
-"crypto-js@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "crypto-js@npm:4.2.0"
-  checksum: f051666dbc077c8324777f44fbd3aaea2986f198fe85092535130d17026c7c2ccf2d23ee5b29b36f7a4a07312db2fae23c9094b644cc35f7858b1b4fcaf27774
   languageName: node
   linkType: hard
 

@@ -219,6 +219,9 @@
       "path": "./sources/coinbase"
     },
     {
+      "path": "./sources/coinbase-prime"
+    },
+    {
       "path": "./sources/coincodex"
     },
     {

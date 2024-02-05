@@ -320,6 +320,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinbase"\
       },\
       {\
+        "name": "@chainlink/coinbase-prime-adapter",\
+        "reference": "workspace:packages/sources/coinbase-prime"\
+      },\
+      {\
         "name": "@chainlink/coincodex-adapter",\
         "reference": "workspace:packages/sources/coincodex"\
       },\
@@ -880,6 +884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/clear-bank-adapter", ["workspace:packages/sources/clear-bank"]],\
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
+      ["@chainlink/coinbase-prime-adapter", ["workspace:packages/sources/coinbase-prime"]],\
       ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],\
       ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],\
       ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
@@ -5445,6 +5450,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/coinbase-prime-adapter", [\
+        ["workspace:packages/sources/coinbase-prime", {\
+          "packageLocation": "./packages/sources/coinbase-prime/",\
+          "packageDependencies": [\
+            ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
+            ["@types/crypto-js", "npm:4.2.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["crypto-js", "npm:4.2.0"],\
+            ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -14129,6 +14151,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/crypto-js", "npm:4.1.3"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.2.2", {\
+          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.2.2-21357d525e-727daa0d2d.zip/node_modules/@types/crypto-js/",\
+          "packageDependencies": [\
+            ["@types/crypto-js", "npm:4.2.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/debug", [\
@@ -14516,6 +14545,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-15.14.9-739a59edff-49f7f0522a.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:15.14.9"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:16.11.51", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.51-02764a2cd3-b4193d3f9d.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:16.11.51"]\
           ],\
           "linkType": "HARD"\
         }],\
