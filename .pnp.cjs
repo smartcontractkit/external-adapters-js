@@ -1052,7 +1052,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.23.9"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.23.3"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
-            ["@changesets/changelog-github", "npm:0.4.8"],\
+            ["@changesets/changelog-github", "npm:0.5.0"],\
             ["@changesets/cli", "npm:2.27.1"],\
             ["@types/babel__core", "npm:7.1.20"],\
             ["@types/babel__preset-env", "npm:7.9.6"],\
@@ -6433,7 +6433,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.23.9"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.23.3"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
-            ["@changesets/changelog-github", "npm:0.4.8"],\
+            ["@changesets/changelog-github", "npm:0.5.0"],\
             ["@changesets/cli", "npm:2.27.1"],\
             ["@types/babel__core", "npm:7.1.20"],\
             ["@types/babel__preset-env", "npm:7.9.6"],\
@@ -8581,12 +8581,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@changesets/changelog-github", [\
-        ["npm:0.4.8", {\
-          "packageLocation": "./.yarn/cache/@changesets-changelog-github-npm-0.4.8-cc18274ceb-8a357cc087.zip/node_modules/@changesets/changelog-github/",\
+        ["npm:0.5.0", {\
+          "packageLocation": "./.yarn/cache/@changesets-changelog-github-npm-0.5.0-2e29d943c5-4ab43d8104.zip/node_modules/@changesets/changelog-github/",\
           "packageDependencies": [\
-            ["@changesets/changelog-github", "npm:0.4.8"],\
-            ["@changesets/get-github-info", "npm:0.5.2"],\
-            ["@changesets/types", "npm:5.2.1"],\
+            ["@changesets/changelog-github", "npm:0.5.0"],\
+            ["@changesets/get-github-info", "npm:0.6.0"],\
+            ["@changesets/types", "npm:6.0.0"],\
             ["dotenv", "npm:8.6.0"]\
           ],\
           "linkType": "HARD"\
@@ -8674,12 +8674,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@changesets/get-github-info", [\
-        ["npm:0.5.2", {\
-          "packageLocation": "./.yarn/cache/@changesets-get-github-info-npm-0.5.2-7f1c5b2a67-067e07eeae.zip/node_modules/@changesets/get-github-info/",\
+        ["npm:0.6.0", {\
+          "packageLocation": "./.yarn/cache/@changesets-get-github-info-npm-0.6.0-6c129e4581-753173bda5.zip/node_modules/@changesets/get-github-info/",\
           "packageDependencies": [\
-            ["@changesets/get-github-info", "npm:0.5.2"],\
+            ["@changesets/get-github-info", "npm:0.6.0"],\
             ["dataloader", "npm:1.4.0"],\
-            ["node-fetch", "virtual:7f1c5b2a67fc16666aa31fba83ea7856ecb0e95595b13dccc7cae5cd164022bdf1a0a32cb6af01f93f4862b7b4f8dc76c7d04aff1bc0947186d7a6048d58d336#npm:2.7.0"]\
+            ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8782,13 +8782,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@changesets-types-npm-4.1.0-c7ed225741-72c1f58044.zip/node_modules/@changesets/types/",\
           "packageDependencies": [\
             ["@changesets/types", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:5.2.1", {\
-          "packageLocation": "./.yarn/cache/@changesets-types-npm-5.2.1-d3a215a9d1-527dc1aa41.zip/node_modules/@changesets/types/",\
-          "packageDependencies": [\
-            ["@changesets/types", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -19229,7 +19222,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cross-fetch-npm-4.0.0-9c67668db4-ecca4f37ff.zip/node_modules/cross-fetch/",\
           "packageDependencies": [\
             ["cross-fetch", "npm:4.0.0"],\
-            ["node-fetch", "virtual:7f1c5b2a67fc16666aa31fba83ea7856ecb0e95595b13dccc7cae5cd164022bdf1a0a32cb6af01f93f4862b7b4f8dc76c7d04aff1bc0947186d7a6048d58d336#npm:2.7.0"]\
+            ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -31457,10 +31450,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:7f1c5b2a67fc16666aa31fba83ea7856ecb0e95595b13dccc7cae5cd164022bdf1a0a32cb6af01f93f4862b7b4f8dc76c7d04aff1bc0947186d7a6048d58d336#npm:2.7.0", {\
-          "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-437e96f47b/0/cache/node-fetch-npm-2.7.0-587d57004e-d76d2f5edb.zip/node_modules/node-fetch/",\
+        ["virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0", {\
+          "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-a223233efc/0/cache/node-fetch-npm-2.7.0-587d57004e-d76d2f5edb.zip/node_modules/node-fetch/",\
           "packageDependencies": [\
-            ["node-fetch", "virtual:7f1c5b2a67fc16666aa31fba83ea7856ecb0e95595b13dccc7cae5cd164022bdf1a0a32cb6af01f93f4862b7b4f8dc76c7d04aff1bc0947186d7a6048d58d336#npm:2.7.0"],\
+            ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"],\
             ["@types/encoding", null],\
             ["encoding", null],\
             ["whatwg-url", "npm:5.0.0"]\
