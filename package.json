@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@chainlink/external-adapter-framework": "0.33.2",
-    "@changesets/changelog-github": "0.4.8",
+    "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.1",
     "@types/babel__core": "7.1.20",
     "@types/babel__preset-env": "7.9.6",
