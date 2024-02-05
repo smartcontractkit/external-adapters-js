@@ -4461,6 +4461,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/moore-hk-adapter@workspace:packages/sources/moore-hk":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/moore-hk-adapter@workspace:packages/sources/moore-hk"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.68
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi"
