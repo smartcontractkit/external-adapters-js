@@ -1331,3 +1331,29 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
       'Origin',
     ],
   )
+
+nock('https://amkt.infura-ipfs.io/')
+  .get(`/ipfs/QmYwevHbNyUMMpWKgP58qKhguhA6seCVv8TkkdYTRC6Ppr`)
+  .reply(
+    200,
+    () => ({
+      assets: {
+        AAVE: 1,
+        EOS: 2,
+      },
+    }),
+    [
+      'Date',
+      'Fri, 21 Oct 2022 06:39:28 GMT',
+      'Content-Type',
+      'application/json',
+      'Content-Length',
+      '40',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ],
+  )
