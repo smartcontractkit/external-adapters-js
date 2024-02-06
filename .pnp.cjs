@@ -5464,7 +5464,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/external-adapter-framework", "npm:0.33.2"],\
             ["@types/crypto-js", "npm:4.2.2"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
+            ["@types/node", "npm:16.11.68"],\
             ["crypto-js", "npm:4.2.0"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
@@ -14545,13 +14545,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-15.14.9-739a59edff-49f7f0522a.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:15.14.9"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:16.11.51", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.51-02764a2cd3-b4193d3f9d.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:16.11.51"]\
           ],\
           "linkType": "HARD"\
         }],\

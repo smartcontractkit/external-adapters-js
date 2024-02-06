@@ -2811,7 +2811,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/crypto-js": 4.2.2
     "@types/jest": 27.5.2
-    "@types/node": 16.11.51
+    "@types/node": 16.11.68
     crypto-js: 4.2.0
     nock: 13.2.9
     tslib: 2.4.1
@@ -11012,13 +11012,6 @@ __metadata:
   version: 11.11.6
   resolution: "@types/node@npm:11.11.6"
   checksum: 075f1c011cf568e49701419acbcb55c24906b3bb5a34d9412a3b88f228a7a78401a5ad4d3e1cd6855c99aaea5ef96e37fc86ca097e50f06da92cf822befc1fff
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:16.11.51":
-  version: 16.11.51
-  resolution: "@types/node@npm:16.11.51"
-  checksum: b4193d3f9d4240d866db0ca50de4a8c3b68fd81754d0a572712b559497d0f34931e4246ce0b2692afc8f8def9fcc69fd176bd7176af896d07eefa6d78d886425
   languageName: node
   linkType: hard
 
