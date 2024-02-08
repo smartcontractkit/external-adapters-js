@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.11.23
+
+### Patch Changes
+
+- Updated dependencies [[`8f266fa`](https://github.com/smartcontractkit/external-adapters-js/commit/8f266fa1100f70fa55ca0ce6b5080ae5ccfa0f1c)]:
+  - @chainlink/coinpaprika-adapter@2.0.14
+
 ## 1.11.22
 
 ### Patch Changes
