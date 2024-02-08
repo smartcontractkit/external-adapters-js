@@ -1,5 +1,13 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.19
+
+### Patch Changes
+
+- Updated dependencies [[`eeff213`](https://github.com/smartcontractkit/external-adapters-js/commit/eeff213c555b0bb401afa6a8ef252861a490be25)]:
+  - @chainlink/eth-beacon-adapter@2.0.7
+  - @chainlink/renvm-address-set-adapter@1.5.66
+
 ## 1.18.18
 
 ### Patch Changes

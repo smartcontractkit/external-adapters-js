@@ -1,16 +1,17 @@
 # COINPAPRIKA
 
-![2.0.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |             Description             |  Type  | Options |                 Default                 |
-| :-------: | :-------------: | :---------------------------------: | :----: | :-----: | :-------------------------------------: |
-|           |  API_ENDPOINT   | The HTTP URL to retrieve data from  | string |         |                                         |
-|           |     API_KEY     |     An API key for Coinpaprika      | string |         |                                         |
-|           | WS_API_ENDPOINT | The WS API endpoint for Coinpaprika | string |         | `wss://streaming.coinpaprika.com/ticks` |
+| Required? |      Name       |                      Description                      |  Type   | Options |                 Default                 |
+| :-------: | :-------------: | :---------------------------------------------------: | :-----: | :-----: | :-------------------------------------: |
+|           |  API_ENDPOINT   |          The HTTP URL to retrieve data from           | string  |         |                                         |
+|           |     API_KEY     |              An API key for Coinpaprika               | string  |         |                                         |
+|           | WS_API_ENDPOINT |          The WS API endpoint for Coinpaprika          | string  |         | `wss://streaming.coinpaprika.com/ticks` |
+|           |   WS_ENABLED    | Whether data should be returned from websocket or not | boolean |         |                 `false`                 |
 
 ---
 
