@@ -330,9 +330,6 @@
       "path": "./sources/finage"
     },
     {
-      "path": "./sources/finage-test"
-    },
-    {
       "path": "./sources/finnhub"
     },
     {

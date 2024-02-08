@@ -1,71 +1,69 @@
-import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { NAME } from '../config'
-import overrides from '../config/symbols.json'
+import { ForexPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import overrides from '../config/overrides.json'
+import { httpTransport } from '../transport/forex-http'
+import { ForexBaseEndpointTypes, forexPriceInputParameters } from './utils'
+import { wsTransport } from '../transport/forex-ws'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import { PriceAdapterRequest } from '../index'
 
-export function invertPair(base: string, quote: string) {
-  if (
-    quote.toUpperCase() == 'USD' &&
-    !['EUR', 'GBP', 'NZD', 'XAG', 'XAU', 'XPT', 'XPD', 'XCU'].includes(base.toUpperCase())
-  ) {
-    return [quote.toUpperCase(), base.toUpperCase(), true]
-  }
-  return [base.toUpperCase(), quote.toUpperCase(), false]
+/* 
+to improve data quality for forex feeds
+
+On receiving FOO/USD request, if FOO is on the list of assets that are queried in the standard direction (EUR, GBP, AUD, NZD, XAG, XAU, XPT, XPD, XCU)
+ then handle as normal, else invert the request
+
+excludesMap includes currency pairs {quote: [base ...]} which should not be inverted.
+*/
+const excludesMap: Record<string, string[]> = {
+  USD: ['EUR', 'GBP', 'AUD', 'NZD', 'XAG', 'XAU', 'XPT', 'XPD', 'XCU', 'PLN'],
 }
 
-export const supportedEndpoints = ['forex']
+export const forexReqTransformer = (
+  req: AdapterRequest<typeof forexPriceInputParameters.validated>,
+): void => {
+  if (req.requestContext.endpointName == endpoint.name) {
+    const priceRequest = req as PriceAdapterRequest<typeof forexPriceInputParameters.validated>
 
-export const description = `https://finage.co.uk/docs/api/forex-last-quote
-The result will be calculated as the midpoint between the ask and the bid.`
+    priceRequest.requestContext.priceMeta = {
+      inverse: false,
+    }
 
-export type TInputParameters = { base: string; quote: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    required: true,
-    aliases: ['from', 'symbol'],
-    description: 'The symbol of the currency to query',
-    type: 'string',
+    const quote = String(req.requestContext.data.quote).toUpperCase()
+    const base = String(req.requestContext.data.base).toUpperCase()
+
+    if (excludesMap[quote] && !excludesMap[quote].includes(base)) {
+      priceRequest.requestContext.data.base = quote
+      priceRequest.requestContext.data.quote = base
+      priceRequest.requestContext.priceMeta.inverse = true
+    }
+  }
+}
+
+// List of bases whose pairs should be routed to REST only
+const assets: string[] = ['AED', 'CNY', 'IDR', 'PHP', 'THB', 'TZS', 'VND']
+
+export const endpoint = new ForexPriceEndpoint({
+  name: 'forex',
+  transportRoutes: new TransportRoutes<ForexBaseEndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
+  defaultTransport: 'rest',
+  customRouter: (req, adapterConfig) => {
+    const { base, quote } = req.requestContext
+      .data as typeof forexPriceInputParameters.validated & {
+      transport?: string
+    }
+    // Always route the listed assets to rest since Finage does not provide adequate
+    // updates for them over websocket
+    // Checking both 'base' and 'quote' due to inverses of pairs
+    if (assets.includes(base.toUpperCase()) || assets.includes(quote.toUpperCase())) {
+      return 'rest'
+    } else {
+      return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+    }
   },
-  quote: {
-    required: true,
-    aliases: ['to', 'market'],
-    description: 'The symbol of the currency to convert to',
-    type: 'string',
-  },
-}
-
-export interface ResponseSchema {
-  symbol: string
-  ask: number
-  bid: number
-  timestamp: number
-}
-
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
-
-  const jobRunID = validator.validated.id
-
-  const [from, to, inverse] = invertPair(
-    validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase(),
-    validator.validated.data.quote.toUpperCase(),
-  )
-
-  const url = util.buildUrlPath('/last/forex/:from:to', { from, to })
-  const params = {
-    apikey: config.apiKey,
-  }
-
-  const options = {
-    ...config.api,
-    url,
-    params,
-  }
-
-  const response = await Requester.request<ResponseSchema>(options)
-  const ask = Requester.validateResultNumber(response.data, ['ask'], { inverse: Boolean(inverse) })
-  const bid = Requester.validateResultNumber(response.data, ['bid'], { inverse: Boolean(inverse) })
-
-  const result = (ask + bid) / 2
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
+  inputParameters: forexPriceInputParameters,
+  overrides: overrides.finage,
+  requestTransforms: [forexReqTransformer],
+})
