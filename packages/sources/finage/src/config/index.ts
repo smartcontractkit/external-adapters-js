@@ -1,44 +1,46 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BaseConfig } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'FINAGE'
-
-export const DEFAULT_BASE_URL = 'https://api.finage.co.uk'
-export const DEFAULT_STOCK_WS_API_ENDPOINT = 'wss://e4s39ar3mr.finage.ws:7002'
-export const DEFAULT_FOREX_WS_API_ENDPOINT = 'wss://w29hxx2ndd.finage.ws:8001'
-export const DEFAULT_CRYPTO_WS_API_ENDPOINT = 'wss://e3tne9d5zq.finage.ws:6014'
-export const DEFAULT_ETF_WS_API_ENDPOINT = 'wss://8umh1cipe9.finage.ws:9001'
-export const DEFAULT_ENDPOINT = 'stock'
-
-export const ENV_STOCK_WS_API_ENDPOINT = 'STOCK_WS_API_ENDPOINT'
-export const ENV_FOREX_WS_API_ENDPOINT = 'FOREX_WS_API_ENDPOINT'
-export const ENV_CRYPTO_WS_API_ENDPOINT = 'CRYPTO_WS_API_ENDPOINT'
-export const ENV_ETF_WS_API_ENDPOINT = 'ETF_WS_API_ENDPOINT'
-
-export type Config = BaseConfig & {
-  stockWsEndpoint: string
-  forexWsEndpoint: string
-  cryptoWsEndpoint: string
-  etfWsEndpoint: string
-}
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  const stockWsUrl = util.getEnv(ENV_STOCK_WS_API_ENDPOINT) || DEFAULT_STOCK_WS_API_ENDPOINT
-  const forexWsUrl = util.getEnv(ENV_FOREX_WS_API_ENDPOINT) || DEFAULT_FOREX_WS_API_ENDPOINT
-  const cryptoWsUrl = util.getEnv(ENV_CRYPTO_WS_API_ENDPOINT) || DEFAULT_CRYPTO_WS_API_ENDPOINT
-  const etfWsUrl = util.getEnv(ENV_ETF_WS_API_ENDPOINT) || DEFAULT_ETF_WS_API_ENDPOINT
-  const socketKey = util.getRequiredEnv('WS_SOCKET_KEY')
-  return {
-    ...config,
-    api: {
-      ...config.api,
-      baseURL: config.api.baseURL || DEFAULT_BASE_URL,
-    },
-    stockWsEndpoint: `${stockWsUrl}?token=${socketKey}`,
-    forexWsEndpoint: `${forexWsUrl}?token=${socketKey}`,
-    cryptoWsEndpoint: `${cryptoWsUrl}?token=${socketKey}`,
-    etfWsEndpoint: `${etfWsUrl}?token=${socketKey}`,
-    defaultEndpoint: DEFAULT_ENDPOINT,
-  }
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'API endpoint for Finage',
+    default: 'https://api.finage.co.uk',
+    type: 'string',
+  },
+  API_KEY: {
+    type: 'string',
+    required: true,
+    sensitive: true,
+    description: "An API key that can be obtained from the data provider's dashboard",
+  },
+  WS_SOCKET_KEY: {
+    type: 'string',
+    required: true,
+    sensitive: true,
+    description: "A WEBSOCKET key that can be obtained from the data provider's dashboard",
+  },
+  STOCK_WS_API_ENDPOINT: {
+    type: 'string',
+    default: 'wss://e4s39ar3mr.finage.ws:7002',
+    description: 'The Websocket endpoint to connect to for stock data',
+  },
+  FOREX_WS_API_ENDPOINT: {
+    type: 'string',
+    default: 'wss://w29hxx2ndd.finage.ws:8001',
+    description: 'The Websocket endpoint to connect to for forex data',
+  },
+  CRYPTO_WS_API_ENDPOINT: {
+    type: 'string',
+    default: 'wss://72x8wsyx7t.finage.ws:6008',
+    description: 'The Websocket endpoint to connect to for crypto data',
+  },
+  ETF_WS_API_ENDPOINT: {
+    type: 'string',
+    default: 'wss://8umh1cipe9.finage.ws:9001',
+    description: 'The Websocket endpoint to connect to for etf data',
+  },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
+})

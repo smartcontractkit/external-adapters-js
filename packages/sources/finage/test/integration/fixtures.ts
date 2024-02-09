@@ -1,122 +1,120 @@
 import nock from 'nock'
-
-const API_KEY_QUERY = { apikey: 'fake-api-key' }
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.finage.co.uk', {
     encodedQueryParams: true,
   })
-    .get('/last/stock/AAPL')
-    .query(API_KEY_QUERY)
-    .reply(200, () => ({
-      symbol: 'AAPL',
-      ask: 26.32,
-      bid: 25.8,
-      asize: 13,
-      bsize: 1,
-      timestamp: 1628899200621,
-    }))
+    .persist()
+    .get('/last/stocks')
+    .query({ apikey: 'fake-api-key', symbols: 'AAPL' })
+    .reply(
+      200,
+      () => [
+        {
+          symbol: 'AAPL',
+          ask: 26.32,
+          bid: 25.8,
+          asize: 13,
+          bsize: 1,
+          timestamp: 1628899200621,
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
     .get('/agg/stock/prev-close/ETH')
-    .query(API_KEY_QUERY)
-    .reply(200, () => ({
-      symbol: 'ETH',
-      totalResults: 1,
-      results: [{ o: 26.79, h: 26.85, l: 26.02, c: 26.3, v: 367009, t: 1628884800000 }],
-    }))
+    .query({ apikey: 'fake-api-key' })
+    .reply(
+      200,
+      () => ({
+        symbol: 'ETH',
+        totalResults: 1,
+        results: [{ o: 26.79, h: 26.85, l: 26.02, c: 26.3, v: 367009, t: 1628884800000 }],
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
     .get('/last/forex/GBPUSD')
-    .query(API_KEY_QUERY)
-    .reply(200, { symbol: 'GBPUSD', ask: 1.34435, bid: 1.34426, timestamp: 1637060382000 })
+    .query({ apikey: 'fake-api-key' })
+    .reply(200, { symbol: 'GBPUSD', ask: 1.34435, bid: 1.34426, timestamp: 1637060382000 }, [
+      'Content-Type',
+      'application/json; charset=utf-8',
+      'Content-Length',
+      '73',
+      'Connection',
+      'close',
+    ])
+    .persist()
     .get('/last/crypto/BTCUSD')
-    .query(API_KEY_QUERY)
-    .reply(200, { symbol: 'BTCUSD', price: 50940.12, timestamp: 1638898619885 })
+    .query({ apikey: 'fake-api-key' })
+    .reply(200, { symbol: 'BTCUSD', price: 50940.12, timestamp: 1638898619885 }, [
+      'Content-Type',
+      'application/json; charset=utf-8',
+      'Content-Length',
+      '73',
+      'Connection',
+      'close',
+    ])
+    .persist()
     .get('/last/trade/forex/WTIUSD')
-    .query(API_KEY_QUERY)
+    .query({ apikey: 'fake-api-key' })
+    .reply(
+      200,
+      {
+        symbol: 'WTIUSD',
+        price: 98.91,
+        timestamp: 1514764861000,
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+    .get('/last/etf/CSPX')
+    .query({ apikey: 'fake-api-key', country: 'uk' })
     .reply(200, {
-      symbol: 'WTIUSD',
-      price: 98.91,
-      timestamp: 1659017220,
+      symbol: 'CSPX',
+      price: 445.64,
+      timestamp: 1685972473955,
     })
-    .get('/last/etf/IBTA')
-    .query({
-      country: 'uk',
-      ...API_KEY_QUERY,
-    })
-    .reply(200, {
-      symbol: 'IBTA',
-      price: 5.276,
-      timestamp: 1684403239105,
-    })
+    .persist()
     .get('/last/etf/C3M')
-    .query({
-      ...API_KEY_QUERY,
-    })
+    .query({ apikey: 'fake-api-key' })
     .reply(200, {
       symbol: 'C3M',
-      price: 117.38,
-      timestamp: 1684403239105,
+      price: 118.78,
+      timestamp: 1685972473955,
     })
+    .persist()
 
-export const mockResponseFailure = (): nock.Scope =>
-  nock('https://api.finage.co.uk', {
-    encodedQueryParams: true,
-  })
-    .get('/last/stock/NON-EXISTING')
-    .query(API_KEY_QUERY)
-    .reply(400, () => ({ error: 'Please check the symbol and try again.' }))
-    .get('/last/trade/forex/NONEXISTINGUSD')
-    .query(API_KEY_QUERY)
-    .reply(400, () => ({ error: 'Please check the symbol and try again.' }))
-    .get('/last/etf/NON_EXISTING_UK_ETF')
-    .query({
-      country: 'uk',
-      ...API_KEY_QUERY,
-    })
-    .reply(400, () => ({ error: 'Please check the symbol and try again.' }))
-    .get('/last/etf/NON_EXISTING_ETF')
-    .query({
-      ...API_KEY_QUERY,
-    })
-    .reply(400, () => ({ error: 'Please check the symbol and try again.' }))
-
-export const mockCryptoSubscribeResponse = {
-  request: {
-    action: 'subscribe',
-    symbols: 'BTCUSD',
-  },
-  response: [
-    {
-      message: 'Authorizing...',
-    },
-    {
-      status_code: 200,
-      message: 'Connected to the Cryptocurrency Market source.',
-    },
-    {
-      s: 'BTCUSD',
-      p: '43682.66306523',
-      q: '0.04582000',
-      dex: false,
-      src: 'A',
-      t: 1646151298290,
-    },
-  ],
-}
-
-export const mockCryptoUnsubscribeResponse = {
-  request: {
-    action: 'unsubscribe',
-    symbols: 'BTCUSD',
-  },
-  response: null,
-}
-
-export const mockStockSubscribeResponse = {
-  request: {
-    action: 'subscribe',
-    symbols: 'AAPL',
-  },
-
-  response: [
+export const mockStockWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
     {
       message: 'Authorizing...',
     },
@@ -132,24 +130,21 @@ export const mockStockSubscribeResponse = {
       dp: false,
       t: 1646154954689,
     },
-  ],
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
+    })
+  })
+
+  return mockWsServer
 }
 
-export const mockStockUnsubscribeResponse = {
-  request: {
-    action: 'unsubscribe',
-    symbols: 'AAPL',
-  },
-  response: null,
-}
-
-export const mockForexSubscribeResponse = {
-  request: {
-    action: 'subscribe',
-    symbols: 'GBP/USD',
-  },
-
-  response: [
+export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
     {
       message: 'Authorizing...',
     },
@@ -166,44 +161,71 @@ export const mockForexSubscribeResponse = {
       ppms: false,
       t: 1646157588000,
     },
-  ],
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
+    })
+  })
+
+  return mockWsServer
 }
 
-export const mockForexUnsubscribeResponse = {
-  request: {
-    action: 'unsubscribe',
-    symbols: 'GBP/USD',
-  },
-  response: null,
+export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            s: 'BTCUSD',
+            p: '43682.66306523',
+            q: '0.04582000',
+            dex: false,
+            src: 'A',
+            t: 1646151298290,
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
 }
 
-export const mockUkEtfSubscribeResponse = {
-  request: {
-    action: 'subscribe',
-    symbols: 'IBTA',
-  },
-  response: [
+export const mockEtfWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
     {
-      message: 'Authorizing...',
+      s: 'CSPX',
+      p: 445.76,
+      dc: '0.0000',
+      dd: '0.0000',
+      t: 1514764861000,
     },
     {
-      status_code: 200,
-      message: 'Connected to the market source.',
+      s: 'C3M',
+      p: 118.78,
+      dc: '0.0000',
+      dd: '0.0000',
+      t: 1514764861000,
     },
-    {
-      s: 'IBTA',
-      P: 5.276,
-      Dc: '-2.8028',
-      Dd: '-11.3000',
-      T: 1646157588000,
-    },
-  ],
-}
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    const parseMessage = () => {
+      setTimeout(() => {
+        wsResponse.forEach((message) => {
+          socket.send(JSON.stringify(message))
+        })
+      }, 10)
+    }
+    parseMessage()
+  })
 
-export const mockUkEtfUnsubscribeResponse = {
-  request: {
-    action: 'unsubscribe',
-    symbols: 'IBTA',
-  },
-  response: null,
+  return mockWsServer
 }
