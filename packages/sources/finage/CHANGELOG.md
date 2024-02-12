@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.0.0
+
+### Major Changes
+
+- [#3179](https://github.com/smartcontractkit/external-adapters-js/pull/3179) [`69be0bd`](https://github.com/smartcontractkit/external-adapters-js/commit/69be0bd337860fa11471de99f7534c77c69b9725) Thanks [@amit-momin](https://github.com/amit-momin)! - Upgraded adapter to the v3 framework
+
 ## 1.10.0
 
 ### Minor Changes
