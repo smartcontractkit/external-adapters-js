@@ -23,6 +23,11 @@ export const inputParameters = new InputParameters({
     type: 'number',
     default: 10,
   },
+  batchGroupSize: {
+    description: 'The number of concurrent batched contract calls to make at a time',
+    type: 'number',
+    default: 10,
+  },
   network: {
     description: 'The network name to associate with the addresses',
     type: 'string',

@@ -37,6 +37,7 @@ There are no rate limits for this adapter.
 |           |     confirmations     |         |            The number of confirmations to query data from             | number  |         |         |            |                |
 |    ✅     |    contractAddress    |         |         The contract address holding the custodial addresses          | string  |         |         |            |                |
 |           |       batchSize       |         |     The number of addresses to fetch from the contract at a time      | number  |         |  `10`   |            |                |
+|           |    batchGroupSize     |         |   The number of concurrent batched contract calls to make at a time   | number  |         |  `10`   |            |                |
 |    ✅     |        network        |         |           The network name to associate with the addresses            | string  |         |         |            |                |
 |    ✅     |        chainId        |         |             The chain ID to associate with the addresses              | string  |         |         |            |                |
 |           | searchLimboValidators |         | Flag to pass on to the balance adapter to search for limbo validators | boolean |         |         |            |                |
