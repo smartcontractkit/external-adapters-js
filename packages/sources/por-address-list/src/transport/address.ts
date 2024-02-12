@@ -71,7 +71,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       latestBlockNum,
       confirmations,
       batchSize,
-      this.settings.BATCH_GROUP_SIZE,
+      this.settings.GROUP_SIZE,
     )
     const addresses: PoRAddress[] = addressList.map((address) => ({
       address,
