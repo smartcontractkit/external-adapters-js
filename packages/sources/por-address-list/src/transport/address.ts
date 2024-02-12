@@ -14,6 +14,7 @@ type RequestParams = typeof inputParameters.validated
 
 export class AddressTransport extends SubscriptionTransport<AddressTransportTypes> {
   provider!: ethers.providers.JsonRpcProvider
+  settings!: AddressTransportTypes['Settings']
 
   async initialize(
     dependencies: TransportDependencies<AddressTransportTypes>,
@@ -26,6 +27,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       adapterSettings.RPC_URL,
       adapterSettings.CHAIN_ID,
     )
+    this.settings = adapterSettings
   }
 
   async backgroundHandler(
@@ -58,15 +60,8 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
-    const {
-      confirmations,
-      contractAddress,
-      batchSize,
-      batchGroupSize,
-      network,
-      chainId,
-      searchLimboValidators,
-    } = param
+    const { confirmations, contractAddress, batchSize, network, chainId, searchLimboValidators } =
+      param
     const addressManager = new ethers.Contract(contractAddress, POR_ADDRESS_LIST_ABI, this.provider)
     const latestBlockNum = await this.provider.getBlockNumber()
 
@@ -76,7 +71,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       latestBlockNum,
       confirmations,
       batchSize,
-      batchGroupSize,
+      this.settings.BATCH_GROUP_SIZE,
     )
     const addresses: PoRAddress[] = addressList.map((address) => ({
       address,

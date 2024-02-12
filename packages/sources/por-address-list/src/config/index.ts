@@ -12,6 +12,11 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 1,
   },
+  BATCH_GROUP_SIZE: {
+    description: 'The number of concurrent batched contract calls to make at a time',
+    type: 'number',
+    default: 10,
+  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

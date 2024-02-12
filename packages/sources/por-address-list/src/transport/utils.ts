@@ -14,11 +14,11 @@ export const fetchAddressList = async (
   let totalRequestedAddressesCount = 0
   let startIdx = ethers.BigNumber.from(0)
   const addresses: string[] = []
-  let batchRequests: Promise<string>[] = []
+  let batchRequests: Promise<string[]>[] = []
 
   while (totalRequestedAddressesCount < numAddresses.toNumber()) {
     const nextEndIdx = startIdx.add(batchSize)
-    const endIdx = nextEndIdx.gt(numAddresses) ? numAddresses.sub(1) : nextEndIdx
+    const endIdx = nextEndIdx.gte(numAddresses) ? numAddresses.sub(1) : nextEndIdx
     const batchCall = addressManager.getPoRAddressList(startIdx, endIdx, { blockTag })
     batchRequests.push(batchCall)
     // element at endIdx is included in result
