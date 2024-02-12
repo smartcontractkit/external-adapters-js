@@ -36,7 +36,11 @@ jest.mock('ethers', () => {
       Contract: function () {
         return {
           getPoRAddressListLength: jest.fn().mockReturnValue(mockAddressListLength),
-          getPoRAddressList: jest.fn().mockReturnValue(mockExpectedAddresses),
+          getPoRAddressList: jest.fn().mockImplementation((startIdx, endIdx) => {
+            const start = startIdx.toNumber()
+            const end = endIdx.toNumber() + 1
+            return mockExpectedAddresses.slice(start, end)
+          }),
         }
       },
     },

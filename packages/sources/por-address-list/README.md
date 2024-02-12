@@ -10,6 +10,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     |        RPC_URL        |   The RPC URL to connect to the EVM chain the address manager contract is deployed to.    | string |         |         |
 |           |       CHAIN_ID        |                                The chain id to connect to                                 | number |         |   `1`   |
+|           |   BATCH_GROUP_SIZE    |             The number of concurrent batched contract calls to make at a time             | number |         |  `10`   |
 |           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
 
 ---
