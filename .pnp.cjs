@@ -7115,7 +7115,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["csv-parse", "npm:4.16.3"],\
             ["decimal.js", "npm:10.4.3"],\
             ["moment", "npm:2.29.4"],\
-            ["moment-timezone", "npm:0.5.44"],\
+            ["moment-timezone", "npm:0.5.45"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -30780,10 +30780,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["moment-timezone", [\
-        ["npm:0.5.44", {\
-          "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.44-16af7889fb-2f1de58f14.zip/node_modules/moment-timezone/",\
+        ["npm:0.5.45", {\
+          "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.45-2df3ad72a4-a22e9f983f.zip/node_modules/moment-timezone/",\
           "packageDependencies": [\
-            ["moment-timezone", "npm:0.5.44"],\
+            ["moment-timezone", "npm:0.5.45"],\
             ["moment", "npm:2.29.4"]\
           ],\
           "linkType": "HARD"\
