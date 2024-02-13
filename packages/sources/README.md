@@ -74,7 +74,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [expert-car-broker](./expert-car-broker/README.md)
 - [fcsapi](./fcsapi/README.md)
 - [finage](./finage/README.md)
-- [finage-test](./finage-test/README.md)
 - [finnhub](./finnhub/README.md)
 - [finnhub-secondary](./finnhub-secondary/README.md)
 - [fixer](./fixer/README.md)
