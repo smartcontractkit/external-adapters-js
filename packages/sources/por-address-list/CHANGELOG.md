@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.0.4
+
+### Patch Changes
+
+- [#3185](https://github.com/smartcontractkit/external-adapters-js/pull/3185) [`2e46100`](https://github.com/smartcontractkit/external-adapters-js/commit/2e46100fee7c48c856749c4db93f3d45b0c9e421) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added GROUP_SIZE config
+
 ## 5.0.3
 
 ### Patch Changes
