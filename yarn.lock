@@ -3350,7 +3350,7 @@ __metadata:
     "@types/lodash": 4.14.202
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.68
-    "@types/object-hash": 2.1.1
+    "@types/object-hash": 2.2.1
     "@types/object-path": 0.11.4
     "@types/pino": 6.3.12
     "@types/pino-pretty": 4.7.5
@@ -11061,10 +11061,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/object-hash@npm:2.1.1":
-  version: 2.1.1
-  resolution: "@types/object-hash@npm:2.1.1"
-  checksum: 23921d2506a8a2254a81c9d70a576c795b790f9e40e69e9d9edd7efb327920993315a78e6322c6be384604a0031b7c655c1eec749953c46c9cad979910c948a0
+"@types/object-hash@npm:2.2.1":
+  version: 2.2.1
+  resolution: "@types/object-hash@npm:2.2.1"
+  checksum: bbcbf076903e11fa6d61dd5cc365bce2b080b18502ef52672a427443262e465d7b46b8f2821e8cea0307de66aee2eb92ad6e2bed2346acd7c8de118d4123fe3a
   languageName: node
   linkType: hard
 
@@ -12673,9 +12673,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:8.2.5":
-  version: 8.2.5
-  resolution: "babel-loader@npm:8.2.5"
+"babel-loader@npm:8.3.0":
+  version: 8.3.0
+  resolution: "babel-loader@npm:8.3.0"
   dependencies:
     find-cache-dir: ^3.3.1
     loader-utils: ^2.0.0
@@ -12684,7 +12684,7 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
     webpack: ">=2"
-  checksum: a6605557885eabbc3250412405f2c63ca87287a95a439c643fdb47d5ea3d5326f72e43ab97be070316998cb685d5dfbc70927ce1abe8be7a6a4f5919287773fb
+  checksum: d48bcf9e030e598656ad3ff5fb85967db2eaaf38af5b4a4b99d25618a2057f9f100e6b231af2a46c1913206db506115ca7a8cbdf52c9c73d767070dae4352ab5
   languageName: node
   linkType: hard
 
@@ -23118,7 +23118,7 @@ __metadata:
     "@types/k6": 0.49.0
     "@types/node": 17.0.45
     "@types/rimraf": 3.0.2
-    babel-loader: 8.2.5
+    babel-loader: 8.3.0
     clean-webpack-plugin: 4.0.0
     core-js: 3.20.3
     dotenv: 16.0.3
@@ -32387,11 +32387,11 @@ __metadata:
   linkType: hard
 
 "undici@npm:^5.4.0":
-  version: 5.26.3
-  resolution: "undici@npm:5.26.3"
+  version: 5.28.3
+  resolution: "undici@npm:5.28.3"
   dependencies:
     "@fastify/busboy": ^2.0.0
-  checksum: aaa9aadb712cf80e1a9cea2377e4842670105e00abbc184a21770ea5a8b77e4e2eadc200eac62442e74a1cd3b16a840c6f73b112b9e886bd3c1a125eb22e4f21
+  checksum: fa1e65aff896c5e2ee23637b632e306f9e3a2b32a3dc0b23ea71e5555ad350bcc25713aea894b3dccc0b7dc2c5e92a5a58435ebc2033b731a5524506f573dfd2
   languageName: node
   linkType: hard
 

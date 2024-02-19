@@ -6058,7 +6058,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lodash", "npm:4.14.202"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.68"],\
-            ["@types/object-hash", "npm:2.1.1"],\
+            ["@types/object-hash", "npm:2.2.1"],\
             ["@types/object-path", "npm:0.11.4"],\
             ["@types/pino", "npm:6.3.12"],\
             ["@types/pino-pretty", "npm:4.7.5"],\
@@ -14587,10 +14587,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/object-hash", [\
-        ["npm:2.1.1", {\
-          "packageLocation": "./.yarn/cache/@types-object-hash-npm-2.1.1-9b5ec75b10-23921d2506.zip/node_modules/@types/object-hash/",\
+        ["npm:2.2.1", {\
+          "packageLocation": "./.yarn/cache/@types-object-hash-npm-2.2.1-1e19446be3-bbcbf07690.zip/node_modules/@types/object-hash/",\
           "packageDependencies": [\
-            ["@types/object-hash", "npm:2.1.1"]\
+            ["@types/object-hash", "npm:2.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16566,17 +16566,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["babel-loader", [\
-        ["npm:8.2.5", {\
-          "packageLocation": "./.yarn/cache/babel-loader-npm-8.2.5-e749e26bb5-a660555788.zip/node_modules/babel-loader/",\
+        ["npm:8.3.0", {\
+          "packageLocation": "./.yarn/cache/babel-loader-npm-8.3.0-a5239d7ed2-d48bcf9e03.zip/node_modules/babel-loader/",\
           "packageDependencies": [\
-            ["babel-loader", "npm:8.2.5"]\
+            ["babel-loader", "npm:8.3.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.5", {\
-          "packageLocation": "./.yarn/__virtual__/babel-loader-virtual-2b1a0744f0/0/cache/babel-loader-npm-8.2.5-e749e26bb5-a660555788.zip/node_modules/babel-loader/",\
+        ["virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.3.0", {\
+          "packageLocation": "./.yarn/__virtual__/babel-loader-virtual-a2ea32ec69/0/cache/babel-loader-npm-8.3.0-a5239d7ed2-d48bcf9e03.zip/node_modules/babel-loader/",\
           "packageDependencies": [\
-            ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.5"],\
+            ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.3.0"],\
             ["@babel/core", "npm:7.23.9"],\
             ["@types/babel__core", "npm:7.20.5"],\
             ["@types/webpack", null],\
@@ -23927,7 +23927,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", null],\
             ["tsort", "npm:0.0.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
-            ["undici", "npm:5.26.3"],\
+            ["undici", "npm:5.28.3"],\
             ["uuid", "npm:8.3.2"],\
             ["ws", "virtual:f6e474cf40bbabeb7f1fe6c393b6955df38a58db2d59ee7489b1a74f73c369a1f22a33bd1aedfcae125bddf304fd7dc4ee8d6311eaf92ab0350b94d49e9a172e#npm:7.5.9"]\
           ],\
@@ -28129,7 +28129,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/k6", "npm:0.49.0"],\
             ["@types/node", "npm:17.0.45"],\
             ["@types/rimraf", "npm:3.0.2"],\
-            ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.5"],\
+            ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.3.0"],\
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],\
             ["core-js", "npm:3.20.3"],\
             ["dotenv", "npm:16.0.3"],\
@@ -38278,10 +38278,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["undici", [\
-        ["npm:5.26.3", {\
-          "packageLocation": "./.yarn/cache/undici-npm-5.26.3-bdeea4fdde-aaa9aadb71.zip/node_modules/undici/",\
+        ["npm:5.28.3", {\
+          "packageLocation": "./.yarn/cache/undici-npm-5.28.3-fb5b0fbd18-fa1e65aff8.zip/node_modules/undici/",\
           "packageDependencies": [\
-            ["undici", "npm:5.26.3"],\
+            ["undici", "npm:5.28.3"],\
             ["@fastify/busboy", "npm:2.0.0"]\
           ],\
           "linkType": "HARD"\
