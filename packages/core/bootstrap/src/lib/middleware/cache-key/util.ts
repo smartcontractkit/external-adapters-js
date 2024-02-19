@@ -50,7 +50,7 @@ export type HashMode = 'include' | 'exclude'
  */
 export const hash = (
   data: AdapterRequest,
-  hashOptions: Required<Parameters<typeof objectHash>>['1'],
+  hashOptions: objectHash.NormalOption,
   mode: HashMode = 'include',
 ): string => {
   return mode === 'include' || !data
@@ -58,7 +58,7 @@ export const hash = (
     : objectHash(data, getHashOpts())
 }
 
-export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
+export const getHashOpts = (): objectHash.NormalOption => ({
   algorithm: 'sha1',
   encoding: 'hex',
   unorderedSets: false,
