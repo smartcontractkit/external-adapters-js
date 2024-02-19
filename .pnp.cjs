@@ -24054,7 +24054,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", null],\
             ["tsort", "npm:0.0.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
-            ["undici", "npm:5.26.3"],\
+            ["undici", "npm:5.28.3"],\
             ["uuid", "npm:8.3.2"],\
             ["ws", "virtual:f6e474cf40bbabeb7f1fe6c393b6955df38a58db2d59ee7489b1a74f73c369a1f22a33bd1aedfcae125bddf304fd7dc4ee8d6311eaf92ab0350b94d49e9a172e#npm:7.5.9"]\
           ],\
@@ -38461,10 +38461,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["undici", [\
-        ["npm:5.26.3", {\
-          "packageLocation": "./.yarn/cache/undici-npm-5.26.3-bdeea4fdde-aaa9aadb71.zip/node_modules/undici/",\
+        ["npm:5.28.3", {\
+          "packageLocation": "./.yarn/cache/undici-npm-5.28.3-fb5b0fbd18-fa1e65aff8.zip/node_modules/undici/",\
           "packageDependencies": [\
-            ["undici", "npm:5.26.3"],\
+            ["undici", "npm:5.28.3"],\
             ["@fastify/busboy", "npm:2.0.0"]\
           ],\
           "linkType": "HARD"\
