@@ -7,6 +7,11 @@
     {
       "from": "ETH",
       "to": "USD",
+      "endpoint": "crypto-lwba"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
       "resultPath": "realVol1Day",
       "endpoint": "realized-vol"
     },
