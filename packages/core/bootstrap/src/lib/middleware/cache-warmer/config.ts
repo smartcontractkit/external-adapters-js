@@ -32,7 +32,7 @@ export interface Config {
   /**
    * Hashing options for differentiating requests
    */
-  hashOpts: Required<Parameters<typeof objectHash>>['1']
+  hashOpts: objectHash.NormalOption
 }
 
 export function get(): Config {
