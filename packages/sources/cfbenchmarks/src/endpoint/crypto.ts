@@ -51,16 +51,17 @@ export const cryptoRequestTransform = (
   req: AdapterRequest<typeof inputParameters.validated>,
   settings: BaseEndpointTypes['Settings'],
 ): void => {
-  if (!req.requestContext.data.index) {
+  const { base, quote, index } = req.requestContext.data
+  const originalRequest = req.body.data
+  // Overrides transformer always runs before a custom one, so we can check if base was overriden, use that value for index
+  if (base !== originalRequest['base']) {
+    req.requestContext.data.index = base
+  } else if (!index) {
     const isSecondary = settings.API_SECONDARY
     const type = isSecondary ? 'secondary' : 'primary'
     // If there is no index set
     // we know that base and quote exist from the customInputValidation
-    req.requestContext.data.index = getIdFromBaseQuote(
-      req.requestContext.data.base as string,
-      req.requestContext.data.quote as string,
-      type,
-    )
+    req.requestContext.data.index = getIdFromBaseQuote(base as string, quote as string, type)
   }
   // Clear base quote to ensure an exact match in the cache with index
   delete req.requestContext.data.base

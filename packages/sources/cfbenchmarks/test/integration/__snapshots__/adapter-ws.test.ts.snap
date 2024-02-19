@@ -15,6 +15,21 @@ exports[`websocket crypto endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket crypto endpoint with override should return success 1`] = `
+{
+  "data": {
+    "result": 40067,
+  },
+  "result": 40067,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1645203822000,
+  },
+}
+`;
+
 exports[`websocket lwba endpoint should return success 1`] = `
 {
   "data": {

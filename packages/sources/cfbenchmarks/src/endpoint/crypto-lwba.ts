@@ -14,8 +14,9 @@ export type BaseEndpointTypes = {
 
 export const lwbaReqTransformer = (req: AdapterRequest<typeof inputParameters.validated>): void => {
   const { base, quote, index } = req.requestContext.data
-  if (base?.endsWith('_RTI')) {
-    // If 'base' ends with _RTI it means the value is overridden, use that value for index
+  const originalRequest = req.body.data
+  // Overrides transformer always runs before a custom one, so we can check if base was overriden, use that value for index
+  if (base !== originalRequest['base']) {
     req.requestContext.data.index = base
   } else if (!index) {
     req.requestContext.data.index = getSecondaryId(base as string, quote as string)
