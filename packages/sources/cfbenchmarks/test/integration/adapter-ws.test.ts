@@ -26,7 +26,8 @@ describe('websocket', () => {
     },
   }
   const dataLwba = {
-    index: 'U_ETHUSD_RTI',
+    from: 'ETH',
+    quote: 'USD',
     endpoint: 'cryptolwba',
   }
   const dataLwbaOverride = {

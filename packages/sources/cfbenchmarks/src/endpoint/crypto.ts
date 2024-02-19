@@ -52,9 +52,10 @@ export const cryptoRequestTransform = (
   settings: BaseEndpointTypes['Settings'],
 ): void => {
   const { base, quote, index } = req.requestContext.data
-  const originalRequest = req.body.data
-  // Overrides transformer always runs before a custom one, so we can check if base was overriden, use that value for index
-  if (base !== originalRequest['base']) {
+  const rawRequestData = req.body.data
+  // If `base` in requestContext.data is not the same as in raw request data, it means the value is overriden, use that for index
+  const baseAliases = ['base', ...inputParameters.definition.base.aliases]
+  if (baseAliases.every((alias) => base !== rawRequestData[alias])) {
     req.requestContext.data.index = base
   } else if (!index) {
     const isSecondary = settings.API_SECONDARY
