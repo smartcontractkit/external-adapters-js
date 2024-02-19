@@ -6178,7 +6178,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.20.1"],\
             ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
@@ -9002,36 +9002,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@ethereumjs/block", [\
-        ["npm:3.6.3", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-block-npm-3.6.3-d9b6944257-d08c78134d.zip/node_modules/@ethereumjs/block/",\
-          "packageDependencies": [\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["merkle-patricia-tree", "npm:4.2.4"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ethereumjs/blockchain", [\
-        ["npm:5.5.3", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-blockchain-npm-5.5.3-413a649e91-eeefb4735a.zip/node_modules/@ethereumjs/blockchain/",\
-          "packageDependencies": [\
-            ["@ethereumjs/blockchain", "npm:5.5.3"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/ethash", "npm:1.1.0"],\
-            ["debug", "virtual:5506c369f7d205cc727e8f2875616dc0244b99710d92b1bad22ac883508e7a91e51874d9b6c2a625bec078bdd53505d75f79e9c1a0dce52df9bea20420686aaf#npm:4.3.4"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["level-mem", "npm:5.0.1"],\
-            ["lru-cache", "npm:5.1.1"],\
-            ["semaphore-async-await", "npm:1.5.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@ethereumjs/common", [\
         ["npm:2.6.5", {\
           "packageLocation": "./.yarn/cache/@ethereumjs-common-npm-2.6.5-3cdacd49c9-0143386f26.zip/node_modules/@ethereumjs/common/",\
@@ -9039,20 +9009,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/common", "npm:2.6.5"],\
             ["crc-32", "npm:1.2.2"],\
             ["ethereumjs-util", "npm:7.1.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ethereumjs/ethash", [\
-        ["npm:1.1.0", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-ethash-npm-1.1.0-8e2785b32b-152bc0850e.zip/node_modules/@ethereumjs/ethash/",\
-          "packageDependencies": [\
-            ["@ethereumjs/ethash", "npm:1.1.0"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@types/levelup", "npm:4.3.3"],\
-            ["buffer-xor", "npm:2.0.2"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["miller-rabin", "npm:4.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9085,28 +9041,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/rlp", "npm:4.0.1"],\
             ["ethereum-cryptography", "npm:2.1.2"],\
             ["micro-ftch", "npm:0.3.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ethereumjs/vm", [\
-        ["npm:5.9.3", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-vm-npm-5.9.3-36d43c2693-c5b4f85044.zip/node_modules/@ethereumjs/vm/",\
-          "packageDependencies": [\
-            ["@ethereumjs/vm", "npm:5.9.3"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/blockchain", "npm:5.5.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["async-eventemitter", "npm:0.2.4"],\
-            ["core-js-pure", "npm:3.25.5"],\
-            ["debug", "virtual:5506c369f7d205cc727e8f2875616dc0244b99710d92b1bad22ac883508e7a91e51874d9b6c2a625bec078bdd53505d75f79e9c1a0dce52df9bea20420686aaf#npm:4.3.4"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["functional-red-black-tree", "npm:1.0.1"],\
-            ["mcl-wasm", "npm:0.7.9"],\
-            ["merkle-patricia-tree", "npm:4.2.4"],\
-            ["rlp", "npm:3.0.0"],\
-            ["rustbn.js", "npm:0.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12070,6 +12004,348 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@nomicfoundation/ethereumjs-block", [\
+        ["npm:5.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-block-npm-5.0.4-d96a212f8a-fe60b3dc31.zip/node_modules/@nomicfoundation/ethereumjs-block/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-block", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-trie", "npm:6.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:d96a212f8aae0c2ad4e29be3d7e121304dab7a990f5f64e400f18b0820620715b5ec4e508ec4d20686d5036be45b1b2b5965e7b893078ca4d8278a9e604d85c9#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["ethereum-cryptography", "npm:0.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-blockchain", [\
+        ["npm:7.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-blockchain-npm-7.0.4-9ddcd96350-0d35f28ed5.zip/node_modules/@nomicfoundation/ethereumjs-blockchain/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-blockchain", "npm:7.0.4"],\
+            ["@nomicfoundation/ethereumjs-block", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-ethash", "npm:3.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-trie", "npm:6.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:d96a212f8aae0c2ad4e29be3d7e121304dab7a990f5f64e400f18b0820620715b5ec4e508ec4d20686d5036be45b1b2b5965e7b893078ca4d8278a9e604d85c9#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["debug", "virtual:5506c369f7d205cc727e8f2875616dc0244b99710d92b1bad22ac883508e7a91e51874d9b6c2a625bec078bdd53505d75f79e9c1a0dce52df9bea20420686aaf#npm:4.3.4"],\
+            ["ethereum-cryptography", "npm:0.1.3"],\
+            ["lru-cache", "npm:10.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-common", [\
+        ["npm:4.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-common-npm-4.0.4-c84ef6a4e0-ce3f6e4ae1.zip/node_modules/@nomicfoundation/ethereumjs-common/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-ethash", [\
+        ["npm:3.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-ethash-npm-3.0.4-a2f0c78a6b-52c2b00307.zip/node_modules/@nomicfoundation/ethereumjs-ethash/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-ethash", "npm:3.0.4"],\
+            ["@nomicfoundation/ethereumjs-block", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["bigint-crypto-utils", "npm:3.3.0"],\
+            ["ethereum-cryptography", "npm:0.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-evm", [\
+        ["npm:2.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-evm-npm-2.0.4-3815c1c13b-db25327f7b.zip/node_modules/@nomicfoundation/ethereumjs-evm/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-evm", "npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-statemanager", "virtual:3815c1c13b653d1a3de693c03ff6f9128f0a51fc4e42941fe9a61dc36d3997aba84ee61faaa2da0170c1a0353d709f82f49f263708f5c01f9ca557f95bb6af09#npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:d96a212f8aae0c2ad4e29be3d7e121304dab7a990f5f64e400f18b0820620715b5ec4e508ec4d20686d5036be45b1b2b5965e7b893078ca4d8278a9e604d85c9#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@types/debug", "npm:4.1.12"],\
+            ["debug", "virtual:5506c369f7d205cc727e8f2875616dc0244b99710d92b1bad22ac883508e7a91e51874d9b6c2a625bec078bdd53505d75f79e9c1a0dce52df9bea20420686aaf#npm:4.3.4"],\
+            ["ethereum-cryptography", "npm:0.1.3"],\
+            ["rustbn-wasm", "npm:0.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-rlp", [\
+        ["npm:5.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-rlp-npm-5.0.4-b98abcc3ae-ee2c2e5776.zip/node_modules/@nomicfoundation/ethereumjs-rlp/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-statemanager", [\
+        ["npm:2.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-statemanager-npm-2.0.4-7bea9b755f-585dc67872.zip/node_modules/@nomicfoundation/ethereumjs-statemanager/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-statemanager", "npm:2.0.4"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:151b6abc365e66f3412514f1242939d5c818ada6b11d86b1ba1aed30948de514388d729efb81b3cebe4b6c3f383fef7a4db3dbcbf800eb5c36bd67b44cae50eb#npm:2.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-statemanager-virtual-1a6ceb615f/0/cache/@nomicfoundation-ethereumjs-statemanager-npm-2.0.4-7bea9b755f-585dc67872.zip/node_modules/@nomicfoundation/ethereumjs-statemanager/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-statemanager", "virtual:151b6abc365e66f3412514f1242939d5c818ada6b11d86b1ba1aed30948de514388d729efb81b3cebe4b6c3f383fef7a4db3dbcbf800eb5c36bd67b44cae50eb#npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-trie", "npm:6.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@nomicfoundation/ethereumjs-verkle", "npm:0.0.2"],\
+            ["@types/nomicfoundation__ethereumjs-verkle", null],\
+            ["debug", "virtual:5506c369f7d205cc727e8f2875616dc0244b99710d92b1bad22ac883508e7a91e51874d9b6c2a625bec078bdd53505d75f79e9c1a0dce52df9bea20420686aaf#npm:4.3.4"],\
+            ["ethereum-cryptography", "npm:0.1.3"],\
+            ["js-sdsl", "npm:4.4.0"],\
+            ["lru-cache", "npm:10.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@nomicfoundation/ethereumjs-verkle",\
+            "@types/nomicfoundation__ethereumjs-verkle"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:3815c1c13b653d1a3de693c03ff6f9128f0a51fc4e42941fe9a61dc36d3997aba84ee61faaa2da0170c1a0353d709f82f49f263708f5c01f9ca557f95bb6af09#npm:2.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-statemanager-virtual-15e01aafa8/0/cache/@nomicfoundation-ethereumjs-statemanager-npm-2.0.4-7bea9b755f-585dc67872.zip/node_modules/@nomicfoundation/ethereumjs-statemanager/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-statemanager", "virtual:3815c1c13b653d1a3de693c03ff6f9128f0a51fc4e42941fe9a61dc36d3997aba84ee61faaa2da0170c1a0353d709f82f49f263708f5c01f9ca557f95bb6af09#npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-trie", "npm:6.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@nomicfoundation/ethereumjs-verkle", null],\
+            ["@types/nomicfoundation__ethereumjs-verkle", null],\
+            ["debug", "virtual:5506c369f7d205cc727e8f2875616dc0244b99710d92b1bad22ac883508e7a91e51874d9b6c2a625bec078bdd53505d75f79e9c1a0dce52df9bea20420686aaf#npm:4.3.4"],\
+            ["ethereum-cryptography", "npm:0.1.3"],\
+            ["js-sdsl", "npm:4.4.0"],\
+            ["lru-cache", "npm:10.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@nomicfoundation/ethereumjs-verkle",\
+            "@types/nomicfoundation__ethereumjs-verkle"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-trie", [\
+        ["npm:6.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-trie-npm-6.0.4-000aa2abc8-93a6be3265.zip/node_modules/@nomicfoundation/ethereumjs-trie/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-trie", "npm:6.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@types/readable-stream", "npm:2.3.15"],\
+            ["ethereum-cryptography", "npm:0.1.3"],\
+            ["lru-cache", "npm:10.2.0"],\
+            ["readable-stream", "npm:3.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-tx", [\
+        ["npm:5.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-tx", "npm:5.0.4"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:d96a212f8aae0c2ad4e29be3d7e121304dab7a990f5f64e400f18b0820620715b5ec4e508ec4d20686d5036be45b1b2b5965e7b893078ca4d8278a9e604d85c9#npm:5.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-tx-virtual-1057762c9f/0/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:d96a212f8aae0c2ad4e29be3d7e121304dab7a990f5f64e400f18b0820620715b5ec4e508ec4d20686d5036be45b1b2b5965e7b893078ca4d8278a9e604d85c9#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@types/c-kzg", null],\
+            ["c-kzg", null],\
+            ["ethereum-cryptography", "npm:0.1.3"]\
+          ],\
+          "packagePeers": [\
+            "@types/c-kzg",\
+            "c-kzg"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-util", [\
+        ["npm:9.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-util-npm-9.0.4-7086377bd2-754439f72b.zip/node_modules/@nomicfoundation/ethereumjs-util/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-util", "npm:9.0.4"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-util-virtual-7abba02c1f/0/cache/@nomicfoundation-ethereumjs-util-npm-9.0.4-7086377bd2-754439f72b.zip/node_modules/@nomicfoundation/ethereumjs-util/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@types/c-kzg", null],\
+            ["c-kzg", null],\
+            ["ethereum-cryptography", "npm:0.1.3"]\
+          ],\
+          "packagePeers": [\
+            "@types/c-kzg",\
+            "c-kzg"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-verkle", [\
+        ["npm:0.0.2", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-verkle-npm-0.0.2-9969c82f7e-e075d7a247.zip/node_modules/@nomicfoundation/ethereumjs-verkle/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-verkle", "npm:0.0.2"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["lru-cache", "npm:10.2.0"],\
+            ["rust-verkle-wasm", "npm:0.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-vm", [\
+        ["npm:7.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-vm-npm-7.0.4-654c5e4a73-6f3b250718.zip/node_modules/@nomicfoundation/ethereumjs-vm/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-vm", "npm:7.0.4"],\
+            ["@nomicfoundation/ethereumjs-block", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-blockchain", "npm:7.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-evm", "npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-statemanager", "virtual:3815c1c13b653d1a3de693c03ff6f9128f0a51fc4e42941fe9a61dc36d3997aba84ee61faaa2da0170c1a0353d709f82f49f263708f5c01f9ca557f95bb6af09#npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-trie", "npm:6.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:d96a212f8aae0c2ad4e29be3d7e121304dab7a990f5f64e400f18b0820620715b5ec4e508ec4d20686d5036be45b1b2b5965e7b893078ca4d8278a9e604d85c9#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["debug", "virtual:5506c369f7d205cc727e8f2875616dc0244b99710d92b1bad22ac883508e7a91e51874d9b6c2a625bec078bdd53505d75f79e9c1a0dce52df9bea20420686aaf#npm:4.3.4"],\
+            ["ethereum-cryptography", "npm:0.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-solidity-analyzer-npm-0.1.1-dae2e2624f-038cffafd5.zip/node_modules/@nomicfoundation/solidity-analyzer/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-darwin-arm64", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-darwin-x64", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-freebsd-x64", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-gnu", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-musl", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-gnu", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-musl", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-win32-arm64-msvc", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-win32-ia32-msvc", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-win32-x64-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-darwin-arm64", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-darwin-arm64-npm-0.1.1-269bd960f5/node_modules/@nomicfoundation/solidity-analyzer-darwin-arm64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-darwin-arm64", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-darwin-x64", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-darwin-x64-npm-0.1.1-88133d2c6c/node_modules/@nomicfoundation/solidity-analyzer-darwin-x64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-darwin-x64", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-freebsd-x64", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-freebsd-x64-npm-0.1.1-63ec0f98b4/node_modules/@nomicfoundation/solidity-analyzer-freebsd-x64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-freebsd-x64", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-arm64-gnu", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-arm64-gnu-npm-0.1.1-364542a4c9/node_modules/@nomicfoundation/solidity-analyzer-linux-arm64-gnu/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-gnu", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-arm64-musl", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-arm64-musl-npm-0.1.1-09d1fc907a/node_modules/@nomicfoundation/solidity-analyzer-linux-arm64-musl/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-musl", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-x64-gnu", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-x64-gnu-npm-0.1.1-d68b54567f/node_modules/@nomicfoundation/solidity-analyzer-linux-x64-gnu/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-gnu", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-x64-musl", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-x64-musl-npm-0.1.1-f69bf4ad48/node_modules/@nomicfoundation/solidity-analyzer-linux-x64-musl/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-musl", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-win32-arm64-msvc", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-win32-arm64-msvc-npm-0.1.1-c1bb38ef77/node_modules/@nomicfoundation/solidity-analyzer-win32-arm64-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-win32-arm64-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-win32-ia32-msvc", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-win32-ia32-msvc-npm-0.1.1-bcccc7308d/node_modules/@nomicfoundation/solidity-analyzer-win32-ia32-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-win32-ia32-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-win32-x64-msvc", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-win32-x64-msvc-npm-0.1.1-b9d8a37a0e/node_modules/@nomicfoundation/solidity-analyzer-win32-x64-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-win32-x64-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@npmcli/arborist", [\
         ["npm:4.3.1", {\
           "packageLocation": "./.yarn/cache/@npmcli-arborist-npm-4.3.1-68b2741cb0-51470ebb9a.zip/node_modules/@npmcli/arborist/",\
@@ -13158,6 +13434,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/base", "npm:1.1.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.1.5", {\
+          "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.5-d9203f3027-9e9ee6088c.zip/node_modules/@scure/base/",\
+          "packageDependencies": [\
+            ["@scure/base", "npm:1.1.5"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@scure/bip32", [\
@@ -13466,16 +13749,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["node-fetch", "virtual:09d04edbf200e49ba3d456b7ec11252ac256c6626ab30e6ba87b46f90a9b3ab6532daaa51f14ae511fd3f16bb7cd24620dc2638ae148c098925c63f72305a9ab#npm:2.6.7"],\
             ["rpc-websockets", "npm:7.5.0"],\
             ["superstruct", "npm:0.14.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@solidity-parser/parser", [\
-        ["npm:0.14.3", {\
-          "packageLocation": "./.yarn/cache/@solidity-parser-parser-npm-0.14.3-7e089b302c-9a27eb961c.zip/node_modules/@solidity-parser/parser/",\
-          "packageDependencies": [\
-            ["@solidity-parser/parser", "npm:0.14.3"],\
-            ["antlr4ts", "npm:0.5.0-dev"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13960,15 +14233,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@types/abstract-leveldown", [\
-        ["npm:7.2.0", {\
-          "packageLocation": "./.yarn/cache/@types-abstract-leveldown-npm-7.2.0-7937c81120-f719ce076f.zip/node_modules/@types/abstract-leveldown/",\
-          "packageDependencies": [\
-            ["@types/abstract-leveldown", "npm:7.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@types/babel__core", [\
         ["npm:7.1.20", {\
           "packageLocation": "./.yarn/cache/@types-babel__core-npm-7.1.20-90b6a59ca7-a09c4f0456.zip/node_modules/@types/babel__core/",\
@@ -14150,6 +14414,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/debug", [\
+        ["npm:4.1.12", {\
+          "packageLocation": "./.yarn/cache/@types-debug-npm-4.1.12-82a3fc4905-47876a852d.zip/node_modules/@types/debug/",\
+          "packageDependencies": [\
+            ["@types/debug", "npm:4.1.12"],\
+            ["@types/ms", "npm:0.7.31"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.1.7", {\
           "packageLocation": "./.yarn/cache/@types-debug-npm-4.1.7-f54c81f8db-0a7b89d8ed.zip/node_modules/@types/debug/",\
           "packageDependencies": [\
@@ -14389,27 +14661,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-keyv-npm-3.1.4-a8082ea56b-e009a2bfb5.zip/node_modules/@types/keyv/",\
           "packageDependencies": [\
             ["@types/keyv", "npm:3.1.4"],\
-            ["@types/node", "npm:18.8.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/level-errors", [\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/@types-level-errors-npm-3.0.0-58ecd77a87-ad93926634.zip/node_modules/@types/level-errors/",\
-          "packageDependencies": [\
-            ["@types/level-errors", "npm:3.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/levelup", [\
-        ["npm:4.3.3", {\
-          "packageLocation": "./.yarn/cache/@types-levelup-npm-4.3.3-fa2e46a0a1-04969bb805.zip/node_modules/@types/levelup/",\
-          "packageDependencies": [\
-            ["@types/levelup", "npm:4.3.3"],\
-            ["@types/abstract-leveldown", "npm:7.2.0"],\
-            ["@types/level-errors", "npm:3.0.0"],\
             ["@types/node", "npm:18.8.3"]\
           ],\
           "linkType": "HARD"\
@@ -14698,6 +14949,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-range-parser-npm-1.2.4-23d797fbde-b7c0dfd508.zip/node_modules/@types/range-parser/",\
           "packageDependencies": [\
             ["@types/range-parser", "npm:1.2.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/readable-stream", [\
+        ["npm:2.3.15", {\
+          "packageLocation": "./.yarn/cache/@types-readable-stream-npm-2.3.15-d06d8380b8-ec36f525ca.zip/node_modules/@types/readable-stream/",\
+          "packageDependencies": [\
+            ["@types/readable-stream", "npm:2.3.15"],\
+            ["@types/node", "npm:18.8.3"],\
+            ["safe-buffer", "npm:5.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15529,30 +15791,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["abstract-leveldown", [\
-        ["npm:6.2.3", {\
-          "packageLocation": "./.yarn/cache/abstract-leveldown-npm-6.2.3-73e4ffefa5-00202b2eb7.zip/node_modules/abstract-leveldown/",\
-          "packageDependencies": [\
-            ["abstract-leveldown", "npm:6.2.3"],\
-            ["buffer", "npm:5.7.1"],\
-            ["immediate", "npm:3.3.0"],\
-            ["level-concat-iterator", "npm:2.0.1"],\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:6.3.0", {\
-          "packageLocation": "./.yarn/cache/abstract-leveldown-npm-6.3.0-4f3be79649-121a8509d8.zip/node_modules/abstract-leveldown/",\
-          "packageDependencies": [\
-            ["abstract-leveldown", "npm:6.3.0"],\
-            ["buffer", "npm:5.7.1"],\
-            ["immediate", "npm:3.3.0"],\
-            ["level-concat-iterator", "npm:2.0.1"],\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:7.2.0", {\
           "packageLocation": "./.yarn/cache/abstract-leveldown-npm-7.2.0-9da02e441b-d558111f2d.zip/node_modules/abstract-leveldown/",\
           "packageDependencies": [\
@@ -15920,16 +16158,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ansi-styles-npm-5.2.0-72fc7003e3-d7f4e97ce0.zip/node_modules/ansi-styles/",\
           "packageDependencies": [\
             ["ansi-styles", "npm:5.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["antlr4ts", [\
-        ["npm:0.5.0-dev", {\
-          "packageLocation": "./.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/antlr4ts/",\
-          "packageDependencies": [\
-            ["antlr4ts", "npm:0.5.0-dev"],\
-            ["source-map-support", "npm:0.5.21"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16322,16 +16550,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/async-each-npm-1.0.3-464af5d2f3-868651cfeb.zip/node_modules/async-each/",\
           "packageDependencies": [\
             ["async-each", "npm:1.0.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["async-eventemitter", [\
-        ["npm:0.2.4", {\
-          "packageLocation": "./.yarn/cache/async-eventemitter-npm-0.2.4-0fec935369-b9e77e0f58.zip/node_modules/async-eventemitter/",\
-          "packageDependencies": [\
-            ["async-eventemitter", "npm:0.2.4"],\
-            ["async", "npm:2.6.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16918,6 +17136,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bigint-buffer", "npm:1.1.5"],\
             ["bindings", "npm:1.5.0"],\
             ["node-gyp", "npm:9.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["bigint-crypto-utils", [\
+        ["npm:3.3.0", {\
+          "packageLocation": "./.yarn/cache/bigint-crypto-utils-npm-3.3.0-55f6d0399e-9598ce57b2.zip/node_modules/bigint-crypto-utils/",\
+          "packageDependencies": [\
+            ["bigint-crypto-utils", "npm:3.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17710,14 +17937,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/buffer-xor-npm-1.0.3-56bb81b0dd-10c520df29.zip/node_modules/buffer-xor/",\
           "packageDependencies": [\
             ["buffer-xor", "npm:1.0.3"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:2.0.2", {\
-          "packageLocation": "./.yarn/cache/buffer-xor-npm-2.0.2-29554c3ada-78226fcae9.zip/node_modules/buffer-xor/",\
-          "packageDependencies": [\
-            ["buffer-xor", "npm:2.0.2"],\
-            ["safe-buffer", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -19129,15 +19348,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["core-js-pure", [\
-        ["npm:3.25.5", {\
-          "packageLocation": "./.yarn/unplugged/core-js-pure-npm-3.25.5-aaaed61bed/node_modules/core-js-pure/",\
-          "packageDependencies": [\
-            ["core-js-pure", "npm:3.25.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["core-util-is", [\
         ["npm:1.0.2", {\
           "packageLocation": "./.yarn/cache/core-util-is-npm-1.0.2-9fc2b94dc3-7a4c925b49.zip/node_modules/core-util-is/",\
@@ -19854,15 +20064,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["deferred-leveldown", [\
-        ["npm:5.3.0", {\
-          "packageLocation": "./.yarn/cache/deferred-leveldown-npm-5.3.0-01247ab5af-5631e15352.zip/node_modules/deferred-leveldown/",\
-          "packageDependencies": [\
-            ["deferred-leveldown", "npm:5.3.0"],\
-            ["abstract-leveldown", "npm:6.2.3"],\
-            ["inherits", "npm:2.0.4"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:7.0.0", {\
           "packageLocation": "./.yarn/cache/deferred-leveldown-npm-7.0.0-b22b14d332-1ed5eb73e3.zip/node_modules/deferred-leveldown/",\
           "packageDependencies": [\
@@ -20710,17 +20911,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["encoding-down", [\
-        ["npm:6.3.0", {\
-          "packageLocation": "./.yarn/cache/encoding-down-npm-6.3.0-507c54a059-74043e6d90.zip/node_modules/encoding-down/",\
-          "packageDependencies": [\
-            ["encoding-down", "npm:6.3.0"],\
-            ["abstract-leveldown", "npm:6.3.0"],\
-            ["inherits", "npm:2.0.4"],\
-            ["level-codec", "npm:9.0.2"],\
-            ["level-errors", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:7.1.0", {\
           "packageLocation": "./.yarn/cache/encoding-down-npm-7.1.0-22d87d2bff-5de91a003c.zip/node_modules/encoding-down/",\
           "packageDependencies": [\
@@ -20851,16 +21041,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/errlop-npm-2.2.0-04c65d8200-9bce5eba67.zip/node_modules/errlop/",\
           "packageDependencies": [\
             ["errlop", "npm:2.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["errno", [\
-        ["npm:0.1.8", {\
-          "packageLocation": "./.yarn/cache/errno-npm-0.1.8-10ebc185bf-1271f7b9fb.zip/node_modules/errno/",\
-          "packageDependencies": [\
-            ["errno", "npm:0.1.8"],\
-            ["prr", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -22932,15 +23112,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["functional-red-black-tree", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/functional-red-black-tree-npm-1.0.1-ccfe924dcd-ca6c170f37.zip/node_modules/functional-red-black-tree/",\
-          "packageDependencies": [\
-            ["functional-red-black-tree", "npm:1.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["functions-have-names", [\
         ["npm:1.2.3", {\
           "packageLocation": "./.yarn/cache/functions-have-names-npm-1.2.3-e5cf1e2208-c3f1f5ba20.zip/node_modules/functions-have-names/",\
@@ -23867,34 +24038,40 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["hardhat", [\
-        ["npm:2.10.2", {\
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.10.2-cc99b1b2cf-3034a213d2.zip/node_modules/hardhat/",\
+        ["npm:2.20.1", {\
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.20.1-939fcc4dfc-191f2878f1.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "npm:2.10.2"]\
+            ["hardhat", "npm:2.20.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2", {\
-          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-abbef4fdbd/0/cache/hardhat-npm-2.10.2-cc99b1b2cf-3034a213d2.zip/node_modules/hardhat/",\
+        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.20.1", {\
+          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-151b6abc36/0/cache/hardhat-npm-2.20.1-939fcc4dfc-191f2878f1.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/blockchain", "npm:5.5.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["@ethereumjs/vm", "npm:5.9.3"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.20.1"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@metamask/eth-sig-util", "npm:4.0.1"],\
+            ["@nomicfoundation/ethereumjs-block", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-blockchain", "npm:7.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-evm", "npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-statemanager", "virtual:151b6abc365e66f3412514f1242939d5c818ada6b11d86b1ba1aed30948de514388d729efb81b3cebe4b6c3f383fef7a4db3dbcbf800eb5c36bd67b44cae50eb#npm:2.0.4"],\
+            ["@nomicfoundation/ethereumjs-trie", "npm:6.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:d96a212f8aae0c2ad4e29be3d7e121304dab7a990f5f64e400f18b0820620715b5ec4e508ec4d20686d5036be45b1b2b5965e7b893078ca4d8278a9e604d85c9#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@nomicfoundation/ethereumjs-verkle", "npm:0.0.2"],\
+            ["@nomicfoundation/ethereumjs-vm", "npm:7.0.4"],\
+            ["@nomicfoundation/solidity-analyzer", "npm:0.1.1"],\
             ["@sentry/node", "npm:5.30.0"],\
-            ["@solidity-parser/parser", "npm:0.14.3"],\
             ["@types/bn.js", "npm:5.1.5"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/ts-node", null],\
             ["@types/typescript", null],\
-            ["abort-controller", "npm:3.0.0"],\
             ["adm-zip", "npm:0.4.16"],\
             ["aggregate-error", "npm:3.1.0"],\
             ["ansi-escapes", "npm:4.3.2"],\
+            ["boxen", "npm:5.1.2"],\
             ["chalk", "npm:2.4.2"],\
             ["chokidar", "npm:3.5.3"],\
             ["ci-info", "npm:2.0.0"],\
@@ -23903,27 +24080,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["env-paths", "npm:2.2.1"],\
             ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=01bf51&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
             ["ethereumjs-abi", "npm:0.6.8"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
             ["find-up", "npm:2.1.0"],\
             ["fp-ts", "npm:1.19.3"],\
             ["fs-extra", "npm:7.0.1"],\
             ["glob", "npm:7.2.0"],\
             ["immutable", "npm:4.1.0"],\
             ["io-ts", "npm:1.10.4"],\
+            ["keccak", "npm:3.0.2"],\
             ["lodash", "npm:4.17.21"],\
-            ["merkle-patricia-tree", "npm:4.2.4"],\
             ["mnemonist", "npm:0.38.5"],\
             ["mocha", "npm:10.0.0"],\
             ["p-map", "npm:4.0.0"],\
-            ["qs", "npm:6.11.0"],\
             ["raw-body", "npm:2.5.1"],\
             ["resolve", "patch:resolve@npm%3A1.17.0#~builtin<compat/resolve>::version=1.17.0&hash=c3c19d"],\
             ["semver", "npm:6.3.0"],\
-            ["slash", "npm:3.0.0"],\
             ["solc", "npm:0.7.3"],\
             ["source-map-support", "npm:0.5.21"],\
             ["stacktrace-parser", "npm:0.1.10"],\
-            ["true-case-path", "npm:2.2.1"],\
             ["ts-node", null],\
             ["tsort", "npm:0.0.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
@@ -24564,22 +24737,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["ignore-walk", "npm:4.0.1"],\
             ["minimatch", "npm:3.1.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["immediate", [\
-        ["npm:3.2.3", {\
-          "packageLocation": "./.yarn/cache/immediate-npm-3.2.3-c87ede9b47-9867dc7079.zip/node_modules/immediate/",\
-          "packageDependencies": [\
-            ["immediate", "npm:3.2.3"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:3.3.0", {\
-          "packageLocation": "./.yarn/cache/immediate-npm-3.3.0-d00fd9df7d-634b430510.zip/node_modules/immediate/",\
-          "packageDependencies": [\
-            ["immediate", "npm:3.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28330,24 +28487,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["buffer", "npm:6.0.3"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:9.0.2", {\
-          "packageLocation": "./.yarn/cache/level-codec-npm-9.0.2-e778987eb6-289003d51b.zip/node_modules/level-codec/",\
-          "packageDependencies": [\
-            ["level-codec", "npm:9.0.2"],\
-            ["buffer", "npm:5.7.1"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["level-concat-iterator", [\
-        ["npm:2.0.1", {\
-          "packageLocation": "./.yarn/cache/level-concat-iterator-npm-2.0.1-5179af5bd2-562583ef12.zip/node_modules/level-concat-iterator/",\
-          "packageDependencies": [\
-            ["level-concat-iterator", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:3.1.0", {\
           "packageLocation": "./.yarn/cache/level-concat-iterator-npm-3.1.0-5b0693a58a-a15bc4c5fb.zip/node_modules/level-concat-iterator/",\
           "packageDependencies": [\
@@ -28358,14 +28500,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["level-errors", [\
-        ["npm:2.0.1", {\
-          "packageLocation": "./.yarn/cache/level-errors-npm-2.0.1-981e46a3dc-aca5d7670e.zip/node_modules/level-errors/",\
-          "packageDependencies": [\
-            ["level-errors", "npm:2.0.1"],\
-            ["errno", "npm:0.1.8"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:3.0.1", {\
           "packageLocation": "./.yarn/cache/level-errors-npm-3.0.1-8ef4cc828f-fe4486c423.zip/node_modules/level-errors/",\
           "packageDependencies": [\
@@ -28375,16 +28509,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["level-iterator-stream", [\
-        ["npm:4.0.2", {\
-          "packageLocation": "./.yarn/cache/level-iterator-stream-npm-4.0.2-27e0549122-239e2c7e62.zip/node_modules/level-iterator-stream/",\
-          "packageDependencies": [\
-            ["level-iterator-stream", "npm:4.0.2"],\
-            ["inherits", "npm:2.0.4"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.0.0", {\
           "packageLocation": "./.yarn/cache/level-iterator-stream-npm-5.0.0-29efe6efcb-3f5bbb9caf.zip/node_modules/level-iterator-stream/",\
           "packageDependencies": [\
@@ -28409,27 +28533,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["level-mem", [\
-        ["npm:5.0.1", {\
-          "packageLocation": "./.yarn/cache/level-mem-npm-5.0.1-bb6cc7d34e-37a38163b0.zip/node_modules/level-mem/",\
-          "packageDependencies": [\
-            ["level-mem", "npm:5.0.1"],\
-            ["level-packager", "npm:5.1.1"],\
-            ["memdown", "npm:5.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["level-packager", [\
-        ["npm:5.1.1", {\
-          "packageLocation": "./.yarn/cache/level-packager-npm-5.1.1-94af8082f4-befe2aa54f.zip/node_modules/level-packager/",\
-          "packageDependencies": [\
-            ["level-packager", "npm:5.1.1"],\
-            ["encoding-down", "npm:6.3.0"],\
-            ["levelup", "npm:4.4.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:6.0.1", {\
           "packageLocation": "./.yarn/cache/level-packager-npm-6.0.1-cffdf36c73-41c4abe677.zip/node_modules/level-packager/",\
           "packageDependencies": [\
@@ -28441,30 +28545,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["level-supports", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/level-supports-npm-1.0.1-e9d5ae27f4-5d6bdb88cf.zip/node_modules/level-supports/",\
-          "packageDependencies": [\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:2.1.0", {\
           "packageLocation": "./.yarn/cache/level-supports-npm-2.1.0-4f5c2d5fc4-f7b16aea7d.zip/node_modules/level-supports/",\
           "packageDependencies": [\
             ["level-supports", "npm:2.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["level-ws", [\
-        ["npm:2.0.0", {\
-          "packageLocation": "./.yarn/cache/level-ws-npm-2.0.0-dd002ae76c-4e5cbf090a.zip/node_modules/level-ws/",\
-          "packageDependencies": [\
-            ["level-ws", "npm:2.0.0"],\
-            ["inherits", "npm:2.0.4"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["xtend", "npm:4.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28483,18 +28567,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["levelup", [\
-        ["npm:4.4.0", {\
-          "packageLocation": "./.yarn/cache/levelup-npm-4.4.0-3053c0e5bc-5a09e34c78.zip/node_modules/levelup/",\
-          "packageDependencies": [\
-            ["levelup", "npm:4.4.0"],\
-            ["deferred-leveldown", "npm:5.3.0"],\
-            ["level-errors", "npm:2.0.1"],\
-            ["level-iterator-stream", "npm:4.0.2"],\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.1.1", {\
           "packageLocation": "./.yarn/cache/levelup-npm-5.1.1-42d16f81c1-3053cd3495.zip/node_modules/levelup/",\
           "packageDependencies": [\
@@ -29706,6 +29778,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["lru-cache", [\
+        ["npm:10.2.0", {\
+          "packageLocation": "./.yarn/cache/lru-cache-npm-10.2.0-b9f6b44740-eee7ddda4a.zip/node_modules/lru-cache/",\
+          "packageDependencies": [\
+            ["lru-cache", "npm:10.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:4.1.5", {\
           "packageLocation": "./.yarn/cache/lru-cache-npm-4.1.5-ede304cc43-4bb4b58a36.zip/node_modules/lru-cache/",\
           "packageDependencies": [\
@@ -29958,15 +30037,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["mcl-wasm", [\
-        ["npm:0.7.9", {\
-          "packageLocation": "./.yarn/cache/mcl-wasm-npm-0.7.9-adad1d76aa-6b6ed50841.zip/node_modules/mcl-wasm/",\
-          "packageDependencies": [\
-            ["mcl-wasm", "npm:0.7.9"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["md5.js", [\
         ["npm:1.3.5", {\
           "packageLocation": "./.yarn/cache/md5.js-npm-1.3.5-130901125a-098494d885.zip/node_modules/md5.js/",\
@@ -30132,21 +30202,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["memdown", [\
-        ["npm:5.1.0", {\
-          "packageLocation": "./.yarn/cache/memdown-npm-5.1.0-e769608fe2-23e4414034.zip/node_modules/memdown/",\
-          "packageDependencies": [\
-            ["memdown", "npm:5.1.0"],\
-            ["abstract-leveldown", "npm:6.2.3"],\
-            ["functional-red-black-tree", "npm:1.0.1"],\
-            ["immediate", "npm:3.2.3"],\
-            ["inherits", "npm:2.0.4"],\
-            ["ltgt", "npm:2.2.1"],\
-            ["safe-buffer", "npm:5.2.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["memorystream", [\
         ["npm:0.3.1", {\
           "packageLocation": "./.yarn/cache/memorystream-npm-0.3.1-ae973f1d16-f18b42440d.zip/node_modules/memorystream/",\
@@ -30234,21 +30289,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/merkle-lib-npm-2.0.10-878da678e5-057331fe5e.zip/node_modules/merkle-lib/",\
           "packageDependencies": [\
             ["merkle-lib", "npm:2.0.10"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["merkle-patricia-tree", [\
-        ["npm:4.2.4", {\
-          "packageLocation": "./.yarn/cache/merkle-patricia-tree-npm-4.2.4-d865962767-acedc7eea7.zip/node_modules/merkle-patricia-tree/",\
-          "packageDependencies": [\
-            ["merkle-patricia-tree", "npm:4.2.4"],\
-            ["@types/levelup", "npm:4.3.3"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["level-mem", "npm:5.0.1"],\
-            ["level-ws", "npm:2.0.0"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["semaphore-async-await", "npm:1.5.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -33722,15 +33762,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["prr", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/prr-npm-1.0.1-608d442761-3bca2db047.zip/node_modules/prr/",\
-          "packageDependencies": [\
-            ["prr", "npm:1.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["pseudomap", [\
         ["npm:1.0.2", {\
           "packageLocation": "./.yarn/cache/pseudomap-npm-1.0.2-0d0e40fee0-856c0aae0f.zip/node_modules/pseudomap/",\
@@ -35074,13 +35105,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bn.js", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/rlp-npm-3.0.0-a4866551ad-d1d8003b2b.zip/node_modules/rlp/",\
-          "packageDependencies": [\
-            ["rlp", "npm:3.0.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["rn-host-detect", [\
@@ -35173,11 +35197,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["rustbn.js", [\
-        ["npm:0.2.0", {\
-          "packageLocation": "./.yarn/cache/rustbn.js-npm-0.2.0-ed57934f98-2148e7ba34.zip/node_modules/rustbn.js/",\
+      ["rust-verkle-wasm", [\
+        ["npm:0.0.1", {\
+          "packageLocation": "./.yarn/cache/rust-verkle-wasm-npm-0.0.1-26645757fa-24258e935d.zip/node_modules/rust-verkle-wasm/",\
           "packageDependencies": [\
-            ["rustbn.js", "npm:0.2.0"]\
+            ["rust-verkle-wasm", "npm:0.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["rustbn-wasm", [\
+        ["npm:0.2.0", {\
+          "packageLocation": "./.yarn/cache/rustbn-wasm-npm-0.2.0-572672eb6d-9cf89ce88a.zip/node_modules/rustbn-wasm/",\
+          "packageDependencies": [\
+            ["rustbn-wasm", "npm:0.2.0"],\
+            ["@scure/base", "npm:1.1.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -35498,15 +35532,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/seedrandom-npm-3.0.5-6946e8f8db-728b56bc3b.zip/node_modules/seedrandom/",\
           "packageDependencies": [\
             ["seedrandom", "npm:3.0.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["semaphore-async-await", [\
-        ["npm:1.5.1", {\
-          "packageLocation": "./.yarn/cache/semaphore-async-await-npm-1.5.1-22d6ad656a-2dedf7c59b.zip/node_modules/semaphore-async-await/",\
-          "packageDependencies": [\
-            ["semaphore-async-await", "npm:1.5.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -37736,15 +37761,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/trim-newlines-npm-3.0.1-22f1f216de-b530f3fadf.zip/node_modules/trim-newlines/",\
           "packageDependencies": [\
             ["trim-newlines", "npm:3.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["true-case-path", [\
-        ["npm:2.2.1", {\
-          "packageLocation": "./.yarn/cache/true-case-path-npm-2.2.1-0454edfb3a-fd5f1c2a87.zip/node_modules/true-case-path/",\
-          "packageDependencies": [\
-            ["true-case-path", "npm:2.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
