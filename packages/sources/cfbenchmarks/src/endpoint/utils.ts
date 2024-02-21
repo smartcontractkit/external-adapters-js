@@ -76,7 +76,6 @@ export function requestTransform(endpoint: string) {
     req: AdapterRequest<typeof inputParameters.validated>,
     settings: BaseEndpointTypes['Settings'],
   ) => {
-    console.log('here')
     const { base, quote, index } = req.requestContext.data
     const rawRequestData = req.body.data
     // If `base` in requestContext.data is not the same as in raw request data, it means the value is overriden, use that for index
