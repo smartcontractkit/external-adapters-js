@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.0.14
+
+### Patch Changes
+
+- [#3163](https://github.com/smartcontractkit/external-adapters-js/pull/3163) [`8f266fa`](https://github.com/smartcontractkit/external-adapters-js/commit/8f266fa1100f70fa55ca0ce6b5080ae5ccfa0f1c) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for WS_ENABLED env var for websocket endpoints
+
 ## 2.0.13
 
 ### Patch Changes

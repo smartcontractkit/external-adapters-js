@@ -14,6 +14,7 @@ type RequestParams = typeof inputParameters.validated
 
 export class AddressTransport extends SubscriptionTransport<AddressTransportTypes> {
   provider!: ethers.providers.JsonRpcProvider
+  settings!: AddressTransportTypes['Settings']
 
   async initialize(
     dependencies: TransportDependencies<AddressTransportTypes>,
@@ -26,6 +27,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       adapterSettings.RPC_URL,
       adapterSettings.CHAIN_ID,
     )
+    this.settings = adapterSettings
   }
 
   async backgroundHandler(
@@ -69,6 +71,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       latestBlockNum,
       confirmations,
       batchSize,
+      this.settings.GROUP_SIZE,
     )
     const addresses: PoRAddress[] = addressList.map((address) => ({
       address,

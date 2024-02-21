@@ -40,6 +40,7 @@ export const config = new AdapterConfig(
   {
     envDefaultOverrides: {
       API_TIMEOUT: 60000,
+      MAX_PAYLOAD_SIZE_LIMIT: 5000000,
     },
   },
 )

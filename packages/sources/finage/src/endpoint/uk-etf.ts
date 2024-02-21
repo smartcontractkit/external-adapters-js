@@ -1,12 +1,19 @@
-import { makeEtfExecute } from './etf'
-import { inputParameters as etfInputParameters } from './etf'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import overrides from '../config/overrides.json'
+import { httpTransport } from '../transport/uk-etf-http'
+import { wsTransport } from '../transport/uk-etf-ws'
+import { UkEtfEndpointTypes, ukEtfInputParameters } from './utils'
 
-export const supportedEndpoints = ['uk_etf']
-export const batchablePropertyPath = [{ name: 'base' }]
-
-export const inputParameters = etfInputParameters
-
-export const description = `https://finage.co.uk/docs/api/etf-last-price
-The result will be the price field in response.`
-
-export const execute = makeEtfExecute('uk')
+export const endpoint = new AdapterEndpoint({
+  name: 'uk_etf',
+  transportRoutes: new TransportRoutes<UkEtfEndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
+  defaultTransport: 'rest',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
+  },
+  inputParameters: ukEtfInputParameters,
+  overrides: overrides.finage,
+})

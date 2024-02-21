@@ -1,22 +1,7 @@
-import type { TInputParameters as StockInputParameters } from './stock'
-import type { TInputParameters as EodInputParameters } from './eod'
-import type { TInputParameters as ForexInputParameters } from './forex'
-import type { TInputParameters as CryptoInputParameters } from './crypto'
-import type { TInputParameters as CommoditiesInputParameters } from './commodities'
-import type { TInputParameters as EtfInputParameters } from './etf'
-
-export type TInputParameters =
-  | StockInputParameters
-  | EodInputParameters
-  | ForexInputParameters
-  | CryptoInputParameters
-  | CommoditiesInputParameters
-  | EtfInputParameters
-
-export * as stock from './stock'
-export * as eod from './eod'
-export * as forex from './forex'
-export * as crypto from './crypto'
-export * as commodities from './commodities'
-export * as ukEtf from './uk-etf'
-export * as etf from './etf'
+export { endpoint as crypto } from './crypto'
+export { endpoint as stock } from './stock'
+export { endpoint as eod } from './eod'
+export { endpoint as commodities } from './commodities'
+export { endpoint as forex } from './forex'
+export { endpoint as ukEtf } from './uk-etf'
+export { endpoint as etf } from './etf'

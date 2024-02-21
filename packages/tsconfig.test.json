@@ -219,6 +219,9 @@
       "path": "./sources/coinbase/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinbase-prime/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coincodex/tsconfig.test.json"
     },
     {
@@ -327,9 +330,6 @@
       "path": "./sources/finage/tsconfig.test.json"
     },
     {
-      "path": "./sources/finage-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
@@ -436,6 +436,9 @@
     },
     {
       "path": "./sources/moonbeam-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/moore-hk/tsconfig.test.json"
     },
     {
       "path": "./sources/mycryptoapi/tsconfig.test.json"

@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 2.0.7
+
+### Patch Changes
+
+- [#3178](https://github.com/smartcontractkit/external-adapters-js/pull/3178) [`eeff213`](https://github.com/smartcontractkit/external-adapters-js/commit/eeff213c555b0bb401afa6a8ef252861a490be25) Thanks [@amit-momin](https://github.com/amit-momin)! - Added env var default override to set MAX_PAYLOAD_SIZE_LIMIT to 5MB
+
 ## 2.0.6
 
 ### Patch Changes

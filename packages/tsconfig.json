@@ -219,6 +219,9 @@
       "path": "./sources/coinbase"
     },
     {
+      "path": "./sources/coinbase-prime"
+    },
+    {
       "path": "./sources/coincodex"
     },
     {
@@ -327,9 +330,6 @@
       "path": "./sources/finage"
     },
     {
-      "path": "./sources/finage-test"
-    },
-    {
       "path": "./sources/finnhub"
     },
     {
@@ -436,6 +436,9 @@
     },
     {
       "path": "./sources/moonbeam-address-list"
+    },
+    {
+      "path": "./sources/moore-hk"
     },
     {
       "path": "./sources/mycryptoapi"
