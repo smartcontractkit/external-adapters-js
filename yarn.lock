@@ -2219,7 +2219,7 @@ __metadata:
     "@types/crypto-js": ^4.1.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
-    axios: 1.6.0
+    axios: 0.28.0
     crypto-js: ^4.2.0
     ethers: ^5.4.2
     mathjs: ^11.5.1
@@ -2362,7 +2362,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
-    axios: 1.6.0
+    axios: 0.28.0
     ethers: 5.4.7
     nock: 13.2.9
     supertest: 6.2.4
@@ -2408,7 +2408,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
-    axios: 1.6.0
+    axios: 0.28.0
     fastify: ^3.29.4
     nock: 13.2.9
     tslib: ^2.3.1
@@ -2751,7 +2751,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
-    axios: ^0.24.0
+    axios: ^0.28.0
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -2765,7 +2765,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
-    axios: 1.6.0
+    axios: 0.28.0
     nock: 13.2.9
     tslib: 2.4.1
     typescript: 5.0.4
@@ -2843,7 +2843,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
-    axios: ^1.2.0
+    axios: ^0.28.0
     nock: 13.2.9
     supertest: 6.2.4
     tslib: 2.4.1
@@ -3153,7 +3153,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/sinonjs__fake-timers": 8.1.5
-    axios: 1.6.0
+    axios: 0.28.0
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -3361,7 +3361,7 @@ __metadata:
     "@types/uuid": 8.3.4
     "@types/ws": 8.5.10
     ajv: ^8.6.2
-    axios: ^0.24.0
+    axios: ^0.28.0
     decimal.js: ^10.3.1
     fast-redact: ^3.0.1
     fastify: ^3.29.4
@@ -3432,7 +3432,7 @@ __metadata:
     "@types/swagger-jsdoc": 6.0.4
     "@types/yaml": 1.9.7
     airtable: 0.11.6
-    axios: 1.6.0
+    axios: 0.28.0
     axios-mock-adapter: 1.20.0
     axios-observable: 1.3.0
     backoff-rxjs: 6.5.7
@@ -3495,7 +3495,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/sinonjs__fake-timers": 8.1.5
-    axios: 1.6.0
+    axios: 0.28.0
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -3900,7 +3900,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/sinonjs__fake-timers": 8.1.5
-    axios: 1.6.0
+    axios: 0.28.0
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -4031,7 +4031,7 @@ __metadata:
     "@types/node": 16.11.68
     "@types/sinonjs__fake-timers": 8.1.5
     "@types/ws": 8.5.10
-    axios: 1.6.0
+    axios: 0.28.0
     crypto: 1.0.1
     nock: 13.2.9
     tslib: 2.4.1
@@ -4130,7 +4130,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
-    axios: ^0.26.1
+    axios: ^0.28.0
     decimal.js: ^10.3.1
     nock: 13.2.9
     supertest: 6.2.4
@@ -4148,7 +4148,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/sinonjs__fake-timers": 8.1.5
-    axios: ^0.24.0
+    axios: ^0.28.0
     nock: 13.2.9
     tslib: 2.4.1
     typescript: 5.0.4
@@ -4296,7 +4296,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
-    axios: ^0.24.0
+    axios: ^0.28.0
     csv-parse: ^4.16.0
     decimal.js: ^10.3.1
     moment: ^2.29.4
@@ -4390,7 +4390,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
-    axios: ^0.24.0
+    axios: ^0.28.0
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -4561,7 +4561,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/node": 16.11.68
-    axios: 0.27.2
+    axios: 0.28.0
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -4572,7 +4572,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
   dependencies:
-    axios: ^0.24.0
+    axios: ^0.28.0
     tslib: ^2.3.1
     typescript: 5.0.4
   languageName: unknown
@@ -4649,7 +4649,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/sinon": 10.0.20
-    axios: ^0.24.0
+    axios: ^0.28.0
     sinon: 12.0.1
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -5049,7 +5049,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
-    axios: 1.3.6
+    axios: 0.28.0
     bignumber.js: ^9.1.1
     ethers: 5.5.4
     nock: 13.2.9
@@ -5273,7 +5273,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.33.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
-    axios: 1.6.0
+    axios: 0.28.0
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.9
@@ -12586,24 +12586,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.27.2":
-  version: 0.27.2
-  resolution: "axios@npm:0.27.2"
-  dependencies:
-    follow-redirects: ^1.14.9
-    form-data: ^4.0.0
-  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
-  languageName: node
-  linkType: hard
-
-"axios@npm:1.3.6":
-  version: 1.3.6
-  resolution: "axios@npm:1.3.6"
+"axios@npm:0.28.0, axios@npm:^0.28.0":
+  version: 0.28.0
+  resolution: "axios@npm:0.28.0"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: c90497ebf738723654a6e80147dc294186ad9d7b08f95f5a22fd48f826c7e06a576229b8dff3137195ca627349a4312e00fa78e4f1c499250b9860596adef44a
+  checksum: d3782377512e67510787bf325b664f16c8b595ccdbcf52fca58433fbd082e33c3ef58a19e7d016ce92666be5a1a5ea82028add0cb841077981df9617bd071615
   languageName: node
   linkType: hard
 
@@ -12624,35 +12614,6 @@ __metadata:
   dependencies:
     follow-redirects: ^1.14.0
   checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.24.0":
-  version: 0.24.0
-  resolution: "axios@npm:0.24.0"
-  dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
-  dependencies:
-    follow-redirects: ^1.14.8
-  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.2.0":
-  version: 1.4.0
-  resolution: "axios@npm:1.4.0"
-  dependencies:
-    follow-redirects: ^1.15.0
-    form-data: ^4.0.0
-    proxy-from-env: ^1.1.0
-  checksum: 7fb6a4313bae7f45e89d62c70a800913c303df653f19eafec88e56cea2e3821066b8409bc68be1930ecca80e861c52aa787659df0ffec6ad4d451c7816b9386b
   languageName: node
   linkType: hard
 
@@ -18080,7 +18041,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.14.8, follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.0":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.15.0":
   version: 1.15.4
   resolution: "follow-redirects@npm:1.15.4"
   peerDependenciesMeta:
