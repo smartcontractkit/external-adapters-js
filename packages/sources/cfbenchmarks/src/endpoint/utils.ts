@@ -1,4 +1,4 @@
-import { inputParameters } from './crypto'
+import { BaseEndpointTypes, inputParameters } from './crypto'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import {
   AdapterError,
@@ -69,4 +69,33 @@ export const getIdFromBaseQuote = (
 
   if (type === 'secondary') return getSecondaryId(base, quote)
   return getPrimaryId(base, quote)
+}
+
+export function requestTransform(endpoint: string) {
+  return (
+    req: AdapterRequest<typeof inputParameters.validated>,
+    settings: BaseEndpointTypes['Settings'],
+  ) => {
+    console.log('here')
+    const { base, quote, index } = req.requestContext.data
+    const rawRequestData = req.body.data
+    // If `base` in requestContext.data is not the same as in raw request data, it means the value is overriden, use that for index
+    const baseAliases = ['base', ...inputParameters.definition.base.aliases]
+    if (baseAliases.every((alias) => base !== rawRequestData[alias])) {
+      req.requestContext.data.index = base
+    } else if (!index) {
+      if (endpoint === 'crypto') {
+        const isSecondary = settings.API_SECONDARY
+        const type = isSecondary ? 'secondary' : 'primary'
+        // If there is no index set
+        // we know that base and quote exist from the customInputValidation
+        req.requestContext.data.index = getIdFromBaseQuote(base as string, quote as string, type)
+      } else if (endpoint === 'crypto-lwba') {
+        req.requestContext.data.index = getSecondaryId(base as string, quote as string)
+      }
+    }
+    // Clear base quote to ensure an exact match in the cache with index
+    delete req.requestContext.data.base
+    delete req.requestContext.data.quote
+  }
 }

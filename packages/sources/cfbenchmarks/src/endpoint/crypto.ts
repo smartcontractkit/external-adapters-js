@@ -1,14 +1,12 @@
 import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import {
-  AdapterRequest,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
-import { customInputValidation, getIdFromBaseQuote } from './utils'
+import { customInputValidation } from './utils'
 import { makeRestTransport } from '../transport/crypto-http'
 import { makeWsTransport } from '../transport/crypto-ws'
+import { requestTransform } from './utils'
 
 export type Params = { index?: string; base?: string; quote?: string }
 export type RequestParams = { Params: Params }
@@ -47,29 +45,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const cryptoRequestTransform = (
-  req: AdapterRequest<typeof inputParameters.validated>,
-  settings: BaseEndpointTypes['Settings'],
-): void => {
-  const { base, quote, index } = req.requestContext.data
-  const rawRequestData = req.body.data
-  // If `base` in requestContext.data is not the same as in raw request data, it means the value is overriden, use that for index
-  const baseAliases = ['base', ...inputParameters.definition.base.aliases]
-  if (baseAliases.every((alias) => base !== rawRequestData[alias])) {
-    req.requestContext.data.index = base
-  } else if (!index) {
-    const isSecondary = settings.API_SECONDARY
-    const type = isSecondary ? 'secondary' : 'primary'
-    // If there is no index set
-    // we know that base and quote exist from the customInputValidation
-    req.requestContext.data.index = getIdFromBaseQuote(base as string, quote as string, type)
-  }
-  // Clear base quote to ensure an exact match in the cache with index
-  delete req.requestContext.data.base
-  delete req.requestContext.data.quote
-}
-
-export const requestTransforms = [cryptoRequestTransform]
+export const requestTransforms = [requestTransform('crypto')]
 
 export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',
