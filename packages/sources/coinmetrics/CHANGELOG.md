@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.6.4
+
+### Patch Changes
+
+- [#3187](https://github.com/smartcontractkit/external-adapters-js/pull/3187) [`65b5529`](https://github.com/smartcontractkit/external-adapters-js/commit/65b5529ab6e00aa3c84b56479e91db92b84efa16) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Updated LWBA to use asset-quotes endpoint exclusively
+
 ## 3.6.3
 
 ### Patch Changes

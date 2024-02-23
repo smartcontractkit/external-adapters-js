@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.2.6
+
+### Patch Changes
+
+- [#3143](https://github.com/smartcontractkit/external-adapters-js/pull/3143) [`3193e6e`](https://github.com/smartcontractkit/external-adapters-js/commit/3193e6e50e850f0a6500d59ea8b0f61e9c2620e4) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Enabled request overrides for crypto and crypto-lwba endpoints
+
 ## 2.2.5
 
 ### Patch Changes
