@@ -29,3 +29,18 @@ exports[`execute crypto endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute crypto endpoint with override should return success 1`] = `
+{
+  "data": {
+    "result": 39829.3,
+  },
+  "result": 39829.3,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1645199637000,
+  },
+}
+`;

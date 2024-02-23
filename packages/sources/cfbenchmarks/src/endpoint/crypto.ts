@@ -1,15 +1,12 @@
 import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import {
-  AdapterRequest,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
-import { getIdFromBaseQuote } from './utils'
+import { customInputValidation } from './utils'
 import { makeRestTransport } from '../transport/crypto-http'
 import { makeWsTransport } from '../transport/crypto-ws'
+import { requestTransform } from './utils'
 
 export type Params = { index?: string; base?: string; quote?: string }
 export type RequestParams = { Params: Params }
@@ -48,41 +45,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const additionalInputValidation = ({ index, base, quote }: Params): void => {
-  // Base and quote must be provided OR index must be provided
-  if (!(index || (base && quote))) {
-    const missingInput = !index ? 'index' : 'base /or quote'
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Error: missing ${missingInput} input parameters`,
-    })
-  }
-}
-
-export const cryptoRequestTransform = (
-  req: AdapterRequest<typeof inputParameters.validated>,
-  settings: BaseEndpointTypes['Settings'],
-): void => {
-  // TODO: Move additional input validations to proper location after framework supports it
-  additionalInputValidation(req.requestContext.data)
-  if (!req.requestContext.data.index) {
-    const isSecondary = settings.API_SECONDARY
-    const type = isSecondary ? 'secondary' : 'primary'
-    // If there is no index set
-    // we know that base and quote exist from the extra input validation above
-    // coerce to strings
-    req.requestContext.data.index = getIdFromBaseQuote(
-      req.requestContext.data.base as string,
-      req.requestContext.data.quote as string,
-      type,
-    )
-  }
-  // Clear base quote to ensure an exact match in the cache with index
-  delete req.requestContext.data.base
-  delete req.requestContext.data.quote
-}
-
-export const requestTransforms = [cryptoRequestTransform]
+export const requestTransforms = [requestTransform('crypto')]
 
 export const endpoint = new CryptoPriceEndpoint({
   name: 'crypto',
@@ -103,4 +66,5 @@ export const endpoint = new CryptoPriceEndpoint({
       return req.requestContext.transportName
     }
   },
+  customInputValidation,
 })
