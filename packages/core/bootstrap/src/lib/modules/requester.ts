@@ -103,7 +103,7 @@ export class Requester {
             providerStatusCode,
             message: error?.message,
             cause: error,
-            errorResponse: (error?.response?.data as { error: unknown })?.error,
+            errorResponse: error?.response?.data?.error,
             url,
           })
         }
@@ -117,7 +117,7 @@ export class Requester {
             providerStatusCode,
             message: error?.message,
             cause: error,
-            errorResponse: (error?.response?.data as { error: unknown })?.error,
+            errorResponse: error?.response?.data?.error,
             url,
           }
           if (providerStatusCode === 0) {
@@ -253,7 +253,7 @@ export class Requester {
    */
 
   static withResult<T extends Record<string, unknown> | unknown>(
-    response: Omit<AxiosResponse<T>, 'config'>,
+    response: AxiosResponse<T>,
     result?: number | string,
     results?: AdapterBatchResponse,
   ): AxiosReponseWithResult<T> {
