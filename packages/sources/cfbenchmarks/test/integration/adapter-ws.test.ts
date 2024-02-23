@@ -16,9 +16,29 @@ describe('websocket', () => {
   const dataCrypto = {
     index: 'BRTI',
   }
+  const dataCryptoOverride = {
+    base: 'ABC',
+    quote: 'XXX',
+    overrides: {
+      cfbenchmarks: {
+        ABC: 'BRTI',
+      },
+    },
+  }
   const dataLwba = {
-    index: 'U_ETHUSD_RTI',
+    from: 'ETH',
+    quote: 'USD',
     endpoint: 'cryptolwba',
+  }
+  const dataLwbaOverride = {
+    endpoint: 'cryptolwba',
+    base: 'LINK',
+    quote: 'XXX',
+    overrides: {
+      cfbenchmarks: {
+        LINK: 'U_LINKUSD_CHA_RTI',
+      },
+    },
   }
 
   beforeAll(async () => {
@@ -41,8 +61,10 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(dataCrypto)
+    await testAdapter.request(dataCryptoOverride)
     await testAdapter.request(dataLwba)
-    await testAdapter.waitForCache(2)
+    await testAdapter.request(dataLwbaOverride)
+    await testAdapter.waitForCache(3)
   })
 
   afterAll(async () => {
@@ -55,6 +77,12 @@ describe('websocket', () => {
   describe('crypto endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(dataCrypto)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('with override should return success', async () => {
+      const response = await testAdapter.request(dataCryptoOverride)
+      expect(response.statusCode).toEqual(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
@@ -79,6 +107,12 @@ describe('websocket', () => {
   describe('lwba endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(dataLwba)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('with override should return success', async () => {
+      const response = await testAdapter.request(dataLwbaOverride)
+      expect(response.statusCode).toEqual(200)
       expect(response.json()).toMatchSnapshot()
     })
   })

@@ -56,5 +56,22 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('with override should return success', async () => {
+      const data = {
+        base: 'XXX',
+        quote: 'XXX',
+        transport: 'rest',
+        overrides: {
+          cfbenchmarks: {
+            XXX: 'BRTI',
+          },
+        },
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
