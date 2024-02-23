@@ -93,11 +93,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     status: 200,
     statusText: 'OK',
     headers: {},
+    data: {},
     config: {},
   }
 
   const result: ResponseWithResult = {
-    ...response,
+    ...(response as Omit<AxiosResponse, 'config'>),
     result: balances,
     data: {
       result: balances,
