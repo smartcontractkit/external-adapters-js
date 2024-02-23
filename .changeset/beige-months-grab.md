@@ -1,5 +1,5 @@
 ---
-'@chainlink/ea-bootstrap': patch
+'@chainlink/eth-balance-adapter': patch
 ---
 
 Fixed type issues with axios config
