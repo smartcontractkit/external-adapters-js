@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
-    "axios": "^0.24.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
