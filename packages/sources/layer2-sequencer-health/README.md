@@ -13,7 +13,7 @@ Adapter that checks the Layer 2 Sequencer status
 |           |    `ARBITRUM_HEALTH_ENDPOINT`     |                            Arbitrum Health Endpoint                             |         |                                                                  |
 |           |        `ARBITRUM_CHAIN_ID`        |                           The chain id to connect to                            |         |                              42161                               |
 |           |      `OPTIMISM_RPC_ENDPOINT`      |                              Optimism RPC Endpoint                              |         |                   https://mainnet.optimism.io                    |
-|           |    `OPTIMISM_HEALTH_ENDPOINT`     |                            Optimism Health Endpoint                             |         |           https://mainnet-sequencer.optimism.io/health           |
+|           |    `OPTIMISM_HEALTH_ENDPOINT`     |                            Optimism Health Endpoint                             |         |                                                                  |
 |           |        `OPTIMISM_CHAIN_ID`        |                           The chain id to connect to                            |         |                                10                                |
 |           |        `BASE_RPC_ENDPOINT`        |                                Base RPC Endpoint                                |         |                     https://mainnet.base.org                     |
 |           |      `BASE_HEALTH_ENDPOINT`       |                              Base Health Endpoint                               |         |                                                                  |
@@ -33,9 +33,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                       Options                        | Defaults to |
-| :-------: | :-----: | :----------------------: | :--------------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `metis`, `starkware` |             |
+| Required? |  Name   |       Description        |                            Options                             | Defaults to |
+| :-------: | :-----: | :----------------------: | :------------------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `metis`, `scroll`, `starkware` |             |
 
 ---
 

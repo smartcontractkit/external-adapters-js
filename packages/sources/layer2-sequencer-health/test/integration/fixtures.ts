@@ -2,20 +2,6 @@ import nock from 'nock'
 
 export const mockResponseSuccessHealth = (): void => {
   // #1 Option: Direct check on health endpoint
-  nock('https://mainnet-sequencer.optimism.io/health')
-    .get('')
-    .query(() => true)
-    .reply(200, (_) => ({ healthy: 'true' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-
   nock('https://tokenapi.metis.io/andromeda/health')
     .get('')
     .query(() => true)
@@ -107,21 +93,6 @@ export const mockResponseSuccessRollup = (): void => {
 
 export const mockResponseFailureHealth = (): void => {
   // #1 Option: Direct check on health endpoint
-  nock('https://mainnet-sequencer.optimism.io/health', {
-    encodedQueryParams: true,
-  })
-    .get('/')
-    .reply(500, () => ({ healthy: 'false' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-
   nock('https://tokenapi.metis.io/andromeda/health')
     .get('')
     .query(() => true)
