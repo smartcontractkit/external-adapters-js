@@ -83,7 +83,6 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
     util.getEnv(ENV_SCROLL_CHAIN_ID),
 }
 
-const DEFAULT_OPTIMISM_HEALTH_ENDPOINT = 'https://mainnet-sequencer.optimism.io/health'
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://tokenapi.metis.io/andromeda/health'
 export const HEALTH_ENDPOINTS: Record<
   Networks,
@@ -94,7 +93,7 @@ export const HEALTH_ENDPOINTS: Record<
     responsePath: [],
   },
   [Networks.Optimism]: {
-    endpoint: util.getEnv('OPTIMISM_HEALTH_ENDPOINT') || DEFAULT_OPTIMISM_HEALTH_ENDPOINT,
+    endpoint: util.getEnv('OPTIMISM_HEALTH_ENDPOINT'),
     responsePath: ['healthy'],
   },
   [Networks.Base]: {
