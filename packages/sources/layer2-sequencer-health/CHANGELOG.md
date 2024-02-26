@@ -44,7 +44,7 @@
 
 ### Minor Changes
 
-- 8d15f80bd: Update starknet.js dependency to 5.x
+- 8d15f80bd: Update starknet.js dependency to 6.0.0-beta.15
 
 ### Patch Changes
 
