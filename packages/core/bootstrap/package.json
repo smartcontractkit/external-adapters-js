@@ -56,7 +56,7 @@
     "@types/sinon": "10.0.20",
     "@types/uuid": "8.3.4",
     "@types/ws": "8.5.10",
-    "mock-socket": "9.1.5",
+    "mock-socket": "9.3.1",
     "sinon": "14.0.2",
     "typescript": "5.0.4"
   }
