@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.68",
-    "mock-socket": "9.1.5",
+    "mock-socket": "9.3.1",
     "nock": "13.2.9",
     "typescript": "5.0.4"
   }

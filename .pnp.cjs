@@ -5997,7 +5997,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["mock-socket", "npm:9.3.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -6075,7 +6075,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify", "npm:3.29.5"],\
             ["lodash", "npm:4.17.21"],\
             ["lru-cache", "npm:6.0.0"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["mock-socket", "npm:9.3.1"],\
             ["object-hash", "npm:2.2.0"],\
             ["object-path", "npm:0.11.8"],\
             ["pino", "npm:6.14.0"],\
@@ -6179,7 +6179,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["mock-socket", "npm:9.3.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -6892,7 +6892,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["mock-socket", "npm:9.3.1"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7356,7 +7356,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["mock-socket", "npm:9.1.5"],\
+            ["mock-socket", "npm:9.3.1"],\
             ["nock", "npm:13.2.9"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -30890,6 +30890,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/mock-socket-npm-9.2.1-b9063eca95-daf0768956.zip/node_modules/mock-socket/",\
           "packageDependencies": [\
             ["mock-socket", "npm:9.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:9.3.1", {\
+          "packageLocation": "./.yarn/cache/mock-socket-npm-9.3.1-edf12f604f-cb2dde4fc5.zip/node_modules/mock-socket/",\
+          "packageDependencies": [\
+            ["mock-socket", "npm:9.3.1"]\
           ],\
           "linkType": "HARD"\
         }]\

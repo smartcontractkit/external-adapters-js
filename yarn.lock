@@ -3295,7 +3295,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
-    mock-socket: 9.1.5
+    mock-socket: 9.3.1
     nock: 13.2.9
     supertest: 6.2.4
     tslib: 2.4.1
@@ -3367,7 +3367,7 @@ __metadata:
     fastify: ^3.29.4
     lodash: ^4.17.21
     lru-cache: ^6.0.0
-    mock-socket: 9.1.5
+    mock-socket: 9.3.1
     object-hash: ^2.2.0
     object-path: ^0.11.5
     pino: ^6.13.0
@@ -3463,7 +3463,7 @@ __metadata:
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
     hardhat: 2.10.2
-    mock-socket: 9.1.5
+    mock-socket: 9.3.1
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -4101,7 +4101,7 @@ __metadata:
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
     decimal.js: ^10.3.1
-    mock-socket: 9.1.5
+    mock-socket: 9.3.1
     supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -4513,7 +4513,7 @@ __metadata:
     "@types/node": 16.11.68
     decimal.js: ^10.3.1
     ethers: ^5.4.6
-    mock-socket: 9.1.5
+    mock-socket: 9.3.1
     nock: 13.2.9
     tslib: ^2.3.1
     typescript: 5.0.4
@@ -25649,6 +25649,13 @@ __metadata:
   version: 9.1.5
   resolution: "mock-socket@npm:9.1.5"
   checksum: a01586bc2850eb5809eda6de0c7ab19255c1e0eb217a805f86ba662bb4aab00b919032d67e7c826c6c12bcfb2fbe19cecbacf0ab6184936487edc4ba37d3ba53
+  languageName: node
+  linkType: hard
+
+"mock-socket@npm:9.3.1":
+  version: 9.3.1
+  resolution: "mock-socket@npm:9.3.1"
+  checksum: cb2dde4fc5dde280dd5ccb78eaaa223382ee16437f46b86558017655584ad08c22e733bde2dd5cc86927def506b6caeb0147e3167b9a62d70d5cf19d44103853
   languageName: node
   linkType: hard
 
