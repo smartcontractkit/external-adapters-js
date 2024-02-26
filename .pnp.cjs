@@ -6152,7 +6152,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["class-validator", "npm:0.14.1"],\
             ["command-line-args", "npm:5.2.1"],\
             ["command-line-usage", "npm:6.1.3"],\
-            ["human-id", "npm:4.0.0"],\
+            ["human-id", "npm:4.1.1"],\
             ["json-schema-ref-parser", "npm:9.0.9"],\
             ["mockserver-client", "npm:5.11.2"],\
             ["rxjs", "npm:7.4.0"],\
@@ -24515,10 +24515,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:4.0.0", {\
-          "packageLocation": "./.yarn/cache/human-id-npm-4.0.0-256a0f4479-f0c1f4099d.zip/node_modules/human-id/",\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/human-id-npm-4.1.1-7078fe4166-7d78857b53.zip/node_modules/human-id/",\
           "packageDependencies": [\
-            ["human-id", "npm:4.0.0"]\
+            ["human-id", "npm:4.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
