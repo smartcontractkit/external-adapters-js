@@ -7053,7 +7053,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["sinon", "npm:12.0.1"],\
-            ["starknet", "npm:5.8.0"],\
+            ["starknet", "npm:6.0.0-beta.15"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -11934,27 +11934,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@noble/curves", [\
-        ["npm:0.8.3", {\
-          "packageLocation": "./.yarn/cache/@noble-curves-npm-0.8.3-c1804f74f8-caab73fbd0.zip/node_modules/@noble/curves/",\
-          "packageDependencies": [\
-            ["@noble/curves", "npm:0.8.3"],\
-            ["@noble/hashes", "npm:1.3.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:1.0.0", {\
-          "packageLocation": "./.yarn/cache/@noble-curves-npm-1.0.0-c66b2d9876-6bcef44d62.zip/node_modules/@noble/curves/",\
-          "packageDependencies": [\
-            ["@noble/curves", "npm:1.0.0"],\
-            ["@noble/hashes", "npm:1.3.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:1.1.0", {\
           "packageLocation": "./.yarn/cache/@noble-curves-npm-1.1.0-dccaf3c158-2658cdd3f8.zip/node_modules/@noble/curves/",\
           "packageDependencies": [\
             ["@noble/curves", "npm:1.1.0"],\
             ["@noble/hashes", "npm:1.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.0", {\
+          "packageLocation": "./.yarn/cache/@noble-curves-npm-1.3.0-e6ed020ee6-b65342ee66.zip/node_modules/@noble/curves/",\
+          "packageDependencies": [\
+            ["@noble/curves", "npm:1.3.0"],\
+            ["@noble/hashes", "npm:1.3.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12008,6 +12000,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.2-1e619f9da0-fe23536b43.zip/node_modules/@noble/hashes/",\
           "packageDependencies": [\
             ["@noble/hashes", "npm:1.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.3", {\
+          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.3-f7374e6cdf-8a6496d1c0.zip/node_modules/@noble/hashes/",\
+          "packageDependencies": [\
+            ["@noble/hashes", "npm:1.3.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13147,11 +13146,72 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@rometools/cli-darwin-arm64", [\
+        ["npm:12.1.3", {\
+          "packageLocation": "./.yarn/unplugged/@rometools-cli-darwin-arm64-npm-12.1.3-e1f412f8be/node_modules/@rometools/cli-darwin-arm64/",\
+          "packageDependencies": [\
+            ["@rometools/cli-darwin-arm64", "npm:12.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@rometools/cli-darwin-x64", [\
+        ["npm:12.1.3", {\
+          "packageLocation": "./.yarn/unplugged/@rometools-cli-darwin-x64-npm-12.1.3-213b94ec09/node_modules/@rometools/cli-darwin-x64/",\
+          "packageDependencies": [\
+            ["@rometools/cli-darwin-x64", "npm:12.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@rometools/cli-linux-arm64", [\
+        ["npm:12.1.3", {\
+          "packageLocation": "./.yarn/unplugged/@rometools-cli-linux-arm64-npm-12.1.3-1a684f2047/node_modules/@rometools/cli-linux-arm64/",\
+          "packageDependencies": [\
+            ["@rometools/cli-linux-arm64", "npm:12.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@rometools/cli-linux-x64", [\
+        ["npm:12.1.3", {\
+          "packageLocation": "./.yarn/unplugged/@rometools-cli-linux-x64-npm-12.1.3-a343b37dfc/node_modules/@rometools/cli-linux-x64/",\
+          "packageDependencies": [\
+            ["@rometools/cli-linux-x64", "npm:12.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@rometools/cli-win32-arm64", [\
+        ["npm:12.1.3", {\
+          "packageLocation": "./.yarn/unplugged/@rometools-cli-win32-arm64-npm-12.1.3-82e0519b43/node_modules/@rometools/cli-win32-arm64/",\
+          "packageDependencies": [\
+            ["@rometools/cli-win32-arm64", "npm:12.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@rometools/cli-win32-x64", [\
+        ["npm:12.1.3", {\
+          "packageLocation": "./.yarn/unplugged/@rometools-cli-win32-x64-npm-12.1.3-553c0b4b40/node_modules/@rometools/cli-win32-x64/",\
+          "packageDependencies": [\
+            ["@rometools/cli-win32-x64", "npm:12.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@scure/base", [\
         ["npm:1.1.1", {\
           "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.1-67ec4c3f95-b4fc810b49.zip/node_modules/@scure/base/",\
           "packageDependencies": [\
             ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.1.5", {\
+          "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.5-d9203f3027-9e9ee6088c.zip/node_modules/@scure/base/",\
+          "packageDependencies": [\
+            ["@scure/base", "npm:1.1.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -13194,6 +13254,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/bip39", "npm:1.2.1"],\
             ["@noble/hashes", "npm:1.3.0"],\
             ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@scure/starknet", [\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/@scure-starknet-npm-1.0.0-3a9ca3e6c9-2df4234ff7.zip/node_modules/@scure/starknet/",\
+          "packageDependencies": [\
+            ["@scure/starknet", "npm:1.0.0"],\
+            ["@noble/curves", "npm:1.3.0"],\
+            ["@noble/hashes", "npm:1.3.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15488,6 +15559,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["abi-wan-kanabi", [\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/abi-wan-kanabi-npm-1.0.3-b6ea941010-03b03c5074.zip/node_modules/abi-wan-kanabi/",\
+          "packageDependencies": [\
+            ["abi-wan-kanabi", "npm:1.0.3"],\
+            ["fs-extra", "npm:10.1.0"],\
+            ["rome", "npm:12.1.3"],\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"],\
+            ["yargs", "npm:17.7.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:2.2.0", {\
+          "packageLocation": "./.yarn/cache/abi-wan-kanabi-npm-2.2.0-f47fc780b0-d20c60d01a.zip/node_modules/abi-wan-kanabi/",\
+          "packageDependencies": [\
+            ["abi-wan-kanabi", "npm:2.2.0"],\
+            ["ansicolors", "npm:0.3.2"],\
+            ["cardinal", "npm:2.1.1"],\
+            ["fs-extra", "npm:10.1.0"],\
+            ["rome", "npm:12.1.3"],\
+            ["typescript", "patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=77c9e2"],\
+            ["yargs", "npm:17.7.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["abort-controller", [\
         ["npm:3.0.0", {\
           "packageLocation": "./.yarn/cache/abort-controller-npm-3.0.0-2f3a9a2bcb-170bdba9b4.zip/node_modules/abort-controller/",\
@@ -15916,6 +16013,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ansi-styles-npm-5.2.0-72fc7003e3-d7f4e97ce0.zip/node_modules/ansi-styles/",\
           "packageDependencies": [\
             ["ansi-styles", "npm:5.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["ansicolors", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/cache/ansicolors-npm-0.3.2-cc35882814-e84fae7ebc.zip/node_modules/ansicolors/",\
+          "packageDependencies": [\
+            ["ansicolors", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17989,6 +18095,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/capture-stack-trace-npm-1.0.2-58ba7644bb-13295e8176.zip/node_modules/capture-stack-trace/",\
           "packageDependencies": [\
             ["capture-stack-trace", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["cardinal", [\
+        ["npm:2.1.1", {\
+          "packageLocation": "./.yarn/cache/cardinal-npm-2.1.1-b77e7b28a7-e8d4ae4643.zip/node_modules/cardinal/",\
+          "packageDependencies": [\
+            ["cardinal", "npm:2.1.1"],\
+            ["ansicolors", "npm:0.3.2"],\
+            ["redeyed", "npm:2.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -22766,6 +22883,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["klaw", "npm:1.3.1"],\
             ["path-is-absolute", "npm:1.0.1"],\
             ["rimraf", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:10.1.0", {\
+          "packageLocation": "./.yarn/cache/fs-extra-npm-10.1.0-86573680ed-dc94ab3709.zip/node_modules/fs-extra/",\
+          "packageDependencies": [\
+            ["fs-extra", "npm:10.1.0"],\
+            ["graceful-fs", "npm:4.2.11"],\
+            ["jsonfile", "npm:6.1.0"],\
+            ["universalify", "npm:2.0.1"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -27916,6 +28043,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["graceful-fs", "npm:4.2.10"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:6.1.0", {\
+          "packageLocation": "./.yarn/cache/jsonfile-npm-6.1.0-20a4796cee-7af3b8e1ac.zip/node_modules/jsonfile/",\
+          "packageDependencies": [\
+            ["jsonfile", "npm:6.1.0"],\
+            ["graceful-fs", "npm:4.2.10"],\
+            ["universalify", "npm:2.0.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["jsonparse", [\
@@ -30232,17 +30368,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/micro-ftch-npm-0.3.1-4699fe6be7-0e49654725.zip/node_modules/micro-ftch/",\
           "packageDependencies": [\
             ["micro-ftch", "npm:0.3.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["micro-starknet", [\
-        ["npm:0.2.3", {\
-          "packageLocation": "./.yarn/cache/micro-starknet-npm-0.2.3-3811d44914-f1ae152348.zip/node_modules/micro-starknet/",\
-          "packageDependencies": [\
-            ["micro-starknet", "npm:0.2.3"],\
-            ["@noble/curves", "npm:1.0.0"],\
-            ["@noble/hashes", "npm:1.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34321,6 +34446,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["redeyed", [\
+        ["npm:2.1.1", {\
+          "packageLocation": "./.yarn/cache/redeyed-npm-2.1.1-7cbceb60bb-39a1426e37.zip/node_modules/redeyed/",\
+          "packageDependencies": [\
+            ["redeyed", "npm:2.1.1"],\
+            ["esprima", "npm:4.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["redis", [\
         ["npm:4.3.1", {\
           "packageLocation": "./.yarn/cache/redis-npm-4.3.1-e46addd2d8-fe20b548f8.zip/node_modules/redis/",\
@@ -35061,6 +35196,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["json-stringify-safe", "npm:5.0.1"],\
             ["semver-compare", "npm:1.0.0"],\
             ["sprintf-js", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["rome", [\
+        ["npm:12.1.3", {\
+          "packageLocation": "./.yarn/unplugged/rome-npm-12.1.3-5eebcc998d/node_modules/rome/",\
+          "packageDependencies": [\
+            ["rome", "npm:12.1.3"],\
+            ["@rometools/cli-darwin-arm64", "npm:12.1.3"],\
+            ["@rometools/cli-darwin-x64", "npm:12.1.3"],\
+            ["@rometools/cli-linux-arm64", "npm:12.1.3"],\
+            ["@rometools/cli-linux-x64", "npm:12.1.3"],\
+            ["@rometools/cli-win32-arm64", "npm:12.1.3"],\
+            ["@rometools/cli-win32-x64", "npm:12.1.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -36448,15 +36598,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["starknet", [\
-        ["npm:5.8.0", {\
-          "packageLocation": "./.yarn/cache/starknet-npm-5.8.0-63c02a3e9f-929a0d00ba.zip/node_modules/starknet/",\
+        ["npm:6.0.0-beta.15", {\
+          "packageLocation": "./.yarn/cache/starknet-npm-6.0.0-beta.15-86f1af8680-9358c66bfd.zip/node_modules/starknet/",\
           "packageDependencies": [\
-            ["starknet", "npm:5.8.0"],\
-            ["@noble/curves", "npm:0.8.3"],\
+            ["starknet", "npm:6.0.0-beta.15"],\
+            ["@noble/curves", "npm:1.3.0"],\
+            ["@scure/base", "npm:1.1.5"],\
+            ["@scure/starknet", "npm:1.0.0"],\
+            ["abi-wan-kanabi-v1", [\
+              "abi-wan-kanabi",\
+              "npm:1.0.3"\
+            ]],\
+            ["abi-wan-kanabi-v2", [\
+              "abi-wan-kanabi",\
+              "npm:2.2.0"\
+            ]],\
             ["isomorphic-fetch", "npm:3.0.0"],\
             ["lossless-json", "npm:2.0.8"],\
-            ["micro-starknet", "npm:0.2.3"],\
             ["pako", "npm:2.0.4"],\
+            ["ts-mixer", "npm:6.0.3"],\
             ["url-join", "npm:4.0.1"]\
           ],\
           "linkType": "HARD"\
@@ -37768,6 +37928,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["ts-mixer", [\
+        ["npm:6.0.3", {\
+          "packageLocation": "./.yarn/cache/ts-mixer-npm-6.0.3-d5b44d91b7-7fbaba0a41.zip/node_modules/ts-mixer/",\
+          "packageDependencies": [\
+            ["ts-mixer", "npm:6.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ts-node", [\
         ["npm:10.9.2", {\
           "packageLocation": "./.yarn/cache/ts-node-npm-10.9.2-3f3890b9ac-fde256c907.zip/node_modules/ts-node/",\
@@ -38162,10 +38331,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["typescript", [\
+        ["patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-f8edcd7439-1f8f3b6aae.zip/node_modules/typescript/",\
+          "packageDependencies": [\
+            ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058", {\
           "packageLocation": "./.yarn/cache/typescript-patch-ecf29fafbd-d26b6ba97b.zip/node_modules/typescript/",\
           "packageDependencies": [\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=77c9e2", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-f10a7e06e5-f61375590b.zip/node_modules/typescript/",\
+          "packageDependencies": [\
+            ["typescript", "patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=77c9e2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -38347,6 +38530,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/universalify-npm-0.1.2-9b22d31d2d-40cdc60f6e.zip/node_modules/universalify/",\
           "packageDependencies": [\
             ["universalify", "npm:0.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:2.0.1", {\
+          "packageLocation": "./.yarn/cache/universalify-npm-2.0.1-040ba5a21e-ecd8469fe0.zip/node_modules/universalify/",\
+          "packageDependencies": [\
+            ["universalify", "npm:2.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\

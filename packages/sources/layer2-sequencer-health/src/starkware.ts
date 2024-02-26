@@ -1,10 +1,10 @@
 import { Logger } from '@chainlink/ea-bootstrap'
 import { DEFAULT_PRIVATE_KEY, ExtendedConfig } from './config'
-import { ec, Account, InvokeFunctionResponse, GetBlockResponse } from 'starknet'
+import { ec, Account, InvokeFunctionResponse, RPC } from 'starknet'
 import { race, retry } from './network'
 
 interface StarkwareState {
-  lastBlockResponse: GetBlockResponse | null
+  lastBlockResponse: RPC.BlockWithTxHashes | null
   lastUpdated: number
   isSequencerHealthy: boolean
 }
@@ -83,12 +83,12 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
 const getPendingBlockFromGateway = async (
   config: ExtendedConfig,
 ): Promise<{
-  pendingBlockResponse: GetBlockResponse | null
+  pendingBlockResponse: RPC.BlockWithTxHashes | null
 }> => {
   let pendingBlockResponse = null
   try {
-    pendingBlockResponse = await retry<GetBlockResponse>({
-      promise: async () => config.starkwareConfig.provider.getBlock('pending'),
+    pendingBlockResponse = await retry<RPC.BlockWithTxHashes>({
+      promise: async () => config.starkwareConfig.provider.getBlockWithTxHashes('pending'),
       retryConfig: config.retryConfig,
     })
   } catch (e: any) {
@@ -106,8 +106,8 @@ const getPendingBlockFromGateway = async (
 }
 
 const checkBatcherHealthy = (
-  previousBlock: GetBlockResponse | null,
-  currentBlock: GetBlockResponse,
+  previousBlock: RPC.BlockWithTxHashes | null,
+  currentBlock: RPC.BlockWithTxHashes,
 ): boolean => {
   if (!previousBlock) {
     return currentBlock.transactions.length > 0

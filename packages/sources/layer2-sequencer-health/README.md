@@ -24,9 +24,7 @@ Adapter that checks the Layer 2 Sequencer status
 |           |       `SCROLL_RPC_ENDPOINT`       |                               Scroll RPC Endpoint                               |         |                      https://rpc.scroll.io                       |
 |           |     `SCROLL_HEALTH_ENDPOINT`      |                             Scroll Health Endpoint                              |         |                                                                  |
 |           |         `SCROLL_CHAIN_ID`         |                           The chain id to connect to                            |         |                              534352                              |
-|           |  `STARKWARE_SEQUENCER_ENDPOINT`   |                       The Starkware Sequencer's endpoint                        |         |                https://alpha-mainnet.starknet.io                 |
-|           |  `STARKWARE_FEEDER_GATEWAY_URL`   |                  The Starkware Sequencer's feeder gateway URL                   |         |                          feeder_gateway                          |
-|           |      `STARKWARE_GATEWAY_URL`      |                      The Starkware Sequencer's gateway URL                      |         |                             gateway                              |
+|           |     `STARKWARE_RPC_ENDPOINT`      |                           The Starkware RPC endpoint                            |         |           https://starknet-mainnet.public.blastapi.io            |
 |           | `STARKWARE_DUMMY_ACCOUNT_ADDRESS` |        The dummy address to use to send dummy transactions to Starkware         |         | 0x00000000000000000000000000000000000000000000000000000000000001 |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
