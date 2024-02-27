@@ -29,7 +29,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.2",
+    "@chainlink/external-adapter-framework": "0.33.4",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.68",
-    "mock-socket": "9.1.5",
+    "mock-socket": "9.3.1",
     "nock": "13.2.9",
     "typescript": "5.0.4"
   }

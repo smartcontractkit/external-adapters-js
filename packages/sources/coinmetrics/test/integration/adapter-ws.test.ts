@@ -14,7 +14,7 @@ describe('websocket', () => {
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
   const wsEndpoint = 'ws://localhost:9090/v4/timeseries-stream/asset-metrics'
-  const wsEndpointLwba = 'ws://localhost:9090/v4/timeseries-stream/pair-quotes'
+  const wsEndpointLwba = 'ws://localhost:9090/v4/timeseries-stream/asset-quotes'
   const data = {
     base: 'ETH',
     quote: 'USD',

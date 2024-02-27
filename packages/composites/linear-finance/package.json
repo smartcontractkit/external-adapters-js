@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/linear-finance-adapter",
-  "version": "2.3.72",
+  "version": "2.3.73",
   "description": "Chainlink linear-finance adapter.",
   "keywords": [
     "Chainlink",
@@ -32,7 +32,6 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/token-allocation-adapter": "workspace:*",
-    "axios": "^0.24.0",
     "csv-parse": "^4.16.0",
     "decimal.js": "^10.3.1",
     "moment": "^2.29.4",

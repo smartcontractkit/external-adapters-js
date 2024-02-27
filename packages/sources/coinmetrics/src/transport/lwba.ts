@@ -60,28 +60,15 @@ export type WsTransportTypes = BaseEndpointTypes & {
     WsMessage: WsPairQuoteMessage
   }
 }
-export const calculatePairQuotesUrl = (
+export const calculateUrl = (
   context: EndpointContext<WsTransportTypes>,
   desiredSubs: (typeof inputParameters.validated)[],
-  isAssetQuote: boolean,
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
 
-  let generated = new URL('/v4/timeseries-stream/pair-quotes', WS_API_ENDPOINT)
-
-  // use asset-quotes api if base=[BNB,UNI,SOL,LTC,XRP]
-  if (isAssetQuote) {
-    generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
-    const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
-    generated.searchParams.append('assets', assets)
-  } else {
-    const pairs = [
-      ...new Set(desiredSubs.map((sub) => `${sub.base.toLowerCase()}-${sub.quote.toLowerCase()}`)),
-    ]
-      .sort()
-      .join(',')
-    generated.searchParams.append('pairs', pairs)
-  }
+  const generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
+  const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
+  generated.searchParams.append('assets', assets)
 
   generated.searchParams.append('api_key', API_KEY)
   logger.debug(`Generated URL: ${generated.toString()}`)
@@ -124,19 +111,10 @@ export const handleCryptoLwbaMessage = (
   }
   return undefined
 }
-export const pairQuoteWebsocketTransport = new WebSocketTransport<WsTransportTypes>({
+
+export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context, desiredSubs) => {
-    return calculatePairQuotesUrl(context, desiredSubs, false)
-  },
-  handlers: {
-    message(message: WsPairQuoteMessage): ProviderResult<WsTransportTypes>[] | undefined {
-      return handleCryptoLwbaMessage(message)
-    },
-  },
-})
-export const assetQuoteWebsocketTransport = new WebSocketTransport<WsTransportTypes>({
-  url: (context, desiredSubs) => {
-    return calculatePairQuotesUrl(context, desiredSubs, true)
+    return calculateUrl(context, desiredSubs)
   },
   handlers: {
     message(message: WsPairQuoteMessage): ProviderResult<WsTransportTypes>[] | undefined {

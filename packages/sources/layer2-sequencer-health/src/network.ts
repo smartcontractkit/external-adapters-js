@@ -19,16 +19,13 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
   [Networks.Scroll]: ['invalid transaction: insufficient funds for l1fee + gas * price + value'],
   // Sending an empty transaction to the dummy Starknet address should return one
-  // of the following error messages.  The Sequencer is considered healthy if the
-  // EA gets back one of the errors below.
-  // UNINITIALIZED_CONTRACT is thrown whenever the dummy address has not been
-  // deployed to the network
-  // OUT_OF_RANGE_FEE is thrown when the network detects a transaction sent
-  // with 0 gas
-  [Networks.Starkware]: [
-    'StarknetErrorCode.UNINITIALIZED_CONTRACT',
-    'StarknetErrorCode.OUT_OF_RANGE_FEE',
-  ],
+  // of the following error messages. The errors defined below can be a substring
+  // of the actual error message that is thrown. The Sequencer is considered healthy
+  // if the EA returns one of the errors below before the pre-configured timeout
+  // expires. The 'Contract not found' error is thrown whenever the dummy address
+  // has not been deployed to the network. The OutOfRangeFee error is thrown when
+  // the network detects a transaction sent with 0 gas.
+  [Networks.Starkware]: ['Contract not found', 'Known(OutOfRangeFee)'],
 }
 
 export interface NetworkHealthCheck {
@@ -89,16 +86,18 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Base]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
       [Networks.Scroll]: ['error', 'error', 'message'],
-      [Networks.Starkware]: ['errorCode'],
+      [Networks.Starkware]: ['message'],
     }
     return (Requester.getResult(error, paths[network]) as string) || ''
   }
-  const errorMessage = _getErrorMessage(error)
-  if (sequencerOnlineErrors[network].includes(errorMessage)) {
-    Logger.debug(
-      `[${network}] Transaction submission failed with an expected error ${errorMessage}.`,
-    )
-    return true
+  const actualError = _getErrorMessage(error)
+  for (const expectedError of sequencerOnlineErrors[network]) {
+    if (actualError.includes(expectedError)) {
+      Logger.debug(
+        `[${network}] Transaction submission failed with an expected error ${actualError}.`,
+      )
+      return true
+    }
   }
   Logger.error(
     `[${network}] Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
