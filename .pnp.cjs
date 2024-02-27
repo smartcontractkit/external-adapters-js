@@ -19540,7 +19540,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/d-npm-1.0.1-64afbbc689-49ca0639c7.zip/node_modules/d/",\
           "packageDependencies": [\
             ["d", "npm:1.0.1"],\
-            ["es5-ext", "npm:0.10.62"],\
+            ["es5-ext", "npm:0.10.63"],\
             ["type", "npm:1.2.0"]\
           ],\
           "linkType": "HARD"\
@@ -21083,12 +21083,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["es5-ext", [\
-        ["npm:0.10.62", {\
-          "packageLocation": "./.yarn/unplugged/es5-ext-npm-0.10.62-f20aca46cb/node_modules/es5-ext/",\
+        ["npm:0.10.63", {\
+          "packageLocation": "./.yarn/unplugged/es5-ext-npm-0.10.63-6a78b50e16/node_modules/es5-ext/",\
           "packageDependencies": [\
-            ["es5-ext", "npm:0.10.62"],\
+            ["es5-ext", "npm:0.10.63"],\
             ["es6-iterator", "npm:2.0.3"],\
             ["es6-symbol", "npm:3.1.3"],\
+            ["esniff", "npm:2.0.1"],\
             ["next-tick", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
@@ -21109,7 +21110,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["es6-iterator", "npm:2.0.3"],\
             ["d", "npm:1.0.1"],\
-            ["es5-ext", "npm:0.10.62"],\
+            ["es5-ext", "npm:0.10.63"],\
             ["es6-symbol", "npm:3.1.3"]\
           ],\
           "linkType": "HARD"\
@@ -21314,6 +21315,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/eslint-visitor-keys-npm-3.4.0-dc8683d774-3315916946.zip/node_modules/eslint-visitor-keys/",\
           "packageDependencies": [\
             ["eslint-visitor-keys", "npm:3.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["esniff", [\
+        ["npm:2.0.1", {\
+          "packageLocation": "./.yarn/cache/esniff-npm-2.0.1-26cea8766c-d814c0e5c3.zip/node_modules/esniff/",\
+          "packageDependencies": [\
+            ["esniff", "npm:2.0.1"],\
+            ["d", "npm:1.0.1"],\
+            ["es5-ext", "npm:0.10.63"],\
+            ["event-emitter", "npm:0.3.5"],\
+            ["type", "npm:2.7.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -21735,6 +21749,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethjs-util", "npm:0.1.6"],\
             ["is-hex-prefixed", "npm:1.0.0"],\
             ["strip-hex-prefix", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["event-emitter", [\
+        ["npm:0.3.5", {\
+          "packageLocation": "./.yarn/cache/event-emitter-npm-0.3.5-f1e8b8edb5-27c1399557.zip/node_modules/event-emitter/",\
+          "packageDependencies": [\
+            ["event-emitter", "npm:0.3.5"],\
+            ["d", "npm:1.0.1"],\
+            ["es5-ext", "npm:0.10.63"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -39898,7 +39923,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["websocket", "npm:1.0.34"],\
             ["bufferutil", "npm:4.0.6"],\
             ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],\
-            ["es5-ext", "npm:0.10.62"],\
+            ["es5-ext", "npm:0.10.63"],\
             ["typedarray-to-buffer", "npm:3.1.5"],\
             ["utf-8-validate", "npm:5.0.9"],\
             ["yaeti", "npm:0.0.6"]\
