@@ -7070,7 +7070,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.2.9"],\
             ["sinon", "npm:12.0.1"],\
-            ["starknet", "npm:6.0.0-beta.15"],\
+            ["starknet", "npm:6.0.0"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -36615,10 +36615,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["starknet", [\
-        ["npm:6.0.0-beta.15", {\
-          "packageLocation": "./.yarn/cache/starknet-npm-6.0.0-beta.15-86f1af8680-9358c66bfd.zip/node_modules/starknet/",\
+        ["npm:6.0.0", {\
+          "packageLocation": "./.yarn/cache/starknet-npm-6.0.0-199aa68748-8254753e6b.zip/node_modules/starknet/",\
           "packageDependencies": [\
-            ["starknet", "npm:6.0.0-beta.15"],\
+            ["starknet", "npm:6.0.0"],\
             ["@noble/curves", "npm:1.3.0"],\
             ["@scure/base", "npm:1.1.5"],\
             ["@scure/starknet", "npm:1.0.0"],\
