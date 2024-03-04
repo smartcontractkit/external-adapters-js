@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/swell-address-list-adapter",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Chainlink swell-address-list adapter.",
   "keywords": [
     "Chainlink",
