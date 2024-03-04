@@ -40,8 +40,8 @@
     "framework-bump": "./packages/scripts/src/framework/version-bump.sh"
   },
   "dependencies": {
-    "@babel/core": "7.23.9",
-    "@babel/preset-env": "7.23.9",
+    "@babel/core": "7.24.0",
+    "@babel/preset-env": "7.24.0",
     "@babel/preset-typescript": "7.23.3",
     "@types/jest": "27.5.2",
     "@typescript-eslint/eslint-plugin": "5.59.11",
