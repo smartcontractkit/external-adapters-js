@@ -1,5 +1,16 @@
 # @chainlink/market-closure-adapter
 
+## 1.3.18
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e), [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/finnhub-adapter@2.7.3
+  - @chainlink/ea-reference-data-reader@1.3.31
+  - @chainlink/ea-test-helpers@1.4.3
+  - @chainlink/fcsapi-adapter@1.2.33
+
 ## 1.3.17
 
 ### Patch Changes

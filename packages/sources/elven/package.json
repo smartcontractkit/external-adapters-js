@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/elven-adapter",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Chainlink elven adapter.",
   "keywords": [
     "Chainlink",

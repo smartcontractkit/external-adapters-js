@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/amberdata-adapter",
-  "version": "1.8.24",
+  "version": "1.8.25",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
