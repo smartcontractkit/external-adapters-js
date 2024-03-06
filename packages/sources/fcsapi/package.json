@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/fcsapi-adapter",
-  "version": "1.2.32",
+  "version": "1.2.33",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

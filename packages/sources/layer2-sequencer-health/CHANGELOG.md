@@ -1,5 +1,22 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.0.0
+
+### Major Changes
+
+- [#3170](https://github.com/smartcontractkit/external-adapters-js/pull/3170) [`5681441`](https://github.com/smartcontractkit/external-adapters-js/commit/568144119651ffc5f016f1c25dc99b819e283236) Thanks [@chris-de-leon-cll](https://github.com/chris-de-leon-cll)! - Bumps starknet.js to latest 6.x beta version
+  Adds starknet RPC support
+  Deprecates starknet sequencer and gateway URLs
+  Updates error handling for starknet empty transaction health check
+
+### Patch Changes
+
+- [#3205](https://github.com/smartcontractkit/external-adapters-js/pull/3205) [`a3303c5`](https://github.com/smartcontractkit/external-adapters-js/commit/a3303c5c0b7f2e97bd7e07f805ca7ecd14f72cee) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Removes Optimism healthcheck endpoint
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/ea-test-helpers@1.4.3
+
 ## 3.0.0
 
 ### Major Changes
