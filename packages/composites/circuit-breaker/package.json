@@ -37,7 +37,7 @@
     "@chainlink/ea-test-helpers": "workspace:*",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.68",
-    "nock": "13.2.9",
+    "nock": "13.5.4",
     "typescript": "5.0.4"
   }
 }
