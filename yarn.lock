@@ -5494,6 +5494,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.4
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.68
+    ethers: ^5.4.6
+    nock: 13.2.9
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/wbtc-address-set-adapter@workspace:*, @chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
