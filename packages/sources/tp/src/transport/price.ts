@@ -2,6 +2,7 @@ import Decimal from 'decimal.js'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, GeneratePriceOptions } from '../endpoint/price'
+import { calculateCacheKey } from '@chainlink/external-adapter-framework/cache'
 
 const logger = makeLogger('TpIcapPrice')
 
@@ -32,8 +33,28 @@ const isNum = (i: number | undefined) => typeof i === 'number'
 
 let providerDataStreamEstablishedUnixMs: number
 
+/*
+TP and ICAP EAs currently do not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
+we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
+ */
+const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>) => {
+  // Get current active entries in the subscription set
+  const sSet = await transport.subscriptionSet.getAll()
+  // For each entry in sSet, calculate the cache key and try to update the ttl of an entry
+  sSet.forEach((param) => {
+    const key = calculateCacheKey({
+      transportName: transport.name,
+      data: param,
+      adapterName: transport.responseCache.adapterName,
+      endpointName: transport.responseCache.endpointName,
+      adapterSettings: transport.responseCache.adapterSettings,
+    })
+    transport.responseCache.cache.setTTL(key, transport.responseCache.adapterSettings.CACHE_MAX_AGE)
+  })
+}
+
 export const generateTransport = (generatePriceOptions: GeneratePriceOptions) => {
-  return new WebSocketTransport<WsTransportTypes>({
+  const tpTransport = new WebSocketTransport<WsTransportTypes>({
     url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
     handlers: {
       open: (connection, { adapterSettings: { WS_API_USERNAME, WS_API_PASSWORD } }) => {
@@ -69,6 +90,19 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
         if (!fvs || !rec || sta !== 1) {
           logger.debug({ msg: 'Missing expected field `fvs` or `rec` from `sub` message', message })
           return []
+        }
+
+        // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
+        if (rec.includes('HBHHH')) {
+          const stream = rec.slice(22, 24)
+          if (stream === generatePriceOptions.streamName) {
+            logger.debug({
+              msg: 'Received heartbeat message from WS, updating TTLs of active entries',
+              message,
+            })
+            updateTTL(tpTransport)
+            return []
+          }
         }
 
         const stream = rec.slice(31, 34)
@@ -118,4 +152,5 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
       },
     },
   })
+  return tpTransport
 }
