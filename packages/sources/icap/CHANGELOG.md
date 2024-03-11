@@ -1,5 +1,14 @@
 # @chainlink/icap-adapter
 
+## 1.1.22
+
+### Patch Changes
+
+- [#3210](https://github.com/smartcontractkit/external-adapters-js/pull/3210) [`1fb155a`](https://github.com/smartcontractkit/external-adapters-js/commit/1fb155a791512a7786fe5239901a5c66bc1afbd9) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add support for cache TTL refresh on heartbeat messages
+
+- Updated dependencies [[`1fb155a`](https://github.com/smartcontractkit/external-adapters-js/commit/1fb155a791512a7786fe5239901a5c66bc1afbd9)]:
+  - @chainlink/tp-adapter@1.4.4
+
 ## 1.1.21
 
 ### Patch Changes
