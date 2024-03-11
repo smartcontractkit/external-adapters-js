@@ -39,7 +39,7 @@
     "@types/node": "16.11.68",
     "@types/sinonjs__fake-timers": "8.1.5",
     "@types/ws": "8.5.10",
-    "nock": "13.2.9",
+    "nock": "13.5.4",
     "typescript": "5.0.4"
   }
 }

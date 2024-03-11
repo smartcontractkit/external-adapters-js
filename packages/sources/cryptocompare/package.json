@@ -37,7 +37,7 @@
     "@types/node": "16.11.68",
     "@types/sinonjs__fake-timers": "8.1.5",
     "@types/supertest": "2.0.16",
-    "nock": "13.2.9",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }
