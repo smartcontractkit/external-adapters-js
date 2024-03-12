@@ -99,7 +99,7 @@ export const mockWebSocketServer = (URL: string): Server => {
     {
       data: [
         'Quote',
-        ['TSLA', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 172.0, 100.0],
+        ['TSLA:BFX', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 172.0, 100.0],
       ],
       channel: '/service/data',
     },
