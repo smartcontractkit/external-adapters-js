@@ -44,6 +44,17 @@
     ]
   },
   {
+    "from": "ILS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ILS",
+        "inverse": true
+      }
+    ]
+  },
+  {
     "from": "KRW",
     "to": "USD",
     "includes": [
