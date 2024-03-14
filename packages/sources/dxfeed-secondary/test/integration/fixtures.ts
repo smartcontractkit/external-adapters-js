@@ -3,14 +3,14 @@ import nock from 'nock'
 export function mockPriceEndpoint(): nock.Scope {
   return nock('https://tools.dxfeed.com:443', { encodedQueryParams: true })
     .get('/webservice/rest/events.json')
-    .query({ events: 'Trade,Quote', symbols: 'FTSE' })
+    .query({ events: 'Trade,Quote', symbols: 'FTSE:BFX' })
     .reply(
       200,
       {
         status: 'OK',
         Trade: {
-          FTSE: {
-            eventSymbol: 'FTSE',
+          'FTSE:BFX': {
+            eventSymbol: 'FTSE:BFX',
             eventTime: 0,
             time: 1636750796767,
             timeNanoPart: 0,
