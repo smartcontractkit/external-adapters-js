@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket forex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 6.82485,
+  },
+  "result": 6.82485,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1022,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1704936760198,
+  },
+}
+`;
