@@ -3,14 +3,14 @@ import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/
 export function mockPriceEndpoint(): nock.Scope {
   return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
     .get('/events.json')
-    .query({ events: 'Trade,Quote', symbols: 'TSLA:BFX' })
+    .query({ events: 'Trade,Quote', symbols: 'TSLA' })
     .reply(
       200,
       {
         status: 'OK',
         Trade: {
-          'TSLA:BFX': {
-            eventSymbol: 'TSLA:BFX',
+          TSLA: {
+            eventSymbol: 'TSLA',
             eventTime: 0,
             time: 1636744209248,
             timeNanoPart: 0,
@@ -57,7 +57,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['TSLA:BFX', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 172.0, 100.0],
+        ['TSLA', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 172.0, 100.0],
       ],
       channel: '/service/data',
     },
