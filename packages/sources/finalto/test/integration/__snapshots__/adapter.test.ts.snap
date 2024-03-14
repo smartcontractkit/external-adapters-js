@@ -10,7 +10,7 @@ exports[`websocket forex endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1022,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1704936760198,
+    "providerIndicatedTimeUnixMs": 1704951160198,
   },
 }
 `;

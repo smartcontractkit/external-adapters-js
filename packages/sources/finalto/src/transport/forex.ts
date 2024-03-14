@@ -46,7 +46,7 @@ const parseDate = (dateLike: string): number => {
   const month = dateLike.substring(4, 6)
   const day = dateLike.substring(6, 8)
   const rest = dateLike.slice(8)
-  return new Date(`${year}.${month}.${day}${rest}`).getTime()
+  return new Date(`${year}.${month}.${day}${rest}Z`).getTime()
 }
 
 export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
