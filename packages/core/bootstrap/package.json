@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-bootstrap",
-  "version": "2.27.1",
+  "version": "2.27.2",
   "description": "Bootstrap an external adapter with this package",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

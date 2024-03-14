@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/clear-bank-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink clear-bank adapter.",
   "keywords": [
     "Chainlink",
@@ -31,7 +31,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.11.68",
     "axios": "1.6.0",
-    "nock": "13.2.9",
+    "nock": "13.5.4",
     "typescript": "5.0.4"
   },
   "dependencies": {

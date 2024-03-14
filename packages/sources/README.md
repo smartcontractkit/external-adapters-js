@@ -157,6 +157,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [upvest](./upvest/README.md)
 - [uscpi-one](./uscpi-one/README.md)
 - [view-function](./view-function/README.md)
+- [view-function-multi-chain](./view-function-multi-chain/README.md)
 - [wbtc-address-set](./wbtc-address-set/README.md)
 - [wootrade](./wootrade/README.md)
 - [wrapped](./wrapped/README.md)

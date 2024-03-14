@@ -4,6 +4,7 @@ import {
   setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  runAllUntilTime,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import { mockPriceWebSocketServer } from './fixtures'
@@ -14,7 +15,7 @@ describe('Price Endpoint', () => {
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
   const data = {
-    base: 'JPY',
+    base: 'EUR',
     quote: 'USD',
   }
 
@@ -23,6 +24,7 @@ describe('Price Endpoint', () => {
     process.env['WS_API_USERNAME'] = 'test-username'
     process.env['WS_API_PASSWORD'] = 'test-password'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['WS_SUBSCRIPTION_UNRESPONSIVE_TTL'] = '180000'
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
@@ -83,6 +85,14 @@ describe('Price Endpoint', () => {
 
   it('should return error on empty quote', async () => {
     const response = await testAdapter.request({ base: 'EUR' })
+    expect(response.json()).toMatchSnapshot()
+  })
+  it('should update the ttl after heartbeat is received', async () => {
+    // The cache tll is 90 seconds. Mocked heartbeat message is sent after 10s after connection which should
+    // update the ttl and therefore after 91 seconds (from the initial message) we can access the asset
+    await runAllUntilTime(testAdapter.clock, 91000)
+    const response = await testAdapter.request({ base: 'EUR', quote: 'USD' })
+    expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchSnapshot()
   })
 })

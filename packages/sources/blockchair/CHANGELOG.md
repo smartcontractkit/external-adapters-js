@@ -1,5 +1,14 @@
 # @chainlink/blockchair-adapter
 
+## 1.3.32
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/ea-factories@1.2.31
+  - @chainlink/ea-test-helpers@1.4.3
+
 ## 1.3.31
 
 ### Patch Changes

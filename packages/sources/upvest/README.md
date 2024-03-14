@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Upvest
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/upvest/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/upvest/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://fees.upvest.co
 

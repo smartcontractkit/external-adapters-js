@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-test-adapter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Chainlink token allocation test adapter",
   "keywords": [
     "Chainlink",
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.68",
-    "nock": "13.2.9",
+    "nock": "13.5.4",
     "typescript": "5.0.4"
   }
 }
