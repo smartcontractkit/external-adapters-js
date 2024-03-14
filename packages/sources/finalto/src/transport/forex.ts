@@ -1,6 +1,7 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/forex'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { v4 as uuidv4 } from 'uuid'
 
 const logger = makeLogger('FinaltoWSTransport')
 
@@ -23,21 +24,15 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-let subscriptionId = 2 // DP errors if the subId starts with '1'
-const subscriptionIdMap: Record<string, number> = {}
+const subscriptionIdMap: Record<string, string> = {}
 
-const getSubscriptionId = (symbol: string, deleteOnGet = false): string => {
+const getSubscriptionId = (symbol: string): string => {
   if (subscriptionIdMap[symbol]) {
-    if (deleteOnGet) {
-      const value = subscriptionIdMap[symbol].toString()
-      delete subscriptionIdMap[symbol]
-      return value
-    }
-    return subscriptionIdMap[symbol].toString()
+    return subscriptionIdMap[symbol]
   }
-  subscriptionIdMap[symbol] = subscriptionId
-  subscriptionId++
-  return subscriptionIdMap[symbol].toString()
+  const uniqueKey = uuidv4()
+  subscriptionIdMap[symbol] = `${symbol}-${uniqueKey}`
+  return subscriptionIdMap[symbol]
 }
 
 // DP returns the date info in an unparseable format like 20240112-11:11:11.111
@@ -146,7 +141,8 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
       },
       unsubscribeMessage: (params) => {
         const symbol = `${params.base}${params.quote}`.toUpperCase()
-        const id = getSubscriptionId(symbol, true)
+        const id = getSubscriptionId(symbol)
+        delete subscriptionIdMap[symbol]
         return {
           MsgType: 'SubscribePrices',
           SubID: id,

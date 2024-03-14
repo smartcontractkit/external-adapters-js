@@ -3791,9 +3791,11 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/sinonjs__fake-timers": 8.1.5
+    "@types/uuid": 8.3.4
     nock: 13.5.4
     tslib: 2.4.1
     typescript: 5.0.4
+    uuid: ^8.3.0
   languageName: unknown
   linkType: soft
 
