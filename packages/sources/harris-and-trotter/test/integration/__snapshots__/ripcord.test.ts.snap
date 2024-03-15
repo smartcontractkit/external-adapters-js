@@ -3,6 +3,8 @@
 exports[`execute balance endpoint should return failure on ripcord true 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: {"insufficient_balance":true,"source_failure":false,"external_intervention":false}",
+  "ripcord": true,
+  "ripcordDetails": "{"insufficient_balance":true,"source_failure":false,"external_intervention":false}",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

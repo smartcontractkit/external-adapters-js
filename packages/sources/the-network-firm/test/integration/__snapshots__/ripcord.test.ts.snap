@@ -3,6 +3,8 @@
 exports[`execute backed endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordDetails": "Balances",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -15,6 +17,8 @@ exports[`execute backed endpoint when ripcord true should return error 1`] = `
 exports[`execute eurr endpoint when ripcord true  should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordDetails": "Balances",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -27,6 +31,8 @@ exports[`execute eurr endpoint when ripcord true  should return error 1`] = `
 exports[`execute gift endpoint when ripcord true  should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordDetails": "Balances",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -39,6 +45,8 @@ exports[`execute gift endpoint when ripcord true  should return error 1`] = `
 exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordDetails": "Balances",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -51,6 +59,8 @@ exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
 exports[`execute usdr endpoint when ripcord true  should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordDetails": "Balances",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

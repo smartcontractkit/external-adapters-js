@@ -16,6 +16,7 @@ exports[`execute backed endpoint should return success 1`] = `
 {
   "data": {
     "result": 195605,
+    "ripcord": false,
   },
   "result": 195605,
   "statusCode": 200,
@@ -31,6 +32,7 @@ exports[`execute eurr endpoint should return success 1`] = `
 {
   "data": {
     "result": 10000000,
+    "ripcord": false,
   },
   "result": 10000000,
   "statusCode": 200,
@@ -46,6 +48,7 @@ exports[`execute gift endpoint should return success 1`] = `
 {
   "data": {
     "result": 10000000,
+    "ripcord": false,
   },
   "result": 10000000,
   "statusCode": 200,
@@ -76,6 +79,7 @@ exports[`execute stbt endpoint should return success 1`] = `
 {
   "data": {
     "result": 72178807.56,
+    "ripcord": false,
   },
   "result": 72178807.56,
   "statusCode": 200,
@@ -91,6 +95,7 @@ exports[`execute usdr endpoint should return success 1`] = `
 {
   "data": {
     "result": 39138216.32189752,
+    "ripcord": false,
   },
   "result": 39138216.32189752,
   "statusCode": 200,
