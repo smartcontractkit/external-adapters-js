@@ -3782,6 +3782,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/finalto-adapter@workspace:packages/sources/finalto":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/finalto-adapter@workspace:packages/sources/finalto"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.4
+    "@sinonjs/fake-timers": 9.1.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.68
+    "@types/sinonjs__fake-timers": 8.1.5
+    "@types/uuid": 8.3.4
+    nock: 13.5.4
+    tslib: 2.4.1
+    typescript: 5.0.4
+    uuid: ^8.3.0
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/finnhub-adapter@workspace:*, @chainlink/finnhub-adapter@workspace:packages/sources/finnhub":
   version: 0.0.0-use.local
   resolution: "@chainlink/finnhub-adapter@workspace:packages/sources/finnhub"

@@ -468,6 +468,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finage"\
       },\
       {\
+        "name": "@chainlink/finalto-adapter",\
+        "reference": "workspace:packages/sources/finalto"\
+      },\
+      {\
         "name": "@chainlink/finnhub-adapter",\
         "reference": "workspace:packages/sources/finnhub"\
       },\
@@ -937,6 +941,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/external-adapters-js", ["workspace:."]],\
       ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
+      ["@chainlink/finalto-adapter", ["workspace:packages/sources/finalto"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
       ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
@@ -6530,6 +6535,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/finalto-adapter", [\
+        ["workspace:packages/sources/finalto", {\
+          "packageLocation": "./packages/sources/finalto/",\
+          "packageDependencies": [\
+            ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.68"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+            ["@types/uuid", "npm:8.3.4"],\
+            ["nock", "npm:13.5.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
+            ["uuid", "npm:8.3.2"]\
           ],\
           "linkType": "SOFT"\
         }]\
