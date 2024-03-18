@@ -468,6 +468,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finage"\
       },\
       {\
+        "name": "@chainlink/finalto-adapter",\
+        "reference": "workspace:packages/sources/finalto"\
+      },\
+      {\
         "name": "@chainlink/finnhub-adapter",\
         "reference": "workspace:packages/sources/finnhub"\
       },\
@@ -937,6 +941,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/external-adapters-js", ["workspace:."]],\
       ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
+      ["@chainlink/finalto-adapter", ["workspace:packages/sources/finalto"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
       ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
@@ -6075,7 +6080,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
             ["@types/fast-redact", "npm:3.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.202"],\
+            ["@types/lodash", "npm:4.17.0"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/object-hash", "npm:2.2.1"],\
@@ -6198,7 +6203,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.21.0"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1"],\
             ["mock-socket", "npm:9.3.1"],\
             ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
@@ -6530,6 +6535,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/finalto-adapter", [\
+        ["workspace:packages/sources/finalto", {\
+          "packageLocation": "./packages/sources/finalto/",\
+          "packageDependencies": [\
+            ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.68"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+            ["@types/uuid", "npm:8.3.4"],\
+            ["nock", "npm:13.5.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
+            ["uuid", "npm:8.3.2"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -12038,100 +12062,100 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@nomicfoundation/edr", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/cache/@nomicfoundation-edr-npm-0.2.1-d79055bf6f-74abad4a10.zip/node_modules/@nomicfoundation/edr/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-edr-npm-0.3.2-bc53032485-92700c041b.zip/node_modules/@nomicfoundation/edr/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-darwin-arm64", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-darwin-x64", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-linux-arm64-gnu", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-linux-arm64-musl", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-linux-x64-gnu", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-linux-x64-musl", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-win32-arm64-msvc", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-win32-ia32-msvc", "npm:0.2.1"],\
-            ["@nomicfoundation/edr-win32-x64-msvc", "npm:0.2.1"]\
+            ["@nomicfoundation/edr", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-darwin-arm64", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-darwin-x64", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-arm64-gnu", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-arm64-musl", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-x64-gnu", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-x64-musl", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-win32-arm64-msvc", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-win32-ia32-msvc", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-win32-x64-msvc", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-darwin-arm64", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-darwin-arm64-npm-0.2.1-d0240bfdaa/node_modules/@nomicfoundation/edr-darwin-arm64/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-darwin-arm64-npm-0.3.2-2718ffdebd/node_modules/@nomicfoundation/edr-darwin-arm64/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-darwin-arm64", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-darwin-arm64", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-darwin-x64", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-darwin-x64-npm-0.2.1-14fda7a3cd/node_modules/@nomicfoundation/edr-darwin-x64/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-darwin-x64-npm-0.3.2-29ea84c61f/node_modules/@nomicfoundation/edr-darwin-x64/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-darwin-x64", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-darwin-x64", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-linux-arm64-gnu", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-arm64-gnu-npm-0.2.1-36dab4c916/node_modules/@nomicfoundation/edr-linux-arm64-gnu/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-arm64-gnu-npm-0.3.2-12e6bd2256/node_modules/@nomicfoundation/edr-linux-arm64-gnu/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-linux-arm64-gnu", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-linux-arm64-gnu", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-linux-arm64-musl", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-arm64-musl-npm-0.2.1-a80c1968f8/node_modules/@nomicfoundation/edr-linux-arm64-musl/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-arm64-musl-npm-0.3.2-0c3442a1ea/node_modules/@nomicfoundation/edr-linux-arm64-musl/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-linux-arm64-musl", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-linux-arm64-musl", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-linux-x64-gnu", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-x64-gnu-npm-0.2.1-de294204e1/node_modules/@nomicfoundation/edr-linux-x64-gnu/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-x64-gnu-npm-0.3.2-88c92b5326/node_modules/@nomicfoundation/edr-linux-x64-gnu/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-linux-x64-gnu", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-linux-x64-gnu", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-linux-x64-musl", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-x64-musl-npm-0.2.1-4c64dfbd0c/node_modules/@nomicfoundation/edr-linux-x64-musl/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-x64-musl-npm-0.3.2-16ba1330f6/node_modules/@nomicfoundation/edr-linux-x64-musl/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-linux-x64-musl", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-linux-x64-musl", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-win32-arm64-msvc", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-arm64-msvc-npm-0.2.1-66c36b676e/node_modules/@nomicfoundation/edr-win32-arm64-msvc/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-arm64-msvc-npm-0.3.2-88c7ff9876/node_modules/@nomicfoundation/edr-win32-arm64-msvc/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-win32-arm64-msvc", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-win32-arm64-msvc", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-win32-ia32-msvc", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-ia32-msvc-npm-0.2.1-35659e018a/node_modules/@nomicfoundation/edr-win32-ia32-msvc/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-ia32-msvc-npm-0.3.2-e58987ee93/node_modules/@nomicfoundation/edr-win32-ia32-msvc/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-win32-ia32-msvc", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-win32-ia32-msvc", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["@nomicfoundation/edr-win32-x64-msvc", [\
-        ["npm:0.2.1", {\
-          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-x64-msvc-npm-0.2.1-db3258debd/node_modules/@nomicfoundation/edr-win32-x64-msvc/",\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-x64-msvc-npm-0.3.2-7d290df940/node_modules/@nomicfoundation/edr-win32-x64-msvc/",\
           "packageDependencies": [\
-            ["@nomicfoundation/edr-win32-x64-msvc", "npm:0.2.1"]\
+            ["@nomicfoundation/edr-win32-x64-msvc", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12163,10 +12187,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:24ac7acd599a7fdecf7665970f55c64a2c5f7acd3252c90cf6cab4162a224dc2e93cac4275ecbfc8b6decfac744b2026836f2b846a9c7af0dd08026c682021ac#npm:5.0.4", {\
-          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-tx-virtual-2ff3c84cb4/0/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
+        ["virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-tx-virtual-e6d926dc76/0/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
           "packageDependencies": [\
-            ["@nomicfoundation/ethereumjs-tx", "virtual:24ac7acd599a7fdecf7665970f55c64a2c5f7acd3252c90cf6cab4162a224dc2e93cac4275ecbfc8b6decfac744b2026836f2b846a9c7af0dd08026c682021ac#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4"],\
             ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
             ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
             ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
@@ -14692,10 +14716,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/lodash", [\
-        ["npm:4.14.202", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.202-76de3e302b-a91acf3564.zip/node_modules/@types/lodash/",\
+        ["npm:4.17.0", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.0-11e757616b-3f98c0b67a.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.202"]\
+            ["@types/lodash", "npm:4.17.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16694,7 +16718,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/axios-npm-0.21.4-e278873748-44245f24ac.zip/node_modules/axios/",\
           "packageDependencies": [\
             ["axios", "npm:0.21.4"],\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"]\
+            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.6"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -16702,7 +16726,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/axios-npm-1.6.0-b0f6015a96-c7c9f2ae9e.zip/node_modules/axios/",\
           "packageDependencies": [\
             ["axios", "npm:1.6.0"],\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"],\
+            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.6"],\
             ["form-data", "npm:4.0.0"],\
             ["proxy-from-env", "npm:1.1.0"]\
           ],\
@@ -22804,17 +22828,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["follow-redirects", [\
-        ["npm:1.15.4", {\
-          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.4-3384d6a415-e178d1deff.zip/node_modules/follow-redirects/",\
+        ["npm:1.15.6", {\
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.6-50635fe51d-a62c378dfc.zip/node_modules/follow-redirects/",\
           "packageDependencies": [\
-            ["follow-redirects", "npm:1.15.4"]\
+            ["follow-redirects", "npm:1.15.6"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4", {\
-          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-803fc26979/0/cache/follow-redirects-npm-1.15.4-3384d6a415-e178d1deff.zip/node_modules/follow-redirects/",\
+        ["virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.6", {\
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-c2f1ff5913/0/cache/follow-redirects-npm-1.15.6-50635fe51d-a62c378dfc.zip/node_modules/follow-redirects/",\
           "packageDependencies": [\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"],\
+            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.6"],\
             ["@types/debug", null],\
             ["debug", "virtual:52cc1f08fdfa0ce0882bedf10264a24f906e33f7892b3412b78b3e749d6e4b50a5c4d47e46903c21fe956663d3ab6f4d2b4677d28abd53464b00761501f37601#npm:4.3.4"]\
           ],\
@@ -24079,22 +24103,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["hardhat", [\
-        ["npm:2.21.0", {\
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.21.0-cbd4cd1b31-cb5eadad52.zip/node_modules/hardhat/",\
+        ["npm:2.22.1", {\
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.22.1-ed4b41aa55-6494697d37.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "npm:2.21.0"]\
+            ["hardhat", "npm:2.22.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.21.0", {\
-          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-24ac7acd59/0/cache/hardhat-npm-2.21.0-cbd4cd1b31-cb5eadad52.zip/node_modules/hardhat/",\
+        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1", {\
+          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-1b5ff9b819/0/cache/hardhat-npm-2.22.1-ed4b41aa55-6494697d37.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.21.0"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@metamask/eth-sig-util", "npm:4.0.1"],\
-            ["@nomicfoundation/edr", "npm:0.2.1"],\
+            ["@nomicfoundation/edr", "npm:0.3.2"],\
             ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
-            ["@nomicfoundation/ethereumjs-tx", "virtual:24ac7acd599a7fdecf7665970f55c64a2c5f7acd3252c90cf6cab4162a224dc2e93cac4275ecbfc8b6decfac744b2026836f2b846a9c7af0dd08026c682021ac#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4"],\
             ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
             ["@nomicfoundation/solidity-analyzer", "npm:0.1.1"],\
             ["@sentry/node", "npm:5.30.0"],\
@@ -36210,7 +36234,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["solc", "npm:0.7.3"],\
             ["command-exists", "npm:1.2.9"],\
             ["commander", "npm:3.0.2"],\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"],\
+            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.6"],\
             ["fs-extra", "npm:0.30.0"],\
             ["js-sha3", "npm:0.8.0"],\
             ["memorystream", "npm:0.3.1"],\

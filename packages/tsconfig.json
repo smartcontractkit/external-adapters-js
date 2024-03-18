@@ -330,6 +330,9 @@
       "path": "./sources/finage"
     },
     {
+      "path": "./sources/finalto"
+    },
+    {
       "path": "./sources/finnhub"
     },
     {
