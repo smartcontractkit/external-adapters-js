@@ -4,6 +4,7 @@ exports[`execute balance endpoint should return success 1`] = `
 {
   "data": {
     "result": 999999.99,
+    "ripcord": false,
   },
   "result": 999999.99,
   "statusCode": 200,

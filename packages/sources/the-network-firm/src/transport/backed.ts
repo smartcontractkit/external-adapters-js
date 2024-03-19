@@ -40,6 +40,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           params: param,
           response: {
             errorMessage: message,
+            ripcord: response.data.ripcord,
+            ripcordDetails: response.data.ripcordDetails.join(', '),
             statusCode: 502,
             timestamps: {
               providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
@@ -84,6 +86,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           result: result.totalReserve,
           data: {
             result: result.totalReserve,
+            ripcord: response.data.ripcord,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),

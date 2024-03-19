@@ -52,6 +52,7 @@ export const mockSTBTResponseSuccess = (): nock.Scope =>
       totalReserve: 72178807.56,
       totalToken: 71932154.99,
       timestamp: '2023-06-02T12:53:23.604Z',
+      ripcord: false,
     })
     .persist()
 
