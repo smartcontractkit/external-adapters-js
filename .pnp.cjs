@@ -16722,31 +16722,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:1.6.0", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.6.0-b0f6015a96-c7c9f2ae9e.zip/node_modules/axios/",\
-          "packageDependencies": [\
-            ["axios", "npm:1.6.0"],\
-            ["follow-redirects", "virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6"],\
-            ["form-data", "npm:4.0.0"],\
-            ["proxy-from-env", "npm:1.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:1.6.8", {\
           "packageLocation": "./.yarn/cache/axios-npm-1.6.8-85cf1e7152-bf007fa4b2.zip/node_modules/axios/",\
           "packageDependencies": [\
             ["axios", "npm:1.6.8"],\
             ["follow-redirects", "virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6"],\
-            ["form-data", "npm:4.0.0"],\
-            ["proxy-from-env", "npm:1.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:1.6.8", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.6.8-85cf1e7152-bf007fa4b2.zip/node_modules/axios/",\
-          "packageDependencies": [\
-            ["axios", "npm:1.6.8"],\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.6"],\
             ["form-data", "npm:4.0.0"],\
             ["proxy-from-env", "npm:1.1.0"]\
           ],\

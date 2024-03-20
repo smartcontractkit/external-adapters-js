@@ -12845,17 +12845,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.6.0":
-  version: 1.6.0
-  resolution: "axios@npm:1.6.0"
-  dependencies:
-    follow-redirects: ^1.15.0
-    form-data: ^4.0.0
-    proxy-from-env: ^1.1.0
-  checksum: c7c9f2ae9e0b9bad7d6f9a4dff030930b12ee667dedf54c3c776714f91681feb743c509ac0796ae5c01e12c4ab4a2bee74905068dd200fbc1ab86f9814578fb0
-  languageName: node
-  linkType: hard
-
 "axios@npm:1.6.8":
   version: 1.6.8
   resolution: "axios@npm:1.6.8"
@@ -18286,7 +18275,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.15.0, follow-redirects@npm:^1.15.6":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.15.6":
   version: 1.15.6
   resolution: "follow-redirects@npm:1.15.6"
   peerDependenciesMeta:
