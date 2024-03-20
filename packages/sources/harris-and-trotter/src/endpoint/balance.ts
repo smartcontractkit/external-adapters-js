@@ -1,4 +1,7 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  PoRProviderEndpoint,
+  PoRProviderResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { httpTransport } from '../transport/balance'
@@ -20,17 +23,11 @@ export const inputParameters = new InputParameters(
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: {
-    Result: number
-    Data: {
-      result: number
-      ripcord: boolean
-    }
-  }
+  Response: PoRProviderResponse
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PoRProviderEndpoint({
   name: 'balance',
   transport: httpTransport,
   inputParameters,
