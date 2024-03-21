@@ -74,7 +74,7 @@ Clears all build files/directories. Useful in case of issues when installing dep
 
 ## Adapters
 
-The [MASTERLIST.md](./MASTERLIST.md) file in the root directory contains the list of all the external adapters available in this repository, together with their version, type, level of support, and other helpful information. Check their linked README to learn more about them.
+The [MASTERLIST.md](./MASTERLIST.md) file in the root directory contains the list of all the external adapters available in this repository, together with their version, type, supported environment variables, endpoints and other helpful information. Check their linked README to learn more about them.
 
 ## How to Run
 
