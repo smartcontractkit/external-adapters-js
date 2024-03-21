@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/apy-finance-test-adapter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Chainlink APY Finance TVL adapter.",
   "keywords": [
     "Chainlink",
@@ -28,9 +28,9 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.4",
+    "@chainlink/external-adapter-framework": "0.33.6",
     "@chainlink/token-allocation-test-adapter": "workspace:*",
-    "axios": "1.6.0",
+    "axios": "1.6.8",
     "ethers": "5.4.7",
     "tslib": "^2.3.1"
   },
@@ -38,7 +38,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.11.68",
     "@types/supertest": "2.0.16",
-    "nock": "13.2.9",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }

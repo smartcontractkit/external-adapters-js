@@ -14,6 +14,8 @@ exports[`execute trueusd endpoint should return 502 when field dne 1`] = `
 exports[`execute trueusd endpoint should return 502 when ripcord: true 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Details1, Details2",
+  "ripcord": true,
+  "ripcordDetails": "Details1, Details2",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -27,6 +29,7 @@ exports[`execute trueusd endpoint should return success 1`] = `
 {
   "data": {
     "result": 1888313215.57,
+    "ripcord": false,
   },
   "result": 1888313215.57,
   "statusCode": 200,

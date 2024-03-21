@@ -1,5 +1,42 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.18.21
+
+### Patch Changes
+
+- [#3209](https://github.com/smartcontractkit/external-adapters-js/pull/3209) [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e), [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc)]:
+  - @chainlink/eth-balance-adapter@2.0.16
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/stader-address-list-adapter@2.3.13
+  - @chainlink/eth-beacon-adapter@2.0.8
+  - @chainlink/gemini-adapter@3.0.6
+  - @chainlink/por-indexer-adapter@2.0.6
+  - @chainlink/stader-balance-adapter@1.4.10
+  - @chainlink/avalanche-platform-adapter@2.0.7
+  - @chainlink/lotus-adapter@3.0.6
+  - @chainlink/por-address-list-adapter@5.0.5
+  - @chainlink/moonbeam-address-list-adapter@1.1.23
+  - @chainlink/wbtc-address-set-adapter@2.0.7
+  - @chainlink/polkadot-balance-adapter@1.3.2
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.32
+  - @chainlink/ea-test-helpers@1.4.3
+  - @chainlink/reduce-adapter@1.4.19
+  - @chainlink/ada-balance-adapter@2.5.32
+  - @chainlink/amberdata-adapter@1.8.25
+  - @chainlink/blockchain.com-adapter@1.3.32
+  - @chainlink/blockchair-adapter@1.3.32
+  - @chainlink/blockcypher-adapter@1.4.32
+  - @chainlink/btc.com-adapter@1.3.32
+  - @chainlink/celsius-address-list-adapter@2.0.16
+  - @chainlink/chain-reserve-wallet-adapter@3.0.16
+  - @chainlink/cryptoapis-adapter@1.2.32
+  - @chainlink/renvm-address-set-adapter@1.5.68
+  - @chainlink/sochain-adapter@1.3.32
+  - @chainlink/swell-address-list-adapter@1.0.15
+  - @chainlink/wrapped-adapter@2.2.32
+
 ## 1.18.20
 
 ### Patch Changes

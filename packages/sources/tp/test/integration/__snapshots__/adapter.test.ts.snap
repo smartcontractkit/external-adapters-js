@@ -96,3 +96,17 @@ exports[`Price Endpoint should return price for specific source 1`] = `
   },
 }
 `;
+
+exports[`Price Endpoint should update the ttl after heartbeat is received 1`] = `
+{
+  "data": {
+    "result": 1.0539,
+  },
+  "result": 1.0539,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;

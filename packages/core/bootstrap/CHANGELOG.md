@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.27.2
+
+### Patch Changes
+
+- [#3201](https://github.com/smartcontractkit/external-adapters-js/pull/3201) [`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed type issues with axios config
+
 ## 2.27.1
 
 ### Patch Changes

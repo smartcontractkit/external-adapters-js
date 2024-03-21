@@ -468,6 +468,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finage"\
       },\
       {\
+        "name": "@chainlink/finalto-adapter",\
+        "reference": "workspace:packages/sources/finalto"\
+      },\
+      {\
         "name": "@chainlink/finnhub-adapter",\
         "reference": "workspace:packages/sources/finnhub"\
       },\
@@ -800,6 +804,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/view-function"\
       },\
       {\
+        "name": "@chainlink/view-function-multi-chain-adapter",\
+        "reference": "workspace:packages/sources/view-function-multi-chain"\
+      },\
+      {\
         "name": "@chainlink/wbtc-address-set-adapter",\
         "reference": "workspace:packages/sources/wbtc-address-set"\
       },\
@@ -933,6 +941,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/external-adapters-js", ["workspace:."]],\
       ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
+      ["@chainlink/finalto-adapter", ["workspace:packages/sources/finalto"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
       ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
@@ -1039,6 +1048,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],\
       ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
+      ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
       ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
       ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
       ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
@@ -1056,7 +1066,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.24.0"],\
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.0"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.23.3"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@changesets/changelog-github", "npm:0.5.0"],\
             ["@changesets/cli", "npm:2.27.1"],\
             ["@types/babel__core", "npm:7.20.5"],\
@@ -4735,7 +4745,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -4754,7 +4764,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -4793,7 +4803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
             ["fastify", "npm:3.29.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -4806,15 +4816,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alongside/",\
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/crypto-js", "npm:4.1.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["crypto-js", "npm:4.2.0"],\
             ["ethers", "npm:5.7.2"],\
             ["mathjs", "npm:11.5.1"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -4841,10 +4851,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/alphavantage/",\
           "packageDependencies": [\
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -4878,7 +4888,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -4898,7 +4908,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -4916,7 +4926,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -4935,7 +4945,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -4954,7 +4964,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.4.7"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -4966,14 +4976,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/apy-finance-test/",\
           "packageDependencies": [\
             ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["ethers", "npm:5.4.7"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5005,10 +5015,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/avalanche-platform/",\
           "packageDependencies": [\
             ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5020,12 +5030,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/bank-frick/",\
           "packageDependencies": [\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["fastify", "npm:3.29.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5043,7 +5053,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5061,7 +5071,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5079,7 +5089,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5098,7 +5108,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5116,7 +5126,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5135,7 +5145,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5187,7 +5197,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["blockcypher", "npm:0.3.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5200,12 +5210,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/blocksize-capital/",\
           "packageDependencies": [\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5222,7 +5232,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5241,7 +5251,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5259,7 +5269,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5302,7 +5312,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5320,7 +5330,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5358,7 +5368,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.4.7"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5371,12 +5381,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5408,7 +5418,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5420,11 +5430,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/clear-bank/",\
           "packageDependencies": [\
             ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["axios", "npm:1.6.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["axios", "npm:1.6.8"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5441,7 +5451,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5459,7 +5469,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5472,12 +5482,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinbase-prime/",\
           "packageDependencies": [\
             ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/crypto-js", "npm:4.2.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["crypto-js", "npm:4.2.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5494,7 +5504,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5507,11 +5517,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5529,7 +5539,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5542,10 +5552,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmarketcap/",\
           "packageDependencies": [\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5557,13 +5567,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5575,12 +5585,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinpaprika/",\
           "packageDependencies": [\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5597,7 +5607,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5617,7 +5627,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
             ["js-conflux-sdk", "npm:1.7.3"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5646,7 +5656,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5665,7 +5675,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5687,7 +5697,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.0.32"],\
             ["moment", "npm:2.29.4"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5706,7 +5716,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5736,13 +5746,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5760,7 +5770,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5778,7 +5788,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5796,7 +5806,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5815,7 +5825,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.4.7"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5834,7 +5844,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5847,13 +5857,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dar/",\
           "packageDependencies": [\
             ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:1.6.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["axios", "npm:1.6.8"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -5871,7 +5881,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5906,7 +5916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5944,7 +5954,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -5990,12 +6000,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dxfeed/",\
           "packageDependencies": [\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6008,12 +6018,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["mock-socket", "npm:9.3.1"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6035,7 +6045,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.7.2"],\
             ["ipfs", "npm:0.60.2"],\
             ["merkletreejs", "npm:0.2.32"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
@@ -6050,12 +6060,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/dydx-stark-adapter", "workspace:packages/targets/dydx-stark"],\
             ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["decimal.js", "npm:10.3.1"],\
             ["ethers", "npm:5.4.7"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6070,7 +6080,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
             ["@types/fast-redact", "npm:3.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.202"],\
+            ["@types/lodash", "npm:4.17.0"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/object-hash", "npm:2.2.1"],\
@@ -6084,7 +6094,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/uuid", "npm:8.3.4"],\
             ["@types/ws", "npm:8.5.10"],\
             ["ajv", "npm:8.12.0"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["decimal.js", "npm:10.4.3"],\
             ["fast-redact", "npm:3.1.2"],\
             ["fastify", "npm:3.29.5"],\
@@ -6153,7 +6163,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/command-line-args", "npm:5.2.3"],\
             ["@types/command-line-usage", "npm:5.0.4"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -6161,7 +6171,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/swagger-jsdoc", "npm:6.0.4"],\
             ["@types/yaml", "npm:1.9.7"],\
             ["airtable", "npm:0.11.6"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["axios-mock-adapter", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.20.0"],\
             ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
             ["backoff-rxjs", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:6.5.7"],\
@@ -6193,9 +6203,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1"],\
             ["mock-socket", "npm:9.3.1"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6208,11 +6218,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elven/",\
           "packageDependencies": [\
             ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6225,13 +6235,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:1.6.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["axios", "npm:1.6.8"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6249,7 +6259,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.5.4"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6268,7 +6278,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6286,7 +6296,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6306,7 +6316,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6319,12 +6329,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/eth-beacon/",\
           "packageDependencies": [\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["bignumber.js", "npm:9.1.2"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6341,7 +6351,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6359,7 +6369,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6377,7 +6387,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6395,7 +6405,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6414,7 +6424,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6432,7 +6442,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6441,12 +6451,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.33.4", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.33.4-cb5fe19fe9-ef33a223ca.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.33.6", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.33.6-2dc86b144e-74795d4c99.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["eventsource", "npm:2.0.2"],\
             ["fastify", "npm:4.13.0"],\
             ["ioredis", "npm:5.2.3"],\
@@ -6455,7 +6465,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
             ["redlock", "npm:5.0.0-beta.2"],\
-            ["ws", "virtual:cb5fe19fe9b554098fbfdd224858144ccf16b4dd538735d5c0aeb0332cff201256490c59cd96db0b06d0ee0d6a8ccb216670597e899546611a7aa8bca1287230#npm:8.9.0"],\
+            ["ws", "virtual:2dc86b144efcd39164a373a27cb7e358b08df704e731ec87ade5866a86471d720da5cc9859b4cc54bc37fc0d8ef757e1f788c6c7df159512b49b73d29b56c257#npm:8.9.0"],\
             ["yeoman-generator", "npm:3.1.1"]\
           ],\
           "linkType": "HARD"\
@@ -6469,7 +6479,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/core", "npm:7.24.0"],\
             ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.0"],\
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.23.3"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@changesets/changelog-github", "npm:0.5.0"],\
             ["@changesets/cli", "npm:2.27.1"],\
             ["@types/babel__core", "npm:7.20.5"],\
@@ -6504,7 +6514,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6517,14 +6527,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finage/",\
           "packageDependencies": [\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/finalto-adapter", [\
+        ["workspace:packages/sources/finalto", {\
+          "packageLocation": "./packages/sources/finalto/",\
+          "packageDependencies": [\
+            ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.68"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+            ["@types/uuid", "npm:8.3.4"],\
+            ["nock", "npm:13.5.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
+            ["uuid", "npm:8.3.2"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -6534,12 +6563,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6551,13 +6580,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/finnhub-secondary/",\
           "packageDependencies": [\
             ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6574,7 +6603,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6607,7 +6636,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6625,7 +6654,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6638,11 +6667,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/frxeth-exchange-rate/",\
           "packageDependencies": [\
             ["@chainlink/frxeth-exchange-rate-adapter", "workspace:packages/sources/frxeth-exchange-rate"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6662,7 +6691,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
             ["moment", "npm:2.29.4"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6675,13 +6704,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:1.6.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["axios", "npm:1.6.8"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6693,10 +6722,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gemini/",\
           "packageDependencies": [\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6713,7 +6742,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6741,12 +6770,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/composites/gm-token/",\
           "packageDependencies": [\
             ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6793,10 +6822,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gramchain/",\
           "packageDependencies": [\
             ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6823,15 +6852,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
             ["@types/ws", "npm:8.5.10"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["crypto", "npm:1.0.1"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6852,7 +6881,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.4.7"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6865,10 +6894,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/harris-and-trotter/",\
           "packageDependencies": [\
             ["@chainlink/harris-and-trotter-adapter", "workspace:packages/sources/harris-and-trotter"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6883,12 +6912,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6901,7 +6930,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/icap/",\
           "packageDependencies": [\
             ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
@@ -6920,10 +6949,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/iex-cloud/",\
           "packageDependencies": [\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6940,9 +6969,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6955,13 +6984,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/intrinio/",\
           "packageDependencies": [\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["axios", "npm:1.6.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["axios", "npm:1.6.8"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6973,10 +7002,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ion.au/",\
           "packageDependencies": [\
             ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -6998,7 +7027,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ipfs-http-client", "npm:52.0.5"],\
             ["ipld-dag-cbor", "npm:1.0.1"],\
             ["multiformats", "npm:9.9.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["type-fest", "npm:2.14.0"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7016,7 +7045,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.3.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7034,7 +7063,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7047,10 +7076,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/kaiko/",\
           "packageDependencies": [\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7068,7 +7097,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["sinon", "npm:12.0.1"],\
             ["starknet", "npm:6.0.0"],\
             ["supertest", "npm:6.2.4"],\
@@ -7088,7 +7117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7107,7 +7136,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7130,7 +7159,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.4.3"],\
             ["moment", "npm:2.29.4"],\
             ["moment-timezone", "npm:0.5.45"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7173,11 +7202,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/lotus/",\
           "packageDependencies": [\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7213,7 +7242,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7231,7 +7260,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7264,7 +7293,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7282,7 +7311,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.3.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7295,13 +7324,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/moonbeam-address-list/",\
           "packageDependencies": [\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.5.4"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7314,10 +7343,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/moore-hk/",\
           "packageDependencies": [\
             ["@chainlink/moore-hk-adapter", "workspace:packages/sources/moore-hk"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7334,7 +7363,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7347,12 +7376,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7364,13 +7393,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/nft-blue-chip/",\
           "packageDependencies": [\
             ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
             ["mock-socket", "npm:9.3.1"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7390,7 +7419,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7408,7 +7437,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7421,9 +7450,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/oanda/",\
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/node", "npm:16.11.68"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["decimal.js", "npm:10.4.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7436,7 +7465,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/observation/",\
           "packageDependencies": [\
             ["@chainlink/observation", "workspace:packages/observation"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7453,7 +7482,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7471,7 +7500,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7484,10 +7513,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/openexchangerates/",\
           "packageDependencies": [\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7504,7 +7533,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7523,7 +7552,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinon", "npm:10.0.20"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["sinon", "npm:12.0.1"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7541,7 +7570,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7576,7 +7605,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7589,11 +7618,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polkadot-balance/",\
           "packageDependencies": [\
             ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@polkadot/api", "npm:9.14.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7605,10 +7634,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/polygon/",\
           "packageDependencies": [\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7620,11 +7649,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/por-address-list/",\
           "packageDependencies": [\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7636,11 +7665,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/por-indexer/",\
           "packageDependencies": [\
             ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7667,7 +7696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -7687,7 +7716,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7704,7 +7733,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.3.1"]\
           ],\
@@ -7760,7 +7789,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["bitcoinjs-lib", "npm:5.2.0"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7781,7 +7810,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7799,7 +7828,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7819,7 +7848,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7839,7 +7868,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7859,7 +7888,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["jsonwebtoken", "npm:9.0.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7879,7 +7908,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7916,7 +7945,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinon", "npm:10.0.20"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["sinon", "npm:12.0.1"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7937,7 +7966,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
             ["luxon", "npm:1.28.1"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7950,11 +7979,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-address-list/",\
           "packageDependencies": [\
             ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.5.4"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7966,13 +7995,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/stader-balance/",\
           "packageDependencies": [\
             ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["bignumber.js", "npm:9.1.2"],\
             ["ethers", "npm:5.5.4"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -7990,7 +8019,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8008,7 +8037,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8027,7 +8056,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8047,7 +8076,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["synthetix", "npm:2.45.3"],\
             ["tslib", "npm:2.4.1"],\
@@ -8085,7 +8114,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8104,7 +8133,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8134,10 +8163,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/the-network-firm/",\
           "packageDependencies": [\
             ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8154,7 +8183,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8167,12 +8196,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tiingo/",\
           "packageDependencies": [\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8195,7 +8224,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -8204,7 +8233,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8216,13 +8245,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/non-deployable/token-allocation-test/",\
           "packageDependencies": [\
             ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8234,7 +8263,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tp/",\
           "packageDependencies": [\
             ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
@@ -8251,12 +8280,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradermade/",\
           "packageDependencies": [\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8268,12 +8297,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/tradingeconomics/",\
           "packageDependencies": [\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8285,10 +8314,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/trueusd/",\
           "packageDependencies": [\
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8300,11 +8329,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
           "packageDependencies": [\
             ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8321,7 +8350,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8334,13 +8363,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/twosigma/",\
           "packageDependencies": [\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
             ["@types/ws", "npm:8.5.10"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8357,7 +8386,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8377,7 +8406,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["decimal.js", "npm:10.4.3"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8395,7 +8424,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8413,7 +8442,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8442,11 +8471,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/view-function/",\
           "packageDependencies": [\
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/view-function-multi-chain-adapter", [\
+        ["workspace:packages/sources/view-function-multi-chain", {\
+          "packageLocation": "./packages/sources/view-function-multi-chain/",\
+          "packageDependencies": [\
+            ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.68"],\
+            ["ethers", "npm:5.7.2"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8458,10 +8503,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/wbtc-address-set/",\
           "packageDependencies": [\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-            ["@chainlink/external-adapter-framework", "npm:0.33.4"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -8478,7 +8523,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8496,7 +8541,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8514,7 +8559,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8534,7 +8579,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
             ["ethers", "npm:5.7.2"],\
-            ["nock", "npm:13.2.9"],\
+            ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -9015,36 +9060,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@ethereumjs/block", [\
-        ["npm:3.6.3", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-block-npm-3.6.3-d9b6944257-d08c78134d.zip/node_modules/@ethereumjs/block/",\
-          "packageDependencies": [\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["merkle-patricia-tree", "npm:4.2.4"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ethereumjs/blockchain", [\
-        ["npm:5.5.3", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-blockchain-npm-5.5.3-413a649e91-eeefb4735a.zip/node_modules/@ethereumjs/blockchain/",\
-          "packageDependencies": [\
-            ["@ethereumjs/blockchain", "npm:5.5.3"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/ethash", "npm:1.1.0"],\
-            ["debug", "virtual:52cc1f08fdfa0ce0882bedf10264a24f906e33f7892b3412b78b3e749d6e4b50a5c4d47e46903c21fe956663d3ab6f4d2b4677d28abd53464b00761501f37601#npm:4.3.4"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["level-mem", "npm:5.0.1"],\
-            ["lru-cache", "npm:5.1.1"],\
-            ["semaphore-async-await", "npm:1.5.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@ethereumjs/common", [\
         ["npm:2.6.5", {\
           "packageLocation": "./.yarn/cache/@ethereumjs-common-npm-2.6.5-3cdacd49c9-0143386f26.zip/node_modules/@ethereumjs/common/",\
@@ -9052,20 +9067,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/common", "npm:2.6.5"],\
             ["crc-32", "npm:1.2.2"],\
             ["ethereumjs-util", "npm:7.1.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ethereumjs/ethash", [\
-        ["npm:1.1.0", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-ethash-npm-1.1.0-8e2785b32b-152bc0850e.zip/node_modules/@ethereumjs/ethash/",\
-          "packageDependencies": [\
-            ["@ethereumjs/ethash", "npm:1.1.0"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@types/levelup", "npm:4.3.3"],\
-            ["buffer-xor", "npm:2.0.2"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["miller-rabin", "npm:4.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9098,28 +9099,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/rlp", "npm:4.0.1"],\
             ["ethereum-cryptography", "npm:2.1.2"],\
             ["micro-ftch", "npm:0.3.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ethereumjs/vm", [\
-        ["npm:5.9.3", {\
-          "packageLocation": "./.yarn/cache/@ethereumjs-vm-npm-5.9.3-36d43c2693-c5b4f85044.zip/node_modules/@ethereumjs/vm/",\
-          "packageDependencies": [\
-            ["@ethereumjs/vm", "npm:5.9.3"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/blockchain", "npm:5.5.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["async-eventemitter", "npm:0.2.4"],\
-            ["core-js-pure", "npm:3.25.5"],\
-            ["debug", "virtual:52cc1f08fdfa0ce0882bedf10264a24f906e33f7892b3412b78b3e749d6e4b50a5c4d47e46903c21fe956663d3ab6f4d2b4677d28abd53464b00761501f37601#npm:4.3.4"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["functional-red-black-tree", "npm:1.0.1"],\
-            ["mcl-wasm", "npm:0.7.9"],\
-            ["merkle-patricia-tree", "npm:4.2.4"],\
-            ["rlp", "npm:3.0.0"],\
-            ["rustbn.js", "npm:0.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12082,6 +12061,283 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@nomicfoundation/edr", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-edr-npm-0.3.2-bc53032485-92700c041b.zip/node_modules/@nomicfoundation/edr/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-darwin-arm64", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-darwin-x64", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-arm64-gnu", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-arm64-musl", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-x64-gnu", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-linux-x64-musl", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-win32-arm64-msvc", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-win32-ia32-msvc", "npm:0.3.2"],\
+            ["@nomicfoundation/edr-win32-x64-msvc", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-darwin-arm64", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-darwin-arm64-npm-0.3.2-2718ffdebd/node_modules/@nomicfoundation/edr-darwin-arm64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-darwin-arm64", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-darwin-x64", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-darwin-x64-npm-0.3.2-29ea84c61f/node_modules/@nomicfoundation/edr-darwin-x64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-darwin-x64", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-linux-arm64-gnu", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-arm64-gnu-npm-0.3.2-12e6bd2256/node_modules/@nomicfoundation/edr-linux-arm64-gnu/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-linux-arm64-gnu", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-linux-arm64-musl", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-arm64-musl-npm-0.3.2-0c3442a1ea/node_modules/@nomicfoundation/edr-linux-arm64-musl/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-linux-arm64-musl", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-linux-x64-gnu", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-x64-gnu-npm-0.3.2-88c92b5326/node_modules/@nomicfoundation/edr-linux-x64-gnu/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-linux-x64-gnu", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-linux-x64-musl", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-linux-x64-musl-npm-0.3.2-16ba1330f6/node_modules/@nomicfoundation/edr-linux-x64-musl/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-linux-x64-musl", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-win32-arm64-msvc", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-arm64-msvc-npm-0.3.2-88c7ff9876/node_modules/@nomicfoundation/edr-win32-arm64-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-win32-arm64-msvc", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-win32-ia32-msvc", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-ia32-msvc-npm-0.3.2-e58987ee93/node_modules/@nomicfoundation/edr-win32-ia32-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-win32-ia32-msvc", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/edr-win32-x64-msvc", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-edr-win32-x64-msvc-npm-0.3.2-7d290df940/node_modules/@nomicfoundation/edr-win32-x64-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/edr-win32-x64-msvc", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-common", [\
+        ["npm:4.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-common-npm-4.0.4-c84ef6a4e0-ce3f6e4ae1.zip/node_modules/@nomicfoundation/ethereumjs-common/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-rlp", [\
+        ["npm:5.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-rlp-npm-5.0.4-b98abcc3ae-ee2c2e5776.zip/node_modules/@nomicfoundation/ethereumjs-rlp/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-tx", [\
+        ["npm:5.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-tx", "npm:5.0.4"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-tx-virtual-e6d926dc76/0/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@types/c-kzg", null],\
+            ["c-kzg", null],\
+            ["ethereum-cryptography", "npm:0.1.3"]\
+          ],\
+          "packagePeers": [\
+            "@types/c-kzg",\
+            "c-kzg"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/ethereumjs-util", [\
+        ["npm:9.0.4", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-ethereumjs-util-npm-9.0.4-7086377bd2-754439f72b.zip/node_modules/@nomicfoundation/ethereumjs-util/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-util", "npm:9.0.4"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-util-virtual-7abba02c1f/0/cache/@nomicfoundation-ethereumjs-util-npm-9.0.4-7086377bd2-754439f72b.zip/node_modules/@nomicfoundation/ethereumjs-util/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
+            ["@types/c-kzg", null],\
+            ["c-kzg", null],\
+            ["ethereum-cryptography", "npm:0.1.3"]\
+          ],\
+          "packagePeers": [\
+            "@types/c-kzg",\
+            "c-kzg"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/cache/@nomicfoundation-solidity-analyzer-npm-0.1.1-dae2e2624f-038cffafd5.zip/node_modules/@nomicfoundation/solidity-analyzer/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-darwin-arm64", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-darwin-x64", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-freebsd-x64", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-gnu", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-musl", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-gnu", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-musl", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-win32-arm64-msvc", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-win32-ia32-msvc", "npm:0.1.1"],\
+            ["@nomicfoundation/solidity-analyzer-win32-x64-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-darwin-arm64", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-darwin-arm64-npm-0.1.1-269bd960f5/node_modules/@nomicfoundation/solidity-analyzer-darwin-arm64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-darwin-arm64", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-darwin-x64", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-darwin-x64-npm-0.1.1-88133d2c6c/node_modules/@nomicfoundation/solidity-analyzer-darwin-x64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-darwin-x64", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-freebsd-x64", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-freebsd-x64-npm-0.1.1-63ec0f98b4/node_modules/@nomicfoundation/solidity-analyzer-freebsd-x64/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-freebsd-x64", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-arm64-gnu", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-arm64-gnu-npm-0.1.1-364542a4c9/node_modules/@nomicfoundation/solidity-analyzer-linux-arm64-gnu/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-gnu", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-arm64-musl", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-arm64-musl-npm-0.1.1-09d1fc907a/node_modules/@nomicfoundation/solidity-analyzer-linux-arm64-musl/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-arm64-musl", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-x64-gnu", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-x64-gnu-npm-0.1.1-d68b54567f/node_modules/@nomicfoundation/solidity-analyzer-linux-x64-gnu/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-gnu", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-linux-x64-musl", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-linux-x64-musl-npm-0.1.1-f69bf4ad48/node_modules/@nomicfoundation/solidity-analyzer-linux-x64-musl/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-linux-x64-musl", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-win32-arm64-msvc", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-win32-arm64-msvc-npm-0.1.1-c1bb38ef77/node_modules/@nomicfoundation/solidity-analyzer-win32-arm64-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-win32-arm64-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-win32-ia32-msvc", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-win32-ia32-msvc-npm-0.1.1-bcccc7308d/node_modules/@nomicfoundation/solidity-analyzer-win32-ia32-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-win32-ia32-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@nomicfoundation/solidity-analyzer-win32-x64-msvc", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/unplugged/@nomicfoundation-solidity-analyzer-win32-x64-msvc-npm-0.1.1-b9d8a37a0e/node_modules/@nomicfoundation/solidity-analyzer-win32-x64-msvc/",\
+          "packageDependencies": [\
+            ["@nomicfoundation/solidity-analyzer-win32-x64-msvc", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@npmcli/arborist", [\
         ["npm:4.3.1", {\
           "packageLocation": "./.yarn/cache/@npmcli-arborist-npm-4.3.1-68b2741cb0-51470ebb9a.zip/node_modules/@npmcli/arborist/",\
@@ -13554,16 +13810,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@solidity-parser/parser", [\
-        ["npm:0.14.3", {\
-          "packageLocation": "./.yarn/cache/@solidity-parser-parser-npm-0.14.3-7e089b302c-9a27eb961c.zip/node_modules/@solidity-parser/parser/",\
-          "packageDependencies": [\
-            ["@solidity-parser/parser", "npm:0.14.3"],\
-            ["antlr4ts", "npm:0.5.0-dev"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@sovpro/delimited-stream", [\
         ["npm:1.1.0", {\
           "packageLocation": "./.yarn/cache/@sovpro-delimited-stream-npm-1.1.0-5372c57183-e78fc97a85.zip/node_modules/@sovpro/delimited-stream/",\
@@ -14044,15 +14290,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@types/abstract-leveldown", [\
-        ["npm:7.2.0", {\
-          "packageLocation": "./.yarn/cache/@types-abstract-leveldown-npm-7.2.0-7937c81120-f719ce076f.zip/node_modules/@types/abstract-leveldown/",\
-          "packageDependencies": [\
-            ["@types/abstract-leveldown", "npm:7.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@types/babel__core", [\
         ["npm:7.1.20", {\
           "packageLocation": "./.yarn/cache/@types-babel__core-npm-7.1.20-90b6a59ca7-a09c4f0456.zip/node_modules/@types/babel__core/",\
@@ -14450,10 +14687,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/k6", [\
-        ["npm:0.49.0", {\
-          "packageLocation": "./.yarn/cache/@types-k6-npm-0.49.0-669cd70797-d92ef6e8d6.zip/node_modules/@types/k6/",\
+        ["npm:0.49.1", {\
+          "packageLocation": "./.yarn/cache/@types-k6-npm-0.49.1-c5a5dfd8f9-5aa52e6199.zip/node_modules/@types/k6/",\
           "packageDependencies": [\
-            ["@types/k6", "npm:0.49.0"]\
+            ["@types/k6", "npm:0.49.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14478,32 +14715,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["@types/level-errors", [\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/@types-level-errors-npm-3.0.0-58ecd77a87-ad93926634.zip/node_modules/@types/level-errors/",\
-          "packageDependencies": [\
-            ["@types/level-errors", "npm:3.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/levelup", [\
-        ["npm:4.3.3", {\
-          "packageLocation": "./.yarn/cache/@types-levelup-npm-4.3.3-fa2e46a0a1-04969bb805.zip/node_modules/@types/levelup/",\
-          "packageDependencies": [\
-            ["@types/levelup", "npm:4.3.3"],\
-            ["@types/abstract-leveldown", "npm:7.2.0"],\
-            ["@types/level-errors", "npm:3.0.0"],\
-            ["@types/node", "npm:18.8.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["@types/lodash", [\
-        ["npm:4.14.202", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.202-76de3e302b-a91acf3564.zip/node_modules/@types/lodash/",\
+        ["npm:4.17.0", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.0-11e757616b-3f98c0b67a.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.202"]\
+            ["@types/lodash", "npm:4.17.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15639,30 +15855,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["abstract-leveldown", [\
-        ["npm:6.2.3", {\
-          "packageLocation": "./.yarn/cache/abstract-leveldown-npm-6.2.3-73e4ffefa5-00202b2eb7.zip/node_modules/abstract-leveldown/",\
-          "packageDependencies": [\
-            ["abstract-leveldown", "npm:6.2.3"],\
-            ["buffer", "npm:5.7.1"],\
-            ["immediate", "npm:3.3.0"],\
-            ["level-concat-iterator", "npm:2.0.1"],\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:6.3.0", {\
-          "packageLocation": "./.yarn/cache/abstract-leveldown-npm-6.3.0-4f3be79649-121a8509d8.zip/node_modules/abstract-leveldown/",\
-          "packageDependencies": [\
-            ["abstract-leveldown", "npm:6.3.0"],\
-            ["buffer", "npm:5.7.1"],\
-            ["immediate", "npm:3.3.0"],\
-            ["level-concat-iterator", "npm:2.0.1"],\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:7.2.0", {\
           "packageLocation": "./.yarn/cache/abstract-leveldown-npm-7.2.0-9da02e441b-d558111f2d.zip/node_modules/abstract-leveldown/",\
           "packageDependencies": [\
@@ -16039,16 +16231,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ansicolors-npm-0.3.2-cc35882814-e84fae7ebc.zip/node_modules/ansicolors/",\
           "packageDependencies": [\
             ["ansicolors", "npm:0.3.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["antlr4ts", [\
-        ["npm:0.5.0-dev", {\
-          "packageLocation": "./.yarn/cache/antlr4ts-npm-0.5.0-dev-7e0fc8988a-640dae2229.zip/node_modules/antlr4ts/",\
-          "packageDependencies": [\
-            ["antlr4ts", "npm:0.5.0-dev"],\
-            ["source-map-support", "npm:0.5.21"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16445,16 +16627,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["async-eventemitter", [\
-        ["npm:0.2.4", {\
-          "packageLocation": "./.yarn/cache/async-eventemitter-npm-0.2.4-0fec935369-b9e77e0f58.zip/node_modules/async-eventemitter/",\
-          "packageDependencies": [\
-            ["async-eventemitter", "npm:0.2.4"],\
-            ["async", "npm:2.6.4"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["async-limiter", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/async-limiter-npm-1.0.1-7e6819bcdb-2b849695b4.zip/node_modules/async-limiter/",\
@@ -16546,15 +16718,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/axios-npm-0.21.4-e278873748-44245f24ac.zip/node_modules/axios/",\
           "packageDependencies": [\
             ["axios", "npm:0.21.4"],\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"]\
+            ["follow-redirects", "virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6"]\
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:1.6.0", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.6.0-b0f6015a96-c7c9f2ae9e.zip/node_modules/axios/",\
+        ["npm:1.6.8", {\
+          "packageLocation": "./.yarn/cache/axios-npm-1.6.8-85cf1e7152-bf007fa4b2.zip/node_modules/axios/",\
           "packageDependencies": [\
-            ["axios", "npm:1.6.0"],\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"],\
+            ["axios", "npm:1.6.8"],\
+            ["follow-redirects", "virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6"],\
             ["form-data", "npm:4.0.0"],\
             ["proxy-from-env", "npm:1.1.0"]\
           ],\
@@ -16574,7 +16746,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["axios-mock-adapter", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.20.0"],\
             ["@types/axios", null],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["is-blob", "npm:2.1.0"],\
             ["is-buffer", "npm:2.0.5"]\
@@ -16600,7 +16772,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
             ["@types/axios", null],\
             ["@types/rxjs", null],\
-            ["axios", "npm:1.6.0"],\
+            ["axios", "npm:1.6.8"],\
             ["rxjs", "npm:7.4.0"]\
           ],\
           "packagePeers": [\
@@ -17784,14 +17956,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/buffer-xor-npm-1.0.3-56bb81b0dd-10c520df29.zip/node_modules/buffer-xor/",\
           "packageDependencies": [\
             ["buffer-xor", "npm:1.0.3"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:2.0.2", {\
-          "packageLocation": "./.yarn/cache/buffer-xor-npm-2.0.2-29554c3ada-78226fcae9.zip/node_modules/buffer-xor/",\
-          "packageDependencies": [\
-            ["buffer-xor", "npm:2.0.2"],\
-            ["safe-buffer", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -19214,15 +19378,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["core-js-pure", [\
-        ["npm:3.25.5", {\
-          "packageLocation": "./.yarn/unplugged/core-js-pure-npm-3.25.5-aaaed61bed/node_modules/core-js-pure/",\
-          "packageDependencies": [\
-            ["core-js-pure", "npm:3.25.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["core-util-is", [\
         ["npm:1.0.2", {\
           "packageLocation": "./.yarn/cache/core-util-is-npm-1.0.2-9fc2b94dc3-7a4c925b49.zip/node_modules/core-util-is/",\
@@ -19939,15 +20094,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["deferred-leveldown", [\
-        ["npm:5.3.0", {\
-          "packageLocation": "./.yarn/cache/deferred-leveldown-npm-5.3.0-01247ab5af-5631e15352.zip/node_modules/deferred-leveldown/",\
-          "packageDependencies": [\
-            ["deferred-leveldown", "npm:5.3.0"],\
-            ["abstract-leveldown", "npm:6.2.3"],\
-            ["inherits", "npm:2.0.4"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:7.0.0", {\
           "packageLocation": "./.yarn/cache/deferred-leveldown-npm-7.0.0-b22b14d332-1ed5eb73e3.zip/node_modules/deferred-leveldown/",\
           "packageDependencies": [\
@@ -20795,17 +20941,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["encoding-down", [\
-        ["npm:6.3.0", {\
-          "packageLocation": "./.yarn/cache/encoding-down-npm-6.3.0-507c54a059-74043e6d90.zip/node_modules/encoding-down/",\
-          "packageDependencies": [\
-            ["encoding-down", "npm:6.3.0"],\
-            ["abstract-leveldown", "npm:6.3.0"],\
-            ["inherits", "npm:2.0.4"],\
-            ["level-codec", "npm:9.0.2"],\
-            ["level-errors", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:7.1.0", {\
           "packageLocation": "./.yarn/cache/encoding-down-npm-7.1.0-22d87d2bff-5de91a003c.zip/node_modules/encoding-down/",\
           "packageDependencies": [\
@@ -20936,16 +21071,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/errlop-npm-2.2.0-04c65d8200-9bce5eba67.zip/node_modules/errlop/",\
           "packageDependencies": [\
             ["errlop", "npm:2.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["errno", [\
-        ["npm:0.1.8", {\
-          "packageLocation": "./.yarn/cache/errno-npm-0.1.8-10ebc185bf-1271f7b9fb.zip/node_modules/errno/",\
-          "packageDependencies": [\
-            ["errno", "npm:0.1.8"],\
-            ["prr", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -22703,17 +22828,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["follow-redirects", [\
-        ["npm:1.15.4", {\
-          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.4-3384d6a415-e178d1deff.zip/node_modules/follow-redirects/",\
+        ["npm:1.15.6", {\
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.6-50635fe51d-a62c378dfc.zip/node_modules/follow-redirects/",\
           "packageDependencies": [\
-            ["follow-redirects", "npm:1.15.4"]\
+            ["follow-redirects", "npm:1.15.6"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4", {\
-          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-803fc26979/0/cache/follow-redirects-npm-1.15.4-3384d6a415-e178d1deff.zip/node_modules/follow-redirects/",\
+        ["virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6", {\
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-7bb5ea93fd/0/cache/follow-redirects-npm-1.15.6-50635fe51d-a62c378dfc.zip/node_modules/follow-redirects/",\
           "packageDependencies": [\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"],\
+            ["follow-redirects", "virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6"],\
             ["@types/debug", null],\
             ["debug", "virtual:52cc1f08fdfa0ce0882bedf10264a24f906e33f7892b3412b78b3e749d6e4b50a5c4d47e46903c21fe956663d3ab6f4d2b4677d28abd53464b00761501f37601#npm:4.3.4"]\
           ],\
@@ -23048,15 +23173,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["define-properties", "npm:1.1.4"],\
             ["es-abstract", "npm:1.20.4"],\
             ["functions-have-names", "npm:1.2.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["functional-red-black-tree", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/functional-red-black-tree-npm-1.0.1-ccfe924dcd-ca6c170f37.zip/node_modules/functional-red-black-tree/",\
-          "packageDependencies": [\
-            ["functional-red-black-tree", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -23987,34 +24103,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["hardhat", [\
-        ["npm:2.10.2", {\
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.10.2-cc99b1b2cf-3034a213d2.zip/node_modules/hardhat/",\
+        ["npm:2.22.1", {\
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.22.1-ed4b41aa55-6494697d37.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "npm:2.10.2"]\
+            ["hardhat", "npm:2.22.1"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2", {\
-          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-abbef4fdbd/0/cache/hardhat-npm-2.10.2-cc99b1b2cf-3034a213d2.zip/node_modules/hardhat/",\
+        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1", {\
+          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-1b5ff9b819/0/cache/hardhat-npm-2.22.1-ed4b41aa55-6494697d37.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.10.2"],\
-            ["@ethereumjs/block", "npm:3.6.3"],\
-            ["@ethereumjs/blockchain", "npm:5.5.3"],\
-            ["@ethereumjs/common", "npm:2.6.5"],\
-            ["@ethereumjs/tx", "npm:3.5.2"],\
-            ["@ethereumjs/vm", "npm:5.9.3"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@metamask/eth-sig-util", "npm:4.0.1"],\
+            ["@nomicfoundation/edr", "npm:0.3.2"],\
+            ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
+            ["@nomicfoundation/solidity-analyzer", "npm:0.1.1"],\
             ["@sentry/node", "npm:5.30.0"],\
-            ["@solidity-parser/parser", "npm:0.14.3"],\
             ["@types/bn.js", "npm:5.1.5"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/ts-node", null],\
             ["@types/typescript", null],\
-            ["abort-controller", "npm:3.0.0"],\
             ["adm-zip", "npm:0.4.16"],\
             ["aggregate-error", "npm:3.1.0"],\
             ["ansi-escapes", "npm:4.3.2"],\
+            ["boxen", "npm:5.1.2"],\
             ["chalk", "npm:2.4.2"],\
             ["chokidar", "npm:3.5.3"],\
             ["ci-info", "npm:2.0.0"],\
@@ -24023,27 +24138,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["env-paths", "npm:2.2.1"],\
             ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=01bf51&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
             ["ethereumjs-abi", "npm:0.6.8"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
             ["find-up", "npm:2.1.0"],\
             ["fp-ts", "npm:1.19.3"],\
             ["fs-extra", "npm:7.0.1"],\
             ["glob", "npm:7.2.0"],\
             ["immutable", "npm:4.1.0"],\
             ["io-ts", "npm:1.10.4"],\
+            ["keccak", "npm:3.0.2"],\
             ["lodash", "npm:4.17.21"],\
-            ["merkle-patricia-tree", "npm:4.2.4"],\
             ["mnemonist", "npm:0.38.5"],\
             ["mocha", "npm:10.0.0"],\
             ["p-map", "npm:4.0.0"],\
-            ["qs", "npm:6.11.0"],\
             ["raw-body", "npm:2.5.1"],\
             ["resolve", "patch:resolve@npm%3A1.17.0#~builtin<compat/resolve>::version=1.17.0&hash=c3c19d"],\
             ["semver", "npm:6.3.0"],\
-            ["slash", "npm:3.0.0"],\
             ["solc", "npm:0.7.3"],\
             ["source-map-support", "npm:0.5.21"],\
             ["stacktrace-parser", "npm:0.1.10"],\
-            ["true-case-path", "npm:2.2.1"],\
             ["ts-node", null],\
             ["tsort", "npm:0.0.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
@@ -24684,22 +24795,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["ignore-walk", "npm:4.0.1"],\
             ["minimatch", "npm:3.1.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["immediate", [\
-        ["npm:3.2.3", {\
-          "packageLocation": "./.yarn/cache/immediate-npm-3.2.3-c87ede9b47-9867dc7079.zip/node_modules/immediate/",\
-          "packageDependencies": [\
-            ["immediate", "npm:3.2.3"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:3.3.0", {\
-          "packageLocation": "./.yarn/cache/immediate-npm-3.3.0-d00fd9df7d-634b430510.zip/node_modules/immediate/",\
-          "packageDependencies": [\
-            ["immediate", "npm:3.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28255,7 +28350,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.23.3"],\
             ["@types/babel__core", "npm:7.20.5"],\
             ["@types/babel__preset-env", "npm:7.9.6"],\
-            ["@types/k6", "npm:0.49.0"],\
+            ["@types/k6", "npm:0.49.1"],\
             ["@types/node", "npm:17.0.45"],\
             ["@types/rimraf", "npm:3.0.2"],\
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.3.0"],\
@@ -28459,24 +28554,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["buffer", "npm:6.0.3"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:9.0.2", {\
-          "packageLocation": "./.yarn/cache/level-codec-npm-9.0.2-e778987eb6-289003d51b.zip/node_modules/level-codec/",\
-          "packageDependencies": [\
-            ["level-codec", "npm:9.0.2"],\
-            ["buffer", "npm:5.7.1"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["level-concat-iterator", [\
-        ["npm:2.0.1", {\
-          "packageLocation": "./.yarn/cache/level-concat-iterator-npm-2.0.1-5179af5bd2-562583ef12.zip/node_modules/level-concat-iterator/",\
-          "packageDependencies": [\
-            ["level-concat-iterator", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:3.1.0", {\
           "packageLocation": "./.yarn/cache/level-concat-iterator-npm-3.1.0-5b0693a58a-a15bc4c5fb.zip/node_modules/level-concat-iterator/",\
           "packageDependencies": [\
@@ -28487,14 +28567,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["level-errors", [\
-        ["npm:2.0.1", {\
-          "packageLocation": "./.yarn/cache/level-errors-npm-2.0.1-981e46a3dc-aca5d7670e.zip/node_modules/level-errors/",\
-          "packageDependencies": [\
-            ["level-errors", "npm:2.0.1"],\
-            ["errno", "npm:0.1.8"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:3.0.1", {\
           "packageLocation": "./.yarn/cache/level-errors-npm-3.0.1-8ef4cc828f-fe4486c423.zip/node_modules/level-errors/",\
           "packageDependencies": [\
@@ -28504,16 +28576,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["level-iterator-stream", [\
-        ["npm:4.0.2", {\
-          "packageLocation": "./.yarn/cache/level-iterator-stream-npm-4.0.2-27e0549122-239e2c7e62.zip/node_modules/level-iterator-stream/",\
-          "packageDependencies": [\
-            ["level-iterator-stream", "npm:4.0.2"],\
-            ["inherits", "npm:2.0.4"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.0.0", {\
           "packageLocation": "./.yarn/cache/level-iterator-stream-npm-5.0.0-29efe6efcb-3f5bbb9caf.zip/node_modules/level-iterator-stream/",\
           "packageDependencies": [\
@@ -28538,27 +28600,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["level-mem", [\
-        ["npm:5.0.1", {\
-          "packageLocation": "./.yarn/cache/level-mem-npm-5.0.1-bb6cc7d34e-37a38163b0.zip/node_modules/level-mem/",\
-          "packageDependencies": [\
-            ["level-mem", "npm:5.0.1"],\
-            ["level-packager", "npm:5.1.1"],\
-            ["memdown", "npm:5.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["level-packager", [\
-        ["npm:5.1.1", {\
-          "packageLocation": "./.yarn/cache/level-packager-npm-5.1.1-94af8082f4-befe2aa54f.zip/node_modules/level-packager/",\
-          "packageDependencies": [\
-            ["level-packager", "npm:5.1.1"],\
-            ["encoding-down", "npm:6.3.0"],\
-            ["levelup", "npm:4.4.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:6.0.1", {\
           "packageLocation": "./.yarn/cache/level-packager-npm-6.0.1-cffdf36c73-41c4abe677.zip/node_modules/level-packager/",\
           "packageDependencies": [\
@@ -28570,30 +28612,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["level-supports", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/level-supports-npm-1.0.1-e9d5ae27f4-5d6bdb88cf.zip/node_modules/level-supports/",\
-          "packageDependencies": [\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:2.1.0", {\
           "packageLocation": "./.yarn/cache/level-supports-npm-2.1.0-4f5c2d5fc4-f7b16aea7d.zip/node_modules/level-supports/",\
           "packageDependencies": [\
             ["level-supports", "npm:2.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["level-ws", [\
-        ["npm:2.0.0", {\
-          "packageLocation": "./.yarn/cache/level-ws-npm-2.0.0-dd002ae76c-4e5cbf090a.zip/node_modules/level-ws/",\
-          "packageDependencies": [\
-            ["level-ws", "npm:2.0.0"],\
-            ["inherits", "npm:2.0.4"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["xtend", "npm:4.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28612,18 +28634,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["levelup", [\
-        ["npm:4.4.0", {\
-          "packageLocation": "./.yarn/cache/levelup-npm-4.4.0-3053c0e5bc-5a09e34c78.zip/node_modules/levelup/",\
-          "packageDependencies": [\
-            ["levelup", "npm:4.4.0"],\
-            ["deferred-leveldown", "npm:5.3.0"],\
-            ["level-errors", "npm:2.0.1"],\
-            ["level-iterator-stream", "npm:4.0.2"],\
-            ["level-supports", "npm:1.0.1"],\
-            ["xtend", "npm:4.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:5.1.1", {\
           "packageLocation": "./.yarn/cache/levelup-npm-5.1.1-42d16f81c1-3053cd3495.zip/node_modules/levelup/",\
           "packageDependencies": [\
@@ -30087,15 +30097,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["mcl-wasm", [\
-        ["npm:0.7.9", {\
-          "packageLocation": "./.yarn/cache/mcl-wasm-npm-0.7.9-adad1d76aa-6b6ed50841.zip/node_modules/mcl-wasm/",\
-          "packageDependencies": [\
-            ["mcl-wasm", "npm:0.7.9"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["md5.js", [\
         ["npm:1.3.5", {\
           "packageLocation": "./.yarn/cache/md5.js-npm-1.3.5-130901125a-098494d885.zip/node_modules/md5.js/",\
@@ -30261,21 +30262,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["memdown", [\
-        ["npm:5.1.0", {\
-          "packageLocation": "./.yarn/cache/memdown-npm-5.1.0-e769608fe2-23e4414034.zip/node_modules/memdown/",\
-          "packageDependencies": [\
-            ["memdown", "npm:5.1.0"],\
-            ["abstract-leveldown", "npm:6.2.3"],\
-            ["functional-red-black-tree", "npm:1.0.1"],\
-            ["immediate", "npm:3.2.3"],\
-            ["inherits", "npm:2.0.4"],\
-            ["ltgt", "npm:2.2.1"],\
-            ["safe-buffer", "npm:5.2.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["memorystream", [\
         ["npm:0.3.1", {\
           "packageLocation": "./.yarn/cache/memorystream-npm-0.3.1-ae973f1d16-f18b42440d.zip/node_modules/memorystream/",\
@@ -30363,21 +30349,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/merkle-lib-npm-2.0.10-878da678e5-057331fe5e.zip/node_modules/merkle-lib/",\
           "packageDependencies": [\
             ["merkle-lib", "npm:2.0.10"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["merkle-patricia-tree", [\
-        ["npm:4.2.4", {\
-          "packageLocation": "./.yarn/cache/merkle-patricia-tree-npm-4.2.4-d865962767-acedc7eea7.zip/node_modules/merkle-patricia-tree/",\
-          "packageDependencies": [\
-            ["merkle-patricia-tree", "npm:4.2.4"],\
-            ["@types/levelup", "npm:4.3.3"],\
-            ["ethereumjs-util", "npm:7.1.5"],\
-            ["level-mem", "npm:5.0.1"],\
-            ["level-ws", "npm:2.0.0"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["semaphore-async-await", "npm:1.5.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -31510,17 +31481,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["nock", [\
-        ["npm:13.2.9", {\
-          "packageLocation": "./.yarn/cache/nock-npm-13.2.9-de18b54858-04a2dc60b4.zip/node_modules/nock/",\
-          "packageDependencies": [\
-            ["nock", "npm:13.2.9"],\
-            ["debug", "virtual:52cc1f08fdfa0ce0882bedf10264a24f906e33f7892b3412b78b3e749d6e4b50a5c4d47e46903c21fe956663d3ab6f4d2b4677d28abd53464b00761501f37601#npm:4.3.4"],\
-            ["json-stringify-safe", "npm:5.0.1"],\
-            ["lodash", "npm:4.17.21"],\
-            ["propagate", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:13.5.4", {\
           "packageLocation": "./.yarn/cache/nock-npm-13.5.4-2c4f77b249-d31f924e34.zip/node_modules/nock/",\
           "packageDependencies": [\
@@ -33847,15 +33807,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["prr", [\
-        ["npm:1.0.1", {\
-          "packageLocation": "./.yarn/cache/prr-npm-1.0.1-608d442761-3bca2db047.zip/node_modules/prr/",\
-          "packageDependencies": [\
-            ["prr", "npm:1.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["pseudomap", [\
         ["npm:1.0.2", {\
           "packageLocation": "./.yarn/cache/pseudomap-npm-1.0.2-0d0e40fee0-856c0aae0f.zip/node_modules/pseudomap/",\
@@ -35209,13 +35160,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bn.js", "npm:5.2.1"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/rlp-npm-3.0.0-a4866551ad-d1d8003b2b.zip/node_modules/rlp/",\
-          "packageDependencies": [\
-            ["rlp", "npm:3.0.0"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["rn-host-detect", [\
@@ -35319,15 +35263,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["run-parallel-limit", "npm:1.1.0"],\
             ["queue-microtask", "npm:1.2.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["rustbn.js", [\
-        ["npm:0.2.0", {\
-          "packageLocation": "./.yarn/cache/rustbn.js-npm-0.2.0-ed57934f98-2148e7ba34.zip/node_modules/rustbn.js/",\
-          "packageDependencies": [\
-            ["rustbn.js", "npm:0.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -35648,15 +35583,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/seedrandom-npm-3.0.5-6946e8f8db-728b56bc3b.zip/node_modules/seedrandom/",\
           "packageDependencies": [\
             ["seedrandom", "npm:3.0.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["semaphore-async-await", [\
-        ["npm:1.5.1", {\
-          "packageLocation": "./.yarn/cache/semaphore-async-await-npm-1.5.1-22d6ad656a-2dedf7c59b.zip/node_modules/semaphore-async-await/",\
-          "packageDependencies": [\
-            ["semaphore-async-await", "npm:1.5.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -36308,7 +36234,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["solc", "npm:0.7.3"],\
             ["command-exists", "npm:1.2.9"],\
             ["commander", "npm:3.0.2"],\
-            ["follow-redirects", "virtual:b0f6015a963175f08000990853b55c1a6d1a3722c7c1d5e0885425211ae7ee63bf6b96b7e997f23d1bc9573bb78556c981010ca3a2873c90fc1ce293c6dd5667#npm:1.15.4"],\
+            ["follow-redirects", "virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6"],\
             ["fs-extra", "npm:0.30.0"],\
             ["js-sha3", "npm:0.8.0"],\
             ["memorystream", "npm:0.3.1"],\
@@ -37896,15 +37822,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/trim-newlines-npm-3.0.1-22f1f216de-b530f3fadf.zip/node_modules/trim-newlines/",\
           "packageDependencies": [\
             ["trim-newlines", "npm:3.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["true-case-path", [\
-        ["npm:2.2.1", {\
-          "packageLocation": "./.yarn/cache/true-case-path-npm-2.2.1-0454edfb3a-fd5f1c2a87.zip/node_modules/true-case-path/",\
-          "packageDependencies": [\
-            ["true-case-path", "npm:2.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -40293,6 +40210,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["virtual:2dc86b144efcd39164a373a27cb7e358b08df704e731ec87ade5866a86471d720da5cc9859b4cc54bc37fc0d8ef757e1f788c6c7df159512b49b73d29b56c257#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-54b3b0e452/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:2dc86b144efcd39164a373a27cb7e358b08df704e731ec87ade5866a86471d720da5cc9859b4cc54bc37fc0d8ef757e1f788c6c7df159512b49b73d29b56c257#npm:8.9.0"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -40331,23 +40265,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:cb5fe19fe9b554098fbfdd224858144ccf16b4dd538735d5c0aeb0332cff201256490c59cd96db0b06d0ee0d6a8ccb216670597e899546611a7aa8bca1287230#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-96e87997c4/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:cb5fe19fe9b554098fbfdd224858144ccf16b4dd538735d5c0aeb0332cff201256490c59cd96db0b06d0ee0d6a8ccb216670597e899546611a7aa8bca1287230#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

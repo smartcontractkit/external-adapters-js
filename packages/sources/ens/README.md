@@ -1,6 +1,6 @@
 # ENS Adapter
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 ENS Adapter
 

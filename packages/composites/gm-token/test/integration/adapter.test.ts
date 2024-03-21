@@ -24,7 +24,7 @@ describe('execute', () => {
     process.env.COINMETRICS_ADAPTER_URL =
       process.env.COINMETRICS_ADAPTER_URL ?? 'http://localhost:8083'
     process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3040'
-    process.env.RETRY = process.env.RETRY ?? '1'
+    process.env.RETRY = process.env.RETRY ?? '0'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')

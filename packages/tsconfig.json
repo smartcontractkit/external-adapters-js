@@ -330,6 +330,9 @@
       "path": "./sources/finage"
     },
     {
+      "path": "./sources/finalto"
+    },
+    {
       "path": "./sources/finnhub"
     },
     {
@@ -577,6 +580,9 @@
     },
     {
       "path": "./sources/view-function"
+    },
+    {
+      "path": "./sources/view-function-multi-chain"
     },
     {
       "path": "./sources/wbtc-address-set"

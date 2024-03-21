@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance DEX
 
-![1.6.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.6.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 The following `base` and `quote` pair must be taken from [this list](https://dex.binance.org/api/v1/markets)
 

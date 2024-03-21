@@ -14,6 +14,7 @@ export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
 export const DEFAULT_KOVAN_OPTIMISM_CHAIN_ID = '69'
 export const DEFAULT_GOERLI_CHAIN_ID = '5'
 export const DEFAULT_GOERLI_OPTIMISM_CHAIN_ID = '420'
+export const DEFAULT_SEPOLIA_OPTIMISM_CHAIN_ID = '11155420'
 
 export enum SupportedChains {
   ETHEREUM = 'mainnet',
@@ -22,6 +23,7 @@ export enum SupportedChains {
   KOVAN_OPTIMISM = 'kovan-ovm',
   GOERLI = 'goerli',
   GOERLI_OPTIMISM = 'goerli-ovm',
+  SEPOLIA_OPTIMISM = 'sepolia-ovm',
 }
 
 export interface Config extends DefaultConfig {
@@ -80,6 +82,8 @@ const getRPCUrlPrefix = (networkName: SupportedChains): string => {
       return 'GOERLI'
     case SupportedChains.GOERLI_OPTIMISM:
       return 'GOERLI_OPTIMISM'
+    case SupportedChains.SEPOLIA_OPTIMISM:
+      return 'SEPOLIA_OPTIMISM'
   }
 }
 
@@ -97,6 +101,8 @@ const getDefaultAddressResolverProxyAddress = (networkName: SupportedChains): st
       return '0x58719E8Ef4d201541e44505a2ACB3424481d6681'
     case SupportedChains.GOERLI_OPTIMISM:
       return '0x9Fc84992dF5496797784374B810E04238728743d'
+    case SupportedChains.SEPOLIA_OPTIMISM:
+      return '0x529C553eF2d0370279DC8AbF19702B98b166D252'
   }
 }
 
@@ -114,5 +120,7 @@ const getDefaultChainId = (networkName: SupportedChains): string => {
       return DEFAULT_GOERLI_CHAIN_ID
     case SupportedChains.GOERLI_OPTIMISM:
       return DEFAULT_GOERLI_OPTIMISM_CHAIN_ID
+    case SupportedChains.SEPOLIA_OPTIMISM:
+      return DEFAULT_SEPOLIA_OPTIMISM_CHAIN_ID
   }
 }

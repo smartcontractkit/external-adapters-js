@@ -99,6 +99,14 @@ export const mockStalePriceResponse = {
   },
 }
 
+export const mockHeartbeatResponse = {
+  msg: 'sub',
+  pro: 'OMM',
+  rec: 'HBHHH:GBL.BIL.QTE.RTM!TP',
+  sta: 1,
+  fvs: { TIMACT: '23:01:00', GV1_TIME: '23:01:13' },
+}
+
 export const adapterResponse = {
   result: 1.0539,
   statusCode: 200,
@@ -120,6 +128,9 @@ export const mockPriceWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(mockInversePriceResponse))
       socket.send(JSON.stringify(mockICPriceResponse))
       socket.send(JSON.stringify(mockSeparateSourcePriceResponse))
+      setTimeout(() => {
+        socket.send(JSON.stringify(mockHeartbeatResponse))
+      }, 10000)
     })
   })
   return mockWsServer
