@@ -17,7 +17,6 @@ node_modules
 *generated*
 vendor
 coverage
-MASTERLIST.md
 
 # Helm and K6
 cl-adapter-*

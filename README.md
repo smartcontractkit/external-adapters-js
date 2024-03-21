@@ -72,15 +72,9 @@ Clears all build files/directories. Useful in case of issues when installing dep
     ╚══ targets - adapters that write data to a location, often a blockchain.
 ```
 
-## List Adapters
+## Adapters
 
-To know what adapters are available to use, run:
-
-```sh
-yarn generate:master-list
-```
-
-This command will create a `MASTERLIST.md` file in the root directory containing the list of all the external adapters available in this repository, together with their version, type, level of support, and other helpful information. Check their linked README to learn more about them.
+The [MASTERLIST.md](./MASTERLIST.md) file in the root directory contains the list of all the external adapters available in this repository, together with their version, type, level of support, and other helpful information. Check their linked README to learn more about them.
 
 ## How to Run
 
