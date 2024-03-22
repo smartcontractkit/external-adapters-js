@@ -21,6 +21,11 @@
             "endpoint": "crypto"
         },
         {
+            "base": "LINK",
+            "quote": "USD",
+            "endpoint": "price"
+        },
+        {
             "base": "ETH",
             "endpoint": "eod"
         },
