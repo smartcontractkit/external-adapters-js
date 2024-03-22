@@ -7,6 +7,8 @@ import { LoggerFactoryProvider, sleep } from '@chainlink/external-adapter-framew
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import * as price from '../../src/transport/price'
 import { RequestParams } from '../../src/endpoint/price'
+import { adapter } from '../../src'
+import testPayload from '../../test-payload.json'
 
 //Since the test is directly using transport functions, we need to initialize the logger here
 LoggerFactoryProvider.set()
@@ -232,5 +234,16 @@ describe('buildSymbol', () => {
 
   it('builds the symbol ticker', () => {
     expect(price.buildSymbol(params)).toEqual(symbol)
+  })
+})
+
+describe('test-payload.json', () => {
+  it('should contain all endpoints/aliases', () => {
+    const endpointsWithAliases = adapter.endpoints.map((e) => [e.name, ...(e.aliases || [])]).flat()
+    endpointsWithAliases.forEach((alias) => {
+      const requests = testPayload.requests as { endpoint?: string }[]
+      const aliasedRequest = requests.find((req) => req?.endpoint === alias)
+      expect(aliasedRequest).toBeDefined()
+    })
   })
 })

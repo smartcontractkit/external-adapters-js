@@ -1,8 +1,8 @@
 {
   "requests": [
     { "from": "CAD", "to": "USD" },
-    { "from": "ETH", "to": "USD" },
-    { "from": "EUR", "to": "USD" },
+    { "from": "ETH", "to": "USD", "endpoint": "price" },
+    { "from": "EUR", "to": "USD", "endpoint": "forex"  },
     { "from": "IDR", "to": "USD" },
     { "from": "INR", "to": "USD" },
     { "from": "JPY", "to": "USD" },

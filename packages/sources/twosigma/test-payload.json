@@ -4,10 +4,12 @@
     "quote": "USD"
   }, {
     "base": "AMGN",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "price"
   }, {
     "base": "AMZN",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "stock"
   }, {
     "base": "AXP",
     "quote": "USD"
