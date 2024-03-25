@@ -1,5 +1,11 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 4.1.5
+
+### Patch Changes
+
+- [#3192](https://github.com/smartcontractkit/external-adapters-js/pull/3192) [`5eb9af8`](https://github.com/smartcontractkit/external-adapters-js/commit/5eb9af8cb548149c35ce881842d83a255db395b7) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for optimism sepolia chain
+
 ## 4.1.4
 
 ### Patch Changes
