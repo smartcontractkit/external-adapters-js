@@ -6281,7 +6281,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.68"],\
             ["@types/supertest", "npm:2.0.16"],\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.2"],\
             ["mock-socket", "npm:9.3.1"],\
             ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
@@ -12305,10 +12305,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4", {\
-          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-tx-virtual-e6d926dc76/0/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
+        ["virtual:2cfacecff9d4a9947261c1478659de51af6a54c2235846bf91f472d56559cdfc05e58cd470a615bd70e33b8fd433a5557210a9bb269b15de96c4ce69ba00d98e#npm:5.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@nomicfoundation-ethereumjs-tx-virtual-d250ac763b/0/cache/@nomicfoundation-ethereumjs-tx-npm-5.0.4-67ff60a590-0f1c877166.zip/node_modules/@nomicfoundation/ethereumjs-tx/",\
           "packageDependencies": [\
-            ["@nomicfoundation/ethereumjs-tx", "virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:2cfacecff9d4a9947261c1478659de51af6a54c2235846bf91f472d56559cdfc05e58cd470a615bd70e33b8fd433a5557210a9bb269b15de96c4ce69ba00d98e#npm:5.0.4"],\
             ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
             ["@nomicfoundation/ethereumjs-rlp", "npm:5.0.4"],\
             ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
@@ -24246,22 +24246,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["hardhat", [\
-        ["npm:2.22.1", {\
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.22.1-ed4b41aa55-6494697d37.zip/node_modules/hardhat/",\
+        ["npm:2.22.2", {\
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.22.2-edeb9f363f-8bc9168d86.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "npm:2.22.1"]\
+            ["hardhat", "npm:2.22.2"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1", {\
-          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-1b5ff9b819/0/cache/hardhat-npm-2.22.1-ed4b41aa55-6494697d37.zip/node_modules/hardhat/",\
+        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.2", {\
+          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-2cfacecff9/0/cache/hardhat-npm-2.22.2-edeb9f363f-8bc9168d86.zip/node_modules/hardhat/",\
           "packageDependencies": [\
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.1"],\
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.2"],\
             ["@ethersproject/abi", "npm:5.7.0"],\
             ["@metamask/eth-sig-util", "npm:4.0.1"],\
             ["@nomicfoundation/edr", "npm:0.3.2"],\
             ["@nomicfoundation/ethereumjs-common", "npm:4.0.4"],\
-            ["@nomicfoundation/ethereumjs-tx", "virtual:1b5ff9b8192d6b32f0f18fc4e592cfe23b7f4dfd9ff8de751687465e684f41dfb19b425233f3a18a729f60a53ab815339bd22562312b3c457c49df6b430d8b6c#npm:5.0.4"],\
+            ["@nomicfoundation/ethereumjs-tx", "virtual:2cfacecff9d4a9947261c1478659de51af6a54c2235846bf91f472d56559cdfc05e58cd470a615bd70e33b8fd433a5557210a9bb269b15de96c4ce69ba00d98e#npm:5.0.4"],\
             ["@nomicfoundation/ethereumjs-util", "virtual:c84ef6a4e05a5f99dbc28bdd25bfd34ece843cc31259a0e0c4872cba055b553d72101ce2644d01722827cf16c982f95c4bb18a7a4f94c8744ffa52af555bf5a7#npm:9.0.4"],\
             ["@nomicfoundation/solidity-analyzer", "npm:0.1.1"],\
             ["@sentry/node", "npm:5.30.0"],\
