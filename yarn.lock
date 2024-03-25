@@ -3539,7 +3539,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
     "@types/supertest": 2.0.16
-    hardhat: 2.22.1
+    hardhat: 2.22.2
     mock-socket: 9.3.1
     nock: 13.5.4
     supertest: 6.2.4
@@ -19605,9 +19605,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hardhat@npm:2.22.1":
-  version: 2.22.1
-  resolution: "hardhat@npm:2.22.1"
+"hardhat@npm:2.22.2":
+  version: 2.22.2
+  resolution: "hardhat@npm:2.22.2"
   dependencies:
     "@ethersproject/abi": ^5.1.2
     "@metamask/eth-sig-util": ^4.0.0
@@ -19662,7 +19662,7 @@ __metadata:
       optional: true
   bin:
     hardhat: internal/cli/bootstrap.js
-  checksum: 6494697d37198d32b9151e8303b8e771f1d10f50ddd5488c619a8b6d36c6ee391a274ce75f7ac17b574fec84e6e1dc11f63487d308013873183cd2af58865200
+  checksum: 8bc9168d866917230114ea844af28b1d70051c85e5f262e6d3e43e1b3691854ab1e7df6d18413433f25edcf48466c27f6f8ee7918b64391368d7f5249a5bed38
   languageName: node
   linkType: hard
 
