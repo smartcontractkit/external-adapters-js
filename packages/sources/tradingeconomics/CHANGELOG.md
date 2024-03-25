@@ -1,5 +1,13 @@
 # @chainlink/tradingeconomics-adapter
 
+## 3.0.7
+
+### Patch Changes
+
+- [#3233](https://github.com/smartcontractkit/external-adapters-js/pull/3233) [`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- [#3226](https://github.com/smartcontractkit/external-adapters-js/pull/3226) [`320ef01`](https://github.com/smartcontractkit/external-adapters-js/commit/320ef01fc31f07d99dce02fe03f40cb443b98a4d) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added "ILS/USD" to includes.json
+
 ## 3.0.6
 
 ### Patch Changes
