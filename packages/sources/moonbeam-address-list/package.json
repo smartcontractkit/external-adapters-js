@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "@polkadot/keyring": "10.4.2",
     "ethers": "5.5.4",
     "tslib": "^2.3.1"
