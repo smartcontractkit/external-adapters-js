@@ -1,8 +1,9 @@
 import Airtable from 'airtable'
-import fs from 'fs'
 import path from 'path'
 import process from 'process'
 import { ls, test } from 'shelljs'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { EndpointDetails, Package, Schema } from '../shared/docGenTypes'
 import {
   codeList,
@@ -41,17 +42,31 @@ const getRedirectText = (path: string, name: string) => `[${name}](${path}${name
 
 const getGroupRedirect = (name: string) => `- [${name}](./${name}/README.md)`
 
-const getConfigDefaults = async (adapterPath: string, verbose = false) => {
+const getConfigDefaults = async (
+  adapterPath: string,
+  frameworkVersion: string,
+  verbose = false,
+) => {
   let defaultBaseUrl = 'Unknown'
   let defaultEndpoint = 'Unknown'
   try {
-    const configPath = adapterPath + '/src/config/index.ts'
-    const config = await require(path.join(process.cwd(), configPath))
+    if (frameworkVersion === 'v2') {
+      const configPath = adapterPath + '/src/config/index.ts'
+      const config = await require(path.join(process.cwd(), configPath))
 
-    if (config.DEFAULT_BASE_URL) defaultBaseUrl = wrapCode(config.DEFAULT_BASE_URL)
-    else if (config.DEFAULT_API_ENDPOINT) defaultBaseUrl = wrapCode(config.DEFAULT_API_ENDPOINT)
-    if (config.DEFAULT_ENDPOINT) defaultEndpoint = wrapCode(config.DEFAULT_ENDPOINT)
-
+      if (config.DEFAULT_BASE_URL) defaultBaseUrl = wrapCode(config.DEFAULT_BASE_URL)
+      else if (config.DEFAULT_API_ENDPOINT) defaultBaseUrl = wrapCode(config.DEFAULT_API_ENDPOINT)
+      if (config.DEFAULT_ENDPOINT) defaultEndpoint = wrapCode(config.DEFAULT_ENDPOINT)
+    } else if (frameworkVersion === 'v3') {
+      const adapterImport = await import(path.join(process.cwd(), adapterPath, 'dist', 'index.js'))
+      const adapter = adapterImport.adapter
+      const adapterSettings = adapter.config.settingsDefinition
+      const envVars = adapterSettings || {}
+      defaultEndpoint = wrapCode(adapter.defaultEndpoint) ?? 'Unknown'
+      defaultBaseUrl = envVars['API_ENDPOINT']?.default
+        ? wrapCode(envVars['API_ENDPOINT'].default)
+        : 'Unknown'
+    }
     return { defaultBaseUrl, defaultEndpoint }
   } catch (e: any) {
     const error = e as Error
@@ -60,63 +75,57 @@ const getConfigDefaults = async (adapterPath: string, verbose = false) => {
   }
 }
 
-const getEndpoints = async (adapterPath: string, verbose = false) => {
+const getEndpoints = async (adapterPath: string, frameWorkVersion: string, verbose = false) => {
   let endpointsText = 'Unknown'
-  let batchableEndpoints = 'Unknown'
   try {
     const indexPath = adapterPath + '/src/endpoint/index.ts'
-    const schemaPath = adapterPath + '/src/schemas/env.json'
 
     const endpointDetails: EndpointDetails = await require(path.join(process.cwd(), indexPath))
-    const schema = getJsonFile(schemaPath) as Schema
     const endpoints = Object.keys(endpointDetails)
 
     let allSupportedEndpoints: string[] = []
-    let allBatchableEndpoints: string[] = []
-    if (!fs.existsSync(schemaPath)) {
-      console.log(
-        `${schema.title} is a v3 adapter, converting it to v2 format for master list generation`,
-      )
-      Object.keys(endpointDetails).forEach((endpointName) => {
-        const endpoint = endpointDetails[endpointName]
-        allSupportedEndpoints.push(endpointName, ...(endpoint.aliases || []))
-      })
-    } else {
-      //Is a v2 adapter
+    if (frameWorkVersion === 'v2') {
       allSupportedEndpoints = endpoints.reduce((list: string[], e) => {
         const supportedEndpoints = endpointDetails[e].supportedEndpoints ?? []
         list.push(...supportedEndpoints)
         return list
       }, [])
-
-      allBatchableEndpoints = endpoints.filter((e) => endpointDetails[e].batchablePropertyPath)
+    } else if (frameWorkVersion === 'v3') {
+      const adapterImport = await import(path.join(process.cwd(), adapterPath, 'dist', 'index.js'))
+      const adapter = adapterImport.adapter as Adapter
+      for (let i = 0; i < adapter.endpoints.length; i++) {
+        const endpoint = adapter.endpoints[i]
+        allSupportedEndpoints.push(endpoint.name, ...(endpoint.aliases || []))
+      }
     }
+    endpointsText = allSupportedEndpoints.length ? codeList(allSupportedEndpoints) : 'Unknown'
 
-    endpointsText = allSupportedEndpoints.length ? codeList(allSupportedEndpoints) : ''
-
-    batchableEndpoints = allBatchableEndpoints.length ? codeList(allBatchableEndpoints) : ''
-
-    return { endpointsText, batchableEndpoints }
+    return endpointsText
   } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
-    return { endpointsText, batchableEndpoints }
+    return endpointsText
   }
 }
 
-const getEnvVars = (adapterPath: string, verbose = false) => {
+const getEnvVars = async (adapterPath: string, frameWorkVersion: string, verbose = false) => {
   try {
-    const schemaPath = adapterPath + '/schemas/env.json'
-
-    const { properties = {}, required = [] } = getJsonFile(schemaPath) as Schema
-
-    const envVarsList = Object.keys(properties)
-
-    const withCheckbox = envVarsList.map((e) => e + (required.includes(e) ? ' (✅)' : ''))
-
-    const formatted = codeList(withCheckbox)
-
-    return formatted
+    if (frameWorkVersion === 'v2') {
+      const schemaPath = adapterPath + '/schemas/env.json'
+      const { properties = {}, required = [] } = getJsonFile(schemaPath) as Schema
+      const envVarsList = Object.keys(properties)
+      const withCheckbox = envVarsList.map((e) => e + (required.includes(e) ? ' (✅)' : ''))
+      return codeList(withCheckbox)
+    } else if (frameWorkVersion === 'v3') {
+      //Framework adapters don't use env.json. Instead, populate "schema" with import
+      const adapterImport = await import(path.join(process.cwd(), adapterPath, 'dist', 'index.js'))
+      const adapter = adapterImport.adapter
+      const adapterSettings = adapter.config.settingsDefinition
+      const envVars = adapterSettings || {}
+      const withCheckbox = Object.keys(envVars).map((e) => e + (envVars[e].required ? ' (✅)' : ''))
+      return codeList(withCheckbox)
+    }
+    return ''
   } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
@@ -168,11 +177,25 @@ const getTestSupport = (adapterPath: string) => {
   }
 }
 
-const getWSSupport = async (adapterPath: string, verbose = false) => {
+const getWSSupport = async (adapterPath: string, frameworkVersion: string, verbose = false) => {
   try {
-    const adapterFile = await require(path.join(process.cwd(), adapterPath, '/src/adapter.ts'))
+    if (frameworkVersion === 'v2') {
+      const adapterFile = await require(path.join(process.cwd(), adapterPath, '/src/adapter.ts'))
 
-    return adapterFile.makeWSHandler ? '✅' : ''
+      return adapterFile.makeWSHandler ? '✅' : ''
+    } else if (frameworkVersion === 'v3') {
+      const adapterImport = await import(path.join(process.cwd(), adapterPath, 'dist', 'index.js'))
+      const adapter = adapterImport.adapter as Adapter
+      for (let i = 0; i < adapter.endpoints.length; i++) {
+        const endpoint = adapter.endpoints[i]
+        for (const [_, transport] of endpoint.transportRoutes.entries()) {
+          if (transport instanceof WebSocketTransport) {
+            return '✅'
+          }
+        }
+      }
+    }
+    return ''
   } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
@@ -195,7 +218,7 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
   const viewName = 'EA MasterList'
 
   if (!airtableApiKey || !airtableBaseID) {
-    throw 'Missing AIRTABLE_API_KEY and/or AIRTABLE_BASE_ID'
+    throw new Error('Missing AIRTABLE_API_KEY and/or AIRTABLE_BASE_ID')
   }
 
   console.log('Generating Airtable master adapters list.')
@@ -232,11 +255,10 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
     const envVars = unwrapCode(adapter[6])
     const endpoints = unwrapCode(adapter[7])
     const defEndpoint = unwrapCode(adapter[8])
-    const batchableEndpoints = unwrapCode(adapter[9])
-    const isWSSupported = unwrapCode(adapter[10]) === '✅'
-    const hasUnitTests = unwrapCode(adapter[11]).includes('✅')
-    const hasIntegrationTests = unwrapCode(adapter[12]).includes('✅')
-    const hasE2ETests = unwrapCode(adapter[13]).includes('✅')
+    const isWSSupported = unwrapCode(adapter[9]) === '✅'
+    const hasUnitTests = unwrapCode(adapter[10]).includes('✅')
+    const hasIntegrationTests = unwrapCode(adapter[11]).includes('✅')
+    const hasE2ETests = unwrapCode(adapter[12]).includes('✅')
     const airtableFields = {
       Name: name,
       Version: version,
@@ -247,7 +269,6 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
       'Environment Variables': envVars,
       Endpoints: endpoints,
       'Default Endpoint': defEndpoint,
-      'Batchable Endpoints': batchableEndpoints,
       'Websocket Support': isWSSupported,
       'Unit Tests': hasUnitTests,
       'Integration Tests': hasIntegrationTests,
@@ -334,10 +355,14 @@ export const generateMasterList = async (
     const allAdaptersTable: TableText = await Promise.all(
       allAdapters.map(async (adapter) => {
         const { dependencies, version, frameworkVersion } = getPackage(adapter.path, verbose)
-        const { defaultBaseUrl, defaultEndpoint } = await getConfigDefaults(adapter.path, verbose)
-        const envVars = getEnvVars(adapter.path, verbose)
-        const { batchableEndpoints, endpointsText } = await getEndpoints(adapter.path, verbose)
-        const wsSupport = await getWSSupport(adapter.path, verbose)
+        const { defaultBaseUrl, defaultEndpoint } = await getConfigDefaults(
+          adapter.path,
+          frameworkVersion,
+          verbose,
+        )
+        const envVars = await getEnvVars(adapter.path, frameworkVersion, verbose)
+        const endpointsText = await getEndpoints(adapter.path, frameworkVersion, verbose)
+        const wsSupport = await getWSSupport(adapter.path, frameworkVersion, verbose)
         const { e2e, integration, unit } = getTestSupport(adapter.path)
 
         return [
@@ -350,7 +375,6 @@ export const generateMasterList = async (
           envVars,
           endpointsText,
           defaultEndpoint,
-          batchableEndpoints,
           wsSupport,
           unit,
           integration,
@@ -376,7 +400,6 @@ export const generateMasterList = async (
           'Environment Variables (✅ = required)',
           'Endpoints',
           'Default Endpoint',
-          'Batchable Endpoints',
           'Supports WS',
           'Unit Tests',
           'Integration Tests',
