@@ -8,9 +8,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |           Default            |
-| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------------: |
-|           | API_ENDPOINT |             | string |         | `https://www.etherchain.org` |
+| Required? |     Name     | Description |  Type  | Options |                    Default                     |
+| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://beaconcha.in/api/v1/execution/gasnow` |
 
 ---
 

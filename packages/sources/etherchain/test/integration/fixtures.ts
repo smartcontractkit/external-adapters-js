@@ -1,8 +1,8 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://www.etherchain.org')
-    .get('/api/gasnow')
+  nock('https://www.beaconcha.in')
+    .get('/api/v1/execution/gasnow')
     .reply(
       200,
       {
