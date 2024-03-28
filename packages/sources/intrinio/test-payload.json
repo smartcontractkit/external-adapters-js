@@ -1,5 +1,14 @@
 {
  "requests": [{
   "base": "AAPL"
- }]
+ },
+  {
+   "base": "AAPL",
+   "endpoint": "price"
+  },
+  {
+   "base": "AAPL",
+   "endpoint": "stock"
+  }
+ ]
 }

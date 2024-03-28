@@ -4,18 +4,22 @@
             "base": "FHFX:EUR-USD"
         },
         {
-            "base": "FHFX:USD-CAD"
+            "base": "FHFX:USD-CAD",
+            "endpoint": "common"
         },
         {
-            "base": "FHFX:GBP-USD"
+            "base": "FHFX:GBP-USD",
+            "endpoint": "forex-quote"
         },
         {
             "base": "JPY",
-            "quote": "USD"
+            "quote": "USD",
+            "endpoint": "forex"
         },
         {
             "base": "USD",
-            "quote": "JPY"
+            "quote": "JPY",
+            "endpoint": "forex"
         },
         {
             "base": "FHFX:EUR-USD",
@@ -25,10 +29,21 @@
             "base": "FHFX:USD-CAD",
             "endpoint": "forex"
         },
-
         {
             "base": "FHFX:GBP-USD",
             "endpoint": "forex"
+        },
+        {
+            "base": "FHFX:GBP-USD",
+            "endpoint": "commodities"
+        },
+        {
+            "base": "FHFX:GBP-USD",
+            "endpoint": "equity-quote"
+        },
+        {
+            "base": "FHFX:GBP-USD",
+            "endpoint": "commodity-quote"
         },
         {
             "base": "AAPL",
@@ -42,6 +57,10 @@
         {
             "base": "MSFT",
             "endpoint": "stock"
+        },
+        {
+            "base": "MSFT",
+            "endpoint": "quote"
         }
     ]
 }

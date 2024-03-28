@@ -1,5 +1,9 @@
 {
  "requests": [{
   "ibanIDs": ["LI6808811000000045345"]
+ },
+  {
+  "ibanIDs": ["LI6808811000000045345"],
+   "endpoint": "accounts"
  }]
 }

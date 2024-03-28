@@ -4,15 +4,40 @@
       "from": "LINK",
       "to": "USD"
     },
+   {
+     "from": "LINK",
+     "to": "USD",
+     "endpoint": "price"
+   },
+   {
+     "from": "LINK",
+     "to": "USD",
+     "endpoint": "crypto"
+   },
     {
       "from": "LINK",
       "to": "USD",
       "endpoint": "cryptolwba"
     },
+   {
+     "from": "LINK",
+     "to": "USD",
+     "endpoint": "crypto-lwba"
+   },
+   {
+     "from": "LINK",
+     "to": "USD",
+     "endpoint": "crypto_lwba"
+   },
     {
       "from": "AMPL",
       "to": "USD",
       "endpoint": "vwap"
+    },
+   {
+      "from": "AMPL",
+      "to": "USD",
+      "endpoint": "crypto-vwap"
     }
   ]
 }

@@ -2,5 +2,15 @@
  "requests": [{
   "from": "BTC",
   "to": "ARS"
- }]
+ },
+  {
+   "from": "BTC",
+   "to": "ARS",
+   "endpoint": "crypto"
+  },
+  {
+   "from": "BTC",
+   "to": "ARS",
+   "endpoint": "ticker"
+  }]
 }

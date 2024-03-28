@@ -3,5 +3,10 @@
   "blockchain": "BTC",
   "endpoint": "difficulty",
   "network": "mainnet"
- }]
+ },
+  {
+   "blockchain": "BTC",
+   "endpoint": "height",
+   "network": "mainnet"
+  }]
 }

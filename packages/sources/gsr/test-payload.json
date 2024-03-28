@@ -1,13 +1,37 @@
 {
- "requests": [
-    {
-      "from": "ETH",
-      "to": "USD"
-    },
-    {
-      "from": "ETH",
-      "to": "USD",
-      "endpoint": "crypto-lwba"
-    }
-  ]
+ "requests": [{
+  "from": "ETH",
+  "to": "USD"
+ },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "price"
+  },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "price-ws"
+  },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "crypto"
+  },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "crypto-lwba"
+  },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "cryptolwba"
+  },
+  {
+   "from": "ETH",
+   "to": "USD",
+   "endpoint": "crypto_lwba"
+  }
+ ]
 }

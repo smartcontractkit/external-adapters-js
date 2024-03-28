@@ -1,6 +1,10 @@
 {
     "requests": [{
         "base": "ETH"
-    }]
+    },
+        {
+            "base": "ETH",
+            "endpoint": "crypto"
+        }]
 }
 
