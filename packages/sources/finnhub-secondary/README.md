@@ -1,6 +1,6 @@
 # FINNHUB-SECONDARY
 
-![0.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
