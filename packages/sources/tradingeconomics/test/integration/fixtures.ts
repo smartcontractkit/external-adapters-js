@@ -140,6 +140,9 @@ export const mockWebSocketServer = (url: string) => {
             topic: 'USDCAD',
           }),
         )
+        setTimeout(() => {
+          socket.send(JSON.stringify({ topic: 'keepalive' }))
+        }, 10000)
       } else {
         // stock endpoint
         socket.send(

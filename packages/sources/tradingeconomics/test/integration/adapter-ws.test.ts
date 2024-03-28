@@ -3,6 +3,7 @@ import {
   setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  runAllUntilTime,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
@@ -52,16 +53,25 @@ describe('websocket', () => {
     await testAdapter.api.close()
   })
 
+  describe('stock endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(dataStock)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
   describe('price endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(dataPrice)
       expect(response.json()).toMatchSnapshot()
     })
-  })
 
-  describe('stock endpoint', () => {
-    it('should return success', async () => {
-      const response = await testAdapter.request(dataStock)
+    it('should update the ttl after heartbeat is received', async () => {
+      // The cache ttl is 90 seconds. Mocked heartbeat message is sent after 10s after connection which should
+      // update the ttl and therefore after 93 seconds (from the initial message) we can access the asset
+      await runAllUntilTime(testAdapter.clock, 93000)
+      const response = await testAdapter.request(dataPrice)
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
