@@ -2,5 +2,10 @@
     "requests": [{
         "product": "ferrari-f12tdf",
         "feedId": 1
+      },
+      {
+        "product": "ferrari-f12tdf",
+        "feedId": 1,
+        "endpoint": "feed"
       }]
 }

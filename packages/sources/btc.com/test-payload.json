@@ -1,5 +1,6 @@
 {
     "requests": [{
+      "endpoint": "balance",
         "addresses": [
           {
             "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
@@ -11,6 +12,12 @@
           }
         ],
         "dataPath": "addresses"
+      },
+      {
+        "endpoint": "height"
+      },
+      {
+        "endpoint": "difficulty"
       }
     ]
 }

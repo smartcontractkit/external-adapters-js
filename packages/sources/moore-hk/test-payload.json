@@ -1,5 +1,11 @@
 {
-  "requests": [{
-    "field": "totalTrust"
-  }]
+  "requests": [
+    {
+      "field": "totalTrust"
+    },
+    {
+      "field": "totalTrust",
+      "endpoint": "trueusd"
+    }
+  ]
 }

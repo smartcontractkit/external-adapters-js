@@ -3,5 +3,11 @@
   "contract": "0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c",
   "function": "function latestAnswer() view returns (int256)",
   "network": "ETHEREUM_MAINNET"
- }]
+ },
+  {
+   "contract": "0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c",
+   "function": "function latestAnswer() view returns (int256)",
+   "network": "ETHEREUM_MAINNET",
+   "endpoint": "function"
+  }]
 }
