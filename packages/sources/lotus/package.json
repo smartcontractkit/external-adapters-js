@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/lotus-adapter",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Chainlink lotus adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "ethers": "^5.4.7",
     "tslib": "2.4.1"
   }

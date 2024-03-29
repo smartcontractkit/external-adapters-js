@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/trumatic-matic-exchange-rate-adapter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Chainlink trumatic-matic-exchange-rate adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "ethers": "5.7.2",
     "tslib": "2.4.1"
   }

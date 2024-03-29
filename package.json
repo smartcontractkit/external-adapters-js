@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.107.0",
+  "version": "1.108.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -40,8 +40,8 @@
     "framework-bump": "./packages/scripts/src/framework/version-bump.sh"
   },
   "dependencies": {
-    "@babel/core": "7.24.0",
-    "@babel/preset-env": "7.24.0",
+    "@babel/core": "7.24.3",
+    "@babel/preset-env": "7.24.3",
     "@babel/preset-typescript": "7.23.3",
     "@types/jest": "27.5.2",
     "@typescript-eslint/eslint-plugin": "5.59.11",
@@ -53,7 +53,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.1",
     "@types/babel__core": "7.20.5",

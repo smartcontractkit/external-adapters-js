@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/alphavantage-adapter",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Chainlink example adapter.",
   "keywords": [
     "Chainlink",
@@ -29,7 +29,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "tslib": "2.4.1"
   },
   "devDependencies": {

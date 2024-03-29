@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-test-adapter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Chainlink token allocation test adapter",
   "keywords": [
     "Chainlink",
@@ -24,7 +24,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "axios": "1.6.8",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",

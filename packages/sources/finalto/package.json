@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finalto-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink finalto adapter.",
   "keywords": [
     "Chainlink",
@@ -37,7 +37,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "tslib": "2.4.1",
     "uuid": "^8.3.0"
   }

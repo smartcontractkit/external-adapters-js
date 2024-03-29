@@ -1,3 +1,4 @@
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { BaseEndpointTypes } from '../endpoint/iex'
 import { TiingoWebsocketTransport } from './utils'
 
@@ -43,6 +44,15 @@ type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
+/*
+Tiingo EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
+we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
+ */
+const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
+  const params = await transport.subscriptionSet.getAll()
+  transport.responseCache.writeTTL(transport.name, params, ttl)
+}
+
 export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
   new TiingoWebsocketTransport<WsTransportTypes>({
     url: (context) => {
@@ -51,7 +61,14 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
     },
 
     handlers: {
-      message(message) {
+      message(message, context) {
+        // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
+        if (message.messageType === 'H') {
+          wsTransport.lastMessageReceivedAt = Date.now()
+          updateTTL(wsTransport, context.adapterSettings.CACHE_MAX_AGE)
+          return []
+        }
+
         const updateType = message.data[0]
         // Expects Last Trade (T) or Quote (Q) messages
         if (
