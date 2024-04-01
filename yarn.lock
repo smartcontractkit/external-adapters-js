@@ -11254,10 +11254,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/k6@npm:0.49.3":
-  version: 0.49.3
-  resolution: "@types/k6@npm:0.49.3"
-  checksum: 0a58db9609da8fd7e255635651951803fad634dfdb71624d9a9d66e01ad534926f1ba8e7243535875920c5a620c85d8751b4b06e6eef9f68257c6675a78d829d
+"@types/k6@npm:0.50.0":
+  version: 0.50.0
+  resolution: "@types/k6@npm:0.50.0"
+  checksum: 8859797d1ffbda46eb469cca57683b388d1d72db61f4011d6d658290705241803a09bdc1f17dc273153cc6308518ef8f4b76d2b68a4d4c9db06697d85eed1184
   languageName: node
   linkType: hard
 
@@ -23455,7 +23455,7 @@ __metadata:
     "@babel/preset-typescript": 7.23.3
     "@types/babel__core": 7.20.5
     "@types/babel__preset-env": 7.9.6
-    "@types/k6": 0.49.3
+    "@types/k6": 0.50.0
     "@types/node": 17.0.45
     "@types/rimraf": 3.0.2
     babel-loader: 8.3.0
