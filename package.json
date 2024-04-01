@@ -59,7 +59,7 @@
     "@types/babel__core": "7.20.5",
     "@types/babel__preset-env": "7.9.6",
     "@types/eslint": "8.37.0",
-    "@types/node": "16.11.68",
+    "@types/node": "16.18.93",
     "husky": "7.0.4",
     "lint-staged": "11.2.6",
     "prettier": "2.8.8",
