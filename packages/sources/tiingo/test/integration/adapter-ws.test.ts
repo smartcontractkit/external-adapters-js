@@ -26,6 +26,7 @@ describe('websocket', () => {
   const priceData = {
     base: 'eth',
     quote: 'usd',
+    tiingo_transport: 'ws',
   }
   const spreadData = {
     endpoint: 'crypto_lwba',
