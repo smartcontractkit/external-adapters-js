@@ -3,6 +3,7 @@ import {
   setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  runAllUntilTime,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
   mockCryptoWebSocketServer,
@@ -51,6 +52,9 @@ describe('websocket', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_KEY'] = 'fake-api-key'
+    process.env['WS_SUBSCRIPTION_UNRESPONSIVE_TTL'] = '180000'
+    process.env['CACHE_MAX_AGE'] = '150000'
+    process.env['WS_SUBSCRIPTION_TTL'] = '180000'
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
@@ -98,6 +102,13 @@ describe('websocket', () => {
     })
   })
 
+  describe('forex endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(priceDataForex)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
   describe('iex endpoint', () => {
     it('Q request should return success', async () => {
       const response = await testAdapter.request(priceDataAapl)
@@ -107,11 +118,13 @@ describe('websocket', () => {
       const response = await testAdapter.request(priceDataAmzn)
       expect(response.json()).toMatchSnapshot()
     })
-  })
 
-  describe('forex endpoint', () => {
-    it('should return success', async () => {
-      const response = await testAdapter.request(priceDataForex)
+    it('should update the ttl after heartbeat is received', async () => {
+      // The cache ttl is 150 seconds. Mocked heartbeat message is sent after 10s after connection which should
+      // update the ttl and therefore after 153 seconds (from the initial message) we can access the asset
+      await runAllUntilTime(testAdapter.clock, 153000)
+      const response = await testAdapter.request(priceDataAapl)
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
