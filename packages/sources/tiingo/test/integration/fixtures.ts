@@ -438,11 +438,21 @@ export const mockIexWebSocketServer = (URL: string): MockWebsocketServer => {
       0,
     ],
   }
+  const wsResponseHeartbeat = {
+    response: { code: 200, message: 'HeartBeat' },
+    messageType: 'H',
+  }
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
+    let counter = 0
     socket.on('message', () => {
-      socket.send(JSON.stringify(wsResponseQ))
-      socket.send(JSON.stringify(wsResponseT))
+      if (counter++ === 0) {
+        socket.send(JSON.stringify(wsResponseQ))
+        socket.send(JSON.stringify(wsResponseT))
+        setTimeout(() => {
+          socket.send(JSON.stringify(wsResponseHeartbeat))
+        }, 10000)
+      }
     })
   })
 
