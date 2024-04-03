@@ -19,6 +19,7 @@ The Synthetix debt pool adapter fetches the total debt from the DebtCache contra
 |           |  KOVAN_OPTIMISM_CHAIN_ID  |  Kovan Optimism chain id to connect to  |         |     69      |
 |           |      GOERLI_CHAIN_ID      |  Kovan Optimism chain id to connect to  |         |      5      |
 |           | GOERLI_OPTIMISM_CHAIN_ID  |  Kovan Optimism chain id to connect to  |         |     420     |
+|           |     SEPOLIA_CHAIN_ID      |     Sepolia chain id to connect to      |         |  11155111   |
 |           | SEPOLIA_OPTIMISM_CHAIN_ID | Sepolia Optimism chain id to connect to |         |  11155420   |
 
 The environment variables above are not required to start the adapter but are required when you want to pull the debt from that chain. Not setting any will not prevent the adapter from starting but it won't be able to pull debt from any chains.
@@ -37,9 +38,9 @@ The environment variables above are not required to start the adapter but are re
 
 ### Input Params
 
-| Required? |     Name     |       Description        |                                                                                                            Options                                                                                                             | Defaults to |
-| :-------: | :----------: | :----------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | chainSources | Chains to pull debt from | Array of chains to pull debt from. Options for array elements are `mainnet`, `mainnet-ovm`, `kovan`, `kovan-ovm`, `goerli`, `goerli-ovm` and `sepolia-ovm`. Leaving this blank will pull data from `mainnet` and `mainnet-ovm` |             |
+| Required? |     Name     |       Description        |                                                                                                                  Options                                                                                                                  | Defaults to |
+| :-------: | :----------: | :----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | chainSources | Chains to pull debt from | Array of chains to pull debt from. Options for array elements are `mainnet`, `mainnet-ovm`, `kovan`, `kovan-ovm`, `goerli`, `goerli-ovm`, `sepolia` and `sepolia-ovm`. Leaving this blank will pull data from `mainnet` and `mainnet-ovm` |             |
 
 ### Sample Input
 
@@ -69,9 +70,9 @@ The environment variables above are not required to start the adapter but are re
 
 ### Input Params
 
-| Required? |     Name     |       Description        |                                                                                                            Options                                                                                                             | Defaults to |
-| :-------: | :----------: | :----------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | chainSources | Chains to pull debt from | Array of chains to pull debt from. Options for array elements are `mainnet`, `mainnet-ovm`, `kovan`, `kovan-ovm`, `goerli`, `goerli-ovm` and `sepolia-ovm`. Leaving this blank will pull data from `mainnet` and `mainnet-ovm` |             |
+| Required? |     Name     |       Description        |                                                                                                                  Options                                                                                                                  | Defaults to |
+| :-------: | :----------: | :----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | chainSources | Chains to pull debt from | Array of chains to pull debt from. Options for array elements are `mainnet`, `mainnet-ovm`, `kovan`, `kovan-ovm`, `goerli`, `goerli-ovm`, `sepolia` and `sepolia-ovm`. Leaving this blank will pull data from `mainnet` and `mainnet-ovm` |             |
 
 ### Sample Input
 
