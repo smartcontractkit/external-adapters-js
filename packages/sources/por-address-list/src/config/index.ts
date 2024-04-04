@@ -16,7 +16,7 @@ export const config = new AdapterConfig({
     description:
       'The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter.',
     type: 'number',
-    default: 20,
+    default: 100,
   },
   BACKGROUND_EXECUTE_MS: {
     description:
