@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finage-adapter",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Chainlink Finage adapter.",
   "keywords": [
     "Chainlink",
@@ -27,13 +27,13 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "tslib": "2.4.1"
   },
   "devDependencies": {
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.68",
+    "@types/node": "16.18.93",
     "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.4",
     "typescript": "5.0.4"

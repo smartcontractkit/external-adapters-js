@@ -1,5 +1,13 @@
 # @chainlink/dxfeed-adapter
 
+## 2.0.13
+
+### Patch Changes
+
+- [#3233](https://github.com/smartcontractkit/external-adapters-js/pull/3233) [`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- [#3224](https://github.com/smartcontractkit/external-adapters-js/pull/3224) [`a32d360`](https://github.com/smartcontractkit/external-adapters-js/commit/a32d3604964daacea332fc8bf1c7faebe10582a7) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Updated overrides
+
 ## 2.0.12
 
 ### Patch Changes

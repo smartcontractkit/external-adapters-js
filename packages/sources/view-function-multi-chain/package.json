@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/view-function-multi-chain-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink view-function-multi-chain adapter.",
   "keywords": [
     "Chainlink",
@@ -29,12 +29,12 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.68",
+    "@types/node": "16.18.93",
     "nock": "13.5.4",
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.6",
+    "@chainlink/external-adapter-framework": "0.33.7",
     "ethers": "^5.4.6",
     "tslib": "2.4.1"
   }

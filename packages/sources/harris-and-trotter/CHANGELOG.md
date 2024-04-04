@@ -1,5 +1,13 @@
 # @chainlink/harris-and-trotter-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#3233](https://github.com/smartcontractkit/external-adapters-js/pull/3233) [`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- [#3228](https://github.com/smartcontractkit/external-adapters-js/pull/3228) [`3952fd3`](https://github.com/smartcontractkit/external-adapters-js/commit/3952fd30c2a7052aaa8ffc166ebbc579d7126ea5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added "ripcord" value to endpoint responses
+
 ## 1.0.3
 
 ### Patch Changes
