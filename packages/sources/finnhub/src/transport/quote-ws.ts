@@ -37,11 +37,12 @@ type WsEndpointTypes = BaseEndpointTypes & {
 }
 /*
 Finnhub EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
-we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
+we update the TTL of **forex** cache entries that EA is requested to provide a price during off-market hours.
  */
 const updateTTL = async (transport: WebSocketTransport<WsEndpointTypes>, ttl: number) => {
-  const params = await transport.subscriptionSet.getAll()
-  transport.responseCache.writeTTL(transport.name, params, ttl)
+  const allParams = await transport.subscriptionSet.getAll()
+  const forexParams = allParams.filter((p) => p.endpointName === 'forex')
+  transport.responseCache.writeTTL(transport.name, forexParams, ttl)
 }
 
 export const wsTransport = new WebsocketReverseMappingTransport<WsEndpointTypes, string>({

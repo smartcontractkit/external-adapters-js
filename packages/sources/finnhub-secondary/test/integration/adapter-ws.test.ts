@@ -46,6 +46,7 @@ describe('websocket', () => {
 
   const data = {
     base: 'OANDA:EUR_USD',
+    endpoint: 'forex',
   }
 
   let spy: jest.SpyInstance
@@ -123,10 +124,13 @@ describe('websocket', () => {
     expect(response.json()).toMatchSnapshot()
   })
 
-  it('should update the ttl after heartbeat is received', async () => {
+  it('should update the ttl of forex params after heartbeat is received', async () => {
+    await runAllUntilTime(testAdapter.clock, 93000)
+    const expiredCacheResponse = await testAdapter.request({ base: 'JPY', quote: 'USD' })
+    expect(expiredCacheResponse.statusCode).toBe(504)
+
     // The cache ttl is 90 seconds. Mocked heartbeat message is sent after 10s after connection which should
     // update the ttl and therefore after 93 seconds (from the initial message) we can access the asset
-    await runAllUntilTime(testAdapter.clock, 93000)
     const response = await testAdapter.request(data)
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchSnapshot()
