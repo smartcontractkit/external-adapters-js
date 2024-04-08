@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/galaxy-adapter",
-  "version": "2.1.24",
+  "version": "2.1.25",
   "description": "Chainlink Galaxy adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.93",
+    "@types/node": "16.18.95",
     "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.4",
     "typescript": "5.0.4"

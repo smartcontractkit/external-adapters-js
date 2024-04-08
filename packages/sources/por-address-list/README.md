@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,7 +10,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :-------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     |        RPC_URL        |                                   The RPC URL to connect to the EVM chain the address manager contract is deployed to.                                   | string |         |         |
 |           |       CHAIN_ID        |                                                                The chain id to connect to                                                                | number |         |   `1`   |
-|           |      GROUP_SIZE       | The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter. | number |         |  `10`   |
+|           |      GROUP_SIZE       | The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter. | number |         |  `100`  |
 |           | BACKGROUND_EXECUTE_MS |                                The amount of time the background execute should sleep before performing the next request                                 | number |         | `10000` |
 
 ---
