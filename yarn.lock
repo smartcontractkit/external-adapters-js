@@ -4286,7 +4286,7 @@ __metadata:
     multiformats: ^9.4.1
     nock: 13.5.4
     tslib: ^2.1.0
-    type-fest: 2.14.0
+    type-fest: 2.19.0
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -32384,10 +32384,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:2.14.0":
-  version: 2.14.0
-  resolution: "type-fest@npm:2.14.0"
-  checksum: 6c152126418fef3caef573ece729c89b7b949c6e53ba6f6b8606b309061011e005b12b5c707b23825a4c6a0b4293017dd998bad221693a03554789be8a9030db
+"type-fest@npm:2.19.0, type-fest@npm:^2.0.0":
+  version: 2.19.0
+  resolution: "type-fest@npm:2.19.0"
+  checksum: a4ef07ece297c9fba78fc1bd6d85dff4472fe043ede98bd4710d2615d15776902b595abf62bd78339ed6278f021235fb28a96361f8be86ed754f778973a0d278
   languageName: node
   linkType: hard
 
@@ -32437,13 +32437,6 @@ __metadata:
   version: 0.8.1
   resolution: "type-fest@npm:0.8.1"
   checksum: d61c4b2eba24009033ae4500d7d818a94fd6d1b481a8111612ee141400d5f1db46f199c014766b9fa9b31a6a7374d96fc748c6d688a78a3ce5a33123839becb7
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^2.0.0":
-  version: 2.19.0
-  resolution: "type-fest@npm:2.19.0"
-  checksum: a4ef07ece297c9fba78fc1bd6d85dff4472fe043ede98bd4710d2615d15776902b595abf62bd78339ed6278f021235fb28a96361f8be86ed754f778973a0d278
   languageName: node
   linkType: hard
 
