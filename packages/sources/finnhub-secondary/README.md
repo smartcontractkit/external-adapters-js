@@ -42,11 +42,12 @@ Supported names for this endpoint are: `commodities`, `commodity-quote`, `common
 
 ### Input Params
 
-| Required? |   Name   |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base   | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|           |  quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
-|           | exchange |                |         The exchange to fetch data for         | string |         |         |            |                |
+| Required? |     Name     |    Aliases     |                                          Description                                          |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     base     | `coin`, `from` |                        The symbol of symbols of the currency to query                         | string |         |         |            |                |
+|           |    quote     | `market`, `to` |                           The symbol of the currency to convert to                            | string |         |         |            |                |
+|           |   exchange   |                |                                The exchange to fetch data for                                 | string |         |         |            |                |
+|           | endpointName |                | Is set automatically based on request endpoint alias/name. Modifying this value has no effect | string |         |         |            |                |
 
 ### Example
 
