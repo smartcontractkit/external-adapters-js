@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.93",
+    "@types/node": "16.18.95",
     "@types/paypal__payouts-sdk": "1.0.6",
     "typescript": "5.0.4"
   }
