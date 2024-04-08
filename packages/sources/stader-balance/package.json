@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stader-balance-adapter",
-  "version": "1.4.11",
+  "version": "1.4.12",
   "description": "Chainlink Stader balance adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.93",
+    "@types/node": "16.18.95",
     "nock": "13.5.4",
     "typescript": "5.0.4"
   }

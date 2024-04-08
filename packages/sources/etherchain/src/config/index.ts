@@ -4,7 +4,7 @@ import { Config } from '@chainlink/ea-bootstrap'
 export const NAME = 'ETHERCHAIN'
 
 export const DEFAULT_ENDPOINT = 'gasprice'
-export const DEFAULT_BASE_URL = 'https://www.etherchain.org'
+export const DEFAULT_BASE_URL = 'https://beaconcha.in'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
