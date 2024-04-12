@@ -220,7 +220,7 @@ export const formatArray = (input: string | string[]): string[] =>
  * and returns a Map of the array grouped by the grouping function.
  *
  * @param list An array of type V.
- * @param keyGetter A Function that takes the the Array type V as an input, and returns a value of type K.
+ * @param keyGetter A Function that takes the Array type V as an input, and returns a value of type K.
  *                  K is generally intended to be a property key of V.
  *
  * @returns Map of the array grouped by the grouping function.
