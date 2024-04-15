@@ -45,7 +45,7 @@
     "@types/jest": "27.5.2",
     "@types/lodash": "4.17.0",
     "@types/lru-cache": "5.1.1",
-    "@types/node": "16.18.95",
+    "@types/node": "16.18.96",
     "@types/object-hash": "2.2.1",
     "@types/object-path": "0.11.4",
     "@types/pino": "6.3.12",
