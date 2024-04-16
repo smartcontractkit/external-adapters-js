@@ -396,6 +396,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/deribit"\
       },\
       {\
+        "name": "@chainlink/dlc-btc-vault-data-adapter",\
+        "reference": "workspace:packages/sources/dlc-btc-vault-data"\
+      },\
+      {\
         "name": "@chainlink/dns-query-adapter",\
         "reference": "workspace:packages/sources/dns-query"\
       },\
@@ -912,6 +916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
+      ["@chainlink/dlc-btc-vault-data-adapter", ["workspace:packages/sources/dlc-btc-vault-data"]],\
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],\
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],\
@@ -6002,6 +6007,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.16"],\
             ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/dlc-btc-vault-data-adapter", [\
+        ["workspace:packages/sources/dlc-btc-vault-data", {\
+          "packageLocation": "./packages/sources/dlc-btc-vault-data/",\
+          "packageDependencies": [\
+            ["@chainlink/dlc-btc-vault-data-adapter", "workspace:packages/sources/dlc-btc-vault-data"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.18.96"],\
+            ["ethers", "npm:5.7.2"],\
+            ["nock", "npm:13.5.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\

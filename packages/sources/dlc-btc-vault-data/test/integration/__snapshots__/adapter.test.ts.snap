@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute vaults endpoint should return success 1`] = `
+{
+  "data": {
+    "vaults": [
+      {
+        "fundingTxId": "8a585976eaecc50277ee2a0735ce904cea6e45823308833296af17f9b680ea65",
+        "taprootPubKey": "71cdbe1a06794a9de3ed8533e295775fe34cc8045113dea5db26ee9bd4bff0c48c45de891b6fb21fde939a1509c7ea681390689923929fe11b0e1b597386f005",
+        "uuid": "0x6ac664f57aec2c234c90d9471d860716e2ba94a10c0ea83d921b458bdbe0520e",
+        "valueLocked": 1000000,
+      },
+      {
+        "fundingTxId": "c8a79dd959b9427f118a1c5a38997dd8a892efbc1787d3e4244634e3eefa8849",
+        "taprootPubKey": "82af647806655c9bbc868af250b1ed75d6603563943fe5aea7f5ec1fb1d21f73a40dd999bb3f93df998d7f350d92304fb64d7b8e4050a0c834ce7c50b49282a1",
+        "uuid": "0x0c9a69fc13991f00a39d35a3de28e6b0b5ff4d9a1b766a318c43476f5d4b4a18",
+        "valueLocked": 1000000,
+      },
+      {
+        "fundingTxId": "4f61906a16b6077850862475718070db5cc7128a8d8570158d57a9ff8d64e18a",
+        "taprootPubKey": "d0092243f1fc42e4b29ad9d9c10fcd891d78db649a6755daa417a494f1ec25c539453329c31e1be437f3ac10215eb0bf34cbbba1139a3e1cd5593a2208db5ebd",
+        "uuid": "0xcf39f94525109c3d6e0bb89014dbb75de12c301c2e9d6a2d1fe5451f35fb93ec",
+        "valueLocked": 1000000,
+      },
+      {
+        "fundingTxId": "9c9169f1fc287ebe793e16171c2e9d681e09c3e18936dd35c84e854cf6db34e4",
+        "taprootPubKey": "c3bf9946d51cf18e4711bd004be784b1b184103f1596f7a98ec4c2063b38ffd1",
+        "uuid": "0x2b3c1c99082dfec2465b5922d71f45f0576b0f22f56680492fd27da699bd37c8",
+        "valueLocked": 1000000,
+      },
+      {
+        "fundingTxId": "79a542f05220200bf0f3c486c0f98c66a7e4a9f5fbc3117ce8bc70f81ca440ac",
+        "taprootPubKey": "7550ea3e9c0dbada81d59d90e9056976c773cafc1d1c4e63ca0a68ab70d5a891eca2624d8a45f42928f3c272a58e6608ca8849998cba574617179a5c3fa7fa64",
+        "uuid": "0xa3546dd0a89f3b267d24d4cbb04dd9caefe5382e9e3d57d2fbda52a97e7ad46c",
+        "valueLocked": 10000000,
+      },
+      {
+        "fundingTxId": "4504f32797c7ce45be965a73aa378229eb5fac40c6685f4ce1d0c05eae7d9c7d",
+        "taprootPubKey": "c3bf9946d51cf18e4711bd004be784b1b184103f1596f7a98ec4c2063b38ffd1",
+        "uuid": "0xabd309781bc95e53bb3b510e3b6d77904f487712add3dd2ecedc70431695fb8c",
+        "valueLocked": 10000000,
+      },
+      {
+        "fundingTxId": "0344240fddd67ad89231deb1c5e4689566fb168f00a53f177ebefba51dcd6440",
+        "taprootPubKey": "c3bf9946d51cf18e4711bd004be784b1b184103f1596f7a98ec4c2063b38ffd1",
+        "uuid": "0x46d93a3f58daf67f6296d2f5d8c3629e3799578dade3cb7fca7eacf2b90b2e98",
+        "valueLocked": 10000000,
+      },
+      {
+        "fundingTxId": "ce5e465072d3cbe1de1bc7bf2b6753018809f0d60bf2dbbafb689a350e250974",
+        "taprootPubKey": "92e4fc830c8d38adcbc465f2c17ff3ea7356cff6072ae8a77bef069af2553e8c",
+        "uuid": "0x42e348e626c8263caf1660b152008f7eaadb619edb726040628984f9f70522f6",
+        "valueLocked": 1000000,
+      },
+      {
+        "fundingTxId": "a28f53934d279e3145a0161e19e4582ec3cc67d301ad90110d0fdb4814d286f4",
+        "taprootPubKey": "92e4fc830c8d38adcbc465f2c17ff3ea7356cff6072ae8a77bef069af2553e8c",
+        "uuid": "0x96580a5c83b4b6d8512ca8fb4f226ecde382829b6772285a780c522b135ff397",
+        "valueLocked": 1000000,
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

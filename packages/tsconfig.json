@@ -276,6 +276,9 @@
       "path": "./sources/deribit"
     },
     {
+      "path": "./sources/dlc-btc-vault-data"
+    },
+    {
       "path": "./sources/dns-query"
     },
     {

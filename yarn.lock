@@ -3290,6 +3290,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/dlc-btc-vault-data-adapter@workspace:packages/sources/dlc-btc-vault-data":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dlc-btc-vault-data-adapter@workspace:packages/sources/dlc-btc-vault-data"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.8
+    "@types/jest": 27.5.2
+    "@types/node": 16.18.96
+    ethers: ^5.4.6
+    nock: 13.5.4
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/dns-query-adapter@workspace:*, @chainlink/dns-query-adapter@workspace:packages/sources/dns-query":
   version: 0.0.0-use.local
   resolution: "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query"

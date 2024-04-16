@@ -276,6 +276,9 @@
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {
+      "path": "./sources/dlc-btc-vault-data/tsconfig.test.json"
+    },
+    {
       "path": "./sources/dns-query/tsconfig.test.json"
     },
     {
