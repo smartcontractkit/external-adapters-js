@@ -63,10 +63,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - name: Configure AWS Credentials for SDLC Private ECR
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4.0.2
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+          role-session-name: release.publish-adapter-images
+          mask-aws-account-id: true
       - name: Authenticate to ECR
         run: aws ecr get-login-password --region ${{ secrets.AWS_REGION_ECR_PRIVATE }} | docker login --username AWS --password-stdin ${{ env.PRIVATE_ECR_URL }}/adapters/
       - name: Pull adapter image from private ECR and retag with public ecr details

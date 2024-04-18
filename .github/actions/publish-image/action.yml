@@ -36,11 +36,13 @@ runs:
   using: 'composite'
   steps:
     - name: Configure AWS Credentials for SDLC Private ECR
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4.0.2
       with:
         role-to-assume: ${{ inputs.aws-role }}
         aws-region: ${{ inputs.aws-region }}
         role-duration-seconds: 1200
+        role-session-name: external-adapters-js.publish-docker-image
+        mask-aws-account-id: true
     - name: Authenticate to ECR
       shell: bash
       run: |
