@@ -29,14 +29,14 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.7",
+    "@chainlink/external-adapter-framework": "0.33.8",
     "decimal.js": "^10.3.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.95",
+    "@types/node": "16.18.96",
     "@types/sinonjs__fake-timers": "8.1.5",
     "typescript": "5.0.4"
   }

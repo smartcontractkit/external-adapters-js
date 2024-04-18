@@ -53,13 +53,13 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "0.33.7",
+    "@chainlink/external-adapter-framework": "0.33.8",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.1",
     "@types/babel__core": "7.20.5",
     "@types/babel__preset-env": "7.9.6",
     "@types/eslint": "8.37.0",
-    "@types/node": "16.18.95",
+    "@types/node": "16.18.96",
     "husky": "7.0.4",
     "lint-staged": "11.2.6",
     "prettier": "2.8.8",
