@@ -159,7 +159,7 @@ jobs:
 
           echo "::set-output name=BUILD_ADAPTERS::${BUILD_ADAPTERS}"
 
-      - uses: webiny/action-post-run@2.0.1
+      - uses: webiny/action-post-run@2a0e96f0e55f0e698cf2a3d85670e3577ae30a30 # 3.1.0
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         name: Clean up deployments
         env:
