@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Automatically update PR
-        uses: smartcontractkit/update-pr-branch@master
+        uses: smartcontractkit/update-pr-branch@612ec4916f57a7f79af534c6b7c9a8623f957a71 # v0.5.1
         with:
           token: ${{ secrets.AUTOREBASE_TOKEN }}
           base: 'main'
