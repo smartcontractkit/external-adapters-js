@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockContractCallResponseSuccess } from './fixtures'
+import { mockBitcoinRPCResponseSuccess, mockContractCallResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -16,7 +16,11 @@ describe('execute', () => {
     process.env.CHAIN_ID = process.env.CHAIN_ID ?? '11155111'
     process.env.DLC_CONTRACT =
       process.env.DLC_CONTRACT ?? '0x415131d3e412bd82208EA56856C3e529D1477Dd2'
-    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
+    process.env.BITCOIN_NETWORK = process.env.BITCOIN_NETWORK ?? 'regtest'
+    process.env.BITCOIN_BLOCKCHAIN_API_URL =
+      process.env.BITCOIN_BLOCKCHAIN_API_URL ?? 'http://localhost:8554'
+    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '100'
+    process.env.RETRY = process.env.RETRY ?? '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -35,9 +39,10 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('vaults endpoint', () => {
+  describe('por endpoint', () => {
     it('should return success', async () => {
       mockContractCallResponseSuccess()
+      mockBitcoinRPCResponseSuccess()
       const response = await testAdapter.request({})
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

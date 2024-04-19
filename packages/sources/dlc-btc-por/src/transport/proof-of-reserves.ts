@@ -1,0 +1,233 @@
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { ethers } from 'ethers'
+import { hex } from '@scure/base'
+import { p2tr, p2tr_ns, taprootTweakPubkey } from '@scure/btc-signer'
+import { BaseEndpointTypes } from '../endpoint/proof-of-reserves'
+import abi from '../config/dlc-manager-abi.json'
+import {
+  BitcoinNetwork,
+  BitcoinTransaction,
+  BitcoinTransactionVectorOutput,
+  getBitcoinNetwork,
+  RawVault,
+} from './utils'
+
+const logger = makeLogger('dlcBTC PoR')
+
+export type TransportTypes = BaseEndpointTypes
+
+export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
+  name!: string
+  responseCache!: ResponseCache<TransportTypes>
+  requester!: Requester
+  provider!: ethers.providers.JsonRpcProvider
+  dlcManagerContract!: ethers.Contract
+  settings!: TransportTypes['Settings']
+
+  async initialize(
+    dependencies: TransportDependencies<TransportTypes>,
+    adapterSettings: TransportTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    const { RPC_URL, CHAIN_ID, DLC_CONTRACT } = adapterSettings
+    this.settings = adapterSettings
+    this.provider = new ethers.providers.JsonRpcProvider(RPC_URL, CHAIN_ID)
+    this.dlcManagerContract = new ethers.Contract(DLC_CONTRACT, abi, this.provider)
+    this.requester = dependencies.requester
+  }
+  async backgroundHandler(context: EndpointContext<TransportTypes>) {
+    await this.handleRequest()
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  }
+
+  async handleRequest() {
+    let response: AdapterResponse<TransportTypes['Response']>
+    try {
+      response = await this._handleRequest()
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(e, errorMessage)
+      response = {
+        statusCode: 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: [], response }])
+  }
+
+  async _handleRequest(): Promise<AdapterResponse<TransportTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
+
+    // Get all vault data. Filter out to get rid of placeholder values.
+    const vaultData: RawVault[] = (await this.dlcManagerContract.getFundedDLCs(0, 10_000)).filter(
+      (v: RawVault) =>
+        v.uuid != '0x0000000000000000000000000000000000000000000000000000000000000000',
+    )
+
+    const depositsPromise = vaultData.map(async (vault) => {
+      try {
+        const isVerified = await this.verifyVaultDeposit(vault)
+        if (isVerified) {
+          return vault.valueLocked.toNumber()
+        }
+      } catch (e) {
+        logger.error(e, `Error while verifying Deposit for Vault: ${vault.uuid}. ${e}`)
+      }
+      return 0
+    })
+
+    const totalPoR = (await Promise.all(depositsPromise)).reduce((sum, deposit) => sum + deposit, 0)
+
+    return {
+      data: {
+        result: totalPoR,
+      },
+      statusCode: 200,
+      result: totalPoR,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
+  }
+
+  async verifyVaultDeposit(vault: RawVault) {
+    // Get the bitcoin transaction
+    const fundingTransaction = await this.fetchFundingTransaction(vault.fundingTxId)
+
+    // Get the current bitcoin block height
+    const bitcoinBlockHeight = await this.fetchBitcoinBlockHeight()
+
+    // Check and filter transactions that have less than [settings.CONFIRMATIONS] confirmations
+    const isConfirmed = await this.checkConfirmations(fundingTransaction, bitcoinBlockHeight)
+
+    if (!isConfirmed) {
+      return false
+    }
+
+    // Get the Closing Transaction Input from the Funding Transaction by the locked Bitcoin value
+    const closingTransactionInput = this.getClosingTransactionInputFromFundingTransaction(
+      fundingTransaction,
+      vault.valueLocked.toNumber(),
+    )
+
+    // Get the Attestor Public Key
+    const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
+
+    // Get the Bitcoin network object
+    const bitCoinNetwork = getBitcoinNetwork(this.settings.BITCOIN_NETWORK)
+
+    // Create two MultiSig Transactions, because the User and Attestor can sign in any order
+    // Create the MultiSig Transaction A
+    const multisigTransactionA = this.createMultiSigTransaction(
+      vault.taprootPubKey,
+      attestorPublicKey,
+      vault.uuid,
+      bitCoinNetwork,
+    )
+
+    // Create the MultiSig Transaction B
+    const multisigTransactionB = this.createMultiSigTransaction(
+      attestorPublicKey,
+      vault.taprootPubKey,
+      vault.uuid,
+      bitCoinNetwork,
+    )
+
+    // Verify that the Funding Transaction's Output Script matches the expected MultiSig Script
+    return this.matchScripts(
+      [multisigTransactionA.script, multisigTransactionB.script],
+      hex.decode(closingTransactionInput.scriptpubkey),
+    )
+  }
+
+  async fetchFundingTransaction(txId: string): Promise<BitcoinTransaction> {
+    const requestConfig = {
+      baseURL: `${this.settings.BITCOIN_BLOCKCHAIN_API_URL}/tx/${txId}`,
+    }
+    const { response } = await this.requester.request<BitcoinTransaction>(txId, requestConfig)
+    return response.data
+  }
+
+  async fetchBitcoinBlockHeight(): Promise<number> {
+    const requestConfig = {
+      baseURL: `${this.settings.BITCOIN_BLOCKCHAIN_API_URL}/blocks/tip/height`,
+    }
+    const { response } = await this.requester.request<number>('blockHeight', requestConfig)
+    return response.data
+  }
+
+  async checkConfirmations(
+    fundingTransaction: BitcoinTransaction,
+    bitcoinBlockHeight: number,
+  ): Promise<boolean> {
+    if (!fundingTransaction.status.block_height) {
+      throw new Error('Funding Transaction has no Block Height.')
+    }
+    const confirmations = bitcoinBlockHeight - (fundingTransaction.status.block_height + 1)
+    return confirmations >= this.settings.CONFIRMATIONS
+  }
+
+  getClosingTransactionInputFromFundingTransaction(
+    fundingTransaction: BitcoinTransaction,
+    bitcoinValue: number,
+  ): BitcoinTransactionVectorOutput {
+    const closingTransactionInput = fundingTransaction.vout.find(
+      (output) => output.value === bitcoinValue,
+    )
+    if (!closingTransactionInput) {
+      throw new Error('Could not find Closing Transaction Input.')
+    }
+    return closingTransactionInput
+  }
+
+  createMultiSigTransaction(
+    publicKeyA: string,
+    publicKeyB: string,
+    vaultUUID: string,
+    bitcoinNetwork: BitcoinNetwork,
+  ) {
+    const TAPROOT_UNSPENDABLE_KEY_STR =
+      '50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0'
+    const TAPROOT_UNSPENDABLE_KEY = hex.decode(TAPROOT_UNSPENDABLE_KEY_STR)
+
+    const tweakedUnspendableTaprootKey = taprootTweakPubkey(
+      TAPROOT_UNSPENDABLE_KEY,
+      Buffer.from(vaultUUID),
+    )[0]
+
+    const multisigPayment = p2tr_ns(2, [hex.decode(publicKeyA), hex.decode(publicKeyB)])
+
+    const multisigTransaction = p2tr(tweakedUnspendableTaprootKey, multisigPayment, bitcoinNetwork)
+    multisigTransaction.tapInternalKey = tweakedUnspendableTaprootKey
+
+    return multisigTransaction
+  }
+
+  matchScripts(multisigScripts: Uint8Array[], outputScript: Uint8Array): boolean {
+    return multisigScripts.some(
+      (multisigScript) =>
+        outputScript.length === multisigScript.length &&
+        outputScript.every((value, index) => value === multisigScript[index]),
+    )
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: TransportTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+  }
+}
+
+export const porTransport = new DLCBTCPorTransport()

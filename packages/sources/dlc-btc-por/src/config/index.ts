@@ -18,6 +18,24 @@ export const config = new AdapterConfig({
     type: 'string',
     default: '0x20157DBAbb84e3BBFE68C349d0d44E48AE7B5AD2',
   },
+  BITCOIN_BLOCKCHAIN_API_URL: {
+    description: 'URL of bitcoin blockchain api',
+    type: 'string',
+    required: true,
+  },
+  BITCOIN_NETWORK: {
+    description: 'Bitcoin network name',
+    type: 'enum',
+    required: true,
+    default: 'mainnet',
+    options: ['mainnet', 'testnet', 'regtest'],
+  },
+  CONFIRMATIONS: {
+    description: 'The number of confirmations to query data from',
+    type: 'number',
+    required: true,
+    default: 6,
+  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

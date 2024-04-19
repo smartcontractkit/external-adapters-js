@@ -396,8 +396,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/deribit"\
       },\
       {\
-        "name": "@chainlink/dlc-btc-vault-data-adapter",\
-        "reference": "workspace:packages/sources/dlc-btc-vault-data"\
+        "name": "@chainlink/dlc-btc-por-adapter",\
+        "reference": "workspace:packages/sources/dlc-btc-por"\
       },\
       {\
         "name": "@chainlink/dns-query-adapter",\
@@ -916,7 +916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
-      ["@chainlink/dlc-btc-vault-data-adapter", ["workspace:packages/sources/dlc-btc-vault-data"]],\
+      ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],\
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],\
@@ -6013,12 +6013,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/dlc-btc-vault-data-adapter", [\
-        ["workspace:packages/sources/dlc-btc-vault-data", {\
-          "packageLocation": "./packages/sources/dlc-btc-vault-data/",\
+      ["@chainlink/dlc-btc-por-adapter", [\
+        ["workspace:packages/sources/dlc-btc-por", {\
+          "packageLocation": "./packages/sources/dlc-btc-por/",\
           "packageDependencies": [\
-            ["@chainlink/dlc-btc-vault-data-adapter", "workspace:packages/sources/dlc-btc-vault-data"],\
+            ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
+            ["@scure/base", "npm:1.1.6"],\
+            ["@scure/btc-signer", "npm:1.2.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
             ["ethers", "npm:5.7.2"],\
@@ -13646,6 +13648,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/base", "npm:1.1.5"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.1.6", {\
+          "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.6-a937639d90-d6deaae91d.zip/node_modules/@scure/base/",\
+          "packageDependencies": [\
+            ["@scure/base", "npm:1.1.6"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@scure/bip32", [\
@@ -13686,6 +13695,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/bip39", "npm:1.2.1"],\
             ["@noble/hashes", "npm:1.3.0"],\
             ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@scure/btc-signer", [\
+        ["npm:1.2.2", {\
+          "packageLocation": "./.yarn/cache/@scure-btc-signer-npm-1.2.2-96048939c7-d502cf7d1c.zip/node_modules/@scure/btc-signer/",\
+          "packageDependencies": [\
+            ["@scure/btc-signer", "npm:1.2.2"],\
+            ["@noble/curves", "npm:1.4.0"],\
+            ["@noble/hashes", "npm:1.4.0"],\
+            ["@scure/base", "npm:1.1.6"],\
+            ["micro-packed", "npm:0.5.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -30060,6 +30082,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/micro-ftch-npm-0.3.1-4699fe6be7-0e49654725.zip/node_modules/micro-ftch/",\
           "packageDependencies": [\
             ["micro-ftch", "npm:0.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["micro-packed", [\
+        ["npm:0.5.3", {\
+          "packageLocation": "./.yarn/cache/micro-packed-npm-0.5.3-6ad9dc472a-a7018390ee.zip/node_modules/micro-packed/",\
+          "packageDependencies": [\
+            ["micro-packed", "npm:0.5.3"],\
+            ["@scure/base", "npm:1.1.6"]\
           ],\
           "linkType": "HARD"\
         }]\
