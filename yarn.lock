@@ -3547,7 +3547,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.18.96
     "@types/supertest": 2.0.16
-    hardhat: 2.22.2
+    hardhat: 2.22.3
     mock-socket: 9.3.1
     nock: 13.5.4
     supertest: 6.2.4
@@ -9063,82 +9063,66 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr-darwin-arm64@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-darwin-arm64@npm:0.3.2"
+"@nomicfoundation/edr-darwin-arm64@npm:0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr-darwin-arm64@npm:0.3.5"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr-darwin-x64@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-darwin-x64@npm:0.3.2"
+"@nomicfoundation/edr-darwin-x64@npm:0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr-darwin-x64@npm:0.3.5"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr-linux-arm64-gnu@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-linux-arm64-gnu@npm:0.3.2"
+"@nomicfoundation/edr-linux-arm64-gnu@npm:0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr-linux-arm64-gnu@npm:0.3.5"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr-linux-arm64-musl@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-linux-arm64-musl@npm:0.3.2"
+"@nomicfoundation/edr-linux-arm64-musl@npm:0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr-linux-arm64-musl@npm:0.3.5"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr-linux-x64-gnu@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-linux-x64-gnu@npm:0.3.2"
+"@nomicfoundation/edr-linux-x64-gnu@npm:0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr-linux-x64-gnu@npm:0.3.5"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr-linux-x64-musl@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-linux-x64-musl@npm:0.3.2"
+"@nomicfoundation/edr-linux-x64-musl@npm:0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr-linux-x64-musl@npm:0.3.5"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr-win32-arm64-msvc@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-win32-arm64-msvc@npm:0.3.2"
-  conditions: os=win32 & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@nomicfoundation/edr-win32-ia32-msvc@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-win32-ia32-msvc@npm:0.3.2"
-  conditions: os=win32 & cpu=ia32
-  languageName: node
-  linkType: hard
-
-"@nomicfoundation/edr-win32-x64-msvc@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr-win32-x64-msvc@npm:0.3.2"
+"@nomicfoundation/edr-win32-x64-msvc@npm:0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr-win32-x64-msvc@npm:0.3.5"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@nomicfoundation/edr@npm:^0.3.1":
-  version: 0.3.2
-  resolution: "@nomicfoundation/edr@npm:0.3.2"
+"@nomicfoundation/edr@npm:^0.3.5":
+  version: 0.3.5
+  resolution: "@nomicfoundation/edr@npm:0.3.5"
   dependencies:
-    "@nomicfoundation/edr-darwin-arm64": 0.3.2
-    "@nomicfoundation/edr-darwin-x64": 0.3.2
-    "@nomicfoundation/edr-linux-arm64-gnu": 0.3.2
-    "@nomicfoundation/edr-linux-arm64-musl": 0.3.2
-    "@nomicfoundation/edr-linux-x64-gnu": 0.3.2
-    "@nomicfoundation/edr-linux-x64-musl": 0.3.2
-    "@nomicfoundation/edr-win32-arm64-msvc": 0.3.2
-    "@nomicfoundation/edr-win32-ia32-msvc": 0.3.2
-    "@nomicfoundation/edr-win32-x64-msvc": 0.3.2
+    "@nomicfoundation/edr-darwin-arm64": 0.3.5
+    "@nomicfoundation/edr-darwin-x64": 0.3.5
+    "@nomicfoundation/edr-linux-arm64-gnu": 0.3.5
+    "@nomicfoundation/edr-linux-arm64-musl": 0.3.5
+    "@nomicfoundation/edr-linux-x64-gnu": 0.3.5
+    "@nomicfoundation/edr-linux-x64-musl": 0.3.5
+    "@nomicfoundation/edr-win32-x64-msvc": 0.3.5
   dependenciesMeta:
     "@nomicfoundation/edr-darwin-arm64":
       optional: true
@@ -9152,13 +9136,9 @@ __metadata:
       optional: true
     "@nomicfoundation/edr-linux-x64-musl":
       optional: true
-    "@nomicfoundation/edr-win32-arm64-msvc":
-      optional: true
-    "@nomicfoundation/edr-win32-ia32-msvc":
-      optional: true
     "@nomicfoundation/edr-win32-x64-msvc":
       optional: true
-  checksum: 92700c041b6f6f21f7c252abc2c90aa4fdd5c7488d22ae9f9407d224774ea5000b6b498363abf760d7f8293609d1aeea9b6b066eeb6c3335d3a01572fcbe04ed
+  checksum: 6d083fa8f8a3601af93d1a6a25da0031029e8f3125a7f5629de439d1b3b8ba5a699defca59470c5f087ab89cacb7d27a3492ceeb648166caa89c6747bf669e2f
   languageName: node
   linkType: hard
 
@@ -19651,13 +19631,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hardhat@npm:2.22.2":
-  version: 2.22.2
-  resolution: "hardhat@npm:2.22.2"
+"hardhat@npm:2.22.3":
+  version: 2.22.3
+  resolution: "hardhat@npm:2.22.3"
   dependencies:
     "@ethersproject/abi": ^5.1.2
     "@metamask/eth-sig-util": ^4.0.0
-    "@nomicfoundation/edr": ^0.3.1
+    "@nomicfoundation/edr": ^0.3.5
     "@nomicfoundation/ethereumjs-common": 4.0.4
     "@nomicfoundation/ethereumjs-tx": 5.0.4
     "@nomicfoundation/ethereumjs-util": 9.0.4
@@ -19708,7 +19688,7 @@ __metadata:
       optional: true
   bin:
     hardhat: internal/cli/bootstrap.js
-  checksum: 8bc9168d866917230114ea844af28b1d70051c85e5f262e6d3e43e1b3691854ab1e7df6d18413433f25edcf48466c27f6f8ee7918b64391368d7f5249a5bed38
+  checksum: 7f0b8b2b803aca1f07b1e421605f9ff0243e93fe75f04b57d45292e7fedf7a50deb2ef435c47d0dde5b14988ea0493f58852d8973096f76719b35040927dcd55
   languageName: node
   linkType: hard
 
