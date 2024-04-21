@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.7.6
+
+### Patch Changes
+
+- [#3235](https://github.com/smartcontractkit/external-adapters-js/pull/3235) [`d070ac0`](https://github.com/smartcontractkit/external-adapters-js/commit/d070ac0ed7a929f6d5574489b840b4806695ef46) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed Masterlist.md not showing information for v3 adapters
+
 ## 2.7.5
 
 ### Patch Changes
