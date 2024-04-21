@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finalto-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink finalto adapter.",
   "keywords": [
     "Chainlink",
