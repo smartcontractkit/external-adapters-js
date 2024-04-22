@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.1.1
+
+### Patch Changes
+
+- [#3263](https://github.com/smartcontractkit/external-adapters-js/pull/3263) [`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 5.1.0
 
 ### Minor Changes

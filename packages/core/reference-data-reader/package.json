@@ -16,14 +16,14 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/contracts": "^0.0.14",
+    "@chainlink/contracts": "^0.8.0",
     "@chainlink/ea-bootstrap": "workspace:*",
     "ethers": "^4.0.48",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.95",
+    "@types/node": "16.18.96",
     "typescript": "5.0.4"
   }
 }

@@ -1,5 +1,14 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 2.0.15
+
+### Patch Changes
+
+- [#3263](https://github.com/smartcontractkit/external-adapters-js/pull/3263) [`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5)]:
+  - @chainlink/dxfeed-adapter@2.0.15
+
 ## 2.0.14
 
 ### Patch Changes
