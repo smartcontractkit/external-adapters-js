@@ -108,13 +108,8 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     // Get the bitcoin transaction
     const fundingTransaction = await this.fetchFundingTransaction(vault.fundingTxId)
 
-    // Get the current bitcoin block height
-    const bitcoinBlockHeight = await this.fetchBitcoinBlockHeight()
-
     // Check and filter transactions that have less than [settings.CONFIRMATIONS] confirmations
-    const isConfirmed = await this.checkConfirmations(fundingTransaction, bitcoinBlockHeight)
-
-    if (!isConfirmed) {
+    if (fundingTransaction.confirmations < this.settings.CONFIRMATIONS) {
       return false
     }
 
@@ -150,35 +145,25 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     // Verify that the Funding Transaction's Output Script matches the expected MultiSig Script
     return this.matchScripts(
       [multisigTransactionA.script, multisigTransactionB.script],
-      hex.decode(closingTransactionInput.scriptpubkey),
+      hex.decode(closingTransactionInput.scriptPubKey.hex),
     )
   }
 
   async fetchFundingTransaction(txId: string): Promise<BitcoinTransaction> {
     const requestConfig = {
-      baseURL: `${this.settings.BITCOIN_BLOCKCHAIN_API_URL}/tx/${txId}`,
+      baseURL: this.settings.BITCOIN_RPC_URL,
+      method: 'POST',
+      data: {
+        jsonrpc: '2.0',
+        method: 'getrawtransaction',
+        params: [txId, true, null],
+      },
     }
-    const { response } = await this.requester.request<BitcoinTransaction>(txId, requestConfig)
-    return response.data
-  }
-
-  async fetchBitcoinBlockHeight(): Promise<number> {
-    const requestConfig = {
-      baseURL: `${this.settings.BITCOIN_BLOCKCHAIN_API_URL}/blocks/tip/height`,
-    }
-    const { response } = await this.requester.request<number>('blockHeight', requestConfig)
-    return response.data
-  }
-
-  async checkConfirmations(
-    fundingTransaction: BitcoinTransaction,
-    bitcoinBlockHeight: number,
-  ): Promise<boolean> {
-    if (!fundingTransaction.status.block_height) {
-      throw new Error('Funding Transaction has no Block Height.')
-    }
-    const confirmations = bitcoinBlockHeight - (fundingTransaction.status.block_height + 1)
-    return confirmations >= this.settings.CONFIRMATIONS
+    const { response } = await this.requester.request<{ result: BitcoinTransaction }>(
+      txId,
+      requestConfig,
+    )
+    return response.data.result
   }
 
   getClosingTransactionInputFromFundingTransaction(
@@ -186,7 +171,8 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     bitcoinValue: number,
   ): BitcoinTransactionVectorOutput {
     const closingTransactionInput = fundingTransaction.vout.find(
-      (output) => output.value === bitcoinValue,
+      // bitcoinValue in the vault is represented in satoshis, convert the transaction value to compare
+      (output) => output.value * 10 ** 8 === bitcoinValue,
     )
     if (!closingTransactionInput) {
       throw new Error('Could not find Closing Transaction Input.')

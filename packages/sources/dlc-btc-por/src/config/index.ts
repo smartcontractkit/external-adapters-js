@@ -7,7 +7,7 @@ export const config = new AdapterConfig({
     required: true,
   },
   CHAIN_ID: {
-    description: 'The chain id to connect to',
+    description: 'The EVM chain id to connect to',
     type: 'number',
     required: true,
     default: 42161,
@@ -18,8 +18,8 @@ export const config = new AdapterConfig({
     type: 'string',
     default: '0x20157DBAbb84e3BBFE68C349d0d44E48AE7B5AD2',
   },
-  BITCOIN_BLOCKCHAIN_API_URL: {
-    description: 'URL of bitcoin blockchain api',
+  BITCOIN_RPC_URL: {
+    description: 'THE RPC URL of bitcoin node',
     type: 'string',
     required: true,
   },

@@ -17,8 +17,7 @@ describe('execute', () => {
     process.env.DLC_CONTRACT =
       process.env.DLC_CONTRACT ?? '0x415131d3e412bd82208EA56856C3e529D1477Dd2'
     process.env.BITCOIN_NETWORK = process.env.BITCOIN_NETWORK ?? 'regtest'
-    process.env.BITCOIN_BLOCKCHAIN_API_URL =
-      process.env.BITCOIN_BLOCKCHAIN_API_URL ?? 'http://localhost:8554'
+    process.env.BITCOIN_RPC_URL = process.env.BITCOIN_RPC_URL ?? 'http://localhost:8554'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '100'
     process.env.RETRY = process.env.RETRY ?? '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
