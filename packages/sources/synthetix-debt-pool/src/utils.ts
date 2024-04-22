@@ -17,7 +17,7 @@ export type TInputParameters = { chainSources: string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   chainSources: {
     required: false,
-    description: `Array of chains to pull debt from. Options for array elements are "mainnet", "mainnet-ovm", "kovan", "kovan-ovm", "goerli", "goerli-ovm", "sepolia-ovm"`,
+    description: `Array of chains to pull debt from. Options for array elements are "mainnet", "mainnet-ovm", "kovan", "kovan-ovm", "goerli", "goerli-ovm", "sepolia", "sepolia-ovm"`,
     type: 'array',
   },
 }
@@ -117,7 +117,8 @@ export const getSynthetixBridgeName = (networkName: string, jobRunID: string): s
   if (
     networkName === SupportedChains.ETHEREUM ||
     networkName === SupportedChains.KOVAN ||
-    networkName === SupportedChains.GOERLI
+    networkName === SupportedChains.GOERLI ||
+    networkName === SupportedChains.SEPOLIA
   )
     return 'SynthetixBridgeToOptimism'
   if (
@@ -134,7 +135,11 @@ export const getSynthetixBridgeName = (networkName: string, jobRunID: string): s
 }
 
 export const getDebtMigratorName = (networkName: string, jobRunID: string): string => {
-  if (networkName === SupportedChains.ETHEREUM || networkName === SupportedChains.GOERLI)
+  if (
+    networkName === SupportedChains.ETHEREUM ||
+    networkName === SupportedChains.GOERLI ||
+    networkName === SupportedChains.SEPOLIA
+  )
     return 'DebtMigratorOnEthereum'
   if (
     networkName === SupportedChains.OPTIMISM ||
