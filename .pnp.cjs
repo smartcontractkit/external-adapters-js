@@ -5362,7 +5362,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-            ["@solana/web3.js", "npm:1.91.4"],\
+            ["@solana/web3.js", "npm:1.91.7"],\
             ["@types/bn.js", "npm:5.1.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
@@ -8007,7 +8007,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@solana/web3.js", "npm:1.91.4"],\
+            ["@solana/web3.js", "npm:1.91.7"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
             ["@types/supertest", "npm:2.0.16"],\
@@ -13925,10 +13925,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@solana/web3.js", [\
-        ["npm:1.91.4", {\
-          "packageLocation": "./.yarn/cache/@solana-web3.js-npm-1.91.4-9ff0439664-9f6ac2f64a.zip/node_modules/@solana/web3.js/",\
+        ["npm:1.91.7", {\
+          "packageLocation": "./.yarn/cache/@solana-web3.js-npm-1.91.7-ab4f6b7023-76a81f52dc.zip/node_modules/@solana/web3.js/",\
           "packageDependencies": [\
-            ["@solana/web3.js", "npm:1.91.4"],\
+            ["@solana/web3.js", "npm:1.91.7"],\
             ["@babel/runtime", "npm:7.24.4"],\
             ["@noble/curves", "npm:1.4.0"],\
             ["@noble/hashes", "npm:1.4.0"],\
