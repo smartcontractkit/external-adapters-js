@@ -8917,7 +8917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:^1.2.0":
+"@noble/curves@npm:^1.4.0":
   version: 1.4.0
   resolution: "@noble/curves@npm:1.4.0"
   dependencies:
@@ -10464,11 +10464,11 @@ __metadata:
   linkType: hard
 
 "@solana/web3.js@npm:^1.33.0":
-  version: 1.91.4
-  resolution: "@solana/web3.js@npm:1.91.4"
+  version: 1.91.7
+  resolution: "@solana/web3.js@npm:1.91.7"
   dependencies:
     "@babel/runtime": ^7.23.4
-    "@noble/curves": ^1.2.0
+    "@noble/curves": ^1.4.0
     "@noble/hashes": ^1.3.3
     "@solana/buffer-layout": ^4.0.1
     agentkeepalive: ^4.5.0
@@ -10482,7 +10482,7 @@ __metadata:
     node-fetch: ^2.7.0
     rpc-websockets: ^7.5.1
     superstruct: ^0.14.2
-  checksum: 9f6ac2f64ac05043cb367c09d5b4f4b859060618dbffc7a27da35fccdac0be9bd84b83899c9547efedc061fa7e20af283a9bacff01972bd047089809facfbdfe
+  checksum: 76a81f52dccb05e519fed0a93033a9b18660b80b1eb4d0593e12de94f51f3e4a6f4b9cd85296ff5849d180b8e633367f675906e22f9c6d2baf0b98a10590f361
   languageName: node
   linkType: hard
 
