@@ -1,5 +1,11 @@
 # @chainlink/etherchain-adapter
 
+## 1.4.33
+
+### Patch Changes
+
+- [#3255](https://github.com/smartcontractkit/external-adapters-js/pull/3255) [`f0f72b2`](https://github.com/smartcontractkit/external-adapters-js/commit/f0f72b23554cb1786c500c894973f8ce18d2313d) Thanks [@austinborn](https://github.com/austinborn)! - Update base URL for Etherchain EA
+
 ## 1.4.32
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/por-indexer-adapter",
-  "version": "2.0.7",
+  "version": "2.0.9",
   "description": "Chainlink por-indexer adapter.",
   "keywords": [
     "Chainlink",
@@ -29,12 +29,12 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.93",
+    "@types/node": "16.18.96",
     "nock": "13.5.4",
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.33.7",
+    "@chainlink/external-adapter-framework": "0.33.8",
     "decimal.js": "^10.3.1",
     "tslib": "2.4.1"
   }

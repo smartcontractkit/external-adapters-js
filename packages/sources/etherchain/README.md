@@ -1,16 +1,16 @@
-# Chainlink External Adapter for Etherchain
+# Chainlink External Adapter for Etherchain (Rebranded under Beaconchain)
 
-![1.4.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.33](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
-Base URL https://www.etherchain.org
+Base URL https://beaconcha.in
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |           Default            |
-| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------------: |
-|           | API_ENDPOINT |             | string |         | `https://www.etherchain.org` |
+| Required? |     Name     | Description |  Type  | Options |        Default         |
+| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------: |
+|           | API_ENDPOINT |             | string |         | `https://beaconcha.in` |
 
 ---
 
