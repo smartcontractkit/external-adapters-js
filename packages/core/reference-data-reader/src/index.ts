@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { util, Logger, AdapterConfigError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
-import { AggregatorV2V3Interface__factory } from '@chainlink/contracts/ethers/v0.6/factories/AggregatorV2V3Interface__factory'
+import abi from '@chainlink/contracts/abi/v0.8/AggregatorV2V3Interface.json'
 import { BigNumber } from 'ethers/utils'
 
 export interface RoundData {
@@ -49,7 +49,7 @@ export const getRpcLatestAnswer: ReferenceLatestAnswer = async (
   try {
     const rpcUrl = getRpcUrl(network)
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-    const aggregator = AggregatorV2V3Interface__factory.connect(contractAddress, provider)
+    const aggregator = new ethers.Contract(contractAddress, abi, provider)
     const decimals = computeDecimals ? await aggregator.decimals() : 0
     return (await aggregator.latestAnswer())
       .div(multiply)
@@ -70,7 +70,7 @@ export const getRpcLatestRound: ReferenceDataRound = async (
 ): Promise<RoundData> => {
   const rpcUrl = getRpcUrl(network)
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  const aggregator = AggregatorV2V3Interface__factory.connect(contractAddress, provider)
+  const aggregator = new ethers.Contract(contractAddress, abi, provider)
   return await aggregator.latestRoundData()
 }
 

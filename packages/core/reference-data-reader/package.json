@@ -16,7 +16,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/contracts": "^0.0.14",
+    "@chainlink/contracts": "^0.8.0",
     "@chainlink/ea-bootstrap": "workspace:*",
     "ethers": "^4.0.48",
     "tslib": "^2.3.1"
