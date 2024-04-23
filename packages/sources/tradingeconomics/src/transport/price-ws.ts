@@ -1,4 +1,7 @@
-import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  WebsocketReverseMappingTransport,
+  WebSocketTransport,
+} from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 
@@ -27,6 +30,14 @@ type WsTransportTypes = BaseEndpointTypes & {
     WsMessage: Message
   }
 }
+/*
+Tradingeconomics EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
+we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
+ */
+const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
+  const params = await transport.subscriptionSet.getAll()
+  transport.responseCache.writeTTL(transport.name, params, ttl)
+}
 
 export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
   new WebsocketReverseMappingTransport<WsTransportTypes, string>({
@@ -35,10 +46,17 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
       return `${WS_API_ENDPOINT}?client=${API_CLIENT_KEY}:${API_CLIENT_SECRET}`
     },
     handlers: {
-      message: (message) => {
-        if (!message.topic || message.topic === 'keepalive') {
+      message: (message, context) => {
+        if (!message.topic) {
           return []
         }
+        // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
+        if (message.topic === 'keepalive') {
+          wsTransport.lastMessageReceivedAt = Date.now()
+          updateTTL(wsTransport, context.adapterSettings.CACHE_MAX_AGE)
+          return []
+        }
+
         const pair = wsTransport.getReverseMapping(message.s)
         if (!pair) {
           logger.error(`Pair not found in websocket reverse map for message symbol - ${message.s}`)
