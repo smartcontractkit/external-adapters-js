@@ -6,7 +6,7 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { ethers } from 'ethers'
 import { hex } from '@scure/base'
-import { p2tr, p2tr_ns, taprootTweakPubkey } from '@scure/btc-signer'
+import { p2tr, p2tr_ns, taprootTweakPubkey, TAPROOT_UNSPENDABLE_KEY } from '@scure/btc-signer'
 import { BaseEndpointTypes } from '../endpoint/proof-of-reserves'
 import abi from '../config/dlc-manager-abi.json'
 import {
@@ -88,7 +88,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       return 0
     })
 
-    // totalPoR represents total proof of reserves value in sataoshis
+    // totalPoR represents total proof of reserves value in satoshis
     const totalPoR = (await Promise.all(depositsPromise)).reduce((sum, deposit) => sum + deposit, 0)
 
     return {
@@ -187,18 +187,17 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     vaultUUID: string,
     bitcoinNetwork: BitcoinNetwork,
   ) {
-    const TAPROOT_UNSPENDABLE_KEY_STR =
-      '50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0'
-    const TAPROOT_UNSPENDABLE_KEY = hex.decode(TAPROOT_UNSPENDABLE_KEY_STR)
-
+    // Tweak the unspendable key with a unique vault UUID
     const tweakedUnspendableTaprootKey = taprootTweakPubkey(
       TAPROOT_UNSPENDABLE_KEY,
       Buffer.from(vaultUUID),
     )[0]
 
+    // Create a 2-of-2 multisig script
     const multisigPayment = p2tr_ns(2, [hex.decode(publicKeyA), hex.decode(publicKeyB)])
-
+    // Construct a taproot transaction using tweaked unspendable key and the multisig output
     const multisigTransaction = p2tr(tweakedUnspendableTaprootKey, multisigPayment, bitcoinNetwork)
+    // Store the tweaked key for unblocking the output
     multisigTransaction.tapInternalKey = tweakedUnspendableTaprootKey
 
     return multisigTransaction

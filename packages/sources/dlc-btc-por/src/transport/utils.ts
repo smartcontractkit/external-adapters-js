@@ -121,6 +121,6 @@ export const getBitcoinNetwork = (networkName: string): BitcoinNetwork => {
     case 'regtest':
       return regtest
     default:
-      return bitcoin
+      throw new Error('Invalid or missing bitcoin network name')
   }
 }

@@ -45,6 +45,8 @@ export const config = new AdapterConfig(
     },
   },
   {
+    // The EA will potentially make several hundreds or thousands RPC calls during each cycle.
+    // Higher values for the following configs are set to make sure that the EA is able to process the requests
     envDefaultOverrides: {
       BACKGROUND_EXECUTE_TIMEOUT: 180_000,
       API_TIMEOUT: 60_000,
