@@ -70,7 +70,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   async _handleRequest(): Promise<AdapterResponse<TransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // Get all vault data. Filter out to get rid of placeholder values.
+    // Get all vault data. Filter placeholder values.
     const vaultData: RawVault[] = (await this.dlcManagerContract.getFundedDLCs(0, 10_000)).filter(
       (v: RawVault) =>
         v.uuid != '0x0000000000000000000000000000000000000000000000000000000000000000',
@@ -88,6 +88,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       return 0
     })
 
+    // totalPoR represents total proof of reserves value in sataoshis
     const totalPoR = (await Promise.all(depositsPromise)).reduce((sum, deposit) => sum + deposit, 0)
 
     return {
