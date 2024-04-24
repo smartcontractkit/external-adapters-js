@@ -30,7 +30,7 @@ jobs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
         with:
           fetch-depth: 2
       - name: Set up and install dependencies
@@ -61,12 +61,14 @@ jobs:
       ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - name: Configure AWS Credentials for SDLC Private ECR
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4.0.2
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+          role-session-name: release.publish-adapter-images
+          mask-aws-account-id: true
       - name: Authenticate to ECR
         run: aws ecr get-login-password --region ${{ secrets.AWS_REGION_ECR_PRIVATE }} | docker login --username AWS --password-stdin ${{ env.PRIVATE_ECR_URL }}/adapters/
       - name: Pull adapter image from private ECR and retag with public ecr details
@@ -93,7 +95,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - name: Get release version
         id: get-version
         run: |
@@ -103,7 +105,7 @@ jobs:
           # Get the PR body to use in the GH release body
           gh pr list --search "$(git rev-parse HEAD)" --state merged --json number,body --jq '"This release was merged in PR #" + (.[0].number | tostring) + "\n" + (.[0].body | split("\n\n\n# Releases") | .[1])' > pr_body.tmp
       - name: Create release
-        uses: actions/create-release@v1
+        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
         with:
           tag_name: v${{ steps.get-version.outputs.result }}
           release_name: Release v${{ steps.get-version.outputs.result }}

@@ -36,7 +36,7 @@ runs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
     # First, we want to install yarn since our base image doesn't have it installed
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
       with:
         # This doesn't use cache: 'yarn' as the base image doesn't have it, and we're caching node_modules
         node-version: 16
@@ -50,7 +50,7 @@ runs:
     - name: Restore yarn cache
       id: restore-yarn-cache
       if: inputs.skip-cache != 'true'
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         # Restrict it to the run and attempt for debugging purposes, but in theory
         # these should be fine to persist between runs as well
@@ -70,7 +70,7 @@ runs:
       shell: bash
     - name: Cache yarn cache
       if: steps.restore-yarn-cache.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         key: yarn_cache-${{ hashFiles('./yarn.lock') }}-${{ github.run_id }}-${{ github.run_attempt }}
         path: |
@@ -80,7 +80,7 @@ runs:
     # Build TS files unless it's been specified otherwise
     - name: Restore TS built files if present
       id: restore-ts-build
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       if: |
         inputs.skip-setup != 'true'
         && inputs.skip-cache != 'true'
@@ -157,7 +157,7 @@ runs:
       if: |
         inputs.skip-setup != 'true'
         && inputs.skip-cache != 'true'
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         key: tsbuild-${{ github.sha }}-${{ github.run_id }}
         path: |
