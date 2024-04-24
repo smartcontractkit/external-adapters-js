@@ -93,7 +93,7 @@ jobs:
         with:
           ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
       - name: Build the adapter image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # v5.3.0
         with:
           context: .
           push: false
