@@ -19,7 +19,7 @@ Adapter that checks the Layer 2 Sequencer status
 |           |      `BASE_HEALTH_ENDPOINT`       |                              Base Health Endpoint                               |         |                                                                  |
 |           |          `BASE_CHAIN_ID`          |                           The chain id to connect to                            |         |                               8453                               |
 |           |       `METIS_RPC_ENDPOINT`        |                               Metis RPC Endpoint                                |         |              https://andromeda.metis.io/?owner=1088              |
-|           |      `METIS_HEALTH_ENDPOINT`      |                              Metis Health Endpoint                              |         |            https://tokenapi.metis.io/andromeda/health            |
+|           |      `METIS_HEALTH_ENDPOINT`      |                              Metis Health Endpoint                              |         |        https://andromeda-healthy.metisdevops.link/health         |
 |           |         `METIS_CHAIN_ID`          |                           The chain id to connect to                            |         |                               1088                               |
 |           |       `SCROLL_RPC_ENDPOINT`       |                               Scroll RPC Endpoint                               |         |                      https://rpc.scroll.io                       |
 |           |     `SCROLL_HEALTH_ENDPOINT`      |                             Scroll Health Endpoint                              |         |                                                                  |
