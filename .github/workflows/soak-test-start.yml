@@ -212,7 +212,7 @@ jobs:
 
       - name: Wait 15 Minutes for tests to run
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
-        uses: jakejarvis/wait-action@master
+        uses: jakejarvis/wait-action@919fc193e07906705e5b7a50f90ea9e74d20b2b0 # v0.1.1
         with:
           time: '15m'
       - name: Assert tests passed
