@@ -50,7 +50,7 @@ runs:
     - name: Restore yarn cache
       id: restore-yarn-cache
       if: inputs.skip-cache != 'true'
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         # Restrict it to the run and attempt for debugging purposes, but in theory
         # these should be fine to persist between runs as well
@@ -80,7 +80,7 @@ runs:
     # Build TS files unless it's been specified otherwise
     - name: Restore TS built files if present
       id: restore-ts-build
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       if: |
         inputs.skip-setup != 'true'
         && inputs.skip-cache != 'true'
