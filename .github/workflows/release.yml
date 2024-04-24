@@ -30,7 +30,7 @@ jobs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
         with:
           fetch-depth: 2
       - name: Set up and install dependencies
@@ -61,7 +61,7 @@ jobs:
       ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -93,7 +93,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
       - name: Get release version
         id: get-version
         run: |
