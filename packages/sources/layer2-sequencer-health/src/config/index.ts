@@ -83,7 +83,7 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
     util.getEnv(ENV_SCROLL_CHAIN_ID),
 }
 
-const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://tokenapi.metis.io/andromeda/health'
+const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
 export const HEALTH_ENDPOINTS: Record<
   Networks,
   { endpoint: string | undefined; responsePath: string[] }

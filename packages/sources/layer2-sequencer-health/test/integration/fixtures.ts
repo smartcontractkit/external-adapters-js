@@ -2,7 +2,7 @@ import nock from 'nock'
 
 export const mockResponseSuccessHealth = (): void => {
   // #1 Option: Direct check on health endpoint
-  nock('https://tokenapi.metis.io/andromeda/health')
+  nock('https://andromeda-healthy.metisdevops.link/health')
     .get('')
     .query(() => true)
     .reply(200, (_) => ({ healthy: 'true' }), [
@@ -93,7 +93,7 @@ export const mockResponseSuccessRollup = (): void => {
 
 export const mockResponseFailureHealth = (): void => {
   // #1 Option: Direct check on health endpoint
-  nock('https://tokenapi.metis.io/andromeda/health')
+  nock('https://andromeda-healthy.metisdevops.link/health')
     .get('')
     .query(() => true)
     .reply(200, (_) => ({ healthy: 'false' }), [
