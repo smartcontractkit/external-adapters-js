@@ -17,7 +17,7 @@ export const endpoint = new CryptoPriceEndpoint({
   requestTransforms: [
     (req) => {
       req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
-      req.requestContext.data.quote = req.requestContext.data.quote?.toUpperCase()
+      req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
     },
   ],
   inputParameters: cryptoInputParams,

@@ -3,13 +3,14 @@
 exports[`websocket crypto endpoint should return success 1`] = `
 {
   "data": {
-    "result": 1234,
+    "result": 0.0492344509006993,
   },
-  "result": 1234,
+  "result": 0.0492344509006993,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1713975478000,
   },
 }
 `;
