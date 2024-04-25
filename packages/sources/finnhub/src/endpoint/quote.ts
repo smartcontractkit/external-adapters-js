@@ -32,6 +32,12 @@ export const inputParameters = new InputParameters(
       description: 'The exchange to fetch data for',
       required: false,
     },
+    endpointName: {
+      type: 'string',
+      description:
+        'Is set automatically based on request endpoint alias/name. Providing a custom value has no effect',
+      required: false,
+    },
   },
   [
     {
@@ -135,6 +141,13 @@ const validateExchange = (req: AdapterRequest<typeof inputParameters.validated>)
   }
 }
 
+// Explicitly sets the requested endpoint alias into requestContext.data.endpointName, so it is available in the subscription set
+const setEndpointName = (req: AdapterRequest<typeof inputParameters.validated>) => {
+  req.requestContext.data.endpointName = (
+    req.body.data as unknown as typeof inputParameters.validated & { endpoint?: string }
+  ).endpoint
+}
+
 export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
   new PriceEndpoint<BaseEndpointTypes>({
     name: 'quote',
@@ -152,7 +165,7 @@ export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
       .register('rest', httpTransport),
     defaultTransport: 'rest',
     customRouter: (_req, adapterConfig) => (adapterConfig.WS_ENABLED ? 'ws' : 'rest'),
-    requestTransforms: [requestTransform, validateExchange],
+    requestTransforms: [requestTransform, validateExchange, setEndpointName],
     inputParameters: inputParameters,
     overrides,
   })
