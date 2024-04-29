@@ -1076,7 +1076,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.18.96"],\
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
-            ["@vercel/ncc", "npm:0.29.2"],\
+            ["@vercel/ncc", "npm:0.38.1"],\
             ["eslint", "npm:8.39.0"],\
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.8.0"],\
             ["husky", "npm:7.0.4"],\
@@ -6573,7 +6573,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.18.96"],\
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
-            ["@vercel/ncc", "npm:0.29.2"],\
+            ["@vercel/ncc", "npm:0.38.1"],\
             ["eslint", "npm:8.39.0"],\
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.8.0"],\
             ["husky", "npm:7.0.4"],\
@@ -15481,10 +15481,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@vercel/ncc", [\
-        ["npm:0.29.2", {\
-          "packageLocation": "./.yarn/cache/@vercel-ncc-npm-0.29.2-3d07d22bfe-08491dbaff.zip/node_modules/@vercel/ncc/",\
+        ["npm:0.38.1", {\
+          "packageLocation": "./.yarn/cache/@vercel-ncc-npm-0.38.1-529f6837ea-a522bb44c2.zip/node_modules/@vercel/ncc/",\
           "packageDependencies": [\
-            ["@vercel/ncc", "npm:0.29.2"],\
+            ["@vercel/ncc", "npm:0.38.1"],\
             ["node-gyp", "npm:9.2.0"]\
           ],\
           "linkType": "HARD"\
