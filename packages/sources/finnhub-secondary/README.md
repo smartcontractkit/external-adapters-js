@@ -1,6 +1,6 @@
 # FINNHUB-SECONDARY
 
-![0.3.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.3.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -42,12 +42,12 @@ Supported names for this endpoint are: `commodities`, `commodity-quote`, `common
 
 ### Input Params
 
-| Required? |     Name     |    Aliases     |                                          Description                                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----------: | :------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |     base     | `coin`, `from` |                        The symbol of symbols of the currency to query                         | string |         |         |            |                |
-|           |    quote     | `market`, `to` |                           The symbol of the currency to convert to                            | string |         |         |            |                |
-|           |   exchange   |                |                                The exchange to fetch data for                                 | string |         |         |            |                |
-|           | endpointName |                | Is set automatically based on request endpoint alias/name. Modifying this value has no effect | string |         |         |            |                |
+| Required? |     Name     |    Aliases     |                                            Description                                            |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :------------: | :-----------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     base     | `coin`, `from` |                          The symbol of symbols of the currency to query                           | string |         |         |            |                |
+|           |    quote     | `market`, `to` |                             The symbol of the currency to convert to                              | string |         |         |            |                |
+|           |   exchange   |                |                                  The exchange to fetch data for                                   | string |         |         |            |                |
+|           | endpointName |                | Is set automatically based on request endpoint alias/name. Providing a custom value has no effect | string |         |         |            |                |
 
 ### Example
 
