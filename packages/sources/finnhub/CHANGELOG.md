@@ -1,5 +1,11 @@
 # @chainlink/finnhub-adapter
 
+## 2.7.7
+
+### Patch Changes
+
+- [#3246](https://github.com/smartcontractkit/external-adapters-js/pull/3246) [`4b6d377`](https://github.com/smartcontractkit/external-adapters-js/commit/4b6d377e892d00dd4b4d7ea941f61104399ef082) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for cache TTL refresh on heartbeat messages for 'forex' endpoint
+
 ## 2.7.6
 
 ### Patch Changes

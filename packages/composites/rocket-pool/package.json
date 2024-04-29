@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/rocket-pool-adapter",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Chainlink external adapter for Rocket Pool price feeds.",
   "keywords": [
     "Chainlink",

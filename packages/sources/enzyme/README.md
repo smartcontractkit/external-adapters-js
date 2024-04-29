@@ -66,10 +66,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "netValue": "10000000000000000000",
-    "result": "10000000000000000000"
+    "netShareValue": "1000000000000000000",
+    "result": "1000000000000000000"
   },
-  "result": "10000000000000000000",
+  "result": "1000000000000000000",
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -141,7 +141,37 @@ Endpoint to call the `calcNetValueForSharesHolder` function on the contract.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "calculatorContract": "0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A",
+    "vaultProxy": "0x399acf6102c466a3e4c5f94cd00fc1bfb071d3c1",
+    "sharesHolder": "0x31d675bd2bdfdd3e332311bef7cb6ba357a5d4e3",
+    "endpoint": "calcNetValueForSharesHolder"
+  },
+  "debug": {
+    "cacheKey": "a85ZghFmLyLIxhxF64JD0l84PlE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "netValue": "10000000000000000000",
+    "result": "10000000000000000000"
+  },
+  "result": "10000000000000000000",
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
@@ -161,37 +191,7 @@ Endpoint to call the `calcNetShareValueInAsset` function on the contract.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "calculatorContract": "0x7c728cd0CfA92401E01A4849a01b57EE53F5b2b9",
-    "vaultProxy": "0x27f23c710dd3d878fe9393d93465fed1302f2ebd",
-    "quoteAsset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    "endpoint": "calcNetShareValueInAsset"
-  },
-  "debug": {
-    "cacheKey": "9rFUwiSU6BgwE7qJE+7u/8Vftd8="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "netShareValue": "1000000000000000000",
-    "result": "1000000000000000000"
-  },
-  "result": "1000000000000000000",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 

@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-adapter
 
+## 3.0.10
+
+### Patch Changes
+
+- [#3245](https://github.com/smartcontractkit/external-adapters-js/pull/3245) [`473b33b`](https://github.com/smartcontractkit/external-adapters-js/commit/473b33bb3e1130c747cdfe1a1bde3bbe652ce6d9) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for cache TTL refresh on heartbeat messages for Forex endpoint
+
 ## 3.0.9
 
 ### Patch Changes
