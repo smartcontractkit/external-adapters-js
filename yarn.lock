@@ -10931,17 +10931,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/crypto-js@npm:4.2.2":
+"@types/crypto-js@npm:4.2.2, @types/crypto-js@npm:^4.1.1":
   version: 4.2.2
   resolution: "@types/crypto-js@npm:4.2.2"
   checksum: 727daa0d2db35f0abefbab865c23213b6ee6a270e27e177939bbe4b70d1e84c2202d9fac4ea84859c4b4d49a4ee50f948f601327a39b69ec013288018ba07ca5
-  languageName: node
-  linkType: hard
-
-"@types/crypto-js@npm:^4.1.1":
-  version: 4.1.3
-  resolution: "@types/crypto-js@npm:4.1.3"
-  checksum: 4489854579c1b90b77da881fc980e3f05ab1e9c68b18ae580fedbb7b0fb40d531fda7bdc05f1b3bd5d4218c1d97c2f821bbac57eb3d7d9e505ce5a2c5b034166
   languageName: node
   linkType: hard
 
