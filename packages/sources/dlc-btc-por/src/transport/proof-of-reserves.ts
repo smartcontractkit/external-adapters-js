@@ -80,17 +80,18 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
 
     let totalPoR = 0
-    const batchSize = this.settings.GROUP_SIZE === 0 ? vaultData.length : this.settings.GROUP_SIZE
+    const concurencyGroupSize =
+      this.settings.GROUP_SIZE === 0 ? vaultData.length : this.settings.GROUP_SIZE
     // Process vault batches sequentially to not overload the BITCOIN_RPC server
-    for (let i = 0; i < vaultData.length; i += batchSize) {
-      let batch = []
+    for (let i = 0; i < vaultData.length; i += concurencyGroupSize) {
+      let group = []
       if (this.settings.GROUP_SIZE > 0) {
-        batch = vaultData.slice(i, i + batchSize)
+        group = vaultData.slice(i, i + concurencyGroupSize)
       } else {
-        batch = vaultData
+        group = vaultData
       }
       const deposits = await Promise.all(
-        batch.map(async (vault) => {
+        group.map(async (vault) => {
           try {
             const isVerified = await this.verifyVaultDeposit(vault, attestorPublicKey)
             if (isVerified) {
