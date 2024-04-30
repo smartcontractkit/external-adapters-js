@@ -1,5 +1,4 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
@@ -23,7 +22,6 @@ export type TransportTypes = BaseEndpointTypes
 
 export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   name!: string
-  responseCache!: ResponseCache<TransportTypes>
   requester!: Requester
   provider!: ethers.providers.JsonRpcProvider
   dlcManagerContract!: ethers.Contract
@@ -71,25 +69,42 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     // Get all vault data. Filter placeholder values.
-    const vaultData: RawVault[] = (await this.dlcManagerContract.getFundedDLCs(0, 10_000)).filter(
+    const vaultData: RawVault[] = (
+      await this.dlcManagerContract.getFundedDLCs(0, this.settings.MAX_VAULTS)
+    ).filter(
       (v: RawVault) =>
         v.uuid != '0x0000000000000000000000000000000000000000000000000000000000000000',
     )
 
-    const depositsPromise = vaultData.map(async (vault) => {
-      try {
-        const isVerified = await this.verifyVaultDeposit(vault)
-        if (isVerified) {
-          return vault.valueLocked.toNumber()
-        }
-      } catch (e) {
-        logger.error(e, `Error while verifying Deposit for Vault: ${vault.uuid}. ${e}`)
-      }
-      return 0
-    })
+    // Get the Attestor Public Key
+    const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
 
-    // totalPoR represents total proof of reserves value in satoshis
-    const totalPoR = (await Promise.all(depositsPromise)).reduce((sum, deposit) => sum + deposit, 0)
+    let totalPoR = 0
+    const batchSize = this.settings.GROUP_SIZE === 0 ? vaultData.length : this.settings.GROUP_SIZE
+    // Process vault batches sequentially to not overload the BITCOIN_RPC server
+    for (let i = 0; i < vaultData.length; i += batchSize) {
+      let batch = []
+      if (this.settings.GROUP_SIZE > 0) {
+        batch = vaultData.slice(i, i + batchSize)
+      } else {
+        batch = vaultData
+      }
+      const deposits = await Promise.all(
+        batch.map(async (vault) => {
+          try {
+            const isVerified = await this.verifyVaultDeposit(vault, attestorPublicKey)
+            if (isVerified) {
+              return vault.valueLocked.toNumber()
+            }
+          } catch (e) {
+            logger.error(e, `Error while verifying Deposit for Vault: ${vault.uuid}. ${e}`)
+          }
+          return 0
+        }),
+      )
+      // totalPoR represents total proof of reserves value in satoshis
+      totalPoR += deposits.reduce((sum, deposit) => sum + deposit, 0)
+    }
 
     return {
       data: {
@@ -105,7 +120,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     }
   }
 
-  async verifyVaultDeposit(vault: RawVault) {
+  async verifyVaultDeposit(vault: RawVault, attestorPublicKey: string) {
     // Get the bitcoin transaction
     const fundingTransaction = await this.fetchFundingTransaction(vault.fundingTxId)
 
@@ -119,9 +134,6 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       fundingTransaction,
       vault.valueLocked.toNumber(),
     )
-
-    // Get the Attestor Public Key
-    const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
 
     // Get the Bitcoin network object
     const bitCoinNetwork = getBitcoinNetwork(this.settings.BITCOIN_NETWORK)

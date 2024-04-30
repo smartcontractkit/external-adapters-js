@@ -19,6 +19,12 @@ export const config = new AdapterConfig(
       type: 'string',
       default: '0x20157DBAbb84e3BBFE68C349d0d44E48AE7B5AD2',
     },
+    MAX_VAULTS: {
+      description: 'Maximum number of vaults to fetch from DLC contract',
+      required: true,
+      type: 'number',
+      default: 10_000,
+    },
     BITCOIN_RPC_URL: {
       description: 'THE RPC URL of bitcoin node',
       type: 'string',
@@ -36,6 +42,13 @@ export const config = new AdapterConfig(
       type: 'number',
       required: true,
       default: 6,
+    },
+    GROUP_SIZE: {
+      description:
+        'Number of RPC requests to BITCOIN_RPC to execute asynchronously before the adapter waits to execute the next group of requests.',
+      type: 'number',
+      required: true,
+      default: 70,
     },
     BACKGROUND_EXECUTE_MS: {
       description:
