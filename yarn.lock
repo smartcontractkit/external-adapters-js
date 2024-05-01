@@ -3290,6 +3290,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/dlc-btc-por-adapter@workspace:packages/sources/dlc-btc-por":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dlc-btc-por-adapter@workspace:packages/sources/dlc-btc-por"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.8
+    "@scure/base": 1.1.6
+    "@scure/btc-signer": 1.2.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.18.96
+    ethers: ^5.4.6
+    nock: 13.5.4
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/dns-query-adapter@workspace:*, @chainlink/dns-query-adapter@workspace:packages/sources/dns-query":
   version: 0.0.0-use.local
   resolution: "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query"
@@ -8917,7 +8933,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:^1.4.0":
+"@noble/curves@npm:^1.4.0, @noble/curves@npm:~1.4.0":
   version: 1.4.0
   resolution: "@noble/curves@npm:1.4.0"
   dependencies:
@@ -8970,7 +8986,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.4.0, @noble/hashes@npm:^1.3.3":
+"@noble/hashes@npm:1.4.0, @noble/hashes@npm:^1.3.3, @noble/hashes@npm:~1.4.0":
   version: 1.4.0
   resolution: "@noble/hashes@npm:1.4.0"
   checksum: 8ba816ae26c90764b8c42493eea383716396096c5f7ba6bea559993194f49d80a73c081f315f4c367e51bd2d5891700bcdfa816b421d24ab45b41cb03e4f3342
@@ -10181,6 +10197,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@scure/base@npm:1.1.6, @scure/base@npm:~1.1.5, @scure/base@npm:~1.1.6":
+  version: 1.1.6
+  resolution: "@scure/base@npm:1.1.6"
+  checksum: d6deaae91deba99e87939af9e55d80edba302674983f32bba57f942e22b1726a83c62dc50d8f4370a5d5d35a212dda167fb169f4b0d0c297488d8604608fc3d3
+  languageName: node
+  linkType: hard
+
 "@scure/base@npm:~1.1.3":
   version: 1.1.5
   resolution: "@scure/base@npm:1.1.5"
@@ -10227,6 +10250,18 @@ __metadata:
     "@noble/hashes": ~1.3.0
     "@scure/base": ~1.1.0
   checksum: c5bd6f1328fdbeae2dcdd891825b1610225310e5e62a4942714db51066866e4f7bef242c7b06a1b9dcc8043a4a13412cf5c5df76d3b10aa9e36b82e9b6e3eeaa
+  languageName: node
+  linkType: hard
+
+"@scure/btc-signer@npm:1.2.2":
+  version: 1.2.2
+  resolution: "@scure/btc-signer@npm:1.2.2"
+  dependencies:
+    "@noble/curves": ~1.4.0
+    "@noble/hashes": ~1.4.0
+    "@scure/base": ~1.1.6
+    micro-packed: ~0.5.3
+  checksum: d502cf7d1c07bba5bb58293917721334d21d54b07a336cc7270826315e10a74ba55857b763025cdb78368e50ffcb000c4e63ff29027677d06e6ddd992cf3f731
   languageName: node
   linkType: hard
 
@@ -24790,6 +24825,15 @@ __metadata:
   version: 0.3.1
   resolution: "micro-ftch@npm:0.3.1"
   checksum: 0e496547253a36e98a83fb00c628c53c3fb540fa5aaeaf718438873785afd193244988c09d219bb1802984ff227d04938d9571ef90fe82b48bd282262586aaff
+  languageName: node
+  linkType: hard
+
+"micro-packed@npm:~0.5.3":
+  version: 0.5.3
+  resolution: "micro-packed@npm:0.5.3"
+  dependencies:
+    "@scure/base": ~1.1.5
+  checksum: a7018390ee9c1a692c83aa4418d03c38f78286b1b1117aee210182c8e0b597a740d3f8a3b417a5cafc20b22ad32ba2aa11cdc11bd978bedcbd9a0dba53765f62
   languageName: node
   linkType: hard
 
