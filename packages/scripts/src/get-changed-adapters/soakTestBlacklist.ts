@@ -21,6 +21,7 @@ export const SoakTestBlacklist: string[] = [
   'covid-tracker',
   'cryptoapis',
   'defi-pulse',
+  'dlc-btc-por',
   'dns-query', // Missing: env vars
   'dns-record-check', // Missing: Same as above
   'dwolla',

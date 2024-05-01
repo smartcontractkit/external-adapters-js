@@ -1,5 +1,8 @@
 import { BaseEndpointTypes, buildSymbol } from '../endpoint/quote'
-import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  WebsocketReverseMappingTransport,
+  WebSocketTransport,
+} from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { parseResult } from './utils'
 
@@ -8,6 +11,10 @@ const logger = makeLogger('Finnhub quote endpoint WS')
 type WsMessageError = {
   type: 'error'
   msg: string
+}
+
+type WsMessageHeartbeat = {
+  type: 'ping'
 }
 
 type WsMessageTrade = {
@@ -21,22 +28,38 @@ type WsMessageTrade = {
   }[]
 }
 
-type WsMessage = WsMessageError | WsMessageTrade
+type WsMessage = WsMessageError | WsMessageTrade | WsMessageHeartbeat
 
 type WsEndpointTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: WsMessage
   }
 }
+/*
+Finnhub EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
+we update the TTL of **forex** cache entries that EA is requested to provide a price during off-market hours.
+ */
+const updateTTL = async (transport: WebSocketTransport<WsEndpointTypes>, ttl: number) => {
+  const allParams = await transport.subscriptionSet.getAll()
+  const forexParams = allParams.filter((p) => p.endpointName === 'forex')
+  transport.responseCache.writeTTL(transport.name, forexParams, ttl)
+}
 
 export const wsTransport = new WebsocketReverseMappingTransport<WsEndpointTypes, string>({
   url: ({ adapterSettings }) =>
     `${adapterSettings.WS_API_ENDPOINT}?token=${adapterSettings.API_KEY}`,
   handlers: {
-    message: (message) => {
+    message: (message, context) => {
       if (message.type === 'error') {
         logger.error(message.msg)
         return
+      }
+
+      // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
+      if (message.type === 'ping') {
+        wsTransport.lastMessageReceivedAt = Date.now()
+        updateTTL(wsTransport, context.adapterSettings.CACHE_MAX_AGE)
+        return []
       }
 
       if (message.type === 'trade') {

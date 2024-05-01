@@ -396,6 +396,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/deribit"\
       },\
       {\
+        "name": "@chainlink/dlc-btc-por-adapter",\
+        "reference": "workspace:packages/sources/dlc-btc-por"\
+      },\
+      {\
         "name": "@chainlink/dns-query-adapter",\
         "reference": "workspace:packages/sources/dns-query"\
       },\
@@ -912,6 +916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
+      ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],\
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],\
@@ -1076,7 +1081,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.18.96"],\
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
-            ["@vercel/ncc", "npm:0.29.2"],\
+            ["@vercel/ncc", "npm:0.38.1"],\
             ["eslint", "npm:8.39.0"],\
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.8.0"],\
             ["husky", "npm:7.0.4"],\
@@ -4893,7 +4898,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
-            ["@types/crypto-js", "npm:4.1.3"],\
+            ["@types/crypto-js", "npm:4.2.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
             ["axios", "npm:1.6.8"],\
@@ -6008,6 +6013,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/dlc-btc-por-adapter", [\
+        ["workspace:packages/sources/dlc-btc-por", {\
+          "packageLocation": "./packages/sources/dlc-btc-por/",\
+          "packageDependencies": [\
+            ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
+            ["@scure/base", "npm:1.1.6"],\
+            ["@scure/btc-signer", "npm:1.2.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.18.96"],\
+            ["ethers", "npm:5.7.2"],\
+            ["nock", "npm:13.5.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/dns-query-adapter", [\
         ["workspace:packages/sources/dns-query", {\
           "packageLocation": "./packages/sources/dns-query/",\
@@ -6573,7 +6596,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.18.96"],\
             ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
             ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
-            ["@vercel/ncc", "npm:0.29.2"],\
+            ["@vercel/ncc", "npm:0.38.1"],\
             ["eslint", "npm:8.39.0"],\
             ["eslint-config-prettier", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:8.8.0"],\
             ["husky", "npm:7.0.4"],\
@@ -13625,6 +13648,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/base", "npm:1.1.5"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.1.6", {\
+          "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.6-a937639d90-d6deaae91d.zip/node_modules/@scure/base/",\
+          "packageDependencies": [\
+            ["@scure/base", "npm:1.1.6"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@scure/bip32", [\
@@ -13665,6 +13695,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/bip39", "npm:1.2.1"],\
             ["@noble/hashes", "npm:1.3.0"],\
             ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@scure/btc-signer", [\
+        ["npm:1.2.2", {\
+          "packageLocation": "./.yarn/cache/@scure-btc-signer-npm-1.2.2-96048939c7-d502cf7d1c.zip/node_modules/@scure/btc-signer/",\
+          "packageDependencies": [\
+            ["@scure/btc-signer", "npm:1.2.2"],\
+            ["@noble/curves", "npm:1.4.0"],\
+            ["@noble/hashes", "npm:1.4.0"],\
+            ["@scure/base", "npm:1.1.6"],\
+            ["micro-packed", "npm:0.5.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14455,13 +14498,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/crypto-js", [\
-        ["npm:4.1.3", {\
-          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.3-2aa04b4dd5-4489854579.zip/node_modules/@types/crypto-js/",\
-          "packageDependencies": [\
-            ["@types/crypto-js", "npm:4.1.3"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:4.2.2", {\
           "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.2.2-21357d525e-727daa0d2d.zip/node_modules/@types/crypto-js/",\
           "packageDependencies": [\
@@ -14687,10 +14723,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/k6", [\
-        ["npm:0.50.0", {\
-          "packageLocation": "./.yarn/cache/@types-k6-npm-0.50.0-314635c798-8859797d1f.zip/node_modules/@types/k6/",\
+        ["npm:0.50.1", {\
+          "packageLocation": "./.yarn/cache/@types-k6-npm-0.50.1-2ae6d179f7-d292981e44.zip/node_modules/@types/k6/",\
           "packageDependencies": [\
-            ["@types/k6", "npm:0.50.0"]\
+            ["@types/k6", "npm:0.50.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15488,10 +15524,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@vercel/ncc", [\
-        ["npm:0.29.2", {\
-          "packageLocation": "./.yarn/cache/@vercel-ncc-npm-0.29.2-3d07d22bfe-08491dbaff.zip/node_modules/@vercel/ncc/",\
+        ["npm:0.38.1", {\
+          "packageLocation": "./.yarn/cache/@vercel-ncc-npm-0.38.1-529f6837ea-a522bb44c2.zip/node_modules/@vercel/ncc/",\
           "packageDependencies": [\
-            ["@vercel/ncc", "npm:0.29.2"],\
+            ["@vercel/ncc", "npm:0.38.1"],\
             ["node-gyp", "npm:9.2.0"]\
           ],\
           "linkType": "HARD"\
@@ -28053,7 +28089,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.1"],\
             ["@types/babel__core", "npm:7.20.5"],\
             ["@types/babel__preset-env", "npm:7.9.6"],\
-            ["@types/k6", "npm:0.50.0"],\
+            ["@types/k6", "npm:0.50.1"],\
             ["@types/node", "npm:17.0.45"],\
             ["@types/rimraf", "npm:3.0.2"],\
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.3.0"],\
@@ -30046,6 +30082,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/micro-ftch-npm-0.3.1-4699fe6be7-0e49654725.zip/node_modules/micro-ftch/",\
           "packageDependencies": [\
             ["micro-ftch", "npm:0.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["micro-packed", [\
+        ["npm:0.5.3", {\
+          "packageLocation": "./.yarn/cache/micro-packed-npm-0.5.3-6ad9dc472a-a7018390ee.zip/node_modules/micro-packed/",\
+          "packageDependencies": [\
+            ["micro-packed", "npm:0.5.3"],\
+            ["@scure/base", "npm:1.1.6"]\
           ],\
           "linkType": "HARD"\
         }]\

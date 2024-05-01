@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.1.0
+
+### Minor Changes
+
+- [#3273](https://github.com/smartcontractkit/external-adapters-js/pull/3273) [`38be814`](https://github.com/smartcontractkit/external-adapters-js/commit/38be8149a31628d25e84daa41d3af9f25622439f) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Updates Metis healthcheck endpoint
+
 ## 4.0.0
 
 ### Major Changes
