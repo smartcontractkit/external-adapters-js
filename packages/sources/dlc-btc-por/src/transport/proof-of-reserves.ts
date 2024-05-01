@@ -80,13 +80,12 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
 
     let totalPoR = 0
-    const concurencyGroupSize =
-      this.settings.GROUP_SIZE === 0 ? vaultData.length : this.settings.GROUP_SIZE
+    const concurrencyGroupSize = this.settings.GROUP_SIZE || vaultData.length
     // Process vault batches sequentially to not overload the BITCOIN_RPC server
-    for (let i = 0; i < vaultData.length; i += concurencyGroupSize) {
+    for (let i = 0; i < vaultData.length; i += concurrencyGroupSize) {
       let group = []
       if (this.settings.GROUP_SIZE > 0) {
-        group = vaultData.slice(i, i + concurencyGroupSize)
+        group = vaultData.slice(i, i + concurrencyGroupSize)
       } else {
         group = vaultData
       }

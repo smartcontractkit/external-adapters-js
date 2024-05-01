@@ -6,17 +6,17 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |         Name          |                                                           Description                                                           |  Type  |             Options             |                   Default                    |
-| :-------: | :-------------------: | :-----------------------------------------------------------------------------------------------------------------------------: | :----: | :-----------------------------: | :------------------------------------------: |
-|    ✅     |        RPC_URL        |                                             The RPC URL to connect to the EVM chain                                             | string |                                 |                                              |
-|    ✅     |       CHAIN_ID        |                                                 The EVM chain id to connect to                                                  | number |                                 |                   `42161`                    |
-|    ✅     |     DLC_CONTRACT      |                                           Contract address to fetch all funded vaults                                           | string |                                 | `0x20157DBAbb84e3BBFE68C349d0d44E48AE7B5AD2` |
-|    ✅     |      MAX_VAULTS       |                                       Maximum number of vaults to fetch from DLC contract                                       | number |                                 |                   `10000`                    |
-|    ✅     |    BITCOIN_RPC_URL    |                                                   THE RPC URL of bitcoin node                                                   | string |                                 |                                              |
-|    ✅     |    BITCOIN_NETWORK    |                                                      Bitcoin network name                                                       |  enum  | `mainnet`, `regtest`, `testnet` |                  `mainnet`                   |
-|    ✅     |     CONFIRMATIONS     |                                         The number of confirmations to query data from                                          | number |                                 |                     `6`                      |
-|    ✅     |      GROUP_SIZE       | Number of RPC requests to BITCOIN_RPC to execute asynchronously before the adapter waits to execute the next group of requests. | number |                                 |                     `70`                     |
-|           | BACKGROUND_EXECUTE_MS |                    The amount of time the background execute should sleep before performing the next request                    | number |                                 |                   `10000`                    |
+| Required? |         Name          |                                        Description                                        |  Type  |             Options             |                   Default                    |
+| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----------------------------: | :------------------------------------------: |
+|    ✅     |        RPC_URL        |                          The RPC URL to connect to the EVM chain                          | string |                                 |                                              |
+|    ✅     |       CHAIN_ID        |                              The EVM chain id to connect to                               | number |                                 |                                              |
+|    ✅     |     DLC_CONTRACT      |                        Contract address to fetch all funded vaults                        | string |                                 | `0x20157DBAbb84e3BBFE68C349d0d44E48AE7B5AD2` |
+|    ✅     |      MAX_VAULTS       |                    Maximum number of vaults to fetch from DLC contract                    | number |                                 |                   `10000`                    |
+|    ✅     |    BITCOIN_RPC_URL    |                                THE RPC URL of bitcoin node                                | string |                                 |                                              |
+|    ✅     |    BITCOIN_NETWORK    |                                   Bitcoin network name                                    |  enum  | `mainnet`, `regtest`, `testnet` |                  `mainnet`                   |
+|    ✅     |     CONFIRMATIONS     |                      The number of confirmations to query data from                       | number |                                 |                     `6`                      |
+|    ✅     |      GROUP_SIZE       |         The number of concurrent RPC calls to BITCOIN_RPC_URL to make at a time.          | number |                                 |                     `30`                     |
+|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |                                 |                   `10000`                    |
 
 ---
 

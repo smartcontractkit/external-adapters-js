@@ -11,7 +11,6 @@ export const config = new AdapterConfig(
       description: 'The EVM chain id to connect to',
       type: 'number',
       required: true,
-      default: 42161,
     },
     DLC_CONTRACT: {
       description: 'Contract address to fetch all funded vaults',
@@ -44,11 +43,10 @@ export const config = new AdapterConfig(
       default: 6,
     },
     GROUP_SIZE: {
-      description:
-        'Number of RPC requests to BITCOIN_RPC to execute asynchronously before the adapter waits to execute the next group of requests.',
+      description: 'The number of concurrent RPC calls to BITCOIN_RPC_URL to make at a time.',
       type: 'number',
       required: true,
-      default: 70,
+      default: 30,
     },
     BACKGROUND_EXECUTE_MS: {
       description:
