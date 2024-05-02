@@ -41,6 +41,7 @@
     "@chainlink/btc.com-adapter": "workspace:*",
     "@chainlink/celsius-address-list-adapter": "workspace:*",
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
+    "@chainlink/coinbase-prime-adapter": "workspace:*",
     "@chainlink/cryptoapis-adapter": "workspace:*",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
