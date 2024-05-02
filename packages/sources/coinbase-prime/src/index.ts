@@ -1,9 +1,9 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
 import { balance, wallets } from './endpoint'
+import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
 
-export const adapter = new Adapter({
+export const adapter = new PoRAdapter({
   defaultEndpoint: balance.name,
   name: 'COINBASE_PRIME',
   config,

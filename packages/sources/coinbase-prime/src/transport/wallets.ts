@@ -63,6 +63,7 @@ export class WalletsTransport extends SubscriptionTransport<WalletsTransportType
       response = await this._handleRequest(param)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(e, errorMessage)
       response = {
         statusCode: 502,
         errorMessage,
