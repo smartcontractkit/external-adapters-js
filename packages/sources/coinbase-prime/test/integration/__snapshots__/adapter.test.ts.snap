@@ -14,7 +14,7 @@ exports[`execute balance endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute wallets endpoint should return success 1`] = `
+exports[`execute wallet endpoint should return success 1`] = `
 {
   "data": {
     "result": [

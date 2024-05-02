@@ -26,9 +26,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                          Options                           |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [wallets](#wallets-endpoint) | `balance` |
+| Required? |   Name   |     Description     |  Type  |                         Options                          |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [wallet](#wallet-endpoint) | `balance` |
 
 ## Balance Endpoint
 
@@ -59,9 +59,9 @@ Request:
 
 ---
 
-## Wallets Endpoint
+## Wallet Endpoint
 
-`wallets` is the only supported name for this endpoint.
+`wallet` is the only supported name for this endpoint.
 
 ### Input Params
 
@@ -81,7 +81,7 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "wallets",
+    "endpoint": "wallet",
     "portfolio": "abcd1234-123a-1234-ab12-12a34bcd56e7",
     "symbols": ["BTC"],
     "type": "vault",
