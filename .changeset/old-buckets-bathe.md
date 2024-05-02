@@ -3,4 +3,4 @@
 '@chainlink/coinbase-prime-adapter': minor
 ---
 
-Adding coinbase-prime wallets endpoint as address list for composite PoR stack
+Adding coinbase-prime wallet endpoint as address list for composite PoR stack
