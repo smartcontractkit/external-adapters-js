@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { balance } from './endpoint'
+import { balance, wallets } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: balance.name,
-  name: 'COINBASE-PRIME',
+  name: 'COINBASE_PRIME',
   config,
-  endpoints: [balance],
+  endpoints: [balance, wallets],
   rateLimiting: {
     tiers: {
       default: {

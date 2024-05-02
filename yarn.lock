@@ -2890,7 +2890,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinbase-prime-adapter@workspace:packages/sources/coinbase-prime":
+"@chainlink/coinbase-prime-adapter@workspace:*, @chainlink/coinbase-prime-adapter@workspace:packages/sources/coinbase-prime":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-prime-adapter@workspace:packages/sources/coinbase-prime"
   dependencies:
@@ -4885,6 +4885,7 @@ __metadata:
     "@chainlink/btc.com-adapter": "workspace:*"
     "@chainlink/celsius-address-list-adapter": "workspace:*"
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
+    "@chainlink/coinbase-prime-adapter": "workspace:*"
     "@chainlink/cryptoapis-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
