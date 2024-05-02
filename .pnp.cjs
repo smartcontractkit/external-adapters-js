@@ -7798,6 +7798,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
             ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
+            ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
