@@ -60,7 +60,6 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-// TODO: rename to address and use PoRAddressEndpoint?
 export const endpoint = new PoRAddressEndpoint({
   name: 'wallets',
   transport: walletsTransport,
