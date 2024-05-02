@@ -14,8 +14,8 @@ describe('execute', () => {
     portfolio: 'abcd1234-123a-1234-ab12-12a34bcd56e7',
     symbol: 'BTC',
   }
-  const walletsData = {
-    endpoint: 'wallets',
+  const walletData = {
+    endpoint: 'wallet',
     portfolio: 'abcd1234-123a-1234-ab12-12a34bcd56e7',
     symbols: ['BTC'],
     type: 'vault',
@@ -55,10 +55,10 @@ describe('execute', () => {
     })
   })
 
-  describe('wallets endpoint', () => {
+  describe('wallet endpoint', () => {
     it('should return success', async () => {
       mockWalletsResponseSuccess()
-      const response = await testAdapter.request(walletsData)
+      const response = await testAdapter.request(walletData)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

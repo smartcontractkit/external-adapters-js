@@ -2,14 +2,14 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/wallets'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
 import { sign } from './utils'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 
-const logger = makeLogger('WalletsTransport')
+const logger = makeLogger('WalletTransport')
 
 type Wallet = {
   id: string
@@ -29,17 +29,17 @@ export interface ResponseSchema {
   }
 }
 
-export type WalletsTransportTypes = BaseEndpointTypes
+export type WalletTransportTypes = BaseEndpointTypes
 type RequestParams = typeof inputParameters.validated
 
-export class WalletsTransport extends SubscriptionTransport<WalletsTransportTypes> {
-  settings!: WalletsTransportTypes['Settings']
+export class WalletTransport extends SubscriptionTransport<WalletTransportTypes> {
+  settings!: WalletTransportTypes['Settings']
   requester!: Requester
   endpointName!: string
 
   async initialize(
-    dependencies: TransportDependencies<WalletsTransportTypes>,
-    adapterSettings: WalletsTransportTypes['Settings'],
+    dependencies: TransportDependencies<WalletTransportTypes>,
+    adapterSettings: WalletTransportTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -50,7 +50,7 @@ export class WalletsTransport extends SubscriptionTransport<WalletsTransportType
   }
 
   async backgroundHandler(
-    context: EndpointContext<WalletsTransportTypes>,
+    context: EndpointContext<WalletTransportTypes>,
     entries: RequestParams[],
   ) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
@@ -79,7 +79,7 @@ export class WalletsTransport extends SubscriptionTransport<WalletsTransportType
 
   async _handleRequest(
     param: RequestParams,
-  ): Promise<AdapterResponse<WalletsTransportTypes['Response']>> {
+  ): Promise<AdapterResponse<WalletTransportTypes['Response']>> {
     const { portfolio, symbols, type, chainId, network, batchSize } = param
     const providerDataRequestedUnixMs = Date.now()
 
@@ -131,7 +131,7 @@ export class WalletsTransport extends SubscriptionTransport<WalletsTransportType
         sort_direction: 'ASC',
         cursor: '',
         limit: batchSize,
-        type: `${type.toUpperCase()}`,
+        type: type.toUpperCase(),
       },
     }
 
@@ -139,7 +139,7 @@ export class WalletsTransport extends SubscriptionTransport<WalletsTransportType
     let continuePolling = true
     while (continuePolling) {
       const res = await this.requester.request<ResponseSchema>(
-        calculateHttpRequestKey<WalletsTransportTypes>({
+        calculateHttpRequestKey<WalletTransportTypes>({
           context: {
             adapterSettings: this.settings,
             inputParameters,
@@ -164,4 +164,4 @@ export class WalletsTransport extends SubscriptionTransport<WalletsTransportType
   }
 }
 
-export const walletsTransport = new WalletsTransport()
+export const walletTransport = new WalletTransport()

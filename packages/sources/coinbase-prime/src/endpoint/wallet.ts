@@ -4,7 +4,7 @@ import {
   PoRAddressResponse,
 } from '@chainlink/external-adapter-framework/adapter/por'
 import { config } from '../config'
-import { walletsTransport } from '../transport/wallets'
+import { walletTransport } from '../transport/wallet'
 
 export const inputParameters = new InputParameters(
   {
@@ -61,7 +61,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new PoRAddressEndpoint({
-  name: 'wallets',
-  transport: walletsTransport,
+  name: 'wallet',
+  transport: walletTransport,
   inputParameters,
 })
