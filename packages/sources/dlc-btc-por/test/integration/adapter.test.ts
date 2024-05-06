@@ -15,7 +15,7 @@ describe('execute', () => {
     process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:8545'
     process.env.CHAIN_ID = process.env.CHAIN_ID ?? '11155111'
     process.env.DLC_CONTRACT =
-      process.env.DLC_CONTRACT ?? '0x415131d3e412bd82208EA56856C3e529D1477Dd2'
+      process.env.DLC_CONTRACT ?? '0x334d9890b339a1b2e0f592f26b5374e22afdfbdf'
     process.env.BITCOIN_NETWORK = process.env.BITCOIN_NETWORK ?? 'regtest'
     process.env.BITCOIN_RPC_URL = process.env.BITCOIN_RPC_URL ?? 'http://localhost:8554'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '100'

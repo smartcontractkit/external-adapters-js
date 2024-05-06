@@ -12,6 +12,7 @@ import {
   BitcoinNetwork,
   BitcoinTransaction,
   BitcoinTransactionVectorOutput,
+  FUNDED_STATUS,
   getBitcoinNetwork,
   RawVault,
 } from './utils'
@@ -68,13 +69,8 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   async _handleRequest(): Promise<AdapterResponse<TransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // Get all vault data. Filter placeholder values.
-    const vaultData: RawVault[] = (
-      await this.dlcManagerContract.getFundedDLCs(0, this.settings.MAX_VAULTS)
-    ).filter(
-      (v: RawVault) =>
-        v.uuid != '0x0000000000000000000000000000000000000000000000000000000000000000',
-    )
+    // Get funded vault data.
+    const vaultData: RawVault[] = await this.getAllFundedDLCs()
 
     // Get the Attestor Public Key
     const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
@@ -118,6 +114,29 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  async getAllFundedDLCs(): Promise<RawVault[]> {
+    const fundedVaults: RawVault[] = []
+    for (let totalFetched = 0; ; totalFetched += this.settings.BATCH_SIZE) {
+      const fetchedVaults: RawVault[] = await this.dlcManagerContract.getAllDLCs(
+        totalFetched,
+        totalFetched + this.settings.BATCH_SIZE,
+      )
+      // Filter placeholder and non funded vaults
+      fundedVaults.push(
+        ...fetchedVaults.filter(
+          (vault) =>
+            vault.status === FUNDED_STATUS &&
+            vault.uuid !== '0x0000000000000000000000000000000000000000000000000000000000000000',
+        ),
+      )
+
+      if (fetchedVaults.length !== this.settings.BATCH_SIZE) {
+        break
+      }
+    }
+    return fundedVaults
   }
 
   async verifyVaultDeposit(vault: RawVault, attestorPublicKey: string) {

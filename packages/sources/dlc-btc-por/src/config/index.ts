@@ -16,13 +16,12 @@ export const config = new AdapterConfig(
       description: 'Contract address to fetch all funded vaults',
       required: true,
       type: 'string',
-      default: '0x20157DBAbb84e3BBFE68C349d0d44E48AE7B5AD2',
     },
-    MAX_VAULTS: {
-      description: 'Maximum number of vaults to fetch from DLC contract',
+    BATCH_SIZE: {
+      description: 'Number of vaults to fetch from a DLC contract at a time',
       required: true,
       type: 'number',
-      default: 10_000,
+      default: 100,
     },
     BITCOIN_RPC_URL: {
       description: 'THE RPC URL of bitcoin node',
