@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dlc-btc-por-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink dlc-btc-por adapter.",
   "keywords": [
     "Chainlink",
