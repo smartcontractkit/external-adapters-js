@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.111.0",
+  "version": "1.112.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -40,8 +40,8 @@
     "framework-bump": "./packages/scripts/src/framework/version-bump.sh"
   },
   "dependencies": {
-    "@babel/core": "7.24.4",
-    "@babel/preset-env": "7.24.4",
+    "@babel/core": "7.24.5",
+    "@babel/preset-env": "7.24.5",
     "@babel/preset-typescript": "7.24.1",
     "@types/jest": "27.5.2",
     "@typescript-eslint/eslint-plugin": "5.59.11",

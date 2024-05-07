@@ -1,5 +1,11 @@
 # @chainlink/coinbase-prime-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3282](https://github.com/smartcontractkit/external-adapters-js/pull/3282) [`b8a758c`](https://github.com/smartcontractkit/external-adapters-js/commit/b8a758cf88c9edcf560495c87606857bc9c9ff5f) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Adding coinbase-prime wallet endpoint as address list for composite PoR stack
+
 ## 1.0.4
 
 ### Patch Changes
