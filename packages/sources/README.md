@@ -56,6 +56,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [curve](./curve/README.md)
 - [dar](./dar/README.md)
 - [deribit](./deribit/README.md)
+- [dlc-btc-por](./dlc-btc-por/README.md)
 - [dns-query](./dns-query/README.md)
 - [dwolla](./dwolla/README.md)
 - [dxfeed](./dxfeed/README.md)
