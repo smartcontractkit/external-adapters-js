@@ -10,7 +10,7 @@ export const endpoint = new CryptoPriceEndpoint({
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
-  defaultTransport: 'rest',
+  defaultTransport: 'ws',
   customRouter: (_req, adapterConfig) => {
     return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
