@@ -76,11 +76,11 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
 
     let totalPoR = 0
-    const concurrencyGroupSize = this.settings.GROUP_SIZE || vaultData.length
+    const concurrencyGroupSize = this.settings.BITCOIN_RPC_GROUP_SIZE || vaultData.length
     // Process vault batches sequentially to not overload the BITCOIN_RPC server
     for (let i = 0; i < vaultData.length; i += concurrencyGroupSize) {
       let group = []
-      if (this.settings.GROUP_SIZE > 0) {
+      if (this.settings.BITCOIN_RPC_GROUP_SIZE > 0) {
         group = vaultData.slice(i, i + concurrencyGroupSize)
       } else {
         group = vaultData
@@ -118,10 +118,10 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
 
   async getAllFundedDLCs(): Promise<RawVault[]> {
     const fundedVaults: RawVault[] = []
-    for (let totalFetched = 0; ; totalFetched += this.settings.BATCH_SIZE) {
+    for (let totalFetched = 0; ; totalFetched += this.settings.EVM_RPC_BATCH_SIZE) {
       const fetchedVaults: RawVault[] = await this.dlcManagerContract.getAllDLCs(
         totalFetched,
-        totalFetched + this.settings.BATCH_SIZE,
+        totalFetched + this.settings.EVM_RPC_BATCH_SIZE,
       )
       // Filter placeholder and non funded vaults
       fundedVaults.push(
@@ -132,7 +132,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
         ),
       )
 
-      if (fetchedVaults.length !== this.settings.BATCH_SIZE) {
+      if (fetchedVaults.length !== this.settings.EVM_RPC_BATCH_SIZE) {
         break
       }
     }

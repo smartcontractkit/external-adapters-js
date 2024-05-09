@@ -17,7 +17,7 @@ export const config = new AdapterConfig(
       required: true,
       type: 'string',
     },
-    BATCH_SIZE: {
+    EVM_RPC_BATCH_SIZE: {
       description: 'Number of vaults to fetch from a DLC contract at a time',
       required: true,
       type: 'number',
@@ -41,7 +41,7 @@ export const config = new AdapterConfig(
       required: true,
       default: 6,
     },
-    GROUP_SIZE: {
+    BITCOIN_RPC_GROUP_SIZE: {
       description: 'The number of concurrent RPC calls to BITCOIN_RPC_URL to make at a time.',
       type: 'number',
       required: true,
