@@ -173,16 +173,52 @@ export const mockWebSocketServer = (URL: string) => {
   mockWsServer.on('connection', (socket) => {
     socket.send(
       JSON.stringify({
-        MESSAGE: 'STREAMERWELCOME',
+        TYPE: '4000',
+        MESSAGE: 'SESSIONWELCOME',
       }),
     )
     const parseMessage = () => {
       socket.send(
         JSON.stringify({
-          TYPE: '5',
-          FROMSYMBOL: base,
-          TOSYMBOL: quote,
-          PRICE: price,
+          TYPE: '4005',
+          MESSAGE: 'SUBSCRIPTION_ACCEPTED',
+          SUPPORTED_MESSAGE_TYPES: ['1101', '266', '985', '987'],
+          SUBSCRIPTION_ID: `1101~{cadli~${base}-${quote}}`,
+        }),
+      )
+      socket.send(
+        JSON.stringify({
+          TYPE: '4007',
+          MESSAGE: 'SUBSCRIPTION_ADD_COMPLETE',
+          INFO: 'All valid subscriptions have been added.',
+          ACCEPTED_SUBSCRIPTIONS: 1,
+          REJECTED_SUBSCRIPTIONS: 0,
+        }),
+      )
+      socket.send(
+        JSON.stringify({
+          TYPE: '985',
+          INSTRUMENT: 'ETH-BTC',
+          CCSEQ: 20735164,
+          MARKET: 'cadli',
+          VALUE: 0.0492344509006993,
+          VALUE_FLAG: 'DOWN',
+          VALUE_LAST_UPDATE_TS: 1713975478,
+          VALUE_LAST_UPDATE_TS_NS: 603000000,
+          CURRENT_HOUR_VOLUME: 64381.2572711617,
+          CURRENT_HOUR_QUOTE_VOLUME: 3166.48328711479,
+          CURRENT_HOUR_VOLUME_TOP_TIER: 36224.9797102,
+          CURRENT_HOUR_QUOTE_VOLUME_TOP_TIER: 1781.54419073824,
+          CURRENT_HOUR_VOLUME_DIRECT: 0,
+          CURRENT_HOUR_QUOTE_VOLUME_DIRECT: 0,
+          CURRENT_HOUR_VOLUME_TOP_TIER_DIRECT: 0,
+          CURRENT_HOUR_QUOTE_VOLUME_TOP_TIER_DIRECT: 0,
+          CURRENT_HOUR_OPEN: 0.0491456586967143,
+          CURRENT_HOUR_HIGH: 0.0493759104685501,
+          CURRENT_HOUR_LOW: 0.0490585113292235,
+          CURRENT_HOUR_TOTAL_INDEX_UPDATES: 0,
+          CURRENT_HOUR_CHANGE: 0.000088792203985,
+          CURRENT_HOUR_CHANGE_PERCENTAGE: 0.180671510647463,
         }),
       )
     }
