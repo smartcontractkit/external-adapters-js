@@ -92,7 +92,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
             logger.info('Got logged in response, connection is ready')
             resolve()
           } else if (parsed.TYPE === MessageTypes.INVALID_API_KEY) {
-            logger.info(
+            logger.warn(
               parsed,
               'You have connected with an invalid API key, IP address rate limits will now be applied. Please check if your key is correct',
             )
