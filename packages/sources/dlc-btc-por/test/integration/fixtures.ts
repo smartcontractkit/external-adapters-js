@@ -22,8 +22,8 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
       method: 'eth_call',
       params: [
         {
-          to: '0x415131d3e412bd82208ea56856c3e529d1477dd2',
-          data: '0xffc42e3900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002710',
+          to: '0x334d9890b339a1b2e0f592f26b5374e22afdfbdf',
+          data: '0x9df6f02a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000064',
         },
         'latest',
       ],
@@ -55,7 +55,7 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
       method: 'eth_call',
       params: [
         {
-          to: '0x415131d3e412bd82208ea56856c3e529d1477dd2',
+          to: '0x334d9890b339a1b2e0f592f26b5374e22afdfbdf',
           data: '0xf9dcaf32',
         },
         'latest',

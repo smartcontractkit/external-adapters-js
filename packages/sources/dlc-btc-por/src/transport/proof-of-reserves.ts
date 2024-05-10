@@ -12,6 +12,7 @@ import {
   BitcoinNetwork,
   BitcoinTransaction,
   BitcoinTransactionVectorOutput,
+  FUNDED_STATUS,
   getBitcoinNetwork,
   RawVault,
 } from './utils'
@@ -68,23 +69,18 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   async _handleRequest(): Promise<AdapterResponse<TransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // Get all vault data. Filter placeholder values.
-    const vaultData: RawVault[] = (
-      await this.dlcManagerContract.getFundedDLCs(0, this.settings.MAX_VAULTS)
-    ).filter(
-      (v: RawVault) =>
-        v.uuid != '0x0000000000000000000000000000000000000000000000000000000000000000',
-    )
+    // Get funded vault data.
+    const vaultData: RawVault[] = await this.getAllFundedDLCs()
 
     // Get the Attestor Public Key
     const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
 
     let totalPoR = 0
-    const concurrencyGroupSize = this.settings.GROUP_SIZE || vaultData.length
+    const concurrencyGroupSize = this.settings.BITCOIN_RPC_GROUP_SIZE || vaultData.length
     // Process vault batches sequentially to not overload the BITCOIN_RPC server
     for (let i = 0; i < vaultData.length; i += concurrencyGroupSize) {
       let group = []
-      if (this.settings.GROUP_SIZE > 0) {
+      if (this.settings.BITCOIN_RPC_GROUP_SIZE > 0) {
         group = vaultData.slice(i, i + concurrencyGroupSize)
       } else {
         group = vaultData
@@ -118,6 +114,29 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  async getAllFundedDLCs(): Promise<RawVault[]> {
+    const fundedVaults: RawVault[] = []
+    for (let totalFetched = 0; ; totalFetched += this.settings.EVM_RPC_BATCH_SIZE) {
+      const fetchedVaults: RawVault[] = await this.dlcManagerContract.getAllDLCs(
+        totalFetched,
+        totalFetched + this.settings.EVM_RPC_BATCH_SIZE,
+      )
+      // Filter placeholder and non funded vaults
+      fundedVaults.push(
+        ...fetchedVaults.filter(
+          (vault) =>
+            vault.status === FUNDED_STATUS &&
+            vault.uuid !== '0x0000000000000000000000000000000000000000000000000000000000000000',
+        ),
+      )
+
+      if (fetchedVaults.length !== this.settings.EVM_RPC_BATCH_SIZE) {
+        break
+      }
+    }
+    return fundedVaults
   }
 
   async verifyVaultDeposit(vault: RawVault, attestorPublicKey: string) {

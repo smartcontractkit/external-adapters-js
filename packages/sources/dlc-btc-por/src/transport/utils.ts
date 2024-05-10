@@ -124,3 +124,5 @@ export const getBitcoinNetwork = (networkName: string): BitcoinNetwork => {
       throw new Error('Invalid or missing bitcoin network name')
   }
 }
+
+export const FUNDED_STATUS = 1
