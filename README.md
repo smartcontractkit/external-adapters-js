@@ -15,7 +15,7 @@ This repository contains the source code for Chainlink external adapters. If you
 
 ### Requirements
 
-- Node.js v16
+- Node.js v22
 - Yarn
 
 ### Install

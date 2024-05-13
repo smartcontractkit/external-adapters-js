@@ -39,7 +39,7 @@ runs:
     - uses: actions/setup-node@v3
       with:
         # This doesn't use cache: 'yarn' as the base image doesn't have it, and we're caching node_modules
-        node-version: 16
+        node-version: 22
     - name: Install yarn
       run: npm i -g yarn
       shell: bash
