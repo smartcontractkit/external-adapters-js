@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/savax-price-adapter",
-  "version": "3.0.70",
+  "version": "3.0.71",
   "description": "Chainlink savax-price adapter.",
   "keywords": [
     "Chainlink",
