@@ -34,7 +34,7 @@ jobs:
   # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
   install-packages:
     name: Install and verify dependencies
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     outputs:
       changed-packages: ${{ steps.changed-adapters.outputs.CHANGED_PACKAGES }}
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
@@ -56,7 +56,7 @@ jobs:
   # Run unit tests
   unit-tests:
     name: Run unit tests for changed adapters
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
@@ -74,7 +74,7 @@ jobs:
   # Run integration tests
   integration-tests:
     name: Run integration tests for changed adapters
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
@@ -92,7 +92,7 @@ jobs:
   # Run linters
   linters:
     name: Run linters and formatters
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     needs:
       - check-changesets
       - install-packages
@@ -109,7 +109,7 @@ jobs:
   # Run documentation tests (check that the doc generation succeeds to avoid problems downstream)
   run-documentation-check:
     name: Documentation generation test
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
@@ -131,7 +131,7 @@ jobs:
   # Run a script to check that modified v3 adapters have the latest framework version
   ea-framework-version-check:
     name: Check that changed adapters have the latest EA framework version
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
