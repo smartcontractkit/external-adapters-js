@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#3277](https://github.com/smartcontractkit/external-adapters-js/pull/3277) [`95e2469`](https://github.com/smartcontractkit/external-adapters-js/commit/95e246904dedb119ddd70b0f98cf0869dc59ac8c) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Changed websocket default endpoint and WS transport implementation of crypto endpoint. Changed crypto endpoint's default transport to 'ws'
+
 ## 2.1.6
 
 ### Patch Changes
