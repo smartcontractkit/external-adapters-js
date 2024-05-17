@@ -5,9 +5,9 @@
 exports[`Price Endpoint should succeed with CAD/USD 1`] = `
 {
   "data": {
-    "result": 0.5,
+    "result": 0.16,
   },
-  "result": 0.5,
+  "result": 0.16,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1678242600000,
@@ -19,9 +19,9 @@ exports[`Price Endpoint should succeed with CAD/USD 1`] = `
 exports[`Price Endpoint should succeed with USD/CAD 1`] = `
 {
   "data": {
-    "result": 2,
+    "result": 6.25,
   },
-  "result": 2,
+  "result": 6.25,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1678242600000,
