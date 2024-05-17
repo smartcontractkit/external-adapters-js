@@ -1,23 +1,28 @@
 import { toZonedTime } from 'date-fns-tz'
-import { addDays, differenceInMilliseconds, format, parse, subDays } from 'date-fns'
+import { format, isAfter, isBefore, parse, subDays } from 'date-fns'
 
-export const getTimeDifference = (targetTimeString: string, timezone: string): number => {
+export const getCurrentDateTime = (time: string, timezone: string) => {
   const currentUTC = new Date()
 
-  // Convert current UTC time to specified timezone
-  const currentET = toZonedTime(currentUTC, timezone)
+  const currentTime = toZonedTime(currentUTC, timezone)
+  const currentDate = format(currentTime, 'yyyy-MM-dd')
 
-  // Set the target time to today's  AM ET
-  let targetTime = parse(targetTimeString, 'HH:mm', currentET)
+  const timeZonedDate = parse(`${currentDate} ${time}`, 'yyyy-MM-dd HH:mm:ss', currentTime)
+  return { currentTime, timeZonedDate }
+}
 
-  // Check if the current time is after targetTime. If so, set the targetTime to the same time tomorrow
-  if (currentET > targetTime) {
-    //
-    targetTime = addDays(targetTime, 1)
-  }
+export const isInTimeRange = (startTimeS: string, endTimeS: string, timezone: string): boolean => {
+  return isAfterTime(startTimeS, timezone) && isBeforeTime(endTimeS, timezone)
+}
 
-  // Return the difference in milliseconds
-  return differenceInMilliseconds(targetTime, currentET)
+export const isAfterTime = (startTimeS: string, timezone: string) => {
+  const { currentTime, timeZonedDate: startTime } = getCurrentDateTime(startTimeS, timezone)
+  return isAfter(currentTime, startTime)
+}
+
+export const isBeforeTime = (endTimeS: string, timezone: string) => {
+  const { currentTime, timeZonedDate: endTime } = getCurrentDateTime(endTimeS, timezone)
+  return isBefore(currentTime, endTime)
 }
 
 // Calculates the starting and ending dates for a given time window, relative to a reference date.

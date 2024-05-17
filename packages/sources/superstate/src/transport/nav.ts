@@ -6,7 +6,7 @@ import { ResponseCache } from '@chainlink/external-adapter-framework/cache/respo
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import schedule from 'node-schedule'
-import { getStartingAndEndingDates } from './utils'
+import { getStartingAndEndingDates, isBeforeTime, isInTimeRange } from './utils'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 const logger = makeLogger('Superstate')
@@ -20,7 +20,7 @@ export interface ResponseSchema {
   net_income_expenses: string
 }
 
-const MAX_RETRIES = 3
+const RETRY_INTERVAL_MINUTES = 1
 
 export class NavTransport implements Transport<BaseEndpointTypes> {
   name!: string
@@ -44,20 +44,20 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     this.runScheduler()
   }
 
-  // Run execute function every day at 9:31 AM ET
+  // Run 'execute' function every day at 9:09 AM ET
   runScheduler() {
     const rule = new schedule.RecurrenceRule()
     rule.hour = 9
-    rule.minute = 31
+    rule.minute = 9
     rule.tz = 'America/New_York'
 
-    schedule.scheduleJob(rule, () => this.execute(true))
+    schedule.scheduleJob(rule, () => this.execute())
   }
 
   // execute is either called by scheduler or when the EA (re)starts. Makes a request to DP and saves the response in the cache.
-  // In case the DP returns stale data the function will be executed again MAX_RETRIES times
+  // In case the DP returns stale data the function will be executed again several times,
   // before finalizing and saving the last available data to a cache.
-  async execute(schedulerContext?: boolean, retryCount = 0) {
+  async execute(retryCount = 0) {
     const providerDataRequestedUnixMs = Date.now()
     const apiResponse = await this.makeRequest()
     const providerDataReceivedUnixMs = Date.now()
@@ -80,27 +80,26 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
 
     const result = Number(data.net_asset_value)
 
-    // If schedulerContext exists, it means the function was executed via scheduler,
-    // we should have an updated value from DP.
-    // DP updates previous working day's price on the next working day at 9:30 AM ET
-    // If there is no fresh price update we try to re-fetch the API after 10 minutes
+    // DP updates previous working day's price on the next working day at 9:09 AM ET
+    // If there is no fresh price update, we try to re-fetch the API until 10:30 AM ET
     // Skips checks and re-running on weekends
-    if (schedulerContext && !isSaturday(new Date()) && !isSunday(new Date())) {
+    if (this.shouldCheckForStaleData()) {
+      // At this point we know that conditions are met, and we should check for stale data and retry if it's not updated.
       // If the most recent update from DP is not from Yesterday, the data might be stale
       const today = format(new Date(), 'MM/dd/yyyy')
       const yesterday = format(subDays(today, 1), 'MM/dd/yyyy')
       if (data.net_asset_value_date !== yesterday) {
-        const retryMinutes = 10
-        if (retryCount < MAX_RETRIES) {
+        // We should retry until we get fresh data or the time is after 10:30 AM ET
+        if (isBeforeTime('10:30:00', 'America/New_York')) {
           logger.warn(
             `Stale data received from DP. Latest update from ${
               data.net_asset_value_date
             }. Current date - ${today}. Retry attempt ${
               retryCount + 1
-            }. Retry polling after ${retryMinutes} minutes`,
+            }. Retrying after ${RETRY_INTERVAL_MINUTES} minute(s)`,
           )
           retryCount++
-          setTimeout(() => this.execute(schedulerContext, retryCount), retryMinutes * 60 * 1000)
+          setTimeout(() => this.execute(retryCount), RETRY_INTERVAL_MINUTES * 60 * 1000)
           return
         } else {
           logger.warn(
@@ -149,5 +148,18 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
 
     const { response } = await this.requester.request<ResponseSchema[]>(reqKey, requestConfig)
     return response
+  }
+
+  // Determines whether we should check for stale data
+  shouldCheckForStaleData() {
+    // No need to check on weekends, the data from DP will be the same
+    if (isSaturday(new Date()) || isSunday(new Date())) return false
+
+    // If it's a business day we need to check for stale data only if the current time is within certain time range (retry period).
+    // If it's before 09:09 we don't need to check as it's too soon and there will be no update from DP,
+    // the scheduler will call the execute function once it's 09:09.
+    // If it's after 10:30, it's too late, and we won't update the value until the next business day.
+    // This is needed for EA restarts as the EA still has to make retries during retry period
+    return isInTimeRange('09:09:00', '10:30:00', 'America/New_York')
   }
 }

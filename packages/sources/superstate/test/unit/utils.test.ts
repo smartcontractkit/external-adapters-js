@@ -1,4 +1,4 @@
-import { getStartingAndEndingDates } from '../../src/endpoint/price'
+import { getStartingAndEndingDates } from '../../src/transport/utils'
 
 describe('getStartingAndEndingDates', () => {
   it('should return dates with defaults', () => {
