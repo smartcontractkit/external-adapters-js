@@ -12,7 +12,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           | WS_API_ENDPOINT |                   The WS URL to retrieve data from                    | string  |         | `wss://data-streamer.cryptocompare.com` |
 |    ✅     |     API_KEY     |                       The CryptoCompare API key                       | string  |         |                                         |
 |           |   WS_API_KEY    | The websocket API key to authenticate with, if different from API_KEY | string  |         |                   ``                    |
-|           |   WS_ENABLED    |         Whether data should be returned from websocket or not         | boolean |         |                 `false`                 |
+|           |   WS_ENABLED    |         Whether data should be returned from websocket or not         | boolean |         |                 `true`                  |
 
 ---
 
