@@ -1,14 +1,15 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { priceEndpoint } from './endpoint'
-import tp from '@chainlink/tp-adapter'
+import { config } from './config'
+import includes from './config/includes.json'
 
 export const adapter = new PriceAdapter({
   name: 'ICAP',
   defaultEndpoint: 'price',
-  config: tp.config,
+  config: config,
   endpoints: [priceEndpoint],
-  includes: tp.includes,
+  includes: includes,
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
