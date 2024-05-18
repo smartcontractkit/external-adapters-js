@@ -14,16 +14,10 @@ export const config = new AdapterConfig(
       required: true,
       default: 10,
     },
-    FUND_ID: {
-      description: 'Fund id',
-      type: 'number',
-      required: true,
-      default: 1,
-    },
   },
   {
     envDefaultOverrides: {
-      CACHE_MAX_AGE: 60 * 60 * 24 * 1000, // 24 hours
+      CACHE_MAX_AGE: 60 * 60 * 24 * 1000, // 24 hours, see main index.ts file for explanation
     },
   },
 )

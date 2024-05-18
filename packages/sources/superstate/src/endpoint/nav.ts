@@ -2,10 +2,18 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { NavTransport } from '../transport/nav'
-import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+
+export const inputParameters = new InputParameters({
+  fundId: {
+    description: 'Fund id',
+    type: 'number',
+    default: 1,
+  },
+})
 
 export type BaseEndpointTypes = {
-  Parameters: EmptyInputParameters
+  Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
@@ -13,5 +21,6 @@ export type BaseEndpointTypes = {
 export const endpoint = new AdapterEndpoint({
   name: 'nav',
   aliases: ['por'],
+  inputParameters,
   transport: new NavTransport(),
 })
