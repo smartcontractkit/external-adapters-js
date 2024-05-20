@@ -3,6 +3,7 @@ import { SuperTest, Test } from 'supertest'
 import { Server, WebSocket } from 'mock-socket'
 import tp from '@chainlink/tp-adapter'
 import {
+  mockUSDCADResponse,
   mockTPPriceResponse,
   mockInversePriceResponse,
   mockPriceResponse,
@@ -14,6 +15,9 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { priceEndpoint } from '../../src/endpoint'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
+
+import { config } from '../../src/config'
+import includes from '../../src/config/includes.json'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -61,6 +65,7 @@ export const mockPriceWebSocketServer = (URL: string): Server => {
     socket.send(JSON.stringify(mockSubscribeResponse))
     socket.on('message', () => {
       socket.send(JSON.stringify(mockStalePriceResponse))
+      socket.send(JSON.stringify(mockUSDCADResponse))
       socket.send(JSON.stringify(mockPriceResponse))
       socket.send(JSON.stringify(mockInversePriceResponse))
       socket.send(JSON.stringify(mockTPPriceResponse))
@@ -75,8 +80,8 @@ export const createAdapter = () => {
     name: 'TEST',
     defaultEndpoint: 'price',
     endpoints: [priceEndpoint],
-    config: tp.config,
-    includes: tp.includes,
+    config: config,
+    includes: includes,
   })
 }
 
