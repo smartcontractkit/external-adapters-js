@@ -2,6 +2,25 @@ export const mockConnectionTime = new Date('2023-03-08T02:30:00.000Z')
 
 export const mockSubscribeResponse = { msg: 'auth', sta: 1 }
 
+export const mockUSDCADResponse = {
+  msg: 'sub',
+  pro: 'OMM',
+  rec: 'FXSPTUSDCADSPT:GBL.BIL.QTE.RTM!IC',
+  sta: 1,
+  img: 1,
+  fvs: {
+    VALUE_DT1: null,
+    ASK: 6.2,
+    BID: 6.3,
+    ACTIV_DATE: '2023-03-08',
+    TIMACT: '02:31:00',
+    CCY1: 'USD',
+    MID_PRICE: 6.25,
+    FID_515: 'SPT',
+    CCY2: 'CAD',
+  },
+}
+
 export const mockPriceResponse = {
   msg: 'sub',
   pro: 'OMM',
