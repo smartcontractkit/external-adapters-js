@@ -56,17 +56,22 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     this.runScheduler()
   }
 
-  // foregroundExecute is executed when there is a new request with unique fundId.
-  // Adds fundId in the request to a SET and calls execute function
-  async foregroundExecute(
-    req: AdapterRequest<typeof inputParameters.validated>,
-  ): Promise<AdapterResponse<BaseEndpointTypes['Response']> | void> {
+  // registerRequest is invoked on every valid request to EA
+  // Adds fundId in the request to a SET
+  async registerRequest(req: AdapterRequest<typeof inputParameters.validated>) {
     const { fundId } = req.requestContext.data
     if (!this.fundIdsSet.has(fundId)) {
       this.fundIdsSet.add(fundId)
       logger.info(`Added new fund id - ${fundId}`)
-      return this.execute(fundId)
     }
+  }
+
+  // foregroundExecute is executed when there is a new request/fundId that is not in the cache
+  async foregroundExecute(
+    req: AdapterRequest<typeof inputParameters.validated>,
+  ): Promise<AdapterResponse<BaseEndpointTypes['Response']> | void> {
+    const { fundId } = req.requestContext.data
+    return this.execute(fundId)
   }
 
   // Runs 'execute' function every day at 9:09 AM ET (if fundIdsSet is not empty)
