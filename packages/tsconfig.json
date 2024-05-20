@@ -276,6 +276,9 @@
       "path": "./sources/deribit"
     },
     {
+      "path": "./sources/dlc-btc-por"
+    },
+    {
       "path": "./sources/dns-query"
     },
     {

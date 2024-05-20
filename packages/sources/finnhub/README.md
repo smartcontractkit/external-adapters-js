@@ -1,8 +1,14 @@
 # FINNHUB
 
-![2.7.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.7.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Known Issues
+
+### CACHE_MAX_AGE interaction with Heartbeat messages
+
+If `CACHE_MAX_AGE` is set below a current heartbeat interval (60000ms), the extended cache TTL feature for out-of-market-hours that relies on heartbeats will not work.
 
 ## Environment Variables
 
@@ -36,11 +42,12 @@ Supported names for this endpoint are: `commodities`, `commodity-quote`, `common
 
 ### Input Params
 
-| Required? |   Name   |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base   | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|           |  quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
-|           | exchange |                |         The exchange to fetch data for         | string |         |         |            |                |
+| Required? |     Name     |    Aliases     |                                            Description                                            |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :------------: | :-----------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     base     | `coin`, `from` |                          The symbol of symbols of the currency to query                           | string |         |         |            |                |
+|           |    quote     | `market`, `to` |                             The symbol of the currency to convert to                              | string |         |         |            |                |
+|           |   exchange   |                |                                  The exchange to fetch data for                                   | string |         |         |            |                |
+|           | endpointName |                | Is set automatically based on request endpoint alias/name. Providing a custom value has no effect | string |         |         |            |                |
 
 ### Example
 

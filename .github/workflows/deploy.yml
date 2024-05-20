@@ -30,7 +30,7 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
-    runs-on: [self-hosted, sdlc-ghr-prod] # Running on self hosted because they're a bit faster
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
       tmp-branch: ${{ steps.push-branch.outputs.TMP_BRANCH }}

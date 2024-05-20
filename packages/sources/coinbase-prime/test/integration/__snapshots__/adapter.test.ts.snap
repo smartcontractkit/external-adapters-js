@@ -13,3 +13,28 @@ exports[`execute balance endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute wallet endpoint should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "bc1234567890123456789012345678901234567890",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bc0987654321098765432109876543210987654321",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+  },
+}
+`;

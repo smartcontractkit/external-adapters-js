@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock.Scope =>
+export const mockBalancesResponseSuccess = (): nock.Scope =>
   nock('https://api.prime.coinbase.com', {
     encodedQueryParams: true,
   })
@@ -36,6 +36,58 @@ export const mockResponseSuccess = (): nock.Scope =>
         vault_balances: {
           total: '701889235.5',
           holds: '106683742.43',
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+
+export const mockWalletsResponseSuccess = (): nock.Scope =>
+  nock('https://api.prime.coinbase.com', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/portfolios/abcd1234-123a-1234-ab12-12a34bcd56e7/wallets')
+    .query({
+      symbols: { '': 'BTC' }, // unusual notation due to array query param
+      sort_direction: 'ASC',
+      cursor: '',
+      limit: 100,
+      type: 'VAULT',
+    })
+    .reply(
+      200,
+      () => ({
+        wallets: [
+          {
+            id: '1a1a1a1a-1a1a-1a1a-1a1a-1a1a1a1a1a1a',
+            name: 'Wallet 1',
+            symbol: 'BTC',
+            type: 'VAULT',
+            created_at: '2024-03-26T18:12:48.219Z',
+            address: 'bc1234567890123456789012345678901234567890',
+          },
+          {
+            id: '2b2b2b2b-2b2b-2b2b-2b2b-2b2b2b2b2b2b',
+            name: 'Wallet 2',
+            symbol: 'BTC',
+            type: 'VAULT',
+            created_at: '2024-03-27T18:12:48.219Z',
+            address: 'bc0987654321098765432109876543210987654321',
+          },
+        ],
+        pagination: {
+          has_next: false,
+          next_cursor: '',
+          sort_direction: 'ASC',
         },
       }),
       [

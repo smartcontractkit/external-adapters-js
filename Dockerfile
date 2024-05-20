@@ -1,4 +1,4 @@
-FROM node:16 as builder
+FROM node:22 as builder
 ARG location
 ARG package
 WORKDIR /home/node/app
@@ -7,7 +7,7 @@ RUN yarn workspaces focus $package @chainlink/external-adapters-js @chainlink/ea
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
 
-FROM node:16-alpine
+FROM node:22-alpine
 ARG location
 
 EXPOSE 8080

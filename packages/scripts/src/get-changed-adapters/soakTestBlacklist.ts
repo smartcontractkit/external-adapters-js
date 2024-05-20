@@ -17,10 +17,12 @@ export const SoakTestBlacklist: string[] = [
   'bsol-price', // Missing: RPC URL and addresses
   'btc.com',
   'coinapi',
+  'coinbase-prime',
   'conflux',
   'covid-tracker',
   'cryptoapis',
   'defi-pulse',
+  'dlc-btc-por',
   'dns-query', // Missing: env vars
   'dns-record-check', // Missing: Same as above
   'dwolla',

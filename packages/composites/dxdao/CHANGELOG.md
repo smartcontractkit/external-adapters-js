@@ -1,5 +1,12 @@
 # @chainlink/dxdao-adapter
 
+## 2.0.70
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.11.30
+
 ## 2.0.69
 
 ### Patch Changes

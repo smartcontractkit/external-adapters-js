@@ -4,6 +4,7 @@ import {
   TestAdapter,
   mockWebSocketProvider,
   setEnvVariables,
+  runAllUntilTime,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 
@@ -32,6 +33,9 @@ const mockWebSocketServer = (url: string) => {
           type: 'trade',
         }),
       )
+      setTimeout(() => {
+        socket.send(JSON.stringify({ type: 'ping' }))
+      }, 10000)
     })
   })
   return mockWsServer
@@ -42,6 +46,7 @@ describe('websocket', () => {
 
   const data = {
     base: 'OANDA:EUR_USD',
+    endpoint: 'forex',
   }
 
   let spy: jest.SpyInstance
@@ -115,6 +120,18 @@ describe('websocket', () => {
       quote: 'USD',
     })
 
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should update the ttl of forex params after heartbeat is received', async () => {
+    await runAllUntilTime(testAdapter.clock, 93000)
+    const expiredCacheResponse = await testAdapter.request({ base: 'JPY', quote: 'USD' })
+    expect(expiredCacheResponse.statusCode).toBe(504)
+
+    // The cache ttl is 90 seconds. Mocked heartbeat message is sent after 10s after connection which should
+    // update the ttl and therefore after 93 seconds (from the initial message) we can access the asset
+    const response = await testAdapter.request(data)
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchSnapshot()
   })

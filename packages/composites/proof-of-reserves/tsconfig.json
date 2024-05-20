@@ -19,6 +19,7 @@
     { "path": "../../sources/btc.com" },
     { "path": "../../sources/celsius-address-list" },
     { "path": "../../sources/chain-reserve-wallet" },
+    { "path": "../../sources/coinbase-prime" },
     { "path": "../../sources/cryptoapis" },
     { "path": "../../sources/eth-balance" },
     { "path": "../../sources/gemini" },

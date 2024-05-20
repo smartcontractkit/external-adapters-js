@@ -8,7 +8,7 @@ exports[`websocket should return success for full symbols 1`] = `
   "result": 1.098455,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 2028,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1641035471111,
   },
@@ -23,7 +23,7 @@ exports[`websocket should return success for inverted pairs 1`] = `
   "result": 0.007010066455429998,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 4048,
+    "providerDataReceivedUnixMs": 5058,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1641035471111,
   },
@@ -38,7 +38,7 @@ exports[`websocket should return success for requests with base and quote 1`] = 
   "result": 1.098455,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 2028,
+    "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1641035471111,
   },
@@ -53,7 +53,22 @@ exports[`websocket should return success for standard pairs, when pair has inver
   "result": 142.652,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 3038,
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`websocket should update the ttl of forex params after heartbeat is received 1`] = `
+{
+  "data": {
+    "result": 1.098455,
+  },
+  "result": 1.098455,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1641035471111,
   },
