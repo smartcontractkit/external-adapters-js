@@ -17,10 +17,13 @@ export const adapter = new Adapter({
   endpoints: [nav],
 })
 
+// Remove validations for specific env vars.
+// This is a very ugly workaround, and might not work with slightly breaking changes in the framework.
+// It is only meant to serve as a temporary measure because the provider API is not reliable.
 const removeSettingValidation = (settingName: keyof BaseSettingsDefinitionType) => {
   if (!BaseSettingsDefinition[settingName]) {
     logger.warn(
-      `The setting "${settingName}" does not exist in the BaseSettingsDefinition, check if a new fw version broke the workaround.`,
+      `The setting "${settingName}" does not exist in the BaseSettingsDefinition, check if a new framework version broke the workaround.`,
     )
     return
   }
@@ -28,9 +31,7 @@ const removeSettingValidation = (settingName: keyof BaseSettingsDefinitionType) 
   ;(BaseSettingsDefinition[settingName] as unknown as { validate: undefined }).validate = undefined
 }
 
-// Remove validations for these specific env vars.
-// This is a very ugly workaround, and might not work with slightly breaking changes in the framework.
-// It is only meant to serve as a temporary measure because the provider API is not reliable.
+// This allows to set much higher values for CACHE_MAX_AGE, bypassing ea-framework validation
 removeSettingValidation('CACHE_MAX_AGE')
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

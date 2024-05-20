@@ -5,13 +5,11 @@ export const config = new AdapterConfig(
     API_ENDPOINT: {
       description: 'An API endpoint for Superstate',
       type: 'string',
-      required: true,
       default: 'https://api.superstate.co/v1',
     },
     LOOKBACK_DAYS: {
       description: 'The number of days of historical data to retrieve',
       type: 'number',
-      required: true,
       default: 10,
     },
   },

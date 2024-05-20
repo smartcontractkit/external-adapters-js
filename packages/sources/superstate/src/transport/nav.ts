@@ -15,6 +15,7 @@ import {
   getStartingAndEndingDates,
   isBeforeTime,
   isInTimeRange,
+  toTimezoneDate,
 } from './utils'
 
 const logger = makeLogger('Superstate')
@@ -189,7 +190,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   // Determines whether we should check for stale data
   shouldCheckForExpectedData() {
     // No need to check on weekends, the data from DP will be the same
-    if (isWeekend(new Date())) return false
+    if (isWeekend(toTimezoneDate(new Date(), TZ))) return false
 
     // If it's a business day we need to check for stale data only if the current ET time is within certain time range (retry period).
     // If it's before 09:09 AM we don't need to check as it's too soon and there will be no update from DP,
