@@ -1,9 +1,8 @@
-import * as process from 'process'
-import { AddressInfo } from 'net'
-import { createAdapter, setEnvVariables } from './setup'
-import request, { SuperTest, Test } from 'supertest'
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { AdapterRequestBody } from '@chainlink/external-adapter-framework/util'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 
 jest.mock('@polkadot/api', () => {
   return {
@@ -84,14 +83,33 @@ jest.mock('@polkadot/api', () => {
 })
 
 describe('Balance Endpoint', () => {
-  let fastify: ServerInstance | undefined
-  let req: SuperTest<Test>
   let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  jest.setTimeout(10000)
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['RPC_URL'] = 'http://localhost:9091'
+    process.env['BACKGROUND_EXECUTE_MS'] = '0'
+    const mockDate = new Date('2022-08-01T07:14:54.909Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  const addressData: AdapterRequestBody = {
-    data: {
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
+
+  it('should return success', async () => {
+    const data = {
       addresses: [
         {
           address: '13nogjgyJcGQduHt8RtZiKKbt7Uy6py9hv1WMDZWueEcsHdh',
@@ -103,62 +121,20 @@ describe('Balance Endpoint', () => {
           address: '15vJFD1Y8nButjmgjbK5x6SYU2cQnbihM4GgkR5enkwyTVLq',
         },
       ],
-    },
-  }
-
-  let oldEnv: NodeJS.ProcessEnv
-
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['METRICS_ENABLED'] = 'false'
-    process.env['RPC_URL'] = 'http://localhost:9091'
-    const mockDate = new Date('2022-08-01T07:14:54.909Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
-    fastify = await expose(createAdapter())
-    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+    }
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchSnapshot()
   })
 
-  afterAll((done) => {
-    spy.mockRestore()
-    setEnvVariables(oldEnv)
-    fastify?.close(done())
-  })
-
-  it('should return success', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send(addressData)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-
-    const response = await makeRequest()
-    expect(response.body).toMatchSnapshot()
-  }, 30000)
-  it('should return error (empty body)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({})
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-
-    const response = await makeRequest()
-    expect(response.statusCode).toEqual(400)
-  }, 30000)
   it('should return error (empty data)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({ data: {} })
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-
-    const response = await makeRequest()
+    const response = await testAdapter.request({})
     expect(response.statusCode).toEqual(400)
-  }, 30000)
+  })
+
+  it('should return error (empty addresses)', async () => {
+    const response = await testAdapter.request({ addresses: [] })
+    expect(response.statusCode).toEqual(400)
+    expect(response.json()).toMatchSnapshot()
+  })
 })

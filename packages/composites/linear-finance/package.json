@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/linear-finance-adapter",
-  "version": "2.3.47",
+  "version": "2.3.78",
   "description": "Chainlink linear-finance adapter.",
   "keywords": [
     "Chainlink",
@@ -32,7 +32,6 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/token-allocation-adapter": "workspace:*",
-    "axios": "^0.24.0",
     "csv-parse": "^4.16.0",
     "decimal.js": "^10.3.1",
     "moment": "^2.29.4",
@@ -42,9 +41,9 @@
   "devDependencies": {
     "@chainlink/ea-test-helpers": "workspace:*",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
-    "nock": "13.2.9",
+    "@types/node": "16.18.96",
+    "@types/supertest": "2.0.16",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }

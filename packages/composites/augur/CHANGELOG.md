@@ -1,5 +1,14 @@
 # @chainlink/augur-adapter
 
+## 2.0.16
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/sportsdataio-adapter@1.3.24
+  - @chainlink/therundown-adapter@1.3.32
+
 ## 2.0.15
 
 ### Patch Changes

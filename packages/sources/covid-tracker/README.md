@@ -1,6 +1,6 @@
 # Chainlink External Adapter for COVID Tracker
 
-![1.4.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/covid-tracker/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/covid-tracker/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Notice: The COVID Tracking Project is ending all data collection on March 7, 2021. The existing API will continue to work until May 2021, but will only include data up to March 7, 2021.
 
@@ -11,6 +11,12 @@ This document was generated automatically. Please see [README Generator](../../s
 ## Environment Variables
 
 There are no environment variables for this adapter.
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

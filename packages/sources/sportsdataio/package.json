@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/sportsdataio-adapter",
-  "version": "1.3.23",
+  "version": "1.3.24",
   "description": "Chainlink sportsdataio adapter.",
   "keywords": [
     "Chainlink",
@@ -37,9 +37,9 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/luxon": "2.4.0",
-    "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
-    "nock": "13.2.9",
+    "@types/node": "16.18.96",
+    "@types/supertest": "2.0.16",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }

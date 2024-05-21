@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/messari-adapter",
-  "version": "1.2.31",
+  "version": "1.2.32",
   "description": "Chainlink Messari adapter.",
   "keywords": [
     "Chainlink",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
+    "@types/node": "16.18.96",
     "typescript": "5.0.4"
   }
 }

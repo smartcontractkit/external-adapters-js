@@ -1,5 +1,191 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.5.72
+
+### Patch Changes
+
+- Updated dependencies [[`b8a758c`](https://github.com/smartcontractkit/external-adapters-js/commit/b8a758cf88c9edcf560495c87606857bc9c9ff5f)]:
+  - @chainlink/proof-of-reserves-adapter@1.19.0
+
+## 1.5.71
+
+### Patch Changes
+
+- Updated dependencies [[`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.24
+
+## 1.5.70
+
+### Patch Changes
+
+- Updated dependencies [[`ebb0af9`](https://github.com/smartcontractkit/external-adapters-js/commit/ebb0af92e5912ff9f069d9f4ed3c1238aef3e1b0)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.23
+
+## 1.5.69
+
+### Patch Changes
+
+- Updated dependencies [[`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.22
+
+## 1.5.68
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e), [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/proof-of-reserves-adapter@1.18.21
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.5.67
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.18.20
+
+## 1.5.66
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.18.19
+
+## 1.5.65
+
+### Patch Changes
+
+- [#3151](https://github.com/smartcontractkit/external-adapters-js/pull/3151) [`ac9ebd643`](https://github.com/smartcontractkit/external-adapters-js/commit/ac9ebd64346104673bd6139c3ab12ba12125ab69) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Updated Readme file
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.18.18
+
+## 1.5.64
+
+### Patch Changes
+
+- Updated dependencies [[`45038be71`](https://github.com/smartcontractkit/external-adapters-js/commit/45038be71ca433291229324174c50023b2513afc)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.17
+
+## 1.5.63
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.18.16
+
+## 1.5.62
+
+### Patch Changes
+
+- Updated dependencies [[`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.15
+
+## 1.5.61
+
+### Patch Changes
+
+- Updated dependencies [[`7833c6081`](https://github.com/smartcontractkit/external-adapters-js/commit/7833c60818434709792bf744eb83070ed883efb4)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.14
+
+## 1.5.60
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.18.13
+
+## 1.5.59
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.18.12
+
+## 1.5.58
+
+### Patch Changes
+
+- Updated dependencies [[`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.11
+
+## 1.5.57
+
+### Patch Changes
+
+- Updated dependencies [[`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02), [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c), [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc)]:
+  - @chainlink/proof-of-reserves-adapter@1.18.10
+
+## 1.5.56
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.9
+
+## 1.5.55
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.8
+
+## 1.5.54
+
+### Patch Changes
+
+- Updated dependencies [011aec39e]
+  - @chainlink/proof-of-reserves-adapter@1.18.7
+
+## 1.5.53
+
+### Patch Changes
+
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/proof-of-reserves-adapter@1.18.6
+
+## 1.5.52
+
+### Patch Changes
+
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [6840a38d2]
+- Updated dependencies [14a549217]
+  - @chainlink/proof-of-reserves-adapter@1.18.5
+
+## 1.5.51
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.4
+
+## 1.5.50
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.3
+
+## 1.5.49
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.18.2
+
+## 1.5.48
+
+### Patch Changes
+
+- Updated dependencies [cc0d39064]
+- Updated dependencies [fb1b11b77]
+  - @chainlink/proof-of-reserves-adapter@1.18.1
+
+## 1.5.47
+
+### Patch Changes
+
+- Updated dependencies [4f4ca79e1]
+- Updated dependencies [d25ef6507]
+  - @chainlink/proof-of-reserves-adapter@1.18.0
+
 ## 1.5.46
 
 ### Patch Changes

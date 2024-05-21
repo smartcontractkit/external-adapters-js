@@ -1,14 +1,15 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
-export const mockTokenSuccess = (): nock.Scope =>
-  nock('https://oracle.prod.gsr.io', {
+const generateMockTokenSuccess = (basePath: string): nock.Scope =>
+  nock(basePath, {
     encodedQueryParams: true,
   })
     .post('/v1/token', {
       apiKey: 'test-pub-key',
       userId: 'test-user-id',
-      ts: 1652198967193000000,
-      signature: '13728be3a8ec1855ef66662d5e3ad3c9cfe7e78293d0389c80314a37f4156325',
+      ts: /^\d+$/,
+      signature: /^[0-9a-f]+$/i,
     })
     .reply(
       200,
@@ -29,3 +30,34 @@ export const mockTokenSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
+
+export const mockTokenSuccess = () => generateMockTokenSuccess('https://oracle.prod.gsr.io')
+
+const base = 'ETH'
+const quote = 'USD'
+const price = 1234
+const bidPrice = 1233
+const askPrice = 1235
+const time = 1669345393482
+
+export const mockWebSocketServer = (URL: string) => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(
+        JSON.stringify({
+          type: 'ticker',
+          data: {
+            symbol: `${base.toUpperCase()}.${quote.toUpperCase()}`,
+            price,
+            bidPrice,
+            askPrice,
+            ts: time * 1e6,
+          },
+        }),
+      )
+    })
+  })
+  return mockWsServer
+}

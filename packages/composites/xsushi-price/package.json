@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/xsushi-price-adapter",
-  "version": "2.0.39",
+  "version": "2.0.70",
   "description": "Chainlink xsushi-price adapter.",
   "keywords": [
     "Chainlink",
@@ -38,9 +38,9 @@
   "devDependencies": {
     "@chainlink/ea-test-helpers": "workspace:*",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
-    "nock": "13.2.9",
+    "@types/node": "16.18.96",
+    "@types/supertest": "2.0.16",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }

@@ -7,6 +7,7 @@ export const SoakTestBlacklist: string[] = [
   'anchor', // Missing: RPC URL
   'ap-election',
   'apy-finance', // Missing: Needs registry address, source adapters
+  'apy-finance-test', // Missing: Needs registry address, token allocation adapter
   'augur',
   'avalanche-platform',
   'bea',
@@ -16,10 +17,12 @@ export const SoakTestBlacklist: string[] = [
   'bsol-price', // Missing: RPC URL and addresses
   'btc.com',
   'coinapi',
+  'coinbase-prime',
   'conflux',
   'covid-tracker',
   'cryptoapis',
   'defi-pulse',
+  'dlc-btc-por',
   'dns-query', // Missing: env vars
   'dns-record-check', // Missing: Same as above
   'dwolla',
@@ -30,10 +33,11 @@ export const SoakTestBlacklist: string[] = [
   'ethgasstation',
   'ethwrite',
   'expert-car-broker',
-  'finnhub',
   'flightaware',
   'fmpcloud',
+  'frxeth-exchange-rate',
   'genesis-volatility',
+  'gm-token', // Composite EA - Missing underlying source EAs
   'google-bigquery',
   'google-weather',
   'harmony',
@@ -66,6 +70,7 @@ export const SoakTestBlacklist: string[] = [
   'terra-view-function', // Missing: RPC URL
   'therundown',
   'token-allocation',
+  'trumatic-matic-exchange-rate', // Missing: RPC URL
   'twelvedata',
   'unibit',
 ]

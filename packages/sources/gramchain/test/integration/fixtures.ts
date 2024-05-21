@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockGramChainResponseSuccess = (): nock.Scope =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api-prod.gramchain.net/api/public', { encodedQueryParams: true })
     .persist()
     .get('/getgrambalances?custodianID=Cache&metalCode=AU&utilizationLockCode=Locked')
@@ -18,7 +18,7 @@ export const mockGramChainResponseSuccess = (): nock.Scope =>
           PureGrams: 1099.89,
           GrossGrams: 1100,
           FixedValuation: 0,
-          AsOfUTC: '2022-02-02T02:22:24.293',
+          AsOfUTC: '2022-02-02T02:22:24.293Z',
           MetalName: 'Gold',
           CategoryName: 'Bullion',
           ParcelGrouping: 'Gold Bullion',
@@ -35,7 +35,7 @@ export const mockGramChainResponseSuccess = (): nock.Scope =>
           PureGrams: 9999,
           GrossGrams: 10000,
           FixedValuation: 0,
-          AsOfUTC: '2022-02-02T02:22:24.293',
+          AsOfUTC: '2022-02-02T02:22:24.293Z',
           MetalName: 'Gold',
           CategoryName: 'Bullion',
           ParcelGrouping: 'Gold Bullion',
@@ -52,7 +52,7 @@ export const mockGramChainResponseSuccess = (): nock.Scope =>
           PureGrams: 82022.89,
           GrossGrams: 82031.1,
           FixedValuation: 0,
-          AsOfUTC: '2022-02-02T02:22:24.293',
+          AsOfUTC: '2022-02-02T02:22:24.293Z',
           MetalName: 'Gold',
           CategoryName: 'Bullion',
           ParcelGrouping: 'Gold Bullion',

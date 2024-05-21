@@ -1,66 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute api should return success 1`] = `
+exports[`execute getgrambalances endpoint should return success 1`] = `
 {
   "data": {
-    "payload": [
-      {
-        "AsOfUTC": "2022-02-02T02:22:24.293",
-        "CategoryName": "Bullion",
-        "CustodianID": "CACHE",
-        "EntityID": "",
-        "FixedValuation": 0,
-        "GrossGrams": 1100,
-        "ItemCategoryCode": "Bullion",
-        "MetalCode": "AU",
-        "MetalName": "Gold",
-        "NrParcels": 11,
-        "ParcelGrouping": "Gold Bullion",
-        "PureGrams": 1099.89,
-        "UtilizationLockCode": "Locked",
-        "Valuation": 2046.03,
-        "VaultID": "IDS_DFW1",
-      },
-      {
-        "AsOfUTC": "2022-02-02T02:22:24.293",
-        "CategoryName": "Bullion",
-        "CustodianID": "CACHE",
-        "EntityID": "",
-        "FixedValuation": 0,
-        "GrossGrams": 10000,
-        "ItemCategoryCode": "Bullion",
-        "MetalCode": "AU",
-        "MetalName": "Gold",
-        "NrParcels": 19,
-        "ParcelGrouping": "Gold Bullion",
-        "PureGrams": 9999,
-        "UtilizationLockCode": "Locked",
-        "Valuation": 18600.27,
-        "VaultID": "LoomSWZ1",
-      },
-      {
-        "AsOfUTC": "2022-02-02T02:22:24.293",
-        "CategoryName": "Bullion",
-        "CustodianID": "CACHE",
-        "EntityID": "",
-        "FixedValuation": 0,
-        "GrossGrams": 82031.1,
-        "ItemCategoryCode": "Bullion",
-        "MetalCode": "AU",
-        "MetalName": "Gold",
-        "NrParcels": 92,
-        "ParcelGrouping": "Gold Bullion",
-        "PureGrams": 82022.89,
-        "UtilizationLockCode": "Locked",
-        "Valuation": 152580.06,
-        "VaultID": "TSH_SIN1",
-      },
-    ],
     "result": 93121.78,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 93121.78,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1643768544293,
+  },
 }
 `;

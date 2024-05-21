@@ -11,18 +11,23 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 
 import { Decimal } from 'decimal.js'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 
-import BoredApeYachtClub from '../abi/BoredApeYachtClub.json'
-import EACAggregatorProxy from '../abi/EACAggregatorProxy.json'
+import BoredApeYachtClub from '../config/BoredApeYachtClub.json'
+import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
+import MultiCallAbi from '../config/Multicall.json'
 import { config } from '../config'
 import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import { BaseEndpointTypes } from '../endpoint/marketcap'
 
 const logger = makeLogger('MarketcapTransport')
 
 const RPC_CHAIN_ID = 1 // Ethereum mainnet chain - NFT collections are tied to this
 
 const ETH_USD_FEED_PROXY = '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
+
+// Multicall3 contract on Ethereum Mainnet
+const MULTICALL_ADDRESS = '0xcA11bde05977b3631167028862bE2a173976CA11'
 
 type NFTCollection = {
   name: string
@@ -84,14 +89,7 @@ const NFT_COLLECTIONS: NFTCollection[] = [
   },
 ]
 
-export type MarketcapTransportGenerics = TransportGenerics & {
-  Parameters: EmptyInputParameters
-  Provider: {
-    RequestBody: unknown
-    ResponseBody: unknown
-  }
-  Settings: typeof config.settings
-}
+export type MarketcapTransportGenerics = TransportGenerics & BaseEndpointTypes
 
 export interface MarketcapTransportConfig {
   options: {
@@ -107,63 +105,96 @@ export class MarketcapTransport implements Transport<MarketcapTransportGenerics>
   name!: string
   responseCache!: TransportDependencies<MarketcapTransportGenerics>['responseCache']
   rateLimiter!: RateLimiter
+  provider!: ethers.providers.JsonRpcProvider
+  multiCallContract!: ethers.Contract
 
   constructor(protected config: MarketcapTransportConfig) {}
 
   async initialize(
     dependencies: TransportDependencies<MarketcapTransportGenerics>,
-    _: typeof config.settings,
+    settings: typeof config.settings,
     __: string,
     name: string,
   ): Promise<void> {
     this.responseCache = dependencies.responseCache
     this.rateLimiter = dependencies.rateLimiter
     this.name = name
+    this.provider = new ethers.providers.JsonRpcProvider(settings.ETHEREUM_RPC_URL, RPC_CHAIN_ID)
+    //Multicall3 contract will aggregate multiple contract calls into single eth_call
+    this.multiCallContract = new ethers.Contract(MULTICALL_ADDRESS, MultiCallAbi, this.provider)
   }
 
   async foregroundExecute(
     req: AdapterRequest<EmptyInputParameters>,
-    settings: typeof config.settings,
   ): Promise<AdapterResponse<MarketcapTransportGenerics['Response']> | undefined> {
-    const provider = new ethers.providers.JsonRpcProvider(settings.ETHEREUM_RPC_URL, RPC_CHAIN_ID)
-
-    logger.trace('Fetch all collection data async')
+    logger.trace('Fetch all collection data using multicall')
     const providerDataRequestedUnixMs = Date.now()
 
-    const collectionDataPromises = Promise.all(
-      NFT_COLLECTIONS.map((collection) => {
-        const tokenContract = new ethers.Contract(collection.token, BoredApeYachtClub, provider)
-        const feedContract = new ethers.Contract(collection.feed, EACAggregatorProxy, provider)
+    const calls: { target: string; allowFailure: boolean; callData: string }[] = []
 
-        return Promise.all([
-          collection.name,
-          tokenContract.totalSupply(),
-          feedContract.latestAnswer(),
-          feedContract.decimals(),
-        ])
-      }),
+    NFT_COLLECTIONS.map((collection) => {
+      const tokenContract = new ethers.Contract(collection.token, BoredApeYachtClub, this.provider)
+      const feedContract = new ethers.Contract(collection.feed, EACAggregatorProxy, this.provider)
+
+      calls.push({
+        target: tokenContract.address,
+        allowFailure: true,
+        callData: tokenContract.interface.encodeFunctionData('totalSupply', []),
+      })
+
+      calls.push({
+        target: feedContract.address,
+        allowFailure: true,
+        callData: feedContract.interface.encodeFunctionData('latestAnswer', []),
+      })
+
+      calls.push({
+        target: feedContract.address,
+        allowFailure: true,
+        callData: feedContract.interface.encodeFunctionData('decimals', []),
+      })
+    })
+
+    logger.trace('Await data response')
+
+    const multiResponse: [boolean, string][] = await this.multiCallContract.callStatic.aggregate3(
+      calls,
     )
 
-    const ethUsdFeed = new ethers.Contract(ETH_USD_FEED_PROXY, EACAggregatorProxy, provider)
+    // Decode the result. Since we know that all returned values are numbers, we can decode without interface.decodeFunctionResult
+    const decodedResult: BigNumber[] = multiResponse.map(([success, returnData], i) => {
+      if (!success) {
+        const collection = NFT_COLLECTIONS[i]
+        throw new Error(`Multicall failed to call ${collection.name} token or feed contract`)
+      }
+      return BigNumber.from(returnData)
+    })
 
-    const ethUsdDataPromises = Promise.all([ethUsdFeed.latestAnswer(), ethUsdFeed.decimals()])
+    // At this point decodedResult is an array of numbers, we need to group by 3 elements each, based on 3 contract calls.
+    const contractCallsPerCollection = 3
+    const collectionData = Array.from(
+      { length: Math.ceil(decodedResult.length / contractCallsPerCollection) },
+      (_, index) =>
+        decodedResult.slice(
+          index * contractCallsPerCollection,
+          (index + 1) * contractCallsPerCollection,
+        ),
+    )
 
-    logger.trace('Await data responses')
+    const ethUsdFeed = new ethers.Contract(ETH_USD_FEED_PROXY, EACAggregatorProxy, this.provider)
 
-    const [collectionData, ethUsdData] = await Promise.all([
-      collectionDataPromises,
-      ethUsdDataPromises,
-    ])
+    const ethUsdData = await Promise.all([ethUsdFeed.latestAnswer(), ethUsdFeed.decimals()])
 
     logger.trace('Compute total market cap')
 
     let totalMarketcapEth = new Decimal(0)
 
-    for (const collection of collectionData) {
-      const name = collection[0]
-      const totalSupply = collection[1].toString()
-      const ethFloorPrice = collection[2].toString()
-      const decimals = collection[3].toString()
+    for (let i = 0; i < collectionData.length; i++) {
+      const name = NFT_COLLECTIONS[i].name
+      const collection = collectionData[i]
+      const totalSupply = collection[0].toString()
+      const ethFloorPrice = collection[1].toString()
+      const decimals = collection[2].toString()
 
       const collectionMarketcap = new Decimal(totalSupply)
         .mul(ethFloorPrice)
@@ -208,3 +239,11 @@ export class MarketcapTransport implements Transport<MarketcapTransportGenerics>
     return response
   }
 }
+
+export const transport = new MarketcapTransport({
+  options: {
+    requestCoalescing: {
+      enabled: true,
+    },
+  },
+})

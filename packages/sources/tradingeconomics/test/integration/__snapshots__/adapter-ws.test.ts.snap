@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 0.776530152665828,
+  },
+  "result": 0.776530152665828,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1659472542655,
+  },
+}
+`;
+
+exports[`websocket price endpoint should update the ttl after heartbeat is received 1`] = `
+{
+  "data": {
+    "result": 0.776530152665828,
+  },
+  "result": 0.776530152665828,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1659472542655,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 160.32,
+  },
+  "result": 160.32,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1659472542655,
+  },
+}
+`;

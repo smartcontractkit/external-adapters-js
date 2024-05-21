@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/blockchain.com-adapter",
-  "version": "1.3.31",
+  "version": "1.3.32",
   "description": "Chainlink adapter to query BTC address balance from blockchain.com.",
   "keywords": [
     "Chainlink",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
+    "@types/node": "16.18.96",
     "typescript": "5.0.4"
   }
 }

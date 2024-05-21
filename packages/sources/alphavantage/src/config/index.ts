@@ -1,20 +1,16 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'ALPHAVANTAGE'
-
-export const DEFAULT_ENDPOINT = 'forex'
-export const DEFAULT_BASE_URL = 'https://www.alphavantage.co/query'
-
-export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
-  config.api = {
-    ...config.api,
-    baseURL: config.api.baseURL || DEFAULT_BASE_URL,
-    params: {
-      apikey: config.apiKey,
-    },
-  }
-  config.defaultEndpoint = DEFAULT_ENDPOINT
-  return config
-}
+export const config = new AdapterConfig({
+  API_ENDPOINT: {
+    description: 'The HTTP URL to retrieve data from',
+    type: 'string',
+    default: 'https://www.alphavantage.co/query',
+  },
+  API_KEY: {
+    description:
+      'An API key that can be obtained from [here](https://www.alphavantage.co/support/#api-key)',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+})

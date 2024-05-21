@@ -1,5 +1,5 @@
-import { fetchAddressList } from '../../src/endpoint/utils'
 import { ethers } from 'ethers'
+import { fetchAddressList } from '../../src/transport/utils'
 
 const DEFAULT_EXPECTED_ADDRESSES = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -25,7 +25,7 @@ const AddressManagerMock: jest.Mock<ethers.Contract, string[][]> = jest
       getPoRAddressList: jest
         .fn()
         .mockImplementation((startIdx: ethers.BigNumber, endIdx: ethers.BigNumber) => {
-          const lastIdx = endIdx.gt(ethers.BigNumber.from(addresses.length))
+          const lastIdx = endIdx.gte(ethers.BigNumber.from(addresses.length))
             ? addresses.length - 1
             : endIdx.toNumber()
           return addresses.slice(startIdx.toNumber(), lastIdx + 1)
@@ -47,7 +47,7 @@ describe('address endpoint', () => {
         })
         expect(addressManager.getPoRAddressList).toHaveBeenCalledWith(
           ethers.BigNumber.from(0),
-          ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length),
+          ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length - 1),
           { blockTag: LATEST_BLOCK_NUM },
         )
       })
@@ -62,7 +62,7 @@ describe('address endpoint', () => {
         })
         expect(addressManager.getPoRAddressList).toHaveBeenCalledWith(
           ethers.BigNumber.from(0),
-          ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length),
+          ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length - 1),
           { blockTag: LATEST_BLOCK_NUM - confirmations },
         )
       })

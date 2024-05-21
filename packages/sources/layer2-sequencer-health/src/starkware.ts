@@ -1,10 +1,10 @@
 import { Logger } from '@chainlink/ea-bootstrap'
 import { DEFAULT_PRIVATE_KEY, ExtendedConfig } from './config'
-import { ec, Account, InvokeFunctionResponse, GetBlockResponse } from 'starknet'
+import { ec, Account, InvokeFunctionResponse, RPC } from 'starknet'
 import { race, retry } from './network'
 
 interface StarkwareState {
-  lastBlockResponse: GetBlockResponse | null
+  lastBlockResponse: RPC.BlockWithTxHashes | null
   lastUpdated: number
   isSequencerHealthy: boolean
 }
@@ -59,7 +59,7 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
     const currentTime = Date.now()
     if (state.lastUpdated > 0 && currentTime - state.lastUpdated < delta) {
       Logger.debug(
-        `Skipping check for Starkware Sequencer health as it has been less than ${delta} seconds since last check`,
+        `[starkware] Skipping check for Starkware Sequencer health as it has been less than ${delta} seconds since last check`,
       )
       return state.isSequencerHealthy
     }
@@ -83,18 +83,18 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
 const getPendingBlockFromGateway = async (
   config: ExtendedConfig,
 ): Promise<{
-  pendingBlockResponse: GetBlockResponse | null
+  pendingBlockResponse: RPC.BlockWithTxHashes | null
 }> => {
   let pendingBlockResponse = null
   try {
-    pendingBlockResponse = await retry<GetBlockResponse>({
-      promise: async () => config.starkwareConfig.provider.getBlock('pending'),
+    pendingBlockResponse = await retry<RPC.BlockWithTxHashes>({
+      promise: async () => config.starkwareConfig.provider.getBlockWithTxHashes('pending'),
       retryConfig: config.retryConfig,
     })
   } catch (e: any) {
     if (e.providerStatusCode === 504) {
       Logger.warn(
-        `Request to fetch pending block timed out.  Status Code: ${e.providerStatusCode}.  Sequencer: UNHEALTHY`,
+        `[starkware] Request to fetch pending block timed out.  Status Code: ${e.providerStatusCode}.  Sequencer: UNHEALTHY`,
       )
     } else {
       throw e
@@ -106,27 +106,27 @@ const getPendingBlockFromGateway = async (
 }
 
 const checkBatcherHealthy = (
-  previousBlock: GetBlockResponse | null,
-  currentBlock: GetBlockResponse,
+  previousBlock: RPC.BlockWithTxHashes | null,
+  currentBlock: RPC.BlockWithTxHashes,
 ): boolean => {
   if (!previousBlock) {
     return currentBlock.transactions.length > 0
   }
   if (previousBlock.parent_hash !== currentBlock.parent_hash) {
     Logger.info(
-      `New pending Starkware block found with parent hash ${currentBlock.parent_hash}.  Sequencer: HEALTHY`,
+      `[starkware] New pending Starkware block found with parent hash ${currentBlock.parent_hash}.  Sequencer: HEALTHY`,
     )
     return true
   }
   Logger.info(
-    `Pending Starkware block still has parent hash of ${currentBlock.parent_hash}.  Checking to see if it is still processing transactions...`,
+    `[starkware] Pending Starkware block still has parent hash of ${currentBlock.parent_hash}.  Checking to see if it is still processing transactions...`,
   )
   const hasNewTxns =
     Object.keys(currentBlock.transactions).length > previousBlock.transactions.length
   if (hasNewTxns) {
-    Logger.info(`Found new transactions in pending block.  Sequencer: HEALTHY`)
+    Logger.info(`[starkware] Found new transactions in pending block.  Sequencer: HEALTHY`)
   } else {
-    Logger.info(`Did not find new transactions in pending block.  Sequencer: UNHEALTHY`)
+    Logger.info(`[starkware] Did not find new transactions in pending block.  Sequencer: UNHEALTHY`)
   }
   return hasNewTxns
 }

@@ -1,30 +1,27 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import types from '@chainlink/ea-bootstrap'
-import { send } from '../endpoint'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const DEFAULT_DATA_PATH = 'result'
-export const DEFAULT_ENDPOINT = send.NAME
-export const NAME = 'DYDX_STARK'
-
-export const DEFAULT_API_ENDPOINT = 'https://api.stage.dydx.exchange/v3/price'
-
-const ENV_PRIVATE_KEY = 'PRIVATE_KEY'
-const ENV_STARK_MESSAGE = 'STARK_MESSAGE'
-const ENV_ORACLE_NAME = 'ORACLE_NAME'
-
-export type Config = types.Config & {
-  privateKey: string
-  starkMessage: string
-  oracleName: string
-}
-
-export const makeConfig = (prefix?: string): Config => {
-  const defaultConfig = Requester.getDefaultConfig(prefix)
-  defaultConfig.api.baseURL = defaultConfig.api.baseURL || DEFAULT_API_ENDPOINT
-  return {
-    ...defaultConfig,
-    privateKey: util.getRequiredEnv(ENV_PRIVATE_KEY, prefix),
-    starkMessage: util.getRequiredEnv(ENV_STARK_MESSAGE, prefix),
-    oracleName: util.getRequiredEnv(ENV_ORACLE_NAME, prefix),
-  }
-}
+export const config = new AdapterConfig({
+  PRIVATE_KEY: {
+    description: 'The Ethereum private key used to sign the STARK_MESSAGE',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  STARK_MESSAGE: {
+    description:
+      'A constant message, determined ad hoc (for example "chainlinkStarkSig"), used in conjunction with the Ethereum PRIVATE_KEY to generate the STARK private key',
+    type: 'string',
+    required: true,
+  },
+  ORACLE_NAME: {
+    description:
+      'A constant name for this oracle, used as part of the data we sign using STARK private key',
+    type: 'string',
+    required: true,
+  },
+  API_ENDPOINT: {
+    description: 'An API endpoint where the final signed payload will be sent',
+    type: 'string',
+    default: 'https://api.stage.dydx.exchange/v3/price',
+  },
+})

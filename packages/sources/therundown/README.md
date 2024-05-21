@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TheRundown
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/therundown/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/therundown/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://therundown-therundown-v1.p.rapidapi.com/
 
@@ -12,6 +12,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :-----------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------------: |
 |    ✅     |   API_KEY    | An API key that can be obtained from [here](https://rapidapi.com/therundown/api/therundown) | string |         |                                                    |
 |           | API_ENDPOINT |                                                                                             | string |         | `https://therundown-therundown-v1.p.rapidapi.com/` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

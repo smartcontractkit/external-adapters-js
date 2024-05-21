@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Eth-balance
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 External adapter for fetching balances for ETH addresses
 
@@ -12,6 +12,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :---------------: | :-------------------------: | :----: | :-----: | :-----: |
 |    ✅     | ETHEREUM_RPC_URL  | RPC URL of an Ethereum node | string |         |         |
 |           | ETHEREUM_CHAIN_ID | The chain id to connect to  | string |         |   `1`   |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

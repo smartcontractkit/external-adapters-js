@@ -1,5 +1,67 @@
 # @chainlink/ea-scripts
 
+## 2.7.6
+
+### Patch Changes
+
+- [#3235](https://github.com/smartcontractkit/external-adapters-js/pull/3235) [`d070ac0`](https://github.com/smartcontractkit/external-adapters-js/commit/d070ac0ed7a929f6d5574489b840b4806695ef46) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed Masterlist.md not showing information for v3 adapters
+
+## 2.7.5
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/ea-factories@1.2.31
+
+## 2.7.4
+
+### Patch Changes
+
+- [#3090](https://github.com/smartcontractkit/external-adapters-js/pull/3090) [`a1c6726d9`](https://github.com/smartcontractkit/external-adapters-js/commit/a1c6726d9fc51ec1cf6f19e9152d5741493e1ed4) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add generated known issues section to readme
+
+## 2.7.3
+
+### Patch Changes
+
+- [#2973](https://github.com/smartcontractkit/external-adapters-js/pull/2973) [`82588b6c0`](https://github.com/smartcontractkit/external-adapters-js/commit/82588b6c01be101f5c18de2efbc73acf2f56db67) Thanks [@alecgard](https://github.com/alecgard)! - Log docker-compose.generated.yaml file location
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+## 2.7.2
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 2.7.1
+
+### Patch Changes
+
+- [#2953](https://github.com/smartcontractkit/external-adapters-js/pull/2953) [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 2.7.0
+
+### Minor Changes
+
+- 314fb1600: Changed EA generation script
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 2.6.2
+
+### Patch Changes
+
+- c1c883367: Modified readme generator to add adapter rate limits to readmes
+
+## 2.6.1
+
+### Patch Changes
+
+- 14a549217: Bumped framework version
+
 ## 2.6.0
 
 ### Minor Changes

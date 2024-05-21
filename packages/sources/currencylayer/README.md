@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CurrencyLayer
 
-![2.0.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/currencylayer/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/currencylayer/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.currencylayer.com
 
@@ -12,6 +12,17 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------: |
 |    ✅     |   API_KEY    | An API key that can be obtained from [here](https://currencylayer.com/product) | string |         |                                 |
 |           | API_ENDPOINT |                                                                                | string |         | `https://api.currencylayer.com` |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |            Note             |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------: |
+|     free     |                             |                             |           0.342           | only mentions monthly limit |
+|    basic     |                             |                             |           13.69           |                             |
+| professional |                             |                             |          136.98           |                             |
+|   business   |                             |                             |          684.93           |                             |
 
 ---
 

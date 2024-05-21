@@ -1,45 +1,79 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import * as process from 'process'
-import { server as startServer } from '../../src'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 import { mockContractCallResponseSuccess } from './fixtures'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
-import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  const envVariables = {
-    CACHE_ENABLED: 'false',
-    RPC_URL: process.env.RPC_URL || 'http://localhost:8545',
-  }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL ?? 'http://localhost:8545'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  setupExternalAdapterTest(envVariables, context)
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
 
-  describe('function call', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
+
+  describe('function endpoint', () => {
+    it('should return success', async () => {
+      const data = {
         contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
         function: 'function symbol() view returns (string)',
-      },
-    }
-
-    it('should return success', async () => {
+      }
       mockContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+    it('should return success 2', async () => {
+      const data = {
+        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+        function: 'function latestAnswer() external view returns (int256)',
+      }
+      mockContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with parameters', async () => {
+      const data = {
+        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+        function: 'function getAnswer(uint256 roundId) external view returns (int256)',
+        inputParams: ['110680464442257317364'],
+      }
+      mockContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error for invalid input', async () => {
+      const data = {
+        contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+        function: 'symbol() view returns (string)', // missing 'function' keyword
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })

@@ -1,6 +1,6 @@
 # Chainlink Fixer External Adapter
 
-![2.0.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fixer/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fixer/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpoint.
 
@@ -14,6 +14,17 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :---------: | :----: | :-----: | :---------------------: |
 |    ✅     |   API_KEY    |             | string |         |                         |
 |           | API_ENDPOINT |             | string |         | `https://data.fixer.io` |
+
+---
+
+## Data Provider Rate Limits
+
+|       Name       | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |            Note             |
+| :--------------: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------: |
+|       free       |                             |                             |           1.369           | only mentions monthly limit |
+|      basic       |                             |                             |           13.69           |                             |
+|   professional   |                             |                             |          136.98           |                             |
+| professionalplus |                             |                             |          684.93           |                             |
 
 ---
 

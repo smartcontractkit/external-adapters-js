@@ -1,5 +1,156 @@
 # @chainlink/historical-average-adapter
 
+## 1.2.56
+
+### Patch Changes
+
+- [#3263](https://github.com/smartcontractkit/external-adapters-js/pull/3263) [`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5)]:
+  - @chainlink/coinmarketcap-adapter@2.0.23
+
+## 1.2.55
+
+### Patch Changes
+
+- [#3241](https://github.com/smartcontractkit/external-adapters-js/pull/3241) [`ebb0af9`](https://github.com/smartcontractkit/external-adapters-js/commit/ebb0af92e5912ff9f069d9f4ed3c1238aef3e1b0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`ebb0af9`](https://github.com/smartcontractkit/external-adapters-js/commit/ebb0af92e5912ff9f069d9f4ed3c1238aef3e1b0)]:
+  - @chainlink/coinmarketcap-adapter@2.0.22
+
+## 1.2.54
+
+### Patch Changes
+
+- [#3233](https://github.com/smartcontractkit/external-adapters-js/pull/3233) [`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0)]:
+  - @chainlink/coinmarketcap-adapter@2.0.21
+
+## 1.2.53
+
+### Patch Changes
+
+- [#3209](https://github.com/smartcontractkit/external-adapters-js/pull/3209) [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e), [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/coinmarketcap-adapter@2.0.20
+
+## 1.2.52
+
+### Patch Changes
+
+- [#3130](https://github.com/smartcontractkit/external-adapters-js/pull/3130) [`45038be71`](https://github.com/smartcontractkit/external-adapters-js/commit/45038be71ca433291229324174c50023b2513afc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`45038be71`](https://github.com/smartcontractkit/external-adapters-js/commit/45038be71ca433291229324174c50023b2513afc)]:
+  - @chainlink/coinmarketcap-adapter@2.0.19
+
+## 1.2.51
+
+### Patch Changes
+
+- [#3055](https://github.com/smartcontractkit/external-adapters-js/pull/3055) [`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
+- Updated dependencies [[`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941)]:
+  - @chainlink/coinmarketcap-adapter@2.0.18
+
+## 1.2.50
+
+### Patch Changes
+
+- Updated dependencies [[`112d9c967`](https://github.com/smartcontractkit/external-adapters-js/commit/112d9c9679fdcb3210ec53a17b6b8f0016ad0a0d)]:
+  - @chainlink/coinmarketcap-adapter@2.0.17
+
+## 1.2.49
+
+### Patch Changes
+
+- Updated dependencies [[`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30)]:
+  - @chainlink/coinmarketcap-adapter@2.0.16
+
+## 1.2.48
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941)]:
+  - @chainlink/coinmarketcap-adapter@2.0.15
+
+## 1.2.47
+
+### Patch Changes
+
+- [#2959](https://github.com/smartcontractkit/external-adapters-js/pull/2959) [`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02) Thanks [@amit-momin](https://github.com/amit-momin)! - Bumped framework version
+
+- [#2957](https://github.com/smartcontractkit/external-adapters-js/pull/2957) [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
+- [#2953](https://github.com/smartcontractkit/external-adapters-js/pull/2953) [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+- Updated dependencies [[`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02), [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c), [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc)]:
+  - @chainlink/coinmarketcap-adapter@2.0.14
+
+## 1.2.46
+
+### Patch Changes
+
+- Updated dependencies [737c6d094]
+  - @chainlink/coinmarketcap-adapter@2.0.13
+
+## 1.2.45
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+- Updated dependencies [011aec39e]
+  - @chainlink/coinmarketcap-adapter@2.0.12
+
+## 1.2.44
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+- Updated dependencies [1a00fdfc1]
+- Updated dependencies [715221438]
+  - @chainlink/coinmarketcap-adapter@2.0.11
+
+## 1.2.43
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+- Updated dependencies [eff4c4cf5]
+- Updated dependencies [14a549217]
+  - @chainlink/coinmarketcap-adapter@2.0.10
+
+## 1.2.42
+
+### Patch Changes
+
+- Updated dependencies [09a7a4386]
+  - @chainlink/coinmarketcap-adapter@2.0.9
+
+## 1.2.41
+
+### Patch Changes
+
+- Updated dependencies [f2d2ae675]
+- Updated dependencies [adc0a8297]
+  - @chainlink/coinmarketcap-adapter@2.0.8
+
+## 1.2.40
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+- Updated dependencies [cc0d39064]
+- Updated dependencies [fb1b11b77]
+  - @chainlink/coinmarketcap-adapter@2.0.7
+
 ## 1.2.39
 
 ### Patch Changes

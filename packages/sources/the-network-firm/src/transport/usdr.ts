@@ -1,0 +1,88 @@
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { BaseEndpointTypes } from '../endpoint/usdr'
+
+export interface ResponseSchema {
+  accountName: string
+  totalReserve: number
+  totalToken: number
+  detailedReserve: {
+    DAI: number
+    realEstate: number
+    TNGBL: number
+    insuranceFund: number
+  }
+  timestamp: string
+  ripcord: boolean
+  ripcordDetails: string[]
+}
+
+export type HttpTransportTypes = BaseEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
+  }
+}
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
+  prepareRequests: (params, config) => {
+    return {
+      params: params,
+      request: {
+        baseURL: config.API_ENDPOINT,
+        url: '/USDR',
+      },
+    }
+  },
+  parseResponse: (params, response) => {
+    // Return error if ripcord indicator true
+    if (response.data.ripcord) {
+      const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(', ')}`
+      return [
+        {
+          params: params[0],
+          response: {
+            errorMessage: message,
+            ripcord: response.data.ripcord,
+            ripcordDetails: response.data.ripcordDetails.join(', '),
+            statusCode: 502,
+            timestamps: {
+              providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+            },
+          },
+        },
+      ]
+    }
+
+    const result = response.data.totalReserve
+
+    if (typeof response.data.totalReserve === 'undefined') {
+      return [
+        {
+          params: params[0],
+          response: {
+            errorMessage: `Response missing totalReserve`,
+            statusCode: 502,
+            timestamps: {
+              providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+            },
+          },
+        },
+      ]
+    }
+
+    return [
+      {
+        params: params[0],
+        response: {
+          result,
+          data: {
+            result,
+            ripcord: response.data.ripcord,
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+          },
+        },
+      },
+    ]
+  },
+})

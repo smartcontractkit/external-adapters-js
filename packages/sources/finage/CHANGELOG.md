@@ -1,5 +1,53 @@
 ## v1.1.0
 
+## 2.0.4
+
+### Patch Changes
+
+- [#3263](https://github.com/smartcontractkit/external-adapters-js/pull/3263) [`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 2.0.3
+
+### Patch Changes
+
+- [#3241](https://github.com/smartcontractkit/external-adapters-js/pull/3241) [`ebb0af9`](https://github.com/smartcontractkit/external-adapters-js/commit/ebb0af92e5912ff9f069d9f4ed3c1238aef3e1b0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 2.0.2
+
+### Patch Changes
+
+- [#3233](https://github.com/smartcontractkit/external-adapters-js/pull/3233) [`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 2.0.1
+
+### Patch Changes
+
+- [#3209](https://github.com/smartcontractkit/external-adapters-js/pull/3209) [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 2.0.0
+
+### Major Changes
+
+- [#3179](https://github.com/smartcontractkit/external-adapters-js/pull/3179) [`69be0bd`](https://github.com/smartcontractkit/external-adapters-js/commit/69be0bd337860fa11471de99f7534c77c69b9725) Thanks [@amit-momin](https://github.com/amit-momin)! - Upgraded adapter to the v3 framework
+
+## 1.10.0
+
+### Minor Changes
+
+- [#3074](https://github.com/smartcontractkit/external-adapters-js/pull/3074) [`f1a972cc9`](https://github.com/smartcontractkit/external-adapters-js/commit/f1a972cc968b33adc26f76013bba6d66babb78b5) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Finage v2 and v3 inverse behavior
+
+## 1.9.0
+
+### Minor Changes
+
+- [#3023](https://github.com/smartcontractkit/external-adapters-js/pull/3023) [`eb0823596`](https://github.com/smartcontractkit/external-adapters-js/commit/eb08235969634f82dfac840a7b60eeece9d8e3e8) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - country as input param
+
+## 1.8.0
+
+### Minor Changes
+
+- [#2972](https://github.com/smartcontractkit/external-adapters-js/pull/2972) [`f3f1113ba`](https://github.com/smartcontractkit/external-adapters-js/commit/f3f1113bac1ad1ee69dc3cf03ca787c4f9a68743) Thanks [@alecgard](https://github.com/alecgard)! - Add ETF endpoint.
+
 ## 1.7.0
 
 ### Minor Changes

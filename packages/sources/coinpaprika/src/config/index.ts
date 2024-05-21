@@ -15,6 +15,16 @@ export const config = new AdapterConfig({
     required: false,
     sensitive: true,
   },
+  WS_API_ENDPOINT: {
+    description: 'The WS API endpoint for Coinpaprika',
+    default: 'wss://streaming.coinpaprika.com/ticks',
+    type: 'string',
+  },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
 })
 
 export const getApiEndpoint = (settings: typeof config.settings): string =>
@@ -27,3 +37,5 @@ export const getApiHeaders = (settings: typeof config.settings): { Authorization
   }
   return headers
 }
+
+export const AVAILABLE_WS_QUOTES = ['USD', 'BTC', 'ETH', 'BNB', 'MATIC'] as const

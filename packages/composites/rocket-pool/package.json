@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/rocket-pool-adapter",
-  "version": "1.1.6",
+  "version": "1.1.8",
   "description": "Chainlink external adapter for Rocket Pool price feeds.",
   "keywords": [
     "Chainlink",
@@ -39,11 +39,11 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/contracts": "^0.0.14",
+    "@chainlink/contracts": "^0.8.0",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
-    "nock": "13.2.9",
+    "@types/node": "16.18.96",
+    "@types/supertest": "2.0.16",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }

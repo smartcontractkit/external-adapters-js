@@ -1,4 +1,5 @@
-import { getIdFromBaseQuote, latestUpdateIsCurrentDay, tenorInRange } from '../../src/utils'
+import { latestUpdateIsWithinLast24h, tenorInRange } from '../../src/transport/utils'
+import { getIdFromBaseQuote } from '../../src/endpoint/utils'
 
 describe('getIdFromBaseQuote', () => {
   const tests: {
@@ -69,34 +70,43 @@ describe('latestUpdateIsCurrentDay', () => {
   it('returns true when the latest update is on the current day in UTC time zone', () => {
     const currentDayIsoString = new Date().toISOString()
     const currentDayTimestampMs = new Date(currentDayIsoString).getTime()
-    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayTimestampMs)
+    const latestUpdateIsCurrentDayResult = latestUpdateIsWithinLast24h(currentDayTimestampMs)
     expect(latestUpdateIsCurrentDayResult).toBe(true)
-  })
-
-  it('returns false when the latest update is not on the current day in UTC time zone', () => {
-    const yesterdayIsoString = new Date(Date.now() - 86400000).toISOString()
-    const yesterdayTimestampMs = new Date(yesterdayIsoString).getTime()
-    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(yesterdayTimestampMs)
-    expect(latestUpdateIsCurrentDayResult).toBe(false)
   })
 
   it('returns false when the input timestamp is not valid', () => {
     const invalidTimestamp = NaN
-    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(invalidTimestamp)
+    const latestUpdateIsCurrentDayResult = latestUpdateIsWithinLast24h(invalidTimestamp)
     expect(latestUpdateIsCurrentDayResult).toBe(false)
   })
 
   it('returns true when the latest update is on the first millisecond of the current day in UTC time zone', () => {
     const currentDayIsoString = new Date().toISOString().substring(0, 10)
     const currentDayFirstMsTimestamp = new Date(`${currentDayIsoString}T00:00:00.000Z`).getTime()
-    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayFirstMsTimestamp)
+    const latestUpdateIsCurrentDayResult = latestUpdateIsWithinLast24h(currentDayFirstMsTimestamp)
     expect(latestUpdateIsCurrentDayResult).toBe(true)
   })
 
   it('returns true when the latest update is on the last millisecond of the current day in UTC time zone', () => {
     const currentDayIsoString = new Date().toISOString().substring(0, 10)
     const currentDayLastMsTimestamp = new Date(`${currentDayIsoString}T23:59:59.999Z`).getTime()
-    const latestUpdateIsCurrentDayResult = latestUpdateIsCurrentDay(currentDayLastMsTimestamp)
+    const latestUpdateIsCurrentDayResult = latestUpdateIsWithinLast24h(currentDayLastMsTimestamp)
     expect(latestUpdateIsCurrentDayResult).toBe(true)
+  })
+
+  it('returns true when within 24 hours + 30 mins of latest update', () => {
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date('2023-08-31T15:29:59.999Z'))
+    const yesterdayLastMsTimestamp = new Date(`2023-08-30T15:00:00.000Z`).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsWithinLast24h(yesterdayLastMsTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(true)
+  })
+
+  it('returns false when past of 24 hours + 30 mins of latest update', () => {
+    jest.useFakeTimers()
+    jest.setSystemTime(new Date('2023-08-31T15:30:00.000Z'))
+    const yesterdayLastMsTimestamp = new Date(`2023-08-30T15:00:00.000Z`).getTime()
+    const latestUpdateIsCurrentDayResult = latestUpdateIsWithinLast24h(yesterdayLastMsTimestamp)
+    expect(latestUpdateIsCurrentDayResult).toBe(false)
   })
 })

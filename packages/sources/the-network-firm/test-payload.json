@@ -1,0 +1,20 @@
+{
+   "requests": [
+      {
+         "endpoint": "stbt"
+      },
+      {
+         "endpoint": "backed",
+         "accountName": "IBTA"
+      },
+      {
+         "endpoint": "usdr"
+      },
+      {
+         "endpoint": "eurr"
+      },
+      {
+         "endpoint": "gift"
+      }
+   ]
+}

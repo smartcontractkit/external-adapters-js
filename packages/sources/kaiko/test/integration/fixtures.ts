@@ -1,13 +1,13 @@
 import nock from 'nock'
 
 export const mockRateResponseSuccess = (): nock.Scope =>
-  nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
+  nock('https://us.market-api.kaiko.io/v2/data', {
     encodedQueryParams: true,
     reqheaders: {
       'X-Api-Key': 'fake-api-key',
     },
   })
-    .get('/spot_exchange_rate/eth/usd')
+    .get('/trades.v2/spot_exchange_rate/eth/usd')
     .query(() => true)
     .reply(
       200,
@@ -19,7 +19,6 @@ export const mockRateResponseSuccess = (): nock.Scope =>
           sort: 'desc',
           base_asset: 'eth',
           sources: false,
-          ch: true,
           include_exchanges: ['*'],
           exclude_exchanges: [],
           quote_asset: 'usd',
@@ -58,10 +57,13 @@ export const mockRateResponseSuccess = (): nock.Scope =>
             'stmp:spot:usdt-usd',
           ],
           start_timestamp: 1634847827224,
+          end_timestamp: 1634934227224,
+          extrapolate_missing_values: false,
         },
         time: '2021-10-21T20:53:58.409Z',
         timestamp: 1634849638409,
         data: [
+          { timestamp: 1634849580000, price: null },
           { timestamp: 1634849580000, price: '4097.271668358277' },
           { timestamp: 1634849520000, price: '4099.005559462574' },
           { timestamp: 1634849460000, price: '4095.367165635129' },
@@ -110,188 +112,55 @@ export const mockRateResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-    .get('/spot_exchange_rate/ltc/eth')
+    .get('/analytics.v2/realized_volatility')
     .query(() => true)
     .reply(
       200,
       () => ({
         query: {
-          page_size: 100,
-          start_time: '2021-10-21T20:23:47.224Z',
-          interval: '1m',
-          sort: 'desc',
-          base_asset: 'ltc',
-          quote_asset: 'eth',
-          sources: false,
-          ch: true,
-          include_exchanges: ['*'],
-          exclude_exchanges: [],
-          data_version: 'v1',
-          commodity: 'trades',
-          request_time: '2021-10-21T20:57:28.258Z',
-          instruments: [
-            'abts:spot:ltc-eth',
-            'bnce:spot:ltc-eth',
-            'btbu:spot:ltc-eth',
-            'btby:spot:ltc-eth',
-            'btrx:spot:ltc-eth',
-            'cngg:spot:ltc-eth',
-            'gacn:spot:ltc-eth',
-            'gmni:spot:ltc-eth',
-            'kcon:spot:ltc-eth',
-            'krkn:spot:ltc-eth',
-            'okcn:spot:ltc-eth',
-            'okex:spot:ltc-eth',
-            'tidx:spot:ltc-eth',
-            'upbt:spot:ltc-eth',
-            'yobt:spot:ltc-eth',
-          ],
-          start_timestamp: 1634847827224,
+          start_time: '2022-01-01T11:01:11.111Z',
+          end_time: '2022-01-01T11:11:11.111Z',
+          parameters_code: 'btc-usd:1d_10m,btc-usd:7d_10m,btc-usd:30d_10m',
+          request_time: '2022-01-01T11:11:11.111Z',
+          commodity: 'analytics',
+          data_version: 'v2',
         },
-        time: '2021-10-21T20:57:28.316Z',
-        timestamp: 1634849848316,
-        data: [
-          { timestamp: 1634849820000, price: '0.0485267900742041', volume: '12.533', count: 2 },
-          {
-            timestamp: 1634849760000,
-            price: '0.048497889663599435',
-            volume: '26.555007999999997',
-            count: 12,
+        data: {
+          'btc-usd:1d_10m': {
+            pair: 'btc-usd',
+            lookback_window: '1d',
+            returns_frequency: '10m',
+            realized_volatilities: [
+              {
+                datetime: '2022-01-01T11:10:00.000Z',
+                value: 0.5302169,
+              },
+            ],
           },
-          {
-            timestamp: 1634849700000,
-            price: '0.048398834632646506',
-            volume: '21.584660000000003',
-            count: 19,
+          'btc-usd:30d_10m': {
+            pair: 'btc-usd',
+            lookback_window: '30d',
+            returns_frequency: '10m',
+            realized_volatilities: [
+              {
+                datetime: '2022-01-01T11:10:00.000Z',
+                value: 0.5291809,
+              },
+            ],
           },
-          {
-            timestamp: 1634849640000,
-            price: '0.048405829728186356',
-            volume: '12.662683',
-            count: 6,
+          'btc-usd:7d_10m': {
+            pair: 'btc-usd',
+            lookback_window: '7d',
+            returns_frequency: '10m',
+            realized_volatilities: [
+              {
+                datetime: '2022-01-01T11:10:00.000Z',
+                value: 0.2474815,
+              },
+            ],
           },
-          { timestamp: 1634849580000, price: '0.0484352753892633', volume: '8.606', count: 3 },
-          { timestamp: 1634849520000, price: '0.0484497826458232', volume: '13.537352', count: 7 },
-          {
-            timestamp: 1634849460000,
-            price: '0.04849831476309663',
-            volume: '18.734369',
-            count: 22,
-          },
-          {
-            timestamp: 1634849400000,
-            price: '0.048594721564735724',
-            volume: '14.216176999999998',
-            count: 32,
-          },
-          { timestamp: 1634849340000, price: '0.04859215236797787', volume: '7.735313', count: 9 },
-          {
-            timestamp: 1634849280000,
-            price: '0.04856408744822977',
-            volume: '4.244477000000001',
-            count: 6,
-          },
-          {
-            timestamp: 1634849220000,
-            price: '0.04853194103480106',
-            volume: '1.7181659999999999',
-            count: 3,
-          },
-          { timestamp: 1634849160000, price: '0.04850674880774689', volume: '17.927611', count: 6 },
-          { timestamp: 1634849100000, price: '0.048499999999999995', volume: '3.770532', count: 4 },
-          {
-            timestamp: 1634849040000,
-            price: '0.05036439227915269',
-            volume: '5.928089999999999',
-            count: 4,
-          },
-          { timestamp: 1634848980000, price: '0.04853020782800785', volume: '7.684816', count: 7 },
-          {
-            timestamp: 1634848920000,
-            price: '0.048572348230302625',
-            volume: '2.0458299999999996',
-            count: 12,
-          },
-          { timestamp: 1634848860000, price: '0.04855366375817002', volume: '6.416144', count: 6 },
-          {
-            timestamp: 1634848800000,
-            price: '0.04859258179206158',
-            volume: '49.44978091',
-            count: 18,
-          },
-          { timestamp: 1634848740000, price: '0.04855099423360841', volume: '2.22843', count: 6 },
-          { timestamp: 1634848680000, price: '0.048579148636077187', volume: '13.3292', count: 8 },
-          {
-            timestamp: 1634848620000,
-            price: '0.04856110869831929',
-            volume: '80.374849',
-            count: 27,
-          },
-          { timestamp: 1634848560000, price: '0.0485', volume: '0.84059', count: 6 },
-          { timestamp: 1634848500000, price: '0.048483288920474474', volume: '7.643432', count: 9 },
-          { timestamp: 1634848440000, price: '0.04848', volume: '0.016412', count: 1 },
-          {
-            timestamp: 1634848380000,
-            price: '0.04843055322645053',
-            volume: '48.406290000000006',
-            count: 10,
-          },
-          {
-            timestamp: 1634848320000,
-            price: '0.04846774522580306',
-            volume: '7.8921649999999985',
-            count: 5,
-          },
-          { timestamp: 1634848260000, price: '0.0484898592058157', volume: '2.557492', count: 8 },
-          {
-            timestamp: 1634848200000,
-            price: '0.04842042309298373',
-            volume: '39.75960098',
-            count: 19,
-          },
-          { timestamp: 1634848140000, price: '0.0484', volume: '0.01544', count: 1 },
-          { timestamp: 1634848080000, price: '0.048400000000000006', volume: '0.11741', count: 8 },
-          { timestamp: 1634848020000, price: '0.048370129469937864', volume: '8.151931', count: 9 },
-          { timestamp: 1634847960000, price: '0.04838454297074203', volume: '8.969382', count: 11 },
-          {
-            timestamp: 1634847900000,
-            price: '0.048390170656841855',
-            volume: '3.462797',
-            count: 11,
-          },
-          { timestamp: 1634847840000, price: '0.0483', volume: '0.131208', count: 1 },
-        ],
-        result: 'success',
-        access: {
-          access_range: { start_timestamp: 1609459200000, end_timestamp: 1654041599000 },
-          data_range: { start_timestamp: 1609459200000, end_timestamp: 1654041599000 },
         },
       }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
+      ['Content-Type', 'application/json'],
     )
-
-export const mockRateResponseFailure = (): nock.Scope =>
-  nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
-    encodedQueryParams: true,
-  })
-    .get('/spot_exchange_rate/xxx/usd')
-    .query(() => true)
-    .reply(400, () => 'Invalid base or quote', [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .persist()

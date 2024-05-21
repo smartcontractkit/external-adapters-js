@@ -56,6 +56,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 
 - [anchor](./anchor/README.md)
 - [apy-finance](./apy-finance/README.md)
+- [apy-finance-test](./apy-finance-test/README.md)
 - [augur](./augur/README.md)
 - [bitcoin-json-rpc](./bitcoin-json-rpc/README.md)
 - [bsol-price](./bsol-price/README.md)
@@ -67,6 +68,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [dns-record-check](./dns-record-check/README.md)
 - [dxdao](./dxdao/README.md)
 - [dydx-rewards](./dydx-rewards/README.md)
+- [gm-token](./gm-token/README.md)
 - [google-weather](./google-weather/README.md)
 - [historical-average](./historical-average/README.md)
 - [implied-price](./implied-price/README.md)
@@ -75,7 +77,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [medianizer](./medianizer/README.md)
 - [nftx](./nftx/README.md)
 - [outlier-detection](./outlier-detection/README.md)
-- [por-indexer](./por-indexer/README.md)
 - [proof-of-reserves](./proof-of-reserves/README.md)
 - [reference-transform](./reference-transform/README.md)
 - [rocket-pool](./rocket-pool/README.md)

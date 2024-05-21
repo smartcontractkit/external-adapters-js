@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Deribit
 
-![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://www.deribit.com/api/v2/public/
 
@@ -11,6 +11,14 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |     Name     | Description |  Type  | Options |                 Default                  |
 | :-------: | :----------: | :---------: | :----: | :-----: | :--------------------------------------: |
 |           | API_ENDPOINT |             | string |         | `https://www.deribit.com/api/v2/public/` |
+
+---
+
+## Data Provider Rate Limits
+
+| Name | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                       Note                                       |
+| :--: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------------------: |
+| free |             100             |            1200             |                           | for non-matching requests: https://www.deribit.com/pages/information/rate-limits |
 
 ---
 

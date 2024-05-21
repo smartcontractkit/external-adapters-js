@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V2
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter allows querying Uniswap V2 contracts
 
@@ -15,6 +15,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |           | ETHEREUM_CHAIN_ID  |                                        The chain id to connect to                                         | string |         |                     `1`                      |
 |           | BLOCKCHAIN_NETWORK | The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET | string |         |                  `ethereum`                  |
 |           |  ROUTER_CONTRACT   |    The Uniswap router address to get price from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET     | string |         | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

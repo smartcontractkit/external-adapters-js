@@ -1,6 +1,6 @@
 # Chainlink External Adapter for taapi.io
 
-![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/taapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/taapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.taapi.io/
 
@@ -11,6 +11,18 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |  Name   | Description |  Type  | Options | Default |
 | :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
 |    ✅     | API_KEY |             | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|    free    |                             |              1              |                           |      |
+|   basic    |              1              |                             |                           |      |
+|    pro     |             10              |                             |                           |      |
+|   expert   |             20              |                             |                           |      |
+| privatevps |             50              |                             |                           |      |
 
 ---
 

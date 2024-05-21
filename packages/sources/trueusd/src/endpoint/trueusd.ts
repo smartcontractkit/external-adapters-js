@@ -1,85 +1,48 @@
-import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  PoRProviderEndpoint,
+  PoRProviderResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { httpTransport } from '../transport/trueusd'
+import { config } from '../config'
 
-export const NAME = 'trueusd'
-
-export const supportedEndpoints = ['trueusd']
-
-export const endpointResultPaths = {
-  trueusd: 'totalTrust',
-}
-
-export const description =
-  'https://api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD'
-
-export type TInputParameters = {
-  field?: string // Deprecated - kept for backwards compatability
-  chain?: string
-}
-
-export const inputParameters: InputParameters<TInputParameters> = {
-  chain: {
-    required: false,
-    description: 'Filter data to a single blockchain',
-    type: 'string',
+export const inputParameters = new InputParameters(
+  {
+    chain: {
+      description: 'Filter data to a single blockchain',
+      type: 'string',
+    },
+    field: {
+      // Deprecated - kept for backwards compatability
+      default: 'totalTrust',
+      description:
+        'The object-path string to parse a single `result` value. When not provided the entire response will be provided.',
+      type: 'string',
+    },
   },
-  field: {
-    // Deprecated - kept for backwards compatability
-    required: false,
-    default: 'totalTrust',
-    description:
-      'The object-path string to parse a single `result` value. When not provided the entire response will be provided.',
-    type: 'string',
-  },
+  [
+    {
+      field: 'totalTrust',
+    },
+    {
+      chain: 'AVA',
+      field: 'totakToken',
+    },
+    {
+      chain: 'TUSD (AVAX)',
+      field: 'totalTokenByChain',
+    },
+  ],
+)
+
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: PoRProviderResponse
+  Settings: typeof config.settings
 }
 
-interface ResponseSchema {
-  accountName: string
-  totalTrust: number
-  totalToken: number
-  updatedAt: string
-  token: {
-    tokenName: string
-    principle: number
-    totalTokenByChain: number
-    totalTrustByChain: number
-    bankBalances: {
-      [name: string]: number
-    }
-  }[]
-}
-
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-  const field = validator.validated.data.field
-  const chain = validator.validated.data.chain
-  const resultPath = (validator.validated.data.resultPath || field || '').toString()
-  const url = '/chainlink/proof-of-reserves/TrueUSD'
-
-  const options = { ...config.api, url }
-
-  const response = await Requester.request<ResponseSchema>(options)
-
-  if (chain) {
-    const chainData = response.data.token.find(({ tokenName }) => tokenName.includes(chain))
-    if (!chainData) {
-      const options = response.data.token.map(({ tokenName }) => tokenName).join(', ')
-      throw new AdapterInputError({
-        jobRunID,
-        message: `The given "chain" parameter of ${chain} is not found. Available options are one of: ${options}`,
-        statusCode: 400,
-      })
-    }
-
-    const resultPathOverride = // If 'resultPath' is default, then override to default for chain data
-      resultPath === endpointResultPaths.trueusd ? 'totalTrustByChain' : resultPath
-    const result = Requester.validateResultNumber(chainData, [resultPathOverride])
-    return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-  }
-
-  const result = Requester.validateResultNumber(response.data, [resultPath])
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
+export const endpoint = new PoRProviderEndpoint({
+  name: 'trueusd',
+  transport: httpTransport,
+  inputParameters,
+})

@@ -7,18 +7,28 @@ import fs from 'fs'
 import path from 'path'
 import process from 'process'
 import { cat, exec, test } from 'shelljs'
-import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
+import {
+  EndpointDetails,
+  EnvVars,
+  IOMap,
+  JsonObject,
+  Package,
+  Schema,
+  RateLimits,
+  RateLimitsSchema,
+} from '../shared/docGenTypes'
 import {
   capitalize,
   codeList,
   getJsonFile,
+  getMdFile,
   saveText,
   wrapCode,
   wrapJson,
 } from '../shared/docGenUtils'
 import { TableText, buildTable } from '../shared/tableUtils'
 import { WorkspaceAdapter } from '../workspace'
-import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
+import { getBalanceTable, inputParamHeaders, paramHeaders, rateLimitHeaders } from './tableAssets'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -56,19 +66,22 @@ export class ReadmeGenerator {
   defaultBaseUrl = ''
   endpointDetails: EndpointDetails = {}
   envVars: EnvVars
+  rateLimitsPath: string
+  rateLimits: RateLimits
   integrationTestPath: string | null
   name: string
   readmeText = ''
   requiredEnvVars: string[]
-  skipTests: boolean
   verbose: boolean
   version: string
   versionBadgeUrl: string
   license: string
   frameworkVersion: 'v2' | 'v3'
   frameworkVersionBadgeUrl: string
+  knownIssuesPath: string
+  knownIssuesSection: string | null
 
-  constructor(adapter: WorkspaceAdapter, verbose = false, skipTests = false) {
+  constructor(adapter: WorkspaceAdapter, verbose = false) {
     this.verbose = verbose
     this.adapterPath = adapter.location
 
@@ -89,10 +102,11 @@ export class ReadmeGenerator {
     this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
     this.license = packageJson.license ?? ''
 
+    this.knownIssuesPath = this.adapterPath + 'docs/known-issues.md'
     this.schemaPath = this.adapterPath + 'schemas/env.json'
+    this.rateLimitsPath = this.adapterPath + 'src/config/limits.json'
     this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
     this.packageJson = packageJson
-    this.skipTests = skipTests
   }
 
   // We need to require/import adapter contents to generate the README.
@@ -108,10 +122,17 @@ export class ReadmeGenerator {
       //Is V2. Populate self w/ env.json content
       if (this.verbose) console.log(`${this.adapterPath}: Checking schema/env.json`)
       const schema = getJsonFile(this.schemaPath) as Schema
+      let rateLimits
+      try {
+        rateLimits = getJsonFile(this.rateLimitsPath)
+      } catch (e) {
+        rateLimits = { http: {} }
+      }
       this.frameworkVersion = 'v2'
       this.schemaDescription = schema.description ?? ''
       this.name = schema.title ?? this.packageJson.name ?? ''
       this.envVars = schema.properties ?? {}
+      this.rateLimits = (rateLimits as RateLimitsSchema)?.http || {}
       this.requiredEnvVars = schema.required ?? []
       this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
       this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
@@ -135,6 +156,7 @@ export class ReadmeGenerator {
       ).settingsDefinition
       this.name = adapter.name
       this.envVars = adapterSettings || {}
+      this.rateLimits = adapter.rateLimiting?.tiers || {}
 
       this.endpointDetails = adapter.endpoints?.length
         ? adapter.endpoints.reduce(
@@ -155,13 +177,19 @@ export class ReadmeGenerator {
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
     }
+
+    if (fs.existsSync(this.knownIssuesPath)) {
+      this.knownIssuesSection = getMdFile(this.knownIssuesPath) || null
+    }
   }
 
   buildReadme(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Generating README text`)
 
     this.addIntroSection()
+    this.addKnownIssuesSection()
     this.addEnvVarSection()
+    this.addRateLimitSection()
     this.addInputParamsSection()
     this.addEndpointSections()
     this.addLicense()
@@ -177,6 +205,11 @@ export class ReadmeGenerator {
       this.readmeText += `Base URL ${this.defaultBaseUrl}\n\n`
     }
     this.readmeText += `${genSig}\n\n`
+  }
+
+  addKnownIssuesSection(): void {
+    if (this.verbose) console.log(`${this.adapterPath}: Adding known issues`)
+    if (this.knownIssuesSection) this.readmeText += `${this.knownIssuesSection}\n\n`
   }
 
   addEnvVarSection(): void {
@@ -199,6 +232,27 @@ export class ReadmeGenerator {
       : 'There are no environment variables for this adapter.'
 
     this.readmeText += `## Environment Variables\n\n${envVarTable}\n\n---\n\n`
+  }
+
+  addRateLimitSection(): void {
+    if (this.verbose) console.log(`${this.adapterPath}: Adding rate limits`)
+
+    const rateLimits = this.rateLimits
+
+    const tableText: TableText = Object.entries(rateLimits).map(([key, rateLimit]) => {
+      const name = key ?? ''
+      const rateLimit1s = rateLimit.rateLimit1s?.toString() || ''
+      const rateLimit1m = rateLimit.rateLimit1m?.toString() || ''
+      const rateLimit1h = rateLimit.rateLimit1h?.toString() || ''
+      const notes = rateLimit.note || ''
+      return [name, rateLimit1s, rateLimit1m, rateLimit1h, notes]
+    })
+
+    const rateLimitsTable = tableText.length
+      ? buildTable(tableText, rateLimitHeaders)
+      : 'There are no rate limits for this adapter.'
+
+    this.readmeText += `## Data Provider Rate Limits\n\n${rateLimitsTable}\n\n---\n\n`
   }
 
   addInputParamsSection(): void {
@@ -229,7 +283,7 @@ export class ReadmeGenerator {
       : 'There are no input parameters for this adapter.'
 
     if (this.frameworkVersion === 'v3') {
-      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)\n\n${inputParamTable}\n\n`
+      this.readmeText += `## Input Parameters\n\n${inputParamTable}\n\n`
     } else {
       this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
     }
@@ -276,23 +330,42 @@ export class ReadmeGenerator {
   addEndpointSections(): void {
     // Store I/O Examples for each endpoint
     const endpointExampleText: { [endpoint: string]: string } = {}
-    // V3 does not print the same debug output used to generate these
-    if (this.skipTests || this.frameworkVersion === 'v3') {
-      // If skipping tests, pull from existing README
-      if (this.verbose)
-        console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
+    // V3 uses examples provided in input parameters
+    if (this.frameworkVersion === 'v3') {
+      if (this.verbose) {
+        console.log(`${this.adapterPath}: Pulling examples from input parameters`)
+      }
 
-      const currentReadmeText = cat(this.adapterPath + 'README.md').toString()
-
-      let regex: RegExp
-      const defaultText = exampleTextHeader + noExampleText
       for (const endpointName of Object.keys(this.endpointDetails)) {
-        regex = new RegExp(
-          `## ${capitalize(endpointName)} Endpoint(\n|.)*?(?<text>### Example(\n|.)*?)\n\n---`,
-        )
+        const examplesText: string[] = []
 
-        endpointExampleText[endpointName] =
-          currentReadmeText.match(regex)?.groups?.text ?? defaultText
+        // If EA has no input params, use only `endpoint` as request example
+        if (!Object.keys(this.endpointDetails[endpointName]?.inputParameters.definition).length) {
+          const exText = JSON.stringify({ data: { endpoint: endpointName } }, null, 2)
+          examplesText.push(`Request:\n\n${wrapJson(exText)}`)
+        } else {
+          const inputExamples = (this.endpointDetails[endpointName]?.inputParameters?.examples ||
+            []) as Record<string, unknown>[]
+
+          for (const example of inputExamples) {
+            const exText = JSON.stringify({ data: { endpoint: endpointName, ...example } }, null, 2)
+            examplesText.push(`Request:\n\n${wrapJson(exText)}`)
+          }
+        }
+
+        let endpointExamples = exampleTextHeader
+        if (examplesText.length === 0) {
+          endpointExamples += noExampleText
+        } else {
+          endpointExamples += examplesText[0]
+        }
+
+        if (examplesText.length > 1)
+          endpointExamples += `\n<details>\n<summary>Additional Examples</summary>\n\n${examplesText
+            .slice(1)
+            .join('\n')}\n</details>`
+
+        endpointExampleText[endpointName] = endpointExamples
       }
     } else {
       // If not skipping tests, run through yarn test with testEnvOverrides variables

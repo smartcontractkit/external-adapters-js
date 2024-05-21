@@ -12,6 +12,9 @@ export const supportedEndpoints = ['dnsProof']
 
 export const endpointResultPaths = {}
 
+export const description =
+  'Check Google’s DNS service to determine if a given domain is owned by a given blockchain address.'
+
 export type TInputParameters = { name: string; record: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   name: {

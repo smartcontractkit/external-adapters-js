@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket crypto endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 43682.66306523,
+  },
+  "result": 43682.66306523,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3038,
+    "providerDataStreamEstablishedUnixMs": 3030,
+    "providerIndicatedTimeUnixMs": 1646151298290,
+  },
+}
+`;
+
+exports[`websocket etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 118.78,
+  },
+  "result": 118.78,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5064,
+    "providerDataStreamEstablishedUnixMs": 5050,
+    "providerIndicatedTimeUnixMs": 1514764861000000,
+  },
+}
+`;
+
+exports[`websocket forex endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.331345,
+  },
+  "result": 1.331345,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1646157588000,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 163.58,
+  },
+  "result": 163.58,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1646154954689,
+  },
+}
+`;
+
+exports[`websocket uk etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 445.76,
+  },
+  "result": 445.76,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4054,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": 1514764861000000,
+  },
+}
+`;

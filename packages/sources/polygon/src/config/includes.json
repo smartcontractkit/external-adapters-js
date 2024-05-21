@@ -1,0 +1,13 @@
+[
+  {
+    "from": "TZS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TZS",
+        "inverse": true
+      }
+    ]
+  }
+]

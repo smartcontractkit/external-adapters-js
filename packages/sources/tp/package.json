@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tp-adapter",
-  "version": "1.1.4",
+  "version": "1.4.7",
   "description": "Chainlink TP adapter (sister to ICAP adapter).",
   "keywords": [
     "Chainlink",
@@ -29,16 +29,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.29.8",
+    "@chainlink/external-adapter-framework": "0.33.8",
     "decimal.js": "^10.3.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
-    "mock-socket": "9.1.5",
-    "supertest": "6.2.4",
+    "@types/node": "16.18.96",
+    "@types/sinonjs__fake-timers": "8.1.5",
     "typescript": "5.0.4"
   }
 }

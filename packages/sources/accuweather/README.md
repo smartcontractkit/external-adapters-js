@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AccuWeather
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/accuweather/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/accuweather/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 [AccuWeather](https://www.accuweather.com/)
 
@@ -39,6 +39,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :----------------------------------------------------------------: | :----: | :-----: | :---------------------------: |
 |           | API_ENDPOINT |                                                                    | string |         | `http://api.accuweather.com/` |
 |    ✅     |   API_KEY    | An API key that can be obtained from the data provider's dashboard | string |         |                               |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

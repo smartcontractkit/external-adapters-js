@@ -1,3 +1,5 @@
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+
 export const mockConnectionTime = new Date('2023-03-08T02:30:00.000Z')
 
 export const mockSubscribeResponse = { msg: 'auth', sta: 1 }
@@ -97,6 +99,14 @@ export const mockStalePriceResponse = {
   },
 }
 
+export const mockHeartbeatResponse = {
+  msg: 'sub',
+  pro: 'OMM',
+  rec: 'HBHHH:GBL.BIL.QTE.RTM!TP',
+  sta: 1,
+  fvs: { TIMACT: '23:01:00', GV1_TIME: '23:01:13' },
+}
+
 export const adapterResponse = {
   result: 1.0539,
   statusCode: 200,
@@ -106,4 +116,22 @@ export const adapterResponse = {
     providerDataStreamEstablishedUnixMs: mockConnectionTime.getTime(),
     providerIndicatedTimeUnixMs: undefined,
   },
+}
+
+export const mockPriceWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.send(JSON.stringify(mockSubscribeResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(mockStalePriceResponse))
+      socket.send(JSON.stringify(mockPriceResponse))
+      socket.send(JSON.stringify(mockInversePriceResponse))
+      socket.send(JSON.stringify(mockICPriceResponse))
+      socket.send(JSON.stringify(mockSeparateSourcePriceResponse))
+      setTimeout(() => {
+        socket.send(JSON.stringify(mockHeartbeatResponse))
+      }, 10000)
+    })
+  })
+  return mockWsServer
 }

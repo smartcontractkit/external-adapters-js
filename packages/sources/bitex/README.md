@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Bitex
 
-![1.5.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.5.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://bitex.la/api
 
@@ -12,6 +12,14 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :------------------: | :----: | :-----: | :--------------------: |
 |           | API_ENDPOINT |                      | string |         | `https://bitex.la/api` |
 |           |   API_KEY    | Bitex API key to use | string |         |                        |
+
+---
+
+## Data Provider Rate Limits
+
+| Name | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :--: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| free |              5              |                             |                           |      |
 
 ---
 

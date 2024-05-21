@@ -1,6 +1,6 @@
 # Galaxis Source Adapter
 
-![4.0.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxis/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![4.0.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxis/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 The Galaxis EA currently fetches Sports Data from a given API and encodes a function call that can be passed on chain.
 
@@ -16,6 +16,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |        EC_REGISTRY_ADDRESS        |        The ECRegistry contract address on Ethereum         | string |         | `0x163883263274e8Ef6332cFa84F35B23c6C51dF72` |
 |    ✅     |      EC_REGISTRY_MAP_ADDRESS      |       The ECRegistryMap contract address on Ethereum       | string |         | `0x139B522955D54482E7662927653ABb0bFB6F19BA` |
 |           | CHAIN_BATCH_WRITE_ADAPTER_ADDRESS |        The BatchWriter contract address on Ethereum        | string |         | `0xB57fba975C89492B016e0215E819B4d489F0fbcD` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

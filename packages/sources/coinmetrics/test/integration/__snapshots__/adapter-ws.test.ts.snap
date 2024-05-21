@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket websocket endpoint should return success 1`] = `
+exports[`websocket lwba endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 1562.4083581615457,
+    "bid": 1562.3384315992228,
+    "mid": 1562.3733948803842,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1024,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1678248273750,
+  },
+}
+`;
+
+exports[`websocket price endpoint should return success 1`] = `
 {
   "data": {
     "result": 1500,
@@ -8,8 +25,8 @@ exports[`websocket websocket endpoint should return success 1`] = `
   "result": 1500,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1652198967193,
-    "providerDataStreamEstablishedUnixMs": 1652198967193,
+    "providerDataReceivedUnixMs": 1024,
+    "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1591649644000,
   },
 }

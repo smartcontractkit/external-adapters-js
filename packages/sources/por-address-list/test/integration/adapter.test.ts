@@ -1,9 +1,9 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { server as startServer } from '../../src'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 import { ethers } from 'ethers'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
-import { SuperTest, Test } from 'supertest'
 
 const mockExpectedAddresses = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -36,7 +36,11 @@ jest.mock('ethers', () => {
       Contract: function () {
         return {
           getPoRAddressListLength: jest.fn().mockReturnValue(mockAddressListLength),
-          getPoRAddressList: jest.fn().mockReturnValue(mockExpectedAddresses),
+          getPoRAddressList: jest.fn().mockImplementation((startIdx, endIdx) => {
+            const start = startIdx.toNumber()
+            const end = endIdx.toNumber() + 1
+            return mockExpectedAddresses.slice(start, end)
+          }),
         }
       },
     },
@@ -44,37 +48,41 @@ jest.mock('ethers', () => {
 })
 
 describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  const envVariables = {
-    RPC_URL: process.env.RPC_URL || 'http://localhost:8545',
-  }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:8545'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  setupExternalAdapterTest(envVariables, context)
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
 
-  describe('addresses', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
+
+  describe('address endpoint', () => {
+    it('should return success', async () => {
+      const data = {
         contractAddress: '0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B',
         network: 'ethereum',
         chainId: 'mainnet',
-      },
-    }
-
-    it('should return success', async () => {
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })

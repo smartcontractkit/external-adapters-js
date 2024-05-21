@@ -9,6 +9,9 @@
       "path": "./composites/apy-finance"
     },
     {
+      "path": "./composites/apy-finance-test"
+    },
+    {
       "path": "./composites/augur"
     },
     {
@@ -42,6 +45,9 @@
       "path": "./composites/dydx-rewards"
     },
     {
+      "path": "./composites/gm-token"
+    },
+    {
       "path": "./composites/google-weather"
     },
     {
@@ -64,9 +70,6 @@
     },
     {
       "path": "./composites/outlier-detection"
-    },
-    {
-      "path": "./composites/por-indexer"
     },
     {
       "path": "./composites/proof-of-reserves"
@@ -105,16 +108,13 @@
       "path": "./core/test-helpers"
     },
     {
-      "path": "./examples/composite"
-    },
-    {
-      "path": "./examples/source"
-    },
-    {
       "path": "./non-deployable/reduce"
     },
     {
       "path": "./non-deployable/token-allocation"
+    },
+    {
+      "path": "./non-deployable/token-allocation-test"
     },
     {
       "path": "./scripts"
@@ -138,9 +138,6 @@
       "path": "./sources/alphavantage"
     },
     {
-      "path": "./sources/alphavantage-test"
-    },
-    {
       "path": "./sources/alpine"
     },
     {
@@ -151,9 +148,6 @@
     },
     {
       "path": "./sources/ap-election"
-    },
-    {
-      "path": "./sources/armanino"
     },
     {
       "path": "./sources/avalanche-platform"
@@ -216,10 +210,16 @@
       "path": "./sources/chain-reserve-wallet"
     },
     {
+      "path": "./sources/clear-bank"
+    },
+    {
       "path": "./sources/coinapi"
     },
     {
       "path": "./sources/coinbase"
+    },
+    {
+      "path": "./sources/coinbase-prime"
     },
     {
       "path": "./sources/coincodex"
@@ -276,6 +276,9 @@
       "path": "./sources/deribit"
     },
     {
+      "path": "./sources/dlc-btc-por"
+    },
+    {
       "path": "./sources/dns-query"
     },
     {
@@ -286,6 +289,9 @@
     },
     {
       "path": "./sources/dxfeed-secondary"
+    },
+    {
+      "path": "./sources/elven"
     },
     {
       "path": "./sources/elwood"
@@ -327,10 +333,13 @@
       "path": "./sources/finage"
     },
     {
-      "path": "./sources/finage-test"
+      "path": "./sources/finalto"
     },
     {
       "path": "./sources/finnhub"
+    },
+    {
+      "path": "./sources/finnhub-secondary"
     },
     {
       "path": "./sources/fixer"
@@ -343,6 +352,9 @@
     },
     {
       "path": "./sources/fmpcloud"
+    },
+    {
+      "path": "./sources/frxeth-exchange-rate"
     },
     {
       "path": "./sources/galaxis"
@@ -372,6 +384,9 @@
       "path": "./sources/gsr"
     },
     {
+      "path": "./sources/harris-and-trotter"
+    },
+    {
       "path": "./sources/icap"
     },
     {
@@ -381,7 +396,7 @@
       "path": "./sources/intrinio"
     },
     {
-      "path": "./sources/intrinio-test"
+      "path": "./sources/ion.au"
     },
     {
       "path": "./sources/ipfs"
@@ -394,9 +409,6 @@
     },
     {
       "path": "./sources/kaiko"
-    },
-    {
-      "path": "./sources/kaiko-test"
     },
     {
       "path": "./sources/layer2-sequencer-health"
@@ -432,6 +444,9 @@
       "path": "./sources/moonbeam-address-list"
     },
     {
+      "path": "./sources/moore-hk"
+    },
+    {
       "path": "./sources/mycryptoapi"
     },
     {
@@ -442,9 +457,6 @@
     },
     {
       "path": "./sources/nikkei"
-    },
-    {
-      "path": "./sources/nomics"
     },
     {
       "path": "./sources/oanda"
@@ -478,6 +490,9 @@
     },
     {
       "path": "./sources/por-address-list"
+    },
+    {
+      "path": "./sources/por-indexer"
     },
     {
       "path": "./sources/renvm-address-set"
@@ -525,6 +540,9 @@
       "path": "./sources/terra-view-function"
     },
     {
+      "path": "./sources/the-network-firm"
+    },
+    {
       "path": "./sources/therundown"
     },
     {
@@ -540,10 +558,10 @@
       "path": "./sources/tradingeconomics"
     },
     {
-      "path": "./sources/tradingeconomics-test"
+      "path": "./sources/trueusd"
     },
     {
-      "path": "./sources/trueusd"
+      "path": "./sources/trumatic-matic-exchange-rate"
     },
     {
       "path": "./sources/twelvedata"
@@ -558,9 +576,6 @@
       "path": "./sources/uniswap-v2"
     },
     {
-      "path": "./sources/uniswap-v3"
-    },
-    {
       "path": "./sources/upvest"
     },
     {
@@ -568,6 +583,9 @@
     },
     {
       "path": "./sources/view-function"
+    },
+    {
+      "path": "./sources/view-function-multi-chain"
     },
     {
       "path": "./sources/wbtc-address-set"

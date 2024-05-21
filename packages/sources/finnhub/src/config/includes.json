@@ -1,0 +1,376 @@
+[
+  {
+    "from": "HKD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-HKD",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "HKD",
+    "includes": [
+      {
+        "from": "FHFX:USD-HKD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SGD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-SGD",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "SGD",
+    "includes": [
+      {
+        "from": "FHFX:USD-SGD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SEK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-SEK",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "SEK",
+    "includes": [
+      {
+        "from": "FHFX:USD-SEK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "TRY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-TRY",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "TRY",
+    "includes": [
+      {
+        "from": "FHFX:USD-TRY",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "PLN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-PLN",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "PLN",
+    "includes": [
+      {
+        "from": "FHFX:USD-PLN",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "NZD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:NZD-USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "AUD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:AUD-USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EUR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:EUR-USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-CAD",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CAD",
+    "includes": [
+      {
+        "from": "FHFX:USD-CAD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "DKK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-DKK",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "DKK",
+    "includes": [
+      {
+        "from": "FHFX:USD-DKK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CNH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-CNH",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CNH",
+    "includes": [
+      {
+        "from": "FHFX:USD-CNH",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "GBP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:GBP-USD",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CHF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-CHF",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CHF",
+    "includes": [
+      {
+        "from": "FHFX:USD-CHF",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "JPY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-JPY",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "JPY",
+    "includes": [
+      {
+        "from": "FHFX:USD-JPY",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "NOK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-NOK",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "NOK",
+    "includes": [
+      {
+        "from": "FHFX:USD-NOK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CZK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-CZK",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "CZK",
+    "includes": [
+      {
+        "from": "FHFX:USD-CZK",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "HUF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-HUF",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "HUF",
+    "includes": [
+      {
+        "from": "FHFX:USD-HUF",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "MXN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-MXN",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "MXN",
+    "includes": [
+      {
+        "from": "FHFX:USD-MXN",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "ZAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "FHFX:USD-ZAR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USD",
+    "to": "ZAR",
+    "includes": [
+      {
+        "from": "FHFX:USD-ZAR",
+        "to": "",
+        "inverse": false
+      }
+    ]
+  }
+]

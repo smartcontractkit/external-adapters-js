@@ -1,6 +1,6 @@
-# Chainlink External Adapters for querying wBTC custodial address set
+# WBTC
 
-![1.4.55](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wbtc-address-set/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wbtc-address-set/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -13,9 +13,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
-## Input Parameters
+## Data Provider Rate Limits
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
+| default |                             |              6              |                           | Considered unlimited tier, but setting reasonable limits |
+
+---
+
+## Input Parameters
 
 | Required? |   Name   |     Description     |  Type  |                            Options                             |   Default   |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------: | :---------: |
@@ -35,50 +41,9 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
     "endpoint": "addresses"
-  },
-  "debug": {
-    "cacheKey": "5r8fx7Q3nfO/LZJVMjBrF5H2r1c="
   }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": [
-      {
-        "id": "601c5e4b11b1d4001e37091aa2618ee9",
-        "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
-        "balance": "0",
-        "type": "custodial",
-        "verified": false,
-        "coin": "btc",
-        "chainId": "mainnet",
-        "network": "bitcoin"
-      }
-    ],
-    "count": 1
-  },
-  "result": [
-    {
-      "id": "601c5e4b11b1d4001e37091aa2618ee9",
-      "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
-      "balance": "0",
-      "type": "custodial",
-      "verified": false,
-      "coin": "btc",
-      "chainId": "mainnet",
-      "network": "bitcoin"
-    }
-  ],
-  "statusCode": 200,
-  "providerStatusCode": 200
 }
 ```
 
@@ -98,50 +63,9 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
     "endpoint": "members"
-  },
-  "debug": {
-    "cacheKey": "FOTIQNRdneVgiSXx8lU+mK3y2fs="
   }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": [
-      {
-        "id": "601323767069d60008cb538b32c33cb1",
-        "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
-        "type": "custodial",
-        "balance": "0",
-        "verified": false,
-        "coin": "btc",
-        "chainId": "mainnet",
-        "network": "bitcoin"
-      }
-    ],
-    "count": 1
-  },
-  "result": [
-    {
-      "id": "601323767069d60008cb538b32c33cb1",
-      "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
-      "type": "custodial",
-      "balance": "0",
-      "verified": false,
-      "coin": "btc",
-      "chainId": "mainnet",
-      "network": "bitcoin"
-    }
-  ],
-  "statusCode": 200,
-  "providerStatusCode": 200
 }
 ```
 

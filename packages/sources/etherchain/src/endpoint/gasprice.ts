@@ -31,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed
-  const url = `/api/gasnow`
+  const url = `/api/v1/execution/gasnow`
 
   const options = {
     ...config.api,

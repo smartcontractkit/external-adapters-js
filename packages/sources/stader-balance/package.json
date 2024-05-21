@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stader-balance-adapter",
-  "version": "1.2.0",
+  "version": "1.4.13",
   "description": "Chainlink Stader balance adapter.",
   "keywords": [
     "Chainlink",
@@ -28,18 +28,16 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.29.8",
-    "axios": "1.3.6",
+    "@chainlink/external-adapter-framework": "0.33.8",
+    "axios": "1.6.8",
     "bignumber.js": "^9.1.1",
     "ethers": "5.5.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
-    "nock": "13.2.9",
-    "supertest": "6.2.4",
+    "@types/node": "16.18.96",
+    "nock": "13.5.4",
     "typescript": "5.0.4"
   }
 }

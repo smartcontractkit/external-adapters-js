@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wootrade
 
-![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wootrade/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wootrade/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
@@ -15,6 +15,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |   API_ENPOINT   |                                   |        |         |         |
 |           | WS_API_ENDPOINT |                                   |        |         |         |
 |           |     API_KEY     | An key to use the wootrade WS API | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

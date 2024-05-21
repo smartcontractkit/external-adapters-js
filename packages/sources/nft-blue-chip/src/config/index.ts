@@ -1,7 +1,5 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const defaultEndpoint = 'marketcap'
-
 export const config = new AdapterConfig({
   ETHEREUM_RPC_URL: {
     description: 'RPC URL to an Ethereum mainnet node',

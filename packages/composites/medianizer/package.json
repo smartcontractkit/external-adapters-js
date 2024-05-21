@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/medianizer-adapter",
-  "version": "1.2.30",
+  "version": "1.2.31",
   "description": "Chainlink medianizer adapter.",
   "keywords": [
     "Chainlink",
@@ -31,15 +31,14 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
-    "axios": "^0.24.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@chainlink/ea-test-helpers": "workspace:*",
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "@types/supertest": "2.0.12",
-    "nock": "13.2.9",
+    "@types/node": "16.18.96",
+    "@types/supertest": "2.0.16",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }

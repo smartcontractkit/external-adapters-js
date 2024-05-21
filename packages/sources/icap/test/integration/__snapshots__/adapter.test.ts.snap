@@ -1,5 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+
+
+exports[`Price Endpoint should succeed with CAD/USD 1`] = `
+{
+  "data": {
+    "result": 0.16,
+  },
+  "result": 0.16,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1678242600000,
+    "providerDataStreamEstablishedUnixMs": 1678242600000,
+  },
+}
+`;
+
+exports[`Price Endpoint should succeed with USD/CAD 1`] = `
+{
+  "data": {
+    "result": 6.25,
+  },
+  "result": 6.25,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1678242600000,
+    "providerDataStreamEstablishedUnixMs": 1678242600000,
+  },
+}
+`;
+
 exports[`Price Endpoint should return error on empty base 1`] = `
 {
   "error": {

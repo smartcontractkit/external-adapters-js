@@ -11,7 +11,7 @@ export type TInputParameters = { base: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
-    aliases: ['asset', 'from', 'symbol', 'uk_etf'],
+    aliases: ['asset', 'from', 'symbol', 'uk_etf', 'etf'],
     type: 'string',
     description:
       'The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/)',

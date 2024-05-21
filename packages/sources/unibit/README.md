@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Unibit
 
-![1.4.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/unibit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/unibit/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,16 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :--------------------------: | :----: | :-----: | :-------------------------------: |
 |    ✅     |   API_KEY    |      API key for Unibit      | string |         |                                   |
 |           | API_ENDPOINT | The endpoint for your Unibit |        |         | `https://api.unibit.ai/v2/stock/` |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |            Note             |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------: |
+| freetrial |                             |                             |           69.44           | only mentions monthly limit |
+|  starter  |                             |                             |       13888.8888889       | only mentions monthly limit |
+|    pro    |                             |                             |       41666.6666667       | only mentions monthly limit |
 
 ---
 

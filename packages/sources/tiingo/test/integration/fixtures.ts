@@ -1,5 +1,5 @@
 import nock from 'nock'
-
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tiingo.com', {
     encodedQueryParams: true,
@@ -348,3 +348,143 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
+
+export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = {
+    service: 'crypto_data',
+    messageType: 'A',
+    data: ['SA', 'eth/usd', '2022-03-02T19:37:08.102119+00:00', 'tiingo', 2930.4483973989],
+  }
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(JSON.stringify(wsResponse))
+    })
+  })
+
+  return mockWsServer
+}
+
+export const mockCryptoLwbaWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = {
+    service: 'crypto_data',
+    messageType: 'A',
+    data: [
+      'SA',
+      'eth/usd',
+      '2023-03-30T14:38:14.577256+00:00',
+      'tiingo',
+      1793.915292654675,
+      0.00032445356984135313,
+      117.75114002,
+      1793.6242715443277,
+      126.22352905999999,
+      1794.2063137650225,
+    ],
+  }
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(JSON.stringify(wsResponse))
+    })
+  })
+
+  return mockWsServer
+}
+
+export const mockIexWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponseQ = {
+    messageType: 'A',
+    service: 'iex',
+    data: [
+      'Q',
+      '2022-02-16T12:35:16.595244526-05:00',
+      1645032916595244500,
+      'aapl',
+      399,
+      170.28,
+      170.285,
+      170.29,
+      100,
+      null,
+      null,
+      0,
+      0,
+      null,
+      null,
+      null,
+    ],
+  }
+  const wsResponseT = {
+    messageType: 'A',
+    service: 'iex',
+    data: [
+      'T',
+      '2022-02-16T12:35:16.595244526-05:00',
+      1645032916595244500,
+      'amzn',
+      null,
+      null,
+      null,
+      null,
+      null,
+      106.21,
+      null,
+      null,
+      0,
+      0,
+      0,
+      0,
+    ],
+  }
+  const wsResponseHeartbeat = {
+    response: { code: 200, message: 'HeartBeat' },
+    messageType: 'H',
+  }
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    socket.on('message', () => {
+      if (counter++ === 0) {
+        socket.send(JSON.stringify(wsResponseQ))
+        socket.send(JSON.stringify(wsResponseT))
+        setTimeout(() => {
+          socket.send(JSON.stringify(wsResponseHeartbeat))
+        }, 10000)
+      }
+    })
+  })
+
+  return mockWsServer
+}
+
+export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            messageType: 'A',
+            service: 'fx',
+            data: [
+              'Q',
+              'eurusd',
+              '2022-04-14T19:33:12.474000+00:00',
+              1000000,
+              1.08267,
+              1.08272,
+              1000000,
+              1.08277,
+            ],
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}

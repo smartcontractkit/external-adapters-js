@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EOD Historical Data
 
-![1.4.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eodhistoricaldata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eodhistoricaldata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,14 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :---------: | :----: | :-----: | :-----------------------------: |
 |    ✅     |   API_KEY    |             | string |         |                                 |
 |           | API_ENDPOINT |             | string |         | `https://eodhistoricaldata.com` |
+
+---
+
+## Data Provider Rate Limits
+
+| Name | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |             Note              |
+| :--: | :-------------------------: | :-------------------------: | :-----------------------: | :---------------------------: |
+| all  |                             |                             |          4166.66          | all feeds have the same limit |
 
 ---
 
@@ -29,9 +37,9 @@ Supported names for this endpoint are: `price`, `stock`, `uk_etf`.
 
 ### Input Params
 
-| Required? | Name |               Aliases               |                                                       Description                                                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :---------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `from`, `symbol`, `uk_etf` | The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/) | string |         |         |            |                |
+| Required? | Name |                  Aliases                   |                                                       Description                                                        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :----------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `etf`, `from`, `symbol`, `uk_etf` | The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/) | string |         |         |            |                |
 
 ### Example
 

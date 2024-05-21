@@ -1,5 +1,150 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.6.8
+
+### Patch Changes
+
+- [#3263](https://github.com/smartcontractkit/external-adapters-js/pull/3263) [`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.6.7
+
+### Patch Changes
+
+- [#3241](https://github.com/smartcontractkit/external-adapters-js/pull/3241) [`ebb0af9`](https://github.com/smartcontractkit/external-adapters-js/commit/ebb0af92e5912ff9f069d9f4ed3c1238aef3e1b0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.6.6
+
+### Patch Changes
+
+- [#3233](https://github.com/smartcontractkit/external-adapters-js/pull/3233) [`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.6.5
+
+### Patch Changes
+
+- [#3209](https://github.com/smartcontractkit/external-adapters-js/pull/3209) [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.6.4
+
+### Patch Changes
+
+- [#3187](https://github.com/smartcontractkit/external-adapters-js/pull/3187) [`65b5529`](https://github.com/smartcontractkit/external-adapters-js/commit/65b5529ab6e00aa3c84b56479e91db92b84efa16) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Updated LWBA to use asset-quotes endpoint exclusively
+
+## 3.6.3
+
+### Patch Changes
+
+- [#3157](https://github.com/smartcontractkit/external-adapters-js/pull/3157) [`8899eff0c`](https://github.com/smartcontractkit/external-adapters-js/commit/8899eff0c9c9b4de1c7728b1dcb675a981427c18) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added ARB to LWBA assets list
+
+## 3.6.2
+
+### Patch Changes
+
+- [#3130](https://github.com/smartcontractkit/external-adapters-js/pull/3130) [`45038be71`](https://github.com/smartcontractkit/external-adapters-js/commit/45038be71ca433291229324174c50023b2513afc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.6.1
+
+### Patch Changes
+
+- [#3055](https://github.com/smartcontractkit/external-adapters-js/pull/3055) [`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
+## 3.6.0
+
+### Minor Changes
+
+- [#3034](https://github.com/smartcontractkit/external-adapters-js/pull/3034) [`c4fe7b75d`](https://github.com/smartcontractkit/external-adapters-js/commit/c4fe7b75d4a48d8857bc1a288b5a959665aff2ba) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Coinmetrics EA failing to serve new valid requests after being hit with invalid request.
+
+## 3.5.1
+
+### Patch Changes
+
+- [#3007](https://github.com/smartcontractkit/external-adapters-js/pull/3007) [`85a562ddc`](https://github.com/smartcontractkit/external-adapters-js/commit/85a562ddc89babed67f542f5e1243bba3abb5670) Thanks [@alecgard](https://github.com/alecgard)! - Coinmetrics: Return Realized Vol data as number
+
+## 3.5.0
+
+### Minor Changes
+
+- [#2988](https://github.com/smartcontractkit/external-adapters-js/pull/2988) [`6da10160a`](https://github.com/smartcontractkit/external-adapters-js/commit/6da10160a31fc38c91a13c74279f8a22766d02e0) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Coinmetrics EA failing to serve new valid requests after being hit with invalid request.
+
+- [#2991](https://github.com/smartcontractkit/external-adapters-js/pull/2991) [`597d6ae89`](https://github.com/smartcontractkit/external-adapters-js/commit/597d6ae89689f6c4379a3bbef5141e050721746a) Thanks [@alecgard](https://github.com/alecgard)! - Add `realized-vol` endpoint to Coinmetrics EA.
+
+## 3.4.0
+
+### Minor Changes
+
+- [#2970](https://github.com/smartcontractkit/external-adapters-js/pull/2970) [`875b24bf6`](https://github.com/smartcontractkit/external-adapters-js/commit/875b24bf6a7e0b4496519b54798d741ab26aa73e) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Standardize LWBA endpoints
+
+### Patch Changes
+
+- [#2967](https://github.com/smartcontractkit/external-adapters-js/pull/2967) [`a7c807fc6`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c807fc6ce96059c1324381ea75417872849d30) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Add examples to input parameters
+
+## 3.3.2
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.3.1
+
+### Patch Changes
+
+- [#2959](https://github.com/smartcontractkit/external-adapters-js/pull/2959) [`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02) Thanks [@amit-momin](https://github.com/amit-momin)! - Bumped framework version
+
+- [#2957](https://github.com/smartcontractkit/external-adapters-js/pull/2957) [`4f17496e9`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17496e90ce4e552bd73e106b5573d812f1e14c) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
+- [#2953](https://github.com/smartcontractkit/external-adapters-js/pull/2953) [`3c304b311`](https://github.com/smartcontractkit/external-adapters-js/commit/3c304b311ed864b4bbda580bcbeb0e28bb9298bc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.3.0
+
+### Minor Changes
+
+- bae30aad1: Add XRP, UNI,SOL and LTC to coinmetrics EA asset-pairs endpoint hardcoded.
+
+## 3.2.7
+
+### Patch Changes
+
+- 011aec39e: Bumped framework version
+
+## 3.2.6
+
+### Patch Changes
+
+- 1a00fdfc1: Bumped framework version
+- 715221438: Bumped framework version
+
+## 3.2.5
+
+### Patch Changes
+
+- eff4c4cf5: Bumped framework version
+- 14a549217: Bumped framework version
+
+## 3.2.4
+
+### Patch Changes
+
+- 09a7a4386: Refactored file structure
+
+## 3.2.3
+
+### Patch Changes
+
+- adc0a8297: Removed unused dependencies
+
+## 3.2.2
+
+### Patch Changes
+
+- cc0d39064: Bumped framework version
+- fb1b11b77: Bumped framework version
+
+## 3.2.1
+
+### Patch Changes
+
+- d25a72c99: Add sorting to Crypto LWBA WS endpoint for asset pairs
+
 ## 3.2.0
 
 ### Minor Changes

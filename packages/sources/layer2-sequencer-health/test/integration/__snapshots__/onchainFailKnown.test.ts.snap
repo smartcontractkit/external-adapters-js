@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute arbitrum network should return failure if tx not required 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute arbitrum network should return success when transaction submission is known 1`] = `
 {
   "data": {
@@ -11,7 +22,84 @@ exports[`execute arbitrum network should return success when transaction submiss
 }
 `;
 
+exports[`execute base network should return failure if tx not required 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute base network should return success when transaction submission is known 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute metis network should return failure if tx not required 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute metis network should return success when transaction submission is known 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute optimism network should return failure if tx not required 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute optimism network should return success when transaction submission is known 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute scroll network should return failure if tx not required 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute scroll network should return success when transaction submission is known 1`] = `
 {
   "data": {
     "result": 0,

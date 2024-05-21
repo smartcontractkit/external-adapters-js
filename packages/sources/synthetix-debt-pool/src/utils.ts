@@ -17,7 +17,7 @@ export type TInputParameters = { chainSources: string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   chainSources: {
     required: false,
-    description: `Array of chains to pull debt from. Options for array elements are "mainnet", "mainnet-ovm", "kovan", "kovan-ovm"`,
+    description: `Array of chains to pull debt from. Options for array elements are "mainnet", "mainnet-ovm", "kovan", "kovan-ovm", "goerli", "goerli-ovm", "sepolia", "sepolia-ovm"`,
     type: 'array',
   },
 }
@@ -68,36 +68,64 @@ const validateChainSources = (jobRunID: string, chainSources: string[]) => {
 export const getAddressResolver = async (
   provider: ethers.providers.JsonRpcProvider,
   addressResolverProxyAddress: string,
+  jobRunID: string,
+  network: string,
 ): Promise<string> => {
-  const addressResolver = new ethers.Contract(addressResolverProxyAddress, READ_PROXY_ABI, provider)
-  return await addressResolver.target()
+  try {
+    const addressResolver = new ethers.Contract(
+      addressResolverProxyAddress,
+      READ_PROXY_ABI,
+      provider,
+    )
+    return await addressResolver.target()
+  } catch (e) {
+    return errorResponse(
+      e,
+      jobRunID,
+      network,
+      `Failed to fetch address resolver. Error Message: ${e}`,
+    )
+  }
 }
 
 export const getContractAddress = async (
   provider: ethers.providers.JsonRpcProvider,
   addressResolverAddress: string,
   contractName: string,
+  jobRunID: string,
+  network: string,
 ): Promise<string> => {
-  const addressResolver = new ethers.Contract(
-    addressResolverAddress,
-    ADDRESS_RESOLVER_ABI,
-    provider,
-  )
-  const contractNameBytes32 = ethers.utils.formatBytes32String(contractName)
-  return await addressResolver.getAddress(contractNameBytes32)
+  try {
+    const addressResolver = new ethers.Contract(
+      addressResolverAddress,
+      ADDRESS_RESOLVER_ABI,
+      provider,
+    )
+    const contractNameBytes32 = ethers.utils.formatBytes32String(contractName)
+    return await addressResolver.getAddress(contractNameBytes32)
+  } catch (e) {
+    return errorResponse(
+      e,
+      jobRunID,
+      network,
+      `Failed to fetch ${contractName} contract address from resolver address - ${addressResolverAddress}. Error Message: ${e}`,
+    )
+  }
 }
 
 export const getSynthetixBridgeName = (networkName: string, jobRunID: string): string => {
   if (
     networkName === SupportedChains.ETHEREUM ||
     networkName === SupportedChains.KOVAN ||
-    networkName === SupportedChains.GOERLI
+    networkName === SupportedChains.GOERLI ||
+    networkName === SupportedChains.SEPOLIA
   )
     return 'SynthetixBridgeToOptimism'
   if (
     networkName === SupportedChains.OPTIMISM ||
     networkName === SupportedChains.KOVAN_OPTIMISM ||
-    networkName === SupportedChains.GOERLI_OPTIMISM
+    networkName === SupportedChains.GOERLI_OPTIMISM ||
+    networkName === SupportedChains.SEPOLIA_OPTIMISM
   )
     return 'SynthetixBridgeToBase'
   throw new AdapterInputError({
@@ -107,9 +135,17 @@ export const getSynthetixBridgeName = (networkName: string, jobRunID: string): s
 }
 
 export const getDebtMigratorName = (networkName: string, jobRunID: string): string => {
-  if (networkName === SupportedChains.ETHEREUM || networkName === SupportedChains.GOERLI)
+  if (
+    networkName === SupportedChains.ETHEREUM ||
+    networkName === SupportedChains.GOERLI ||
+    networkName === SupportedChains.SEPOLIA
+  )
     return 'DebtMigratorOnEthereum'
-  if (networkName === SupportedChains.OPTIMISM || networkName === SupportedChains.GOERLI_OPTIMISM)
+  if (
+    networkName === SupportedChains.OPTIMISM ||
+    networkName === SupportedChains.GOERLI_OPTIMISM ||
+    networkName === SupportedChains.SEPOLIA_OPTIMISM
+  )
     return 'DebtMigratorOnOptimism'
   throw new AdapterInputError({
     jobRunID,
@@ -131,8 +167,8 @@ export const getLatestBlockByChain = async (
           message: `Chain ${network} not configured`,
         })
 
-      const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
       try {
+        const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
       } catch (e: any) {
@@ -149,3 +185,16 @@ export const getLatestBlockByChain = async (
       }
     }),
   )
+
+export const errorResponse = (error: any, jobRunID: string, network: string, message: string) => {
+  const errorPayload = {
+    jobRunID,
+    network,
+    message,
+  }
+  throw error.response
+    ? new AdapterDataProviderError(errorPayload)
+    : error.request
+    ? new AdapterConnectionError(errorPayload)
+    : new AdapterError(errorPayload)
+}

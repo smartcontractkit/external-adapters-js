@@ -1,18 +1,25 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { buildBatchedRequestBody, constructEntry, HttpEndpointTypes } from '../crypto-utils'
+import { wsTransport } from '../transport/crypto-ws'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import overrides from '../config/overrides.json'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import { httpTransport } from '../transport/crypto-http'
+import { BaseEndpointTypes, cryptoInputParams } from './utils'
 
-export const httpTransport = new HttpTransport<HttpEndpointTypes>({
-  prepareRequests: (params, config) => {
-    return buildBatchedRequestBody(params, config)
+export const endpoint = new CryptoPriceEndpoint({
+  name: 'crypto',
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
+    .register('ws', wsTransport)
+    .register('rest', httpTransport),
+  defaultTransport: 'ws',
+  customRouter: (_req, adapterConfig) => {
+    return adapterConfig.WS_ENABLED ? 'ws' : 'rest'
   },
-  parseResponse: (params, res) => {
-    const entries = []
-    for (const requestPayload of params) {
-      const entry = constructEntry(requestPayload, res.data, 'PRICE')
-      if (entry) {
-        entries.push(entry)
-      }
-    }
-    return entries
-  },
+  requestTransforms: [
+    (req) => {
+      req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
+      req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
+    },
+  ],
+  inputParameters: cryptoInputParams,
+  overrides: overrides.cryptocompare,
 })

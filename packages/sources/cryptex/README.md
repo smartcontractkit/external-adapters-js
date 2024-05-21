@@ -1,6 +1,6 @@
 # Cryptex Adapter
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Cryptex adapter, providing BTC dominance over the total crypto market
 
@@ -12,6 +12,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :---------------: | :---------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     | ETHEREUM_RPC_URL  | An http(s) RPC URL to a blockchain node that can read the BTC market cap & total market cap contracts | string |         |         |
 |           | ETHEREUM_CHAIN_ID |                                      The chain id to connect to                                       | string |         |   `1`   |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

@@ -13,14 +13,18 @@ Adapter that checks the Layer 2 Sequencer status
 |           |    `ARBITRUM_HEALTH_ENDPOINT`     |                            Arbitrum Health Endpoint                             |         |                                                                  |
 |           |        `ARBITRUM_CHAIN_ID`        |                           The chain id to connect to                            |         |                              42161                               |
 |           |      `OPTIMISM_RPC_ENDPOINT`      |                              Optimism RPC Endpoint                              |         |                   https://mainnet.optimism.io                    |
-|           |    `OPTIMISM_HEALTH_ENDPOINT`     |                            Optimism Health Endpoint                             |         |           https://mainnet-sequencer.optimism.io/health           |
+|           |    `OPTIMISM_HEALTH_ENDPOINT`     |                            Optimism Health Endpoint                             |         |                                                                  |
 |           |        `OPTIMISM_CHAIN_ID`        |                           The chain id to connect to                            |         |                                10                                |
+|           |        `BASE_RPC_ENDPOINT`        |                                Base RPC Endpoint                                |         |                     https://mainnet.base.org                     |
+|           |      `BASE_HEALTH_ENDPOINT`       |                              Base Health Endpoint                               |         |                                                                  |
+|           |          `BASE_CHAIN_ID`          |                           The chain id to connect to                            |         |                               8453                               |
 |           |       `METIS_RPC_ENDPOINT`        |                               Metis RPC Endpoint                                |         |              https://andromeda.metis.io/?owner=1088              |
-|           |      `METIS_HEALTH_ENDPOINT`      |                              Metis Health Endpoint                              |         |            https://tokenapi.metis.io/andromeda/health            |
+|           |      `METIS_HEALTH_ENDPOINT`      |                              Metis Health Endpoint                              |         |        https://andromeda-healthy.metisdevops.link/health         |
 |           |         `METIS_CHAIN_ID`          |                           The chain id to connect to                            |         |                               1088                               |
-|           |  `STARKWARE_SEQUENCER_ENDPOINT`   |                       The Starkware Sequencer's endpoint                        |         |                https://alpha-mainnet.starknet.io                 |
-|           |  `STARKWARE_FEEDER_GATEWAY_URL`   |                  The Starkware Sequencer's feeder gateway URL                   |         |                          feeder_gateway                          |
-|           |      `STARKWARE_GATEWAY_URL`      |                      The Starkware Sequencer's gateway URL                      |         |                             gateway                              |
+|           |       `SCROLL_RPC_ENDPOINT`       |                               Scroll RPC Endpoint                               |         |                      https://rpc.scroll.io                       |
+|           |     `SCROLL_HEALTH_ENDPOINT`      |                             Scroll Health Endpoint                              |         |                                                                  |
+|           |         `SCROLL_CHAIN_ID`         |                           The chain id to connect to                            |         |                              534352                              |
+|           |     `STARKWARE_RPC_ENDPOINT`      |                           The Starkware RPC endpoint                            |         |           https://starknet-mainnet.public.blastapi.io            |
 |           | `STARKWARE_DUMMY_ACCOUNT_ADDRESS` |        The dummy address to use to send dummy transactions to Starkware         |         | 0x00000000000000000000000000000000000000000000000000000000000001 |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
@@ -29,9 +33,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                   Options                    | Defaults to |
-| :-------: | :-----: | :----------------------: | :------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `metis`, `starkware` |             |
+| Required? |  Name   |       Description        |                            Options                             | Defaults to |
+| :-------: | :-----: | :----------------------: | :------------------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `metis`, `scroll`, `starkware` |             |
 
 ---
 

@@ -1,6 +1,6 @@
 # DXFEED
 
-![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,9 +15,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
-## Input Parameters
+## Data Provider Rate Limits
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                 Note                                 |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------: |
+| unlimited |             100             |                             |                           | Dxfeed does not describe a rate limit, but setting reasonable limits |
+
+---
+
+## Input Parameters
 
 | Required? |   Name   |     Description     |  Type  |                                                                 Options                                                                 | Default |
 | :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
@@ -39,69 +45,10 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
-    "base": "TSLA",
     "endpoint": "price",
-    "resultPath": ["Trade", "TSLA", "price"]
-  },
-  "debug": {
-    "cacheKey": "DknAM1fQfWVHGPdFmvbGtNRNaVI=",
-    "batchCacheKey": "kZiBWu5BzEiUauh4lmvzs5ipAJ0=",
-    "batchChildrenCacheKeys": [
-      [
-        "0Dhmfcxw8Az9FYLUzbWcuccPozo=",
-        {
-          "id": "1",
-          "data": {
-            "base": "TSLA",
-            "endpoint": "price",
-            "resultPath": "Trade"
-          }
-        }
-      ]
-    ]
+    "base": "TSLA"
   }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "status": "OK",
-    "Trade": {
-      "TSLA:BFX": {
-        "eventSymbol": "TSLA:BFX",
-        "eventTime": 0,
-        "time": 1636744209248,
-        "timeNanoPart": 0,
-        "sequence": 775394,
-        "exchangeCode": "V",
-        "price": 239.255,
-        "change": 0.03,
-        "size": 3,
-        "dayVolume": 700004,
-        "dayTurnover": 167577930,
-        "tickDirection": "ZERO_UP",
-        "extendedTradingHours": false
-      }
-    },
-    "result": 239.255
-  },
-  "result": 239.255,
-  "statusCode": 200,
-  "debug": {
-    "batchablePropertyPath": [
-      {
-        "name": "base",
-        "limit": 120
-      }
-    ]
-  },
-  "providerStatusCode": 200
 }
 ```
 

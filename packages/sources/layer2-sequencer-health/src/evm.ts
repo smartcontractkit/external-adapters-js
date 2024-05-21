@@ -39,7 +39,19 @@ export const sendEVMDummyTransaction = async (
       gasPrice: 0,
       to: wallet.address,
     },
+    [Networks.Base]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
     [Networks.Metis]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
+    [Networks.Scroll]: {
       value: 0,
       gasLimit: 0,
       gasPrice: 0,
@@ -53,23 +65,40 @@ export const sendEVMDummyTransaction = async (
   })
 }
 
+const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> = {
+  [Networks.Arbitrum]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Optimism]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Base]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Metis]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Scroll]: {
+    block: 0,
+    timestamp: 0,
+  },
+}
 export const checkOptimisticRollupBlockHeight = (
   network: EVMNetworks,
 ): ((config: ExtendedConfig) => Promise<boolean>) => {
-  let lastSeenBlock: { block: number; timestamp: number } = {
-    block: 0,
-    timestamp: 0,
-  }
-
-  const _isPastBlock = (block: number) => block <= lastSeenBlock.block
+  const _isPastBlock = (block: number) => block <= lastSeenBlock[network].block
   const _isStaleBlock = (block: number, delta: number): boolean => {
-    return _isPastBlock(block) && Date.now() - lastSeenBlock.timestamp >= delta
+    return _isPastBlock(block) && Date.now() - lastSeenBlock[network].timestamp >= delta
   }
   // If the request hit a replica node that fell behind, the block could be previous to the last seen. Including a deltaBlocks range to consider this case.
   const _isValidBlock = (block: number, deltaBlocks: number) =>
-    lastSeenBlock.block - block <= deltaBlocks
+    lastSeenBlock[network].block - block <= deltaBlocks
   const _updateLastSeenBlock = (block: number): void => {
-    lastSeenBlock = {
+    lastSeenBlock[network] = {
       block,
       timestamp: Date.now(),
     }
@@ -83,21 +112,21 @@ export const checkOptimisticRollupBlockHeight = (
     })
     if (!_isValidBlock(block, deltaBlocks))
       throw new AdapterResponseInvalidError({
-        message: `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
+        message: `Block found #${block} is previous to last seen #${lastSeenBlock[network].block} with more than ${deltaBlocks} difference`,
       })
     if (!_isStaleBlock(block, delta)) {
-      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       Logger.info(
-        `Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
-          lastSeenBlock.block
-        } was at ${lastSeenBlock.timestamp}`,
+        `[${network}] Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
+          lastSeenBlock[network].block
+        } was at ${lastSeenBlock[network].timestamp}`,
       )
+      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       return true
     }
     Logger.warn(
-      `Block #${block} is considered stale at ${Date.now()}. Last seen block #${
-        lastSeenBlock.block
-      } was at ${lastSeenBlock.timestamp}, more than ${delta} milliseconds ago.`,
+      `[${network}] Block #${block} is considered stale at ${Date.now()}. Last seen block #${
+        lastSeenBlock[network].block
+      } was at ${lastSeenBlock[network].timestamp}, more than ${delta} milliseconds ago.`,
     )
     return false
   }

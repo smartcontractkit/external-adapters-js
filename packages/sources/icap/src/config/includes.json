@@ -1,0 +1,1476 @@
+[
+  {
+    "from": "CAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CAD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "AED",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "AED",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ALL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ALL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "AMD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "AMD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ANG",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ANG",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "AOA",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "AOA",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ARS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ARS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "AWG",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "AWG",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "AZN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "AZN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BAM",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BAM",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BBD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BBD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BDT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BDT",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BGN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BGN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BHD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BHD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BIF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BIF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BND",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BND",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BRL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BRL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BSD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BSD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BWP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BWP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BZD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BZD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CHF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CHF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CLP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CLP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CNH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CNH",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CNY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CNY",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "COP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "COP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CRC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CRC",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CUP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CUP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CVE",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CVE",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CZK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CZK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "DJF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "DJF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "DKK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "DKK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "DOP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "DOP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "DZD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "DZD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "EGP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "EGP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ETB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ETB",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "FJD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "FJD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "GEL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "GEL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "GHS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "GHS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "GMD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "GMD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "GNF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "GNF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "GTQ",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "GTQ",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "GYD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "GYD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "HKD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "HKD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "HNL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "HNL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "HRK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "HRK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "HUF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "HUF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "IDD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "IDD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "IDR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "IDR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ILS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ILS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "INR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "INR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "IQD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "IQD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "IRR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "IRR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ISK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ISK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "JMD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "JMD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "JOD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "JOD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "JPY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "JPY",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KES",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KES",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KHR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KHR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KMF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KMF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KRW",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KRW",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KWD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KWD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KYD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KYD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KZT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KZT",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "LAK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "LAK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "LBP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "LBP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "LKR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "LKR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "LRD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "LRD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "LSL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "LSL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "LYD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "LYD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MAD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MDL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MDL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MGA",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MGA",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MKD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MKD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MMK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MMK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MNT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MNT",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MOP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MOP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MRO",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MRO",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MUR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MUR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MVR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MVR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MWK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MWK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MXN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MXN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MZN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MZN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "NAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "NAD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "NGN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "NGN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "NIO",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "NIO",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "NOK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "NOK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "NPR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "NPR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "OMR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "OMR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PEN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PEN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PGK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PGK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PHP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PHP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PKR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PKR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PLN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PLN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PYG",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PYG",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "QAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "QAR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "RON",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "RON",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "RSD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "RSD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "RUB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "RUB",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "RWF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "RWF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SAR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SCR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SCR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SEK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SEK",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SGD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SGD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SHP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SHP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SLL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SLL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SOS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SOS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SRD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SRD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "STD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "STD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SVC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SVC",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SZL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "SZL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "THB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "THB",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TJS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TJS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TND",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TND",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TRY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TRY",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TTD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TTD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TWD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TWD",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TZS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TZS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "UAH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "UAH",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "UGX",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "UGX",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "UYU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "UYU",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "UZS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "UZS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "VES",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "VES",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "VND",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "VND",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "VUV",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "VUV",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "XAU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XAU",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XAG",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XAG",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XAF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XAF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "XOF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XOF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "XPF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XPF",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "XPT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XPT",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "YER",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "YER",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ZAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ZAR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ZMW",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ZMW",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ZWD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ZWD",
+        "inverse": true
+      }
+    ]
+  }
+]

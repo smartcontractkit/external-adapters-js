@@ -1,121 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute commodities api should return success 1`] = `
+exports[`rest commodities endpoint should return success 1`] = `
 {
   "data": {
     "result": 98.91,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 98.91,
   "statusCode": 200,
-}
-`;
-
-exports[`execute commodities api with invalid base should return failure 1`] = `
-{
-  "error": {
-    "errorResponse": "Please check the symbol and try again.",
-    "feedID": "NONEXISTING/USD",
-    "message": "Request failed with status code 400",
-    "name": "AdapterError",
-    "url": "https:/api.finage.co.uk/last/trade/forex/NONEXISTINGUSD",
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1514764861000,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 400,
-  "status": "errored",
-  "statusCode": 200,
 }
 `;
 
-exports[`execute crypto api should return success 1`] = `
+exports[`rest crypto endpoint should return success 1`] = `
 {
   "data": {
     "result": 50940.12,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 50940.12,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1638898619885,
+  },
 }
 `;
 
-exports[`execute eod api should return success 1`] = `
+exports[`rest eod endpoint should return success 1`] = `
 {
   "data": {
     "result": 26.3,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 26.3,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1628884800000,
+  },
 }
 `;
 
-exports[`execute forex api should return success 1`] = `
+exports[`rest etf endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 118.78,
+  },
+  "result": 118.78,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1685972473955,
+  },
+}
+`;
+
+exports[`rest forex endpoint should return success 1`] = `
 {
   "data": {
     "result": 1.3443049999999999,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 1.3443049999999999,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1637060382000,
+  },
 }
 `;
 
-exports[`execute stock api should return success 1`] = `
+exports[`rest stock endpoint should return success 1`] = `
 {
   "data": {
-    "result": 25.8,
+    "result": 26.060000000000002,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 25.8,
+  "result": 26.060000000000002,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1628899200621,
+  },
 }
 `;
 
-exports[`execute stock api with invalid base should return failure 1`] = `
-{
-  "error": {
-    "errorResponse": "Please check the symbol and try again.",
-    "feedID": "{"data":{"endpoint":"stock","base":"non-existing"}}",
-    "message": "Request failed with status code 400",
-    "name": "AdapterError",
-    "url": "https:/api.finage.co.uk/last/stock/NON-EXISTING",
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 400,
-  "status": "errored",
-  "statusCode": 200,
-}
-`;
-
-exports[`execute uk etf api should return success 1`] = `
+exports[`rest uk etf endpoint should return success 1`] = `
 {
   "data": {
-    "result": 5.276,
+    "result": 445.64,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 5.276,
+  "result": 445.64,
   "statusCode": 200,
-}
-`;
-
-exports[`execute uk etf api with invalid base should return failure 1`] = `
-{
-  "error": {
-    "errorResponse": "Please check the symbol and try again.",
-    "feedID": "{"data":{"endpoint":"uk_etf","base":"NON_EXISTING_UK_ETF"}}",
-    "message": "Request failed with status code 400",
-    "name": "AdapterError",
-    "url": "https:/api.finage.co.uk/last/etf/NON_EXISTING_UK_ETF",
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataRequestedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1685972473955,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 400,
-  "status": "errored",
-  "statusCode": 200,
 }
 `;

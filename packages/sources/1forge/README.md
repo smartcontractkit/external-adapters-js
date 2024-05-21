@@ -1,6 +1,6 @@
 # Chainlink External Adapter for 1Forge
 
-![1.6.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.6.33](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.1forge.com/
 
@@ -12,6 +12,17 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :-------------------------------------------------------: | :----: | :-----: | :-----------------------: |
 |    ✅     |   API_KEY    | An API key that can be obtained from the 1Forge dashboard | string |         |                           |
 |           | API_ENDPOINT |                                                           | string |         | `https://api.1forge.com/` |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |            Note            |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------: |
+|  starter  |                             |                             |          208.33           | https://1forge.com/pricing |
+|  premium  |                             |                             |          4166.66          |                            |
+| business  |                             |                             |         41666.66          |                            |
+| business+ |                             |                             |         416666.66         |                            |
 
 ---
 

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinbase
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
@@ -16,6 +16,15 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |   WS_API_ENDPOINT   |                                                                                 | string |         | `wss://ws-feed.pro.coinbase.com` |
 |           |  NFT_API_ENDPOINT   | The API endpoint for making NFT API requests (eg. https://nft-api.coinbase.com) | string |         |                                  |
 |           | NFT_API_AUTH_HEADER |         The CB-NFT-API-TOKEN header used to authorize NFT API requests          | string |         |                                  |
+
+---
+
+## Data Provider Rate Limits
+
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| public  |              6              |             180             |                           |      |
+| private |             10              |             300             |                           |      |
 
 ---
 

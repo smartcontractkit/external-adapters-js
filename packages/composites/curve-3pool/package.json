@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/curve-3pool-adapter",
-  "version": "3.0.39",
+  "version": "3.0.70",
   "description": "Chainlink Curve 3Pool adapter",
   "keywords": [
     "Chainlink",
@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "nock": "13.2.9",
+    "@types/node": "16.18.96",
+    "nock": "13.5.4",
     "typescript": "5.0.4"
   }
 }

@@ -1,5 +1,18 @@
 # @chainlink/ea-reference-data-reader
 
+## 1.3.32
+
+### Patch Changes
+
+- [#3272](https://github.com/smartcontractkit/external-adapters-js/pull/3272) [`ee90e49`](https://github.com/smartcontractkit/external-adapters-js/commit/ee90e49d6dedf9ff0d8598a71d298bb4dc70f263) Thanks [@renovate](https://github.com/apps/renovate)! - Upgrade @chainlink/contracts dependency version
+
+## 1.3.31
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+
 ## 1.3.30
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/paypal-adapter",
-  "version": "1.2.31",
+  "version": "1.2.32",
   "description": "Chainlink paypal adapter.",
   "keywords": [
     "Chainlink",
@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.51",
-    "@types/paypal__payouts-sdk": "1.0.3",
+    "@types/node": "16.18.96",
+    "@types/paypal__payouts-sdk": "1.0.6",
     "typescript": "5.0.4"
   }
 }

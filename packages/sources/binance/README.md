@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance
 
-![1.4.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Adapter using the public Binance market API for both HTTP(s) and WS.
 
@@ -14,6 +14,14 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :-------------: | :---------: | :----: | :-----: | :--------------------------------: |
 |           |  API_ENDPOINT   |             | string |         |     `https://api.binance.com`      |
 |           | WS_API_ENDPOINT |             | string |         | `wss://stream.binance.com:9443/ws` |
+
+---
+
+## Data Provider Rate Limits
+
+|  Name  | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| public |                             |            1200             |                           |      |
 
 ---
 

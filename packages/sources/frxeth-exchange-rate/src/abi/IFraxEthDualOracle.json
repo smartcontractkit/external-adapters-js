@@ -1,0 +1,1032 @@
+[
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "baseToken0",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "baseToken0Decimals",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "quoteToken0",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "quoteToken0Decimals",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "baseToken1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "baseToken1Decimals",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "quoteToken1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "quoteToken1Decimals",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "frxEthErc20",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "fraxErc20",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "uniV3PairAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "twapDuration",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "fraxUsdChainlinkFeedAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fraxUsdMaximumOracleDelay",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "ethUsdChainlinkFeed",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxEthUsdOracleDelay",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "curvePoolEmaPriceOracleAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minimumCurvePoolEma",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maximumCurvePoolEma",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "timelockAddress",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct ConstructorParams",
+        "name": "_params",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "OnlyPendingTimelock",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "OnlyTimelock",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldMaximum",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMaximum",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetMaximumCurvePoolEma",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldMaxOracleDelay",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMaxOracleDelay",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetMaximumEthUsdOracleDelay",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldMaxOracleDelay",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMaxOracleDelay",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetMaximumFraxUsdOracleDelay",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldMinimum",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMinimum",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetMinimumCurvePoolEma",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldTwapDuration",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newTwapDuration",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetTwapDuration",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousTimelock",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newTimelock",
+        "type": "address"
+      }
+    ],
+    "name": "TimelockTransferStarted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousTimelock",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newTimelock",
+        "type": "address"
+      }
+    ],
+    "name": "TimelockTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "BASE_TOKEN_0",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "BASE_TOKEN_0_DECIMALS",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "BASE_TOKEN_1",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "BASE_TOKEN_1_DECIMALS",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "CURVE_POOL_EMA_PRICE_ORACLE",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "CURVE_POOL_EMA_PRICE_ORACLE_PRECISION",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ETH_USD_CHAINLINK_FEED_ADDRESS",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ETH_USD_CHAINLINK_FEED_DECIMALS",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ETH_USD_CHAINLINK_FEED_PRECISION",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "FRAX_USD_CHAINLINK_FEED_ADDRESS",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "FRAX_USD_CHAINLINK_FEED_DECIMALS",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "FRAX_USD_CHAINLINK_FEED_PRECISION",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "FRXETH_ERC20",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "NORMALIZATION_0",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "NORMALIZATION_1",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ORACLE_PRECISION",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "QUOTE_TOKEN_0",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "QUOTE_TOKEN_0_DECIMALS",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "QUOTE_TOKEN_1",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "QUOTE_TOKEN_1_DECIMALS",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "TWAP_PRECISION",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "UNISWAP_V3_TWAP_BASE_TOKEN",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "UNISWAP_V3_TWAP_QUOTE_TOKEN",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "UNI_V3_PAIR_ADDRESS",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "acceptTransferTimelock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IPriceSourceReceiver",
+        "name": "_fraxOracle",
+        "type": "address"
+      }
+    ],
+    "name": "addRoundData",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_ethPerFrxEthCurveEma",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_fraxPerFrxEthTwap",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isBadDataEthUsdChainlink",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdPerEthChainlink",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isBadDataFraxUsdChainlink",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdPerFraxChainlink",
+        "type": "uint256"
+      }
+    ],
+    "name": "calculatePrices",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_isBadData",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_priceLow",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_priceHigh",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "decimals",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getChainlinkUsdPerFrax",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_isBadData",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdPerFrax",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCurveEmaEthPerFrxEth",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_ethPerFrxEth",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCurvePoolToken1EmaPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_emaPrice",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getEthUsdChainlinkPrice",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_isBadData",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_updatedAt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdPerEth",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getFraxUsdChainlinkPrice",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_isBadData",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_updatedAt",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdPerFrax",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPrices",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_isBadData",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_priceLow",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_priceHigh",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPricesNormalized",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_isBadDataNormal",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_priceLowNormal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_priceHighNormal",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUniswapV3Twap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "_twap",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUsdPerEthChainlink",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_isBadData",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_usdPerEth",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maximumCurvePoolEma",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maximumEthUsdOracleDelay",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maximumFraxUsdOracleDelay",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minimumCurvePoolEma",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pendingTimelockAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceTimelock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_maximumPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaximumCurvePoolEma",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_newMaxOracleDelay",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaximumEthUsdOracleDelay",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_newMaxOracleDelay",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaximumFraxUsdOracleDelay",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_minimumPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMinimumCurvePoolEma",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "_newTwapDuration",
+        "type": "uint32"
+      }
+    ],
+    "name": "setTwapDuration",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
+      }
+    ],
+    "name": "supportsInterface",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "timelockAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_newTimelock",
+        "type": "address"
+      }
+    ],
+    "name": "transferTimelock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "twapDuration",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

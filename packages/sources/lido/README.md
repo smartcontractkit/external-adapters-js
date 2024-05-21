@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Lido
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 By default fetches the value of stMATIC/USD
 
@@ -12,6 +12,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :--------------: | :------------------------: | :----: | :-----: | :-----: |
 |    ✅     | POLYGON_RPC_URL  |      Polygon RPC URL       | string |         |         |
 |           | POLYGON_CHAIN_ID | The chain id to connect to | string |         |  `137`  |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

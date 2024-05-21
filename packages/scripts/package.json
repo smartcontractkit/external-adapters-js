@@ -1,19 +1,19 @@
 {
   "name": "@chainlink/ea-scripts",
-  "version": "2.6.0",
+  "version": "2.7.6",
   "dependencies": {
-    "@actions/core": "1.9.1",
-    "@apidevtools/json-schema-ref-parser": "9.0.9",
+    "@actions/core": "1.10.1",
+    "@apidevtools/json-schema-ref-parser": "9.1.2",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.29.8",
+    "@chainlink/external-adapter-framework": "0.33.8",
     "airtable": "0.11.6",
-    "axios": "0.22.0",
+    "axios": "1.6.8",
     "axios-mock-adapter": "1.20.0",
     "axios-observable": "1.3.0",
     "backoff-rxjs": "6.5.7",
     "chalk": "4.1.2",
-    "class-validator": "0.14.0",
+    "class-validator": "0.14.1",
     "command-line-args": "5.2.1",
     "command-line-usage": "6.1.3",
     "json-schema-ref-parser": "9.0.9",
@@ -26,14 +26,14 @@
     "yaml": "2.2.2"
   },
   "devDependencies": {
-    "@types/command-line-args": "5.2.0",
-    "@types/command-line-usage": "5.0.2",
+    "@types/command-line-args": "5.2.3",
+    "@types/command-line-usage": "5.0.4",
     "@types/jest": "27.5.2",
-    "@types/shelljs": "0.8.12",
-    "@types/swagger-jsdoc": "6.0.1",
+    "@types/shelljs": "0.8.15",
+    "@types/swagger-jsdoc": "6.0.4",
     "@types/yaml": "1.9.7",
-    "human-id": "4.0.0",
-    "ts-jest": "27.0.5",
+    "human-id": "4.1.1",
+    "ts-jest": "27.1.5",
     "typescript": "5.0.4"
   }
 }

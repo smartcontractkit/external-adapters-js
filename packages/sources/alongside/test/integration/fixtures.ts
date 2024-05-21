@@ -444,6 +444,7 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
 
 nock('https://api.prime.coinbase.com/v1', {
   encodedQueryParams: true,
@@ -1314,6 +1315,32 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
       id: 56,
       result:
         '0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000035697066733a2f2f516d5977657648624e79554d4d70574b67503538714b686775684136736543567638546b6b6459545243365070720000000000000000000000',
+    }),
+    [
+      'Date',
+      'Fri, 21 Oct 2022 06:39:28 GMT',
+      'Content-Type',
+      'application/json',
+      'Content-Length',
+      '40',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ],
+  )
+
+nock('https://amkt.infura-ipfs.io/')
+  .get(`/ipfs/QmYwevHbNyUMMpWKgP58qKhguhA6seCVv8TkkdYTRC6Ppr`)
+  .reply(
+    200,
+    () => ({
+      assets: {
+        AAVE: 1,
+        EOS: 2,
+      },
     }),
     [
       'Date',

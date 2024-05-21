@@ -6,34 +6,37 @@ import { TransportRoutes } from '@chainlink/external-adapter-framework/transport
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { VALID_QUOTES, config } from '../config'
-import { httpTransport } from './price-http'
-import { wsTransport } from './price-ws'
+import { httpTransport } from '../transport/price-http'
+import { wsTransport } from '../transport/price-ws'
 
-export type AssetMetricsRequestBody = {
-  base: string
-  quote: VALID_QUOTES
-}
-
-export const assetMetricsInputParameters = new InputParameters({
-  ...priceEndpointInputParametersDefinition,
-  quote: {
-    ...priceEndpointInputParametersDefinition.quote,
-    options: Object.values(VALID_QUOTES),
+export const assetMetricsInputParameters = new InputParameters(
+  {
+    ...priceEndpointInputParametersDefinition,
+    quote: {
+      ...priceEndpointInputParametersDefinition.quote,
+      options: Object.values(VALID_QUOTES),
+    },
   },
-})
+  [
+    {
+      base: 'BTC',
+      quote: VALID_QUOTES.USD,
+    },
+  ],
+)
 
 // Common endpoint type shared by the REST and WS transports
-export type AssetMetricsEndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof assetMetricsInputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
 }
 
-export const transportRoutes = new TransportRoutes<AssetMetricsEndpointTypes>()
+export const transportRoutes = new TransportRoutes<BaseEndpointTypes>()
   .register('ws', wsTransport)
   .register('rest', httpTransport)
 
-export const endpoint = new CryptoPriceEndpoint<AssetMetricsEndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint({
   name: 'price',
   aliases: ['price-ws'],
   transportRoutes,

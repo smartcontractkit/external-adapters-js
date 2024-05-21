@@ -1,10 +1,73 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.1.0
+
+### Minor Changes
+
+- [#3273](https://github.com/smartcontractkit/external-adapters-js/pull/3273) [`38be814`](https://github.com/smartcontractkit/external-adapters-js/commit/38be8149a31628d25e84daa41d3af9f25622439f) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Updates Metis healthcheck endpoint
+
+## 4.0.0
+
+### Major Changes
+
+- [#3170](https://github.com/smartcontractkit/external-adapters-js/pull/3170) [`5681441`](https://github.com/smartcontractkit/external-adapters-js/commit/568144119651ffc5f016f1c25dc99b819e283236) Thanks [@chris-de-leon-cll](https://github.com/chris-de-leon-cll)! - Bumps starknet.js to latest 6.x beta version
+  Adds starknet RPC support
+  Deprecates starknet sequencer and gateway URLs
+  Updates error handling for starknet empty transaction health check
+
+### Patch Changes
+
+- [#3205](https://github.com/smartcontractkit/external-adapters-js/pull/3205) [`a3303c5`](https://github.com/smartcontractkit/external-adapters-js/commit/a3303c5c0b7f2e97bd7e07f805ca7ecd14f72cee) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Removes Optimism healthcheck endpoint
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 3.0.0
+
+### Major Changes
+
+- [#3153](https://github.com/smartcontractkit/external-adapters-js/pull/3153) [`b1bfa12b3`](https://github.com/smartcontractkit/external-adapters-js/commit/b1bfa12b36b5ce66631a440127e18ca497ce7df5) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Disable empty transaction check for Arbitrum and Metis
+
+## 2.7.0
+
+### Minor Changes
+
+- [#3108](https://github.com/smartcontractkit/external-adapters-js/pull/3108) [`2ead0dc48`](https://github.com/smartcontractkit/external-adapters-js/commit/2ead0dc48a71a2dd20f5822eb9c0b07d61d00eae) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds Scroll network layer 2 sequencer health adapter
+
+## 2.6.1
+
+### Patch Changes
+
+- [#3004](https://github.com/smartcontractkit/external-adapters-js/pull/3004) [`bcc834129`](https://github.com/smartcontractkit/external-adapters-js/commit/bcc83412932e1440441e4aca390df5505ee53d85) Thanks [@alecgard](https://github.com/alecgard)! - L2 Sequencer Health: Default Optimism to not use the Transaction check as final decider of health.
+
+## 2.6.0
+
+### Minor Changes
+
+- [#2977](https://github.com/smartcontractkit/external-adapters-js/pull/2977) [`d271dd2d7`](https://github.com/smartcontractkit/external-adapters-js/commit/d271dd2d7a7fa58ce1b3a8cd480e77bc69805c3b) Thanks [@austinborn](https://github.com/austinborn)! - Add a requireTxFailure input param which has conditional defaults depending on the network. The default behavior is the same as before for all networks except Base, which now does not use a tx call as the final decider of health.
+
+### Patch Changes
+
+- [#2975](https://github.com/smartcontractkit/external-adapters-js/pull/2975) [`b0ae518ab`](https://github.com/smartcontractkit/external-adapters-js/commit/b0ae518ab8c684db9f334f948fdd072d2133202d) Thanks [@alecgard](https://github.com/alecgard)! - Include the network in L2 Sequencer Health logs
+
+## 2.5.0
+
+### Minor Changes
+
+- 4af9088cf: Layer2 Sequencer Health: Support Base chain
+
+## 2.4.1
+
+### Patch Changes
+
+- 72e343619: Fixed block staleness check
+
 ## 2.4.0
 
 ### Minor Changes
 
-- 8d15f80bd: Update starknet.js dependency to 5.x
+- 8d15f80bd: Update starknet.js dependency to 6.0.0-beta.15
 
 ### Patch Changes
 

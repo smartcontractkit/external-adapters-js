@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wrapped
 
-![2.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wrapped/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wrapped/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL http://chainlink.wrappedeng.com
 
@@ -11,6 +11,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |     Name     | Description | Type | Options | Default |
 | :-------: | :----------: | :---------: | :--: | :-----: | :-----: |
 |           | API_ENDPOINT |             |      |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

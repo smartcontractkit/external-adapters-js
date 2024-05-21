@@ -1,5 +1,19 @@
 # @chainlink/dns-query-adapter
 
+## 1.6.25
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.6.24
+
+### Patch Changes
+
+- [#3151](https://github.com/smartcontractkit/external-adapters-js/pull/3151) [`ac9ebd643`](https://github.com/smartcontractkit/external-adapters-js/commit/ac9ebd64346104673bd6139c3ab12ba12125ab69) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added missing information for readme generation
+
 ## 1.6.23
 
 ### Patch Changes

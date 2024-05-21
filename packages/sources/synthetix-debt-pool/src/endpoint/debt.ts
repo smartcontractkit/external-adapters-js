@@ -1,9 +1,4 @@
-import {
-  AdapterConfigError,
-  AdapterConnectionError,
-  AdapterDataProviderError,
-  AdapterError,
-} from '@chainlink/ea-bootstrap'
+import { AdapterConfigError } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import {
@@ -11,6 +6,7 @@ import {
   inputParameters as commonInputParameters,
   getSynthetixBridgeName,
   getAddressResolver,
+  errorResponse,
 } from '../utils'
 import { Config } from '../config'
 import { getContractAddress } from '../utils'
@@ -47,54 +43,92 @@ export const getDebtIssued = async (
           statusCode: 500,
           message: `Chain ${network} not configured`,
         })
-      const networkProvider = new ethers.providers.JsonRpcProvider(
-        config.chains[network].rpcURL,
-        config.chains[network].chainId,
-      )
+      let networkProvider
       try {
-        const addressResolverAddress = await getAddressResolver(
-          networkProvider,
-          config.chains[network].chainAddressResolverProxyAddress,
+        networkProvider = new ethers.providers.JsonRpcProvider(
+          config.chains[network].rpcURL,
+          config.chains[network].chainId,
         )
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Unable to connect to RPC provider. Network - ${network}`,
+        )
+      }
 
-        const debtCacheAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          'DebtCache',
-        )
+      const addressResolverAddress = await getAddressResolver(
+        networkProvider,
+        config.chains[network].chainAddressResolverProxyAddress,
+        jobRunID,
+        network,
+      )
+
+      const debtCacheAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        'DebtCache',
+        jobRunID,
+        network,
+      )
+      let debtIssued
+      try {
         const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
-        const [debtIssued] = await debtCache.currentDebt({ blockTag: blockNumber })
-
-        const synthetixBridgeAddress = await getContractAddress(
-          networkProvider,
-          addressResolverAddress,
-          getSynthetixBridgeName(network, jobRunID),
+        debtIssued = (await debtCache.currentDebt({ blockTag: blockNumber }))[0]
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch current debt from DebtCache contract. Error Message: ${e}`,
         )
-        const synthetixBridge = new ethers.Contract(
+      }
+
+      const synthetixBridgeAddress = await getContractAddress(
+        networkProvider,
+        addressResolverAddress,
+        getSynthetixBridgeName(network, jobRunID),
+        jobRunID,
+        network,
+      )
+      let synthetixBridge
+      let synthTransferReceived
+      try {
+        synthetixBridge = new ethers.Contract(
           synthetixBridgeAddress,
           SYNTHETIX_BRIDGE_ABI,
           networkProvider,
         )
-        const synthTransferReceived = await synthetixBridge.synthTransferReceived({
+        synthTransferReceived = await synthetixBridge.synthTransferReceived({
           blockTag: blockNumber,
         })
-        const synthTransferSent = await synthetixBridge.synthTransferSent({ blockTag: blockNumber })
-        const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
-        return [network, blockNumber, issuedSynths]
-      } catch (e: any) {
-        const error = e as any
-
-        const errorPayload = {
+      } catch (e) {
+        return errorResponse(
+          e,
           jobRunID,
           network,
-          message: `Failed to fetch debt data from chain ${network}.  Error Message: ${e}`,
-        }
-        throw error.response
-          ? new AdapterDataProviderError(errorPayload)
-          : error.request
-          ? new AdapterConnectionError(errorPayload)
-          : new AdapterError(errorPayload)
+          `Failed to fetch synthTransferReceived.  Error Message: ${e}`,
+        )
       }
+
+      let issuedSynths
+
+      try {
+        const synthTransferSent = await synthetixBridge.synthTransferSent({
+          blockTag: blockNumber,
+        })
+        issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
+      } catch (e) {
+        return errorResponse(
+          e,
+          jobRunID,
+          network,
+          `Failed to fetch synthTransferSent or calculate issued synths. Error Message: ${e}`,
+        )
+      }
+
+      return [network, blockNumber, issuedSynths]
     }),
   )
 

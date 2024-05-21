@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoAPIs
 
-![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoapis/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoapis/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -10,6 +10,18 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :---------: | :-----------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     |   API_KEY   | An API key that can be obtained from [here](https://cryptoapis.io/) | string |         |         |
 |           | API_TIMEOUT |                          Timeout parameter                          | number |         | `30000` |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|     free     |              3              |                             |           20.83           |      |
+|    growth    |             10              |                             |       104.166666667       |      |
+|   startup    |             20              |                             |           312.5           |      |
+| partnership  |             30              |                             |           937.5           |      |
+| professional |             40              |                             |          2812.5           |      |
 
 ---
 

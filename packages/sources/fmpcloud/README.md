@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Fmp Cloud
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fmpcloud/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fmpcloud/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://fmpcloud.io
 
@@ -12,6 +12,17 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :---------: | :----: | :-----: | :-------------------: |
 |    ✅     |   API_KEY    |             | string |         |                       |
 |           | API_ENDPOINT |             | string |         | `https://fmpcloud.io` |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                Note                                                |
+| :------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------------------------------------: |
+|   free   |                             |                             |           10.4            | only mentions daily limit and calls the plan 'limited' no other limiting mentioned for other plans |
+| starter  |             10              |                             |                           |                                                                                                    |
+|  teams   |             10              |                             |                           |                                                                                                    |
+| business |             10              |                             |                           |                                                                                                    |
 
 ---
 

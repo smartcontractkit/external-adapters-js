@@ -1,152 +1,58 @@
 import {
   CryptoPriceEndpoint,
+  LwbaResponseDataFields,
+  DEFAULT_LWBA_ALIASES,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import {
-  makeLogger,
-  PartialAdapterResponse,
-  ProviderResultGenerics,
-} from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { transport } from '../transport/crypto'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 // Note: this adapter is intended for the API with endpoint 'wss://cryptofeed.ws.newchangefx.com'.
 // There is another API with endpoint 'wss://feed.newchangefx.com/cryptodata' that has slightly
 // different behavior, including a different login success message and the price messages being
 // an array of price data objects for each subscribed asset.
 
-const inputParameters = new InputParameters(priceEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
+  {
+    base: 'ETH',
+    quote: 'USD',
+  },
+])
 
-type WsMessage = WsInfoMessage | WsPriceMessage
+type OmitResultFromLwba = Omit<LwbaResponseDataFields, 'Result'>
 
-type WsInfoMessage = {
-  Type: string
-  Message: string
-}
-
-type WsPriceMessage = {
-  timestamp: string // e.g. 2023-01-31T20:10:41
-  currencyPair: string // e.g. ETH/USD
-  bid?: number // e.g. 1595.4999
-  offer?: number // e.g. 1595.5694
-  mid?: number // e.g. 1595.5346
-}
-
-type Response = {
-  Result: number
-  bid: number
-  ask: number
-  Data: {
-    result: number
-    bid: number
-    mid: number
-    ask: number
-  }
-}
-
-export type EndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: Response
+  Response: OmitResultFromLwba & SingleNumberResultResponse
   Settings: typeof config.settings
-  Provider: {
-    WsMessage: WsMessage
+}
+
+export function customInputValidation(
+  _: AdapterRequest<typeof inputParameters.validated>,
+  settings: typeof config.settings,
+): AdapterError | undefined {
+  if (!settings.API_PASSWORD || !settings.API_USERNAME) {
+    return new AdapterInputError({
+      statusCode: 400,
+      message: 'API_PASSWORD and/or API_USERNAME is not set',
+    })
   }
+  return
 }
 
-export type MultiVarResult<T extends ProviderResultGenerics> = {
-  params: typeof inputParameters.validated
-  response: PartialAdapterResponse<T['Response']> & {
-    bid: number
-    ask: number
-  }
-}
-
-const logger = makeLogger('NcfxCryptoEndpoint')
-
-export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
-  handlers: {
-    open(connection, context) {
-      return new Promise((resolve, reject) => {
-        // Set up listener
-        connection.addEventListener('message', (event: MessageEvent) => {
-          const parsed = JSON.parse(event.data.toString())
-          if (parsed.Message === 'Successfully Authenticated') {
-            logger.debug('Got logged in response, connection is ready')
-            resolve()
-          } else {
-            reject(
-              new Error(`Unexpected message after WS connection open: ${event.data.toString()}`),
-            )
-          }
-        })
-        // Send login payload
-        logger.debug('Logging in WS connection')
-        connection.send(
-          JSON.stringify({
-            request: 'login',
-            username: context.adapterSettings.API_USERNAME,
-            password: context.adapterSettings.API_PASSWORD,
-          }),
-        )
-      })
-    },
-
-    message(message: WsMessage): MultiVarResult<EndpointTypes>[] | undefined {
-      if (isInfoMessage(message)) {
-        logger.debug(`Received message ${message.Type}: ${message.Message}`)
-        return
-      }
-
-      if (!message.currencyPair || !message.mid || !message.bid || !message.offer) {
-        logger.debug('WS message does not contain valid data, skipping')
-        return
-      }
-
-      const [base, quote] = message.currencyPair.split('/')
-      return [
-        {
-          params: { base, quote },
-          response: {
-            result: message.mid || 0, // Already validated in the filter above
-            bid: message.bid || 0, // Already validated in the filter above
-            ask: message.offer || 0, // Already validated in the filter above
-            data: {
-              // bid, mid, ask included here again.
-              // Also kept outside data for backward compatability
-              bid: message.bid || 0,
-              mid: message.mid || 0,
-              ask: message.offer || 0,
-              result: message.mid || 0, // Already validated in the filter above
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
-            },
-          },
-        },
-      ]
-    },
-  },
-  builders: {
-    subscribeMessage: (params) => ({
-      request: 'subscribe',
-      ccy: `${params.base}/${params.quote}`,
-    }),
-    unsubscribeMessage: (params) => ({
-      request: 'unsubscribe',
-      ccy: `${params.base}/${params.quote}`,
-    }),
-  },
-})
-
-const isInfoMessage = (message: WsMessage): message is WsInfoMessage => {
-  return (message as WsInfoMessage).Type !== undefined
-}
-
-export const cryptoEndpoint = new CryptoPriceEndpoint<EndpointTypes>({
-  name: 'crypto-lwba',
-  aliases: ['cryptolwba', 'crypto_lwba', 'crypto'],
-  transport: cryptoTransport,
+export const cryptoEndpoint = new CryptoPriceEndpoint({
+  name: 'crypto',
+  aliases: DEFAULT_LWBA_ALIASES,
+  transport,
+  customInputValidation,
   inputParameters,
 })

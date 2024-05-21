@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AP Election
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ap-election/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ap-election/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 The AP Election adapter fetches the latest election results provided by the Associated Press API and returns the winner of a given election.
 
@@ -14,6 +14,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :---------: | :----: | :-----: | :---------------------: |
 |           | API_ENDPOINT |             | string |         | `https://api.ap.org/v2` |
 |    ✅     |   API_KEY    |             | string |         |                         |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

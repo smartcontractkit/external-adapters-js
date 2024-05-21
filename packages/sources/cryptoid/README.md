@@ -1,6 +1,6 @@
 # Chainlink External Adapter for cryptoID
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoid/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoid/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -9,6 +9,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |  Name   | Description |  Type  | Options | Default |
 | :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
 |    ✅     | API_KEY |             | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

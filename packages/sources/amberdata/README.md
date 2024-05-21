@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Amberdata
 
-![1.8.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.8.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL wss://ws.web3api.io
 
@@ -13,6 +13,15 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |  API_ENDPOINT   |                | string |         | `https://web3api.io`  |
 |    ✅     |     API_KEY     | API key to use | string |         |                       |
 |           | WS_API_ENDPOINT |                | string |         | `wss://ws.web3api.io` |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|   free    |              1              |                             |           83.33           |      |
+| on-demand |             15              |                             |           12500           |      |
 
 ---
 

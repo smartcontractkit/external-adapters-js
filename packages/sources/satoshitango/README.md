@@ -1,6 +1,6 @@
 # Chainlink External Adapter for SatoshiTango
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.satoshitango.com/v3
 
@@ -11,6 +11,14 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |     Name     | Description |  Type  | Options |              Default              |
 | :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------------: |
 |           | API_ENDPOINT |             | string |         | `https://api.satoshitango.com/v3` |
+
+---
+
+## Data Provider Rate Limits
+
+| Name | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                               Note                                               |
+| :--: | :-------------------------: | :-------------------------: | :-----------------------: | :----------------------------------------------------------------------------------------------: |
+| free |                             |              4              |                           | Docs say '60req/10m or IP gets banned', but reduced due to differences in observed rate limiting |
 
 ---
 

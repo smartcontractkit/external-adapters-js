@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Blockcypher
 
-![1.4.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blockcypher/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.4.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blockcypher/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Queries BTC address balance from blockcypher.com
 
@@ -11,6 +11,20 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |  Name   |          Description           |  Type  | Options | Default |
 | :-------: | :-----: | :----------------------------: | :----: | :-----: | :-----: |
 |    ✅     | API_KEY | blockcypher.com API key to use | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :---------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|    free     |              3              |                             |            200            |      |
+|  prototype  |              5              |                             |          208.33           |      |
+|    beta     |              8              |                             |          458.33           |      |
+| production  |             12              |                             |           1000            |      |
+|  business   |             15              |                             |          2083.33          |      |
+|   leader    |             22              |                             |           5000            |      |
+| babyunicorn |             25              |                             |         10416.66          |      |
 
 ---
 

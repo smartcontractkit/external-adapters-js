@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinranking
 
-![2.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinranking/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinranking/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -9,6 +9,16 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |  Name   |                            Description                             |  Type  | Options | Default |
 | :-------: | :-----: | :----------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     | API_KEY | An API key that can be obtained from the data provider's dashboard | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                          Note                                          |
+| :------: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------------------------: |
+|   free   |              5              |                             |       13.8888888889       | 10k/mo on the free tier (with API key) unauthenticated request limits aren't specified |
+| hobbyist |                             |                             |       277.777777778       |                                                                                        |
+|   pro    |                             |                             |            -1             |                                                                                        |
 
 ---
 

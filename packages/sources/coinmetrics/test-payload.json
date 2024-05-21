@@ -1,6 +1,31 @@
 {
- "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+  "requests": [
+    {
+      "from": "LINK",
+      "to": "USD"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "endpoint": "crypto-lwba"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "resultPath": "realVol1Day",
+      "endpoint": "realized-vol"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "resultPath": "realVol7Day",
+      "endpoint": "realized-vol"
+    },
+    {
+      "from": "ETH",
+      "to": "USD",
+      "resultPath": "realVol30Day",
+      "endpoint": "realized-vol"
+    }
+  ]
 }

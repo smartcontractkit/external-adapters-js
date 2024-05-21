@@ -1,5 +1,0 @@
-export { endpoint as crypto } from './crypto-router'
-export { endpoint as stock } from './stock-router'
-export { endpoint as eod } from './http/eod'
-export { endpoint as commodities } from './http/commodities'
-export { endpoint as forex } from './forex-router'

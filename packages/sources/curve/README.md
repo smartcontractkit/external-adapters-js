@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter allows querying Curve.fi contracts
 
@@ -15,6 +15,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |   ADDRESS_PROVIDER   |                            | string |         | `0x0000000022D53366457F9d5E68Ec105046FC4383` |
 |           | EXCHANGE_PROVIDER_ID |                            | number |         |                     `2`                      |
 |           |  BLOCKCHAIN_NETWORK  |                            | string |         |                  `ethereum`                  |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

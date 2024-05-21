@@ -1,64 +1,27 @@
-import { AdapterConfigError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { Config } from '../config'
+import { config } from '../config'
+import { httpTransport } from '../transport/members'
+import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import {
+  PoRAddressEndpoint,
+  PoRAddressResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
-export const supportedEndpoints = ['members']
-
-type APIMembersResponse = {
-  result: Member[]
-  count: number
+export type BaseEndpointTypes = {
+  Parameters: EmptyInputParameters
+  Response: PoRAddressResponse
+  Settings: typeof config.settings
 }
 
-type Member = {
-  id: string
-  token: string
-  tags: string[]
-  name: string
-  addresses: Address[]
-  description: string
-  merchantPortalUri?: string
-  websiteUri?: string
-}
-
-type Address = {
-  address: string
-  verified: boolean
-  type: AddressType
-  date: string
-  chain: ChainType
-  balance?: number
-}
-
-type AddressType = 'custodial' | 'merchant' | 'deposit'
-type ChainType = 'btc' | 'eth'
-
-export type TInputParameters = Record<string, never>
-export const inputParameters: InputParameters<TInputParameters> = {}
-
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  Requester.logConfig(config)
-
-  const jobRunID = validator.validated.id
-
-  if (!config.membersEndpoint) {
-    throw new AdapterConfigError({
-      jobRunID,
-      statusCode: 500,
-      message: 'The member list endpoint has not been configured for this adapter',
-    })
-  }
-
-  const options = { ...config.api, baseURL: config.membersEndpoint }
-  const response = await Requester.request<APIMembersResponse>(options)
-
-  const result = response.data.result
-    .filter((member) => member.token === 'wbtc')
-    .flatMap((member) => member.addresses)
-    .filter((a) => a.type == 'custodial' && a.balance)
-    .map((a) => ({ ...a, coin: 'btc', chainId: 'mainnet', network: 'bitcoin' }))
-
-  const output = { ...response, data: { ...response.data, result } }
-  return Requester.success(jobRunID, output, config.verbose)
-}
+export const endpoint = new PoRAddressEndpoint({
+  name: 'members',
+  transport: httpTransport,
+  customInputValidation: (_, adapterSettings): AdapterInputError | undefined => {
+    if (!adapterSettings.MEMBERS_ENDPOINT) {
+      throw new AdapterInputError({
+        message: `MEMBERS_ENDPOINT env var is required for 'members' endpoint`,
+      })
+    }
+    return
+  },
+})

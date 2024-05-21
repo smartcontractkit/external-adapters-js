@@ -1,6 +1,6 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-![1.7.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/metalsapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.7.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/metalsapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://metals-api.com/api/
 
@@ -12,6 +12,18 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :---------: | :----: | :-----: | :---------------------------: |
 |    ✅     |   API_KEY    |             | string |         |                               |
 |           | API_ENDPOINT |             | string |         | `https://metals-api.com/api/` |
+
+---
+
+## Data Provider Rate Limits
+
+|       Name       | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |             Note             |
+| :--------------: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------: |
+|       free       |                             |                             |           0.068           | only mentions monthly limits |
+|     starter      |                             |                             |           0.684           |                              |
+|      basic       |                             |                             |           13.69           |                              |
+|   professional   |                             |                             |          136.98           |                              |
+| professionalplus |                             |                             |          684.93           |                              |
 
 ---
 

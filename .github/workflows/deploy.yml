@@ -22,10 +22,6 @@ on:
         description: whether to run steps for all adapters, regardless of whether they were changed in this event
         required: false
         default: 'false'
-      trigger-infra-workflow:
-        description: whether to trigger the infra deployment workflow after publishing images
-        required: false
-        default: 'true'
 
 concurrency:
   group: deploy-and-release
@@ -34,9 +30,10 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
-    runs-on: [self-hosted, sdlc-ghr-prod] # Running on self hosted because they're a bit faster
+    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
+      tmp-branch: ${{ steps.push-branch.outputs.TMP_BRANCH }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -50,19 +47,36 @@ jobs:
         id: changed-adapters
         env:
           UPSTREAM_BRANCH: HEAD~1
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # The deployment will overwrite existing ones, so in order to calculate all adapters that have been changed,
           # we can mock running the changesets version command to have them present in the diff.
           # Additionally, running the changeset version will cause the images we publish here to have the proper increased version.
           yarn changeset version
-          git commit -am "Mock changesets"
+
+          # If there are changes, commit them and calculate the adapters.
+          # If there are no changes, we don't need to deploy anything :)
+          if [[ `git status --porcelain` ]]; then
+            git commit -am "Mock changesets"
+          fi
+
           ./.github/scripts/changed-adapters.sh
+      # Since we want to publish with the versions updated, we need to store the changes we've made to a temporary branch
+      - name: Publish branch
+        id: push-branch
+        if: steps.changed-adapters.outputs.CHANGED_ADAPTERS != '[]'
+        run: |
+          export TMP_BRANCH="tmp-deploy-$(git rev-parse HEAD)"
+          git checkout -b tmp-deploy-$(git rev-parse HEAD)
+          git push origin tmp-deploy-$(git rev-parse HEAD)
+          echo "TMP_BRANCH=$TMP_BRANCH" >> $GITHUB_OUTPUT
 
   publish-adapter-images:
     name: Build and publish ${{ matrix.adapter.shortName }}
     runs-on: ubuntu-latest
     needs:
       - calculate-changes
+    if: needs.calculate-changes.outputs.adapter-list != '[]'
     environment: release
     permissions: # These are needed for the configure-aws-credentials action
       id-token: write
@@ -76,8 +90,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        with:
+          ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
       - name: Build the adapter image
         uses: docker/build-push-action@v4
         with:
@@ -87,6 +101,8 @@ jobs:
           build-args: |
             package=${{ matrix.adapter.name }}
             location=${{ matrix.adapter.location }}
+      - name: Debug
+        run: docker image ls
       - name: Publish adapter image
         uses: ./.github/actions/publish-image
         with:
@@ -102,11 +118,37 @@ jobs:
   deploy:
     name: Trigger infra deployment
     runs-on: ubuntu-latest
-    needs: publish-adapter-images
-    if: inputs.trigger-infra-workflow == 'true'
+    needs:
+      - calculate-changes
+      - publish-adapter-images
+    if: needs.calculate-changes.outputs.adapter-list != '[]'
     environment: InfraK8s
+    env:
+      ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
+      CHANGED_ADAPTERS: ${{ needs.calculate-changes.outputs.adapter-list }}
     steps:
-      - name: 'Trigger Image Dispatcher'
-        run: gh workflow run --repo smartcontractkit/infra-k8s --ref main "Infra-k8s Image Dispatcher" -F imageRepos="${{ steps.get-artifacts.outputs.result }}" -F gitRepo=${{ github.event.repository.name }}
+      - name: Trigger Image Dispatcher
+        run: >
+          gh workflow run 
+          --repo smartcontractkit/infra-k8s
+          --ref main "Infra-k8s Image Dispatcher" 
+          -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' ')" 
+          -F gitRepo=${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_K8s_PAT }}
+
+  cleanup:
+    name: Clean up ephemeral items
+    runs-on: ubuntu-latest
+    needs:
+      - calculate-changes
+      - deploy
+    if: always() && needs.calculate-changes.outputs.adapter-list != '[]'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
+      - name: Delete ephemeral branch
+        run: |
+          git push origin --delete ${{ needs.calculate-changes.outputs.tmp-branch }}

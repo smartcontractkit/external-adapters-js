@@ -21,7 +21,6 @@
     { "path": "../../sources/finage" },
     { "path": "../../sources/kaiko" },
     { "path": "../../sources/ncfx" },
-    { "path": "../../sources/nomics" },
     { "path": "../../sources/tiingo" }
   ]
 }

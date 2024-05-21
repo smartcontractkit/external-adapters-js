@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Marketstack
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/marketstack/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/marketstack/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL http://api.marketstack.com/v1/
 
@@ -12,6 +12,17 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------: | :---------: | :----: | :-----: | :------------------------------: |
 |    ✅     |   API_KEY    |             | string |         |                                  |
 |           | API_ENDPOINT |             | string |         | `http://api.marketstack.com/v1/` |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |            Note             |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------: |
+|     free     |                             |                             |           1.369           | only mentions monthly limit |
+|    basic     |                             |                             |           13.69           |                             |
+| professional |                             |                             |           136.9           |                             |
+|   business   |                             |                             |          684.93           |                             |
 
 ---
 

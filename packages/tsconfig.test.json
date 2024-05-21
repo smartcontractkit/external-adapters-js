@@ -9,6 +9,9 @@
       "path": "./composites/apy-finance/tsconfig.test.json"
     },
     {
+      "path": "./composites/apy-finance-test/tsconfig.test.json"
+    },
+    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
@@ -42,6 +45,9 @@
       "path": "./composites/dydx-rewards/tsconfig.test.json"
     },
     {
+      "path": "./composites/gm-token/tsconfig.test.json"
+    },
+    {
       "path": "./composites/google-weather/tsconfig.test.json"
     },
     {
@@ -64,9 +70,6 @@
     },
     {
       "path": "./composites/outlier-detection/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/por-indexer/tsconfig.test.json"
     },
     {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
@@ -105,16 +108,13 @@
       "path": "./core/test-helpers/tsconfig.test.json"
     },
     {
-      "path": "./examples/composite/tsconfig.test.json"
-    },
-    {
-      "path": "./examples/source/tsconfig.test.json"
-    },
-    {
       "path": "./non-deployable/reduce/tsconfig.test.json"
     },
     {
       "path": "./non-deployable/token-allocation/tsconfig.test.json"
+    },
+    {
+      "path": "./non-deployable/token-allocation-test/tsconfig.test.json"
     },
     {
       "path": "./scripts/tsconfig.test.json"
@@ -138,9 +138,6 @@
       "path": "./sources/alphavantage/tsconfig.test.json"
     },
     {
-      "path": "./sources/alphavantage-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -151,9 +148,6 @@
     },
     {
       "path": "./sources/ap-election/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/armanino/tsconfig.test.json"
     },
     {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
@@ -216,10 +210,16 @@
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
     },
     {
+      "path": "./sources/clear-bank/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
       "path": "./sources/coinbase/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/coinbase-prime/tsconfig.test.json"
     },
     {
       "path": "./sources/coincodex/tsconfig.test.json"
@@ -276,6 +276,9 @@
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {
+      "path": "./sources/dlc-btc-por/tsconfig.test.json"
+    },
+    {
       "path": "./sources/dns-query/tsconfig.test.json"
     },
     {
@@ -286,6 +289,9 @@
     },
     {
       "path": "./sources/dxfeed-secondary/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/elven/tsconfig.test.json"
     },
     {
       "path": "./sources/elwood/tsconfig.test.json"
@@ -327,10 +333,13 @@
       "path": "./sources/finage/tsconfig.test.json"
     },
     {
-      "path": "./sources/finage-test/tsconfig.test.json"
+      "path": "./sources/finalto/tsconfig.test.json"
     },
     {
       "path": "./sources/finnhub/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/finnhub-secondary/tsconfig.test.json"
     },
     {
       "path": "./sources/fixer/tsconfig.test.json"
@@ -343,6 +352,9 @@
     },
     {
       "path": "./sources/fmpcloud/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
     },
     {
       "path": "./sources/galaxis/tsconfig.test.json"
@@ -372,6 +384,9 @@
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {
+      "path": "./sources/harris-and-trotter/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
@@ -381,7 +396,7 @@
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
-      "path": "./sources/intrinio-test/tsconfig.test.json"
+      "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
       "path": "./sources/ipfs/tsconfig.test.json"
@@ -394,9 +409,6 @@
     },
     {
       "path": "./sources/kaiko/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/kaiko-test/tsconfig.test.json"
     },
     {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
@@ -432,6 +444,9 @@
       "path": "./sources/moonbeam-address-list/tsconfig.test.json"
     },
     {
+      "path": "./sources/moore-hk/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mycryptoapi/tsconfig.test.json"
     },
     {
@@ -442,9 +457,6 @@
     },
     {
       "path": "./sources/nikkei/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nomics/tsconfig.test.json"
     },
     {
       "path": "./sources/oanda/tsconfig.test.json"
@@ -478,6 +490,9 @@
     },
     {
       "path": "./sources/por-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/por-indexer/tsconfig.test.json"
     },
     {
       "path": "./sources/renvm-address-set/tsconfig.test.json"
@@ -525,6 +540,9 @@
       "path": "./sources/terra-view-function/tsconfig.test.json"
     },
     {
+      "path": "./sources/the-network-firm/tsconfig.test.json"
+    },
+    {
       "path": "./sources/therundown/tsconfig.test.json"
     },
     {
@@ -540,10 +558,10 @@
       "path": "./sources/tradingeconomics/tsconfig.test.json"
     },
     {
-      "path": "./sources/tradingeconomics-test/tsconfig.test.json"
+      "path": "./sources/trueusd/tsconfig.test.json"
     },
     {
-      "path": "./sources/trueusd/tsconfig.test.json"
+      "path": "./sources/trumatic-matic-exchange-rate/tsconfig.test.json"
     },
     {
       "path": "./sources/twelvedata/tsconfig.test.json"
@@ -558,9 +576,6 @@
       "path": "./sources/uniswap-v2/tsconfig.test.json"
     },
     {
-      "path": "./sources/uniswap-v3/tsconfig.test.json"
-    },
-    {
       "path": "./sources/upvest/tsconfig.test.json"
     },
     {
@@ -568,6 +583,9 @@
     },
     {
       "path": "./sources/view-function/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/view-function-multi-chain/tsconfig.test.json"
     },
     {
       "path": "./sources/wbtc-address-set/tsconfig.test.json"

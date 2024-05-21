@@ -1,6 +1,6 @@
 # Chainlink External Adapter for querying Terra view functions
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This external adapter allows querying contracts on the Terra blockchain. A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 
@@ -16,6 +16,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     | BOMBAY_12_LCD_URL  | The URL to a Terra `bombay-12` full node to query on-chain testnet data. At least 1 of 3 LCD_URLs must be provided.  | string |         |              |
 |    ✅     | LOCALTERRA_LCD_URL |   The URL to a locally running Terra full node to query on-chain data. At least 1 of 3 LCD_URLs must be provided.    | string |         |              |
 |           |  DEFAULT_CHAIN_ID  |                               The default `chainId` value to use as an input parameter                               | string |         | `columbus-5` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

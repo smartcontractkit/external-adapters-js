@@ -1,13 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price api should return success 1`] = `
+exports[`execute price endpoint rest should return success 1`] = `
 {
   "data": {
     "result": 24.25,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 24.25,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;

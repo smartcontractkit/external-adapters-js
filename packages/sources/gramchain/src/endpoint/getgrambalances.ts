@@ -1,73 +1,38 @@
-import {
-  Config,
-  ExecuteWithConfig,
-  InputParameters,
-  Requester,
-  Validator,
-} from '@chainlink/ea-bootstrap'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { httpTransport } from '../transport/getgrambalances'
+import { config } from '../config'
 
-export const supportedEndpoints = ['getgrambalances']
+export const inputParameters = new InputParameters(
+  {
+    custodianID: {
+      type: 'string',
+      default: 'Cache',
+      description: 'The identifier of the custodian',
+    },
+    metalCode: {
+      type: 'string',
+      default: 'AU',
+      description: 'The symbol of the metal',
+    },
+    utilizationLockCode: {
+      type: 'string',
+      default: 'Locked',
+      description: 'The status of the utilization',
+    },
+  },
+  [{ custodianID: 'Cache', metalCode: 'AU', utilizationLockCode: 'Locked' }],
+)
 
-export type ResponseSchema = {
-  VaultID: string
-  MetalCode: string
-  CustodianID: string
-  UtilizationLockCode: string
-  EntityID: string
-  ItemCategoryCode: string
-  NrParcels: number
-  PureGrams: number
-  GrossGrams: number
-  FixedValuation: number
-  AsOfUTC: string
-  MetalName: string
-  CategoryName: string
-  ParcelGrouping: string
-  Valuation: number
-}[]
-
-export type TInputParameters = {
-  custodianID: string
-  metalCode: string
-  utilizationLockCode: string
-}
-export const inputParameters: InputParameters<TInputParameters> = {
-  custodianID: {
-    required: false,
-    type: 'string',
-    default: 'Cache',
-  },
-  metalCode: {
-    required: false,
-    type: 'string',
-    default: 'AU',
-  },
-  utilizationLockCode: {
-    required: false,
-    type: 'string',
-    default: 'Locked',
-  },
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-  const custodianID = validator.validated.data.custodianID
-  const metalCode = validator.validated.data.metalCode
-  const utilizationLockCode = validator.validated.data.utilizationLockCode
-  const url = `/getgrambalances`
-
-  const params = {
-    custodianID,
-    metalCode,
-    utilizationLockCode,
-  }
-
-  const options = { ...config.api, params, url }
-
-  const response = await Requester.request<ResponseSchema>(options)
-  const result = parseFloat(response.data.reduce((sum, item) => sum + item.PureGrams, 0).toFixed(4))
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
+export const endpoint = new AdapterEndpoint({
+  name: 'getgrambalances',
+  transport: httpTransport,
+  inputParameters,
+})

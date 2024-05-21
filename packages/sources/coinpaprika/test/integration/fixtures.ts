@@ -1,10 +1,10 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.coinpaprika.com', {
     encodedQueryParams: true,
   })
-    .persist()
     .get('/v1/tickers')
     .query({ quotes: 'USD' })
     .reply(
@@ -318,3 +318,46 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
       },
     ])
     .persist()
+
+export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(
+        JSON.stringify({
+          id: 'eth-ethereum',
+          sym: 'ETH',
+          ts: 1676916987,
+          quotes: {
+            USD: {
+              m: 218206664352,
+              p: 1820,
+              v24h: 18368605422,
+            },
+            BNB: {
+              v24h: 33536502.503028188,
+              p: 8.079344785434749,
+              m: 971697166.0409219,
+            },
+            BTC: {
+              v24h: 219610.49902745453,
+              p: 0.05290679730195408,
+              m: 6363063.635468299,
+            },
+            MATIC: {
+              v24h: 11706668089.75626,
+              p: 2820.276436913697,
+              m: 339192681334.93384,
+            },
+            ETH: {
+              v24h: 4158013.032452321,
+              p: 1,
+              m: 120475576.71317449,
+            },
+          },
+        }),
+      )
+    })
+  })
+  return mockWsServer
+}

@@ -423,6 +423,11 @@
       {
         "from": "DPI",
         "to": "USD"
+      },
+      {
+        "from": "BTC",
+        "to": "ETH",
+        "endpoint": "realized-vol"
       }
     ]
   }

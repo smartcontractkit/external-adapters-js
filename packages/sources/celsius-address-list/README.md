@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Celsius Address List Wallet
 
-![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/celsius-address-list/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/celsius-address-list/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter fetches a list of addresses for the Proof of Reserves adapter. The custodial chain addresses are pulled from the Celsius Address Manager contract on an Ethereum chain. It is similar to the Chain Reserve Wallet adapter, except the input to the smart contract method is a `string` instead of `uint8`.
 
@@ -12,6 +12,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :------: | :----------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     | RPC_URL  | The Ethereum RPC URL where the smart contract holding the custodial addresses is deployed. | string |         |         |
 |           | CHAIN_ID |                                 The chain id to connect to                                 | string |         |   `1`   |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

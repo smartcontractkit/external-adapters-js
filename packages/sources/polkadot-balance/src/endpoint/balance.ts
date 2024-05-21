@@ -1,145 +1,46 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
-  AdapterRequest,
-  AdapterResponse,
-  makeLogger,
-} from '@chainlink/external-adapter-framework/util'
+  PoRBalanceEndpoint,
+  porBalanceEndpointInputParametersDefinition,
+  PoRBalanceResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { ApiPromise, WsProvider } from '@polkadot/api'
 import { config } from '../config'
+import { transport } from '../transport/balance'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
-const logger = makeLogger('PolkadotBalanceLogger')
-
-const inputParameters = new InputParameters({
-  addresses: {
-    aliases: ['result'],
-    required: true,
-    array: true,
-    description:
-      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
-    type: {
-      address: {
-        type: 'string',
-        description: 'an address to get the balance of',
-        required: true,
+export const inputParameters = new InputParameters(porBalanceEndpointInputParametersDefinition, [
+  {
+    addresses: [
+      {
+        address: '13nogjgyJcGQduHt8RtZiKKbt7Uy6py9hv1WMDZWueEcsHdh',
       },
-    },
+      {
+        address: '126rjyDQEJm6V6YPDcN85hJDYraqB6hL9bFsvWLDnM8rLc3J',
+      },
+    ],
   },
-})
+])
 
-interface BalanceResponse {
-  address: string
-  balance: string
-}
-
-interface ProviderResponse {
-  nonce: number
-  data?: {
-    free?: string
-  }
-}
-
-interface ResponseSchema {
-  Data: {
-    result: BalanceResponse[]
-  }
-  Result: null
-}
-
-type EndpointTypes = {
+export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: ResponseSchema
+  Response: PoRBalanceResponse
 }
 
-const chunkArray = (addresses: string[], size: number): string[][] =>
-  addresses.length > size
-    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
-    : [addresses]
-
-export class BalanceTransport implements Transport<EndpointTypes> {
-  name!: string
-  responseCache!: ResponseCache<EndpointTypes>
-
-  async initialize(
-    dependencies: TransportDependencies<EndpointTypes>,
-    _: typeof config.settings,
-    __: string,
-    name: string,
-  ): Promise<void> {
-    this.responseCache = dependencies.responseCache
-    this.name = name
-  }
-
-  async foregroundExecute(
-    req: AdapterRequest<typeof inputParameters.validated>,
-    settings: typeof config.settings,
-  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
-    const wsProvider = new WsProvider(settings.RPC_URL)
-    const api = await ApiPromise.create({ provider: wsProvider })
-    await api.isReady
-
-    const providerDataRequestedUnixMs = Date.now()
-    const result: BalanceResponse[] = []
-
-    // Can't utilize a "multi" query here since it doesn't retrieve a snapshot of the balance directly
-    // Also addresses are not returned in the results preventing balances to be mapped to them
-    const addresses = req.requestContext.data.addresses.map(({ address }) => address)
-    try {
-      // Break addresses down into batches to execute asynchronously
-      // Firing requests for all addresses all at once could hit rate limiting for large address pools
-      const batchedAddresses = chunkArray(addresses, settings.BATCH_SIZE)
-      for (const batch of batchedAddresses) {
-        await Promise.all(
-          batch.map((address) => {
-            const balancePromise = api.query.system.account(address).then((codec) => {
-              const balance = codec.toJSON() as unknown as ProviderResponse
-              if (balance) {
-                result.push({
-                  address,
-                  balance: parseInt(balance.data?.free || '0x0', 16).toString(),
-                })
-              }
-            })
-            return balancePromise
-          }),
-        )
-      }
-    } catch (e) {
-      logger.error(e, 'Failed to retrieve balances')
-      return {
-        statusCode: 500,
-        errorMessage: 'Failed to retrieve balances',
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
-    }
-    const providerDataReceivedUnixMs = Date.now()
-
-    const response = {
-      data: {
-        result,
-      },
-      result: null,
-      statusCode: 200,
-      timestamps: {
-        providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs,
-        providerIndicatedTimeUnixMs: undefined,
-      },
-    }
-    await this.responseCache.write(this.name, [{ params: req.requestContext.data, response }])
-    return response
-  }
-}
-
-export const balanceEndpoint = new AdapterEndpoint<EndpointTypes>({
+export const balanceEndpoint = new PoRBalanceEndpoint({
   name: 'balance',
-  transport: new BalanceTransport(),
+  transport,
   inputParameters,
+  customInputValidation: (
+    req: AdapterRequest<typeof inputParameters.validated>,
+  ): AdapterInputError | undefined => {
+    if (req.requestContext.data.addresses.length === 0) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      })
+    }
+    return
+  },
 })

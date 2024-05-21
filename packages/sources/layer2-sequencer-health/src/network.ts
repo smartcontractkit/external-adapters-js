@@ -15,18 +15,17 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address', 'intrinsic gas too low'],
   // TODO: Optimism error needs to be confirmed by their team
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
+  [Networks.Base]: ['transaction underpriced'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
+  [Networks.Scroll]: ['invalid transaction: insufficient funds for l1fee + gas * price + value'],
   // Sending an empty transaction to the dummy Starknet address should return one
-  // of the following error messages.  The Sequencer is considered healthy if the
-  // EA gets back one of the errors below.
-  // UNINITIALIZED_CONTRACT is thrown whenever the dummy address has not been
-  // deployed to the network
-  // OUT_OF_RANGE_FEE is thrown when the network detects a transaction sent
-  // with 0 gas
-  [Networks.Starkware]: [
-    'StarknetErrorCode.UNINITIALIZED_CONTRACT',
-    'StarknetErrorCode.OUT_OF_RANGE_FEE',
-  ],
+  // of the following error messages. The errors defined below can be a substring
+  // of the actual error message that is thrown. The Sequencer is considered healthy
+  // if the EA returns one of the errors below before the pre-configured timeout
+  // expires. The 'Contract not found' error is thrown whenever the dummy address
+  // has not been deployed to the network. The OutOfRangeFee error is thrown when
+  // the network detects a transaction sent with 0 gas.
+  [Networks.Starkware]: ['Contract not found', 'Known(OutOfRangeFee)'],
 }
 
 export interface NetworkHealthCheck {
@@ -48,7 +47,7 @@ export const checkSequencerHealth: NetworkHealthCheck = async (
   })
   const isHealthy = !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
   Logger.info(
-    `Health endpoint for network ${network} returned a ${
+    `[${network}] Health endpoint for network ${network} returned a ${
       isHealthy ? 'healthy' : 'unhealthy'
     } response`,
   )
@@ -61,7 +60,7 @@ export const getStatusByTransaction = async (
 ): Promise<boolean> => {
   let isSequencerHealthy = true
   try {
-    Logger.info(`Submitting empty transaction for network: ${network}`)
+    Logger.info(`[${network}] Submitting empty transaction for network: ${network}`)
     await sendEmptyTransaction(network, config)
   } catch (e) {
     isSequencerHealthy = isExpectedErrorMessage(network, e as Error)
@@ -79,23 +78,29 @@ const sendEmptyTransaction = async (network: Networks, config: ExtendedConfig): 
   }
 }
 
-const isExpectedErrorMessage = (network: Networks, e: Error) => {
-  const _getErrorMessage = (e: Error): string => {
-    const paths = {
+const isExpectedErrorMessage = (network: Networks, error: Error) => {
+  const _getErrorMessage = (error: Error): string => {
+    const paths: Record<Networks, string[]> = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
+      [Networks.Base]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
-      [Networks.Starkware]: ['errorCode'],
+      [Networks.Scroll]: ['error', 'error', 'message'],
+      [Networks.Starkware]: ['message'],
     }
-    return (Requester.getResult(e, paths[network]) as string) || ''
+    return (Requester.getResult(error, paths[network]) as string) || ''
   }
-  const error = e as Error
-  if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
-    Logger.debug(`Transaction submission failed with an expected error ${_getErrorMessage(error)}.`)
-    return true
+  const actualError = _getErrorMessage(error)
+  for (const expectedError of sequencerOnlineErrors[network]) {
+    if (actualError.includes(expectedError)) {
+      Logger.debug(
+        `[${network}] Transaction submission failed with an expected error ${actualError}.`,
+      )
+      return true
+    }
   }
   Logger.error(
-    `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
+    `[${network}] Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
   )
   return false
 }

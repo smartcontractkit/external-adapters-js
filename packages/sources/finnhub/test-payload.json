@@ -1,15 +1,47 @@
 {
     "requests": [
-    {
-        "base": "EUR"
-    },
-    {
-        "base": "EUR",
-        "endpoint": "forex"
-    },
-    {
-        "base": "AAPL",
-        "endpoint": "stock"
-    }
-]
+        {
+            "base": "FHFX:EUR-USD"
+        },
+        {
+            "base": "FHFX:USD-CAD"
+        },
+        {
+            "base": "FHFX:GBP-USD"
+        },
+        {
+            "base": "JPY",
+            "quote": "USD"
+        },
+        {
+            "base": "USD",
+            "quote": "JPY"
+        },
+        {
+            "base": "FHFX:EUR-USD",
+            "endpoint": "forex"
+        },
+        {
+            "base": "FHFX:USD-CAD",
+            "endpoint": "forex"
+        },
+
+        {
+            "base": "FHFX:GBP-USD",
+            "endpoint": "forex"
+        },
+        {
+            "base": "AAPL",
+            "endpoint": "stock"
+        },
+        {
+            "base": "AAPL",
+            "quote": "USD",
+            "endpoint": "stock"
+        },
+        {
+            "base": "MSFT",
+            "endpoint": "stock"
+        }
+    ]
 }

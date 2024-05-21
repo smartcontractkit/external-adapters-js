@@ -2,7 +2,7 @@ import nock from 'nock'
 
 export const mockResponseSuccessHealth = (): void => {
   // #1 Option: Direct check on health endpoint
-  nock('https://mainnet-sequencer.optimism.io/health')
+  nock('https://andromeda-healthy.metisdevops.link/health')
     .get('')
     .query(() => true)
     .reply(200, (_) => ({ healthy: 'true' }), [
@@ -44,6 +44,46 @@ export const mockResponseSuccessBlock = (): void => {
       'Vary',
       'Origin',
     ])
+
+  nock('https://mainnet.base.org')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://andromeda.metis.io/')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .query({ owner: 1088 })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://rpc.scroll.io')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
 }
 
 export const mockResponseSuccessRollup = (): void => {
@@ -53,11 +93,10 @@ export const mockResponseSuccessRollup = (): void => {
 
 export const mockResponseFailureHealth = (): void => {
   // #1 Option: Direct check on health endpoint
-  nock('https://mainnet-sequencer.optimism.io/health', {
-    encodedQueryParams: true,
-  })
-    .get('/')
-    .reply(500, () => ({ healthy: 'false' }), [
+  nock('https://andromeda-healthy.metisdevops.link/health')
+    .get('')
+    .query(() => true)
+    .reply(200, (_) => ({ healthy: 'false' }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -85,6 +124,46 @@ export const mockResponseFailureBlock = (): void => {
     ])
 
   nock('https://mainnet.optimism.io')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://mainnet.base.org')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://andromeda.metis.io')
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .query({ owner: 1088 })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://rpc.scroll.io')
     .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
       'Content-Type',

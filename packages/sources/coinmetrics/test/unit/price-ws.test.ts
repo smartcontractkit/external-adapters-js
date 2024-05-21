@@ -1,16 +1,19 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import process from 'process'
 import * as queryString from 'querystring'
-import { config } from '../../src/config'
+import { config, VALID_QUOTES } from '../../src/config'
 import {
   calculateAssetMetricsUrl,
   handleAssetMetricsMessage,
-  WsAssetMetricsEndpointTypes,
   WsAssetMetricsErrorResponse,
   WsAssetMetricsSuccessResponse,
   WsAssetMetricsWarningResponse,
-} from '../../src/endpoint/price-ws'
-import { assetMetricsInputParameters } from '../../src/endpoint/price'
+  invalidBaseAssets,
+} from '../../src/transport/price-ws'
+import { assetMetricsInputParameters, BaseEndpointTypes } from '../../src/endpoint/price'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+
+//Since the test is directly using endpoint functions, we need to initialize the logger here
+LoggerFactoryProvider.set()
 
 const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   time: Date.now().toString(),
@@ -41,7 +44,7 @@ const EXAMPLE_REORG_MESSAGE = {
 }
 
 config.initialize()
-const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
+const EXAMPLE_CONTEXT: EndpointContext<BaseEndpointTypes> = {
   endpointName: 'price',
   inputParameters: assetMetricsInputParameters,
   adapterSettings: config.settings,
@@ -49,6 +52,7 @@ const EXAMPLE_CONTEXT: EndpointContext<WsAssetMetricsEndpointTypes> = {
 
 describe('price-ws url generator', () => {
   let oldEnv: NodeJS.ProcessEnv
+  const invalid_currencies = invalidBaseAssets
   beforeAll(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = 'someKey'
@@ -65,7 +69,6 @@ describe('price-ws url generator', () => {
         quote: 'usd'.toLowerCase(), //Deliberately use the wrong case
       },
     ])
-
     expect(url).toContain(queryString.stringify({ assets: 'eth' }))
     expect(url).toContain(queryString.stringify({ metrics: 'ReferenceRateUSD' }))
   })
@@ -82,13 +85,29 @@ describe('price-ws url generator', () => {
         quote: 'EUR', //Deliberately use the wrong case
       },
     ])
-
     expect(url).toContain(new URLSearchParams({ assets: 'btc,eth' }).toString())
     expect(url).toContain(
       new URLSearchParams({ metrics: 'ReferenceRateEUR,ReferenceRateUSD' }).toString(),
     )
   })
+
+  it('invalid request, should compose url with invalid pair', async () => {
+    invalid_currencies.push('usd')
+    const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
+      {
+        base: 'BTC'.toUpperCase(),
+        quote: VALID_QUOTES.USD,
+      },
+      {
+        base: 'USD',
+        quote: VALID_QUOTES.BTC,
+      },
+    ])
+    expect(url).toContain(new URLSearchParams({ assets: 'btc' }).toString())
+    expect(url).toContain(new URLSearchParams({ metrics: 'ReferenceRateUSD' }).toString())
+  })
 })
+
 describe('price-ws message handler', () => {
   it('success message results in value', () => {
     const res = handleAssetMetricsMessage({ ...EXAMPLE_SUCCESS_MESSAGE })

@@ -1,6 +1,6 @@
 # TRADERMADE
 
-![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,9 +16,20 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ---
 
-## Input Parameters
+## Data Provider Rate Limits
 
-Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
+|     Name      | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|     basic     |                             |                             |           1.369           |      |
+| professional  |                             |                             |           13.69           |      |
+|   business    |                             |                             |           68.49           |      |
+|   advanced    |                             |                             |          342.46           |      |
+|  enterprise   |                             |                             |          833.33           |      |
+| enterprise-xl |                             |                             |          1736.11          |      |
+
+---
+
+## Input Parameters
 
 | Required? |   Name   |     Description     |  Type  |                                                              Options                                                               | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------: | :-----: |
@@ -41,42 +52,11 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
+    "endpoint": "forex",
     "base": "ETH",
-    "quote": "USD",
-    "endpoint": "forex"
-  },
-  "debug": {
-    "cacheKey": "QjGCaijj/AZfhRuMfhhiXZgSxOY="
-  },
-  "rateLimitMaxAge": 2921840
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "endpoint": "live",
-    "quotes": [
-      {
-        "ask": 4494.03,
-        "base_currency": "ETH",
-        "bid": 4494.02,
-        "mid": 4494.0249,
-        "quote_currency": "USD"
-      }
-    ],
-    "requested_time": "Fri, 05 Nov 2021 17:11:25 GMT",
-    "timestamp": 1636132286,
-    "result": 4494.0249
-  },
-  "result": 4494.0249,
-  "statusCode": 200,
-  "providerStatusCode": 200
+    "quote": "USD"
+  }
 }
 ```
 
@@ -99,42 +79,29 @@ Request:
 
 ```json
 {
-  "id": "1",
   "data": {
-    "base": "AAPL",
-    "endpoint": "live"
-  },
-  "debug": {
-    "cacheKey": "HHpABsvAKoDprbxdQVUIgj+YoK0="
-  },
-  "rateLimitMaxAge": 5843681
+    "endpoint": "live",
+    "base": "AAPL"
+  }
 }
 ```
 
-Response:
+<details>
+<summary>Additional Examples</summary>
+
+Request:
 
 ```json
 {
-  "jobRunID": "1",
   "data": {
     "endpoint": "live",
-    "quotes": [
-      {
-        "ask": 150.51,
-        "bid": 150.5,
-        "instrument": "AAPL",
-        "mid": 150.50501
-      }
-    ],
-    "requested_time": "Fri, 05 Nov 2021 17:12:07 GMT",
-    "timestamp": 1636132328,
-    "result": 150.50501
-  },
-  "result": 150.50501,
-  "statusCode": 200,
-  "providerStatusCode": 200
+    "base": "WTI",
+    "quote": "USD"
+  }
 }
 ```
+
+</details>
 
 ---
 

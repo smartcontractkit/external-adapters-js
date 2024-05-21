@@ -1,0 +1,39 @@
+{
+  "name": "@chainlink/token-allocation-test-adapter",
+  "version": "0.0.4",
+  "description": "Chainlink token allocation test adapter",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "0.33.8",
+    "axios": "1.6.8",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.6",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.96",
+    "nock": "13.5.4",
+    "typescript": "5.0.4"
+  }
+}

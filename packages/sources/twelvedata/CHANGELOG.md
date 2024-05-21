@@ -1,5 +1,19 @@
 # @chainlink/twelvedata-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.4.0
+
+### Minor Changes
+
+- [#2979](https://github.com/smartcontractkit/external-adapters-js/pull/2979) [`f7ee48382`](https://github.com/smartcontractkit/external-adapters-js/commit/f7ee48382e46951ec7f9492af0d40c70a1079ffa) Thanks [@alecgard](https://github.com/alecgard)! - Add ETF alias for TwelveData.
+
 ## 1.3.2
 
 ### Patch Changes

@@ -1,172 +1,81 @@
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
-  Config,
-  Validator,
-  Requester,
-  AdapterInputError,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from '@chainlink/ea-bootstrap'
-import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { DEFAULT_BATCH_SIZE, DEFAULT_GROUP_SIZE } from '../config'
+  PoRBalanceEndpoint,
+  porBalanceEndpointInputParametersDefinition,
+  PoRBalanceResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
+import { config } from '../config'
+import { balanceTransport } from '../transport/balance'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
-export const supportedEndpoints = ['balance']
-
-export const description =
-  '**NOTE:** The balance output is given in Gwei!\n\n**NOTE**: The balance query is normally quite slow, no matter how many validators are being queried. API_TIMEOUT has been set to default to 60s.\n\nThe balance endpoint will fetch the validator balance of each address in the query. Adapts the response for the Proof Of Reserves adapter.'
-
-export type TInputParameters = { addresses: Address[]; stateId: string; validatorStatus: string[] }
-export const inputParameters: InputParameters<TInputParameters> = {
-  addresses: {
-    aliases: ['result'],
-    required: true,
-    type: 'array',
-    description:
-      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
-  },
-  stateId: {
-    required: false,
-    type: 'string',
-    description: 'The beacon chain state ID to query',
-    default: 'finalized',
-  },
-  validatorStatus: {
-    required: false,
-    type: 'array',
-    description: 'A filter to apply validators by their status',
-  },
-}
-
-type Address = {
-  address: string
-}
-
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-
-  const jobRunID = validator.validated.id
-  const addresses = validator.validated.data.addresses as Address[]
-  const stateId = validator.validated.data.stateId
-  const validatorStatus = validator.validated.data.validatorStatus
-
-  if (!Array.isArray(addresses) || addresses.length === 0) {
-    throw new AdapterInputError({
-      jobRunID,
-      message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
-      statusCode: 400,
-    })
-  }
-
-  return await queryInBatches(jobRunID, config, stateId, addresses, validatorStatus)
-}
-
-interface StateResponseSchema {
-  execution_optimistic: false
-  data: ValidatorState[]
-}
-
-interface ValidatorState {
-  index: string
-  balance: string
-  status: string
-  validator: {
-    pubkey: string
-    withdrawal_credentials: string
-    effective_balance: string
-    slashed: boolean
-    activation_eligibility_epoch: string
-    activation_epoch: string
-    exit_epoch: string
-    withdrawable_epoch: string
-  }
-}
-
-interface BalanceResponse {
-  address: string
-  balance: string
-}
-
-const queryInBatches = async (
-  jobRunID: string,
-  config: Config,
-  stateId: string,
-  addresses: Address[],
-  validatorStatus: string[],
-) => {
-  const url = `/eth/v1/beacon/states/${stateId}/validators`
-  const statusList = validatorStatus?.join(',')
-  const batchSize = Number(config.adapterSpecificParams?.batchSize) || DEFAULT_BATCH_SIZE
-  const batchedAddresses = []
-  // Separate the address set into the specified batch size
-  // Add the batches as comma-separated lists to a new list used to make the requests
-  for (let i = 0; i < addresses.length / batchSize; i++) {
-    batchedAddresses.push(
-      addresses
-        .slice(i * batchSize, i * batchSize + batchSize)
-        .map(({ address }) => address)
-        .join(','),
-    )
-  }
-
-  const requestGroups = chunkArray(
-    batchedAddresses,
-    Number(config.adapterSpecificParams?.groupSize) || DEFAULT_GROUP_SIZE,
-  )
-
-  const responses: AxiosResponse<StateResponseSchema>[] = []
-  // Make request to beacon API for every batch
-  // Send requests in groups
-  for (const group of requestGroups) {
-    responses.push(
-      ...(await Promise.all(
-        group.map((addresses) => {
-          const options: AxiosRequestConfig = {
-            ...config.api,
-            url,
-            params: { id: addresses, status: statusList },
-          }
-          return Requester.request<StateResponseSchema>(options)
-        }),
-      )),
-    )
-  }
-
-  // Flatten the results into single array for validators and balances
-  const validatorBatches = responses.map(({ data }) => data)
-  const balances: BalanceResponse[] = []
-  const validators: ValidatorState[] = []
-  validatorBatches.forEach(({ data }) => {
-    data.forEach((validator) => {
-      validators.push(validator)
-      balances.push({
-        address: validator.validator.pubkey,
-        balance: validator.balance,
-      })
-    })
-  })
-
-  // Populate balances list with addresses that were filtered out with a 0 balance
-  // Prevents empty array being returned which would ultimately fail at the reduce step
-  // Keep validators list as is to maintain the response received from consensus client
-  addresses
-    .filter(({ address }) => !balances.find((balance) => balance.address === address))
-    .forEach(({ address }) => {
-      balances.push({
-        address,
-        balance: '0',
-      })
-    })
-
-  const result = {
-    data: {
-      validators,
-      result: balances,
+export const inputParameters = new InputParameters(
+  {
+    ...porBalanceEndpointInputParametersDefinition,
+    stateId: {
+      required: false,
+      type: 'string',
+      description: 'The beacon chain state ID to query',
+      default: 'finalized',
     },
-  }
+    validatorStatus: {
+      required: false,
+      array: true,
+      type: 'string',
+      description: 'A filter to apply validators by their status',
+    },
+    searchLimboValidators: {
+      type: 'boolean',
+      description:
+        'Flag to determine if deposit events need to be searched for limbo validators. Only set to true if using an archive node.',
+      default: false,
+      required: false,
+    },
+  },
+  [
+    {
+      addresses: [
+        {
+          address:
+            '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
+        },
+        {
+          address:
+            '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
+        },
+      ],
+      stateId: 'finalized',
+      searchLimboValidators: false,
+      validatorStatus: [],
+    },
+  ],
+)
 
-  return Requester.success(jobRunID, result, config.verbose)
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: PoRBalanceResponse
+  Settings: typeof config.settings
 }
 
-const chunkArray = <T>(addresses: T[], size: number): T[][] =>
-  addresses.length > size
-    ? [addresses.slice(0, size), ...chunkArray(addresses.slice(size), size)]
-    : [addresses]
+export const endpoint = new PoRBalanceEndpoint({
+  name: 'balance',
+  transport: balanceTransport,
+  inputParameters,
+  customInputValidation: (request, adapterSettings): AdapterInputError | undefined => {
+    if (
+      request.requestContext.data.searchLimboValidators &&
+      !adapterSettings.ETH_EXECUTION_RPC_URL
+    ) {
+      throw new AdapterInputError({
+        message: `ETH_EXECUTION_RPC_URL env var must be set to perform limbo validator search. Please use an archive node.`,
+      })
+    }
+    if (request.requestContext.data.addresses.length === 0) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      })
+    }
+
+    return
+  },
+})

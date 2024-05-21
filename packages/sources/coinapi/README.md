@@ -1,6 +1,6 @@
 # Chainlink CoinApi External Adapter
 
-![1.3.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.22](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://rest.coinapi.io/v1/
 
@@ -13,6 +13,17 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |  API_ENDPOINT   |                                                                             | string |         | `https://rest.coinapi.io/v1/` |
 |    ✅     |     API_KEY     | An API key that can be obtained from [here](https://www.coinapi.io/pricing) | string |         |                               |
 |           | WS_API_ENDPOINT |                                                                             | string |         |   `wss://ws.coinapi.io/v1/`   |
+
+---
+
+## Data Provider Rate Limits
+
+|     Name     | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :----------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|     free     |                             |                             |           4.16            |      |
+|   startup    |                             |                             |           41.66           |      |
+|   streamer   |                             |                             |          416.66           |      |
+| professional |                             |                             |          4166.66          |      |
 
 ---
 

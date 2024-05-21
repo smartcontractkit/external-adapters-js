@@ -1,6 +1,6 @@
 # Chainlink OilpriceAPI External Adapter
 
-![2.1.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/oilpriceapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/oilpriceapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.oilpriceapi.com/v1/
 
@@ -11,6 +11,16 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |  Name   | Description |  Type  | Options | Default |
 | :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
 |    ✅     | API_KEY |             | string |         |         |
+
+---
+
+## Data Provider Rate Limits
+
+|    Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |             Note             |
+| :--------: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------: |
+|   hobby    |                             |                             |           13.69           | only mentions monthly limits |
+|  business  |                             |                             |           136.9           |                              |
+| enterprise |                             |                             |          684.93           |                              |
 
 ---
 

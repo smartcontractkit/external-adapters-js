@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance DEX
 
-![1.6.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.6.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 The following `base` and `quote` pair must be taken from [this list](https://dex.binance.org/api/v1/markets)
 
@@ -11,6 +11,14 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |     Name     |                     Description                      |  Type  |                                               Options                                                |      Default      |
 | :-------: | :----------: | :--------------------------------------------------: | :----: | :--------------------------------------------------------------------------------------------------: | :---------------: |
 |           | API_ENDPOINT | Environment variable to set the API endpoint to use. | string | `dex-asiapacific`, `dex-atlantic`, `dex-european`, `testnet-dex-asiapacific`, `testnet-dex-atlantic` | `dex-asiapacific` |
+
+---
+
+## Data Provider Rate Limits
+
+| Name | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                               Note                                                |
+| :--: | :-------------------------: | :-------------------------: | :-----------------------: | :-----------------------------------------------------------------------------------------------: |
+| free |              5              |                             |                           | different endpoints have different limits, this is for /api/v1/ticker/24hr which we currently use |
 
 ---
 

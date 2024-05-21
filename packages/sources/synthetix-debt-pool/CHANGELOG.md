@@ -1,5 +1,37 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 4.1.6
+
+### Patch Changes
+
+- [#3253](https://github.com/smartcontractkit/external-adapters-js/pull/3253) [`ab61e7e`](https://github.com/smartcontractkit/external-adapters-js/commit/ab61e7e286d8a928b3a62810cef9756ba4c98228) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for sepolia chain
+
+## 4.1.5
+
+### Patch Changes
+
+- [#3192](https://github.com/smartcontractkit/external-adapters-js/pull/3192) [`5eb9af8`](https://github.com/smartcontractkit/external-adapters-js/commit/5eb9af8cb548149c35ce881842d83a255db395b7) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for optimism sepolia chain
+
+## 4.1.4
+
+### Patch Changes
+
+- Updated dependencies [[`efb5b9c`](https://github.com/smartcontractkit/external-adapters-js/commit/efb5b9cd2d4f4deeb967584b38b3e8d211884d0e)]:
+  - @chainlink/ea-bootstrap@2.27.2
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 4.1.3
+
+### Patch Changes
+
+- [#3107](https://github.com/smartcontractkit/external-adapters-js/pull/3107) [`1cda6f043`](https://github.com/smartcontractkit/external-adapters-js/commit/1cda6f043880dde5f0318059eff47267cfcb668d) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed bug with issued dept being undefined
+
+## 4.1.2
+
+### Patch Changes
+
+- [#3071](https://github.com/smartcontractkit/external-adapters-js/pull/3071) [`82f3591ea`](https://github.com/smartcontractkit/external-adapters-js/commit/82f3591ea931975ccb61a8cc860dc0b797449ab7) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Expanded error tracking for RPC calls
+
 ## 4.1.1
 
 ### Patch Changes

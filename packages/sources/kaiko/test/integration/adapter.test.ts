@@ -1,90 +1,72 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import * as process from 'process'
-import { server as startServer } from '../../src'
-import { mockRateResponseFailure, mockRateResponseSuccess } from './fixtures'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
-import { SuperTest, Test } from 'supertest'
+import { mockRateResponseSuccess } from './fixtures'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 
 describe('execute', () => {
-  const id = '1'
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  const envVariables = {
-    CACHE_ENABLED: 'false',
-    API_KEY: process.env.API_KEY || 'fake-api-key',
-  }
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['API_KEY'] = 'fake-api-key'
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-  setupExternalAdapterTest(envVariables, context)
-  describe('exchange rate api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
+    const adapter = (await import('./../../src')).adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
+
+  describe('trades endpoint', () => {
+    it('should return success', async () => {
+      const data = {
         base: 'ETH',
         quote: 'USD',
-      },
-    }
-
-    it('should return success', async () => {
+      }
       mockRateResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 
-  describe('exchange direct rate api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        base: 'LTC',
-        quote: 'ETH',
-      },
-    }
-
-    it('should return success', async () => {
-      mockRateResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-
-  describe('exchange rate api with invalid token', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        base: 'XXX',
+  describe('realized-vol endpoint', () => {
+    it('default should return success', async () => {
+      const data = {
+        base: 'BTC',
         quote: 'USD',
-      },
-    }
-
-    it('should return failure', async () => {
-      mockRateResponseFailure()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+        endpoint: 'realized-vol',
+      }
+      mockRateResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
     })
+  })
+  it('should return 400 error with bad resultPath input', async () => {
+    const data = {
+      base: 'BTC',
+      quote: 'USD',
+      endpoint: 'realized-vol',
+      resultPath: 'INVALID',
+    }
+    mockRateResponseSuccess()
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toMatchSnapshot()
   })
 })

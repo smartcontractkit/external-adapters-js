@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockForexResponse = (): nock.Scope =>
   nock('https://marketdata.tradermade.com', {
@@ -95,3 +96,27 @@ export const mockForexResponse = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
+
+export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            symbol: 'USDJPY',
+            ts: '1646073761745',
+            bid: 2797.53,
+            ask: 2798.14,
+            mid: 2797.835,
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}

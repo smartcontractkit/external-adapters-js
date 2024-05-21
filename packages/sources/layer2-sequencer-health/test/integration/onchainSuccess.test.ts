@@ -100,81 +100,237 @@ describe('execute', () => {
     fastify.close(done)
   })
 
-  describe('arbitrum network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'arbitrum',
-      },
-    }
+  async function sendRequestAndExpectStatus(data: AdapterRequest, status: number) {
+    const response = await req
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body.result).toEqual(status)
+    expect(response.body).toMatchSnapshot()
+  }
 
+  describe('arbitrum network', () => {
     it('should return success when all methods succeed', async () => {
-      mockResponseSuccessHealth()
       mockResponseSuccessBlock()
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+        },
+      }
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return transaction submission is successful', async () => {
-      mockResponseFailureHealth()
       mockResponseFailureBlock()
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'arbitrum',
+          requireTxFailure: false,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 
   describe('optimism network', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        network: 'optimism',
-      },
-    }
-
     it('should return success when all methods succeed', async () => {
       mockResponseSuccessHealth()
       mockResponseSuccessBlock()
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
     })
 
     it('should return transaction submission is successful', async () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(0)
-      expect(response.body).toMatchSnapshot()
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'optimism',
+          requireTxFailure: false,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('scroll network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'scroll',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'scroll',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'scroll',
+          requireTxFailure: false,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('base network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'base',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('metis network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'metis',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'metis',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'metis',
+          requireTxFailure: false,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 })

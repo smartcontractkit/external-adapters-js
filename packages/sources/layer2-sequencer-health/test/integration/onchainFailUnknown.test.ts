@@ -61,6 +61,18 @@ describe('execute', () => {
     fastify.close(done)
   })
 
+  async function sendRequestAndExpectStatus(data: AdapterRequest, status: number) {
+    const response = await req
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body.result).toEqual(status)
+    expect(response.body).toMatchSnapshot()
+  }
+
   describe('arbitrum network', () => {
     const data: AdapterRequest = {
       id,
@@ -73,15 +85,7 @@ describe('execute', () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(1)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 
@@ -97,15 +101,40 @@ describe('execute', () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body.result).toEqual(1)
-      expect(response.body).toMatchSnapshot()
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('base network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'base',
+        requireTxFailure: true,
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('metis network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'metis',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
     })
   })
 })

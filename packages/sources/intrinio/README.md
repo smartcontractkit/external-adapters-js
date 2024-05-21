@@ -1,41 +1,58 @@
-# Chainlink External Adapter for Intrinio
+# INTRINIO
 
-This adapter uses the Intrinio WS stream
+![2.0.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/intrinio/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
-### Environment variables
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-| Required? |   Name    |     Description     | Options | Defaults to |
-| :-------: | :-------: | :-----------------: | :-----: | :---------: |
-|    ✅     | `API_KEY` | Your API client key |         |             |
+## Environment Variables
 
-**NOTE: `iex` is the default (and only) websocket subscription**
+| Required? |     Name     |       Description        |  Type  | Options |            Default             |
+| :-------: | :----------: | :----------------------: | :----: | :-----: | :----------------------------: |
+|           | API_ENDPOINT | The API url for intrinio | string |         | `https://api-v2.intrinio.com/` |
+|           |   API_KEY    | The API key for intrinio | string |         |                                |
+
+---
+
+## Data Provider Rate Limits
+
+|   Name    | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-------: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+|  bronze   |                             |             300             |                           |      |
+| chainlink |                             |             600             |                           |      |
+|  silver   |                             |            2000             |                           |      |
+|   gold    |                             |            2000             |                           |      |
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [price](#price-endpoint), [stock](#price-endpoint) | `price` |
+
+## Price Endpoint
+
+Supported names for this endpoint are: `price`, `stock`.
 
 ### Input Params
 
-| Required? |            Name            |           Description            |     Options      | Defaults to |
-| :-------: | :------------------------: | :------------------------------: | :--------------: | :---------: |
-|    ✅     | `base`, `from`, or `asset` | The symbol of the asset to query | one of `SYMBOLS` |             |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
-  "id": "1",
   "data": {
-    "base": "FTSE"
+    "endpoint": "price",
+    "base": "AAPL"
   }
 }
 ```
 
-### Sample Output
+---
 
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 6663.73
-  },
-  "result": 6663.73,
-  "statusCode": 200
-}
-```
+MIT License

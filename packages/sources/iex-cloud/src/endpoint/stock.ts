@@ -1,23 +1,9 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import {
-  buildHttpRequestBody,
-  constructEntries,
-  inputParameters,
-  StockEndpointTypes,
-} from '../stock-utils'
+import { StockEndpoint } from '@chainlink/external-adapter-framework/adapter/stock'
+import { stockInputParameters } from './utils'
+import { transport } from '../transport/stock'
 
-export const httpTransport = new HttpTransport<StockEndpointTypes>({
-  prepareRequests: (params, config) => {
-    return buildHttpRequestBody(params, config)
-  },
-  parseResponse: (params, res) => {
-    return constructEntries(res.data, params, 'latestPrice')
-  },
-})
-
-export const endpoint = new AdapterEndpoint<StockEndpointTypes>({
+export const endpoint = new StockEndpoint({
   name: 'stock',
-  transport: httpTransport,
-  inputParameters: inputParameters,
+  transport,
+  inputParameters: stockInputParameters,
 })

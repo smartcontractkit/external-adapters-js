@@ -1,5 +1,65 @@
 # @chainlink/view-function-adapter
 
+## 3.0.8
+
+### Patch Changes
+
+- [#3263](https://github.com/smartcontractkit/external-adapters-js/pull/3263) [`ec4f2aa`](https://github.com/smartcontractkit/external-adapters-js/commit/ec4f2aad68d478f5cc133608d89f15e2847688a5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.0.7
+
+### Patch Changes
+
+- [#3241](https://github.com/smartcontractkit/external-adapters-js/pull/3241) [`ebb0af9`](https://github.com/smartcontractkit/external-adapters-js/commit/ebb0af92e5912ff9f069d9f4ed3c1238aef3e1b0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.0.6
+
+### Patch Changes
+
+- [#3233](https://github.com/smartcontractkit/external-adapters-js/pull/3233) [`e95cbbe`](https://github.com/smartcontractkit/external-adapters-js/commit/e95cbbe59ddc286d59db6d5f95f8591c256fb2e0) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.0.5
+
+### Patch Changes
+
+- [#3209](https://github.com/smartcontractkit/external-adapters-js/pull/3209) [`4724c2e`](https://github.com/smartcontractkit/external-adapters-js/commit/4724c2e421755be8fa4ad8277a0c403a6899babc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.0.4
+
+### Patch Changes
+
+- [#3130](https://github.com/smartcontractkit/external-adapters-js/pull/3130) [`45038be71`](https://github.com/smartcontractkit/external-adapters-js/commit/45038be71ca433291229324174c50023b2513afc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.0.3
+
+### Patch Changes
+
+- [#3126](https://github.com/smartcontractkit/external-adapters-js/pull/3126) [`5a5d7775c`](https://github.com/smartcontractkit/external-adapters-js/commit/5a5d7775ce568e5bd9317c072c2fc8f134c41128) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added logger to FunctionTransport
+
+## 3.0.2
+
+### Patch Changes
+
+- [#3055](https://github.com/smartcontractkit/external-adapters-js/pull/3055) [`0f47b6639`](https://github.com/smartcontractkit/external-adapters-js/commit/0f47b663912413c83d266d95f7aa27089c0d1941) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
+## 3.0.1
+
+### Patch Changes
+
+- [#2968](https://github.com/smartcontractkit/external-adapters-js/pull/2968) [`9fc4e5d04`](https://github.com/smartcontractkit/external-adapters-js/commit/9fc4e5d0457379600bcc763c20217dc2331cf941) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 3.0.0
+
+### Major Changes
+
+- [#2930](https://github.com/smartcontractkit/external-adapters-js/pull/2930) [`34036c7a5`](https://github.com/smartcontractkit/external-adapters-js/commit/34036c7a53397b18a225f8c2a8668fec8a3addc5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Upgraded adapter from v2 to v3 framework
+
+### Patch Changes
+
+- [#2961](https://github.com/smartcontractkit/external-adapters-js/pull/2961) [`4ebf1ef41`](https://github.com/smartcontractkit/external-adapters-js/commit/4ebf1ef41b9b96a2970b7d6de5e92b8d72156986) Thanks [@alecgard](https://github.com/alecgard)! - Stop using EA Bootstrap type in V3 EA tests.
+
+- [#2959](https://github.com/smartcontractkit/external-adapters-js/pull/2959) [`e7a0196e8`](https://github.com/smartcontractkit/external-adapters-js/commit/e7a0196e8a36c012d482737820b2c89e3ace0e02) Thanks [@amit-momin](https://github.com/amit-momin)! - Bumped framework version
+
 ## 2.0.15
 
 ### Patch Changes

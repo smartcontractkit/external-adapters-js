@@ -1,3 +1,5 @@
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+
 export const loginResponse = {
   Type: 'Info',
   Message: 'Successfully Authenticated',
@@ -9,7 +11,7 @@ export const subscribeResponse = {
 }
 
 export const mockCryptoResponse = {
-  timestamp: '2022-08-01T07:14:54.909Z',
+  timestamp: '2022-08-01T07:14:54.909',
   currencyPair: 'ETH/USD',
   bid: 3106.8495,
   offer: 3107.1275,
@@ -107,4 +109,26 @@ export const mockForexResponse = {
   XAUUSD: { price: 1766.38, timestamp: '2022-08-01T07:14:54.907Z' },
   USDRON: { price: 4.81666, timestamp: '2022-08-01T07:14:51.854Z' },
   XPTUSD: { price: 903.67, timestamp: '2022-08-01T07:14:54.508Z' },
+}
+
+export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.send(JSON.stringify(loginResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(subscribeResponse))
+      socket.send(JSON.stringify(mockCryptoResponse))
+    })
+  })
+  return mockWsServer
+}
+
+export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(JSON.stringify(mockForexResponse))
+    })
+  })
+  return mockWsServer
 }

@@ -8,7 +8,7 @@
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
   "references": [
     { "path": "../bitcoin-json-rpc" },
-    { "path": "../por-indexer" },
+    { "path": "../../sources/por-indexer" },
     { "path": "../../core/test-helpers" },
     { "path": "../../sources/ada-balance" },
     { "path": "../../sources/amberdata" },
@@ -19,6 +19,7 @@
     { "path": "../../sources/btc.com" },
     { "path": "../../sources/celsius-address-list" },
     { "path": "../../sources/chain-reserve-wallet" },
+    { "path": "../../sources/coinbase-prime" },
     { "path": "../../sources/cryptoapis" },
     { "path": "../../sources/eth-balance" },
     { "path": "../../sources/gemini" },

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute balance endpoint should return failure for empty addresses 1`] = `
+{
+  "error": {
+    "message": "Input, at 'addresses' or 'result' path, must be a non-empty array.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute balance endpoint should return failure for missing env 1`] = `
+{
+  "error": {
+    "message": "'DOGECOIN_MAINNET_POR_INDEXER_URL' environment variable is required.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute balance endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "24242",
+  },
+  "result": "24242",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Orchid bandwidth
 
-![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/orchid-bandwidth/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/orchid-bandwidth/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://chainlink.orchid.com/0
 
@@ -11,6 +11,12 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |     Name     | Description |  Type  | Options |             Default              |
 | :-------: | :----------: | :---------: | :----: | :-----: | :------------------------------: |
 |           | API_ENDPOINT |             | string |         | `https://chainlink.orchid.com/0` |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 

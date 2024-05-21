@@ -1,6 +1,6 @@
 # Chainlink External Adapters to query address balance from SoChain
 
-![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://sochain.com
 
@@ -11,6 +11,14 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |     Name     | Description |  Type  | Options |        Default        |
 | :-------: | :----------: | :---------: | :----: | :-----: | :-------------------: |
 |           | API_ENDPOINT |             | string |         | `https://sochain.com` |
+
+---
+
+## Data Provider Rate Limits
+
+| Name | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :--: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| free |                             |             300             |                           |      |
 
 ---
 

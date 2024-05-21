@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/swell-address-list-adapter",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Chainlink swell-address-list adapter.",
   "keywords": [
     "Chainlink",
@@ -35,9 +35,9 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.47",
-    "@types/supertest": "2.0.12",
-    "nock": "13.2.9",
+    "@types/node": "16.18.96",
+    "@types/supertest": "2.0.16",
+    "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   }

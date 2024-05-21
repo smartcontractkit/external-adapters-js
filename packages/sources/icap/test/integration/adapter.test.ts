@@ -63,6 +63,16 @@ describe('Price Endpoint', () => {
     fastify?.close(done())
   })
 
+  it('should succeed with CAD/USD', async () => {
+    const response = await makeRequest({ data: { base: 'CAD', quote: 'USD' } })
+    expect(response.body).toMatchSnapshot()
+  }, 30000)
+
+  it('should succeed with USD/CAD', async () => {
+    const response = await makeRequest({ data: { base: 'USD', quote: 'CAD' } })
+    expect(response.body).toMatchSnapshot()
+  }, 30000)
+
   it('should return price', async () => {
     const response = await makeRequest({ data: { base: 'EUR', quote: 'USD' } })
     expect(response.body).toMatchSnapshot()
