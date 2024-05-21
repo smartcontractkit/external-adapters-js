@@ -70,7 +70,7 @@ runs:
       shell: bash
     - name: Cache yarn cache
       if: steps.restore-yarn-cache.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         key: yarn_cache-${{ hashFiles('./yarn.lock') }}-${{ github.run_id }}-${{ github.run_attempt }}
         path: |
@@ -157,7 +157,7 @@ runs:
       if: |
         inputs.skip-setup != 'true'
         && inputs.skip-cache != 'true'
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       with:
         key: tsbuild-${{ github.sha }}-${{ github.run_id }}
         path: |
