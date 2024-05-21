@@ -30,7 +30,7 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
-    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
+    runs-on: [ubuntu-latest]
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
       tmp-branch: ${{ steps.push-branch.outputs.TMP_BRANCH }}
@@ -129,10 +129,10 @@ jobs:
     steps:
       - name: Trigger Image Dispatcher
         run: >
-          gh workflow run 
+          gh workflow run
           --repo smartcontractkit/infra-k8s
-          --ref main "Infra-k8s Image Dispatcher" 
-          -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' ')" 
+          --ref main "Infra-k8s Image Dispatcher"
+          -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' ')"
           -F gitRepo=${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_K8s_PAT }}
