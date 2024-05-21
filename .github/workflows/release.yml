@@ -104,8 +104,8 @@ jobs:
           # Get the PR body to use in the GH release body
           gh pr list --search "$(git rev-parse HEAD)" --state merged --json number,body --jq '"This release was merged in PR #" + (.[0].number | tostring) + "\n" + (.[0].body | split("\n\n\n# Releases") | .[1])' > pr_body.tmp
       - name: Create release
-        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
+        uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87 # v2.0.5
         with:
           tag_name: v${{ steps.get-version.outputs.result }}
-          release_name: Release v${{ steps.get-version.outputs.result }}
+          name: Release v${{ steps.get-version.outputs.result }}
           body_path: pr_body.tmp
