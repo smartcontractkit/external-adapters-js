@@ -21,10 +21,10 @@ jobs:
   # Check that the changes introduced in this PR include changesets for packages that would need them
   check-changesets:
     name: Adapter changes accompanied by a changeset
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ['ubuntu-latest']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
         with:
           fetch-depth: 2
       - name: Check whether adapter change also has a changeset
@@ -34,13 +34,13 @@ jobs:
   # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
   install-packages:
     name: Install and verify dependencies
-    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
+    runs-on: [ubuntu-latest]
     outputs:
       changed-packages: ${{ steps.changed-adapters.outputs.CHANGED_PACKAGES }}
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
         with:
           fetch-depth: 0
       - name: Set up and install dependencies
@@ -56,14 +56,14 @@ jobs:
   # Run unit tests
   unit-tests:
     name: Run unit tests for changed adapters
-    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
+    runs-on: [ubuntu-latest]
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
       - install-packages
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
       - name: Run unit tests
@@ -74,14 +74,14 @@ jobs:
   # Run integration tests
   integration-tests:
     name: Run integration tests for changed adapters
-    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
+    runs-on: [ubuntu-latest]
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
       - install-packages
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
       - name: Run integration tests
@@ -92,13 +92,13 @@ jobs:
   # Run linters
   linters:
     name: Run linters and formatters
-    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
+    runs-on: [ubuntu-latest]
     needs:
       - check-changesets
       - install-packages
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
       - name: Lint all files
@@ -109,7 +109,7 @@ jobs:
   # Run documentation tests (check that the doc generation succeeds to avoid problems downstream)
   run-documentation-check:
     name: Documentation generation test
-    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
+    runs-on: [ubuntu-latest]
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
@@ -118,7 +118,7 @@ jobs:
       METRICS_ENABLED: false
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
         with:
           fetch-depth: 0
       - name: Set up and install dependencies
@@ -131,14 +131,14 @@ jobs:
   # Run a script to check that modified v3 adapters have the latest framework version
   ea-framework-version-check:
     name: Check that changed adapters have the latest EA framework version
-    runs-on: [ubuntu-latest] # TODO change back to [self-hosted, sdlc-ghr-prod] runners after they are upgraded to support Node 22 libraries
+    runs-on: [ubuntu-latest]
     if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
       - install-packages
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
       - name: Check for outdated ea-framework dependencies
@@ -153,31 +153,31 @@ jobs:
           packages=$(find packages -name 'package.json')
           latest_version=$(curl -sH "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/smartcontractkit/ea-framework-js/contents/package.json" | jq -r '.content' | base64 -d | jq -r '.version')
 
-           # get the list of v3 EAs
-           for file in $(echo $packages); do
+          # get the list of v3 EAs
+          for file in $(echo $packages); do
               if jq -e ".dependencies[\"$dependency\"]" "$file" >/dev/null; then
                 v3_packages+=("$(dirname $file)")
               fi
-           done
+          done
 
-           # check if changed code is part of any v3 EA
-            for changedFile in $changed_packages; do
-             for package in "${v3_packages[@]}"; do
-                if [[ "$changedFile" == "$package"* ]]; then
-                  # found change in v3 EA, comparing versions
-                  local_version=$(jq -r ".dependencies[\"$dependency\"]" "$package/package.json")
-                  if [ "$local_version" != "$latest_version" ] && ! grep -q "^$package$" <<< "${outdated_packages[@]}"; then
-                    outdated_packages+=("$package")
-                  fi
+          # check if changed code is part of any v3 EA
+          for changedFile in $changed_packages; do
+            for package in "${v3_packages[@]}"; do
+              if [[ "$changedFile" == "$package"* ]]; then
+                # found change in v3 EA, comparing versions
+                local_version=$(jq -r ".dependencies[\"$dependency\"]" "$package/package.json")
+                if [ "$local_version" != "$latest_version" ] && ! grep -q "^$package$" <<< "${outdated_packages[@]}"; then
+                  outdated_packages+=("$package")
                 fi
-             done
+              fi
             done
+          done
 
-            # print and error if there are outdated adapters
-            if [ ${#outdated_packages[@]} -gt 0 ]; then
-              echo "The following packages have an outdated \"$dependency\" dependency:"
-              for file in "${outdated_packages[@]}"; do
-                echo "- $file"
-              done
+          # print and error if there are outdated adapters
+          if [ ${#outdated_packages[@]} -gt 0 ]; then
+            echo "The following packages have an outdated \"$dependency\" dependency:"
+            for file in "${outdated_packages[@]}"; do
+              echo "- $file"
+            done
             exit 1
-            fi
+          fi

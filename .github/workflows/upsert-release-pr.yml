@@ -35,7 +35,7 @@ jobs:
       BUILD_ALL: ${{ github.event.inputs.build-all }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
@@ -82,7 +82,7 @@ jobs:
         run: |
           git stash
       - name: Create Release Pull Request
-        uses: smartcontractkit/.github/actions/signed-commits@95b6030f4d23d5d87f53eb0f018f51806afa4da3 # changesets-signed-commits@1.0.1
+        uses: smartcontractkit/.github/actions/signed-commits@ff80d56f5301dc8a65f66c4d47d746ee956beed9 # changesets-signed-commits@1.2.3
         with:
           # This version command is not only necessary because of yarn pnp, but because the changeset action
           # performs git resets and we want to keep those changes, so we stash and then pop them here.
