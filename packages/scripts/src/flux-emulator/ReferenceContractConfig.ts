@@ -347,16 +347,16 @@ export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Pa
 /**
  * Return whether the adapter exists in the config or now
  * @param {string} adapterName The name of the adapter to look for
- * @param {ReferenceContractConfig[]} qaConfig The configuration to look for the adapter in
+ * @param {ReferenceContractConfig[]} masterConfig The configuration to look for the adapter in
  * @returns {boolean} True if the adapter exists in the config
  */
 export const adapterExistsInConfig = (
-  ephemeralAdapterName: string,
-  qaConfig: ReferenceContractConfig[],
+  adapterName: string,
+  masterConfig: ReferenceContractConfig[],
 ): boolean => {
-  for (const config of qaConfig) {
+  for (const config of masterConfig) {
     for (const node of config.nodes) {
-      if (node.dataProviders.includes(ephemeralAdapterName)) {
+      if (node.dataProviders.includes(adapterName)) {
         // we found the adapter
         return true
       }

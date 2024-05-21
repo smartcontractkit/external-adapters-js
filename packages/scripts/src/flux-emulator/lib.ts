@@ -246,15 +246,19 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs from the cli
  */
 export const exists = async (inputs: Inputs): Promise<void> => {
-  logInfo('Fetching existing qa config')
-  const qaConfig = await lastValueFrom(fetchConfigFromUrl(inputs.configServerGet))
-  if (!qaConfig || !qaConfig.configs) {
-    process.exitCode = 1
-    throw red.bold('Could not get the qa configuration')
+  let masterConfig = { configs: [] }
+  if (inputs.masterServer?.length > 0) {
+    logInfo('Fetching master config')
+    masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+    if (!masterConfig || !masterConfig.configs) {
+      process.exitCode = 1
+      throw red.bold('Could not get the master configuration')
+    }
   }
-  if (!adapterExistsInConfig(inputs.ephemeralName, qaConfig.configs)) {
+
+  if (!adapterExistsInConfig(inputs.adapter, masterConfig.configs)) {
     process.exitCode = 1
-    throw red.bold('The adapter did not exist in the qa configuration')
+    throw red.bold('The adapter did not exist in the flux configuration')
   }
 }
 
