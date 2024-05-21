@@ -176,6 +176,7 @@ To start running a test via Flux Emulator:
 # Use the same unique and adapter name from when you started the adapter
 export UNIQUE_NAME=unique-name
 export ADAPTER_NAME=coingecko
+export MASTER_CONFIG=url
 yarn qa:flux:configure start ${ADAPTER_NAME} ${UNIQUE_NAME}
 ```
 
@@ -185,7 +186,7 @@ To stop running a test via Flux Emulator:
 yarn qa:flux:configure stop ${ADAPTER_NAME} ${UNIQUE_NAME}
 ```
 
-To build a K6 payload file from the Flux Emulator config on WeiWatchers:
+To build a K6 payload file from the Flux Emulator config using test-payload.json files:
 
 ```bash
 yarn qa:flux:configure k6payload ${ADAPTER_NAME} ${UNIQUE_NAME}

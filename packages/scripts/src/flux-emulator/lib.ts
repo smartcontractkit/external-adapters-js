@@ -25,7 +25,6 @@ const throwError = (msg: string): never => {
 import * as fs from 'fs'
 
 export const ACTIONS: string[] = ['start', 'stop', 'k6payload']
-export const WEIWATCHER_SERVER = 'https://weiwatchers.smartcontract.com/flux-emulator-mainnet.json'
 export const CONFIG_SERVER = 'https://adapters.qa.stage.cldev.sh/fluxconfig'
 export const FLUX_CONFIG_INPUTS: ephemeralAdapters.Inputs = {
   action: 'start',
@@ -52,7 +51,7 @@ export interface Inputs {
   adapter: string
   release: string
   ephemeralName: string
-  weiWatcherServer: string
+  masterServer: string
   configServerGet: string
   configServerSet: string
 }
@@ -80,7 +79,7 @@ export const checkArgs = (): Inputs => {
   const release: string = process.argv[4]
   if (!release) throwError(`Missing third argument: release tag\n ${usageString}`)
 
-  const weiWatcherServer: string = process.env['WEIWATCHER_SERVER'] ?? WEIWATCHER_SERVER
+  const masterServer: string = process.env['MASTER_SERVER'] ?? ''
   const configServer: string = process.env['CONFIG_SERVER'] ?? CONFIG_SERVER
   const configServerGet = configServer + '/json_variable'
   const configServerSet = configServer + '/set_json_variable'
@@ -97,7 +96,7 @@ export const checkArgs = (): Inputs => {
     adapter,
     release,
     ephemeralName,
-    weiWatcherServer,
+    masterServer,
     configServerGet,
     configServerSet,
   }
@@ -108,9 +107,14 @@ export const checkArgs = (): Inputs => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to test
  */
 export const start = async (inputs: Inputs): Promise<void> => {
-  logInfo('Fetching master config')
-  const masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.weiWatcherServer))
-  if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
+  let masterConfig
+  if (inputs.masterServer?.length > 0) {
+    logInfo('Fetching master config')
+    masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+    if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
+  } else {
+    throwError(`Must provide a MASTER_SERVER url to use as reference config.`)
+  }
 
   logInfo('Fetching existing qa config')
   const qaConfig = await lastValueFrom(fetchConfigFromUrl(inputs.configServerGet))
@@ -133,6 +137,7 @@ export const start = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to test
  */
 export const stop = async (inputs: Inputs): Promise<void> => {
+  logInfo('Fetching existing qa config')
   const qaConfig = await lastValueFrom(fetchConfigFromUrl(inputs.configServerGet))
   if (!qaConfig || !qaConfig.configs) throwError('Could not get the qa configuration')
 
@@ -144,26 +149,15 @@ export const stop = async (inputs: Inputs): Promise<void> => {
 }
 
 /**
- * Writes a json file for k6 to use as a payload based. Pulls the config from
- * weiwatchers to determine which adapter can hit which services and with which
- * pairs.
+ * Writes a json file for k6 to use as a payload based.
+ * Uses test-payload.json from the EAs directory to use in payload generation.
+ * Also attempts to infer payload information from integration tests,
+ * which doesn't work for most of the newer EAs today.
+ *
  * @param {Inputs} inputs The inputs to use to determine which adapter to create the config for
  */
 export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
-  logInfo('Fetching master config')
-  const masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.weiWatcherServer))
-  if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
-
-  logInfo('Adding new adapter to qa config')
-  const qaConfig = { configs: [] }
-  const newConfig: ReferenceContractConfig[] = addAdapterToConfig(
-    inputs.adapter,
-    inputs.ephemeralName,
-    masterConfig.configs as ReferenceContractConfig[],
-    qaConfig.configs,
-  )
-
-  const nameAndData: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
+  const nameAndData: ConfigPayload[] = []
 
   let pathToAdapter = ''
   const adapterTypes = ['sources', 'composites', 'targets']
@@ -237,15 +231,15 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs from the cli
  */
 export const exists = async (inputs: Inputs): Promise<void> => {
-  logInfo('Fetching master config')
-  const masterConfig = await fetchConfigFromUrl(inputs.weiWatcherServer).toPromise()
-  if (!masterConfig || !masterConfig.configs) {
+  logInfo('Fetching existing qa config')
+  const qaConfig = await lastValueFrom(fetchConfigFromUrl(inputs.configServerGet))
+  if (!qaConfig || !qaConfig.configs) {
     process.exitCode = 1
-    throw red.bold('Could not get the master configuration')
+    throw red.bold('Could not get the qa configuration')
   }
-  if (!adapterExistsInConfig(inputs.adapter, masterConfig.configs)) {
+  if (!adapterExistsInConfig(inputs.ephemeralName, qaConfig.configs)) {
     process.exitCode = 1
-    throw red.bold('The adapter did not exist in the flux configuration')
+    throw red.bold('The adapter did not exist in the qa configuration')
   }
 }
 

@@ -166,12 +166,12 @@ describe('Flux Emulator cli', () => {
     }
   })
 
-  it('should set weiwatchers and config server values from the environment variables', async () => {
+  it('should set master server and config server values from the environment variables', async () => {
     process.argv = ['', '', 'start', 'adapter', 'unique']
-    process.env.WEIWATCHER_SERVER = 'weitest'
+    process.env.MASTER_SERVER = 'mastertest'
     process.env.CONFIG_SERVER = 'configtest'
     const inputs: Inputs = checkArgs()
-    expect(inputs.weiWatcherServer).toEqual('weitest')
+    expect(inputs.masterServer).toEqual('mastertest')
     expect(inputs.configServerGet).toContain('configtest')
     expect(inputs.configServerSet).toContain('configtest')
     expect(inputs).toMatchSnapshot()
@@ -182,7 +182,7 @@ describe('Flux Emulator cli', () => {
     adapter: 'adapter',
     release: 'release',
     ephemeralName: 'ephemeralName',
-    weiWatcherServer: 'weiWatcherServer',
+    masterServer: 'masterServer',
     configServerGet: 'configServerGet',
     configServerSet: 'configServerSet',
   }
@@ -241,7 +241,7 @@ describe('Flux Emulator cli', () => {
 
   it('should successfully run main with a start action', async () => {
     process.argv = ['', '', 'start', 'adapter', 'unique']
-    process.env.WEIWATCHER_SERVER = ''
+    process.env.MASTER_SERVER = ''
     process.env.CONFIG_SERVER = ''
     await main()
   })

@@ -8,7 +8,7 @@ exports[`Flux Emulator cli should print the usage string if not enough args are 
 [31m[1m3. The unique release tag for this adapter[22m[39m"
 `;
 
-exports[`Flux Emulator cli should set weiwatchers and config server values from the environment variables 1`] = `
+exports[`Flux Emulator cli should set master server and config server values from the environment variables 1`] = `
 Object {
   "action": "start",
   "adapter": "adapter",
@@ -16,7 +16,7 @@ Object {
   "configServerSet": "configtest/set_json_variable",
   "ephemeralName": "qa-ea-adapter-unique",
   "release": "unique",
-  "weiWatcherServer": "weitest",
+  "masterServer": "mastertest",
 }
 `;
 
