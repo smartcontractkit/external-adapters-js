@@ -8,6 +8,7 @@ import {
   fetchConfigFromUrl,
   K6Payload,
   ReferenceContractConfig,
+  ReferenceContractConfigResponse,
   removeAdapterFromFeed,
   setFluxConfig,
   adapterExistsInConfig,
@@ -107,9 +108,9 @@ export const checkArgs = (): Inputs => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to test
  */
 export const start = async (inputs: Inputs): Promise<void> => {
-  let masterConfig = { configs: [] }
+  let masterConfig: ReferenceContractConfigResponse = { configs: [] }
 
-  if (inputs.masterServer?.length > 0) {
+  if (inputs.masterServer) {
     logInfo('Fetching master config')
     masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
@@ -247,9 +248,9 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs from the cli
  */
 export const exists = async (inputs: Inputs): Promise<void> => {
-  let masterConfig = { configs: [] }
+  let masterConfig: ReferenceContractConfigResponse = { configs: [] }
 
-  if (inputs.masterServer?.length > 0) {
+  if (inputs.masterServer) {
     logInfo('Fetching master config')
     masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
     if (!masterConfig || !masterConfig.configs) {
@@ -258,7 +259,12 @@ export const exists = async (inputs: Inputs): Promise<void> => {
     }
   }
 
-  if (!adapterExistsInConfig(inputs.adapter, masterConfig.configs)) {
+  if (masterConfig.configs!.length == 0) {
+    process.exitCode = 1
+    throw red.bold('The flux configuration was empty')
+  }
+
+  if (masterConfig.configs && !adapterExistsInConfig(inputs.adapter, masterConfig.configs)) {
     process.exitCode = 1
     throw red.bold('The adapter did not exist in the flux configuration')
   }
