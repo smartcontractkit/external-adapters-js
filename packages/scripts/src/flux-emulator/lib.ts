@@ -108,6 +108,7 @@ export const checkArgs = (): Inputs => {
  */
 export const start = async (inputs: Inputs): Promise<void> => {
   let masterConfig = { configs: [] }
+
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
     masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
@@ -247,6 +248,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
  */
 export const exists = async (inputs: Inputs): Promise<void> => {
   let masterConfig = { configs: [] }
+
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
     masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
