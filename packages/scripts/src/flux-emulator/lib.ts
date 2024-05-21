@@ -107,13 +107,11 @@ export const checkArgs = (): Inputs => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to test
  */
 export const start = async (inputs: Inputs): Promise<void> => {
-  let masterConfig
+  let masterConfig = { configs: [] }
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
     masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
-  } else {
-    throwError(`Must provide a MASTER_SERVER url to use as reference config.`)
   }
 
   logInfo('Fetching existing qa config')
@@ -157,7 +155,24 @@ export const stop = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to create the config for
  */
 export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
-  const nameAndData: ConfigPayload[] = []
+  let newConfig: ReferenceContractConfig[] = []
+
+  if (inputs.masterServer?.length > 0) {
+    logInfo('Fetching master config')
+    let masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+    if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
+
+    logInfo('Adding new adapter to qa config')
+    const qaConfig = { configs: [] }
+    newConfig = addAdapterToConfig(
+      inputs.adapter,
+      inputs.ephemeralName,
+      masterConfig.configs as ReferenceContractConfig[],
+      qaConfig.configs,
+    )
+  }
+
+  const nameAndData: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
 
   let pathToAdapter = ''
   const adapterTypes = ['sources', 'composites', 'targets']
