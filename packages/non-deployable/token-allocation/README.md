@@ -22,7 +22,6 @@ To be functional at least one of the following underyling adapter locations will
 |           |    `FINAGE_ADAPTER_URL`     |    The location of a Finage external adapter     |         |             |
 |           |     `KAIKO_ADAPTER_URL`     |     The location of a Kaiko external adapter     |         |             |
 |           |    `NCFX_ADAPTER_URL  `     |     The location of a NCFX external adapter      |         |             |
-|           |    `NOMICS_ADAPTER_URL`     |    The location of a Nomics external adapter     |         |             |
 |           |    `TIINGO_ADAPTER_URL`     |    The location of a Tiingo external adapter     |         |             |
 
 Optionally the default behavior of the composite adapter can be configured
@@ -39,12 +38,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |     Name      |                                    Description                                     |                                                                                      Options                                                                                      |                Defaults to                |
-| :-------: | :-----------: | :--------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------: |
-|           |   `source`    | The data provider to query data from. This is required if not specified in config. | `amberdata`, `cfbenchmarks`, `coinapi`, `coingecko`, `coinmarketcap`, `coinmetrics`, `coinpaprika`, `coinranking`, `cryptocompare`, `finage`, `kaiko`, `ncfx`, `nomics`, `tiingo` |                                           |
-|           |    `quote`    |                           Currency we want the price on.                           |                                                                                                                                                                                   | The `DEFAULT_QUOTE` environment variable  |
-|           |   `method`    |              Method we want the total value calculation be based on.               |                                                                               `price`, `marketCap`                                                                                | The `DEFAULT_METHOD` environment variable |
-|    ✅     | `allocations` |                          Array of allocations (see below)                          |                                                                                                                                                                                   |
+| Required? |     Name      |                                    Description                                     |                                                                                 Options                                                                                 |                Defaults to                |
+| :-------: | :-----------: | :--------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------: |
+|           |   `source`    | The data provider to query data from. This is required if not specified in config. | `amberdata`, `cfbenchmarks`, `coinapi`, `coingecko`, `coinmarketcap`, `coinmetrics`, `coinpaprika`, `coinranking`, `cryptocompare`, `finage`, `kaiko`, `ncfx`, `tiingo` |                                           |
+|           |    `quote`    |                           Currency we want the price on.                           |                                                                                                                                                                         | The `DEFAULT_QUOTE` environment variable  |
+|           |   `method`    |              Method we want the total value calculation be based on.               |                                                                          `price`, `marketCap`                                                                           | The `DEFAULT_METHOD` environment variable |
+|    ✅     | `allocations` |                          Array of allocations (see below)                          |                                                                                                                                                                         |
 
 #### Allocation Params
 
