@@ -161,7 +161,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    let masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+    const masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
 
     logInfo('Adding new adapter to qa config')
