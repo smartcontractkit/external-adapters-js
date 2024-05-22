@@ -108,16 +108,20 @@ export const checkArgs = (): Inputs => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to test
  */
 export const start = async (inputs: Inputs): Promise<void> => {
-  let masterConfig: ReferenceContractConfigResponse = { configs: [] }
+  let masterConfig = { configs: [] }
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    masterConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.masterServer)))
+    masterConfig = (await lastValueFrom(
+      of(fetchConfigFromUrl(inputs.masterServer)),
+    )) as ReferenceContractConfigResponse
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
   }
 
   logInfo('Fetching existing qa config')
-  const qaConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.configServerGet)))
+  const qaConfig = (await lastValueFrom(
+    of(fetchConfigFromUrl(inputs.configServerGet)),
+  )) as ReferenceContractConfigResponse
   if (!qaConfig || !qaConfig.configs) throwError('Could not get the qa configuration')
 
   logInfo('Adding new adapter to qa config')
@@ -138,7 +142,9 @@ export const start = async (inputs: Inputs): Promise<void> => {
  */
 export const stop = async (inputs: Inputs): Promise<void> => {
   logInfo('Fetching existing qa config')
-  const qaConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.configServerGet)))
+  const qaConfig = (await lastValueFrom(
+    of(fetchConfigFromUrl(inputs.configServerGet)),
+  )) as ReferenceContractConfigResponse
   if (!qaConfig || !qaConfig.configs) throwError('Could not get the qa configuration')
 
   const newConfig = removeAdapterFromFeed(
@@ -161,7 +167,9 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    const masterConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.masterServer)))
+    const masterConfig = (await lastValueFrom(
+      of(fetchConfigFromUrl(inputs.masterServer)),
+    )) as ReferenceContractConfigResponse
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
 
     logInfo('Adding new adapter to qa config')
@@ -250,11 +258,13 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs from the cli
  */
 export const exists = async (inputs: Inputs): Promise<void> => {
-  let masterConfig: ReferenceContractConfigResponse = { configs: [] }
+  let masterConfig = { configs: [] }
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    masterConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.masterServer)))
+    masterConfig = (await lastValueFrom(
+      of(fetchConfigFromUrl(inputs.masterServer)),
+    )) as ReferenceContractConfigResponse
     if (!masterConfig || !masterConfig.configs) {
       process.exitCode = 1
       throw red.bold('Could not get the master configuration')
