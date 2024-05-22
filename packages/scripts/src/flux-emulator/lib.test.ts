@@ -21,7 +21,9 @@ const exampleReferenceContractConfigResponse: ReferenceContractConfigResponse = 
   ],
 }
 
-jest.mock('fs')
+jest.doMock('fs', () => fs)
+jest.spyOn(fs, 'writeFileSync')
+
 jest.mock('./ReferenceContractConfig', () => {
   return {
     // fill in any methods we don't wan to mock first
@@ -147,7 +149,7 @@ describe('Flux Emulator cli', () => {
 
   const exampleInputs: Inputs = {
     action: 'start',
-    adapter: 'adapter',
+    adapter: 'tp',
     release: 'release',
     ephemeralName: 'ephemeralName',
     masterServer: 'masterServer',
@@ -156,7 +158,7 @@ describe('Flux Emulator cli', () => {
   }
   const exampleInputsNoMasterServer: Inputs = {
     action: 'start',
-    adapter: 'adapter',
+    adapter: 'tp',
     release: 'release',
     ephemeralName: 'ephemeralName',
     masterServer: '',
@@ -217,19 +219,19 @@ describe('Flux Emulator cli', () => {
   })
 
   it('should successfully run main with a start action', async () => {
-    process.argv = ['', '', 'start', 'adapter', 'unique']
+    process.argv = ['', '', 'start', 'tp', 'unique']
     process.env.MASTER_SERVER = ''
     process.env.CONFIG_SERVER = ''
     await main()
   })
 
   it('should successfully run main with a stop action', async () => {
-    process.argv = ['', '', 'stop', 'adapter', 'unique']
+    process.argv = ['', '', 'stop', 'tp', 'unique']
     await main()
   })
 
   it('should successfully run main with a k6payload action', async () => {
-    process.argv = ['', '', 'k6payload', 'icap', 'unique']
+    process.argv = ['', '', 'k6payload', 'tp', 'unique']
     await main()
   })
 })
