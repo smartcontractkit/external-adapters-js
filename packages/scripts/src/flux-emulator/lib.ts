@@ -13,7 +13,7 @@ import {
   setFluxConfig,
   adapterExistsInConfig,
 } from './ReferenceContractConfig'
-import { lastValueFrom } from 'rxjs'
+import { of, lastValueFrom } from 'rxjs'
 const { red, blue } = chalk
 
 const logInfo = (msg: string) => console.log(blue.bold(msg))
@@ -112,12 +112,12 @@ export const start = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+    masterConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.masterServer)))
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
   }
 
   logInfo('Fetching existing qa config')
-  const qaConfig = await lastValueFrom(fetchConfigFromUrl(inputs.configServerGet))
+  const qaConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.configServerGet)))
   if (!qaConfig || !qaConfig.configs) throwError('Could not get the qa configuration')
 
   logInfo('Adding new adapter to qa config')
@@ -138,7 +138,7 @@ export const start = async (inputs: Inputs): Promise<void> => {
  */
 export const stop = async (inputs: Inputs): Promise<void> => {
   logInfo('Fetching existing qa config')
-  const qaConfig = await lastValueFrom(fetchConfigFromUrl(inputs.configServerGet))
+  const qaConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.configServerGet)))
   if (!qaConfig || !qaConfig.configs) throwError('Could not get the qa configuration')
 
   const newConfig = removeAdapterFromFeed(
@@ -161,7 +161,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    const masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+    const masterConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.masterServer)))
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
 
     logInfo('Adding new adapter to qa config')
@@ -188,8 +188,10 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
   logInfo('Running integration tests')
 
+  const shellStr: string = `yarn test ${pathToAdapter}/test/integration/*.test.ts`
+
   const integrationTestOutput = shell
-    .exec(`yarn test ${pathToAdapter}/test/integration/*.test.ts`, {
+    .exec(shellStr, {
       fatal: true,
       silent: true,
       env: { ...process.env, ...testEnvOverrides },
@@ -252,7 +254,7 @@ export const exists = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+    masterConfig = await lastValueFrom(of(fetchConfigFromUrl(inputs.masterServer)))
     if (!masterConfig || !masterConfig.configs) {
       process.exitCode = 1
       throw red.bold('Could not get the master configuration')

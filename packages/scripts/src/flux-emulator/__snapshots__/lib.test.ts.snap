@@ -26,7 +26,7 @@ exports[`Flux Emulator cli should throw an error if it gets a bad master configu
 
 exports[`Flux Emulator cli should throw an error if it gets a bad qa config on stop 1`] = `"[31m[1mCould not get the qa configuration[22m[39m"`;
 
-exports[`Flux Emulator cli should throw an error if it gets a bad qa configuration on start 1`] = `"[31m[1mCould not get the qa configuration[22m[39m"`;
+exports[`Flux Emulator cli should throw an error if it gets a bad qa configuration on start 1`] = `"[31m[1mCould not get the master configuration[22m[39m"`;
 
 exports[`Flux Emulator cli should throw an error if the action argument is not a valid option 1`] = `
 "[31m[1mThe first argument must be one of: start, stop, k6payload[22m[39m

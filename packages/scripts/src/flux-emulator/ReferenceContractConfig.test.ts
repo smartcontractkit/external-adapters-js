@@ -170,21 +170,21 @@ describe('flux emulator config editing', () => {
   })
 
   it('should remove an adapter from a feed', async () => {
-    let config: ReferenceContractConfig[] = removeAdapterFromFeed(
-      'adapterName1',
-      parseConfig(exampleFeed),
-    )
+    let config: ReferenceContractConfig[] = parseConfig(exampleFeed)
+    expect(config[0].nodes[0].dataProviders.length).toEqual(2)
+    config = removeAdapterFromFeed('adapterName1', config)
     expect(config[0].nodes[0].dataProviders.length).toEqual(1)
     expect(config).toMatchSnapshot()
 
+    expect(config.length).toEqual(4)
     // verify removing of a node and config
     config = removeAdapterFromFeed('adapterName3', config)
-    expect(config.length).toEqual(2)
+    expect(config.length).toEqual(3)
     expect(config).toMatchSnapshot()
 
     // verify removing all adapters from the feed
     config = removeAdapterFromFeed('adapterName2', config)
-    expect(config.length).toEqual(0)
+    expect(config.length).toEqual(1)
     expect(config).toMatchSnapshot()
   })
 
@@ -198,6 +198,10 @@ describe('flux emulator config editing', () => {
           from: 'LINK',
           to: 'USD',
         },
+        category: 'crypto',
+        path: 'link-usd',
+        symbol: '',
+        status: 'live',
         precision: 8,
         deviationThreshold: 0.5,
         nodes: [],

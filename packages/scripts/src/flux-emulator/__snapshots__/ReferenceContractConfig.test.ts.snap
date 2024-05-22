@@ -509,6 +509,7 @@ exports[`flux emulator config editing should remove an adapter from a feed 2`] =
 [
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST",
@@ -532,6 +533,7 @@ exports[`flux emulator config editing should remove an adapter from a feed 2`] =
   },
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST2",
@@ -560,7 +562,58 @@ exports[`flux emulator config editing should remove an adapter from a feed 2`] =
     "status": "live",
     "symbol": "Ξ",
   },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": {
+      "from": "TEST4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4",
+    "nodes": [
+      FeedNode {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": [
+          "compositeName4?source=sourceName4",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
 ]
 `;
 
-exports[`flux emulator config editing should remove an adapter from a feed 3`] = `[]`;
+exports[`flux emulator config editing should remove an adapter from a feed 3`] = `
+[
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": {
+      "from": "TEST4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4",
+    "nodes": [
+      FeedNode {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": [
+          "compositeName4?source=sourceName4",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;

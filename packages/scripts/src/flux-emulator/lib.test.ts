@@ -186,12 +186,21 @@ describe('Flux Emulator cli', () => {
     configServerGet: 'configServerGet',
     configServerSet: 'configServerSet',
   }
+  const exampleInputsNoMasterServer: Inputs = {
+    action: 'start',
+    adapter: 'adapter',
+    release: 'release',
+    ephemeralName: 'ephemeralName',
+    masterServer: '',
+    configServerGet: 'configServerGet',
+    configServerSet: 'configServerSet',
+  }
   it('should throw an error if it gets a bad master configuration on start', async () => {
     try {
       await start(exampleInputs)
       expect('').toEqual('We should not reach this expect statement')
     } catch (err) {
-      expect(err).toContain('master configuration')
+      expect(err).toContain('Could not get the master configuration')
       expect(err).toMatchSnapshot()
     }
   })
@@ -201,7 +210,7 @@ describe('Flux Emulator cli', () => {
       await start(exampleInputs)
       expect('').toEqual('We should not reach this expect statement')
     } catch (err) {
-      expect(err).toContain('qa configuration')
+      expect(err).toContain('Could not get the master configuration')
       expect(err).toMatchSnapshot()
     }
   })
@@ -235,7 +244,7 @@ describe('Flux Emulator cli', () => {
   })
 
   it('should successfully write the k6 payload to disk', async () => {
-    await writeK6Payload(exampleInputs)
+    await writeK6Payload(exampleInputsNoMasterServer)
     expect(fs.writeFileSync).toHaveBeenCalled()
   })
 
@@ -252,7 +261,7 @@ describe('Flux Emulator cli', () => {
   })
 
   it('should successfully run main with a k6payload action', async () => {
-    process.argv = ['', '', 'k6payload', 'adapter', 'unique']
+    process.argv = ['', '', 'k6payload', 'icap', 'unique']
     await main()
   })
 })
