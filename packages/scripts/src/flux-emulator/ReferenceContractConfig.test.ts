@@ -11,6 +11,10 @@ import {
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
+jest.mock('crypto', () => ({
+  randomUUID: () => 'a45f34aa-bb87-420f-aa77-2b7aa5590b8d',
+}))
+
 const exampleFeed = [
   {
     address: '0x0000000000000000000000000000000000000000',
