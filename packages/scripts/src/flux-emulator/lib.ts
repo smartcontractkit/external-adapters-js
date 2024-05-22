@@ -13,7 +13,7 @@ import {
   setFluxConfig,
   adapterExistsInConfig,
 } from './ReferenceContractConfig'
-import { Observable, of, lastValueFrom } from 'rxjs'
+import { lastValueFrom } from 'rxjs'
 const { red, blue } = chalk
 
 const logInfo = (msg: string) => console.log(blue.bold(msg))
@@ -103,12 +103,6 @@ export const checkArgs = (): Inputs => {
   }
 }
 
-const lastValueFromTyped = async (
-  input: Observable<ReferenceContractConfigResponse>,
-): Promise<ReferenceContractConfigResponse> => {
-  return (await lastValueFrom(input)) as unknown as ReferenceContractConfigResponse
-}
-
 /**
  * Starts the flux emulator test
  * @param {Inputs} inputs The inputs to use to determine which adapter to test
@@ -118,13 +112,14 @@ export const start = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    masterConfig = await lastValueFromTyped(of(fetchConfigFromUrl(inputs.masterServer)))
+    masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
+
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
   }
 
   logInfo('Fetching existing qa config')
-  const qaConfig: ReferenceContractConfigResponse = await lastValueFromTyped(
-    of(fetchConfigFromUrl(inputs.configServerGet)),
+  const qaConfig: ReferenceContractConfigResponse = await lastValueFrom(
+    fetchConfigFromUrl(inputs.configServerGet),
   )
   if (!qaConfig || !qaConfig.configs) throwError('Could not get the qa configuration')
 
@@ -146,8 +141,8 @@ export const start = async (inputs: Inputs): Promise<void> => {
  */
 export const stop = async (inputs: Inputs): Promise<void> => {
   logInfo('Fetching existing qa config')
-  const qaConfig: ReferenceContractConfigResponse = await lastValueFromTyped(
-    of(fetchConfigFromUrl(inputs.configServerGet)),
+  const qaConfig: ReferenceContractConfigResponse = await lastValueFrom(
+    fetchConfigFromUrl(inputs.configServerGet),
   )
   if (!qaConfig || !qaConfig.configs) throwError('Could not get the qa configuration')
 
@@ -171,8 +166,8 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    const masterConfig: ReferenceContractConfigResponse = await lastValueFromTyped(
-      of(fetchConfigFromUrl(inputs.masterServer)),
+    const masterConfig: ReferenceContractConfigResponse = await lastValueFrom(
+      fetchConfigFromUrl(inputs.masterServer),
     )
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
 
@@ -266,7 +261,7 @@ export const exists = async (inputs: Inputs): Promise<void> => {
 
   if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
-    masterConfig = await lastValueFromTyped(of(fetchConfigFromUrl(inputs.masterServer)))
+    masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
     if (!masterConfig || !masterConfig.configs) {
       process.exitCode = 1
       throw red.bold('Could not get the master configuration')

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs'
+import { Observable, of as mockOf } from 'rxjs'
 import { checkArgs, Inputs, main, start, stop, writeK6Payload } from './lib'
 import { ReferenceContractConfigResponse } from './ReferenceContractConfig'
 import fs from 'fs'
@@ -31,94 +31,62 @@ jest.mock('./ReferenceContractConfig', () => {
       .fn()
       // check start fetch fail 1
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return ''
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf({ configs: undefined }) as Observable<ReferenceContractConfigResponse>
       })
       // check start fetch fail 2, needs a pass and then fail
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return exampleReferenceContractConfigResponse
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf(
+          exampleReferenceContractConfigResponse,
+        ) as Observable<ReferenceContractConfigResponse>
       })
       // check start fetch fail 2, part 2
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return ''
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf({ configs: undefined }) as Observable<ReferenceContractConfigResponse>
       })
       // check start pass part 1
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return exampleReferenceContractConfigResponse
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf(
+          exampleReferenceContractConfigResponse,
+        ) as Observable<ReferenceContractConfigResponse>
       })
       // check start pass part 2
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return exampleReferenceContractConfigResponse
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf(
+          exampleReferenceContractConfigResponse,
+        ) as Observable<ReferenceContractConfigResponse>
       })
       // check stop fail
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return ''
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf({ configs: undefined }) as Observable<ReferenceContractConfigResponse>
       })
       // check stop pass
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return exampleReferenceContractConfigResponse
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf(
+          exampleReferenceContractConfigResponse,
+        ) as Observable<ReferenceContractConfigResponse>
       })
       // check writeK6Payload fail
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return ''
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf({ configs: undefined }) as Observable<ReferenceContractConfigResponse>
       })
       // check writeK6Payload pass
       .mockImplementationOnce(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return exampleReferenceContractConfigResponse
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf(
+          exampleReferenceContractConfigResponse,
+        ) as Observable<ReferenceContractConfigResponse>
       })
       // all others calls to this pass
       .mockImplementation(() => {
-        return {
-          toPromise: async (): Promise<unknown> => {
-            return exampleReferenceContractConfigResponse
-          },
-        } as Observable<ReferenceContractConfigResponse>
+        return mockOf(
+          exampleReferenceContractConfigResponse,
+        ) as Observable<ReferenceContractConfigResponse>
       }),
 
     setFluxConfig: jest
       .fn()
       // check start pass part 3 and all other calls
       .mockImplementation(() => {
-        return {
-          toPromise: async (): Promise<void> => {
-            return
-          },
-        } as Observable<void>
+        return mockOf() as Observable<void>
       }),
   }
 })
@@ -210,7 +178,7 @@ describe('Flux Emulator cli', () => {
       await start(exampleInputs)
       expect('').toEqual('We should not reach this expect statement')
     } catch (err) {
-      expect(err).toContain('Could not get the master configuration')
+      expect(err).toContain('Could not get the qa configuration')
       expect(err).toMatchSnapshot()
     }
   })
