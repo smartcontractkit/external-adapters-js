@@ -195,7 +195,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
   logInfo('Running integration tests')
 
-  const shellStr: string = `yarn test ${pathToAdapter}/test/integration/*.test.ts`
+  const shellStr = `yarn test ${pathToAdapter}/test/integration/*.test.ts`
 
   const integrationTestOutput = shell
     .exec(shellStr, {
