@@ -98,6 +98,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
             )
             resolve()
           } else {
+            logger.warn(parsed, 'Unexpected message after WS connection open')
             reject(new Error('Unexpected message after WS connection open'))
           }
         })
