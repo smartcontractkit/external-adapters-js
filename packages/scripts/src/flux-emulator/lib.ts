@@ -110,7 +110,7 @@ export const checkArgs = (): Inputs => {
 export const start = async (inputs: Inputs): Promise<void> => {
   let masterConfig: ReferenceContractConfigResponse = { configs: [] }
 
-  if (inputs.masterServer) {
+  if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
     masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
     if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
@@ -250,7 +250,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 export const exists = async (inputs: Inputs): Promise<void> => {
   let masterConfig: ReferenceContractConfigResponse = { configs: [] }
 
-  if (inputs.masterServer) {
+  if (inputs.masterServer?.length > 0) {
     logInfo('Fetching master config')
     masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.masterServer))
     if (!masterConfig || !masterConfig.configs) {
