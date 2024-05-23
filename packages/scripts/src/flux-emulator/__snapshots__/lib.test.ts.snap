@@ -3,20 +3,20 @@
 exports[`Flux Emulator cli should print the usage string if not enough args are provided 1`] = `
 "[31m[1m[22m[39m
 [31m[1m3 arguments are required[22m[39m
-[31m[1m1: Options are \\"start\\", \\"stop\\" or k6payload. In releation to whether you want to start or stop the testing the adapter or build a k6 payload from a flux emulator config.[22m[39m
+[31m[1m1: Options are \"start\", \"stop\" or \"k6payload\". In releation to whether you want to start, stop the testing the adapter, or build a k6 payload from a flux emulator config.[22m[39m
 [31m[1m2: The adapter name you wish to tell flux emulator to test.[22m[39m
 [31m[1m3. The unique release tag for this adapter[22m[39m"
 `;
 
-exports[`Flux Emulator cli should set weiwatchers and config server values from the environment variables 1`] = `
-Object {
+exports[`Flux Emulator cli should set master server and config server values from the environment variables 1`] = `
+{
   "action": "start",
   "adapter": "adapter",
   "configServerGet": "configtest/json_variable",
   "configServerSet": "configtest/set_json_variable",
   "ephemeralName": "qa-ea-adapter-unique",
+  "masterServer": "mastertest",
   "release": "unique",
-  "weiWatcherServer": "weitest",
 }
 `;
 
@@ -32,7 +32,7 @@ exports[`Flux Emulator cli should throw an error if the action argument is not a
 "[31m[1mThe first argument must be one of: start, stop, k6payload[22m[39m
 [31m[1m [22m[39m
 [31m[1m3 arguments are required[22m[39m
-[31m[1m1: Options are \\"start\\", \\"stop\\" or k6payload. In releation to whether you want to start or stop the testing the adapter or build a k6 payload from a flux emulator config.[22m[39m
+[31m[1m1: Options are \"start\", \"stop\" or \"k6payload\". In releation to whether you want to start, stop the testing the adapter, or build a k6 payload from a flux emulator config.[22m[39m
 [31m[1m2: The adapter name you wish to tell flux emulator to test.[22m[39m
 [31m[1m3. The unique release tag for this adapter[22m[39m"
 `;
@@ -41,7 +41,7 @@ exports[`Flux Emulator cli should throw an error if the adapter name argument is
 "[31m[1mMissing second argument: adapter[22m[39m
 [31m[1m [22m[39m
 [31m[1m3 arguments are required[22m[39m
-[31m[1m1: Options are \\"start\\", \\"stop\\" or k6payload. In releation to whether you want to start or stop the testing the adapter or build a k6 payload from a flux emulator config.[22m[39m
+[31m[1m1: Options are \"start\", \"stop\" or \"k6payload\". In releation to whether you want to start, stop the testing the adapter, or build a k6 payload from a flux emulator config.[22m[39m
 [31m[1m2: The adapter name you wish to tell flux emulator to test.[22m[39m
 [31m[1m3. The unique release tag for this adapter[22m[39m"
 `;
@@ -50,7 +50,7 @@ exports[`Flux Emulator cli should throw an error if the release tag argument is 
 "[31m[1mMissing third argument: release tag[22m[39m
 [31m[1m [22m[39m
 [31m[1m3 arguments are required[22m[39m
-[31m[1m1: Options are \\"start\\", \\"stop\\" or k6payload. In releation to whether you want to start or stop the testing the adapter or build a k6 payload from a flux emulator config.[22m[39m
+[31m[1m1: Options are \"start\", \"stop\" or \"k6payload\". In releation to whether you want to start, stop the testing the adapter, or build a k6 payload from a flux emulator config.[22m[39m
 [31m[1m2: The adapter name you wish to tell flux emulator to test.[22m[39m
 [31m[1m3. The unique release tag for this adapter[22m[39m"
 `;

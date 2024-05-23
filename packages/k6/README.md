@@ -13,7 +13,7 @@ To test using docker against ephemeral adapters you can follow the below:
 
 1. Set any environment variables you need for this test in the .env file.
 2. If running against an ephemeral adapter set the QA_RELEASE_TAG in the .env to the same RELEASE_TAG used when starting the adapter. If you are just running against adapters in the staging cluster you should leave this blank.
-3. If you want to use generated data from weiwatchers set the environment variable PAYLOAD_GENERATED=true in the .env file and run the code below where ${adapter} is the adapter you wish to test.
+3. If you want to use generated data from the EAs test-payload.json files set the environment variable PAYLOAD_GENERATED=true in the .env file and run the code below where ${adapter} is the adapter you wish to test.
    ```bash
    yarn qa:flux:configure k6payload ${adapter} empty
    ```

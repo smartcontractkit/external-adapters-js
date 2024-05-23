@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`flux emulator config editing should add an adapter with params to a feed 1`] = `
-Array [
-  Object {
+[
+  {
     "address": "0x0000000000000000000000000000000000000003",
     "category": "test",
     "contractVersion": 4,
@@ -13,10 +13,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST4 / THIS4 source=sourceName4",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000003",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-compositeName4",
         ],
         "name": "nodeName",
@@ -31,8 +31,8 @@ Array [
 `;
 
 exports[`flux emulator config editing should add an adapter with params to a feed 2`] = `
-Array [
-  Object {
+[
+  {
     "address": "0x0000000000000000000000000000000000000003",
     "category": "test",
     "contractVersion": 4,
@@ -43,10 +43,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST4 / THIS4 source=sourceName4",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000003",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-compositeName4",
         ],
         "name": "nodeName",
@@ -61,9 +61,10 @@ Array [
 `;
 
 exports[`flux emulator config editing should add an adpater to a feed 1`] = `
-Array [
-  Object {
+[
+  {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST",
@@ -71,10 +72,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST / THIS",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
         ],
         "name": "nodeName",
@@ -85,8 +86,9 @@ Array [
     "status": "live",
     "symbol": "Ξ",
   },
-  Object {
+  {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST2",
@@ -94,17 +96,17 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST2 / THIS2",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
         ],
         "name": "nodeName",
       },
-      Object {
+      {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
         ],
         "name": "nodeName2",
@@ -119,9 +121,10 @@ Array [
 `;
 
 exports[`flux emulator config editing should add an adpater to a feed 2`] = `
-Array [
-  Object {
+[
+  {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST",
@@ -129,10 +132,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST / THIS",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
         ],
         "name": "nodeName",
@@ -143,8 +146,9 @@ Array [
     "status": "live",
     "symbol": "Ξ",
   },
-  Object {
+  {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST2",
@@ -152,17 +156,17 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST2 / THIS2",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
         ],
         "name": "nodeName",
       },
-      Object {
+      {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
         ],
         "name": "nodeName2",
@@ -177,9 +181,10 @@ Array [
 `;
 
 exports[`flux emulator config editing should add an adpater to a feed 3`] = `
-Array [
-  Object {
+[
+  {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST",
@@ -187,18 +192,18 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST / THIS",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
           "ea-adapterName1",
         ],
         "name": "nodeName",
       },
-      Object {
+      {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName1",
         ],
         "name": "nodeName2",
@@ -209,8 +214,9 @@ Array [
     "status": "live",
     "symbol": "Ξ",
   },
-  Object {
+  {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST2",
@@ -218,18 +224,18 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST2 / THIS2",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
           "ea-adapterName1",
         ],
         "name": "nodeName",
       },
-      Object {
+      {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "ea-adapterName2",
         ],
         "name": "nodeName2",
@@ -244,24 +250,30 @@ Array [
 `;
 
 exports[`flux emulator config editing should convert the config to a k6 payload 1`] = `
-Array [
-  Object {
-    "data": "{\\"data\\":{\\"from\\":\\"TEST\\",\\"to\\":\\"THIS\\"}}",
-    "id": "86f45dcc-90db-4c39-b385-53945c5a9a30",
+[
+  {
+    "data": "{\"data\":{\"from\":\"TEST\",\"to\":\"THIS\"}}",
+    "id": "a45f34aa-bb87-420f-aa77-2b7aa5590b8d",
     "method": "POST",
     "name": "TEST / THIS",
   },
-  Object {
-    "data": "{\\"data\\":{\\"from\\":\\"TEST2\\",\\"to\\":\\"THIS2\\"}}",
-    "id": "86f45dcc-90db-4c39-b385-53945c5a9a30",
+  {
+    "data": "{\"data\":{\"from\":\"TEST2\",\"to\":\"THIS2\"}}",
+    "id": "a45f34aa-bb87-420f-aa77-2b7aa5590b8d",
     "method": "POST",
     "name": "TEST2 / THIS2",
   },
-  Object {
-    "data": "{\\"data\\":{\\"from\\":\\"TEST3\\",\\"to\\":\\"THIS3\\"}}",
-    "id": "86f45dcc-90db-4c39-b385-53945c5a9a30",
+  {
+    "data": "{\"data\":{\"from\":\"TEST3\",\"to\":\"THIS3\"}}",
+    "id": "a45f34aa-bb87-420f-aa77-2b7aa5590b8d",
     "method": "POST",
     "name": "TEST3 / THIS3",
+  },
+  {
+    "data": "{"data":{"from":"TEST4","to":"THIS4"}}",
+    "id": "a45f34aa-bb87-420f-aa77-2b7aa5590b8d",
+    "method": "POST",
+    "name": "TEST4 / THIS4",
   },
 ]
 `;
@@ -269,7 +281,7 @@ Array [
 exports[`flux emulator config editing should fail if the post of the config is unsuccessful 1`] = `[Error: Request failed with status code 500]`;
 
 exports[`flux emulator config editing should parse a feed 1`] = `
-Array [
+[
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
     "category": "test",
@@ -280,10 +292,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST / THIS",
-    "nodes": Array [
+    "nodes": [
       FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName1",
           "adapterName2",
         ],
@@ -291,7 +303,7 @@ Array [
       },
       FeedNode {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName1",
         ],
         "name": "nodeName2",
@@ -312,10 +324,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST2 / THIS2",
-    "nodes": Array [
+    "nodes": [
       FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName1",
           "adapterName2",
         ],
@@ -323,7 +335,7 @@ Array [
       },
       FeedNode {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName2",
         ],
         "name": "nodeName2",
@@ -344,10 +356,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST3 / THIS3",
-    "nodes": Array [
+    "nodes": [
       FeedNode {
         "address": "0x0000000000000000000000000000000000000003",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName3",
         ],
         "name": "nodeName",
@@ -368,10 +380,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST4 / THIS4",
-    "nodes": Array [
+    "nodes": [
       FeedNode {
         "address": "0x0000000000000000000000000000000000000003",
-        "dataProviders": Array [
+        "dataProviders": [
           "compositeName4?source=sourceName4",
         ],
         "name": "nodeName",
@@ -386,9 +398,10 @@ Array [
 `;
 
 exports[`flux emulator config editing should remove an adapter from a feed 1`] = `
-Array [
+[
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST",
@@ -396,10 +409,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST / THIS",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName2",
         ],
         "name": "nodeName",
@@ -412,6 +425,7 @@ Array [
   },
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST2",
@@ -419,17 +433,17 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST2 / THIS2",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName2",
         ],
         "name": "nodeName",
       },
-      Object {
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName2",
         ],
         "name": "nodeName2",
@@ -442,6 +456,7 @@ Array [
   },
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST3",
@@ -449,11 +464,35 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST3 / THIS3",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000003",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName3",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": {
+      "from": "TEST4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4",
+    "nodes": [
+      FeedNode {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": [
+          "compositeName4?source=sourceName4",
         ],
         "name": "nodeName",
       },
@@ -467,9 +506,10 @@ Array [
 `;
 
 exports[`flux emulator config editing should remove an adapter from a feed 2`] = `
-Array [
+[
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST",
@@ -477,10 +517,10 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST / THIS",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName2",
         ],
         "name": "nodeName",
@@ -493,6 +533,7 @@ Array [
   },
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": {
       "from": "TEST2",
@@ -500,17 +541,17 @@ Array [
     },
     "deviationThreshold": 2,
     "name": "TEST2 / THIS2",
-    "nodes": Array [
-      Object {
+    "nodes": [
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName2",
         ],
         "name": "nodeName",
       },
-      Object {
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000002",
-        "dataProviders": Array [
+        "dataProviders": [
           "adapterName2",
         ],
         "name": "nodeName2",
@@ -521,7 +562,58 @@ Array [
     "status": "live",
     "symbol": "Ξ",
   },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": {
+      "from": "TEST4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4",
+    "nodes": [
+      FeedNode {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": [
+          "compositeName4?source=sourceName4",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
 ]
 `;
 
-exports[`flux emulator config editing should remove an adapter from a feed 3`] = `Array []`;
+exports[`flux emulator config editing should remove an adapter from a feed 3`] = `
+[
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": {
+      "from": "TEST4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4",
+    "nodes": [
+      FeedNode {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": [
+          "compositeName4?source=sourceName4",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
