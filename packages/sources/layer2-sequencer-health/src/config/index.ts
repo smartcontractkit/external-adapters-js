@@ -13,6 +13,8 @@ export const DEFAULT_ENDPOINT = 'health'
 
 // 2 minutes
 export const DEFAULT_DELTA_TIME = 2 * 60 * 1000
+// 10 minutes
+export const DEFAULT_DELTA_TIME_METIS = 10 * 60 * 1000
 // Blocks that replica nodes can fall behind
 export const DEFAULT_DELTA_BLOCKS = 6
 // milliseconds to consider a timeout transaction (10 secs)
@@ -83,6 +85,15 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
     util.getEnv(ENV_SCROLL_CHAIN_ID),
 }
 
+export const CHAIN_DELTA: Record<Networks, number> = {
+  [Networks.Arbitrum]: Number(util.getEnv('ARBITRUM_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Optimism]: Number(util.getEnv('OPTIMISM_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Base]: Number(util.getEnv('BASE_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Metis]: Number(util.getEnv('METIS_DELTA')) || DEFAULT_DELTA_TIME_METIS,
+  [Networks.Scroll]: Number(util.getEnv('SCROLL_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Starkware]: Number(util.getEnv('STARKWARE_DELTA')) || DEFAULT_DELTA_TIME,
+}
+
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
 export const HEALTH_ENDPOINTS: Record<
   Networks,
@@ -115,8 +126,8 @@ export const HEALTH_ENDPOINTS: Record<
 }
 
 export interface ExtendedConfig extends Config {
-  delta: number
   deltaBlocks: number
+  deltaChain: Record<Networks, number>
   timeoutLimit: number
   retryConfig: {
     numRetries: number
@@ -134,7 +145,7 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
     throw new AdapterConfigError({ message: 'Cache cannot be enabled on this adapter' })
   }
   const config = Requester.getDefaultConfig(prefix)
-  const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
+  const deltaChain = CHAIN_DELTA
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
   const numRetries = Number(util.getEnv('NUM_RETRIES')) || DEFAULT_NUM_RETRIES
@@ -146,7 +157,7 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
     retryInterval,
   }
 
-  return { ...config, delta, deltaBlocks, timeoutLimit, retryConfig, starkwareConfig }
+  return { ...config, deltaChain, deltaBlocks, timeoutLimit, retryConfig, starkwareConfig }
 }
 
 const DEFAULT_STARKWARE_RPC_ENDPOINT = 'https://starknet-mainnet.public.blastapi.io'

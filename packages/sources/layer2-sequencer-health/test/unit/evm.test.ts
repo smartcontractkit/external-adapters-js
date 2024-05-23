@@ -1,7 +1,7 @@
 import { ExtendedConfig, Networks } from '../../src/config'
 import { useFakeTimers } from 'sinon'
-import * as evm from '../../src/evm'
 import { Requester } from '@chainlink/ea-bootstrap'
+import * as evm from '../../src/evm'
 import { makeConfig } from '../../src/config'
 import { AxiosResponse } from '@chainlink/ea-bootstrap'
 
@@ -12,6 +12,11 @@ const getMockAxiosResponse = (response: unknown): AxiosResponse => ({
   config: {},
   data: response,
 })
+
+const deltaChain = {
+  [Networks.Arbitrum]: 30000,
+  [Networks.Optimism]: 30000,
+}
 
 describe('evm', () => {
   describe('L2 Network health check', () => {
@@ -36,9 +41,11 @@ describe('evm', () => {
         ),
       )
       const checkBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Arbitrum)
+      config.deltaChain = deltaChain as Record<Networks, number>
+      const delta = config.deltaChain[Networks.Arbitrum]
       const timeBetweenCalls = 10 * 1000
       // During first two minutes of the block is not considered stale
-      for (let i = 0; i < config.delta / timeBetweenCalls; i++) {
+      for (let i = 0; i < delta / timeBetweenCalls; i++) {
         expect(await checkBlockHeight(config)).toBe(true)
         clock.tick(timeBetweenCalls)
       }
@@ -47,12 +54,13 @@ describe('evm', () => {
     })
 
     it('Blocks are healthy after Delta seconds if blocks change', async () => {
-      const checkBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Metis)
+      const checkBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Optimism)
       config.deltaBlocks = 0
-      config.delta = 30 * 1000
+      config.deltaChain = deltaChain as Record<Networks, number>
+      const delta = config.deltaChain[Networks.Optimism]
       const timeBetweenCalls = 10 * 1000
       // If blocks change, is not considered stale
-      for (let i = 0; i < config.delta / timeBetweenCalls; i++) {
+      for (let i = 0; i < delta / timeBetweenCalls; i++) {
         jest.spyOn(Requester, 'request').mockReturnValue(
           Promise.resolve(
             getMockAxiosResponse({
@@ -71,8 +79,8 @@ describe('evm', () => {
 
     it('Blocks are healthy if current is previous to the last seen within a delta difference', async () => {
       const checkBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Arbitrum)
-      config.delta = 30
       config.deltaBlocks = 5
+      config.deltaChain = deltaChain as Record<Networks, number>
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise.resolve(
           getMockAxiosResponse({

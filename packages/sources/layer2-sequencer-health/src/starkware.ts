@@ -1,5 +1,5 @@
 import { Logger } from '@chainlink/ea-bootstrap'
-import { DEFAULT_PRIVATE_KEY, ExtendedConfig } from './config'
+import { CHAIN_DELTA, DEFAULT_PRIVATE_KEY, ExtendedConfig, Networks } from './config'
 import { ec, Account, InvokeFunctionResponse, RPC } from 'starknet'
 import { race, retry } from './network'
 
@@ -55,7 +55,7 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
     lastBlockResponse: null,
   }
   return async (config: ExtendedConfig): Promise<boolean> => {
-    const delta = config.delta
+    const delta = config.deltaChain[Networks.Starkware]
     const currentTime = Date.now()
     if (state.lastUpdated > 0 && currentTime - state.lastUpdated < delta) {
       Logger.debug(
