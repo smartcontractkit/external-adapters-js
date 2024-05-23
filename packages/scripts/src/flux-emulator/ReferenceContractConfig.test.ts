@@ -11,6 +11,10 @@ import {
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
+jest.mock('crypto', () => ({
+  randomUUID: () => 'a45f34aa-bb87-420f-aa77-2b7aa5590b8d',
+}))
+
 const exampleFeed = [
   {
     address: '0x0000000000000000000000000000000000000000',
@@ -170,21 +174,21 @@ describe('flux emulator config editing', () => {
   })
 
   it('should remove an adapter from a feed', async () => {
-    let config: ReferenceContractConfig[] = removeAdapterFromFeed(
-      'adapterName1',
-      parseConfig(exampleFeed),
-    )
+    let config: ReferenceContractConfig[] = parseConfig(exampleFeed)
+    expect(config[0].nodes[0].dataProviders.length).toEqual(2)
+    config = removeAdapterFromFeed('adapterName1', config)
     expect(config[0].nodes[0].dataProviders.length).toEqual(1)
     expect(config).toMatchSnapshot()
 
+    expect(config.length).toEqual(4)
     // verify removing of a node and config
     config = removeAdapterFromFeed('adapterName3', config)
-    expect(config.length).toEqual(2)
+    expect(config.length).toEqual(3)
     expect(config).toMatchSnapshot()
 
     // verify removing all adapters from the feed
     config = removeAdapterFromFeed('adapterName2', config)
-    expect(config.length).toEqual(0)
+    expect(config.length).toEqual(1)
     expect(config).toMatchSnapshot()
   })
 
@@ -198,6 +202,10 @@ describe('flux emulator config editing', () => {
           from: 'LINK',
           to: 'USD',
         },
+        category: 'crypto',
+        path: 'link-usd',
+        symbol: '',
+        status: 'live',
         precision: 8,
         deviationThreshold: 0.5,
         nodes: [],
