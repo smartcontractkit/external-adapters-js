@@ -11,8 +11,8 @@ export const adapterContext: AdapterContext = { name: NAME, envDefaultOverrides 
 
 export const DEFAULT_ENDPOINT = 'health'
 
-// 2 minutes
-export const DEFAULT_DELTA_TIME = 2 * 60 * 1000
+// 10 minutes
+export const DEFAULT_DELTA_TIME = 10 * 60 * 1000
 // Blocks that replica nodes can fall behind
 export const DEFAULT_DELTA_BLOCKS = 6
 // milliseconds to consider a timeout transaction (10 secs)
