@@ -22,7 +22,7 @@ exports[`execute crypto api with invalid symbol should return failure 1`] = `
     "feedID": "NON/EXISTING",
     "message": "Request failed with status code 400",
     "name": "AdapterError",
-    "url": "https:/api.bitso.com/v3/ticker",
+    "url": "https://api.bitso.com/ticker",
   },
   "jobRunID": "1",
   "providerStatusCode": 400,

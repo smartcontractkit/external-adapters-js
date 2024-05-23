@@ -18,7 +18,7 @@ exports[`execute crypto api with invalid symbol should return failure 1`] = `
     "feedID": "NON/EXISTING",
     "message": "Request failed with status code 404",
     "name": "AdapterError",
-    "url": "https:/bitex.la/api/tickers/NON_EXISTING",
+    "url": "https://bitex.la/tickers/NON_EXISTING",
   },
   "jobRunID": "1",
   "providerStatusCode": 404,

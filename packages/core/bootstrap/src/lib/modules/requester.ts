@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import objectPath from 'object-path'
-import { join } from 'path'
 
 import {
   deepType,
@@ -80,7 +79,7 @@ export class Requester {
       }
 
       let response: AxiosResponse<T>
-      const url = join(config.baseURL || '', config.url || '')
+      const url = axios.getUri(config)
       const record = recordDataProviderRequest()
       try {
         const startTime = process.hrtime.bigint()

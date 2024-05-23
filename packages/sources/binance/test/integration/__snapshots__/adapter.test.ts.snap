@@ -18,7 +18,7 @@ exports[`execute rate api with invalid symbol should return failure 1`] = `
     "feedID": "NON/EXISTING",
     "message": "Request failed with status code 400",
     "name": "AdapterError",
-    "url": "https:/api.binance.com/api/v3/ticker/price",
+    "url": "https://api.binance.com/api/v3/ticker/price",
   },
   "jobRunID": "1",
   "providerStatusCode": 400,

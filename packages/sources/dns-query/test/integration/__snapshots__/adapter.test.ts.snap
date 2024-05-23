@@ -19,7 +19,7 @@ exports[`execute dnsProof endpoint error calls when unsuccessfully requests the 
     "feedID": "{"data":{"endpoint":"dnsProof","name":"www5.infernos.io","record":"0xf75519f611776c22275474151a04183665b7feDe"}}",
     "message": "Request failed with status code 500",
     "name": "AdapterError",
-    "url": "https:/dns.google/resolve",
+    "url": "https://dns.google/resolve",
   },
   "jobRunID": "1",
   "providerStatusCode": 500,

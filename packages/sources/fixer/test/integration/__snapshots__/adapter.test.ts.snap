@@ -18,7 +18,7 @@ exports[`execute convert api with invalid base should return failure 1`] = `
     "feedID": "NON-EXISTING/USD",
     "message": "Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Request: {"baseURL":"https://data.fixer.io","url":"/api/convert","params":{"access_key":"fake-api-key","from":"NON-EXISTING","to":"USD","amount":1}}, Response: {"success":false,"error":{"code":402,"type":"invalid_from_currency","info":"You have entered an invalid \\"from\\" property. [Example: from=EUR]"}}.",
     "name": "AdapterError",
-    "url": "https:/data.fixer.io/api/convert",
+    "url": "https://data.fixer.io/api/convert",
   },
   "jobRunID": "1",
   "providerStatusCode": 402,

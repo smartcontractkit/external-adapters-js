@@ -30,7 +30,7 @@ exports[`execute rate api with invalid symbol should return failure 1`] = `
     "feedID": "NON/EXISTING",
     "message": "Request failed with status code 400",
     "name": "AdapterError",
-    "url": "https:/dex-asiapacific.binance.org/api/v1/ticker/24hr",
+    "url": "https://dex-asiapacific.binance.org/api/v1/ticker/24hr",
   },
   "jobRunID": "1",
   "providerStatusCode": 400,
