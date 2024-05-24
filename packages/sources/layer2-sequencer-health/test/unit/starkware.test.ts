@@ -1,4 +1,4 @@
-import { ExtendedConfig, makeConfig } from '../../src/config'
+import { CHAIN_DELTA, ExtendedConfig, Networks, makeConfig } from '../../src/config'
 import * as starkware from '../../src/starkware'
 import * as network from '../../src/network'
 import { useFakeTimers } from 'sinon'
@@ -39,7 +39,7 @@ describe('starkware', () => {
           )
 
           expect(await fn(config)).toBe(true)
-          const timeToNextCall = config.delta - 10 * 1000
+          const timeToNextCall = CHAIN_DELTA[Networks.Starkware] - 10 * 1000
           clock.tick(timeToNextCall)
           jest.spyOn(network, 'retry').mockReturnValueOnce(
             Promise.resolve({
@@ -67,7 +67,7 @@ describe('starkware', () => {
 
         describe('when there are new transactions', () => {
           it('returns true', async () => {
-            const timeToNextCall = config.delta - 10 * 1000
+            const timeToNextCall = CHAIN_DELTA[Networks.Starkware] - 10 * 1000
             clock.tick(timeToNextCall)
             jest.spyOn(network, 'retry').mockReturnValueOnce(
               Promise.resolve({
@@ -81,7 +81,7 @@ describe('starkware', () => {
 
         describe('when there are no new transactons', () => {
           it('returns false', async () => {
-            const timeToNextCall = config.delta - 10 * 1000
+            const timeToNextCall = CHAIN_DELTA[Networks.Starkware] - 10 * 1000
             clock.tick(timeToNextCall)
             jest.spyOn(network, 'retry').mockReturnValueOnce(
               Promise.resolve({
