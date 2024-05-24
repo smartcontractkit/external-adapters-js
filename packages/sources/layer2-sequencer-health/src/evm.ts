@@ -87,6 +87,7 @@ const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> =
     timestamp: 0,
   },
 }
+
 export const checkOptimisticRollupBlockHeight = (
   network: EVMNetworks,
 ): ((config: ExtendedConfig) => Promise<boolean>) => {
@@ -105,7 +106,8 @@ export const checkOptimisticRollupBlockHeight = (
   }
 
   return async (config: ExtendedConfig): Promise<boolean> => {
-    const { delta, deltaBlocks, retryConfig } = config
+    const { deltaBlocks, retryConfig } = config
+    const delta = config.deltaChain[network]
     const block = await retry<number>({
       promise: async () => await requestBlockHeight(network),
       retryConfig,
