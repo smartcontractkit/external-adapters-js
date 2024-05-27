@@ -10,9 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Automatically update PR
-        uses: smartcontractkit/update-pr-branch@master
+        uses: adRise/update-pr-branch@d1dd938b89635980b60c8405e70d4568de1b9cbb # v0.8.0
         with:
           token: ${{ secrets.AUTOREBASE_TOKEN }}
           base: 'main'
           required_approval_count: 1
           require_passed_checks: false
+          require_auto_merge_enabled: false
