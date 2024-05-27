@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.2.0
+
+### Minor Changes
+
+- [#3302](https://github.com/smartcontractkit/external-adapters-js/pull/3302) [`1d7c2e8`](https://github.com/smartcontractkit/external-adapters-js/commit/1d7c2e8455f1e209eb411c6b14097dfb1fa992db) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Refactors L2EP EA logic to include chain specific delta values
+
 ## 4.1.0
 
 ### Minor Changes
