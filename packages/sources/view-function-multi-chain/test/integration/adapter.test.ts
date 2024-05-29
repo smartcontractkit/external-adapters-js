@@ -6,8 +6,11 @@ import * as nock from 'nock'
 import {
   mockETHGoerliContractCallResponseSuccess,
   mockETHMainnetContractCallResponseSuccess,
+  mockStarknetMainnetContractCallResponseSuccess,
+  mockStarknetSepoliaContractCallResponseSuccess,
 } from './fixtures'
 import * as process from 'process'
+import { constants } from 'starknet'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -22,6 +25,16 @@ describe('execute', () => {
     process.env.ETHEREUM_GOERLI_RPC_URL =
       process.env.ETHEREUM_GOERLI_RPC_URL ?? 'http://localhost:8554'
     process.env.ETHEREUM_GOERLI_CHAIN_ID = process.env.ETHEREUM_GOERLI_CHAIN_ID ?? '5'
+
+    process.env.SARKNET_MAINNET_RPC_URL =
+      process.env.SARKNET_MAINNET_RPC_URL ?? 'http://localhost:8560'
+    process.env.SARKNET_MAINNET_CHAIN_ID =
+      process.env.SARKNET_MAINNET_CHAIN_ID ?? constants.StarknetChainId.SN_MAIN
+    process.env.SARKNET_SEPOLIA_RPC_URL =
+      process.env.SARKNET_SEPOLIA_RPC_URL ?? 'http://localhost:8506'
+    process.env.SARKNET_SEPOLIA_CHAIN_ID =
+      process.env.SARKNET_SEPOLIA_CHAIN_ID ?? constants.StarknetChainId.SN_SEPOLIA
+
     process.env.BACKGROUND_EXECUTE_MS = '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -73,6 +86,56 @@ describe('execute', () => {
         network: 'ethereum_mainnet',
       }
       mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for starknet mainnet', async () => {
+      const data = {
+        contract: '0x07c2e1e733f28daa23e78be3a4f6c724c0ab06af65f6a95b5e0545215f1abc1b',
+        function: 'decimals',
+        network: 'starknet_mainnet',
+      }
+      mockStarknetMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for starknet sepolia', async () => {
+      const data = {
+        contract: '0x228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44',
+        function: 'latest_round_data',
+        network: 'starknet_sepolia',
+      }
+      mockStarknetSepoliaContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for starknet mainnet with parameters', async () => {
+      const data = {
+        contract: '0x07c2e1e733f28daa23e78be3a4f6c724c0ab06af65f6a95b5e0545215f1abc1b',
+        function: 'balance_of',
+        inputParams: ['0x00048b2ef72cb3a91a7bf332de7e6fdba249dd48d7fa23e7f395fe621a93b38a'],
+        network: 'starknet_mainnet',
+      }
+      mockStarknetMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for starknet sepolia with parameters', async () => {
+      const data = {
+        contract: '0x228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44',
+        function: 'round_data',
+        inputParams: ['340282366920938463463374607431768254460'],
+        network: 'starknet_sepolia',
+      }
+      mockStarknetSepoliaContractCallResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

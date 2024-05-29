@@ -39,6 +39,62 @@ exports[`execute function endpoint should return success for different network 1
 }
 `;
 
+exports[`execute function endpoint should return success for starknet mainnet 1`] = `
+{
+  "data": {
+    "result": "0x12",
+  },
+  "result": "0x12",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute function endpoint should return success for starknet mainnet with parameters 1`] = `
+{
+  "data": {
+    "result": "0x0",
+  },
+  "result": "0x0",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute function endpoint should return success for starknet sepolia 1`] = `
+{
+  "data": {
+    "result": "0x10000000000000000000000000000a7fc",
+  },
+  "result": "0x10000000000000000000000000000a7fc",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute function endpoint should return success for starknet sepolia with parameters 1`] = `
+{
+  "data": {
+    "result": "0x10000000000000000000000000000a7fc",
+  },
+  "result": "0x10000000000000000000000000000a7fc",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute function endpoint should return success with parameters 1`] = `
 {
   "data": {

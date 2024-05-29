@@ -3,6 +3,8 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ethers, utils } from 'ethers'
+import { RpcProvider, constants } from 'starknet'
+import { BigNumber } from 'bignumber.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
@@ -35,7 +37,7 @@ export class MultiChainFunctionTransport extends SubscriptionTransport<MultiChai
   async handleRequest(param: RequestParams) {
     let response: AdapterResponse<MultiChainFunctionTransportTypes['Response']>
     try {
-      response = await this._handleRequest(param)
+      response = await this._handleRequestMultiChain(param)
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
@@ -52,24 +54,77 @@ export class MultiChainFunctionTransport extends SubscriptionTransport<MultiChai
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
-  async _handleRequest(
+  async _handleRequestMultiChain(
     param: RequestParams,
   ): Promise<AdapterResponse<MultiChainFunctionTransportTypes['Response']>> {
-    const { address, signature, inputParams, network } = param
+    const { network } = param
 
     const networkName = network.toUpperCase()
     const networkEnvName = `${networkName}_RPC_URL`
     const chainIdEnvName = `${networkName}_CHAIN_ID`
 
     const rpcUrl = process.env[networkEnvName]
-    const chainId = Number(process.env[chainIdEnvName])
 
-    if (!rpcUrl || isNaN(chainId)) {
+    // The Starknet ChainIds are too large to fit into the JS Number type
+    const chainId = new BigNumber(process.env[chainIdEnvName] ?? NaN)
+
+    if (!rpcUrl || chainId.isNaN()) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
+        message: `Missing '${networkEnvName}': '${rpcUrl}' or '${chainIdEnvName}': '${chainId.toString()}' environment variables.`,
       })
     }
+
+    if (
+      !chainId.equals(constants.StarknetChainId.SN_SEPOLIA) &&
+      !chainId.equals(constants.StarknetChainId.SN_MAIN)
+    ) {
+      return this._handleRequestEVM(param, rpcUrl, chainId.toNumber())
+    } else {
+      return this._handleRequestStarknet(param, rpcUrl)
+    }
+  }
+
+  async _handleRequestStarknet(
+    param: RequestParams,
+    rpcUrl: string,
+  ): Promise<AdapterResponse<MultiChainFunctionTransportTypes['Response']>> {
+    const { address, signature, inputParams } = param
+
+    const starknetProvider = new RpcProvider({ nodeUrl: rpcUrl })
+
+    const callData = {
+      contractAddress: address,
+      entrypoint: signature,
+      calldata: inputParams,
+    }
+
+    const providerDataRequestedUnixMs = Date.now()
+    const res = await starknetProvider.callContract(callData)
+    const result = res[0]
+
+    return {
+      data: {
+        result,
+      },
+      statusCode: 200,
+      result,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
+  }
+
+  async _handleRequestEVM(
+    param: RequestParams,
+    rpcUrl: string,
+    chainId: number,
+  ): Promise<AdapterResponse<MultiChainFunctionTransportTypes['Response']>> {
+    const { address, signature, inputParams, network } = param
+
+    const networkName = network.toUpperCase()
 
     if (!this.providers[networkName]) {
       this.providers[networkName] = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)

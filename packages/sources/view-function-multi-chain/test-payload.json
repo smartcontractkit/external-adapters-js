@@ -3,5 +3,27 @@
   "contract": "0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c",
   "function": "function latestAnswer() view returns (int256)",
   "network": "ETHEREUM_MAINNET"
+ },
+ {
+  "contract": "0x0228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44",
+  "function": "latest_round_data",
+  "network": "STARKNET_MAINNET"
+ },
+ {
+  "contract": "0x0228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44",
+  "function": "round_data",
+  "inputParams": ["340282366920938463463374607431768254460"],
+  "network": "STARKNET_MAINNET"
+ },
+ {
+  "contract": "0x0228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44",
+  "function": "latest_round_data",
+  "network": "STARKNET_SEPOLIA"
+ },
+ {
+  "contract": "0x0228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44",
+  "function": "round_data",
+  "inputParams": ["340282366920938463463374607431768254460"],
+  "network": "STARKNET_SEPOLIA"
  }]
 }
