@@ -26,7 +26,7 @@ describe('execute', () => {
       process.env.ETHEREUM_GOERLI_RPC_URL ?? 'http://localhost:8554'
     process.env.ETHEREUM_GOERLI_CHAIN_ID = process.env.ETHEREUM_GOERLI_CHAIN_ID ?? '5'
 
-    process.env.SARKNET_MAINNET_RPC_URL =
+    process.env.STARKNET_MAINNET_RPC_URL =
       process.env.SARKNET_MAINNET_RPC_URL ?? 'http://localhost:8560'
     process.env.SARKNET_MAINNET_CHAIN_ID =
       process.env.SARKNET_MAINNET_CHAIN_ID ?? constants.StarknetChainId.SN_MAIN
