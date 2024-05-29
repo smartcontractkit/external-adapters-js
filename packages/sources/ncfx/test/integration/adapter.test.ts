@@ -17,8 +17,8 @@ describe('websocket', () => {
   const wsEndpointForex = 'ws://localhost:9091'
   let oldEnv: NodeJS.ProcessEnv
   const cryptoData = {
-    base: 'ETH',
-    quote: 'USD',
+    base: 'eth',
+    quote: 'usd',
   }
   const forexData = {
     base: 'CAD',
