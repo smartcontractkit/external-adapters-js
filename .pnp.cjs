@@ -728,6 +728,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/stader-labs"\
       },\
       {\
+        "name": "@chainlink/starknet-gas-price-adapter",\
+        "reference": "workspace:packages/sources/starknet-gas-price"\
+      },\
+      {\
         "name": "@chainlink/stasis-adapter",\
         "reference": "workspace:packages/sources/stasis"\
       },\
@@ -1028,6 +1032,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
       ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
       ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
+      ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
       ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],\
@@ -8224,6 +8229,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/starknet-gas-price-adapter", [\
+        ["workspace:packages/sources/starknet-gas-price", {\
+          "packageLocation": "./packages/sources/starknet-gas-price/",\
+          "packageDependencies": [\
+            ["@chainlink/starknet-gas-price-adapter", "workspace:packages/sources/starknet-gas-price"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.18.96"],\
+            ["nock", "npm:14.0.0-beta.6"],\
+            ["starknet", "npm:6.9.0"],\
+            ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:10.9.2"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -15948,6 +15970,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yargs", "npm:17.7.2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.2.2", {\
+          "packageLocation": "./.yarn/cache/abi-wan-kanabi-npm-2.2.2-1077d098b0-4cf6917188.zip/node_modules/abi-wan-kanabi/",\
+          "packageDependencies": [\
+            ["abi-wan-kanabi", "npm:2.2.2"],\
+            ["ansicolors", "npm:0.3.2"],\
+            ["cardinal", "npm:2.1.1"],\
+            ["fs-extra", "npm:10.1.0"],\
+            ["yargs", "npm:17.7.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["abort-controller", [\
@@ -22454,6 +22487,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["fetch-cookie", [\
+        ["npm:3.0.1", {\
+          "packageLocation": "./.yarn/cache/fetch-cookie-npm-3.0.1-ac6f9b826a-01657ccdf6.zip/node_modules/fetch-cookie/",\
+          "packageDependencies": [\
+            ["fetch-cookie", "npm:3.0.1"],\
+            ["set-cookie-parser", "npm:2.6.0"],\
+            ["tough-cookie", "npm:4.1.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["figures", [\
         ["npm:1.7.0", {\
           "packageLocation": "./.yarn/cache/figures-npm-1.7.0-1542644df9-d77206deba.zip/node_modules/figures/",\
@@ -23312,6 +23356,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/get-params-npm-0.1.2-1df881bfb8-7768710dd5.zip/node_modules/get-params/",\
           "packageDependencies": [\
             ["get-params", "npm:0.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["get-starknet-core", [\
+        ["npm:4.0.0-next.5", {\
+          "packageLocation": "./.yarn/cache/get-starknet-core-npm-4.0.0-next.5-ae89eba523-a305acc589.zip/node_modules/get-starknet-core/",\
+          "packageDependencies": [\
+            ["get-starknet-core", "npm:4.0.0-next.5"],\
+            ["starknet-types", "npm:0.7.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -29578,6 +29632,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lossless-json", "npm:2.0.8"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.0.1", {\
+          "packageLocation": "./.yarn/cache/lossless-json-npm-4.0.1-8cb2e90f20-41e89f5b78.zip/node_modules/lossless-json/",\
+          "packageDependencies": [\
+            ["lossless-json", "npm:4.0.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["loud-rejection", [\
@@ -31265,6 +31326,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["nock", "npm:13.5.4"],\
             ["debug", "virtual:d9a5f00bfc11d56fd0d391c83d70ceade45ea6b20139b488c916c2225b2c904e8c8722786b03dfb6d06fef38f31a649a4fbdf210a93be455090758ff610f2afb#npm:4.3.4"],\
+            ["json-stringify-safe", "npm:5.0.1"],\
+            ["propagate", "npm:2.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:14.0.0-beta.6", {\
+          "packageLocation": "./.yarn/cache/nock-npm-14.0.0-beta.6-9b4e3f4734-a3d1c3b52c.zip/node_modules/nock/",\
+          "packageDependencies": [\
+            ["nock", "npm:14.0.0-beta.6"],\
             ["json-stringify-safe", "npm:5.0.1"],\
             ["propagate", "npm:2.0.1"]\
           ],\
@@ -33644,6 +33714,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["querystringify", [\
+        ["npm:2.2.0", {\
+          "packageLocation": "./.yarn/cache/querystringify-npm-2.2.0-4e77c9f606-5641ea231b.zip/node_modules/querystringify/",\
+          "packageDependencies": [\
+            ["querystringify", "npm:2.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["queue-microtask", [\
         ["npm:1.2.3", {\
           "packageLocation": "./.yarn/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-b676f8c040.zip/node_modules/queue-microtask/",\
@@ -34538,6 +34617,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["requires-port", [\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/requires-port-npm-1.0.0-fd036b488a-eee0e303ad.zip/node_modules/requires-port/",\
+          "packageDependencies": [\
+            ["requires-port", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["reselect", [\
         ["npm:4.1.8", {\
           "packageLocation": "./.yarn/cache/reselect-npm-4.1.8-cad5f0a3f3-a4ac87ceda.zip/node_modules/reselect/",\
@@ -35407,6 +35495,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["set-cookie-parser", "npm:2.5.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.6.0", {\
+          "packageLocation": "./.yarn/cache/set-cookie-parser-npm-2.6.0-a7dd154236-bf11ebc594.zip/node_modules/set-cookie-parser/",\
+          "packageDependencies": [\
+            ["set-cookie-parser", "npm:2.6.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["set-delayed-interval", [\
@@ -36176,6 +36271,38 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pako", "npm:2.0.4"],\
             ["ts-mixer", "npm:6.0.3"],\
             ["url-join", "npm:4.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:6.9.0", {\
+          "packageLocation": "./.yarn/cache/starknet-npm-6.9.0-04d9e34f48-3cfe3f550b.zip/node_modules/starknet/",\
+          "packageDependencies": [\
+            ["starknet", "npm:6.9.0"],\
+            ["@noble/curves", "npm:1.4.0"],\
+            ["@noble/hashes", "npm:1.4.0"],\
+            ["@scure/base", "npm:1.1.5"],\
+            ["@scure/starknet", "npm:1.0.0"],\
+            ["abi-wan-kanabi", "npm:2.2.2"],\
+            ["fetch-cookie", "npm:3.0.1"],\
+            ["get-starknet-core", "npm:4.0.0-next.5"],\
+            ["isomorphic-fetch", "npm:3.0.0"],\
+            ["lossless-json", "npm:4.0.1"],\
+            ["pako", "npm:2.0.4"],\
+            ["starknet-types-07", [\
+              "starknet-types",\
+              "npm:0.7.2"\
+            ]],\
+            ["ts-mixer", "npm:6.0.3"],\
+            ["url-join", "npm:4.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["starknet-types", [\
+        ["npm:0.7.2", {\
+          "packageLocation": "./.yarn/cache/starknet-types-npm-0.7.2-2bb7ba28fd-01e1c7440f.zip/node_modules/starknet-types/",\
+          "packageDependencies": [\
+            ["starknet-types", "npm:0.7.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -37340,6 +37467,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["punycode", "npm:2.1.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.1.4", {\
+          "packageLocation": "./.yarn/cache/tough-cookie-npm-4.1.4-8293cc8bd5-5815059f01.zip/node_modules/tough-cookie/",\
+          "packageDependencies": [\
+            ["tough-cookie", "npm:4.1.4"],\
+            ["psl", "npm:1.9.0"],\
+            ["punycode", "npm:2.1.1"],\
+            ["universalify", "npm:0.2.0"],\
+            ["url-parse", "npm:1.5.10"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["tr46", [\
@@ -38048,6 +38186,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:0.2.0", {\
+          "packageLocation": "./.yarn/cache/universalify-npm-0.2.0-9984e61c10-e86134cb12.zip/node_modules/universalify/",\
+          "packageDependencies": [\
+            ["universalify", "npm:0.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:2.0.1", {\
           "packageLocation": "./.yarn/cache/universalify-npm-2.0.1-040ba5a21e-ecd8469fe0.zip/node_modules/universalify/",\
           "packageDependencies": [\
@@ -38282,6 +38427,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/url-join-npm-4.0.1-e1f4415722-f74e868bf2.zip/node_modules/url-join/",\
           "packageDependencies": [\
             ["url-join", "npm:4.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["url-parse", [\
+        ["npm:1.5.10", {\
+          "packageLocation": "./.yarn/cache/url-parse-npm-1.5.10-64fa2bcd6d-fbdba6b1d8.zip/node_modules/url-parse/",\
+          "packageDependencies": [\
+            ["url-parse", "npm:1.5.10"],\
+            ["querystringify", "npm:2.2.0"],\
+            ["requires-port", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
