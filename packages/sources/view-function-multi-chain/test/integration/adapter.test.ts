@@ -106,7 +106,7 @@ describe('execute', () => {
     it('should return success for starknet sepolia', async () => {
       const data = {
         contract: '0x228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44',
-        function: 'latest_round_data',
+        function: 'decimals',
         network: 'starknet_sepolia',
       }
       mockStarknetSepoliaContractCallResponseSuccess()

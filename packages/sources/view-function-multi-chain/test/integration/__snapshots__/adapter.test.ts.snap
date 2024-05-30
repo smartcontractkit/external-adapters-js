@@ -70,9 +70,9 @@ exports[`execute function endpoint should return success for starknet mainnet wi
 exports[`execute function endpoint should return success for starknet sepolia 1`] = `
 {
   "data": {
-    "result": "0x10000000000000000000000000000a7fc",
+    "result": "0x8",
   },
-  "result": "0x10000000000000000000000000000a7fc",
+  "result": "0x8",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

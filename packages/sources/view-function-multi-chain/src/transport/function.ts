@@ -65,21 +65,30 @@ export class MultiChainFunctionTransport extends SubscriptionTransport<MultiChai
 
     const rpcUrl = process.env[networkEnvName]
 
-    // The Starknet ChainIds are too large to fit into the JS Number type
-    const chainId = new BigNumber(process.env[chainIdEnvName] ?? NaN)
+    const chainIdStr = process.env[chainIdEnvName] || NaN
+    let chainIdBN
 
-    if (!rpcUrl || chainId.isNaN()) {
+    if (chainIdStr === 'SN_MAIN') {
+      chainIdBN = new BigNumber(constants.StarknetChainId.SN_MAIN)
+    } else if (chainIdStr == 'SN_SEPOLIA') {
+      chainIdBN = new BigNumber(constants.StarknetChainId.SN_SEPOLIA)
+    } else {
+      // The Starknet ChainIds are too large to fit into the JS Number type
+      chainIdBN = new BigNumber(chainIdStr)
+    }
+
+    if (!rpcUrl || chainIdBN.isNaN()) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Missing '${networkEnvName}': '${rpcUrl}' or '${chainIdEnvName}': '${chainId.toString()}' environment variables.`,
+        message: `Missing '${networkEnvName}': '${rpcUrl}' or '${chainIdEnvName}': '${chainIdBN.toString()}' environment variables.`,
       })
     }
 
     if (
-      !chainId.equals(constants.StarknetChainId.SN_SEPOLIA) &&
-      !chainId.equals(constants.StarknetChainId.SN_MAIN)
+      !chainIdBN.equals(constants.StarknetChainId.SN_SEPOLIA) &&
+      !chainIdBN.equals(constants.StarknetChainId.SN_MAIN)
     ) {
-      return this._handleRequestEVM(param, rpcUrl, chainId.toNumber())
+      return this._handleRequestEVM(param, rpcUrl, chainIdBN.toNumber())
     } else {
       return this._handleRequestStarknet(param, rpcUrl)
     }
@@ -101,6 +110,8 @@ export class MultiChainFunctionTransport extends SubscriptionTransport<MultiChai
 
     const providerDataRequestedUnixMs = Date.now()
     const res = await starknetProvider.callContract(callData)
+
+    console.log(res)
     const result = res[0]
 
     return {

@@ -190,7 +190,7 @@ export const mockStarknetMainnetContractCallResponseSuccess = (): nock.Scope =>
     .persist()
     .post('/', {
       method: 'eth_call',
-      // balanceOf
+      // balance_of
       params: [
         {
           to: '0x07c2e1e733f28daa23e78be3a4f6c724c0ab06af65f6a95b5e0545215f1abc1b',
@@ -247,11 +247,11 @@ export const mockStarknetSepoliaContractCallResponseSuccess = (): nock.Scope =>
     .persist()
     .post('/', {
       method: 'eth_call',
-      // latest_round_data
+      // decimals
       params: [
         {
           to: '0x228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44',
-          data: '0x3934bf435e1b98555ff170fde2c4b1ed8116018f1aa953022c2b6f54d4bfaab',
+          data: '0x4c4fb1ab068f6039d5780c68dd0fa2f8742cceb3426d19667778ca7f3518a9',
         },
       ],
       id: /^\d+$/,
@@ -262,7 +262,7 @@ export const mockStarknetSepoliaContractCallResponseSuccess = (): nock.Scope =>
       (_, request: JsonRpcPayload) => ({
         jsonrpc: '2.0',
         id: request['id'],
-        result: '0x10000000000000000000000000000a7fc',
+        result: '0x8',
       }),
       [
         'Content-Type',
