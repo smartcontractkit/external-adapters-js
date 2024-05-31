@@ -6,10 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options |                        Default                         |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------------------------: |
-|           |   STARKNET_RPC_URL    |                           The Starknet RPC URL to use for calls                           | string |         | `https://starknet-sepolia.public.blastapi.io/rpc/v0_7` |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |                        `10000`                         |
+| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |   STARKNET_RPC_URL    |                           The Starknet RPC URL to use for calls                           | string |         |         |
+|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
 
 ---
 
