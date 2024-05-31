@@ -1,4 +1,4 @@
-# STARKNET_GAS-PRICE
+# STARKNET_GAS_PRICE
 
 ![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/starknet-gas-price/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 

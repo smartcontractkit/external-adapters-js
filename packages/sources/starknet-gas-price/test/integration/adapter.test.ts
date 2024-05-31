@@ -64,7 +64,7 @@ describe('execute', () => {
           providerDataRequestedUnixMs: 978347471111, // the mocked date in ms
           providerDataReceivedUnixMs: 978347471111, // the mocked date in ms
         },
-        meta: { adapterName: 'STARKNET_GAS-PRICE', metrics: { feedId: 'N/A' } },
+        meta: { adapterName: 'STARKNET_GAS_PRICE', metrics: { feedId: 'N/A' } },
       }
 
       const data = {}

@@ -3,7 +3,8 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/gasprice'
-import { RpcProvider, num } from 'starknet'
+import { RpcProvider, num, PendingBlock } from 'starknet'
+import { AdapterCustomError } from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('Starknet Gas Price')
 
@@ -58,9 +59,17 @@ export class GasPriceTransport extends SubscriptionTransport<GasPriceTransportTy
     param: RequestParams,
   ): Promise<AdapterResponse<GasPriceTransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
+    let block: PendingBlock
+    try {
+      block = await this.provider.getBlock('pending')
+    } catch (e) {
+      throw new AdapterCustomError({
+        statusCode: 502,
+        message: `RPCProvider GetBlock Failed: ${e}`,
+      })
+    }
 
-    const { l1_gas_price } = await this.provider.getBlock('pending')
-    const result = num.hexToDecimalString(l1_gas_price.price_in_fri)
+    const result = num.hexToDecimalString(block.l1_gas_price.price_in_fri)
 
     return {
       data: {
