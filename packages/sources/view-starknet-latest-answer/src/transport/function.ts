@@ -4,7 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { RpcProvider } from 'starknet'
+import { RpcProvider, num } from 'starknet'
 import { config } from '../config'
 
 const logger = makeLogger('View Starknet Latest Answer')
@@ -91,7 +91,7 @@ export class StarknetLatestAnswerFunctionTransport extends SubscriptionTransport
       })
     }
     // extract field "answer"
-    const answer = res[1]
+    const answer = num.hexToDecimalString(res[1])
 
     return {
       data: {

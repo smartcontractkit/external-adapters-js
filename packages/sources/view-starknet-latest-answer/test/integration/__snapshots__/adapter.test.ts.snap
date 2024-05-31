@@ -43,9 +43,9 @@ exports[`execute function endpoint should return error for invalid input 1`] = `
 exports[`execute function endpoint should return success 1`] = `
 {
   "data": {
-    "result": "0x5f54c90",
+    "result": "99962000",
   },
-  "result": "0x5f54c90",
+  "result": "99962000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
