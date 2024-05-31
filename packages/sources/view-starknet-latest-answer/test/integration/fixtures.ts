@@ -8,22 +8,6 @@ type JsonRpcPayload = {
   jsonrpc: '2.0'
 }
 
-/*
-{
-    "id": 1,
-    "jsonrpc": "2.0",
-    "method": "starknet_call",
-    "params": {
-        "request": {
-            "contract_address": "0x013584125fb2245fab8179e767f2c393f74f7370ddc2748aaa422f846cc760e4",
-            "entry_point_selector": "0x3934bf435e1b98555ff170fde2c4b1ed8116018f1aa953022c2b6f54d4bfaab",
-            "calldata": []
-            },
-        "block_id": "latest"
-    }
-}
-*/
-
 export const mockStarknetSepoliaContractCallResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8545', {})
     .persist()

@@ -79,15 +79,17 @@ export class StarknetLatestAnswerFunctionTransport extends SubscriptionTransport
     }
 
     const providerDataRequestedUnixMs = Date.now()
+    // res: [round_id, answer, block_num, started_at, updated_at]
     const res = await this.provider.callContract(callData)
-    const result = res[1]
+    // extract field "answer"
+    const answer = res[1]
 
     return {
       data: {
-        result,
+        result: answer,
       },
       statusCode: 200,
-      result,
+      result: answer,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
