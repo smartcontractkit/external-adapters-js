@@ -5283,7 +5283,6 @@ __metadata:
     "@types/node": 16.18.96
     nock: 14.0.0-beta.6
     starknet: 6.9.0
-    ts-node: ^10.9.2
     tslib: 2.4.1
     typescript: 5.0.4
   languageName: unknown
@@ -31706,7 +31705,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:10.9.2, ts-node@npm:^10.9.2":
+"ts-node@npm:10.9.2":
   version: 10.9.2
   resolution: "ts-node@npm:10.9.2"
   dependencies:

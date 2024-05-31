@@ -31,7 +31,6 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.18.96",
     "nock": "14.0.0-beta.6",
-    "ts-node": "^10.9.2",
     "typescript": "5.0.4"
   },
   "dependencies": {
