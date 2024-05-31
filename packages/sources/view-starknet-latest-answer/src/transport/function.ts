@@ -79,8 +79,17 @@ export class StarknetLatestAnswerFunctionTransport extends SubscriptionTransport
     }
 
     const providerDataRequestedUnixMs = Date.now()
-    // res: [round_id, answer, block_num, started_at, updated_at]
-    const res = await this.provider.callContract(callData)
+
+    let res
+    try {
+      // res: [round_id, answer, block_num, started_at, updated_at]
+      res = await this.provider.callContract(callData)
+    } catch (e) {
+      throw new AdapterInputError({
+        statusCode: 502,
+        message: `RpcProvider.callContract Failed - ${e}`,
+      })
+    }
     // extract field "answer"
     const answer = res[1]
 

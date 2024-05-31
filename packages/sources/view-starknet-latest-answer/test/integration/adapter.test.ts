@@ -19,6 +19,11 @@ describe('execute', () => {
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    const adapter = (await import('./../../src')).adapter
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
   })
 
   afterAll(async () => {
@@ -29,16 +34,7 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('function endpoint good config', () => {
-    beforeAll(async () => {
-      const adapter = (await import('./../../src')).adapter
-      testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-        testAdapter: {} as TestAdapter<never>,
-      })
-    })
-    afterAll(async () => {
-      await testAdapter.api.close()
-    })
+  describe('function endpoint', () => {
     it('should return success', async () => {
       const data = {
         contract: '0x013584125fb2245fab8179e767f2c393f74f7370ddc2748aaa422f846cc760e4',
@@ -56,26 +52,13 @@ describe('execute', () => {
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
-  })
-
-  describe('function endpoint bad config', () => {
-    beforeAll(async () => {
-      delete process.env.STARKNET_RPC_URL
-
-      const adapter = (await import('./../../src')).adapter
-      testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-        testAdapter: {} as TestAdapter<never>,
-      })
-    })
-    afterAll(async () => {
-      await testAdapter.api.close()
-    })
-    it('should return error for missing RPC url env var', async () => {
+    it("should return error for contract which isn't a chainlink feed", async () => {
       const data = {
-        contract: '0x0228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44',
+        contract: '0x036031daa264c24520b11d93af622c848b2499b66b41d611bac95e13cfca131a',
       }
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })
