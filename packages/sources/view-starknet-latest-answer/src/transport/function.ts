@@ -90,6 +90,14 @@ export class StarknetLatestAnswerFunctionTransport extends SubscriptionTransport
         message: `RpcProvider.callContract Failed - ${e}`,
       })
     }
+
+    if (res === undefined || res.length < 2) {
+      throw new AdapterInputError({
+        statusCode: 502,
+        message: `RpcProvider.callContract returned bad result ${res}`,
+      })
+    }
+
     // extract field "answer"
     const answer = num.hexToDecimalString(res[1])
 
