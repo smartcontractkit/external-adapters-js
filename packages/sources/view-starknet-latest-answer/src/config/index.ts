@@ -4,7 +4,6 @@ export const config = new AdapterConfig({
   STARKNET_RPC_URL: {
     description: 'The Starknet RPC URL to use for calls',
     type: 'string',
-    default: 'https://starknet-sepolia.public.blastapi.io/rpc/v0_7',
   },
   BACKGROUND_EXECUTE_MS: {
     description:

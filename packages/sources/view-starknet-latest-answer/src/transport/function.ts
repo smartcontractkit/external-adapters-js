@@ -5,6 +5,7 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { RpcProvider } from 'starknet'
+import { config } from '../config'
 
 const logger = makeLogger('View Starknet Latest Answer')
 
@@ -56,15 +57,14 @@ export class StarknetLatestAnswerFunctionTransport extends SubscriptionTransport
     param: RequestParams,
   ): Promise<AdapterResponse<StarknetLatestAnswerFunctionTransportTypes['Response']>> {
     const { address } = param
+    const { STARKNET_RPC_URL } = config.settings
 
-    const networkEnvName = 'STARKNET_RPC_URL'
-
-    const rpcUrl = process.env[networkEnvName]
+    const rpcUrl = STARKNET_RPC_URL
 
     if (!rpcUrl) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Missing '${networkEnvName}': '${rpcUrl}' environment variables.`,
+        message: `Missing RPC URL: '${rpcUrl}' environment variables.`,
       })
     }
 
