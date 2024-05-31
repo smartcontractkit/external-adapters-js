@@ -35,16 +35,6 @@ describe('execute', () => {
   })
 
   describe('function endpoint', () => {
-    /*
-// TODO: changing environment variables between tests in jest seems non trivial..
-    it('should return error for missing RPC url env var', async () => {
-      const data = {
-        contract: '0x013584125fb2245fab8179e767f2c393f74f7370ddc2748aaa422f846cc760e4',
-      }
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
-    })
-*/
     it('should return success', async () => {
       const data = {
         contract: '0x013584125fb2245fab8179e767f2c393f74f7370ddc2748aaa422f846cc760e4',
@@ -61,6 +51,14 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
+    })
+    it('should return error for missing RPC url env var', async () => {
+      const data = {
+        contract: '0x0228128e84cdfc51003505dd5733729e57f7d1f7e54da679474e73db4ecaad44',
+      }
+      delete process.env.STARKNET_RPC_URL
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
     })
   })
 })
