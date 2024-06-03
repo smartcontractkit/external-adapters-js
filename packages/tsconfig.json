@@ -588,6 +588,9 @@
       "path": "./sources/view-function-multi-chain"
     },
     {
+      "path": "./sources/view-starknet-latest-answer"
+    },
+    {
       "path": "./sources/wbtc-address-set"
     },
     {
