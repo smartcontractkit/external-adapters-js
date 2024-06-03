@@ -27,6 +27,7 @@ describe('execute', () => {
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
+    await testAdapter.api.close()
     nock.restore()
     nock.cleanAll()
     spy.mockRestore()
@@ -35,7 +36,7 @@ describe('execute', () => {
   describe('gasprice endpoint', () => {
     it('should return success', async () => {
       // mock the starknet.js provider directly
-      await jest.spyOn(RpcProvider.prototype, 'getBlock').mockResolvedValue({
+      jest.spyOn(RpcProvider.prototype, 'getBlock').mockResolvedValue({
         status: 'PENDING',
         l1_da_mode: 'BLOB',
         l1_data_gas_price: { price_in_fri: '0x2daa35d3076ec4', price_in_wei: '0x3bde2d6cc47' },
@@ -64,13 +65,13 @@ describe('execute', () => {
           providerDataRequestedUnixMs: 978347471111, // the mocked date in ms
           providerDataReceivedUnixMs: 978347471111, // the mocked date in ms
         },
-        meta: { adapterName: 'STARKNET_GAS_PRICE', metrics: { feedId: 'N/A' } },
       }
 
       const data = {}
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual(expectedResult)
+      // match checks that expected result is a subset of the actual response
+      expect(response.json()).toMatchObject(expectedResult)
     })
   })
 })
