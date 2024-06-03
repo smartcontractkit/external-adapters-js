@@ -38,7 +38,7 @@ export class GasPriceTransport extends SubscriptionTransport<GasPriceTransportTy
   async handleRequest(param: RequestParams) {
     let response: AdapterResponse<GasPriceTransportTypes['Response']>
     try {
-      response = await this._handleRequest(param)
+      response = await this._handleRequest()
     } catch (e) {
       logger.error(e)
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
@@ -55,9 +55,7 @@ export class GasPriceTransport extends SubscriptionTransport<GasPriceTransportTy
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
-  async _handleRequest(
-    _param: RequestParams,
-  ): Promise<AdapterResponse<GasPriceTransportTypes['Response']>> {
+  async _handleRequest(): Promise<AdapterResponse<GasPriceTransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
     let block: PendingBlock
     try {
