@@ -1,8 +1,8 @@
+import * as nock from 'nock'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as nock from 'nock'
 import { RpcProvider, PendingBlock } from 'starknet'
 
 describe('execute', () => {
