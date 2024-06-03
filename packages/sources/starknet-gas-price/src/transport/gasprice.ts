@@ -56,7 +56,7 @@ export class GasPriceTransport extends SubscriptionTransport<GasPriceTransportTy
   }
 
   async _handleRequest(
-    param: RequestParams,
+    _param: RequestParams,
   ): Promise<AdapterResponse<GasPriceTransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
     let block: PendingBlock
