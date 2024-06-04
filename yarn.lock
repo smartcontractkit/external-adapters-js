@@ -5274,6 +5274,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/starknet-gas-price-adapter@workspace:packages/sources/starknet-gas-price":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/starknet-gas-price-adapter@workspace:packages/sources/starknet-gas-price"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.8
+    "@types/jest": 27.5.2
+    "@types/node": 16.18.96
+    nock: 14.0.0-beta.6
+    starknet: 6.9.0
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/stasis-adapter@workspace:packages/sources/stasis":
   version: 0.0.0-use.local
   resolution: "@chainlink/stasis-adapter@workspace:packages/sources/stasis"

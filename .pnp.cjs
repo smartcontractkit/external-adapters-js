@@ -728,6 +728,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/stader-labs"\
       },\
       {\
+        "name": "@chainlink/starknet-gas-price-adapter",\
+        "reference": "workspace:packages/sources/starknet-gas-price"\
+      },\
+      {\
         "name": "@chainlink/stasis-adapter",\
         "reference": "workspace:packages/sources/stasis"\
       },\
@@ -1032,6 +1036,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
       ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
       ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
+      ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
       ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],\
@@ -8229,6 +8234,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/starknet-gas-price-adapter", [\
+        ["workspace:packages/sources/starknet-gas-price", {\
+          "packageLocation": "./packages/sources/starknet-gas-price/",\
+          "packageDependencies": [\
+            ["@chainlink/starknet-gas-price-adapter", "workspace:packages/sources/starknet-gas-price"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.18.96"],\
+            ["nock", "npm:14.0.0-beta.6"],\
+            ["starknet", "npm:6.9.0"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
