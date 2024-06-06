@@ -49,7 +49,8 @@ describe('execute', () => {
   describe('price endpoint', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'nav',
+        endpoint: 'reserves',
+        fundId: 1,
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

@@ -12,6 +12,12 @@ export const config = new AdapterConfig(
       type: 'number',
       default: 10,
     },
+    RETRY_INTERVAL_MS: {
+      description:
+        'The amount of time (in ms) to wait before sending a new request for getting an updated price.',
+      type: 'number',
+      default: 60000,
+    },
   },
   {
     envDefaultOverrides: {

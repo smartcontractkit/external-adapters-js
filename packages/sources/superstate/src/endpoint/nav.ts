@@ -8,7 +8,7 @@ export const inputParameters = new InputParameters({
   fundId: {
     description: 'Fund id',
     type: 'number',
-    default: 1,
+    required: true,
   },
 })
 
@@ -19,8 +19,8 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'nav',
-  aliases: ['por'],
+  name: 'reserves',
+  aliases: ['por', 'nav'],
   inputParameters,
   transport: new NavTransport(),
 })

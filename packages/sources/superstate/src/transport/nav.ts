@@ -29,7 +29,6 @@ export interface ResponseSchema {
   net_income_expenses: string
 }
 
-const RETRY_INTERVAL_MINUTES = 1
 const TZ = 'America/New_York'
 
 // Custom transport implementation that takes incoming requests, adds them into a SET, and makes requests to DP
@@ -131,10 +130,12 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
           logger.warn(
             `Expected last update - ${expectedDate}, actual ${
               data.net_asset_value_date
-            }. Retry attempt ${retryCount + 1}. Retrying after ${RETRY_INTERVAL_MINUTES} minute(s)`,
+            }. Retry attempt ${retryCount + 1}. Retrying after ${
+              this.settings.RETRY_INTERVAL_MS
+            } ms`,
           )
           retryCount++
-          setTimeout(() => this.execute(fundId, retryCount), RETRY_INTERVAL_MINUTES * 60 * 1000)
+          setTimeout(() => this.execute(fundId, retryCount), this.settings.RETRY_INTERVAL_MS)
           // We don't `return` here and let the value be stored in cache on purpose.
           // This way the EA will respond with the latest value from DP (even though it's not the value that the EA expects),
           // while it tries to get a fresh update.

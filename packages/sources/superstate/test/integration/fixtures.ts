@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { getPreviousNonWeekendDay } from '../../src/transport/utils'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.superstate.co/v1/funds', {
@@ -12,7 +13,7 @@ export const mockResponseSuccess = (): nock.Scope =>
       () => [
         {
           fund_id: 1,
-          net_asset_value_date: '05/06/2024',
+          net_asset_value_date: getPreviousNonWeekendDay('America/New_York'),
           net_asset_value: '10.170643',
           assets_under_management: '88412710.730070366913',
           outstanding_shares: '8692932.268891000000',
