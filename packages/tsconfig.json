@@ -498,6 +498,9 @@
       "path": "./sources/renvm-address-set"
     },
     {
+      "path": "./sources/s3reader"
+    },
+    {
       "path": "./sources/satoshitango"
     },
     {
