@@ -105,6 +105,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
         return {
           balance: new BigNumber(balances[i].toString())
             .shiftedBy(-(18 - token.decimals))
+            .toFixed(0)
             .toString(),
           decimals: token.decimals,
           symbol: token.symbol,
