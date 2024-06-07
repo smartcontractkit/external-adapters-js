@@ -525,6 +525,9 @@
       "path": "./sources/stader-labs/tsconfig.test.json"
     },
     {
+      "path": "./sources/starknet-gas-price/tsconfig.test.json"
+    },
+    {
       "path": "./sources/stasis/tsconfig.test.json"
     },
     {
