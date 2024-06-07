@@ -8076,10 +8076,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/set-token-index-adapter", "workspace:packages/composites/set-token-index"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
             ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
             ["@types/supertest", "npm:2.0.16"],\
+            ["bignumber.js", "npm:9.1.2"],\
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.5.4"],\
             ["supertest", "npm:6.2.4"],\
