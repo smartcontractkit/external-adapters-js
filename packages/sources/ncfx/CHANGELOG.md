@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.5.7
+
+### Patch Changes
+
+- [#3304](https://github.com/smartcontractkit/external-adapters-js/pull/3304) [`ac1e761`](https://github.com/smartcontractkit/external-adapters-js/commit/ac1e761a2dcb98b6728e45d575db366dd40bafdc) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - uppercase base & quote for crypto & forex endpoints
+
 ## 3.5.6
 
 ### Patch Changes

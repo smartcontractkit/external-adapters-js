@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute function endpoint should return error for contract which isn't a chainlink feed 1`] = `
+{
+  "errorMessage": "RpcProvider.callContract Failed - LibraryError: RPC: starknet_call with params {
+  "request": {
+    "contract_address": "0x036031daa264c24520b11d93af622c848b2499b66b41d611bac95e13cfca131a",
+    "entry_point_selector": "0x3934bf435e1b98555ff170fde2c4b1ed8116018f1aa953022c2b6f54d4bfaab",
+    "calldata": []
+  },
+  "block_id": "pending"
+}
+ 
+        -32603: Internal error: {"error":"Invalid message selector"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute function endpoint should return error for invalid input 1`] = `
+{
+  "errorMessage": "RpcProvider.callContract Failed - LibraryError: RPC: starknet_call with params {
+  "request": {
+    "contract_address": "0x013584125fb2245fab8179e767f2c393f74f7370ddc2748aaa422f846cc76",
+    "entry_point_selector": "0x3934bf435e1b98555ff170fde2c4b1ed8116018f1aa953022c2b6f54d4bfaab",
+    "calldata": []
+  },
+  "block_id": "pending"
+}
+ 
+        20: Contract not found: undefined",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute function endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "99962000",
+  },
+  "result": "99962000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
