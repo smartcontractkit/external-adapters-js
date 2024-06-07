@@ -11,6 +11,7 @@ To be functional at least one of the following underyling adapter locations will
 | Required? |              Name               |                     Description                     | Options | Defaults to |
 | :-------: | :-----------------------------: | :-------------------------------------------------: | :-----: | :---------: |
 |           |     `AMBERDATA_ADAPTER_URL`     |    The location of an Amberdata external adapter    |         |             |
+|           | `BLOCKSIZE_CAPITAL_ADAPTER_URL` | The location of a BlocksizeCapital external adapter |         |             |
 |           |   `CFBENCHMARKS_ADAPTER_URL`    |   The location of a CFBenchmarks external adapter   |         |             |
 |           |      `COINAPI_ADAPTER_URL`      |     The location of a CoinAPI external adapter      |         |             |
 |           |     `COINGECKO_ADAPTER_URL`     |    The location of a CoinGecko external adapter     |         |             |
@@ -23,7 +24,6 @@ To be functional at least one of the following underyling adapter locations will
 |           |       `KAIKO_ADAPTER_URL`       |      The location of a Kaiko external adapter       |         |             |
 |           |       `NCFX_ADAPTER_URL`        |       The location of a NCFX external adapter       |         |             |
 |           |      `TIINGO_ADAPTER_URL`       |      The location of a Tiingo external adapter      |         |             |
-|           | `BLOCKSIZE_CAPITAL_ADAPTER_URL` | The location of a BlocksizeCapital external adapter |         |             |
 
 Optionally the default behavior of the composite adapter can be configured
 
