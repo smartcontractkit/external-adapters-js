@@ -6128,8 +6128,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@scure/btc-signer", "npm:1.2.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
+            ["bip32", "npm:4.0.0"],\
+            ["bitcoinjs-lib", "npm:6.1.5"],\
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.5.4"],\
+            ["tiny-secp256k1", "npm:2.2.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -17473,6 +17476,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bip174", "npm:2.1.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.1.1", {\
+          "packageLocation": "./.yarn/cache/bip174-npm-2.1.1-d9fcaf36f9-bc5b99e7d1.zip/node_modules/bip174/",\
+          "packageDependencies": [\
+            ["bip174", "npm:2.1.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["bip32", [\
@@ -17485,6 +17495,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["create-hash", "npm:1.2.0"],\
             ["create-hmac", "npm:1.1.7"],\
             ["tiny-secp256k1", "npm:1.1.6"],\
+            ["typeforce", "npm:1.18.0"],\
+            ["wif", "npm:2.0.6"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:4.0.0", {\
+          "packageLocation": "./.yarn/cache/bip32-npm-4.0.0-88adcd11d0-a36253ac16.zip/node_modules/bip32/",\
+          "packageDependencies": [\
+            ["bip32", "npm:4.0.0"],\
+            ["@noble/hashes", "npm:1.4.0"],\
+            ["@scure/base", "npm:1.1.6"],\
             ["typeforce", "npm:1.18.0"],\
             ["wif", "npm:2.0.6"]\
           ],\
@@ -17555,6 +17576,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typeforce", "npm:1.18.0"],\
             ["varuint-bitcoin", "npm:1.1.2"],\
             ["wif", "npm:2.0.6"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:6.1.5", {\
+          "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.5-eb070871ca-c45580863e.zip/node_modules/bitcoinjs-lib/",\
+          "packageDependencies": [\
+            ["bitcoinjs-lib", "npm:6.1.5"],\
+            ["@noble/hashes", "npm:1.4.0"],\
+            ["bech32", "npm:2.0.0"],\
+            ["bip174", "npm:2.1.1"],\
+            ["bs58check", "npm:3.0.1"],\
+            ["typeforce", "npm:1.18.0"],\
+            ["varuint-bitcoin", "npm:1.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17984,6 +18018,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bs58", "npm:4.0.1"],\
             ["create-hash", "npm:1.2.0"],\
             ["safe-buffer", "npm:5.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:3.0.1", {\
+          "packageLocation": "./.yarn/cache/bs58check-npm-3.0.1-be32851e5e-dbbecc7a09.zip/node_modules/bs58check/",\
+          "packageDependencies": [\
+            ["bs58check", "npm:3.0.1"],\
+            ["@noble/hashes", "npm:1.4.0"],\
+            ["bs58", "npm:5.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -37352,6 +37395,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["node-gyp", "npm:9.2.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.2.3", {\
+          "packageLocation": "./.yarn/cache/tiny-secp256k1-npm-2.2.3-8c5163b5d1-f7a74a1fce.zip/node_modules/tiny-secp256k1/",\
+          "packageDependencies": [\
+            ["tiny-secp256k1", "npm:2.2.3"],\
+            ["uint8array-tools", "npm:0.0.7"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["titleize", [\
@@ -38038,6 +38089,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/typical-npm-5.2.0-d4de46c932-ccaeb151a9.zip/node_modules/typical/",\
           "packageDependencies": [\
             ["typical", "npm:5.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["uint8array-tools", [\
+        ["npm:0.0.7", {\
+          "packageLocation": "./.yarn/cache/uint8array-tools-npm-0.0.7-96ca58a124-6ffc45c7d2.zip/node_modules/uint8array-tools/",\
+          "packageDependencies": [\
+            ["uint8array-tools", "npm:0.0.7"]\
           ],\
           "linkType": "HARD"\
         }]\
