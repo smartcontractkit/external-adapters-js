@@ -525,6 +525,9 @@
       "path": "./sources/stader-labs"
     },
     {
+      "path": "./sources/starknet-gas-price"
+    },
+    {
       "path": "./sources/stasis"
     },
     {
