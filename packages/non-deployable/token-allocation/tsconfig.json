@@ -21,6 +21,7 @@
     { "path": "../../sources/finage" },
     { "path": "../../sources/kaiko" },
     { "path": "../../sources/ncfx" },
-    { "path": "../../sources/tiingo" }
+    { "path": "../../sources/tiingo" },
+    { "path": "../../sources/blocksize-capital" }
   ]
 }

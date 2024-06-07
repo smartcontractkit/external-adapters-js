@@ -51,6 +51,11 @@ export const dataProviderConfig: TokenAllocationTest = {
     providerUrlEnvVar: 'TIINGO_ADAPTER_URL',
     additional: {},
   },
+  blocksizecapital: {
+    providerUrl: 'http://localhost:3010',
+    providerUrlEnvVar: 'BLOCKSIZECAPITAL_ADAPTER_URL',
+    additional: {},
+  },
   coinranking: {
     providerUrlEnvVar: 'COINRANKING_ADAPTER_URL',
     providerUrl: 'http://localhost:3009',
