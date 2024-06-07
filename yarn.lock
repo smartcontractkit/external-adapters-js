@@ -5127,7 +5127,6 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": 0.33.8
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.18.96
