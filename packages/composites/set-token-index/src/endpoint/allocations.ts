@@ -13,9 +13,6 @@ import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
 import BigNumber from 'bignumber.js'
 
-// Required to stop BigNumber.js outputting in scientific exponent notation after ~1e21 scale.
-BigNumber.config({ EXPONENTIAL_AT: 1e9 })
-
 export const supportedEndpoints = ['allocations']
 
 export function getToken(
@@ -109,7 +106,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
           balance: new BigNumber(balances[i].toString())
             .shiftedBy(-(18 - token.decimals))
             .integerValue(BigNumber.ROUND_FLOOR)
-            .toString(),
+            .toString(10),
           decimals: token.decimals,
           symbol: token.symbol,
         }
