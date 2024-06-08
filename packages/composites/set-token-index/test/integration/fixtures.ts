@@ -219,7 +219,7 @@ export const mockDataProviderResponses = (): void => {
       (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
-        result: '0x0000000000000000000000000000000000000000000000000000000000000012',
+        result: '0x0000000000000000000000000000000000000000000000000000000000000018',
       }),
       [
         'Content-Type',
