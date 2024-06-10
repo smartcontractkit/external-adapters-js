@@ -8444,6 +8444,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
+            ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\

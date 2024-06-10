@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@chainlink/amberdata-adapter": "workspace:*",
+    "@chainlink/blocksize-capital-adapter": "workspace:*",
     "@chainlink/cfbenchmarks-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",
     "@chainlink/coingecko-adapter": "workspace:*",
