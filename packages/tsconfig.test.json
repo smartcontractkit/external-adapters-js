@@ -531,6 +531,9 @@
       "path": "./sources/stasis/tsconfig.test.json"
     },
     {
+      "path": "./sources/superstate/tsconfig.test.json"
+    },
+    {
       "path": "./sources/swell-address-list/tsconfig.test.json"
     },
     {

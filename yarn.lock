@@ -5308,6 +5308,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/superstate-adapter@workspace:packages/sources/superstate":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/superstate-adapter@workspace:packages/sources/superstate"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.33.8
+    "@types/jest": 27.5.2
+    "@types/node": 16.18.96
+    "@types/node-schedule": 2.1.7
+    date-fns: 3.6.0
+    date-fns-tz: 3.1.3
+    nock: 13.5.4
+    node-schedule: 2.1.1
+    tslib: 2.4.1
+    typescript: 5.0.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/swell-address-list-adapter@workspace:*, @chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list"
@@ -11388,6 +11405,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node-schedule@npm:2.1.7":
+  version: 2.1.7
+  resolution: "@types/node-schedule@npm:2.1.7"
+  dependencies:
+    "@types/node": "*"
+  checksum: 663dc7aed859e819f39235cbaadf74ff51b27c82c213d456551d2c69804385c272f91127782bce7fc72fd1641f040ee67f0afe153eb53ae5455e5411376ef5a7
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:>=10, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
   version: 18.8.3
   resolution: "@types/node@npm:18.8.3"
@@ -15321,6 +15347,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cron-parser@npm:^4.2.0":
+  version: 4.9.0
+  resolution: "cron-parser@npm:4.9.0"
+  dependencies:
+    luxon: ^3.2.1
+  checksum: 3cf248fc5cae6c19ec7124962b1cd84b76f02b9bc4f58976b3bd07624db3ef10aaf1548efcc2d2dcdab0dad4f12029d640a55ecce05ea5e1596af9db585502cf
+  languageName: node
+  linkType: hard
+
 "cross-fetch@npm:^3.0.2, cross-fetch@npm:^3.1.4":
   version: 3.1.5
   resolution: "cross-fetch@npm:3.1.5"
@@ -15575,6 +15610,22 @@ __metadata:
     interface-datastore: ^6.0.2
     uint8arrays: ^3.0.0
   checksum: 57259df7cea882cf519576efb902a37bd62dfa457977d3d4614a523f9ba049d6675ff12456b1af3b38825b4e772a5b9a80d51c687402c9f54898dee1775bba56
+  languageName: node
+  linkType: hard
+
+"date-fns-tz@npm:3.1.3":
+  version: 3.1.3
+  resolution: "date-fns-tz@npm:3.1.3"
+  peerDependencies:
+    date-fns: ^3.0.0
+  checksum: b184841dddf825adcfecbe0812546e4c7332d79eb2e898ca746cb9081e6efdbfd1af4804caafb64d90da02e57025f8042e2fc521bdf86bffbae4a4e5b5040acc
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:3.6.0":
+  version: 3.6.0
+  resolution: "date-fns@npm:3.6.0"
+  checksum: 0daa1e9a436cf99f9f2ae9232b55e11f3dd46132bee10987164f3eebd29f245b2e066d7d7db40782627411ecf18551d8f4c9fcdf2226e48bb66545407d448ab7
   languageName: node
   linkType: hard
 
@@ -24459,6 +24510,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"long-timeout@npm:0.1.1":
+  version: 0.1.1
+  resolution: "long-timeout@npm:0.1.1"
+  checksum: 48668e5362cb74c4b77a6b833d59f149b9bb9e99c5a5097609807e2597cd0920613b2a42b89bd0870848298be3691064d95599a04ae010023d07dba39932afa7
+  languageName: node
+  linkType: hard
+
 "long@npm:*, long@npm:^5.0.0":
   version: 5.2.0
   resolution: "long@npm:5.2.0"
@@ -24614,6 +24672,13 @@ __metadata:
   version: 1.28.1
   resolution: "luxon@npm:1.28.1"
   checksum: 2c62999adea79645fd1e931d685f61aeb33eda7f39fbf79b84261a233b62f9590f48336654ee9efd405848bd9e13dc7fe087c701b7126187201a88998dc68b04
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^3.2.1":
+  version: 3.4.4
+  resolution: "luxon@npm:3.4.4"
+  checksum: 36c1f99c4796ee4bfddf7dc94fa87815add43ebc44c8934c924946260a58512f0fd2743a629302885df7f35ccbd2d13f178c15df046d0e3b6eb71db178f1c60c
   languageName: node
   linkType: hard
 
@@ -26214,6 +26279,17 @@ __metadata:
   version: 2.0.10
   resolution: "node-releases@npm:2.0.10"
   checksum: d784ecde25696a15d449c4433077f5cce620ed30a1656c4abf31282bfc691a70d9618bae6868d247a67914d1be5cc4fde22f65a05f4398cdfb92e0fc83cadfbc
+  languageName: node
+  linkType: hard
+
+"node-schedule@npm:2.1.1":
+  version: 2.1.1
+  resolution: "node-schedule@npm:2.1.1"
+  dependencies:
+    cron-parser: ^4.2.0
+    long-timeout: 0.1.1
+    sorted-array-functions: ^1.3.0
+  checksum: 6a8822b16fb024277c42efe710bdb35b6f1f6ab3a2f826283640511247d693f34ebd5ddf2863cd91609e7f323574e36c81cd2084dc204fa521f931380f0f963f
   languageName: node
   linkType: hard
 
@@ -30321,6 +30397,13 @@ __metadata:
     arrify: ^2.0.1
     dot-prop: ^5.0.0
   checksum: 0fecfcd3a9cf6f9a9078b797458cd953a53d670dae25e397d1816b1fa7f241c11e1983735386981e8252bf69f300d3e0fae6c499cfbe415541e86f262ea8a223
+  languageName: node
+  linkType: hard
+
+"sorted-array-functions@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "sorted-array-functions@npm:1.3.0"
+  checksum: 673fd39ca3b6c92644d4483eac1700bb7d7555713a536822a7522a35af559bef3e72f10d89356b75042dc394cd7c2e2ab6f40024385218ec3c85bb7335032857
   languageName: node
   linkType: hard
 
