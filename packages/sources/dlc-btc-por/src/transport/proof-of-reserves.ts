@@ -5,15 +5,17 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { ethers } from 'ethers'
 import { hex } from '@scure/base'
-import { p2tr, p2tr_ns, taprootTweakPubkey, TAPROOT_UNSPENDABLE_KEY } from '@scure/btc-signer'
 import { BaseEndpointTypes } from '../endpoint/proof-of-reserves'
 import abi from '../config/dlc-manager-abi.json'
 import {
-  BitcoinNetwork,
   BitcoinTransaction,
-  BitcoinTransactionVectorOutput,
+  createTaprootMultisigPayment,
   FUNDED_STATUS,
   getBitcoinNetwork,
+  getClosingTransactionInputFromFundingTransaction,
+  getDerivedPublicKey,
+  getUnspendableKeyCommittedToUUID,
+  matchScripts,
   RawVault,
 } from './utils'
 
@@ -41,6 +43,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     this.dlcManagerContract = new ethers.Contract(DLC_CONTRACT, abi, this.provider)
     this.requester = dependencies.requester
   }
+
   async backgroundHandler(context: EndpointContext<TransportTypes>) {
     await this.handleRequest()
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
@@ -72,8 +75,11 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     // Get funded vault data.
     const vaultData: RawVault[] = await this.getAllFundedDLCs()
 
-    // Get the Attestor Public Key
-    const attestorPublicKey = await this.dlcManagerContract.attestorGroupPubKey()
+    // Get the Attestor Public Key from the Attestor Group
+    const attestorPublicKey = getDerivedPublicKey(
+      await this.dlcManagerContract.attestorGroupPubKey(),
+      getBitcoinNetwork(this.settings.BITCOIN_NETWORK),
+    )
 
     let totalPoR = 0
     const concurrencyGroupSize = this.settings.BITCOIN_RPC_GROUP_SIZE || vaultData.length
@@ -139,7 +145,10 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     return fundedVaults
   }
 
-  async verifyVaultDeposit(vault: RawVault, attestorPublicKey: string) {
+  async verifyVaultDeposit(vault: RawVault, attestorPublicKey: Buffer) {
+    if (!vault.fundingTxId || !vault.taprootPubKey || !vault.valueLocked || !vault.uuid) {
+      return false
+    }
     // Get the bitcoin transaction
     const fundingTransaction = await this.fetchFundingTransaction(vault.fundingTxId)
 
@@ -149,36 +158,33 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     }
 
     // Get the Closing Transaction Input from the Funding Transaction by the locked Bitcoin value
-    const closingTransactionInput = this.getClosingTransactionInputFromFundingTransaction(
+    const closingTransactionInput = getClosingTransactionInputFromFundingTransaction(
       fundingTransaction,
       vault.valueLocked.toNumber(),
     )
 
     // Get the Bitcoin network object
-    const bitCoinNetwork = getBitcoinNetwork(this.settings.BITCOIN_NETWORK)
+    const bitcoinNetwork = getBitcoinNetwork(this.settings.BITCOIN_NETWORK)
 
-    // Create two MultiSig Transactions, because the User and Attestor can sign in any order
-    // Create the MultiSig Transaction A
-    const multisigTransactionA = this.createMultiSigTransaction(
-      vault.taprootPubKey,
-      attestorPublicKey,
-      vault.uuid,
-      bitCoinNetwork,
+    const unspendableKeyCommittedToUUID = getDerivedPublicKey(
+      getUnspendableKeyCommittedToUUID(vault.uuid, bitcoinNetwork),
+      bitcoinNetwork,
     )
 
-    // Create the MultiSig Transaction B
-    const multisigTransactionB = this.createMultiSigTransaction(
+    const multisigTransaction = createTaprootMultisigPayment(
+      unspendableKeyCommittedToUUID,
       attestorPublicKey,
-      vault.taprootPubKey,
-      vault.uuid,
-      bitCoinNetwork,
+      Buffer.from(vault.taprootPubKey, 'hex'),
+      bitcoinNetwork,
     )
 
     // Verify that the Funding Transaction's Output Script matches the expected MultiSig Script
-    return this.matchScripts(
-      [multisigTransactionA.script, multisigTransactionB.script],
+    const acceptedScript = matchScripts(
+      [multisigTransaction.script],
       hex.decode(closingTransactionInput.scriptPubKey.hex),
     )
+
+    return acceptedScript
   }
 
   async fetchFundingTransaction(txId: string): Promise<BitcoinTransaction> {
@@ -196,50 +202,6 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       requestConfig,
     )
     return response.data.result
-  }
-
-  getClosingTransactionInputFromFundingTransaction(
-    fundingTransaction: BitcoinTransaction,
-    bitcoinValue: number,
-  ): BitcoinTransactionVectorOutput {
-    const closingTransactionInput = fundingTransaction.vout.find(
-      // bitcoinValue in the vault is represented in satoshis, convert the transaction value to compare
-      (output) => output.value * 10 ** 8 === bitcoinValue,
-    )
-    if (!closingTransactionInput) {
-      throw new Error('Could not find Closing Transaction Input.')
-    }
-    return closingTransactionInput
-  }
-
-  createMultiSigTransaction(
-    publicKeyA: string,
-    publicKeyB: string,
-    vaultUUID: string,
-    bitcoinNetwork: BitcoinNetwork,
-  ) {
-    // Tweak the unspendable key with a unique vault UUID
-    const tweakedUnspendableTaprootKey = taprootTweakPubkey(
-      TAPROOT_UNSPENDABLE_KEY,
-      Buffer.from(vaultUUID),
-    )[0]
-
-    // Create a 2-of-2 multisig script
-    const multisigPayment = p2tr_ns(2, [hex.decode(publicKeyA), hex.decode(publicKeyB)])
-    // Construct a taproot transaction using tweaked unspendable key and the multisig output
-    const multisigTransaction = p2tr(tweakedUnspendableTaprootKey, multisigPayment, bitcoinNetwork)
-    // Store the tweaked key for unblocking the output
-    multisigTransaction.tapInternalKey = tweakedUnspendableTaprootKey
-
-    return multisigTransaction
-  }
-
-  matchScripts(multisigScripts: Uint8Array[], outputScript: Uint8Array): boolean {
-    return multisigScripts.some(
-      (multisigScript) =>
-        outputScript.length === multisigScript.length &&
-        outputScript.every((value, index) => value === multisigScript[index]),
-    )
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: TransportTypes['Settings']): number {
