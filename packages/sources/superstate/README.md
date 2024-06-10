@@ -6,10 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name      |                    Description                    |  Type  | Options |            Default             |
-| :-------: | :-----------: | :-----------------------------------------------: | :----: | :-----: | :----------------------------: |
-|    ✅     | API_ENDPOINT  |          An API endpoint for Superstate           | string |         | `https://api.superstate.co/v1` |
-|    ✅     | LOOKBACK_DAYS | The number of days of historical data to retrieve | number |         |              `10`              |
+| Required? |       Name        |                                          Description                                          |  Type  | Options |            Default             |
+| :-------: | :---------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
+|           |   API_ENDPOINT    |                                An API endpoint for Superstate                                 | string |         | `https://api.superstate.co/v1` |
+|           |   LOOKBACK_DAYS   |                       The number of days of historical data to retrieve                       | number |         |              `10`              |
+|           | RETRY_INTERVAL_MS | The amount of time (in ms) to wait before sending a new request for getting an updated price. | number |         |            `60000`             |
 
 ---
 
@@ -21,19 +22,19 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                  Options                   | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [nav](#nav-endpoint), [por](#nav-endpoint) |  `nav`  |
+| Required? |   Name   |     Description     |  Type  |                                       Options                                        |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [nav](#reserves-endpoint), [por](#reserves-endpoint), [reserves](#reserves-endpoint) | `reserves` |
 
-## Nav Endpoint
+## Reserves Endpoint
 
-Supported names for this endpoint are: `nav`, `por`.
+Supported names for this endpoint are: `nav`, `por`, `reserves`.
 
 ### Input Params
 
 | Required? |  Name  | Aliases | Description |  Type  | Options | Default | Depends On | Not Valid With |
 | :-------: | :----: | :-----: | :---------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           | fundId |         |   Fund id   | number |         |   `1`   |            |                |
+|    ✅     | fundId |         |   Fund id   | number |         |         |            |                |
 
 ### Example
 
