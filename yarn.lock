@@ -2733,7 +2733,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital":
+"@chainlink/blocksize-capital-adapter@workspace:*, @chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital":
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
   dependencies:
@@ -5455,6 +5455,7 @@ __metadata:
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/non-deployable/token-allocation"
   dependencies:
     "@chainlink/amberdata-adapter": "workspace:*"
+    "@chainlink/blocksize-capital-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
     "@chainlink/coingecko-adapter": "workspace:*"

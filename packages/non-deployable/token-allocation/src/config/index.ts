@@ -18,6 +18,7 @@ import { adapter as Finage } from '@chainlink/finage-adapter'
 import { adapter as Kaiko } from '@chainlink/kaiko-adapter'
 import { adapter as NCFX } from '@chainlink/ncfx-adapter'
 import { adapter as Tiingo } from '@chainlink/tiingo-adapter'
+import { adapter as BlocksizeCapital } from '@chainlink/blocksize-capital-adapter'
 import { Config, SourceRequestOptions } from '../types'
 
 // List of v2 adapters
@@ -40,6 +41,7 @@ export const adaptersV3: PriceAdapter<any>[] = [
   Kaiko,
   NCFX,
   Tiingo,
+  BlocksizeCapital,
 ]
 
 export const DEFAULT_TOKEN_DECIMALS = 18
