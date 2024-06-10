@@ -736,6 +736,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/stasis"\
       },\
       {\
+        "name": "@chainlink/superstate-adapter",\
+        "reference": "workspace:packages/sources/superstate"\
+      },\
+      {\
         "name": "@chainlink/swell-address-list-adapter",\
         "reference": "workspace:packages/sources/swell-address-list"\
       },\
@@ -1038,6 +1042,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
       ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
+      ["@chainlink/superstate-adapter", ["workspace:packages/sources/superstate"]],\
       ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],\
       ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
@@ -8278,6 +8283,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/superstate-adapter", [\
+        ["workspace:packages/sources/superstate", {\
+          "packageLocation": "./packages/sources/superstate/",\
+          "packageDependencies": [\
+            ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
+            ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.18.96"],\
+            ["@types/node-schedule", "npm:2.1.7"],\
+            ["date-fns", "npm:3.6.0"],\
+            ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
+            ["nock", "npm:13.5.4"],\
+            ["node-schedule", "npm:2.1.1"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/swell-address-list-adapter", [\
         ["workspace:packages/sources/swell-address-list", {\
           "packageLocation": "./packages/sources/swell-address-list/",\
@@ -15056,6 +15080,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/node-schedule", [\
+        ["npm:2.1.7", {\
+          "packageLocation": "./.yarn/cache/@types-node-schedule-npm-2.1.7-4eb8bbbaaf-663dc7aed8.zip/node_modules/@types/node-schedule/",\
+          "packageDependencies": [\
+            ["@types/node-schedule", "npm:2.1.7"],\
+            ["@types/node", "npm:18.8.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/normalize-package-data", [\
         ["npm:2.4.1", {\
           "packageLocation": "./.yarn/cache/@types-normalize-package-data-npm-2.4.1-c31c56ae6a-e87bccbf11.zip/node_modules/@types/normalize-package-data/",\
@@ -19609,6 +19643,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["cron-parser", [\
+        ["npm:4.9.0", {\
+          "packageLocation": "./.yarn/cache/cron-parser-npm-4.9.0-2a573f98e9-3cf248fc5c.zip/node_modules/cron-parser/",\
+          "packageDependencies": [\
+            ["cron-parser", "npm:4.9.0"],\
+            ["luxon", "npm:3.4.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["cross-fetch", [\
         ["npm:3.1.5", {\
           "packageLocation": "./.yarn/cache/cross-fetch-npm-3.1.5-e414995db9-f6b8c6ee3e.zip/node_modules/cross-fetch/",\
@@ -19891,6 +19935,37 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["err-code", "npm:3.0.1"],\
             ["interface-datastore", "npm:6.1.1"],\
             ["uint8arrays", "npm:3.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["date-fns", [\
+        ["npm:3.6.0", {\
+          "packageLocation": "./.yarn/cache/date-fns-npm-3.6.0-e59d980978-0daa1e9a43.zip/node_modules/date-fns/",\
+          "packageDependencies": [\
+            ["date-fns", "npm:3.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["date-fns-tz", [\
+        ["npm:3.1.3", {\
+          "packageLocation": "./.yarn/cache/date-fns-tz-npm-3.1.3-2de4b5d2df-b184841ddd.zip/node_modules/date-fns-tz/",\
+          "packageDependencies": [\
+            ["date-fns-tz", "npm:3.1.3"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3", {\
+          "packageLocation": "./.yarn/__virtual__/date-fns-tz-virtual-c29f804870/0/cache/date-fns-tz-npm-3.1.3-2de4b5d2df-b184841ddd.zip/node_modules/date-fns-tz/",\
+          "packageDependencies": [\
+            ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
+            ["@types/date-fns", null],\
+            ["date-fns", "npm:3.6.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/date-fns",\
+            "date-fns"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -29680,6 +29755,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["long-timeout", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/cache/long-timeout-npm-0.1.1-229e1d81ad-48668e5362.zip/node_modules/long-timeout/",\
+          "packageDependencies": [\
+            ["long-timeout", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["loose-envify", [\
         ["npm:1.4.0", {\
           "packageLocation": "./.yarn/cache/loose-envify-npm-1.4.0-6307b72ccf-6517e24e0c.zip/node_modules/loose-envify/",\
@@ -29831,6 +29915,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/luxon-npm-1.28.1-0f675125b8-2c62999ade.zip/node_modules/luxon/",\
           "packageDependencies": [\
             ["luxon", "npm:1.28.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:3.4.4", {\
+          "packageLocation": "./.yarn/cache/luxon-npm-3.4.4-c93f95dde8-36c1f99c47.zip/node_modules/luxon/",\
+          "packageDependencies": [\
+            ["luxon", "npm:3.4.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -31624,6 +31715,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/node-releases-npm-2.0.14-d39047cad8-59443a2f77.zip/node_modules/node-releases/",\
           "packageDependencies": [\
             ["node-releases", "npm:2.0.14"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["node-schedule", [\
+        ["npm:2.1.1", {\
+          "packageLocation": "./.yarn/cache/node-schedule-npm-2.1.1-749a9bde63-6a8822b16f.zip/node_modules/node-schedule/",\
+          "packageDependencies": [\
+            ["node-schedule", "npm:2.1.1"],\
+            ["cron-parser", "npm:4.9.0"],\
+            ["long-timeout", "npm:0.1.1"],\
+            ["sorted-array-functions", "npm:1.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -36056,6 +36159,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sort-on", "npm:4.1.1"],\
             ["arrify", "npm:2.0.1"],\
             ["dot-prop", "npm:5.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["sorted-array-functions", [\
+        ["npm:1.3.0", {\
+          "packageLocation": "./.yarn/cache/sorted-array-functions-npm-1.3.0-19f7959640-673fd39ca3.zip/node_modules/sorted-array-functions/",\
+          "packageDependencies": [\
+            ["sorted-array-functions", "npm:1.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\

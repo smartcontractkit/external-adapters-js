@@ -1,0 +1,15 @@
+{
+  "requests": [
+    {
+      "fundId": 1
+    },
+    {
+      "endpoint": "nav",
+      "fundId": 1
+    },
+    {
+      "endpoint": "por",
+      "fundId": 1
+    }
+  ]
+}

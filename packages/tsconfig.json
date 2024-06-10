@@ -531,6 +531,9 @@
       "path": "./sources/stasis"
     },
     {
+      "path": "./sources/superstate"
+    },
+    {
       "path": "./sources/swell-address-list"
     },
     {
