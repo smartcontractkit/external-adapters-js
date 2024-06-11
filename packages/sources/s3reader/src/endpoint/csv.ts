@@ -18,23 +18,35 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'The path of the file stored in S3',
     },
-    row: {
+    headerRow: {
+      required: true,
+      type: 'number',
+      description: 'The 1-indexed row of the CSV file that contains the column headers',
+    },
+    matcherField: {
+      required: true,
+      type: 'string',
+      description: 'The column field to compare with the matcherValue',
+    },
+    matcherValue: {
+      required: true,
+      type: 'string',
+      description: 'The value to match with matcherField',
+    },
+    resultField: {
       required: true,
       type: 'string',
       description: 'The row of the CSV file to query',
-    },
-    column: {
-      required: true,
-      type: 'string',
-      description: 'The column of the row in the CSV file to return',
     },
   },
   [
     {
       bucket: 's3_bucket',
       key: 'path/to/file.csv',
-      row: '100',
-      column: 'AA',
+      headerRow: 2,
+      matcherField: 'matcherField',
+      matcherValue: 'value',
+      resultField: 'resultField',
     },
   ],
 )

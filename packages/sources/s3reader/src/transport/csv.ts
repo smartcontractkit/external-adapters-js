@@ -5,7 +5,8 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { sleep, AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client } from '@aws-sdk/client-s3'
+import { getFileFromS3 } from './utils'
 import { parse } from 'csv-parse/sync'
 
 const logger = makeLogger('S3PollerTransport')
@@ -58,11 +59,10 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
-    const { bucket, key, row, column } = param
+    const { bucket, key, headerRow, resultField, matcherField, matcherValue } = param
     const providerDataRequestedUnixMs = Date.now()
-
-    const csvFileAsStr = await this.getFileFromS3(bucket, key)
-    const answer = this.parseCSV(csvFileAsStr, row, column)
+    const csvFileAsStr = await getFileFromS3(this.s3Client, bucket, key)
+    const answer = this.parseCSV(csvFileAsStr, headerRow, matcherField, matcherValue, resultField)
 
     return {
       result: answer,
@@ -78,47 +78,33 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     }
   }
 
-  async getFileFromS3(bucket: string, key: string): Promise<string> {
-    const command = new GetObjectCommand({
-      Bucket: bucket,
-      Key: key,
-    })
-
-    const response = await this.s3Client.send(command)
-    if (!response.Body) {
-      throw new Error('S3 response is missing a body')
+  // csvFileAsStr: CSV file as string as received from S3
+  // headerRow: 1-indexed row of the CSV file to use as the header row
+  // matcherField: field to match with `matcherValue` to find the answer row
+  // matcherValue: value of field `matcherField` used to find the answer row
+  // resultField: header field containing the answer in matcher row
+  parseCSV(
+    csvFileAsStr: string,
+    headerRow: number,
+    matcherField: string,
+    matcherValue: string,
+    resultField: string,
+  ): number {
+    // from_line is 1-indexed
+    // columns: true sets first line as object fields rather than 2d arrays
+    const parser = parse(csvFileAsStr, { columns: true, from_line: headerRow })
+    if (!(resultField in parser[0])) {
+      throw new Error(`CSV file does not contain column header ${resultField}`)
     }
-    const csvContentsStr = await response.Body.transformToString()
-    return csvContentsStr
-  }
-
-  // A to Z, AA to AZ, BA to BZ, AAA to AAZ, etc.
-  columnToIndex(column: string): number {
-    const length = column.length
-    let index = 0
-    for (let i = 0; i < length; i++) {
-      index += column.charCodeAt(i) - 'A'.charCodeAt(0) + (length - i - 1) * 26
-    }
-    console.log(`column = ${column}, index = ${index}`)
-    return index
-  }
-
-  parseCSV(csvFileAsStr: string, row: string, column: string): number {
-    //  0-indexed whereas csv rows are 1 indexed
-    const rowIndex = Number(row) - 1
-    const columnIndex = this.columnToIndex(column.toUpperCase())
-
-    const parser = parse(csvFileAsStr, { columns: false })
-    console.log(parser)
-    if (parser.length < rowIndex) {
-      throw new Error(`CSV file contains less than ${row} rows`)
-    }
-    if (parser[rowIndex].length < columnIndex) {
-      throw new Error(`CSV row ${row} contains less than ${column} columns`)
+    if (!(matcherField in parser[0])) {
+      throw new Error(`CSV file does not contain column header ${matcherField}`)
     }
 
-    const value = parser[rowIndex][columnIndex]
-    return value
+    const row = parser.find((row: { [x: string]: string }) => row[matcherField] == matcherValue)
+    if (!row) {
+      throw new Error(`CSV file does not contain row where ${matcherField} == ${matcherValue}`)
+    }
+    return row[resultField]
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
