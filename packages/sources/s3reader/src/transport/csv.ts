@@ -93,13 +93,16 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     // from_line is 1-indexed
     // columns: true sets first line as object fields rather than 2d arrays
     const parser = parse(csvFileAsStr, { columns: true, from_line: headerRow })
-    if (!(resultField in parser[0])) {
-      throw new Error(`CSV file does not contain column header ${resultField}`)
-    }
+
+    // validate CSV contains headers matcherField and resultField
     if (!(matcherField in parser[0])) {
       throw new Error(`CSV file does not contain column header ${matcherField}`)
     }
+    if (!(resultField in parser[0])) {
+      throw new Error(`CSV file does not contain column header ${resultField}`)
+    }
 
+    // find correct row using matcher
     const row = parser.find((row: { [x: string]: string }) => row[matcherField] == matcherValue)
     if (!row) {
       throw new Error(`CSV file does not contain row where ${matcherField} == ${matcherValue}`)
