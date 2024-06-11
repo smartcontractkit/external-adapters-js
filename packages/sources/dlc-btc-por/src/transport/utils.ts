@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { BIP32Factory } from 'bip32'
-import * as ellipticCurveCryptography from 'tiny-secp256k1'
+import * as ellipticCurveCryptography from '@bitcoinerlab/secp256k1'
 import { Network } from 'bitcoinjs-lib'
 import { p2tr, p2tr_ns, P2TROut } from '@scure/btc-signer'
 

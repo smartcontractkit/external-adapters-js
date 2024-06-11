@@ -4889,6 +4889,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@bitcoinerlab/secp256k1", [\
+        ["npm:1.1.1", {\
+          "packageLocation": "./.yarn/cache/@bitcoinerlab-secp256k1-npm-1.1.1-eaf2ba4c7c-01f23cb055.zip/node_modules/@bitcoinerlab/secp256k1/",\
+          "packageDependencies": [\
+            ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
+            ["@noble/hashes", "npm:1.4.0"],\
+            ["@noble/secp256k1", "npm:1.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@cardano-ogmios/client", [\
         ["npm:5.6.0", {\
           "packageLocation": "./.yarn/cache/@cardano-ogmios-client-npm-5.6.0-e3f0ec5f2b-4d15f7a1c6.zip/node_modules/@cardano-ogmios/client/",\
@@ -6128,6 +6139,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dlc-btc-por/",\
           "packageDependencies": [\
             ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
+            ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
             ["@scure/base", "npm:1.1.6"],\
             ["@scure/btc-signer", "npm:1.2.2"],\
@@ -6137,7 +6149,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bitcoinjs-lib", "npm:6.1.5"],\
             ["ethers", "npm:5.7.2"],\
             ["nock", "npm:13.5.4"],\
-            ["tiny-secp256k1", "npm:2.2.3"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
@@ -37509,14 +37520,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["node-gyp", "npm:9.2.0"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:2.2.3", {\
-          "packageLocation": "./.yarn/cache/tiny-secp256k1-npm-2.2.3-8c5163b5d1-f7a74a1fce.zip/node_modules/tiny-secp256k1/",\
-          "packageDependencies": [\
-            ["tiny-secp256k1", "npm:2.2.3"],\
-            ["uint8array-tools", "npm:0.0.7"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["titleize", [\
@@ -38203,15 +38206,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/typical-npm-5.2.0-d4de46c932-ccaeb151a9.zip/node_modules/typical/",\
           "packageDependencies": [\
             ["typical", "npm:5.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["uint8array-tools", [\
-        ["npm:0.0.7", {\
-          "packageLocation": "./.yarn/cache/uint8array-tools-npm-0.0.7-96ca58a124-6ffc45c7d2.zip/node_modules/uint8array-tools/",\
-          "packageDependencies": [\
-            ["uint8array-tools", "npm:0.0.7"]\
           ],\
           "linkType": "HARD"\
         }]\
