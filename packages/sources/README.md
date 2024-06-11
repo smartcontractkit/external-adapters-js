@@ -141,6 +141,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [stader-labs](./stader-labs/README.md)
 - [starknet-gas-price](./starknet-gas-price/README.md)
 - [stasis](./stasis/README.md)
+- [superstate](./superstate/README.md)
 - [swell-address-list](./swell-address-list/README.md)
 - [synthetix-debt-pool](./synthetix-debt-pool/README.md)
 - [taapi](./taapi/README.md)

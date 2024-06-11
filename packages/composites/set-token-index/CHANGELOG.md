@@ -1,5 +1,27 @@
 # @chainlink/set-token-index-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#3315](https://github.com/smartcontractkit/external-adapters-js/pull/3315) [`c4c768f`](https://github.com/smartcontractkit/external-adapters-js/commit/c4c768fd3f8e9d6683e1e580bbce0ba9d5cdee8a) Thanks [@cawthorne](https://github.com/cawthorne)! - Critical fix to return allocation balances in the underlyng tokens decimal precision, rather than always 18 decimals.
+
+  The on-chain adapter contract e.g. ethereum:0x78733fa5e70e3ab61dc49d93921b289e4b667093, returns token allocations in a normalised 18 decimal format,
+  even for non 18 decimal format tokens.
+
+  This change makes the EA now handle this appropriately.
+
+  Previously it would make non 18 decimal tokens report USD balances which were shifted by multiple order of magnitudes 10^(18-tokenDecimals).
+
+### Minor Changes
+
+- [#3319](https://github.com/smartcontractkit/external-adapters-js/pull/3319) [`b401174`](https://github.com/smartcontractkit/external-adapters-js/commit/b40117404267dd9b5533d9cd9788f37386a0fa16) Thanks [@cawthorne](https://github.com/cawthorne)! - Use floor rounding, and handle tokens with decimals greater than 18.
+
+### Patch Changes
+
+- Updated dependencies [[`4607cf6`](https://github.com/smartcontractkit/external-adapters-js/commit/4607cf6ff0804da16512f4145291a485e6d500bf)]:
+  - @chainlink/token-allocation-adapter@1.12.0
+
 ## 2.0.72
 
 ### Patch Changes
