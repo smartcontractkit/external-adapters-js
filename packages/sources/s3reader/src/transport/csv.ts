@@ -90,12 +90,21 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     matcherValue: string,
     resultColumn: string,
   ): number {
-    // from_line is 1-indexed
-    // columns: true sets first line as object fields rather than 2d arrays
-    const parsed: Record<string, string>[] = parse(csvFileAsStr, {
-      columns: true,
-      from_line: headerRow,
-    })
+    let parsed: Record<string, string>[]
+    try {
+      // from_line is 1-indexed
+      // columns: true sets first line as object fields rather than 2d arrays
+      parsed = parse(csvFileAsStr, {
+        columns: true,
+        from_line: headerRow,
+      })
+    } catch (error) {
+      throw new Error(`Error parsing CSV file: ${error}`)
+    }
+
+    if (parsed.length === 0) {
+      throw new Error('CSV file is empty')
+    }
 
     const parsedHeaderRow = parsed[0]
     // validate CSV contains headers matcherColumn and resultColumn

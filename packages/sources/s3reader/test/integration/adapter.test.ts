@@ -11,18 +11,54 @@ jest.mock('@aws-sdk/client-s3', () => {
     S3Client: jest.fn().mockImplementation(() => {
       return {
         send: jest.fn().mockImplementation(async (command: GetObjectCommand) => {
-          if (command.input.Bucket != 's3_bucket') {
-            throw new Error('Error: The specified bucket does not exist.')
-          }
-          if (command.input.Key != 'correct/path/file.csv') {
+          if (command.input.Bucket == 's3_bucket') {
+            if (command.input.Key == 'correct/path/file.csv') {
+              return {
+                Body: {
+                  transformToString: () =>
+                    'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
+                },
+              }
+            }
+
+            if (command.input.Key == 'correct/path/invalid.csv') {
+              return {
+                Body: {
+                  transformToString: () => '#invalidCSV"',
+                },
+              }
+            }
+
+            if (command.input.Key == 'correct/path/empty.csv') {
+              return {
+                Body: {
+                  transformToString: () => '',
+                },
+              }
+            }
+
+            if (command.input.Key == 'correct/path/single-header.csv') {
+              return {
+                Body: {
+                  transformToString: () =>
+                    'Name,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
+                },
+              }
+            }
+
+            if (command.input.Key == 'correct/path/multiple-matches.csv') {
+              return {
+                Body: {
+                  transformToString: () =>
+                    'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowOne,456,Other1\nRowOne,789,Other1',
+                },
+              }
+            }
+
             throw new Error('Error: The specified key does not exist.')
           }
-          return {
-            Body: {
-              transformToString: () =>
-                'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
-            },
-          }
+
+          throw new Error('Error: The specified bucket does not exist.')
         }),
       }
     }),
@@ -153,6 +189,74 @@ describe('execute', () => {
         resultColumn: 'Value',
         matcherColumn: 'Name',
         matcherValue: 'Invalid',
+      }
+
+      const response = await testAdapter.request(request)
+
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error for invalid CSV file', async () => {
+      const request = {
+        endpoint: 'csv',
+        bucket: 's3_bucket',
+        key: 'correct/path/invalid.csv',
+        headerRow: 2,
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
+        matcherValue: 'RowTwo',
+      }
+
+      const response = await testAdapter.request(request)
+
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error for empty CSV file', async () => {
+      const request = {
+        endpoint: 'csv',
+        bucket: 's3_bucket',
+        key: 'correct/path/empty.csv',
+        headerRow: 2,
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
+        matcherValue: 'RowTwo',
+      }
+
+      const response = await testAdapter.request(request)
+
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for CSV with single header', async () => {
+      const request = {
+        endpoint: 'csv',
+        bucket: 's3_bucket',
+        key: 'correct/path/single-header.csv',
+        headerRow: 1,
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
+        matcherValue: 'RowTwo',
+      }
+
+      const response = await testAdapter.request(request)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error if multiple matching rows are found', async () => {
+      const request = {
+        endpoint: 'csv',
+        bucket: 's3_bucket',
+        key: 'correct/path/multiple-matches.csv',
+        headerRow: 2,
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
+        matcherValue: 'RowOne',
       }
 
       const response = await testAdapter.request(request)

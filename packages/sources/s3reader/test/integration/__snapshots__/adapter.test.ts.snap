@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute csv endpoint should return error for empty CSV file 1`] = `
+{
+  "errorMessage": "CSV file is empty",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for invalid CSV file 1`] = `
+{
+  "errorMessage": "Error parsing CSV file: Error: Invalid Opening Quote: a quote is found on field 0 at line 1, value is "#invalidCSV"",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute csv endpoint should return error for invalid matcher column 1`] = `
 {
   "errorMessage": "CSV file does not contain column header Invalid",
@@ -55,7 +77,32 @@ exports[`execute csv endpoint should return error for unrecognised file path 1`]
 }
 `;
 
+exports[`execute csv endpoint should return error if multiple matching rows are found 1`] = `
+{
+  "errorMessage": "CSV file contains multiple rows where Name == RowOne",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute csv endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 456,
+  },
+  "result": 456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return success for CSV with single header 1`] = `
 {
   "data": {
     "result": 456,
