@@ -11,17 +11,17 @@ jest.mock('@aws-sdk/client-s3', () => {
     S3Client: jest.fn().mockImplementation(() => {
       return {
         send: jest.fn().mockImplementation(async (command: GetObjectCommand) => {
-          if (command.input.Bucket == 's3_bucket' && command.input.Key == 'correct/path/file.csv') {
-            return {
-              Body: {
-                transformToString: () =>
-                  'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
-              },
-            }
-          } else {
-            return {
-              Body: undefined,
-            }
+          if (command.input.Bucket != 's3_bucket') {
+            throw new Error('Error: The specified bucket does not exist.')
+          }
+          if (command.input.Key != 'correct/path/file.csv') {
+            throw new Error('Error: The specified key does not exist.')
+          }
+          return {
+            Body: {
+              transformToString: () =>
+                'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
+            },
           }
         }),
       }
@@ -81,6 +81,23 @@ describe('execute', () => {
         endpoint: 'csv',
         bucket: 's3_bucket',
         key: 'incorrect/path/file.csv',
+        headerRow: 2,
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
+        matcherValue: 'RowTwo',
+      }
+
+      const response = await testAdapter.request(request)
+
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error for unrecognised bucket', async () => {
+      const request = {
+        endpoint: 'csv',
+        bucket: 'incorrect_s3_bucket',
+        key: 'correct/path/file.csv',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',

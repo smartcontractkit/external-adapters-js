@@ -33,9 +33,20 @@ exports[`execute csv endpoint should return error for invalid result column 1`] 
 }
 `;
 
+exports[`execute csv endpoint should return error for unrecognised bucket 1`] = `
+{
+  "errorMessage": "Failed to get file from S3: Error: Error: The specified bucket does not exist.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute csv endpoint should return error for unrecognised file path 1`] = `
 {
-  "errorMessage": "S3 response is missing a body",
+  "errorMessage": "Failed to get file from S3: Error: Error: The specified key does not exist.",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
