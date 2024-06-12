@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/s3reader-adapter",
+  "name": "@chainlink/s3-csv-reader-adapter",
   "version": "1.0.0",
   "description": "Chainlink S3 reader adapter.",
   "keywords": [
@@ -7,7 +7,7 @@
     "LINK",
     "blockchain",
     "oracle",
-    "s3reader"
+    "s3-csv-reader"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

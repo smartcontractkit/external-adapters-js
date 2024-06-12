@@ -5,7 +5,7 @@ import { csv } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: csv.name,
-  name: 'S3READER',
+  name: 'S3_CSV_READER',
   config,
   endpoints: [csv],
 })

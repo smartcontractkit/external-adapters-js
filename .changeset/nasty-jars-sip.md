@@ -1,5 +1,5 @@
 ---
-'@chainlink/s3reader-adapter': major
+'@chainlink/s3-csv-reader-adapter': major
 ---
 
-Add S3Reader EA
+Add s3-csv-reader EA

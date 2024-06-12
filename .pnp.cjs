@@ -692,8 +692,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/renvm-address-set"\
       },\
       {\
-        "name": "@chainlink/s3reader-adapter",\
-        "reference": "workspace:packages/sources/s3reader"\
+        "name": "@chainlink/s3-csv-reader-adapter",\
+        "reference": "workspace:packages/sources/s3-csv-reader"\
       },\
       {\
         "name": "@chainlink/satoshitango-adapter",\
@@ -1033,7 +1033,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],\
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
       ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
-      ["@chainlink/s3reader-adapter", ["workspace:packages/sources/s3reader"]],\
+      ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
       ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
@@ -8842,11 +8842,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/s3reader-adapter", [\
-        ["workspace:packages/sources/s3reader", {\
-          "packageLocation": "./packages/sources/s3reader/",\
+      ["@chainlink/s3-csv-reader-adapter", [\
+        ["workspace:packages/sources/s3-csv-reader", {\
+          "packageLocation": "./packages/sources/s3-csv-reader/",\
           "packageDependencies": [\
-            ["@chainlink/s3reader-adapter", "workspace:packages/sources/s3reader"],\
+            ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
             ["@aws-sdk/client-s3", "npm:3.591.0"],\
             ["@chainlink/external-adapter-framework", "npm:0.33.8"],\
             ["@types/jest", "npm:27.5.2"],\

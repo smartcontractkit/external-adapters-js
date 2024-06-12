@@ -63,5 +63,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['nav'], // TODO: remove or switch?
   transport: transport,
   inputParameters,
-  overrides: overrides['s3reader'],
+  overrides: overrides['s3-csv-reader'],
 })
