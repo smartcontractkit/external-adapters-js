@@ -1,5 +1,15 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#3314](https://github.com/smartcontractkit/external-adapters-js/pull/3314) [`26932ca`](https://github.com/smartcontractkit/external-adapters-js/commit/26932ca50bafa4267ec0f6e27154d3df6ebc965c) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Modified the logic for getting attestor public key and validating vaults
+
+### Patch Changes
+
+- [#3321](https://github.com/smartcontractkit/external-adapters-js/pull/3321) [`c946316`](https://github.com/smartcontractkit/external-adapters-js/commit/c946316f2826dac341079f1035577e73f4ec15f3) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Replaced tiny-secp256k1 package with @bitcoinerlab/secp256k1
+
 ## 2.0.0
 
 ### Major Changes

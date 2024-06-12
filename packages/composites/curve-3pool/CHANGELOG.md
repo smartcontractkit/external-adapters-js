@@ -1,5 +1,12 @@
 # @chainlink/curve-3pool-adapter
 
+## 3.0.73
+
+### Patch Changes
+
+- Updated dependencies [[`4607cf6`](https://github.com/smartcontractkit/external-adapters-js/commit/4607cf6ff0804da16512f4145291a485e6d500bf)]:
+  - @chainlink/token-allocation-adapter@1.12.0
+
 ## 3.0.72
 
 ### Patch Changes
