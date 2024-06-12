@@ -30,14 +30,14 @@ Supported names for this endpoint are: `csv`, `nav`.
 
 ### Input Params
 
-| Required? |     Name     | Aliases |                            Description                             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----------: | :-----: | :----------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    bucket    |         |                       The S3 bucket to query                       | string |         |         |            |                |
-|    ✅     |     key      | `path`  |                 The path of the file stored in S3                  | string |         |         |            |                |
-|    ✅     |  headerRow   |         | The 1-indexed row of the CSV file that contains the column headers | number |         |         |            |                |
-|    ✅     | resultField  |         |                  The row of the CSV file to query                  | string |         |         |            |                |
-|    ✅     | matcherField |         |         The column field to compare with the matcherValue          | string |         |         |            |                |
-|    ✅     | matcherValue |         |                The value to match with matcherField                | string |         |         |            |                |
+| Required? |     Name      | Aliases |                                                    Description                                                    |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :---------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    bucket     |         |                                              The S3 bucket to query                                               | string |         |         |            |                |
+|    ✅     |      key      | `path`  |                                         The path of the file stored in S3                                         | string |         |         |            |                |
+|    ✅     |   headerRow   |         |                        The 1-indexed row of the CSV file that contains the column headers                         | number |         |         |            |                |
+|    ✅     | matcherColumn |         |                                 The column field to compare with the matcherValue                                 | string |         |         |            |                |
+|    ✅     | matcherValue  |         |                                       The value to match with matcherField                                        | string |         |         |            |                |
+|    ✅     | resultColumn  |         | The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue | string |         |         |            |                |
 
 ### Example
 
@@ -50,9 +50,9 @@ Request:
     "bucket": "s3_bucket",
     "key": "path/to/file.csv",
     "headerRow": 2,
-    "resultField": "resultField",
-    "matcherField": "matcherField",
-    "matcherValue": "value"
+    "matcherColumn": "matcherColumn",
+    "matcherValue": "value",
+    "resultColumn": "resultColumn"
   }
 }
 ```

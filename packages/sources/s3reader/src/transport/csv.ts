@@ -59,10 +59,10 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
-    const { bucket, key, headerRow, resultField, matcherField, matcherValue } = param
+    const { bucket, key, headerRow, resultColumn, matcherColumn, matcherValue } = param
     const providerDataRequestedUnixMs = Date.now()
     const csvFileAsStr = await getFileFromS3(this.s3Client, bucket, key)
-    const answer = this.parseCSV(csvFileAsStr, headerRow, matcherField, matcherValue, resultField)
+    const answer = this.parseCSV(csvFileAsStr, headerRow, matcherColumn, matcherValue, resultColumn)
 
     return {
       result: answer,
@@ -80,15 +80,15 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
 
   // csvFileAsStr: CSV file as string as received from S3
   // headerRow: 1-indexed row of the CSV file to use as the header row
-  // matcherField: field to match with `matcherValue` to find the answer row
-  // matcherValue: value of field `matcherField` used to find the answer row
-  // resultField: header field containing the answer in matcher row
+  // matcherColumn: field to match with `matcherValue` to find the answer row
+  // matcherValue: value of field `matcherColumn` used to find the answer row
+  // resultColumn: header field containing the answer in matcher row
   parseCSV(
     csvFileAsStr: string,
     headerRow: number,
-    matcherField: string,
+    matcherColumn: string,
     matcherValue: string,
-    resultField: string,
+    resultColumn: string,
   ): number {
     // from_line is 1-indexed
     // columns: true sets first line as object fields rather than 2d arrays
@@ -98,26 +98,26 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     })
 
     const parsedHeaderRow = parsed[0]
-    // validate CSV contains headers matcherField and resultField
-    if (!(matcherField in parsedHeaderRow)) {
-      throw new Error(`CSV file does not contain column header ${matcherField}`)
+    // validate CSV contains headers matcherColumn and resultColumn
+    if (!(matcherColumn in parsedHeaderRow)) {
+      throw new Error(`CSV file does not contain column header ${matcherColumn}`)
     }
-    if (!(resultField in parsedHeaderRow)) {
-      throw new Error(`CSV file does not contain column header ${resultField}`)
+    if (!(resultColumn in parsedHeaderRow)) {
+      throw new Error(`CSV file does not contain column header ${resultColumn}`)
     }
 
     // find correct row using matcher
-    const matchingRows = parsed.filter((row) => row[matcherField] == matcherValue)
+    const matchingRows = parsed.filter((row) => row[matcherColumn] == matcherValue)
     if (matchingRows.length === 0) {
-      throw new Error(`CSV file does not contain row where ${matcherField} == ${matcherValue}`)
+      throw new Error(`CSV file does not contain row where ${matcherColumn} == ${matcherValue}`)
     }
     if (matchingRows.length > 1) {
-      throw new Error(`CSV file contains multiple rows where ${matcherField} == ${matcherValue}`)
+      throw new Error(`CSV file contains multiple rows where ${matcherColumn} == ${matcherValue}`)
     }
 
-    const matchingValue = parseFloat(matchingRows[0][resultField])
+    const matchingValue = parseFloat(matchingRows[0][resultColumn])
     if (Number.isNaN(matchingValue)) {
-      throw new Error(`Value found in CSV is not a number: ${matchingRows[0][resultField]}`)
+      throw new Error(`Value found in CSV is not a number: ${matchingRows[0][resultColumn]}`)
     }
 
     return matchingValue

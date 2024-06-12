@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute csv endpoint should return error for invalid matcher field 1`] = `
+exports[`execute csv endpoint should return error for invalid matcher column 1`] = `
 {
   "errorMessage": "CSV file does not contain column header Invalid",
   "statusCode": 502,
@@ -22,7 +22,7 @@ exports[`execute csv endpoint should return error for invalid matcher value 1`] 
 }
 `;
 
-exports[`execute csv endpoint should return error for invalid result field 1`] = `
+exports[`execute csv endpoint should return error for invalid result column 1`] = `
 {
   "errorMessage": "CSV file does not contain column header Invalid",
   "statusCode": 502,

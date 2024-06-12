@@ -23,7 +23,7 @@ export const inputParameters = new InputParameters(
       type: 'number',
       description: 'The 1-indexed row of the CSV file that contains the column headers',
     },
-    matcherField: {
+    matcherColumn: {
       required: true,
       type: 'string',
       description: 'The column field to compare with the matcherValue',
@@ -33,10 +33,11 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'The value to match with matcherField',
     },
-    resultField: {
+    resultColumn: {
       required: true,
       type: 'string',
-      description: 'The row of the CSV file to query',
+      description:
+        'The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue',
     },
   },
   [
@@ -44,9 +45,9 @@ export const inputParameters = new InputParameters(
       bucket: 's3_bucket',
       key: 'path/to/file.csv',
       headerRow: 2,
-      matcherField: 'matcherField',
+      matcherColumn: 'matcherColumn',
       matcherValue: 'value',
-      resultField: 'resultField',
+      resultColumn: 'resultColumn',
     },
   ],
 )

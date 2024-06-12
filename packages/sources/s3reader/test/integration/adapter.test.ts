@@ -65,8 +65,8 @@ describe('execute', () => {
         bucket: 's3_bucket',
         key: 'correct/path/file.csv',
         headerRow: 2,
-        resultField: 'Value',
-        matcherField: 'Name',
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
         matcherValue: 'RowTwo',
       }
 
@@ -82,8 +82,8 @@ describe('execute', () => {
         bucket: 's3_bucket',
         key: 'incorrect/path/file.csv',
         headerRow: 2,
-        resultField: 'Value',
-        matcherField: 'Name',
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
         matcherValue: 'RowTwo',
       }
 
@@ -93,14 +93,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return error for invalid result field', async () => {
+    it('should return error for invalid result column', async () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
         key: 'correct/path/file.csv',
         headerRow: 2,
-        resultField: 'Invalid',
-        matcherField: 'Name',
+        resultColumn: 'Invalid',
+        matcherColumn: 'Name',
         matcherValue: 'RowTwo',
       }
 
@@ -110,14 +110,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return error for invalid matcher field', async () => {
+    it('should return error for invalid matcher column', async () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
         key: 'correct/path/file.csv',
         headerRow: 2,
-        resultField: 'Value',
-        matcherField: 'Invalid',
+        resultColumn: 'Value',
+        matcherColumn: 'Invalid',
         matcherValue: 'RowTwo',
       }
 
@@ -133,8 +133,8 @@ describe('execute', () => {
         bucket: 's3_bucket',
         key: 'correct/path/file.csv',
         headerRow: 2,
-        resultField: 'Value',
-        matcherField: 'Name',
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
         matcherValue: 'Invalid',
       }
 
