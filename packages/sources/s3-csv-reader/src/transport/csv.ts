@@ -62,7 +62,13 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     const { bucket, key, headerRow, resultColumn, matcherColumn, matcherValue } = param
     const providerDataRequestedUnixMs = Date.now()
     const csvFileAsStr = await getFileFromS3(this.s3Client, bucket, key)
-    const answer = this.parseCSV(csvFileAsStr, headerRow, matcherColumn, matcherValue, resultColumn)
+    const answer = this.findValueInCSV(
+      csvFileAsStr,
+      headerRow,
+      matcherColumn,
+      matcherValue,
+      resultColumn,
+    )
 
     return {
       result: answer,
@@ -83,7 +89,7 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
   // matcherColumn: field to match with `matcherValue` to find the answer row
   // matcherValue: value of field `matcherColumn` used to find the answer row
   // resultColumn: header field containing the answer in matcher row
-  parseCSV(
+  findValueInCSV(
     csvFileAsStr: string,
     headerRow: number,
     matcherColumn: string,
