@@ -1,5 +1,11 @@
 # @chainlink/token-allocation-adapter
 
+## 1.12.0
+
+### Minor Changes
+
+- [#3316](https://github.com/smartcontractkit/external-adapters-js/pull/3316) [`4607cf6`](https://github.com/smartcontractkit/external-adapters-js/commit/4607cf6ff0804da16512f4145291a485e6d500bf) Thanks [@cawthorne](https://github.com/cawthorne)! - Add blocksize-capital support to the token-allocation EA
+
 ## 1.11.32
 
 ### Patch Changes
