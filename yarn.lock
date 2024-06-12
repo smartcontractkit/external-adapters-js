@@ -5812,7 +5812,7 @@ __metadata:
     "@chainlink/external-adapter-framework": 0.33.8
     "@types/jest": 27.5.2
     "@types/node": 16.11.68
-    csv-parse: ^5.5.6
+    csv-parse: 5.5.6
     nock: 13.5.4
     tslib: 2.4.1
     typescript: 5.0.4
@@ -16783,17 +16783,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csv-parse@npm:5.5.6":
+  version: 5.5.6
+  resolution: "csv-parse@npm:5.5.6"
+  checksum: ee06f97f674487dc1d001b360de8ea510a41b9d971abf43bcf9c3be22c83a3634df0d3ebfbe52fd49d145077066be7ff9f25de3fc6b71aefb973099b04147a25
+  languageName: node
+  linkType: hard
+
 "csv-parse@npm:^4.16.0, csv-parse@npm:^4.16.3":
   version: 4.16.3
   resolution: "csv-parse@npm:4.16.3"
   checksum: 5ad7790fc31c32ca1623bad1a54906134ba44fa109e8dd2dfda440bf7e9fd93610d9076a78f45c872701bfafdf7f93c9b75500c09d7efd6611d863f1d45ec69f
-  languageName: node
-  linkType: hard
-
-"csv-parse@npm:^5.5.6":
-  version: 5.5.6
-  resolution: "csv-parse@npm:5.5.6"
-  checksum: ee06f97f674487dc1d001b360de8ea510a41b9d971abf43bcf9c3be22c83a3634df0d3ebfbe52fd49d145077066be7ff9f25de3fc6b71aefb973099b04147a25
   languageName: node
   linkType: hard
 

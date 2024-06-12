@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute csv endpoint should return error for invalid matcher field 1`] = `
+{
+  "errorMessage": "CSV file does not contain column header Invalid",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for invalid matcher value 1`] = `
+{
+  "errorMessage": "CSV file does not contain row where Name == Invalid",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for invalid result field 1`] = `
+{
+  "errorMessage": "CSV file does not contain column header Invalid",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for unrecognised file path 1`] = `
+{
+  "errorMessage": "S3 response is missing a body",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "456",
+  },
+  "result": "456",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
