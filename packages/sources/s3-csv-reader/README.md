@@ -1,4 +1,4 @@
-# s3-csv-reader
+# S3_CSV_READER
 
 ![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/s3-csv-reader/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
@@ -20,13 +20,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                  Options                   | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [csv](#csv-endpoint), [nav](#csv-endpoint) |  `csv`  |
+| Required? |   Name   |     Description     |  Type  |       Options        | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [csv](#csv-endpoint) |  `csv`  |
 
 ## Csv Endpoint
 
-Supported names for this endpoint are: `csv`, `nav`.
+`csv` is the only supported name for this endpoint.
 
 ### Input Params
 

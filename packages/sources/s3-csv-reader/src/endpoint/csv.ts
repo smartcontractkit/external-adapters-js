@@ -60,7 +60,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'csv',
-  aliases: ['nav'], // TODO: remove or switch?
   transport: transport,
   inputParameters,
   overrides: overrides['s3-csv-reader'],
