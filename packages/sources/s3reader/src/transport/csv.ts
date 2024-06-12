@@ -92,22 +92,35 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
   ): number {
     // from_line is 1-indexed
     // columns: true sets first line as object fields rather than 2d arrays
-    const parser = parse(csvFileAsStr, { columns: true, from_line: headerRow })
+    const parsed: Record<string, string>[] = parse(csvFileAsStr, {
+      columns: true,
+      from_line: headerRow,
+    })
 
+    const parsedHeaderRow = parsed[0]
     // validate CSV contains headers matcherField and resultField
-    if (!(matcherField in parser[0])) {
+    if (!(matcherField in parsedHeaderRow)) {
       throw new Error(`CSV file does not contain column header ${matcherField}`)
     }
-    if (!(resultField in parser[0])) {
+    if (!(resultField in parsedHeaderRow)) {
       throw new Error(`CSV file does not contain column header ${resultField}`)
     }
 
     // find correct row using matcher
-    const row = parser.find((row: { [x: string]: string }) => row[matcherField] == matcherValue)
-    if (!row) {
+    const matchingRows = parsed.filter((row) => row[matcherField] == matcherValue)
+    if (matchingRows.length === 0) {
       throw new Error(`CSV file does not contain row where ${matcherField} == ${matcherValue}`)
     }
-    return row[resultField]
+    if (matchingRows.length > 1) {
+      throw new Error(`CSV file contains multiple rows where ${matcherField} == ${matcherValue}`)
+    }
+
+    const matchingValue = parseFloat(matchingRows[0][resultField])
+    if (Number.isNaN(matchingValue)) {
+      throw new Error(`Value found in CSV is not a number: ${matchingRows[0][resultField]}`)
+    }
+
+    return matchingValue
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

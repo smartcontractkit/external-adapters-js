@@ -47,9 +47,9 @@ exports[`execute csv endpoint should return error for unrecognised file path 1`]
 exports[`execute csv endpoint should return success 1`] = `
 {
   "data": {
-    "result": "456",
+    "result": 456,
   },
-  "result": "456",
+  "result": 456,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
