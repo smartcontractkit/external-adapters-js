@@ -6,8 +6,9 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { sleep, AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { S3Client } from '@aws-sdk/client-s3'
-import { getFileFromS3 } from './utils'
+import { bucketExistsS3, fileExistsS3, getFileFromS3 } from './s3utils'
 import { parse } from 'csv-parse/sync'
+import { getFormattedDateStrings } from './dateutils'
 
 const logger = makeLogger('S3PollerTransport')
 
@@ -59,9 +60,26 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
-    const { bucket, key, headerRow, resultColumn, matcherColumn, matcherValue } = param
+    const { bucket, keyPrefix, headerRow, resultColumn, matcherColumn, matcherValue } = param
     const providerDataRequestedUnixMs = Date.now()
-    const csvFileAsStr = await getFileFromS3(this.s3Client, bucket, key)
+
+    if (!(await bucketExistsS3(this.s3Client, bucket))) {
+      throw new Error(`The specified bucket ${bucket} does not exist`)
+    }
+
+    const datedKeys = getFormattedDateStrings(this.settings.LOOKBACK_DAYS).map(
+      (key) => `${keyPrefix}-${key}.csv`,
+    )
+    const keyValidityArr = await Promise.all(
+      datedKeys.map((key) => fileExistsS3(this.s3Client, bucket, key)),
+    )
+    const latestKeyIndex = keyValidityArr.findIndex((val) => val === true)
+    if (latestKeyIndex == -1) {
+      throw new Error(`no valid key found for last ${this.settings.LOOKBACK_DAYS} days`)
+    }
+
+    const mostRecentKey = datedKeys[latestKeyIndex]
+    const csvFileAsStr = await getFileFromS3(this.s3Client, bucket, mostRecentKey)
     const answer = this.findValueInCSV(
       csvFileAsStr,
       headerRow,

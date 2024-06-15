@@ -2,7 +2,6 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { GetObjectCommand } from '@aws-sdk/client-s3'
 
 jest.mock('@aws-sdk/client-s3', () => {
   const originalModule = jest.requireActual('@aws-sdk/client-s3')
@@ -10,55 +9,65 @@ jest.mock('@aws-sdk/client-s3', () => {
     ...originalModule,
     S3Client: jest.fn().mockImplementation(() => {
       return {
-        send: jest.fn().mockImplementation(async (command: GetObjectCommand) => {
-          if (command.input.Bucket == 's3_bucket') {
-            if (command.input.Key == 'correct/path/file.csv') {
-              return {
-                Body: {
-                  transformToString: () =>
-                    'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
-                },
+        send: jest.fn().mockImplementation(async (command) => {
+          if (command.constructor.name === 'GetObjectCommand') {
+            if (command.input.Bucket == 's3_bucket') {
+              if (command.input.Key == 'correct/path/file-01-01-2001.csv') {
+                return {
+                  Body: {
+                    transformToString: () =>
+                      'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
+                  },
+                }
               }
-            }
 
-            if (command.input.Key == 'correct/path/invalid.csv') {
-              return {
-                Body: {
-                  transformToString: () => '#invalidCSV"',
-                },
+              if (command.input.Key == 'correct/path/invalid-01-01-2001.csv') {
+                return {
+                  Body: {
+                    transformToString: () => '#invalidCSV"',
+                  },
+                }
               }
-            }
 
-            if (command.input.Key == 'correct/path/empty.csv') {
-              return {
-                Body: {
-                  transformToString: () => '',
-                },
+              if (command.input.Key == 'correct/path/empty-01-01-2001.csv') {
+                return {
+                  Body: {
+                    transformToString: () => '',
+                  },
+                }
               }
-            }
 
-            if (command.input.Key == 'correct/path/single-header.csv') {
-              return {
-                Body: {
-                  transformToString: () =>
-                    'Name,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
-                },
+              if (command.input.Key == 'correct/path/single-header-01-01-2001.csv') {
+                return {
+                  Body: {
+                    transformToString: () =>
+                      'Name,Value,Other\nRowOne,123,Other1\nRowTwo,456,Other2\nRowThree,789,Other3',
+                  },
+                }
               }
-            }
 
-            if (command.input.Key == 'correct/path/multiple-matches.csv') {
-              return {
-                Body: {
-                  transformToString: () =>
-                    'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowOne,456,Other1\nRowOne,789,Other1',
-                },
+              if (command.input.Key == 'correct/path/multiple-matches-01-01-2001.csv') {
+                return {
+                  Body: {
+                    transformToString: () =>
+                      'Date,01/01/01,\nName,Value,Other\nRowOne,123,Other1\nRowOne,456,Other1\nRowOne,789,Other1',
+                  },
+                }
               }
-            }
 
-            throw new Error('Error: The specified key does not exist.')
+              throw new Error('Error: The specified key does not exist.')
+            }
+          } else if (command.constructor.name === 'HeadBucketCommand') {
+            if (command.input.Bucket == 's3_bucket') {
+              return true
+            }
+            throw new Error(`The specified bucket ${command.input.Bucket} does not exist.`)
+          } else if (command.constructor.name === 'HeadObjectCommand') {
+            if (command.input.Key == 'incorrect/path/file-01-01-2001.csv') {
+              throw new Error('Invalid key')
+            }
+            return true
           }
-
-          throw new Error('Error: The specified bucket does not exist.')
         }),
       }
     }),
@@ -76,6 +85,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
     process.env.BACKGROUND_EXECUTE_MS = '1000'
+    process.env.LOOKBACK_DAYS = '1'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -99,7 +109,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/file.csv',
+        keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',
@@ -112,11 +122,11 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return error for unrecognised file path', async () => {
+    it('should return error for unrecognised file path prefix', async () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'incorrect/path/file.csv',
+        keyPrefix: 'incorrect/path/file',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',
@@ -133,7 +143,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 'incorrect_s3_bucket',
-        key: 'correct/path/file.csv',
+        keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',
@@ -150,7 +160,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/file.csv',
+        keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Invalid',
         matcherColumn: 'Name',
@@ -167,7 +177,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/file.csv',
+        keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Invalid',
@@ -184,7 +194,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/file.csv',
+        keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',
@@ -201,7 +211,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/invalid.csv',
+        keyPrefix: 'correct/path/invalid',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',
@@ -218,7 +228,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/empty.csv',
+        keyPrefix: 'correct/path/empty',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',
@@ -235,7 +245,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/single-header.csv',
+        keyPrefix: 'correct/path/single-header',
         headerRow: 1,
         resultColumn: 'Value',
         matcherColumn: 'Name',
@@ -252,7 +262,7 @@ describe('execute', () => {
       const request = {
         endpoint: 'csv',
         bucket: 's3_bucket',
-        key: 'correct/path/multiple-matches.csv',
+        keyPrefix: 'correct/path/multiple-matches',
         headerRow: 2,
         resultColumn: 'Value',
         matcherColumn: 'Name',

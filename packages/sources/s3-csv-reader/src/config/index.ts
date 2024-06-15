@@ -7,4 +7,9 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 10_000,
   },
+  LOOKBACK_DAYS: {
+    description: 'The number of days to look back when querying for the most recent file by date',
+    type: 'number',
+    default: 10,
+  },
 })

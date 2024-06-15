@@ -12,11 +12,12 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'The S3 bucket to query',
     },
-    key: {
-      aliases: ['path'],
+    keyPrefix: {
+      aliases: ['pathPrefix'],
       required: true,
       type: 'string',
-      description: 'The path of the file stored in S3',
+      description:
+        'The path prefix of the file stored in S3. <Date.csv> is appended to search for older files.',
     },
     headerRow: {
       required: true,
@@ -43,7 +44,7 @@ export const inputParameters = new InputParameters(
   [
     {
       bucket: 's3_bucket',
-      key: 'path/to/file.csv',
+      keyPrefix: 'path/to/file',
       headerRow: 2,
       matcherColumn: 'matcherColumn',
       matcherValue: 'value',
