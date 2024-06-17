@@ -24,7 +24,7 @@ exports[`execute csv endpoint should return error for invalid CSV file 1`] = `
 
 exports[`execute csv endpoint should return error for invalid matcher column 1`] = `
 {
-  "errorMessage": "CSV file does not contain column header Invalid",
+  "errorMessage": "CSV file does not contain matcherColumn header Invalid, got [Name, Value, Other]",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -46,7 +46,7 @@ exports[`execute csv endpoint should return error for invalid matcher value 1`] 
 
 exports[`execute csv endpoint should return error for invalid result column 1`] = `
 {
-  "errorMessage": "CSV file does not contain column header Invalid",
+  "errorMessage": "CSV file does not contain resultColumn header Invalid, got [Name, Value, Other]",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
