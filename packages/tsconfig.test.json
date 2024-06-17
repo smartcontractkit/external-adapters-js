@@ -498,6 +498,9 @@
       "path": "./sources/renvm-address-set/tsconfig.test.json"
     },
     {
+      "path": "./sources/s3-csv-reader/tsconfig.test.json"
+    },
+    {
       "path": "./sources/satoshitango/tsconfig.test.json"
     },
     {

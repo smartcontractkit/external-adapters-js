@@ -66,6 +66,7 @@ export const SoakTestBlacklist: string[] = [
   'spectral-macro-score',
   'sportsdataio',
   'synth-index',
+  's3-csv-reader',
   'taapi',
   'terra-view-function', // Missing: RPC URL
   'therundown',
