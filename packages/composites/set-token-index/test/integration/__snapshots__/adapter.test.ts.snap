@@ -54,12 +54,12 @@ exports[`execute with coinmarketcap source should return success 1`] = `
         },
       },
     },
-    "result": 6844.061590000509,
+    "result": 6844.060452158586,
     "sources": [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 6844.061590000509,
+  "result": 6844.060452158586,
   "statusCode": 200,
 }
 `;

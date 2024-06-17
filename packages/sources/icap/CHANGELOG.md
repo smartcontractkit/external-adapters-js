@@ -1,5 +1,11 @@
 # @chainlink/icap-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3294](https://github.com/smartcontractkit/external-adapters-js/pull/3294) [`a00bc49`](https://github.com/smartcontractkit/external-adapters-js/commit/a00bc495a8f2de841bc4250df61e64f46ad564da) Thanks [@cawthorne](https://github.com/cawthorne)! - Create separate includes.json file for ICAP
+
 ## 1.1.25
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-adapter",
-  "version": "1.11.30",
+  "version": "1.12.0",
   "description": "Chainlink token allocation adapter",
   "keywords": [
     "Chainlink",
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@chainlink/amberdata-adapter": "workspace:*",
+    "@chainlink/blocksize-capital-adapter": "workspace:*",
     "@chainlink/cfbenchmarks-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",
     "@chainlink/coingecko-adapter": "workspace:*",

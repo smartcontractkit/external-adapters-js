@@ -1,4 +1,8 @@
 import { BigNumber } from 'ethers'
+import { BIP32Factory } from 'bip32'
+import * as ellipticCurveCryptography from '@bitcoinerlab/secp256k1'
+import { Network } from 'bitcoinjs-lib'
+import { p2tr, p2tr_ns, P2TROut } from '@scure/btc-signer'
 
 export interface RawVault {
   uuid: string
@@ -126,3 +130,78 @@ export const getBitcoinNetwork = (networkName: string): BitcoinNetwork => {
 }
 
 export const FUNDED_STATUS = 1
+
+const bip32 = BIP32Factory(ellipticCurveCryptography)
+
+// Gets the derived public key from the extended public key.
+export const getDerivedPublicKey = (extendedPublicKey: string, bitcoinNetwork: Network): Buffer => {
+  return bip32.fromBase58(extendedPublicKey, bitcoinNetwork).derivePath('0/0').publicKey
+}
+
+export const TAPROOT_UNSPENDABLE_KEY_HEX =
+  '0250929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0'
+
+// Creates an Unspendable Key Committed to the Vault UUID.
+export function getUnspendableKeyCommittedToUUID(
+  vaultUUID: string,
+  bitcoinNetwork: Network,
+): string {
+  const publicKeyBuffer = Buffer.from(TAPROOT_UNSPENDABLE_KEY_HEX, 'hex')
+  const chainCodeBuffer = Buffer.from(vaultUUID.slice(2), 'hex')
+
+  const unspendablePublicKey = bip32
+    .fromPublicKey(publicKeyBuffer, chainCodeBuffer, bitcoinNetwork)
+    .toBase58()
+
+  return unspendablePublicKey
+}
+
+export const getXOnlyPublicKey = (publicKey: Buffer): Buffer => {
+  return publicKey.length === 32 ? publicKey : publicKey.subarray(1)
+}
+
+/**
+ * Creates a Taproot Multisig Payment.
+ * @param unspendableDerivedPublicKey - The Unspendable Derived Public Key.
+ * @param attestorDerivedPublicKey - The Attestor Derived Public Key.
+ * @param userDerivedPublicKey - The User Derived Public Key.
+ * @param bitcoinNetwork - The Bitcoin Network to use.
+ * @returns The Taproot Multisig Payment.
+ */
+export const createTaprootMultisigPayment = (
+  unspendableDerivedPublicKey: Buffer,
+  publicKeyA: Buffer,
+  publicKeyB: Buffer,
+  bitcoinNetwork: Network,
+): P2TROut => {
+  const unspendableDerivedPublicKeyFormatted = getXOnlyPublicKey(unspendableDerivedPublicKey)
+
+  const publicKeys = [getXOnlyPublicKey(publicKeyA), getXOnlyPublicKey(publicKeyB)]
+  const sortedArray = publicKeys.sort((a, b) => (a.toString('hex') > b.toString('hex') ? 1 : -1))
+
+  const taprootMultiLeafWallet = p2tr_ns(2, sortedArray)
+
+  return p2tr(unspendableDerivedPublicKeyFormatted, taprootMultiLeafWallet, bitcoinNetwork)
+}
+
+export const getClosingTransactionInputFromFundingTransaction = (
+  fundingTransaction: BitcoinTransaction,
+  bitcoinValue: number,
+): BitcoinTransactionVectorOutput => {
+  const closingTransactionInput = fundingTransaction.vout.find(
+    // bitcoinValue in the vault is represented in satoshis, convert the transaction value to compare
+    (output) => output.value * 10 ** 8 === bitcoinValue,
+  )
+  if (!closingTransactionInput) {
+    throw new Error('Could not find Closing Transaction Input.')
+  }
+  return closingTransactionInput
+}
+
+export const matchScripts = (multisigScripts: Uint8Array[], outputScript: Uint8Array): boolean => {
+  return multisigScripts.some(
+    (multisigScript) =>
+      outputScript.length === multisigScript.length &&
+      outputScript.every((value, index) => value === multisigScript[index]),
+  )
+}

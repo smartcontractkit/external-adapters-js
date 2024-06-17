@@ -8,21 +8,22 @@ The adapter takes the following environment variables:
 
 To be functional at least one of the following underyling adapter locations will need to be provided.
 
-| Required? |            Name             |                   Description                    | Options | Defaults to |
-| :-------: | :-------------------------: | :----------------------------------------------: | :-----: | :---------: |
-|           |   `AMBERDATA_ADAPTER_URL`   |  The location of an Amberdata external adapter   |         |             |
-|           | `CFBENCHMARKS_ADAPTER_URL`  | The location of a CFBenchmarks external adapter  |         |             |
-|           |    `COINAPI_ADAPTER_URL`    |    The location of a CoinAPI external adapter    |         |             |
-|           |   `COINGECKO_ADAPTER_URL`   |   The location of a CoinGecko external adapter   |         |             |
-|           | `COINMARKETCAP_ADAPTER_URL` | The location of a CoinMarketCap external adapter |         |             |
-|           | `COINMETRICS_ADAPTER_URL  ` |  The location of a CoinMetrics external adapter  |         |             |
-|           |  `COINPAPRIKA_ADAPTER_URL`  |  The location of a CoinPaprika external adapter  |         |             |
-|           |  `COINRANKING_ADAPTER_URL`  |  The location of a CoinRanking external adapter  |         |             |
-|           | `CRYPTOCOMPARE_ADAPTER_URL` | The location of a CryptoCompare external adapter |         |             |
-|           |    `FINAGE_ADAPTER_URL`     |    The location of a Finage external adapter     |         |             |
-|           |     `KAIKO_ADAPTER_URL`     |     The location of a Kaiko external adapter     |         |             |
-|           |    `NCFX_ADAPTER_URL  `     |     The location of a NCFX external adapter      |         |             |
-|           |    `TIINGO_ADAPTER_URL`     |    The location of a Tiingo external adapter     |         |             |
+| Required? |              Name               |                     Description                     | Options | Defaults to |
+| :-------: | :-----------------------------: | :-------------------------------------------------: | :-----: | :---------: |
+|           |     `AMBERDATA_ADAPTER_URL`     |    The location of an Amberdata external adapter    |         |             |
+|           | `BLOCKSIZE_CAPITAL_ADAPTER_URL` | The location of a BlocksizeCapital external adapter |         |             |
+|           |   `CFBENCHMARKS_ADAPTER_URL`    |   The location of a CFBenchmarks external adapter   |         |             |
+|           |      `COINAPI_ADAPTER_URL`      |     The location of a CoinAPI external adapter      |         |             |
+|           |     `COINGECKO_ADAPTER_URL`     |    The location of a CoinGecko external adapter     |         |             |
+|           |   `COINMARKETCAP_ADAPTER_URL`   |  The location of a CoinMarketCap external adapter   |         |             |
+|           |   `COINMETRICS_ADAPTER_URL  `   |   The location of a CoinMetrics external adapter    |         |             |
+|           |    `COINPAPRIKA_ADAPTER_URL`    |   The location of a CoinPaprika external adapter    |         |             |
+|           |    `COINRANKING_ADAPTER_URL`    |   The location of a CoinRanking external adapter    |         |             |
+|           |   `CRYPTOCOMPARE_ADAPTER_URL`   |  The location of a CryptoCompare external adapter   |         |             |
+|           |      `FINAGE_ADAPTER_URL`       |      The location of a Finage external adapter      |         |             |
+|           |       `KAIKO_ADAPTER_URL`       |      The location of a Kaiko external adapter       |         |             |
+|           |       `NCFX_ADAPTER_URL`        |       The location of a NCFX external adapter       |         |             |
+|           |      `TIINGO_ADAPTER_URL`       |      The location of a Tiingo external adapter      |         |             |
 
 Optionally the default behavior of the composite adapter can be configured
 
@@ -38,12 +39,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |     Name      |                                    Description                                     |                                                                                 Options                                                                                 |                Defaults to                |
-| :-------: | :-----------: | :--------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------: |
-|           |   `source`    | The data provider to query data from. This is required if not specified in config. | `amberdata`, `cfbenchmarks`, `coinapi`, `coingecko`, `coinmarketcap`, `coinmetrics`, `coinpaprika`, `coinranking`, `cryptocompare`, `finage`, `kaiko`, `ncfx`, `tiingo` |                                           |
-|           |    `quote`    |                           Currency we want the price on.                           |                                                                                                                                                                         | The `DEFAULT_QUOTE` environment variable  |
-|           |   `method`    |              Method we want the total value calculation be based on.               |                                                                          `price`, `marketCap`                                                                           | The `DEFAULT_METHOD` environment variable |
-|    ✅     | `allocations` |                          Array of allocations (see below)                          |                                                                                                                                                                         |
+| Required? |     Name      |                                    Description                                     |                                                                                           Options                                                                                            |                Defaults to                |
+| :-------: | :-----------: | :--------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------: |
+|           |   `source`    | The data provider to query data from. This is required if not specified in config. | `amberdata`, `blocksize_capital`, `cfbenchmarks`, `coinapi`, `coingecko`, `coinmarketcap`, `coinmetrics`, `coinpaprika`, `coinranking`, `cryptocompare`, `finage`, `kaiko`, `ncfx`, `tiingo` |                                           |
+|           |    `quote`    |                           Currency we want the price on.                           |                                                                                                                                                                                              | The `DEFAULT_QUOTE` environment variable  |
+|           |   `method`    |              Method we want the total value calculation be based on.               |                                                                                     `price`, `marketCap`                                                                                     | The `DEFAULT_METHOD` environment variable |
+|    ✅     | `allocations` |                          Array of allocations (see below)                          |                                                                                                                                                                                              |
 
 #### Allocation Params
 

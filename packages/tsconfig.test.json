@@ -498,6 +498,9 @@
       "path": "./sources/renvm-address-set/tsconfig.test.json"
     },
     {
+      "path": "./sources/s3-csv-reader/tsconfig.test.json"
+    },
+    {
       "path": "./sources/satoshitango/tsconfig.test.json"
     },
     {
@@ -525,7 +528,13 @@
       "path": "./sources/stader-labs/tsconfig.test.json"
     },
     {
+      "path": "./sources/starknet-gas-price/tsconfig.test.json"
+    },
+    {
       "path": "./sources/stasis/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/superstate/tsconfig.test.json"
     },
     {
       "path": "./sources/swell-address-list/tsconfig.test.json"
@@ -586,6 +595,9 @@
     },
     {
       "path": "./sources/view-function-multi-chain/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/view-starknet-latest-answer/tsconfig.test.json"
     },
     {
       "path": "./sources/wbtc-address-set/tsconfig.test.json"

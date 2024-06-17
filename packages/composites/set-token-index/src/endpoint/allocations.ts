@@ -11,6 +11,7 @@ import {
 import { Config } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
+import BigNumber from 'bignumber.js'
 
 export const supportedEndpoints = ['allocations']
 
@@ -95,10 +96,19 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     // Token balances are coming already normalized as 18 decimals token
     const allocations = await Promise.all(
       addresses.map(async (address: string, i: number) => {
-        const token = await getToken(context, jobRunID, address)
+        const token = (await getToken(
+          context,
+          jobRunID,
+          address,
+        )) as unknown as TA.types.TokenAllocation
+
         return {
-          balance: balances[i].toString(),
-          ...token,
+          balance: new BigNumber(balances[i].toString())
+            .shiftedBy(-(18 - token.decimals))
+            .integerValue(BigNumber.ROUND_FLOOR)
+            .toString(10),
+          decimals: token.decimals,
+          symbol: token.symbol,
         }
       }),
     )

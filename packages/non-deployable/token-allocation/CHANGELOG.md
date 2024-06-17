@@ -1,5 +1,27 @@
 # @chainlink/token-allocation-adapter
 
+## 1.12.0
+
+### Minor Changes
+
+- [#3316](https://github.com/smartcontractkit/external-adapters-js/pull/3316) [`4607cf6`](https://github.com/smartcontractkit/external-adapters-js/commit/4607cf6ff0804da16512f4145291a485e6d500bf) Thanks [@cawthorne](https://github.com/cawthorne)! - Add blocksize-capital support to the token-allocation EA
+
+## 1.11.32
+
+### Patch Changes
+
+- Updated dependencies [[`ac1e761`](https://github.com/smartcontractkit/external-adapters-js/commit/ac1e761a2dcb98b6728e45d575db366dd40bafdc)]:
+  - @chainlink/ncfx-adapter@3.5.7
+
+## 1.11.31
+
+### Patch Changes
+
+- [#3297](https://github.com/smartcontractkit/external-adapters-js/pull/3297) [`fd92c8a`](https://github.com/smartcontractkit/external-adapters-js/commit/fd92c8a07d01615ae0b12bc4f7d4b0d76aa78102) Thanks [@austinborn](https://github.com/austinborn)! - Update README for Token Allocation Adapter
+
+- Updated dependencies [[`8b2c4ea`](https://github.com/smartcontractkit/external-adapters-js/commit/8b2c4ea2f6ec21b253af3c0f9cb928430e22c798)]:
+  - @chainlink/cryptocompare-adapter@3.1.0
+
 ## 1.11.30
 
 ### Patch Changes

@@ -498,6 +498,9 @@
       "path": "./sources/renvm-address-set"
     },
     {
+      "path": "./sources/s3-csv-reader"
+    },
+    {
       "path": "./sources/satoshitango"
     },
     {
@@ -525,7 +528,13 @@
       "path": "./sources/stader-labs"
     },
     {
+      "path": "./sources/starknet-gas-price"
+    },
+    {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/superstate"
     },
     {
       "path": "./sources/swell-address-list"
@@ -586,6 +595,9 @@
     },
     {
       "path": "./sources/view-function-multi-chain"
+    },
+    {
+      "path": "./sources/view-starknet-latest-answer"
     },
     {
       "path": "./sources/wbtc-address-set"
