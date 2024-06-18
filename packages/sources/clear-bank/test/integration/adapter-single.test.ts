@@ -35,12 +35,12 @@ describe('execute', () => {
 
   describe('accounts endpoint', () => {
     it('should aggregate balances across paginated calls', async () => {
+      mockResponseSuccessSinglePage1()
+      mockResponseSuccessSinglePage2()
       const data = {
         accountIDs: ['GB44CLRB04084000000010', 'GB49CLRB04084000000017'],
       }
       await testAdapter.request(data)
-      mockResponseSuccessSinglePage1()
-      mockResponseSuccessSinglePage2()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
