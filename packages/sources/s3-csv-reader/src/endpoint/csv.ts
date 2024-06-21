@@ -17,7 +17,7 @@ export const inputParameters = new InputParameters(
       required: true,
       type: 'string',
       description:
-        'The path prefix of the file stored in S3. <Date.csv> is appended to search for older files.',
+        "The path prefix of the file stored in S3. Will be prefixed onto <DATE>.csv to search for older files, e.g. 'path/prefix-01-02-2024.csv'.",
     },
     headerRow: {
       required: true,
