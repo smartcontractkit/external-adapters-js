@@ -46,16 +46,8 @@ export const checkSequencerHealth: NetworkHealthCheck = async (
     url: HEALTH_ENDPOINTS[network]?.endpoint,
   })
 
-  let isHealthy: boolean
-
   // If the network has a custom response processing function, use it
-  if (HEALTH_ENDPOINTS[network]?.processResponse) {
-    isHealthy = HEALTH_ENDPOINTS[network].processResponse(
-      Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath),
-    )
-  } else {
-    isHealthy = !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
-  }
+  const isHealthy = HEALTH_ENDPOINTS[network].processResponse(response.data)
 
   Logger.info(
     `[${network}] Health endpoint for network ${network} returned a ${
