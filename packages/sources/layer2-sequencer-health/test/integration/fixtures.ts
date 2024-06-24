@@ -124,7 +124,7 @@ export const mockResponseFailureHealth = (): void => {
   nock('https://venus.scroll.io/v1/sequencer/status')
     .get('')
     .query(() => true)
-    .reply(200, () => ({ errcode: 1, errmsg: 'Mock Error Message', data: { health: 0 } }), [
+    .reply(200, () => ({ errcode: 1, errmsg: 'Mock Error Message', data: { health: 2 } }), [
       'Content-Type',
       'application/json',
       'Connection',

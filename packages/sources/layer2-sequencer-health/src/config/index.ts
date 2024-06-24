@@ -99,7 +99,11 @@ const DEFAULT_SCROLL_HEALTH_ENDPOINT = 'https://venus.scroll.io/v1/sequencer/sta
 
 export const HEALTH_ENDPOINTS: Record<
   Networks,
-  { endpoint: string | undefined; responsePath: string[] }
+  {
+    endpoint: string | undefined
+    responsePath: string[]
+    processResponse?: (data: unknown) => boolean
+  }
 > = {
   [Networks.Arbitrum]: {
     endpoint: util.getEnv('ARBITRUM_HEALTH_ENDPOINT'),
@@ -120,6 +124,7 @@ export const HEALTH_ENDPOINTS: Record<
   [Networks.Scroll]: {
     endpoint: util.getEnv('SCROLL_HEALTH_ENDPOINT') || DEFAULT_SCROLL_HEALTH_ENDPOINT,
     responsePath: ['data', 'health'],
+    processResponse: (data: unknown) => data == 1,
   },
   [Networks.Starkware]: {
     endpoint: util.getEnv('STARKWARE_HEALTH_ENDPOINT'),
