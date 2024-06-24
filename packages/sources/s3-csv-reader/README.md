@@ -9,6 +9,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
 | :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
+|           |     LOOKBACK_DAYS     |      The number of days to look back when querying for the most recent file by date       | number |         |  `10`   |
 
 ---
 
@@ -30,14 +31,14 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |     Name      | Aliases |                                                    Description                                                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----------: | :-----: | :---------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    bucket     |         |                                              The S3 bucket to query                                               | string |         |         |            |                |
-|    ✅     |      key      | `path`  |                                         The path of the file stored in S3                                         | string |         |         |            |                |
-|    ✅     |   headerRow   |         |                        The 1-indexed row of the CSV file that contains the column headers                         | number |         |         |            |                |
-|    ✅     | matcherColumn |         |                                 The column field to compare with the matcherValue                                 | string |         |         |            |                |
-|    ✅     | matcherValue  |         |                                       The value to match with matcherField                                        | string |         |         |            |                |
-|    ✅     | resultColumn  |         | The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue | string |         |         |            |                |
+| Required? |     Name      |   Aliases    |                                                    Description                                                    |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------: | :----------: | :---------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    bucket     |              |                                              The S3 bucket to query                                               | string |         |         |            |                |
+|    ✅     |   keyPrefix   | `pathPrefix` |            The path prefix of the file stored in S3. <Date.csv> is appended to search for older files.            | string |         |         |            |                |
+|    ✅     |   headerRow   |              |                        The 1-indexed row of the CSV file that contains the column headers                         | number |         |         |            |                |
+|    ✅     | matcherColumn |              |                                 The column field to compare with the matcherValue                                 | string |         |         |            |                |
+|    ✅     | matcherValue  |              |                                       The value to match with matcherField                                        | string |         |         |            |                |
+|    ✅     | resultColumn  |              | The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue | string |         |         |            |                |
 
 ### Example
 
@@ -48,7 +49,7 @@ Request:
   "data": {
     "endpoint": "csv",
     "bucket": "s3_bucket",
-    "key": "path/to/file.csv",
+    "keyPrefix": "path/to/file",
     "headerRow": 2,
     "matcherColumn": "matcherColumn",
     "matcherValue": "value",

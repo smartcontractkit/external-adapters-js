@@ -1,6 +1,6 @@
 # GM_TOKEN
 
-![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -39,12 +39,12 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |  Name  | Aliases |                                     Description                                      |  Type  |                                 Options                                 | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :----------------------------------------------------------------------------------: | :----: | :---------------------------------------------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     | index  |         | Index token. Long and short tokens will be opened / closed based on this price feed. | string | `ARB`, `BTC`, `DOGE`, `ETH`, `LINK`, `LTC`, `SOL`, `UNI`, `WETH`, `XRP` |         |            |                |
-|    ✅     |  long  |         |             Long token. This is the token that will back long positions.             | string |          `ARB`, `ETH`, `LINK`, `SOL`, `UNI`, `WBTC.b`, `WETH`           |         |            |                |
-|    ✅     | short  |         |            Short token. This is the token that will back short positions.            | string |                                 `USDC`                                  |         |            |                |
-|    ✅     | market |         |                          Market address of the market pool.                          | string |                                                                         |         |            |                |
+| Required? |  Name  | Aliases |                                     Description                                      |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :----------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | index  |         | Index token. Long and short tokens will be opened / closed based on this price feed. | string |         |         |            |                |
+|    ✅     |  long  |         |             Long token. This is the token that will back long positions.             | string |         |         |            |                |
+|    ✅     | short  |         |            Short token. This is the token that will back short positions.            | string |         |         |            |                |
+|    ✅     | market |         |                          Market address of the market pool.                          | string |         |         |            |                |
 
 ### Example
 

@@ -79,9 +79,9 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     }
 
     const mostRecentKey = datedKeys[latestKeyIndex]
-    const csvFileAsStr = await getFileFromS3(this.s3Client, bucket, mostRecentKey)
+    const { content, lastModified } = await getFileFromS3(this.s3Client, bucket, mostRecentKey)
     const answer = this.findValueInCSV(
-      csvFileAsStr,
+      content,
       headerRow,
       matcherColumn,
       matcherValue,
@@ -97,7 +97,7 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
+        providerIndicatedTimeUnixMs: lastModified?.getTime(),
       },
     }
   }

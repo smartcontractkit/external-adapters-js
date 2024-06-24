@@ -2,26 +2,25 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { gmTokenTransport } from '../transport/price'
+import { tokenAddresses } from '../transport/utils'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(
   {
     index: {
       required: true,
       type: 'string',
-      options: ['WETH', 'ETH', 'SOL', 'BTC', 'ARB', 'LINK', 'DOGE', 'UNI', 'XRP', 'LTC'],
       description:
         'Index token.  Long and short tokens will be opened / closed based on this price feed.',
     },
     long: {
       required: true,
       type: 'string',
-      options: ['SOL', 'WBTC.b', 'WETH', 'ETH', 'ARB', 'LINK', 'UNI'],
       description: 'Long token. This is the token that will back long positions.',
     },
     short: {
       required: true,
       type: 'string',
-      options: ['USDC'],
       description: 'Short token. This is the token that will back short positions.',
     },
     market: {
@@ -56,4 +55,26 @@ export const endpoint = new AdapterEndpoint({
   name: 'price',
   transport: gmTokenTransport,
   inputParameters,
+  customInputValidation: (req): AdapterInputError | undefined => {
+    const { index, long, short } = req.requestContext.data
+    const indexToken = tokenAddresses.arbitrum[index as keyof typeof tokenAddresses.arbitrum]
+    const longToken = tokenAddresses.arbitrum[long as keyof typeof tokenAddresses.arbitrum]
+    const shortToken = tokenAddresses.arbitrum[short as keyof typeof tokenAddresses.arbitrum]
+    let invalidTokens = ''
+    if (!indexToken) {
+      invalidTokens += 'indexToken,'
+    }
+    if (!longToken) {
+      invalidTokens += 'longToken,'
+    }
+    if (!shortToken) {
+      invalidTokens += 'shortToken,'
+    }
+    if (invalidTokens.length) {
+      throw new AdapterInputError({
+        message: `Invalid ${invalidTokens} Must be one of ${Object.keys(tokenAddresses.arbitrum)}`,
+      })
+    }
+    return
+  },
 })
