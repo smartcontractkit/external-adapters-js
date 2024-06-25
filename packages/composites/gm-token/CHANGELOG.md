@@ -1,5 +1,15 @@
 # @chainlink/gm-token-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3328](https://github.com/smartcontractkit/external-adapters-js/pull/3328) [`4b969a7`](https://github.com/smartcontractkit/external-adapters-js/commit/4b969a7ffeb0411aa5003c92ecb18783733ffdff) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for single sided tokens
+
+### Patch Changes
+
+- [#3324](https://github.com/smartcontractkit/external-adapters-js/pull/3324) [`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
 ## 1.0.5
 
 ### Patch Changes

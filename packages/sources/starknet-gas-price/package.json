@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/starknet-gas-price-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink starknet-gas-price adapter.",
   "keywords": [
     "Chainlink",

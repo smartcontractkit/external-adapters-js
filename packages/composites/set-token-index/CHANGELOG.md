@@ -1,5 +1,12 @@
 # @chainlink/set-token-index-adapter
 
+## 3.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480)]:
+  - @chainlink/token-allocation-adapter@1.12.1
+
 ## 3.0.0
 
 ### Major Changes
