@@ -36,6 +36,7 @@ const inputParameters: InputParameters<TInputParameters> = {
       ...protocolAdaptersV3.map(({ name }) => name.toLowerCase()),
       ...protocolAdaptersV3.map(({ name }) => name.toUpperCase()),
       'coinbase_prime_eth',
+      'COINBASE_PRIME_ETH',
       'list',
       'LIST',
     ],
