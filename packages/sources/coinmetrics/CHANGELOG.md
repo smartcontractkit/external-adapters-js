@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.6.9
+
+### Patch Changes
+
+- [#3324](https://github.com/smartcontractkit/external-adapters-js/pull/3324) [`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
 ## 3.6.8
 
 ### Patch Changes

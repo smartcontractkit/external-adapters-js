@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/the-network-firm-adapter",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Chainlink's The Network Firm adapter.",
   "keywords": [
     "Chainlink",

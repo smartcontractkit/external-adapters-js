@@ -1,5 +1,26 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.19.1
+
+### Patch Changes
+
+- [#3324](https://github.com/smartcontractkit/external-adapters-js/pull/3324) [`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
+- Updated dependencies [[`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480)]:
+  - @chainlink/stader-address-list-adapter@2.3.17
+  - @chainlink/eth-beacon-adapter@2.0.12
+  - @chainlink/gemini-adapter@3.0.10
+  - @chainlink/por-indexer-adapter@2.0.10
+  - @chainlink/stader-balance-adapter@1.4.14
+  - @chainlink/avalanche-platform-adapter@2.0.11
+  - @chainlink/lotus-adapter@3.0.10
+  - @chainlink/por-address-list-adapter@5.1.2
+  - @chainlink/moonbeam-address-list-adapter@1.1.27
+  - @chainlink/wbtc-address-set-adapter@2.0.11
+  - @chainlink/polkadot-balance-adapter@1.3.6
+  - @chainlink/coinbase-prime-adapter@1.1.1
+  - @chainlink/renvm-address-set-adapter@1.5.73
+
 ## 1.19.0
 
 ### Minor Changes
