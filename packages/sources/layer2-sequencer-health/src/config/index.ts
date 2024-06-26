@@ -115,7 +115,7 @@ export const HEALTH_ENDPOINTS: HeathEndpoints = {
   [Networks.Optimism]: {
     endpoint: util.getEnv('OPTIMISM_HEALTH_ENDPOINT'),
     responsePath: ['healthy'],
-    processResponse: (data: unknown) => defaultProcessResponse(data, Networks.Optimism),
+    processResponse: () => undefined,
   },
   [Networks.Base]: {
     endpoint: util.getEnv('BASE_HEALTH_ENDPOINT'),
