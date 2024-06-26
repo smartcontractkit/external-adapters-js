@@ -95,35 +95,52 @@ export const CHAIN_DELTA: Record<Networks, number> = {
 }
 
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
-export const HEALTH_ENDPOINTS: Record<
+const DEFAULT_SCROLL_HEALTH_ENDPOINT = 'https://venus.scroll.io/v1/sequencer/status'
+
+export type HeathEndpoints = Record<
   Networks,
-  { endpoint: string | undefined; responsePath: string[] }
-> = {
+  {
+    endpoint: string | undefined
+    responsePath: string[]
+    processResponse: (data: unknown) => boolean | undefined
+  }
+>
+
+export const HEALTH_ENDPOINTS: HeathEndpoints = {
   [Networks.Arbitrum]: {
     endpoint: util.getEnv('ARBITRUM_HEALTH_ENDPOINT'),
     responsePath: [],
+    processResponse: () => undefined,
   },
   [Networks.Optimism]: {
     endpoint: util.getEnv('OPTIMISM_HEALTH_ENDPOINT'),
     responsePath: ['healthy'],
+    processResponse: () => undefined,
   },
   [Networks.Base]: {
     endpoint: util.getEnv('BASE_HEALTH_ENDPOINT'),
     responsePath: [],
+    processResponse: () => undefined,
   },
   [Networks.Metis]: {
     endpoint: util.getEnv('METIS_HEALTH_ENDPOINT') || DEFAULT_METIS_HEALTH_ENDPOINT,
     responsePath: ['healthy'],
+    processResponse: (data: unknown) => defaultProcessResponse(data, Networks.Metis),
   },
   [Networks.Scroll]: {
-    endpoint: util.getEnv('SCROLL_HEALTH_ENDPOINT'),
-    responsePath: [],
+    endpoint: util.getEnv('SCROLL_HEALTH_ENDPOINT') || DEFAULT_SCROLL_HEALTH_ENDPOINT,
+    responsePath: ['data', 'health'],
+    processResponse: (data: unknown) => Requester.getResult(data, ['data', 'health']) == 1,
   },
   [Networks.Starkware]: {
     endpoint: util.getEnv('STARKWARE_HEALTH_ENDPOINT'),
     responsePath: [],
+    processResponse: () => undefined,
   },
 }
+
+const defaultProcessResponse = (data: unknown, network: Networks) =>
+  !!Requester.getResult(data, HEALTH_ENDPOINTS[network]?.responsePath)
 
 export interface ExtendedConfig extends Config {
   deltaBlocks: number
