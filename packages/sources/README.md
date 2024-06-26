@@ -130,6 +130,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [por-address-list](./por-address-list/README.md)
 - [por-indexer](./por-indexer/README.md)
 - [renvm-address-set](./renvm-address-set/README.md)
+- [s3-csv-reader](./s3-csv-reader/README.md)
 - [satoshitango](./satoshitango/README.md)
 - [snowflake](./snowflake/README.md)
 - [sochain](./sochain/README.md)
