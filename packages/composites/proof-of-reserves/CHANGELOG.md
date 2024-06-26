@@ -1,5 +1,16 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.20.0
+
+### Minor Changes
+
+- [#3334](https://github.com/smartcontractkit/external-adapters-js/pull/3334) [`9bd559a`](https://github.com/smartcontractkit/external-adapters-js/commit/9bd559a4cd1edacd7bfd9ee65fda6ec1b64251dc) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for COINBASE_PRIME_ETH protocol input param
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/renvm-address-set-adapter@1.5.74
+
 ## 1.19.1
 
 ### Patch Changes
