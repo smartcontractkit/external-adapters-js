@@ -1,5 +1,11 @@
 # @chainlink/por-indexer-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3339](https://github.com/smartcontractkit/external-adapters-js/pull/3339) [`e4bd1d9`](https://github.com/smartcontractkit/external-adapters-js/commit/e4bd1d9ec1ec6c98c13691acc22b86a13ed787f1) Thanks [@alecgard](https://github.com/alecgard)! - Override MAX_PAYLOAD_SIZE_LIMIT to default to 5MB.
+
 ## 2.0.10
 
 ### Patch Changes
