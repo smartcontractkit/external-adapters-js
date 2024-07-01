@@ -5517,10 +5517,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:7.24.4", {\
-          "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.24.4-1a974e2dd0-2f27d4c0ff.zip/node_modules/@babel/runtime/",\
+        ["npm:7.24.7", {\
+          "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.24.7-035e043b00-d17f29eed6.zip/node_modules/@babel/runtime/",\
           "packageDependencies": [\
-            ["@babel/runtime", "npm:7.24.4"],\
+            ["@babel/runtime", "npm:7.24.7"],\
             ["regenerator-runtime", "npm:0.14.0"]\
           ],\
           "linkType": "HARD"\
@@ -6264,7 +6264,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-            ["@solana/web3.js", "npm:1.91.7"],\
+            ["@solana/web3.js", "npm:1.94.0"],\
             ["@types/bn.js", "npm:5.1.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
@@ -8950,7 +8950,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@solana/web3.js", "npm:1.91.7"],\
+            ["@solana/web3.js", "npm:1.94.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.18.96"],\
             ["@types/supertest", "npm:2.0.16"],\
@@ -15588,11 +15588,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@solana/web3.js", [\
-        ["npm:1.91.7", {\
-          "packageLocation": "./.yarn/cache/@solana-web3.js-npm-1.91.7-ab4f6b7023-76a81f52dc.zip/node_modules/@solana/web3.js/",\
+        ["npm:1.94.0", {\
+          "packageLocation": "./.yarn/cache/@solana-web3.js-npm-1.94.0-c05c5d6cd8-03fa19f32e.zip/node_modules/@solana/web3.js/",\
           "packageDependencies": [\
-            ["@solana/web3.js", "npm:1.91.7"],\
-            ["@babel/runtime", "npm:7.24.4"],\
+            ["@solana/web3.js", "npm:1.94.0"],\
+            ["@babel/runtime", "npm:7.24.7"],\
             ["@noble/curves", "npm:1.4.0"],\
             ["@noble/hashes", "npm:1.4.0"],\
             ["@solana/buffer-layout", "npm:4.0.1"],\
@@ -15605,8 +15605,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fast-stable-stringify", "npm:1.0.0"],\
             ["jayson", "npm:4.1.0"],\
             ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"],\
-            ["rpc-websockets", "npm:7.9.0"],\
-            ["superstruct", "npm:0.14.2"]\
+            ["rpc-websockets", "npm:9.0.2"],\
+            ["superstruct", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15827,6 +15827,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@substrate-ss58-registry-npm-1.38.0-2da30b1089-3c653b67b5.zip/node_modules/@substrate/ss58-registry/",\
           "packageDependencies": [\
             ["@substrate/ss58-registry", "npm:1.38.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@swc/helpers", [\
+        ["npm:0.5.11", {\
+          "packageLocation": "./.yarn/cache/@swc-helpers-npm-0.5.11-94bd1e1b3e-5d85e641d9.zip/node_modules/@swc/helpers/",\
+          "packageDependencies": [\
+            ["@swc/helpers", "npm:0.5.11"],\
+            ["tslib", "npm:2.6.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -23512,6 +23522,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/eventemitter3-npm-5.0.0-4c38bc0efe-b974bafbab.zip/node_modules/eventemitter3/",\
           "packageDependencies": [\
             ["eventemitter3", "npm:5.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.0.1", {\
+          "packageLocation": "./.yarn/cache/eventemitter3-npm-5.0.1-5e423b7df3-543d6c858a.zip/node_modules/eventemitter3/",\
+          "packageDependencies": [\
+            ["eventemitter3", "npm:5.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -36572,16 +36589,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["rpc-websockets", [\
-        ["npm:7.9.0", {\
-          "packageLocation": "./.yarn/cache/rpc-websockets-npm-7.9.0-1fdb94538a-c3ddd79ea7.zip/node_modules/rpc-websockets/",\
+        ["npm:9.0.2", {\
+          "packageLocation": "./.yarn/cache/rpc-websockets-npm-9.0.2-dc49a5f774-c93cd2e5b3.zip/node_modules/rpc-websockets/",\
           "packageDependencies": [\
-            ["rpc-websockets", "npm:7.9.0"],\
-            ["@babel/runtime", "npm:7.20.13"],\
+            ["rpc-websockets", "npm:9.0.2"],\
+            ["@swc/helpers", "npm:0.5.11"],\
+            ["@types/uuid", "npm:8.3.4"],\
+            ["@types/ws", "npm:8.5.10"],\
+            ["buffer", "npm:6.0.3"],\
             ["bufferutil", "npm:4.0.6"],\
-            ["eventemitter3", "npm:4.0.7"],\
+            ["eventemitter3", "npm:5.0.1"],\
             ["utf-8-validate", "npm:5.0.9"],\
             ["uuid", "npm:8.3.2"],\
-            ["ws", "virtual:1fdb94538a42072d6c08c846419470a6ec6b9aa6c2752ffa250805f50928397bc5aeddb01fd6c61d10e726d059117de6c6bbb292d4f493cc39881ce69846eb4a#npm:8.12.1"]\
+            ["ws", "virtual:dc49a5f774a6dfdc204dee2056dda8ad1e9e8b7e69ea88feeed0433a26ade57eb298157610f1c578e678a9dc677a55fdf8bb80cecdb2646496ba448cda26b126#npm:8.12.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -38465,10 +38485,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["superstruct", [\
-        ["npm:0.14.2", {\
-          "packageLocation": "./.yarn/cache/superstruct-npm-0.14.2-344d3001c9-c5c4840f43.zip/node_modules/superstruct/",\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/superstruct-npm-1.0.4-44d328b887-2e070994cc.zip/node_modules/superstruct/",\
           "packageDependencies": [\
-            ["superstruct", "npm:0.14.2"]\
+            ["superstruct", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -41311,23 +41331,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:1fdb94538a42072d6c08c846419470a6ec6b9aa6c2752ffa250805f50928397bc5aeddb01fd6c61d10e726d059117de6c6bbb292d4f493cc39881ce69846eb4a#npm:8.12.1", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-47804af451/0/cache/ws-npm-8.12.1-d385ae1b1d-97301c1c4d.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:1fdb94538a42072d6c08c846419470a6ec6b9aa6c2752ffa250805f50928397bc5aeddb01fd6c61d10e726d059117de6c6bbb292d4f493cc39881ce69846eb4a#npm:8.12.1"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", "npm:4.0.6"],\
-            ["utf-8-validate", "npm:5.0.9"]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -41387,6 +41390,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
             ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:dc49a5f774a6dfdc204dee2056dda8ad1e9e8b7e69ea88feeed0433a26ade57eb298157610f1c578e678a9dc677a55fdf8bb80cecdb2646496ba448cda26b126#npm:8.12.1", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-d6bca47a12/0/cache/ws-npm-8.12.1-d385ae1b1d-97301c1c4d.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:dc49a5f774a6dfdc204dee2056dda8ad1e9e8b7e69ea88feeed0433a26ade57eb298157610f1c578e678a9dc677a55fdf8bb80cecdb2646496ba448cda26b126#npm:8.12.1"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", "npm:4.0.6"],\
+            ["utf-8-validate", "npm:5.0.9"]\
           ],\
           "packagePeers": [\
             "@types/bufferutil",\
