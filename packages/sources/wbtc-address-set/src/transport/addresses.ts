@@ -5,7 +5,7 @@ export interface ResponseSchema {
   result: {
     id: string
     address: string
-    balance?: number
+    balance?: string
     type: 'custodial' | 'merchant' | 'deposit'
     verified: boolean
   }[]
@@ -29,7 +29,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     const result = response.data.result
-      .filter((a) => a.type == 'custodial' && a.balance)
+      .filter((a) => a.type == 'custodial' && a.balance && Number(a.balance) > 0)
       .map((a) => ({ ...a, coin: 'btc', chainId: 'mainnet', network: 'bitcoin' }))
 
     return [
