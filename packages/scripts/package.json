@@ -34,6 +34,6 @@
     "@types/yaml": "1.9.7",
     "human-id": "4.1.1",
     "ts-jest": "27.1.5",
-    "typescript": "5.0.4"
+    "typescript": "5.5.3"
   }
 }

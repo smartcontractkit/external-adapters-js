@@ -40,7 +40,7 @@
     "nock": "13.5.4",
     "sinon": "12.0.1",
     "supertest": "6.2.4",
-    "typescript": "5.0.4"
+    "typescript": "5.5.3"
   },
   "dependenciesComments": {
     "starknet": "The Starknet package is dependent on the ethereum-cryptography@^1.0.3 package.  There is currently a known issue with running ncc build with this package as the build cannot find the crypto module when the EA is started.  The current workaround for this is to patch the package with our fix.  This patch can be found in the .patch directory inside .yarn."
