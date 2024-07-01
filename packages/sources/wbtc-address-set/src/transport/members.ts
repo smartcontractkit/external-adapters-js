@@ -21,7 +21,7 @@ type Address = {
   type: 'custodial' | 'merchant' | 'deposit'
   date: string
   chain: 'btc' | 'eth'
-  balance?: number
+  balance?: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -41,7 +41,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     const result = response.data.result
       .filter((member) => member.token === 'wbtc')
       .flatMap((member) => member.addresses)
-      .filter((a) => a.type == 'custodial' && a.balance)
+      .filter((a) => a.type == 'custodial' && a.balance && Number(a.balance) > 0)
       .map((a) => ({ ...a, coin: 'btc', chainId: 'mainnet', network: 'bitcoin' }))
 
     return [

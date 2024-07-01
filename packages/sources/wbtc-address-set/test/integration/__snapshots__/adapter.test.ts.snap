@@ -6,7 +6,7 @@ exports[`execute addresses endpoint should return success 1`] = `
     "result": [
       {
         "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
-        "balance": "0",
+        "balance": "123",
         "chainId": "mainnet",
         "coin": "btc",
         "id": "601c5e4b11b1d4001e37091aa2618ee9",
@@ -31,7 +31,7 @@ exports[`execute members endpoint should return success 1`] = `
     "result": [
       {
         "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
-        "balance": "0",
+        "balance": "456",
         "chainId": "mainnet",
         "coin": "btc",
         "id": "601323767069d60008cb538b32c33cb1",
