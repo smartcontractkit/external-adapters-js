@@ -23,12 +23,19 @@ export const configDefinition = {
   },
 } as const
 
-export const config = new AdapterConfig({
-  ...configDefinition,
-  BACKGROUND_EXECUTE_MS: {
-    description:
-      'The amount of time the background execute should sleep before performing the next request',
-    type: 'number',
-    default: 10_000,
+export const config = new AdapterConfig(
+  {
+    ...configDefinition,
+    BACKGROUND_EXECUTE_MS: {
+      description:
+        'The amount of time the background execute should sleep before performing the next request',
+      type: 'number',
+      default: 10_000,
+    },
   },
-})
+  {
+    envDefaultOverrides: {
+      MAX_PAYLOAD_SIZE_LIMIT: 5000000,
+    },
+  },
+)
