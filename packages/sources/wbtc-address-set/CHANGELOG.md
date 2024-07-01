@@ -1,5 +1,11 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3337](https://github.com/smartcontractkit/external-adapters-js/pull/3337) [`9a0702e`](https://github.com/smartcontractkit/external-adapters-js/commit/9a0702ee8629271ea82b464fd4542d8b85c3895a) Thanks [@alecgard](https://github.com/alecgard)! - Filter out addresses with zero balance from wBTC Address Sets.
+
 ## 2.0.11
 
 ### Patch Changes
