@@ -38,7 +38,7 @@
     "rxjs": "^6.6.3",
     "tslib": "^2.1.0",
     "uuid": "^8.3.0",
-    "ws": "^7.4.4"
+    "ws": "^7.5.10"
   },
   "devDependencies": {
     "@types/fast-redact": "3.0.4",
