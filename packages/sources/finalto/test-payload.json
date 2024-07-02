@@ -2,5 +2,20 @@
  "requests": [{
   "from": "GBP",
   "to": "USD"
- }]
+ },
+  {
+   "from": "GBP",
+   "to": "USD",
+   "endpoint": "forex"
+  },
+  {
+   "from": "GBP",
+   "to": "USD",
+   "endpoint": "fx"
+  },
+  {
+   "from": "GBP",
+   "to": "USD",
+   "endpoint": "commodities"
+  }]
 }

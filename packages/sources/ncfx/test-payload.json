@@ -6,23 +6,28 @@
       },
       {
         "from": "OGN",
-        "to": "ETH"
+        "to": "ETH",
+        "endpoint": "crypto"
       },
       {
         "from": "CSPR",
-        "to": "USD"
+        "to": "USD",
+        "endpoint": "crypto-lwba"
       },
       {
         "from": "CTSI",
-        "to": "ETH"
+        "to": "ETH",
+        "endpoint": "crypto_lwba"
       },
       {
         "from": "BADGER",
-        "to": "ETH"
+        "to": "ETH",
+        "endpoint": "cryptolwba"
       },
       {
         "from": "BADGER",
-        "to": "USD"
+        "to": "USD",
+        "endpoint": "price"
       },
       {
         "from": "BSW",
@@ -419,6 +424,11 @@
       {
         "from": "DPI",
         "to": "USD"
+      },
+      {
+        "from": "CAD",
+        "to": "USD",
+        "endpoint": "forex"
       }
     ]
   }

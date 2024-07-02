@@ -1,5 +1,8 @@
 {
  "requests": [{
   "speed": "fast"
+ },{
+  "speed": "fast",
+  "endpoint": "gasprice"
  }]
 }

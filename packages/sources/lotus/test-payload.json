@@ -1,6 +1,36 @@
 {
- "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+  "requests": [
+    {
+      "addresses": [
+        {
+          "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi"
+        },
+        {
+          "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+        }
+      ]
+    },
+    {
+      "addresses": [
+        {
+          "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi"
+        },
+        {
+          "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+        }
+      ],
+      "endpoint": "balance"
+    },
+    {
+      "addresses": [
+        {
+          "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi"
+        },
+        {
+          "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+        }
+      ],
+      "endpoint": "filecoin.walletbalance"
+    }
+  ]
 }

@@ -6,11 +6,13 @@
       },
       {
         "from": "ETH",
-        "to": "USDT"
+        "to": "USDT",
+        "endpoint": "crypto"
       },
       {
         "from": "OGN",
-        "to": "ETH"
+        "to": "ETH",
+        "endpoint": "price"
       },
       {
         "from": "CSPR",
@@ -423,6 +425,10 @@
       {
         "from": "DPI",
         "to": "USD"
+      },
+      {
+        "endpoint": "assets",
+        "base": "ETH"
       }
     ]
   }

@@ -2,5 +2,10 @@
  "requests": [{
   "from": "SAVAX",
   "to": "USD"
- }]
+ },
+  {
+   "from": "SAVAX",
+   "to": "USD",
+   "endpoint": "price"
+  }]
 }

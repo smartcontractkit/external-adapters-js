@@ -1,8 +1,17 @@
 {
- "requests": [{
+ "requests": [
+   {
     "id": "1",
     "data": {
-        "contractAddress": "0xA72206A7877B27831b520FE0405746f9Ef9a0B98"
+      "contractAddress": "0xA72206A7877B27831b520FE0405746f9Ef9a0B98"
     }
-}]
+  },
+   {
+    "id": "1",
+    "data": {
+      "contractAddress": "0xA72206A7877B27831b520FE0405746f9Ef9a0B98",
+      "endpoint": "address"
+    }
+  }
+ ]
 }

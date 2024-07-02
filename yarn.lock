@@ -5465,6 +5465,7 @@ __metadata:
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
     "@chainlink/external-adapter-framework": 1.0.0
+    "@types/jest": 27.5.2
     "@types/node": 16.18.96
     axios: 1.6.8
     decimal.js: ^10.3.1

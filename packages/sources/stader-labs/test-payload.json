@@ -1,3 +1,3 @@
 {
- "requests": [{}]
+ "requests": [{}, {"endpoint":  "maticx"}, {"endpoint":  "bnbx"}, {"endpoint":  "sftmx"}]
 }
