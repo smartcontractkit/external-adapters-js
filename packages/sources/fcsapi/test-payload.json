@@ -1,5 +1,17 @@
 {
  "requests": [{
   "from": "N225"
- }]
+ },
+  {
+   "from": "FTSE",
+   "endpoint": "common"
+  },
+  {
+   "from": "N225",
+   "endpoint": "stock"
+  },
+  {
+   "from": "GBP",
+   "endpoint": "forex"
+  }]
 }

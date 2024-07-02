@@ -2,5 +2,70 @@
  "requests": [{
   "from": "LINK",
   "to": "USD"
- }]
+ },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "crypto"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "crypto-batched"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "batched"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "batch"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "price"
+  },
+  {
+   "endpoint": "coins"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "volume"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "crypto-volume"
+  },
+  {
+   "quote": "ETH",
+   "endpoint": "dominance"
+  },
+  {
+   "quote": "ETH",
+   "endpoint": "market_cap_percentage"
+  },
+  {
+   "quote": "USD",
+   "endpoint": "globalmarketcap"
+  },
+  {
+   "quote": "USD",
+   "endpoint": "total_market_cap"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "marketcap"
+  },
+  {
+   "from": "LINK",
+   "to": "USD",
+   "endpoint": "crypto-marketcap"
+  }
+  ]
 }

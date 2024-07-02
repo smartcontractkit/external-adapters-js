@@ -4,14 +4,17 @@
             "base": "OANDA:EUR_USD"
         },
         {
-            "base": "OANDA:USD_CAD"
+            "base": "OANDA:USD_CAD",
+            "endpoint": "quote"
         },
         {
-            "base": "OANDA:GBP_USD"
+            "base": "OANDA:GBP_USD",
+            "endpoint": "forex"
         },
         {
             "base": "JPY",
-            "quote": "USD"
+            "quote": "USD",
+            "endpoint": "forex-quote"
         },
         {
             "base": "USD",
@@ -22,13 +25,20 @@
             "endpoint": "forex"
         },
         {
-            "base": "OANDA:USD_CAD",
-            "endpoint": "forex"
+            "base": "OANDA:EUR_USD",
+            "endpoint": "common"
         },
-
+        {
+            "base": "OANDA:USD_CAD",
+            "endpoint": "commodities"
+        },
         {
             "base": "OANDA:GBP_USD",
-            "endpoint": "forex"
+            "endpoint": "equity-quote"
+        },
+        {
+            "base": "OANDA:GBP_USD",
+            "endpoint": "commodity-quote"
         },
         {
             "base": "AAPL",

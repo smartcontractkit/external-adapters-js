@@ -2,6 +2,39 @@
 "requests": [{
         "from": "SUSHI",
         "to": "ETH"
-    }]
+    },
+  {
+    "from": "LINK",
+    "to": "USD",
+    "endpoint": "crypto"
+  },
+  {
+    "from": "LINK",
+    "to": "USD",
+    "endpoint": "price"
+  },
+  {
+    "from": "LINK",
+    "to": "USD",
+    "endpoint": "marketcap"
+  },
+  {
+    "from": "LINK",
+    "to": "USD",
+    "endpoint": "volume"
+  },
+  {
+    "market": "BTC",
+    "endpoint": "dominance"
+  },
+  {
+    "market": "BTC",
+    "endpoint": "globalmarketcap"
+  },
+  {
+    "from": "LINK",
+    "to": "USD",
+    "endpoint": "historical"
+  }]
 }
 
