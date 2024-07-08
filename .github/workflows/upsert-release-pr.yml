@@ -58,6 +58,8 @@ jobs:
         uses: ./.github/actions/setup
         with:
           base-branch: ${{ env.UPSTREAM_BRANCH }}
+          # We want to build all packages for the documentation generation step so that the Masterlist is up to date for all EAs
+          build-all: 'true'
       - name: Increase monorepo version
         run: |
           BUMPED_VERSION=$(jq -r '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
