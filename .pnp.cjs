@@ -8834,12 +8834,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@aws-sdk/client-s3", "npm:3.600.0"],\
             ["@chainlink/external-adapter-framework", "npm:1.0.0"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.68"],\
+            ["@types/node", "npm:20.14.10"],\
             ["csv-parse", "npm:5.5.6"],\
             ["date-fns", "npm:3.6.0"],\
             ["nock", "npm:13.5.4"],\
-            ["tslib", "npm:2.4.1"],\
-            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+            ["tslib", "npm:2.6.3"],\
+            ["typescript", "patch:typescript@npm%3A5.5.3#~builtin<compat/typescript>::version=5.5.3&hash=77c9e2"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -16493,13 +16493,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:16.11.68", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.68-c2f2ea9840-a35293b6b8.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:16.11.68"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:16.18.96", {\
           "packageLocation": "./.yarn/cache/@types-node-npm-16.18.96-43ecb971a5-c5b4c20868.zip/node_modules/@types/node/",\
           "packageDependencies": [\
@@ -16518,6 +16511,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-18.8.3-c4e37e12aa-9201adc6dc.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:18.8.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:20.14.10", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.14.10-5efcbc9009-2f397d393d.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:20.14.10"],\
+            ["undici-types", "npm:5.26.5"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -39672,6 +39673,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=77c9e2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["patch:typescript@npm%3A5.5.3#~builtin<compat/typescript>::version=5.5.3&hash=77c9e2", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-afd76499e8-6853be4607.zip/node_modules/typescript/",\
+          "packageDependencies": [\
+            ["typescript", "patch:typescript@npm%3A5.5.3#~builtin<compat/typescript>::version=5.5.3&hash=77c9e2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["typical", [\
@@ -39745,6 +39753,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["undici", "npm:5.28.4"],\
             ["@fastify/busboy", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["undici-types", [\
+        ["npm:5.26.5", {\
+          "packageLocation": "./.yarn/cache/undici-types-npm-5.26.5-de4f7c7bb9-3192ef6f3f.zip/node_modules/undici-types/",\
+          "packageDependencies": [\
+            ["undici-types", "npm:5.26.5"]\
           ],\
           "linkType": "HARD"\
         }]\
