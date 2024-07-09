@@ -1,9 +1,17 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/csv'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
+import { isValidBucket, isValidKeyPrefix } from '../transport/s3utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -43,7 +51,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      bucket: 's3_bucket',
+      bucket: 's3-bucket',
       keyPrefix: 'path/to/file',
       headerRow: 2,
       matcherColumn: 'matcherColumn',
@@ -59,9 +67,32 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
+export function customInputValidation(
+  req: AdapterRequest<typeof inputParameters.validated>,
+): AdapterError | undefined {
+  const { bucket, keyPrefix } = req.requestContext.data
+
+  if (!isValidBucket(bucket)) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Error: bucket contains invalid input characters`,
+    })
+  }
+
+  // all chars in the string must match one in KEY_PREFIX_REGEX
+  if (!isValidKeyPrefix(keyPrefix)) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Error: keyPrefix contains invalid input characters`,
+    })
+  }
+  return
+}
+
 export const endpoint = new AdapterEndpoint({
   name: 'csv',
   transport: transport,
   inputParameters,
+  customInputValidation,
   overrides: overrides['s3-csv-reader'],
 })

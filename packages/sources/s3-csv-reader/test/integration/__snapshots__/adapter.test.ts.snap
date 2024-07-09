@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute csv endpoint should return 400 for invalid bucket name 1`] = `
+{
+  "error": {
+    "message": "Error: bucket contains invalid input characters",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute csv endpoint should return 400 for invalid keyPrefix name 1`] = `
+{
+  "error": {
+    "message": "Error: keyPrefix contains invalid input characters",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute csv endpoint should return error for empty CSV file 1`] = `
 {
   "errorMessage": "CSV file is empty",
@@ -57,7 +79,7 @@ exports[`execute csv endpoint should return error for invalid result column 1`] 
 
 exports[`execute csv endpoint should return error for unrecognised bucket 1`] = `
 {
-  "errorMessage": "The specified bucket incorrect_s3_bucket does not exist",
+  "errorMessage": "The specified bucket incorrect-s3-bucket does not exist",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,

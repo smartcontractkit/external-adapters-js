@@ -11,7 +11,7 @@ jest.mock('@aws-sdk/client-s3', () => {
       return {
         send: jest.fn().mockImplementation(async (command) => {
           if (command.constructor.name === 'GetObjectCommand') {
-            if (command.input.Bucket == 's3_bucket') {
+            if (command.input.Bucket == 's3-bucket') {
               if (command.input.Key == 'correct/path/file-01-01-2001.csv') {
                 return {
                   Body: {
@@ -58,7 +58,7 @@ jest.mock('@aws-sdk/client-s3', () => {
               throw new Error('Error: The specified key does not exist.')
             }
           } else if (command.constructor.name === 'HeadBucketCommand') {
-            if (command.input.Bucket == 's3_bucket') {
+            if (command.input.Bucket == 's3-bucket') {
               return true
             }
             throw new Error(`The specified bucket ${command.input.Bucket} does not exist.`)
@@ -108,7 +108,7 @@ describe('execute', () => {
     it('should return success', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
@@ -122,10 +122,44 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return 400 for invalid bucket name', async () => {
+      const request = {
+        endpoint: 'csv',
+        bucket: 'invalid_s3_bucket#$%^',
+        keyPrefix: 'incorrect/path/file',
+        headerRow: 2,
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
+        matcherValue: 'RowTwo',
+      }
+
+      const response = await testAdapter.request(request)
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return 400 for invalid keyPrefix name', async () => {
+      const request = {
+        endpoint: 'csv',
+        bucket: 'valid-s3-bucket',
+        keyPrefix: 'invalid^$@path',
+        headerRow: 2,
+        resultColumn: 'Value',
+        matcherColumn: 'Name',
+        matcherValue: 'RowTwo',
+      }
+
+      const response = await testAdapter.request(request)
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('should return error for unrecognised file path prefix', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'incorrect/path/file',
         headerRow: 2,
         resultColumn: 'Value',
@@ -142,7 +176,7 @@ describe('execute', () => {
     it('should return error for unrecognised bucket', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 'incorrect_s3_bucket',
+        bucket: 'incorrect-s3-bucket',
         keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
@@ -159,7 +193,7 @@ describe('execute', () => {
     it('should return error for invalid result column', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Invalid',
@@ -176,7 +210,7 @@ describe('execute', () => {
     it('should return error for invalid matcher column', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
@@ -193,7 +227,7 @@ describe('execute', () => {
     it('should return error for invalid matcher value', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/file',
         headerRow: 2,
         resultColumn: 'Value',
@@ -210,7 +244,7 @@ describe('execute', () => {
     it('should return error for invalid CSV file', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/invalid',
         headerRow: 2,
         resultColumn: 'Value',
@@ -227,7 +261,7 @@ describe('execute', () => {
     it('should return error for empty CSV file', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/empty',
         headerRow: 2,
         resultColumn: 'Value',
@@ -244,7 +278,7 @@ describe('execute', () => {
     it('should return success for CSV with single header', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/single-header',
         headerRow: 1,
         resultColumn: 'Value',
@@ -261,7 +295,7 @@ describe('execute', () => {
     it('should return error if multiple matching rows are found', async () => {
       const request = {
         endpoint: 'csv',
-        bucket: 's3_bucket',
+        bucket: 's3-bucket',
         keyPrefix: 'correct/path/multiple-matches',
         headerRow: 2,
         resultColumn: 'Value',
