@@ -8832,13 +8832,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@aws-sdk/client-s3", "npm:3.600.0"],\
           ["@chainlink/external-adapter-framework", "npm:1.1.0"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.11.68"],\
+          ["@types/jest", "npm:29.5.12"],\
+          ["@types/node", "npm:20.14.10"],\
           ["csv-parse", "npm:5.5.6"],\
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.4"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ["tslib", "npm:2.6.3"],\
+          ["typescript", "patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -12614,6 +12614,14 @@ const RAW_RUNTIME_STATE =
           ["jest-get-type", "npm:29.4.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:29.7.0", {\
+        "packageLocation": "./.yarn/cache/@jest-expect-utils-npm-29.7.0-14740cc487-ef8d379778.zip/node_modules/@jest/expect-utils/",\
+        "packageDependencies": [\
+          ["@jest/expect-utils", "npm:29.7.0"],\
+          ["jest-get-type", "npm:29.6.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@jest/fake-timers", [\
@@ -12698,6 +12706,14 @@ const RAW_RUNTIME_STATE =
           ["@sinclair/typebox", "npm:0.25.24"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:29.6.3", {\
+        "packageLocation": "./.yarn/cache/@jest-schemas-npm-29.6.3-292730e442-910040425f.zip/node_modules/@jest/schemas/",\
+        "packageDependencies": [\
+          ["@jest/schemas", "npm:29.6.3"],\
+          ["@sinclair/typebox", "npm:0.27.8"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@jest/source-map", [\
@@ -12780,6 +12796,19 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@jest/types", "npm:29.5.0"],\
           ["@jest/schemas", "npm:29.4.3"],\
+          ["@types/istanbul-lib-coverage", "npm:2.0.4"],\
+          ["@types/istanbul-reports", "npm:3.0.1"],\
+          ["@types/node", "npm:18.8.3"],\
+          ["@types/yargs", "npm:17.0.24"],\
+          ["chalk", "npm:4.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:29.6.3", {\
+        "packageLocation": "./.yarn/cache/@jest-types-npm-29.6.3-a584ca999d-f74bf512fd.zip/node_modules/@jest/types/",\
+        "packageDependencies": [\
+          ["@jest/types", "npm:29.6.3"],\
+          ["@jest/schemas", "npm:29.6.3"],\
           ["@types/istanbul-lib-coverage", "npm:2.0.4"],\
           ["@types/istanbul-reports", "npm:3.0.1"],\
           ["@types/node", "npm:18.8.3"],\
@@ -14819,6 +14848,13 @@ const RAW_RUNTIME_STATE =
           ["@sinclair/typebox", "npm:0.25.24"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:0.27.8", {\
+        "packageLocation": "./.yarn/cache/@sinclair-typebox-npm-0.27.8-23e206d653-297f95ff77.zip/node_modules/@sinclair/typebox/",\
+        "packageDependencies": [\
+          ["@sinclair/typebox", "npm:0.27.8"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@sindresorhus/is", [\
@@ -16311,6 +16347,15 @@ const RAW_RUNTIME_STATE =
           ["pretty-format", "npm:27.5.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:29.5.12", {\
+        "packageLocation": "./.yarn/cache/@types-jest-npm-29.5.12-6459b9d012-312e8dcf92.zip/node_modules/@types/jest/",\
+        "packageDependencies": [\
+          ["@types/jest", "npm:29.5.12"],\
+          ["expect", "npm:29.7.0"],\
+          ["pretty-format", "npm:29.7.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@types/json-bigint", [\
@@ -16492,13 +16537,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:16.11.68", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-16.11.68-c2f2ea9840-7906b0fe63.zip/node_modules/@types/node/",\
-        "packageDependencies": [\
-          ["@types/node", "npm:16.11.68"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:16.18.96", {\
         "packageLocation": "./.yarn/cache/@types-node-npm-16.18.96-43ecb971a5-6b6d1250c7.zip/node_modules/@types/node/",\
         "packageDependencies": [\
@@ -16517,6 +16555,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-npm-18.8.3-c4e37e12aa-5c757b57e0.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:18.8.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:20.14.10", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.14.10-5efcbc9009-672892cf94.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:20.14.10"],\
+          ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -22018,6 +22064,13 @@ const RAW_RUNTIME_STATE =
           ["diff-sequences", "npm:29.4.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:29.6.3", {\
+        "packageLocation": "./.yarn/cache/diff-sequences-npm-29.6.3-18ab2c9949-179daf9d2f.zip/node_modules/diff-sequences/",\
+        "packageDependencies": [\
+          ["diff-sequences", "npm:29.6.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["dir-glob", [\
@@ -23647,6 +23700,18 @@ const RAW_RUNTIME_STATE =
           ["jest-matcher-utils", "npm:29.5.0"],\
           ["jest-message-util", "npm:29.5.0"],\
           ["jest-util", "npm:29.5.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:29.7.0", {\
+        "packageLocation": "./.yarn/cache/expect-npm-29.7.0-62e9f7979e-63f97bc51f.zip/node_modules/expect/",\
+        "packageDependencies": [\
+          ["expect", "npm:29.7.0"],\
+          ["@jest/expect-utils", "npm:29.7.0"],\
+          ["jest-get-type", "npm:29.6.3"],\
+          ["jest-matcher-utils", "npm:29.7.0"],\
+          ["jest-message-util", "npm:29.7.0"],\
+          ["jest-util", "npm:29.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -28983,6 +29048,17 @@ const RAW_RUNTIME_STATE =
           ["pretty-format", "npm:29.5.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:29.7.0", {\
+        "packageLocation": "./.yarn/cache/jest-diff-npm-29.7.0-0149e01930-6f3a7eb9cd.zip/node_modules/jest-diff/",\
+        "packageDependencies": [\
+          ["jest-diff", "npm:29.7.0"],\
+          ["chalk", "npm:4.1.2"],\
+          ["diff-sequences", "npm:29.6.3"],\
+          ["jest-get-type", "npm:29.6.3"],\
+          ["pretty-format", "npm:29.7.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["jest-docblock", [\
@@ -29036,6 +29112,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/jest-get-type-npm-29.4.3-790eefdb01-6ac7f2dde1.zip/node_modules/jest-get-type/",\
         "packageDependencies": [\
           ["jest-get-type", "npm:29.4.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:29.6.3", {\
+        "packageLocation": "./.yarn/cache/jest-get-type-npm-29.6.3-500477292e-88ac9102d4.zip/node_modules/jest-get-type/",\
+        "packageDependencies": [\
+          ["jest-get-type", "npm:29.6.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -29094,6 +29177,17 @@ const RAW_RUNTIME_STATE =
           ["pretty-format", "npm:29.5.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:29.7.0", {\
+        "packageLocation": "./.yarn/cache/jest-matcher-utils-npm-29.7.0-dfc74b630e-981904a494.zip/node_modules/jest-matcher-utils/",\
+        "packageDependencies": [\
+          ["jest-matcher-utils", "npm:29.7.0"],\
+          ["chalk", "npm:4.1.2"],\
+          ["jest-diff", "npm:29.7.0"],\
+          ["jest-get-type", "npm:29.6.3"],\
+          ["pretty-format", "npm:29.7.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["jest-message-util", [\
@@ -29108,6 +29202,22 @@ const RAW_RUNTIME_STATE =
           ["graceful-fs", "npm:4.2.10"],\
           ["micromatch", "npm:4.0.5"],\
           ["pretty-format", "npm:29.5.0"],\
+          ["slash", "npm:3.0.0"],\
+          ["stack-utils", "npm:2.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:29.7.0", {\
+        "packageLocation": "./.yarn/cache/jest-message-util-npm-29.7.0-7f88b6e8d1-31d53c6ed2.zip/node_modules/jest-message-util/",\
+        "packageDependencies": [\
+          ["jest-message-util", "npm:29.7.0"],\
+          ["@babel/code-frame", "npm:7.18.6"],\
+          ["@jest/types", "npm:29.6.3"],\
+          ["@types/stack-utils", "npm:2.0.1"],\
+          ["chalk", "npm:4.1.2"],\
+          ["graceful-fs", "npm:4.2.10"],\
+          ["micromatch", "npm:4.0.5"],\
+          ["pretty-format", "npm:29.7.0"],\
           ["slash", "npm:3.0.0"],\
           ["stack-utils", "npm:2.0.5"]\
         ],\
@@ -29298,6 +29408,19 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["jest-util", "npm:29.5.0"],\
           ["@jest/types", "npm:29.5.0"],\
+          ["@types/node", "npm:18.8.3"],\
+          ["chalk", "npm:4.1.2"],\
+          ["ci-info", "npm:3.4.0"],\
+          ["graceful-fs", "npm:4.2.10"],\
+          ["picomatch", "npm:2.3.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:29.7.0", {\
+        "packageLocation": "./.yarn/cache/jest-util-npm-29.7.0-ff1d59714b-30d58af696.zip/node_modules/jest-util/",\
+        "packageDependencies": [\
+          ["jest-util", "npm:29.7.0"],\
+          ["@jest/types", "npm:29.6.3"],\
           ["@types/node", "npm:18.8.3"],\
           ["chalk", "npm:4.1.2"],\
           ["ci-info", "npm:3.4.0"],\
@@ -34937,6 +35060,16 @@ const RAW_RUNTIME_STATE =
           ["react-is", "npm:18.2.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:29.7.0", {\
+        "packageLocation": "./.yarn/cache/pretty-format-npm-29.7.0-7d330b2ea2-dea96bc83c.zip/node_modules/pretty-format/",\
+        "packageDependencies": [\
+          ["pretty-format", "npm:29.7.0"],\
+          ["@jest/schemas", "npm:29.6.3"],\
+          ["ansi-styles", "npm:5.2.0"],\
+          ["react-is", "npm:18.2.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["private-ip", [\
@@ -39671,6 +39804,13 @@ const RAW_RUNTIME_STATE =
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07", {\
+        "packageLocation": "./.yarn/cache/typescript-patch-9fde7bec60-7cf7acb78a.zip/node_modules/typescript/",\
+        "packageDependencies": [\
+          ["typescript", "patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["typical", [\
@@ -39744,6 +39884,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["undici", "npm:5.28.4"],\
           ["@fastify/busboy", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["undici-types", [\
+      ["npm:5.26.5", {\
+        "packageLocation": "./.yarn/cache/undici-types-npm-5.26.5-de4f7c7bb9-0097779d94.zip/node_modules/undici-types/",\
+        "packageDependencies": [\
+          ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
       }]\
