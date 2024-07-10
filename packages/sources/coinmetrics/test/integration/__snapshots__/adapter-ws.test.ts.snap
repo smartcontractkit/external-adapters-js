@@ -28,57 +28,6 @@ exports[`websocket lwba endpoint should return success 1`] = `
 }
 `;
 
-exports[`websocket lwba endpoint should return success 2`] = `
-{
-  "data": {
-    "ask": 1562.4083581615457,
-    "bid": 1562.3384315992228,
-    "mid": 1562.3733948803842,
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1024,
-    "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1678248273750,
-  },
-}
-`;
-
-exports[`websocket lwba endpoint should return success 3`] = `
-{
-  "data": {
-    "ask": 1562.4083581615457,
-    "bid": 1562.3384315992228,
-    "mid": 1562.3733948803842,
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1024,
-    "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1678248273750,
-  },
-}
-`;
-
-exports[`websocket lwba endpoint should return success aaaa 1`] = `
-{
-  "data": {
-    "ask": 1562.4083581615457,
-    "bid": 1562.3384315992228,
-    "mid": 1562.3733948803842,
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1024,
-    "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1678248273750,
-  },
-}
-`;
-
 exports[`websocket price endpoint should return success 1`] = `
 {
   "data": {
