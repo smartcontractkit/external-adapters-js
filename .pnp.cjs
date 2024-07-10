@@ -9276,7 +9276,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-          ["@chainlink/external-adapter-framework", "npm:1.0.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.1.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
