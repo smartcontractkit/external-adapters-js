@@ -6544,7 +6544,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmetrics/",\
         "packageDependencies": [\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:1.0.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.1.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7461,6 +7461,25 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.0.0-d0cc0190c3-198224da23.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:1.0.0"],\
+          ["ajv", "npm:8.11.0"],\
+          ["axios", "npm:1.6.8"],\
+          ["eventsource", "npm:2.0.2"],\
+          ["fastify", "npm:4.13.0"],\
+          ["ioredis", "npm:5.2.3"],\
+          ["mock-socket", "npm:9.1.5"],\
+          ["pino", "npm:8.6.1"],\
+          ["pino-pretty", "npm:9.1.0"],\
+          ["prom-client", "npm:13.2.0"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:d0cc0190c3fcfe37747b6d0a23cb4f5c24350f3c38b077be4e67d9c730c2ae9559a98ab36d8cfc2795fd062fb974d378933621e8fce700e865afe570391b7596#npm:8.9.0"],\
+          ["yeoman-generator", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.1.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.1.0-30e95262df-402f13fed2.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:1.1.0"],\
           ["ajv", "npm:8.11.0"],\
           ["axios", "npm:1.6.8"],\
           ["eventsource", "npm:2.0.2"],\
