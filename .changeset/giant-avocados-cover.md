@@ -1,5 +1,5 @@
 ---
-'@chainlink/eth-beacon-adapter': minor
+'@chainlink/eth-beacon-adapter': major
 ---
 
-Changed API method for getting balances
+Changed API method from GET to POST for getting balances. RPC_URLs need to be updated to use POST method.
