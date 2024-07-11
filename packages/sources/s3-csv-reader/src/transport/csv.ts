@@ -133,18 +133,10 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     const parsedHeaderRow = parsed[0]
     // validate CSV contains headers matcherColumn and resultColumn
     if (!(matcherColumn in parsedHeaderRow)) {
-      throw new Error(
-        `CSV file does not contain matcherColumn header ${matcherColumn}, got [${Object.keys(
-          parsedHeaderRow,
-        ).join(', ')}]`,
-      )
+      throw new Error(`CSV file does not contain matcherColumn header ${matcherColumn}`)
     }
     if (!(resultColumn in parsedHeaderRow)) {
-      throw new Error(
-        `CSV file does not contain resultColumn header ${resultColumn}, got [${Object.keys(
-          parsedHeaderRow,
-        ).join(', ')}]`,
-      )
+      throw new Error(`CSV file does not contain resultColumn header ${resultColumn}`)
     }
 
     // find correct row using matcher

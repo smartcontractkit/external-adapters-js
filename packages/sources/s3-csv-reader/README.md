@@ -31,14 +31,14 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |     Name      |   Aliases    |                                                    Description                                                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----------: | :----------: | :---------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    bucket     |              |                                              The S3 bucket to query                                               | string |         |         |            |                |
-|    ✅     |   keyPrefix   | `pathPrefix` |            The path prefix of the file stored in S3. <Date.csv> is appended to search for older files.            | string |         |         |            |                |
-|    ✅     |   headerRow   |              |                        The 1-indexed row of the CSV file that contains the column headers                         | number |         |         |            |                |
-|    ✅     | matcherColumn |              |                                 The column field to compare with the matcherValue                                 | string |         |         |            |                |
-|    ✅     | matcherValue  |              |                                       The value to match with matcherField                                        | string |         |         |            |                |
-|    ✅     | resultColumn  |              | The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue | string |         |         |            |                |
+| Required? |     Name      |   Aliases    |                                                               Description                                                                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------: | :----------: | :--------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    bucket     |              |                                                          The S3 bucket to query                                                          | string |         |         |            |                |
+|    ✅     |   keyPrefix   | `pathPrefix` | The path prefix of the file stored in S3. Will be prefixed onto <DATE>.csv to search for older files, e.g. 'path/prefix-01-02-2024.csv'. | string |         |         |            |                |
+|    ✅     |   headerRow   |              |                                    The 1-indexed row of the CSV file that contains the column headers                                    | number |         |         |            |                |
+|    ✅     | matcherColumn |              |                                            The column field to compare with the matcherValue                                             | string |         |         |            |                |
+|    ✅     | matcherValue  |              |                                                   The value to match with matcherField                                                   | string |         |         |            |                |
+|    ✅     | resultColumn  |              |            The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue             | string |         |         |            |                |
 
 ### Example
 
@@ -48,7 +48,7 @@ Request:
 {
   "data": {
     "endpoint": "csv",
-    "bucket": "s3_bucket",
+    "bucket": "s3-bucket",
     "keyPrefix": "path/to/file",
     "headerRow": 2,
     "matcherColumn": "matcherColumn",
