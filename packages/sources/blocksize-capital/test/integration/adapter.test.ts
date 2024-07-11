@@ -61,6 +61,15 @@ describe('websocket', () => {
       const response = await testAdapter.request(lwbaData)
       expect(response.json()).toMatchSnapshot()
     })
+    it('should return error (LWBA invariant violation)', async () => {
+      const lwbaData = {
+        base: 'LINK',
+        quote: 'USD',
+        endpoint: 'crypto-lwba',
+      }
+      const response = await testAdapter.request(lwbaData)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
   describe('vwap endpoint', () => {
     it('should return success', async () => {

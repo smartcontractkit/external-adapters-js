@@ -100,6 +100,12 @@ describe('websocket', () => {
       const response = await testAdapter.request(spreadData)
       expect(response.json()).toMatchSnapshot()
     })
+    it('should return error (invariant violation)', async () => {
+      // fast forward to next message (which contains an invariant violation)
+      testAdapter.clock.tick(5000)
+      const response = await testAdapter.request(spreadData)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 
   describe('forex endpoint', () => {
