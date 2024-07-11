@@ -23,6 +23,11 @@ describe('websocket', () => {
     quote: 'USD',
     endpoint: 'crypto-lwba',
   }
+  const lwbaDataInvariantViolation = {
+    base: 'BTC',
+    quote: 'USD',
+    endpoint: 'crypto-lwba',
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -76,6 +81,11 @@ describe('websocket', () => {
           providerDataStreamEstablishedUnixMs: expect.any(Number),
         },
       })
+    })
+
+    it('lwba endpoint should return error (invariant violation)', async () => {
+      const response = await testAdapter.request(lwbaDataInvariantViolation)
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should return error (empty data)', async () => {
