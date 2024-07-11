@@ -11,6 +11,27 @@ const logger = makeLogger('s3utils')
 // Note: any issues with S3 calls may be related to credentials.
 // Ensure policy is set up or CLI login is functional with > aws s3 ls
 
+const KEY_PREFIX_REGEX = /^[0-9a-zA-Z!\-_.*'()/]+$/
+const KEY_PREFIX_INVALID = ['../']
+
+const BUCKET_REGEX = /^[0-9a-z\-.]+$/
+const BUCKET_INVALID = ['..']
+
+export function isValidBucket(bucketName: string): boolean {
+  return (
+    BUCKET_REGEX.test(bucketName) &&
+    !BUCKET_INVALID.some((invalidSubstring) => bucketName.includes(invalidSubstring))
+  )
+}
+
+export function isValidKeyPrefix(keyPrefix: string): boolean {
+  // all chars in the string must match one in KEY_PREFIX_REGEX
+  return (
+    KEY_PREFIX_REGEX.test(keyPrefix) &&
+    !KEY_PREFIX_INVALID.some((invalidSubstring) => keyPrefix.includes(invalidSubstring))
+  )
+}
+
 export async function bucketExistsS3(s3Client: S3Client, bucket: string): Promise<boolean> {
   const command = new HeadBucketCommand({
     Bucket: bucket,
