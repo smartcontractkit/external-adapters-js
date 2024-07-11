@@ -3,6 +3,7 @@ import {
   LwbaResponseDataFields,
   DEFAULT_LWBA_ALIASES,
   priceEndpointInputParametersDefinition,
+  validateLwbaResponse,
 } from '@chainlink/external-adapter-framework/adapter'
 import { config } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -14,6 +15,7 @@ import {
 import {
   AdapterError,
   AdapterInputError,
+  AdapterLWBAError,
 } from '@chainlink/external-adapter-framework/validation/error'
 
 // Note: this adapter is intended for the API with endpoint 'wss://cryptofeed.ws.newchangefx.com'.
@@ -54,6 +56,16 @@ export const cryptoEndpoint = new CryptoPriceEndpoint({
   aliases: DEFAULT_LWBA_ALIASES,
   transport,
   customInputValidation,
+  customOutputValidation: (output) => {
+    const data = output.data as LwbaResponseDataFields['Data']
+    const error = validateLwbaResponse(data.bid, data.mid, data.ask)
+
+    if (error) {
+      throw new AdapterLWBAError({ statusCode: 500, message: error })
+    }
+
+    return undefined
+  },
   inputParameters,
   requestTransforms: [
     (req) => {
