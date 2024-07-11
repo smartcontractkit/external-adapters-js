@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket crypto endpoint should return error (LWBA invariant violation) 1`] = `
+{
+  "error": {
+    "message": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 3106.8495, mid: 3106.9885, ask: 3105.1275)",
+    "name": "AdapterLWBAError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`websocket crypto endpoint should return success 1`] = `
 {
   "data": {

@@ -22,6 +22,10 @@ describe('websocket', () => {
     base: 'ETH',
     quote: 'USD',
   }
+  const dataLWBAInvariantViolation = {
+    base: 'BTC',
+    quote: 'USD',
+  }
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = apiKey
@@ -46,18 +50,31 @@ describe('websocket', () => {
 
   describe('price endpoint', () => {
     it('should return success', async () => {
-      mockSubscribeResponse(apiKey)
-      mockUnsubscribeResponse(apiKey)
+      mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
+      mockUnsubscribeResponse(apiKey, `${data.base}-${data.quote}`)
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return error (LWBA invariant violation)', async () => {
+      mockSubscribeResponse(
+        apiKey,
+        `${dataLWBAInvariantViolation.base}-${dataLWBAInvariantViolation.quote}`,
+      )
+      mockUnsubscribeResponse(
+        apiKey,
+        `${dataLWBAInvariantViolation.base}-${dataLWBAInvariantViolation.quote}`,
+      )
+      const response = await testAdapter.request(dataLWBAInvariantViolation)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('should return cached subscribe error', async () => {
-      mockSubscribeError(apiKey)
       const data = {
         base: 'XXX',
         quote: 'USD',
       }
+      mockSubscribeError(apiKey, `${data.base}-${data.quote}`)
       await testAdapter.request(data)
       await testAdapter.waitForCache()
       const response = await testAdapter.request(data)
