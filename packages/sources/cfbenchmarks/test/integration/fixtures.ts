@@ -83,6 +83,21 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
             midPrice: '1.1631',
           }),
         )
+      } else if (parsed.id === 'U_BTCUSD_RTI') {
+        // lwba endpoint invariant violation
+        console.log('return second eth request')
+        return socket.send(
+          JSON.stringify({
+            type: 'rti_stats',
+            time: 1677876163000,
+            id: 'U_BTCUSD_RTI',
+            value: '1.1635',
+            utilizedDepth: '1888000.0',
+            valueAsk: '1.125',
+            midPrice: '1.126',
+            valueBid: '1.123',
+          }),
+        )
       } else if (parsed.id === 'U_LINKUSD_CHA_RTI') {
         // lwba endpoint
         return socket.send(
@@ -92,8 +107,8 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
             id: 'U_LINKUSD_CHA_RTI',
             value: '2651.63',
             utilizedDepth: '1888000.0',
-            valueAsk: '2651.01',
-            valueBid: '2652.26',
+            valueAsk: '2652.26',
+            valueBid: '2651.01',
             midPrice: '2651.63',
           }),
         )

@@ -113,6 +113,12 @@ export const mockCryptoLwbaWebSocketServer = (URL: string) => {
   mockWsServer.on('connection', (socket) => {
     const parseMessage = () => {
       setTimeout(() => socket.send(JSON.stringify(wsLwbaResponseBody)), 10)
+
+      const wsLwbaResponseBodyInvariantViolation = {
+        ...wsLwbaResponseBody,
+        ask_price: Number(wsLwbaResponseBody.mid_price) - 0.1,
+      }
+      setTimeout(() => socket.send(JSON.stringify(wsLwbaResponseBodyInvariantViolation)), 50)
     }
     parseMessage()
   })

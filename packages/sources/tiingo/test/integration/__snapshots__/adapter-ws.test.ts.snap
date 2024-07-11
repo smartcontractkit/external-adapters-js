@@ -15,6 +15,17 @@ exports[`websocket crypto endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket crypto_lwba endpoint should return error (invariant violation) 1`] = `
+{
+  "error": {
+    "message": "Invariant violation. LWBA response must contain mid, bid and ask prices. Got: (bid: null, mid: 1793.915292654675, ask: 1794.2063137650225)",
+    "name": "AdapterLWBAError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`websocket crypto_lwba endpoint should return success 1`] = `
 {
   "data": {

@@ -30,6 +30,17 @@ exports[`websocket crypto endpoint with override should return success 1`] = `
 }
 `;
 
+exports[`websocket lwba endpoint should return error (LWBA violation) 1`] = `
+{
+  "error": {
+    "message": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 1.123, mid: 1.1635, ask: 1.125)",
+    "name": "AdapterLWBAError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`websocket lwba endpoint should return success 1`] = `
 {
   "data": {
@@ -50,8 +61,8 @@ exports[`websocket lwba endpoint should return success 1`] = `
 exports[`websocket lwba endpoint with override should return success 1`] = `
 {
   "data": {
-    "ask": 2651.01,
-    "bid": 2652.26,
+    "ask": 2652.26,
+    "bid": 2651.01,
     "mid": 2651.63,
   },
   "result": null,
