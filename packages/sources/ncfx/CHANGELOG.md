@@ -1,5 +1,15 @@
 # @chainlink/ncfx-adapter
 
+## 3.6.0
+
+### Minor Changes
+
+- [#3346](https://github.com/smartcontractkit/external-adapters-js/pull/3346) [`2bd81dc`](https://github.com/smartcontractkit/external-adapters-js/commit/2bd81dc61797441bb7a788daee8c6ed0daae054b) Thanks [@mjk90](https://github.com/mjk90)! - Added LWBA invariant violation detection
+
+### Patch Changes
+
+- [#3344](https://github.com/smartcontractkit/external-adapters-js/pull/3344) [`9f98cbf`](https://github.com/smartcontractkit/external-adapters-js/commit/9f98cbf6f7418d563f7165e97748680ec6b82b58) Thanks [@mjk90](https://github.com/mjk90)! - Bumped framework version
+
 ## 3.5.8
 
 ### Patch Changes

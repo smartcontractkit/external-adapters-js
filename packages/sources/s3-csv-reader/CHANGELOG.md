@@ -1,5 +1,15 @@
 # @chainlink/s3-csv-reader-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3340](https://github.com/smartcontractkit/external-adapters-js/pull/3340) [`33bd0a4`](https://github.com/smartcontractkit/external-adapters-js/commit/33bd0a4c8389084ad342c659c0be29850546e6ed) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - security mitigations
+
+### Patch Changes
+
+- [#3344](https://github.com/smartcontractkit/external-adapters-js/pull/3344) [`9f98cbf`](https://github.com/smartcontractkit/external-adapters-js/commit/9f98cbf6f7418d563f7165e97748680ec6b82b58) Thanks [@mjk90](https://github.com/mjk90)! - Bumped framework version
+
 ## 2.0.0
 
 ### Major Changes
