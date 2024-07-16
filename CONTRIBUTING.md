@@ -14,6 +14,7 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 8. [Common Patterns](#Common-Patterns)
 9. [Soak Testing (Chainlink Labs)](<#Soak-Testing-(Chainlink-Labs)>)
 10. [Logging Censorship](#logging-censorship)
+11. [Framework Development](#framework-development)
 
 ## Creating A New Adapter
 
@@ -253,3 +254,41 @@ Available types of assertions:
 - `minItems` - list contains at least the required number of items
 - `contains` - list contains a specific item (string or number)
 - `hasKey` - an object contains a specific key
+
+## Framework Development
+
+Any new EAs should be developed using the [EA Framework](https://github.com/smartcontractkit/ea-framework-js) for base classes. Follow these steps if you would like to test changes to the EA Framework:
+
+1. Clone [external-adapters-js](https://github.com/smartcontractkit/external-adapters-js) and [ea-framework-js](https://github.com/smartcontractkit/ea-framework-js):
+
+```bash
+~ git clone https://github.com/smartcontractkit/external-adapters-js.git
+~ git clone https://github.com/smartcontractkit/ea-framework-js.git
+```
+
+2. Create the portal:
+
+```bash
+~ cd ea-framework-js/ && yarn portal-path
+```
+
+3. Replace the current version of the framework in `package.json` of a given adapter with the portal path printed in the previous step. For example:
+
+```json
+    "@chainlink/external-adapter-framework": "1.0.0",
+    // -->
+    "@chainlink/external-adapter-framework": "portal:/Users/username/ea-framework-js/dist/src",
+```
+
+4. Make the desired changes to `ea-framework-js` and rebuild:
+
+```bash
+~/ea-framework-js yarn build
+```
+
+6. Run the desired adapter to test:
+
+```bash
+~/ea-framework-js cd ../external-adapters-js/ && yarn && yarn setup && cd packages/sources/<adapter>
+~/external-adapters-js/packages/sources/<adapter> yarn start
+```
