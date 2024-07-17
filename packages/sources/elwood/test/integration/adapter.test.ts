@@ -23,6 +23,7 @@ describe('websocket', () => {
     quote: 'USD',
   }
   const dataLWBAInvariantViolation = {
+    endpoint: 'crypto-lwba',
     base: 'BTC',
     quote: 'USD',
   }
