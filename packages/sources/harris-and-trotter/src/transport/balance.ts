@@ -1,5 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/balance'
+import { getApiKeys } from './utils'
 
 export interface ResponseSchema {
   accountName: string
@@ -29,7 +30,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           baseURL: config.API_ENDPOINT,
           url: '/balances',
           headers: {
-            'x-functions-key': config.API_KEY,
+            'x-functions-key': getApiKeys(param.apiKey, config),
           },
           params: {
             client_name: param.clientName,
