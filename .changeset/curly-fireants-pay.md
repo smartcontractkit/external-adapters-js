@@ -1,6 +1,6 @@
 ---
-'@chainlink/elwood-adapter': minor
-'@chainlink/ncfx-adapter': minor
+'@chainlink/elwood-adapter': major
+'@chainlink/ncfx-adapter': major
 '@chainlink/gsr-adapter': minor
 ---
 

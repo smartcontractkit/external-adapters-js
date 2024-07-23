@@ -22,6 +22,11 @@ describe('websocket', () => {
     base: 'ETH',
     quote: 'USD',
   }
+  const dataLWBA = {
+    endpoint: 'crypto-lwba',
+    base: 'AVAX',
+    quote: 'USD',
+  }
   const dataLWBAInvariantViolation = {
     endpoint: 'crypto-lwba',
     base: 'BTC',
@@ -54,6 +59,13 @@ describe('websocket', () => {
       mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
       mockUnsubscribeResponse(apiKey, `${data.base}-${data.quote}`)
       const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success (LWBA)', async () => {
+      mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
+      mockUnsubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
+      const response = await testAdapter.request(dataLWBA)
       expect(response.json()).toMatchSnapshot()
     })
 

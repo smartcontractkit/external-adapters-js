@@ -1,12 +1,13 @@
 import { BaseEndpointTypesLwba } from '../endpoint/crypto-lwba'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import axios from 'axios'
+import {
+  DEFAULT_TRANSPORT_NAME,
+  EndpointContext,
+} from '@chainlink/external-adapter-framework/adapter'
+import { buildWsMessage, buildWsUrl, sendMessage, validateWsMessage } from './util'
 
 const logger = makeLogger('ElwoodWsLwba')
-
-const DEFAULT_TRANSPORT_NAME = 'default_single_transport'
 
 export type SubscribeRequest = {
   action: 'subscribe' | 'unsubscribe'
@@ -51,38 +52,14 @@ export const transport: WebSocketTransport<WsTransportTypes> =
     constructor() {
       super({
         url: (context) =>
-          `${context.adapterSettings.WS_API_ENDPOINT}?apiKey=${context.adapterSettings.API_KEY}`,
+          buildWsUrl(context.adapterSettings.WS_API_ENDPOINT, context.adapterSettings.API_KEY),
         handlers: {
           message(message) {
-            if (message.type !== 'Index') {
+            const validatedWsMessage = validateWsMessage(logger, message)
+            if (!validatedWsMessage) {
               return
             }
-
-            if (!message.data) {
-              logger.warn(`Got no data in WS message of type Index`)
-              return
-            }
-
-            if (typeof message.data?.symbol !== 'string') {
-              logger.warn(
-                `Got non string symbol "${message.data?.symbol}" in WS message of type Index`,
-              )
-              return
-            }
-
-            const [base, quote] = message.data.symbol.split('-')
-            if (!base || !quote) {
-              logger.warn(
-                `Got invalid symbol "${message.data?.symbol}" in WS message of type Index`,
-              )
-              return
-            }
-
-            const result = Number(message.data.price)
-            if (result < 0) {
-              logger.warn(`Got invalid price "${message.data.price}" in WS message of type Index`)
-              return
-            }
+            const { base, quote, result, bid, ask, timestamp } = validatedWsMessage
 
             return [
               {
@@ -93,12 +70,12 @@ export const transport: WebSocketTransport<WsTransportTypes> =
                 response: {
                   result: null,
                   data: {
-                    bid: Number(message.data.bid),
-                    ask: Number(message.data.ask),
+                    bid: bid,
+                    ask: ask,
                     mid: result,
                   },
                   timestamps: {
-                    providerIndicatedTimeUnixMs: new Date(message.data.timestamp).getTime(),
+                    providerIndicatedTimeUnixMs: timestamp,
                   },
                 },
               },
@@ -106,18 +83,8 @@ export const transport: WebSocketTransport<WsTransportTypes> =
           },
         },
         builders: {
-          subscribeMessage: (params): SubscribeRequest => ({
-            action: 'subscribe',
-            stream: 'index',
-            symbol: `${params.base}-${params.quote}`,
-            index_freq: 1_000, // Milliseconds
-          }),
-          unsubscribeMessage: (params): SubscribeRequest => ({
-            action: 'unsubscribe',
-            stream: 'index',
-            symbol: `${params.base}-${params.quote}`,
-            index_freq: 1_000, // Milliseconds
-          }),
+          subscribeMessage: (params): SubscribeRequest => buildWsMessage('subscribe', params),
+          unsubscribeMessage: (params): SubscribeRequest => buildWsMessage('unsubscribe', params),
         },
       })
     }
@@ -129,37 +96,35 @@ export const transport: WebSocketTransport<WsTransportTypes> =
     ): Promise<void> {
       const messages = subscribes.concat(unsubscribes)
       for (const message of messages) {
-        axios
-          .request({
-            url: `${context.adapterSettings.API_ENDPOINT}?apiKey=${context.adapterSettings.API_KEY}`,
-            method: 'post',
-            data: message,
-          })
-          .catch(async (error) => {
-            logger.debug(`Failed to ${message.action} the ${message.symbol} pair`)
-            const base = message.symbol.split('-')[0]
-            const quote = message.symbol.split('-')[1]
-            const defaultErrorMsg = `Failed to ${message.action} the ${message.symbol} pair`
-            if (error.response) {
-              await this.responseCache.write(DEFAULT_TRANSPORT_NAME, [
-                {
-                  params: {
-                    base,
-                    quote,
-                  },
-                  response: {
-                    statusCode: error.response.data['error']['code'] || 500,
-                    errorMessage: error.response.data['error']['message'] || defaultErrorMsg,
-                    timestamps: {
-                      providerDataReceivedUnixMs: Date.now(),
-                      providerIndicatedTimeUnixMs: undefined,
-                      providerDataStreamEstablishedUnixMs: this.providerDataStreamEstablished,
-                    },
+        sendMessage(
+          context.adapterSettings.API_ENDPOINT,
+          context.adapterSettings.API_KEY,
+          message,
+        ).catch(async (error) => {
+          logger.debug(`Failed to ${message.action} the ${message.symbol} pair`)
+          const base = message.symbol.split('-')[0]
+          const quote = message.symbol.split('-')[1]
+          const defaultErrorMsg = `Failed to ${message.action} the ${message.symbol} pair`
+          if (error.response) {
+            await this.responseCache.write(DEFAULT_TRANSPORT_NAME, [
+              {
+                params: {
+                  base,
+                  quote,
+                },
+                response: {
+                  statusCode: error.response.data['error']['code'] || 500,
+                  errorMessage: error.response.data['error']['message'] || defaultErrorMsg,
+                  timestamps: {
+                    providerDataReceivedUnixMs: Date.now(),
+                    providerIndicatedTimeUnixMs: undefined,
+                    providerDataStreamEstablishedUnixMs: this.providerDataStreamEstablished,
                   },
                 },
-              ])
-            }
-          })
+              },
+            ])
+          }
+        })
       }
     }
   })()
