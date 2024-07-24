@@ -1,8 +1,8 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/crypto'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypesLwba } from '../endpoint/crypto-lwba'
 
-const logger = makeLogger('NcfxCryptoEndpoint')
+const logger = makeLogger('NcfxLwbaEndpoint')
 
 type WsMessage = WsInfoMessage | WsPriceMessage
 
@@ -19,7 +19,7 @@ type WsPriceMessage = {
   mid?: number // e.g. 1595.5346
 }
 
-type WsTransportTypes = BaseEndpointTypes & {
+type WsTransportTypes = BaseEndpointTypesLwba & {
   Provider: {
     WsMessage: WsMessage
   }
@@ -74,9 +74,11 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         {
           params: { base, quote },
           response: {
-            result: message.mid || 0, // Already validated in the filter above
+            result: null,
             data: {
-              result: message.mid || 0, // Already validated in the filter above
+              bid: message.bid || 0,
+              mid: message.mid || 0,
+              ask: message.offer || 0,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: new Date(providerTime).getTime(),

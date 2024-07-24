@@ -17,6 +17,13 @@ export const mockCryptoResponse = {
   offer: 3107.1275,
   mid: 3106.9885,
 }
+export const mockCryptoResponseLwba = {
+  timestamp: '2022-08-01T07:15:54.909',
+  currencyPair: 'AVAX/USD',
+  bid: 28.1,
+  offer: 28.2,
+  mid: 28.15,
+}
 export const mockCryptoResponseLwbaInvariantViolation = {
   timestamp: '2022-08-01T07:15:54.909',
   currencyPair: 'BTC/USD',
@@ -125,6 +132,7 @@ export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
     socket.on('message', () => {
       socket.send(JSON.stringify(subscribeResponse))
       socket.send(JSON.stringify(mockCryptoResponse))
+      socket.send(JSON.stringify(mockCryptoResponseLwba))
       socket.send(JSON.stringify(mockCryptoResponseLwbaInvariantViolation))
     })
   })

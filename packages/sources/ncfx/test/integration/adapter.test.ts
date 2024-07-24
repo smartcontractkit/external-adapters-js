@@ -20,7 +20,13 @@ describe('websocket', () => {
     base: 'eth',
     quote: 'usd',
   }
+  const cryptoDataLwba = {
+    endpoint: 'crypto-lwba',
+    base: 'avax',
+    quote: 'usd',
+  }
   const cryptoDataLwbaInvariantViolation = {
+    endpoint: 'crypto-lwba',
     base: 'btc',
     quote: 'usd',
   }
@@ -54,9 +60,10 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(cryptoData)
+    await testAdapter.request(cryptoDataLwba)
     await testAdapter.request(cryptoDataLwbaInvariantViolation)
     await testAdapter.request(forexData)
-    await testAdapter.waitForCache(3)
+    await testAdapter.waitForCache(7)
   })
 
   afterAll(async () => {
@@ -86,6 +93,13 @@ describe('websocket', () => {
     it('should return error (empty quote)', async () => {
       const response = await testAdapter.request({ base: 'ETH' })
       expect(response.statusCode).toEqual(400)
+    })
+  })
+
+  describe('lwba endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(cryptoDataLwba)
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should return error (LWBA invariant violation)', async () => {
