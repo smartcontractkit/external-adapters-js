@@ -1,4 +1,4 @@
-import { BaseEndpointTypes } from '../endpoint/crypto'
+import { BaseEndpointTypesLwba } from '../endpoint/crypto-lwba'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import {
@@ -7,7 +7,7 @@ import {
 } from '@chainlink/external-adapter-framework/adapter'
 import { buildWsMessage, buildWsUrl, sendMessage, validateWsMessage } from './util'
 
-const logger = makeLogger('ElwoodWsPrice')
+const logger = makeLogger('ElwoodWsLwba')
 
 export type SubscribeRequest = {
   action: 'subscribe' | 'unsubscribe'
@@ -41,7 +41,7 @@ export type ErrorResponse = {
 
 export type ResponseMessage = PriceResponse | HeartbeatResponse
 
-export type WsTransportTypes = BaseEndpointTypes & {
+export type WsTransportTypes = BaseEndpointTypesLwba & {
   Provider: {
     WsMessage: ResponseMessage
   }
@@ -59,7 +59,7 @@ export const transport: WebSocketTransport<WsTransportTypes> =
             if (!validatedWsMessage) {
               return
             }
-            const { base, quote, result, timestamp } = validatedWsMessage
+            const { base, quote, result, bid, ask, timestamp } = validatedWsMessage
 
             return [
               {
@@ -68,9 +68,11 @@ export const transport: WebSocketTransport<WsTransportTypes> =
                   quote,
                 },
                 response: {
-                  result,
+                  result: null,
                   data: {
-                    result,
+                    bid: bid,
+                    ask: ask,
+                    mid: result,
                   },
                   timestamps: {
                     providerIndicatedTimeUnixMs: timestamp,
