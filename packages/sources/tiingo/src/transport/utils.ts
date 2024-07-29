@@ -74,7 +74,7 @@ export const buildBatchedRequestBodyForPrice = <T extends typeof inputParameters
         url: url,
         params: {
           token: settings.API_KEY,
-          baseCurrency: `${param.base.toLowerCase()}`,
+          baseCurrency: param.base.toLowerCase(),
           convertCurrency: param.quote.toLowerCase(),
           consolidateBaseCurrency: true,
           resampleFreq: '24hour',
