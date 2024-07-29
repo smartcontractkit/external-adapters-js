@@ -52,15 +52,24 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
         return {
           eventName: 'subscribe',
           authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 6, tickers: [`${params.base}/${params.quote}`] },
+          eventData: getEventData(params.base, params.quote),
         }
       },
       unsubscribeMessage: (params) => {
         return {
           eventName: 'unsubscribe',
           authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 6, tickers: [`${params.base}/${params.quote}`] },
+          eventData: getEventData(params.base, params.quote),
         }
       },
     },
   })
+
+function getEventData(base: string, quote: string) {
+  return {
+    thresholdLevel: 6,
+    baseCurrency: base,
+    convertCurrency: quote,
+    consolidateBaseCurrency: true,
+  }
+}
