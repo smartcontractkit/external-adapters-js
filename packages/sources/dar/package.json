@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dar-adapter",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "description": "Chainlink dar adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.1.0",
+    "@chainlink/external-adapter-framework": "1.2.0",
     "axios": "1.6.8",
     "tslib": "^2.3.1"
   },

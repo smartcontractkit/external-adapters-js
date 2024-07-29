@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/twosigma-adapter",
-  "version": "1.2.17",
+  "version": "1.2.18",
   "description": "Chainlink twosigma adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.1.0",
+    "@chainlink/external-adapter-framework": "1.2.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

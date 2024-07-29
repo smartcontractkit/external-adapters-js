@@ -89,6 +89,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       response = await this._handleRequest(param)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(e, errorMessage)
       response = {
         statusCode: 502,
         errorMessage,
@@ -106,31 +107,29 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const url = `/eth/v1/beacon/states/${params.stateId}/validators`
-    const statusList = params.validatorStatus?.join(',')
+    const statusList = params.validatorStatus
     const batchSize = this.config.BATCH_SIZE
     const responses = []
 
     const providerDataRequestedUnixMs = Date.now()
     // If adapter configured with 0 batch size, put all validators in one request to allow skipping batching
     if (batchSize === 0) {
-      const addresses = params.addresses.map(({ address }) => address).join(',')
+      const addresses = params.addresses.map(({ address }) => address)
       responses.push(await this.queryBeaconChain(url, addresses, statusList))
     } else {
-      const batchedAddresses = []
+      const batchedAddresses: string[][] = []
       // Separate the address set into the specified batch size
       // Add the batches as comma-separated lists to a new list used to make the requests
       for (let i = 0; i < params.addresses.length / batchSize; i++) {
         batchedAddresses.push(
           params.addresses
             .slice(i * batchSize, i * batchSize + batchSize)
-            .map(({ address }) => address)
-            .join(','),
+            .map(({ address }) => address),
         )
       }
 
       const groupSize = this.config.GROUP_SIZE
       const requestGroups = splitArrayIntoChunks(batchedAddresses, groupSize)
-
       // Make request to beacon API for every batch
       // Send requests in groups
       for (const group of requestGroups) {
@@ -200,13 +199,14 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
 
   private async queryBeaconChain(
     url: string,
-    addresses: string,
-    statusList?: string,
+    addresses: string[],
+    statusList?: string[],
   ): Promise<StateResponseSchema> {
     const requestConfig = {
+      method: 'POST',
       baseURL: this.config.ETH_CONSENSUS_RPC_URL,
       url,
-      params: { id: addresses, status: statusList || undefined },
+      data: { ids: addresses, statuses: statusList?.length ? statusList : undefined },
     }
 
     const res = await this.requester.request<StateResponseSchema>(
@@ -216,7 +216,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
           inputParameters,
           endpointName: this.endpointName,
         },
-        data: requestConfig.params,
+        data: requestConfig.data,
         transportName: this.name,
       }),
       requestConfig,

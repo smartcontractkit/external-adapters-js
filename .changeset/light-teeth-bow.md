@@ -51,6 +51,7 @@
 '@chainlink/ion.au-adapter': patch
 '@chainlink/starknet-gas-price-adapter': patch
 '@chainlink/clear-bank-adapter': patch
+'@chainlink/coinmetrics-adapter': patch
 '@chainlink/dxfeed-adapter': patch
 '@chainlink/oanda-adapter': patch
 '@chainlink/the-network-firm-adapter': patch
@@ -58,6 +59,7 @@
 '@chainlink/ncfx-adapter': patch
 '@chainlink/trueusd-adapter': patch
 '@chainlink/cryptocompare-adapter': patch
+'@chainlink/tiingo-adapter': patch
 '@chainlink/harris-and-trotter-adapter': patch
 '@chainlink/intrinio-adapter': patch
 '@chainlink/twosigma-adapter': patch

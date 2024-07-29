@@ -1,8 +1,10 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { httpTransport } from '../transport/balance'
+import { getApiKeys } from '../transport/utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -22,12 +24,19 @@ export const inputParameters = new InputParameters(
       default: 'total',
       options: ['total', 'vault', 'trading'],
     },
+    apiKey: {
+      type: 'string',
+      description:
+        'Alternative api keys to use for this request, {$apiKey}_ACCESS_KEY {$apiKey}_PASSPHRASE {$apiKey}_SIGNING_KEY required in environment variables',
+      default: '',
+    },
   },
   [
     {
       portfolio: 'abcd1234-123a-1234-ab12-12a34bcd56e7',
       symbol: 'BTC',
       type: 'total',
+      apiKey: '',
     },
   ],
 )
@@ -42,4 +51,10 @@ export const endpoint = new AdapterEndpoint({
   name: 'balance',
   transport: httpTransport,
   inputParameters,
+  customInputValidation: (request, settings): AdapterError | undefined => {
+    if (request.requestContext.data.apiKey) {
+      getApiKeys(request.requestContext.data.apiKey, settings)
+    }
+    return
+  },
 })

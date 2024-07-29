@@ -85,6 +85,23 @@ export const mockWebSocketServer = (URL: string) => {
           ),
         10,
       )
+      setTimeout(
+        () =>
+          socket.send(
+            JSON.stringify({
+              type: 'Index',
+              data: {
+                bid: '32.16',
+                price: '32.17',
+                ask: '32.18',
+                symbol: 'AVAX-USD',
+                timestamp: '2022-11-08T04:18:20.736534617Z',
+              },
+              sequence: 123,
+            }),
+          ),
+        10,
+      )
     }
     parseMessage()
   })

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/gsr-adapter",
-  "version": "2.2.5",
+  "version": "2.3.0",
   "description": "Chainlink gsr adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.1.0",
+    "@chainlink/external-adapter-framework": "1.2.0",
     "axios": "1.6.8",
     "crypto": "1.0.1",
     "tslib": "2.4.1"

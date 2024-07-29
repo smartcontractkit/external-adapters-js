@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/view-starknet-latest-answer-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink view-starknet-latest-answer adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.1.0",
+    "@chainlink/external-adapter-framework": "1.2.0",
     "starknet": "6.9.0",
     "tslib": "2.4.1"
   }

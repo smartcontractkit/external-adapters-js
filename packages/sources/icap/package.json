@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/icap-adapter",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Chainlink ICAP adapter (sister to TP adapter).",
   "keywords": [
     "Chainlink",
@@ -30,7 +30,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.1.0",
+    "@chainlink/external-adapter-framework": "1.2.0",
     "@chainlink/tp-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
     "tslib": "^2.3.1"

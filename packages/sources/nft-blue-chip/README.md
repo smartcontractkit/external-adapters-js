@@ -1,6 +1,6 @@
 # NFT_BLUE_CHIP
 
-![1.1.26](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nft-blue-chip/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nft-blue-chip/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
