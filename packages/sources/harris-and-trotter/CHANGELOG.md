@@ -1,5 +1,15 @@
 # @chainlink/harris-and-trotter-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3358](https://github.com/smartcontractkit/external-adapters-js/pull/3358) [`5e53f62`](https://github.com/smartcontractkit/external-adapters-js/commit/5e53f62b47c9c523b30bad8e0edc402b2adad8b9) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow for multiple sets of keys to be used in the Harris-and-trotter EA
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
 ## 1.0.8
 
 ### Patch Changes
