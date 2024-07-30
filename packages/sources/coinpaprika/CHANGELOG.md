@@ -1,5 +1,15 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3361](https://github.com/smartcontractkit/external-adapters-js/pull/3361) [`9504a47`](https://github.com/smartcontractkit/external-adapters-js/commit/9504a47a1260c98cf0432605bc189257820877e6) Thanks [@cawthorne](https://github.com/cawthorne)! - Updating the override for FDUSD to fdusd-first-digital-usd
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
 ## 2.0.20
 
 ### Patch Changes

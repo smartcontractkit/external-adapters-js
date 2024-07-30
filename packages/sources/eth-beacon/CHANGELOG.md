@@ -1,5 +1,15 @@
 # @chainlink/eth-beacon-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#3252](https://github.com/smartcontractkit/external-adapters-js/pull/3252) [`732cf4c`](https://github.com/smartcontractkit/external-adapters-js/commit/732cf4c4ecb7f9167e86a4a788d0ca88ebeab699) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Changed API method from GET to POST for getting balances. Make sure that ETH Beacon API (ETH_CONSENSUS_RPC_URL) version is 2.5.0 or later.
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
 ## 2.0.13
 
 ### Patch Changes

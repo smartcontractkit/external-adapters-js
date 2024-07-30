@@ -34,6 +34,7 @@ export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
     ResponseBody: ProviderResponseBody[]
   }
 }
+
 export const buildBatchedRequestBody = <T extends typeof inputParameters.validated>(
   params: T[],
   settings: typeof config.settings,
@@ -54,6 +55,29 @@ export const buildBatchedRequestBody = <T extends typeof inputParameters.validat
             ',',
           ),
           resampleFreq: url === 'tiingo/crypto/prices' ? '24hour' : undefined,
+        },
+      },
+    }
+  })
+}
+
+export const buildBatchedRequestBodyForPrice = <T extends typeof inputParameters.validated>(
+  params: T[],
+  settings: typeof config.settings,
+  url: string,
+) => {
+  return params.map((param) => {
+    return {
+      params: [{ base: param.base, quote: param.quote }],
+      request: {
+        baseURL: settings.API_ENDPOINT,
+        url: url,
+        params: {
+          token: settings.API_KEY,
+          baseCurrency: param.base.toLowerCase(),
+          convertCurrency: param.quote.toLowerCase(),
+          consolidateBaseCurrency: true,
+          resampleFreq: '24hour',
         },
       },
     }

@@ -1,6 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/balance'
-import { sign } from './utils'
+import { sign, getApiKeys } from './utils'
 
 export interface ResponseSchema {
   balances: {
@@ -34,22 +34,25 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
+
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
+      const [signingKey, accessKey, passPhrase] = getApiKeys(param.apiKey, config)
       const timestamp = Math.floor(Date.now() / 1000)
       const method = 'GET'
       const path = `/v1/portfolios/${param.portfolio}/balances`
       const message = `${timestamp}${method}${path}`
-      const signature = sign(message, config.SIGNING_KEY)
+      const signature = sign(message, signingKey)
+
       return {
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
           url: path,
           headers: {
-            'X-CB-ACCESS-KEY': config.ACCESS_KEY,
-            'X-CB-ACCESS-PASSPHRASE': config.PASSPHRASE,
+            'X-CB-ACCESS-KEY': accessKey,
+            'X-CB-ACCESS-PASSPHRASE': passPhrase,
             'X-CB-ACCESS-SIGNATURE': signature,
             'X-CB-ACCESS-TIMESTAMP': timestamp,
             'Content-Type': 'application/json',

@@ -6,10 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     |            Description            |  Type  | Options |                 Default                  |
-| :-------: | :----------: | :-------------------------------: | :----: | :-----: | :--------------------------------------: |
-|    ✅     |   API_KEY    |   An API key for Data Provider    | string |         |                                          |
-|           | API_ENDPOINT | An API endpoint for Data Provider | string |         | `https://api.harrisandtrotter.co.uk/api` |
+| Required? |        Name         |                    Description                     |  Type  | Options |                 Default                  |
+| :-------: | :-----------------: | :------------------------------------------------: | :----: | :-----: | :--------------------------------------: |
+|    ✅     |       API_KEY       |            An API key for Data Provider            | string |         |                                          |
+|           | {KEY_NAME}\_API_KEY | Alternative API key, use apiKey in input to select | string |         |                                          |
+|           |    API_ENDPOINT     |         An API endpoint for Data Provider          | string |         | `https://api.harrisandtrotter.co.uk/api` |
 
 ---
 
@@ -33,9 +34,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-| Required? |    Name    | Aliases |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | clientName |         | The name of the client to retrieve balances for. | string |         |         |            |                |
+| Required? |    Name    | Aliases |                                            Description                                             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | clientName |         |                          The name of the client to retrieve balances for.                          | string |         |         |            |                |
+|           |   apiKey   |         | Alternative api keys to use for this request, {$apiKey}\_API_KEY required in environment variables | string |         |         |            |                |
 
 ### Example
 
@@ -45,7 +47,8 @@ Request:
 {
   "data": {
     "endpoint": "balance",
-    "clientName": "TUSD"
+    "clientName": "TUSD",
+    "apiKey": ""
   }
 }
 ```

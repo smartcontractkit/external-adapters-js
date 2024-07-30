@@ -6,13 +6,16 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options |             Default              |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------: |
-|           |     API_ENDPOINT      |                            The HTTP URL to retrieve data from                             | string |         | `https://api.prime.coinbase.com` |
-|    ✅     |      ACCESS_KEY       |                            The API key for Coinbase Prime auth                            | string |         |                                  |
-|    ✅     |      PASSPHRASE       |                          The passphrase for Coinbase Prime auth                           | string |         |                                  |
-|    ✅     |      SIGNING_KEY      |                          The signing key for Coinbase Prime auth                          | string |         |                                  |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |             `10000`              |
+| Required? |          Name           |                                        Description                                        |  Type  | Options |             Default              |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------: |
+|           |      API_ENDPOINT       |                            The HTTP URL to retrieve data from                             | string |         | `https://api.prime.coinbase.com` |
+|    ✅     |       ACCESS_KEY        |                            The API key for Coinbase Prime auth                            | string |         |                                  |
+|    ✅     |       PASSPHRASE        |                          The passphrase for Coinbase Prime auth                           | string |         |                                  |
+|    ✅     |       SIGNING_KEY       |                          The signing key for Coinbase Prime auth                          | string |         |                                  |
+|           | {KEY_NAME}\_ACCESS_KEY  |                    Alternative API key, use apiKey in input to select                     | string |         |                                  |
+|           | {KEY_NAME}\_PASSPHRASE  |                   Alternative passphrase, use apiKey in input to select                   | string |         |                                  |
+|           | {KEY_NAME}\_SIGNING_KEY |              Alternative signing keyauth, use apiKey in input to select this              | string |         |                                  |
+|           |  BACKGROUND_EXECUTE_MS  | The amount of time the background execute should sleep before performing the next request | number |         |             `10000`              |
 
 ---
 
@@ -36,11 +39,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-| Required? |   Name    | Aliases |               Description                |  Type  |           Options           | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :-----: | :--------------------------------------: | :----: | :-------------------------: | :-----: | :--------: | :------------: |
-|    ✅     | portfolio |         | The portfolio ID to query the balance of | string |                             |         |            |                |
-|    ✅     |  symbol   |         |   The symbol to return the balance for   | string |                             |         |            |                |
-|           |   type    |         |        The balance type to return        | string | `total`, `trading`, `vault` | `total` |            |                |
+| Required? |   Name    | Aliases |                                                                    Description                                                                    |  Type  |           Options           | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :-----: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | portfolio |         |                                                     The portfolio ID to query the balance of                                                      | string |                             |         |            |                |
+|    ✅     |  symbol   |         |                                                       The symbol to return the balance for                                                        | string |                             |         |            |                |
+|           |   type    |         |                                                            The balance type to return                                                             | string | `total`, `trading`, `vault` | `total` |            |                |
+|           |  apiKey   |         | Alternative api keys to use for this request, {$apiKey}_ACCESS_KEY {$apiKey}\_PASSPHRASE {$apiKey}\_SIGNING_KEY required in environment variables | string |                             |         |            |                |
 
 ### Example
 
@@ -52,7 +56,8 @@ Request:
     "endpoint": "balance",
     "portfolio": "abcd1234-123a-1234-ab12-12a34bcd56e7",
     "symbol": "BTC",
-    "type": "total"
+    "type": "total",
+    "apiKey": ""
   }
 }
 ```
@@ -65,14 +70,15 @@ Request:
 
 ### Input Params
 
-| Required? |   Name    | Aliases |                Description                 |   Type   |                     Options                     |  Default  | Depends On | Not Valid With |
-| :-------: | :-------: | :-----: | :----------------------------------------: | :------: | :---------------------------------------------: | :-------: | :--------: | :------------: |
-|    ✅     | portfolio |         |  The portfolio ID to query the balance of  |  string  |                                                 |           |            |                |
-|    ✅     |  symbols  |         |    The symbol to return the balance for    | string[] |                                                 |           |            |                |
-|           |   type    |         |         The balance type to return         |  string  | `trading`, `vault`, `wallet_type_other`, `web3` |  `vault`  |            |                |
-|           |  chainId  |         |       The ID of the chain to return        |  string  |              `mainnet`, `testnet`               | `mainnet` |            |                |
-|           |  network  |         |           The network to return            |  string  |                                                 | `bitcoin` |            |                |
-|           | batchSize |         | The number of addresses to fetch at a time |  number  |                                                 |   `100`   |            |                |
+| Required? |   Name    | Aliases |                                                                    Description                                                                    |   Type   |                     Options                     |  Default  | Depends On | Not Valid With |
+| :-------: | :-------: | :-----: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :---------------------------------------------: | :-------: | :--------: | :------------: |
+|    ✅     | portfolio |         |                                                     The portfolio ID to query the balance of                                                      |  string  |                                                 |           |            |                |
+|    ✅     |  symbols  |         |                                                       The symbol to return the balance for                                                        | string[] |                                                 |           |            |                |
+|           |   type    |         |                                                            The balance type to return                                                             |  string  | `trading`, `vault`, `wallet_type_other`, `web3` |  `vault`  |            |                |
+|           |  chainId  |         |                                                           The ID of the chain to return                                                           |  string  |              `mainnet`, `testnet`               | `mainnet` |            |                |
+|           |  network  |         |                                                               The network to return                                                               |  string  |                                                 | `bitcoin` |            |                |
+|           | batchSize |         |                                                    The number of addresses to fetch at a time                                                     |  number  |                                                 |   `100`   |            |                |
+|           |  apiKey   |         | Alternative api keys to use for this request, {$apiKey}_ACCESS_KEY {$apiKey}\_PASSPHRASE {$apiKey}\_SIGNING_KEY required in environment variables |  string  |                                                 |           |            |                |
 
 ### Example
 
@@ -87,7 +93,8 @@ Request:
     "type": "vault",
     "chainId": "mainnet",
     "network": "bitcoin",
-    "batchSize": 10
+    "batchSize": 10,
+    "apiKey": ""
   }
 }
 ```

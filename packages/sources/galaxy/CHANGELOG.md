@@ -1,5 +1,11 @@
 # @chainlink/galaxy-source-adapter
 
+## 2.1.29
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
 ## 2.1.28
 
 ### Patch Changes

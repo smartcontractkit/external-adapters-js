@@ -1,10 +1,12 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import {
   PoRAddressEndpoint,
   PoRAddressResponse,
 } from '@chainlink/external-adapter-framework/adapter/por'
 import { config } from '../config'
 import { walletTransport } from '../transport/wallet'
+import { getApiKeys } from '../transport/utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -41,6 +43,12 @@ export const inputParameters = new InputParameters(
       description: 'The number of addresses to fetch at a time',
       default: 100,
     },
+    apiKey: {
+      type: 'string',
+      description:
+        'Alternative api keys to use for this request, {$apiKey}_ACCESS_KEY {$apiKey}_PASSPHRASE {$apiKey}_SIGNING_KEY required in environment variables',
+      default: '',
+    },
   },
   [
     {
@@ -50,6 +58,7 @@ export const inputParameters = new InputParameters(
       chainId: 'mainnet',
       network: 'bitcoin',
       batchSize: 10,
+      apiKey: '',
     },
   ],
 )
@@ -64,4 +73,10 @@ export const endpoint = new PoRAddressEndpoint({
   name: 'wallet',
   transport: walletTransport,
   inputParameters,
+  customInputValidation: (request, settings): AdapterError | undefined => {
+    if (request.requestContext.data.apiKey) {
+      getApiKeys(request.requestContext.data.apiKey, settings)
+    }
+    return
+  },
 })

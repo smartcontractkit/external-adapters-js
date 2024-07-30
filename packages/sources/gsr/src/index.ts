@@ -1,9 +1,9 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
 import { price } from './endpoint'
+import { GSRPriceAdapter } from './adapter'
 
-export const adapter = new PriceAdapter({
+export const adapter = new GSRPriceAdapter({
   defaultEndpoint: price.name,
   name: 'GSR',
   endpoints: [price],

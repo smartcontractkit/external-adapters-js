@@ -1,22 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket crypto endpoint should return error (LWBA invariant violation) 1`] = `
-{
-  "error": {
-    "message": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 3106.8495, mid: 3106.9885, ask: 3105.1275)",
-    "name": "AdapterLWBAError",
-  },
-  "status": "errored",
-  "statusCode": 500,
-}
-`;
-
 exports[`websocket crypto endpoint should return success 1`] = `
 {
   "data": {
-    "ask": 3107.1275,
-    "bid": 3106.8495,
-    "mid": 3106.9885,
     "result": 3106.9885,
   },
   "result": 3106.9885,
@@ -40,6 +26,34 @@ exports[`websocket forex endpoint should return success 1`] = `
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1659338092107,
+  },
+}
+`;
+
+exports[`websocket lwba endpoint should return error (LWBA invariant violation) 1`] = `
+{
+  "error": {
+    "message": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 3106.8495, mid: 3106.9885, ask: 3105.1275)",
+    "name": "AdapterLWBAError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`websocket lwba endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 28.2,
+    "bid": 28.1,
+    "mid": 28.15,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1659338154909,
   },
 }
 `;

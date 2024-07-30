@@ -114,7 +114,9 @@ export const mockResponseSuccess = (): nock.Scope =>
     .get('/tiingo/crypto/prices')
     .query({
       token: 'fake-api-key',
-      tickers: 'ethusd',
+      convertCurrency: 'usd',
+      baseCurrency: 'eth',
+      consolidateBaseCurrency: true,
       resampleFreq: '24hour',
     })
     .reply(

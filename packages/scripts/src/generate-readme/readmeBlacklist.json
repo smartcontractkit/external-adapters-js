@@ -58,6 +58,8 @@
     "token-allocation",
     "vesper",
     "view-function-multi-chain",
-    "xsushi-price"
+    "xsushi-price",
+    "coinbase-prime",
+    "harris-and-trotter"
   ]
 }

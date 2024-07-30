@@ -22,12 +22,26 @@ exports[`websocket price endpoint should return error (LWBA invariant violation)
 }
 `;
 
+exports[`websocket price endpoint should return success (LWBA) 1`] = `
+{
+  "data": {
+    "ask": 32.18,
+    "bid": 32.16,
+    "mid": 32.17,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2034,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1667881100736,
+  },
+}
+`;
+
 exports[`websocket price endpoint should return success 1`] = `
 {
   "data": {
-    "ask": 10002,
-    "bid": 10000,
-    "mid": 10001,
     "result": 10001,
   },
   "result": 10001,
