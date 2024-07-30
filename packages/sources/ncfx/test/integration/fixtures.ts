@@ -125,6 +125,14 @@ export const mockForexResponse = {
   XPTUSD: { price: 903.67, timestamp: '2022-08-01T07:14:54.508Z' },
 }
 
+export const mockMarketStatusResponse = {
+  marketStatus: {
+    fx: 'open',
+    metals: 'closed',
+  },
+  timestamp: '2024-06-20T20:44:09.594Z',
+}
+
 export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -145,6 +153,16 @@ export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
     socket.on('message', () => {
       socket.send(JSON.stringify(mockForexResponse))
     })
+  })
+  return mockWsServer
+}
+
+export const mockMarketStatusWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    setTimeout(() => {
+      socket.send(JSON.stringify(mockMarketStatusResponse))
+    }, 0)
   })
   return mockWsServer
 }
