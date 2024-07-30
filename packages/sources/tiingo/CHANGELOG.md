@@ -1,5 +1,27 @@
 ## v1.1.0
 
+## 2.5.0
+
+### Minor Changes
+
+- [#3360](https://github.com/smartcontractkit/external-adapters-js/pull/3360) [`13f756c`](https://github.com/smartcontractkit/external-adapters-js/commit/13f756cfaf510657bef251653a2a788cfb89474a) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix Tiingo ageur pair issue, use baseCurrency/convertCurrency/consolidateBaseCurrency instead of tickers as input param
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
+## 2.4.0
+
+### Minor Changes
+
+- [#3344](https://github.com/smartcontractkit/external-adapters-js/pull/3344) [`9f98cbf`](https://github.com/smartcontractkit/external-adapters-js/commit/9f98cbf6f7418d563f7165e97748680ec6b82b58) Thanks [@mjk90](https://github.com/mjk90)! - Add LWBA validation tests
+
+## 2.3.6
+
+### Patch Changes
+
+- [#3324](https://github.com/smartcontractkit/external-adapters-js/pull/3324) [`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
 ## 2.3.5
 
 ### Patch Changes

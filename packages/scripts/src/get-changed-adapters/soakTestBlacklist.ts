@@ -2,6 +2,7 @@ export const SoakTestBlacklist: string[] = [
   'accuweather',
   'ada-balance', // Missing: RPC URL
   'agoric',
+  'alongside', // Missing: RPC URL
   'alphachain',
   'alpine',
   'anchor', // Missing: RPC URL
@@ -66,6 +67,7 @@ export const SoakTestBlacklist: string[] = [
   'spectral-macro-score',
   'sportsdataio',
   'synth-index',
+  's3-csv-reader',
   'taapi',
   'terra-view-function', // Missing: RPC URL
   'therundown',

@@ -1,37 +1,37 @@
 import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
-export const mockSubscribeResponse = (apiKey: string) => {
+export const mockSubscribeResponse = (apiKey: string, symbol: string) => {
   nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
     .persist()
     .post(`/v1/stream?apiKey=${apiKey}`, {
       action: 'subscribe',
       stream: 'index',
-      symbol: 'ETH-USD',
+      symbol,
       index_freq: 1000,
     })
     .reply(200, {}, [])
 }
 
-export const mockUnsubscribeResponse = (apiKey: string) => {
+export const mockUnsubscribeResponse = (apiKey: string, symbol: string) => {
   nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
     .persist()
     .post(`/v1/stream?apiKey=${apiKey}`, {
       action: 'unsubscribe',
       stream: 'index',
-      symbol: 'ETH-USD',
+      symbol,
       index_freq: 1000,
     })
     .reply(200, {}, [])
 }
 
-export const mockSubscribeError = (apiKey: string) => {
+export const mockSubscribeError = (apiKey: string, symbol: string) => {
   nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
     .persist()
     .post(`/v1/stream?apiKey=${apiKey}`, {
       action: 'subscribe',
       stream: 'index',
-      symbol: 'XXX-USD',
+      symbol,
       index_freq: 1000,
     })
     .reply(400, {
@@ -57,11 +57,45 @@ export const mockWebSocketServer = (URL: string) => {
             JSON.stringify({
               type: 'Index',
               data: {
-                price: '10000',
-                bid: '10001',
+                bid: '10000',
+                price: '10001',
                 ask: '10002',
                 symbol: 'ETH-USD',
                 timestamp: '2022-11-08T04:18:18.736534617Z',
+              },
+              sequence: 123,
+            }),
+          ),
+        10,
+      )
+      setTimeout(
+        () =>
+          socket.send(
+            JSON.stringify({
+              type: 'Index',
+              data: {
+                bid: '10001',
+                price: '10000',
+                ask: '10002',
+                symbol: 'BTC-USD',
+                timestamp: '2022-11-08T04:18:19.736534617Z',
+              },
+              sequence: 123,
+            }),
+          ),
+        10,
+      )
+      setTimeout(
+        () =>
+          socket.send(
+            JSON.stringify({
+              type: 'Index',
+              data: {
+                bid: '32.16',
+                price: '32.17',
+                ask: '32.18',
+                symbol: 'AVAX-USD',
+                timestamp: '2022-11-08T04:18:20.736534617Z',
               },
               sequence: 123,
             }),

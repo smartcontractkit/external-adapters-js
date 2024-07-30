@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.117.0",
+  "version": "1.123.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -53,7 +53,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "0.33.8",
+    "@chainlink/external-adapter-framework": "1.2.0",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.1",
     "@types/babel__core": "7.20.5",
@@ -79,7 +79,7 @@
   "lint-staged": {
     "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
   },
-  "packageManager": "yarn@3.5.1",
+  "packageManager": "yarn@4.3.1",
   "resolutions": {
     "ethereum-cryptography@^1.1.2": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch",
     "ethereum-cryptography@^1.0.3": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch"

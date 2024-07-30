@@ -1,5 +1,6 @@
 {
   "coinpaprika": {
+    "FDUSD": "fdusd-first-digital-usd",
     "GRT": "grt-the-graph",
     "PAX": "usdp-paxos-standard-token",
     "RENFIL": "fil-filecoin",

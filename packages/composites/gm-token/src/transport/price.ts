@@ -68,6 +68,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       response = await this._handleRequest(param)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(e, errorMessage)
       response = {
         statusCode: 502,
         errorMessage,
@@ -95,9 +96,9 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       sources,
     } = await this.fetchPrices(assets, providerDataRequestedUnixMs)
 
-    const indexToken = tokenAddresses.arbitrum[index]
-    const longToken = tokenAddresses.arbitrum[long]
-    const shortToken = tokenAddresses.arbitrum[short]
+    const indexToken = tokenAddresses.arbitrum[index as keyof typeof tokenAddresses.arbitrum]
+    const longToken = tokenAddresses.arbitrum[long as keyof typeof tokenAddresses.arbitrum]
+    const shortToken = tokenAddresses.arbitrum[short as keyof typeof tokenAddresses.arbitrum]
 
     const tokenPriceContractParams = [
       this.settings.DATASTORE_CONTRACT_ADDRESS,

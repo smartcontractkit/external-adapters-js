@@ -43,6 +43,15 @@ export const mockLwbaResponse = {
         agg_mid_price: '1702.034150611851',
         ts: 1693425803028,
       },
+      {
+        ticker: 'LINKUSD',
+        agg_bid_price: '123.123',
+        agg_bid_size: '208.51838798',
+        agg_ask_price: '123.124',
+        agg_ask_size: '11.44083383',
+        agg_mid_price: '123.125',
+        ts: 1693425803029,
+      },
     ],
   },
 }

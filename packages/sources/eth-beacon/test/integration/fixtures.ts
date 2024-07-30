@@ -3,9 +3,12 @@ import nock from 'nock'
 export const mockBalanceSuccess = (): nock.Scope =>
   nock('http://localhost:3500', { encodedQueryParams: true })
     .persist()
-    .get(
-      '/eth/v1/beacon/states/finalized/validators?id=0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21,0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
-    )
+    .post('/eth/v1/beacon/states/finalized/validators', {
+      ids: [
+        '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
+        '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
+      ],
+    })
     .reply(
       200,
       {
@@ -63,12 +66,14 @@ export const mockBalanceSuccess = (): nock.Scope =>
 export const mockBalanceWithStatusSuccess = (): void => {
   nock('http://localhost:3500', { encodedQueryParams: true })
     .persist()
-    .get(
-      '/eth/v1/beacon/states/finalized/validators?status=active&' +
-        'id=0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21,' +
-        '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462,' +
+    .post('/eth/v1/beacon/states/finalized/validators', {
+      ids: [
+        '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
+        '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
         '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    )
+      ],
+      statuses: ['active'],
+    })
     .reply(
       200,
       {
@@ -133,12 +138,13 @@ export const mockGetEthDepositContract = (): void => {
 
 export const mockBalanceLimboValidator = (): void => {
   nock('http://localhost:3500', { encodedQueryParams: true })
-    .get(
-      '/eth/v1/beacon/states/finalized/validators?' +
-        'id=0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21,' +
-        '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462,' +
+    .post('/eth/v1/beacon/states/finalized/validators', {
+      ids: [
+        '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
+        '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
         '0x98416f837d457d72f0dd5297898e1225a1e7731c2579f642626fbdc8ee8ce4f1e89ca538b72d5c3b75fdd1e9e10c87c6',
-    )
+      ],
+    })
     .reply(
       200,
       {

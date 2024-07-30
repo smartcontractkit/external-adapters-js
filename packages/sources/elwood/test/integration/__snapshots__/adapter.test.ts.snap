@@ -11,15 +11,40 @@ exports[`websocket price endpoint should return cached subscribe error 1`] = `
 }
 `;
 
+exports[`websocket price endpoint should return error (LWBA invariant violation) 1`] = `
+{
+  "error": {
+    "message": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 10001, mid: 10000, ask: 10002)",
+    "name": "AdapterLWBAError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`websocket price endpoint should return success (LWBA) 1`] = `
+{
+  "data": {
+    "ask": 32.18,
+    "bid": 32.16,
+    "mid": 32.17,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2034,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1667881100736,
+  },
+}
+`;
+
 exports[`websocket price endpoint should return success 1`] = `
 {
   "data": {
-    "ask": 10002,
-    "bid": 10001,
-    "mid": 10000,
-    "result": 10000,
+    "result": 10001,
   },
-  "result": 10000,
+  "result": 10001,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1024,

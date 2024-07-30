@@ -41,6 +41,9 @@ const bidPrice = 1233
 const askPrice = 1235
 const time = 1669345393482
 
+const basewLwbaInvariantViolation = 'BTC'
+const askPriceLwbaInvariantViolation = 1222
+
 export const mockWebSocketServer = (URL: string) => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -53,6 +56,18 @@ export const mockWebSocketServer = (URL: string) => {
             price,
             bidPrice,
             askPrice,
+            ts: time * 1e6,
+          },
+        }),
+      )
+      socket.send(
+        JSON.stringify({
+          type: 'ticker',
+          data: {
+            symbol: `${basewLwbaInvariantViolation.toUpperCase()}.${quote.toUpperCase()}`,
+            price,
+            bidPrice,
+            askPriceLwbaInvariantViolation,
             ts: time * 1e6,
           },
         }),

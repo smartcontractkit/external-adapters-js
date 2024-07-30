@@ -110,5 +110,12 @@ describe('websocket', () => {
       const response = await testAdapter.request({ endpoint: 'crypto-lwba', base: 'ETH' })
       expect(response.statusCode).toEqual(400)
     })
+
+    it('should return error (invariant violation)', async () => {
+      // fast forward to next message (which contains an invariant violation)
+      testAdapter.clock.tick(1000)
+      const response = await testAdapter.request(dataLwba)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

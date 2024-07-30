@@ -30,6 +30,11 @@ describe('websocket', () => {
     quote: 'USD',
     endpoint: 'cryptolwba',
   }
+  const dataLwbaInvariantViolation = {
+    from: 'BTC',
+    quote: 'USD',
+    endpoint: 'cryptolwba',
+  }
   const dataLwbaOverride = {
     endpoint: 'cryptolwba',
     base: 'LINK',
@@ -64,7 +69,8 @@ describe('websocket', () => {
     await testAdapter.request(dataCryptoOverride)
     await testAdapter.request(dataLwba)
     await testAdapter.request(dataLwbaOverride)
-    await testAdapter.waitForCache(3)
+    await testAdapter.request(dataLwbaInvariantViolation)
+    await testAdapter.waitForCache(4)
   })
 
   afterAll(async () => {
@@ -113,6 +119,12 @@ describe('websocket', () => {
     it('with override should return success', async () => {
       const response = await testAdapter.request(dataLwbaOverride)
       expect(response.statusCode).toEqual(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error (LWBA violation)', async () => {
+      const response = await testAdapter.request(dataLwbaInvariantViolation)
+      expect(response.statusCode).toEqual(500)
       expect(response.json()).toMatchSnapshot()
     })
   })

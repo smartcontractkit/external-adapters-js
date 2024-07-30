@@ -3,7 +3,7 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
-import { sign } from './utils'
+import { sign, getApiKeys } from './utils'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
@@ -80,10 +80,10 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<WalletTransportTypes['Response']>> {
-    const { portfolio, symbols, type, chainId, network, batchSize } = param
+    const { portfolio, symbols, type, chainId, network, batchSize, apiKey } = param
     const providerDataRequestedUnixMs = Date.now()
 
-    const walletList = await this.requestWallets(portfolio, symbols, type, batchSize)
+    const walletList = await this.requestWallets(portfolio, symbols, type, batchSize, apiKey)
     const addresses: PoRAddress[] = walletList.map((wallet) => ({
       address: wallet.address,
       network,
@@ -109,19 +109,21 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     symbols: string[],
     type: string,
     batchSize: number,
+    apiKey: string,
   ): Promise<Wallet[]> {
+    const [signingKey, accessKey, passPhrase] = getApiKeys(apiKey, this.settings)
     const timestamp = Math.floor(Date.now() / 1000)
     const method = 'GET'
     const path = `/v1/portfolios/${portfolio}/wallets`
     const message = `${timestamp}${method}${path}`
-    const signature = sign(message, this.settings.SIGNING_KEY)
+    const signature = sign(message, signingKey)
 
     const requestConfig = {
       baseURL: this.settings.API_ENDPOINT,
       url: path,
       headers: {
-        'X-CB-ACCESS-KEY': this.settings.ACCESS_KEY,
-        'X-CB-ACCESS-PASSPHRASE': this.settings.PASSPHRASE,
+        'X-CB-ACCESS-KEY': accessKey,
+        'X-CB-ACCESS-PASSPHRASE': passPhrase,
         'X-CB-ACCESS-SIGNATURE': signature,
         'X-CB-ACCESS-TIMESTAMP': timestamp,
         'Content-Type': 'application/json',

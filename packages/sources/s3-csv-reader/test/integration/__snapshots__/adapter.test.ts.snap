@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute csv endpoint should return 400 for invalid bucket name 1`] = `
+{
+  "error": {
+    "message": "Error: bucket contains invalid input characters",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute csv endpoint should return 400 for invalid keyPrefix name 1`] = `
+{
+  "error": {
+    "message": "Error: keyPrefix contains invalid input characters",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute csv endpoint should return error for empty CSV file 1`] = `
+{
+  "errorMessage": "CSV file is empty",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for invalid CSV file 1`] = `
+{
+  "errorMessage": "Error parsing CSV file: Error: Invalid Opening Quote: a quote is found on field 0 at line 1, value is "#invalidCSV"",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for invalid matcher column 1`] = `
+{
+  "errorMessage": "CSV file does not contain matcherColumn header Invalid",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for invalid matcher value 1`] = `
+{
+  "errorMessage": "CSV file does not contain row where Name == Invalid",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for invalid result column 1`] = `
+{
+  "errorMessage": "CSV file does not contain resultColumn header Invalid",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for unrecognised bucket 1`] = `
+{
+  "errorMessage": "The specified bucket incorrect-s3-bucket does not exist",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error for unrecognised file path prefix 1`] = `
+{
+  "errorMessage": "no valid key found for last 1 days",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return error if multiple matching rows are found 1`] = `
+{
+  "errorMessage": "CSV file contains multiple rows where Name == RowOne",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 456,
+  },
+  "result": 456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute csv endpoint should return success for CSV with single header 1`] = `
+{
+  "data": {
+    "result": 456,
+  },
+  "result": 456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

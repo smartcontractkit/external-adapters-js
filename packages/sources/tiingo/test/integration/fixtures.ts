@@ -114,7 +114,9 @@ export const mockResponseSuccess = (): nock.Scope =>
     .get('/tiingo/crypto/prices')
     .query({
       token: 'fake-api-key',
-      tickers: 'ethusd',
+      convertCurrency: 'usd',
+      baseCurrency: 'eth',
+      consolidateBaseCurrency: true,
       resampleFreq: '24hour',
     })
     .reply(
@@ -383,10 +385,27 @@ export const mockCryptoLwbaWebSocketServer = (URL: string): MockWebsocketServer 
       1794.2063137650225,
     ],
   }
+
+  const wsLwbaResponseBodyInvariantViolation = {
+    ...wsResponse,
+    data: [
+      'SA',
+      'eth/usd',
+      '2023-03-30T14:38:15.577256+00:00',
+      'tiingo',
+      1793.915292654675,
+      0.00032445356984135313,
+      117.75114002,
+      null,
+      126.22352905999999,
+      1794.2063137650225,
+    ],
+  }
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {
       socket.send(JSON.stringify(wsResponse))
+      setTimeout(() => socket.send(JSON.stringify(wsLwbaResponseBodyInvariantViolation)), 5000)
     })
   })
 

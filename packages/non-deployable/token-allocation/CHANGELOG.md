@@ -1,5 +1,62 @@
 # @chainlink/token-allocation-adapter
 
+## 1.12.3
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
+- Updated dependencies [[`6bbb835`](https://github.com/smartcontractkit/external-adapters-js/commit/6bbb8354ff62158d80d073c0611a4566e4d5de32), [`8923e58`](https://github.com/smartcontractkit/external-adapters-js/commit/8923e588899f2449db9b0772091a8fb46b5fb390), [`13f756c`](https://github.com/smartcontractkit/external-adapters-js/commit/13f756cfaf510657bef251653a2a788cfb89474a), [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d), [`9504a47`](https://github.com/smartcontractkit/external-adapters-js/commit/9504a47a1260c98cf0432605bc189257820877e6), [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d)]:
+  - @chainlink/ncfx-adapter@4.0.0
+  - @chainlink/cryptocompare-adapter@3.2.0
+  - @chainlink/tiingo-adapter@2.5.0
+  - @chainlink/finage-adapter@2.0.7
+  - @chainlink/cfbenchmarks-adapter@2.3.1
+  - @chainlink/kaiko-adapter@2.2.9
+  - @chainlink/coingecko-adapter@2.0.21
+  - @chainlink/coinmetrics-adapter@3.7.1
+  - @chainlink/blocksize-capital-adapter@2.3.1
+  - @chainlink/coinmarketcap-adapter@2.0.26
+  - @chainlink/coinpaprika-adapter@2.1.0
+
+## 1.12.2
+
+### Patch Changes
+
+- [#3344](https://github.com/smartcontractkit/external-adapters-js/pull/3344) [`9f98cbf`](https://github.com/smartcontractkit/external-adapters-js/commit/9f98cbf6f7418d563f7165e97748680ec6b82b58) Thanks [@mjk90](https://github.com/mjk90)! - Bumped framework version
+
+- Updated dependencies [[`9f98cbf`](https://github.com/smartcontractkit/external-adapters-js/commit/9f98cbf6f7418d563f7165e97748680ec6b82b58), [`9f98cbf`](https://github.com/smartcontractkit/external-adapters-js/commit/9f98cbf6f7418d563f7165e97748680ec6b82b58), [`2bd81dc`](https://github.com/smartcontractkit/external-adapters-js/commit/2bd81dc61797441bb7a788daee8c6ed0daae054b)]:
+  - @chainlink/blocksize-capital-adapter@2.3.0
+  - @chainlink/cfbenchmarks-adapter@2.3.0
+  - @chainlink/coinmetrics-adapter@3.7.0
+  - @chainlink/tiingo-adapter@2.4.0
+  - @chainlink/finage-adapter@2.0.6
+  - @chainlink/kaiko-adapter@2.2.8
+  - @chainlink/coingecko-adapter@2.0.20
+  - @chainlink/ncfx-adapter@3.6.0
+  - @chainlink/cryptocompare-adapter@3.1.2
+  - @chainlink/coinmarketcap-adapter@2.0.25
+  - @chainlink/coinpaprika-adapter@2.0.20
+
+## 1.12.1
+
+### Patch Changes
+
+- [#3324](https://github.com/smartcontractkit/external-adapters-js/pull/3324) [`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480) Thanks [@alecgard](https://github.com/alecgard)! - Bumped framework version
+
+- Updated dependencies [[`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480)]:
+  - @chainlink/finage-adapter@2.0.5
+  - @chainlink/cfbenchmarks-adapter@2.2.11
+  - @chainlink/kaiko-adapter@2.2.7
+  - @chainlink/coingecko-adapter@2.0.19
+  - @chainlink/coinmetrics-adapter@3.6.9
+  - @chainlink/blocksize-capital-adapter@2.2.7
+  - @chainlink/ncfx-adapter@3.5.8
+  - @chainlink/cryptocompare-adapter@3.1.1
+  - @chainlink/tiingo-adapter@2.3.6
+  - @chainlink/coinmarketcap-adapter@2.0.24
+  - @chainlink/coinpaprika-adapter@2.0.19
+
 ## 1.12.0
 
 ### Minor Changes

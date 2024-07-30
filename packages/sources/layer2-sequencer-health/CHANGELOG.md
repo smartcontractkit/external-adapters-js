@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.3.0
+
+### Minor Changes
+
+- [#3331](https://github.com/smartcontractkit/external-adapters-js/pull/3331) [`72dc80b`](https://github.com/smartcontractkit/external-adapters-js/commit/72dc80b106761d08fc4329d55b2516509d44b227) Thanks [@KodeyThomas](https://github.com/KodeyThomas)! - Adds Scroll Healthcheck endpoint
+
 ## 4.2.0
 
 ### Minor Changes

@@ -1,5 +1,26 @@
 # @chainlink/synth-index-adapter
 
+## 1.2.95
+
+### Patch Changes
+
+- Updated dependencies [[`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d)]:
+  - @chainlink/token-allocation-adapter@1.12.3
+
+## 1.2.94
+
+### Patch Changes
+
+- Updated dependencies [[`9f98cbf`](https://github.com/smartcontractkit/external-adapters-js/commit/9f98cbf6f7418d563f7165e97748680ec6b82b58)]:
+  - @chainlink/token-allocation-adapter@1.12.2
+
+## 1.2.93
+
+### Patch Changes
+
+- Updated dependencies [[`459c6f2`](https://github.com/smartcontractkit/external-adapters-js/commit/459c6f22acc97fb741d13a342a6aae68d6e63480)]:
+  - @chainlink/token-allocation-adapter@1.12.1
+
 ## 1.2.92
 
 ### Patch Changes

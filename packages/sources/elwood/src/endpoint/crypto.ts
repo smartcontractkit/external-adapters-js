@@ -1,7 +1,5 @@
 import {
   CryptoPriceEndpoint,
-  DEFAULT_LWBA_ALIASES,
-  LwbaResponseDataFields,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
@@ -16,17 +14,14 @@ const inputParameters = new InputParameters(priceEndpointInputParametersDefiniti
   },
 ])
 
-type OmitResultFromLwba = Omit<LwbaResponseDataFields, 'Result'>
-
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: OmitResultFromLwba & SingleNumberResultResponse
+  Response: SingleNumberResultResponse
 }
 
 export const cryptoEndpoint = new CryptoPriceEndpoint({
   name: 'price',
-  aliases: ['crypto', ...DEFAULT_LWBA_ALIASES],
   inputParameters,
   transport,
 })
