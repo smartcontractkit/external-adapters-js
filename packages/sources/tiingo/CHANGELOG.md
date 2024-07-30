@@ -1,5 +1,15 @@
 ## v1.1.0
 
+## 2.5.0
+
+### Minor Changes
+
+- [#3360](https://github.com/smartcontractkit/external-adapters-js/pull/3360) [`13f756c`](https://github.com/smartcontractkit/external-adapters-js/commit/13f756cfaf510657bef251653a2a788cfb89474a) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix Tiingo ageur pair issue, use baseCurrency/convertCurrency/consolidateBaseCurrency instead of tickers as input param
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
 ## 2.4.0
 
 ### Minor Changes

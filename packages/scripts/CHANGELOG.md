@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.7.7
+
+### Patch Changes
+
+- [#3358](https://github.com/smartcontractkit/external-adapters-js/pull/3358) [`5e53f62`](https://github.com/smartcontractkit/external-adapters-js/commit/5e53f62b47c9c523b30bad8e0edc402b2adad8b9) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow for multiple sets of keys to be used in the Harris-and-trotter EA
+
 ## 2.7.6
 
 ### Patch Changes
