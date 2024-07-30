@@ -1,5 +1,15 @@
 # @chainlink/ncfx-adapter
 
+## 4.0.0
+
+### Major Changes
+
+- [#3357](https://github.com/smartcontractkit/external-adapters-js/pull/3357) [`6bbb835`](https://github.com/smartcontractkit/external-adapters-js/commit/6bbb8354ff62158d80d073c0611a4566e4d5de32) Thanks [@mjk90](https://github.com/mjk90)! - Separated price & LWBA endpoints
+
+### Patch Changes
+
+- [#3350](https://github.com/smartcontractkit/external-adapters-js/pull/3350) [`6518e4d`](https://github.com/smartcontractkit/external-adapters-js/commit/6518e4dc6baca3c6289c595e29d48e149824054d) Thanks [@austinborn](https://github.com/austinborn)! - Bumped framework version
+
 ## 3.6.0
 
 ### Minor Changes
