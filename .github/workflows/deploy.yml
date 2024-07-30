@@ -36,7 +36,7 @@ jobs:
       tmp-branch: ${{ steps.push-branch.outputs.TMP_BRANCH }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           fetch-depth: 2
       - name: Set up and install dependencies
@@ -89,7 +89,7 @@ jobs:
       IMAGE_VERSION: ${{ matrix.adapter.version }}
     steps:
       - name: Check out code
-        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
       - name: Build the adapter image
@@ -146,7 +146,7 @@ jobs:
     if: always() && needs.calculate-changes.outputs.adapter-list != '[]'
     steps:
       - name: Check out code
-        uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
       - name: Delete ephemeral branch
