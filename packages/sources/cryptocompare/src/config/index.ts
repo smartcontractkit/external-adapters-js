@@ -9,7 +9,7 @@ export const config = new AdapterConfig({
   WS_API_ENDPOINT: {
     description: 'The WS URL to retrieve data from',
     type: 'string',
-    default: 'wss://data-streamer.cryptocompare.com',
+    default: 'wss://client-axfioiyn03.ccdata.io',
   },
   API_KEY: {
     description: 'The CryptoCompare API key',
