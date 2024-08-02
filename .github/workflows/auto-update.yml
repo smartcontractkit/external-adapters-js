@@ -7,12 +7,23 @@ on:
 
 jobs:
   autoupdate:
+    permissions:
+      id-token: write
+      contents: read
     runs-on: ubuntu-latest
     steps:
+      - name: Setup GitHub Token
+        id: setup-github-token
+        uses: smartcontractkit/.github/actions/setup-github-token@9e7cc0779934cae4a9028b8588c9adb64d8ce68c # setup-github-token@0.1.2
+        with:
+          aws-role-arn: ${{ secrets.AWS_ROLE_ARN_FOR_AUTOREBASE_TOKEN }}
+          aws-lambda-url: ${{ secrets.GATI_LAMBDA_DATA_FEEDS_URL }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-role-duration-seconds: '1800' # this is optional and defaults to 900
       - name: Automatically update PR
         uses: adRise/update-pr-branch@5d273948c50bda6275d3a71e26f71c54e18392c1 # v0.8.1
         with:
-          token: ${{ secrets.AUTOREBASE_TOKEN }}
+          token: ${{ steps.setup-github-token.outputs.access-token }}
           base: 'main'
           required_approval_count: 1
           require_passed_checks: false
