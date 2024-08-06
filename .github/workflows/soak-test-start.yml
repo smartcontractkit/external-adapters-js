@@ -22,6 +22,14 @@ jobs:
       group: qa-soaktest-${{ github.ref }}
       cancel-in-progress: true
     steps:
+      - name: Setup GitHub Token
+        id: setup-github-token
+        uses: smartcontractkit/.github/actions/setup-github-token@9e7cc0779934cae4a9028b8588c9adb64d8ce68c # setup-github-token@0.1.2
+        with:
+          aws-role-arn: ${{ secrets.AWS_ROLE_ARN_FOR_QA_GITHUB_TOKEN }}
+          aws-lambda-url: ${{ secrets.GATI_LAMBDA_DATA_FEEDS_URL }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-role-duration-seconds: '1800' # this is optional and defaults to 900
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
@@ -79,7 +87,7 @@ jobs:
       - name: Use GH CLI to get pr info
         id: get-pr-info
         env:
-          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
           CHANGED_FILES_NAME=./changedFiles.txt
@@ -91,7 +99,7 @@ jobs:
       - name: Clone adapter-secrets repo
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         env:
-          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
         run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/adapter-secrets.git
 
       - name: Build the k6 payloads and images
@@ -174,7 +182,7 @@ jobs:
           IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.build-adapters.outputs.BUILD_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.QA_AWS_ACCOUNT_NUMBER }}.dkr.ecr.${{ secrets.QA_AWS_REGION }}.amazonaws.com/adapters/
-          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
         run: |
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
 
@@ -219,7 +227,7 @@ jobs:
       - name: Assert tests passed
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         env:
-          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
         run: |
