@@ -100,7 +100,7 @@ jobs:
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         env:
           GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
-        run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/adapter-secrets.git
+        run: git clone https://oauth2:${GITHUB_TOKEN}@github.com/smartcontractkit/adapter-secrets.git
 
       - name: Build the k6 payloads and images
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
