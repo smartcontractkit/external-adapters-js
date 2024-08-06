@@ -1,0 +1,32 @@
+name: mxiao test
+
+on:
+  pull_request:
+    branches: ['main']
+
+jobs:
+  test-1:
+    name: Run Soak Tests Against Changed Adapters
+    runs-on: ubuntu-latest
+    environment: QA
+    permissions:
+      id-token: write
+      contents: read
+      checks: write
+      pull-requests: write
+    concurrency:
+      group: qa-soaktest-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Setup GitHub Token
+        id: setup-github-token
+        uses: smartcontractkit/.github/actions/setup-github-token@9e7cc0779934cae4a9028b8588c9adb64d8ce68c # setup-github-token@0.1.2
+        with:
+          aws-role-arn: ${{ secrets.AWS_ROLE_ARN_FOR_QA_GITHUB_TOKEN }}
+          aws-lambda-url: ${{ secrets.GATI_LAMBDA_DATA_FEEDS_URL }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-role-duration-seconds: '1800' # this is optional and defaults to 900
+      - name: Clone adapter-secrets repo
+        env:
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+        run: git clone https://oauth2:${GITHUB_TOKEN}@github.com/smartcontractkit/adapter-secrets.git
