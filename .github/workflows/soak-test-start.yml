@@ -157,7 +157,7 @@ jobs:
 
             echo $BUILD_NAMES
 
-            docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
+            docker compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
             for adapter in ${BUILD_NAMES}; do
               aws ecr create-repository --repository-name adapters/${adapter} || true
               docker push ${IMAGE_PREFIX}${adapter}:${IMAGE_TAG}
