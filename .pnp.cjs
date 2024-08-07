@@ -391,6 +391,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dar"\
     },\
     {\
+      "name": "@chainlink/deep-blue-adapter",\
+      "reference": "workspace:packages/sources/deep-blue"\
+    },\
+    {\
       "name": "@chainlink/deribit-adapter",\
       "reference": "workspace:packages/sources/deribit"\
     },\
@@ -928,6 +932,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
     ["@chainlink/dar-adapter", ["workspace:packages/sources/dar"]],\
+    ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
     ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
@@ -6848,6 +6853,21 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.6.8"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/deep-blue-adapter", [\
+      ["workspace:packages/sources/deep-blue", {\
+        "packageLocation": "./packages/sources/deep-blue/",\
+        "packageDependencies": [\
+          ["@chainlink/deep-blue-adapter", "workspace:packages/sources/deep-blue"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -16539,6 +16559,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-npm-15.14.9-739a59edff-5c9cc5346c.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:15.14.9"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.11.68", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-16.11.68-c2f2ea9840-7906b0fe63.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:16.11.68"]\
         ],\
         "linkType": "HARD"\
       }],\
