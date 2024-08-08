@@ -5,7 +5,6 @@ import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-b
 export const supportedEndpoints = ['volatilityIndex']
 
 export type TInputParameters = {
-  contract: string
   multiply?: number
   heartbeatMinutes?: number
   isAdaptive?: boolean
@@ -13,14 +12,9 @@ export type TInputParameters = {
   deviationThreshold?: number
   lambdaMin?: number
   lambdaK?: number
-  network?: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
-  contract: {
-    required: true,
-    aliases: ['contractAddress'],
-  },
   multiply: {
     required: false,
   },
@@ -40,9 +34,6 @@ const inputParameters: InputParameters<TInputParameters> = {
     required: false,
   },
   lambdaK: {
-    required: false,
-  },
-  network: {
     required: false,
   },
 }
