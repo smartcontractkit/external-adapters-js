@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserve endpoint should return failure on ripcord true 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: ["Require Balance Check"]",
+  "ripcord": true,
+  "ripcordDetails": "["Require Balance Check"]",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1723043519554,
+  },
+}
+`;
