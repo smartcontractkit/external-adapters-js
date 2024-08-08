@@ -273,6 +273,9 @@
       "path": "./sources/dar/tsconfig.test.json"
     },
     {
+      "path": "./sources/deep-blue/tsconfig.test.json"
+    },
+    {
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {
