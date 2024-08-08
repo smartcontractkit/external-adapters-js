@@ -11,7 +11,7 @@ on:
 jobs:
   run-soak-tests:
     name: Run Soak Tests Against Changed Adapters
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-4cores-16GB
     environment: QA
     permissions:
       id-token: write
@@ -100,7 +100,7 @@ jobs:
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         env:
           GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
-        run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/adapter-secrets.git
+        run: git clone https://oauth2:${GITHUB_TOKEN}@github.com/smartcontractkit/adapter-secrets.git
 
       - name: Build the k6 payloads and images
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
@@ -157,7 +157,7 @@ jobs:
 
             echo $BUILD_NAMES
 
-            docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
+            docker compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
             for adapter in ${BUILD_NAMES}; do
               aws ecr create-repository --repository-name adapters/${adapter} || true
               docker push ${IMAGE_PREFIX}${adapter}:${IMAGE_TAG}
