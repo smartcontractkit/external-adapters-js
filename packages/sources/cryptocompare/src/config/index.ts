@@ -26,6 +26,6 @@ export const config = new AdapterConfig({
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
     type: 'boolean',
-    default: false,
+    default: true,
   },
 })
