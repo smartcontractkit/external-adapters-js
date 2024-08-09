@@ -82,15 +82,12 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
 
         // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
         if (rec.includes('HBHHH')) {
-          const stream = rec.slice(22, 24)
-          if (stream === generatePriceOptions.streamName) {
-            logger.debug({
-              msg: 'Received heartbeat message from WS, updating TTLs of active entries',
-              message,
-            })
-            updateTTL(tpTransport, context.adapterSettings.CACHE_MAX_AGE)
-            return []
-          }
+          logger.debug({
+            msg: 'Received heartbeat message from WS, updating TTLs of active entries',
+            message,
+          })
+          updateTTL(tpTransport, context.adapterSettings.CACHE_MAX_AGE)
+          return []
         }
 
         const stream = rec.slice(31, 34)
