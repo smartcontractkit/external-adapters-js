@@ -55,6 +55,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [currencylayer](./currencylayer/README.md)
 - [curve](./curve/README.md)
 - [dar](./dar/README.md)
+- [deep-blue](./deep-blue/README.md)
 - [deribit](./deribit/README.md)
 - [dlc-btc-por](./dlc-btc-por/README.md)
 - [dns-query](./dns-query/README.md)
