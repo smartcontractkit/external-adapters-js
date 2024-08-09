@@ -391,6 +391,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dar"\
     },\
     {\
+      "name": "@chainlink/deep-blue-adapter",\
+      "reference": "workspace:packages/sources/deep-blue"\
+    },\
+    {\
       "name": "@chainlink/deribit-adapter",\
       "reference": "workspace:packages/sources/deribit"\
     },\
@@ -928,6 +932,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
     ["@chainlink/dar-adapter", ["workspace:packages/sources/dar"]],\
+    ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
     ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
@@ -1090,7 +1095,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/core", "npm:7.24.5"],\
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.5"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.1"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
           ["@changesets/cli", "npm:2.27.7"],\
           ["@types/babel__core", "npm:7.20.5"],\
@@ -5793,7 +5798,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/alongside/",\
         "packageDependencies": [\
           ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -5828,7 +5833,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/alphavantage/",\
         "packageDependencies": [\
           ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -5953,7 +5958,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/apy-finance-test/",\
         "packageDependencies": [\
           ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -5992,7 +5997,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/avalanche-platform/",\
         "packageDependencies": [\
           ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -6007,7 +6012,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bank-frick/",\
         "packageDependencies": [\
           ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -6187,7 +6192,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6358,7 +6363,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cfbenchmarks/",\
         "packageDependencies": [\
           ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6407,7 +6412,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/clear-bank/",\
         "packageDependencies": [\
           ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -6459,7 +6464,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinbase-prime/",\
         "packageDependencies": [\
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6494,7 +6499,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coingecko/",\
         "packageDependencies": [\
           ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -6529,7 +6534,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmarketcap/",\
         "packageDependencies": [\
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -6544,7 +6549,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmetrics/",\
         "packageDependencies": [\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6562,7 +6567,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinpaprika/",\
         "packageDependencies": [\
           ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6731,7 +6736,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cryptocompare/",\
         "packageDependencies": [\
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6842,12 +6847,27 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dar/",\
         "packageDependencies": [\
           ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.6.8"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/deep-blue-adapter", [\
+      ["workspace:packages/sources/deep-blue", {\
+        "packageLocation": "./packages/sources/deep-blue/",\
+        "packageDependencies": [\
+          ["@chainlink/deep-blue-adapter", "workspace:packages/sources/deep-blue"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -6915,7 +6935,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@scure/base", "npm:1.1.6"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
@@ -7006,7 +7026,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dxfeed/",\
         "packageDependencies": [\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7024,7 +7044,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -7066,7 +7086,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dydx-stark-adapter", "workspace:packages/targets/dydx-stark"],\
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.3.1"],\
@@ -7169,7 +7189,7 @@ const RAW_RUNTIME_STATE =
           ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:27.5.2"],\
@@ -7224,7 +7244,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elven/",\
         "packageDependencies": [\
           ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -7241,7 +7261,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elwood/",\
         "packageDependencies": [\
           ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7335,7 +7355,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/eth-beacon/",\
         "packageDependencies": [\
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["bignumber.js", "npm:9.1.2"],\
@@ -7457,10 +7477,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
-      ["npm:1.2.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.2.0-b6a897d6b9-5cb8fbf996.zip/node_modules/@chainlink/external-adapter-framework/",\
+      ["npm:1.3.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.3.0-70c1755b28-0185c6d970.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["ajv", "npm:8.11.0"],\
           ["axios", "npm:1.6.8"],\
           ["eventsource", "npm:2.0.2"],\
@@ -7471,7 +7491,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:9.1.0"],\
           ["prom-client", "npm:13.2.0"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:b6a897d6b9fba965d425e10f20fbd458eff6bc989cecef95b94d7dafd7ef00659d54b168e245ab7df589340b46e7e788a0c10d8904cf42e52314012d4614ce02#npm:8.9.0"],\
+          ["ws", "virtual:70c1755b28022acec902c80b16daa74c0d43e961035eb8729d57e1e535c752c2b9cd568b624fddca1b2cc20fe9db0e3bf1244d7667259f01119db21e058e970f#npm:8.9.0"],\
           ["yeoman-generator", "npm:3.1.1"]\
         ],\
         "linkType": "HARD"\
@@ -7485,7 +7505,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/core", "npm:7.24.5"],\
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.5"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.1"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
           ["@changesets/cli", "npm:2.27.7"],\
           ["@types/babel__core", "npm:7.20.5"],\
@@ -7533,7 +7553,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finage/",\
         "packageDependencies": [\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7550,7 +7570,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finalto/",\
         "packageDependencies": [\
           ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7569,7 +7589,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finnhub/",\
         "packageDependencies": [\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7586,7 +7606,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finnhub-secondary/",\
         "packageDependencies": [\
           ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
@@ -7673,7 +7693,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/frxeth-exchange-rate/",\
         "packageDependencies": [\
           ["@chainlink/frxeth-exchange-rate-adapter", "workspace:packages/sources/frxeth-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -7710,7 +7730,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/galaxy/",\
         "packageDependencies": [\
           ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7728,7 +7748,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gemini/",\
         "packageDependencies": [\
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7776,7 +7796,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gm-token/",\
         "packageDependencies": [\
           ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -7828,7 +7848,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gramchain/",\
         "packageDependencies": [\
           ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7858,7 +7878,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gsr/",\
         "packageDependencies": [\
           ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7900,7 +7920,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/harris-and-trotter/",\
         "packageDependencies": [\
           ["@chainlink/harris-and-trotter-adapter", "workspace:packages/sources/harris-and-trotter"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7918,7 +7938,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -7936,7 +7956,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/icap/",\
         "packageDependencies": [\
           ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7955,7 +7975,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/iex-cloud/",\
         "packageDependencies": [\
           ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7990,7 +8010,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/intrinio/",\
         "packageDependencies": [\
           ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -8008,7 +8028,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ion.au/",\
         "packageDependencies": [\
           ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8082,7 +8102,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/kaiko/",\
         "packageDependencies": [\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8208,7 +8228,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/lotus/",\
         "packageDependencies": [\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -8330,7 +8350,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/moonbeam-address-list/",\
         "packageDependencies": [\
           ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -8349,7 +8369,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/moore-hk/",\
         "packageDependencies": [\
           ["@chainlink/moore-hk-adapter", "workspace:packages/sources/moore-hk"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8382,7 +8402,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ncfx/",\
         "packageDependencies": [\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -8399,7 +8419,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nft-blue-chip/",\
         "packageDependencies": [\
           ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -8456,7 +8476,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/oanda/",\
         "packageDependencies": [\
           ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -8519,7 +8539,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/openexchangerates/",\
         "packageDependencies": [\
           ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8624,7 +8644,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/polkadot-balance/",\
         "packageDependencies": [\
           ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@polkadot/api", "npm:9.14.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -8640,7 +8660,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/polygon/",\
         "packageDependencies": [\
           ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8655,7 +8675,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/por-address-list/",\
         "packageDependencies": [\
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -8671,7 +8691,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/por-indexer/",\
         "packageDependencies": [\
           ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -8703,7 +8723,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
           ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8831,7 +8851,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@aws-sdk/client-s3", "npm:3.600.0"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:29.5.12"],\
           ["@types/node", "npm:20.14.10"],\
           ["csv-parse", "npm:5.5.6"],\
@@ -9005,7 +9025,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/stader-address-list/",\
         "packageDependencies": [\
           ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.5.4"],\
@@ -9021,7 +9041,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/stader-balance/",\
         "packageDependencies": [\
           ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -9058,7 +9078,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/starknet-gas-price/",\
         "packageDependencies": [\
           ["@chainlink/starknet-gas-price-adapter", "workspace:packages/sources/starknet-gas-price"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:14.0.0-beta.6"],\
@@ -9092,7 +9112,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/superstate/",\
         "packageDependencies": [\
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/node-schedule", "npm:2.1.7"],\
@@ -9224,7 +9244,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/the-network-firm/",\
         "packageDependencies": [\
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -9257,7 +9277,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9286,7 +9306,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -9307,7 +9327,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/non-deployable/token-allocation-test/",\
         "packageDependencies": [\
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -9325,7 +9345,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tp/",\
         "packageDependencies": [\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9342,7 +9362,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tradermade/",\
         "packageDependencies": [\
           ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9359,7 +9379,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tradingeconomics/",\
         "packageDependencies": [\
           ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9376,7 +9396,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/trueusd/",\
         "packageDependencies": [\
           ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -9391,7 +9411,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
         "packageDependencies": [\
           ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -9425,7 +9445,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/twosigma/",\
         "packageDependencies": [\
           ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9533,7 +9553,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-function/",\
         "packageDependencies": [\
           ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -9549,7 +9569,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -9565,7 +9585,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-starknet-latest-answer/",\
         "packageDependencies": [\
           ["@chainlink/view-starknet-latest-answer-adapter", "workspace:packages/sources/view-starknet-latest-answer"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:14.0.0-beta.6"],\
@@ -9581,7 +9601,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/wbtc-address-set/",\
         "packageDependencies": [\
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-          ["@chainlink/external-adapter-framework", "npm:1.2.0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -16539,6 +16559,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-npm-15.14.9-739a59edff-5c9cc5346c.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:15.14.9"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.11.68", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-16.11.68-c2f2ea9840-7906b0fe63.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:16.11.68"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -40977,10 +41004,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-150e3f917b.zip/node_modules/ws/",\
+      ["virtual:70c1755b28022acec902c80b16daa74c0d43e961035eb8729d57e1e535c752c2b9cd568b624fddca1b2cc20fe9db0e3bf1244d7667259f01119db21e058e970f#npm:8.9.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-4d8375ede9/0/cache/ws-npm-8.9.0-d620434feb-be5289395c.zip/node_modules/ws/",\
         "packageDependencies": [\
-          ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
+          ["ws", "virtual:70c1755b28022acec902c80b16daa74c0d43e961035eb8729d57e1e535c752c2b9cd568b624fddca1b2cc20fe9db0e3bf1244d7667259f01119db21e058e970f#npm:8.9.0"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
@@ -40994,10 +41021,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:b6a897d6b9fba965d425e10f20fbd458eff6bc989cecef95b94d7dafd7ef00659d54b168e245ab7df589340b46e7e788a0c10d8904cf42e52314012d4614ce02#npm:8.9.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-587962439d/0/cache/ws-npm-8.9.0-d620434feb-be5289395c.zip/node_modules/ws/",\
+      ["virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-150e3f917b.zip/node_modules/ws/",\
         "packageDependencies": [\
-          ["ws", "virtual:b6a897d6b9fba965d425e10f20fbd458eff6bc989cecef95b94d7dafd7ef00659d54b168e245ab7df589340b46e7e788a0c10d8904cf42e52314012d4614ce02#npm:8.9.0"],\
+          ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
