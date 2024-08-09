@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinbase-prime-adapter",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Chainlink coinbase-prime adapter.",
   "keywords": [
     "Chainlink",

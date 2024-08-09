@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dar-adapter",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "description": "Chainlink dar adapter.",
   "keywords": [
     "Chainlink",

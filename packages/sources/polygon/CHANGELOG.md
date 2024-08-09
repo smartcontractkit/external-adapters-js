@@ -1,5 +1,11 @@
 # @chainlink/polygon-adapter
 
+## 2.0.20
+
+### Patch Changes
+
+- [#3372](https://github.com/smartcontractkit/external-adapters-js/pull/3372) [`d08f378`](https://github.com/smartcontractkit/external-adapters-js/commit/d08f378e44e3f9587861421066163325c621d150) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 2.0.19
 
 ### Patch Changes
