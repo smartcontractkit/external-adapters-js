@@ -1,5 +1,17 @@
 # @chainlink/cryptocompare-adapter
 
+## 3.3.0
+
+### Minor Changes
+
+- [#3364](https://github.com/smartcontractkit/external-adapters-js/pull/3364) [`2beb3d2`](https://github.com/smartcontractkit/external-adapters-js/commit/2beb3d2b82c37491d618dd3e183a92ddd3c18a57) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Upgrade to a better default WS endpoint
+
+- [#3380](https://github.com/smartcontractkit/external-adapters-js/pull/3380) [`abc239b`](https://github.com/smartcontractkit/external-adapters-js/commit/abc239b59092bb3e0c3acdcc5a660607f7392552) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use WS as default transport
+
+### Patch Changes
+
+- [#3372](https://github.com/smartcontractkit/external-adapters-js/pull/3372) [`d08f378`](https://github.com/smartcontractkit/external-adapters-js/commit/d08f378e44e3f9587861421066163325c621d150) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 3.2.0
 
 ### Minor Changes

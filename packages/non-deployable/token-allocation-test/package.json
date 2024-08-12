@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-test-adapter",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Chainlink token allocation test adapter",
   "keywords": [
     "Chainlink",
