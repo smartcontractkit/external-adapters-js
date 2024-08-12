@@ -67,7 +67,7 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
                   mid: Number(update.agg_mid_price),
                 },
                 timestamps: {
-                  providerIndicatedTimeUnixMs: Number(update.ts),
+                  providerIndicatedTimeUnixMs: Math.floor(Number(update.ts) / 1000),
                 },
               },
             })
