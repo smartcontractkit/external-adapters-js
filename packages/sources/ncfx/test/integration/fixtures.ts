@@ -144,6 +144,7 @@ export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
   mockWsServer.on('connection', (socket) => {
     socket.on('message', () => {
       socket.send(JSON.stringify(mockForexResponse))
+      socket.send(JSON.stringify(mockForexResponse))
     })
   })
   return mockWsServer
