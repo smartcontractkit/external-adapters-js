@@ -5,12 +5,11 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { ethers } from 'ethers'
 import { hex } from '@scure/base'
-import { BaseEndpointTypes } from '../endpoint/proof-of-reserves'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/proof-of-reserves'
 import abi from '../config/dlc-manager-abi.json'
 import {
   BitcoinTransaction,
   createTaprootMultisigPayment,
-  FUNDED_STATUS,
   getBitcoinNetwork,
   getClosingTransactionInputFromFundingTransaction,
   getDerivedPublicKey,
@@ -18,17 +17,23 @@ import {
   matchScripts,
   RawVault,
 } from './utils'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('dlcBTC PoR')
+
+type RequestParams = typeof inputParameters.validated
 
 export type TransportTypes = BaseEndpointTypes
 
 export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   name!: string
   requester!: Requester
-  provider!: ethers.providers.JsonRpcProvider
-  dlcManagerContract!: ethers.Contract
   settings!: TransportTypes['Settings']
+  providers: Record<string, ethers.providers.JsonRpcProvider> = {}
+  dlcManagerContracts: Record<string, ethers.Contract> = {}
 
   async initialize(
     dependencies: TransportDependencies<TransportTypes>,
@@ -37,27 +42,25 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    const { RPC_URL, CHAIN_ID, DLC_CONTRACT } = adapterSettings
     this.settings = adapterSettings
-    this.provider = new ethers.providers.JsonRpcProvider(RPC_URL, CHAIN_ID)
-    this.dlcManagerContract = new ethers.Contract(DLC_CONTRACT, abi, this.provider)
     this.requester = dependencies.requester
   }
 
-  async backgroundHandler(context: EndpointContext<TransportTypes>) {
-    await this.handleRequest()
+  async backgroundHandler(context: EndpointContext<TransportTypes>, entries: RequestParams[]) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest() {
+  async handleRequest(param: RequestParams) {
     let response: AdapterResponse<TransportTypes['Response']>
     try {
-      response = await this._handleRequest()
+      response = await this._handleRequest(param)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
+      const statusCode = (e as AdapterError)?.statusCode || 502
       response = {
-        statusCode: 502,
+        statusCode,
         errorMessage,
         timestamps: {
           providerDataRequestedUnixMs: 0,
@@ -66,18 +69,63 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
         },
       }
     }
-    await this.responseCache.write(this.name, [{ params: [], response }])
+    await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
-  async _handleRequest(): Promise<AdapterResponse<TransportTypes['Response']>> {
+  async _handleRequest(param: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
+    const { network } = param
+    let networkName = 'DEFAULT'
+
+    let networkEnvName = `RPC_URL`
+    let chainIdEnvName = `CHAIN_ID`
+    let dlcContractEnvName = `DLC_CONTRACT`
+
+    let rpcUrl = this.settings.RPC_URL
+    let chainId = this.settings.CHAIN_ID
+    let dlcContractAddress = this.settings.DLC_CONTRACT
+
+    // If network is provided, use the network specific environment variables. We still support the old environment variables for backward compatibility.
+    if (network) {
+      networkName = network.toUpperCase()
+      networkEnvName = `${networkName}_RPC_URL`
+      chainIdEnvName = `${networkName}_CHAIN_ID`
+      dlcContractEnvName = `${networkName}_DLC_CONTRACT`
+
+      rpcUrl = process.env[networkEnvName] as string
+      chainId = Number(process.env[chainIdEnvName])
+      dlcContractAddress = process.env[dlcContractEnvName] as string
+    }
+
+    if (!rpcUrl || !dlcContractAddress || !chainId || isNaN(chainId)) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Missing '${networkEnvName}', '${chainIdEnvName}' or '${dlcContractEnvName}' environment variables.`,
+      })
+    }
+
+    if (!network) {
+      logger.warn(
+        `Network is not provided. Reading from RPC_URL, CHAIN_ID and DLC_CONTRACT environment variables. Please use the network parameter to specify the network in the environment variables and in the request.`,
+      )
+    }
+
+    if (!this.providers[networkName]) {
+      this.providers[networkName] = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
+      this.dlcManagerContracts[networkName] = new ethers.Contract(
+        dlcContractAddress,
+        abi,
+        this.providers[networkName],
+      )
+    }
+
     const providerDataRequestedUnixMs = Date.now()
 
     // Get funded vault data.
-    const vaultData: RawVault[] = await this.getAllFundedDLCs()
+    const vaultData: RawVault[] = await this.getAllFundedDLCs(networkName)
 
     // Get the Attestor Public Key from the Attestor Group
     const attestorPublicKey = getDerivedPublicKey(
-      await this.dlcManagerContract.attestorGroupPubKey(),
+      await this.dlcManagerContracts[networkName].attestorGroupPubKey(),
       getBitcoinNetwork(this.settings.BITCOIN_NETWORK),
     )
 
@@ -122,27 +170,20 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     }
   }
 
-  async getAllFundedDLCs(): Promise<RawVault[]> {
-    const fundedVaults: RawVault[] = []
+  async getAllFundedDLCs(networkName: string): Promise<RawVault[]> {
+    const allVaults: RawVault[] = []
     for (let totalFetched = 0; ; totalFetched += this.settings.EVM_RPC_BATCH_SIZE) {
-      const fetchedVaults: RawVault[] = await this.dlcManagerContract.getAllDLCs(
+      const fetchedVaults: RawVault[] = await this.dlcManagerContracts[networkName].getAllDLCs(
         totalFetched,
         totalFetched + this.settings.EVM_RPC_BATCH_SIZE,
       )
-      // Filter placeholder and non funded vaults
-      fundedVaults.push(
-        ...fetchedVaults.filter(
-          (vault) =>
-            vault.status === FUNDED_STATUS &&
-            vault.uuid !== '0x0000000000000000000000000000000000000000000000000000000000000000',
-        ),
-      )
+      allVaults.push(...fetchedVaults)
 
       if (fetchedVaults.length !== this.settings.EVM_RPC_BATCH_SIZE) {
         break
       }
     }
-    return fundedVaults
+    return allVaults
   }
 
   async verifyVaultDeposit(vault: RawVault, attestorPublicKey: Buffer) {

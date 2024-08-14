@@ -1,6 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute por endpoint should return error for missing network 1`] = `
+{
+  "errorMessage": "Missing 'OPTIMISM_RPC_URL', 'OPTIMISM_CHAIN_ID' or 'OPTIMISM_DLC_CONTRACT' environment variables.",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute por endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 20000000,
+  },
+  "result": 20000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute por endpoint should return success for network 1`] = `
 {
   "data": {
     "result": 20000000,
