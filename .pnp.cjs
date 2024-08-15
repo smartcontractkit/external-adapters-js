@@ -787,6 +787,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/tradingeconomics"\
     },\
     {\
+      "name": "@chainlink/tradinghours-adapter",\
+      "reference": "workspace:packages/sources/tradinghours"\
+    },\
+    {\
       "name": "@chainlink/trueusd-adapter",\
       "reference": "workspace:packages/sources/trueusd"\
     },\
@@ -1066,6 +1070,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
+    ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
     ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
     ["@chainlink/trumatic-matic-exchange-rate-adapter", ["workspace:packages/sources/trumatic-matic-exchange-rate"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
@@ -9385,6 +9390,26 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/tradinghours-adapter", [\
+      ["workspace:packages/sources/tradinghours", {\
+        "packageLocation": "./packages/sources/tradinghours/",\
+        "packageDependencies": [\
+          ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.96"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["@types/supertest", "npm:2.0.16"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["nock", "npm:13.5.4"],\
+          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\

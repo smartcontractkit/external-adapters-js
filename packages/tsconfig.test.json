@@ -570,6 +570,9 @@
       "path": "./sources/tradingeconomics/tsconfig.test.json"
     },
     {
+      "path": "./sources/tradinghours/tsconfig.test.json"
+    },
+    {
       "path": "./sources/trueusd/tsconfig.test.json"
     },
     {

@@ -570,6 +570,9 @@
       "path": "./sources/tradingeconomics"
     },
     {
+      "path": "./sources/tradinghours"
+    },
+    {
       "path": "./sources/trueusd"
     },
     {
