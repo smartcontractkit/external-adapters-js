@@ -1,10 +1,16 @@
 # POR_INDEXER
 
-![2.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-indexer/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-indexer/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Known Issues
+
+### Dependencies
+
+The `por-indexer` external adapter is strongly dependent on a synced `bitcoin-por-indexer` service and will not be functional without it.
+
+Follow [this deployment documentation](https://chainlink.notion.site/Bitcoin-Proof-of-Reserves-v2-e670b124e429466bbb31988c6836a9da) to set up a `bitcoin-por-indexer` service. Note that sync time may take weeks in certain cases.
 
 ### MAX_PAYLOAD_SIZE_LIMIT configuration
 
