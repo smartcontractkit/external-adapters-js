@@ -25,4 +25,14 @@ export const config = new AdapterConfig({
     description: 'The WS API endpoint to use for the forex endpoint',
     default: 'wss://fiat.ws.newchangefx.com/sub/fiat/ws/ref',
   },
+  MARKET_STATUS_WS_API_ENDPOINT: {
+    type: 'string',
+    description: 'The WS API endpoint to use for the market status endpoint',
+    default: 'wss://fiat.ws.newchangefx.com/general/reference/v1/markethours',
+  },
+  MARKET_STATUS_WS_API_KEY: {
+    type: 'string',
+    description: 'The WS API key to use for the market status endpoint',
+    sensitive: true,
+  },
 })

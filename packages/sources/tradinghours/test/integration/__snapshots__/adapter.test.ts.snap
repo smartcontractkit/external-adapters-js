@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Market status endpoint should return success with closed 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1717191454000,
+  },
+}
+`;
+
+exports[`Market status endpoint should return success with open 1`] = `
+{
+  "data": {
+    "result": 2,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1717191454000,
+  },
+}
+`;
