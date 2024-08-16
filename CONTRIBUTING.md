@@ -105,6 +105,29 @@ For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
 
 For more information on how to write integration tests, see [ea-framework-js docs](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/components/tests.md).
 
+### Testing on-chain contracts
+
+There are generally two ways to mock the request and response from ether.js
+
+1. You can mock the library itself, see [example](https://github.com/smartcontractkit/external-adapters-js/blob/main/packages/sources/alpine/test/integration/adapter.test.ts#L5)
+2. Or you can mock the actual underlying request/response. You do that by logging the request and response of a real call and use them as your mock objects, see [example](https://github.com/smartcontractkit/external-adapters-js/blob/main/packages/sources/trumatic-matic-exchange-rate/test/integration/fixtures.ts)
+
+You would need to replace `ethers.providers.JsonRpcProvider` with
+
+```
+class LoggingProvider extends ethers.providers.JsonRpcProvider {
+    send(method: string, parameters: any): Promise<any> {
+        console.log(">>>", method, parameters);
+        return super.send(method, parameters).then((result) => {
+            console.log("<<<", result);
+            return result;
+        });
+    }
+}
+```
+
+Then you can spin up the EA with real request and get the request and response objects.
+
 ## Generating Changesets
 
 When making changes to an adapter, a changeset should be added for each feature or bug fix introduced. For each "unit" of changes, follow these steps to determine the packages affected, the version upgrade, and finally the changelog text. If you make a mistake, simply delete the files created in `.changeset/` and try again:
