@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.3.3
+
+### Patch Changes
+
+- [#3382](https://github.com/smartcontractkit/external-adapters-js/pull/3382) [`f8133f8`](https://github.com/smartcontractkit/external-adapters-js/commit/f8133f8e84f474a1bee08f8531e8f243ebdcf1c7) Thanks [@austinborn](https://github.com/austinborn)! - Patch Blocksize Capital to use correct unit for provider indicated time ms
+
 ## 2.3.2
 
 ### Patch Changes
