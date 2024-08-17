@@ -1,15 +1,31 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { SuperTest, Test } from 'supertest'
 
-import { server as startServer } from '../../src'
 import * as fixtures from './fixtures'
+import { setupExternalAdapterTest, SuiteContext } from './setup'
 
 describe('execute', () => {
+  let spy: jest.SpyInstance
+
+  beforeAll(async () => {
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    done()
+  })
+
   const context: SuiteContext = {
     req: null,
-    server: startServer,
+    server: async () => {
+      // workaround for failing integration tests that run in parallel
+      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '10000'
+      process.env['METRICS_ENABLED'] = 'false'
+      const server = (await import('../../src')).server
+      return server() as Promise<ServerInstance>
+    },
   }
 
   const envVariables = {
@@ -20,19 +36,13 @@ describe('execute', () => {
 
   setupExternalAdapterTest(envVariables, context)
 
-  const forexMarketRequest = {
-    id: '1',
-    data: {
-      market: 'forex',
-    },
-  } as AdapterRequest
-
   it('returns open if tradinghours is open', async () => {
-    fixtures.mockTradinghoursOpen()
+    const market = 'test-1'
+    fixtures.mockTradinghoursOpen(market)
 
     const response = await (context.req as SuperTest<Test>)
       .post('/')
-      .send(forexMarketRequest)
+      .send({ data: { market } })
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
@@ -41,11 +51,12 @@ describe('execute', () => {
   })
 
   it('returns closed if tradinghours is closed', async () => {
-    fixtures.mockTradinghoursClosed()
+    const market = 'test-2'
+    fixtures.mockTradinghoursClosed(market)
 
     const response = await (context.req as SuperTest<Test>)
       .post('/')
-      .send(forexMarketRequest)
+      .send({ data: { market } })
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
@@ -54,12 +65,13 @@ describe('execute', () => {
   })
 
   it('returns ncfx if tradinghours is unknown', async () => {
-    fixtures.mockTradinghoursUnknown()
-    fixtures.mockNCFXOpen()
+    const market = 'test-3'
+    fixtures.mockTradinghoursUnknown(market)
+    fixtures.mockNCFXOpen(market)
 
     const response = await (context.req as SuperTest<Test>)
       .post('/')
-      .send(forexMarketRequest)
+      .send({ data: { market } })
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
@@ -68,12 +80,13 @@ describe('execute', () => {
   })
 
   it('returns ncfx if tradinghours is failing', async () => {
-    fixtures.mockTradinghoursError()
-    fixtures.mockNCFXOpen()
+    const market = 'test-4'
+    fixtures.mockTradinghoursError(market)
+    fixtures.mockNCFXOpen(market)
 
     const response = await (context.req as SuperTest<Test>)
       .post('/')
-      .send(forexMarketRequest)
+      .send({ data: { market } })
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
@@ -82,12 +95,13 @@ describe('execute', () => {
   })
 
   it('returns closed if tradinghours is failing and ncfx is failing', async () => {
-    fixtures.mockTradinghoursError()
-    fixtures.mockNCFXError()
+    const market = 'test-5'
+    fixtures.mockTradinghoursError(market)
+    fixtures.mockNCFXError(market)
 
     const response = await (context.req as SuperTest<Test>)
       .post('/')
-      .send(forexMarketRequest)
+      .send({ data: { market } })
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
@@ -96,12 +110,13 @@ describe('execute', () => {
   })
 
   it('returns closed if tradinghours is failing and ncfx is unknown', async () => {
-    fixtures.mockTradinghoursError()
-    fixtures.mockNCFXUnknown()
+    const market = 'test-6'
+    fixtures.mockTradinghoursError(market)
+    fixtures.mockNCFXUnknown(market)
 
     const response = await (context.req as SuperTest<Test>)
       .post('/')
-      .send(forexMarketRequest)
+      .send({ data: { market } })
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)

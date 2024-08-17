@@ -1,8 +1,9 @@
 import nock from 'nock'
 
-export const mockTradinghoursOpen = (): nock.Scope => {
+export const mockTradinghoursOpen = (market: string): nock.Scope => {
   return nock('https://tradinghours-adapter.com')
-    .post('/')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
     .reply(200, {
       result: 2,
       statusCode: 200,
@@ -12,9 +13,10 @@ export const mockTradinghoursOpen = (): nock.Scope => {
     })
 }
 
-export const mockTradinghoursClosed = (): nock.Scope => {
+export const mockTradinghoursClosed = (market: string): nock.Scope => {
   return nock('https://tradinghours-adapter.com')
-    .post('/')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
     .reply(200, {
       result: 1,
       statusCode: 200,
@@ -24,9 +26,10 @@ export const mockTradinghoursClosed = (): nock.Scope => {
     })
 }
 
-export const mockTradinghoursUnknown = (): nock.Scope => {
+export const mockTradinghoursUnknown = (market: string): nock.Scope => {
   return nock('https://tradinghours-adapter.com')
-    .post('/')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
     .reply(200, {
       result: 0,
       statusCode: 200,
@@ -36,13 +39,17 @@ export const mockTradinghoursUnknown = (): nock.Scope => {
     })
 }
 
-export const mockTradinghoursError = (): nock.Scope => {
-  return nock('https://tradinghours-adapter.com').post('/').reply(500, {})
+export const mockTradinghoursError = (market: string): nock.Scope => {
+  return nock('https://tradinghours-adapter.com')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
+    .reply(500, {})
 }
 
-export const mockNCFXOpen = (): nock.Scope => {
+export const mockNCFXOpen = (market: string): nock.Scope => {
   return nock('https://ncfx-adapter.com')
-    .post('/')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
     .reply(200, {
       result: 2,
       statusCode: 200,
@@ -52,9 +59,10 @@ export const mockNCFXOpen = (): nock.Scope => {
     })
 }
 
-export const mockNCFXUnknown = (): nock.Scope => {
+export const mockNCFXUnknown = (market: string): nock.Scope => {
   return nock('https://ncfx-adapter.com')
-    .post('/')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
     .reply(200, {
       result: 0,
       statusCode: 200,
@@ -64,6 +72,9 @@ export const mockNCFXUnknown = (): nock.Scope => {
     })
 }
 
-export const mockNCFXError = (): nock.Scope => {
-  return nock('https://ncfx-adapter.com').post('/').reply(500, {})
+export const mockNCFXError = (market: string): nock.Scope => {
+  return nock('https://ncfx-adapter.com')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
+    .reply(500, {})
 }

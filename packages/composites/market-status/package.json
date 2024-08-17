@@ -28,19 +28,21 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
     "@types/node": "16.18.96",
+    "@types/sinonjs__fake-timers": "8.1.5",
     "@types/supertest": "2.0.16",
+    "mock-socket": "9.3.1",
     "nock": "13.5.4",
     "supertest": "6.2.4",
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/external-adapter-framework": "1.3.1",
     "@chainlink/ncfx-adapter": "workspace:*",
     "@chainlink/tradinghours-adapter": "workspace:*",
+    "axios": "1.6.8",
     "tslib": "2.4.1"
   }
 }

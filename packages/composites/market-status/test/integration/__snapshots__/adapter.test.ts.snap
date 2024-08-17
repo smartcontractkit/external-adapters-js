@@ -4,11 +4,13 @@ exports[`execute returns closed if tradinghours is closed 1`] = `
 {
   "data": {
     "result": 1,
-    "statusCode": 200,
   },
-  "jobRunID": "1",
   "result": 1,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -16,11 +18,13 @@ exports[`execute returns closed if tradinghours is failing and ncfx is failing 1
 {
   "data": {
     "result": 1,
-    "statusCode": 200,
   },
-  "jobRunID": "1",
   "result": 1,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -28,11 +32,13 @@ exports[`execute returns closed if tradinghours is failing and ncfx is unknown 1
 {
   "data": {
     "result": 1,
-    "statusCode": 200,
   },
-  "jobRunID": "1",
   "result": 1,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -40,11 +46,13 @@ exports[`execute returns ncfx if tradinghours is failing 1`] = `
 {
   "data": {
     "result": 2,
-    "statusCode": 200,
   },
-  "jobRunID": "1",
   "result": 2,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -52,11 +60,13 @@ exports[`execute returns ncfx if tradinghours is unknown 1`] = `
 {
   "data": {
     "result": 2,
-    "statusCode": 200,
   },
-  "jobRunID": "1",
   "result": 2,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -64,11 +74,13 @@ exports[`execute returns open if tradinghours is open 1`] = `
 {
   "data": {
     "result": 2,
-    "statusCode": 200,
   },
-  "jobRunID": "1",
   "result": 2,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -76,10 +88,12 @@ exports[`execute returns tradinghours if tradinghours is open 1`] = `
 {
   "data": {
     "result": 2,
-    "statusCode": 200,
   },
-  "jobRunID": "1",
   "result": 2,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
