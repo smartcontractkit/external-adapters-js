@@ -154,6 +154,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [tp](./tp/README.md)
 - [tradermade](./tradermade/README.md)
 - [tradingeconomics](./tradingeconomics/README.md)
+- [tradinghours](./tradinghours/README.md)
 - [trueusd](./trueusd/README.md)
 - [trumatic-matic-exchange-rate](./trumatic-matic-exchange-rate/README.md)
 - [twelvedata](./twelvedata/README.md)
