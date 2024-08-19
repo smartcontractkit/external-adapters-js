@@ -1,5 +1,11 @@
 # @chainlink/por-indexer-adapter
 
+## 2.1.4
+
+### Patch Changes
+
+- [#3386](https://github.com/smartcontractkit/external-adapters-js/pull/3386) [`d704dc5`](https://github.com/smartcontractkit/external-adapters-js/commit/d704dc519670f7b5510cf02bb6cb94e8712db65a) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - update readme doc with dependency section
+
 ## 2.1.3
 
 ### Patch Changes
