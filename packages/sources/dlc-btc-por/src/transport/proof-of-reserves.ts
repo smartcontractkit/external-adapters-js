@@ -70,13 +70,12 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
-    const { network, dlcContract } = param
+    const { network, dlcContract: dlcContractAddress } = param
 
     const networkName = network.toUpperCase()
     // ${networkName}_RPC_URL and ${networkName}_CHAIN_ID are already validated in customInputValidation
     const rpcUrl = process.env[`${networkName}_RPC_URL`] as string
     const chainId = Number(process.env[`${networkName}_CHAIN_ID`])
-    const dlcContractAddress = dlcContract
 
     if (!this.providers[networkName]) {
       this.providers[networkName] = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
