@@ -1,9 +1,8 @@
 import { BigNumber, utils, ethers } from 'ethers'
 import { Decimal } from 'decimal.js'
-import sUSDeUSDeAbi from '../abi/sUSDeUSDeAbi.json'
-import USDeUSDAbi from '../abi/USDeUSDAbi.json'
-import wstETHstETHAbi from '../abi/wstETHstETHAbi.json'
-import stETHToUSDAbi from '../abi/stETHToUSDAbi.json'
+import StakedUSDeV2 from '../abi/StakedUSDeV2.json'
+import EACAggregatorProxy from '../abi/EACAggregatorProxy.json'
+import WstETH from '../abi/WstETH.json'
 
 const TEN = BigNumber.from(10)
 
@@ -23,7 +22,7 @@ const getsUSDeToUSDe = async (
   contractAddress: string,
   provider: ethers.providers.JsonRpcProvider,
 ): Promise<Decimal> => {
-  const contract = new ethers.Contract(contractAddress, sUSDeUSDeAbi, provider)
+  const contract = new ethers.Contract(contractAddress, StakedUSDeV2, provider)
 
   const decimals = BigNumber.from((await contract.decimals()).toString())
   const result = BigNumber.from(await contract.convertToAssets(TEN.pow(decimals).toString()))
@@ -35,7 +34,7 @@ const getUSDeToUSD = async (
   contractAddress: string,
   provider: ethers.providers.JsonRpcProvider,
 ): Promise<Decimal> => {
-  const contract = new ethers.Contract(contractAddress, USDeUSDAbi, provider)
+  const contract = new ethers.Contract(contractAddress, EACAggregatorProxy, provider)
 
   const decimals = BigNumber.from((await contract.decimals()).toString())
   const result = BigNumber.from((await contract.latestAnswer()).toString())
@@ -59,7 +58,7 @@ const getwstETHTostETH = async (
   contractAddress: string,
   provider: ethers.providers.JsonRpcProvider,
 ): Promise<Decimal> => {
-  const contract = new ethers.Contract(contractAddress, wstETHstETHAbi, provider)
+  const contract = new ethers.Contract(contractAddress, WstETH, provider)
 
   const decimals = BigNumber.from((await contract.decimals()).toString())
   const result = BigNumber.from(await contract.getStETHByWstETH(TEN.pow(decimals).toString()))
@@ -71,7 +70,7 @@ const getstETHToUSD = async (
   contractAddress: string,
   provider: ethers.providers.JsonRpcProvider,
 ): Promise<Decimal> => {
-  const contract = new ethers.Contract(contractAddress, stETHToUSDAbi, provider)
+  const contract = new ethers.Contract(contractAddress, EACAggregatorProxy, provider)
 
   const decimals = BigNumber.from((await contract.decimals()).toString())
   const result = BigNumber.from((await contract.latestAnswer()).toString())

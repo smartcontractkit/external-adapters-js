@@ -3,9 +3,9 @@
 exports[`synthetix feeds execute price endpoint sUSDe - USD success 1`] = `
 {
   "data": {
-    "result": "1.095954884891898451",
+    "result": 1.0959548848918985,
   },
-  "result": "1.095954884891898451",
+  "result": 1.0959548848918985,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -17,9 +17,9 @@ exports[`synthetix feeds execute price endpoint sUSDe - USD success 1`] = `
 exports[`synthetix feeds execute price endpoint wstETH - USD success 1`] = `
 {
   "data": {
-    "result": "3025.4794191307114558",
+    "result": 3025.4794191307114,
   },
-  "result": "3025.4794191307114558",
+  "result": 3025.4794191307114,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

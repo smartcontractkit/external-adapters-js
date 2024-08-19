@@ -1,5 +1,9 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { TimestampedAdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import {
+  SingleNumberResultResponse,
+  TimestampedAdapterResponse,
+  sleep,
+} from '@chainlink/external-adapter-framework/util'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
@@ -38,7 +42,7 @@ class ExchangeRateTransport extends SubscriptionTransport<ExchangeRateTransportT
   }
 
   async handleRequest(param: RequestParams) {
-    let response: TimestampedAdapterResponse
+    let response: TimestampedAdapterResponse<SingleNumberResultResponse>
     try {
       response = await this._handleRequest(param)
     } catch (e) {
@@ -58,7 +62,7 @@ class ExchangeRateTransport extends SubscriptionTransport<ExchangeRateTransportT
     this.responseCache.write(this.name, [
       {
         params: param,
-        response: response as TimestampedAdapterResponse<ExchangeRateTransportTypes['Response']>,
+        response: response,
       },
     ])
   }
@@ -84,9 +88,9 @@ class ExchangeRateTransport extends SubscriptionTransport<ExchangeRateTransportT
 const buildResponse = (price: Decimal, providerDataRequestedUnixMs: number) => {
   return {
     data: {
-      result: price.toString(),
+      result: price.toNumber(),
     },
-    result: price.toString(),
+    result: price.toNumber(),
     timestamps: {
       providerDataRequestedUnixMs,
       providerDataReceivedUnixMs: Date.now(),
