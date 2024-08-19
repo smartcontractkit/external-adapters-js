@@ -17,10 +17,7 @@ import {
   matchScripts,
   RawVault,
 } from './utils'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('dlcBTC PoR')
 
@@ -73,41 +70,13 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
-    const { network } = param
-    let networkName = 'DEFAULT'
+    const { network, dlcContract } = param
 
-    let networkEnvName = `RPC_URL`
-    let chainIdEnvName = `CHAIN_ID`
-    let dlcContractEnvName = `DLC_CONTRACT`
-
-    let rpcUrl = this.settings.RPC_URL
-    let chainId = this.settings.CHAIN_ID
-    let dlcContractAddress = this.settings.DLC_CONTRACT
-
-    // If network is provided, use the network specific environment variables. We still support the old environment variables for backward compatibility.
-    if (network) {
-      networkName = network.toUpperCase()
-      networkEnvName = `${networkName}_RPC_URL`
-      chainIdEnvName = `${networkName}_CHAIN_ID`
-      dlcContractEnvName = `${networkName}_DLC_CONTRACT`
-
-      rpcUrl = process.env[networkEnvName] as string
-      chainId = Number(process.env[chainIdEnvName])
-      dlcContractAddress = process.env[dlcContractEnvName] as string
-    }
-
-    if (!rpcUrl || !dlcContractAddress || !chainId || isNaN(chainId)) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing '${networkEnvName}', '${chainIdEnvName}' or '${dlcContractEnvName}' environment variables.`,
-      })
-    }
-
-    if (!network) {
-      logger.warn(
-        `Network is not provided. Reading from RPC_URL, CHAIN_ID and DLC_CONTRACT environment variables. Please use the network parameter to specify the network in the environment variables and in the request.`,
-      )
-    }
+    const networkName = network.toUpperCase()
+    // ${networkName}_RPC_URL and ${networkName}_CHAIN_ID are already validated in customInputValidation
+    const rpcUrl = process.env[`${networkName}_RPC_URL`] as string
+    const chainId = Number(process.env[`${networkName}_CHAIN_ID`])
+    const dlcContractAddress = dlcContract
 
     if (!this.providers[networkName]) {
       this.providers[networkName] = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)

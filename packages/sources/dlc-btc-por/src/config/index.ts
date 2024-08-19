@@ -2,21 +2,6 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig(
   {
-    RPC_URL: {
-      description:
-        '[DEPRECATED]. Please use {NETWORK_NAME}_RPC_URL instead. The RPC URL to connect to the EVM chain',
-      type: 'string',
-    },
-    CHAIN_ID: {
-      description:
-        '[DEPRECATED]. Please use {NETWORK_NAME}_CHAIN_ID instead.The EVM chain id to connect to',
-      type: 'number',
-    },
-    DLC_CONTRACT: {
-      description:
-        '[DEPRECATED]. Please use {NETWORK_NAME}_DLC_CONTRACT instead.Contract address to fetch all funded vaults',
-      type: 'string',
-    },
     EVM_RPC_BATCH_SIZE: {
       description: 'Number of vaults to fetch from a DLC contract at a time',
       type: 'number',
