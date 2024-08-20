@@ -32,11 +32,12 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |    Name    |                                  Aliases                                   | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :------------------------------------------------------------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|           | definition |                                                                            |             |      |         |         |            |                |
-|    ✅     |  examples  |                             `[object Object]`                              |             |      |         |         |            |                |
-|    ✅     |   params   | `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]` |             |      |         |         |            |                |
+| Required? |     Name      | Aliases |                              Description                               |  Type  |      Options      | Default | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :--------------------------------------------------------------------: | :----: | :---------------: | :-----: | :--------: | :------------: |
+|    ✅     |     base      |         |             The symbol of symbols of the currency to query             | string | `sUSDe`, `wstETH` |         |            |                |
+|    ✅     |     quote     |         |                The symbol of the currency to convert to                | string |       `USD`       |         |            |                |
+|    ✅     | base_address  |         | The address of contract that convert base into an intermidate currency | string |                   |         |            |                |
+|    ✅     | quote_address |         |  The address of contract that convert intermidate currency into quote  | string |                   |         |            |                |
 
 ### Example
 
