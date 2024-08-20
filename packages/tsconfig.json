@@ -549,6 +549,9 @@
       "path": "./sources/synthetix-debt-pool"
     },
     {
+      "path": "./sources/synthetix-feeds"
+    },
+    {
       "path": "./sources/taapi"
     },
     {
