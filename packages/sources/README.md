@@ -146,6 +146,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [superstate](./superstate/README.md)
 - [swell-address-list](./swell-address-list/README.md)
 - [synthetix-debt-pool](./synthetix-debt-pool/README.md)
+- [synthetix-feeds](./synthetix-feeds/README.md)
 - [taapi](./taapi/README.md)
 - [terra-view-function](./terra-view-function/README.md)
 - [the-network-firm](./the-network-firm/README.md)
