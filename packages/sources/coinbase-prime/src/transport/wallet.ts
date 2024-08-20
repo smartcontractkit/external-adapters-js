@@ -8,6 +8,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { readFile, writeFile } from 'fs/promises'
 
 const logger = makeLogger('WalletTransport')
 
@@ -83,9 +84,25 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     const { portfolio, symbols, type, chainId, network, batchSize, apiKey } = param
     const providerDataRequestedUnixMs = Date.now()
 
-    const walletList = await this.requestWallets(portfolio, symbols, type, batchSize, apiKey)
-    const addresses: PoRAddress[] = walletList.map((wallet) => ({
-      address: wallet.address,
+    const path = this.settings.TEST_CACHE_FILEPATH
+    const [walletList, fileCache] = await Promise.all([
+      this.requestWallets(portfolio, symbols, type, batchSize, apiKey),
+      this.readCacheFile(path),
+    ])
+
+    const fetchedAddresses = walletList.map((wallet) => wallet.address)
+    const { mergedAddresses, newAddresses } = await this.computeResultingAddresses(
+      fileCache,
+      fetchedAddresses,
+    )
+
+    if (newAddresses.length) {
+      logger.info('writing cache')
+      await this.writeCacheFile(path, mergedAddresses)
+    }
+
+    const porAddresses: PoRAddress[] = mergedAddresses.map((address) => ({
+      address,
       network,
       chainId,
     }))
@@ -93,7 +110,7 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     return {
       result: null,
       data: {
-        result: addresses,
+        result: porAddresses,
       },
       statusCode: 200,
       timestamps: {
@@ -103,7 +120,50 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
       },
     }
   }
+  /***** POC *****/
+  async readCacheFile(path: string): Promise<string[]> {
+    let data: string[] = []
+    try {
+      const t = await readFile(path, 'utf8')
+      data = t.split(',').map((s) => s.trim())
+    } catch (err) {
+      logger.error(err)
+    }
 
+    return data
+  }
+
+  async writeCacheFile(path: string, addresses: string[]): Promise<void> {
+    try {
+      await writeFile(path, addresses.join(','))
+    } catch (err) {
+      logger.error(err)
+    }
+  }
+
+  // We want the cache to only grow
+  async computeResultingAddresses(
+    cachedAddresses: string[],
+    requestedAddresses: string[],
+  ): Promise<{
+    mergedAddresses: string[]
+    newAddresses: string[]
+  }> {
+    const a = new Set<string>(cachedAddresses)
+    const newAddresses = []
+    for (const address of requestedAddresses) {
+      if (!a.has(address)) {
+        a.add(address)
+        newAddresses.push(address)
+        logger.info(`new address: ${address}`)
+      }
+    }
+    return {
+      mergedAddresses: Array.from(a),
+      newAddresses,
+    }
+  }
+  /***** END POC *****/
   async requestWallets(
     portfolio: string,
     symbols: string[],

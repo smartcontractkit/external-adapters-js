@@ -30,4 +30,10 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 10_000,
   },
+  TEST_CACHE_FILEPATH: {
+    description: 'Filepath to cache address list',
+    type: 'string',
+    // TODO: change default path?
+    default: '/tmp/cachefile',
+  },
 })
