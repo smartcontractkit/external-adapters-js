@@ -2,24 +2,8 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig(
   {
-    RPC_URL: {
-      description: 'The RPC URL to connect to the EVM chain',
-      type: 'string',
-      required: true,
-    },
-    CHAIN_ID: {
-      description: 'The EVM chain id to connect to',
-      type: 'number',
-      required: true,
-    },
-    DLC_CONTRACT: {
-      description: 'Contract address to fetch all funded vaults',
-      required: true,
-      type: 'string',
-    },
     EVM_RPC_BATCH_SIZE: {
       description: 'Number of vaults to fetch from a DLC contract at a time',
-      required: true,
       type: 'number',
       default: 100,
     },
@@ -31,20 +15,17 @@ export const config = new AdapterConfig(
     BITCOIN_NETWORK: {
       description: 'Bitcoin network name',
       type: 'enum',
-      required: true,
       default: 'mainnet',
       options: ['mainnet', 'testnet', 'regtest'],
     },
     CONFIRMATIONS: {
       description: 'The number of confirmations to query data from',
       type: 'number',
-      required: true,
       default: 6,
     },
     BITCOIN_RPC_GROUP_SIZE: {
       description: 'The number of concurrent RPC calls to BITCOIN_RPC_URL to make at a time.',
       type: 'number',
-      required: true,
       default: 30,
     },
     BACKGROUND_EXECUTE_MS: {
