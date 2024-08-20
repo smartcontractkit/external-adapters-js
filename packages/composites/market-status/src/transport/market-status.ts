@@ -1,22 +1,17 @@
-import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import {
+  EndpointContext,
+  MarketStatus,
+  MarketStatusResultResponse,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterResponse } from '@chainlink/external-adapter-framework/util/types'
-import axios from 'axios'
 
+import { AdapterName, marketAdapters } from '../config/adapters'
 import { inputParameters } from '../endpoint/market-status'
 import type { BaseEndpointTypes } from '../endpoint/market-status'
-
-export const adapterNames = ['NCFX', 'TRADINGHOURS'] as const
-
-export type AdapterName = (typeof adapterNames)[number]
-
-const marketAdapters: Record<string, Record<'primary' | 'secondary', AdapterName>> = {
-  __default: {
-    primary: 'TRADINGHOURS',
-    secondary: 'NCFX',
-  },
-}
 
 const logger = makeLogger('MarketStatusTransport')
 
@@ -29,6 +24,18 @@ type MarketStatusResult = {
 type RequestParams = typeof inputParameters.validated
 
 export class MarketStatusTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  requester!: Requester
+
+  async initialize(
+    dependencies: TransportDependencies<BaseEndpointTypes>,
+    adapterSettings: BaseEndpointTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.requester = dependencies.requester
+  }
+
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
@@ -85,7 +92,9 @@ export class MarketStatusTransport extends SubscriptionTransport<BaseEndpointTyp
       return primaryResponse
     }
 
-    logger.warn(`Primary adapter ${adapterNames.primary} returned unknown market status`)
+    logger.warn(
+      `Primary adapter ${adapterNames.primary} for market ${market} returned unknown market status`,
+    )
 
     const secondaryResponse = await this.sendAdapterRequest(context, adapterNames.secondary, market)
     if (secondaryResponse.marketStatus !== MarketStatus.UNKNOWN) {
@@ -93,7 +102,7 @@ export class MarketStatusTransport extends SubscriptionTransport<BaseEndpointTyp
     }
 
     logger.error(
-      `Secondary adapter ${adapterNames.secondary} returned unknown market status, defaulting to CLOSED`,
+      `Secondary adapter ${adapterNames.secondary} for market ${market} returned unknown market status, defaulting to CLOSED`,
     )
 
     return {
@@ -107,27 +116,42 @@ export class MarketStatusTransport extends SubscriptionTransport<BaseEndpointTyp
     adapterName: AdapterName,
     market: string,
   ): Promise<MarketStatusResult> {
-    const baseURL = context.adapterSettings[`${adapterName}_ADAPTER_URL`]
-    const data = {
+    const key = `${market}:${adapterName}`
+    const config = {
+      method: 'POST',
+      baseURL: context.adapterSettings[`${adapterName}_ADAPTER_URL`],
       data: {
-        endpoint: 'market-status',
-        market,
+        data: {
+          endpoint: 'market-status',
+          market,
+        },
       },
     }
+
     try {
-      const resp = await axios.post(baseURL, data, { timeout: 30_000 })
-      return {
-        marketStatus: resp.data?.result ?? MarketStatus.UNKNOWN,
-        providerIndicatedTimeUnixMs:
-          resp.data?.timestamps?.providerIndicatedTimeUnixMs ?? Date.now(),
-        source: adapterName,
+      const resp = await this.requester.request<AdapterResponse<MarketStatusResultResponse>>(
+        key,
+        config,
+      )
+      if (resp.response.status === 200) {
+        return {
+          marketStatus: resp.response.data?.result ?? MarketStatus.UNKNOWN,
+          providerIndicatedTimeUnixMs:
+            resp.response.data?.timestamps?.providerIndicatedTimeUnixMs ?? Date.now(),
+          source: adapterName,
+        }
+      } else {
+        logger.error(
+          `Request to ${adapterName} for market ${market} got status ${resp.response.status}: ${resp.response.data}`,
+        )
       }
     } catch (e) {
-      logger.error(`Request to adapter ${adapterName} failed: ${e}`)
-      return {
-        marketStatus: MarketStatus.UNKNOWN,
-        providerIndicatedTimeUnixMs: Date.now(),
-      }
+      logger.error(`Request to ${adapterName} for market ${market} failed: ${e}`)
+    }
+
+    return {
+      marketStatus: MarketStatus.UNKNOWN,
+      providerIndicatedTimeUnixMs: Date.now(),
     }
   }
 

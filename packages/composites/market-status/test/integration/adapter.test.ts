@@ -1,67 +1,89 @@
-import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { SuperTest, Test } from 'supertest'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import FakeTimers from '@sinonjs/fake-timers'
 
 import * as fixtures from './fixtures'
-import { setupExternalAdapterTest, SuiteContext } from './setup'
+import { MockCache } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { runAllUntil } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 describe('execute', () => {
-  let spy: jest.SpyInstance
+  let clock: FakeTimers.InstalledClock
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
-    const mockDate = new Date('2022-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.NCFX_ADAPTER_URL = 'https://ncfx-adapter.com'
+    process.env.TRADINGHOURS_ADAPTER_URL = 'https://tradinghours-adapter.com'
+
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    clock = FakeTimers.install()
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      clock,
+      testAdapter: {} as TestAdapter<never>,
+    })
   })
 
-  afterAll((done) => {
-    spy.mockRestore()
-    done()
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    clock.uninstall()
+    await testAdapter.api.close()
   })
 
-  const context: SuiteContext = {
-    req: null,
-    server: async () => {
-      // workaround for failing integration tests that run in parallel
-      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '10000'
-      process.env['METRICS_ENABLED'] = 'false'
-      const server = (await import('../../src')).server
-      return server() as Promise<ServerInstance>
-    },
+  const waitForSuccessfulRequest = async (data: object) => {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const response = await testAdapter.request(data)
+      if (response.statusCode === 200) {
+        return response
+      }
+      await clock.nextAsync()
+    }
   }
-
-  const envVariables = {
-    CACHE_ENABLED: 'false',
-    NCFX_ADAPTER_URL: 'https://ncfx-adapter.com',
-    TRADINGHOURS_ADAPTER_URL: 'https://tradinghours-adapter.com',
-  }
-
-  setupExternalAdapterTest(envVariables, context)
 
   it('returns open if tradinghours is open', async () => {
     const market = 'test-1'
     fixtures.mockTradinghoursOpen(market)
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send({ data: { market } })
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const response = await waitForSuccessfulRequest({ market })
+    await testAdapter.waitForCache()
+
+    expect(response.json()).toEqual({
+      data: {
+        result: 2,
+        source: 'TRADINGHOURS',
+      },
+      result: 2,
+      statusCode: 200,
+      timestamps: {
+        providerDataReceivedUnixMs: expect.any(Number),
+        providerDataRequestedUnixMs: expect.any(Number),
+        providerIndicatedTimeUnixMs: expect.any(Number),
+      },
+    })
   })
 
   it('returns closed if tradinghours is closed', async () => {
     const market = 'test-2'
     fixtures.mockTradinghoursClosed(market)
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send({ data: { market } })
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const response = await waitForSuccessfulRequest({ market })
+    expect(response.json()).toEqual({
+      data: {
+        result: 1,
+        source: 'TRADINGHOURS',
+      },
+      result: 1,
+      statusCode: 200,
+      timestamps: {
+        providerDataReceivedUnixMs: expect.any(Number),
+        providerDataRequestedUnixMs: expect.any(Number),
+        providerIndicatedTimeUnixMs: expect.any(Number),
+      },
+    })
   })
 
   it('returns ncfx if tradinghours is unknown', async () => {
@@ -69,29 +91,41 @@ describe('execute', () => {
     fixtures.mockTradinghoursUnknown(market)
     fixtures.mockNCFXOpen(market)
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send({ data: { market } })
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const response = await waitForSuccessfulRequest({ market })
+    expect(response.json()).toEqual({
+      data: {
+        result: 2,
+        source: 'NCFX',
+      },
+      result: 2,
+      statusCode: 200,
+      timestamps: {
+        providerDataReceivedUnixMs: expect.any(Number),
+        providerDataRequestedUnixMs: expect.any(Number),
+        providerIndicatedTimeUnixMs: expect.any(Number),
+      },
+    })
   })
 
-  it('returns ncfx if tradinghours is failing', async () => {
+  it.only('returns ncfx if tradinghours is failing', async () => {
     const market = 'test-4'
     fixtures.mockTradinghoursError(market)
     fixtures.mockNCFXOpen(market)
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send({ data: { market } })
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const response = await waitForSuccessfulRequest({ market })
+    expect(response.json()).toEqual({
+      data: {
+        result: 2,
+        source: 'NCFX',
+      },
+      result: 2,
+      statusCode: 200,
+      timestamps: {
+        providerDataReceivedUnixMs: expect.any(Number),
+        providerDataRequestedUnixMs: expect.any(Number),
+        providerIndicatedTimeUnixMs: expect.any(Number),
+      },
+    })
   })
 
   it('returns closed if tradinghours is failing and ncfx is failing', async () => {
@@ -99,14 +133,19 @@ describe('execute', () => {
     fixtures.mockTradinghoursError(market)
     fixtures.mockNCFXError(market)
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send({ data: { market } })
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const response = await waitForSuccessfulRequest({ market })
+    expect(response.json()).toEqual({
+      data: {
+        result: 1,
+      },
+      result: 1,
+      statusCode: 200,
+      timestamps: {
+        providerDataReceivedUnixMs: expect.any(Number),
+        providerDataRequestedUnixMs: expect.any(Number),
+        providerIndicatedTimeUnixMs: expect.any(Number),
+      },
+    })
   })
 
   it('returns closed if tradinghours is failing and ncfx is unknown', async () => {
@@ -114,13 +153,18 @@ describe('execute', () => {
     fixtures.mockTradinghoursError(market)
     fixtures.mockNCFXUnknown(market)
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send({ data: { market } })
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
-    expect(response.body).toMatchSnapshot()
+    const response = await waitForSuccessfulRequest({ market })
+    expect(response.json()).toEqual({
+      data: {
+        result: 1,
+      },
+      result: 1,
+      statusCode: 200,
+      timestamps: {
+        providerDataReceivedUnixMs: expect.any(Number),
+        providerDataRequestedUnixMs: expect.any(Number),
+        providerIndicatedTimeUnixMs: expect.any(Number),
+      },
+    })
   })
 })

@@ -1,5 +1,5 @@
 ---
-'@chainlink/market-status-adapter': minor
+'@chainlink/market-status-adapter': major
 ---
 
 Initial implementation

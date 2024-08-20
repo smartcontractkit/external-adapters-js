@@ -8305,7 +8305,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["axios", "npm:1.6.8"],\
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
