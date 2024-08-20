@@ -1,20 +1,11 @@
-import {
-  Adapter,
-  AdapterDependencies,
-  MarketStatus,
-} from '@chainlink/external-adapter-framework/adapter'
-import { getRateLimitingTier } from '@chainlink/external-adapter-framework/rate-limiting'
-import {
-  RateLimiterFactory,
-  RateLimitingStrategy,
-} from '@chainlink/external-adapter-framework/rate-limiting/factory'
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterResponse } from '@chainlink/external-adapter-framework/util/types'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios from 'axios'
 
+import { inputParameters } from '../endpoint/market-status'
 import type { BaseEndpointTypes } from '../endpoint/market-status'
-import { Requester } from './requester'
 
 export const adapterNames = ['NCFX', 'TRADINGHOURS'] as const
 
@@ -29,119 +20,120 @@ const marketAdapters: Record<string, Record<'primary' | 'secondary', AdapterName
 
 const logger = makeLogger('MarketStatusTransport')
 
-type MarketStatusAdapterResponse = AdapterResponse<{
-  Data: {
-    result: MarketStatus
-  }
-  Result: MarketStatus
-}>
-
-export type HttpEndpointTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: {
-      data: {
-        endpoint: string
-        market: string
-      }
-    }
-    ResponseBody: MarketStatusAdapterResponse
-  }
+type MarketStatusResult = {
+  marketStatus: MarketStatus
+  providerIndicatedTimeUnixMs: number
+  source?: AdapterName
 }
 
-export const transport = new HttpTransport<HttpEndpointTypes>({
-  prepareRequests: (params, settings) => {
-    const sendRequestAdapter = async (adapterName: AdapterName, config: AxiosRequestConfig) => {
-      logger.debug(`Sending request to adapter ${adapterName}: ${JSON.stringify(config)}`)
-      const baseURL = settings[`${adapterName}_ADAPTER_URL`]
-      try {
-        return await axios.request({ ...config, baseURL })
-      } catch (err) {
-        logger.error(`Request to adapter ${adapterName} failed: ${err}`)
-        return {
-          data: {
-            data: {
-              result: MarketStatus.UNKNOWN,
-            },
-            result: MarketStatus.UNKNOWN,
-          },
-          status: 200,
-        } as AxiosResponse
-      }
-    }
+type RequestParams = typeof inputParameters.validated
 
-    const overrideAxiosRequest = async (config: AxiosRequestConfig): Promise<AxiosResponse> => {
-      const market = config.data?.data?.market
-      if (!market) {
-        throw new Error(`Invalid market in request params: ${market}`)
-      }
+export class MarketStatusTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  }
 
-      const adapterNames = marketAdapters[market] ?? marketAdapters.__default
+  async handleRequest(context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+    const requestedAt = Date.now()
 
-      const primaryResponse = await sendRequestAdapter(adapterNames.primary, config)
-      if (primaryResponse.data.result !== MarketStatus.UNKNOWN) {
-        return primaryResponse
-      }
-
-      logger.warn(`Primary adapter ${adapterNames.primary} returned unknown market status`)
-
-      const secondaryResponse = await sendRequestAdapter(adapterNames.secondary, config)
-      if (secondaryResponse.data.result !== MarketStatus.UNKNOWN) {
-        return secondaryResponse
-      }
-
-      logger.error(`Secondary adapter ${adapterNames.secondary} returned unknown market status`)
-
-      return {
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    try {
+      const result = await this._handleRequest(context, param)
+      response = {
         data: {
-          data: {
-            result: MarketStatus.CLOSED,
-          },
-          result: MarketStatus.CLOSED,
+          result: result.marketStatus,
+          source: result.source,
         },
-        status: 200,
-      } as AxiosResponse
+        result: result.marketStatus,
+        statusCode: 200,
+        timestamps: {
+          providerDataRequestedUnixMs: requestedAt,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: result.providerIndicatedTimeUnixMs,
+        },
+      }
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : `Unknown error occurred: ${e}`
+      logger.error(e, errorMessage)
+      response = {
+        statusCode: 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: requestedAt,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    context: EndpointContext<BaseEndpointTypes>,
+    param: RequestParams,
+  ): Promise<MarketStatusResult> {
+    const market = param.market
+    if (!market) {
+      throw new Error(`Missing market in params: ${market}`)
     }
 
-    return params.map((param) => {
-      const market = param.market
-      if (!market) {
-        throw new Error(`Invalid market in params: ${market}`)
-      }
+    const adapterNames = marketAdapters[market] ?? marketAdapters.__default
 
-      return {
-        params: [param],
-        request: {
-          method: 'post',
-          // The outer 'data' key identifies the JSON payload for axios. The inner 'data' key is
-          // the part of the payload expected by an adapter server.
-          data: {
-            data: {
-              endpoint: 'market-status',
-              market: param.market,
-            },
-          },
-          overrideAxiosRequest,
-        },
-      }
-    })
-  },
-  parseResponse: (params, res) => {
-    return params.map((param) => {
-      return {
-        params: param,
-        response: res.data,
-      }
-    })
-  },
-})
+    const primaryResponse = await this.sendAdapterRequest(context, adapterNames.primary, market)
+    if (primaryResponse.marketStatus !== MarketStatus.UNKNOWN) {
+      return primaryResponse
+    }
 
-export const bootstrapDependencies = (
-  adapter: Adapter,
-  dependencies: Partial<AdapterDependencies>,
-): void => {
-  const rateLimitingTier = getRateLimitingTier(adapter.config.settings, adapter.rateLimiting?.tiers)
-  dependencies.rateLimiter = RateLimiterFactory.buildRateLimiter(
-    adapter.config.settings.RATE_LIMITING_STRATEGY as RateLimitingStrategy,
-  ).initialize(adapter.endpoints, rateLimitingTier)
-  dependencies.requester = new Requester(dependencies.rateLimiter, adapter.config.settings) as any
+    logger.warn(`Primary adapter ${adapterNames.primary} returned unknown market status`)
+
+    const secondaryResponse = await this.sendAdapterRequest(context, adapterNames.secondary, market)
+    if (secondaryResponse.marketStatus !== MarketStatus.UNKNOWN) {
+      return secondaryResponse
+    }
+
+    logger.error(
+      `Secondary adapter ${adapterNames.secondary} returned unknown market status, defaulting to CLOSED`,
+    )
+
+    return {
+      marketStatus: MarketStatus.CLOSED,
+      providerIndicatedTimeUnixMs: Date.now(),
+    }
+  }
+
+  async sendAdapterRequest(
+    context: EndpointContext<BaseEndpointTypes>,
+    adapterName: AdapterName,
+    market: string,
+  ): Promise<MarketStatusResult> {
+    const baseURL = context.adapterSettings[`${adapterName}_ADAPTER_URL`]
+    const data = {
+      data: {
+        endpoint: 'market-status',
+        market,
+      },
+    }
+    try {
+      const resp = await axios.post(baseURL, data, { timeout: 30_000 })
+      return {
+        marketStatus: resp.data?.result ?? MarketStatus.UNKNOWN,
+        providerIndicatedTimeUnixMs:
+          resp.data?.timestamps?.providerIndicatedTimeUnixMs ?? Date.now(),
+        source: adapterName,
+      }
+    } catch (e) {
+      logger.error(`Request to adapter ${adapterName} failed: ${e}`)
+      return {
+        marketStatus: MarketStatus.UNKNOWN,
+        providerIndicatedTimeUnixMs: Date.now(),
+      }
+    }
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+  }
 }
+
+export const transport = new MarketStatusTransport()
