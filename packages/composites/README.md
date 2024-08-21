@@ -74,6 +74,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [implied-price](./implied-price/README.md)
 - [linear-finance](./linear-finance/README.md)
 - [market-closure](./market-closure/README.md)
+- [market-status](./market-status/README.md)
 - [medianizer](./medianizer/README.md)
 - [nftx](./nftx/README.md)
 - [outlier-detection](./outlier-detection/README.md)
