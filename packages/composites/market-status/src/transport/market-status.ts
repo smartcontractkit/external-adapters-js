@@ -81,10 +81,6 @@ export class MarketStatusTransport extends SubscriptionTransport<BaseEndpointTyp
     param: RequestParams,
   ): Promise<MarketStatusResult> {
     const market = param.market
-    if (!market) {
-      throw new Error(`Missing market in params: ${market}`)
-    }
-
     const adapterNames = marketAdapters[market] ?? marketAdapters.__default
 
     const primaryResponse = await this.sendAdapterRequest(context, adapterNames.primary, market)
