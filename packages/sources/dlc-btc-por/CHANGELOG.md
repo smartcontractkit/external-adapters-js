@@ -1,5 +1,15 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 4.0.0
+
+### Major Changes
+
+- [#3389](https://github.com/smartcontractkit/external-adapters-js/pull/3389) [`26a9a02`](https://github.com/smartcontractkit/external-adapters-js/commit/26a9a02e1b95a4b293a405777baaad89e3baae66) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Modified vault fetching logic, added support for multiple networks.
+  [Breaking Changes]
+  Replaced DLC_CONTRACT env variable with 'dlcContract' input parameter.
+  Replaced RPC_URL, CHAIN_ID env variables with network-specific env variables ( {NETWORK}\_RPC_URL, {NETWORK}\_CHAIN_ID ).
+  Added new 'network' input parameter to specify the network.
+
 ## 3.0.4
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # SYNTHETIX_FEEDS
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/synthetix-feeds/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/synthetix-feeds/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -32,12 +32,11 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |     Name      | Aliases |                              Description                               |  Type  |      Options      | Default | Depends On | Not Valid With |
-| :-------: | :-----------: | :-----: | :--------------------------------------------------------------------: | :----: | :---------------: | :-----: | :--------: | :------------: |
-|    ✅     |     base      |         |             The symbol of symbols of the currency to query             | string | `sUSDe`, `wstETH` |         |            |                |
-|    ✅     |     quote     |         |                The symbol of the currency to convert to                | string |       `USD`       |         |            |                |
-|    ✅     | base_address  |         | The address of contract that convert base into an intermidate currency | string |                   |         |            |                |
-|    ✅     | quote_address |         |  The address of contract that convert intermidate currency into quote  | string |                   |         |            |                |
+| Required? |    Name    |                                  Aliases                                   | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------------------------------------------------------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|           | definition |                                                                            |             |      |         |         |            |                |
+|    ✅     |  examples  |                             `[object Object]`                              |             |      |         |         |            |                |
+|    ✅     |   params   | `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]` |             |      |         |         |            |                |
 
 ### Example
 
