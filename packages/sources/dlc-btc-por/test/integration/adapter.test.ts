@@ -12,14 +12,14 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:8545'
-    process.env.CHAIN_ID = process.env.CHAIN_ID ?? '11155111'
-    process.env.DLC_CONTRACT =
-      process.env.DLC_CONTRACT ?? '0x334d9890b339a1b2e0f592f26b5374e22afdfbdf'
+
+    process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:8545'
+    process.env.ARBITRUM_CHAIN_ID = process.env.ARBITRUM_CHAIN_ID ?? '11155111'
     process.env.BITCOIN_NETWORK = process.env.BITCOIN_NETWORK ?? 'mainnet'
     process.env.BITCOIN_RPC_URL = process.env.BITCOIN_RPC_URL ?? 'http://localhost:8554'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '100'
     process.env.RETRY = process.env.RETRY ?? '0'
+
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -42,7 +42,10 @@ describe('execute', () => {
     it('should return success', async () => {
       mockContractCallResponseSuccess()
       mockBitcoinRPCResponseSuccess()
-      const response = await testAdapter.request({})
+      const response = await testAdapter.request({
+        network: 'arbitrum',
+        dlcContract: '0x334d9890b339a1b2e0f592f26b5374e22afdfbdf',
+      })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
