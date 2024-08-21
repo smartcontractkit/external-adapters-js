@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`synthetix feeds execute price endpoint sUSDe - USD success - $1 cap 1`] = `
+{
+  "data": {
+    "result": 1.0969985583503274,
+  },
+  "result": 1.0969985583503274,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
