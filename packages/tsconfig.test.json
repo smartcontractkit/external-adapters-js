@@ -63,6 +63,9 @@
       "path": "./composites/market-closure/tsconfig.test.json"
     },
     {
+      "path": "./composites/market-status/tsconfig.test.json"
+    },
+    {
       "path": "./composites/medianizer/tsconfig.test.json"
     },
     {

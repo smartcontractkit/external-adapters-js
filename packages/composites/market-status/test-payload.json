@@ -1,0 +1,7 @@
+{
+  "requests": [{
+    "market": "forex"
+  }, {
+    "market": "metals"
+  }]
+}
