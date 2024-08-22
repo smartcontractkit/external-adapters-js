@@ -1,6 +1,6 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance2'
-import { sign, getApiKeys } from './utils'
+import { sign, getApiKeys, errorResponse } from './utils'
 import {
   calculateCacheKey,
   calculateHttpRequestKey,
@@ -48,15 +48,12 @@ export type BalanceTransportTypes = BaseEndpointTypes & {
 type RequestParams = typeof inputParameters.validated
 
 // revisit if we have >100 separate portfolios using this EA
-// const myCache = CacheFactory.buildCache({cacheType: 'local', maxSizeForLocalCache: 100})
 type BlipCacheValue = {
   result: number
   timestamp: number
 }
 const blipCache = new Map<string, BlipCacheValue>()
-const BLIP_DURATION_MS = 120000
 
-// export class WalletTransport extends SubscriptionTransport<WalletTransportTypes> {
 export class BalanceTransport extends SubscriptionTransport<BalanceTransportTypes> {
   settings!: BalanceTransportTypes['Settings']
   requester!: Requester
@@ -110,53 +107,33 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
 
     const response = await this.sendBalanceRequest(portfolio, symbol, type, apiKey)
     if (!response) {
-      return {
-        errorMessage: `The data provider did not return data for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
-        statusCode: 502,
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
+      return errorResponse(
+        `The data provider did not return data for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
+        providerDataRequestedUnixMs,
+      )
     }
 
     if (!response.balances) {
-      return {
-        errorMessage: `The data provider response does not contain a balances list for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
-        statusCode: 502,
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
+      return errorResponse(
+        `The data provider response does not contain a balances list for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
+        providerDataRequestedUnixMs,
+      )
     }
 
     // The adapter only supports querying one asset at a time so the balances list should only contain 1 element
     if (response.balances.length !== 1) {
-      return {
-        errorMessage: `The data provider response does not contain exactly one element in the balances list for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
-        statusCode: 502,
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
+      return errorResponse(
+        `The data provider response does not contain exactly one element in the balances list for Portfolio: ${param.portfolio}, Balance Type: ${param.type}, Symbol: ${param.symbol}`,
+        providerDataRequestedUnixMs,
+      )
     }
 
     const result = Number(response.balances[0].amount)
     if (isNaN(result)) {
-      return {
-        errorMessage: `The data provider returned non-numeric balance: ${response.balances[0].amount}`,
-        statusCode: 502,
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
+      return errorResponse(
+        `The data provider returned non-numeric balance: ${response.balances[0].amount}`,
+        providerDataRequestedUnixMs,
+      )
     }
 
     const generateResponseBody = (r: number = result) => {
@@ -174,7 +151,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       }
     }
 
-    // standard REST API case
+    // If acceptDelay is false, return the new result right away
     if (!acceptDelay) {
       return generateResponseBody()
     }
@@ -187,49 +164,37 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       adapterSettings: this.responseCache.adapterSettings,
     })
 
-    // if `result` doesn't match cached response, we want to delay returning the new value
-    // by 2 minutes, ie: we don't want to update the response cache right away.
-    // we'll do this by caching this value in a separate map for 2 minutes
-    // TODO make 2 minutes configurable
-    const responseCacheData = await this.responseCache.cache.get(cacheKey)
-    if (!responseCacheData || !responseCacheData.result) {
-      console.log('no responseCacheData found')
-      return generateResponseBody()
-    } else if (responseCacheData.result === result) {
-      console.log('responseCacheData and latest result are the same')
+    // if `result` doesn't match already cached response, we want to delay returning the new value
+    // by DELAYED_RESPONSE_MS seconds, ie: we don't want to update the response cache right away.
+    // we'll do this by caching this value in a separate map for DELAYED_RESPONSE_MS seconds
+    const cachedResponse = await this.responseCache.cache.get(cacheKey)
+    if (!cachedResponse?.result || result === cachedResponse.result) {
+      // If no cache, or the new result is the same as the cached result, return the new result, which essentially will update the TTL
       return generateResponseBody()
     }
 
     const blipCacheData = blipCache.get(cacheKey)
-    console.log('responseCacheData = ')
-    console.log(responseCacheData)
-    console.log('blipCacheData = ')
-    console.log(blipCacheData)
+    const BLIP_DURATION_MS = this.settings.DELAYED_RESPONSE_MS
 
-    // result is found in blipCache, want to update TTL of the cached value
+    // If the result is the same as the temporarily cached value(blipCache), we want to check if the value in blipCache has been cached long enough
     if (result === blipCacheData?.result) {
-      console.log(
-        `blipCache timestamp = ${blipCacheData?.timestamp}, blipmin = ${
-          Date.now() - BLIP_DURATION_MS
-        }, isless = ${blipCacheData?.timestamp < Date.now() - BLIP_DURATION_MS}`,
-      )
-      if (blipCacheData?.timestamp > Date.now() - BLIP_DURATION_MS) {
-        console.log(`rewriting responseCache ${cacheKey}`)
-        // await this.responseCache.writeTTL(this.name, [param], this.settings.CACHE_MAX_AGE)
-        // return generateResponseBody(a.result)
-      } else {
-        // blipCacheValue has been cached long enough and seems like a good value
-        console.log(`removing local ${cacheKey}`)
+      const isBlipCacheStale = blipCacheData?.timestamp <= Date.now() - BLIP_DURATION_MS
+      if (isBlipCacheStale) {
+        // blipCacheValue has been cached long enough and seems like a good value, update the response cache
+        logger.debug(`Deleting blipCache for  ${cacheKey}`)
         blipCache.delete(cacheKey)
         return generateResponseBody()
       }
     } else {
-      // blipCacheValue not the same as result, overwrite
-      console.log(`overwriting local ${cacheKey}`)
+      // blipCacheValue is missing or is not the same as the result, overwrite
+      logger.debug(`Setting blipCache for ${cacheKey} to ${result}`)
       blipCache.set(cacheKey, { result, timestamp: providerDataRequestedUnixMs })
     }
 
-    return generateResponseBody(responseCacheData.result)
+    // At this point, we have a new result that is different from the cached result
+    // and the blipCache value is still under the DELAYED_RESPONSE_MS threshold.
+    // return the cached result
+    return generateResponseBody(cachedResponse.result)
   }
 
   async sendBalanceRequest(
@@ -274,7 +239,6 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       requestConfig,
     )
 
-    console.log(res.response.data)
     return res.response.data
   }
 

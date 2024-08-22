@@ -29,3 +29,19 @@ export const getApiKeys = (apiKey: string, config: BaseEndpointTypes['Settings']
     return [config.SIGNING_KEY, config.ACCESS_KEY, config.PASSPHRASE]
   }
 }
+
+export const errorResponse = (
+  message: string,
+  providerDataRequestedUnixMs: number,
+  statusCode = 502,
+) => {
+  return {
+    errorMessage: message,
+    statusCode,
+    timestamps: {
+      providerDataRequestedUnixMs,
+      providerDataReceivedUnixMs: Date.now(),
+      providerIndicatedTimeUnixMs: undefined,
+    },
+  }
+}
