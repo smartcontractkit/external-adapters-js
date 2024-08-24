@@ -55,7 +55,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'balance2',
-  // transport: httpTransport,
   transport: balanceTransport,
   inputParameters,
   customInputValidation: (request, settings): AdapterError | undefined => {

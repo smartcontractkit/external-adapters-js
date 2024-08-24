@@ -27,7 +27,7 @@ export const config = new AdapterConfig({
   DELAYED_RESPONSE_MS: {
     description: 'The amount of time to delay the new response in milliseconds',
     type: 'number',
-    default: 120_000,
+    default: 180_000,
   },
   BACKGROUND_EXECUTE_MS: {
     description:

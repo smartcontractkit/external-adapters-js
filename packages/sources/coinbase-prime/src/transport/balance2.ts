@@ -164,29 +164,35 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       adapterSettings: this.responseCache.adapterSettings,
     })
 
-    // if `result` doesn't match already cached response, we want to delay returning the new value
-    // by DELAYED_RESPONSE_MS seconds, ie: we don't want to update the response cache right away.
-    // we'll do this by caching this value in a separate map for DELAYED_RESPONSE_MS seconds
+    // If `result` doesn't match already cached response, don't update the response cache right away.
+    // We want to delay returning the new value by time = DELAYED_RESPONSE_MS by caching this value
+    // in a separate map for DELAYED_RESPONSE_MS.
     const cachedResponse = await this.responseCache.cache.get(cacheKey)
     if (!cachedResponse?.result || result === cachedResponse.result) {
-      // If no cache, or the new result is the same as the cached result, return the new result, which essentially will update the TTL
+      // If no cached result or the new result is the same as the cached result,
+      // return the new result, which writes to or refreshes the response cache TTL
+      // Clear the blipCache to avoid edge case where the value goes from x to y, then back to x, then back to y
+      // which would maintain a value in the cache, registering the second y as having passed the cache threshold immediately
+      logger.trace(`Preventatively deleting blipCache for ${cacheKey}`)
+      blipCache.delete(cacheKey)
       return generateResponseBody()
     }
 
-    const blipCacheData = blipCache.get(cacheKey)
-    const BLIP_DURATION_MS = this.settings.DELAYED_RESPONSE_MS
+    const blipCacheValue = blipCache.get(cacheKey)
 
-    // If the result is the same as the temporarily cached value(blipCache), we want to check if the value in blipCache has been cached long enough
-    if (result === blipCacheData?.result) {
-      const isBlipCacheStale = blipCacheData?.timestamp <= Date.now() - BLIP_DURATION_MS
+    // If the result is the same as the temporarily cached value in blipCache, we want to check if
+    // the value in blipCache has been cached long enough to be considered "good"
+    if (result === blipCacheValue?.result) {
+      const isBlipCacheStale =
+        blipCacheValue?.timestamp <= Date.now() - this.settings.DELAYED_RESPONSE_MS
       if (isBlipCacheStale) {
-        // blipCacheValue has been cached long enough and seems like a good value, update the response cache
-        logger.debug(`Deleting blipCache for  ${cacheKey}`)
+        // blipCache value has been cached long enough and seems like a good value, update the response cache
+        logger.debug(`Deleting blipCache for ${cacheKey}`)
         blipCache.delete(cacheKey)
         return generateResponseBody()
       }
     } else {
-      // blipCacheValue is missing or is not the same as the result, overwrite
+      // blipCache value is missing or is not the same as the result, overwrite
       logger.debug(`Setting blipCache for ${cacheKey} to ${result}`)
       blipCache.set(cacheKey, { result, timestamp: providerDataRequestedUnixMs })
     }
