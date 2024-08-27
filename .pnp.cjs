@@ -95,6 +95,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/market-closure"\
     },\
     {\
+      "name": "@chainlink/market-status-adapter",\
+      "reference": "workspace:packages/composites/market-status"\
+    },\
+    {\
       "name": "@chainlink/medianizer-adapter",\
       "reference": "workspace:packages/composites/medianizer"\
     },\
@@ -755,6 +759,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/synthetix-debt-pool"\
     },\
     {\
+      "name": "@chainlink/synthetix-feeds-adapter",\
+      "reference": "workspace:packages/sources/synthetix-feeds"\
+    },\
+    {\
       "name": "@chainlink/taapi-adapter",\
       "reference": "workspace:packages/sources/taapi"\
     },\
@@ -1009,6 +1017,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],\
+    ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],\
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],\
@@ -1059,6 +1068,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
+    ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
     ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],\
     ["@chainlink/terra-view-function-adapter", ["workspace:packages/sources/terra-view-function"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
@@ -7500,6 +7510,25 @@ const RAW_RUNTIME_STATE =
           ["yeoman-generator", "npm:3.1.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.3.1", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.3.1-934e8ceb00-ebf4b641e0.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["ajv", "npm:8.11.0"],\
+          ["axios", "npm:1.6.8"],\
+          ["eventsource", "npm:2.0.2"],\
+          ["fastify", "npm:4.13.0"],\
+          ["ioredis", "npm:5.2.3"],\
+          ["mock-socket", "npm:9.1.5"],\
+          ["pino", "npm:8.6.1"],\
+          ["pino-pretty", "npm:9.1.0"],\
+          ["prom-client", "npm:13.2.0"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:70c1755b28022acec902c80b16daa74c0d43e961035eb8729d57e1e535c752c2b9cd568b624fddca1b2cc20fe9db0e3bf1244d7667259f01119db21e058e970f#npm:8.9.0"],\
+          ["yeoman-generator", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@chainlink/external-adapters-js", [\
@@ -8257,6 +8286,28 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["market-closure", "npm:0.1.2"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/market-status-adapter", [\
+      ["workspace:packages/composites/market-status", {\
+        "packageLocation": "./packages/composites/market-status/",\
+        "packageDependencies": [\
+          ["@chainlink/market-status-adapter", "workspace:packages/composites/market-status"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.0"],\
+          ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
+          ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.96"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["@types/supertest", "npm:2.0.16"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["nock", "npm:13.5.4"],\
+          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
@@ -9184,6 +9235,23 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/synthetix-feeds-adapter", [\
+      ["workspace:packages/sources/synthetix-feeds", {\
+        "packageLocation": "./packages/sources/synthetix-feeds/",\
+        "packageDependencies": [\
+          ["@chainlink/synthetix-feeds-adapter", "workspace:packages/sources/synthetix-feeds"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["decimal.js", "npm:10.4.3"],\
+          ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\

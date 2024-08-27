@@ -63,6 +63,9 @@
       "path": "./composites/market-closure"
     },
     {
+      "path": "./composites/market-status"
+    },
+    {
       "path": "./composites/medianizer"
     },
     {
@@ -544,6 +547,9 @@
     },
     {
       "path": "./sources/synthetix-debt-pool"
+    },
+    {
+      "path": "./sources/synthetix-feeds"
     },
     {
       "path": "./sources/taapi"

@@ -63,6 +63,9 @@
       "path": "./composites/market-closure/tsconfig.test.json"
     },
     {
+      "path": "./composites/market-status/tsconfig.test.json"
+    },
+    {
       "path": "./composites/medianizer/tsconfig.test.json"
     },
     {
@@ -544,6 +547,9 @@
     },
     {
       "path": "./sources/synthetix-debt-pool/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/synthetix-feeds/tsconfig.test.json"
     },
     {
       "path": "./sources/taapi/tsconfig.test.json"

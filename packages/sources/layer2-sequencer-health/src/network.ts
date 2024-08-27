@@ -26,6 +26,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   // has not been deployed to the network. The OutOfRangeFee error is thrown when
   // the network detects a transaction sent with 0 gas.
   [Networks.Starkware]: ['Contract not found', 'Known(OutOfRangeFee)'],
+  [Networks.zkSync]: ['max fee per gas less than block base fee'],
 }
 
 export interface NetworkHealthCheck {
@@ -90,6 +91,7 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Metis]: ['error', 'message'],
       [Networks.Scroll]: ['error', 'error', 'message'],
       [Networks.Starkware]: ['message'],
+      [Networks.zkSync]: ['error', 'message'],
     }
     return (Requester.getResult(error, paths[network]) as string) || ''
   }

@@ -29,18 +29,21 @@ export const ENV_OPTIMISM_RPC_ENDPOINT = 'OPTIMISM_RPC_ENDPOINT'
 export const ENV_BASE_RPC_ENDPOINT = 'BASE_RPC_ENDPOINT'
 export const ENV_METIS_RPC_ENDPOINT = 'METIS_RPC_ENDPOINT'
 export const ENV_SCROLL_RPC_ENDPOINT = 'SCROLL_RPC_ENDPOINT'
+export const ENV_ZKSYNC_RPC_ENDPOINT = 'ZKSYNC_RPC_ENDPOINT'
 
 export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
 export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
 export const ENV_BASE_CHAIN_ID = 'BASE_CHAIN_ID'
 export const ENV_METIS_CHAIN_ID = 'METIS_CHAIN_ID'
 export const ENV_SCROLL_CHAIN_ID = 'SCROLL_CHAIN_ID'
+export const ENV_ZKSYNC_CHAIN_ID = 'ZKSYNC_CHAIN_ID'
 
 export const DEFAULT_ARBITRUM_CHAIN_ID = '42161'
 export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
 export const DEFAULT_BASE_CHAIN_ID = '8453'
 export const DEFAULT_METIS_CHAIN_ID = '1088'
 export const DEFAULT_SCROLL_CHAIN_ID = '534352'
+export const DEFAULT_ZKSYNC_CHAIN_ID = '324'
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -49,6 +52,7 @@ export enum Networks {
   Metis = 'metis',
   Scroll = 'scroll',
   Starkware = 'starkware',
+  zkSync = 'zksync',
 }
 
 export type EVMNetworks = Exclude<Networks, Networks.Starkware>
@@ -58,6 +62,7 @@ const DEFAULT_OPTIMISM_RPC_ENDPOINT = 'https://mainnet.optimism.io'
 const DEFAULT_BASE_RPC_ENDPOINT = 'https://mainnet.base.org'
 const DEFAULT_METIS_RPC_ENDPOINT = 'https://andromeda.metis.io/?owner=1088'
 const DEFAULT_SCROLL_RPC_ENDPOINT = 'https://rpc.scroll.io'
+const DEFAULT_ZKSYNC_RPC_ENDPOINT = 'https://mainnet.era.zksync.io'
 
 export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Arbitrum]: util.getEnv(ENV_ARBITRUM_RPC_ENDPOINT) || DEFAULT_ARBITRUM_RPC_ENDPOINT,
@@ -65,6 +70,7 @@ export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Base]: util.getEnv(ENV_BASE_RPC_ENDPOINT) || DEFAULT_BASE_RPC_ENDPOINT,
   [Networks.Metis]: util.getEnv(ENV_METIS_RPC_ENDPOINT) || DEFAULT_METIS_RPC_ENDPOINT,
   [Networks.Scroll]: util.getEnv(ENV_SCROLL_RPC_ENDPOINT) || DEFAULT_SCROLL_RPC_ENDPOINT,
+  [Networks.zkSync]: util.getEnv(ENV_ZKSYNC_RPC_ENDPOINT) || DEFAULT_ZKSYNC_RPC_ENDPOINT,
 }
 
 export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
@@ -83,6 +89,9 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
   [Networks.Scroll]:
     parseInt(util.getEnv(ENV_SCROLL_CHAIN_ID) || DEFAULT_SCROLL_CHAIN_ID) ||
     util.getEnv(ENV_SCROLL_CHAIN_ID),
+  [Networks.zkSync]:
+    parseInt(util.getEnv(ENV_ZKSYNC_CHAIN_ID) || DEFAULT_ZKSYNC_CHAIN_ID) ||
+    util.getEnv(ENV_ZKSYNC_CHAIN_ID),
 }
 
 export const CHAIN_DELTA: Record<Networks, number> = {
@@ -92,6 +101,7 @@ export const CHAIN_DELTA: Record<Networks, number> = {
   [Networks.Metis]: Number(util.getEnv('METIS_DELTA')) || DEFAULT_DELTA_TIME_METIS,
   [Networks.Scroll]: Number(util.getEnv('SCROLL_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Starkware]: Number(util.getEnv('STARKWARE_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.zkSync]: Number(util.getEnv('ZKSYNC_DELTA')) || DEFAULT_DELTA_TIME,
 }
 
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
@@ -134,6 +144,11 @@ export const HEALTH_ENDPOINTS: HeathEndpoints = {
   },
   [Networks.Starkware]: {
     endpoint: util.getEnv('STARKWARE_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.zkSync]: {
+    endpoint: util.getEnv('ZKSYNC_HEALTH_ENDPOINT'),
     responsePath: [],
     processResponse: () => undefined,
   },
