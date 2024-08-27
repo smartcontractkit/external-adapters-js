@@ -31,6 +31,10 @@ Adapter that checks the Layer 2 Sequencer status
 |           | `STARKWARE_DUMMY_ACCOUNT_ADDRESS` |             The dummy address to use to send dummy transactions to Starkware              |         | 0x00000000000000000000000000000000000000000000000000000000000001 |
 |           |         `STARKWARE_DELTA`         | Maximum time in milliseconds from last seen block to consider Starkware sequencer healthy |         |                          120000 (2 min)                          |
 |           | `STARKWARE_DUMMY_ACCOUNT_ADDRESS` |             The dummy address to use to send dummy transactions to Starkware              |         | 0x00000000000000000000000000000000000000000000000000000000000001 |
+|           |       `ZKSYNC_RPC_ENDPOINT`       |                                    zkSync RPC Endpoint                                    |         |                  https://mainnet.era.zksync.io                   |
+|           |     `ZKSYNC_HEALTH_ENDPOINT`      |                                  zkSync Health Endpoint                                   |         |                                                                  |
+|           |         `ZKSYNC_CHAIN_ID`         |                             The chain id to connect to zkSync                             |         |                               324                                |
+|           |          `ZKSYNC_DELTA`           |  Maximum time in milliseconds from last seen block to consider zkSync sequencer healthy   |         |                          120000 (2 min)                          |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 
@@ -38,9 +42,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                            Options                             | Defaults to |
-| :-------: | :-----: | :----------------------: | :------------------------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `metis`, `scroll`, `starkware` |             |
+| Required? |  Name   |       Description        |                                 Options                                  | Defaults to |
+| :-------: | :-----: | :----------------------: | :----------------------------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `metis`, `scroll`, `starkware`, `zksync` |             |
 
 ---
 
