@@ -36,7 +36,7 @@ runs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
     # First, we want to install yarn since our base image doesn't have it installed
-    - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+    - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
       with:
         # This doesn't use cache: 'yarn' as the base image doesn't have it, and we're caching node_modules
         node-version: 22
