@@ -23,6 +23,7 @@ const defaultRequireTxFailure = {
   [Networks.Optimism]: false,
   [Networks.Scroll]: false,
   [Networks.Starkware]: true,
+  [Networks.zkSync]: false,
 }
 
 export type TInputParameters = {
@@ -39,6 +40,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
       Networks.Optimism,
       Networks.Scroll,
       Networks.Starkware,
+      Networks.zkSync,
     ],
   },
   requireTxFailure: {

@@ -246,6 +246,51 @@ describe('execute', () => {
     })
   })
 
+  describe('zksync network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessBlock()
+      mockResponseSuccessHealth()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'zksync',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureBlock()
+      mockResponseSuccessHealth()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'zksync',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureBlock()
+      mockResponseFailureHealth()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'zksync',
+          requireTxFailure: false,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
   describe('base network', () => {
     it('should return success when all methods succeed', async () => {
       mockResponseSuccessHealth()

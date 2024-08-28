@@ -1,0 +1,3 @@
+# Data Feeds Engineers must approve changes that will trigger an external Release
+/package.json @smartcontractkit/data-feeds-engineers
+/MASTERLIST.md @smartcontractkit/data-feeds-engineers
