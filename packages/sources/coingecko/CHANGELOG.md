@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 2.0.23
+
+### Patch Changes
+
+- [#3410](https://github.com/smartcontractkit/external-adapters-js/pull/3410) [`0564e03`](https://github.com/smartcontractkit/external-adapters-js/commit/0564e0375979c1501c6c40d582cc44fdbaefb586) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 2.0.22
 
 ### Patch Changes
