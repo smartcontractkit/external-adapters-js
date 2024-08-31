@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/view-function-adapter",
-  "version": "3.0.12",
+  "version": "3.0.13",
   "description": "Chainlink view-function adapter.",
   "keywords": [
     "Chainlink",
