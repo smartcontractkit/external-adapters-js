@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.4.0
+
+### Minor Changes
+
+- [#3405](https://github.com/smartcontractkit/external-adapters-js/pull/3405) [`f0ae649`](https://github.com/smartcontractkit/external-adapters-js/commit/f0ae6491033e1913c1eb683c36a6b1903749194b) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds L2EP support for zkSync chain
+
 ## 4.3.0
 
 ### Minor Changes
