@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 4.1.1
+
+### Patch Changes
+
+- [#3407](https://github.com/smartcontractkit/external-adapters-js/pull/3407) [`dea8800`](https://github.com/smartcontractkit/external-adapters-js/commit/dea88009fcfd474dd5516005dc9e074a3a89d579) Thanks [@martin-cll](https://github.com/martin-cll)! - Make lwba endpoint params case insensitive
+
 ## 4.1.0
 
 ### Minor Changes
