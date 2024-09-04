@@ -90,8 +90,13 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
           return []
         }
 
-        const stream = rec.slice(31, 34)
-        if (stream !== generatePriceOptions.streamName) {
+        const ticker = parseRec(rec)
+        if (!ticker) {
+          logger.debug({ msg: `Invalid symbol: ${rec}`, message })
+          return []
+        }
+
+        if (ticker.stream !== generatePriceOptions.streamName) {
           logger.debug({
             msg: `Only ${generatePriceOptions.streamName} forex prices accepted on this adapter. Filtering out this message.`,
             message,
@@ -114,28 +119,91 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
             .div(2)
             .toNumber()
 
-        const base = rec.slice(5, 8)
-        const quote = rec.slice(8, 11)
-        const source = rec.slice(15, 18)
+        const response = {
+          result,
+          data: {
+            result,
+          },
+          timestamps: {
+            providerDataReceivedUnixMs,
+            providerDataStreamEstablishedUnixMs,
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        }
 
+        // Cache both the base and the full ticker string. The full ticker is to
+        // accomodate cases where there are multiple instruments for a single base
+        // (e.g. forwards like CEFWDXAUUSDSPT06M:LDN.BIL.QTE.RTM!TP, CEFWDXAUUSDSPT02Y:LDN.BIL.QTE.RTM!TP, CEFWDXAUUSDSPT03M:LDN.BIL.QTE.RTM!TP, etc).
+        // It is expected that for such cases, the exact ticker will be provided as
+        // an override.
+        // e.g. request body = {"data":{"endpoint":"forex","from":"CHF","to":"USD","overrides":{"tp":{"CHF":"FXSPTUSDAEDSPT:GBL.BIL.QTE.RTM!TP"}}}}
         return [
           {
-            params: { base, quote, [generatePriceOptions.sourceName]: source },
-            response: {
-              result,
-              data: {
-                result,
-              },
-              timestamps: {
-                providerDataReceivedUnixMs,
-                providerDataStreamEstablishedUnixMs,
-                providerIndicatedTimeUnixMs: undefined,
-              },
+            params: {
+              base: ticker.base,
+              quote: ticker.quote,
+              [generatePriceOptions.sourceName]: ticker.source,
             },
+            response,
+          },
+          {
+            params: {
+              base: rec,
+              quote: ticker.quote,
+              [generatePriceOptions.sourceName]: ticker.source,
+            },
+            response,
           },
         ] as unknown as ProviderResult<WsTransportTypes>[]
       },
     },
   })
   return tpTransport
+}
+
+const marketBaseQuoteOverrides: Record<string, string> = {
+  CEOILOTRWTS: 'CEOILWTIUSD',
+}
+
+type Ticker = {
+  market: string
+  base: string
+  quote: string
+  source: string
+  stream: string
+}
+
+/*
+For example, if rec = 'FXSPTCHFSEKSPT:GBL.BIL.QTE.RTM!IC', then the parsed output is
+{
+  market: 'FXSPT',
+  base: 'CHF',
+  quote: 'SEK',
+  source: 'GBL',
+  stream: 'IC'
+}
+*/
+export const parseRec = (rec: string): Ticker | null => {
+  const [symbol, rec1] = rec.split(':')
+  if (!rec1) {
+    return null
+  }
+
+  const [sources, stream] = rec1.split('!')
+  if (!stream) {
+    return null
+  }
+
+  let marketBaseQuote = symbol.slice(0, 11)
+  if (marketBaseQuote in marketBaseQuoteOverrides) {
+    marketBaseQuote = marketBaseQuoteOverrides[marketBaseQuote]
+  }
+
+  return {
+    market: marketBaseQuote.slice(0, 5),
+    base: marketBaseQuote.slice(5, 8),
+    quote: marketBaseQuote.slice(8, 11),
+    source: sources.split('.')[0],
+    stream,
+  }
 }

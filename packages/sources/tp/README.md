@@ -46,13 +46,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [forex](#price-endpoint), [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                      Options                                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#price-endpoint), [forex](#price-endpoint), [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `forex`, `price`.
+Supported names for this endpoint are: `commodities`, `forex`, `price`.
 
 ### Input Params
 
