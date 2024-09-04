@@ -99,6 +99,19 @@ export const mockStalePriceResponse = {
   },
 }
 
+export const mockWTIPriceResponse = {
+  msg: 'sub',
+  pro: 'OMM',
+  rec: 'CEOILOTRWTSBOM:LDN.BIL.QTE.RTM!TP',
+  sta: 1,
+  img: 1,
+  fvs: {
+    ASK: 100,
+    BID: 300,
+    MID_PRICE: 200,
+  },
+}
+
 export const mockHeartbeatResponse = {
   msg: 'sub',
   pro: 'OMM',
@@ -128,6 +141,7 @@ export const mockPriceWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(mockInversePriceResponse))
       socket.send(JSON.stringify(mockICPriceResponse))
       socket.send(JSON.stringify(mockSeparateSourcePriceResponse))
+      socket.send(JSON.stringify(mockWTIPriceResponse))
       setTimeout(() => {
         socket.send(JSON.stringify(mockHeartbeatResponse))
       }, 10000)
