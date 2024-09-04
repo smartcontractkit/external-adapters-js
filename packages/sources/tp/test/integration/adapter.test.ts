@@ -63,6 +63,30 @@ describe('Price Endpoint', () => {
     expect(response.json()).toMatchSnapshot()
   })
 
+  it('should return price for overridden symbol', async () => {
+    const response = await testAdapter.request({
+      base: 'ZZZ',
+      quote: 'USD',
+      overrides: { tp: { ZZZ: 'FXSPTEURUSDSPT:GBL.BIL.QTE.RTM!TP' } },
+    })
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return price for mapped symbol', async () => {
+    const response = await testAdapter.request({ base: 'WTI', quote: 'USD', tpSource: 'LDN' })
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return price for overridden mapped symbol', async () => {
+    const response = await testAdapter.request({
+      base: 'ZZZ',
+      quote: 'USD',
+      tpSource: 'LDN',
+      overrides: { tp: { ZZZ: 'CEOILOTRWTSBOM:LDN.BIL.QTE.RTM!TP' } },
+    })
+    expect(response.json()).toMatchSnapshot()
+  })
+
   it('should return error when queried for IC price', async () => {
     const response = await testAdapter.request({ base: 'ABC', quote: 'USD' })
     expect(response.json()).toMatchSnapshot()
@@ -87,6 +111,7 @@ describe('Price Endpoint', () => {
     const response = await testAdapter.request({ base: 'EUR' })
     expect(response.json()).toMatchSnapshot()
   })
+
   it('should update the ttl after heartbeat is received', async () => {
     // The cache tll is 90 seconds. Mocked heartbeat message is sent after 10s after connection which should
     // update the ttl and therefore after 91 seconds (from the initial message) we can access the asset
