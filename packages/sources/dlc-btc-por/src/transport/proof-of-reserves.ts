@@ -4,17 +4,15 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { ethers } from 'ethers'
-import { hex } from '@scure/base'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/proof-of-reserves'
 import abi from '../config/dlc-manager-abi.json'
 import {
   BitcoinTransaction,
   createTaprootMultisigPayment,
   getBitcoinNetwork,
-  getClosingTransactionInputFromFundingTransaction,
   getDerivedPublicKey,
+  getScriptMatchingOutputFromTransaction,
   getUnspendableKeyCommittedToUUID,
-  matchScripts,
   RawVault,
 } from './utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
@@ -155,22 +153,22 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async verifyVaultDeposit(vault: RawVault, attestorPublicKey: Buffer) {
-    if (!vault.fundingTxId || !vault.taprootPubKey || !vault.valueLocked || !vault.uuid) {
+    if (!vault.taprootPubKey || !vault.valueLocked || !vault.uuid) {
       return false
     }
+    const txID = vault.wdTxId ? vault.wdTxId : vault.fundingTxId
+
+    if (!txID) {
+      return false
+    }
+
     // Get the bitcoin transaction
-    const fundingTransaction = await this.fetchFundingTransaction(vault.fundingTxId)
+    const fundingTransaction = await this.fetchFundingTransaction(txID)
 
     // Check and filter transactions that have less than [settings.CONFIRMATIONS] confirmations
     if (fundingTransaction.confirmations < this.settings.CONFIRMATIONS) {
       return false
     }
-
-    // Get the Closing Transaction Input from the Funding Transaction by the locked Bitcoin value
-    const closingTransactionInput = getClosingTransactionInputFromFundingTransaction(
-      fundingTransaction,
-      vault.valueLocked.toNumber(),
-    )
 
     // Get the Bitcoin network object
     const bitcoinNetwork = getBitcoinNetwork(this.settings.BITCOIN_NETWORK)
@@ -187,13 +185,16 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       bitcoinNetwork,
     )
 
-    // Verify that the Funding Transaction's Output Script matches the expected MultiSig Script
-    const acceptedScript = matchScripts(
-      [multisigTransaction.script],
-      hex.decode(closingTransactionInput.scriptPubKey.hex),
+    const vaultTransactionOutput = getScriptMatchingOutputFromTransaction(
+      fundingTransaction,
+      multisigTransaction.script,
     )
 
-    return acceptedScript
+    if (!vaultTransactionOutput) {
+      return false
+    }
+
+    return vaultTransactionOutput.value
   }
 
   async fetchFundingTransaction(txId: string): Promise<BitcoinTransaction> {
