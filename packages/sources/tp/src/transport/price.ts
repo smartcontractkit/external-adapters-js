@@ -161,7 +161,7 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
   return tpTransport
 }
 
-// mapping OTRWTS to WTIUSD for quote & source cache purposes
+// mapping OTRWTS to WTIUSD specifically for caching with quote = USD
 const marketBaseQuoteOverrides: Record<string, string> = {
   CEOILOTRWTS: 'CEOILWTIUSD',
 }
