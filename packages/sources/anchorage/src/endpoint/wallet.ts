@@ -1,6 +1,6 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { anchorageTransport } from '../transport/wallet'
+import { walletTransport } from '../transport/wallet'
 import {
   PoRAddressEndpoint,
   PoRAddressResponse,
@@ -8,8 +8,9 @@ import {
 
 export const inputParameters = new InputParameters(
   {
-    customerId: {
+    vaultId: {
       required: true,
+      aliases: ['vaultID'],
       type: 'string',
       description: 'customerId',
     },
@@ -27,7 +28,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      customerId: '22ds243sa24f652dsa3',
+      vaultId: '22ds243sa24f652dsa3',
       chainId: 'mainnet',
       network: 'bitcoin',
     },
@@ -42,6 +43,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new PoRAddressEndpoint({
   name: 'wallet',
-  transport: anchorageTransport,
+  transport: walletTransport,
   inputParameters,
 })

@@ -5,54 +5,10 @@ export const mockResponseSuccess = (): nock.Scope =>
     encodedQueryParams: true,
   })
     .persist()
-    .get(`/subaccounts/customers/123/accounts`)
-    .reply(
-      200,
-      () => ({
-        data: [
-          {
-            accruedFees: [],
-            balances: [],
-            createdAt: '2024-09-03T16:47:36.456Z',
-            customerId: '5b88fe8c959a2ae7fde13c9da174839567ae091878cc4067711660b34e2760b3',
-            externalSubaccountId: '6617fd44-867d-48b0-bfb7-9929e5ac1577',
-            fees: [],
-            name: 'Network transaction fees',
-            subaccountId: '6617fd44-867d-48b0-bfb7-9929e5ac1577',
-          },
-          {
-            accruedFees: [],
-            balances: [
-              {
-                assetType: 'ETHHOL',
-                availableForTrading: '3.95',
-                availableForWithdrawal: '3.95',
-                totalBalance: '3.95',
-              },
-            ],
-            createdAt: '2024-09-03T16:47:36.412Z',
-            customerId: '5b88fe8c959a2ae7fde13c9da174839567ae091878cc4067711660b34e2760b3',
-            externalSubaccountId: '0ec207d4-9b4e-4428-9a6e-bfd52cdb0d0c',
-            fees: [],
-            name: 'ETF',
-            subaccountId: '0ec207d4-9b4e-4428-9a6e-bfd52cdb0d0c',
-          },
-        ],
-        page: { next: null },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
-    .persist()
-    .get(`/wallets`)
+    .get(`/vaults/123/wallets`)
+    .query({
+      limit: 50,
+    })
     .reply(
       200,
       () => ({

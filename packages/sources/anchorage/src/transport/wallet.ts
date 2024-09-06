@@ -5,31 +5,13 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
-const logger = makeLogger('AnchorageTransport')
+const logger = makeLogger('WalletTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-export type CustomTransportTypes = BaseEndpointTypes
-
-interface SubAccountResponse {
-  data: {
-    accruedFees: []
-    balances: {
-      assetType: string
-      availableForTrading: string
-      availableForWithdrawal: string
-      totalBalance: string
-    }[]
-    createdAt: string
-    customerId: string
-    externalSubaccountId: string
-    fees: []
-    name: string
-    subaccountId: string
-  }[]
-  page: { next: string | null }
-}
+export type WalletTransportTypes = BaseEndpointTypes
 
 interface WalletResponse {
   data: {
@@ -69,15 +51,15 @@ interface WalletResponse {
   }
 }
 
-export class AnchorageTransport extends SubscriptionTransport<CustomTransportTypes> {
+export class WalletTransport extends SubscriptionTransport<WalletTransportTypes> {
   name!: string
-  responseCache!: ResponseCache<CustomTransportTypes>
+  responseCache!: ResponseCache<WalletTransportTypes>
   requester!: Requester
-  settings!: CustomTransportTypes['Settings']
+  settings!: WalletTransportTypes['Settings']
 
   async initialize(
-    dependencies: TransportDependencies<CustomTransportTypes>,
-    adapterSettings: CustomTransportTypes['Settings'],
+    dependencies: TransportDependencies<WalletTransportTypes>,
+    adapterSettings: WalletTransportTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -87,7 +69,7 @@ export class AnchorageTransport extends SubscriptionTransport<CustomTransportTyp
   }
 
   async backgroundHandler(
-    context: EndpointContext<CustomTransportTypes>,
+    context: EndpointContext<WalletTransportTypes>,
     entries: RequestParams[],
   ) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
@@ -95,14 +77,14 @@ export class AnchorageTransport extends SubscriptionTransport<CustomTransportTyp
   }
 
   async handleRequest(param: RequestParams) {
-    let response: AdapterResponse<CustomTransportTypes['Response']>
+    let response: AdapterResponse<WalletTransportTypes['Response']>
     try {
       response = await this._handleRequest(param)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(errorMessage, e)
+      logger.error(e, errorMessage)
       response = {
-        statusCode: 502,
+        statusCode: (e as AdapterError)?.statusCode || 502,
         errorMessage,
         timestamps: {
           providerDataRequestedUnixMs: 0,
@@ -116,27 +98,20 @@ export class AnchorageTransport extends SubscriptionTransport<CustomTransportTyp
 
   async _handleRequest(
     params: RequestParams,
-  ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
-    const { customerId, chainId, network } = params
+  ): Promise<AdapterResponse<WalletTransportTypes['Response']>> {
+    const { vaultId, chainId, network } = params
 
     const providerDataRequestedUnixMs = Date.now()
 
-    // get subaccount IDs of a customer
-    const subAccountIDs = await this.fetchAccountData(customerId)
+    const wallets = await this.fetchWallets(vaultId)
 
-    // get wallets for each subAccount
-    const wallets = await this.fetchWallets()
-
-    // filter wallets with subAccountIDs and map to addresses only
-    const addresses = wallets
-      .filter((w) => subAccountIDs.includes(w.subaccountId))
-      .map((w) => {
-        return {
-          address: w.depositAddress.address,
-          chainId,
-          network,
-        }
-      })
+    const addresses = wallets.map((w) => {
+      return {
+        address: w.depositAddress.address,
+        chainId,
+        network,
+      }
+    })
 
     return {
       data: {
@@ -152,32 +127,15 @@ export class AnchorageTransport extends SubscriptionTransport<CustomTransportTyp
     }
   }
 
-  async fetchAccountData(customerId: string) {
-    const data = []
+  async fetchWallets(vaultId: string) {
+    const wallets = []
     let hasNext = true
     const requestConfig = {
       baseURL: this.settings.API_ENDPOINT,
-      url: `/subaccounts/customers/${customerId}/accounts`,
-      headers: {
-        'Api-Access-Key': this.settings.API_KEY,
+      url: `/vaults/${vaultId}/wallets`,
+      params: {
+        limit: this.settings.API_LIMIT,
       },
-    }
-    while (hasNext) {
-      const reqKey = requestConfig.baseURL + requestConfig.url
-      const response = await this.requester.request<SubAccountResponse>(reqKey, requestConfig)
-      data.push(...response.response.data.data)
-      hasNext = response.response.data.page.next !== null
-      requestConfig.url = response.response.data.page.next as string
-    }
-    return data.map((s) => s.subaccountId)
-  }
-
-  async fetchWallets() {
-    const data = []
-    let hasNext = true
-    const requestConfig = {
-      baseURL: this.settings.API_ENDPOINT,
-      url: `/wallets`,
       headers: {
         'Api-Access-Key': this.settings.API_KEY,
       },
@@ -186,16 +144,19 @@ export class AnchorageTransport extends SubscriptionTransport<CustomTransportTyp
     while (hasNext) {
       const reqKey = requestConfig.baseURL + requestConfig.url
       const response = await this.requester.request<WalletResponse>(reqKey, requestConfig)
-      data.push(...response.response.data.data)
+      wallets.push(...response.response.data.data)
       hasNext = response.response.data.page.next !== null
-      requestConfig.url = response.response.data.page.next as string
+      if (response.response.data.page.next) {
+        // Remove the '/v2' prefix from the URL as it's already part of the baseURL
+        requestConfig.url = response.response.data.page.next.replace('/v2', '')
+      }
     }
-    return data
+    return wallets
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: CustomTransportTypes['Settings']): number {
+  getSubscriptionTtlFromConfig(adapterSettings: WalletTransportTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
-export const anchorageTransport = new AnchorageTransport()
+export const walletTransport = new WalletTransport()

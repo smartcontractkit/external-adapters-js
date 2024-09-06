@@ -36,7 +36,7 @@ describe('execute', () => {
   describe('wallet endpoint', () => {
     it('should return success', async () => {
       const data = {
-        customerId: '123',
+        vaultId: '123',
         network: 'ethereum',
         chainId: 'testnet',
         endpoint: 'wallet',
