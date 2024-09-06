@@ -132,7 +132,7 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     let hasNext = true
     const requestConfig = {
       baseURL: this.settings.API_ENDPOINT,
-      url: `/vaults/${vaultId}/wallets?limit=${this.settings.API_LIMIT}`,
+      url: `/v2/vaults/${vaultId}/wallets?limit=${this.settings.API_LIMIT}`,
       headers: {
         'Api-Access-Key': this.settings.API_KEY,
       },
@@ -145,7 +145,7 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
       hasNext = response.response.data.page.next !== null
       if (response.response.data.page.next) {
         // Remove the '/v2' prefix from the URL as it's already part of the baseURL
-        requestConfig.url = response.response.data.page.next.replace('/v2', '')
+        requestConfig.url = response.response.data.page.next
       }
     }
     return wallets

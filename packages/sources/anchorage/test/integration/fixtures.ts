@@ -5,7 +5,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     encodedQueryParams: true,
   })
     .persist()
-    .get(`/vaults/b0bb5449c1e4926542ce693b4db2e883/wallets?limit=1`)
+    .get(`/v2/vaults/b0bb5449c1e4926542ce693b4db2e883/wallets?limit=1`)
     .reply(
       200,
       () => ({
@@ -64,7 +64,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     )
     .persist()
     .get(
-      `/vaults/b0bb5449c1e4926542ce693b4db2e883/wallets?afterId=78dd7ad4a149fc2457492867d5938b99&limit=1`,
+      `/v2/vaults/b0bb5449c1e4926542ce693b4db2e883/wallets?afterId=78dd7ad4a149fc2457492867d5938b99&limit=1`,
     )
     .reply(200, () => ({
       data: [
@@ -111,7 +111,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     }))
     .persist()
     .get(
-      `/vaults/b0bb5449c1e4926542ce693b4db2e883/wallets?afterId=47a04da2d276c25121e2c559535efc7e&limit=1`,
+      `/v2/vaults/b0bb5449c1e4926542ce693b4db2e883/wallets?afterId=47a04da2d276c25121e2c559535efc7e&limit=1`,
     )
     .reply(200, () => ({
       data: [
