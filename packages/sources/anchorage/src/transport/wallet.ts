@@ -132,10 +132,7 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     let hasNext = true
     const requestConfig = {
       baseURL: this.settings.API_ENDPOINT,
-      url: `/vaults/${vaultId}/wallets`,
-      params: {
-        limit: this.settings.API_LIMIT,
-      },
+      url: `/vaults/${vaultId}/wallets?limit=${this.settings.API_LIMIT}`,
       headers: {
         'Api-Access-Key': this.settings.API_KEY,
       },

@@ -14,6 +14,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
     process.env.API_ENDPOINT = process.env.API_ENDPOINT ?? 'https://localhost:3324'
+    process.env.API_LIMIT = process.env.API_LIMIT ?? '1'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -36,7 +37,7 @@ describe('execute', () => {
   describe('wallet endpoint', () => {
     it('should return success', async () => {
       const data = {
-        vaultId: '123',
+        vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
         network: 'ethereum',
         chainId: 'testnet',
         endpoint: 'wallet',

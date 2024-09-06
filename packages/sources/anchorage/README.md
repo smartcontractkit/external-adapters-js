@@ -10,6 +10,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |    ✅     |        API_KEY        |                                 An API key for Anchorage                                  | string |         |         |
 |    ✅     |     API_ENDPOINT      |                               An API endpoint for Anchorage                               | string |         |         |
+|           |       API_LIMIT       |                   The maximum number of results to request from the API                   | number |         |  `50`   |
 |           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `40000` |
 
 ---
