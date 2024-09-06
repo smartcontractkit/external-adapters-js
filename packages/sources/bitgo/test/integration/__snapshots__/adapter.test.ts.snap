@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute wallet endpoint should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "tb1q44alsfkysj4zxvwk6ktwjq3c0wysrxmunmxkh3n84dpqfg85l7msqn8a83",
+        "chainId": "testnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "tb1qq93j04yg2klrfnfhhmr7k6ha0kz9qmm6p5gmrvhtpsc4l620h8cq8gzqfr",
+        "chainId": "testnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "tb1qa5c93xvk45m34lqe52sfcu2ls9n7zexy9g9rhn6emzzr4t7hv35qwulqce",
+        "chainId": "testnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "tb1qm4et3f642cct77s99zmwctl9mmdaemprwlndylpusl2lmesl62aq3kzg6s",
+        "chainId": "testnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "tb1qm4et3f642cct77s99zmwctl9mmdaemprwlndylpusl2lmesl62aq3kzg6s1",
+        "chainId": "testnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
