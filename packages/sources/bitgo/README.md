@@ -6,12 +6,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |        API_KEY        |                                   An API key for Bitgo                                    | string |         |         |
-|    ✅     |     API_ENDPOINT      |                                 An API endpoint for Bitgo                                 | string |         |         |
-|           |       API_LIMIT       |                   The maximum number of results to request from the API                   | number |         |  `100`  |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `40000` |
+| Required? |           Name           |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :----------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |   {KEY_NAME}\_API_KEY    |                                   An API key for Bitgo                                    | string |         |         |
+|    ✅     | {KEY_NAME}\_API_ENDPOINT |                                 An API endpoint for Bitgo                                 | string |         |         |
+|           |  {KEY_NAME}\_API_LIMIT   |                   The maximum number of results to request from the API                   | number |         |         |
+|           |        API_LIMIT         |               The default maximum number of results to request from the API               | number |         |  `100`  |
+|           |  BACKGROUND_EXECUTE_MS   | The amount of time the background execute should sleep before performing the next request | number |         | `40000` |
 
 ---
 
@@ -33,11 +34,12 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |  Name   | Aliases |                  Description                   |  Type  |       Options        |  Default  | Depends On | Not Valid With |
-| :-------: | :-----: | :-----: | :--------------------------------------------: | :----: | :------------------: | :-------: | :--------: | :------------: |
-|    ✅     |  coin   |         | A cryptocurrency symbol or token ticker symbol | string |                      |           |            |                |
-|           | chainId |         |         The ID of the chain to return          | string | `mainnet`, `testnet` | `mainnet` |            |                |
-|           | network |         |             The network to return              | string |                      | `bitcoin` |            |                |
+| Required? |  Name   | Aliases |                                                Description                                                |  Type  |       Options        |  Default  | Depends On | Not Valid With |
+| :-------: | :-----: | :-----: | :-------------------------------------------------------------------------------------------------------: | :----: | :------------------: | :-------: | :--------: | :------------: |
+|    ✅     |  coin   |         |                              A cryptocurrency symbol or token ticker symbol                               | string |                      |           |            |                |
+|           | chainId |         |                                       The ID of the chain to return                                       | string | `mainnet`, `testnet` | `mainnet` |            |                |
+|           | network |         |                                           The network to return                                           | string |                      | `bitcoin` |            |                |
+|    ✅     | reserve |         | Used to select {$reserve}_API_KEY {$reserve}\_API_ENDPOINT {$reserve}\_API_LIMIT in environment variables | string |                      |           |            |                |
 
 ### Example
 
@@ -49,7 +51,8 @@ Request:
     "endpoint": "wallet",
     "coin": "btc",
     "chainId": "mainnet",
-    "network": "bitcoin"
+    "network": "bitcoin",
+    "reserve": "BTC"
   }
 }
 ```

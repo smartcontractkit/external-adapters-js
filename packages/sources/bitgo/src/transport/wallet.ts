@@ -6,6 +6,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { getApiInfo } from './utils'
 
 const logger = makeLogger('BitgoTransport')
 
@@ -124,11 +125,19 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
 
     const providerDataRequestedUnixMs = Date.now()
 
+    const { apiKey, apiEndpoint, apiLimit } = getApiInfo(params.reserve, this.settings)
+
     // get wallet Ids for a coin
-    const walletIds = await this.fetchWalletIds(coin)
+    const walletIds = await this.fetchWalletIds(coin, apiKey, apiEndpoint, apiLimit)
 
     // get addresses for each wallet
-    const addresses = await this.fetchWalletAddresses(coin, walletIds)
+    const addresses = await this.fetchWalletAddresses(
+      coin,
+      walletIds,
+      apiKey,
+      apiEndpoint,
+      apiLimit,
+    )
 
     const result = addresses.map((address) => {
       return {
@@ -152,19 +161,25 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     }
   }
 
-  async fetchWalletAddresses(coin: string, walletIds: string[]) {
+  async fetchWalletAddresses(
+    coin: string,
+    walletIds: string[],
+    apiKey: string,
+    apiEndpoint: string,
+    apiLimit: number,
+  ) {
     const addresses: string[] = []
 
     for (const walletId of walletIds) {
       const requestConfig = {
-        baseURL: this.settings.API_ENDPOINT,
+        baseURL: apiEndpoint,
         url: `/${coin}/wallet/${walletId}/addresses`,
         params: {
-          limit: this.settings.API_LIMIT,
+          limit: apiLimit,
           prevId: '',
         },
         headers: {
-          Authorization: `Bearer ${this.settings.API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
       }
 
@@ -181,17 +196,17 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     return addresses
   }
 
-  async fetchWalletIds(coin: string) {
+  async fetchWalletIds(coin: string, apiKey: string, apiEndpoint: string, apiLimit: number) {
     const walletIds: string[] = []
     const requestConfig = {
-      baseURL: this.settings.API_ENDPOINT,
+      baseURL: apiEndpoint,
       url: `/${coin}/wallet`,
       params: {
-        limit: this.settings.API_LIMIT,
+        limit: apiLimit,
         prevId: '',
       },
       headers: {
-        Authorization: `Bearer ${this.settings.API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
       },
     }
 
