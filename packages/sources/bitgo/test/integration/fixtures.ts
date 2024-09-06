@@ -266,6 +266,49 @@ export const mockResponseSuccess = (): nock.Scope =>
           },
         ],
         count: 2,
+        nextBatchPrevId: 'next',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+    .get(`/tbtc/wallet/66d747d3d1206912ec4f626771a89e5c/addresses`)
+    .query({
+      limit: 100,
+      prevId: 'next',
+    })
+    .reply(
+      200,
+      () => ({
+        coin: 'tbtc',
+        totalAddressCount: 1,
+        addresses: [
+          {
+            id: '66d85a88c41c42eb9579b9e1aaa1d476',
+            address: 'tb1qm4et3f642cct77s99zmwctl9mmdaemprwlndylpusl2lmesl62aq3kzg6s1',
+            chain: 20,
+            index: 2,
+            coin: 'tbtc',
+            wallet: '66d747d3d1206912ec4f626771a89e5c',
+            proof:
+              '18426974636f696e205369676e6564204d6573736167653a0aa2424750316a396931394a6b4a54573751387a715134757251515361354c6e70665154513957353976506b45504c346561624858507a3274516b774a7a53516742746231716d346574336636343263637437377339397a6d7763746c396d6d6461656d7072776c6e64796c7075736c326c6d65736c36326171336b7a67367332396530393563322d626437302d343033632d626436662d346163363662303565316238',
+            signature:
+              'H4NvPaVnUFk+m2LEV30qNxWUgoUQ8OEFrjTGtJSl0GrIcpz4fKZ6aeEsN0xxWxAUf1FyMHFiPLDnzzgau9Bqp2A=',
+            coinSpecific: {
+              witnessScript:
+                '5221027ea3cccd4f0d7bc09916be124198cea1dd89af999bfdcb1eacd6eeee413c62e5210358b6d42234b9e9714a29837f37e3b1615622c9cc72ab44c6f6ceb0fbacf5ebfb2102ab5f9f50e58201e96383d6c68f9c82416039cc5fb81d641f5f01071c6b3694ca53ae',
+            },
+          },
+        ],
+        count: 1,
       }),
       [
         'Content-Type',

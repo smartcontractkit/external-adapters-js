@@ -24,6 +24,11 @@ exports[`execute wallet endpoint should return success 1`] = `
         "chainId": "testnet",
         "network": "bitcoin",
       },
+      {
+        "address": "tb1qm4et3f642cct77s99zmwctl9mmdaemprwlndylpusl2lmesl62aq3kzg6s1",
+        "chainId": "testnet",
+        "network": "bitcoin",
+      },
     ],
   },
   "result": null,
