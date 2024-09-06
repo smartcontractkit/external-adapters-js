@@ -171,6 +171,9 @@
       "path": "./sources/bitex/tsconfig.test.json"
     },
     {
+      "path": "./sources/bitgo/tsconfig.test.json"
+    },
+    {
       "path": "./sources/bitso/tsconfig.test.json"
     },
     {
