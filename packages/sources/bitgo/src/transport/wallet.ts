@@ -131,15 +131,13 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     const walletIds = await this.fetchWalletIds(coin, apiKey, apiEndpoint, apiLimit)
 
     // get addresses for each wallet
-    const addresses = await this.fetchWalletAddresses(
-      coin,
-      walletIds,
-      apiKey,
-      apiEndpoint,
-      apiLimit,
+    const addresses = await Promise.all(
+      walletIds.map(async (walletId) =>
+        this.fetchWalletAddresses(coin, walletId, apiKey, apiEndpoint, apiLimit),
+      ),
     )
 
-    const result = addresses.map((address) => {
+    const result = addresses.flat().map((address) => {
       return {
         address,
         chainId,
@@ -163,36 +161,36 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
 
   async fetchWalletAddresses(
     coin: string,
-    walletIds: string[],
+    walletId: string,
     apiKey: string,
     apiEndpoint: string,
     apiLimit: number,
   ) {
     const addresses: string[] = []
 
-    for (const walletId of walletIds) {
-      const requestConfig = {
-        baseURL: apiEndpoint,
-        url: `/${coin}/wallet/${walletId}/addresses`,
-        params: {
-          limit: apiLimit,
-          prevId: '',
-        },
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
-      }
-
-      let hasNext = true
-      while (hasNext) {
-        const reqKey =
-          requestConfig.baseURL + requestConfig.url + JSON.stringify(requestConfig.params)
-        const response = await this.requester.request<AddressResponse>(reqKey, requestConfig)
-        hasNext = response.response.data.nextBatchPrevId !== undefined
-        addresses.push(...response.response.data.addresses.map((a) => a.address))
-        requestConfig.params.prevId = response.response.data.nextBatchPrevId as string
-      }
+    const requestConfig = {
+      baseURL: apiEndpoint,
+      url: `/${coin}/wallet/${walletId}/addresses`,
+      params: {
+        limit: apiLimit,
+        prevId: '',
+      },
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
     }
+
+    let hasNext = true
+    while (hasNext) {
+      const reqKey = `${requestConfig.baseURL}${requestConfig.url}${JSON.stringify(
+        requestConfig.params,
+      )}`
+      const response = await this.requester.request<AddressResponse>(reqKey, requestConfig)
+      hasNext = response.response.data.nextBatchPrevId !== undefined
+      addresses.push(...response.response.data.addresses.map((a) => a.address))
+      requestConfig.params.prevId = response.response.data.nextBatchPrevId as string
+    }
+
     return addresses
   }
 
