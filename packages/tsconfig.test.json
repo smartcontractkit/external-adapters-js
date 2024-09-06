@@ -147,6 +147,9 @@
       "path": "./sources/amberdata/tsconfig.test.json"
     },
     {
+      "path": "./sources/anchorage/tsconfig.test.json"
+    },
+    {
       "path": "./sources/anyblock/tsconfig.test.json"
     },
     {
