@@ -61,6 +61,7 @@
     "view-function-multi-chain",
     "xsushi-price",
     "coinbase-prime",
-    "harris-and-trotter"
+    "harris-and-trotter",
+    "bitgo"
   ]
 }

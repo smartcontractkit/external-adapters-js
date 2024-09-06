@@ -1,0 +1,8 @@
+{
+ "requests": [{
+    "coin": "hteth",
+    "chainId": "testnet",
+    "network": "ethereum",
+    "reserve": "HTETH"
+ }]
+}

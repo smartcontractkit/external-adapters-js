@@ -255,6 +255,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitex"\
     },\
     {\
+      "name": "@chainlink/bitgo-adapter",\
+      "reference": "workspace:packages/sources/bitgo"\
+    },\
+    {\
       "name": "@chainlink/bitso-adapter",\
       "reference": "workspace:packages/sources/bitso"\
     },\
@@ -904,6 +908,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
+    ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitso-adapter", ["workspace:packages/sources/bitso"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
@@ -5934,6 +5939,21 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/bitgo-adapter", [\
+      ["workspace:packages/sources/bitgo", {\
+        "packageLocation": "./packages/sources/bitgo/",\
+        "packageDependencies": [\
+          ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\

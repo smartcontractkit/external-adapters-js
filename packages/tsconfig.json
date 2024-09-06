@@ -171,6 +171,9 @@
       "path": "./sources/bitex"
     },
     {
+      "path": "./sources/bitgo"
+    },
+    {
       "path": "./sources/bitso"
     },
     {
