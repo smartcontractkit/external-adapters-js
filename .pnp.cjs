@@ -223,6 +223,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/amberdata"\
     },\
     {\
+      "name": "@chainlink/anchorage-adapter",\
+      "reference": "workspace:packages/sources/anchorage"\
+    },\
+    {\
       "name": "@chainlink/anyblock-adapter",\
       "reference": "workspace:packages/sources/anyblock"\
     },\
@@ -896,6 +900,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
+    ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
@@ -5721,6 +5726,21 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/anchorage-adapter", [\
+      ["workspace:packages/sources/anchorage", {\
+        "packageLocation": "./packages/sources/anchorage/",\
+        "packageDependencies": [\
+          ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
