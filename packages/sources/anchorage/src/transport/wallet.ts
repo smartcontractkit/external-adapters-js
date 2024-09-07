@@ -139,12 +139,11 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     }
 
     while (hasNext) {
-      const reqKey = requestConfig.baseURL + requestConfig.url
+      const reqKey = `${requestConfig.baseURL}${requestConfig.url}`
       const response = await this.requester.request<WalletResponse>(reqKey, requestConfig)
       wallets.push(...response.response.data.data)
       hasNext = response.response.data.page.next !== null
       if (response.response.data.page.next) {
-        // Remove the '/v2' prefix from the URL as it's already part of the baseURL
         requestConfig.url = response.response.data.page.next
       }
     }
