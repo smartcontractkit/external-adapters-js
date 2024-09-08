@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "./composites/multi-address-list/tsconfig.test.json"
+    },
+    {
       "path": "./composites/anchor/tsconfig.test.json"
     },
     {
