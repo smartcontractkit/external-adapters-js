@@ -51,8 +51,8 @@ export const inputParameters = new InputParameters(
   [
     {
       anchorage: {
-        vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
-        network: 'ethereum',
+        vaultId: 'b0bb2439c1e4926542ce693b4db2e883',
+        network: 'bitcoin',
         chainId: 'mainnet',
         endpoint: 'wallet',
       },
