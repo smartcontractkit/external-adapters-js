@@ -19,3 +19,4 @@ export const adapter = new PoRAdapter({
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
+export const walletParameters = wallet.inputParameters

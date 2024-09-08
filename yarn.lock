@@ -3005,7 +3005,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/anchorage-adapter@workspace:packages/sources/anchorage":
+"@chainlink/anchorage-adapter@workspace:*, @chainlink/anchorage-adapter@workspace:packages/sources/anchorage":
   version: 0.0.0-use.local
   resolution: "@chainlink/anchorage-adapter@workspace:packages/sources/anchorage"
   dependencies:
@@ -3212,7 +3212,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitgo-adapter@workspace:packages/sources/bitgo":
+"@chainlink/bitgo-adapter@workspace:*, @chainlink/bitgo-adapter@workspace:packages/sources/bitgo":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-adapter@workspace:packages/sources/bitgo"
   dependencies:
@@ -5267,6 +5267,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/multi-address-list-adapter@workspace:packages/composites/multi-address-list"
   dependencies:
+    "@chainlink/anchorage-adapter": "workspace:*"
+    "@chainlink/bitgo-adapter": "workspace:*"
+    "@chainlink/coinbase-prime-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": "npm:1.3.1"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.11.68"

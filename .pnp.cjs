@@ -8276,6 +8276,9 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/multi-address-list/",\
         "packageDependencies": [\
           ["@chainlink/multi-address-list-adapter", "workspace:packages/composites/multi-address-list"],\
+          ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
+          ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
+          ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
           ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
