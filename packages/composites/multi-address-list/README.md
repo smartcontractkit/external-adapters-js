@@ -63,7 +63,38 @@ There are no rate limits for this adapter.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "address-list",
+    "anchorage": {
+      "vaultId": "b0bb5449c1e4926542ce693b4db2e883",
+      "network": "ethereum",
+      "chainId": "mainnet",
+      "endpoint": "wallet"
+    },
+    "bitgo": {
+      "coin": "BTC",
+      "reserve": "BTC",
+      "network": "bitcoin",
+      "chainId": "mainnet",
+      "endpoint": "wallet"
+    },
+    "coinbasePrime": {
+      "batchSize": 100,
+      "chainId": "mainnet",
+      "network": "bitcoin",
+      "type": "vault",
+      "portfolio": "sdas22s-dssw-dsw21-2231-dje72f9sj2",
+      "symbols": ["BTC"],
+      "apiKey": "",
+      "endpoint": "wallet"
+    }
+  }
+}
+```
 
 ---
 
