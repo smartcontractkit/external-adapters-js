@@ -4,17 +4,15 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { ethers } from 'ethers'
-import { hex } from '@scure/base'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/proof-of-reserves'
 import abi from '../config/dlc-manager-abi.json'
 import {
   BitcoinTransaction,
   createTaprootMultisigPayment,
   getBitcoinNetwork,
-  getClosingTransactionInputFromFundingTransaction,
   getDerivedPublicKey,
+  getScriptMatchingOutputFromTransaction,
   getUnspendableKeyCommittedToUUID,
-  matchScripts,
   RawVault,
 } from './utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
@@ -110,26 +108,26 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       const deposits = await Promise.all(
         group.map(async (vault) => {
           try {
-            const isVerified = await this.verifyVaultDeposit(vault, attestorPublicKey)
-            if (isVerified) {
-              return vault.valueLocked.toNumber()
-            }
+            return await this.verifyVaultDeposit(vault, attestorPublicKey)
           } catch (e) {
             logger.error(e, `Error while verifying Deposit for Vault: ${vault.uuid}. ${e}`)
+            return 0
           }
-          return 0
         }),
       )
-      // totalPoR represents total proof of reserves value in satoshis
+      // totalPoR represents total proof of reserves value in bitcoins
       totalPoR += deposits.reduce((sum, deposit) => sum + deposit, 0)
     }
 
+    // multiply by 10^8 to convert to satoshis
+    const result = totalPoR * 10 ** 8
+
     return {
       data: {
-        result: totalPoR,
+        result: result,
       },
       statusCode: 200,
-      result: totalPoR,
+      result: result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -155,22 +153,22 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async verifyVaultDeposit(vault: RawVault, attestorPublicKey: Buffer) {
-    if (!vault.fundingTxId || !vault.taprootPubKey || !vault.valueLocked || !vault.uuid) {
-      return false
+    if (!vault.taprootPubKey || !vault.valueLocked || !vault.uuid) {
+      return 0
     }
+    const txID = vault.wdTxId ? vault.wdTxId : vault.fundingTxId
+
+    if (!txID) {
+      return 0
+    }
+
     // Get the bitcoin transaction
-    const fundingTransaction = await this.fetchFundingTransaction(vault.fundingTxId)
+    const fundingTransaction = await this.fetchFundingTransaction(txID)
 
     // Check and filter transactions that have less than [settings.CONFIRMATIONS] confirmations
     if (fundingTransaction.confirmations < this.settings.CONFIRMATIONS) {
-      return false
+      return 0
     }
-
-    // Get the Closing Transaction Input from the Funding Transaction by the locked Bitcoin value
-    const closingTransactionInput = getClosingTransactionInputFromFundingTransaction(
-      fundingTransaction,
-      vault.valueLocked.toNumber(),
-    )
 
     // Get the Bitcoin network object
     const bitcoinNetwork = getBitcoinNetwork(this.settings.BITCOIN_NETWORK)
@@ -187,13 +185,16 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       bitcoinNetwork,
     )
 
-    // Verify that the Funding Transaction's Output Script matches the expected MultiSig Script
-    const acceptedScript = matchScripts(
-      [multisigTransaction.script],
-      hex.decode(closingTransactionInput.scriptPubKey.hex),
+    const vaultTransactionOutput = getScriptMatchingOutputFromTransaction(
+      fundingTransaction,
+      multisigTransaction.script,
     )
 
-    return acceptedScript
+    if (!vaultTransactionOutput) {
+      return 0
+    }
+
+    return vaultTransactionOutput.value
   }
 
   async fetchFundingTransaction(txId: string): Promise<BitcoinTransaction> {

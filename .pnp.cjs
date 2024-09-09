@@ -6800,6 +6800,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
           ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@noble/hashes", "npm:1.4.0"],\
           ["@scure/base", "npm:1.1.6"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
