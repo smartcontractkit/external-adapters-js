@@ -108,26 +108,26 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       const deposits = await Promise.all(
         group.map(async (vault) => {
           try {
-            const isVerified = await this.verifyVaultDeposit(vault, attestorPublicKey)
-            if (isVerified) {
-              return vault.valueLocked.toNumber()
-            }
+            return await this.verifyVaultDeposit(vault, attestorPublicKey)
           } catch (e) {
             logger.error(e, `Error while verifying Deposit for Vault: ${vault.uuid}. ${e}`)
+            return 0
           }
-          return 0
         }),
       )
-      // totalPoR represents total proof of reserves value in satoshis
+      // totalPoR represents total proof of reserves value in bitcoins
       totalPoR += deposits.reduce((sum, deposit) => sum + deposit, 0)
     }
 
+    // multiply by 10^8 to convert to satoshis
+    const result = totalPoR * 10 ** 8
+
     return {
       data: {
-        result: totalPoR,
+        result: result,
       },
       statusCode: 200,
-      result: totalPoR,
+      result: result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -154,12 +154,12 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
 
   async verifyVaultDeposit(vault: RawVault, attestorPublicKey: Buffer) {
     if (!vault.taprootPubKey || !vault.valueLocked || !vault.uuid) {
-      return false
+      return 0
     }
     const txID = vault.wdTxId ? vault.wdTxId : vault.fundingTxId
 
     if (!txID) {
-      return false
+      return 0
     }
 
     // Get the bitcoin transaction
@@ -167,7 +167,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
 
     // Check and filter transactions that have less than [settings.CONFIRMATIONS] confirmations
     if (fundingTransaction.confirmations < this.settings.CONFIRMATIONS) {
-      return false
+      return 0
     }
 
     // Get the Bitcoin network object
@@ -191,7 +191,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     )
 
     if (!vaultTransactionOutput) {
-      return false
+      return 0
     }
 
     return vaultTransactionOutput.value
