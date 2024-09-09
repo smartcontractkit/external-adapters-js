@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/market-status-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink market-status adapter.",
   "keywords": [
     "Chainlink",
