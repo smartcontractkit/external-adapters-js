@@ -5,14 +5,17 @@ export const config = new AdapterConfig({
   ANCHORAGE_ADAPTER_URL: {
     description: 'URL of Anchorage EA',
     type: 'string',
+    default: '',
   },
   BITGO_ADAPTER_URL: {
     description: 'URL of Bitgo EA',
     type: 'string',
+    default: '',
   },
   COINBASE_PRIME_ADAPTER_URL: {
     description: 'URL of Coinbase Prime EA',
     type: 'string',
+    default: '',
   },
   SCHEDULER_HOUR: {
     description: 'Hour to run scheduler [0-23]',
