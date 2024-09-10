@@ -1,30 +1,30 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 
 export const config = new AdapterConfig({
   ANCHORAGE_ADAPTER_URL: {
     description: 'URL of Anchorage EA',
     type: 'string',
-    required: true,
   },
   BITGO_ADAPTER_URL: {
     description: 'URL of Bitgo EA',
     type: 'string',
-    required: true,
   },
   COINBASE_PRIME_ADAPTER_URL: {
     description: 'URL of Coinbase Prime EA',
     type: 'string',
-    required: true,
   },
   SCHEDULER_HOUR: {
     description: 'Hour to run scheduler [0-23]',
     type: 'number',
     default: 17,
+    validate: validator.integer({ min: 1, max: 23 }),
   },
   SCHEDULER_MINUTES: {
     description: 'Minute to run scheduler [0-59]',
     type: 'number',
     default: 1,
+    validate: validator.integer({ min: 0, max: 59 }),
   },
   SCHEDULER_TIMEZONE: {
     description: 'Timezone to run scheduler',
@@ -41,6 +41,7 @@ export const config = new AdapterConfig({
     description: 'The number of times to retry when execution fails.',
     type: 'number',
     default: 5,
+    validate: validator.integer({ min: 1, max: 10 }),
   },
   BACKGROUND_EXECUTE_MS: {
     description:

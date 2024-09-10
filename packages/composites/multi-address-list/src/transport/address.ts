@@ -2,7 +2,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/address-list'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
 import schedule from 'node-schedule'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
@@ -113,27 +113,31 @@ export class AddressListTransport extends SubscriptionTransport<AddressListTrans
   }
 
   async fetchSourceAddresses(params: RequestParams) {
-    const sources = [
-      { url: this.settings.ANCHORAGE_ADAPTER_URL, params: params.anchorage },
-      { url: this.settings.BITGO_ADAPTER_URL, params: params.bitgo },
-      { url: this.settings.COINBASE_PRIME_ADAPTER_URL, params: params.coinbasePrime },
-    ]
+    const { chainId, network, ...sources } = params
 
-    const promises = sources.map(async (source) => {
-      const requestConfig = {
-        url: source.url,
-        method: 'POST',
-        data: {
-          data: source.params,
-        },
-      }
+    const promises = Object.entries(sources)
+      .filter(([_, sourceParams]) => sourceParams)
+      .map(async ([sourceName, sourceParams]) => {
+        // customInputValidation ensures that if the source EA is present in the input params, the corresponding env variable is also present
+        const envName = `${sourceName.toUpperCase()}_ADAPTER_URL` as keyof typeof this.settings
+        const requestConfig = {
+          url: this.settings[envName] as string,
+          method: 'POST',
+          data: {
+            data: {
+              ...sourceParams,
+              chainId: params.chainId,
+              network: params.network,
+            },
+          },
+        }
 
-      const response = await this.requester.request<PoRAdapterResponse>(
-        JSON.stringify(requestConfig),
-        requestConfig,
-      )
-      return response.response.data.data.result
-    })
+        const sourceResponse = await this.requester.request<PoRAdapterResponse>(
+          JSON.stringify(requestConfig),
+          requestConfig,
+        )
+        return sourceResponse.response.data.data.result
+      })
 
     const addresses = await Promise.all(promises)
     return addresses.flat()

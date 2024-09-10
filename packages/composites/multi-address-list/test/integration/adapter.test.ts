@@ -53,24 +53,20 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('address-list endpoint', () => {
+  describe('address endpoint', () => {
     it('should return success', async () => {
       const data = {
+        network: 'bitcoin',
+        chainId: 'mainnet',
         anchorage: {
           vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
-          network: 'ethereum',
-          chainId: 'testnet',
         },
         bitgo: {
           coin: 'tbtc',
           reserve: 'BTC',
-          network: 'bitcoin',
-          chainId: 'testnet',
         },
-        coinbasePrime: {
+        coinbase_prime: {
           batchSize: 100,
-          chainId: 'mainnet',
-          network: 'bitcoin',
           portfolio: '12345622',
           symbols: ['BTC'],
         },

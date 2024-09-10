@@ -8,8 +8,8 @@ export const mockAnchorageSuccess = (): nock.Scope =>
     .post('/', {
       data: {
         vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
-        network: 'ethereum',
-        chainId: 'testnet',
+        network: 'bitcoin',
+        chainId: 'mainnet',
         endpoint: 'wallet',
       },
     })
@@ -19,19 +19,19 @@ export const mockAnchorageSuccess = (): nock.Scope =>
         data: {
           result: [
             {
-              address: '0xEc8907aDA68E963C4AD7C7F11a1a846cfd2fA50A',
-              chainId: 'testnet',
-              network: 'ethereum',
+              address: 'bc2434567890123456789012345678901234567890',
+              chainId: 'mainnet',
+              network: 'bitcoin',
             },
             {
-              address: '0x77928478770209020dE7e36E02b905d1CA9f92BE',
-              chainId: 'testnet',
-              network: 'ethereum',
+              address: 'bc3534567890123456789012345678901234567890',
+              chainId: 'mainnet',
+              network: 'bitcoin',
             },
             {
-              address: '0xFd0F90034628aC5000bA8562196ff1F306c16584',
-              chainId: 'testnet',
-              network: 'ethereum',
+              address: 'bc4634567890123456789012345678901234567890',
+              chainId: 'mainnet',
+              network: 'bitcoin',
             },
           ],
         },
@@ -45,7 +45,7 @@ export const mockAnchorageSuccess = (): nock.Scope =>
           adapterName: 'ANCHORAGE',
           metrics: {
             feedId:
-              '{"vaultId":"b0bb5449c1e4926542ce693b4db2e883","chainId":"testnet","network":"ethereum"}',
+              '{"vaultId":"b0bb5449c1e4926542ce693b4db2e883","chainId":"mainnet","network":"ethereum"}',
           },
         },
       }),
@@ -72,7 +72,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
         coin: 'tbtc',
         reserve: 'BTC',
         network: 'bitcoin',
-        chainId: 'testnet',
+        chainId: 'mainnet',
         endpoint: 'wallet',
       },
     })
@@ -83,22 +83,22 @@ export const mockBitgoSuccess = (): nock.Scope =>
           result: [
             {
               address: 'tb1q44alsfkysj4zxvwk6ktwjq3c0wysrxmunmxkh3n84dpqfg85l7msqn8a83',
-              chainId: 'testnet',
+              chainId: 'mainnet',
               network: 'bitcoin',
             },
             {
               address: 'tb1qq93j04yg2klrfnfhhmr7k6ha0kz9qmm6p5gmrvhtpsc4l620h8cq8gzqfr',
-              chainId: 'testnet',
+              chainId: 'mainnet',
               network: 'bitcoin',
             },
             {
               address: 'tb1qa5c93xvk45m34lqe52sfcu2ls9n7zexy9g9rhn6emzzr4t7hv35qwulqce',
-              chainId: 'testnet',
+              chainId: 'mainnet',
               network: 'bitcoin',
             },
             {
               address: 'tb1qm4et3f642cct77s99zmwctl9mmdaemprwlndylpusl2lmesl62aq3kzg6s',
-              chainId: 'testnet',
+              chainId: 'mainnet',
               network: 'bitcoin',
             },
           ],
@@ -112,7 +112,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
         meta: {
           adapterName: 'BITGO',
           metrics: {
-            feedId: '{"coin":"tbtc","chainId":"testnet","network":"ethereum","reserve":"btc"}',
+            feedId: '{"coin":"tbtc","chainId":"mainnet","network":"ethereum","reserve":"btc"}',
           },
         },
       }),

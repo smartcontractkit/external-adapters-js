@@ -1,1 +1,1 @@
-export { endpoint as address_list } from './address-list'
+export { endpoint as address } from './address'
