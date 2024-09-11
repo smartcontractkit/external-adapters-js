@@ -32,7 +32,7 @@ There are no rate limits for this adapter.
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [address](#address-endpoint) | `address` |
 
-## Address-list Endpoint
+## Address Endpoint
 
 `address` is the only supported name for this endpoint.
 
