@@ -8,6 +8,7 @@
     "anyblock",
     "apy-finance",
     "augur",
+    "anchorage",
     "bitcoin-json-rpc",
     "blockchain.com",
     "blockchair",
@@ -61,6 +62,7 @@
     "view-function-multi-chain",
     "xsushi-price",
     "coinbase-prime",
-    "harris-and-trotter"
+    "harris-and-trotter",
+    "bitgo"
   ]
 }

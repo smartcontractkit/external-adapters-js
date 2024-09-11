@@ -147,6 +147,9 @@
       "path": "./sources/amberdata/tsconfig.test.json"
     },
     {
+      "path": "./sources/anchorage/tsconfig.test.json"
+    },
+    {
       "path": "./sources/anyblock/tsconfig.test.json"
     },
     {
@@ -169,6 +172,9 @@
     },
     {
       "path": "./sources/bitex/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/bitgo/tsconfig.test.json"
     },
     {
       "path": "./sources/bitso/tsconfig.test.json"

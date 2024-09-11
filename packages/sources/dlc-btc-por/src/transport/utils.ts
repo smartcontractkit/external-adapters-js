@@ -3,6 +3,7 @@ import { BIP32Factory } from 'bip32'
 import * as ellipticCurveCryptography from '@bitcoinerlab/secp256k1'
 import { Network } from 'bitcoinjs-lib'
 import { p2tr, p2tr_ns, P2TROut } from '@scure/btc-signer'
+import { hexToBytes } from '@noble/hashes/utils'
 
 export interface RawVault {
   uuid: string
@@ -12,6 +13,7 @@ export interface RawVault {
   creator: string
   status: number
   fundingTxId: string
+  wdTxId?: string
   closingTxId: string
   btcFeeRecipient: string
   btcMintFeeBasisPoints: BigNumber
@@ -184,24 +186,18 @@ export const createTaprootMultisigPayment = (
   return p2tr(unspendableDerivedPublicKeyFormatted, taprootMultiLeafWallet, bitcoinNetwork)
 }
 
-export const getClosingTransactionInputFromFundingTransaction = (
-  fundingTransaction: BitcoinTransaction,
-  bitcoinValue: number,
-): BitcoinTransactionVectorOutput => {
-  const closingTransactionInput = fundingTransaction.vout.find(
-    // bitcoinValue in the vault is represented in satoshis, convert the transaction value to compare
-    (output) => output.value * 10 ** 8 === bitcoinValue,
+export function validateScript(script: Uint8Array, outputScript: Uint8Array) {
+  return (
+    outputScript.length === script.length &&
+    outputScript.every((value, index) => value === script[index])
   )
-  if (!closingTransactionInput) {
-    throw new Error('Could not find Closing Transaction Input.')
-  }
-  return closingTransactionInput
 }
 
-export const matchScripts = (multisigScripts: Uint8Array[], outputScript: Uint8Array): boolean => {
-  return multisigScripts.some(
-    (multisigScript) =>
-      outputScript.length === multisigScript.length &&
-      outputScript.every((value, index) => value === multisigScript[index]),
+export function getScriptMatchingOutputFromTransaction(
+  bitcoinTransaction: BitcoinTransaction,
+  script: Uint8Array,
+) {
+  return bitcoinTransaction.vout.find((output) =>
+    validateScript(script, hexToBytes(output.scriptPubKey.hex)),
   )
 }

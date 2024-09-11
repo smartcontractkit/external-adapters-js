@@ -1,5 +1,17 @@
 # @chainlink/tp-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#3417](https://github.com/smartcontractkit/external-adapters-js/pull/3417) [`0496a7f`](https://github.com/smartcontractkit/external-adapters-js/commit/0496a7feaf701cff7c8c92052dffc45e36910bc2) Thanks [@martin-cll](https://github.com/martin-cll)! - Enable full symbol override
+
+### Patch Changes
+
+- [#3419](https://github.com/smartcontractkit/external-adapters-js/pull/3419) [`8958e04`](https://github.com/smartcontractkit/external-adapters-js/commit/8958e04d4aae22fbe5b66b920f91a3bda7f4b454) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add mapping comment
+
+- [#3415](https://github.com/smartcontractkit/external-adapters-js/pull/3415) [`8d83d60`](https://github.com/smartcontractkit/external-adapters-js/commit/8d83d60953e04b1f797f21f1504a3976ea0a4f36) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.4.12
 
 ### Patch Changes

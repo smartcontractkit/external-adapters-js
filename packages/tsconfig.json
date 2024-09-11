@@ -147,6 +147,9 @@
       "path": "./sources/amberdata"
     },
     {
+      "path": "./sources/anchorage"
+    },
+    {
       "path": "./sources/anyblock"
     },
     {
@@ -169,6 +172,9 @@
     },
     {
       "path": "./sources/bitex"
+    },
+    {
+      "path": "./sources/bitgo"
     },
     {
       "path": "./sources/bitso"

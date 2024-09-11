@@ -1,5 +1,24 @@
 # @chainlink/token-allocation-adapter
 
+## 1.12.7
+
+### Patch Changes
+
+- [#3415](https://github.com/smartcontractkit/external-adapters-js/pull/3415) [`8d83d60`](https://github.com/smartcontractkit/external-adapters-js/commit/8d83d60953e04b1f797f21f1504a3976ea0a4f36) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- Updated dependencies [[`8d83d60`](https://github.com/smartcontractkit/external-adapters-js/commit/8d83d60953e04b1f797f21f1504a3976ea0a4f36)]:
+  - @chainlink/finage-adapter@2.0.9
+  - @chainlink/cfbenchmarks-adapter@2.3.3
+  - @chainlink/kaiko-adapter@2.2.11
+  - @chainlink/coingecko-adapter@2.0.23
+  - @chainlink/coinmetrics-adapter@3.7.3
+  - @chainlink/blocksize-capital-adapter@2.3.4
+  - @chainlink/ncfx-adapter@4.1.2
+  - @chainlink/cryptocompare-adapter@3.3.1
+  - @chainlink/tiingo-adapter@2.5.2
+  - @chainlink/coinmarketcap-adapter@2.0.28
+  - @chainlink/coinpaprika-adapter@2.1.2
+
 ## 1.12.6
 
 ### Patch Changes

@@ -223,6 +223,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/amberdata"\
     },\
     {\
+      "name": "@chainlink/anchorage-adapter",\
+      "reference": "workspace:packages/sources/anchorage"\
+    },\
+    {\
       "name": "@chainlink/anyblock-adapter",\
       "reference": "workspace:packages/sources/anyblock"\
     },\
@@ -253,6 +257,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/bitex-adapter",\
       "reference": "workspace:packages/sources/bitex"\
+    },\
+    {\
+      "name": "@chainlink/bitgo-adapter",\
+      "reference": "workspace:packages/sources/bitgo"\
     },\
     {\
       "name": "@chainlink/bitso-adapter",\
@@ -892,6 +900,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
+    ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
@@ -904,6 +913,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
+    ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitso-adapter", ["workspace:packages/sources/bitso"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
@@ -5722,6 +5732,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/anchorage-adapter", [\
+      ["workspace:packages/sources/anchorage", {\
+        "packageLocation": "./packages/sources/anchorage/",\
+        "packageDependencies": [\
+          ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/anyblock-adapter", [\
       ["workspace:packages/sources/anyblock", {\
         "packageLocation": "./packages/sources/anyblock/",\
@@ -5934,6 +5959,21 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/bitgo-adapter", [\
+      ["workspace:packages/sources/bitgo", {\
+        "packageLocation": "./packages/sources/bitgo/",\
+        "packageDependencies": [\
+          ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
@@ -6760,6 +6800,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
           ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@noble/hashes", "npm:1.4.0"],\
           ["@scure/base", "npm:1.1.6"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
