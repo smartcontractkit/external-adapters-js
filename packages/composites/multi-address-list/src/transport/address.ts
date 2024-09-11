@@ -119,9 +119,9 @@ export class AddressListTransport extends SubscriptionTransport<AddressListTrans
       .filter(([_, sourceParams]) => sourceParams)
       .map(async ([sourceName, sourceParams]) => {
         // customInputValidation ensures that if the source EA is present in the input params, the corresponding env variable is also present
-        const envName = `${sourceName.toUpperCase()}_ADAPTER_URL` as keyof typeof this.settings
+        const adapterUrl = `${sourceName.toUpperCase()}_ADAPTER_URL` as keyof typeof this.settings
         const requestConfig = {
-          url: this.settings[envName] as string,
+          url: this.settings[adapterUrl] as string,
           method: 'POST',
           data: {
             data: {

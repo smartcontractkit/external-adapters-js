@@ -43,8 +43,8 @@ export const config = new AdapterConfig({
   MAX_RETRIES: {
     description: 'The number of times to retry when execution fails.',
     type: 'number',
-    default: 5,
-    validate: validator.integer({ min: 1, max: 10 }),
+    default: 10,
+    validate: validator.integer({ min: 1, max: 50 }),
   },
   BACKGROUND_EXECUTE_MS: {
     description:
