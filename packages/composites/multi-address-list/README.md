@@ -44,6 +44,7 @@ There are no rate limits for this adapter.
 |           | network |         |     The network to return     | string |                      | `bitcoin` |            |                |
 
 **Please note that this EA requires additional input parameters for each of the underlying EAs. Please see the READMEs for the individual EAs for more information.**
+**Each underlying source EA must be an object with the EA name as the key (snake case) and the parameters for the EA as the value. Please see the example below.**
 
 ### Example
 
@@ -56,7 +57,7 @@ Request:
     "chainId": "mainnet",
     "endpoint": "address",
 
-    // Additional parameters for each of the underlying EAs
+    // Additional parameters for each of the underlying EAs.
     "anchorage": {
       "vaultId": "b0bb2439c1e4926342ce693b4db2e683"
     },
@@ -64,7 +65,7 @@ Request:
       "coin": "BTC",
       "reserve": "BTC"
     },
-    "coinbasePrime": {
+    "coinbase_prime": {
       "batchSize": 100,
       "type": "vault",
       "portfolio": "sdas22s-dssw-dsw21-2231-dje72f9sj2",
