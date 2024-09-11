@@ -50,6 +50,7 @@
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
     "@chainlink/moonbeam-address-list-adapter": "workspace:*",
+    "@chainlink/multi-address-list-adapter": "workspace:*",
     "@chainlink/polkadot-balance-adapter": "workspace:*",
     "@chainlink/por-address-list-adapter": "workspace:*",
     "@chainlink/por-indexer-adapter": "workspace:*",

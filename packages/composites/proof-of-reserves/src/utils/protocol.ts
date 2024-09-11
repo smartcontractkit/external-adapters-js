@@ -20,6 +20,7 @@ import * as swellList from '@chainlink/swell-address-list-adapter'
 import { adapter as wBTC } from '@chainlink/wbtc-address-set-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
 import { adapter as coinbasePrime } from '@chainlink/coinbase-prime-adapter'
+import { adapter as multiAddressList } from '@chainlink/multi-address-list-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
@@ -39,6 +40,7 @@ export const adaptersV3: v3AdapterImplementation[] = [
   gemini,
   porAddressList,
   coinbasePrime,
+  multiAddressList,
 ]
 
 type AddressData = { token: string; chainId: string; network: string } | AddressList

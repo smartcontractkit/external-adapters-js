@@ -52,6 +52,7 @@ export const SoakTestBlacklist: string[] = [
   'lotus',
   'market-closure',
   'marketstack',
+  'multi-address-list',
   'ncfx',
   'nikkei',
   'oilpriceapi',

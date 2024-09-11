@@ -103,6 +103,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/medianizer"\
     },\
     {\
+      "name": "@chainlink/multi-address-list-adapter",\
+      "reference": "workspace:packages/composites/multi-address-list"\
+    },\
+    {\
       "name": "@chainlink/nftx-adapter",\
       "reference": "workspace:packages/composites/nftx"\
     },\
@@ -1035,6 +1039,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
+    ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
     ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
@@ -8266,6 +8271,26 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/multi-address-list-adapter", [\
+      ["workspace:packages/composites/multi-address-list", {\
+        "packageLocation": "./packages/composites/multi-address-list/",\
+        "packageDependencies": [\
+          ["@chainlink/multi-address-list-adapter", "workspace:packages/composites/multi-address-list"],\
+          ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
+          ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
+          ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["@types/node-schedule", "npm:2.1.7"],\
+          ["nock", "npm:13.5.4"],\
+          ["node-schedule", "npm:2.1.1"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/mycryptoapi-adapter", [\
       ["workspace:packages/sources/mycryptoapi", {\
         "packageLocation": "./packages/sources/mycryptoapi/",\
@@ -8614,6 +8639,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
           ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
+          ["@chainlink/multi-address-list-adapter", "workspace:packages/composites/multi-address-list"],\
           ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
           ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
