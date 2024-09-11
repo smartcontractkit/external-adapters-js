@@ -8,7 +8,7 @@ export const getApiInfo = (apiKeyName: string) => {
   if (!apiKey) {
     throw new AdapterInputError({
       statusCode: 400,
-      message: `Missing '${apiKeyEnvName}' environment variables.`,
+      message: `Missing '${apiKeyEnvName}' environment variable.`,
     })
   }
 
