@@ -21,7 +21,7 @@ export const config = new AdapterConfig({
     description: 'Hour to run scheduler [0-23]',
     type: 'number',
     default: 17,
-    validate: validator.integer({ min: 1, max: 23 }),
+    validate: validator.integer({ min: 0, max: 23 }),
   },
   SCHEDULER_MINUTES: {
     description: 'Minute to run scheduler [0-59]',
