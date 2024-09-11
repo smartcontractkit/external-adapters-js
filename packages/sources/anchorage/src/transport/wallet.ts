@@ -6,6 +6,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { getApiInfo } from './utils'
 
 const logger = makeLogger('WalletTransport')
 
@@ -99,11 +100,13 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
   async _handleRequest(
     params: RequestParams,
   ): Promise<AdapterResponse<WalletTransportTypes['Response']>> {
-    const { vaultId, chainId, network } = params
+    const { vaultId, chainId, network, apiKeyName } = params
 
     const providerDataRequestedUnixMs = Date.now()
 
-    const wallets = await this.fetchWallets(vaultId)
+    const apiKey = getApiInfo(apiKeyName)
+
+    const wallets = await this.fetchWallets(vaultId, apiKey)
 
     const addresses = wallets.map((w) => {
       return {
@@ -127,14 +130,14 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     }
   }
 
-  async fetchWallets(vaultId: string) {
+  async fetchWallets(vaultId: string, apiKey: string) {
     const wallets = []
     let hasNext = true
     const requestConfig = {
       baseURL: this.settings.API_ENDPOINT,
       url: `/v2/vaults/${vaultId}/wallets?limit=${this.settings.API_LIMIT}`,
       headers: {
-        'Api-Access-Key': this.settings.API_KEY,
+        'Api-Access-Key': apiKey,
       },
     }
 
