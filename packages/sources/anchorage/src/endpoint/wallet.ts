@@ -5,6 +5,8 @@ import {
   PoRAddressEndpoint,
   PoRAddressResponse,
 } from '@chainlink/external-adapter-framework/adapter/por'
+import { getApiInfo } from '../transport/utils'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(
   {
@@ -25,12 +27,18 @@ export const inputParameters = new InputParameters(
       description: 'The network to return',
       default: 'bitcoin',
     },
+    apiKeyName: {
+      type: 'string',
+      description: 'Used to select {$apiKeyName}_API_KEY in environment variables',
+      required: true,
+    },
   },
   [
     {
       vaultId: '22ds243sa24f652dsa3',
       chainId: 'mainnet',
       network: 'bitcoin',
+      apiKeyName: 'BTC',
     },
   ],
 )
@@ -45,4 +53,10 @@ export const endpoint = new PoRAddressEndpoint({
   name: 'wallet',
   transport: walletTransport,
   inputParameters,
+  customInputValidation: (request): AdapterError | undefined => {
+    if (request.requestContext.data.apiKeyName) {
+      getApiInfo(request.requestContext.data.apiKeyName)
+    }
+    return
+  },
 })

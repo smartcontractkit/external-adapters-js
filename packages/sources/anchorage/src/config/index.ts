@@ -2,12 +2,6 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 
 export const config = new AdapterConfig({
-  API_KEY: {
-    description: 'An API key for Anchorage',
-    type: 'string',
-    required: true,
-    sensitive: true,
-  },
   API_ENDPOINT: {
     description: 'An API endpoint for Anchorage',
     type: 'string',
@@ -23,6 +17,6 @@ export const config = new AdapterConfig({
     description:
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
-    default: 40_000,
+    default: 10_000,
   },
 })
