@@ -1,14 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { config } from './config'
-import { wallet } from './endpoint'
+import { address } from './endpoint'
 import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
 
 export const adapter = new PoRAdapter({
-  defaultEndpoint: wallet.name,
-  name: 'BITGO',
+  defaultEndpoint: address.name,
+  name: 'MULTI_ADDRESS_LIST',
   config,
-  endpoints: [wallet],
+  endpoints: [address],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
-export const walletParameters = wallet.inputParameters
