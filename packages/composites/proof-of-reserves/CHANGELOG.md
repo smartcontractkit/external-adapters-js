@@ -1,5 +1,18 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.21.0
+
+### Minor Changes
+
+- [#3423](https://github.com/smartcontractkit/external-adapters-js/pull/3423) [`0a439f6`](https://github.com/smartcontractkit/external-adapters-js/commit/0a439f6d8c9d34c5455f633a3f2456bda6a35d0c) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for multi_address_list protocol
+
+### Patch Changes
+
+- Updated dependencies [[`0a439f6`](https://github.com/smartcontractkit/external-adapters-js/commit/0a439f6d8c9d34c5455f633a3f2456bda6a35d0c), [`0a439f6`](https://github.com/smartcontractkit/external-adapters-js/commit/0a439f6d8c9d34c5455f633a3f2456bda6a35d0c)]:
+  - @chainlink/multi-address-list-adapter@1.0.0
+  - @chainlink/coinbase-prime-adapter@1.2.3
+  - @chainlink/renvm-address-set-adapter@1.5.81
+
 ## 1.20.6
 
 ### Patch Changes
