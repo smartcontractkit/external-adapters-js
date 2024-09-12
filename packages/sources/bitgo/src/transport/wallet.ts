@@ -119,9 +119,8 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
   async _handleRequest(
     params: RequestParams,
   ): Promise<AdapterResponse<WalletTransportTypes['Response']>> {
-    const { chainId, network } = params
+    const { chainId, network, enterpriseId } = params
     const coin = params.coin.toLowerCase()
-    const enterpriseId = params.enterpriseId
 
     const providerDataRequestedUnixMs = Date.now()
 
