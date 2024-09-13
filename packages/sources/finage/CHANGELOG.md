@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.0.10
+
+### Patch Changes
+
+- [#3428](https://github.com/smartcontractkit/external-adapters-js/pull/3428) [`4e5ef19`](https://github.com/smartcontractkit/external-adapters-js/commit/4e5ef1950fc33526c6c6a05e9d9a9345f02418c3) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update readme with custom routing & inverse logic section
+
 ## 2.0.9
 
 ### Patch Changes
