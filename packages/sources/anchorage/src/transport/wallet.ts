@@ -100,11 +100,11 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
   async _handleRequest(
     params: RequestParams,
   ): Promise<AdapterResponse<WalletTransportTypes['Response']>> {
-    const { vaultId, chainId, network, apiKeyName, coin } = params
+    const { vaultId, chainId, network, coin } = params
 
     const providerDataRequestedUnixMs = Date.now()
 
-    const apiKey = getApiInfo(apiKeyName)
+    const apiKey = getApiInfo(coin)
 
     const wallets = await this.fetchWallets(vaultId, coin, apiKey)
 

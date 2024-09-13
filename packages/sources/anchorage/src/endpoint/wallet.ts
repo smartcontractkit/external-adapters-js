@@ -32,11 +32,6 @@ export const inputParameters = new InputParameters(
       description: 'The network to return',
       default: 'bitcoin',
     },
-    apiKeyName: {
-      type: 'string',
-      description: 'Used to select {$apiKeyName}_API_KEY in environment variables',
-      required: true,
-    },
   },
   [
     {
@@ -44,7 +39,6 @@ export const inputParameters = new InputParameters(
       coin: 'BTC',
       chainId: 'mainnet',
       network: 'bitcoin',
-      apiKeyName: 'BTC',
     },
   ],
 )
@@ -60,8 +54,8 @@ export const endpoint = new PoRAddressEndpoint({
   transport: walletTransport,
   inputParameters,
   customInputValidation: (request): AdapterError | undefined => {
-    if (request.requestContext.data.apiKeyName) {
-      getApiInfo(request.requestContext.data.apiKeyName)
+    if (request.requestContext.data.coin) {
+      getApiInfo(request.requestContext.data.coin)
     }
     return
   },
