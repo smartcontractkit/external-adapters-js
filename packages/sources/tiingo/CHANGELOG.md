@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.6.0
+
+### Minor Changes
+
+- [#3429](https://github.com/smartcontractkit/external-adapters-js/pull/3429) [`b1434d5`](https://github.com/smartcontractkit/external-adapters-js/commit/b1434d550a8d2b1b505a0b6762afdb174ffd0813) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed crypto WS subscription
+
 ## 2.5.2
 
 ### Patch Changes
