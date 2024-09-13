@@ -14,7 +14,12 @@ export const inputParameters = new InputParameters(
       required: true,
       aliases: ['vaultID'],
       type: 'string',
-      description: 'customerId',
+      description: 'Id of the vault',
+    },
+    coin: {
+      required: true,
+      type: 'string',
+      description: 'Asset ticker name',
     },
     chainId: {
       type: 'string',
@@ -36,6 +41,7 @@ export const inputParameters = new InputParameters(
   [
     {
       vaultId: '22ds243sa24f652dsa3',
+      coin: 'BTC',
       chainId: 'mainnet',
       network: 'bitcoin',
       apiKeyName: 'BTC',

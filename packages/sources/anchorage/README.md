@@ -33,7 +33,8 @@ There are no rate limits for this adapter.
 
 | Required? |    Name    |  Aliases  |                          Description                           |  Type  |       Options        |  Default  | Depends On | Not Valid With |
 | :-------: | :--------: | :-------: | :------------------------------------------------------------: | :----: | :------------------: | :-------: | :--------: | :------------: |
-|    ✅     |  vaultId   | `vaultID` |                           customerId                           | string |                      |           |            |                |
+|    ✅     |  vaultId   | `vaultID` |                        Id of the vault                         | string |                      |           |            |                |
+|    ✅     |    coin    |           |                       Asset ticker name                        | string |                      |           |            |                |
 |           |  chainId   |           |                 The ID of the chain to return                  | string | `mainnet`, `testnet` | `mainnet` |            |                |
 |           |  network   |           |                     The network to return                      | string |                      | `bitcoin` |            |                |
 |    ✅     | apiKeyName |           | Used to select {$apiKeyName}\_API_KEY in environment variables | string |                      |           |            |                |
@@ -47,6 +48,7 @@ Request:
   "data": {
     "endpoint": "wallet",
     "vaultId": "22ds243sa24f652dsa3",
+    "coin": "BTC",
     "chainId": "mainnet",
     "network": "bitcoin",
     "apiKeyName": "BTC"

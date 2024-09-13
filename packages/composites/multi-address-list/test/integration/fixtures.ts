@@ -8,6 +8,7 @@ export const mockAnchorageSuccess = (): nock.Scope =>
     .post('/', {
       data: {
         vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
+        coin: 'BTC',
         apiKeyName: 'BTC',
         network: 'bitcoin',
         chainId: 'mainnet',

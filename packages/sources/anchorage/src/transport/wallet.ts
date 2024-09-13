@@ -100,13 +100,13 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
   async _handleRequest(
     params: RequestParams,
   ): Promise<AdapterResponse<WalletTransportTypes['Response']>> {
-    const { vaultId, chainId, network, apiKeyName } = params
+    const { vaultId, chainId, network, apiKeyName, coin } = params
 
     const providerDataRequestedUnixMs = Date.now()
 
     const apiKey = getApiInfo(apiKeyName)
 
-    const wallets = await this.fetchWallets(vaultId, apiKey)
+    const wallets = await this.fetchWallets(vaultId, coin, apiKey)
 
     const addresses = wallets.map((w) => {
       return {
@@ -130,7 +130,7 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     }
   }
 
-  async fetchWallets(vaultId: string, apiKey: string) {
+  async fetchWallets(vaultId: string, coin: string, apiKey: string) {
     const wallets = []
     let hasNext = true
     const requestConfig = {
@@ -144,7 +144,11 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
     while (hasNext) {
       const reqKey = `${requestConfig.baseURL}${requestConfig.url}`
       const response = await this.requester.request<WalletResponse>(reqKey, requestConfig)
-      wallets.push(...response.response.data.data)
+      wallets.push(
+        ...response.response.data.data.filter(
+          (w) => w.networkId.toUpperCase() === coin.toUpperCase(),
+        ),
+      )
       hasNext = response.response.data.page.next !== null
       if (response.response.data.page.next) {
         requestConfig.url = response.response.data.page.next

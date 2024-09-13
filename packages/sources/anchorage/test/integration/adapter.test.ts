@@ -42,6 +42,7 @@ describe('execute', () => {
         chainId: 'testnet',
         endpoint: 'wallet',
         apiKeyName: 'BTC',
+        coin: 'ETHHOL',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
