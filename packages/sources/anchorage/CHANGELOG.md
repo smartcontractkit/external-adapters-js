@@ -1,5 +1,11 @@
 # @chainlink/anchorage-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- [#3433](https://github.com/smartcontractkit/external-adapters-js/pull/3433) [`88991ff`](https://github.com/smartcontractkit/external-adapters-js/commit/88991ff3964c055ab31feb85153a612775782a07) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for coin input param
+
 ## 1.0.1
 
 ### Patch Changes
