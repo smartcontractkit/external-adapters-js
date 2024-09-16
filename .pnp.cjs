@@ -6806,7 +6806,7 @@ const RAW_RUNTIME_STATE =
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
           ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
           ["@noble/hashes", "npm:1.4.0"],\
-          ["@scure/base", "npm:1.1.6"],\
+          ["@scure/base", "npm:1.1.8"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -14653,6 +14653,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.6-a937639d90-814fd1cce2.zip/node_modules/@scure/base/",\
         "packageDependencies": [\
           ["@scure/base", "npm:1.1.6"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.1.8", {\
+        "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.8-be49adc59e-5b764c0e98.zip/node_modules/@scure/base/",\
+        "packageDependencies": [\
+          ["@scure/base", "npm:1.1.8"]\
         ],\
         "linkType": "HARD"\
       }]\
