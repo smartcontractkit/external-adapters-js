@@ -3,6 +3,6 @@
     "coin": "hteth",
     "chainId": "testnet",
     "network": "ethereum",
-    "reserve": "HTETH"
+    "enterpriseId": "66d72170014fe3e546d3d10a4fc93149"
  }]
 }
