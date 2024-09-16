@@ -1,6 +1,17 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
+  API_KEY: {
+    description: 'API key for Bitgo',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+  API_ENDPOINT: {
+    description: 'API endpoint for Bitgo',
+    type: 'string',
+    required: true,
+  },
   API_LIMIT: {
     description: 'The default maximum number of results to request from the API',
     type: 'number',

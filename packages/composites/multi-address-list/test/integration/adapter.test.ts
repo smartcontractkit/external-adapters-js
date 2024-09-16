@@ -64,7 +64,7 @@ describe('execute', () => {
         },
         bitgo: {
           coin: 'tbtc',
-          reserve: 'BTC',
+          enterpriseId: '1234',
         },
         coinbase_prime: {
           batchSize: 100,

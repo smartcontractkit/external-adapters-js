@@ -71,7 +71,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
     .post('/', {
       data: {
         coin: 'tbtc',
-        reserve: 'BTC',
+        enterpriseId: '1234',
         network: 'bitcoin',
         chainId: 'mainnet',
         endpoint: 'wallet',
