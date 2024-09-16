@@ -2,4 +2,4 @@
 '@chainlink/anchorage-adapter': patch
 ---
 
-Added multiple API key support
+Added support for coin input param

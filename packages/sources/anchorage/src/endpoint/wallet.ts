@@ -14,7 +14,12 @@ export const inputParameters = new InputParameters(
       required: true,
       aliases: ['vaultID'],
       type: 'string',
-      description: 'customerId',
+      description: 'Id of the vault',
+    },
+    coin: {
+      required: true,
+      type: 'string',
+      description: 'Asset ticker name',
     },
     chainId: {
       type: 'string',
@@ -27,18 +32,13 @@ export const inputParameters = new InputParameters(
       description: 'The network to return',
       default: 'bitcoin',
     },
-    apiKeyName: {
-      type: 'string',
-      description: 'Used to select {$apiKeyName}_API_KEY in environment variables',
-      required: true,
-    },
   },
   [
     {
       vaultId: '22ds243sa24f652dsa3',
+      coin: 'BTC',
       chainId: 'mainnet',
       network: 'bitcoin',
-      apiKeyName: 'BTC',
     },
   ],
 )
@@ -54,8 +54,8 @@ export const endpoint = new PoRAddressEndpoint({
   transport: walletTransport,
   inputParameters,
   customInputValidation: (request): AdapterError | undefined => {
-    if (request.requestContext.data.apiKeyName) {
-      getApiInfo(request.requestContext.data.apiKeyName)
+    if (request.requestContext.data.coin) {
+      getApiInfo(request.requestContext.data.coin)
     }
     return
   },

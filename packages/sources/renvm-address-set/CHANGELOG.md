@@ -1,5 +1,12 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.5.81
+
+### Patch Changes
+
+- Updated dependencies [[`0a439f6`](https://github.com/smartcontractkit/external-adapters-js/commit/0a439f6d8c9d34c5455f633a3f2456bda6a35d0c)]:
+  - @chainlink/proof-of-reserves-adapter@1.21.0
+
 ## 1.5.80
 
 ### Patch Changes
