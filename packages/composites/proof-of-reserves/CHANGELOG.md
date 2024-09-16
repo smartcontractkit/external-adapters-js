@@ -1,5 +1,13 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.21.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/multi-address-list-adapter@1.0.1
+  - @chainlink/renvm-address-set-adapter@1.5.82
+
 ## 1.21.0
 
 ### Minor Changes
