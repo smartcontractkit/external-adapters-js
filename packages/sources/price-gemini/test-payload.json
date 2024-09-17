@@ -1,6 +1,7 @@
 {
- "requests": [{
-  "from": "BTC",
-  "to": "USD"
- }]
+  "data": {
+    "endpoint": "price",
+    "base": "BTC",
+    "quote": "USD"
+  }
 }

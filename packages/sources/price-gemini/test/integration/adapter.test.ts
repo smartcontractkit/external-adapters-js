@@ -15,16 +15,14 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const dataPrice = {
-    base: 'ETH',
+    base: 'BTC',
     quote: 'USD',
     endpoint: 'price',
-    transport: 'ws',
   }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['API_KEY'] = 'fake-api-key'
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebsocketServer(wsEndpoint)
 
@@ -51,6 +49,25 @@ describe('websocket', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(dataPrice)
       expect(response.json()).toMatchSnapshot()
+    })
+    it('should return error on empty data', async () => {
+      const response = await testAdapter.request({})
+      expect(response.statusCode).toEqual(400)
+    })
+
+    it('should return error on empty base', async () => {
+      const response = await testAdapter.request({ quote: 'BTC' })
+      expect(response.statusCode).toEqual(400)
+    })
+
+    it('should return error on empty quote', async () => {
+      const response = await testAdapter.request({ base: 'EUR' })
+      expect(response.statusCode).toEqual(400)
+    })
+
+    it('should return error on invalid pair', async () => {
+      const response = await testAdapter.request({ base: 'ABC', quote: 'XYZ' })
+      expect(response.statusCode).toEqual(504)
     })
   })
 })
