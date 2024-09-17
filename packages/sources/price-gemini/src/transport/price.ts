@@ -1,12 +1,10 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/price'
 
 export interface WSResponse {
-  success: boolean
-  price: number
-  base: string
-  quote: string
-  time: number
+  type: string
+  symbol: string
+  changes: [buySell: string, price: string, quantity: string][]
 }
 
 export type WsTransportTypes = BaseEndpointTypes & {
@@ -14,42 +12,51 @@ export type WsTransportTypes = BaseEndpointTypes & {
     WsMessage: WSResponse
   }
 }
-export const wsTransport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
-  handlers: {
-    message(message) {
-      if (message.success === false) {
-        return
-      }
-
-      return [
-        {
-          params: { base: message.base, quote: message.quote },
-          response: {
-            result: message.price,
-            data: {
-              result: message.price,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: message.time,
+export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
+  new WebsocketReverseMappingTransport<WsTransportTypes, string>({
+    url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+    handlers: {
+      message(message) {
+        const providerIndicatedTimeUnixMs = Date.now()
+        if (message.type !== 'l2_updates') {
+          return
+        }
+        const params = wsTransport.getReverseMapping(message.symbol)
+        if (!params) {
+          return
+        }
+        const result = Number(message.changes[0][1])
+        return [
+          {
+            params,
+            response: {
+              result,
+              data: {
+                result,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs,
+              },
             },
           },
-        },
-      ]
+        ]
+      },
     },
-  },
-  builders: {
-    subscribeMessage: (params) => {
-      return {
-        type: 'subscribe',
-        symbols: `${params.base}/${params.quote}`.toUpperCase(),
-      }
+    builders: {
+      subscribeMessage: (params) => {
+        const pair = `${params.base}${params.quote}`.toUpperCase()
+        wsTransport.setReverseMapping(pair, params)
+        return {
+          type: 'subscribe',
+          subscriptions: [{ name: 'l2', symbols: [pair] }],
+        }
+      },
+      unsubscribeMessage: (params) => {
+        const pair = `${params.base}${params.quote}`.toUpperCase()
+        return {
+          type: 'unsubscribe',
+          subscriptions: [{ name: 'l2', symbols: [pair] }],
+        }
+      },
     },
-    unsubscribeMessage: (params) => {
-      return {
-        type: 'unsubscribe',
-        symbols: `${params.base}/${params.quote}`.toUpperCase(),
-      }
-    },
-  },
-})
+  })
