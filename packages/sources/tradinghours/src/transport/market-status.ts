@@ -9,7 +9,7 @@ export const markets = ['forex', 'metals', 'wti'] as const
 export type Market = (typeof markets)[number]
 
 const marketToFinId: Record<Market, string> = {
-  forex: 'US.CBOE.FX',
+  forex: 'US.CHNLNK.FX',
   metals: 'US.CHNLNK.METAL',
   wti: 'US.CHNLNK.WTI',
 }
