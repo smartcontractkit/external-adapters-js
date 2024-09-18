@@ -1,0 +1,7 @@
+{
+  "data": {
+    "endpoint": "price",
+    "base": "BTC",
+    "quote": "USD"
+  }
+}
