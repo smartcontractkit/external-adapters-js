@@ -61,5 +61,16 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should error for invalid address', async () => {
+      const data = {
+        endpoint: 'balance',
+        addresses: ['johndoe'],
+      }
+      mockRPCResponses()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
