@@ -26,5 +26,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: wsTransport,
   inputParameters,
-  overrides: overrides['price-gemini'],
+  overrides: overrides['balance-price'],
 })

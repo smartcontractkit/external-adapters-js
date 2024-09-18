@@ -38,6 +38,7 @@ describe('execute', () => {
   describe('balance endpoint', () => {
     it('should return success', async () => {
       const data = {
+        endpoint: 'balance',
         addresses: [
           '0x61E5E1ea8fF9Dc840e0A549c752FA7BDe9224e99',
           '0x22f44f27A25053C9921037d6CDb5EDF9C05d567D',
@@ -51,6 +52,7 @@ describe('execute', () => {
 
     it('should return success at block number', async () => {
       const data = {
+        endpoint: 'balance',
         addresses: ['0x61E5E1ea8fF9Dc840e0A549c752FA7BDe9224e99'],
         blockNumber: 100,
       }

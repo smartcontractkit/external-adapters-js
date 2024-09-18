@@ -3115,6 +3115,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/balance-price-adapter@workspace:packages/sources/balance-price":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/balance-price-adapter@workspace:packages/sources/balance-price"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.3.1"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.11.68"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    ethers: "npm:^5.4.6"
+    nock: "npm:13.5.4"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.0.4"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
@@ -4321,20 +4337,6 @@ __metadata:
     nock: "npm:13.5.4"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
-    typescript: "npm:5.0.4"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/eth-balances-batch-adapter@workspace:packages/sources/eth-balances-batch":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/eth-balances-batch-adapter@workspace:packages/sources/eth-balances-batch"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:1.3.1"
-    "@types/jest": "npm:27.5.2"
-    "@types/node": "npm:16.11.68"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.4"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.0.4"
   languageName: unknown
   linkType: soft
@@ -5574,21 +5576,6 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.96"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.4"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.0.4"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/price-gemini-adapter@workspace:packages/sources/price-gemini":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/price-gemini-adapter@workspace:packages/sources/price-gemini"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:1.3.1"
-    "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
-    "@types/node": "npm:16.11.68"
-    "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.4"
     tslib: "npm:2.4.1"
     typescript: "npm:5.0.4"

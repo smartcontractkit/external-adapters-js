@@ -57,5 +57,5 @@ export const endpoint = new AdapterEndpoint({
   // Supported input parameters for this endpoint
   inputParameters,
   // Overrides are defined in the `/config/overrides.json` file. They allow input parameters to be overriden from a generic symbol to something more specific for the data provider such as an ID.
-  overrides: overrides['eth-balances-batch'],
+  overrides: overrides['balance-price'],
 })

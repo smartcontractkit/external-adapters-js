@@ -162,6 +162,9 @@
       "path": "./sources/avalanche-platform"
     },
     {
+      "path": "./sources/balance-price"
+    },
+    {
       "path": "./sources/bank-frick"
     },
     {
@@ -322,9 +325,6 @@
     },
     {
       "path": "./sources/eth-balance"
-    },
-    {
-      "path": "./sources/eth-balances-batch"
     },
     {
       "path": "./sources/eth-beacon"
@@ -511,9 +511,6 @@
     },
     {
       "path": "./sources/por-indexer"
-    },
-    {
-      "path": "./sources/price-gemini"
     },
     {
       "path": "./sources/renvm-address-set"

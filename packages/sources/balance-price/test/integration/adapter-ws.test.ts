@@ -23,6 +23,7 @@ describe('websocket', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:3040'
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebsocketServer(wsEndpoint)
 

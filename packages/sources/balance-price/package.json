@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/eth-balances-batch-adapter",
+  "name": "@chainlink/balance-price-adapter",
   "version": "0.0.0",
-  "description": "Chainlink eth-balances-batch adapter.",
+  "description": "Chainlink balance-price adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "eth-balances-batch"
+    "balance-price"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,8 +28,10 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.68",
+    "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.4",
     "typescript": "5.0.4"
   },
