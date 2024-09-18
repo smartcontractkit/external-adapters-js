@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "1.1.1",
-    "@chainlink/external-adapter-framework": "1.3.1",
+    "@chainlink/external-adapter-framework": "1.3.2",
     "@noble/hashes": "1.4.0",
     "@scure/base": "1.1.8",
     "@scure/btc-signer": "1.2.2",
