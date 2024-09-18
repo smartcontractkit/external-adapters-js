@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/multi-address-list"
-    },
-    {
       "path": "./composites/anchor"
     },
     {
@@ -70,6 +67,9 @@
     },
     {
       "path": "./composites/medianizer"
+    },
+    {
+      "path": "./composites/multi-address-list"
     },
     {
       "path": "./composites/nftx"
@@ -322,6 +322,9 @@
     },
     {
       "path": "./sources/eth-balance"
+    },
+    {
+      "path": "./sources/eth-balances-batch"
     },
     {
       "path": "./sources/eth-beacon"

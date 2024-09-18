@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/multi-address-list/tsconfig.test.json"
-    },
-    {
       "path": "./composites/anchor/tsconfig.test.json"
     },
     {
@@ -70,6 +67,9 @@
     },
     {
       "path": "./composites/medianizer/tsconfig.test.json"
+    },
+    {
+      "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
       "path": "./composites/nftx/tsconfig.test.json"
@@ -322,6 +322,9 @@
     },
     {
       "path": "./sources/eth-balance/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/eth-balances-batch/tsconfig.test.json"
     },
     {
       "path": "./sources/eth-beacon/tsconfig.test.json"
