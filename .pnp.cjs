@@ -459,6 +459,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/eth-balance"\
     },\
     {\
+      "name": "@chainlink/eth-balances-batch-adapter",\
+      "reference": "workspace:packages/sources/eth-balances-batch"\
+    },\
+    {\
       "name": "@chainlink/eth-beacon-adapter",\
       "reference": "workspace:packages/sources/eth-beacon"\
     },\
@@ -986,6 +990,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
     ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
+    ["@chainlink/eth-balances-batch-adapter", ["workspace:packages/sources/eth-balances-batch"]],\
     ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
     ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],\
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
@@ -7219,6 +7224,22 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/eth-balances-batch-adapter", [\
+      ["workspace:packages/sources/eth-balances-batch", {\
+        "packageLocation": "./packages/sources/eth-balances-batch/",\
+        "packageDependencies": [\
+          ["@chainlink/eth-balances-batch-adapter", "workspace:packages/sources/eth-balances-batch"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\

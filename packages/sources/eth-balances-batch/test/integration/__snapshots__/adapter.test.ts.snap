@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute balance endpoint should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "0x61E5E1ea8fF9Dc840e0A549c752FA7BDe9224e99",
+        "balance": "0.131625394375564858",
+      },
+      {
+        "address": "0x22f44f27A25053C9921037d6CDb5EDF9C05d567D",
+        "balance": "0.000842796652117371",
+      },
+    ],
+  },
+  "result": "0.132468191027682229",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute balance endpoint should return success at block number 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "0x61E5E1ea8fF9Dc840e0A549c752FA7BDe9224e99",
+        "balance": "0.131625394375564858",
+      },
+    ],
+  },
+  "result": "0.131625394375564858",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
