@@ -19,8 +19,10 @@ export type WsTransportTypes = BaseEndpointTypes & {
 export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   handlers: {
-    open: (connection) => {
-      connection.send(JSON.stringify({ type: 'feed' }))
+    open: (connection, context) => {
+      connection.send(
+        JSON.stringify({ type: 'feed', authorization: context.adapterSettings.API_KEY }),
+      )
     },
     message(message) {
       if (!message.price) {
