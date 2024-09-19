@@ -631,6 +631,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/metalsapi"\
     },\
     {\
+      "name": "@chainlink/mobula-state-adapter",\
+      "reference": "workspace:packages/sources/mobula-state"\
+    },\
+    {\
       "name": "@chainlink/mock-ea-adapter",\
       "reference": "workspace:packages/sources/mock-ea"\
     },\
@@ -1036,6 +1040,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],\
     ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],\
+    ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
@@ -8213,6 +8218,23 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/mobula-state-adapter", [\
+      ["workspace:packages/sources/mobula-state", {\
+        "packageLocation": "./packages/sources/mobula-state/",\
+        "packageDependencies": [\
+          ["@chainlink/mobula-state-adapter", "workspace:packages/sources/mobula-state"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\

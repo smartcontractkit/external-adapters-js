@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/multi-address-list"
-    },
-    {
       "path": "./composites/anchor"
     },
     {
@@ -70,6 +67,9 @@
     },
     {
       "path": "./composites/medianizer"
+    },
+    {
+      "path": "./composites/multi-address-list"
     },
     {
       "path": "./composites/nftx"
@@ -451,6 +451,9 @@
     },
     {
       "path": "./sources/metalsapi"
+    },
+    {
+      "path": "./sources/mobula-state"
     },
     {
       "path": "./sources/mock-ea"
