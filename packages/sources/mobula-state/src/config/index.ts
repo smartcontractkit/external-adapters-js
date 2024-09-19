@@ -6,4 +6,10 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'wss://feed.zobula.xyz',
   },
+  API_KEY: {
+    description: 'An API key for Data Provider',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
 })
