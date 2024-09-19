@@ -1,5 +1,11 @@
 # @chainlink/bitgo-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- [#3431](https://github.com/smartcontractkit/external-adapters-js/pull/3431) [`f926a16`](https://github.com/smartcontractkit/external-adapters-js/commit/f926a16639efcacfbba051d2faca3e83a254cbb8) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Removed multiple API key support, added support for enterprise IDs
+
 ## 1.0.1
 
 ### Patch Changes

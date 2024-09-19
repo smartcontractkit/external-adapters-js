@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitgo-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink bitgo adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.3.1",
+    "@chainlink/external-adapter-framework": "1.3.2",
     "tslib": "2.4.1"
   }
 }
