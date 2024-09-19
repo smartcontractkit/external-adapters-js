@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { price } from './endpoint'
+import { price, balance } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: price.name,
-  name: 'PRICE_GEMINI',
+  name: 'BALANCE_PRICE',
   config,
-  endpoints: [price],
+  endpoints: [price, balance],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

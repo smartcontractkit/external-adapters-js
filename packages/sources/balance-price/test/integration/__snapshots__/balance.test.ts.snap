@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute balance endpoint should error for invalid address 1`] = `
+{
+  "errorMessage": "ENS name not configured (operation="resolveName(\\"johndoe\\")", code=UNSUPPORTED_OPERATION, version=providers/5.7.2)",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute balance endpoint should return success 1`] = `
 {
   "data": {

@@ -243,6 +243,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/avalanche-platform"\
     },\
     {\
+      "name": "@chainlink/balance-price-adapter",\
+      "reference": "workspace:packages/sources/balance-price"\
+    },\
+    {\
       "name": "@chainlink/bank-frick-adapter",\
       "reference": "workspace:packages/sources/bank-frick"\
     },\
@@ -457,10 +461,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/eth-balance-adapter",\
       "reference": "workspace:packages/sources/eth-balance"\
-    },\
-    {\
-      "name": "@chainlink/eth-balances-batch-adapter",\
-      "reference": "workspace:packages/sources/eth-balances-batch"\
     },\
     {\
       "name": "@chainlink/eth-beacon-adapter",\
@@ -711,10 +711,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/por-indexer"\
     },\
     {\
-      "name": "@chainlink/price-gemini-adapter",\
-      "reference": "workspace:packages/sources/price-gemini"\
-    },\
-    {\
       "name": "@chainlink/renvm-address-set-adapter",\
       "reference": "workspace:packages/sources/renvm-address-set"\
     },\
@@ -919,6 +915,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
+    ["@chainlink/balance-price-adapter", ["workspace:packages/sources/balance-price"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
@@ -990,7 +987,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
     ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
-    ["@chainlink/eth-balances-batch-adapter", ["workspace:packages/sources/eth-balances-batch"]],\
     ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
     ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],\
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
@@ -1068,7 +1064,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
-    ["@chainlink/price-gemini-adapter", ["workspace:packages/sources/price-gemini"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
@@ -5871,6 +5866,24 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/balance-price-adapter", [\
+      ["workspace:packages/sources/balance-price", {\
+        "packageLocation": "./packages/sources/balance-price/",\
+        "packageDependencies": [\
+          ["@chainlink/balance-price-adapter", "workspace:packages/sources/balance-price"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/bank-frick-adapter", [\
       ["workspace:packages/sources/bank-frick", {\
         "packageLocation": "./packages/sources/bank-frick/",\
@@ -7224,22 +7237,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/eth-balances-batch-adapter", [\
-      ["workspace:packages/sources/eth-balances-batch", {\
-        "packageLocation": "./packages/sources/eth-balances-batch/",\
-        "packageDependencies": [\
-          ["@chainlink/eth-balances-batch-adapter", "workspace:packages/sources/eth-balances-batch"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.11.68"],\
-          ["ethers", "npm:5.7.2"],\
-          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
@@ -8633,23 +8630,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["nock", "npm:13.5.4"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/price-gemini-adapter", [\
-      ["workspace:packages/sources/price-gemini", {\
-        "packageLocation": "./packages/sources/price-gemini/",\
-        "packageDependencies": [\
-          ["@chainlink/price-gemini-adapter", "workspace:packages/sources/price-gemini"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.11.68"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\

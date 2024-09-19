@@ -4,7 +4,6 @@ import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { balanceTransport } from '../transport/balance'
 
-// Input parameters define the structure of the request expected by the endpoint. The second parameter defines example input data that will be used in EA readme
 export const inputParameters = new InputParameters(
   {
     addresses: {
@@ -30,7 +29,6 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-// Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
 type AddressBalance = {
   address: string
   balance: string
@@ -48,14 +46,9 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  // Endpoint name
   name: 'balance',
-  // Alternative endpoint names for this endpoint
   aliases: [],
-  // Transport handles incoming requests, data processing and communication for this endpoint
   transport: balanceTransport,
-  // Supported input parameters for this endpoint
   inputParameters,
-  // Overrides are defined in the `/config/overrides.json` file. They allow input parameters to be overriden from a generic symbol to something more specific for the data provider such as an ID.
-  overrides: overrides['eth-balances-batch'],
+  overrides: overrides['balance-price'],
 })
