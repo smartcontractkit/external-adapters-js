@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/multi-address-list/tsconfig.test.json"
-    },
-    {
       "path": "./composites/anchor/tsconfig.test.json"
     },
     {
@@ -70,6 +67,9 @@
     },
     {
       "path": "./composites/medianizer/tsconfig.test.json"
+    },
+    {
+      "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
       "path": "./composites/nftx/tsconfig.test.json"
@@ -451,6 +451,9 @@
     },
     {
       "path": "./sources/metalsapi/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/mobula-state/tsconfig.test.json"
     },
     {
       "path": "./sources/mock-ea/tsconfig.test.json"
