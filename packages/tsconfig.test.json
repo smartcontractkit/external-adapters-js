@@ -357,6 +357,9 @@
       "path": "./sources/finnhub-secondary/tsconfig.test.json"
     },
     {
+      "path": "./sources/fireblocks/tsconfig.test.json"
+    },
+    {
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {

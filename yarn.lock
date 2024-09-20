@@ -4569,6 +4569,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/fireblocks-adapter@workspace:packages/sources/fireblocks":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/fireblocks-adapter@workspace:packages/sources/fireblocks"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.3.2"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.11.68"
+    nock: "npm:13.5.4"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.0.4"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/fixer-adapter@workspace:packages/sources/fixer":
   version: 0.0.0-use.local
   resolution: "@chainlink/fixer-adapter@workspace:packages/sources/fixer"

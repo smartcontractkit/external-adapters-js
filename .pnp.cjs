@@ -503,6 +503,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/finnhub-secondary"\
     },\
     {\
+      "name": "@chainlink/fireblocks-adapter",\
+      "reference": "workspace:packages/sources/fireblocks"\
+    },\
+    {\
       "name": "@chainlink/fixer-adapter",\
       "reference": "workspace:packages/sources/fixer"\
     },\
@@ -999,6 +1003,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/finalto-adapter", ["workspace:packages/sources/finalto"]],\
     ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
     ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
+    ["@chainlink/fireblocks-adapter", ["workspace:packages/sources/fireblocks"]],\
     ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
     ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
     ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
@@ -7487,6 +7492,21 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/fireblocks-adapter", [\
+      ["workspace:packages/sources/fireblocks", {\
+        "packageLocation": "./packages/sources/fireblocks/",\
+        "packageDependencies": [\
+          ["@chainlink/fireblocks-adapter", "workspace:packages/sources/fireblocks"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
