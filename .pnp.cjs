@@ -5876,7 +5876,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/balance-price/",\
         "packageDependencies": [\
           ["@chainlink/balance-price-adapter", "workspace:packages/sources/balance-price"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
