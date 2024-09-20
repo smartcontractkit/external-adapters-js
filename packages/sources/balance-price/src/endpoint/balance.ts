@@ -8,7 +8,13 @@ export const inputParameters = new InputParameters(
   {
     addresses: {
       array: true,
-      type: 'string',
+      type: {
+        address: {
+          type: 'string',
+          description: 'An address to get the balance of',
+          required: true,
+        },
+      },
       required: true,
       description: 'The addresses to check the balance of',
     },
@@ -21,8 +27,8 @@ export const inputParameters = new InputParameters(
   [
     {
       addresses: [
-        '0x61E5E1ea8fF9Dc840e0A549c752FA7BDe9224e99',
-        '0x22f44f27A25053C9921037d6CDb5EDF9C05d567D',
+        { address: '0x61E5E1ea8fF9Dc840e0A549c752FA7BDe9224e99' },
+        { address: '0x22f44f27A25053C9921037d6CDb5EDF9C05d567D' },
       ],
       blockNumber: 6709240,
     },

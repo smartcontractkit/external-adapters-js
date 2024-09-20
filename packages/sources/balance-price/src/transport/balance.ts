@@ -81,9 +81,12 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return this.provider.getBalance(address, blockNumber || 'latest')
   }
 
-  private async _getBalances(addresses: string[], blockNumber: number | undefined) {
+  private async _getBalances(
+    addresses: Array<{ address: string }>,
+    blockNumber: number | undefined,
+  ) {
     return Promise.all(
-      addresses.map(async (address) => {
+      addresses.map(async ({ address }) => {
         const balance = await this._getBalance(address, blockNumber)
         return { address, balance }
       }),
