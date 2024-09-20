@@ -11,7 +11,7 @@ export const inputParameters = new InputParameters(
     accountName: {
       type: 'string',
       description: 'The name of the account to retrieve balances for',
-      default: 'USDFB',
+      required: true,
     },
   },
   [
