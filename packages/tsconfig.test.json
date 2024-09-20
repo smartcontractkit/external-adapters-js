@@ -456,6 +456,9 @@
       "path": "./sources/metalsapi/tsconfig.test.json"
     },
     {
+      "path": "./sources/mobula-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mock-ea/tsconfig.test.json"
     },
     {
