@@ -143,7 +143,7 @@ export const mockResponseSuccess = (): nock.Scope =>
               'a384ac79e37e5619a5ed18d2094be6c4aed1f5db79effd1a4c3484640e446456fb4162721214c3891fde6eda21a6a8c8999b0a3e4b92e8b5bafd657363274009',
           },
           isDefault: false,
-          networkId: 'ETHHOL',
+          networkId: 'ETH',
           subaccountId: '0ec207d4-9b4e-4428-9a6e-bfd52cdb0d0c',
           type: 'WALLET',
           vaultId: '123',

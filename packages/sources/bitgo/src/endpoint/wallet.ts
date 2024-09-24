@@ -1,18 +1,21 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { walletTransport } from '../transport/wallet'
 import {
   PoRAddressEndpoint,
   PoRAddressResponse,
 } from '@chainlink/external-adapter-framework/adapter/por'
-import { getApiInfo } from '../transport/utils'
 
 export const inputParameters = new InputParameters(
   {
     coin: {
       type: 'string',
       description: 'A cryptocurrency symbol or token ticker symbol',
+      required: true,
+    },
+    enterpriseId: {
+      type: 'string',
+      description: 'Enterprise ID',
       required: true,
     },
     chainId: {
@@ -26,19 +29,13 @@ export const inputParameters = new InputParameters(
       description: 'The network to return',
       default: 'bitcoin',
     },
-    reserve: {
-      type: 'string',
-      description:
-        'Used to select {$reserve}_API_KEY {$reserve}_API_ENDPOINT {$reserve}_API_LIMIT in environment variables',
-      required: true,
-    },
   },
   [
     {
       coin: 'btc',
       chainId: 'mainnet',
       network: 'bitcoin',
-      reserve: 'BTC',
+      enterpriseId: '4322ssfsar4ss',
     },
   ],
 )
@@ -53,10 +50,4 @@ export const endpoint = new PoRAddressEndpoint({
   name: 'wallet',
   transport: walletTransport,
   inputParameters,
-  customInputValidation: (request, settings): AdapterError | undefined => {
-    if (request.requestContext.data.reserve) {
-      getApiInfo(request.requestContext.data.reserve, settings)
-    }
-    return
-  },
 })

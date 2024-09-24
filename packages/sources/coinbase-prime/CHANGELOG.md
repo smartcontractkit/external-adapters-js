@@ -1,5 +1,11 @@
 # @chainlink/coinbase-prime-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- [#3423](https://github.com/smartcontractkit/external-adapters-js/pull/3423) [`0a439f6`](https://github.com/smartcontractkit/external-adapters-js/commit/0a439f6d8c9d34c5455f633a3f2456bda6a35d0c) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Exported input parameters of wallet endpoint
+
 ## 1.2.2
 
 ### Patch Changes

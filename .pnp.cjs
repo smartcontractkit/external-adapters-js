@@ -503,6 +503,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/finnhub-secondary"\
     },\
     {\
+      "name": "@chainlink/fireblocks-adapter",\
+      "reference": "workspace:packages/sources/fireblocks"\
+    },\
+    {\
       "name": "@chainlink/fixer-adapter",\
       "reference": "workspace:packages/sources/fixer"\
     },\
@@ -633,6 +637,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/metalsapi-adapter",\
       "reference": "workspace:packages/sources/metalsapi"\
+    },\
+    {\
+      "name": "@chainlink/mobula-state-adapter",\
+      "reference": "workspace:packages/sources/mobula-state"\
     },\
     {\
       "name": "@chainlink/mock-ea-adapter",\
@@ -999,6 +1007,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/finalto-adapter", ["workspace:packages/sources/finalto"]],\
     ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
     ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
+    ["@chainlink/fireblocks-adapter", ["workspace:packages/sources/fireblocks"]],\
     ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
     ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
     ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
@@ -1041,6 +1050,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],\
     ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],\
+    ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
@@ -1130,9 +1140,9 @@ const RAW_RUNTIME_STATE =
           ["@babel/core", "npm:7.24.9"],\
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.8"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.7"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
-          ["@changesets/cli", "npm:2.27.7"],\
+          ["@changesets/cli", "npm:2.27.8"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.6"],\
           ["@types/eslint", "npm:8.37.0"],\
@@ -5642,7 +5652,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/alongside/",\
         "packageDependencies": [\
           ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -5677,7 +5687,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/alphavantage/",\
         "packageDependencies": [\
           ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -5747,7 +5757,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/anchorage/",\
         "packageDependencies": [\
           ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
@@ -5817,7 +5827,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/apy-finance-test/",\
         "packageDependencies": [\
           ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -5856,7 +5866,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/avalanche-platform/",\
         "packageDependencies": [\
           ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -5871,7 +5881,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bank-frick/",\
         "packageDependencies": [\
           ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -5980,7 +5990,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bitgo/",\
         "packageDependencies": [\
           ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
@@ -6066,7 +6076,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6237,7 +6247,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cfbenchmarks/",\
         "packageDependencies": [\
           ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6286,7 +6296,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/clear-bank/",\
         "packageDependencies": [\
           ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -6338,7 +6348,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinbase-prime/",\
         "packageDependencies": [\
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6373,7 +6383,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coingecko/",\
         "packageDependencies": [\
           ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -6408,7 +6418,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmarketcap/",\
         "packageDependencies": [\
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -6423,7 +6433,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmetrics/",\
         "packageDependencies": [\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6441,7 +6451,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinpaprika/",\
         "packageDependencies": [\
           ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6610,7 +6620,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cryptocompare/",\
         "packageDependencies": [\
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6721,7 +6731,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dar/",\
         "packageDependencies": [\
           ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6739,7 +6749,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/deep-blue/",\
         "packageDependencies": [\
           ["@chainlink/deep-blue-adapter", "workspace:packages/sources/deep-blue"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
@@ -6809,9 +6819,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@noble/hashes", "npm:1.4.0"],\
-          ["@scure/base", "npm:1.1.6"],\
+          ["@scure/base", "npm:1.1.8"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6901,7 +6911,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dxfeed/",\
         "packageDependencies": [\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -6919,7 +6929,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -6961,7 +6971,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dydx-stark-adapter", "workspace:packages/targets/dydx-stark"],\
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.3.1"],\
@@ -7064,7 +7074,7 @@ const RAW_RUNTIME_STATE =
           ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:27.5.2"],\
@@ -7119,7 +7129,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elven/",\
         "packageDependencies": [\
           ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -7136,7 +7146,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elwood/",\
         "packageDependencies": [\
           ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7230,7 +7240,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/eth-beacon/",\
         "packageDependencies": [\
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["bignumber.js", "npm:9.1.2"],\
@@ -7352,10 +7362,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
-      ["npm:1.3.1", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.3.1-934e8ceb00-ebf4b641e0.zip/node_modules/@chainlink/external-adapter-framework/",\
+      ["npm:1.3.2", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.3.2-853c9779ac-428d4ecd0d.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["ajv", "npm:8.11.0"],\
           ["axios", "npm:1.6.8"],\
           ["eventsource", "npm:2.0.2"],\
@@ -7366,7 +7376,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:9.1.0"],\
           ["prom-client", "npm:13.2.0"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:934e8ceb00f2a431adbc372d2a813cbb142b64ee355c8fce4bbfafea3716b33354d53612b6e31568c394b64286c43056e877c13cfca1460d5cdeb0464a9e227c#npm:8.9.0"],\
+          ["ws", "virtual:853c9779acf8f7b9523e50bb70180c7834623583b0e29a0e7ae2bfd7df08565037956b5444d81d73cbe8cd9c000d44078698cdf81299d690b4fadda3d60872ae#npm:8.9.0"],\
           ["yeoman-generator", "npm:3.1.1"]\
         ],\
         "linkType": "HARD"\
@@ -7380,9 +7390,9 @@ const RAW_RUNTIME_STATE =
           ["@babel/core", "npm:7.24.9"],\
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.8"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.7"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
-          ["@changesets/cli", "npm:2.27.7"],\
+          ["@changesets/cli", "npm:2.27.8"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.6"],\
           ["@types/eslint", "npm:8.37.0"],\
@@ -7428,7 +7438,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finage/",\
         "packageDependencies": [\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7445,7 +7455,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finalto/",\
         "packageDependencies": [\
           ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7464,7 +7474,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finnhub/",\
         "packageDependencies": [\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7481,12 +7491,27 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finnhub-secondary/",\
         "packageDependencies": [\
           ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/fireblocks-adapter", [\
+      ["workspace:packages/sources/fireblocks", {\
+        "packageLocation": "./packages/sources/fireblocks/",\
+        "packageDependencies": [\
+          ["@chainlink/fireblocks-adapter", "workspace:packages/sources/fireblocks"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7568,7 +7593,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/frxeth-exchange-rate/",\
         "packageDependencies": [\
           ["@chainlink/frxeth-exchange-rate-adapter", "workspace:packages/sources/frxeth-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -7605,7 +7630,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/galaxy/",\
         "packageDependencies": [\
           ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7623,7 +7648,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gemini/",\
         "packageDependencies": [\
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7671,7 +7696,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gm-token/",\
         "packageDependencies": [\
           ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -7723,7 +7748,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gramchain/",\
         "packageDependencies": [\
           ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7753,7 +7778,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gsr/",\
         "packageDependencies": [\
           ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7795,7 +7820,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/harris-and-trotter/",\
         "packageDependencies": [\
           ["@chainlink/harris-and-trotter-adapter", "workspace:packages/sources/harris-and-trotter"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7813,7 +7838,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -7831,7 +7856,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/icap/",\
         "packageDependencies": [\
           ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7850,7 +7875,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/iex-cloud/",\
         "packageDependencies": [\
           ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7902,7 +7927,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/intrinio/",\
         "packageDependencies": [\
           ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -7920,7 +7945,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ion.au/",\
         "packageDependencies": [\
           ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -7994,7 +8019,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/kaiko/",\
         "packageDependencies": [\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8120,7 +8145,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/lotus/",\
         "packageDependencies": [\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -8155,7 +8180,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/market-status/",\
         "packageDependencies": [\
           ["@chainlink/market-status-adapter", "workspace:packages/composites/market-status"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
           ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
@@ -8241,6 +8266,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/mobula-state-adapter", [\
+      ["workspace:packages/sources/mobula-state", {\
+        "packageLocation": "./packages/sources/mobula-state/",\
+        "packageDependencies": [\
+          ["@chainlink/mobula-state-adapter", "workspace:packages/sources/mobula-state"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/mock-ea-adapter", [\
       ["workspace:packages/sources/mock-ea", {\
         "packageLocation": "./packages/sources/mock-ea/",\
@@ -8264,7 +8306,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/moonbeam-address-list/",\
         "packageDependencies": [\
           ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -8283,7 +8325,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/moore-hk/",\
         "packageDependencies": [\
           ["@chainlink/moore-hk-adapter", "workspace:packages/sources/moore-hk"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8301,7 +8343,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
           ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
           ["@types/node-schedule", "npm:2.1.7"],\
@@ -8336,7 +8378,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ncfx/",\
         "packageDependencies": [\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -8353,7 +8395,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nft-blue-chip/",\
         "packageDependencies": [\
           ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -8410,7 +8452,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/oanda/",\
         "packageDependencies": [\
           ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -8473,7 +8515,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/openexchangerates/",\
         "packageDependencies": [\
           ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8578,7 +8620,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/polkadot-balance/",\
         "packageDependencies": [\
           ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@polkadot/api", "npm:9.14.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -8594,7 +8636,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/polygon/",\
         "packageDependencies": [\
           ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -8609,7 +8651,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/por-address-list/",\
         "packageDependencies": [\
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -8625,7 +8667,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/por-indexer/",\
         "packageDependencies": [\
           ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -8657,7 +8699,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
           ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
@@ -8786,7 +8828,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@aws-sdk/client-s3", "npm:3.600.0"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:29.5.12"],\
           ["@types/node", "npm:20.14.10"],\
           ["csv-parse", "npm:5.5.6"],\
@@ -8960,7 +9002,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/stader-address-list/",\
         "packageDependencies": [\
           ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.5.4"],\
@@ -8976,7 +9018,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/stader-balance/",\
         "packageDependencies": [\
           ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -9013,7 +9055,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/starknet-gas-price/",\
         "packageDependencies": [\
           ["@chainlink/starknet-gas-price-adapter", "workspace:packages/sources/starknet-gas-price"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:14.0.0-beta.6"],\
@@ -9047,7 +9089,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/superstate/",\
         "packageDependencies": [\
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/node-schedule", "npm:2.1.7"],\
@@ -9125,7 +9167,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/synthetix-feeds/",\
         "packageDependencies": [\
           ["@chainlink/synthetix-feeds-adapter", "workspace:packages/sources/synthetix-feeds"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -9196,7 +9238,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/the-network-firm/",\
         "packageDependencies": [\
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -9229,7 +9271,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9258,7 +9300,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -9279,7 +9321,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/non-deployable/token-allocation-test/",\
         "packageDependencies": [\
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["axios", "npm:1.6.8"],\
@@ -9297,7 +9339,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tp/",\
         "packageDependencies": [\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9314,7 +9356,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tradermade/",\
         "packageDependencies": [\
           ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9331,7 +9373,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tradingeconomics/",\
         "packageDependencies": [\
           ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9348,7 +9390,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tradinghours/",\
         "packageDependencies": [\
           ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9368,7 +9410,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/trueusd/",\
         "packageDependencies": [\
           ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -9383,7 +9425,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
         "packageDependencies": [\
           ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -9417,7 +9459,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/twosigma/",\
         "packageDependencies": [\
           ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
@@ -9525,7 +9567,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-function/",\
         "packageDependencies": [\
           ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -9541,7 +9583,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.7.2"],\
@@ -9557,7 +9599,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-starknet-latest-answer/",\
         "packageDependencies": [\
           ["@chainlink/view-starknet-latest-answer-adapter", "workspace:packages/sources/view-starknet-latest-answer"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:14.0.0-beta.6"],\
@@ -9573,7 +9615,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/wbtc-address-set/",\
         "packageDependencies": [\
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["nock", "npm:13.5.4"],\
@@ -9681,15 +9723,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/apply-release-plan", [\
-      ["npm:7.0.4", {\
-        "packageLocation": "./.yarn/cache/@changesets-apply-release-plan-npm-7.0.4-2d261c00c8-793ea2bbe5.zip/node_modules/@changesets/apply-release-plan/",\
+      ["npm:7.0.5", {\
+        "packageLocation": "./.yarn/cache/@changesets-apply-release-plan-npm-7.0.5-6b00e73620-4a983e3afb.zip/node_modules/@changesets/apply-release-plan/",\
         "packageDependencies": [\
-          ["@changesets/apply-release-plan", "npm:7.0.4"],\
-          ["@babel/runtime", "npm:7.22.11"],\
-          ["@changesets/config", "npm:3.0.2"],\
+          ["@changesets/apply-release-plan", "npm:7.0.5"],\
+          ["@changesets/config", "npm:3.0.3"],\
           ["@changesets/get-version-range-type", "npm:0.4.0"],\
-          ["@changesets/git", "npm:3.0.0"],\
-          ["@changesets/should-skip-package", "npm:0.1.0"],\
+          ["@changesets/git", "npm:3.0.1"],\
+          ["@changesets/should-skip-package", "npm:0.1.1"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
           ["detect-indent", "npm:6.1.0"],\
@@ -9704,14 +9745,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/assemble-release-plan", [\
-      ["npm:6.0.3", {\
-        "packageLocation": "./.yarn/cache/@changesets-assemble-release-plan-npm-6.0.3-29726de363-dca064e033.zip/node_modules/@changesets/assemble-release-plan/",\
+      ["npm:6.0.4", {\
+        "packageLocation": "./.yarn/cache/@changesets-assemble-release-plan-npm-6.0.4-999d754646-280f31625b.zip/node_modules/@changesets/assemble-release-plan/",\
         "packageDependencies": [\
-          ["@changesets/assemble-release-plan", "npm:6.0.3"],\
-          ["@babel/runtime", "npm:7.22.11"],\
+          ["@changesets/assemble-release-plan", "npm:6.0.4"],\
           ["@changesets/errors", "npm:0.2.0"],\
-          ["@changesets/get-dependents-graph", "npm:2.1.1"],\
-          ["@changesets/should-skip-package", "npm:0.1.0"],\
+          ["@changesets/get-dependents-graph", "npm:2.1.2"],\
+          ["@changesets/should-skip-package", "npm:0.1.1"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
           ["semver", "npm:7.5.4"]\
@@ -9742,38 +9782,36 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/cli", [\
-      ["npm:2.27.7", {\
-        "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.27.7-1c109a185d-1799897270.zip/node_modules/@changesets/cli/",\
+      ["npm:2.27.8", {\
+        "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.27.8-e6f51a6449-e5caf7efc1.zip/node_modules/@changesets/cli/",\
         "packageDependencies": [\
-          ["@changesets/cli", "npm:2.27.7"],\
-          ["@babel/runtime", "npm:7.22.11"],\
-          ["@changesets/apply-release-plan", "npm:7.0.4"],\
-          ["@changesets/assemble-release-plan", "npm:6.0.3"],\
+          ["@changesets/cli", "npm:2.27.8"],\
+          ["@changesets/apply-release-plan", "npm:7.0.5"],\
+          ["@changesets/assemble-release-plan", "npm:6.0.4"],\
           ["@changesets/changelog-git", "npm:0.2.0"],\
-          ["@changesets/config", "npm:3.0.2"],\
+          ["@changesets/config", "npm:3.0.3"],\
           ["@changesets/errors", "npm:0.2.0"],\
-          ["@changesets/get-dependents-graph", "npm:2.1.1"],\
-          ["@changesets/get-release-plan", "npm:4.0.3"],\
-          ["@changesets/git", "npm:3.0.0"],\
-          ["@changesets/logger", "npm:0.1.0"],\
-          ["@changesets/pre", "npm:2.0.0"],\
-          ["@changesets/read", "npm:0.6.0"],\
-          ["@changesets/should-skip-package", "npm:0.1.0"],\
+          ["@changesets/get-dependents-graph", "npm:2.1.2"],\
+          ["@changesets/get-release-plan", "npm:4.0.4"],\
+          ["@changesets/git", "npm:3.0.1"],\
+          ["@changesets/logger", "npm:0.1.1"],\
+          ["@changesets/pre", "npm:2.0.1"],\
+          ["@changesets/read", "npm:0.6.1"],\
+          ["@changesets/should-skip-package", "npm:0.1.1"],\
           ["@changesets/types", "npm:6.0.0"],\
-          ["@changesets/write", "npm:0.3.1"],\
+          ["@changesets/write", "npm:0.3.2"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
           ["@types/semver", "npm:7.5.1"],\
           ["ansi-colors", "npm:4.1.3"],\
-          ["chalk", "npm:2.4.2"],\
           ["ci-info", "npm:3.9.0"],\
           ["enquirer", "npm:2.3.6"],\
           ["external-editor", "npm:3.1.0"],\
           ["fs-extra", "npm:7.0.1"],\
-          ["human-id", "npm:1.0.2"],\
           ["mri", "npm:1.2.0"],\
           ["outdent", "npm:0.5.0"],\
           ["p-limit", "npm:2.3.0"],\
-          ["preferred-pm", "npm:3.0.3"],\
+          ["package-manager-detector", "npm:0.2.0"],\
+          ["picocolors", "npm:1.1.0"],\
           ["resolve-from", "npm:5.0.0"],\
           ["semver", "npm:7.5.4"],\
           ["spawndamnit", "npm:2.0.0"],\
@@ -9783,13 +9821,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/config", [\
-      ["npm:3.0.2", {\
-        "packageLocation": "./.yarn/cache/@changesets-config-npm-3.0.2-11367a7708-f341b3f13b.zip/node_modules/@changesets/config/",\
+      ["npm:3.0.3", {\
+        "packageLocation": "./.yarn/cache/@changesets-config-npm-3.0.3-ca203014c6-4c5bc9f4ea.zip/node_modules/@changesets/config/",\
         "packageDependencies": [\
-          ["@changesets/config", "npm:3.0.2"],\
+          ["@changesets/config", "npm:3.0.3"],\
           ["@changesets/errors", "npm:0.2.0"],\
-          ["@changesets/get-dependents-graph", "npm:2.1.1"],\
-          ["@changesets/logger", "npm:0.1.0"],\
+          ["@changesets/get-dependents-graph", "npm:2.1.2"],\
+          ["@changesets/logger", "npm:0.1.1"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
           ["fs-extra", "npm:7.0.1"],\
@@ -9809,14 +9847,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/get-dependents-graph", [\
-      ["npm:2.1.1", {\
-        "packageLocation": "./.yarn/cache/@changesets-get-dependents-graph-npm-2.1.1-4fe331dfef-abe99b47f6.zip/node_modules/@changesets/get-dependents-graph/",\
+      ["npm:2.1.2", {\
+        "packageLocation": "./.yarn/cache/@changesets-get-dependents-graph-npm-2.1.2-f4de93cc8e-36d9877b0b.zip/node_modules/@changesets/get-dependents-graph/",\
         "packageDependencies": [\
-          ["@changesets/get-dependents-graph", "npm:2.1.1"],\
+          ["@changesets/get-dependents-graph", "npm:2.1.2"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
-          ["chalk", "npm:2.4.2"],\
-          ["fs-extra", "npm:7.0.1"],\
+          ["picocolors", "npm:1.1.0"],\
           ["semver", "npm:7.5.4"]\
         ],\
         "linkType": "HARD"\
@@ -9834,15 +9871,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/get-release-plan", [\
-      ["npm:4.0.3", {\
-        "packageLocation": "./.yarn/cache/@changesets-get-release-plan-npm-4.0.3-4c293e8903-b85c3e873b.zip/node_modules/@changesets/get-release-plan/",\
+      ["npm:4.0.4", {\
+        "packageLocation": "./.yarn/cache/@changesets-get-release-plan-npm-4.0.4-9e9e65d37b-d371f55755.zip/node_modules/@changesets/get-release-plan/",\
         "packageDependencies": [\
-          ["@changesets/get-release-plan", "npm:4.0.3"],\
-          ["@babel/runtime", "npm:7.22.11"],\
-          ["@changesets/assemble-release-plan", "npm:6.0.3"],\
-          ["@changesets/config", "npm:3.0.2"],\
-          ["@changesets/pre", "npm:2.0.0"],\
-          ["@changesets/read", "npm:0.6.0"],\
+          ["@changesets/get-release-plan", "npm:4.0.4"],\
+          ["@changesets/assemble-release-plan", "npm:6.0.4"],\
+          ["@changesets/config", "npm:3.0.3"],\
+          ["@changesets/pre", "npm:2.0.1"],\
+          ["@changesets/read", "npm:0.6.1"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"]\
         ],\
@@ -9859,13 +9895,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/git", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/@changesets-git-npm-3.0.0-a69bfb3b4f-483beda952.zip/node_modules/@changesets/git/",\
+      ["npm:3.0.1", {\
+        "packageLocation": "./.yarn/cache/@changesets-git-npm-3.0.1-f3c6c85100-19831196f5.zip/node_modules/@changesets/git/",\
         "packageDependencies": [\
-          ["@changesets/git", "npm:3.0.0"],\
-          ["@babel/runtime", "npm:7.22.11"],\
+          ["@changesets/git", "npm:3.0.1"],\
           ["@changesets/errors", "npm:0.2.0"],\
-          ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
           ["is-subdir", "npm:1.2.0"],\
           ["micromatch", "npm:4.0.5"],\
@@ -9875,11 +9909,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/logger", [\
-      ["npm:0.1.0", {\
-        "packageLocation": "./.yarn/cache/@changesets-logger-npm-0.1.0-6dd218e4bb-88a54c3a75.zip/node_modules/@changesets/logger/",\
+      ["npm:0.1.1", {\
+        "packageLocation": "./.yarn/cache/@changesets-logger-npm-0.1.1-bf84b05104-bbfc050ddd.zip/node_modules/@changesets/logger/",\
         "packageDependencies": [\
-          ["@changesets/logger", "npm:0.1.0"],\
-          ["chalk", "npm:2.4.2"]\
+          ["@changesets/logger", "npm:0.1.1"],\
+          ["picocolors", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -9896,11 +9930,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/pre", [\
-      ["npm:2.0.0", {\
-        "packageLocation": "./.yarn/cache/@changesets-pre-npm-2.0.0-b19a2dd054-210158d93e.zip/node_modules/@changesets/pre/",\
+      ["npm:2.0.1", {\
+        "packageLocation": "./.yarn/cache/@changesets-pre-npm-2.0.1-0bad70db67-e26ca45a1a.zip/node_modules/@changesets/pre/",\
         "packageDependencies": [\
-          ["@changesets/pre", "npm:2.0.0"],\
-          ["@babel/runtime", "npm:7.22.11"],\
+          ["@changesets/pre", "npm:2.0.1"],\
           ["@changesets/errors", "npm:0.2.0"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
@@ -9910,28 +9943,26 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/read", [\
-      ["npm:0.6.0", {\
-        "packageLocation": "./.yarn/cache/@changesets-read-npm-0.6.0-52a4bb4b10-665b52499c.zip/node_modules/@changesets/read/",\
+      ["npm:0.6.1", {\
+        "packageLocation": "./.yarn/cache/@changesets-read-npm-0.6.1-03009d926a-022e4162e3.zip/node_modules/@changesets/read/",\
         "packageDependencies": [\
-          ["@changesets/read", "npm:0.6.0"],\
-          ["@babel/runtime", "npm:7.22.11"],\
-          ["@changesets/git", "npm:3.0.0"],\
-          ["@changesets/logger", "npm:0.1.0"],\
+          ["@changesets/read", "npm:0.6.1"],\
+          ["@changesets/git", "npm:3.0.1"],\
+          ["@changesets/logger", "npm:0.1.1"],\
           ["@changesets/parse", "npm:0.4.0"],\
           ["@changesets/types", "npm:6.0.0"],\
-          ["chalk", "npm:2.4.2"],\
           ["fs-extra", "npm:7.0.1"],\
-          ["p-filter", "npm:2.1.0"]\
+          ["p-filter", "npm:2.1.0"],\
+          ["picocolors", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@changesets/should-skip-package", [\
-      ["npm:0.1.0", {\
-        "packageLocation": "./.yarn/cache/@changesets-should-skip-package-npm-0.1.0-36472dd0fe-3c966feae0.zip/node_modules/@changesets/should-skip-package/",\
+      ["npm:0.1.1", {\
+        "packageLocation": "./.yarn/cache/@changesets-should-skip-package-npm-0.1.1-3ecc38a85f-d187ef2249.zip/node_modules/@changesets/should-skip-package/",\
         "packageDependencies": [\
-          ["@changesets/should-skip-package", "npm:0.1.0"],\
-          ["@babel/runtime", "npm:7.22.11"],\
+          ["@changesets/should-skip-package", "npm:0.1.1"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["@manypkg/get-packages", "npm:1.1.3"]\
         ],\
@@ -9955,11 +9986,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/write", [\
-      ["npm:0.3.1", {\
-        "packageLocation": "./.yarn/cache/@changesets-write-npm-0.3.1-8daee7e46a-13b9284e8c.zip/node_modules/@changesets/write/",\
+      ["npm:0.3.2", {\
+        "packageLocation": "./.yarn/cache/@changesets-write-npm-0.3.2-d8a27133a2-c16b0a731f.zip/node_modules/@changesets/write/",\
         "packageDependencies": [\
-          ["@changesets/write", "npm:0.3.1"],\
-          ["@babel/runtime", "npm:7.22.11"],\
+          ["@changesets/write", "npm:0.3.2"],\
           ["@changesets/types", "npm:6.0.0"],\
           ["fs-extra", "npm:7.0.1"],\
           ["human-id", "npm:1.0.2"],\
@@ -14677,6 +14707,13 @@ const RAW_RUNTIME_STATE =
           ["@scure/base", "npm:1.1.6"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.1.8", {\
+        "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.8-be49adc59e-5b764c0e98.zip/node_modules/@scure/base/",\
+        "packageDependencies": [\
+          ["@scure/base", "npm:1.1.8"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@scure/bip32", [\
@@ -19276,10 +19313,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:1.20.2", {\
-        "packageLocation": "./.yarn/cache/body-parser-npm-1.20.2-44738662cf-3cf171b821.zip/node_modules/body-parser/",\
+      ["npm:1.20.3", {\
+        "packageLocation": "./.yarn/cache/body-parser-npm-1.20.3-c7b184cd14-8723e3d7a6.zip/node_modules/body-parser/",\
         "packageDependencies": [\
-          ["body-parser", "npm:1.20.2"],\
+          ["body-parser", "npm:1.20.3"],\
           ["bytes", "npm:3.1.2"],\
           ["content-type", "npm:1.0.5"],\
           ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],\
@@ -19288,7 +19325,7 @@ const RAW_RUNTIME_STATE =
           ["http-errors", "npm:2.0.0"],\
           ["iconv-lite", "npm:0.4.24"],\
           ["on-finished", "npm:2.4.1"],\
-          ["qs", "npm:6.11.0"],\
+          ["qs", "npm:6.13.0"],\
           ["raw-body", "npm:2.5.2"],\
           ["type-is", "npm:1.6.18"],\
           ["unpipe", "npm:1.0.0"]\
@@ -19857,6 +19894,18 @@ const RAW_RUNTIME_STATE =
           ["call-bind", "npm:1.0.2"],\
           ["function-bind", "npm:1.1.1"],\
           ["get-intrinsic", "npm:1.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.0.7", {\
+        "packageLocation": "./.yarn/cache/call-bind-npm-1.0.7-762763ef96-cd6fe658e0.zip/node_modules/call-bind/",\
+        "packageDependencies": [\
+          ["call-bind", "npm:1.0.7"],\
+          ["es-define-property", "npm:1.0.0"],\
+          ["es-errors", "npm:1.3.0"],\
+          ["function-bind", "npm:1.1.2"],\
+          ["get-intrinsic", "npm:1.2.4"],\
+          ["set-function-length", "npm:1.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21712,6 +21761,18 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["define-data-property", [\
+      ["npm:1.1.4", {\
+        "packageLocation": "./.yarn/cache/define-data-property-npm-1.1.4-4cbd8efc51-abdcb2505d.zip/node_modules/define-data-property/",\
+        "packageDependencies": [\
+          ["define-data-property", "npm:1.1.4"],\
+          ["es-define-property", "npm:1.0.0"],\
+          ["es-errors", "npm:1.3.0"],\
+          ["gopd", "npm:1.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["define-lazy-prop", [\
       ["npm:2.0.0", {\
         "packageLocation": "./.yarn/cache/define-lazy-prop-npm-2.0.0-bba0cd91a7-0115fdb065.zip/node_modules/define-lazy-prop/",\
@@ -22482,6 +22543,13 @@ const RAW_RUNTIME_STATE =
           ["encodeurl", "npm:1.0.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.0.0", {\
+        "packageLocation": "./.yarn/cache/encodeurl-npm-2.0.0-3660bcc92a-abf5cd51b7.zip/node_modules/encodeurl/",\
+        "packageDependencies": [\
+          ["encodeurl", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["encoding", [\
@@ -22678,6 +22746,25 @@ const RAW_RUNTIME_STATE =
           ["string.prototype.trimend", "npm:1.0.5"],\
           ["string.prototype.trimstart", "npm:1.0.5"],\
           ["unbox-primitive", "npm:1.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["es-define-property", [\
+      ["npm:1.0.0", {\
+        "packageLocation": "./.yarn/cache/es-define-property-npm-1.0.0-e23aa9b242-f66ece0a88.zip/node_modules/es-define-property/",\
+        "packageDependencies": [\
+          ["es-define-property", "npm:1.0.0"],\
+          ["get-intrinsic", "npm:1.2.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["es-errors", [\
+      ["npm:1.3.0", {\
+        "packageLocation": "./.yarn/cache/es-errors-npm-1.3.0-fda0c9b8a8-96e65d6401.zip/node_modules/es-errors/",\
+        "packageDependencies": [\
+          ["es-errors", "npm:1.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23589,36 +23676,36 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["express", [\
-      ["npm:4.19.2", {\
-        "packageLocation": "./.yarn/cache/express-npm-4.19.2-f81334a22a-3fcd792536.zip/node_modules/express/",\
+      ["npm:4.21.0", {\
+        "packageLocation": "./.yarn/cache/express-npm-4.21.0-377d90d8f4-3b1ee5bc5b.zip/node_modules/express/",\
         "packageDependencies": [\
-          ["express", "npm:4.19.2"],\
+          ["express", "npm:4.21.0"],\
           ["accepts", "npm:1.3.8"],\
           ["array-flatten", "npm:1.1.1"],\
-          ["body-parser", "npm:1.20.2"],\
+          ["body-parser", "npm:1.20.3"],\
           ["content-disposition", "npm:0.5.4"],\
           ["content-type", "npm:1.0.4"],\
           ["cookie", "npm:0.6.0"],\
           ["cookie-signature", "npm:1.0.6"],\
           ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],\
           ["depd", "npm:2.0.0"],\
-          ["encodeurl", "npm:1.0.2"],\
+          ["encodeurl", "npm:2.0.0"],\
           ["escape-html", "npm:1.0.3"],\
           ["etag", "npm:1.8.1"],\
-          ["finalhandler", "npm:1.2.0"],\
+          ["finalhandler", "npm:1.3.1"],\
           ["fresh", "npm:0.5.2"],\
           ["http-errors", "npm:2.0.0"],\
-          ["merge-descriptors", "npm:1.0.1"],\
+          ["merge-descriptors", "npm:1.0.3"],\
           ["methods", "npm:1.1.2"],\
           ["on-finished", "npm:2.4.1"],\
           ["parseurl", "npm:1.3.3"],\
-          ["path-to-regexp", "npm:0.1.7"],\
+          ["path-to-regexp", "npm:0.1.10"],\
           ["proxy-addr", "npm:2.0.7"],\
-          ["qs", "npm:6.11.0"],\
+          ["qs", "npm:6.13.0"],\
           ["range-parser", "npm:1.2.1"],\
           ["safe-buffer", "npm:5.2.1"],\
-          ["send", "npm:0.18.0"],\
-          ["serve-static", "npm:1.15.0"],\
+          ["send", "npm:0.19.0"],\
+          ["serve-static", "npm:1.16.2"],\
           ["setprototypeof", "npm:1.2.0"],\
           ["statuses", "npm:2.0.1"],\
           ["type-is", "npm:1.6.18"],\
@@ -24158,12 +24245,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["finalhandler", [\
-      ["npm:1.2.0", {\
-        "packageLocation": "./.yarn/cache/finalhandler-npm-1.2.0-593d001463-635718cb20.zip/node_modules/finalhandler/",\
+      ["npm:1.3.1", {\
+        "packageLocation": "./.yarn/cache/finalhandler-npm-1.3.1-690d7d7e6d-4babe72969.zip/node_modules/finalhandler/",\
         "packageDependencies": [\
-          ["finalhandler", "npm:1.2.0"],\
+          ["finalhandler", "npm:1.3.1"],\
           ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],\
-          ["encodeurl", "npm:1.0.2"],\
+          ["encodeurl", "npm:2.0.0"],\
           ["escape-html", "npm:1.0.3"],\
           ["on-finished", "npm:2.4.1"],\
           ["parseurl", "npm:1.3.3"],\
@@ -24667,6 +24754,13 @@ const RAW_RUNTIME_STATE =
           ["function-bind", "npm:1.1.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.1.2", {\
+        "packageLocation": "./.yarn/cache/function-bind-npm-1.1.2-7a55be9b03-185e20d20f.zip/node_modules/function-bind/",\
+        "packageDependencies": [\
+          ["function-bind", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["function.prototype.name", [\
@@ -24869,6 +24963,18 @@ const RAW_RUNTIME_STATE =
           ["function-bind", "npm:1.1.1"],\
           ["has", "npm:1.0.3"],\
           ["has-symbols", "npm:1.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.2.4", {\
+        "packageLocation": "./.yarn/cache/get-intrinsic-npm-1.2.4-1dad3427b2-85bbf4b234.zip/node_modules/get-intrinsic/",\
+        "packageDependencies": [\
+          ["get-intrinsic", "npm:1.2.4"],\
+          ["es-errors", "npm:1.3.0"],\
+          ["function-bind", "npm:1.1.2"],\
+          ["has-proto", "npm:1.0.3"],\
+          ["has-symbols", "npm:1.0.3"],\
+          ["hasown", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25307,6 +25413,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["gopd", [\
+      ["npm:1.0.1", {\
+        "packageLocation": "./.yarn/cache/gopd-npm-1.0.1-10c1d0b534-5fbc7ad57b.zip/node_modules/gopd/",\
+        "packageDependencies": [\
+          ["gopd", "npm:1.0.1"],\
+          ["get-intrinsic", "npm:1.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["got", [\
       ["npm:11.8.5", {\
         "packageLocation": "./.yarn/cache/got-npm-11.8.5-787b5e3116-8e3f1a886b.zip/node_modules/got/",\
@@ -25718,6 +25834,23 @@ const RAW_RUNTIME_STATE =
           ["get-intrinsic", "npm:1.1.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.0.2", {\
+        "packageLocation": "./.yarn/cache/has-property-descriptors-npm-1.0.2-d7077d09f1-2d8c9ab8ce.zip/node_modules/has-property-descriptors/",\
+        "packageDependencies": [\
+          ["has-property-descriptors", "npm:1.0.2"],\
+          ["es-define-property", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["has-proto", [\
+      ["npm:1.0.3", {\
+        "packageLocation": "./.yarn/cache/has-proto-npm-1.0.3-b598da2961-0b67c2c94e.zip/node_modules/has-proto/",\
+        "packageDependencies": [\
+          ["has-proto", "npm:1.0.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["has-symbol-support-x", [\
@@ -25853,6 +25986,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/hashlru-npm-2.3.0-8267692d49-38b3559e6f.zip/node_modules/hashlru/",\
         "packageDependencies": [\
           ["hashlru", "npm:2.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["hasown", [\
+      ["npm:2.0.2", {\
+        "packageLocation": "./.yarn/cache/hasown-npm-2.0.2-80fe6c9901-7898a9c178.zip/node_modules/hasown/",\
+        "packageDependencies": [\
+          ["hasown", "npm:2.0.2"],\
+          ["function-bind", "npm:1.1.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -31692,10 +31835,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["merge-descriptors", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/merge-descriptors-npm-1.0.1-615287aaa8-5abc259d2a.zip/node_modules/merge-descriptors/",\
+      ["npm:1.0.3", {\
+        "packageLocation": "./.yarn/cache/merge-descriptors-npm-1.0.3-10b44ad75c-52117adbe0.zip/node_modules/merge-descriptors/",\
         "packageDependencies": [\
-          ["merge-descriptors", "npm:1.0.1"]\
+          ["merge-descriptors", "npm:1.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -33461,6 +33604,13 @@ const RAW_RUNTIME_STATE =
           ["object-inspect", "npm:1.12.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.13.2", {\
+        "packageLocation": "./.yarn/cache/object-inspect-npm-1.13.2-3c6e11a536-7ef65583b6.zip/node_modules/object-inspect/",\
+        "packageDependencies": [\
+          ["object-inspect", "npm:1.13.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["object-keys", [\
@@ -34078,6 +34228,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["package-manager-detector", [\
+      ["npm:0.2.0", {\
+        "packageLocation": "./.yarn/cache/package-manager-detector-npm-0.2.0-ef87d921d8-5a361717e7.zip/node_modules/package-manager-detector/",\
+        "packageDependencies": [\
+          ["package-manager-detector", "npm:0.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["pacote", [\
       ["npm:12.0.3", {\
         "packageLocation": "./.yarn/cache/pacote-npm-12.0.3-99a2ca9e19-ba9284b383.zip/node_modules/pacote/",\
@@ -34360,10 +34519,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["path-to-regexp", [\
-      ["npm:0.1.7", {\
-        "packageLocation": "./.yarn/cache/path-to-regexp-npm-0.1.7-2605347373-701c99e1f0.zip/node_modules/path-to-regexp/",\
+      ["npm:0.1.10", {\
+        "packageLocation": "./.yarn/cache/path-to-regexp-npm-0.1.10-63516149e0-894e31f1b2.zip/node_modules/path-to-regexp/",\
         "packageDependencies": [\
-          ["path-to-regexp", "npm:0.1.7"]\
+          ["path-to-regexp", "npm:0.1.10"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -34492,6 +34651,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/picocolors-npm-1.0.1-39442f3da8-fa68166d1f.zip/node_modules/picocolors/",\
         "packageDependencies": [\
           ["picocolors", "npm:1.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.1.0", {\
+        "packageLocation": "./.yarn/cache/picocolors-npm-1.1.0-ea12a640bd-a2ad60d94d.zip/node_modules/picocolors/",\
+        "packageDependencies": [\
+          ["picocolors", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -35202,6 +35368,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["qs", "npm:6.11.2"],\
           ["side-channel", "npm:1.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.13.0", {\
+        "packageLocation": "./.yarn/cache/qs-npm-6.13.0-53676ddc84-f548b376e6.zip/node_modules/qs/",\
+        "packageDependencies": [\
+          ["qs", "npm:6.13.0"],\
+          ["side-channel", "npm:1.0.6"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -36880,10 +37054,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["send", [\
-      ["npm:0.18.0", {\
-        "packageLocation": "./.yarn/cache/send-npm-0.18.0-faadf6353f-ec66c0ad10.zip/node_modules/send/",\
+      ["npm:0.19.0", {\
+        "packageLocation": "./.yarn/cache/send-npm-0.19.0-4297594770-1f6064dea0.zip/node_modules/send/",\
         "packageDependencies": [\
-          ["send", "npm:0.18.0"],\
+          ["send", "npm:0.19.0"],\
           ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],\
           ["depd", "npm:2.0.0"],\
           ["destroy", "npm:1.2.0"],\
@@ -36942,14 +37116,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["serve-static", [\
-      ["npm:1.15.0", {\
-        "packageLocation": "./.yarn/cache/serve-static-npm-1.15.0-86c81879f5-699b2d4c29.zip/node_modules/serve-static/",\
+      ["npm:1.16.2", {\
+        "packageLocation": "./.yarn/cache/serve-static-npm-1.16.2-5d8e560aec-7fa9d9c680.zip/node_modules/serve-static/",\
         "packageDependencies": [\
-          ["serve-static", "npm:1.15.0"],\
-          ["encodeurl", "npm:1.0.2"],\
+          ["serve-static", "npm:1.16.2"],\
+          ["encodeurl", "npm:2.0.0"],\
           ["escape-html", "npm:1.0.3"],\
           ["parseurl", "npm:1.3.3"],\
-          ["send", "npm:0.18.0"]\
+          ["send", "npm:0.19.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -36961,7 +37135,7 @@ const RAW_RUNTIME_STATE =
           ["servify", "npm:0.1.12"],\
           ["body-parser", "npm:1.20.1"],\
           ["cors", "npm:2.8.5"],\
-          ["express", "npm:4.19.2"],\
+          ["express", "npm:4.21.0"],\
           ["request", "npm:2.88.2"],\
           ["xhr", "npm:2.6.0"]\
         ],\
@@ -36998,6 +37172,21 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/set-delayed-interval-npm-1.0.0-ae1c3497f2-daec1bf910.zip/node_modules/set-delayed-interval/",\
         "packageDependencies": [\
           ["set-delayed-interval", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["set-function-length", [\
+      ["npm:1.2.2", {\
+        "packageLocation": "./.yarn/cache/set-function-length-npm-1.2.2-243073748b-505d62b8e0.zip/node_modules/set-function-length/",\
+        "packageDependencies": [\
+          ["set-function-length", "npm:1.2.2"],\
+          ["define-data-property", "npm:1.1.4"],\
+          ["es-errors", "npm:1.3.0"],\
+          ["function-bind", "npm:1.1.2"],\
+          ["get-intrinsic", "npm:1.2.4"],\
+          ["gopd", "npm:1.0.1"],\
+          ["has-property-descriptors", "npm:1.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -37125,6 +37314,17 @@ const RAW_RUNTIME_STATE =
           ["call-bind", "npm:1.0.2"],\
           ["get-intrinsic", "npm:1.1.3"],\
           ["object-inspect", "npm:1.12.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.0.6", {\
+        "packageLocation": "./.yarn/cache/side-channel-npm-1.0.6-511657386f-eb10944f38.zip/node_modules/side-channel/",\
+        "packageDependencies": [\
+          ["side-channel", "npm:1.0.6"],\
+          ["call-bind", "npm:1.0.7"],\
+          ["es-errors", "npm:1.3.0"],\
+          ["get-intrinsic", "npm:1.2.4"],\
+          ["object-inspect", "npm:1.13.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -41041,10 +41241,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-150e3f917b.zip/node_modules/ws/",\
+      ["virtual:853c9779acf8f7b9523e50bb70180c7834623583b0e29a0e7ae2bfd7df08565037956b5444d81d73cbe8cd9c000d44078698cdf81299d690b4fadda3d60872ae#npm:8.9.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-7aea26f1fe/0/cache/ws-npm-8.9.0-d620434feb-be5289395c.zip/node_modules/ws/",\
         "packageDependencies": [\
-          ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
+          ["ws", "virtual:853c9779acf8f7b9523e50bb70180c7834623583b0e29a0e7ae2bfd7df08565037956b5444d81d73cbe8cd9c000d44078698cdf81299d690b4fadda3d60872ae#npm:8.9.0"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
@@ -41058,10 +41258,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:934e8ceb00f2a431adbc372d2a813cbb142b64ee355c8fce4bbfafea3716b33354d53612b6e31568c394b64286c43056e877c13cfca1460d5cdeb0464a9e227c#npm:8.9.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-e6c5897570/0/cache/ws-npm-8.9.0-d620434feb-be5289395c.zip/node_modules/ws/",\
+      ["virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-150e3f917b.zip/node_modules/ws/",\
         "packageDependencies": [\
-          ["ws", "virtual:934e8ceb00f2a431adbc372d2a813cbb142b64ee355c8fce4bbfafea3716b33354d53612b6e31568c394b64286c43056e877c13cfca1460d5cdeb0464a9e227c#npm:8.9.0"],\
+          ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\

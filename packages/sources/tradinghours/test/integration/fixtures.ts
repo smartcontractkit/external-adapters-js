@@ -9,16 +9,16 @@ export const mockResponseSuccess = (): nock.Scope =>
   })
     .persist()
     .get('/v3/markets/status')
-    .query({ fin_id: 'US.CBOE.FX' })
+    .query({ fin_id: 'US.CHNLNK.FX' })
     .reply(
       200,
       {
         data: {
-          'US.CBOE.FX': {
+          'US.CHNLNK.FX': {
             fin_id: 'US.CBOE.FX',
             exchange: 'CHNLNK',
             market: 'FX',
-            products: 'CBOE FX',
+            products: 'CHNLNK FX',
             status: 'Open',
             reason: 'Primary Trading Session',
             timezone: 'America/New_York',
@@ -36,16 +36,16 @@ export const mockResponseSuccess = (): nock.Scope =>
     )
     .persist()
     .get('/v3/markets/status')
-    .query({ fin_id: 'US.CBOE.FX,US.CHNLNK.METAL' })
+    .query({ fin_id: 'US.CHNLNK.FX,US.CHNLNK.METAL' })
     .reply(
       200,
       {
         data: {
-          'US.CBOE.FX': {
-            fin_id: 'US.CBOE.FX',
+          'US.CHNLNK.FX': {
+            fin_id: 'US.CHNLNK.FX',
             exchange: 'CHNLNK',
             market: 'FX',
-            products: 'CBOE FX',
+            products: 'CHNLNK FX',
             status: 'Open',
             reason: 'Primary Trading Session',
             timezone: 'America/New_York',

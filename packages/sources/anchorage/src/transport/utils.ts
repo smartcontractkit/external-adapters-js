@@ -1,7 +1,7 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const getApiInfo = (apiKeyName: string) => {
-  const apiKeyEnvName = `${apiKeyName}_API_KEY`
+  const apiKeyEnvName = `${apiKeyName}_API_KEY`.toUpperCase()
 
   const apiKey = process.env[apiKeyEnvName]
 

@@ -76,6 +76,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [market-closure](./market-closure/README.md)
 - [market-status](./market-status/README.md)
 - [medianizer](./medianizer/README.md)
+- [multi-address-list](./multi-address-list/README.md)
 - [nftx](./nftx/README.md)
 - [outlier-detection](./outlier-detection/README.md)
 - [proof-of-reserves](./proof-of-reserves/README.md)
