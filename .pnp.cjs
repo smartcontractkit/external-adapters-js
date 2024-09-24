@@ -571,6 +571,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/iex-cloud"\
     },\
     {\
+      "name": "@chainlink/instruxi-sxt-adapter",\
+      "reference": "workspace:packages/sources/instruxi-sxt"\
+    },\
+    {\
       "name": "@chainlink/intrinio-adapter",\
       "reference": "workspace:packages/sources/intrinio"\
     },\
@@ -1017,6 +1021,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
+    ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
     ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],\
@@ -7869,6 +7874,23 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/instruxi-sxt-adapter", [\
+      ["workspace:packages/sources/instruxi-sxt", {\
+        "packageLocation": "./packages/sources/instruxi-sxt/",\
+        "packageDependencies": [\
+          ["@chainlink/instruxi-sxt-adapter", "workspace:packages/sources/instruxi-sxt"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["@types/dotenv", "npm:8.2.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.96"],\
+          ["dotenv", "npm:16.4.5"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
@@ -16181,6 +16203,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/dotenv", [\
+      ["npm:8.2.0", {\
+        "packageLocation": "./.yarn/cache/@types-dotenv-npm-8.2.0-f4d0e3d65b-a1f524da7d.zip/node_modules/@types/dotenv/",\
+        "packageDependencies": [\
+          ["@types/dotenv", "npm:8.2.0"],\
+          ["dotenv", "npm:16.4.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/eslint", [\
       ["npm:8.37.0", {\
         "packageLocation": "./.yarn/cache/@types-eslint-npm-8.37.0-1f765f44f3-40f795149e.zip/node_modules/@types/eslint/",\
@@ -22126,6 +22158,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/dotenv-npm-16.0.3-4cc29121dc-d6788c8e40.zip/node_modules/dotenv/",\
         "packageDependencies": [\
           ["dotenv", "npm:16.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.4.5", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-16.4.5-bcb20eb95d-55a3134601.zip/node_modules/dotenv/",\
+        "packageDependencies": [\
+          ["dotenv", "npm:16.4.5"]\
         ],\
         "linkType": "HARD"\
       }],\

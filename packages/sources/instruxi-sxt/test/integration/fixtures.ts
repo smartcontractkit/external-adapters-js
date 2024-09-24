@@ -1,19 +1,22 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://ion-digital-proof-of-reserve.instruxi.dev/', {
+  nock('https://api-endpoint-placeholder.com', {
     encodedQueryParams: true,
   })
-    .get('/')
-    .query({})
-    .reply(200, () => ({ total_reserve: 180 }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .post('/v1/sql')
+    .reply(
+      200,
+      [{ TOTAL_RESERVE: 300000000 }],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .persist()

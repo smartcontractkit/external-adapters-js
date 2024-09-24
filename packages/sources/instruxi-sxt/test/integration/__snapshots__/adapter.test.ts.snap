@@ -3,9 +3,9 @@
 exports[`execute total_reserve endpoint should return success 1`] = `
 {
   "data": {
-    "result": 180,
+    "total_reserve": 300000000,
   },
-  "result": 180,
+  "result": 300000000,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

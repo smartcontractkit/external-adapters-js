@@ -4911,6 +4911,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.3.1"
+    "@types/dotenv": "npm:^8.2.0"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.18.96"
+    dotenv: "npm:^16.4.5"
+    nock: "npm:13.5.4"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.0.4"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
@@ -12453,6 +12468,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dotenv@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "@types/dotenv@npm:8.2.0"
+  dependencies:
+    dotenv: "npm:*"
+  checksum: 10/a1f524da7dc18b09bdb6c2613b9abbbe8ca575621cce4625efc7f98daf2ba07c7dbab622c9bb394507a12c5c515f9cbbbba4aeec17b801c88faeb8e8e656d460
+  languageName: node
+  linkType: hard
+
 "@types/eslint@npm:8.37.0":
   version: 8.37.0
   resolution: "@types/eslint@npm:8.37.0"
@@ -17504,6 +17528,13 @@ __metadata:
   dependencies:
     is-obj: "npm:^2.0.0"
   checksum: 10/33b2561617bd5c73cf9305368ba4638871c5dbf9c8100c8335acd2e2d590a81ec0e75c11cfaea5cc3cf8c2f668cad4beddb52c11856d0c9e666348eee1baf57a
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:*, dotenv@npm:^16.4.5":
+  version: 16.4.5
+  resolution: "dotenv@npm:16.4.5"
+  checksum: 10/55a3134601115194ae0f924e54473459ed0d9fc340ae610b676e248cca45aa7c680d86365318ea964e6da4e2ea80c4514c1adab5adb43d6867fb57ff068f95c8
   languageName: node
   linkType: hard
 
