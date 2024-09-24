@@ -1,5 +1,13 @@
 # @chainlink/tradinghours-adapter
 
+## 0.1.2
+
+### Patch Changes
+
+- [#3430](https://github.com/smartcontractkit/external-adapters-js/pull/3430) [`d9f885b`](https://github.com/smartcontractkit/external-adapters-js/commit/d9f885b29c1e3c536156c57fce9a57091df790ed) Thanks [@nikhsha](https://github.com/nikhsha)! - Amend Tradinghours forex symbol
+
+- [#3436](https://github.com/smartcontractkit/external-adapters-js/pull/3436) [`9a4d510`](https://github.com/smartcontractkit/external-adapters-js/commit/9a4d510dff13669760a91738dbe7df524f077483) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 0.1.1
 
 ### Patch Changes
