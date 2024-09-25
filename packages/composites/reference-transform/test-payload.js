@@ -3,7 +3,6 @@
 const environmentVariables = [
   { envKey: '1FORGE_ADAPTER_URL', value: '1forge' },
   { envKey: 'ALPHACHAIN_ADAPTER_URL', value: 'alphachain' },
-  { envKey: 'ALPHAVANTAGE_ADAPTER_URL', value: 'alphavantage' },
   { envKey: 'AMBERDATA_ADAPTER_URL', value: 'amberdata' },
   { envKey: 'ANYBLOCK', value: 'anyblock' },
   { envKey: 'BINANCE_ADAPTER_URL', value: 'binance' },
