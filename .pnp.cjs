@@ -5849,7 +5849,7 @@ const RAW_RUNTIME_STATE =
           ["@types/luxon", "npm:1.27.1"],\
           ["@types/node", "npm:16.18.96"],\
           ["ethers", "npm:5.4.7"],\
-          ["luxon", "npm:1.28.1"],\
+          ["luxon", "npm:2.5.2"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
@@ -8966,7 +8966,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:16.18.96"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
-          ["luxon", "npm:1.28.1"],\
+          ["luxon", "npm:2.5.2"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
@@ -31410,10 +31410,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:1.28.1", {\
-        "packageLocation": "./.yarn/cache/luxon-npm-1.28.1-0f675125b8-dfba84bb3c.zip/node_modules/luxon/",\
+      ["npm:2.5.2", {\
+        "packageLocation": "./.yarn/cache/luxon-npm-2.5.2-d4f55f89d0-9090506a70.zip/node_modules/luxon/",\
         "packageDependencies": [\
-          ["luxon", "npm:1.28.1"]\
+          ["luxon", "npm:2.5.2"]\
         ],\
         "linkType": "HARD"\
       }],\
