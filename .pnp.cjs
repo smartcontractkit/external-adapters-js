@@ -7095,7 +7095,7 @@ const RAW_RUNTIME_STATE =
           ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.1.5"],\
           ["tslib", "npm:2.3.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"],\
-          ["yaml", "npm:2.2.2"]\
+          ["yaml", "npm:2.3.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -41526,10 +41526,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.2.2", {\
-        "packageLocation": "./.yarn/cache/yaml-npm-2.2.2-6e3cddb343-991384bf87.zip/node_modules/yaml/",\
+      ["npm:2.3.0", {\
+        "packageLocation": "./.yarn/cache/yaml-npm-2.3.0-111934ee3a-80387a7ffe.zip/node_modules/yaml/",\
         "packageDependencies": [\
-          ["yaml", "npm:2.2.2"]\
+          ["yaml", "npm:2.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\

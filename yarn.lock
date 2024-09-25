@@ -4205,7 +4205,7 @@ __metadata:
     ts-jest: "npm:27.1.5"
     tslib: "npm:2.3.1"
     typescript: "npm:5.0.4"
-    yaml: "npm:2.2.2"
+    yaml: "npm:2.3.0"
   languageName: unknown
   linkType: soft
 
@@ -35101,10 +35101,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:2.2.2":
-  version: 2.2.2
-  resolution: "yaml@npm:2.2.2"
-  checksum: 10/991384bf875dd1df9ab8e3393d6db7010d222eef4e750f17590b5d3d96d3f3ad49420f58fff6a3896321fb64d08f4bb3b4edf0d337fdfd6e960119ef5aa0527c
+"yaml@npm:2.3.0":
+  version: 2.3.0
+  resolution: "yaml@npm:2.3.0"
+  checksum: 10/80387a7ffe0851cfe9cfc9a30109bb9d25394380da307c80f0e909dd1ed9b6f36ad4af0824f077de63ba8fe0de62e258175048bf13d4ac584ceb888f47968afb
   languageName: node
   linkType: hard
 
