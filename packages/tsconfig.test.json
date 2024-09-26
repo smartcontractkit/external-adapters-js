@@ -141,9 +141,6 @@
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
-      "path": "./sources/alphavantage/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {

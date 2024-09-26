@@ -215,10 +215,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/alphachain"\
     },\
     {\
-      "name": "@chainlink/alphavantage-adapter",\
-      "reference": "workspace:packages/sources/alphavantage"\
-    },\
-    {\
       "name": "@chainlink/alpine-adapter",\
       "reference": "workspace:packages/sources/alpine"\
     },\
@@ -908,7 +904,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],\
     ["@chainlink/alongside-adapter", ["workspace:packages/sources/alongside"]],\
     ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
-    ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
@@ -5671,21 +5666,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/alphavantage-adapter", [\
-      ["workspace:packages/sources/alphavantage", {\
-        "packageLocation": "./packages/sources/alphavantage/",\
-        "packageDependencies": [\
-          ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
-          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.18.96"],\
-          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
