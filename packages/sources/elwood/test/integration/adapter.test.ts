@@ -1,8 +1,8 @@
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
+  mockSubscriptionsResponse,
   mockSubscribeError,
   mockSubscribeResponse,
-  mockUnsubscribeResponse,
   mockWebSocketServer,
 } from './fixtures'
 import {
@@ -32,6 +32,7 @@ describe('websocket', () => {
     base: 'BTC',
     quote: 'USD',
   }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = apiKey
@@ -56,25 +57,40 @@ describe('websocket', () => {
 
   describe('price endpoint', () => {
     it('should return success', async () => {
-      mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
-      mockUnsubscribeResponse(apiKey, `${data.base}-${data.quote}`)
+      mockSubscriptionsResponse(apiKey, [])
+      const scope = mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
+      expect(scope.isDone()).toEqual(true)
+    })
+
+    it('should skip subscribing if already subscribed', async () => {
+      mockSubscriptionsResponse(apiKey, [`${data.base}-${data.quote}`])
+      const scope = mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(scope.isDone()).toEqual(false)
     })
 
     it('should return success (LWBA)', async () => {
-      mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
-      mockUnsubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
+      mockSubscriptionsResponse(apiKey, [])
+      const scope = mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
       const response = await testAdapter.request(dataLWBA)
       expect(response.json()).toMatchSnapshot()
+      expect(scope.isDone()).toEqual(true)
+    })
+
+    it('should skip subscribing if already subscribed (LWBA)', async () => {
+      mockSubscriptionsResponse(apiKey, [`${dataLWBA.base}-${dataLWBA.quote}`])
+      const scope = mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
+      const response = await testAdapter.request(dataLWBA)
+      expect(response.json()).toMatchSnapshot()
+      expect(scope.isDone()).toEqual(false)
     })
 
     it('should return error (LWBA invariant violation)', async () => {
+      mockSubscriptionsResponse(apiKey, [])
       mockSubscribeResponse(
-        apiKey,
-        `${dataLWBAInvariantViolation.base}-${dataLWBAInvariantViolation.quote}`,
-      )
-      mockUnsubscribeResponse(
         apiKey,
         `${dataLWBAInvariantViolation.base}-${dataLWBAInvariantViolation.quote}`,
       )
@@ -87,6 +103,7 @@ describe('websocket', () => {
         base: 'XXX',
         quote: 'USD',
       }
+      mockSubscriptionsResponse(apiKey, [])
       mockSubscribeError(apiKey, `${data.base}-${data.quote}`)
       await testAdapter.request(data)
       await testAdapter.waitForCache()

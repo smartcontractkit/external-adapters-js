@@ -102,3 +102,54 @@ export const sendMessage = async (endpoint: string, apiKey: string, message: Sub
     method: 'post',
     data: message,
   })
+
+type Subscription = {
+  index_freq: number
+  stream: string
+  symbol: string
+}
+
+type SubscriptionsSuccessResponse = {
+  data: {
+    items: (Subscription | string)[]
+  }
+}
+
+type SubscriptionsResponse = SubscriptionsSuccessResponse | ErrorResponse
+
+export const getSubscriptionKey = (subscription: Subscription): string =>
+  `${subscription.stream}:${subscription.symbol}:${subscription.index_freq}`
+
+export const getSubscriptions = async (
+  endpoint: string,
+  apiKey: string,
+  logger: LoggerType,
+): Promise<Set<string>> => {
+  let data: SubscriptionsResponse
+  try {
+    const response = await axios.get<SubscriptionsResponse>(
+      buildWsUrl(`${endpoint}/subscriptions`, apiKey),
+    )
+    data = response.data
+  } catch (e) {
+    logger.warn(`Failed to get current subscriptions, assuming no subscriptions: ${e}`)
+    return new Set()
+  }
+
+  if ('error' in data) {
+    logger.warn(
+      `Subscriptions response has error, assuming no subscriptions: ${JSON.stringify(data.error)}`,
+    )
+    return new Set()
+  }
+
+  const subscriptions: string[] = []
+  data.data.items.forEach((item) => {
+    if (typeof item === 'object') {
+      subscriptions.push(getSubscriptionKey(item))
+    }
+  })
+  logger.info(`Currently subscribed to: ${subscriptions}`)
+
+  return new Set(subscriptions)
+}
