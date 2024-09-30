@@ -6,8 +6,8 @@ import {
   EndpointContext,
 } from '@chainlink/external-adapter-framework/adapter'
 import {
+  buildUrl,
   buildWsMessage,
-  buildWsUrl,
   getSubscriptionKey,
   getSubscriptions,
   sendMessage,
@@ -59,7 +59,7 @@ export const transport: WebSocketTransport<WsTransportTypes> =
     constructor() {
       super({
         url: (context) =>
-          buildWsUrl(context.adapterSettings.WS_API_ENDPOINT, context.adapterSettings.API_KEY),
+          buildUrl(context.adapterSettings.WS_API_ENDPOINT, context.adapterSettings.API_KEY),
         handlers: {
           message(message) {
             const validatedWsMessage = validateWsMessage(logger, message)

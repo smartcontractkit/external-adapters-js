@@ -44,7 +44,7 @@ export interface ValidatedWsMessage {
   timestamp: number
 }
 
-export const buildWsUrl = (endpoint: string, apiKey: string) => `${endpoint}?apiKey=${apiKey}`
+export const buildUrl = (endpoint: string, apiKey: string) => `${endpoint}?apiKey=${apiKey}`
 
 export const validateWsMessage = (
   logger: LoggerType,
@@ -98,7 +98,7 @@ export const buildWsMessage = (
 
 export const sendMessage = async (endpoint: string, apiKey: string, message: SubscribeRequest) =>
   axios.request({
-    url: buildWsUrl(endpoint, apiKey),
+    url: buildUrl(endpoint, apiKey),
     method: 'post',
     data: message,
   })
@@ -128,7 +128,7 @@ export const getSubscriptions = async (
   let data: SubscriptionsResponse
   try {
     const response = await axios.get<SubscriptionsResponse>(
-      buildWsUrl(`${endpoint}/subscriptions`, apiKey),
+      buildUrl(`${endpoint}/subscriptions`, apiKey),
     )
     data = response.data
   } catch (e) {

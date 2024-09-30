@@ -12,6 +12,7 @@ import {
   MockWebsocketServer,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import nock from 'nock'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -52,6 +53,7 @@ describe('websocket', () => {
     setEnvVariables(oldEnv)
     mockWsServer?.close()
     testAdapter.clock?.uninstall()
+    nock.cleanAll()
     await testAdapter.api.close()
   })
 
