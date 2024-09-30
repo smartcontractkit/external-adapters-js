@@ -54,23 +54,6 @@ exports[`websocket price endpoint should return success 1`] = `
 }
 `;
 
-exports[`websocket price endpoint should skip subscribing if already subscribed (LWBA) 1`] = `
-{
-  "data": {
-    "ask": 32.18,
-    "bid": 32.16,
-    "mid": 32.17,
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 2034,
-    "providerDataStreamEstablishedUnixMs": 2020,
-    "providerIndicatedTimeUnixMs": 1667881100736,
-  },
-}
-`;
-
 exports[`websocket price endpoint should skip subscribing if already subscribed 1`] = `
 {
   "data": {

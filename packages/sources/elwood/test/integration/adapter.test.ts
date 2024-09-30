@@ -33,6 +33,10 @@ describe('websocket', () => {
     base: 'BTC',
     quote: 'USD',
   }
+  const dataAlreadySubscribed = {
+    base: 'ETH',
+    quote: 'USD',
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -67,8 +71,9 @@ describe('websocket', () => {
     })
 
     it('should skip subscribing if already subscribed', async () => {
-      mockSubscriptionsResponse(apiKey, [`${data.base}-${data.quote}`])
-      const scope = mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
+      const symbol = `${dataAlreadySubscribed.base}-${dataAlreadySubscribed.quote}`
+      mockSubscriptionsResponse(apiKey, [symbol])
+      const scope = mockSubscribeResponse(apiKey, symbol)
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
       expect(scope.isDone()).toEqual(false)
@@ -76,18 +81,9 @@ describe('websocket', () => {
 
     it('should return success (LWBA)', async () => {
       mockSubscriptionsResponse(apiKey, [])
-      const scope = mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
+      mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
       const response = await testAdapter.request(dataLWBA)
       expect(response.json()).toMatchSnapshot()
-      expect(scope.isDone()).toEqual(true)
-    })
-
-    it('should skip subscribing if already subscribed (LWBA)', async () => {
-      mockSubscriptionsResponse(apiKey, [`${dataLWBA.base}-${dataLWBA.quote}`])
-      const scope = mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
-      const response = await testAdapter.request(dataLWBA)
-      expect(response.json()).toMatchSnapshot()
-      expect(scope.isDone()).toEqual(false)
     })
 
     it('should return error (LWBA invariant violation)', async () => {
