@@ -79,7 +79,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [multi-address-list](./multi-address-list/README.md)
 - [nftx](./nftx/README.md)
 - [outlier-detection](./outlier-detection/README.md)
-- [por-indexer](./por-indexer/README.md)
 - [proof-of-reserves](./proof-of-reserves/README.md)
 - [reference-transform](./reference-transform/README.md)
 - [rocket-pool](./rocket-pool/README.md)
