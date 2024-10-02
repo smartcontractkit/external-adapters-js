@@ -8,9 +8,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Concurrent connections
 
-Context: TP and ICAP EAs use the same credentials, and often there are issues with the set of credentials not having concurrent (ie: 2+) connections enabled.
+Context: Often there are issues with the set of credentials not having concurrent (ie: 2+) connections enabled.
 
-- With both TP and ICAP EAs off, try the following commands to check if this is the case:
+- With all EA instances off, try the following commands to check if this is the case:
 
 ```bash
 wscat -c 'ws://json.mktdata.portal.apac.parametasolutions.com:12000'
@@ -56,11 +56,12 @@ Supported names for this endpoint are: `commodities`, `forex`, `price`.
 
 ### Input Params
 
-| Required? |   Name   |    Aliases     |                        Description                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :------: | :------------: | :-------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base   | `coin`, `from` |      The symbol of symbols of the currency to query       | string |         |         |            |                |
-|    ✅     |  quote   | `market`, `to` |         The symbol of the currency to convert to          | string |         |         |            |                |
-|           | tpSource |                | Source of price data for this price pair on the TP stream | string |         |  `GBL`  |            |                |
+| Required? |    Name    |    Aliases     |                      Description                       |  Type  |  Options   | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :----------------------------------------------------: | :----: | :--------: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |     The symbol of symbols of the currency to query     | string |            |         |            |                |
+|    ✅     |   quote    | `market`, `to` |        The symbol of the currency to convert to        | string |            |         |            |                |
+|           | streamName |    `source`    |                       TP or ICAP                       | string | `IC`, `TP` |  `TP`   |            |                |
+|           | sourceName |   `tpSource`   | Source of price data for this price pair on the stream | string |            |  `GBL`  |            |                |
 
 ### Example
 
@@ -71,7 +72,9 @@ Request:
   "data": {
     "endpoint": "price",
     "base": "EUR",
-    "quote": "USD"
+    "quote": "USD",
+    "streamName": "TP",
+    "sourceName": "GBL"
   }
 }
 ```
