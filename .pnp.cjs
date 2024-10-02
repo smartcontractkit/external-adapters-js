@@ -9302,7 +9302,10 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
