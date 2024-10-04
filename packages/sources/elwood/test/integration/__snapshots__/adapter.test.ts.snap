@@ -53,3 +53,18 @@ exports[`websocket price endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`websocket price endpoint should skip subscribing if already subscribed 1`] = `
+{
+  "data": {
+    "result": 10001,
+  },
+  "result": 10001,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1024,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1667881098736,
+  },
+}
+`;

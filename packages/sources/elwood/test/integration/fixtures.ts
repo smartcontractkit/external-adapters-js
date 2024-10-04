@@ -1,9 +1,26 @@
 import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
+export const mockSubscriptionsResponse = (apiKey: string, symbols: string[]) => {
+  return nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
+    .get(`/v1/stream/subscriptions?apiKey=${apiKey}`)
+    .reply(
+      200,
+      {
+        data: {
+          items: symbols.map((symbol) => ({
+            stream: 'index',
+            symbol,
+            index_freq: 1000,
+          })),
+        },
+      },
+      [],
+    )
+}
+
 export const mockSubscribeResponse = (apiKey: string, symbol: string) => {
-  nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
-    .persist()
+  return nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
     .post(`/v1/stream?apiKey=${apiKey}`, {
       action: 'subscribe',
       stream: 'index',
@@ -15,7 +32,6 @@ export const mockSubscribeResponse = (apiKey: string, symbol: string) => {
 
 export const mockUnsubscribeResponse = (apiKey: string, symbol: string) => {
   nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
-    .persist()
     .post(`/v1/stream?apiKey=${apiKey}`, {
       action: 'unsubscribe',
       stream: 'index',
@@ -27,7 +43,6 @@ export const mockUnsubscribeResponse = (apiKey: string, symbol: string) => {
 
 export const mockSubscribeError = (apiKey: string, symbol: string) => {
   nock(`https://api.chk.elwood.systems`, { encodedQueryParams: true })
-    .persist()
     .post(`/v1/stream?apiKey=${apiKey}`, {
       action: 'subscribe',
       stream: 'index',

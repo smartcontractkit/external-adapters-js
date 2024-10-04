@@ -1,6 +1,9 @@
 import { formatInTimeZone } from 'date-fns-tz'
 import { format, isAfter, isBefore, isSaturday, isSunday, subDays } from 'date-fns'
 
+export const NetAssetValue = 'net_asset_value'
+export const AssetsUnderManagement = 'assets_under_management'
+
 // Converts a Date to a formatted string in the given timezone
 export const toTimezoneDate = (date: string | Date, timezone: string): string => {
   return formatInTimeZone(date, timezone, 'yyyy-MM-dd HH:mm:ss')

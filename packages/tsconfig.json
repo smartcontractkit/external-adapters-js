@@ -141,9 +141,6 @@
       "path": "./sources/alphachain"
     },
     {
-      "path": "./sources/alphavantage"
-    },
-    {
       "path": "./sources/alpine"
     },
     {

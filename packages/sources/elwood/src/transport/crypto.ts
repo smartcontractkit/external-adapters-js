@@ -5,7 +5,14 @@ import {
   DEFAULT_TRANSPORT_NAME,
   EndpointContext,
 } from '@chainlink/external-adapter-framework/adapter'
-import { buildWsMessage, buildWsUrl, sendMessage, validateWsMessage } from './util'
+import {
+  buildUrl,
+  buildWsMessage,
+  getSubscriptionKey,
+  getSubscriptions,
+  sendMessage,
+  validateWsMessage,
+} from './util'
 
 const logger = makeLogger('ElwoodWsPrice')
 
@@ -52,7 +59,7 @@ export const transport: WebSocketTransport<WsTransportTypes> =
     constructor() {
       super({
         url: (context) =>
-          buildWsUrl(context.adapterSettings.WS_API_ENDPOINT, context.adapterSettings.API_KEY),
+          buildUrl(context.adapterSettings.WS_API_ENDPOINT, context.adapterSettings.API_KEY),
         handlers: {
           message(message) {
             const validatedWsMessage = validateWsMessage(logger, message)
@@ -90,16 +97,37 @@ export const transport: WebSocketTransport<WsTransportTypes> =
     override async sendMessages(
       context: EndpointContext<WsTransportTypes>,
       subscribes: SubscribeRequest[],
-      unsubscribes: SubscribeRequest[],
     ): Promise<void> {
-      const messages = subscribes.concat(unsubscribes)
+      // All connections that share an API key have the same set of subscribed symbols so if there
+      // are multiple EAs that share the same key then we should only subscribe to new symbols. For
+      // the same reason, it is not safe to unsubscribe otherwise another EA expecting the symbol
+      // may unexpectedly stop receiving data for it without knowing.
+      const subscriptions = await getSubscriptions(
+        context.adapterSettings.API_ENDPOINT,
+        context.adapterSettings.API_KEY,
+        logger,
+      )
+
+      const messages: SubscribeRequest[] = []
+      for (const message of subscribes) {
+        const key = getSubscriptionKey(message)
+        if (!subscriptions.has(key)) {
+          messages.push(message)
+        } else {
+          logger.info(`Already subscribed to ${key}, skipping subscribe request`)
+        }
+      }
+
       for (const message of messages) {
+        const key = getSubscriptionKey(message)
+        logger.info(`Sending ${message.action} request for ${key}`)
+
         sendMessage(
           context.adapterSettings.API_ENDPOINT,
           context.adapterSettings.API_KEY,
           message,
         ).catch(async (error) => {
-          logger.debug(`Failed to ${message.action} the ${message.symbol} pair`)
+          logger.error(`Failed to ${message.action} the ${message.symbol} pair`)
           const base = message.symbol.split('-')[0]
           const quote = message.symbol.split('-')[1]
           const defaultErrorMsg = `Failed to ${message.action} the ${message.symbol} pair`

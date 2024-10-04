@@ -1,5 +1,16 @@
 [
   {
+    "from": "CAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CAD",
+        "inverse": true
+      }
+    ]
+  },
+  {
     "from": "AED",
     "to": "USD",
     "includes": [

@@ -16,6 +16,7 @@ import {
   isBeforeTime,
   isInTimeRange,
   toTimezoneDate,
+  AssetsUnderManagement,
 } from './utils'
 
 const logger = makeLogger('Superstate')
@@ -31,6 +32,8 @@ export interface ResponseSchema {
 
 const TZ = 'America/New_York'
 
+type ReportValueType = typeof inputParameters.validated.reportValue
+
 // Custom transport implementation that takes incoming requests, adds them into a SET, and makes requests to DP
 // on a specific time every day, after receiving a signal from scheduler.
 export class NavTransport implements Transport<BaseEndpointTypes> {
@@ -39,7 +42,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   requester!: Requester
   settings!: BaseEndpointTypes['Settings']
   endpointName!: string
-  fundIdsSet!: Set<number>
+  fundsMap!: Map<string, [number, ReportValueType]>
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -52,17 +55,18 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     this.requester = dependencies.requester
     this.settings = settings
     this.endpointName = endpointName
-    this.fundIdsSet = new Set()
+    this.fundsMap = new Map()
     this.runScheduler()
   }
 
   // registerRequest is invoked on every valid request to EA
   // Adds fundId in the request to a SET
   async registerRequest(req: AdapterRequest<typeof inputParameters.validated>) {
-    const { fundId } = req.requestContext.data
-    if (!this.fundIdsSet.has(fundId)) {
-      this.fundIdsSet.add(fundId)
-      logger.info(`Added new fund id - ${fundId}`)
+    const { fundId, reportValue } = req.requestContext.data
+    const mapKey = `${fundId}+${reportValue}`
+    if (!this.fundsMap.has(mapKey)) {
+      this.fundsMap.set(mapKey, [fundId, reportValue])
+      logger.info(`Added new fund id - ${fundId} - reportValue ${reportValue}`)
     }
   }
 
@@ -70,8 +74,8 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   async foregroundExecute(
     req: AdapterRequest<typeof inputParameters.validated>,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']> | void> {
-    const { fundId } = req.requestContext.data
-    return this.execute(fundId)
+    const { fundId, reportValue } = req.requestContext.data
+    return this.execute(fundId, reportValue)
   }
 
   // Runs 'execute' function every day at 9:09 AM ET (if fundIdsSet is not empty)
@@ -83,11 +87,9 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
 
     schedule.scheduleJob(rule, () => {
       logger.info(
-        `Scheduled execution started at ${Date.now()}. FundIdSet - ${[...this.fundIdsSet].join(
-          ',',
-        )}`,
+        `Scheduled execution started at ${Date.now()}. FundsMap - ${[...this.fundsMap].join(',')}`,
       )
-      ;[...this.fundIdsSet].map(async (fundId) => this.execute(fundId))
+      ;[...this.fundsMap].map(async (entry) => this.execute(entry[1][0], entry[1][1]))
     })
   }
 
@@ -95,7 +97,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   // Makes a request to DP and saves the response in the cache.
   // In case the DP returns stale data the function will be executed again several times
   // before finalizing and saving the last returned data to a cache.
-  async execute(fundId: number, retryCount = 0) {
+  async execute(fundId: number, reportValue: ReportValueType, retryCount = 0) {
     const providerDataRequestedUnixMs = Date.now()
     const apiResponse = await this.makeRequest(fundId)
     const providerDataReceivedUnixMs = Date.now()
@@ -110,12 +112,15 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      await this.responseCache.write(this.name, [{ params: { fundId }, response }])
+      await this.responseCache.write(this.name, [{ params: { fundId, reportValue }, response }])
       return
     }
 
     const data = apiResponse.data[0]
-    const result = Number(data.net_asset_value)
+    let result = Number(data.net_asset_value)
+    if (reportValue == AssetsUnderManagement) {
+      result = Number(data.assets_under_management)
+    }
 
     // DP updates previous working day's price on the next working day at 9:09 AM ET
     // If there is no fresh price data, we try to re-fetch the API until 10:30 AM ET
@@ -135,7 +140,10 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
             } ms`,
           )
           retryCount++
-          setTimeout(() => this.execute(fundId, retryCount), this.settings.RETRY_INTERVAL_MS)
+          setTimeout(
+            () => this.execute(fundId, reportValue, retryCount),
+            this.settings.RETRY_INTERVAL_MS,
+          )
           // We don't `return` here and let the value be stored in cache on purpose.
           // This way the EA will respond with the latest value from DP (even though it's not the value that the EA expects),
           // while it tries to get a fresh update.
@@ -159,7 +167,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.responseCache.write(this.name, [{ params: { fundId }, response }])
+    await this.responseCache.write(this.name, [{ params: { fundId, reportValue }, response }])
     return response
   }
 

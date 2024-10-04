@@ -34,7 +34,6 @@ undecided:
   - "@chainlink/ea-scripts"
   - "@chainlink/1forge-adapter"
   - "@chainlink/alphachain-adapter"
-  - "@chainlink/alphavantage-adapter"
   - "@chainlink/amberdata-adapter"
   - "@chainlink/anyblock-adapter"
   - "@chainlink/binance-adapter"

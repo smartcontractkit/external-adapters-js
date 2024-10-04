@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Price Endpoint should return error on empty base 1`] = `
+{
+  "error": {
+    "message": "[Param: base] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`Price Endpoint should return error on empty body 1`] = `
+{
+  "error": {
+    "message": "[Param: base] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`Price Endpoint should return error on empty data 1`] = `
+{
+  "error": {
+    "message": "[Param: base] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`Price Endpoint should return error on empty quote 1`] = `
+{
+  "error": {
+    "message": "[Param: quote] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`Price Endpoint should return error when queried for TP price 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`Price Endpoint should return error when queried for stale price 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`Price Endpoint should return price 1`] = `
+{
+  "data": {
+    "result": 1.0539,
+  },
+  "result": 1.0539,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1678242600000,
+    "providerDataStreamEstablishedUnixMs": 1678242600000,
+  },
+}
+`;
+
+exports[`Price Endpoint should return price for inverse pair 1`] = `
+{
+  "data": {
+    "result": 1.239771881973717,
+  },
+  "result": 1.239771881973717,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1678242600000,
+    "providerDataStreamEstablishedUnixMs": 1678242600000,
+  },
+}
+`;
+
+exports[`Price Endpoint should return price for specific source 1`] = `
+{
+  "data": {
+    "result": 1.55,
+  },
+  "result": 1.55,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1678242600000,
+    "providerDataStreamEstablishedUnixMs": 1678242600000,
+  },
+}
+`;
+
+exports[`Price Endpoint should succeed with CAD/USD 1`] = `
+{
+  "data": {
+    "result": 0.16,
+  },
+  "result": 0.16,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1678242600000,
+    "providerDataStreamEstablishedUnixMs": 1678242600000,
+  },
+}
+`;
+
+exports[`Price Endpoint should succeed with USD/CAD 1`] = `
+{
+  "data": {
+    "result": 6.25,
+  },
+  "result": 6.25,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1678242600000,
+    "providerDataStreamEstablishedUnixMs": 1678242600000,
+  },
+}
+`;

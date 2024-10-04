@@ -1,5 +1,17 @@
 # @chainlink/elwood-adapter
 
+## 3.1.0
+
+### Minor Changes
+
+- [#3452](https://github.com/smartcontractkit/external-adapters-js/pull/3452) [`93c6edf`](https://github.com/smartcontractkit/external-adapters-js/commit/93c6edfdb4112b3e5031cedf227a94430148ccad) Thanks [@martin-cll](https://github.com/martin-cll)! - Check subscriptions before sending subscribe requests
+
+## 3.0.3
+
+### Patch Changes
+
+- [#3436](https://github.com/smartcontractkit/external-adapters-js/pull/3436) [`9a4d510`](https://github.com/smartcontractkit/external-adapters-js/commit/9a4d510dff13669760a91738dbe7df524f077483) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
 ## 3.0.2
 
 ### Patch Changes

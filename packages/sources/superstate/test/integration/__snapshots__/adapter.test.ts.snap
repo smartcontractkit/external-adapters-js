@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price endpoint should return success 1`] = `
+exports[`execute price endpoint should return success - aum 1`] = `
+{
+  "data": {
+    "result": 88412710.73007037,
+  },
+  "result": 88412710.73007037,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint should return success - nav 1`] = `
 {
   "data": {
     "result": 10.170643,

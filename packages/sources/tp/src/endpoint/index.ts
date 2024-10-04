@@ -1,1 +1,6 @@
-export { generateInputParams, priceEndpoint, GeneratePriceOptions } from './price'
+export {
+  generateInputParams,
+  priceEndpoint,
+  GeneratePriceOptions,
+  BaseEndpointTypes,
+} from './price'

@@ -1,7 +1,7 @@
 import Decimal from 'decimal.js'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, GeneratePriceOptions } from '../endpoint/price'
+import { BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('TpIcapPrice')
 
@@ -33,7 +33,7 @@ const isNum = (i: number | undefined) => typeof i === 'number'
 let providerDataStreamEstablishedUnixMs: number
 
 /*
-TP and ICAP EAs currently do not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
+EAs currently do not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
 we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
  */
 const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
@@ -41,7 +41,7 @@ const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: n
   transport.responseCache.writeTTL(transport.name, params, ttl)
 }
 
-export const generateTransport = (generatePriceOptions: GeneratePriceOptions) => {
+export const generateTransport = () => {
   const tpTransport = new WebSocketTransport<WsTransportTypes>({
     url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
     handlers: {
@@ -96,14 +96,6 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
           return []
         }
 
-        if (ticker.stream !== generatePriceOptions.streamName) {
-          logger.debug({
-            msg: `Only ${generatePriceOptions.streamName} forex prices accepted on this adapter. Filtering out this message.`,
-            message,
-          })
-          return []
-        }
-
         const { ASK, BID, MID_PRICE } = fvs
 
         if (!isNum(MID_PRICE) && !(isNum(BID) && isNum(ASK))) {
@@ -142,7 +134,8 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
             params: {
               base: ticker.base,
               quote: ticker.quote,
-              [generatePriceOptions.sourceName]: ticker.source,
+              streamName: ticker.stream,
+              sourceName: ticker.source,
             },
             response,
           },
@@ -150,7 +143,8 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
             params: {
               base: rec,
               quote: ticker.quote,
-              [generatePriceOptions.sourceName]: ticker.source,
+              streamName: ticker.stream,
+              sourceName: ticker.source,
             },
             response,
           },

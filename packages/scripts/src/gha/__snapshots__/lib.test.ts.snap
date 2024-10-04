@@ -156,10 +156,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "name": "alphavantage-adapter",
-      "type": "sources",
-    },
-    Object {
       "name": "alpine-adapter",
       "type": "sources",
     },
@@ -848,10 +844,6 @@ Object {
     },
     Object {
       "name": "alphachain-adapter",
-      "type": "sources",
-    },
-    Object {
-      "name": "alphavantage-adapter",
       "type": "sources",
     },
     Object {
