@@ -2,7 +2,7 @@
 
 exports[`execute function endpoint should return error for invalid input 1`] = `
 {
-  "errorMessage": "unsupported fragment (argument="value", value="symbol () view returns (string)", code=INVALID_ARGUMENT, version=abi/5.7.0)",
+  "errorMessage": "no matching function (argument="key", value="symbol() view returns (string)", code=INVALID_ARGUMENT, version=6.13.3)",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
