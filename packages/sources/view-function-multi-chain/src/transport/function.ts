@@ -2,7 +2,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { ethers, utils } from 'ethers'
+import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
@@ -13,7 +13,7 @@ export type MultiChainFunctionTransportTypes = BaseEndpointTypes
 type RequestParams = typeof inputParameters.validated
 
 export class MultiChainFunctionTransport extends SubscriptionTransport<MultiChainFunctionTransportTypes> {
-  providers: Record<string, ethers.providers.JsonRpcProvider> = {}
+  providers: Record<string, ethers.JsonRpcProvider> = {}
 
   async initialize(
     dependencies: TransportDependencies<MultiChainFunctionTransportTypes>,
@@ -72,11 +72,11 @@ export class MultiChainFunctionTransport extends SubscriptionTransport<MultiChai
     }
 
     if (!this.providers[networkName]) {
-      this.providers[networkName] = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
+      this.providers[networkName] = new ethers.JsonRpcProvider(rpcUrl, chainId)
     }
 
-    const iface = new utils.Interface([signature])
-    const fnName = iface.functions[Object.keys(iface.functions)[0]].name
+    const iface = new ethers.Interface([signature])
+    const fnName = iface.getFunctionName(signature)
 
     const encoded = iface.encodeFunctionData(fnName, [...(inputParams || [])])
 
