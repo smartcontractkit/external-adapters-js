@@ -3,14 +3,14 @@
 exports[`websocket price endpoint should return success 1`] = `
 {
   "data": {
-    "result": 1000,
+    "result": 1.1803771088055002,
   },
-  "result": 1000,
+  "result": 1.1803771088055002,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": "1999999",
+    "providerIndicatedTimeUnixMs": 1728292096000,
   },
 }
 `;
