@@ -71,6 +71,8 @@ export const priceEndpoint = new PriceEndpoint({
       if (rq.streamName) {
         req.requestContext.data.streamName = rq.streamName.toUpperCase()
       }
+
+      req.requestContext.data.adapterNameOverride = req.requestContext.data.streamName
     },
   ],
 })
