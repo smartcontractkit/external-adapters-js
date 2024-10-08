@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/view-function-multi-chain-adapter",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Chainlink view-function-multi-chain adapter.",
   "keywords": [
     "Chainlink",
