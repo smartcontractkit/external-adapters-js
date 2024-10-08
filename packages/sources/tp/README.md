@@ -1,6 +1,6 @@
 # TP
 
-![1.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tp/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tp/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -56,12 +56,11 @@ Supported names for this endpoint are: `commodities`, `forex`, `price`.
 
 ### Input Params
 
-| Required? |    Name    |    Aliases     |                      Description                       |  Type  |  Options   | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :------------: | :----------------------------------------------------: | :----: | :--------: | :-----: | :--------: | :------------: |
-|    ✅     |    base    | `coin`, `from` |     The symbol of symbols of the currency to query     | string |            |         |            |                |
-|    ✅     |   quote    | `market`, `to` |        The symbol of the currency to convert to        | string |            |         |            |                |
-|           | streamName |    `source`    |                TP ('TP') or ICAP ('IC')                | string | `IC`, `TP` |  `TP`   |            |                |
-|           | sourceName |   `tpSource`   | Source of price data for this price pair on the stream | string |            |  `GBL`  |            |                |
+| Required? |    Name    |                                  Aliases                                   | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------------------------------------------------------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|           | definition |                                                                            |             |      |         |         |            |                |
+|    ✅     |  examples  |                             `[object Object]`                              |             |      |         |         |            |                |
+|    ✅     |   params   | `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]` |             |      |         |         |            |                |
 
 ### Example
 
