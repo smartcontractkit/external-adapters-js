@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- [#3458](https://github.com/smartcontractkit/external-adapters-js/pull/3458) [`583b182`](https://github.com/smartcontractkit/external-adapters-js/commit/583b18259fd7e6ea3d68357c6887309100ec594c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Seperate TP vs IC on dashboard
+
 ## 1.6.0
 
 ### Minor Changes
