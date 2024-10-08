@@ -1,5 +1,11 @@
 # @chainlink/view-function-adapter
 
+## 3.1.0
+
+### Minor Changes
+
+- [#3456](https://github.com/smartcontractkit/external-adapters-js/pull/3456) [`62ba1ac`](https://github.com/smartcontractkit/external-adapters-js/commit/62ba1ac9eb2d0df7bfba5d2f8b44617931903849) Thanks [@alecgard](https://github.com/alecgard)! - Upgrade ethers.js
+
 ## 3.0.14
 
 ### Patch Changes
