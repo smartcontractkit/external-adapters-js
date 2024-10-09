@@ -8,6 +8,7 @@ import { config } from '../config'
 import { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { generateTransport } from '../transport/price'
+import { streamNameToAdapterNameOverride } from '../transport/util'
 
 export type QueryParams = {
   streamName: 'TP' | 'IC'
@@ -72,7 +73,9 @@ export const priceEndpoint = new PriceEndpoint({
         req.requestContext.data.streamName = rq.streamName.toUpperCase()
       }
 
-      req.requestContext.data.adapterNameOverride = req.requestContext.data.streamName
+      req.requestContext.data.adapterNameOverride = streamNameToAdapterNameOverride(
+        String(req.requestContext.data.streamName),
+      )
     },
   ],
 })
