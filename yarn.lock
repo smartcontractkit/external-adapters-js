@@ -3944,7 +3944,7 @@ __metadata:
     "@bitcoinerlab/secp256k1": "npm:1.1.1"
     "@chainlink/external-adapter-framework": "npm:1.4.0"
     "@noble/hashes": "npm:1.4.0"
-    "@scure/base": "npm:1.1.8"
+    "@scure/base": "npm:1.1.9"
     "@scure/btc-signer": "npm:1.2.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.96"
@@ -11072,10 +11072,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scure/base@npm:1.1.8":
-  version: 1.1.8
-  resolution: "@scure/base@npm:1.1.8"
-  checksum: 10/5b764c0e98610bc4993479965db718457d91b68d3c6f1339e3cc74e53fc6b0ae0428d1d64d29a0de0cee9d966034674d4464fdbd2d1dbef27013927b2fe05c45
+"@scure/base@npm:1.1.9":
+  version: 1.1.9
+  resolution: "@scure/base@npm:1.1.9"
+  checksum: 10/f0ab7f687bbcdee2a01377fe3cd808bf63977999672751295b6a92625d5322f4754a96d40f6bd579bc367aad48ecf8a4e6d0390e70296e6ded1076f52adb16bb
   languageName: node
   linkType: hard
 
