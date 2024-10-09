@@ -74,7 +74,11 @@ export const withMetrics =
             ? HttpRequestType.CACHE_HIT
             : HttpRequestType.DATA_PROVIDER_HIT,
       })
-      return { ...result, metricsMeta: { ...result.metricsMeta, ...metricsMeta } }
+      return {
+        ...result,
+        meta: { adapterName: context.name },
+        metricsMeta: { ...result.metricsMeta, ...metricsMeta },
+      }
     } catch (e: any) {
       const error = new AdapterError(e as Partial<AdapterError>)
       const providerStatusCode: number | undefined = (
