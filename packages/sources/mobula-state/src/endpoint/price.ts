@@ -35,7 +35,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'price',
-  aliases: ['state'],
+  aliases: ['state', 'crypto'],
   transport: wsTransport,
   inputParameters,
 })
