@@ -5065,6 +5065,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/lido-por-adapter@workspace:packages/sources/lido-por":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/lido-por-adapter@workspace:packages/sources/lido-por"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.4.0"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.11.68"
+    ethers: "npm:5.7.2"
+    nock: "npm:13.5.4"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.0.4"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance":
   version: 0.0.0-use.local
   resolution: "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance"
