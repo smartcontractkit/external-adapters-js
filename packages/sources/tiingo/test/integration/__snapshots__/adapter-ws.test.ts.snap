@@ -23,8 +23,8 @@ exports[`websocket crypto state endpoint should return success 1`] = `
   "result": 1.1807636997924935,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 9218,
-    "providerDataStreamEstablishedUnixMs": 9210,
+    "providerDataReceivedUnixMs": 162738,
+    "providerDataStreamEstablishedUnixMs": 162730,
     "providerIndicatedTimeUnixMs": 1646249828102,
   },
 }

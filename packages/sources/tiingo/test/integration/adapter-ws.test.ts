@@ -104,13 +104,6 @@ describe('websocket', () => {
     })
   })
 
-  describe('crypto state endpoint', () => {
-    it('should return success', async () => {
-      const response = await testAdapter.request(stateData)
-      expect(response.json()).toMatchSnapshot()
-    })
-  })
-
   describe('crypto_lwba endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(spreadData)
@@ -147,6 +140,13 @@ describe('websocket', () => {
       await runAllUntilTime(testAdapter.clock, 153000)
       const response = await testAdapter.request(priceDataAapl)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('crypto state endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(stateData)
       expect(response.json()).toMatchSnapshot()
     })
   })
