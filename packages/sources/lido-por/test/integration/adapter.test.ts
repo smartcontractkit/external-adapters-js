@@ -62,7 +62,7 @@ describe('execute', () => {
     it('should return success', async () => {
       const data = {
         withdrawalCredential: '1',
-        bufferContract: '2',
+        lidoContract: '2',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

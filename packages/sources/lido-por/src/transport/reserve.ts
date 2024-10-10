@@ -71,7 +71,7 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     const beaconBalance = await this._getBeaconBalance(param)
-    const buffer = await getBufferedEther(param.bufferContract, this.provider)
+    const buffer = await getBufferedEther(param.lidoContract, this.provider)
 
     const balance = beaconBalance.add(buffer).toString()
 

@@ -19,10 +19,10 @@ export const parseBeaconBalance = (
 }
 
 export const getBufferedEther = async (
-  bufferContract: string,
+  lidoContract: string,
   provider: ethers.providers.JsonRpcProvider,
 ): Promise<BigNumber> => {
-  const contract = new ethers.Contract(bufferContract, Lido, provider)
+  const contract = new ethers.Contract(lidoContract, Lido, provider)
 
   return BigNumber.from((await contract.getBufferedEther()).toString())
 }
