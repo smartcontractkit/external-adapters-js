@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finnhub-secondary-adapter",
-  "version": "0.3.19",
+  "version": "0.3.20",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

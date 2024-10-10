@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#3461](https://github.com/smartcontractkit/external-adapters-js/pull/3461) [`f12b69f`](https://github.com/smartcontractkit/external-adapters-js/commit/f12b69f370fd24bd063105a140c6d79ed1f00fe7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use ICAP as metric name instead of IC
+
 ## 1.7.0
 
 ### Minor Changes

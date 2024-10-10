@@ -107,6 +107,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [layer2-sequencer-health](./layer2-sequencer-health/README.md)
 - [lcx](./lcx/README.md)
 - [lido](./lido/README.md)
+- [lido-por](./lido-por/README.md)
 - [linkpool](./linkpool/README.md)
 - [lition](./lition/README.md)
 - [lotus](./lotus/README.md)

@@ -1,5 +1,15 @@
 # @chainlink/mobula-state-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3462](https://github.com/smartcontractkit/external-adapters-js/pull/3462) [`5245b00`](https://github.com/smartcontractkit/external-adapters-js/commit/5245b00fbd1b10e1df6f8b2a8ed09acd6a0a6e40) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - enable crypto endpoint on mobula EA
+
+### Patch Changes
+
+- [#3460](https://github.com/smartcontractkit/external-adapters-js/pull/3460) [`2fd3620`](https://github.com/smartcontractkit/external-adapters-js/commit/2fd362051a0b8f9b1c0c564ade41780fcf9f379b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.0.0
 
 ### Major Changes
