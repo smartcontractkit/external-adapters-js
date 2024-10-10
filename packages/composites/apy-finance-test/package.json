@@ -30,7 +30,7 @@
   "dependencies": {
     "@chainlink/external-adapter-framework": "1.4.0",
     "@chainlink/token-allocation-test-adapter": "workspace:*",
-    "axios": "1.6.8",
+    "axios": "1.7.4",
     "ethers": "5.4.7",
     "tslib": "^2.3.1"
   },
