@@ -7,6 +7,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
   mockCryptoWebSocketServer,
+  mockCryptoStateWebSocketServer,
   mockCryptoLwbaWebSocketServer,
   mockIexWebSocketServer,
   mockForexWebSocketServer,
@@ -16,6 +17,7 @@ import FakeTimers from '@sinonjs/fake-timers'
 
 describe('websocket', () => {
   let mockWsServerCrypto: MockWebsocketServer | undefined
+  let mockWsServerCryptoState: MockWebsocketServer | undefined
   let mockWsServerCryptoLwba: MockWebsocketServer | undefined
   let mockWsServerIex: MockWebsocketServer | undefined
   let mockWsServerForex: MockWebsocketServer | undefined
@@ -47,6 +49,11 @@ describe('websocket', () => {
     base: 'eur',
     quote: 'usd',
   }
+  const stateData = {
+    endpoint: 'cryptostate',
+    base: 'wsteth',
+    quote: 'eth',
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -59,6 +66,7 @@ describe('websocket', () => {
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServerCrypto = mockCryptoWebSocketServer(wsEndpoint + '/crypto-synth')
+    mockWsServerCryptoState = mockCryptoStateWebSocketServer(wsEndpoint + '/crypto-synth-state')
     mockWsServerCryptoLwba = mockCryptoLwbaWebSocketServer(wsEndpoint + '/crypto-synth-top')
     mockWsServerIex = mockIexWebSocketServer(wsEndpoint + '/iex')
     mockWsServerForex = mockForexWebSocketServer(wsEndpoint + '/fx')
@@ -81,6 +89,7 @@ describe('websocket', () => {
   afterAll(async () => {
     setEnvVariables(oldEnv)
     mockWsServerCrypto?.close()
+    mockWsServerCryptoState?.close()
     mockWsServerCryptoLwba?.close()
     mockWsServerIex?.close()
     mockWsServerForex?.close()
@@ -91,6 +100,13 @@ describe('websocket', () => {
   describe('crypto endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(priceData)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('crypto state endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(stateData)
       expect(response.json()).toMatchSnapshot()
     })
   })
