@@ -43,6 +43,9 @@ describe('withMetrics middleware', () => {
 
     const expectedOutput = {
       ...mockResponse,
+      meta: {
+        adapterName: undefined,
+      },
       metricsMeta: {
         feedId: '{"data":{"endpoint":"testDownstreamEndpoint","source":"SOMESOURCEADAPTER"}}',
       },
@@ -85,6 +88,9 @@ describe('withMetrics middleware', () => {
 
     const expectedOutput = {
       ...mockResponse,
+      meta: {
+        adapterName: undefined,
+      },
       metricsMeta: {
         feedId: '{"data":{"endpoint":"testDownstreamEndpoint","source":"SOMESOURCEADAPTER"}}',
       },
