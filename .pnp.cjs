@@ -607,6 +607,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/lido"\
     },\
     {\
+      "name": "@chainlink/lido-por-adapter",\
+      "reference": "workspace:packages/sources/lido-por"\
+    },\
+    {\
       "name": "@chainlink/linkpool-adapter",\
       "reference": "workspace:packages/sources/linkpool"\
     },\
@@ -1030,6 +1034,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
     ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
+    ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
     ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
@@ -8048,6 +8053,22 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/lido-por-adapter", [\
+      ["workspace:packages/sources/lido-por", {\
+        "packageLocation": "./packages/sources/lido-por/",\
+        "packageDependencies": [\
+          ["@chainlink/lido-por-adapter", "workspace:packages/sources/lido-por"],\
+          ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
