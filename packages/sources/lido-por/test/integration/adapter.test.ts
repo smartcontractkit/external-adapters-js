@@ -4,7 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { ethers } from 'ethers'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseSuccess, mockResponseFailure } from './fixtures'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -17,13 +17,18 @@ jest.mock('ethers', () => {
           return {} as ethers.providers.JsonRpcProvider
         },
       },
-      Contract: function () {
+      Contract: function (address: string) {
         return {
           getBufferedEther: jest.fn().mockImplementation(() => {
             return '500'
           }),
           getWithdrawalCredentials: jest.fn().mockImplementation(() => {
-            return '1'
+            if (address == 'valid') {
+              return '1'
+            } else if (address == 'invalid') {
+              return '2'
+            }
+            throw new Error('Method does not exist on this contract')
           }),
         }
       },
@@ -64,9 +69,19 @@ describe('execute', () => {
   describe('reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
-        lidoContract: '2',
+        lidoContract: 'valid',
       }
       mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return ripcord', async () => {
+      const data = {
+        lidoContract: 'invalid',
+      }
+      mockResponseFailure()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

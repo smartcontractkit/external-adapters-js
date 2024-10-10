@@ -6,16 +6,19 @@ export type EthereumClResponse = {
   totalBeaconBalance: string
   totalLimboBalance: string
   totalBalance: string
+  isValid: boolean
 }[]
 
 export const parseBeaconBalance = (
   data: EthereumClResponse,
   withdrawalCredential: string,
 ): BigNumber => {
-  return data
-    .filter((e) => e.withdrawalCredential == withdrawalCredential)
-    .map((e) => BigNumber.from(e.totalBalance))
-    .reduce((sum, e) => sum.add(e))
+  const validData = data.filter((e) => e.withdrawalCredential == withdrawalCredential && e.isValid)
+  if (validData.length == 0) {
+    return BigNumber.from(-1)
+  } else {
+    return validData.map((e) => BigNumber.from(e.totalBalance)).reduce((sum, e) => sum.add(e))
+  }
 }
 
 export const getBufferedEther = async (
