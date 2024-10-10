@@ -475,6 +475,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ethgaswatch"\
     },\
     {\
+      "name": "@chainlink/expand-network-adapter",\
+      "reference": "workspace:packages/sources/expand-network"\
+    },\
+    {\
       "name": "@chainlink/expert-car-broker-adapter",\
       "reference": "workspace:packages/sources/expert-car-broker"\
     },\
@@ -991,6 +995,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
     ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],\
+    ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/expert-car-broker-adapter", ["workspace:packages/sources/expert-car-broker"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
     ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
@@ -7312,6 +7317,23 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.4"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/expand-network-adapter", [\
+      ["workspace:packages/sources/expand-network", {\
+        "packageLocation": "./packages/sources/expand-network/",\
+        "packageDependencies": [\
+          ["@chainlink/expand-network-adapter", "workspace:packages/sources/expand-network"],\
+          ["@chainlink/external-adapter-framework", "npm:1.3.2"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\

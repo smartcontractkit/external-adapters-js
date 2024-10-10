@@ -336,6 +336,9 @@
       "path": "./sources/ethgaswatch/tsconfig.test.json"
     },
     {
+      "path": "./sources/expand-network/tsconfig.test.json"
+    },
+    {
       "path": "./sources/expert-car-broker/tsconfig.test.json"
     },
     {
