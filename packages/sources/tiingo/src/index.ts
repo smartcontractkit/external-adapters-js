@@ -6,6 +6,7 @@ import {
   crypto,
   cryptolwba,
   cryptoyield,
+  cryptostate,
   eod,
   forex,
   iex,
@@ -19,7 +20,19 @@ export const adapter = new PriceAdapter({
   defaultEndpoint: crypto.name,
   name: 'TIINGO',
   config,
-  endpoints: [crypto, volume, top, eod, iex, forex, vwap, cryptolwba, cryptoyield, volatility],
+  endpoints: [
+    crypto,
+    volume,
+    top,
+    eod,
+    iex,
+    forex,
+    vwap,
+    cryptolwba,
+    cryptoyield,
+    cryptostate,
+    volatility,
+  ],
   includes,
   rateLimiting: {
     tiers: {
