@@ -1,5 +1,17 @@
 # @chainlink/tp-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- [#3458](https://github.com/smartcontractkit/external-adapters-js/pull/3458) [`583b182`](https://github.com/smartcontractkit/external-adapters-js/commit/583b18259fd7e6ea3d68357c6887309100ec594c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Seperate TP vs IC on dashboard
+
+## 1.6.0
+
+### Minor Changes
+
+- [#3449](https://github.com/smartcontractkit/external-adapters-js/pull/3449) [`2e7c23b`](https://github.com/smartcontractkit/external-adapters-js/commit/2e7c23b72994935eaeea0c6f268eb5257ba504c4) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Combined TP and ICAP EAs into a single EA and removed ICAP.URL must have query param appended as selector in bridge URL, eg: https://<tp-ea>:8080?streamName=icapThis change will save subscription costs as all data for both DPs is sent on 1 WS connection and each additional connection requires additional subscriptions (and cost).Should be backwards compatible for TP ONLY
+
 ## 1.5.1
 
 ### Patch Changes

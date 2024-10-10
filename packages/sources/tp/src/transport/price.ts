@@ -2,6 +2,7 @@ import Decimal from 'decimal.js'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
+import { streamNameToAdapterNameOverride } from './util'
 
 const logger = makeLogger('TpIcapPrice')
 
@@ -136,6 +137,7 @@ export const generateTransport = () => {
               quote: ticker.quote,
               streamName: ticker.stream,
               sourceName: ticker.source,
+              adapterNameOverride: streamNameToAdapterNameOverride(ticker.stream),
             },
             response,
           },
@@ -145,6 +147,7 @@ export const generateTransport = () => {
               quote: ticker.quote,
               streamName: ticker.stream,
               sourceName: ticker.source,
+              adapterNameOverride: streamNameToAdapterNameOverride(ticker.stream),
             },
             response,
           },
