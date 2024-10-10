@@ -26,3 +26,12 @@ export const getBufferedEther = async (
 
   return BigNumber.from((await contract.getBufferedEther()).toString())
 }
+
+export const getWithdrawalCredential = async (
+  lidoContract: string,
+  provider: ethers.providers.JsonRpcProvider,
+): Promise<string> => {
+  const contract = new ethers.Contract(lidoContract, Lido, provider)
+
+  return await contract.getWithdrawalCredentials()
+}

@@ -5,7 +5,12 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { EthereumClResponse, parseBeaconBalance, getBufferedEther } from './util'
+import {
+  EthereumClResponse,
+  parseBeaconBalance,
+  getBufferedEther,
+  getWithdrawalCredential,
+} from './util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 
@@ -70,7 +75,7 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(param: RequestParams) {
     const providerDataRequestedUnixMs = Date.now()
 
-    const beaconBalance = await this._getBeaconBalance(param)
+    const beaconBalance = await this._getBeaconBalance(param.lidoContract)
     const buffer = await getBufferedEther(param.lidoContract, this.provider)
 
     const balance = beaconBalance.add(buffer).toString()
@@ -89,12 +94,13 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async _getBeaconBalance(param: RequestParams) {
+  async _getBeaconBalance(lidoContract: string) {
+    const withdrawalCredential = await getWithdrawalCredential(lidoContract, this.provider)
     const requestConfig = {
       method: 'post',
       baseURL: this.ethereumClEndpoint,
       data: {
-        credentials: [param.withdrawalCredential],
+        credentials: [withdrawalCredential],
       },
     }
     const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
@@ -108,7 +114,7 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     })
 
     const response = await this.requester.request<EthereumClResponse>(requestKey, requestConfig)
-    return parseBeaconBalance(response.response.data, param.withdrawalCredential)
+    return parseBeaconBalance(response.response.data, withdrawalCredential)
   }
 }
 

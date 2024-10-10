@@ -22,6 +22,9 @@ jest.mock('ethers', () => {
           getBufferedEther: jest.fn().mockImplementation(() => {
             return '500'
           }),
+          getWithdrawalCredentials: jest.fn().mockImplementation(() => {
+            return '1'
+          }),
         }
       },
     },
@@ -61,7 +64,6 @@ describe('execute', () => {
   describe('reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
-        withdrawalCredential: '1',
         lidoContract: '2',
       }
       mockResponseSuccess()
