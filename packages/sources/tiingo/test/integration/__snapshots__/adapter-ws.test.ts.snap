@@ -15,6 +15,21 @@ exports[`websocket crypto endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket crypto state endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.1807636997924935,
+  },
+  "result": 1.1807636997924935,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 162738,
+    "providerDataStreamEstablishedUnixMs": 162730,
+    "providerIndicatedTimeUnixMs": 1646249828102,
+  },
+}
+`;
+
 exports[`websocket crypto_lwba endpoint should return error (invariant violation) 1`] = `
 {
   "error": {

@@ -36,9 +36,9 @@ If the value of `WS_SUBSCRIPTION_TTL` is less than the value of `CACHE_MAX_AGE`,
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                                                                                             Options                                                                                                                                                                                                                                                                                                                             | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto-synth](#crypto-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [cryptoyield](#cryptoyield-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#crypto-endpoint), [prices](#crypto-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint), [yield](#cryptoyield-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                                                                                                                                Options                                                                                                                                                                                                                                                                                                                                                                | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto-synth](#crypto-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [cryptostate](#cryptostate-endpoint), [cryptoyield](#cryptoyield-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#crypto-endpoint), [prices](#crypto-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [state](#cryptostate-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint), [yield](#cryptoyield-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -261,6 +261,33 @@ Request:
   "data": {
     "endpoint": "cryptoyield",
     "aprTerm": "30Day"
+  }
+}
+```
+
+---
+
+## Cryptostate Endpoint
+
+Supported names for this endpoint are: `cryptostate`, `state`.
+
+### Input Params
+
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "cryptostate",
+    "base": "ETH",
+    "quote": "USD"
   }
 }
 ```
