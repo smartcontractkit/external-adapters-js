@@ -107,12 +107,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       }
       const deposits = await Promise.all(
         group.map(async (vault) => {
-          try {
-            return await this.verifyVaultDeposit(vault, attestorPublicKey)
-          } catch (e) {
-            logger.error(e, `Error while verifying Deposit for Vault: ${vault.uuid}. ${e}`)
-            return 0
-          }
+          return await this.verifyVaultDeposit(vault, attestorPublicKey)
         }),
       )
       // totalPoR represents total proof of reserves value in bitcoins
@@ -164,6 +159,10 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
 
     // Get the bitcoin transaction
     const fundingTransaction = await this.fetchFundingTransaction(txID)
+
+    if (!fundingTransaction) {
+      throw new Error(`Funding transaction not found for vault ${vault.uuid}`)
+    }
 
     // Check and filter transactions that have less than [settings.CONFIRMATIONS] confirmations
     if (fundingTransaction.confirmations < this.settings.CONFIRMATIONS) {
