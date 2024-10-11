@@ -1,4 +1,4 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/price'
 
 export interface WSResponse {
@@ -19,46 +19,72 @@ export type WsTransportTypes = BaseEndpointTypes & {
     WsMessage: WSResponse
   }
 }
-export const wsTransport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
-  options: async (context) => ({
-    headers: {
-      authorization: 'secret-token',
-      'x-api-key': context.adapterSettings.API_KEY,
-    },
-  }),
-  handlers: {
-    message(message) {
-      if (!message.aggregatedStatePrice) {
-        return
-      }
-      const result = Number(message.aggregatedStatePrice)
-      const providerIndicatedTimeUnixMs = new Date(
-        message.blockTime.split(' ').join('T').concat('Z'),
-      ).getTime()
-      return [
-        {
-          params: { base: message.baseSymbol, quote: message.quoteSymbol },
-          response: {
-            result,
-            data: {
-              result,
+export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
+  new WebsocketReverseMappingTransport<WsTransportTypes, string>({
+    url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+    options: async (context) => ({
+      headers: {
+        authorization: 'secret-token',
+        'x-api-key': context.adapterSettings.API_KEY,
+      },
+    }),
+    handlers: {
+      message(message) {
+        const params = wsTransport.getReverseMapping(
+          `${message.baseSymbol}/${message.quoteSymbol}`.toUpperCase(),
+        )
+
+        if (!params) {
+          return [
+            {
+              params: { base: message.baseSymbol, quote: message.quoteSymbol },
+              response: {
+                errorMessage:
+                  'No value received. Make sure the asset is supported and try again after a short delay.',
+                statusCode: 500,
+              },
             },
-            timestamps: {
-              providerIndicatedTimeUnixMs,
+          ]
+        }
+        if (!message.aggregatedStatePrice) {
+          return [
+            {
+              params,
+              response: {
+                errorMessage: 'Asset Not Supported!',
+                statusCode: 500,
+              },
+            },
+          ]
+        }
+        const result = Number(message.aggregatedStatePrice)
+        const providerIndicatedTimeUnixMs = new Date(
+          message.blockTime.split(' ').join('T').concat('Z'),
+        ).getTime()
+        return [
+          {
+            params,
+            response: {
+              result,
+              data: {
+                result,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs,
+              },
             },
           },
-        },
-      ]
+        ]
+      },
     },
-  },
-  builders: {
-    subscribeMessage: (params) => {
-      const pair = `${params.base}/${params.quote}`.toUpperCase()
-      return {
-        action: 'liquiditymetrics',
-        asset: pair,
-      }
+    builders: {
+      subscribeMessage: (params) => {
+        const pair = `${params.base}/${params.quote}`.toUpperCase()
+        wsTransport.setReverseMapping(pair, params)
+        return {
+          action: 'liquiditymetrics',
+          asset: pair,
+        }
+      },
     },
-  },
-})
+  })
