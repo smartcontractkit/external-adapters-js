@@ -1,9 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import dotenv from 'dotenv'
-dotenv.config()
+import { inputParameters } from '../endpoint/total_reserve'
 
 export interface ResponseSchema {
   TOTAL_RESERVE: number
@@ -32,8 +30,6 @@ export type TotalReserveTransportTypes = {
   }
 }
 
-export const inputParameters = new InputParameters({})
-
 const lowercaseKeys = <T extends Record<string, any>>(
   obj: T,
 ): { [K in Lowercase<string & keyof T>]: T[keyof T] } => {
@@ -44,44 +40,35 @@ const lowercaseKeys = <T extends Record<string, any>>(
 }
 
 export const totalReserveTransport = new HttpTransport<TotalReserveTransportTypes>({
-  prepareRequests: (params, adapterSettings) => {
-    const {
-      API_ENDPOINT,
-      API_KEY,
-      BISCUIT_ATTESTATIONS,
-      BISCUIT_BLOCKCHAINS,
-      CHAIN_ID,
-      ASSET_CONTRACT_ADDRESS,
-      TOKEN_CONTRACT_ADDRESS,
-      NAMESPACE,
-    } = adapterSettings
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      if (!param.BISCUIT_ATTESTATIONS || !param.BISCUIT_BLOCKCHAINS) {
+        throw new Error('BISCUIT_ATTESTATIONS and BISCUIT_BLOCKCHAINS must be defined')
+      }
+      const sql = `SELECT sum(a.fractional_amount) as TOTAL_RESERVE FROM (SELECT a.asset_contract_address, a.token_id, a.fractional_token_contract_address, a.fractional_amount, b.chain_id FROM ${param.NAMESPACE}.attestations a JOIN ${param.NAMESPACE}.blockchains b ON a.blockchain_id = b.id WHERE b.chain_id = '${param.CHAIN_ID}' AND a.fractional_token_contract_address = '${param.TOKEN_CONTRACT_ADDRESS}' AND a.asset_contract_address = '${param.ASSET_CONTRACT_ADDRESS}' AND a.token_id is not null)a`
+      const requestBody: SqlRequest = {
+        resources: [],
+        biscuits: [param.BISCUIT_ATTESTATIONS, param.BISCUIT_BLOCKCHAINS],
+        sqlText: sql,
+      }
 
-    if (!BISCUIT_ATTESTATIONS || !BISCUIT_BLOCKCHAINS) {
-      throw new Error('BISCUIT_ATTESTATIONS and BISCUIT_BLOCKCHAINS must be defined')
-    }
-    const sql = `SELECT sum(a.fractional_amount) as TOTAL_RESERVE FROM (SELECT a.asset_contract_address, a.token_id, a.fractional_token_contract_address, a.fractional_amount, b.chain_id FROM ${NAMESPACE}.attestations a JOIN ${NAMESPACE}.blockchains b ON a.blockchain_id = b.id WHERE b.chain_id = '${CHAIN_ID}' AND a.fractional_token_contract_address = '${TOKEN_CONTRACT_ADDRESS}' AND a.asset_contract_address = '${ASSET_CONTRACT_ADDRESS}' AND a.token_id is not null)a`
-    const requestBody: SqlRequest = {
-      resources: [],
-      biscuits: [BISCUIT_ATTESTATIONS, BISCUIT_BLOCKCHAINS],
-      sqlText: sql,
-    }
-
-    return {
-      params,
-      request: {
-        baseURL: API_ENDPOINT,
-        url: '/v1/sql',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          apikey: API_KEY,
+      return {
+        params: [param],
+        request: {
+          baseURL: config.API_ENDPOINT,
+          url: '/v1/sql',
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            apikey: config.API_KEY,
+          },
+          data: requestBody,
         },
-        data: requestBody,
-      },
-    }
+      }
+    })
   },
-  parseResponse: (_params, response): ProviderResult<TotalReserveTransportTypes>[] => {
+  parseResponse: (params, response): ProviderResult<TotalReserveTransportTypes>[] => {
     const responseData = response.data as ResponseSchema[]
     if (!Array.isArray(responseData) || responseData.length === 0) {
       throw new Error('Invalid response format')
@@ -95,7 +82,7 @@ export const totalReserveTransport = new HttpTransport<TotalReserveTransportType
 
     return [
       {
-        params: {},
+        params: params[0],
         response: {
           data: lowercaseData,
           result: totalReserve,

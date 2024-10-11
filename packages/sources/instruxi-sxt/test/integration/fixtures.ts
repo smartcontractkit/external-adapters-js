@@ -20,3 +20,27 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockResponseError = (): nock.Scope =>
+  nock('https://api-endpoint-placeholder.com', {
+    encodedQueryParams: true,
+  })
+    .post('/v1/sql')
+    .reply(
+      400,
+      {
+        error: 'Invalid CHAIN_ID provided',
+        message: 'The CHAIN_ID must be a valid chain identifier',
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()

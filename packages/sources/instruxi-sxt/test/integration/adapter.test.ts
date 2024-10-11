@@ -3,7 +3,8 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseSuccess, mockResponseError } from './fixtures'
+import { endpoint } from '../../src/endpoint/total_reserve'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -12,15 +13,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.API_ENDPOINT = process.env.API_ENDPOINT ?? 'https://api-endpoint-placeholder.com'
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
-    process.env.API_ENDPOINT = 'https://api-endpoint-placeholder.com'
-    process.env.BISCUIT_ATTESTATIONS = 'fake-biscuit-attestations'
-    process.env.BISCUIT_BLOCKCHAINS = 'fake-biscuit-blockchains'
-    process.env.CHAIN_ID = 'fake-chain-id'
-    process.env.ASSET_CONTRACT_ADDRESS = 'fake-asset-contract-address'
-    process.env.TOKEN_CONTRACT_ADDRESS = 'fake-token-contract-address'
-    process.env.NAMESPACE = 'fake-namespace'
-
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -42,15 +36,38 @@ describe('execute', () => {
   describe('total_reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'total_reserve',
+        data: {
+          endpoint: 'total_reserve',
+          BISCUIT_ATTESTATIONS: 'example_biscuit_attestations_token',
+          BISCUIT_BLOCKCHAINS: 'example_biscuit_blockchains_token',
+          CHAIN_ID: 'example_chainId',
+          ASSET_CONTRACT_ADDRESS: 'example contract address',
+          TOKEN_CONTRACT_ADDRESS: 'example token contract address',
+          NAMESPACE: 'example_namespace',
+        },
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
-      const result = response.json()
-      expect(result.data).toEqual({ total_reserve: 300000000 })
-      expect(result.result).toBe(300000000)
+    })
+
+    it('should return error for invalid CHAIN_ID', async () => {
+      const data = {
+        data: {
+          endpoint: 'total_reserve',
+          BISCUIT_ATTESTATIONS: 'example_biscuit_attestations_token',
+          BISCUIT_BLOCKCHAINS: 'example_biscuit_blockchains_token',
+          CHAIN_ID: 'invalid_chain_id',
+          ASSET_CONTRACT_ADDRESS: 'example contract address',
+          TOKEN_CONTRACT_ADDRESS: 'example token contract address',
+          NAMESPACE: 'example_namespace',
+        },
+      }
+      mockResponseError()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })

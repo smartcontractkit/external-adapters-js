@@ -1,5 +1,12 @@
 {
- "requests": [{
-  "endpoint": "total_reserve"
- }]
-}
+    "data": {
+    "endpoint": "total_reserve",
+      "BISCUIT_ATTESTATIONS": "example_biscuit_attestations_token",
+      "BISCUIT_BLOCKCHAINS": "example_biscuit_blockchains_token",
+      "CHAIN_ID": "43113",
+      "ASSET_CONTRACT_ADDRESS": "0xFa11d66488D1C29d36ef39426938B949822e3FBd",
+      "TOKEN_CONTRACT_ADDRESS": "0x7fe755a1dc20eC83Af545bc355ad7a9564805fA9",
+      "NAMESPACE": "IDM"
+    }
+  }
+

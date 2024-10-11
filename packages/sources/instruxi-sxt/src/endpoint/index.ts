@@ -1,1 +1,1 @@
-export { endpoint as total_reserve } from './total_reserve'
+export { inputParameters, endpoint as total_reserve } from './total_reserve'
