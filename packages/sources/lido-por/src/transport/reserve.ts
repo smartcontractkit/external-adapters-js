@@ -83,7 +83,7 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return {
       data: {
         result: balance,
-        ripcord: false,
+        ripcord: beaconBalance.isNegative(),
       },
       result: balance,
       timestamps: {
