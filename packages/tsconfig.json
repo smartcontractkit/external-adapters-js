@@ -336,6 +336,9 @@
       "path": "./sources/ethgaswatch"
     },
     {
+      "path": "./sources/expand-network"
+    },
+    {
       "path": "./sources/expert-car-broker"
     },
     {
