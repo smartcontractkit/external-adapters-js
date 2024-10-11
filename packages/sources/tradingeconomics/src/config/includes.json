@@ -22,6 +22,17 @@
     ]
   },
   {
+    "from": "CZK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CZK",
+        "inverse": true
+      }
+    ]
+  },
+  {
     "from": "CNY",
     "to": "USD",
     "includes": [
