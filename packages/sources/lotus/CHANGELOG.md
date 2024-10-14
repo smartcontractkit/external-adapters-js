@@ -1,5 +1,11 @@
 # @chainlink/lotus-adapter
 
+## 3.0.16
+
+### Patch Changes
+
+- [#3460](https://github.com/smartcontractkit/external-adapters-js/pull/3460) [`2fd3620`](https://github.com/smartcontractkit/external-adapters-js/commit/2fd362051a0b8f9b1c0c564ade41780fcf9f379b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 3.0.15
 
 ### Patch Changes

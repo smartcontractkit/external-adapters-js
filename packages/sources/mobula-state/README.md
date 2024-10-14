@@ -1,6 +1,6 @@
 # MOBULA_STATE
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -21,13 +21,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint), [state](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                    Options                                    | Default |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price](#price-endpoint), [state](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `price`, `state`.
+Supported names for this endpoint are: `crypto`, `price`, `state`.
 
 ### Input Params
 
