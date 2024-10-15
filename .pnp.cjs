@@ -7342,6 +7342,25 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
+      ["npm:1.3.1", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.3.1-934e8ceb00-ebf4b641e0.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:1.3.1"],\
+          ["ajv", "npm:8.11.0"],\
+          ["axios", "npm:1.6.8"],\
+          ["eventsource", "npm:2.0.2"],\
+          ["fastify", "npm:4.13.0"],\
+          ["ioredis", "npm:5.2.3"],\
+          ["mock-socket", "npm:9.1.5"],\
+          ["pino", "npm:8.6.1"],\
+          ["pino-pretty", "npm:9.1.0"],\
+          ["prom-client", "npm:13.2.0"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:853c9779acf8f7b9523e50bb70180c7834623583b0e29a0e7ae2bfd7df08565037956b5444d81d73cbe8cd9c000d44078698cdf81299d690b4fadda3d60872ae#npm:8.9.0"],\
+          ["yeoman-generator", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:1.3.2", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.3.2-853c9779ac-428d4ecd0d.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
