@@ -4477,7 +4477,7 @@ __metadata:
     "@babel/preset-typescript": "npm:7.24.7"
     "@chainlink/external-adapter-framework": "npm:1.4.0"
     "@changesets/changelog-github": "npm:0.5.0"
-    "@changesets/cli": "npm:2.27.8"
+    "@changesets/cli": "npm:2.27.9"
     "@types/babel__core": "npm:7.20.5"
     "@types/babel__preset-env": "npm:7.9.7"
     "@types/eslint": "npm:8.37.0"
@@ -6625,9 +6625,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/cli@npm:2.27.8":
-  version: 2.27.8
-  resolution: "@changesets/cli@npm:2.27.8"
+"@changesets/cli@npm:2.27.9":
+  version: 2.27.9
+  resolution: "@changesets/cli@npm:2.27.9"
   dependencies:
     "@changesets/apply-release-plan": "npm:^7.0.5"
     "@changesets/assemble-release-plan": "npm:^6.0.4"
@@ -6644,14 +6644,12 @@ __metadata:
     "@changesets/types": "npm:^6.0.0"
     "@changesets/write": "npm:^0.3.2"
     "@manypkg/get-packages": "npm:^1.1.3"
-    "@types/semver": "npm:^7.5.0"
     ansi-colors: "npm:^4.1.3"
     ci-info: "npm:^3.7.0"
     enquirer: "npm:^2.3.0"
     external-editor: "npm:^3.1.0"
     fs-extra: "npm:^7.0.1"
     mri: "npm:^1.2.0"
-    outdent: "npm:^0.5.0"
     p-limit: "npm:^2.2.0"
     package-manager-detector: "npm:^0.2.0"
     picocolors: "npm:^1.1.0"
@@ -6661,7 +6659,7 @@ __metadata:
     term-size: "npm:^2.1.0"
   bin:
     changeset: bin.js
-  checksum: 10/e5caf7efc1c4036b26aca9fd11cdcdc23f8ba96cce0a41e7951f09f461608c7c8a27f0f455a93bdf2945408e80aa1bc845140863c556133b54c975b57201fbe7
+  checksum: 10/3bb61ae64d6a7740f96a7bc32676eca8180aa2b17b321f66ed889f8a5f805c7dc351ce7b66a6982065e5c7e4faba131d03deb4ac393c68d7d0b9fd0a86c94de2
   languageName: node
   linkType: hard
 
@@ -13051,13 +13049,6 @@ __metadata:
   version: 7.3.13
   resolution: "@types/semver@npm:7.3.13"
   checksum: 10/0064efd7a0515a539062b71630c72ca2b058501b957326c285cdff82f42c1716d9f9f831332ccf719d5ee8cc3ef24f9ff62122d7a7140c73959a240b49b0f62d
-  languageName: node
-  linkType: hard
-
-"@types/semver@npm:^7.5.0":
-  version: 7.5.1
-  resolution: "@types/semver@npm:7.5.1"
-  checksum: 10/8e19822a2f6282785f4787b3640a205161a65f85de3d2159c5077002adb6e90b2f80bb7c8324ffdb9643061763e1672747f04b0ef3e9ac4179de0dce20ad641d
   languageName: node
   linkType: hard
 

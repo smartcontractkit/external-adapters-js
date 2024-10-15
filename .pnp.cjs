@@ -1147,7 +1147,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.7"],\
           ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
-          ["@changesets/cli", "npm:2.27.8"],\
+          ["@changesets/cli", "npm:2.27.9"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.37.0"],\
@@ -7408,7 +7408,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.7"],\
           ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
-          ["@changesets/cli", "npm:2.27.8"],\
+          ["@changesets/cli", "npm:2.27.9"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.37.0"],\
@@ -9817,10 +9817,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/cli", [\
-      ["npm:2.27.8", {\
-        "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.27.8-e6f51a6449-e5caf7efc1.zip/node_modules/@changesets/cli/",\
+      ["npm:2.27.9", {\
+        "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.27.9-5df61a909e-3bb61ae64d.zip/node_modules/@changesets/cli/",\
         "packageDependencies": [\
-          ["@changesets/cli", "npm:2.27.8"],\
+          ["@changesets/cli", "npm:2.27.9"],\
           ["@changesets/apply-release-plan", "npm:7.0.5"],\
           ["@changesets/assemble-release-plan", "npm:6.0.4"],\
           ["@changesets/changelog-git", "npm:0.2.0"],\
@@ -9836,14 +9836,12 @@ const RAW_RUNTIME_STATE =
           ["@changesets/types", "npm:6.0.0"],\
           ["@changesets/write", "npm:0.3.2"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
-          ["@types/semver", "npm:7.5.1"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["ci-info", "npm:3.9.0"],\
           ["enquirer", "npm:2.3.6"],\
           ["external-editor", "npm:3.1.0"],\
           ["fs-extra", "npm:7.0.1"],\
           ["mri", "npm:1.2.0"],\
-          ["outdent", "npm:0.5.0"],\
           ["p-limit", "npm:2.3.0"],\
           ["package-manager-detector", "npm:0.2.0"],\
           ["picocolors", "npm:1.1.0"],\
@@ -16882,13 +16880,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.13-56212b60da-0064efd7a0.zip/node_modules/@types/semver/",\
         "packageDependencies": [\
           ["@types/semver", "npm:7.3.13"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:7.5.1", {\
-        "packageLocation": "./.yarn/cache/@types-semver-npm-7.5.1-cda240741c-8e19822a2f.zip/node_modules/@types/semver/",\
-        "packageDependencies": [\
-          ["@types/semver", "npm:7.5.1"]\
         ],\
         "linkType": "HARD"\
       }]\
