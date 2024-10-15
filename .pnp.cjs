@@ -807,6 +807,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/tiingo"\
     },\
     {\
+      "name": "@chainlink/tiingo-state-adapter",\
+      "reference": "workspace:packages/sources/tiingo-state"\
+    },\
+    {\
       "name": "@chainlink/tp-adapter",\
       "reference": "workspace:packages/sources/tp"\
     },\
@@ -1105,6 +1109,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
     ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
+    ["@chainlink/tiingo-state-adapter", ["workspace:packages/sources/tiingo-state"]],\
     ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
     ["@chainlink/token-allocation-test-adapter", ["workspace:packages/non-deployable/token-allocation-test"]],\
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
@@ -9285,6 +9290,23 @@ const RAW_RUNTIME_STATE =
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/tiingo-state-adapter", [\
+      ["workspace:packages/sources/tiingo-state", {\
+        "packageLocation": "./packages/sources/tiingo-state/",\
+        "packageDependencies": [\
+          ["@chainlink/tiingo-state-adapter", "workspace:packages/sources/tiingo-state"],\
+          ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\

@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket crypto state endpoint should return error on empty base 1`] = `
+{
+  "error": {
+    "message": "[Param: base] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket crypto state endpoint should return error on empty data 1`] = `
+{
+  "error": {
+    "message": "[Param: base] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket crypto state endpoint should return error on empty quote 1`] = `
+{
+  "error": {
+    "message": "[Param: quote] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket crypto state endpoint should return error on invalid pair 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket crypto state endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.1807636997924935,
+  },
+  "result": 1.1807636997924935,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1646249828102,
+  },
+}
+`;
