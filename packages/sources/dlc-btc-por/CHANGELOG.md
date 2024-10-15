@@ -1,5 +1,47 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 4.2.0
+
+### Minor Changes
+
+- [#3469](https://github.com/smartcontractkit/external-adapters-js/pull/3469) [`23d10f5`](https://github.com/smartcontractkit/external-adapters-js/commit/23d10f5390957bc8d426ed48bfe902994311eba2) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Changed error handling for missing transactions or RPC issues
+
+### Patch Changes
+
+- [#3460](https://github.com/smartcontractkit/external-adapters-js/pull/3460) [`2fd3620`](https://github.com/smartcontractkit/external-adapters-js/commit/2fd362051a0b8f9b1c0c564ade41780fcf9f379b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+## 4.1.1
+
+### Patch Changes
+
+- [#3436](https://github.com/smartcontractkit/external-adapters-js/pull/3436) [`9a4d510`](https://github.com/smartcontractkit/external-adapters-js/commit/9a4d510dff13669760a91738dbe7df524f077483) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 4.1.0
+
+### Minor Changes
+
+- [#3418](https://github.com/smartcontractkit/external-adapters-js/pull/3418) [`88b49a2`](https://github.com/smartcontractkit/external-adapters-js/commit/88b49a23f7ecd685728d31875a7d2d06e0880bf9) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed vault validation logic
+
+### Patch Changes
+
+- [#3415](https://github.com/smartcontractkit/external-adapters-js/pull/3415) [`8d83d60`](https://github.com/smartcontractkit/external-adapters-js/commit/8d83d60953e04b1f797f21f1504a3976ea0a4f36) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+## 4.0.0
+
+### Major Changes
+
+- [#3389](https://github.com/smartcontractkit/external-adapters-js/pull/3389) [`26a9a02`](https://github.com/smartcontractkit/external-adapters-js/commit/26a9a02e1b95a4b293a405777baaad89e3baae66) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Modified vault fetching logic, added support for multiple networks.
+  [Breaking Changes]
+  Replaced DLC_CONTRACT env variable with 'dlcContract' input parameter.
+  Replaced RPC_URL, CHAIN_ID env variables with network-specific env variables ( {NETWORK}\_RPC_URL, {NETWORK}\_CHAIN_ID ).
+  Added new 'network' input parameter to specify the network.
+
+## 3.0.4
+
+### Patch Changes
+
+- [#3372](https://github.com/smartcontractkit/external-adapters-js/pull/3372) [`d08f378`](https://github.com/smartcontractkit/external-adapters-js/commit/d08f378e44e3f9587861421066163325c621d150) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 3.0.3
 
 ### Patch Changes

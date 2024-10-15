@@ -83,6 +83,48 @@ exports[`Price Endpoint should return price for inverse pair 1`] = `
 }
 `;
 
+exports[`Price Endpoint should return price for mapped symbol 1`] = `
+{
+  "data": {
+    "result": 200,
+  },
+  "result": 200,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`Price Endpoint should return price for overridden mapped symbol 1`] = `
+{
+  "data": {
+    "result": 200,
+  },
+  "result": 200,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`Price Endpoint should return price for overridden symbol 1`] = `
+{
+  "data": {
+    "result": 1.0539,
+  },
+  "result": 1.0539,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
 exports[`Price Endpoint should return price for specific source 1`] = `
 {
   "data": {

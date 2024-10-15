@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/elven-adapter",
-  "version": "1.0.13",
+  "version": "1.0.17",
   "description": "Chainlink elven adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.2.0",
+    "@chainlink/external-adapter-framework": "1.4.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/clear-bank-adapter",
-  "version": "1.0.8",
+  "version": "1.0.12",
   "description": "Chainlink clear-bank adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.2.0",
+    "@chainlink/external-adapter-framework": "1.4.0",
     "tslib": "2.4.1"
   }
 }

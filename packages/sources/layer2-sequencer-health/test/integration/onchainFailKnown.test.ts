@@ -13,6 +13,7 @@ const mockMessages = {
   'https://andromeda.metis.io/?owner=1088': 'cannot accept 0 gas price transaction',
   'https://rpc.scroll.io':
     'invalid transaction: insufficient funds for l1fee + gas * price + value',
+  'https://mainnet.era.zksync.io': 'max fee per gas less than block base fee',
 }
 
 jest.mock('ethers', () => {
@@ -210,6 +211,35 @@ describe('execute', () => {
         id,
         data: {
           network: 'scroll',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('zksync network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'zksync',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'zksync',
         },
       }
 

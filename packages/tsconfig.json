@@ -63,7 +63,13 @@
       "path": "./composites/market-closure"
     },
     {
+      "path": "./composites/market-status"
+    },
+    {
       "path": "./composites/medianizer"
+    },
+    {
+      "path": "./composites/multi-address-list"
     },
     {
       "path": "./composites/nftx"
@@ -135,13 +141,13 @@
       "path": "./sources/alphachain"
     },
     {
-      "path": "./sources/alphavantage"
-    },
-    {
       "path": "./sources/alpine"
     },
     {
       "path": "./sources/amberdata"
+    },
+    {
+      "path": "./sources/anchorage"
     },
     {
       "path": "./sources/anyblock"
@@ -166,6 +172,9 @@
     },
     {
       "path": "./sources/bitex"
+    },
+    {
+      "path": "./sources/bitgo"
     },
     {
       "path": "./sources/bitso"
@@ -273,6 +282,9 @@
       "path": "./sources/dar"
     },
     {
+      "path": "./sources/deep-blue"
+    },
+    {
       "path": "./sources/deribit"
     },
     {
@@ -324,6 +336,9 @@
       "path": "./sources/ethgaswatch"
     },
     {
+      "path": "./sources/expand-network"
+    },
+    {
       "path": "./sources/expert-car-broker"
     },
     {
@@ -340,6 +355,9 @@
     },
     {
       "path": "./sources/finnhub-secondary"
+    },
+    {
+      "path": "./sources/fireblocks"
     },
     {
       "path": "./sources/fixer"
@@ -420,6 +438,9 @@
       "path": "./sources/lido"
     },
     {
+      "path": "./sources/lido-por"
+    },
+    {
       "path": "./sources/linkpool"
     },
     {
@@ -436,6 +457,9 @@
     },
     {
       "path": "./sources/metalsapi"
+    },
+    {
+      "path": "./sources/mobula-state"
     },
     {
       "path": "./sources/mock-ea"
@@ -543,6 +567,9 @@
       "path": "./sources/synthetix-debt-pool"
     },
     {
+      "path": "./sources/synthetix-feeds"
+    },
+    {
       "path": "./sources/taapi"
     },
     {
@@ -558,6 +585,9 @@
       "path": "./sources/tiingo"
     },
     {
+      "path": "./sources/tiingo-state"
+    },
+    {
       "path": "./sources/tp"
     },
     {
@@ -565,6 +595,9 @@
     },
     {
       "path": "./sources/tradingeconomics"
+    },
+    {
+      "path": "./sources/tradinghours"
     },
     {
       "path": "./sources/trueusd"

@@ -1,7 +1,8 @@
 import Decimal from 'decimal.js'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, GeneratePriceOptions } from '../endpoint/price'
+import { BaseEndpointTypes } from '../endpoint/price'
+import { streamNameToAdapterNameOverride } from './util'
 
 const logger = makeLogger('TpIcapPrice')
 
@@ -33,7 +34,7 @@ const isNum = (i: number | undefined) => typeof i === 'number'
 let providerDataStreamEstablishedUnixMs: number
 
 /*
-TP and ICAP EAs currently do not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
+EAs currently do not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
 we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
  */
 const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
@@ -41,7 +42,7 @@ const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: n
   transport.responseCache.writeTTL(transport.name, params, ttl)
 }
 
-export const generateTransport = (generatePriceOptions: GeneratePriceOptions) => {
+export const generateTransport = () => {
   const tpTransport = new WebSocketTransport<WsTransportTypes>({
     url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
     handlers: {
@@ -82,23 +83,17 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
 
         // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
         if (rec.includes('HBHHH')) {
-          const stream = rec.slice(22, 24)
-          if (stream === generatePriceOptions.streamName) {
-            logger.debug({
-              msg: 'Received heartbeat message from WS, updating TTLs of active entries',
-              message,
-            })
-            updateTTL(tpTransport, context.adapterSettings.CACHE_MAX_AGE)
-            return []
-          }
-        }
-
-        const stream = rec.slice(31, 34)
-        if (stream !== generatePriceOptions.streamName) {
           logger.debug({
-            msg: `Only ${generatePriceOptions.streamName} forex prices accepted on this adapter. Filtering out this message.`,
+            msg: 'Received heartbeat message from WS, updating TTLs of active entries',
             message,
           })
+          updateTTL(tpTransport, context.adapterSettings.CACHE_MAX_AGE)
+          return []
+        }
+
+        const ticker = parseRec(rec)
+        if (!ticker) {
+          logger.debug({ msg: `Invalid symbol: ${rec}`, message })
           return []
         }
 
@@ -117,28 +112,96 @@ export const generateTransport = (generatePriceOptions: GeneratePriceOptions) =>
             .div(2)
             .toNumber()
 
-        const base = rec.slice(5, 8)
-        const quote = rec.slice(8, 11)
-        const source = rec.slice(15, 18)
+        const response = {
+          result,
+          data: {
+            result,
+          },
+          timestamps: {
+            providerDataReceivedUnixMs,
+            providerDataStreamEstablishedUnixMs,
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        }
 
+        // Cache both the base and the full ticker string. The full ticker is to
+        // accomodate cases where there are multiple instruments for a single base
+        // (e.g. forwards like CEFWDXAUUSDSPT06M:LDN.BIL.QTE.RTM!TP, CEFWDXAUUSDSPT02Y:LDN.BIL.QTE.RTM!TP, CEFWDXAUUSDSPT03M:LDN.BIL.QTE.RTM!TP, etc).
+        // It is expected that for such cases, the exact ticker will be provided as
+        // an override.
+        // e.g. request body = {"data":{"endpoint":"forex","from":"CHF","to":"USD","overrides":{"tp":{"CHF":"FXSPTUSDAEDSPT:GBL.BIL.QTE.RTM!TP"}}}}
         return [
           {
-            params: { base, quote, [generatePriceOptions.sourceName]: source },
-            response: {
-              result,
-              data: {
-                result,
-              },
-              timestamps: {
-                providerDataReceivedUnixMs,
-                providerDataStreamEstablishedUnixMs,
-                providerIndicatedTimeUnixMs: undefined,
-              },
+            params: {
+              base: ticker.base,
+              quote: ticker.quote,
+              streamName: ticker.stream,
+              sourceName: ticker.source,
+              adapterNameOverride: streamNameToAdapterNameOverride(ticker.stream),
             },
+            response,
+          },
+          {
+            params: {
+              base: rec,
+              quote: ticker.quote,
+              streamName: ticker.stream,
+              sourceName: ticker.source,
+              adapterNameOverride: streamNameToAdapterNameOverride(ticker.stream),
+            },
+            response,
           },
         ] as unknown as ProviderResult<WsTransportTypes>[]
       },
     },
   })
   return tpTransport
+}
+
+// mapping OTRWTS to WTIUSD specifically for caching with quote = USD
+const marketBaseQuoteOverrides: Record<string, string> = {
+  CEOILOTRWTS: 'CEOILWTIUSD',
+}
+
+type Ticker = {
+  market: string
+  base: string
+  quote: string
+  source: string
+  stream: string
+}
+
+/*
+For example, if rec = 'FXSPTCHFSEKSPT:GBL.BIL.QTE.RTM!IC', then the parsed output is
+{
+  market: 'FXSPT',
+  base: 'CHF',
+  quote: 'SEK',
+  source: 'GBL',
+  stream: 'IC'
+}
+*/
+export const parseRec = (rec: string): Ticker | null => {
+  const [symbol, rec1] = rec.split(':')
+  if (!rec1) {
+    return null
+  }
+
+  const [sources, stream] = rec1.split('!')
+  if (!stream) {
+    return null
+  }
+
+  let marketBaseQuote = symbol.slice(0, 11)
+  if (marketBaseQuote in marketBaseQuoteOverrides) {
+    marketBaseQuote = marketBaseQuoteOverrides[marketBaseQuote]
+  }
+
+  return {
+    market: marketBaseQuote.slice(0, 5),
+    base: marketBaseQuote.slice(5, 8),
+    quote: marketBaseQuote.slice(8, 11),
+    source: sources.split('.')[0],
+    stream,
+  }
 }

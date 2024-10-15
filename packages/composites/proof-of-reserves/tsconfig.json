@@ -35,6 +35,7 @@
     { "path": "../../sources/swell-address-list" },
     { "path": "../../sources/por-address-list" },
     { "path": "../../sources/moonbeam-address-list" },
-    { "path": "../../sources/polkadot-balance" }
+    { "path": "../../sources/polkadot-balance" },
+    { "path": "../../composites/multi-address-list" }
   ]
 }

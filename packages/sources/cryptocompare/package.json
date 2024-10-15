@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptocompare-adapter",
-  "version": "3.2.0",
+  "version": "3.3.3",
   "description": "Chainlink cryptocompare adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.2.0",
+    "@chainlink/external-adapter-framework": "1.4.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

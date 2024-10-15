@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.7.8
+
+### Patch Changes
+
+- [#3444](https://github.com/smartcontractkit/external-adapters-js/pull/3444) [`1f57b4a`](https://github.com/smartcontractkit/external-adapters-js/commit/1f57b4afae3a950263cf70f561d57f8cf8ebf627) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Removed alphavantage EA
+
 ## 2.7.7
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # SUPERSTATE
 
-![1.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/superstate/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/superstate/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -32,13 +32,24 @@ Supported names for this endpoint are: `nav`, `por`, `reserves`.
 
 ### Input Params
 
-| Required? |  Name  | Aliases | Description |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :---------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | fundId |         |   Fund id   | number |         |         |            |                |
+| Required? |    Name     | Aliases |       Description        |  Type  |                   Options                    |      Default      | Depends On | Not Valid With |
+| :-------: | :---------: | :-----: | :----------------------: | :----: | :------------------------------------------: | :---------------: | :--------: | :------------: |
+|    ✅     |   fundId    |         |         Fund id          | number |                                              |                   |            |                |
+|           | reportValue |         | Which value to report on | string | `assets_under_management`, `net_asset_value` | `net_asset_value` |            |                |
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "reserves",
+    "fundId": 1,
+    "reportValue": "net_asset_value"
+  }
+}
+```
 
 ---
 

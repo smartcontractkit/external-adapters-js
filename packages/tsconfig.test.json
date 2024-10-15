@@ -63,7 +63,13 @@
       "path": "./composites/market-closure/tsconfig.test.json"
     },
     {
+      "path": "./composites/market-status/tsconfig.test.json"
+    },
+    {
       "path": "./composites/medianizer/tsconfig.test.json"
+    },
+    {
+      "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
       "path": "./composites/nftx/tsconfig.test.json"
@@ -135,13 +141,13 @@
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
-      "path": "./sources/alphavantage/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
       "path": "./sources/amberdata/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/anchorage/tsconfig.test.json"
     },
     {
       "path": "./sources/anyblock/tsconfig.test.json"
@@ -166,6 +172,9 @@
     },
     {
       "path": "./sources/bitex/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/bitgo/tsconfig.test.json"
     },
     {
       "path": "./sources/bitso/tsconfig.test.json"
@@ -273,6 +282,9 @@
       "path": "./sources/dar/tsconfig.test.json"
     },
     {
+      "path": "./sources/deep-blue/tsconfig.test.json"
+    },
+    {
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {
@@ -324,6 +336,9 @@
       "path": "./sources/ethgaswatch/tsconfig.test.json"
     },
     {
+      "path": "./sources/expand-network/tsconfig.test.json"
+    },
+    {
       "path": "./sources/expert-car-broker/tsconfig.test.json"
     },
     {
@@ -340,6 +355,9 @@
     },
     {
       "path": "./sources/finnhub-secondary/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/fireblocks/tsconfig.test.json"
     },
     {
       "path": "./sources/fixer/tsconfig.test.json"
@@ -420,6 +438,9 @@
       "path": "./sources/lido/tsconfig.test.json"
     },
     {
+      "path": "./sources/lido-por/tsconfig.test.json"
+    },
+    {
       "path": "./sources/linkpool/tsconfig.test.json"
     },
     {
@@ -436,6 +457,9 @@
     },
     {
       "path": "./sources/metalsapi/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/mobula-state/tsconfig.test.json"
     },
     {
       "path": "./sources/mock-ea/tsconfig.test.json"
@@ -543,6 +567,9 @@
       "path": "./sources/synthetix-debt-pool/tsconfig.test.json"
     },
     {
+      "path": "./sources/synthetix-feeds/tsconfig.test.json"
+    },
+    {
       "path": "./sources/taapi/tsconfig.test.json"
     },
     {
@@ -558,6 +585,9 @@
       "path": "./sources/tiingo/tsconfig.test.json"
     },
     {
+      "path": "./sources/tiingo-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/tp/tsconfig.test.json"
     },
     {
@@ -565,6 +595,9 @@
     },
     {
       "path": "./sources/tradingeconomics/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/tradinghours/tsconfig.test.json"
     },
     {
       "path": "./sources/trueusd/tsconfig.test.json"

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute wallet endpoint should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "0xEc8907aDA68E963C4AD7C7F11a1a846cfd2fA50A",
+        "chainId": "testnet",
+        "network": "ethereum",
+      },
+      {
+        "address": "0x77928478770209020dE7e36E02b905d1CA9f92BE",
+        "chainId": "testnet",
+        "network": "ethereum",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

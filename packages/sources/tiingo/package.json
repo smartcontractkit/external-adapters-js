@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tiingo-adapter",
-  "version": "2.5.0",
+  "version": "2.6.2",
   "description": "Chainlink tiingo adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.2.0",
+    "@chainlink/external-adapter-framework": "1.4.0",
     "tslib": "2.4.1"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dlc-btc-por-adapter",
-  "version": "3.0.3",
+  "version": "4.2.0",
   "description": "Chainlink dlc-btc-por adapter.",
   "keywords": [
     "Chainlink",
@@ -36,8 +36,9 @@
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "1.1.1",
-    "@chainlink/external-adapter-framework": "1.2.0",
-    "@scure/base": "1.1.6",
+    "@chainlink/external-adapter-framework": "1.4.0",
+    "@noble/hashes": "1.4.0",
+    "@scure/base": "1.1.9",
     "@scure/btc-signer": "1.2.2",
     "bip32": "4.0.0",
     "ethers": "^5.4.6",

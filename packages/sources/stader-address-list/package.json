@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stader-address-list-adapter",
-  "version": "2.3.19",
+  "version": "2.3.23",
   "description": "Chainlink stader-address-list adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.2.0",
+    "@chainlink/external-adapter-framework": "1.4.0",
     "ethers": "5.5.4",
     "tslib": "^2.3.1"
   },

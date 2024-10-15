@@ -1,0 +1,47 @@
+{
+  "name": "@chainlink/market-status-adapter",
+  "version": "1.0.4",
+  "description": "Chainlink market-status adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "market-status"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.96",
+    "@types/sinonjs__fake-timers": "8.1.5",
+    "@types/supertest": "2.0.16",
+    "mock-socket": "9.3.1",
+    "nock": "13.5.4",
+    "supertest": "6.2.4",
+    "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "1.4.0",
+    "@chainlink/ncfx-adapter": "workspace:*",
+    "@chainlink/tradinghours-adapter": "workspace:*",
+    "tslib": "2.4.1"
+  }
+}

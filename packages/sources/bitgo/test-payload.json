@@ -1,0 +1,8 @@
+{
+ "requests": [{
+    "coin": "hteth",
+    "chainId": "testnet",
+    "network": "ethereum",
+    "enterpriseId": "66d72170014fe3e546d3d10a4fc93149"
+ }]
+}

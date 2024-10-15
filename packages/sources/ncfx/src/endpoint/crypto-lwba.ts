@@ -26,4 +26,10 @@ export const cryptoLwbaEndpoint = new LwbaEndpoint({
   customInputValidation,
   transport,
   inputParameters,
+  requestTransforms: [
+    (req) => {
+      req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
+      req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
+    },
+  ],
 })

@@ -9,7 +9,7 @@ export const config = new AdapterConfig({
   WS_API_ENDPOINT: {
     description: 'The WS URL to retrieve data from',
     type: 'string',
-    default: 'wss://data-streamer.cryptocompare.com',
+    default: 'wss://client-axfioiyn03.ccdata.io',
   },
   API_KEY: {
     description: 'The CryptoCompare API key',
@@ -26,6 +26,6 @@ export const config = new AdapterConfig({
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
     type: 'boolean',
-    default: false,
+    default: true,
   },
 })

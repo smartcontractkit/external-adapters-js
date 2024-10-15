@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/view-function-adapter",
-  "version": "3.0.11",
+  "version": "3.1.0",
   "description": "Chainlink view-function adapter.",
   "keywords": [
     "Chainlink",
@@ -34,8 +34,8 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.2.0",
-    "ethers": "^5.4.6",
+    "@chainlink/external-adapter-framework": "1.4.0",
+    "ethers": "^6.13.2",
     "tslib": "2.4.1"
   }
 }

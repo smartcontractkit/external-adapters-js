@@ -32,7 +32,7 @@ export const mockLwbaResponse = {
         agg_ask_price: '27206.54222704013',
         agg_ask_size: '6.76037062',
         agg_mid_price: '27204.76629652509',
-        ts: 1693425803031,
+        ts: 1693425803031000,
       },
       {
         ticker: 'ETHUSD',
@@ -41,7 +41,7 @@ export const mockLwbaResponse = {
         agg_ask_price: '1702.223427255888',
         agg_ask_size: '11.44083383',
         agg_mid_price: '1702.034150611851',
-        ts: 1693425803028,
+        ts: 1693425803028000,
       },
       {
         ticker: 'LINKUSD',
@@ -50,7 +50,7 @@ export const mockLwbaResponse = {
         agg_ask_price: '123.124',
         agg_ask_size: '11.44083383',
         agg_mid_price: '123.125',
-        ts: 1693425803029,
+        ts: 1693425803029000,
       },
     ],
   },

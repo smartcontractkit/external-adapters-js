@@ -1,5 +1,53 @@
 # @chainlink/tp-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#3461](https://github.com/smartcontractkit/external-adapters-js/pull/3461) [`f12b69f`](https://github.com/smartcontractkit/external-adapters-js/commit/f12b69f370fd24bd063105a140c6d79ed1f00fe7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use ICAP as metric name instead of IC
+
+## 1.7.0
+
+### Minor Changes
+
+- [#3458](https://github.com/smartcontractkit/external-adapters-js/pull/3458) [`583b182`](https://github.com/smartcontractkit/external-adapters-js/commit/583b18259fd7e6ea3d68357c6887309100ec594c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Seperate TP vs IC on dashboard
+
+## 1.6.0
+
+### Minor Changes
+
+- [#3449](https://github.com/smartcontractkit/external-adapters-js/pull/3449) [`2e7c23b`](https://github.com/smartcontractkit/external-adapters-js/commit/2e7c23b72994935eaeea0c6f268eb5257ba504c4) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Combined TP and ICAP EAs into a single EA and removed ICAP.URL must have query param appended as selector in bridge URL, eg: https://<tp-ea>:8080?streamName=icapThis change will save subscription costs as all data for both DPs is sent on 1 WS connection and each additional connection requires additional subscriptions (and cost).Should be backwards compatible for TP ONLY
+
+## 1.5.1
+
+### Patch Changes
+
+- [#3436](https://github.com/smartcontractkit/external-adapters-js/pull/3436) [`9a4d510`](https://github.com/smartcontractkit/external-adapters-js/commit/9a4d510dff13669760a91738dbe7df524f077483) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bumped framework version
+
+## 1.5.0
+
+### Minor Changes
+
+- [#3417](https://github.com/smartcontractkit/external-adapters-js/pull/3417) [`0496a7f`](https://github.com/smartcontractkit/external-adapters-js/commit/0496a7feaf701cff7c8c92052dffc45e36910bc2) Thanks [@martin-cll](https://github.com/martin-cll)! - Enable full symbol override
+
+### Patch Changes
+
+- [#3419](https://github.com/smartcontractkit/external-adapters-js/pull/3419) [`8958e04`](https://github.com/smartcontractkit/external-adapters-js/commit/8958e04d4aae22fbe5b66b920f91a3bda7f4b454) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add mapping comment
+
+- [#3415](https://github.com/smartcontractkit/external-adapters-js/pull/3415) [`8d83d60`](https://github.com/smartcontractkit/external-adapters-js/commit/8d83d60953e04b1f797f21f1504a3976ea0a4f36) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+## 1.4.12
+
+### Patch Changes
+
+- [#3383](https://github.com/smartcontractkit/external-adapters-js/pull/3383) [`db9ac3b`](https://github.com/smartcontractkit/external-adapters-js/commit/db9ac3ba972d8e088b59c26d32d69cd6c9d97d01) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fix ICAP cache TTL refresh on heartbeat bug
+
+## 1.4.11
+
+### Patch Changes
+
+- [#3372](https://github.com/smartcontractkit/external-adapters-js/pull/3372) [`d08f378`](https://github.com/smartcontractkit/external-adapters-js/commit/d08f378e44e3f9587861421066163325c621d150) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.4.10
 
 ### Patch Changes

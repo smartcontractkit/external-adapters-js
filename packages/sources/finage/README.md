@@ -1,8 +1,22 @@
 # FINAGE
 
-![2.0.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Hardcoded Feeds
+
+Outside of overrides defined in the standard [overrides.json](https://github.com/smartcontractkit/external-adapters-js/blob/main/packages/sources/finage/src/config/overrides.json) file, the Finage EA has some custom hardcoded logic.
+
+### Forex Endpoint - Transport Routing & Assets
+
+The `forex` endpoint includes custom logic for routing [certain assets](https://github.com/smartcontractkit/external-adapters-js/blob/main/packages/sources/finage/src/endpoint/forex.ts#L44) to REST.
+
+Additionally, many forex assets quoted in USD are inversed. [This](https://github.com/smartcontractkit/external-adapters-js/blob/main/packages/sources/finage/src/endpoint/forex.ts#L19) is a map of assets excluded from this inverse logic; all other /USD pairs should be considered as inverse pairs.
+
+### Crypto Endpoint - Asset Transport routing
+
+Similarly, for the `crypto` endpoint, [these asset pairs](https://github.com/smartcontractkit/external-adapters-js/blob/main/packages/sources/finage/src/endpoint/crypto.ts#L9-L18) are routed to REST only.
 
 ## Environment Variables
 

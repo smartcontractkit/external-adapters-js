@@ -6,7 +6,8 @@ import { InputParametersDefinition } from '@chainlink/external-adapter-framework
 import fs from 'fs'
 import path from 'path'
 import process from 'process'
-import { cat, exec, test } from 'shelljs'
+import * as generatorPack from '../../package.json'
+import { exec, test } from 'shelljs'
 import {
   EndpointDetails,
   EnvVars,
@@ -92,9 +93,16 @@ export class ReadmeGenerator {
     const packageJson = getJsonFile(packagePath) as Package
 
     if (packageJson.dependencies) {
-      this.frameworkVersion = packageJson.dependencies['@chainlink/external-adapter-framework']
-        ? 'v3'
-        : 'v2'
+      const adapterEA = packageJson.dependencies['@chainlink/external-adapter-framework']
+      if (adapterEA) {
+        this.frameworkVersion = 'v3'
+        const generatorEA = generatorPack.dependencies['@chainlink/external-adapter-framework']
+        if (adapterEA != generatorEA) {
+          console.log(`This generator uses ${generatorEA} but ${adapter.name} uses ${adapterEA}`)
+        }
+      } else {
+        this.frameworkVersion = 'v2'
+      }
     }
 
     this.version = packageJson.version ?? ''

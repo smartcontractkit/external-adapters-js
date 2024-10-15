@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/proof-of-reserves-adapter",
-  "version": "1.20.3",
+  "version": "1.21.3",
   "description": "Chainlink BTC Proof of Reserves composite adapter. Combines multiple adapters to find total balance in custody for wBTC or renBTC.",
   "keywords": [
     "Chainlink",
@@ -50,6 +50,7 @@
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
     "@chainlink/moonbeam-address-list-adapter": "workspace:*",
+    "@chainlink/multi-address-list-adapter": "workspace:*",
     "@chainlink/polkadot-balance-adapter": "workspace:*",
     "@chainlink/por-address-list-adapter": "workspace:*",
     "@chainlink/por-indexer-adapter": "workspace:*",
@@ -66,7 +67,7 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "1.2.0",
+    "@chainlink/external-adapter-framework": "1.4.0",
     "@types/jest": "27.5.2",
     "@types/node": "16.18.96",
     "@types/supertest": "2.0.16",

@@ -1,6 +1,6 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { ethers, utils } from 'ethers'
+import { ethers } from 'ethers'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
@@ -12,7 +12,7 @@ export type FunctionTransportTypes = BaseEndpointTypes
 type RequestParams = typeof inputParameters.validated
 
 export class FunctionTransport extends SubscriptionTransport<FunctionTransportTypes> {
-  provider!: ethers.providers.JsonRpcProvider
+  provider!: ethers.JsonRpcProvider
 
   async initialize(
     dependencies: TransportDependencies<FunctionTransportTypes>,
@@ -21,7 +21,7 @@ export class FunctionTransport extends SubscriptionTransport<FunctionTransportTy
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.provider = new ethers.providers.JsonRpcProvider(
+    this.provider = new ethers.JsonRpcProvider(
       adapterSettings.ETHEREUM_RPC_URL,
       adapterSettings.ETHEREUM_CHAIN_ID,
     )
@@ -57,8 +57,8 @@ export class FunctionTransport extends SubscriptionTransport<FunctionTransportTy
   ): Promise<AdapterResponse<FunctionTransportTypes['Response']>> {
     const { address, signature, inputParams } = param
 
-    const iface = new utils.Interface([signature])
-    const fnName = iface.functions[Object.keys(iface.functions)[0]].name
+    const iface = new ethers.Interface([signature])
+    const fnName = iface.getFunctionName(signature)
 
     const encoded = iface.encodeFunctionData(fnName, [...(inputParams || [])])
 
