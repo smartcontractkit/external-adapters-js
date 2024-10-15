@@ -23,7 +23,7 @@ export type BaseCryptoEndpointTypes = {
 
 export const endpoint = new PriceEndpoint({
   name: 'price',
-  aliases: ['crypto', 'state'],
+  aliases: ['crypto', 'state', 'lol'],
   transportRoutes: new TransportRoutes<BaseCryptoEndpointTypes>().register('ws', wsTransport),
   defaultTransport: 'ws',
   inputParameters: inputParameters,
