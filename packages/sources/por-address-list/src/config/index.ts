@@ -8,7 +8,7 @@ export const config = new AdapterConfig({
     required: true,
   },
   CHAIN_ID: {
-    description: 'The chain id to connect to',
+    description: 'The chain id to connect to for the RPC URL',
     type: 'number',
     default: 1,
   },
