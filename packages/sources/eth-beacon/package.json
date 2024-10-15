@@ -34,7 +34,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.4.0",
+    "@chainlink/external-adapter-framework": "1.5.0",
     "bignumber.js": "9.1.2",
     "ethers": "5.7.2",
     "tslib": "2.4.1"
