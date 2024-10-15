@@ -1,0 +1,8 @@
+{
+  "requests": [
+    {
+      "base": "wstETH",
+      "quote": "ETH"
+    }
+  ]
+}

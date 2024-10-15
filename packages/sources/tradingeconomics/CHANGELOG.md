@@ -1,5 +1,13 @@
 # @chainlink/tradingeconomics-adapter
 
+## 3.0.17
+
+### Patch Changes
+
+- [#3473](https://github.com/smartcontractkit/external-adapters-js/pull/3473) [`bd95e2e`](https://github.com/smartcontractkit/external-adapters-js/commit/bd95e2eb5d7da8797c5dace5f5119d40e923f8ad) Thanks [@nikhsha](https://github.com/nikhsha)! - Add inverses to TradingEconomics for new pairs
+
+- [#3460](https://github.com/smartcontractkit/external-adapters-js/pull/3460) [`2fd3620`](https://github.com/smartcontractkit/external-adapters-js/commit/2fd362051a0b8f9b1c0c564ade41780fcf9f379b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 3.0.16
 
 ### Patch Changes

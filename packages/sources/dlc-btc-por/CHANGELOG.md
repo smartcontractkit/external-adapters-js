@@ -1,5 +1,15 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 4.2.0
+
+### Minor Changes
+
+- [#3469](https://github.com/smartcontractkit/external-adapters-js/pull/3469) [`23d10f5`](https://github.com/smartcontractkit/external-adapters-js/commit/23d10f5390957bc8d426ed48bfe902994311eba2) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Changed error handling for missing transactions or RPC issues
+
+### Patch Changes
+
+- [#3460](https://github.com/smartcontractkit/external-adapters-js/pull/3460) [`2fd3620`](https://github.com/smartcontractkit/external-adapters-js/commit/2fd362051a0b8f9b1c0c564ade41780fcf9f379b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 4.1.1
 
 ### Patch Changes
