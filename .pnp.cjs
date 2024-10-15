@@ -19341,25 +19341,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["body-parser", [\
-      ["npm:1.20.1", {\
-        "packageLocation": "./.yarn/cache/body-parser-npm-1.20.1-759fd14db9-5f8d128022.zip/node_modules/body-parser/",\
-        "packageDependencies": [\
-          ["body-parser", "npm:1.20.1"],\
-          ["bytes", "npm:3.1.2"],\
-          ["content-type", "npm:1.0.4"],\
-          ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],\
-          ["depd", "npm:2.0.0"],\
-          ["destroy", "npm:1.2.0"],\
-          ["http-errors", "npm:2.0.0"],\
-          ["iconv-lite", "npm:0.4.24"],\
-          ["on-finished", "npm:2.4.1"],\
-          ["qs", "npm:6.11.0"],\
-          ["raw-body", "npm:2.5.1"],\
-          ["type-is", "npm:1.6.18"],\
-          ["unpipe", "npm:1.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.20.3", {\
         "packageLocation": "./.yarn/cache/body-parser-npm-1.20.3-c7b184cd14-8723e3d7a6.zip/node_modules/body-parser/",\
         "packageDependencies": [\
@@ -37187,7 +37168,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/servify-npm-0.1.12-c952112302-d61b145034.zip/node_modules/servify/",\
         "packageDependencies": [\
           ["servify", "npm:0.1.12"],\
-          ["body-parser", "npm:1.20.1"],\
+          ["body-parser", "npm:1.20.3"],\
           ["cors", "npm:2.8.5"],\
           ["express", "npm:4.21.0"],\
           ["request", "npm:2.88.2"],\
