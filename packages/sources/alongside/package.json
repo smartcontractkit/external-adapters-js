@@ -28,9 +28,9 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.4.0",
+    "@chainlink/external-adapter-framework": "1.5.0",
     "@types/crypto-js": "^4.1.1",
-    "axios": "1.6.8",
+    "axios": "1.7.7",
     "crypto-js": "^4.2.0",
     "ethers": "^5.4.2",
     "mathjs": "^11.5.1",

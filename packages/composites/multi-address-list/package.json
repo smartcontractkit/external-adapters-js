@@ -38,7 +38,7 @@
     "@chainlink/anchorage-adapter": "workspace:*",
     "@chainlink/bitgo-adapter": "workspace:*",
     "@chainlink/coinbase-prime-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "1.4.0",
+    "@chainlink/external-adapter-framework": "1.5.0",
     "node-schedule": "2.1.1",
     "tslib": "2.4.1"
   }

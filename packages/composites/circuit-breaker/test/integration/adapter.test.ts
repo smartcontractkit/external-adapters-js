@@ -100,8 +100,8 @@ describe('execute', () => {
         input: {
           id: jobID,
           data: {
-            primarySource: 'none',
-            secondarySource: 'none',
+            primarySource: 'coinpaprika',
+            secondarySource: 'coinpaprika',
             from: 'ETH',
             to: 'USD',
           },
