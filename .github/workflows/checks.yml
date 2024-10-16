@@ -87,18 +87,7 @@ jobs:
       - name: Run integration tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-          IGNORED_PACKAGES: '["dydx-rewards", "ipfs"]'
-        run: |
-          # Filter out the ignored packages
-          FILTERED_PACKAGES=$(echo "$CHANGED_PACKAGES" | jq --argjson ignored "$IGNORED_PACKAGES" '[.[] | select(.name as $pkgname | $ignored | index($pkgname) | not)]')
-
-          # Check if there are any packages left to test
-          if [ "$FILTERED_PACKAGES" != "[]" ]; then
-            # Run Jest with the filtered package paths
-            EA_PORT=0 METRICS_ENABLED=false yarn jest --passWithNoTests $(echo "$FILTERED_PACKAGES" | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
-          else
-            echo "No packages to test"
-          fi
+        run: EA_PORT=0 METRICS_ENABLED=false yarn jest --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
 
   # Run linters
   linters:
