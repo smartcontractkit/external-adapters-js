@@ -6,7 +6,7 @@ import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/ut
 import { POR_ADDRESS_LIST_ABI } from '../config/abi'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
 import { ethers } from 'ethers'
-import { fetchAddressList } from './utils'
+import { fetchAddressList, addProvider, getProvider } from './utils'
 
 export type AddressTransportTypes = BaseEndpointTypes
 
@@ -14,6 +14,7 @@ type RequestParams = typeof inputParameters.validated
 
 export class AddressTransport extends SubscriptionTransport<AddressTransportTypes> {
   provider!: ethers.providers.JsonRpcProvider
+  providersMap: Record<string, ethers.providers.JsonRpcProvider> = {}
   settings!: AddressTransportTypes['Settings']
 
   async initialize(
@@ -60,10 +61,21 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
-    const { confirmations, contractAddress, batchSize, network, chainId, searchLimboValidators } =
-      param
-    const addressManager = new ethers.Contract(contractAddress, POR_ADDRESS_LIST_ABI, this.provider)
-    const latestBlockNum = await this.provider.getBlockNumber()
+    const {
+      confirmations,
+      contractAddress,
+      contractAddressNetwork,
+      batchSize,
+      network,
+      chainId,
+      searchLimboValidators,
+    } = param
+
+    this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
+    const provider = getProvider(contractAddressNetwork, this.providersMap, this.provider)
+
+    const addressManager = new ethers.Contract(contractAddress, POR_ADDRESS_LIST_ABI, provider)
+    const latestBlockNum = await provider.getBlockNumber()
 
     const providerDataRequestedUnixMs = Date.now()
     const addressList = await fetchAddressList(
