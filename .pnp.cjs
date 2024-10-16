@@ -807,6 +807,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/tiingo"\
     },\
     {\
+      "name": "@chainlink/tiingo-state-adapter",\
+      "reference": "workspace:packages/sources/tiingo-state"\
+    },\
+    {\
       "name": "@chainlink/tp-adapter",\
       "reference": "workspace:packages/sources/tp"\
     },\
@@ -1105,6 +1109,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
     ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
+    ["@chainlink/tiingo-state-adapter", ["workspace:packages/sources/tiingo-state"]],\
     ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
     ["@chainlink/token-allocation-test-adapter", ["workspace:packages/non-deployable/token-allocation-test"]],\
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
@@ -1142,7 +1147,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.7"],\
           ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
-          ["@changesets/cli", "npm:2.27.8"],\
+          ["@changesets/cli", "npm:2.27.9"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.37.0"],\
@@ -6730,7 +6735,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.6.8"],\
+          ["axios", "npm:1.7.7"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -7403,7 +7408,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.24.7"],\
           ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
           ["@changesets/changelog-github", "npm:0.5.0"],\
-          ["@changesets/cli", "npm:2.27.8"],\
+          ["@changesets/cli", "npm:2.27.9"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.37.0"],\
@@ -7926,7 +7931,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.6.8"],\
+          ["axios", "npm:1.7.7"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -8839,7 +8844,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@aws-sdk/client-s3", "npm:3.600.0"],\
           ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
-          ["@types/jest", "npm:29.5.12"],\
+          ["@types/jest", "npm:29.5.13"],\
           ["@types/node", "npm:20.14.10"],\
           ["csv-parse", "npm:5.5.6"],\
           ["date-fns", "npm:3.6.0"],\
@@ -9285,6 +9290,23 @@ const RAW_RUNTIME_STATE =
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/tiingo-state-adapter", [\
+      ["workspace:packages/sources/tiingo-state", {\
+        "packageLocation": "./packages/sources/tiingo-state/",\
+        "packageDependencies": [\
+          ["@chainlink/tiingo-state-adapter", "workspace:packages/sources/tiingo-state"],\
+          ["@chainlink/external-adapter-framework", "npm:1.4.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
@@ -9795,10 +9817,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/cli", [\
-      ["npm:2.27.8", {\
-        "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.27.8-e6f51a6449-e5caf7efc1.zip/node_modules/@changesets/cli/",\
+      ["npm:2.27.9", {\
+        "packageLocation": "./.yarn/cache/@changesets-cli-npm-2.27.9-5df61a909e-3bb61ae64d.zip/node_modules/@changesets/cli/",\
         "packageDependencies": [\
-          ["@changesets/cli", "npm:2.27.8"],\
+          ["@changesets/cli", "npm:2.27.9"],\
           ["@changesets/apply-release-plan", "npm:7.0.5"],\
           ["@changesets/assemble-release-plan", "npm:6.0.4"],\
           ["@changesets/changelog-git", "npm:0.2.0"],\
@@ -9814,14 +9836,12 @@ const RAW_RUNTIME_STATE =
           ["@changesets/types", "npm:6.0.0"],\
           ["@changesets/write", "npm:0.3.2"],\
           ["@manypkg/get-packages", "npm:1.1.3"],\
-          ["@types/semver", "npm:7.5.1"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["ci-info", "npm:3.9.0"],\
           ["enquirer", "npm:2.3.6"],\
           ["external-editor", "npm:3.1.0"],\
           ["fs-extra", "npm:7.0.1"],\
           ["mri", "npm:1.2.0"],\
-          ["outdent", "npm:0.5.0"],\
           ["p-limit", "npm:2.3.0"],\
           ["package-manager-detector", "npm:0.2.0"],\
           ["picocolors", "npm:1.1.0"],\
@@ -16418,10 +16438,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:29.5.12", {\
-        "packageLocation": "./.yarn/cache/@types-jest-npm-29.5.12-6459b9d012-312e8dcf92.zip/node_modules/@types/jest/",\
+      ["npm:29.5.13", {\
+        "packageLocation": "./.yarn/cache/@types-jest-npm-29.5.13-b43d0e7497-7d6e3e4ef4.zip/node_modules/@types/jest/",\
         "packageDependencies": [\
-          ["@types/jest", "npm:29.5.12"],\
+          ["@types/jest", "npm:29.5.13"],\
           ["expect", "npm:29.7.0"],\
           ["pretty-format", "npm:29.7.0"]\
         ],\
@@ -16860,13 +16880,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.13-56212b60da-0064efd7a0.zip/node_modules/@types/semver/",\
         "packageDependencies": [\
           ["@types/semver", "npm:7.3.13"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:7.5.1", {\
-        "packageLocation": "./.yarn/cache/@types-semver-npm-7.5.1-cda240741c-8e19822a2f.zip/node_modules/@types/semver/",\
-        "packageDependencies": [\
-          ["@types/semver", "npm:7.5.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -18535,6 +18548,16 @@ const RAW_RUNTIME_STATE =
           ["proxy-from-env", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.7.7", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.7.7-cfbedc233d-7f875ea13b.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.7.7"],\
+          ["follow-redirects", "virtual:85cf1e7152e3c0d8e39e61ad2b81b59a43fb6bdb8f3bf49869bb97804b1403ecaee4505fcb0d4869cfdd99ee3eaa880b79498575407fb770c800bf64c64156ec#npm:1.15.6"],\
+          ["form-data", "npm:4.0.0"],\
+          ["proxy-from-env", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["axios-mock-adapter", [\
@@ -19319,25 +19342,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["body-parser", [\
-      ["npm:1.20.1", {\
-        "packageLocation": "./.yarn/cache/body-parser-npm-1.20.1-759fd14db9-5f8d128022.zip/node_modules/body-parser/",\
-        "packageDependencies": [\
-          ["body-parser", "npm:1.20.1"],\
-          ["bytes", "npm:3.1.2"],\
-          ["content-type", "npm:1.0.4"],\
-          ["debug", "virtual:2bcc47d217f870e3d52f0e55493dc34fd3da852877f7db32fa2940cc320151746026495daf6a34a974488cf5a949d93be1e2dc1ffba036faf081a9b15fcd2252#npm:2.6.9"],\
-          ["depd", "npm:2.0.0"],\
-          ["destroy", "npm:1.2.0"],\
-          ["http-errors", "npm:2.0.0"],\
-          ["iconv-lite", "npm:0.4.24"],\
-          ["on-finished", "npm:2.4.1"],\
-          ["qs", "npm:6.11.0"],\
-          ["raw-body", "npm:2.5.1"],\
-          ["type-is", "npm:1.6.18"],\
-          ["unpipe", "npm:1.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.20.3", {\
         "packageLocation": "./.yarn/cache/body-parser-npm-1.20.3-c7b184cd14-8723e3d7a6.zip/node_modules/body-parser/",\
         "packageDependencies": [\
@@ -37165,7 +37169,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/servify-npm-0.1.12-c952112302-d61b145034.zip/node_modules/servify/",\
         "packageDependencies": [\
           ["servify", "npm:0.1.12"],\
-          ["body-parser", "npm:1.20.1"],\
+          ["body-parser", "npm:1.20.3"],\
           ["cors", "npm:2.8.5"],\
           ["express", "npm:4.21.0"],\
           ["request", "npm:2.88.2"],\

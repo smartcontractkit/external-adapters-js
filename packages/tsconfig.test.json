@@ -585,6 +585,9 @@
       "path": "./sources/tiingo/tsconfig.test.json"
     },
     {
+      "path": "./sources/tiingo-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/tp/tsconfig.test.json"
     },
     {

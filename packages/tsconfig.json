@@ -585,6 +585,9 @@
       "path": "./sources/tiingo"
     },
     {
+      "path": "./sources/tiingo-state"
+    },
+    {
       "path": "./sources/tp"
     },
     {
