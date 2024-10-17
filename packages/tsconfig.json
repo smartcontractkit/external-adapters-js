@@ -411,6 +411,9 @@
       "path": "./sources/iex-cloud"
     },
     {
+      "path": "./sources/ignition-address-list"
+    },
+    {
       "path": "./sources/intrinio"
     },
     {

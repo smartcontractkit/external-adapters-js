@@ -575,6 +575,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/iex-cloud"\
     },\
     {\
+      "name": "@chainlink/ignition-address-list-adapter",\
+      "reference": "workspace:packages/sources/ignition-address-list"\
+    },\
+    {\
       "name": "@chainlink/intrinio-adapter",\
       "reference": "workspace:packages/sources/intrinio"\
     },\
@@ -1033,6 +1037,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
+    ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
     ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
@@ -7901,6 +7906,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/ignition-address-list-adapter", [\
+      ["workspace:packages/sources/ignition-address-list", {\
+        "packageLocation": "./packages/sources/ignition-address-list/",\
+        "packageDependencies": [\
+          ["@chainlink/ignition-address-list-adapter", "workspace:packages/sources/ignition-address-list"],\
+          ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/implied-price-adapter", [\
       ["workspace:packages/composites/implied-price", {\
         "packageLocation": "./packages/composites/implied-price/",\
@@ -8716,6 +8736,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
           ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
+          ["@chainlink/ignition-address-list-adapter", "workspace:packages/sources/ignition-address-list"],\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
           ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
           ["@chainlink/multi-address-list-adapter", "workspace:packages/composites/multi-address-list"],\

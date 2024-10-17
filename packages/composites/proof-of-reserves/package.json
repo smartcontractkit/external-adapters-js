@@ -48,6 +48,7 @@
     "@chainlink/eth-balance-adapter": "workspace:*",
     "@chainlink/eth-beacon-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
+    "@chainlink/ignition-address-list-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
     "@chainlink/moonbeam-address-list-adapter": "workspace:*",
     "@chainlink/multi-address-list-adapter": "workspace:*",
