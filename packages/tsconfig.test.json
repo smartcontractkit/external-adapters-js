@@ -411,6 +411,9 @@
       "path": "./sources/iex-cloud/tsconfig.test.json"
     },
     {
+      "path": "./sources/ignition-address-list/tsconfig.test.json"
+    },
+    {
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
