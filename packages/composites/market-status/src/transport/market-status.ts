@@ -98,11 +98,11 @@ export class MarketStatusTransport extends SubscriptionTransport<BaseEndpointTyp
     }
 
     logger.error(
-      `Secondary adapter ${adapterNames.secondary} for market ${market} returned unknown market status, defaulting to CLOSED`,
+      `Secondary adapter ${adapterNames.secondary} for market ${market} returned unknown market status, defaulting to UNKNOWN`,
     )
 
     return {
-      marketStatus: MarketStatus.CLOSED,
+      marketStatus: MarketStatus.UNKNOWN,
       providerIndicatedTimeUnixMs: Date.now(),
     }
   }
