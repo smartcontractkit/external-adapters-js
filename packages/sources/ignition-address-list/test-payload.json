@@ -1,0 +1,6 @@
+{
+ "requests": [{
+  "network": "bitcoin",
+  "chainId": "mainnet"
+ }]
+}

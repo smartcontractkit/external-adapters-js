@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute address endpoint should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "bc1qhu98nf6ddz6ja73rn72encdr8ezsyhexwpdzap0vcs7lg2wpmrnq5ygfsl",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bc1qsdq75g6pmk6uz9a897pmgsmzr44822hg55adz8",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
