@@ -263,6 +263,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitgo"\
     },\
     {\
+      "name": "@chainlink/bitgo-reserves-adapter",\
+      "reference": "workspace:packages/sources/bitgo-reserves"\
+    },\
+    {\
       "name": "@chainlink/bitso-adapter",\
       "reference": "workspace:packages/sources/bitso"\
     },\
@@ -937,6 +941,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
+    ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
     ["@chainlink/bitso-adapter", ["workspace:packages/sources/bitso"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
@@ -5994,6 +5999,21 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bitgo/",\
         "packageDependencies": [\
           ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
+          ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/bitgo-reserves-adapter", [\
+      ["workspace:packages/sources/bitgo-reserves", {\
+        "packageLocation": "./packages/sources/bitgo-reserves/",\
+        "packageDependencies": [\
+          ["@chainlink/bitgo-reserves-adapter", "workspace:packages/sources/bitgo-reserves"],\
           ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
