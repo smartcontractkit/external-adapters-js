@@ -5,32 +5,32 @@ import { totalReserveTransport } from '../transport/total_reserve'
 
 export const inputParameters = new InputParameters(
   {
-    BISCUIT_ATTESTATIONS: {
+    biscuit_attestation: {
       description: 'Access biscuit for attestations table',
       type: 'string',
       required: true,
     },
-    BISCUIT_BLOCKCHAINS: {
+    biscuit_blockchains: {
       description: 'Access biscuit for blockchains table',
       type: 'string',
       required: true,
     },
-    CHAIN_ID: {
+    chain_id: {
       description: 'Specify a chain ID',
       type: 'string',
       required: true,
     },
-    ASSET_CONTRACT_ADDRESS: {
+    asset_contract_address: {
       type: 'string',
       description: 'NFT contract address associated with the coin',
       required: true,
     },
-    TOKEN_CONTRACT_ADDRESS: {
+    token_contract_address: {
       type: 'string',
       description: 'NFT contract address associated with the coin',
       required: true,
     },
-    NAMESPACE: {
+    namespace: {
       type: 'string',
       description: 'SxT namespace',
       required: true,
@@ -38,12 +38,12 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      BISCUIT_ATTESTATIONS: 'example_biscuit_attestations',
-      BISCUIT_BLOCKCHAINS: 'example_biscuit_blockchains',
-      CHAIN_ID: 'example_chainId',
-      ASSET_CONTRACT_ADDRESS: 'example contract address',
-      TOKEN_CONTRACT_ADDRESS: 'example token contract address',
-      NAMESPACE: 'SxT namespace',
+      biscuit_attestation: 'example_biscuit_attestations',
+      biscuit_blockchains: 'example_biscuit_blockchains',
+      chain_id: 'example_chainId',
+      asset_contract_address: 'example contract address',
+      token_contract_address: 'example token contract address',
+      namespace: 'SxT namespace',
     },
   ],
 )

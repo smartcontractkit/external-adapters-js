@@ -6,16 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |          Name          |                  Description                   |  Type  | Options | Default |
-| :-------: | :--------------------: | :--------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |      API_ENDPOINT      |       An API endpoint for Data Provider        | string |         |   ``    |
-|    ✅     |        API_KEY         |          An API key for Data Provider          | string |         |   ``    |
-|    ✅     |  BISCUIT_ATTESTATIONS  |     Access biscuit for attestations table      | string |         |   ``    |
-|    ✅     |  BISCUIT_BLOCKCHAINS   |      Access biscuit for blockchains table      | string |         |   ``    |
-|    ✅     |        CHAIN_ID        |               Specify a chain ID               | string |         |   ``    |
-|    ✅     | ASSET_CONTRACT_ADDRESS | NFT contract address associated witht the coin | string |         |   ``    |
-|    ✅     | TOKEN_CONTRACT_ADDRESS | NFT contract address associated witht the coin | string |         |   ``    |
-|    ✅     |       NAMESPACE        |                 SxT nasmespace                 | string |         |   ``    |
+| Required? |      Name      |              Description               |  Type  | Options |               Default                |
+| :-------: | :------------: | :------------------------------------: | :----: | :-----: | :----------------------------------: |
+|    ✅     |  API_ENDPOINT  | An API endpoint for Data Provider (SxT | string |         | `https://proxy.api.spaceandtime.app` |
+|    ✅     |    API_KEY     |   An API key for Data Provider (SxT)   | string |         |                                      |
+|    ✅     | SXT_TABLE_NAME | Space and Time Attestations table name | string |         |                                      |
 
 ---
 
@@ -39,7 +34,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-There are no input parameters for this endpoint.
+| Required? |    Name    |                                                     Aliases                                                      | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :--------------------------------------------------------------------------------------------------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|           | definition |                                                                                                                  |             |      |         |         |            |                |
+|    ✅     |  examples  |                                                `[object Object]`                                                 |             |      |         |         |            |                |
+|    ✅     |   params   | `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]` |             |      |         |         |            |                |
 
 ### Example
 
@@ -48,7 +47,13 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "total_reserve"
+    "endpoint": "total_reserve",
+    "biscuit_attestation": "example_biscuit_attestations",
+    "biscuit_blockchains": "example_biscuit_blockchains",
+    "chain_id": "example_chainId",
+    "asset_contract_address": "example contract address",
+    "token_contract_address": "example token contract address",
+    "namespace": "SxT namespace"
   }
 }
 ```

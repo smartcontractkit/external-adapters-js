@@ -42,13 +42,13 @@ const lowercaseKeys = <T extends Record<string, any>>(
 export const totalReserveTransport = new HttpTransport<TotalReserveTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      if (!param.BISCUIT_ATTESTATIONS || !param.BISCUIT_BLOCKCHAINS) {
+      if (!param.biscuit_attestation || !param.biscuit_blockchains) {
         throw new Error('BISCUIT_ATTESTATIONS and BISCUIT_BLOCKCHAINS must be defined')
       }
-      const sql = `SELECT sum(a.fractional_amount) as TOTAL_RESERVE FROM (SELECT a.asset_contract_address, a.token_id, a.fractional_token_contract_address, a.fractional_amount, b.chain_id FROM ${param.NAMESPACE}.attestations a JOIN ${param.NAMESPACE}.blockchains b ON a.blockchain_id = b.id WHERE b.chain_id = '${param.CHAIN_ID}' AND a.fractional_token_contract_address = '${param.TOKEN_CONTRACT_ADDRESS}' AND a.asset_contract_address = '${param.ASSET_CONTRACT_ADDRESS}' AND a.token_id is not null)a`
+      const sql = `SELECT sum(a.fractional_amount) as TOTAL_RESERVE FROM (SELECT a.asset_contract_address, a.token_id, a.fractional_token_contract_address, a.fractional_amount, b.chain_id FROM ${param.namespace}.${config.SXT_TABLE_NAME} a JOIN ${param.namespace}.blockchains b ON a.blockchain_id = b.id WHERE b.chain_id = '${param.chain_id}' AND a.fractional_token_contract_address = '${param.token_contract_address}' AND a.asset_contract_address = '${param.asset_contract_address}' AND a.token_id is not null)a`
       const requestBody: SqlRequest = {
         resources: [],
-        biscuits: [param.BISCUIT_ATTESTATIONS, param.BISCUIT_BLOCKCHAINS],
+        biscuits: [param.biscuit_attestation, param.biscuit_blockchains],
         sqlText: sql,
       }
 
