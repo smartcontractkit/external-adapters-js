@@ -65,7 +65,7 @@
     "prettier": "2.8.8",
     "source-map-support": "0.5.21",
     "ts-node": "10.9.2",
-    "typescript": "5.0.4",
+    "typescript": "5.5.3",
     "yo": "4.3.1"
   },
   "prettier": {
