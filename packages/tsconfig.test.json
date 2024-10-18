@@ -456,6 +456,9 @@
       "path": "./sources/lotus/tsconfig.test.json"
     },
     {
+      "path": "./sources/m0/tsconfig.test.json"
+    },
+    {
       "path": "./sources/marketstack/tsconfig.test.json"
     },
     {

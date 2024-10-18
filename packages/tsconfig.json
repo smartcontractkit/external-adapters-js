@@ -456,6 +456,9 @@
       "path": "./sources/lotus"
     },
     {
+      "path": "./sources/m0"
+    },
+    {
       "path": "./sources/marketstack"
     },
     {
