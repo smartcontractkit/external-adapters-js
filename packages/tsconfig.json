@@ -177,6 +177,9 @@
       "path": "./sources/bitgo"
     },
     {
+      "path": "./sources/bitgo-reserves"
+    },
+    {
       "path": "./sources/bitso"
     },
     {
