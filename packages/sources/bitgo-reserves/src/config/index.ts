@@ -4,6 +4,6 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'An API endpoint for Data Provider',
     type: 'string',
-    default: 'https://d2nz84bmzl209r.cloudfront.net',
+    default: 'http://por.usdstandard-test.com',
   },
 })

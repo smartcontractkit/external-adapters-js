@@ -3,7 +3,7 @@ import { BaseEndpointTypes } from '../endpoint/reserves'
 
 export interface ResponseSchema {
   totalReserve: number
-  lastUpdated: Date
+  lastUpdated: string
   cashReserve: number
   investedReserve: number
 }
@@ -29,6 +29,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
+    const timestamps = {
+      providerIndicatedTimeUnixMs: new Date(response.data.lastUpdated).getTime(),
+    }
+
     if (!response.data) {
       return params.map((param) => {
         return {
@@ -36,6 +40,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           response: {
             errorMessage: `The data provider didn't return any value`,
             statusCode: 502,
+            timestamps,
           },
         }
       })
@@ -50,6 +55,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           data: {
             result,
           },
+          timestamps,
         },
       }
     })

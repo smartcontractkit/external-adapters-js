@@ -10,6 +10,7 @@ exports[`execute reserves endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1727745825000,
   },
 }
 `;

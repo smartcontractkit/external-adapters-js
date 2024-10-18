@@ -6,9 +6,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     |            Description            |  Type  | Options |                 Default                 |
-| :-------: | :----------: | :-------------------------------: | :----: | :-----: | :-------------------------------------: |
-|           | API_ENDPOINT | An API endpoint for Data Provider | string |         | `https://d2nz84bmzl209r.cloudfront.net` |
+| Required? |     Name     |            Description            |  Type  | Options |              Default              |
+| :-------: | :----------: | :-------------------------------: | :----: | :-----: | :-------------------------------: |
+|           | API_ENDPOINT | An API endpoint for Data Provider | string |         | `http://por.usdstandard-test.com` |
 
 ---
 
