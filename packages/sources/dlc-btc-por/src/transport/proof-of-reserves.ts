@@ -210,7 +210,15 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       txId,
       requestConfig,
     )
-    return response.data.result
+
+    const result = response.data.result
+
+    if (!result) {
+      logger.error('BITCOIN_RPC_URL - getrawtransaction failed, requestConfig: ', requestConfig)
+      logger.error('BITCOIN_RPC_URL - getrawtransaction failed, response: ', response)
+    }
+
+    return result
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: TransportTypes['Settings']): number {
