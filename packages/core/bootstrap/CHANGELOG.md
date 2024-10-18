@@ -1,5 +1,17 @@
 # @chainlink/ea-bootstrap
 
+## 2.28.0
+
+### Minor Changes
+
+- [#3464](https://github.com/smartcontractkit/external-adapters-js/pull/3464) [`2c75000`](https://github.com/smartcontractkit/external-adapters-js/commit/2c7500055fa2e736fee811896723f297f8faf60e) Thanks [@cawthorne](https://github.com/cawthorne)! - Add meta: adapterName field to EA reponses, for EA Telemetry.
+
+### Patch Changes
+
+- [#3480](https://github.com/smartcontractkit/external-adapters-js/pull/3480) [`13c68c5`](https://github.com/smartcontractkit/external-adapters-js/commit/13c68c550cd0131940c41eb28d2f257d68d6312c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump axios
+
+- [#3371](https://github.com/smartcontractkit/external-adapters-js/pull/3371) [`78f9b06`](https://github.com/smartcontractkit/external-adapters-js/commit/78f9b0664d96551f6a239951c60d4a907ddfe0d9) Thanks [@renovate](https://github.com/apps/renovate)! - Bump WS
+
 ## 2.27.2
 
 ### Patch Changes
