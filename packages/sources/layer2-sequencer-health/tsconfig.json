@@ -1,15 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    /*
-     * TODO: starknet.js v6.0.0-beta.15 has a depency on https://www.npmjs.com/package/abi-wan-kanabi,
-     * which fails to compile if "noUnusedLocals" and "noUnusedParameters" are both set to true. For the
-     * time being, both of these options have been disabled (for the layer-2-sequencer-health package alone)
-     * so that building the project with `yarn setup` succeeds. However, these options should be removed
-     * once the compile issues are resolved.
-     */
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
     "outDir": "dist",
     "rootDir": "src"
   },
