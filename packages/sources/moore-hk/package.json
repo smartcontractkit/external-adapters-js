@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/moore-hk-adapter",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Chainlink moore-hk adapter.",
   "keywords": [
     "Chainlink",
