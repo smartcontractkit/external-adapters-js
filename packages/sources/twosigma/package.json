@@ -38,6 +38,6 @@
     "@types/sinonjs__fake-timers": "8.1.5",
     "@types/ws": "8.5.10",
     "nock": "13.5.4",
-    "typescript": "5.0.4"
+    "typescript": "5.5.3"
   }
 }

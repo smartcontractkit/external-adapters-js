@@ -33,7 +33,7 @@
     "@types/node": "16.11.68",
     "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.4",
-    "typescript": "5.0.4"
+    "typescript": "5.5.3"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "1.5.0",
