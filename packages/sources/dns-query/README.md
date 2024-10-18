@@ -1,6 +1,6 @@
 # Chainlink External Adapter to query DNS
 
-![1.6.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dns-query/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.6.26](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dns-query/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 DNS Query lets query DNS over HTTPS (DoH)
 
