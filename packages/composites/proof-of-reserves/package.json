@@ -48,6 +48,7 @@
     "@chainlink/eth-balance-adapter": "workspace:*",
     "@chainlink/eth-beacon-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
+    "@chainlink/ignition-address-list-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
     "@chainlink/moonbeam-address-list-adapter": "workspace:*",
     "@chainlink/multi-address-list-adapter": "workspace:*",
@@ -67,7 +68,7 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "1.4.0",
+    "@chainlink/external-adapter-framework": "1.5.0",
     "@types/jest": "27.5.2",
     "@types/node": "16.18.96",
     "@types/supertest": "2.0.16",

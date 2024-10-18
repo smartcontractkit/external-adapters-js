@@ -21,6 +21,7 @@ import { adapter as wBTC } from '@chainlink/wbtc-address-set-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
 import { adapter as coinbasePrime } from '@chainlink/coinbase-prime-adapter'
 import { adapter as multiAddressList } from '@chainlink/multi-address-list-adapter'
+import { adapter as ignitionAddressList } from '@chainlink/ignition-address-list-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
@@ -41,6 +42,7 @@ export const adaptersV3: v3AdapterImplementation[] = [
   porAddressList,
   coinbasePrime,
   multiAddressList,
+  ignitionAddressList,
 ]
 
 type AddressData = { token: string; chainId: string; network: string } | AddressList

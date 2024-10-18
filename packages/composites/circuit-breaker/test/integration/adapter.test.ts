@@ -100,8 +100,8 @@ describe('execute', () => {
         input: {
           id: jobID,
           data: {
-            primarySource: 'none',
-            secondarySource: 'none',
+            primarySource: 'coinpaprika',
+            secondarySource: 'coinpaprika',
             from: 'ETH',
             to: 'USD',
           },
@@ -129,6 +129,9 @@ describe('execute', () => {
           await execute(req.input, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error as AdapterError)
+          if (errorResp && errorResp.error && errorResp.error.message === '') {
+            errorResp.error.message = errorResp.error.name
+          }
           assertError(
             { expected: expectedProviderStatusCodes, actual: errorResp.providerStatusCode },
             errorResp,

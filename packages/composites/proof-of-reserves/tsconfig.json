@@ -36,6 +36,7 @@
     { "path": "../../sources/por-address-list" },
     { "path": "../../sources/moonbeam-address-list" },
     { "path": "../../sources/polkadot-balance" },
-    { "path": "../../composites/multi-address-list" }
+    { "path": "../../composites/multi-address-list" },
+    { "path": "../../sources/ignition-address-list" }
   ]
 }

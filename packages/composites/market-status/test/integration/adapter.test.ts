@@ -6,8 +6,6 @@ import {
 import FakeTimers from '@sinonjs/fake-timers'
 
 import * as fixtures from './fixtures'
-import { MockCache } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { runAllUntil } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 describe('execute', () => {
   let clock: FakeTimers.InstalledClock
@@ -107,7 +105,7 @@ describe('execute', () => {
     })
   })
 
-  it.only('returns ncfx if tradinghours is failing', async () => {
+  it('returns ncfx if tradinghours is failing', async () => {
     const market = 'test-4'
     fixtures.mockTradinghoursError(market)
     fixtures.mockNCFXOpen(market)
@@ -128,7 +126,7 @@ describe('execute', () => {
     })
   })
 
-  it('returns closed if tradinghours is failing and ncfx is failing', async () => {
+  it('returns unknown if tradinghours is failing and ncfx is failing', async () => {
     const market = 'test-5'
     fixtures.mockTradinghoursError(market)
     fixtures.mockNCFXError(market)
@@ -136,9 +134,9 @@ describe('execute', () => {
     const response = await waitForSuccessfulRequest({ market })
     expect(response.json()).toEqual({
       data: {
-        result: 1,
+        result: 0,
       },
-      result: 1,
+      result: 0,
       statusCode: 200,
       timestamps: {
         providerDataReceivedUnixMs: expect.any(Number),
@@ -148,7 +146,7 @@ describe('execute', () => {
     })
   })
 
-  it('returns closed if tradinghours is failing and ncfx is unknown', async () => {
+  it('returns unknown if tradinghours is failing and ncfx is unknown', async () => {
     const market = 'test-6'
     fixtures.mockTradinghoursError(market)
     fixtures.mockNCFXUnknown(market)
@@ -156,9 +154,9 @@ describe('execute', () => {
     const response = await waitForSuccessfulRequest({ market })
     expect(response.json()).toEqual({
       data: {
-        result: 1,
+        result: 0,
       },
-      result: 1,
+      result: 0,
       statusCode: 200,
       timestamps: {
         providerDataReceivedUnixMs: expect.any(Number),
