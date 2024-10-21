@@ -8886,7 +8886,7 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/client-s3", "npm:3.600.0"],\
           ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
           ["@types/jest", "npm:29.5.13"],\
-          ["@types/node", "npm:20.14.10"],\
+          ["@types/node", "npm:20.14.15"],\
           ["csv-parse", "npm:5.5.6"],\
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.4"],\
@@ -16640,10 +16640,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:20.14.10", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.14.10-5efcbc9009-672892cf94.zip/node_modules/@types/node/",\
+      ["npm:20.14.15", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.14.15-3e9c945d93-87a4a4313e.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.14.10"],\
+          ["@types/node", "npm:20.14.15"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
