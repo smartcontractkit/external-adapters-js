@@ -1,6 +1,6 @@
 # Chainlink External Adapter for LCX
 
-![1.3.33](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lcx/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lcx/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://rp.lcx.com/v1/rates/current
 

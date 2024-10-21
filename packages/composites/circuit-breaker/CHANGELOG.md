@@ -1,5 +1,16 @@
 # @chainlink/circuit-breaker-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#3464](https://github.com/smartcontractkit/external-adapters-js/pull/3464) [`2c75000`](https://github.com/smartcontractkit/external-adapters-js/commit/2c7500055fa2e736fee811896723f297f8faf60e) Thanks [@cawthorne](https://github.com/cawthorne)! - Add meta: adapterName field to EA reponses, for EA Telemetry.
+
+### Patch Changes
+
+- Updated dependencies [[`13c68c5`](https://github.com/smartcontractkit/external-adapters-js/commit/13c68c550cd0131940c41eb28d2f257d68d6312c), [`78f9b06`](https://github.com/smartcontractkit/external-adapters-js/commit/78f9b0664d96551f6a239951c60d4a907ddfe0d9), [`2c75000`](https://github.com/smartcontractkit/external-adapters-js/commit/2c7500055fa2e736fee811896723f297f8faf60e)]:
+  - @chainlink/ea-bootstrap@2.28.0
+
 ## 1.2.31
 
 ### Patch Changes

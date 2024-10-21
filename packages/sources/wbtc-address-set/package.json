@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/wbtc-address-set-adapter",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Chainlink adapter to query wBTC address set.",
   "keywords": [
     "Chainlink",

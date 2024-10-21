@@ -1,5 +1,13 @@
 # @chainlink/readme-test-adapter
 
+## 1.2.58
+
+### Patch Changes
+
+- Updated dependencies [[`13c68c5`](https://github.com/smartcontractkit/external-adapters-js/commit/13c68c550cd0131940c41eb28d2f257d68d6312c), [`78f9b06`](https://github.com/smartcontractkit/external-adapters-js/commit/78f9b0664d96551f6a239951c60d4a907ddfe0d9), [`2c75000`](https://github.com/smartcontractkit/external-adapters-js/commit/2c7500055fa2e736fee811896723f297f8faf60e)]:
+  - @chainlink/ea-bootstrap@2.28.0
+  - @chainlink/ea-factories@1.2.32
+
 ## 1.2.57
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.2.0
+
+### Minor Changes
+
+- [#3481](https://github.com/smartcontractkit/external-adapters-js/pull/3481) [`fff0c6c`](https://github.com/smartcontractkit/external-adapters-js/commit/fff0c6c2c48ea71b109253712d5400b546bc68cc) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - This EA supports multi chain. To add another chain, include two new env variable {NETWORK}\_RPC_URL and {NETWORK}\_RPC_CHAIN_ID. Then use contractAddressNetwork in param to select the chain. If there is no match, it will default to RPC_URL and CHAIN_ID. For example, BINANCE_RPC_URL and BINANCE_RPC_CHAIN_ID can be selected by "contractAddressNetwork": "binance"
+
+### Patch Changes
+
+- [#3480](https://github.com/smartcontractkit/external-adapters-js/pull/3480) [`13c68c5`](https://github.com/smartcontractkit/external-adapters-js/commit/13c68c550cd0131940c41eb28d2f257d68d6312c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 5.1.8
 
 ### Patch Changes

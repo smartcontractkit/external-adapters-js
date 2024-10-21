@@ -1,6 +1,6 @@
 # Chainlink CoinApi External Adapter
 
-![1.3.22](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://rest.coinapi.io/v1/
 
