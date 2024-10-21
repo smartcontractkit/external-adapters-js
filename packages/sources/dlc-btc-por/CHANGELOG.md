@@ -1,5 +1,15 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 4.3.0
+
+### Minor Changes
+
+- [#3487](https://github.com/smartcontractkit/external-adapters-js/pull/3487) [`d32b5fb`](https://github.com/smartcontractkit/external-adapters-js/commit/d32b5fbcd616a97e1ee44f45a06d9f474080efca) Thanks [@cawthorne](https://github.com/cawthorne)! - Add "id" field to dlc-btc-por btc rpc request
+
+### Patch Changes
+
+- [#3480](https://github.com/smartcontractkit/external-adapters-js/pull/3480) [`13c68c5`](https://github.com/smartcontractkit/external-adapters-js/commit/13c68c550cd0131940c41eb28d2f257d68d6312c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 4.2.0
 
 ### Minor Changes
