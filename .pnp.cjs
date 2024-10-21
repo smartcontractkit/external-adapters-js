@@ -7773,7 +7773,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-          ["@types/convert-units", "npm:2.3.9"],\
+          ["@types/convert-units", "npm:2.3.11"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.96"],\
           ["convert-units", "npm:2.3.4"],\
@@ -16222,10 +16222,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/convert-units", [\
-      ["npm:2.3.9", {\
-        "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.9-a6a7f9f26b-2d72c4ccef.zip/node_modules/@types/convert-units/",\
+      ["npm:2.3.11", {\
+        "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.11-89c1a86eb5-bae4d1a3ba.zip/node_modules/@types/convert-units/",\
         "packageDependencies": [\
-          ["@types/convert-units", "npm:2.3.9"]\
+          ["@types/convert-units", "npm:2.3.11"]\
         ],\
         "linkType": "HARD"\
       }]\
