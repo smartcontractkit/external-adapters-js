@@ -201,6 +201,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       baseURL: this.settings.BITCOIN_RPC_URL,
       method: 'POST',
       data: {
+        id: 'dlc-btc-por-ea',
         jsonrpc: '2.0',
         method: 'getrawtransaction',
         params: [txId, true, null],
@@ -214,7 +215,7 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     const result = response.data.result
 
     if (!result) {
-      logger.error('BITCOIN_RPC_URL - getrawtransaction failed, requestConfig: ', requestConfig)
+      logger.error('BITCOIN_RPC_URL - getrawtransaction failed, txId: ', txId)
       logger.error('BITCOIN_RPC_URL - getrawtransaction failed, response: ', response)
     }
 
