@@ -22470,6 +22470,20 @@ const RAW_RUNTIME_STATE =
           ["minimalistic-crypto-utils", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:6.5.7", {\
+        "packageLocation": "./.yarn/cache/elliptic-npm-6.5.7-df8e79dc1f-fbad1fad0a.zip/node_modules/elliptic/",\
+        "packageDependencies": [\
+          ["elliptic", "npm:6.5.7"],\
+          ["bn.js", "npm:4.12.0"],\
+          ["brorand", "npm:1.1.0"],\
+          ["hash.js", "npm:1.1.7"],\
+          ["hmac-drbg", "npm:1.0.1"],\
+          ["inherits", "npm:2.0.4"],\
+          ["minimalistic-assert", "npm:1.0.1"],\
+          ["minimalistic-crypto-utils", "npm:1.0.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["emittery", [\
@@ -26005,7 +26019,7 @@ const RAW_RUNTIME_STATE =
           ["hdkey", "npm:1.1.2"],\
           ["bs58check", "npm:2.1.2"],\
           ["safe-buffer", "npm:5.2.1"],\
-          ["secp256k1", "npm:3.8.0"]\
+          ["secp256k1", "npm:3.8.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -29463,7 +29477,7 @@ const RAW_RUNTIME_STATE =
           ["keccak", "npm:2.1.0"],\
           ["lodash", "npm:4.17.21"],\
           ["scrypt-js", "npm:3.0.1"],\
-          ["secp256k1", "npm:3.8.0"],\
+          ["secp256k1", "npm:3.8.1"],\
           ["superagent", "npm:6.1.0"],\
           ["websocket", "npm:1.0.34"]\
         ],\
@@ -36888,16 +36902,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["secp256k1", [\
-      ["npm:3.8.0", {\
-        "packageLocation": "./.yarn/unplugged/secp256k1-npm-3.8.0-e2ef54940a/node_modules/secp256k1/",\
+      ["npm:3.8.1", {\
+        "packageLocation": "./.yarn/unplugged/secp256k1-npm-3.8.1-2ae0c3b85e/node_modules/secp256k1/",\
         "packageDependencies": [\
-          ["secp256k1", "npm:3.8.0"],\
+          ["secp256k1", "npm:3.8.1"],\
           ["bindings", "npm:1.5.0"],\
           ["bip66", "npm:1.1.5"],\
           ["bn.js", "npm:4.12.0"],\
           ["create-hash", "npm:1.2.0"],\
           ["drbg.js", "npm:1.0.1"],\
-          ["elliptic", "npm:6.5.4"],\
+          ["elliptic", "npm:6.5.7"],\
           ["nan", "npm:2.16.0"],\
           ["node-gyp", "npm:9.2.0"],\
           ["safe-buffer", "npm:5.2.1"]\
