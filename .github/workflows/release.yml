@@ -54,7 +54,7 @@ jobs:
       id-token: write
       contents: read
     strategy:
-      max-parallel: 5
+      max-parallel: 20
       matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
     env:
       PUBLIC_ECR_URL: public.ecr.aws/chainlink

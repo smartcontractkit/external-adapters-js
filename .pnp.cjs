@@ -8081,7 +8081,7 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.4"],\
           ["sinon", "npm:12.0.1"],\
-          ["starknet", "npm:6.0.0"],\
+          ["starknet", "npm:6.9.0"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
@@ -14714,60 +14714,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@rometools/cli-darwin-arm64", [\
-      ["npm:12.1.3", {\
-        "packageLocation": "./.yarn/unplugged/@rometools-cli-darwin-arm64-npm-12.1.3-e1f412f8be/node_modules/@rometools/cli-darwin-arm64/",\
-        "packageDependencies": [\
-          ["@rometools/cli-darwin-arm64", "npm:12.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@rometools/cli-darwin-x64", [\
-      ["npm:12.1.3", {\
-        "packageLocation": "./.yarn/unplugged/@rometools-cli-darwin-x64-npm-12.1.3-213b94ec09/node_modules/@rometools/cli-darwin-x64/",\
-        "packageDependencies": [\
-          ["@rometools/cli-darwin-x64", "npm:12.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@rometools/cli-linux-arm64", [\
-      ["npm:12.1.3", {\
-        "packageLocation": "./.yarn/unplugged/@rometools-cli-linux-arm64-npm-12.1.3-1a684f2047/node_modules/@rometools/cli-linux-arm64/",\
-        "packageDependencies": [\
-          ["@rometools/cli-linux-arm64", "npm:12.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@rometools/cli-linux-x64", [\
-      ["npm:12.1.3", {\
-        "packageLocation": "./.yarn/unplugged/@rometools-cli-linux-x64-npm-12.1.3-a343b37dfc/node_modules/@rometools/cli-linux-x64/",\
-        "packageDependencies": [\
-          ["@rometools/cli-linux-x64", "npm:12.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@rometools/cli-win32-arm64", [\
-      ["npm:12.1.3", {\
-        "packageLocation": "./.yarn/unplugged/@rometools-cli-win32-arm64-npm-12.1.3-82e0519b43/node_modules/@rometools/cli-win32-arm64/",\
-        "packageDependencies": [\
-          ["@rometools/cli-win32-arm64", "npm:12.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@rometools/cli-win32-x64", [\
-      ["npm:12.1.3", {\
-        "packageLocation": "./.yarn/unplugged/@rometools-cli-win32-x64-npm-12.1.3-553c0b4b40/node_modules/@rometools/cli-win32-x64/",\
-        "packageDependencies": [\
-          ["@rometools/cli-win32-x64", "npm:12.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@scure/base", [\
       ["npm:1.1.1", {\
         "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.1-67ec4c3f95-9aaa525ac2.zip/node_modules/@scure/base/",\
@@ -17648,30 +17594,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["abi-wan-kanabi", [\
-      ["npm:1.0.3", {\
-        "packageLocation": "./.yarn/cache/abi-wan-kanabi-npm-1.0.3-b6ea941010-bf31d6f0a1.zip/node_modules/abi-wan-kanabi/",\
-        "packageDependencies": [\
-          ["abi-wan-kanabi", "npm:1.0.3"],\
-          ["fs-extra", "npm:10.1.0"],\
-          ["rome", "npm:12.1.3"],\
-          ["typescript", "patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"],\
-          ["yargs", "npm:17.7.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:2.2.0", {\
-        "packageLocation": "./.yarn/cache/abi-wan-kanabi-npm-2.2.0-f47fc780b0-816c82bc25.zip/node_modules/abi-wan-kanabi/",\
-        "packageDependencies": [\
-          ["abi-wan-kanabi", "npm:2.2.0"],\
-          ["ansicolors", "npm:0.3.2"],\
-          ["cardinal", "npm:2.1.1"],\
-          ["fs-extra", "npm:10.1.0"],\
-          ["rome", "npm:12.1.3"],\
-          ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["yargs", "npm:17.7.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.2.2", {\
         "packageLocation": "./.yarn/cache/abi-wan-kanabi-npm-2.2.2-1077d098b0-418f4767a0.zip/node_modules/abi-wan-kanabi/",\
         "packageDependencies": [\
@@ -31380,13 +31302,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["lossless-json", [\
-      ["npm:2.0.8", {\
-        "packageLocation": "./.yarn/cache/lossless-json-npm-2.0.8-8fac68bb6d-35c2a7ed3a.zip/node_modules/lossless-json/",\
-        "packageDependencies": [\
-          ["lossless-json", "npm:2.0.8"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.0.1", {\
         "packageLocation": "./.yarn/cache/lossless-json-npm-4.0.1-8cb2e90f20-54e8a08d78.zip/node_modules/lossless-json/",\
         "packageDependencies": [\
@@ -36633,21 +36548,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["rome", [\
-      ["npm:12.1.3", {\
-        "packageLocation": "./.yarn/unplugged/rome-npm-12.1.3-5eebcc998d/node_modules/rome/",\
-        "packageDependencies": [\
-          ["rome", "npm:12.1.3"],\
-          ["@rometools/cli-darwin-arm64", "npm:12.1.3"],\
-          ["@rometools/cli-darwin-x64", "npm:12.1.3"],\
-          ["@rometools/cli-linux-arm64", "npm:12.1.3"],\
-          ["@rometools/cli-linux-x64", "npm:12.1.3"],\
-          ["@rometools/cli-win32-arm64", "npm:12.1.3"],\
-          ["@rometools/cli-win32-x64", "npm:12.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["root-check", [\
       ["npm:1.0.0", {\
         "packageLocation": "./.yarn/cache/root-check-npm-1.0.0-48cfd8e048-25606ff24c.zip/node_modules/root-check/",\
@@ -38001,29 +37901,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["starknet", [\
-      ["npm:6.0.0", {\
-        "packageLocation": "./.yarn/cache/starknet-npm-6.0.0-199aa68748-f690226516.zip/node_modules/starknet/",\
-        "packageDependencies": [\
-          ["starknet", "npm:6.0.0"],\
-          ["@noble/curves", "npm:1.3.0"],\
-          ["@scure/base", "npm:1.1.5"],\
-          ["@scure/starknet", "npm:1.0.0"],\
-          ["abi-wan-kanabi-v1", [\
-            "abi-wan-kanabi",\
-            "npm:1.0.3"\
-          ]],\
-          ["abi-wan-kanabi-v2", [\
-            "abi-wan-kanabi",\
-            "npm:2.2.0"\
-          ]],\
-          ["isomorphic-fetch", "npm:3.0.0"],\
-          ["lossless-json", "npm:2.0.8"],\
-          ["pako", "npm:2.0.4"],\
-          ["ts-mixer", "npm:6.0.3"],\
-          ["url-join", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:6.9.0", {\
         "packageLocation": "./.yarn/cache/starknet-npm-6.9.0-04d9e34f48-f16c65fa69.zip/node_modules/starknet/",\
         "packageDependencies": [\
@@ -39631,24 +39508,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["typescript", [\
-      ["patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587", {\
-        "packageLocation": "./.yarn/cache/typescript-patch-32ada147aa-5659316360.zip/node_modules/typescript/",\
-        "packageDependencies": [\
-          ["typescript", "patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058", {\
         "packageLocation": "./.yarn/cache/typescript-patch-ce5481e54d-b1b62606c7.zip/node_modules/typescript/",\
         "packageDependencies": [\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7", {\
-        "packageLocation": "./.yarn/cache/typescript-patch-4778c7998b-c93786fcc9.zip/node_modules/typescript/",\
-        "packageDependencies": [\
-          ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"]\
         ],\
         "linkType": "HARD"\
       }],\
