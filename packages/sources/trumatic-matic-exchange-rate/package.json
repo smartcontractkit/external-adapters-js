@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/trumatic-matic-exchange-rate-adapter",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Chainlink trumatic-matic-exchange-rate adapter.",
   "keywords": [
     "Chainlink",

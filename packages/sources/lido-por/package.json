@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/lido-por-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink lido-por adapter.",
   "keywords": [
     "Chainlink",
