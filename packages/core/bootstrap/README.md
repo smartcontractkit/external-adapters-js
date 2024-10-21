@@ -1,5 +1,8 @@
 # Chainlink External Adapter Bootstrap
 
+> **Warning**
+> This framework is deprecated, and all new adapters should be built with the [EA framework v3](https://github.com/smartcontractkit/ea-framework-js).
+
 The core framework that every External Adapter uses.
 
 The goal of the framework is to make the overall system more efficient by using as few resources (e.g. API credits, networking traffic, CPU usage) as possible to fetch data.
