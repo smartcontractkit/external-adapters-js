@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/kaiko-adapter",
-  "version": "2.2.13",
+  "version": "2.2.14",
   "description": "Chainlink kaiko adapter.",
   "keywords": [
     "Chainlink",
