@@ -1,5 +1,13 @@
 # @chainlink/dar-adapter
 
+## 1.4.15
+
+### Patch Changes
+
+- [#3480](https://github.com/smartcontractkit/external-adapters-js/pull/3480) [`13c68c5`](https://github.com/smartcontractkit/external-adapters-js/commit/13c68c550cd0131940c41eb28d2f257d68d6312c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3479](https://github.com/smartcontractkit/external-adapters-js/pull/3479) [`669eece`](https://github.com/smartcontractkit/external-adapters-js/commit/669eece69239c73565d74a1e21c319d566466d78) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump axios version
+
 ## 1.4.14
 
 ### Patch Changes
