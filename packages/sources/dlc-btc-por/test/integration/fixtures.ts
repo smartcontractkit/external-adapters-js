@@ -6,6 +6,7 @@ export const mockBitcoinRPCResponseSuccess = (): nock.Scope =>
   })
     .persist()
     .post('/', {
+      id: 'dlc-btc-por-ea',
       method: 'getrawtransaction',
       params: ['2d64eefe48cd209c4d549b065d3c04dcb29af57b01ca2a98c24274eae2732029', true, null],
       jsonrpc: '2.0',
