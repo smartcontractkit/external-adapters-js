@@ -72,6 +72,9 @@
       "path": "./composites/multi-address-list"
     },
     {
+      "path": "./composites/nexus-kiln"
+    },
+    {
       "path": "./composites/nftx"
     },
     {

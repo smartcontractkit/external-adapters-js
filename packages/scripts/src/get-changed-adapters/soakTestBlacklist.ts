@@ -57,6 +57,7 @@ export const SoakTestBlacklist: string[] = [
   'marketstack',
   'multi-address-list',
   'medianizer',
+  'nexus-kiln',
   'ncfx',
   'nikkei',
   'oilpriceapi',

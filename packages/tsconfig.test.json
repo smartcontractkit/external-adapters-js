@@ -72,6 +72,9 @@
       "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
+      "path": "./composites/nexus-kiln/tsconfig.test.json"
+    },
+    {
       "path": "./composites/nftx/tsconfig.test.json"
     },
     {
