@@ -2,7 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_NETWORK = 'ETHEREUM'
-export const NAME = 'CRYPTO_VOLATILITY_INDEX'
+export const NAME = 'CVI'
 export const DEFAULT_ENDPOINT = 'volatilityIndex'
 
 export const makeConfig = (prefix?: string): Config => {
