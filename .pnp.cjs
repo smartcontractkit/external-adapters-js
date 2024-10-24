@@ -8223,10 +8223,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/m0-adapter", "workspace:packages/sources/m0"],\
           ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
           ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.11.68"],\
+          ["@types/node", "npm:16.18.115"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"]\
         ],\
         "linkType": "SOFT"\
       }]\
