@@ -80,7 +80,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     return this.execute(fundId, reportValue)
   }
 
-  // Runs 'execute' function every day at START_TIME: 9:08 AM ET (if fundIdsSet is not empty)
+  // Runs 'execute' function every day at START_TIME (if fundIdsSet is not empty)
   runScheduler() {
     const rule = new schedule.RecurrenceRule()
     const startTimeSegments = START_TIME.split(':').map((s) => parseInt(s))
