@@ -635,6 +635,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/lotus"\
     },\
     {\
+      "name": "@chainlink/m0-adapter",\
+      "reference": "workspace:packages/sources/m0"\
+    },\
+    {\
       "name": "@chainlink/marketstack-adapter",\
       "reference": "workspace:packages/sources/marketstack"\
     },\
@@ -1058,6 +1062,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
     ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
+    ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],\
@@ -8204,6 +8209,21 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.115"],\
           ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/m0-adapter", [\
+      ["workspace:packages/sources/m0", {\
+        "packageLocation": "./packages/sources/m0/",\
+        "packageDependencies": [\
+          ["@chainlink/m0-adapter", "workspace:packages/sources/m0"],\
+          ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.11.68"],\
           ["nock", "npm:13.5.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
