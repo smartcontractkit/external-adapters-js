@@ -1408,6 +1408,17 @@
     ]
   },
   {
+    "from": "XPD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "XPD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "XPF",
     "to": "USD",
     "includes": [
