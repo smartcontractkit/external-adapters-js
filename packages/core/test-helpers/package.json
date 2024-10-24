@@ -25,7 +25,7 @@
   "devDependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.96",
+    "@types/node": "16.18.115",
     "@types/supertest": "2.0.16",
     "hardhat": "2.22.3",
     "mock-socket": "9.3.1",

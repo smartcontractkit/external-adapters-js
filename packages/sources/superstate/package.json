@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.96",
+    "@types/node": "16.18.115",
     "@types/node-schedule": "2.1.7",
     "nock": "13.5.4",
     "typescript": "5.0.4"
