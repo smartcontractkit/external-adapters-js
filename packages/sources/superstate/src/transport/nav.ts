@@ -31,6 +31,8 @@ export interface ResponseSchema {
 }
 
 const TZ = 'America/New_York'
+const START_TIME = '09:08:00'
+const END_TIME = '12:00:00'
 
 type ReportValueType = typeof inputParameters.validated.reportValue
 
@@ -78,11 +80,11 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     return this.execute(fundId, reportValue)
   }
 
-  // Runs 'execute' function every day at 9:09 AM ET (if fundIdsSet is not empty)
+  // Runs 'execute' function every day at START_TIME: 9:08 AM ET (if fundIdsSet is not empty)
   runScheduler() {
     const rule = new schedule.RecurrenceRule()
     rule.hour = 9
-    rule.minute = 9
+    rule.minute = 8
     rule.tz = TZ
 
     schedule.scheduleJob(rule, () => {
@@ -122,16 +124,16 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
       result = Number(data.assets_under_management)
     }
 
-    // DP updates previous working day's price on the next working day at 9:09 AM ET
-    // If there is no fresh price data, we try to re-fetch the API until 10:30 AM ET
+    // DP updates previous working day's price on the next working day at START_TIME ET
+    // If there is no fresh price data, we try to re-fetch the API until END_TIME ET
     // Skips checks and re-running on weekends
     if (this.shouldCheckForExpectedData()) {
       // At this point we know that conditions are met, and we should check for stale data and retry if it's not updated.
       // If the most recent update from DP is not from previous working day, the data might be stale
       const expectedDate = getPreviousNonWeekendDay(TZ)
       if (data.net_asset_value_date !== expectedDate) {
-        // We should retry fetching DP until we get fresh data or the time is after 10:30 AM ET
-        if (isBeforeTime('10:30:00', TZ)) {
+        // We should retry fetching DP until we get fresh data or the time is after END_TIME ET
+        if (isBeforeTime(END_TIME, TZ)) {
           logger.warn(
             `Expected last update - ${expectedDate}, actual ${
               data.net_asset_value_date
@@ -149,7 +151,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
           // while it tries to get a fresh update.
         } else {
           logger.warn(
-            `Max retires reached. Expected update - ${expectedDate}. Latest update - ${data.net_asset_value_date}.`,
+            `Max retries reached. Expected update - ${expectedDate}. Latest update - ${data.net_asset_value_date}.`,
           )
         }
       }
@@ -202,10 +204,10 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     if (isWeekend(toTimezoneDate(new Date(), TZ))) return false
 
     // If it's a business day we need to check for stale data only if the current ET time is within certain time range (retry period).
-    // If it's before 09:09 AM we don't need to check as it's too soon and there will be no update from DP,
-    // the scheduler will call the execute function once it's 09:09.
-    // If it's after 10:30 AM, it's too late, and we won't update the value until the next business day.
+    // If it's before START_TIME we don't need to check as it's too soon and there will be no update from DP,
+    // the scheduler will call the execute function once it's START_TIME.
+    // If it's after END_TIME, it's too late, and we won't update the value until the next business day.
     // This is needed for EA restarts as the EA still has to make retries during retry period
-    return isInTimeRange('09:09:00', '10:30:00', TZ)
+    return isInTimeRange(START_TIME, END_TIME, TZ)
   }
 }
