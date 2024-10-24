@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute calcNetShareValueInAsset endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "195",
+    "unclaimedKilnFees": "95",
+    "wETH": "100",
+  },
+  "result": "195",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
