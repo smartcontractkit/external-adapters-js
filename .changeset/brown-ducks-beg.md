@@ -1,5 +1,5 @@
 ---
-'@chainlink/superstate-adapter': patch
+'@chainlink/superstate-adapter': minor
 ---
 
 Update schedule times
