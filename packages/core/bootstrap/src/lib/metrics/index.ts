@@ -76,17 +76,13 @@ export const withMetrics =
       })
 
       let sourceString
-      try {
-        if (
-          input?.data?.source &&
-          typeof input?.data?.source === 'string' &&
-          input?.data?.source !== ''
-        ) {
-          const sourceName = input?.data?.source
-          sourceString = '?SOURCE=' + sourceName.toUpperCase()
-        }
-      } catch (e: any) {
-        /* do nothing */
+      if (
+        input?.data?.source &&
+        typeof input?.data?.source === 'string' &&
+        input?.data?.source !== ''
+      ) {
+        const sourceName = input?.data?.source
+        sourceString = '?SOURCE=' + sourceName.toUpperCase()
       }
 
       let adapterNameStr = context.name
