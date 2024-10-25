@@ -1,5 +1,11 @@
 # @chainlink/market-status-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3498](https://github.com/smartcontractkit/external-adapters-js/pull/3498) [`fa34fe9`](https://github.com/smartcontractkit/external-adapters-js/commit/fa34fe96b09c1e99b73ddadebdba9da0e6529c0d) Thanks [@martin-cll](https://github.com/martin-cll)! - Use NCFX as primary for forex and metals markets
+
 ## 1.1.0
 
 ### Minor Changes
