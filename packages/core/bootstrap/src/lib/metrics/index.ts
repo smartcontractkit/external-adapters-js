@@ -74,9 +74,26 @@ export const withMetrics =
             ? HttpRequestType.CACHE_HIT
             : HttpRequestType.DATA_PROVIDER_HIT,
       })
+
+      let sourceString
+      if (
+        input?.data?.source &&
+        typeof input?.data?.source === 'string' &&
+        input?.data?.source !== ''
+      ) {
+        const sourceName = input?.data?.source
+        sourceString = '?SOURCE=' + sourceName.toUpperCase()
+      }
+
+      let adapterNameStr = context.name
+
+      if (sourceString && adapterNameStr) {
+        adapterNameStr = context.name + sourceString
+      }
+
       return {
         ...result,
-        meta: { adapterName: context.name },
+        meta: { adapterName: adapterNameStr },
         metricsMeta: { ...result.metricsMeta, ...metricsMeta },
       }
     } catch (e: any) {
