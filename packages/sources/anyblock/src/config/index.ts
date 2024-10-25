@@ -2,7 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_BASE_URL = 'https://svc.blockdaemon.com'
-export const NAME = 'BLOCKDAEMON'
+export const NAME = 'ANYBLOCK'
 
 export const DEFAULT_ENDPOINT = 'gasprice'
 

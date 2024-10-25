@@ -3,7 +3,7 @@ import { AdapterContext, Config } from '@chainlink/ea-bootstrap'
 import { envDefaultOverrides } from './envDefaultOverrides'
 import { RpcProvider } from 'starknet'
 
-export const NAME = 'L2_SEQUENCER_HEALTH'
+export const NAME = 'LAYER2_SEQUENCER_HEALTH'
 export const DEFAULT_PRIVATE_KEY =
   '0x0000000000000000000000000000000000000000000000000000000000000001'
 
