@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/fluent-finance-adapter",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Chainlink fluent-finance adapter.",
   "keywords": [
     "Chainlink",

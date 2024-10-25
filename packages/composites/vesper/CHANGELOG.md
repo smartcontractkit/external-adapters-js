@@ -1,5 +1,13 @@
 # @chainlink/vesper-adapter
 
+## 2.0.85
+
+### Patch Changes
+
+- Updated dependencies [[`9cb8367`](https://github.com/smartcontractkit/external-adapters-js/commit/9cb8367d566a7540c36e4a2133dea5aad27bf212)]:
+  - @chainlink/ea-bootstrap@2.29.0
+  - @chainlink/token-allocation-adapter@1.12.12
+
 ## 2.0.84
 
 ### Patch Changes

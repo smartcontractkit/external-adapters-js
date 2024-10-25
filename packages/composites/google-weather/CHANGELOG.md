@@ -1,5 +1,13 @@
 # @chainlink/google-weather-adapter
 
+## 1.3.26
+
+### Patch Changes
+
+- Updated dependencies [[`9cb8367`](https://github.com/smartcontractkit/external-adapters-js/commit/9cb8367d566a7540c36e4a2133dea5aad27bf212)]:
+  - @chainlink/ea-bootstrap@2.29.0
+  - @chainlink/google-bigquery-adapter@1.2.34
+
 ## 1.3.25
 
 ### Patch Changes

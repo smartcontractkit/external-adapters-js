@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.8.2
+
+### Patch Changes
+
+- [#3501](https://github.com/smartcontractkit/external-adapters-js/pull/3501) [`7194e0f`](https://github.com/smartcontractkit/external-adapters-js/commit/7194e0f459a01568babe7b6ff84c7145bcba12ba) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add XPD to includes file
+
 ## 1.8.1
 
 ### Patch Changes

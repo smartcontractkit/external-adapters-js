@@ -1,5 +1,15 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.4.2
+
+### Patch Changes
+
+- [#3490](https://github.com/smartcontractkit/external-adapters-js/pull/3490) [`c5b2ce9`](https://github.com/smartcontractkit/external-adapters-js/commit/c5b2ce9d5ee154a089058dac394418fc884e20f3) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Upgrade starknet
+
+- Updated dependencies [[`9cb8367`](https://github.com/smartcontractkit/external-adapters-js/commit/9cb8367d566a7540c36e4a2133dea5aad27bf212)]:
+  - @chainlink/ea-bootstrap@2.29.0
+  - @chainlink/ea-test-helpers@1.4.3
+
 ## 4.4.1
 
 ### Patch Changes
