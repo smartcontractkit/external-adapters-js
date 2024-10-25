@@ -1,5 +1,16 @@
 # @chainlink/token-allocation-adapter
 
+## 1.12.12
+
+### Patch Changes
+
+- Updated dependencies [[`9cb8367`](https://github.com/smartcontractkit/external-adapters-js/commit/9cb8367d566a7540c36e4a2133dea5aad27bf212)]:
+  - @chainlink/ea-bootstrap@2.29.0
+  - @chainlink/ea-test-helpers@1.4.3
+  - @chainlink/amberdata-adapter@1.8.27
+  - @chainlink/coinapi-adapter@1.3.24
+  - @chainlink/coinranking-adapter@2.1.5
+
 ## 1.12.11
 
 ### Patch Changes
