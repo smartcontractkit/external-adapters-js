@@ -114,6 +114,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [linkpool](./linkpool/README.md)
 - [lition](./lition/README.md)
 - [lotus](./lotus/README.md)
+- [m0](./m0/README.md)
 - [marketstack](./marketstack/README.md)
 - [messari](./messari/README.md)
 - [metalsapi](./metalsapi/README.md)
