@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/solana-view-function-adapter",
-  "version": "2.2.33",
+  "version": "2.2.34",
   "description": "Chainlink solana-view-function adapter.",
   "keywords": [
     "Chainlink",
