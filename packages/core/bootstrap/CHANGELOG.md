@@ -1,5 +1,13 @@
 # @chainlink/ea-bootstrap
 
+## 2.29.0
+
+### Minor Changes
+
+- [#3506](https://github.com/smartcontractkit/external-adapters-js/pull/3506) [`9cb8367`](https://github.com/smartcontractkit/external-adapters-js/commit/9cb8367d566a7540c36e4a2133dea5aad27bf212) Thanks [@cawthorne](https://github.com/cawthorne)! - Include source EA name in composite EA response.
+
+  Also updates CVI, BLOCKDAEMON and L2_SEQUENCER_HEALTH EA names for telemetry compatibility reasons.
+
 ## 2.28.0
 
 ### Minor Changes
