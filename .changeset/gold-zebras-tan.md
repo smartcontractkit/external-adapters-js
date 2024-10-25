@@ -1,4 +1,5 @@
 ---
+'@chainlink/layer2-sequencer-health-adapter': minor
 '@chainlink/crypto-volatility-index-adapter': minor
 '@chainlink/anyblock-adapter': minor
 '@chainlink/ea-bootstrap': minor
