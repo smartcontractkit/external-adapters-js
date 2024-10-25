@@ -4,7 +4,7 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('http://test-endpoint.com', {
     encodedQueryParams: true,
   })
-    .get('/reserves.json')
+    .get('/')
     .reply(
       200,
       () => ({

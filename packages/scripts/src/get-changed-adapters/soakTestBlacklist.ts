@@ -20,8 +20,10 @@ export const SoakTestBlacklist: string[] = [
   'coinapi',
   'coinbase-prime',
   'conflux',
+  'curve-3pool',
   'covid-tracker',
   'cryptoapis',
+  'crypto-volatility-index',
   'defi-pulse',
   'dlc-btc-por',
   'dns-query', // Missing: env vars
@@ -49,10 +51,12 @@ export const SoakTestBlacklist: string[] = [
   'layer2-sequencer-health',
   'lcx',
   'linkpool',
+  'linear-finance',
   'lotus',
   'market-closure',
   'marketstack',
   'multi-address-list',
+  'medianizer',
   'ncfx',
   'nikkei',
   'oilpriceapi',
@@ -62,7 +66,9 @@ export const SoakTestBlacklist: string[] = [
   'por-indexer',
   'proof-of-reserves', // Missing: Underlying source EAs
   'reduce',
+  'rocker-pool',
   'satoshitango',
+  'set-token-index',
   'snowflake',
   'solana-view-function', // Missing: RPC URL
   'spectral-macro-score',
@@ -76,4 +82,5 @@ export const SoakTestBlacklist: string[] = [
   'trumatic-matic-exchange-rate', // Missing: RPC URL
   'twelvedata',
   'unibit',
+  'vesper',
 ]
