@@ -670,6 +670,9 @@
     },
     {
       "path": "./targets/harmony/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/nav-consulting/tsconfig.test.json"
     }
   ]
 }

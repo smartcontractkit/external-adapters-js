@@ -5387,6 +5387,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/nav-consulting-adapter@workspace:packages/sources/nav-consulting":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/nav-consulting-adapter@workspace:packages/sources/nav-consulting"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.5.0"
+    "@date-fns/utc": "npm:2.1.0"
+    "@types/crypto-js": "npm:4.2.2"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.18.115"
+    crypto-js: "npm:4.2.0"
+    date-fns: "npm:4.1.0"
+    nock: "npm:13.5.4"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/ncfx-adapter@workspace:*, @chainlink/ncfx-adapter@workspace:packages/sources/ncfx":
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
@@ -6894,6 +6911,13 @@ __metadata:
   dependencies:
     "@jridgewell/trace-mapping": "npm:0.3.9"
   checksum: 10/b6e38a1712fab242c86a241c229cf562195aad985d0564bd352ac404be583029e89e93028ffd2c251d2c407ecac5fb0cbdca94a2d5c10f29ac806ede0508b3ff
+  languageName: node
+  linkType: hard
+
+"@date-fns/utc@npm:2.1.0":
+  version: 2.1.0
+  resolution: "@date-fns/utc@npm:2.1.0"
+  checksum: 10/924ca45afa948a6f618ade184e490deb6d0cfdaab40ac833afd409cf5fc0b09cfab14e37c4503a790711178a5e27e2a68172f15208cd9e0542d635aa24ab4113
   languageName: node
   linkType: hard
 
@@ -16951,6 +16975,13 @@ __metadata:
   version: 3.6.0
   resolution: "date-fns@npm:3.6.0"
   checksum: 10/cac35c58926a3b5d577082ff2b253612ec1c79eb6754fddef46b6a8e826501ea2cb346ecbd211205f1ba382ddd1f9d8c3f00bf433ad63cc3063454d294e3a6b8
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10/d5f6e9de5bbc52310f786099e18609289ed5e30af60a71e0646784c8185ddd1d0eebcf7c96b7faaaefc4a8366f3a3a4244d099b6d0866ee2bec80d1361e64342
   languageName: node
   linkType: hard
 

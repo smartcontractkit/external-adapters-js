@@ -670,6 +670,9 @@
     },
     {
       "path": "./targets/harmony"
+    },
+    {
+      "path": "./sources/nav-consulting"
     }
   ]
 }
