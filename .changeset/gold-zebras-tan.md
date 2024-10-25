@@ -6,4 +6,4 @@
 
 Include source EA name in composite EA response.
 
-Also updates CVI and BLOCKDAEMON EA names for telemetry compatibility reasons.
+Also updates CVI, BLOCKDAEMON and L2_SEQUENCER_HEALTH EA names for telemetry compatibility reasons.
