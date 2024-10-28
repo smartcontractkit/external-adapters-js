@@ -6,7 +6,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { getFundId } from './fundId'
+import { getFund } from './fund'
 import { getFundNav } from './fundNav'
 import { getApiKeys } from './utils'
 
@@ -64,20 +64,20 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
 
     const [apiKey, secret] = getApiKeys(param.fund)
 
-    const [fundId, date] = await getFundId(this.url, apiKey, secret, this.requester)
+    const [fundId, date] = await getFund(this.url, apiKey, secret, this.requester)
 
     const nav = await getFundNav(fundId, date, this.url, apiKey, secret, this.requester)
 
     return {
       data: {
-        result: Number(nav),
+        result: nav,
       },
       statusCode: 200,
-      result: Number(nav),
+      result: nav,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
+        providerIndicatedTimeUnixMs: new Date(date).valueOf(),
       },
     }
   }

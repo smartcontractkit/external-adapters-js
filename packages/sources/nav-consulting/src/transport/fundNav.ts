@@ -9,7 +9,7 @@ interface Response {
   Data: {
     Date: string
     'Ending Net Asset Value': {
-      DTD: string
+      DTD: number
     }
   }[]
 }
@@ -39,12 +39,12 @@ export const getFundNav = async (
     requestConfig,
   )
 
-  if (sourceResponse.response.data.Data.length == 0) {
+  try {
+    return sourceResponse.response.data.Data[0]['Ending Net Asset Value'].DTD
+  } catch (error) {
     throw new AdapterError({
       statusCode: 400,
       message: `No data for fund ${globalFundID} and date ${dateStr}`,
     })
   }
-
-  return sourceResponse.response.data.Data[0]['Ending Net Asset Value'].DTD
 }

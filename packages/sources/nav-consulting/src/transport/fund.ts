@@ -11,7 +11,7 @@ interface Response {
   PortfolioLastAvailableDate: string
 }
 
-export const getFundId = async (
+export const getFund = async (
   url: string,
   apiKey: string,
   secret: string,
@@ -40,5 +40,5 @@ export const getFundId = async (
 
   const response = sourceResponse.response.data[0]
 
-  return [response.GlobalFundID.toString(), response.FundDailyAccountingLastAvailableDate]
+  return [response.GlobalFundID.toString(), response.FundDailyAccountingLastAvailableDate + 'Z']
 }
