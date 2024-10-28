@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/m0-adapter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Chainlink m0 adapter.",
   "keywords": [
     "Chainlink",
