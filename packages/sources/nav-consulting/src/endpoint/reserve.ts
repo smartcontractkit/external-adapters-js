@@ -10,7 +10,7 @@ export const inputParameters = new InputParameters(
       required: true,
       type: 'string',
       description:
-        'Name of the fund, used to select {$fund}_API_KEY {$fund}_SECRET_KEY from env variables',
+        'Name of the fund, used to select ${fund}_API_KEY ${fund}_SECRET_KEY from env variables',
     },
   },
   [
@@ -28,7 +28,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'reserve',
-  aliases: [],
   transport: navConsultingTransport,
   inputParameters,
 })

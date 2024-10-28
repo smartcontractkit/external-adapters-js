@@ -35,7 +35,7 @@ There are no rate limits for this adapter.
 
 | Required? | Name | Aliases |                                       Description                                        |  Type  | Options | Default | Depends On | Not Valid With |
 | :-------: | :--: | :-----: | :--------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | fund |         | Name of the fund, used to select {$fund}\_API_KEY {$fund}\_SECRET_KEY from env variables | string |         |         |            |                |
+|    ✅     | fund |         | Name of the fund, used to select ${fund}\_API_KEY ${fund}\_SECRET_KEY from env variables | string |         |         |            |                |
 
 ### Example
 

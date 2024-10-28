@@ -34,7 +34,7 @@ There are no rate limits for this adapter.
 | Required? |  Name   |  Aliases  |                                 Description                                 |  Type  |       Options        |  Default  | Depends On | Not Valid With |
 | :-------: | :-----: | :-------: | :-------------------------------------------------------------------------: | :----: | :------------------: | :-------: | :--------: | :------------: |
 |    ✅     | vaultId | `vaultID` |                               Id of the vault                               | string |                      |           |            |                |
-|    ✅     |  coin   |           | Asset ticker name. Used to select {$coin}\_API_KEY in environment variables | string |                      |           |            |                |
+|    ✅     |  coin   |           | Asset ticker name. Used to select ${coin}\_API_KEY in environment variables | string |                      |           |            |                |
 |           | chainId |           |                        The ID of the chain to return                        | string | `mainnet`, `testnet` | `mainnet` |            |                |
 |           | network |           |                            The network to return                            | string |                      | `bitcoin` |            |                |
 

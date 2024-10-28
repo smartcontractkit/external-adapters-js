@@ -23,6 +23,7 @@ export const getValidatorIds = (
   }
 }
 
+// Copied from Nav Consulting's API guide
 const createGuid = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0

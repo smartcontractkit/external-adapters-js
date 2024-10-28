@@ -39,12 +39,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-| Required? |   Name    | Aliases |                                                                    Description                                                                    |  Type  |           Options           | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :-----: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-------------------------: | :-----: | :--------: | :------------: |
-|    ✅     | portfolio |         |                                                     The portfolio ID to query the balance of                                                      | string |                             |         |            |                |
-|    ✅     |  symbol   |         |                                                       The symbol to return the balance for                                                        | string |                             |         |            |                |
-|           |   type    |         |                                                            The balance type to return                                                             | string | `total`, `trading`, `vault` | `total` |            |                |
-|           |  apiKey   |         | Alternative api keys to use for this request, {$apiKey}_ACCESS_KEY {$apiKey}\_PASSPHRASE {$apiKey}\_SIGNING_KEY required in environment variables | string |                             |         |            |                |
+| Required? |   Name    | Aliases |                                                                    Description                                                                     |  Type  |           Options           | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | portfolio |         |                                                      The portfolio ID to query the balance of                                                      | string |                             |         |            |                |
+|    ✅     |  symbol   |         |                                                        The symbol to return the balance for                                                        | string |                             |         |            |                |
+|           |   type    |         |                                                             The balance type to return                                                             | string | `total`, `trading`, `vault` | `total` |            |                |
+|           |  apiKey   |         | Alternative api keys to use for this request, ${apiKey}\_ACCESS_KEY ${apiKey}\_PASSPHRASE ${apiKey}\_SIGNING_KEY required in environment variables | string |                             |         |            |                |
 
 ### Example
 

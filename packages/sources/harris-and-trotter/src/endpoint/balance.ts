@@ -18,7 +18,7 @@ export const inputParameters = new InputParameters(
     apiKey: {
       type: 'string',
       description:
-        'Alternative api keys to use for this request, {$apiKey}_API_KEY required in environment variables',
+        'Alternative api keys to use for this request, ${apiKey}_API_KEY required in environment variables',
       default: '',
     },
   },

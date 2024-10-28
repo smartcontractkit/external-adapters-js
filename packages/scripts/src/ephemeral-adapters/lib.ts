@@ -171,6 +171,7 @@ export const deployAdapter = (config: Inputs): void => {
   const deployHelm = new Shell().exec(
     `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${config.helmChartDir} \
       --install \
+      --debug \
       --namespace ${NAMESPACE} \
       --create-namespace \
       ${config.helmValuesOverride} \
