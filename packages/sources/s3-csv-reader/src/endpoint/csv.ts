@@ -48,6 +48,12 @@ export const inputParameters = new InputParameters(
       description:
         'The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue',
     },
+    delimiter: {
+      required: false,
+      type: 'string',
+      default: ',',
+      description: 'The delimiter used for the CSV file',
+    },
   },
   [
     {
@@ -57,6 +63,7 @@ export const inputParameters = new InputParameters(
       matcherColumn: 'matcherColumn',
       matcherValue: 'value',
       resultColumn: 'resultColumn',
+      delimiter: ',',
     },
   ],
 )
