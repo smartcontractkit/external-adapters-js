@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserve endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "105",
+  },
+  "result": "105",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1729641600000,
+  },
+}
+`;

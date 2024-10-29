@@ -675,6 +675,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/mycryptoapi"\
     },\
     {\
+      "name": "@chainlink/nav-consulting-adapter",\
+      "reference": "workspace:packages/sources/nav-consulting"\
+    },\
+    {\
       "name": "@chainlink/ncfx-adapter",\
       "reference": "workspace:packages/sources/ncfx"\
     },\
@@ -1079,6 +1083,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
     ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
     ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
+    ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
@@ -8453,6 +8458,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/nav-consulting-adapter", [\
+      ["workspace:packages/sources/nav-consulting", {\
+        "packageLocation": "./packages/sources/nav-consulting/",\
+        "packageDependencies": [\
+          ["@chainlink/nav-consulting-adapter", "workspace:packages/sources/nav-consulting"],\
+          ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
+          ["@date-fns/utc", "npm:2.1.0"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.115"],\
+          ["crypto-js", "npm:4.2.0"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/ncfx-adapter", [\
       ["workspace:packages/sources/ncfx", {\
         "packageLocation": "./packages/sources/ncfx/",\
@@ -10129,6 +10153,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@cspotcode/source-map-support", "npm:0.8.1"],\
           ["@jridgewell/trace-mapping", "npm:0.3.9"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@date-fns/utc", [\
+      ["npm:2.1.0", {\
+        "packageLocation": "./.yarn/cache/@date-fns-utc-npm-2.1.0-1775c576ec-924ca45afa.zip/node_modules/@date-fns/utc/",\
+        "packageDependencies": [\
+          ["@date-fns/utc", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21473,6 +21506,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/date-fns-npm-3.6.0-e59d980978-cac35c5892.zip/node_modules/date-fns/",\
         "packageDependencies": [\
           ["date-fns", "npm:3.6.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:4.1.0", {\
+        "packageLocation": "./.yarn/cache/date-fns-npm-4.1.0-764604ee0f-d5f6e9de5b.zip/node_modules/date-fns/",\
+        "packageDependencies": [\
+          ["date-fns", "npm:4.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\

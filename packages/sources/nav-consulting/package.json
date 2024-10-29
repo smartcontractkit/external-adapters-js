@@ -1,0 +1,44 @@
+{
+  "name": "@chainlink/nav-consulting-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink nav-consulting adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "nav-consulting"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@date-fns/utc": "2.1.0",
+    "@types/crypto-js": "4.2.2",
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.115",
+    "crypto-js": "4.2.0",
+    "date-fns": "4.1.0",
+    "nock": "13.5.4",
+    "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "1.5.0",
+    "tslib": "2.4.1"
+  }
+}
