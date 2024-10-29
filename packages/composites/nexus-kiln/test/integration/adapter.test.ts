@@ -28,9 +28,11 @@ jest.mock('ethers', () => {
           getGlobalFee: jest.fn().mockImplementation(() => {
             return '500'
           }),
-          calcNavInAsset: jest.fn().mockImplementation(() => {
-            return '100'
-          }),
+          calcNavInAsset: {
+            staticCall: jest.fn().mockImplementation(() => {
+              return '100'
+            }),
+          },
         }
       },
     },

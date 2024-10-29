@@ -1,8 +1,26 @@
 [
   {
-    "inputs": [{ "internalType": "address", "name": "_feeManager", "type": "address" }],
+    "inputs": [
+      { "internalType": "address", "name": "_dispatcher", "type": "address" },
+      { "internalType": "address[]", "name": "_fundDeployers", "type": "address[]" },
+      { "internalType": "address[]", "name": "_fundValueCalculators", "type": "address[]" }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "fundDeployer", "type": "address" },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "fundValueCalculator",
+        "type": "address"
+      }
+    ],
+    "name": "FundValueCalculatorUpdated",
+    "type": "event"
   },
   {
     "inputs": [{ "internalType": "address", "name": "_vaultProxy", "type": "address" }],
@@ -11,8 +29,17 @@
       { "internalType": "address", "name": "denominationAsset_", "type": "address" },
       { "internalType": "uint256", "name": "gav_", "type": "uint256" }
     ],
-    "stateMutability": "view",
-    "note": "THIS HAS BEEN MODIFIED TO BE A VIEW FUNCTION",
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_vaultProxy", "type": "address" },
+      { "internalType": "address", "name": "_quoteAsset", "type": "address" }
+    ],
+    "name": "calcGavInAsset",
+    "outputs": [{ "internalType": "uint256", "name": "gav_", "type": "uint256" }],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -26,14 +53,33 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "address", "name": "_vaultProxy", "type": "address" },
+      { "internalType": "address", "name": "_quoteAsset", "type": "address" }
+    ],
+    "name": "calcGrossShareValueInAsset",
+    "outputs": [{ "internalType": "uint256", "name": "grossShareValue_", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [{ "internalType": "address", "name": "_vaultProxy", "type": "address" }],
     "name": "calcNav",
     "outputs": [
       { "internalType": "address", "name": "denominationAsset_", "type": "address" },
       { "internalType": "uint256", "name": "nav_", "type": "uint256" }
     ],
-    "stateMutability": "view",
-    "note": "THIS HAS BEEN MODIFIED TO BE A VIEW FUNCTION",
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_vaultProxy", "type": "address" },
+      { "internalType": "address", "name": "_quoteAsset", "type": "address" }
+    ],
+    "name": "calcNavInAsset",
+    "outputs": [{ "internalType": "uint256", "name": "nav_", "type": "uint256" }],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -49,6 +95,16 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_vaultProxy", "type": "address" },
+      { "internalType": "address", "name": "_quoteAsset", "type": "address" }
+    ],
+    "name": "calcNetShareValueInAsset",
+    "outputs": [{ "internalType": "uint256", "name": "netShareValue_", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_vaultProxy", "type": "address" },
       { "internalType": "address", "name": "_sharesHolder", "type": "address" }
     ],
     "name": "calcNetValueForSharesHolder",
@@ -56,37 +112,55 @@
       { "internalType": "address", "name": "denominationAsset_", "type": "address" },
       { "internalType": "uint256", "name": "netValue_", "type": "uint256" }
     ],
-    "stateMutability": "view",
-    "note": "THIS HAS BEEN MODIFIED TO BE A VIEW FUNCTION",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       { "internalType": "address", "name": "_vaultProxy", "type": "address" },
+      { "internalType": "address", "name": "_sharesHolder", "type": "address" },
       { "internalType": "address", "name": "_quoteAsset", "type": "address" }
     ],
-    "name": "calcNetShareValueInAsset",
-    "outputs": [{ "internalType": "uint256", "name": "netShareValue_", "type": "uint256" }],
-    "stateMutability": "view",
-    "note": "THIS HAS BEEN MODIFIED TO BE A VIEW FUNCTION",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_vaultProxy", "type": "address" },
-      { "internalType": "address", "name": "_quoteAsset", "type": "address" }
-    ],
-    "name": "calcNavInAsset",
-    "outputs": [{ "internalType": "uint256", "name": "nav_", "type": "uint256" }],
-    "stateMutability": "view",
-    "note": "THIS HAS BEEN MODIFIED TO BE A VIEW FUNCTION",
+    "name": "calcNetValueForSharesHolderInAsset",
+    "outputs": [{ "internalType": "uint256", "name": "netValue_", "type": "uint256" }],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "getFeeManager",
-    "outputs": [{ "internalType": "address", "name": "feeManager_", "type": "address" }],
+    "name": "getDispatcher",
+    "outputs": [{ "internalType": "address", "name": "dispatcher_", "type": "address" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "_fundDeployer", "type": "address" }],
+    "name": "getFundValueCalculatorForFundDeployer",
+    "outputs": [{ "internalType": "address", "name": "fundValueCalculator_", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "_vaultProxy", "type": "address" }],
+    "name": "getFundValueCalculatorForVault",
+    "outputs": [
+      {
+        "internalType": "contract IFundValueCalculator",
+        "name": "fundValueCalculatorContract_",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address[]", "name": "_fundDeployers", "type": "address[]" },
+      { "internalType": "address[]", "name": "_fundValueCalculators", "type": "address[]" }
+    ],
+    "name": "setFundValueCalculators",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

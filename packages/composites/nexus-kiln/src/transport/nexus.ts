@@ -9,5 +9,5 @@ export const getEnzymeVaultBalance = async (
 ): Promise<bigint> => {
   const contract = new ethers.Contract(calculatorContract, FundValueCalculatorRouter, provider)
 
-  return BigInt(await contract.calcNavInAsset(nexusVaultContract, quoteAsset))
+  return BigInt(await contract.calcNavInAsset.staticCall(nexusVaultContract, quoteAsset))
 }
