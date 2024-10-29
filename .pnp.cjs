@@ -8950,7 +8950,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@aws-sdk/client-s3", "npm:3.600.0"],\
           ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
-          ["@types/jest", "npm:29.5.13"],\
+          ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:20.14.15"],\
           ["csv-parse", "npm:5.5.6"],\
           ["date-fns", "npm:3.6.0"],\
@@ -16499,10 +16499,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:29.5.13", {\
-        "packageLocation": "./.yarn/cache/@types-jest-npm-29.5.13-b43d0e7497-7d6e3e4ef4.zip/node_modules/@types/jest/",\
+      ["npm:29.5.14", {\
+        "packageLocation": "./.yarn/cache/@types-jest-npm-29.5.14-506446c38e-59ec7a9c46.zip/node_modules/@types/jest/",\
         "packageDependencies": [\
-          ["@types/jest", "npm:29.5.13"],\
+          ["@types/jest", "npm:29.5.14"],\
           ["expect", "npm:29.7.0"],\
           ["pretty-format", "npm:29.7.0"]\
         ],\
