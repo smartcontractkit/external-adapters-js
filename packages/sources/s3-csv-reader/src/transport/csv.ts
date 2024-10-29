@@ -60,7 +60,8 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
-    const { bucket, keyPrefix, headerRow, resultColumn, matcherColumn, matcherValue } = param
+    const { bucket, keyPrefix, headerRow, resultColumn, matcherColumn, matcherValue, delimiter } =
+      param
     const providerDataRequestedUnixMs = Date.now()
 
     if (!(await bucketExistsS3(this.s3Client, bucket))) {
@@ -86,6 +87,7 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
       matcherColumn,
       matcherValue,
       resultColumn,
+      delimiter,
     )
 
     return {
@@ -113,6 +115,7 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
     matcherColumn: string,
     matcherValue: string,
     resultColumn: string,
+    delimiter: string,
   ): number {
     let parsed: Record<string, string>[]
     try {
@@ -121,6 +124,8 @@ export class S3PollerTransport extends SubscriptionTransport<TransportTypes> {
       parsed = parse(csvFileAsStr, {
         columns: true,
         from_line: headerRow,
+        trim: true,
+        delimiter,
       })
     } catch (error) {
       throw new Error(`Error parsing CSV file: ${error}`)
