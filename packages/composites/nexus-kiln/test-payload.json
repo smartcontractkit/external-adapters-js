@@ -1,0 +1,8 @@
+{
+ "requests": [{
+  "calculatorContract": "0x7c728cd0CfA92401E01A4849a01b57EE53F5b2b9",
+  "quoteAsset": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  "nexusVaultContract": "0x27f23c710dd3d878fe9393d93465fed1302f2ebd",
+  "kilnStakingContract": "0x0816df553a89c4bff7ebfd778a9706a989dd3ce3"
+ }]
+}
