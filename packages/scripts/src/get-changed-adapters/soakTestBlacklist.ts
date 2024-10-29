@@ -84,4 +84,5 @@ export const SoakTestBlacklist: string[] = [
   'twelvedata',
   'unibit',
   'vesper',
+  'bank-frick', // Not in-use, no creds available for testing
 ]

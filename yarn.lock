@@ -4066,7 +4066,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@ethercards/ec-util": "npm:^1.0.1"
+    "@ethercards/ec-util": "npm:1.0.4"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.115"
     "@types/supertest": "npm:2.0.16"
@@ -6388,9 +6388,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethercards/ec-util@npm:^1.0.1":
-  version: 1.0.8
-  resolution: "@ethercards/ec-util@npm:1.0.8"
+"@ethercards/ec-util@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@ethercards/ec-util@npm:1.0.4"
   dependencies:
     "@ethersproject/bignumber": "npm:^5.4.0"
     "@ethersproject/bytes": "npm:^5.4.0"
@@ -6401,7 +6401,7 @@ __metadata:
     is-svg: "npm:>=4.2.2"
     js-yaml: "npm:>=3.13.1"
     lodash.template: "npm:>=4.5.0"
-  checksum: 10/20c33c15c294ddd287a6dc7d426a58a0eaa7b4ee236a5c9c20d788d3c932fb669fcbe160dbb27b3440902443b9b220bc2abd54b13f02a9b6837c17befcc94309
+  checksum: 10/a3a0a8bebb2e50616d59fc28308fcbfd870bb3aa2308ec129c04c74f1a65d005afb44a8b2fd791b095eb18a6dbfb66e79862c8e2a62062eb5f2d384998448ee4
   languageName: node
   linkType: hard
 
