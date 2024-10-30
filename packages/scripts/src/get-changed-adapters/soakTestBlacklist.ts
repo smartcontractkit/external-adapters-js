@@ -85,4 +85,5 @@ export const SoakTestBlacklist: string[] = [
   'unibit',
   'vesper',
   'bank-frick', // Not in-use, no creds available for testing
+  'blockchain.com', // Does not support . in the name
 ]
