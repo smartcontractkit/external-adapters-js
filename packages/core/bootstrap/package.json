@@ -58,6 +58,6 @@
     "@types/ws": "8.5.12",
     "mock-socket": "9.3.1",
     "sinon": "14.0.2",
-    "typescript": "5.0.4"
+    "typescript": "5.6.3"
   }
 }
