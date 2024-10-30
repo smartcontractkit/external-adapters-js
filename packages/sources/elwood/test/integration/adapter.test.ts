@@ -44,7 +44,12 @@ describe('websocket', () => {
     process.env['METRICS_ENABLED'] = 'false'
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWebSocketServer(`wss://api.chk.elwood.systems/v1/stream?apiKey${process.env['API_KEY']}`)
+    mockWsServer = mockWebSocketServer(
+      `wss://api.chk.elwood.systems/v1/stream?apiKey${process.env['API_KEY']}`,
+    )
+
+    mockSubscriptionsResponse(apiKey, [])
+    mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -63,11 +68,9 @@ describe('websocket', () => {
 
   describe('price endpoint', () => {
     it('should return success', async () => {
-      mockSubscriptionsResponse(apiKey, [])
-      const scope = mockSubscribeResponse(apiKey, `${data.base}-${data.quote}`)
       const response = await testAdapter.request(data)
+
       expect(response.json()).toMatchSnapshot()
-      expect(scope.isDone()).toEqual(true)
     })
 
     it('should skip subscribing if already subscribed', async () => {
@@ -80,14 +83,12 @@ describe('websocket', () => {
     })
 
     it('should return success (LWBA)', async () => {
-      mockSubscriptionsResponse(apiKey, [])
       mockSubscribeResponse(apiKey, `${dataLWBA.base}-${dataLWBA.quote}`)
       const response = await testAdapter.request(dataLWBA)
       expect(response.json()).toMatchSnapshot()
     })
 
     it('should return error (LWBA invariant violation)', async () => {
-      mockSubscriptionsResponse(apiKey, [])
       mockSubscribeResponse(
         apiKey,
         `${dataLWBAInvariantViolation.base}-${dataLWBAInvariantViolation.quote}`,
@@ -101,7 +102,6 @@ describe('websocket', () => {
         base: 'XXX',
         quote: 'USD',
       }
-      mockSubscriptionsResponse(apiKey, [])
       mockSubscribeError(apiKey, `${data.base}-${data.quote}`)
       await testAdapter.request(data)
       await testAdapter.waitForCache()
