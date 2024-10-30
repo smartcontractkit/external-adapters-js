@@ -38,6 +38,6 @@
     "@types/node": "16.18.115",
     "ethers": "5.0.32",
     "nock": "13.5.4",
-    "typescript": "5.0.4"
+    "typescript": "5.6.3"
   }
 }
