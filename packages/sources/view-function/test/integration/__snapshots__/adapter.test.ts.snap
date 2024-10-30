@@ -2,7 +2,7 @@
 
 exports[`execute function endpoint should return error for invalid input 1`] = `
 {
-  "errorMessage": "no matching function (argument="key", value="symbol() view returns (string)", code=INVALID_ARGUMENT, version=6.13.3)",
+  "errorMessage": "no matching function (argument="key", value="symbol() view returns (string)", code=INVALID_ARGUMENT, version=6.13.4)",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
