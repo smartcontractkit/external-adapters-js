@@ -86,4 +86,6 @@ export const SoakTestBlacklist: string[] = [
   'vesper',
   'bank-frick', // Not in-use, no creds available for testing
   'blockchain.com', // Does not support . in the name
+  'cache.gold',
+  'ion.au',
 ]
