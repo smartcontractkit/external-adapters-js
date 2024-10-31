@@ -34,11 +34,14 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-| Required? |    Name    |                                                     Aliases                                                      | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :--------------------------------------------------------------------------------------------------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|           | definition |                                                                                                                  |             |      |         |         |            |                |
-|    ✅     |  examples  |                                                `[object Object]`                                                 |             |      |         |         |            |                |
-|    ✅     |   params   | `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]`, `[object Object]` |             |      |         |         |            |                |
+| Required? |          Name          | Aliases |                  Description                  |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------------------: | :-----: | :-------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  biscuit_attestation   |         |     Access biscuit for attestations table     | string |         |         |            |                |
+|    ✅     |  biscuit_blockchains   |         |     Access biscuit for blockchains table      | string |         |         |            |                |
+|    ✅     |        chain_id        |         |              Specify a chain ID               | string |         |         |            |                |
+|    ✅     | asset_contract_address |         | NFT contract address associated with the coin | string |         |         |            |                |
+|    ✅     | token_contract_address |         | NFT contract address associated with the coin | string |         |         |            |                |
+|    ✅     |       namespace        |         |                 SxT namespace                 | string |         |         |            |                |
 
 ### Example
 
