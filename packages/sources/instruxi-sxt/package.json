@@ -1,0 +1,40 @@
+{
+  "name": "@chainlink/instruxi-sxt-adapter",
+  "version": "1.0.13",
+  "description": "Chainlink instruxi-sxt adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "ion.au"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.96",
+    "nock": "13.5.4",
+    "typescript": "5.0.4"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "1.5.0",
+    "tslib": "2.4.1"
+  }
+}

@@ -587,6 +587,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ignition-address-list"\
     },\
     {\
+      "name": "@chainlink/instruxi-sxt-adapter",\
+      "reference": "workspace:packages/sources/instruxi-sxt"\
+    },\
+    {\
       "name": "@chainlink/intrinio-adapter",\
       "reference": "workspace:packages/sources/intrinio"\
     },\
@@ -1056,6 +1060,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
+    ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
     ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],\
@@ -7481,6 +7486,21 @@ const RAW_RUNTIME_STATE =
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.0"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/instruxi-sxt-adapter", [\
+      ["workspace:packages/sources/instruxi-sxt", {\
+        "packageLocation": "./packages/sources/instruxi-sxt/",\
+        "packageDependencies": [\
+          ["@chainlink/instruxi-sxt-adapter", "workspace:packages/sources/instruxi-sxt"],\
+          ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.96"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -16127,6 +16147,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-npm-16.18.115-7b7a82126b-84d8fd70f2.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:16.18.115"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.18.96", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-16.18.96-43ecb971a5-6b6d1250c7.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:16.18.96"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -38559,6 +38586,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["typescript", [\
+      ["patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058", {\
+        "packageLocation": "./.yarn/cache/typescript-patch-ce5481e54d-b1b62606c7.zip/node_modules/typescript/",\
+        "packageDependencies": [\
+          ["typescript", "patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40", {\
         "packageLocation": "./.yarn/cache/typescript-patch-8964a48ba3-00504c01ee.zip/node_modules/typescript/",\
         "packageDependencies": [\
