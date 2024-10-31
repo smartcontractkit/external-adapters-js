@@ -1201,12 +1201,22 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@actions/core", [\
-      ["npm:1.10.1", {\
-        "packageLocation": "./.yarn/cache/@actions-core-npm-1.10.1-3cb1000b4d-d32af783ec.zip/node_modules/@actions/core/",\
+      ["npm:1.11.1", {\
+        "packageLocation": "./.yarn/cache/@actions-core-npm-1.11.1-ad090a2026-94f260e336.zip/node_modules/@actions/core/",\
         "packageDependencies": [\
-          ["@actions/core", "npm:1.10.1"],\
-          ["@actions/http-client", "npm:2.2.3"],\
-          ["uuid", "npm:8.3.2"]\
+          ["@actions/core", "npm:1.11.1"],\
+          ["@actions/exec", "npm:1.1.1"],\
+          ["@actions/http-client", "npm:2.2.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@actions/exec", [\
+      ["npm:1.1.1", {\
+        "packageLocation": "./.yarn/cache/@actions-exec-npm-1.1.1-90973d2f96-c04bd25191.zip/node_modules/@actions/exec/",\
+        "packageDependencies": [\
+          ["@actions/exec", "npm:1.1.1"],\
+          ["@actions/io", "npm:1.1.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1218,6 +1228,15 @@ const RAW_RUNTIME_STATE =
           ["@actions/http-client", "npm:2.2.3"],\
           ["tunnel", "npm:0.0.6"],\
           ["undici", "npm:5.28.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@actions/io", [\
+      ["npm:1.1.3", {\
+        "packageLocation": "./.yarn/cache/@actions-io-npm-1.1.3-82d1cf012b-4de44e8d42.zip/node_modules/@actions/io/",\
+        "packageDependencies": [\
+          ["@actions/io", "npm:1.1.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6623,7 +6642,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/scripts/",\
         "packageDependencies": [\
           ["@chainlink/ea-scripts", "workspace:packages/scripts"],\
-          ["@actions/core", "npm:1.10.1"],\
+          ["@actions/core", "npm:1.11.1"],\
           ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
