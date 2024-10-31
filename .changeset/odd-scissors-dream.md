@@ -2,4 +2,4 @@
 '@chainlink/instruxi-sxt-adapter': major
 ---
 
-Rebase and redo a PR
+Create new Instruxi Space and Time adapter
