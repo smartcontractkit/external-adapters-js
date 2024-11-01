@@ -723,10 +723,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/paypal"\
     },\
     {\
-      "name": "@chainlink/poa-adapter",\
-      "reference": "workspace:packages/sources/poa"\
-    },\
-    {\
       "name": "@chainlink/polkadot-balance-adapter",\
       "reference": "workspace:packages/sources/polkadot-balance"\
     },\
@@ -1103,7 +1099,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
     ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
     ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
-    ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
@@ -8259,24 +8254,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.115"],\
           ["@types/paypal__payouts-sdk", "npm:1.0.6"],\
-          ["tslib", "npm:2.8.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/poa-adapter", [\
-      ["workspace:packages/sources/poa", {\
-        "packageLocation": "./packages/sources/poa/",\
-        "packageDependencies": [\
-          ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.18.115"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.4"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.0"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\

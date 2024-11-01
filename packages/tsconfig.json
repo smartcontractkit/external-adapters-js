@@ -516,9 +516,6 @@
       "path": "./sources/paypal"
     },
     {
-      "path": "./sources/poa"
-    },
-    {
       "path": "./sources/polkadot-balance"
     },
     {
