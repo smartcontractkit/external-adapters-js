@@ -123,6 +123,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [moonbeam-address-list](./moonbeam-address-list/README.md)
 - [moore-hk](./moore-hk/README.md)
 - [mycryptoapi](./mycryptoapi/README.md)
+- [nav-consulting](./nav-consulting/README.md)
 - [ncfx](./ncfx/README.md)
 - [nft-blue-chip](./nft-blue-chip/README.md)
 - [nikkei](./nikkei/README.md)

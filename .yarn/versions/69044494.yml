@@ -112,7 +112,6 @@ undecided:
   - "@chainlink/orchid-bandwidth-adapter"
   - "@chainlink/paxos-adapter"
   - "@chainlink/paypal-adapter"
-  - "@chainlink/poa-adapter"
   - "@chainlink/polygon-adapter"
   - "@chainlink/reduce-adapter"
   - "@chainlink/renvm-address-set-adapter"
