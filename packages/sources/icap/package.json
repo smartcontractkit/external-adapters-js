@@ -30,7 +30,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.5.0",
+    "@chainlink/external-adapter-framework": "1.6.0",
     "@chainlink/tp-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
     "tslib": "^2.3.1"
