@@ -48,7 +48,12 @@ export const makeWsTransport = (
           const value = Number(message.value)
           return [
             {
-              params: { index, base: undefined, quote: undefined },
+              params: {
+                index,
+                base: undefined,
+                quote: undefined,
+                ...(type != 'primary' && { adapterNameOverride: 'cfbenchmarks2' }),
+              },
               response: {
                 result: value,
                 data: {

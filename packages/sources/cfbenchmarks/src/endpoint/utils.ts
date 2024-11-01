@@ -18,7 +18,12 @@ const overridenBaseQuoteFromId: BaseQuoteToIdLookup = {
 
 export function customInputValidation(
   req: AdapterRequest<typeof inputParameters.validated>,
+  adapterSettings: BaseEndpointTypes['Settings'],
 ): AdapterError | undefined {
+  if (adapterSettings.API_SECONDARY) {
+    req.requestContext.data.adapterNameOverride = 'cfbenchmarks2'
+  }
+
   const { base, quote, index } = req.requestContext.data
   // Base and quote must be provided OR index must be provided
   if (!(index || (base && quote))) {

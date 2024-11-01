@@ -30,6 +30,11 @@ export const inputParameters = new InputParameters(
       description: 'The symbol of the currency to convert to',
       required: false,
     },
+    adapterNameOverride: {
+      type: 'string',
+      description: 'Alternate adapter name to use for override and metrics',
+      required: false,
+    },
   },
   [
     {

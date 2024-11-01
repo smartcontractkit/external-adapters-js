@@ -88,4 +88,6 @@ export const SoakTestBlacklist: string[] = [
   'blockchain.com', // Does not support . in the name
   'cache.gold',
   'ion.au',
+  'galaxy', // Not deployed internally
+  'stader-balance', // Not deployed internally
 ]
