@@ -221,7 +221,6 @@
 '@chainlink/ens-adapter': patch
 '@chainlink/gsr-adapter': patch
 '@chainlink/lcx-adapter': patch
-'@chainlink/poa-adapter': patch
 '@chainlink/m0-adapter': patch
 '@chainlink/tp-adapter': patch
 '@chainlink/ea-scripts': patch

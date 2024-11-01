@@ -133,7 +133,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [orchid-bandwidth](./orchid-bandwidth/README.md)
 - [paxos](./paxos/README.md)
 - [paypal](./paypal/README.md)
-- [poa](./poa/README.md)
 - [polkadot-balance](./polkadot-balance/README.md)
 - [polygon](./polygon/README.md)
 - [por-address-list](./por-address-list/README.md)

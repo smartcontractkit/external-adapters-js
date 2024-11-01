@@ -516,9 +516,6 @@
       "path": "./sources/paypal/tsconfig.test.json"
     },
     {
-      "path": "./sources/poa/tsconfig.test.json"
-    },
-    {
       "path": "./sources/polkadot-balance/tsconfig.test.json"
     },
     {

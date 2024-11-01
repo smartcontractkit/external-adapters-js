@@ -548,10 +548,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "name": "poa-adapter",
-      "type": "sources",
-    },
-    Object {
       "name": "polygon-adapter",
       "type": "sources",
     },
@@ -1236,10 +1232,6 @@ Object {
     },
     Object {
       "name": "paypal-adapter",
-      "type": "sources",
-    },
-    Object {
-      "name": "poa-adapter",
       "type": "sources",
     },
     Object {

@@ -40,15 +40,6 @@ export const mockResponseSuccess = (): nock.Scope =>
             lastBlock: 13684915,
           },
           {
-            name: 'POA Network',
-            source: 'https://gasprice.poa.network/',
-            instant: null,
-            fast: 152,
-            standard: null,
-            slow: 127,
-            lastBlock: null,
-          },
-          {
             name: 'Upvest',
             source: 'https://doc.upvest.co/reference#ethereum-fees',
             instant: 192,

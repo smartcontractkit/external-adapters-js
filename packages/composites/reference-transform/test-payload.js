@@ -63,7 +63,6 @@ const environmentVariables = [
   { envKey: 'ORCHID_BANDWIDTH_ADAPTER_URL', value: 'orchid_bandwidth' },
   { envKey: 'PAXOS_ADAPTER_URL', value: 'paxos' },
   { envKey: 'PAYPAL_ADAPTER_URL', value: 'paypal' },
-  { envKey: 'POA_ADAPTER_URL', value: 'poa' },
   { envKey: 'POLYGON_ADAPTER_URL', value: 'polygon' },
   { envKey: 'REDUCE_ADAPTER_URL', value: 'reduce' },
   { envKey: 'RENVM_ADAPTER_URL', value: 'renvm' },
