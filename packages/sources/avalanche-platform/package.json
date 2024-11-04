@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/avalanche-platform-adapter",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "Chainlink Avalanche Platform adapter.",
   "keywords": [
     "Chainlink",
