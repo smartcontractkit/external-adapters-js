@@ -1,6 +1,6 @@
 # S3_CSV_READER
 
-![2.1.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/s3-csv-reader/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/s3-csv-reader/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -39,6 +39,7 @@ There are no rate limits for this adapter.
 |    ✅     | matcherColumn |              |                                            The column field to compare with the matcherValue                                             | string |         |         |            |                |
 |    ✅     | matcherValue  |              |                                                   The value to match with matcherField                                                   | string |         |         |            |                |
 |    ✅     | resultColumn  |              |            The column of the CSV file to return a result for, where the row value for matcherColumn is equal to matcherValue             | string |         |         |            |                |
+|           |   delimiter   |              |                                                   The delimiter used for the CSV file                                                    | string |         |   `,`   |            |                |
 
 ### Example
 
@@ -53,7 +54,8 @@ Request:
     "headerRow": 2,
     "matcherColumn": "matcherColumn",
     "matcherValue": "value",
-    "resultColumn": "resultColumn"
+    "resultColumn": "resultColumn",
+    "delimiter": ","
   }
 }
 ```

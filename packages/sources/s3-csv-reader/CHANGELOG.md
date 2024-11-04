@@ -1,5 +1,19 @@
 # @chainlink/s3-csv-reader-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#3516](https://github.com/smartcontractkit/external-adapters-js/pull/3516) [`17b82cd`](https://github.com/smartcontractkit/external-adapters-js/commit/17b82cd7422e8b117a26b903ba0a43b96ad4d0ca) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Trim values and delimiter selector
+
+### Patch Changes
+
+- [#3530](https://github.com/smartcontractkit/external-adapters-js/pull/3530) [`690c025`](https://github.com/smartcontractkit/external-adapters-js/commit/690c025c0a3e0863679418d26dc41c8b662978d8) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3260](https://github.com/smartcontractkit/external-adapters-js/pull/3260) [`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627) Thanks [@renovate](https://github.com/apps/renovate)! - Bump TS version
+
+- [#3509](https://github.com/smartcontractkit/external-adapters-js/pull/3509) [`f91dfb6`](https://github.com/smartcontractkit/external-adapters-js/commit/f91dfb65fb413341d791fd0eb299683d145f1fdb) Thanks [@renovate](https://github.com/apps/renovate)! - Bump jest
+
 ## 2.1.6
 
 ### Patch Changes
