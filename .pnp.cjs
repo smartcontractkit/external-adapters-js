@@ -8684,7 +8684,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:1.6.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.115"],\
-          ["nock", "npm:14.0.0-beta.6"],\
+          ["nock", "npm:14.0.0-beta.15"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
@@ -9248,7 +9248,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:1.6.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.115"],\
-          ["nock", "npm:14.0.0-beta.6"],\
+          ["nock", "npm:14.0.0-beta.15"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
@@ -12685,6 +12685,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@mswjs/interceptors", [\
+      ["npm:0.36.9", {\
+        "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.36.9-f3a67b8481-7c256c70fb.zip/node_modules/@mswjs/interceptors/",\
+        "packageDependencies": [\
+          ["@mswjs/interceptors", "npm:0.36.9"],\
+          ["@open-draft/deferred-promise", "npm:2.2.0"],\
+          ["@open-draft/logger", "npm:0.3.0"],\
+          ["@open-draft/until", "npm:2.1.0"],\
+          ["is-node-process", "npm:1.2.0"],\
+          ["outvariant", "npm:1.4.3"],\
+          ["strict-event-emitter", "npm:0.5.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@multiformats/base-x", [\
       ["npm:4.0.1", {\
         "packageLocation": "./.yarn/cache/@multiformats-base-x-npm-4.0.1-a1a1c51d61-ecbf84bdd7.zip/node_modules/@multiformats/base-x/",\
@@ -13284,6 +13299,35 @@ const RAW_RUNTIME_STATE =
           ["@npmcli/promise-spawn", "npm:1.3.2"],\
           ["node-gyp", "npm:8.4.1"],\
           ["read-package-json-fast", "npm:2.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@open-draft/deferred-promise", [\
+      ["npm:2.2.0", {\
+        "packageLocation": "./.yarn/cache/@open-draft-deferred-promise-npm-2.2.0-adf396dc9f-bc3bb1668a.zip/node_modules/@open-draft/deferred-promise/",\
+        "packageDependencies": [\
+          ["@open-draft/deferred-promise", "npm:2.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@open-draft/logger", [\
+      ["npm:0.3.0", {\
+        "packageLocation": "./.yarn/cache/@open-draft-logger-npm-0.3.0-12b03e55aa-7a280f170b.zip/node_modules/@open-draft/logger/",\
+        "packageDependencies": [\
+          ["@open-draft/logger", "npm:0.3.0"],\
+          ["is-node-process", "npm:1.2.0"],\
+          ["outvariant", "npm:1.4.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@open-draft/until", [\
+      ["npm:2.1.0", {\
+        "packageLocation": "./.yarn/cache/@open-draft-until-npm-2.1.0-e27da33c52-622be42950.zip/node_modules/@open-draft/until/",\
+        "packageDependencies": [\
+          ["@open-draft/until", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -27085,6 +27129,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["is-node-process", [\
+      ["npm:1.2.0", {\
+        "packageLocation": "./.yarn/cache/is-node-process-npm-1.2.0-34f2abe8e1-930765cdc6.zip/node_modules/is-node-process/",\
+        "packageDependencies": [\
+          ["is-node-process", "npm:1.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["is-npm", [\
       ["npm:5.0.0", {\
         "packageLocation": "./.yarn/cache/is-npm-npm-5.0.0-2758bcd54b-9baff02b0c.zip/node_modules/is-npm/",\
@@ -32183,10 +32236,11 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:14.0.0-beta.6", {\
-        "packageLocation": "./.yarn/cache/nock-npm-14.0.0-beta.6-9b4e3f4734-b600e806c9.zip/node_modules/nock/",\
+      ["npm:14.0.0-beta.15", {\
+        "packageLocation": "./.yarn/cache/nock-npm-14.0.0-beta.15-c706d824e0-2ecd4505e4.zip/node_modules/nock/",\
         "packageDependencies": [\
-          ["nock", "npm:14.0.0-beta.6"],\
+          ["nock", "npm:14.0.0-beta.15"],\
+          ["@mswjs/interceptors", "npm:0.36.9"],\
           ["json-stringify-safe", "npm:5.0.1"],\
           ["propagate", "npm:2.0.1"]\
         ],\
@@ -32980,6 +33034,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/outdent-npm-0.5.0-513abc4067-7d94a7d938.zip/node_modules/outdent/",\
         "packageDependencies": [\
           ["outdent", "npm:0.5.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["outvariant", [\
+      ["npm:1.4.3", {\
+        "packageLocation": "./.yarn/cache/outvariant-npm-1.4.3-192f951f81-3a75827458.zip/node_modules/outvariant/",\
+        "packageDependencies": [\
+          ["outvariant", "npm:1.4.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -37082,6 +37145,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/streaming-iterables-npm-6.2.0-2e75113df8-04184642d1.zip/node_modules/streaming-iterables/",\
         "packageDependencies": [\
           ["streaming-iterables", "npm:6.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["strict-event-emitter", [\
+      ["npm:0.5.1", {\
+        "packageLocation": "./.yarn/cache/strict-event-emitter-npm-0.5.1-8414bf36b3-25c84d88be.zip/node_modules/strict-event-emitter/",\
+        "packageDependencies": [\
+          ["strict-event-emitter", "npm:0.5.1"]\
         ],\
         "linkType": "HARD"\
       }]\
