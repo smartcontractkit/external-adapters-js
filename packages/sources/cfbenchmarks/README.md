@@ -1,6 +1,6 @@
 # CFBENCHMARKS
 
-![2.3.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cfbenchmarks/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cfbenchmarks/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -36,11 +36,12 @@ Supported names for this endpoint are: `crypto`, `price`, `values`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                            Description                             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :----------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           | index |                | The ID of the index. Takes priority over base/quote when provided. | string |         |         |            |                |
-|           | base  | `coin`, `from` |           The symbol of symbols of the currency to query           | string |         |         |            |                |
-|           | quote | `market`, `to` |              The symbol of the currency to convert to              | string |         |         |            |                |
+| Required? |        Name         |    Aliases     |                            Description                             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :------------: | :----------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           |        index        |                | The ID of the index. Takes priority over base/quote when provided. | string |         |         |            |                |
+|           |        base         | `coin`, `from` |           The symbol of symbols of the currency to query           | string |         |         |            |                |
+|           |        quote        | `market`, `to` |              The symbol of the currency to convert to              | string |         |         |            |                |
+|           | adapterNameOverride |                |  Used internally for override and metrics, do not set this field   | string |         |         |            |                |
 
 ### Example
 
@@ -89,11 +90,12 @@ Supported names for this endpoint are: `crypto-lwba`, `crypto_lwba`, `cryptolwba
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                            Description                             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :----------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           | index |                | The ID of the index. Takes priority over base/quote when provided. | string |         |         |            |                |
-|           | base  | `coin`, `from` |           The symbol of symbols of the currency to query           | string |         |         |            |                |
-|           | quote | `market`, `to` |              The symbol of the currency to convert to              | string |         |         |            |                |
+| Required? |        Name         |    Aliases     |                            Description                             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :------------: | :----------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           |        index        |                | The ID of the index. Takes priority over base/quote when provided. | string |         |         |            |                |
+|           |        base         | `coin`, `from` |           The symbol of symbols of the currency to query           | string |         |         |            |                |
+|           |        quote        | `market`, `to` |              The symbol of the currency to convert to              | string |         |         |            |                |
+|           | adapterNameOverride |                |  Used internally for override and metrics, do not set this field   | string |         |         |            |                |
 
 ### Example
 
