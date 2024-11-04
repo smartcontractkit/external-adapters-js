@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ignition-address-list-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink ignition-address-list adapter.",
   "keywords": [
     "Chainlink",

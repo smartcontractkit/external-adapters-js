@@ -1,5 +1,13 @@
 # @chainlink/ea-test-helpers
 
+## 1.4.4
+
+### Patch Changes
+
+- [#3260](https://github.com/smartcontractkit/external-adapters-js/pull/3260) [`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627) Thanks [@renovate](https://github.com/apps/renovate)! - Bump TS version
+
+- [#3512](https://github.com/smartcontractkit/external-adapters-js/pull/3512) [`056ca36`](https://github.com/smartcontractkit/external-adapters-js/commit/056ca36cc51772f3e0cda1db8d6edd7e4a333db6) Thanks [@renovate](https://github.com/apps/renovate)! - Bump hardhat
+
 ## 1.4.3
 
 ### Patch Changes

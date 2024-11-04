@@ -1,5 +1,15 @@
 # @chainlink/linear-finance-adapter
 
+## 2.3.94
+
+### Patch Changes
+
+- [#3260](https://github.com/smartcontractkit/external-adapters-js/pull/3260) [`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627) Thanks [@renovate](https://github.com/apps/renovate)! - Bump TS version
+
+- Updated dependencies [[`690c025`](https://github.com/smartcontractkit/external-adapters-js/commit/690c025c0a3e0863679418d26dc41c8b662978d8), [`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627)]:
+  - @chainlink/token-allocation-adapter@1.12.13
+  - @chainlink/ea-bootstrap@2.29.1
+
 ## 2.3.93
 
 ### Patch Changes
