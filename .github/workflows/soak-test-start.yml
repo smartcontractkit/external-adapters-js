@@ -29,7 +29,7 @@ jobs:
           aws-role-arn: ${{ secrets.AWS_ROLE_ARN_FOR_QA_GITHUB_TOKEN }}
           aws-lambda-url: ${{ secrets.GATI_LAMBDA_DATA_FEEDS_URL }}
           aws-region: ${{ secrets.AWS_REGION }}
-          aws-role-duration-seconds: '1800' # this is optional and defaults to 900
+          aws-role-duration-seconds: '3600' # this is optional and defaults to 900
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
