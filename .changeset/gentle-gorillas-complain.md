@@ -2,4 +2,4 @@
 '@chainlink/token-allocation-adapter': minor
 ---
 
-Fix blocksize-captial as source
+Fix blocksize-capital as source
