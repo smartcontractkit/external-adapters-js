@@ -1,5 +1,17 @@
 # @chainlink/reference-transform-adapter
 
+## 1.3.6
+
+### Patch Changes
+
+- [#3260](https://github.com/smartcontractkit/external-adapters-js/pull/3260) [`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627) Thanks [@renovate](https://github.com/apps/renovate)! - Bump TS version
+
+- [#3531](https://github.com/smartcontractkit/external-adapters-js/pull/3531) [`4a3e99f`](https://github.com/smartcontractkit/external-adapters-js/commit/4a3e99ff9c131984aaa272a9c91fe313e751cfcd) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Remove POA EA
+
+- Updated dependencies [[`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627)]:
+  - @chainlink/ea-reference-data-reader@1.3.35
+  - @chainlink/ea-bootstrap@2.29.1
+
 ## 1.3.5
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @chainlink/galaxis-adapter
 
+## 4.0.12
+
+### Patch Changes
+
+- [#3519](https://github.com/smartcontractkit/external-adapters-js/pull/3519) [`4c776b4`](https://github.com/smartcontractkit/external-adapters-js/commit/4c776b4b0e92a0967834c355858bef1c7656dc51) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump yarn version
+
+- [#3260](https://github.com/smartcontractkit/external-adapters-js/pull/3260) [`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627) Thanks [@renovate](https://github.com/apps/renovate)! - Bump TS version
+
+- Updated dependencies [[`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627), [`056ca36`](https://github.com/smartcontractkit/external-adapters-js/commit/056ca36cc51772f3e0cda1db8d6edd7e4a333db6)]:
+  - @chainlink/ea-test-helpers@1.4.4
+  - @chainlink/ea-bootstrap@2.29.1
+
 ## 4.0.11
 
 ### Patch Changes

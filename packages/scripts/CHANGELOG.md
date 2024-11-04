@@ -1,5 +1,23 @@
 # @chainlink/ea-scripts
 
+## 2.7.11
+
+### Patch Changes
+
+- [#3260](https://github.com/smartcontractkit/external-adapters-js/pull/3260) [`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627) Thanks [@renovate](https://github.com/apps/renovate)! - Bump TS version
+
+- [#3531](https://github.com/smartcontractkit/external-adapters-js/pull/3531) [`4a3e99f`](https://github.com/smartcontractkit/external-adapters-js/commit/4a3e99ff9c131984aaa272a9c91fe313e751cfcd) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Remove POA EA
+
+- [#3515](https://github.com/smartcontractkit/external-adapters-js/pull/3515) [`009d186`](https://github.com/smartcontractkit/external-adapters-js/commit/009d186bf4f1991bc22c8ff57cd77e13ea9b4a9d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update soak test logs
+
+- [#3527](https://github.com/smartcontractkit/external-adapters-js/pull/3527) [`967b15d`](https://github.com/smartcontractkit/external-adapters-js/commit/967b15dfd2c430c5eb895acb97c2a4534a8a35ba) Thanks [@renovate](https://github.com/apps/renovate)! - Bump @actions/core
+
+- [#3519](https://github.com/smartcontractkit/external-adapters-js/pull/3519) [`4c776b4`](https://github.com/smartcontractkit/external-adapters-js/commit/4c776b4b0e92a0967834c355858bef1c7656dc51) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update yarn
+
+- Updated dependencies [[`13cfd21`](https://github.com/smartcontractkit/external-adapters-js/commit/13cfd215dcbd14c31f173bd874da36d636434627)]:
+  - @chainlink/ea-bootstrap@2.29.1
+  - @chainlink/ea-factories@1.2.34
+
 ## 2.7.10
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/snowflake-adapter",
-  "version": "1.2.34",
+  "version": "1.2.35",
   "description": "Chainlink snowflake adapter.",
   "keywords": [
     "Chainlink",
