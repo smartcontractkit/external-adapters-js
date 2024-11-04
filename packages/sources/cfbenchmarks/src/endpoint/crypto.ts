@@ -32,7 +32,7 @@ export const inputParameters = new InputParameters(
     },
     adapterNameOverride: {
       type: 'string',
-      description: 'Alternate adapter name to use for override and metrics',
+      description: 'Used internally for override and metrics, do not set this field',
       required: false,
     },
   },
