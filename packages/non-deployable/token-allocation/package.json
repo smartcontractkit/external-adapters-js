@@ -50,7 +50,7 @@
   "devDependencies": {
     "@chainlink/external-adapter-framework": "1.6.0",
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.115",
+    "@types/node": "16.18.119",
     "nock": "13.5.4",
     "typescript": "5.6.3"
   }
