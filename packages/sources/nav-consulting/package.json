@@ -31,7 +31,7 @@
     "@date-fns/utc": "2.1.0",
     "@types/crypto-js": "4.2.2",
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.115",
+    "@types/node": "16.18.119",
     "crypto-js": "4.2.0",
     "date-fns": "4.1.0",
     "nock": "13.5.4",
