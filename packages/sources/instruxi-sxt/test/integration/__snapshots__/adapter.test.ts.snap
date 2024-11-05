@@ -1,20 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute total_reserve endpoint should return error for invalid CHAIN_ID 1`] = `
+exports[`execute total_reserve endpoint should return error when required parameters are missing 1`] = `
 {
   "error": {
-    "message": "[Param: BISCUIT_ATTESTATIONS] param is required but no value was provided",
-    "name": "AdapterError",
-  },
-  "status": "errored",
-  "statusCode": 400,
-}
-`;
-
-exports[`execute total_reserve endpoint should return error for missing required parameters 1`] = `
-{
-  "error": {
-    "message": "[Param: BISCUIT_ATTESTATIONS] param is required but no value was provided",
+    "message": "[Param: biscuit_attestation] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",

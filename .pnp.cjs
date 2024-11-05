@@ -6946,6 +6946,25 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
+      ["npm:1.5.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.5.0-7b1eccdaba-13c2038d91.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:1.5.0"],\
+          ["ajv", "npm:8.11.0"],\
+          ["axios", "npm:1.7.7"],\
+          ["eventsource", "npm:2.0.2"],\
+          ["fastify", "npm:4.13.0"],\
+          ["ioredis", "npm:5.2.3"],\
+          ["mock-socket", "npm:9.1.5"],\
+          ["pino", "npm:8.6.1"],\
+          ["pino-pretty", "npm:9.1.0"],\
+          ["prom-client", "npm:13.2.0"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:7b1eccdabafff7e12624cce6163da0a464cb7a370582d4c796c2f97a38d9f502456c1bea57dcd56ee855862881c73555814019e4641c7c503a843bbf3605b2f4#npm:8.9.0"],\
+          ["yeoman-generator", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:1.6.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.6.0-f7f06b8a9a-8b28e90ec7.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -40239,6 +40258,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:8.9.0", {\
+        "packageLocation": "./.yarn/cache/ws-npm-8.9.0-d620434feb-be5289395c.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "npm:8.9.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.10", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-f93c411b77/0/cache/ws-npm-7.5.10-878ccb886b-9c796b84ba.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -40260,6 +40286,23 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/__virtual__/ws-virtual-2373826434/0/cache/ws-npm-8.18.0-56f68bc4d6-70dfe53f23.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.18.0"],\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:7b1eccdabafff7e12624cce6163da0a464cb7a370582d4c796c2f97a38d9f502456c1bea57dcd56ee855862881c73555814019e4641c7c503a843bbf3605b2f4#npm:8.9.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-2e7bd301cd/0/cache/ws-npm-8.9.0-d620434feb-be5289395c.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "virtual:7b1eccdabafff7e12624cce6163da0a464cb7a370582d4c796c2f97a38d9f502456c1bea57dcd56ee855862881c73555814019e4641c7c503a843bbf3605b2f4#npm:8.9.0"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
