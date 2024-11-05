@@ -117,7 +117,7 @@ export async function main(): Promise<void | string> {
     options.verbose && console.log(`Removing blacklisted and non-source adapters from the list`)
     adapters = adapters
       .filter((a) => !adapterInBlacklist[a.name]) // Remove blacklisted adapters
-      .filter((p) => p.type === 'sources') // Remove non-source adapters
+      .filter((p) => p.type === 'sources' || p.type === 'composites') // Remove non-source and non-composite adapters
 
     options.verbose &&
       console.log(`Filtered ${initialAdapterLength - adapters.length} adapters from the list`) // Verbose because this message is confusing if you're not familiar with generate-readme
