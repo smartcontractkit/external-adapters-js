@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.115",
+    "@types/node": "16.18.119",
     "mock-socket": "9.3.1",
-    "nock": "13.5.4",
+    "nock": "13.5.5",
     "typescript": "5.6.3"
   }
 }
