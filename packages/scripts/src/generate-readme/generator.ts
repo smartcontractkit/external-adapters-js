@@ -194,15 +194,19 @@ export class ReadmeGenerator {
   buildReadme(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Generating README text`)
 
-    this.addIntroSection()
-    this.addKnownIssuesSection()
-    this.addEnvVarSection()
-    this.addRateLimitSection()
-    this.addInputParamsSection()
-    this.addEndpointSections()
-    this.addLicense()
-
-    console.log(`${this.adapterPath}: README has been generated (unsaved)`)
+    try {
+      this.addIntroSection()
+      this.addKnownIssuesSection()
+      this.addEnvVarSection()
+      this.addRateLimitSection()
+      this.addInputParamsSection()
+      this.addEndpointSections()
+      this.addLicense()
+      console.log(`${this.adapterPath}: README has been generated (unsaved)`)
+    } catch (err) {
+      console.error(`${this.adapterPath}: Error generating README: ${err}`)
+      throw err
+    }
   }
 
   addIntroSection(): void {
