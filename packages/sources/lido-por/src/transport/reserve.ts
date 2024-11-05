@@ -76,6 +76,23 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     const beaconBalance = await this._getBeaconBalance(param.lidoContract)
+
+    if (beaconBalance.isNegative()) {
+      return {
+        errorMessage: `ethereum-cl-indexer balance endpoint returns negative value ${beaconBalance}`,
+        ripcord: true,
+        ripcordDetails: JSON.stringify(
+          `ethereum-cl-indexer balance endpoint returns negative value`,
+        ),
+        statusCode: 502,
+        timestamps: {
+          providerDataRequestedUnixMs,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+
     const buffer = await getBufferedEther(param.lidoContract, this.provider)
 
     const balance = beaconBalance.add(buffer).toString()
@@ -83,7 +100,6 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return {
       data: {
         result: balance,
-        ripcord: beaconBalance.isNegative(),
       },
       result: balance,
       timestamps: {
