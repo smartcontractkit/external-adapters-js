@@ -32262,6 +32262,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["nock", [\
+      ["npm:13.5.4", {\
+        "packageLocation": "./.yarn/cache/nock-npm-13.5.4-2c4f77b249-75bad391ba.zip/node_modules/nock/",\
+        "packageDependencies": [\
+          ["nock", "npm:13.5.4"],\
+          ["debug", "virtual:6230e12b1d7dee1735a865cef131ea49c043e7f202fd08b14ceb90686e406b76a07840fc9510f1069465ad9695242b42830fc7fea7b01648a261463b7848122f#npm:4.3.7"],\
+          ["json-stringify-safe", "npm:5.0.1"],\
+          ["propagate", "npm:2.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:13.5.5", {\
         "packageLocation": "./.yarn/cache/nock-npm-13.5.5-ccb57f0a2f-c19d7bf965.zip/node_modules/nock/",\
         "packageDependencies": [\

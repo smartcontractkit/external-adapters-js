@@ -4,7 +4,6 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import { mockResponseSuccess, mockResponseError } from './fixtures'
-import { endpoint } from '../../src/endpoint/total_reserve'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
