@@ -438,6 +438,9 @@
       "path": "./sources/kaiko"
     },
     {
+      "path": "./sources/kaiko-state"
+    },
+    {
       "path": "./sources/layer2-sequencer-health"
     },
     {
@@ -484,6 +487,9 @@
     },
     {
       "path": "./sources/mycryptoapi"
+    },
+    {
+      "path": "./sources/nav-consulting"
     },
     {
       "path": "./sources/ncfx"
@@ -667,9 +673,6 @@
     },
     {
       "path": "./targets/harmony"
-    },
-    {
-      "path": "./sources/nav-consulting"
     }
   ]
 }

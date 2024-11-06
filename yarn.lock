@@ -4451,6 +4451,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/kaiko-state-adapter@workspace:packages/sources/kaiko-state":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/kaiko-state-adapter@workspace:packages/sources/kaiko-state"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.6.0"
+    "@grpc/grpc-js": "npm:1.12.2"
+    "@kaiko-data/sdk-node": "npm:^1.24.0"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.18.119"
+    exponential-backoff: "npm:3.1.1"
+    nock: "npm:13.5.5"
+    rxjs: "npm:7.8.1"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.6.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
@@ -8169,7 +8186,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:^1.1.8":
+"@grpc/grpc-js@npm:*, @grpc/grpc-js@npm:1.12.2, @grpc/grpc-js@npm:^1.1.8":
   version: 1.12.2
   resolution: "@grpc/grpc-js@npm:1.12.2"
   dependencies:
@@ -9095,6 +9112,13 @@ __metadata:
   version: 7.1.3
   resolution: "@jsdevtools/ono@npm:7.1.3"
   checksum: 10/d4a036ccb9d2b21b7e4cec077c59a5a83fad58adacbce89e7e6b77a703050481ff5b6d813aef7f5ff0a8347a85a0eedf599e2e6bb5784a971a93e53e43b10157
+  languageName: node
+  linkType: hard
+
+"@kaiko-data/sdk-node@npm:^1.24.0":
+  version: 1.24.0
+  resolution: "@kaiko-data/sdk-node@npm:1.24.0"
+  checksum: 10/91361fa85062f724b76b18ec885a0fde9c5833d70c84fa655385af0bf53377b86454ae14ab2cbe5fb48f5e40e94f4cff81bf82820246b99992dd62a9faec56f0
   languageName: node
   linkType: hard
 
@@ -18113,7 +18137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exponential-backoff@npm:^3.1.1":
+"exponential-backoff@npm:3.1.1, exponential-backoff@npm:^3.1.1":
   version: 3.1.1
   resolution: "exponential-backoff@npm:3.1.1"
   checksum: 10/2d9bbb6473de7051f96790d5f9a678f32e60ed0aa70741dc7fdc96fec8d631124ec3374ac144387604f05afff9500f31a1d45bd9eee4cdc2e4f9ad2d9b9d5dbd
@@ -19731,7 +19755,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-protobuf@npm:^3.17.3":
+"google-protobuf@npm:*, google-protobuf@npm:^3.17.3":
   version: 3.21.4
   resolution: "google-protobuf@npm:3.21.4"
   checksum: 10/0d87fe8ef221d105cbaa808f4024bd577638524d8e461469e3733f2e4933391ad4da86b7fcbd11e8781bee04eacf2e8ba19aaacd5f9deb336a220485841d980f
@@ -29713,21 +29737,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rxjs@npm:7.8.1, rxjs@npm:^7.3.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.5, rxjs@npm:^7.8.0":
+  version: 7.8.1
+  resolution: "rxjs@npm:7.8.1"
+  dependencies:
+    tslib: "npm:^2.1.0"
+  checksum: 10/b10cac1a5258f885e9dd1b70d23c34daeb21b61222ee735d2ec40a8685bdca40429000703a44f0e638c27a684ac139e1c37e835d2a0dc16f6fc061a138ae3abb
+  languageName: node
+  linkType: hard
+
 "rxjs@npm:^6.6.0, rxjs@npm:^6.6.3":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
     tslib: "npm:^1.9.0"
   checksum: 10/c8263ebb20da80dd7a91c452b9e96a178331f402344bbb40bc772b56340fcd48d13d1f545a1e3d8e464893008c5e306cc42a1552afe0d562b1a6d4e1e6262b03
-  languageName: node
-  linkType: hard
-
-"rxjs@npm:^7.3.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.5, rxjs@npm:^7.8.0":
-  version: 7.8.1
-  resolution: "rxjs@npm:7.8.1"
-  dependencies:
-    tslib: "npm:^2.1.0"
-  checksum: 10/b10cac1a5258f885e9dd1b70d23c34daeb21b61222ee735d2ec40a8685bdca40429000703a44f0e638c27a684ac139e1c37e835d2a0dc16f6fc061a138ae3abb
   languageName: node
   linkType: hard
 
