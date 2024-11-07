@@ -394,5 +394,16 @@
         "inverse": true
       }
     ]
+  },
+  {
+    "from": "GHS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "GHS",
+        "inverse": true
+      }
+    ]
   }
 ]
