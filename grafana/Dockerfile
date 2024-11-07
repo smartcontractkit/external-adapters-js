@@ -1,4 +1,4 @@
-FROM golang:1.23.2
+FROM golang:1.23.3
 
 RUN GO111MODULE="on" go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
 RUN go get github.com/google/go-jsonnet/cmd/jsonnet
