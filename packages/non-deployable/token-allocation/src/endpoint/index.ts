@@ -136,6 +136,10 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
+  if (input.data) {
+    input.data.source = (input.data.source as string)?.replace('-', '_') || ''
+  }
+
   const paramOptions = makeOptions(config)
   const validator = new Validator(input, inputParameters, paramOptions)
   if (validator.error) throw validator.error
