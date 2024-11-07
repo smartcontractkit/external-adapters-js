@@ -7190,7 +7190,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@ethercards/ec-util", "npm:1.0.4"],\
+          ["@ethercards/ec-util", "npm:1.0.8"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -9804,13 +9804,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@ethercards/ec-util", [\
-      ["npm:1.0.4", {\
-        "packageLocation": "./.yarn/cache/@ethercards-ec-util-npm-1.0.4-e6fbb944c3-a3a0a8bebb.zip/node_modules/@ethercards/ec-util/",\
+      ["npm:1.0.8", {\
+        "packageLocation": "./.yarn/cache/@ethercards-ec-util-npm-1.0.8-9982887bc1-20c33c15c2.zip/node_modules/@ethercards/ec-util/",\
         "packageDependencies": [\
-          ["@ethercards/ec-util", "npm:1.0.4"],\
+          ["@ethercards/ec-util", "npm:1.0.8"],\
           ["@ethersproject/bignumber", "npm:5.7.0"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["bitwise", "npm:2.2.1"],\
+          ["bn.js", "npm:5.2.1"],\
           ["braces", "npm:3.0.3"],\
           ["diff", "npm:5.2.0"],\
           ["glob-parent", "npm:6.0.2"],\
