@@ -2,12 +2,10 @@
 
 exports[`execute reserve endpoint should return ripcord 1`] = `
 {
-  "data": {
-    "result": "499",
-    "ripcord": true,
-  },
-  "result": "499",
-  "statusCode": 200,
+  "errorMessage": "ethereum-cl-indexer balance endpoint returns negative value -1",
+  "ripcord": true,
+  "ripcordDetails": ""ethereum-cl-indexer balance endpoint returns negative value"",
+  "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
@@ -19,7 +17,6 @@ exports[`execute reserve endpoint should return success 1`] = `
 {
   "data": {
     "result": "800",
-    "ripcord": false,
   },
   "result": "800",
   "statusCode": 200,
