@@ -9811,6 +9811,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.7.0"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["bitwise", "npm:2.2.1"],\
+          ["bn.js", "npm:5.2.1"],\
           ["braces", "npm:3.0.3"],\
           ["diff", "npm:5.2.0"],\
           ["glob-parent", "npm:6.0.2"],\
