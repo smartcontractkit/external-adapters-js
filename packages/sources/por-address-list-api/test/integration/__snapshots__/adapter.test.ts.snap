@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute address endpoint bedrock should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "btc_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "btc_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1609499471111,
+    "providerDataRequestedUnixMs": 1609499471111,
+  },
+}
+`;
+
+exports[`execute address endpoint solv should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "btc_s_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "btc_s_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1609499471111,
+    "providerDataRequestedUnixMs": 1609499471111,
+    "providerIndicatedTimeUnixMs": 1609499471112,
+  },
+}
+`;

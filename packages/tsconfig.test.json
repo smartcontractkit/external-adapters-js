@@ -531,6 +531,9 @@
       "path": "./sources/por-address-list/tsconfig.test.json"
     },
     {
+      "path": "./sources/por-address-list-api/tsconfig.test.json"
+    },
+    {
       "path": "./sources/por-indexer/tsconfig.test.json"
     },
     {

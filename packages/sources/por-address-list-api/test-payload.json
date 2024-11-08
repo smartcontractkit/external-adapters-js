@@ -1,0 +1,10 @@
+{
+  "requests": [
+    {
+      "client": "Bedrock uniBTC"
+    },
+    {
+      "client": "SolvBTC"
+    }
+  ]
+}

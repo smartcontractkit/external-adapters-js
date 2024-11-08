@@ -531,6 +531,9 @@
       "path": "./sources/por-address-list"
     },
     {
+      "path": "./sources/por-address-list-api"
+    },
+    {
       "path": "./sources/por-indexer"
     },
     {

@@ -735,6 +735,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/por-address-list"\
     },\
     {\
+      "name": "@chainlink/por-address-list-api-adapter",\
+      "reference": "workspace:packages/sources/por-address-list-api"\
+    },\
+    {\
       "name": "@chainlink/por-indexer-adapter",\
       "reference": "workspace:packages/sources/por-indexer"\
     },\
@@ -1102,6 +1106,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
+    ["@chainlink/por-address-list-api-adapter", ["workspace:packages/sources/por-address-list-api"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
@@ -8304,6 +8309,21 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
           ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.5"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/por-address-list-api-adapter", [\
+      ["workspace:packages/sources/por-address-list-api", {\
+        "packageLocation": "./packages/sources/por-address-list-api/",\
+        "packageDependencies": [\
+          ["@chainlink/por-address-list-api-adapter", "workspace:packages/sources/por-address-list-api"],\
+          ["@chainlink/external-adapter-framework", "npm:1.6.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.119"],\
           ["nock", "npm:13.5.5"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
