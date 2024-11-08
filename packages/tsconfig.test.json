@@ -438,6 +438,9 @@
       "path": "./sources/kaiko/tsconfig.test.json"
     },
     {
+      "path": "./sources/kaiko-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
     },
     {
@@ -484,6 +487,9 @@
     },
     {
       "path": "./sources/mycryptoapi/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/nav-consulting/tsconfig.test.json"
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"
@@ -667,9 +673,6 @@
     },
     {
       "path": "./targets/harmony/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nav-consulting/tsconfig.test.json"
     }
   ]
 }
