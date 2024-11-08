@@ -4,6 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import { ethers } from 'ethers'
+import { mockBedRockResponseSuccess, mockSolvResponseSuccess } from './fixtures-api'
 
 const mockExpectedAddresses = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -55,6 +56,8 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:8545'
+    process.env.BEDROCK_UNIBTC_API_ENDPOINT = 'http://bedrock'
+    process.env.SOLVBTC_API_ENDPOINT = 'http://solv'
     process.env.BACKGROUND_EXECUTE_MS = '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -80,6 +83,30 @@ describe('execute', () => {
         network: 'ethereum',
         chainId: 'mainnet',
       }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('apiAddress endpoint', () => {
+    it('bedrock should return success', async () => {
+      const data = {
+        endpoint: 'apiAddress',
+        apiClient: 'Bedrock uniBTC',
+      }
+      mockBedRockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('solv should return success', async () => {
+      const data = {
+        endpoint: 'apiAddress',
+        apiClient: 'SolvBTC',
+      }
+      mockSolvResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

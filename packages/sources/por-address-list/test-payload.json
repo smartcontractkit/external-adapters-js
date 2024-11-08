@@ -1,20 +1,20 @@
 {
  "requests": [{
-    "id": "1",
-    "data": {
-        "chainId": "1",
-        "contractAddress": "0xAae0B305B3F1edDE7B11b680d4FA9252F7a1c524",
-        "network": "ethereum",
-        "batchSize": 100
-    }
+    "chainId": "1",
+    "contractAddress": "0xAae0B305B3F1edDE7B11b680d4FA9252F7a1c524",
+    "network": "ethereum",
+    "batchSize": 100
  }, {
-    "id": "2",
-    "data": {
-        "chainId": "mainnet",
-        "contractAddress": "0x9480f77911634a7dba7082b1422df058d23ba6c1",
-        "contractAddressNetwork": "binance",
-        "network": "bitcoin",
-        "batchSize": 100
-    }
+    "chainId": "mainnet",
+    "contractAddress": "0x9480f77911634a7dba7082b1422df058d23ba6c1",
+    "contractAddressNetwork": "binance",
+    "network": "bitcoin",
+    "batchSize": 100
+ }, {
+    "endpoint": "apiAddress",
+    "apiClient": "Bedrock uniBTC"
+ }, {
+    "endpoint": "apiAddress",
+    "apiClient": "SolvBTC"
  }]
 }
