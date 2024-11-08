@@ -107,6 +107,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [jpegd](./jpegd/README.md)
 - [json-rpc](./json-rpc/README.md)
 - [kaiko](./kaiko/README.md)
+- [kaiko-state](./kaiko-state/README.md)
 - [layer2-sequencer-health](./layer2-sequencer-health/README.md)
 - [lcx](./lcx/README.md)
 - [lido](./lido/README.md)
