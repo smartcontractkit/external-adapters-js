@@ -1,5 +1,15 @@
 # @chainlink/ncfx-adapter
 
+## 4.1.7
+
+### Patch Changes
+
+- [#3533](https://github.com/smartcontractkit/external-adapters-js/pull/3533) [`563b976`](https://github.com/smartcontractkit/external-adapters-js/commit/563b976bd699a28e42120fdbcf730a1d4b5c2db5) Thanks [@renovate](https://github.com/apps/renovate)! - Bump @types/node version
+
+- [#3534](https://github.com/smartcontractkit/external-adapters-js/pull/3534) [`d8023b9`](https://github.com/smartcontractkit/external-adapters-js/commit/d8023b911fd37ccdc2b41788b072fb9c875fff31) Thanks [@renovate](https://github.com/apps/renovate)! - Bump nock
+
+- [#3548](https://github.com/smartcontractkit/external-adapters-js/pull/3548) [`52a7206`](https://github.com/smartcontractkit/external-adapters-js/commit/52a7206643de969b0f596996618e36005e50ac81) Thanks [@austinborn](https://github.com/austinborn)! - Add GHS/USD inverse pair for NCFX
+
 ## 4.1.6
 
 ### Patch Changes
