@@ -1,0 +1,44 @@
+{
+  "name": "@chainlink/kaiko-state-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink kaiko-state adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "kaiko-state"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.119",
+    "nock": "13.5.5",
+    "typescript": "5.6.3"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "1.6.0",
+    "@grpc/grpc-js": "1.12.2",
+    "@kaiko-data/sdk-node": "^1.24.0",
+    "exponential-backoff": "3.1.1",
+    "rxjs": "7.8.1",
+    "tslib": "2.4.1"
+  }
+}

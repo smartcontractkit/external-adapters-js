@@ -611,6 +611,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/kaiko"\
     },\
     {\
+      "name": "@chainlink/kaiko-state-adapter",\
+      "reference": "workspace:packages/sources/kaiko-state"\
+    },\
+    {\
       "name": "@chainlink/layer2-sequencer-health-adapter",\
       "reference": "workspace:packages/sources/layer2-sequencer-health"\
     },\
@@ -1058,6 +1062,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
     ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
+    ["@chainlink/kaiko-state-adapter", ["workspace:packages/sources/kaiko-state"]],\
     ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
     ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
@@ -7606,6 +7611,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/kaiko-state-adapter", [\
+      ["workspace:packages/sources/kaiko-state", {\
+        "packageLocation": "./packages/sources/kaiko-state/",\
+        "packageDependencies": [\
+          ["@chainlink/kaiko-state-adapter", "workspace:packages/sources/kaiko-state"],\
+          ["@chainlink/external-adapter-framework", "npm:1.6.0"],\
+          ["@grpc/grpc-js", "npm:1.12.2"],\
+          ["@kaiko-data/sdk-node", "npm:1.24.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.119"],\
+          ["exponential-backoff", "npm:3.1.1"],\
+          ["nock", "npm:13.5.5"],\
+          ["rxjs", "npm:7.8.1"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/layer2-sequencer-health-adapter", [\
       ["workspace:packages/sources/layer2-sequencer-health", {\
         "packageLocation": "./packages/sources/layer2-sequencer-health/",\
@@ -12587,6 +12611,17 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@jsdevtools-ono-npm-7.1.3-cb2313543b-d4a036ccb9.zip/node_modules/@jsdevtools/ono/",\
         "packageDependencies": [\
           ["@jsdevtools/ono", "npm:7.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@kaiko-data/sdk-node", [\
+      ["npm:1.24.0", {\
+        "packageLocation": "./.yarn/cache/@kaiko-data-sdk-node-npm-1.24.0-74a378c9bb-91361fa850.zip/node_modules/@kaiko-data/sdk-node/",\
+        "packageDependencies": [\
+          ["@kaiko-data/sdk-node", "npm:1.24.0"],\
+          ["@grpc/grpc-js", "npm:1.12.2"],\
+          ["google-protobuf", "npm:3.21.4"]\
         ],\
         "linkType": "HARD"\
       }]\
