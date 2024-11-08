@@ -1,5 +1,11 @@
 # @chainlink/fireblocks-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#3534](https://github.com/smartcontractkit/external-adapters-js/pull/3534) [`d8023b9`](https://github.com/smartcontractkit/external-adapters-js/commit/d8023b911fd37ccdc2b41788b072fb9c875fff31) Thanks [@renovate](https://github.com/apps/renovate)! - Bump nock
+
 ## 1.0.3
 
 ### Patch Changes
