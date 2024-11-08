@@ -10,7 +10,7 @@ export const inputParameters = new InputParameters(
       aliases: ['from', 'coin', 'symbol', 'market'],
       required: true,
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
+      description: 'The symbol of the currency to query',
     },
     quote: {
       aliases: ['to', 'convert'],

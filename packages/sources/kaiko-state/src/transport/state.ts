@@ -65,10 +65,9 @@ export class KaikoStateTransport extends SubscriptionTransport<KaikoStateTranspo
           }
         }),
       {
-        delayFirstAttempt: true,
         jitter: 'full',
         numOfAttempts: 10,
-        startingDelay: 2000, // 2 seconds
+        startingDelay: 100, //ms
       },
     )
 
