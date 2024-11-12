@@ -1,6 +1,5 @@
 import { ethers } from 'ethers'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('utils')
 
@@ -76,18 +75,4 @@ export const getProvider = (
   } else {
     return providers[networkName]
   }
-}
-
-export const throwApiNoAddressError = (apiClient: string, providerDataRequestedUnixMs: number) => {
-  throw new AdapterDataProviderError(
-    {
-      statusCode: 502,
-      message: `The data provider didn't return any address for ${apiClient}`,
-    },
-    {
-      providerDataRequestedUnixMs: providerDataRequestedUnixMs,
-      providerDataReceivedUnixMs: Date.now(),
-      providerIndicatedTimeUnixMs: undefined,
-    },
-  )
 }

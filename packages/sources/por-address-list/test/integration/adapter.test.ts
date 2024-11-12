@@ -92,8 +92,7 @@ describe('execute', () => {
   describe('apiAddress endpoint', () => {
     it('bedrock should return success', async () => {
       const data = {
-        endpoint: 'apiAddress',
-        apiClient: 'Bedrock uniBTC',
+        endpoint: 'bedrockBtcAddress',
       }
       mockBedRockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -103,8 +102,7 @@ describe('execute', () => {
 
     it('solv should return success', async () => {
       const data = {
-        endpoint: 'apiAddress',
-        apiClient: 'SolvBTC',
+        endpoint: 'solvBtcAddress',
       }
       mockSolvResponseSuccess()
       const response = await testAdapter.request(data)

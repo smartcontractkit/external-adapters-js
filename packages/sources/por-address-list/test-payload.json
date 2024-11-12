@@ -11,10 +11,8 @@
     "network": "bitcoin",
     "batchSize": 100
  }, {
-    "endpoint": "apiAddress",
-    "apiClient": "Bedrock uniBTC"
+    "endpoint": "bedrockBtcAddress"
  }, {
-    "endpoint": "apiAddress",
-    "apiClient": "SolvBTC"
+    "endpoint": "solvBtcAddress"
  }]
 }
