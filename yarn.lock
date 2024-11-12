@@ -4356,6 +4356,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.6.0"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.18.115"
+    nock: "npm:13.5.4"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
@@ -12198,6 +12211,13 @@ __metadata:
   version: 16.11.68
   resolution: "@types/node@npm:16.11.68"
   checksum: 10/7906b0fe63f64a0ee8a929c643560c6813b279c43495d69de6e331c1d24488a1e35149da870856a247c588058b108c2598650e8992409a834ee7960494fc1c4a
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:16.18.115":
+  version: 16.18.115
+  resolution: "@types/node@npm:16.18.115"
+  checksum: 10/84d8fd70f255f4273f3916213a678aed2d5c7fb7e0c23225b6a7c1f5af31ccd62ed5036328195d9322c78c2dd6c7afa2100a14f5f5076a620388226cd7d05305
   languageName: node
   linkType: hard
 
@@ -26429,6 +26449,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nock@npm:13.5.4":
+  version: 13.5.4
+  resolution: "nock@npm:13.5.4"
+  dependencies:
+    debug: "npm:^4.1.0"
+    json-stringify-safe: "npm:^5.0.1"
+    propagate: "npm:^2.0.0"
+  checksum: 10/75bad391bae4efb81b742734af5f2d87309cd93d3ca6b78372fd37946d78ccb254d79104676619866915e6734abfc1b00fee2aa42073a4843ca3c746aad35a4d
+  languageName: node
+  linkType: hard
+
 "nock@npm:13.5.5, nock@npm:^13.2.4, nock@npm:^13.3.0":
   version: 13.5.5
   resolution: "nock@npm:13.5.5"
@@ -32248,6 +32279,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:5.5.4":
+  version: 5.5.4
+  resolution: "typescript@npm:5.5.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10/1689ccafef894825481fc3d856b4834ba3cc185a9c2878f3c76a9a1ef81af04194849840f3c69e7961e2312771471bb3b460ca92561e1d87599b26c37d0ffb6f
+  languageName: node
+  linkType: hard
+
 "typescript@npm:5.6.3":
   version: 5.6.3
   resolution: "typescript@npm:5.6.3"
@@ -32255,6 +32296,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/c328e418e124b500908781d9f7b9b93cf08b66bf5936d94332b463822eea2f4e62973bfb3b8a745fdc038785cb66cf59d1092bac3ec2ac6a3e5854687f7833f1
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>":
+  version: 5.5.4
+  resolution: "typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10/746fdd0865c5ce4f15e494c57ede03a9e12ede59cfdb40da3a281807853fe63b00ef1c912d7222143499aa82f18b8b472baa1830df8804746d09b55f6cf5b1cc
   languageName: node
   linkType: hard
 

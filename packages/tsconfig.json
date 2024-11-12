@@ -3,676 +3,679 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/anchor"
+      "path": ".\\composites\\anchor"
     },
     {
-      "path": "./composites/apy-finance"
+      "path": ".\\composites\\apy-finance"
     },
     {
-      "path": "./composites/apy-finance-test"
+      "path": ".\\composites\\apy-finance-test"
     },
     {
-      "path": "./composites/augur"
+      "path": ".\\composites\\augur"
     },
     {
-      "path": "./composites/bitcoin-json-rpc"
+      "path": ".\\composites\\bitcoin-json-rpc"
     },
     {
-      "path": "./composites/bsol-price"
+      "path": ".\\composites\\bsol-price"
     },
     {
-      "path": "./composites/circuit-breaker"
+      "path": ".\\composites\\circuit-breaker"
     },
     {
-      "path": "./composites/crypto-volatility-index"
+      "path": ".\\composites\\crypto-volatility-index"
     },
     {
-      "path": "./composites/curve-3pool"
+      "path": ".\\composites\\curve-3pool"
     },
     {
-      "path": "./composites/defi-dozen"
+      "path": ".\\composites\\defi-dozen"
     },
     {
-      "path": "./composites/defi-pulse"
+      "path": ".\\composites\\defi-pulse"
     },
     {
-      "path": "./composites/dns-record-check"
+      "path": ".\\composites\\dns-record-check"
     },
     {
-      "path": "./composites/dxdao"
+      "path": ".\\composites\\dxdao"
     },
     {
-      "path": "./composites/dydx-rewards"
+      "path": ".\\composites\\dydx-rewards"
     },
     {
-      "path": "./composites/gm-token"
+      "path": ".\\composites\\gm-token"
     },
     {
-      "path": "./composites/google-weather"
+      "path": ".\\composites\\google-weather"
     },
     {
-      "path": "./composites/historical-average"
+      "path": ".\\composites\\historical-average"
     },
     {
-      "path": "./composites/implied-price"
+      "path": ".\\composites\\implied-price"
     },
     {
-      "path": "./composites/linear-finance"
+      "path": ".\\composites\\linear-finance"
     },
     {
-      "path": "./composites/market-closure"
+      "path": ".\\composites\\market-closure"
     },
     {
-      "path": "./composites/market-status"
+      "path": ".\\composites\\market-status"
     },
     {
-      "path": "./composites/medianizer"
+      "path": ".\\composites\\medianizer"
     },
     {
-      "path": "./composites/multi-address-list"
+      "path": ".\\composites\\multi-address-list"
     },
     {
-      "path": "./composites/nexus-kiln"
+      "path": ".\\composites\\nexus-kiln"
     },
     {
-      "path": "./composites/nftx"
+      "path": ".\\composites\\nftx"
     },
     {
-      "path": "./composites/outlier-detection"
+      "path": ".\\composites\\outlier-detection"
     },
     {
-      "path": "./composites/proof-of-reserves"
+      "path": ".\\composites\\proof-of-reserves"
     },
     {
-      "path": "./composites/reference-transform"
+      "path": ".\\composites\\reference-transform"
     },
     {
-      "path": "./composites/rocket-pool"
+      "path": ".\\composites\\rocket-pool"
     },
     {
-      "path": "./composites/savax-price"
+      "path": ".\\composites\\savax-price"
     },
     {
-      "path": "./composites/set-token-index"
+      "path": ".\\composites\\set-token-index"
     },
     {
-      "path": "./composites/synth-index"
+      "path": ".\\composites\\synth-index"
     },
     {
-      "path": "./composites/the-graph"
+      "path": ".\\composites\\the-graph"
     },
     {
-      "path": "./composites/vesper"
+      "path": ".\\composites\\vesper"
     },
     {
-      "path": "./composites/xsushi-price"
+      "path": ".\\composites\\xsushi-price"
     },
     {
-      "path": "./core/factories"
+      "path": ".\\core\\factories"
     },
     {
-      "path": "./core/reference-data-reader"
+      "path": ".\\core\\reference-data-reader"
     },
     {
-      "path": "./core/test-helpers"
+      "path": ".\\core\\test-helpers"
     },
     {
-      "path": "./non-deployable/reduce"
+      "path": ".\\non-deployable\\reduce"
     },
     {
-      "path": "./non-deployable/token-allocation"
+      "path": ".\\non-deployable\\token-allocation"
     },
     {
-      "path": "./non-deployable/token-allocation-test"
+      "path": ".\\non-deployable\\token-allocation-test"
     },
     {
-      "path": "./scripts"
+      "path": ".\\scripts"
     },
     {
-      "path": "./sources/1forge"
+      "path": ".\\sources\\1forge"
     },
     {
-      "path": "./sources/accuweather"
+      "path": ".\\sources\\accuweather"
     },
     {
-      "path": "./sources/ada-balance"
+      "path": ".\\sources\\ada-balance"
     },
     {
-      "path": "./sources/alongside"
+      "path": ".\\sources\\alongside"
     },
     {
-      "path": "./sources/alphachain"
+      "path": ".\\sources\\alphachain"
     },
     {
-      "path": "./sources/alpine"
+      "path": ".\\sources\\alpine"
     },
     {
-      "path": "./sources/amberdata"
+      "path": ".\\sources\\amberdata"
     },
     {
-      "path": "./sources/anchorage"
+      "path": ".\\sources\\anchorage"
     },
     {
-      "path": "./sources/anyblock"
+      "path": ".\\sources\\anyblock"
     },
     {
-      "path": "./sources/ap-election"
+      "path": ".\\sources\\ap-election"
     },
     {
-      "path": "./sources/avalanche-platform"
+      "path": ".\\sources\\avalanche-platform"
     },
     {
-      "path": "./sources/bank-frick"
+      "path": ".\\sources\\bank-frick"
     },
     {
-      "path": "./sources/bea"
+      "path": ".\\sources\\bea"
     },
     {
-      "path": "./sources/binance"
+      "path": ".\\sources\\binance"
     },
     {
-      "path": "./sources/binance-dex"
+      "path": ".\\sources\\binance-dex"
     },
     {
-      "path": "./sources/bitex"
+      "path": ".\\sources\\bitex"
     },
     {
-      "path": "./sources/bitgo"
+      "path": ".\\sources\\bitgo"
     },
     {
-      "path": "./sources/bitgo-reserves"
+      "path": ".\\sources\\bitgo-reserves"
     },
     {
-      "path": "./sources/bitso"
+      "path": ".\\sources\\bitso"
     },
     {
-      "path": "./sources/blockchain.com"
+      "path": ".\\sources\\blockchain.com"
     },
     {
-      "path": "./sources/blockchair"
+      "path": ".\\sources\\blockchair"
     },
     {
-      "path": "./sources/blockcypher"
+      "path": ".\\sources\\blockcypher"
     },
     {
-      "path": "./sources/blocksize-capital"
+      "path": ".\\sources\\blocksize-capital"
     },
     {
-      "path": "./sources/blockstream"
+      "path": ".\\sources\\blockstream"
     },
     {
-      "path": "./sources/bob"
+      "path": ".\\sources\\bob"
     },
     {
-      "path": "./sources/bravenewcoin"
+      "path": ".\\sources\\bravenewcoin"
     },
     {
-      "path": "./sources/btc.com"
+      "path": ".\\sources\\btc.com"
     },
     {
-      "path": "./sources/cache.gold"
+      "path": ".\\sources\\cache.gold"
     },
     {
-      "path": "./sources/ccip-read"
+      "path": ".\\sources\\ccip-read"
     },
     {
-      "path": "./sources/celsius-address-list"
+      "path": ".\\sources\\celsius-address-list"
     },
     {
-      "path": "./sources/cfbenchmarks"
+      "path": ".\\sources\\cfbenchmarks"
     },
     {
-      "path": "./sources/chain-reserve-wallet"
+      "path": ".\\sources\\chain-reserve-wallet"
     },
     {
-      "path": "./sources/clear-bank"
+      "path": ".\\sources\\clear-bank"
     },
     {
-      "path": "./sources/coinapi"
+      "path": ".\\sources\\coinapi"
     },
     {
-      "path": "./sources/coinbase"
+      "path": ".\\sources\\coinbase"
     },
     {
-      "path": "./sources/coinbase-prime"
+      "path": ".\\sources\\coinbase-prime"
     },
     {
-      "path": "./sources/coincodex"
+      "path": ".\\sources\\coincodex"
     },
     {
-      "path": "./sources/coingecko"
+      "path": ".\\sources\\coingecko"
     },
     {
-      "path": "./sources/coinlore"
+      "path": ".\\sources\\coinlore"
     },
     {
-      "path": "./sources/coinmarketcap"
+      "path": ".\\sources\\coinmarketcap"
     },
     {
-      "path": "./sources/coinmetrics"
+      "path": ".\\sources\\coinmetrics"
     },
     {
-      "path": "./sources/coinpaprika"
+      "path": ".\\sources\\coinpaprika"
     },
     {
-      "path": "./sources/coinranking"
+      "path": ".\\sources\\coinranking"
     },
     {
-      "path": "./sources/covid-tracker"
+      "path": ".\\sources\\covid-tracker"
     },
     {
-      "path": "./sources/cryptex"
+      "path": ".\\sources\\cryptex"
     },
     {
-      "path": "./sources/cryptoapis"
+      "path": ".\\sources\\cryptoapis"
     },
     {
-      "path": "./sources/cryptoapis-v2"
+      "path": ".\\sources\\cryptoapis-v2"
     },
     {
-      "path": "./sources/cryptocompare"
+      "path": ".\\sources\\cryptocompare"
     },
     {
-      "path": "./sources/cryptoid"
+      "path": ".\\sources\\cryptoid"
     },
     {
-      "path": "./sources/cryptomkt"
+      "path": ".\\sources\\cryptomkt"
     },
     {
-      "path": "./sources/currencylayer"
+      "path": ".\\sources\\currencylayer"
     },
     {
-      "path": "./sources/curve"
+      "path": ".\\sources\\curve"
     },
     {
-      "path": "./sources/dar"
+      "path": ".\\sources\\dar"
     },
     {
-      "path": "./sources/deep-blue"
+      "path": ".\\sources\\deep-blue"
     },
     {
-      "path": "./sources/deribit"
+      "path": ".\\sources\\deribit"
     },
     {
-      "path": "./sources/dlc-btc-por"
+      "path": ".\\sources\\dlc-btc-por"
     },
     {
-      "path": "./sources/dns-query"
+      "path": ".\\sources\\dns-query"
     },
     {
-      "path": "./sources/dwolla"
+      "path": ".\\sources\\dwolla"
     },
     {
-      "path": "./sources/dxfeed"
+      "path": ".\\sources\\dxfeed"
     },
     {
-      "path": "./sources/dxfeed-secondary"
+      "path": ".\\sources\\dxfeed-secondary"
     },
     {
-      "path": "./sources/elven"
+      "path": ".\\sources\\elven"
     },
     {
-      "path": "./sources/elwood"
+      "path": ".\\sources\\elwood"
     },
     {
-      "path": "./sources/ens"
+      "path": ".\\sources\\ens"
     },
     {
-      "path": "./sources/enzyme"
+      "path": ".\\sources\\enzyme"
     },
     {
-      "path": "./sources/eodhistoricaldata"
+      "path": ".\\sources\\eodhistoricaldata"
     },
     {
-      "path": "./sources/eth-balance"
+      "path": ".\\sources\\eth-balance"
     },
     {
-      "path": "./sources/eth-beacon"
+      "path": ".\\sources\\eth-beacon"
     },
     {
-      "path": "./sources/etherchain"
+      "path": ".\\sources\\etherchain"
     },
     {
-      "path": "./sources/etherscan"
+      "path": ".\\sources\\etherscan"
     },
     {
-      "path": "./sources/ethgasstation"
+      "path": ".\\sources\\ethgasstation"
     },
     {
-      "path": "./sources/ethgaswatch"
+      "path": ".\\sources\\ethgaswatch"
     },
     {
-      "path": "./sources/expand-network"
+      "path": ".\\sources\\expand-network"
     },
     {
-      "path": "./sources/expert-car-broker"
+      "path": ".\\sources\\expert-car-broker"
     },
     {
-      "path": "./sources/fcsapi"
+      "path": ".\\sources\\fcsapi"
     },
     {
-      "path": "./sources/finage"
+      "path": ".\\sources\\finage"
     },
     {
-      "path": "./sources/finalto"
+      "path": ".\\sources\\finalto"
     },
     {
-      "path": "./sources/finnhub"
+      "path": ".\\sources\\finnhub"
     },
     {
-      "path": "./sources/finnhub-secondary"
+      "path": ".\\sources\\finnhub-secondary"
     },
     {
-      "path": "./sources/fireblocks"
+      "path": ".\\sources\\fireblocks"
     },
     {
-      "path": "./sources/fixer"
+      "path": ".\\sources\\fixer"
     },
     {
-      "path": "./sources/flightaware"
+      "path": ".\\sources\\flightaware"
     },
     {
-      "path": "./sources/fluent-finance"
+      "path": ".\\sources\\fluent-finance"
     },
     {
-      "path": "./sources/fmpcloud"
+      "path": ".\\sources\\fmpcloud"
     },
     {
-      "path": "./sources/frxeth-exchange-rate"
+      "path": ".\\sources\\frxeth-exchange-rate"
     },
     {
-      "path": "./sources/galaxis"
+      "path": ".\\sources\\galaxis"
     },
     {
-      "path": "./sources/galaxy"
+      "path": ".\\sources\\galaxy"
     },
     {
-      "path": "./sources/gemini"
+      "path": ".\\sources\\gemini"
     },
     {
-      "path": "./sources/genesis-volatility"
+      "path": ".\\sources\\genesis-volatility"
     },
     {
-      "path": "./sources/geodb"
+      "path": ".\\sources\\geodb"
     },
     {
-      "path": "./sources/google-bigquery"
+      "path": ".\\sources\\google-bigquery"
     },
     {
-      "path": "./sources/gramchain"
+      "path": ".\\sources\\gramchain"
     },
     {
-      "path": "./sources/graphql"
+      "path": ".\\sources\\graphql"
     },
     {
-      "path": "./sources/gsr"
+      "path": ".\\sources\\gsr"
     },
     {
-      "path": "./sources/harris-and-trotter"
+      "path": ".\\sources\\harris-and-trotter"
     },
     {
-      "path": "./sources/icap"
+      "path": ".\\sources\\icap"
     },
     {
-      "path": "./sources/iex-cloud"
+      "path": ".\\sources\\iex-cloud"
     },
     {
-      "path": "./sources/ignition-address-list"
+      "path": ".\\sources\\ignition-address-list"
     },
     {
-      "path": "./sources/intrinio"
+      "path": ".\\sources\\instruxi-sxt"
     },
     {
-      "path": "./sources/ion.au"
+      "path": ".\\sources\\intrinio"
     },
     {
-      "path": "./sources/ipfs"
+      "path": ".\\sources\\ion.au"
     },
     {
-      "path": "./sources/jpegd"
+      "path": ".\\sources\\ipfs"
     },
     {
-      "path": "./sources/json-rpc"
+      "path": ".\\sources\\jpegd"
     },
     {
-      "path": "./sources/kaiko"
+      "path": ".\\sources\\json-rpc"
     },
     {
-      "path": "./sources/kaiko-state"
+      "path": ".\\sources\\kaiko"
     },
     {
-      "path": "./sources/layer2-sequencer-health"
+      "path": ".\\sources\\kaiko-state"
     },
     {
-      "path": "./sources/lcx"
+      "path": ".\\sources\\layer2-sequencer-health"
     },
     {
-      "path": "./sources/lido"
+      "path": ".\\sources\\lcx"
     },
     {
-      "path": "./sources/lido-por"
+      "path": ".\\sources\\lido"
     },
     {
-      "path": "./sources/linkpool"
+      "path": ".\\sources\\lido-por"
     },
     {
-      "path": "./sources/lition"
+      "path": ".\\sources\\linkpool"
     },
     {
-      "path": "./sources/lotus"
+      "path": ".\\sources\\lition"
     },
     {
-      "path": "./sources/m0"
+      "path": ".\\sources\\lotus"
     },
     {
-      "path": "./sources/marketstack"
+      "path": ".\\sources\\m0"
     },
     {
-      "path": "./sources/messari"
+      "path": ".\\sources\\marketstack"
     },
     {
-      "path": "./sources/metalsapi"
+      "path": ".\\sources\\messari"
     },
     {
-      "path": "./sources/mobula-state"
+      "path": ".\\sources\\metalsapi"
     },
     {
-      "path": "./sources/mock-ea"
+      "path": ".\\sources\\mobula-state"
     },
     {
-      "path": "./sources/moonbeam-address-list"
+      "path": ".\\sources\\mock-ea"
     },
     {
-      "path": "./sources/moore-hk"
+      "path": ".\\sources\\moonbeam-address-list"
     },
     {
-      "path": "./sources/mycryptoapi"
+      "path": ".\\sources\\moore-hk"
     },
     {
-      "path": "./sources/nav-consulting"
+      "path": ".\\sources\\mycryptoapi"
     },
     {
-      "path": "./sources/ncfx"
+      "path": ".\\sources\\nav-consulting"
     },
     {
-      "path": "./sources/nft-blue-chip"
+      "path": ".\\sources\\ncfx"
     },
     {
-      "path": "./sources/nikkei"
+      "path": ".\\sources\\nft-blue-chip"
     },
     {
-      "path": "./sources/oanda"
+      "path": ".\\sources\\nikkei"
     },
     {
-      "path": "./sources/oilpriceapi"
+      "path": ".\\sources\\oanda"
     },
     {
-      "path": "./sources/onchain-gas"
+      "path": ".\\sources\\oilpriceapi"
     },
     {
-      "path": "./sources/openexchangerates"
+      "path": ".\\sources\\onchain-gas"
     },
     {
-      "path": "./sources/orchid-bandwidth"
+      "path": ".\\sources\\openexchangerates"
     },
     {
-      "path": "./sources/paxos"
+      "path": ".\\sources\\orchid-bandwidth"
     },
     {
-      "path": "./sources/paypal"
+      "path": ".\\sources\\paxos"
     },
     {
-      "path": "./sources/polkadot-balance"
+      "path": ".\\sources\\paypal"
     },
     {
-      "path": "./sources/polygon"
+      "path": ".\\sources\\polkadot-balance"
     },
     {
-      "path": "./sources/por-address-list"
+      "path": ".\\sources\\polygon"
     },
     {
-      "path": "./sources/por-indexer"
+      "path": ".\\sources\\por-address-list"
     },
     {
-      "path": "./sources/renvm-address-set"
+      "path": ".\\sources\\por-indexer"
     },
     {
-      "path": "./sources/s3-csv-reader"
+      "path": ".\\sources\\renvm-address-set"
     },
     {
-      "path": "./sources/satoshitango"
+      "path": ".\\sources\\s3-csv-reader"
     },
     {
-      "path": "./sources/snowflake"
+      "path": ".\\sources\\satoshitango"
     },
     {
-      "path": "./sources/sochain"
+      "path": ".\\sources\\snowflake"
     },
     {
-      "path": "./sources/solana-view-function"
+      "path": ".\\sources\\sochain"
     },
     {
-      "path": "./sources/spectral-macro-score"
+      "path": ".\\sources\\solana-view-function"
     },
     {
-      "path": "./sources/sportsdataio"
+      "path": ".\\sources\\spectral-macro-score"
     },
     {
-      "path": "./sources/stader-address-list"
+      "path": ".\\sources\\sportsdataio"
     },
     {
-      "path": "./sources/stader-balance"
+      "path": ".\\sources\\stader-address-list"
     },
     {
-      "path": "./sources/stader-labs"
+      "path": ".\\sources\\stader-balance"
     },
     {
-      "path": "./sources/starknet-gas-price"
+      "path": ".\\sources\\stader-labs"
     },
     {
-      "path": "./sources/stasis"
+      "path": ".\\sources\\starknet-gas-price"
     },
     {
-      "path": "./sources/superstate"
+      "path": ".\\sources\\stasis"
     },
     {
-      "path": "./sources/swell-address-list"
+      "path": ".\\sources\\superstate"
     },
     {
-      "path": "./sources/synthetix-debt-pool"
+      "path": ".\\sources\\swell-address-list"
     },
     {
-      "path": "./sources/synthetix-feeds"
+      "path": ".\\sources\\synthetix-debt-pool"
     },
     {
-      "path": "./sources/taapi"
+      "path": ".\\sources\\synthetix-feeds"
     },
     {
-      "path": "./sources/terra-view-function"
+      "path": ".\\sources\\taapi"
     },
     {
-      "path": "./sources/the-network-firm"
+      "path": ".\\sources\\terra-view-function"
     },
     {
-      "path": "./sources/therundown"
+      "path": ".\\sources\\the-network-firm"
     },
     {
-      "path": "./sources/tiingo"
+      "path": ".\\sources\\therundown"
     },
     {
-      "path": "./sources/tiingo-state"
+      "path": ".\\sources\\tiingo"
     },
     {
-      "path": "./sources/tp"
+      "path": ".\\sources\\tiingo-state"
     },
     {
-      "path": "./sources/tradermade"
+      "path": ".\\sources\\tp"
     },
     {
-      "path": "./sources/tradingeconomics"
+      "path": ".\\sources\\tradermade"
     },
     {
-      "path": "./sources/tradinghours"
+      "path": ".\\sources\\tradingeconomics"
     },
     {
-      "path": "./sources/trueusd"
+      "path": ".\\sources\\tradinghours"
     },
     {
-      "path": "./sources/trumatic-matic-exchange-rate"
+      "path": ".\\sources\\trueusd"
     },
     {
-      "path": "./sources/twelvedata"
+      "path": ".\\sources\\trumatic-matic-exchange-rate"
     },
     {
-      "path": "./sources/twosigma"
+      "path": ".\\sources\\twelvedata"
     },
     {
-      "path": "./sources/unibit"
+      "path": ".\\sources\\twosigma"
     },
     {
-      "path": "./sources/uniswap-v2"
+      "path": ".\\sources\\unibit"
     },
     {
-      "path": "./sources/upvest"
+      "path": ".\\sources\\uniswap-v2"
     },
     {
-      "path": "./sources/uscpi-one"
+      "path": ".\\sources\\upvest"
     },
     {
-      "path": "./sources/view-function"
+      "path": ".\\sources\\uscpi-one"
     },
     {
-      "path": "./sources/view-function-multi-chain"
+      "path": ".\\sources\\view-function"
     },
     {
-      "path": "./sources/view-starknet-latest-answer"
+      "path": ".\\sources\\view-function-multi-chain"
     },
     {
-      "path": "./sources/wbtc-address-set"
+      "path": ".\\sources\\view-starknet-latest-answer"
     },
     {
-      "path": "./sources/wootrade"
+      "path": ".\\sources\\wbtc-address-set"
     },
     {
-      "path": "./sources/wrapped"
+      "path": ".\\sources\\wootrade"
     },
     {
-      "path": "./sources/xbto"
+      "path": ".\\sources\\wrapped"
     },
     {
-      "path": "./targets/agoric"
+      "path": ".\\sources\\xbto"
     },
     {
-      "path": "./targets/conflux"
+      "path": ".\\targets\\agoric"
     },
     {
-      "path": "./targets/dydx-stark"
+      "path": ".\\targets\\conflux"
     },
     {
-      "path": "./targets/ethwrite"
+      "path": ".\\targets\\dydx-stark"
     },
     {
-      "path": "./targets/harmony"
+      "path": ".\\targets\\ethwrite"
+    },
+    {
+      "path": ".\\targets\\harmony"
     }
   ]
 }

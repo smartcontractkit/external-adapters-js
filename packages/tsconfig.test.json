@@ -3,676 +3,679 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/anchor/tsconfig.test.json"
+      "path": ".\\composites\\anchor\\tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance/tsconfig.test.json"
+      "path": ".\\composites\\apy-finance\\tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance-test/tsconfig.test.json"
+      "path": ".\\composites\\apy-finance-test\\tsconfig.test.json"
     },
     {
-      "path": "./composites/augur/tsconfig.test.json"
+      "path": ".\\composites\\augur\\tsconfig.test.json"
     },
     {
-      "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
+      "path": ".\\composites\\bitcoin-json-rpc\\tsconfig.test.json"
     },
     {
-      "path": "./composites/bsol-price/tsconfig.test.json"
+      "path": ".\\composites\\bsol-price\\tsconfig.test.json"
     },
     {
-      "path": "./composites/circuit-breaker/tsconfig.test.json"
+      "path": ".\\composites\\circuit-breaker\\tsconfig.test.json"
     },
     {
-      "path": "./composites/crypto-volatility-index/tsconfig.test.json"
+      "path": ".\\composites\\crypto-volatility-index\\tsconfig.test.json"
     },
     {
-      "path": "./composites/curve-3pool/tsconfig.test.json"
+      "path": ".\\composites\\curve-3pool\\tsconfig.test.json"
     },
     {
-      "path": "./composites/defi-dozen/tsconfig.test.json"
+      "path": ".\\composites\\defi-dozen\\tsconfig.test.json"
     },
     {
-      "path": "./composites/defi-pulse/tsconfig.test.json"
+      "path": ".\\composites\\defi-pulse\\tsconfig.test.json"
     },
     {
-      "path": "./composites/dns-record-check/tsconfig.test.json"
+      "path": ".\\composites\\dns-record-check\\tsconfig.test.json"
     },
     {
-      "path": "./composites/dxdao/tsconfig.test.json"
+      "path": ".\\composites\\dxdao\\tsconfig.test.json"
     },
     {
-      "path": "./composites/dydx-rewards/tsconfig.test.json"
+      "path": ".\\composites\\dydx-rewards\\tsconfig.test.json"
     },
     {
-      "path": "./composites/gm-token/tsconfig.test.json"
+      "path": ".\\composites\\gm-token\\tsconfig.test.json"
     },
     {
-      "path": "./composites/google-weather/tsconfig.test.json"
+      "path": ".\\composites\\google-weather\\tsconfig.test.json"
     },
     {
-      "path": "./composites/historical-average/tsconfig.test.json"
+      "path": ".\\composites\\historical-average\\tsconfig.test.json"
     },
     {
-      "path": "./composites/implied-price/tsconfig.test.json"
+      "path": ".\\composites\\implied-price\\tsconfig.test.json"
     },
     {
-      "path": "./composites/linear-finance/tsconfig.test.json"
+      "path": ".\\composites\\linear-finance\\tsconfig.test.json"
     },
     {
-      "path": "./composites/market-closure/tsconfig.test.json"
+      "path": ".\\composites\\market-closure\\tsconfig.test.json"
     },
     {
-      "path": "./composites/market-status/tsconfig.test.json"
+      "path": ".\\composites\\market-status\\tsconfig.test.json"
     },
     {
-      "path": "./composites/medianizer/tsconfig.test.json"
+      "path": ".\\composites\\medianizer\\tsconfig.test.json"
     },
     {
-      "path": "./composites/multi-address-list/tsconfig.test.json"
+      "path": ".\\composites\\multi-address-list\\tsconfig.test.json"
     },
     {
-      "path": "./composites/nexus-kiln/tsconfig.test.json"
+      "path": ".\\composites\\nexus-kiln\\tsconfig.test.json"
     },
     {
-      "path": "./composites/nftx/tsconfig.test.json"
+      "path": ".\\composites\\nftx\\tsconfig.test.json"
     },
     {
-      "path": "./composites/outlier-detection/tsconfig.test.json"
+      "path": ".\\composites\\outlier-detection\\tsconfig.test.json"
     },
     {
-      "path": "./composites/proof-of-reserves/tsconfig.test.json"
+      "path": ".\\composites\\proof-of-reserves\\tsconfig.test.json"
     },
     {
-      "path": "./composites/reference-transform/tsconfig.test.json"
+      "path": ".\\composites\\reference-transform\\tsconfig.test.json"
     },
     {
-      "path": "./composites/rocket-pool/tsconfig.test.json"
+      "path": ".\\composites\\rocket-pool\\tsconfig.test.json"
     },
     {
-      "path": "./composites/savax-price/tsconfig.test.json"
+      "path": ".\\composites\\savax-price\\tsconfig.test.json"
     },
     {
-      "path": "./composites/set-token-index/tsconfig.test.json"
+      "path": ".\\composites\\set-token-index\\tsconfig.test.json"
     },
     {
-      "path": "./composites/synth-index/tsconfig.test.json"
+      "path": ".\\composites\\synth-index\\tsconfig.test.json"
     },
     {
-      "path": "./composites/the-graph/tsconfig.test.json"
+      "path": ".\\composites\\the-graph\\tsconfig.test.json"
     },
     {
-      "path": "./composites/vesper/tsconfig.test.json"
+      "path": ".\\composites\\vesper\\tsconfig.test.json"
     },
     {
-      "path": "./composites/xsushi-price/tsconfig.test.json"
+      "path": ".\\composites\\xsushi-price\\tsconfig.test.json"
     },
     {
-      "path": "./core/factories/tsconfig.test.json"
+      "path": ".\\core\\factories\\tsconfig.test.json"
     },
     {
-      "path": "./core/reference-data-reader/tsconfig.test.json"
+      "path": ".\\core\\reference-data-reader\\tsconfig.test.json"
     },
     {
-      "path": "./core/test-helpers/tsconfig.test.json"
+      "path": ".\\core\\test-helpers\\tsconfig.test.json"
     },
     {
-      "path": "./non-deployable/reduce/tsconfig.test.json"
+      "path": ".\\non-deployable\\reduce\\tsconfig.test.json"
     },
     {
-      "path": "./non-deployable/token-allocation/tsconfig.test.json"
+      "path": ".\\non-deployable\\token-allocation\\tsconfig.test.json"
     },
     {
-      "path": "./non-deployable/token-allocation-test/tsconfig.test.json"
+      "path": ".\\non-deployable\\token-allocation-test\\tsconfig.test.json"
     },
     {
-      "path": "./scripts/tsconfig.test.json"
+      "path": ".\\scripts\\tsconfig.test.json"
     },
     {
-      "path": "./sources/1forge/tsconfig.test.json"
+      "path": ".\\sources\\1forge\\tsconfig.test.json"
     },
     {
-      "path": "./sources/accuweather/tsconfig.test.json"
+      "path": ".\\sources\\accuweather\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ada-balance/tsconfig.test.json"
+      "path": ".\\sources\\ada-balance\\tsconfig.test.json"
     },
     {
-      "path": "./sources/alongside/tsconfig.test.json"
+      "path": ".\\sources\\alongside\\tsconfig.test.json"
     },
     {
-      "path": "./sources/alphachain/tsconfig.test.json"
+      "path": ".\\sources\\alphachain\\tsconfig.test.json"
     },
     {
-      "path": "./sources/alpine/tsconfig.test.json"
+      "path": ".\\sources\\alpine\\tsconfig.test.json"
     },
     {
-      "path": "./sources/amberdata/tsconfig.test.json"
+      "path": ".\\sources\\amberdata\\tsconfig.test.json"
     },
     {
-      "path": "./sources/anchorage/tsconfig.test.json"
+      "path": ".\\sources\\anchorage\\tsconfig.test.json"
     },
     {
-      "path": "./sources/anyblock/tsconfig.test.json"
+      "path": ".\\sources\\anyblock\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ap-election/tsconfig.test.json"
+      "path": ".\\sources\\ap-election\\tsconfig.test.json"
     },
     {
-      "path": "./sources/avalanche-platform/tsconfig.test.json"
+      "path": ".\\sources\\avalanche-platform\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bank-frick/tsconfig.test.json"
+      "path": ".\\sources\\bank-frick\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bea/tsconfig.test.json"
+      "path": ".\\sources\\bea\\tsconfig.test.json"
     },
     {
-      "path": "./sources/binance/tsconfig.test.json"
+      "path": ".\\sources\\binance\\tsconfig.test.json"
     },
     {
-      "path": "./sources/binance-dex/tsconfig.test.json"
+      "path": ".\\sources\\binance-dex\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bitex/tsconfig.test.json"
+      "path": ".\\sources\\bitex\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bitgo/tsconfig.test.json"
+      "path": ".\\sources\\bitgo\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bitgo-reserves/tsconfig.test.json"
+      "path": ".\\sources\\bitgo-reserves\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bitso/tsconfig.test.json"
+      "path": ".\\sources\\bitso\\tsconfig.test.json"
     },
     {
-      "path": "./sources/blockchain.com/tsconfig.test.json"
+      "path": ".\\sources\\blockchain.com\\tsconfig.test.json"
     },
     {
-      "path": "./sources/blockchair/tsconfig.test.json"
+      "path": ".\\sources\\blockchair\\tsconfig.test.json"
     },
     {
-      "path": "./sources/blockcypher/tsconfig.test.json"
+      "path": ".\\sources\\blockcypher\\tsconfig.test.json"
     },
     {
-      "path": "./sources/blocksize-capital/tsconfig.test.json"
+      "path": ".\\sources\\blocksize-capital\\tsconfig.test.json"
     },
     {
-      "path": "./sources/blockstream/tsconfig.test.json"
+      "path": ".\\sources\\blockstream\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bob/tsconfig.test.json"
+      "path": ".\\sources\\bob\\tsconfig.test.json"
     },
     {
-      "path": "./sources/bravenewcoin/tsconfig.test.json"
+      "path": ".\\sources\\bravenewcoin\\tsconfig.test.json"
     },
     {
-      "path": "./sources/btc.com/tsconfig.test.json"
+      "path": ".\\sources\\btc.com\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cache.gold/tsconfig.test.json"
+      "path": ".\\sources\\cache.gold\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ccip-read/tsconfig.test.json"
+      "path": ".\\sources\\ccip-read\\tsconfig.test.json"
     },
     {
-      "path": "./sources/celsius-address-list/tsconfig.test.json"
+      "path": ".\\sources\\celsius-address-list\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cfbenchmarks/tsconfig.test.json"
+      "path": ".\\sources\\cfbenchmarks\\tsconfig.test.json"
     },
     {
-      "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
+      "path": ".\\sources\\chain-reserve-wallet\\tsconfig.test.json"
     },
     {
-      "path": "./sources/clear-bank/tsconfig.test.json"
+      "path": ".\\sources\\clear-bank\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinapi/tsconfig.test.json"
+      "path": ".\\sources\\coinapi\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinbase/tsconfig.test.json"
+      "path": ".\\sources\\coinbase\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinbase-prime/tsconfig.test.json"
+      "path": ".\\sources\\coinbase-prime\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coincodex/tsconfig.test.json"
+      "path": ".\\sources\\coincodex\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coingecko/tsconfig.test.json"
+      "path": ".\\sources\\coingecko\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinlore/tsconfig.test.json"
+      "path": ".\\sources\\coinlore\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinmarketcap/tsconfig.test.json"
+      "path": ".\\sources\\coinmarketcap\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinmetrics/tsconfig.test.json"
+      "path": ".\\sources\\coinmetrics\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinpaprika/tsconfig.test.json"
+      "path": ".\\sources\\coinpaprika\\tsconfig.test.json"
     },
     {
-      "path": "./sources/coinranking/tsconfig.test.json"
+      "path": ".\\sources\\coinranking\\tsconfig.test.json"
     },
     {
-      "path": "./sources/covid-tracker/tsconfig.test.json"
+      "path": ".\\sources\\covid-tracker\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptex/tsconfig.test.json"
+      "path": ".\\sources\\cryptex\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptoapis/tsconfig.test.json"
+      "path": ".\\sources\\cryptoapis\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptoapis-v2/tsconfig.test.json"
+      "path": ".\\sources\\cryptoapis-v2\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptocompare/tsconfig.test.json"
+      "path": ".\\sources\\cryptocompare\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptoid/tsconfig.test.json"
+      "path": ".\\sources\\cryptoid\\tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptomkt/tsconfig.test.json"
+      "path": ".\\sources\\cryptomkt\\tsconfig.test.json"
     },
     {
-      "path": "./sources/currencylayer/tsconfig.test.json"
+      "path": ".\\sources\\currencylayer\\tsconfig.test.json"
     },
     {
-      "path": "./sources/curve/tsconfig.test.json"
+      "path": ".\\sources\\curve\\tsconfig.test.json"
     },
     {
-      "path": "./sources/dar/tsconfig.test.json"
+      "path": ".\\sources\\dar\\tsconfig.test.json"
     },
     {
-      "path": "./sources/deep-blue/tsconfig.test.json"
+      "path": ".\\sources\\deep-blue\\tsconfig.test.json"
     },
     {
-      "path": "./sources/deribit/tsconfig.test.json"
+      "path": ".\\sources\\deribit\\tsconfig.test.json"
     },
     {
-      "path": "./sources/dlc-btc-por/tsconfig.test.json"
+      "path": ".\\sources\\dlc-btc-por\\tsconfig.test.json"
     },
     {
-      "path": "./sources/dns-query/tsconfig.test.json"
+      "path": ".\\sources\\dns-query\\tsconfig.test.json"
     },
     {
-      "path": "./sources/dwolla/tsconfig.test.json"
+      "path": ".\\sources\\dwolla\\tsconfig.test.json"
     },
     {
-      "path": "./sources/dxfeed/tsconfig.test.json"
+      "path": ".\\sources\\dxfeed\\tsconfig.test.json"
     },
     {
-      "path": "./sources/dxfeed-secondary/tsconfig.test.json"
+      "path": ".\\sources\\dxfeed-secondary\\tsconfig.test.json"
     },
     {
-      "path": "./sources/elven/tsconfig.test.json"
+      "path": ".\\sources\\elven\\tsconfig.test.json"
     },
     {
-      "path": "./sources/elwood/tsconfig.test.json"
+      "path": ".\\sources\\elwood\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ens/tsconfig.test.json"
+      "path": ".\\sources\\ens\\tsconfig.test.json"
     },
     {
-      "path": "./sources/enzyme/tsconfig.test.json"
+      "path": ".\\sources\\enzyme\\tsconfig.test.json"
     },
     {
-      "path": "./sources/eodhistoricaldata/tsconfig.test.json"
+      "path": ".\\sources\\eodhistoricaldata\\tsconfig.test.json"
     },
     {
-      "path": "./sources/eth-balance/tsconfig.test.json"
+      "path": ".\\sources\\eth-balance\\tsconfig.test.json"
     },
     {
-      "path": "./sources/eth-beacon/tsconfig.test.json"
+      "path": ".\\sources\\eth-beacon\\tsconfig.test.json"
     },
     {
-      "path": "./sources/etherchain/tsconfig.test.json"
+      "path": ".\\sources\\etherchain\\tsconfig.test.json"
     },
     {
-      "path": "./sources/etherscan/tsconfig.test.json"
+      "path": ".\\sources\\etherscan\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ethgasstation/tsconfig.test.json"
+      "path": ".\\sources\\ethgasstation\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ethgaswatch/tsconfig.test.json"
+      "path": ".\\sources\\ethgaswatch\\tsconfig.test.json"
     },
     {
-      "path": "./sources/expand-network/tsconfig.test.json"
+      "path": ".\\sources\\expand-network\\tsconfig.test.json"
     },
     {
-      "path": "./sources/expert-car-broker/tsconfig.test.json"
+      "path": ".\\sources\\expert-car-broker\\tsconfig.test.json"
     },
     {
-      "path": "./sources/fcsapi/tsconfig.test.json"
+      "path": ".\\sources\\fcsapi\\tsconfig.test.json"
     },
     {
-      "path": "./sources/finage/tsconfig.test.json"
+      "path": ".\\sources\\finage\\tsconfig.test.json"
     },
     {
-      "path": "./sources/finalto/tsconfig.test.json"
+      "path": ".\\sources\\finalto\\tsconfig.test.json"
     },
     {
-      "path": "./sources/finnhub/tsconfig.test.json"
+      "path": ".\\sources\\finnhub\\tsconfig.test.json"
     },
     {
-      "path": "./sources/finnhub-secondary/tsconfig.test.json"
+      "path": ".\\sources\\finnhub-secondary\\tsconfig.test.json"
     },
     {
-      "path": "./sources/fireblocks/tsconfig.test.json"
+      "path": ".\\sources\\fireblocks\\tsconfig.test.json"
     },
     {
-      "path": "./sources/fixer/tsconfig.test.json"
+      "path": ".\\sources\\fixer\\tsconfig.test.json"
     },
     {
-      "path": "./sources/flightaware/tsconfig.test.json"
+      "path": ".\\sources\\flightaware\\tsconfig.test.json"
     },
     {
-      "path": "./sources/fluent-finance/tsconfig.test.json"
+      "path": ".\\sources\\fluent-finance\\tsconfig.test.json"
     },
     {
-      "path": "./sources/fmpcloud/tsconfig.test.json"
+      "path": ".\\sources\\fmpcloud\\tsconfig.test.json"
     },
     {
-      "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
+      "path": ".\\sources\\frxeth-exchange-rate\\tsconfig.test.json"
     },
     {
-      "path": "./sources/galaxis/tsconfig.test.json"
+      "path": ".\\sources\\galaxis\\tsconfig.test.json"
     },
     {
-      "path": "./sources/galaxy/tsconfig.test.json"
+      "path": ".\\sources\\galaxy\\tsconfig.test.json"
     },
     {
-      "path": "./sources/gemini/tsconfig.test.json"
+      "path": ".\\sources\\gemini\\tsconfig.test.json"
     },
     {
-      "path": "./sources/genesis-volatility/tsconfig.test.json"
+      "path": ".\\sources\\genesis-volatility\\tsconfig.test.json"
     },
     {
-      "path": "./sources/geodb/tsconfig.test.json"
+      "path": ".\\sources\\geodb\\tsconfig.test.json"
     },
     {
-      "path": "./sources/google-bigquery/tsconfig.test.json"
+      "path": ".\\sources\\google-bigquery\\tsconfig.test.json"
     },
     {
-      "path": "./sources/gramchain/tsconfig.test.json"
+      "path": ".\\sources\\gramchain\\tsconfig.test.json"
     },
     {
-      "path": "./sources/graphql/tsconfig.test.json"
+      "path": ".\\sources\\graphql\\tsconfig.test.json"
     },
     {
-      "path": "./sources/gsr/tsconfig.test.json"
+      "path": ".\\sources\\gsr\\tsconfig.test.json"
     },
     {
-      "path": "./sources/harris-and-trotter/tsconfig.test.json"
+      "path": ".\\sources\\harris-and-trotter\\tsconfig.test.json"
     },
     {
-      "path": "./sources/icap/tsconfig.test.json"
+      "path": ".\\sources\\icap\\tsconfig.test.json"
     },
     {
-      "path": "./sources/iex-cloud/tsconfig.test.json"
+      "path": ".\\sources\\iex-cloud\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ignition-address-list/tsconfig.test.json"
+      "path": ".\\sources\\ignition-address-list\\tsconfig.test.json"
     },
     {
-      "path": "./sources/intrinio/tsconfig.test.json"
+      "path": ".\\sources\\instruxi-sxt\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ion.au/tsconfig.test.json"
+      "path": ".\\sources\\intrinio\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ipfs/tsconfig.test.json"
+      "path": ".\\sources\\ion.au\\tsconfig.test.json"
     },
     {
-      "path": "./sources/jpegd/tsconfig.test.json"
+      "path": ".\\sources\\ipfs\\tsconfig.test.json"
     },
     {
-      "path": "./sources/json-rpc/tsconfig.test.json"
+      "path": ".\\sources\\jpegd\\tsconfig.test.json"
     },
     {
-      "path": "./sources/kaiko/tsconfig.test.json"
+      "path": ".\\sources\\json-rpc\\tsconfig.test.json"
     },
     {
-      "path": "./sources/kaiko-state/tsconfig.test.json"
+      "path": ".\\sources\\kaiko\\tsconfig.test.json"
     },
     {
-      "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
+      "path": ".\\sources\\kaiko-state\\tsconfig.test.json"
     },
     {
-      "path": "./sources/lcx/tsconfig.test.json"
+      "path": ".\\sources\\layer2-sequencer-health\\tsconfig.test.json"
     },
     {
-      "path": "./sources/lido/tsconfig.test.json"
+      "path": ".\\sources\\lcx\\tsconfig.test.json"
     },
     {
-      "path": "./sources/lido-por/tsconfig.test.json"
+      "path": ".\\sources\\lido\\tsconfig.test.json"
     },
     {
-      "path": "./sources/linkpool/tsconfig.test.json"
+      "path": ".\\sources\\lido-por\\tsconfig.test.json"
     },
     {
-      "path": "./sources/lition/tsconfig.test.json"
+      "path": ".\\sources\\linkpool\\tsconfig.test.json"
     },
     {
-      "path": "./sources/lotus/tsconfig.test.json"
+      "path": ".\\sources\\lition\\tsconfig.test.json"
     },
     {
-      "path": "./sources/m0/tsconfig.test.json"
+      "path": ".\\sources\\lotus\\tsconfig.test.json"
     },
     {
-      "path": "./sources/marketstack/tsconfig.test.json"
+      "path": ".\\sources\\m0\\tsconfig.test.json"
     },
     {
-      "path": "./sources/messari/tsconfig.test.json"
+      "path": ".\\sources\\marketstack\\tsconfig.test.json"
     },
     {
-      "path": "./sources/metalsapi/tsconfig.test.json"
+      "path": ".\\sources\\messari\\tsconfig.test.json"
     },
     {
-      "path": "./sources/mobula-state/tsconfig.test.json"
+      "path": ".\\sources\\metalsapi\\tsconfig.test.json"
     },
     {
-      "path": "./sources/mock-ea/tsconfig.test.json"
+      "path": ".\\sources\\mobula-state\\tsconfig.test.json"
     },
     {
-      "path": "./sources/moonbeam-address-list/tsconfig.test.json"
+      "path": ".\\sources\\mock-ea\\tsconfig.test.json"
     },
     {
-      "path": "./sources/moore-hk/tsconfig.test.json"
+      "path": ".\\sources\\moonbeam-address-list\\tsconfig.test.json"
     },
     {
-      "path": "./sources/mycryptoapi/tsconfig.test.json"
+      "path": ".\\sources\\moore-hk\\tsconfig.test.json"
     },
     {
-      "path": "./sources/nav-consulting/tsconfig.test.json"
+      "path": ".\\sources\\mycryptoapi\\tsconfig.test.json"
     },
     {
-      "path": "./sources/ncfx/tsconfig.test.json"
+      "path": ".\\sources\\nav-consulting\\tsconfig.test.json"
     },
     {
-      "path": "./sources/nft-blue-chip/tsconfig.test.json"
+      "path": ".\\sources\\ncfx\\tsconfig.test.json"
     },
     {
-      "path": "./sources/nikkei/tsconfig.test.json"
+      "path": ".\\sources\\nft-blue-chip\\tsconfig.test.json"
     },
     {
-      "path": "./sources/oanda/tsconfig.test.json"
+      "path": ".\\sources\\nikkei\\tsconfig.test.json"
     },
     {
-      "path": "./sources/oilpriceapi/tsconfig.test.json"
+      "path": ".\\sources\\oanda\\tsconfig.test.json"
     },
     {
-      "path": "./sources/onchain-gas/tsconfig.test.json"
+      "path": ".\\sources\\oilpriceapi\\tsconfig.test.json"
     },
     {
-      "path": "./sources/openexchangerates/tsconfig.test.json"
+      "path": ".\\sources\\onchain-gas\\tsconfig.test.json"
     },
     {
-      "path": "./sources/orchid-bandwidth/tsconfig.test.json"
+      "path": ".\\sources\\openexchangerates\\tsconfig.test.json"
     },
     {
-      "path": "./sources/paxos/tsconfig.test.json"
+      "path": ".\\sources\\orchid-bandwidth\\tsconfig.test.json"
     },
     {
-      "path": "./sources/paypal/tsconfig.test.json"
+      "path": ".\\sources\\paxos\\tsconfig.test.json"
     },
     {
-      "path": "./sources/polkadot-balance/tsconfig.test.json"
+      "path": ".\\sources\\paypal\\tsconfig.test.json"
     },
     {
-      "path": "./sources/polygon/tsconfig.test.json"
+      "path": ".\\sources\\polkadot-balance\\tsconfig.test.json"
     },
     {
-      "path": "./sources/por-address-list/tsconfig.test.json"
+      "path": ".\\sources\\polygon\\tsconfig.test.json"
     },
     {
-      "path": "./sources/por-indexer/tsconfig.test.json"
+      "path": ".\\sources\\por-address-list\\tsconfig.test.json"
     },
     {
-      "path": "./sources/renvm-address-set/tsconfig.test.json"
+      "path": ".\\sources\\por-indexer\\tsconfig.test.json"
     },
     {
-      "path": "./sources/s3-csv-reader/tsconfig.test.json"
+      "path": ".\\sources\\renvm-address-set\\tsconfig.test.json"
     },
     {
-      "path": "./sources/satoshitango/tsconfig.test.json"
+      "path": ".\\sources\\s3-csv-reader\\tsconfig.test.json"
     },
     {
-      "path": "./sources/snowflake/tsconfig.test.json"
+      "path": ".\\sources\\satoshitango\\tsconfig.test.json"
     },
     {
-      "path": "./sources/sochain/tsconfig.test.json"
+      "path": ".\\sources\\snowflake\\tsconfig.test.json"
     },
     {
-      "path": "./sources/solana-view-function/tsconfig.test.json"
+      "path": ".\\sources\\sochain\\tsconfig.test.json"
     },
     {
-      "path": "./sources/spectral-macro-score/tsconfig.test.json"
+      "path": ".\\sources\\solana-view-function\\tsconfig.test.json"
     },
     {
-      "path": "./sources/sportsdataio/tsconfig.test.json"
+      "path": ".\\sources\\spectral-macro-score\\tsconfig.test.json"
     },
     {
-      "path": "./sources/stader-address-list/tsconfig.test.json"
+      "path": ".\\sources\\sportsdataio\\tsconfig.test.json"
     },
     {
-      "path": "./sources/stader-balance/tsconfig.test.json"
+      "path": ".\\sources\\stader-address-list\\tsconfig.test.json"
     },
     {
-      "path": "./sources/stader-labs/tsconfig.test.json"
+      "path": ".\\sources\\stader-balance\\tsconfig.test.json"
     },
     {
-      "path": "./sources/starknet-gas-price/tsconfig.test.json"
+      "path": ".\\sources\\stader-labs\\tsconfig.test.json"
     },
     {
-      "path": "./sources/stasis/tsconfig.test.json"
+      "path": ".\\sources\\starknet-gas-price\\tsconfig.test.json"
     },
     {
-      "path": "./sources/superstate/tsconfig.test.json"
+      "path": ".\\sources\\stasis\\tsconfig.test.json"
     },
     {
-      "path": "./sources/swell-address-list/tsconfig.test.json"
+      "path": ".\\sources\\superstate\\tsconfig.test.json"
     },
     {
-      "path": "./sources/synthetix-debt-pool/tsconfig.test.json"
+      "path": ".\\sources\\swell-address-list\\tsconfig.test.json"
     },
     {
-      "path": "./sources/synthetix-feeds/tsconfig.test.json"
+      "path": ".\\sources\\synthetix-debt-pool\\tsconfig.test.json"
     },
     {
-      "path": "./sources/taapi/tsconfig.test.json"
+      "path": ".\\sources\\synthetix-feeds\\tsconfig.test.json"
     },
     {
-      "path": "./sources/terra-view-function/tsconfig.test.json"
+      "path": ".\\sources\\taapi\\tsconfig.test.json"
     },
     {
-      "path": "./sources/the-network-firm/tsconfig.test.json"
+      "path": ".\\sources\\terra-view-function\\tsconfig.test.json"
     },
     {
-      "path": "./sources/therundown/tsconfig.test.json"
+      "path": ".\\sources\\the-network-firm\\tsconfig.test.json"
     },
     {
-      "path": "./sources/tiingo/tsconfig.test.json"
+      "path": ".\\sources\\therundown\\tsconfig.test.json"
     },
     {
-      "path": "./sources/tiingo-state/tsconfig.test.json"
+      "path": ".\\sources\\tiingo\\tsconfig.test.json"
     },
     {
-      "path": "./sources/tp/tsconfig.test.json"
+      "path": ".\\sources\\tiingo-state\\tsconfig.test.json"
     },
     {
-      "path": "./sources/tradermade/tsconfig.test.json"
+      "path": ".\\sources\\tp\\tsconfig.test.json"
     },
     {
-      "path": "./sources/tradingeconomics/tsconfig.test.json"
+      "path": ".\\sources\\tradermade\\tsconfig.test.json"
     },
     {
-      "path": "./sources/tradinghours/tsconfig.test.json"
+      "path": ".\\sources\\tradingeconomics\\tsconfig.test.json"
     },
     {
-      "path": "./sources/trueusd/tsconfig.test.json"
+      "path": ".\\sources\\tradinghours\\tsconfig.test.json"
     },
     {
-      "path": "./sources/trumatic-matic-exchange-rate/tsconfig.test.json"
+      "path": ".\\sources\\trueusd\\tsconfig.test.json"
     },
     {
-      "path": "./sources/twelvedata/tsconfig.test.json"
+      "path": ".\\sources\\trumatic-matic-exchange-rate\\tsconfig.test.json"
     },
     {
-      "path": "./sources/twosigma/tsconfig.test.json"
+      "path": ".\\sources\\twelvedata\\tsconfig.test.json"
     },
     {
-      "path": "./sources/unibit/tsconfig.test.json"
+      "path": ".\\sources\\twosigma\\tsconfig.test.json"
     },
     {
-      "path": "./sources/uniswap-v2/tsconfig.test.json"
+      "path": ".\\sources\\unibit\\tsconfig.test.json"
     },
     {
-      "path": "./sources/upvest/tsconfig.test.json"
+      "path": ".\\sources\\uniswap-v2\\tsconfig.test.json"
     },
     {
-      "path": "./sources/uscpi-one/tsconfig.test.json"
+      "path": ".\\sources\\upvest\\tsconfig.test.json"
     },
     {
-      "path": "./sources/view-function/tsconfig.test.json"
+      "path": ".\\sources\\uscpi-one\\tsconfig.test.json"
     },
     {
-      "path": "./sources/view-function-multi-chain/tsconfig.test.json"
+      "path": ".\\sources\\view-function\\tsconfig.test.json"
     },
     {
-      "path": "./sources/view-starknet-latest-answer/tsconfig.test.json"
+      "path": ".\\sources\\view-function-multi-chain\\tsconfig.test.json"
     },
     {
-      "path": "./sources/wbtc-address-set/tsconfig.test.json"
+      "path": ".\\sources\\view-starknet-latest-answer\\tsconfig.test.json"
     },
     {
-      "path": "./sources/wootrade/tsconfig.test.json"
+      "path": ".\\sources\\wbtc-address-set\\tsconfig.test.json"
     },
     {
-      "path": "./sources/wrapped/tsconfig.test.json"
+      "path": ".\\sources\\wootrade\\tsconfig.test.json"
     },
     {
-      "path": "./sources/xbto/tsconfig.test.json"
+      "path": ".\\sources\\wrapped\\tsconfig.test.json"
     },
     {
-      "path": "./targets/agoric/tsconfig.test.json"
+      "path": ".\\sources\\xbto\\tsconfig.test.json"
     },
     {
-      "path": "./targets/conflux/tsconfig.test.json"
+      "path": ".\\targets\\agoric\\tsconfig.test.json"
     },
     {
-      "path": "./targets/dydx-stark/tsconfig.test.json"
+      "path": ".\\targets\\conflux\\tsconfig.test.json"
     },
     {
-      "path": "./targets/ethwrite/tsconfig.test.json"
+      "path": ".\\targets\\dydx-stark\\tsconfig.test.json"
     },
     {
-      "path": "./targets/harmony/tsconfig.test.json"
+      "path": ".\\targets\\ethwrite\\tsconfig.test.json"
+    },
+    {
+      "path": ".\\targets\\harmony\\tsconfig.test.json"
     }
   ]
 }
