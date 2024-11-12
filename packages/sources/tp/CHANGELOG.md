@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.8.4
+
+### Patch Changes
+
+- [#3533](https://github.com/smartcontractkit/external-adapters-js/pull/3533) [`563b976`](https://github.com/smartcontractkit/external-adapters-js/commit/563b976bd699a28e42120fdbcf730a1d4b5c2db5) Thanks [@renovate](https://github.com/apps/renovate)! - Bump @types/node version
+
 ## 1.8.3
 
 ### Patch Changes

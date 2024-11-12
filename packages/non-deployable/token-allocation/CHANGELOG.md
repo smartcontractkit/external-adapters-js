@@ -1,5 +1,35 @@
 # @chainlink/token-allocation-adapter
 
+## 1.13.0
+
+### Minor Changes
+
+- [#3537](https://github.com/smartcontractkit/external-adapters-js/pull/3537) [`07644a2`](https://github.com/smartcontractkit/external-adapters-js/commit/07644a2b18d6658902817ce394acb5cffa6a8ea9) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix blocksize-capital as source
+
+### Patch Changes
+
+- [#3533](https://github.com/smartcontractkit/external-adapters-js/pull/3533) [`563b976`](https://github.com/smartcontractkit/external-adapters-js/commit/563b976bd699a28e42120fdbcf730a1d4b5c2db5) Thanks [@renovate](https://github.com/apps/renovate)! - Bump @types/node version
+
+- [#3534](https://github.com/smartcontractkit/external-adapters-js/pull/3534) [`d8023b9`](https://github.com/smartcontractkit/external-adapters-js/commit/d8023b911fd37ccdc2b41788b072fb9c875fff31) Thanks [@renovate](https://github.com/apps/renovate)! - Bump nock
+
+- Updated dependencies [[`563b976`](https://github.com/smartcontractkit/external-adapters-js/commit/563b976bd699a28e42120fdbcf730a1d4b5c2db5), [`d8023b9`](https://github.com/smartcontractkit/external-adapters-js/commit/d8023b911fd37ccdc2b41788b072fb9c875fff31), [`876b8ba`](https://github.com/smartcontractkit/external-adapters-js/commit/876b8ba9472009f843076d3d25588b6c89bd489c), [`52a7206`](https://github.com/smartcontractkit/external-adapters-js/commit/52a7206643de969b0f596996618e36005e50ac81)]:
+  - @chainlink/blocksize-capital-adapter@2.3.9
+  - @chainlink/coinmarketcap-adapter@2.0.33
+  - @chainlink/cryptocompare-adapter@3.3.6
+  - @chainlink/cfbenchmarks-adapter@2.4.1
+  - @chainlink/coinmetrics-adapter@3.7.8
+  - @chainlink/coinpaprika-adapter@2.1.7
+  - @chainlink/coinranking-adapter@2.1.7
+  - @chainlink/ea-test-helpers@1.4.5
+  - @chainlink/amberdata-adapter@1.8.29
+  - @chainlink/coingecko-adapter@2.0.28
+  - @chainlink/coinapi-adapter@1.3.26
+  - @chainlink/ea-bootstrap@2.29.2
+  - @chainlink/finage-adapter@2.0.15
+  - @chainlink/tiingo-adapter@2.6.5
+  - @chainlink/kaiko-adapter@2.2.16
+  - @chainlink/ncfx-adapter@4.1.7
+
 ## 1.12.13
 
 ### Patch Changes
