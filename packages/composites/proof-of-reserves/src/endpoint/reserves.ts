@@ -18,6 +18,7 @@ export const supportedEndpoints = ['reserves']
 
 export type TInputParameters = {
   protocol: string
+  protocolEndpoint?: string
   indexer: string
   confirmations?: number
   addresses?: string[]
@@ -40,6 +41,10 @@ const inputParameters: InputParameters<TInputParameters> = {
       'list',
       'LIST',
     ],
+  },
+  protocolEndpoint: {
+    type: 'string',
+    description: 'Optional endpoint for the protocol external adapter to use',
   },
   indexer: {
     required: true,
@@ -95,6 +100,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     protocol,
     input.data as any,
     config,
+    validator.validated.data.protocolEndpoint,
   )
   const validatedAddresses = getValidAddresses(protocolOutput, validator)
   const balanceOutput = await runBalanceAdapter(
