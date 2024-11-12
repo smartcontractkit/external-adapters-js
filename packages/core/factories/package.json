@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-factories",
-  "version": "1.2.34",
+  "version": "1.2.35",
   "description": "Build an external adapter with this package",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stasis-adapter",
-  "version": "1.2.35",
+  "version": "1.2.36",
   "description": "Chainlink stasis adapter.",
   "keywords": [
     "Chainlink",

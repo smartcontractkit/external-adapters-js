@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/binance-adapter",
-  "version": "1.4.35",
+  "version": "1.4.36",
   "description": "Chainlink binance adapter.",
   "keywords": [
     "Chainlink",

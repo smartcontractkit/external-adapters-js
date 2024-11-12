@@ -1,5 +1,18 @@
 # @chainlink/apy-finance-adapter
 
+## 2.0.87
+
+### Patch Changes
+
+- [#3533](https://github.com/smartcontractkit/external-adapters-js/pull/3533) [`563b976`](https://github.com/smartcontractkit/external-adapters-js/commit/563b976bd699a28e42120fdbcf730a1d4b5c2db5) Thanks [@renovate](https://github.com/apps/renovate)! - Bump @types/node version
+
+- [#3534](https://github.com/smartcontractkit/external-adapters-js/pull/3534) [`d8023b9`](https://github.com/smartcontractkit/external-adapters-js/commit/d8023b911fd37ccdc2b41788b072fb9c875fff31) Thanks [@renovate](https://github.com/apps/renovate)! - Bump nock
+
+- Updated dependencies [[`563b976`](https://github.com/smartcontractkit/external-adapters-js/commit/563b976bd699a28e42120fdbcf730a1d4b5c2db5), [`d8023b9`](https://github.com/smartcontractkit/external-adapters-js/commit/d8023b911fd37ccdc2b41788b072fb9c875fff31), [`07644a2`](https://github.com/smartcontractkit/external-adapters-js/commit/07644a2b18d6658902817ce394acb5cffa6a8ea9), [`876b8ba`](https://github.com/smartcontractkit/external-adapters-js/commit/876b8ba9472009f843076d3d25588b6c89bd489c)]:
+  - @chainlink/token-allocation-adapter@1.13.0
+  - @chainlink/ea-test-helpers@1.4.5
+  - @chainlink/ea-bootstrap@2.29.2
+
 ## 2.0.86
 
 ### Patch Changes
