@@ -97,4 +97,5 @@ export const SoakTestBlacklist: string[] = [
   'bitex', // DP does not exist anymore
   'bravenewcoin', // Our API Key has expired
   'celsius-address-list', // Not deployed internally
+  'instruxi-sxt', // Developed by external party
 ]
