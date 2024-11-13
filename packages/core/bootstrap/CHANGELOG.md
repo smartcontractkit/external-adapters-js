@@ -1,5 +1,13 @@
 # @chainlink/ea-bootstrap
 
+## 2.29.2
+
+### Patch Changes
+
+- [#3533](https://github.com/smartcontractkit/external-adapters-js/pull/3533) [`563b976`](https://github.com/smartcontractkit/external-adapters-js/commit/563b976bd699a28e42120fdbcf730a1d4b5c2db5) Thanks [@renovate](https://github.com/apps/renovate)! - Bump @types/node version
+
+- [#3532](https://github.com/smartcontractkit/external-adapters-js/pull/3532) [`876b8ba`](https://github.com/smartcontractkit/external-adapters-js/commit/876b8ba9472009f843076d3d25588b6c89bd489c) Thanks [@renovate](https://github.com/apps/renovate)! - Bump lodash
+
 ## 2.29.1
 
 ### Patch Changes

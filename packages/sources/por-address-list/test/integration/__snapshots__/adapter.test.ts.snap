@@ -64,3 +64,54 @@ exports[`execute address endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute apiAddress endpoint bedrock should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "btc_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "btc_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute apiAddress endpoint solv should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "btc_s_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "btc_s_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1609499471112,
+  },
+}
+`;

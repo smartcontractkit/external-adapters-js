@@ -1,63 +1,75 @@
-# Chainlink Nftx Composite Adapter
+# Chainlink NFTX Collection Price Composite Adapter
 
-Queries NFT collection prices from NFTX vaults. While the ERC20 vTokens for each collection vault trade openly, the actual cost for purchasing an NFT from a vault incorporates additional fees.
+![3.0.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/nftx/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
-For the PUNK vault this is calculated as follows:
+This adapter calculates NFTX redemption values for an NFT collection, combining the price for the associated vToken with the collection's fee settings.
 
-```
-vaultFee = vault.randomRedeemFee() / 1e18
-price = 1 / [WETH/PUNK price from uniswap-v2 adapter]
-priceWithFees =  price * (1 + vaultFee)
-```
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-## Configuration
+## Environment Variables
 
-The adapter takes the following environment variables:
+| Required? |       Name        |        Description         |  Type  | Options | Default |
+| :-------: | :---------------: | :------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ETHEREUM_RPC_URL  |                            | string |         |         |
+|           | ETHEREUM_CHAIN_ID | The chain id to connect to | string |         |   `1`   |
 
-| Required? |        Name         |        Description         | Options | Defaults to |
-| :-------: | :-----------------: | :------------------------: | :-----: | :---------: |
-|    ✅     | `ETHEREUM_RPC_URL`  |     URL of RPC to use      |         |             |
-|           | `ETHEREUM_CHAIN_ID` | The chain id to connect to |         |      1      |
+---
 
-**Additional environment variables must be set for the Uniswap V2 adapter.**
+## Data Provider Rate Limits
 
-This composite adapter utilizes the Uniswap V2 adapter for querying ERC20 prices, but from Sushiswap liquidity pools. For these queries to work, the `ROUTER_CONTRACT` environment variable must be overridden with the address of the Sushi router. See [../../sources/uniswap-v2/README.md](../../sources/uniswap-v2/README.md) for more information.
+There are no rate limits for this adapter.
 
-## Running
+---
 
-See the [Composite Adapter README](../README.md) for more information on how to get started.
+## Input Parameters
+
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
+| Required? |   Name   |     Description     |  Type  |         Options          | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-Calculates the random redemption price for an NFT on NFTX if the vTokens used were purchased from the associated Sushi pool.
+`price` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |                     Name                     |              Description               | Options | Defaults to |
-| :-------: | :------------------------------------------: | :------------------------------------: | :-----: | :---------: |
-|    ✅     | `address`, `tokenAddress`, or `vaultAddress` | The address of the NFTX vault to query |         |             |
+| Required? |     Name     |          Aliases          |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :-----------------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | vaultAddress | `address`, `tokenAddress` | The address of the NFTX vault being queried for. | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "address": "0x269616d549d7e8eaa82dfb17028d0b212d11232a"
+    "vaultAddress": "0x269616D549D7e8Eaa82DFb17028d0B212D11232A",
+    "endpoint": "price"
+  },
+  "debug": {
+    "cacheKey": "hgXqzD9ji3qyHVo+vugB/XttLU0="
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
   "data": {
     "fee": "0.02",
-    "price": "66.592359631913713045",
-    "priceWithFee": "67.924206824551987306"
+    "price": "65.319915591679174162",
+    "priceWithFee": "66.626313903512757645"
   },
   "statusCode": 200
 }
 ```
+
+---
+
+MIT License

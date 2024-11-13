@@ -1,6 +1,6 @@
 # Swell Address List Adapter
 
-![1.0.18](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/swell-address-list/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.0.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/swell-address-list/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This EA fetches the list of custodial addresses that hold the funds for a PoR feed
 

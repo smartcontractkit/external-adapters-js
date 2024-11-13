@@ -45,7 +45,9 @@ export const adaptersV3: v3AdapterImplementation[] = [
   ignitionAddressList,
 ]
 
-type AddressData = { token: string; chainId: string; network: string } | AddressList
+type AddressData = ({ token: string; chainId: string; network: string } | AddressList) & {
+  endpoint: string
+}
 
 type AddressList =
   | { addresses: string[]; chainId: string; network: string }
@@ -60,7 +62,12 @@ export const runProtocolAdapter = async (
   protocol: string,
   data: AddressData,
   config: Config,
+  protocolEndpoint?: string,
 ): Promise<AdapterResponse> => {
+  if (protocolEndpoint) {
+    data.endpoint = protocolEndpoint
+  }
+
   if (protocol === LIST_ADAPTER) return listAdapter(jobRunID, data)
 
   const execute = makeRequestFactory(config, protocol)

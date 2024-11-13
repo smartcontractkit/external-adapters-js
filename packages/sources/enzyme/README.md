@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Enzyme
 
-![2.0.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/enzyme/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/enzyme/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Adapter to interact with Enzyme contracts.
 
@@ -44,7 +44,36 @@ Endpoint to call the `calcGav` function on the contract.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "calculatorContract": "0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A",
+    "vaultProxy": "0x44902e5a88371224d9ac172e391C64257B701Ade",
+    "endpoint": "calcGav"
+  },
+  "debug": {
+    "cacheKey": "yUw9SO6VrH2QFaTp1fXS40T8Kzg="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "gav": "19995161270996618818245984471",
+    "result": "19995161270996618818245984471"
+  },
+  "result": "19995161270996618818245984471",
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
@@ -135,10 +164,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "gav": "19995161270996618818245984471",
-    "result": "19995161270996618818245984471"
+    "netValue": "10000000000000000000",
+    "result": "10000000000000000000"
   },
-  "result": "19995161270996618818245984471",
+  "result": "10000000000000000000",
   "statusCode": 200,
   "providerStatusCode": 200
 }
