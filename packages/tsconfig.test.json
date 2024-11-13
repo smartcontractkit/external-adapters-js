@@ -231,6 +231,9 @@
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
+      "path": "./sources/instruxi-sxt/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinbase/tsconfig.test.json"
     },
     {
