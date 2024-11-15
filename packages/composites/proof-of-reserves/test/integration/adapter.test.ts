@@ -101,7 +101,7 @@ describe('execute', () => {
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-      // .expect(200)
+        .expect(200)
       expect(response.body).toMatchSnapshot()
     })
   })
@@ -119,14 +119,63 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      //mockLotusSuccess()
+      mockLotusSuccess()
       const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-      // .expect(200)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('multiReserves endpoint', () => {
+    it('should return success', async () => {
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'multiReserves',
+          input: [
+            {
+              protocol: 'list',
+              indexer: 'por_indexer',
+              addresses: [
+                {
+                  address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+                  chainId: 'mainnet',
+                  network: 'bitcoin',
+                },
+                {
+                  address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
+                  chainId: 'mainnet',
+                  network: 'bitcoin',
+                },
+              ],
+            },
+            {
+              indexer: 'eth_balance',
+              protocol: 'list',
+              addresses: [
+                '0x8288C280F35FB8809305906C79BD075962079DD8',
+                '0x81910675DbaF69deE0fD77570BFD07f8E436386A',
+              ],
+              confirmations: 5,
+            },
+          ],
+        },
+      }
+      mockPoRindexerSuccess()
+      mockEthBalanceSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
       expect(response.body).toMatchSnapshot()
     })
   })
