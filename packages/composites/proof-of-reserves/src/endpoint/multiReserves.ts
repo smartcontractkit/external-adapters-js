@@ -20,6 +20,8 @@ const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
+  const providerDataRequestedUnixMs = Date.now()
+
   const validator = new Validator(input, inputParameters)
   const jobRunID = validator.validated.id
 
@@ -57,6 +59,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       result: result,
       statusCode: 200,
       decimals: 18,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+      },
     },
   }
 }

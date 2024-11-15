@@ -55,6 +55,10 @@ exports[`execute multiReserves endpoint should return success 1`] = `
     "decimals": 18,
     "result": "751221097708354962165",
     "statusCode": 200,
+    "timestamps": {
+      "providerDataReceivedUnixMs": 1641035471111,
+      "providerDataRequestedUnixMs": 1641035471111,
+    },
   },
   "jobRunID": "1",
   "result": "751221097708354962165",
