@@ -1,10 +1,10 @@
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
-import { POR_ADDRESS_LIST_ABI } from '../config/abi'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
+import ABI from '../config/PoRAddressListMulti.json'
+import PolygonABI from '../config/MultiEVMPoRAddressList.json'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/multichainAddress'
 import { ethers } from 'ethers'
 import { fetchAddressList, addProvider, getProvider } from './utils'
 
@@ -12,8 +12,15 @@ export type AddressTransportTypes = BaseEndpointTypes
 
 type RequestParams = typeof inputParameters.validated
 
+interface ResponseSchema {
+  tokenSymbol: string
+  chain: string
+  chainId: bigint
+  tokenAddress: string
+  vaultAddress: string
+}
+
 export class AddressTransport extends SubscriptionTransport<AddressTransportTypes> {
-  provider!: ethers.providers.JsonRpcProvider
   providersMap: Record<string, ethers.providers.JsonRpcProvider> = {}
   settings!: AddressTransportTypes['Settings']
 
@@ -24,10 +31,6 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.provider = new ethers.providers.JsonRpcProvider(
-      adapterSettings.RPC_URL,
-      adapterSettings.CHAIN_ID,
-    )
     this.settings = adapterSettings
   }
 
@@ -61,40 +64,48 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
-    const {
-      confirmations,
-      contractAddress,
-      contractAddressNetwork,
-      batchSize,
-      network,
-      chainId,
-      searchLimboValidators,
-    } = param
+    const { confirmations, contractAddress, contractAddressNetwork, batchSize } = param
 
     this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
-    const provider = getProvider(contractAddressNetwork, this.providersMap, this.provider)
+    const provider = getProvider(contractAddressNetwork, this.providersMap)
 
-    const addressManager = new ethers.Contract(contractAddress, POR_ADDRESS_LIST_ABI, provider)
+    const addressManager = new ethers.Contract(
+      contractAddress,
+      contractAddressNetwork == 'POLYGON' ? PolygonABI : ABI,
+      provider,
+    )
     const latestBlockNum = await provider.getBlockNumber()
 
     const providerDataRequestedUnixMs = Date.now()
-    const addressList = await fetchAddressList<string>(
+    const addressList = await fetchAddressList<ResponseSchema>(
       addressManager,
       latestBlockNum,
       confirmations,
       batchSize,
       this.settings.GROUP_SIZE,
     )
-    const addresses: PoRAddress[] = addressList.map((address) => ({
-      address,
-      network,
-      chainId,
-    }))
+
+    const addressByChain = Map.groupBy(
+      addressList,
+      (address) => address.chainId.toString() + address.tokenAddress,
+    )
+
+    const response = Array.from(
+      new Map(
+        Array.from(addressByChain, ([k, v]) => [
+          k,
+          {
+            chainId: v[0].chainId.toString(),
+            contractAddress: v[0].tokenAddress,
+            wallets: v.map((v) => v.vaultAddress),
+          },
+        ]),
+      ).values(),
+    ).sort()
 
     return {
       data: {
-        searchLimboValidators,
-        result: addresses,
+        result: response,
       },
       statusCode: 200,
       result: null,

@@ -1,23 +1,24 @@
 import { ethers } from 'ethers'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('utils')
 
-export const fetchAddressList = async (
+export const fetchAddressList = async <T>(
   addressManager: ethers.Contract,
   latestBlockNum: number,
   confirmations = 0,
   batchSize = 10,
   batchGroupSize = 10,
-): Promise<string[]> => {
+): Promise<T[]> => {
   const blockTag = latestBlockNum - confirmations
   const numAddresses = await addressManager.getPoRAddressListLength({
     blockTag,
   })
   let totalRequestedAddressesCount = 0
   let startIdx = ethers.BigNumber.from(0)
-  const addresses: string[] = []
-  let batchRequests: Promise<string[]>[] = []
+  const addresses: T[] = []
+  let batchRequests: Promise<T[]>[] = []
 
   while (totalRequestedAddressesCount < numAddresses.toNumber()) {
     const nextEndIdx = startIdx.add(batchSize)
@@ -68,10 +69,17 @@ export const addProvider = (
 export const getProvider = (
   networkName: string,
   providers: Record<string, ethers.providers.JsonRpcProvider>,
-  provider: ethers.providers.JsonRpcProvider,
+  provider?: ethers.providers.JsonRpcProvider,
 ) => {
   if (!providers[networkName]) {
-    return provider
+    if (provider) {
+      return provider
+    } else {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Missing ${networkName}_RPC_URL or ${networkName}_RPC_URL environment variables`,
+      })
+    }
   } else {
     return providers[networkName]
   }
