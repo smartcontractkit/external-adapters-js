@@ -606,6 +606,9 @@
       "path": "./sources/tiingo-state"
     },
     {
+      "path": "./sources/token-balance"
+    },
+    {
       "path": "./sources/tp"
     },
     {
