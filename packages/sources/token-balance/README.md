@@ -6,8 +6,6 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Usage Notes
 
-### additional env vars
-
 ### evm endpoint network vs chainId input param
 
 At least one of [`chainId` and `network`] must be present when using the `evm` endpoint.
