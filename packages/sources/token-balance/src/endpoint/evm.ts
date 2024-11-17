@@ -2,6 +2,8 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { erc20TokenBalanceTransport } from '../transport/evm'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(
   {
@@ -10,15 +12,15 @@ export const inputParameters = new InputParameters(
       type: {
         network: {
           aliases: ['chain'],
-          required: true,
+          required: false,
           type: 'string',
           description: 'Network of the contract',
         },
-        // chainId: {
-        //   required: false,
-        //   type: 'number',
-        //   description: 'Chain ID of the network',
-        // },
+        chainId: {
+          required: false,
+          type: 'string',
+          description: 'Chain ID of the network',
+        },
         contractAddress: {
           required: true,
           type: 'string',
@@ -54,7 +56,7 @@ export const inputParameters = new InputParameters(
       addresses: [
         {
           network: 'ethereum',
-          // chainId: 1,
+          chainId: '1',
           contractAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
           wallets: [
             '0xBc10f2E862ED4502144c7d632a3459F49DFCDB5e',
@@ -91,4 +93,20 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['erc20'],
   transport: erc20TokenBalanceTransport,
   inputParameters,
+  customInputValidation: (
+    req: AdapterRequest<typeof inputParameters.validated>,
+  ): AdapterInputError | undefined => {
+    const { addresses } = req.requestContext.data
+
+    // ensure each address has either chainId or network specified
+    for (const address of addresses) {
+      if (!address.chainId && !address.network) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: "One or more addresses is missing one of ['chainId', 'network'].",
+        })
+      }
+    }
+    return
+  },
 })

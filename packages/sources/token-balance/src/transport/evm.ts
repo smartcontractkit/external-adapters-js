@@ -10,14 +10,21 @@ const logger = makeLogger('Token Balances')
 
 type RequestParams = typeof inputParameters.validated
 
-export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
-  // providers: Record<string, ethers.JsonRpcProvider> = {}
-  chainIdToStandardizedNetworkMap: Map<string, string> = new Map()
-  // TODO remove one of these
-  chainIdRpcMap: Map<string, ethers.JsonRpcProvider> = new Map()
-  standardizedNetworkToRpcMap: Map<string, ethers.JsonRpcProvider> = new Map()
+type NormalizedPoRTokenAddress = {
+  network: string
+  contractAddress: string
+  wallets: string[]
+  balanceOfSignature: string
+  decimalsSignature: string
+  provider: ethers.JsonRpcProvider
+}
 
-  // reverse mapping from chain ID to RPC url
+export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  // eg: '1': 'ETHEREUM" and "ETHEREUM": provider
+  chainIdToStandardizedNetworkMap: Map<string, string> = new Map()
+  standardizedNetworkToProviderMap: Map<string, ethers.JsonRpcProvider> = new Map()
+
+  // reverse mapping from chain ID to network to RPC url
   constructChainIdRpcMap(): void {
     const _CHAIN_ID = '_CHAIN_ID'
     for (const [key, value] of Object.entries(process.env)) {
@@ -29,12 +36,12 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
         logger.warn(`env var ${key} is incorrect`)
         continue
       }
-      if (this.chainIdRpcMap.has(chainId)) {
+      if (this.chainIdToStandardizedNetworkMap.has(chainId)) {
         logger.warn(`chain ID ${chainId} present multiple times`)
         continue
       }
 
-      // extract network name from XXX_CHAIN_ID & get RPC URL
+      // extract network name from XXX_CHAIN_ID & get RPC_URL
       const networkName = key.split(_CHAIN_ID)[0]
       this.chainIdToStandardizedNetworkMap.set(chainId, networkName)
 
@@ -47,8 +54,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
       }
 
       const provider = new ethers.JsonRpcProvider(rpcUrl, Number(chainId))
-      this.chainIdRpcMap.set(chainId, provider)
-      this.standardizedNetworkToRpcMap.set(networkName, provider)
+      this.standardizedNetworkToProviderMap.set(networkName, provider)
       logger.info(`created provider for network: ${networkName}, chain ID: ${chainId}`)
     }
   }
@@ -93,37 +99,20 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const { addresses } = param
 
-    // // TODO handle network || chainId
-    // for (const address of addresses) {
-    //   if (!address.network || !address.chainId) {
-    //     throw new AdapterInputError({
-    //       statusCode: 400,
-    //       message: "network or chainId missing"
-    //     })
-    //   }
-    // }
-
-    // verify & prep providers for this request
-    addresses.forEach((address) => this.verifyProviders(address.network))
+    // verify providers exist for this request
+    const normalizedAddresses = this.verifyProviders(addresses)
 
     // construct list of decimals RPC requests
     const constructDecimalsKey = (network: string, contractAddress: string): string =>
       `${network}_${contractAddress}`
+
     const decimalsMap = new Map<string, number | null>()
     const decimalsRequests = []
-    for (const address of addresses) {
-      const { network, contractAddress, decimalsSignature } = address
-      const networkUpper = network.toUpperCase()
-      const provider = this.standardizedNetworkToRpcMap.get(networkUpper)
-      if (!provider) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `provider not found for ${network}`,
-        })
-      }
+    for (const address of normalizedAddresses) {
+      const { network, contractAddress, decimalsSignature, provider } = address
 
       // since we can have multiple addresses with balances of the same token,
-      // skip if we've encountered this chain_token pair already
+      // skip if we've encountered this pair already
       const decimalsKey = constructDecimalsKey(network, contractAddress)
       if (decimalsMap.has(decimalsKey)) {
         logger.debug(`skipping decimals fetch for contract address ${address}`)
@@ -135,7 +124,6 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
       const iface = new ethers.Interface([decimalsSignature])
       const decimalsFunctionName = iface.getFunctionName(decimalsSignature)
       const decimalsEncoded = iface.encodeFunctionData(decimalsFunctionName)
-      // console.log(decimalsEncoded)
 
       // push with callback including network and contract address
       decimalsRequests.push(
@@ -144,14 +132,11 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
             to: contractAddress,
             data: decimalsEncoded,
           })
-          .then((result) => {
-            // console.log(result)
-            return {
-              network,
-              contractAddress,
-              decimals: Number(iface.decodeFunctionResult(decimalsSignature, result)[0]),
-            }
-          }),
+          .then((result) => ({
+            network,
+            contractAddress,
+            decimals: Number(iface.decodeFunctionResult(decimalsSignature, result)[0]),
+          })),
       )
     }
 
@@ -160,63 +145,42 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     decimalsResponses.forEach((response) => {
       const decimalsKey = constructDecimalsKey(response.network, response.contractAddress)
       decimalsMap.set(decimalsKey, response.decimals)
-      // console.log(response)
     })
 
     // construct list of RPC balance requests
     const balanceRequests = []
-    for (const address of addresses) {
-      const { network, contractAddress, wallets, balanceOfSignature } = address
-      const networkUpper = network.toUpperCase()
-      const provider = this.standardizedNetworkToRpcMap.get(networkUpper)
-      if (!provider) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `provider not found for ${network}`,
-        })
-      }
-
+    for (const address of normalizedAddresses) {
+      const { network, contractAddress, wallets, balanceOfSignature, provider } = address
       const iface = new ethers.Interface([balanceOfSignature])
       const balanceOfFunctionName = iface.getFunctionName(balanceOfSignature)
 
       for (const wallet of wallets) {
         const balanceOfEncoded = iface.encodeFunctionData(balanceOfFunctionName, [wallet])
-        // console.log(balanceOfEncoded)
-
         balanceRequests.push(
           provider
             .call({
               to: contractAddress,
               data: balanceOfEncoded,
             })
-            .then((result) => {
-              // console.log(`result ${result}, result decoded: ${iface.decodeFunctionResult(balanceOfSignature, result)}`)
-
-              return {
-                network,
-                contractAddress,
-                walletAddress: wallet,
-                balance: String(iface.decodeFunctionResult(balanceOfSignature, result)[0]),
-                decimals: decimalsMap.get(constructDecimalsKey(network, contractAddress)) || 0,
-              }
-            }),
+            .then((result) => ({
+              network: network.toLowerCase(), // return lowercase
+              contractAddress,
+              walletAddress: wallet,
+              balance: String(iface.decodeFunctionResult(balanceOfSignature, result)[0]),
+              decimals: decimalsMap.get(constructDecimalsKey(network, contractAddress)) || 0,
+            })),
         )
       }
     }
 
     const balanceResponses = await Promise.all(balanceRequests)
 
-    // compute result by scaling all to 18 decimals
-    // TODO: handle decimals > 18
+    // compute result by scaling all to 18 decimals, handles
     const result = balanceResponses.reduce(
       (accumulator, current) =>
-        current.decimals === 18
-          ? accumulator + ethers.toBigInt(current.balance)
-          : accumulator +
-            ethers.toBigInt(current.balance) * ethers.toBigInt(Math.pow(10, 18 - current.decimals)),
-      ethers.toBigInt(0),
+        accumulator + Number(current.balance) * Math.pow(10, 18 - current.decimals),
+      0,
     )
-    // console.log(balanceResponses)
 
     const providerDataRequestedUnixMs = Date.now()
     return {
@@ -234,29 +198,42 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     }
   }
 
-  verifyProviders(network: string): void {
-    const networkName = network.toUpperCase()
-    const networkEnvName = `${networkName}_RPC_URL`
-    const chainIdEnvName = `${networkName}_CHAIN_ID`
+  // parsed in endpoint/evm, so guaranteed to have one of network, chainId per address
+  // Verify provider/mappings exists for chainId or network, otherwise error
+  verifyProviders(addresses: RequestParams['addresses']): NormalizedPoRTokenAddress[] {
+    const normalizedAddresses: NormalizedPoRTokenAddress[] = []
+    for (const address of addresses) {
+      const { chainId, contractAddress, wallets, balanceOfSignature, decimalsSignature } = address
+      const network =
+        chainId && this.chainIdToStandardizedNetworkMap.has(chainId)
+          ? this.chainIdToStandardizedNetworkMap.get(chainId)
+          : address.network?.toUpperCase()
 
-    const rpcUrl = process.env[networkEnvName]
-    const chainId = Number(process.env[chainIdEnvName])
+      if (!network) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Missing '${address.network}' or '${address.chainId}' environment variables.`,
+        })
+      }
 
-    if (
-      !rpcUrl ||
-      isNaN(chainId) ||
-      (!this.chainIdRpcMap.has(String(chainId)) &&
-        !this.standardizedNetworkToRpcMap.has(networkName))
-    ) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
+      const provider = this.standardizedNetworkToProviderMap.get(network)
+      if (!provider) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Missing network environment variables for ${network}.`,
+        })
+      }
+
+      normalizedAddresses.push({
+        network,
+        contractAddress,
+        wallets,
+        balanceOfSignature,
+        decimalsSignature,
+        provider,
       })
     }
-
-    // if (!this.providers[networkName]) {
-    //   this.providers[networkName] = new ethers.JsonRpcProvider(rpcUrl, chainId)
-    // }
+    return normalizedAddresses
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

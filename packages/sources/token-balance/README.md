@@ -4,6 +4,18 @@
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
+## Usage Notes
+
+### additional env vars
+
+### evm endpoint network vs chainId input param
+
+At least one of [`chainId` and `network`] must be present when using the `evm` endpoint.
+
+The result is scaled to 18 decimals.
+
+Additional env vars in the form `${NETWORK}_RPC_URL` and `${NETWORK}_CHAIN_ID` are required for each supported network.
+
 ## Environment Variables
 
 | Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
@@ -33,7 +45,8 @@ Supported names for this endpoint are: `erc20`, `evm`.
 | Required? |             Name             | Aliases |                                                                         Description                                                                         |   Type   | Options |                                Default                                | Depends On | Not Valid With |
 | :-------: | :--------------------------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :-------------------------------------------------------------------: | :--------: | :------------: |
 |    ✅     |          addresses           |         |                                                                  List of addresses to read                                                                  | object[] |         |                                                                       |            |                |
-|    ✅     |      addresses.network       | `chain` |                                                                   Network of the contract                                                                   |  string  |         |                                                                       |            |                |
+|           |      addresses.network       | `chain` |                                                                   Network of the contract                                                                   |  string  |         |                                                                       |            |                |
+|           |      addresses.chainId       |         |                                                                   Chain ID of the network                                                                   |  string  |         |                                                                       |            |                |
 |    ✅     |  addresses.contractAddress   |         |                                                                  Address of token contract                                                                  |  string  |         |                                                                       |            |                |
 |    ✅     |      addresses.wallets       |         |                                                              Array of wallets to sum balances                                                               | string[] |         |                                                                       |            |                |
 |           | addresses.balanceOfSignature |         | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |  string  |         | `function balanceOf(address account) external view returns (uint256)` |            |                |
@@ -50,6 +63,7 @@ Request:
     "addresses": [
       {
         "network": "ethereum",
+        "chainId": "1",
         "contractAddress": "0x514910771af9ca656af840dff83e8264ecf986ca",
         "wallets": [
           "0xBc10f2E862ED4502144c7d632a3459F49DFCDB5e",

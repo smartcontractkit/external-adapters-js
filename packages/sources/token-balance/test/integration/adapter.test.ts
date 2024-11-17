@@ -41,13 +41,43 @@ describe('execute', () => {
   })
 
   describe('evm endpoint', () => {
-    it('should return success', async () => {
+    it('missing address network and chainId should fail 400', async () => {
+      const data = {
+        endpoint: 'evm',
+        addresses: [
+          {
+            contractAddress: '0xC96dE26018A54D51c097160568752c4E3BD6C364',
+            wallets: ['0x3A29CD3052774224E7C2CF001254211C986967B2'],
+          },
+        ],
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('missing env var network RPC should fail 400', async () => {
+      const data = {
+        endpoint: 'evm',
+        addresses: [
+          {
+            network: 'bad-network',
+            contractAddress: '0xC96dE26018A54D51c097160568752c4E3BD6C364',
+            wallets: ['0x3A29CD3052774224E7C2CF001254211C986967B2'],
+          },
+        ],
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with network', async () => {
       const data = {
         endpoint: 'evm',
         addresses: [
           {
             network: 'ethereum',
-            // chainId: 1,
             contractAddress: '0xC96dE26018A54D51c097160568752c4E3BD6C364',
             wallets: [
               '0x3A29CD3052774224E7C2CF001254211C986967B2',
@@ -56,7 +86,25 @@ describe('execute', () => {
           },
           {
             network: 'base',
-            // chainId: 8453,
+            contractAddress: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+            wallets: ['0x1fCca65fb6Ae3b2758b9b2B394CB227eAE404e1E'],
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      mockBASEMainnetContractCallResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with chainId', async () => {
+      const data = {
+        endpoint: 'evm',
+        addresses: [
+          {
+            chainId: '8453',
             contractAddress: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
             wallets: ['0x1fCca65fb6Ae3b2758b9b2B394CB227eAE404e1E'],
           },

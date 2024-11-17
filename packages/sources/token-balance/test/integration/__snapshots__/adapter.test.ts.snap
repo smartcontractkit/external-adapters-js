@@ -1,6 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute evm endpoint should return success 1`] = `
+exports[`execute evm endpoint missing address network and chainId should fail 400 1`] = `
+{
+  "error": {
+    "message": "One or more addresses is missing one of ['chainId', 'network'].",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute evm endpoint missing env var network RPC should fail 400 1`] = `
+{
+  "errorMessage": "Missing network environment variables for BAD-NETWORK.",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute evm endpoint should return success with chainId 1`] = `
+{
+  "data": {
+    "result": "741008730000000000",
+    "wallets": [
+      {
+        "balance": "74100873",
+        "contractAddress": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "decimals": 8,
+        "network": "base",
+        "walletAddress": "0x1fCca65fb6Ae3b2758b9b2B394CB227eAE404e1E",
+      },
+    ],
+  },
+  "result": "741008730000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute evm endpoint should return success with network 1`] = `
 {
   "data": {
     "result": "1927900630000000000",
