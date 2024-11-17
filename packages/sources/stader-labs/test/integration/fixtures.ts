@@ -153,7 +153,7 @@ export const mockBNBxSuccess = (): nock.Scope =>
       method: 'eth_call',
       params: [
         {
-          to: '0x7276241a669489e4bbb76f63d2a43bfe63080f2f',
+          to: '0x3b961e83400d51e6e1af5c450d3c7d7b80588d28',
           data: '0xca0506e80000000000000000000000000000000000000000000000000de0b6b3a7640000',
         },
         'latest',
