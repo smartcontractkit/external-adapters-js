@@ -101,6 +101,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [icap](./icap/README.md)
 - [iex-cloud](./iex-cloud/README.md)
 - [ignition-address-list](./ignition-address-list/README.md)
+- [instruxi-sxt](./instruxi-sxt/README.md)
 - [intrinio](./intrinio/README.md)
 - [ion.au](./ion.au/README.md)
 - [ipfs](./ipfs/README.md)
