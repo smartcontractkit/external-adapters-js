@@ -19,6 +19,8 @@ type NormalizedPoRTokenAddress = {
   provider: ethers.JsonRpcProvider
 }
 
+const RESULT_DECIMALS = 18
+
 export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   // eg: '1': 'ETHEREUM" and "ETHEREUM": provider
   chainIdToStandardizedNetworkMap: Map<string, string> = new Map()
@@ -170,13 +172,14 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     // compute result by scaling all to 18 decimals, handles
     const result = balanceResponses.reduce(
       (accumulator, current) =>
-        accumulator + Number(current.balance) * Math.pow(10, 18 - current.decimals),
+        accumulator + Number(current.balance) * Math.pow(10, RESULT_DECIMALS - current.decimals),
       0,
     )
 
     return {
       data: {
         result: String(result),
+        resultDecimals: RESULT_DECIMALS,
         wallets: balanceResponses,
       },
       statusCode: 200,
