@@ -26,9 +26,9 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
 
   // reverse mapping from chain ID to network to RPC url
   constructChainIdRpcMap(): void {
-    const _CHAIN_ID = '_CHAIN_ID'
+    const _RPC_CHAIN_ID = '_RPC_CHAIN_ID'
     for (const [key, value] of Object.entries(process.env)) {
-      if (!key.endsWith(_CHAIN_ID)) continue
+      if (!key.endsWith(_RPC_CHAIN_ID)) continue
 
       const chainId = value
 
@@ -42,7 +42,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
       }
 
       // extract network name from XXX_CHAIN_ID & get RPC_URL
-      const networkName = key.split(_CHAIN_ID)[0]
+      const networkName = key.split(_RPC_CHAIN_ID)[0]
       this.chainIdToStandardizedNetworkMap.set(chainId, networkName)
 
       const rpcEnvVar = `${networkName}_RPC_URL`
@@ -106,19 +106,9 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     const constructDecimalsKey = (network: string, contractAddress: string): string =>
       `${network}_${contractAddress}`
 
-    const decimalsMap = new Map<string, number | null>()
     const decimalsRequests = []
     for (const address of normalizedAddresses) {
       const { network, contractAddress, decimalsSignature, provider } = address
-
-      // since we can have multiple addresses with balances of the same token,
-      // skip if we've encountered this pair already
-      const decimalsKey = constructDecimalsKey(network, contractAddress)
-      if (decimalsMap.has(decimalsKey)) {
-        logger.debug(`skipping decimals fetch for contract address ${address}`)
-        continue
-      }
-      decimalsMap.set(decimalsKey, null)
 
       // get decimals
       const iface = new ethers.Interface([decimalsSignature])
@@ -142,6 +132,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
 
     const decimalsResponses = await Promise.all(decimalsRequests)
 
+    const decimalsMap = new Map<string, number | null>()
     decimalsResponses.forEach((response) => {
       const decimalsKey = constructDecimalsKey(response.network, response.contractAddress)
       decimalsMap.set(decimalsKey, response.decimals)
