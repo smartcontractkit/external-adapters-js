@@ -164,6 +164,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
       }
     }
 
+    const providerDataRequestedUnixMs = Date.now()
     const balanceResponses = await Promise.all(balanceRequests)
 
     // compute result by scaling all to 18 decimals, handles
@@ -173,7 +174,6 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
       0,
     )
 
-    const providerDataRequestedUnixMs = Date.now()
     return {
       data: {
         result: String(result),
