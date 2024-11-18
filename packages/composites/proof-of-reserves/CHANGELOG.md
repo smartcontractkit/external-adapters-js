@@ -1,5 +1,34 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.23.0
+
+### Minor Changes
+
+- [#3551](https://github.com/smartcontractkit/external-adapters-js/pull/3551) [`c7b5a90`](https://github.com/smartcontractkit/external-adapters-js/commit/c7b5a9033589de62006eddf078e5ab4c289e281d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add ability to select endpoint for protocol
+
+### Patch Changes
+
+- [#3558](https://github.com/smartcontractkit/external-adapters-js/pull/3558) [`62f0f3b`](https://github.com/smartcontractkit/external-adapters-js/commit/62f0f3b031052e808224b80f7cfce4073c967664) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3562](https://github.com/smartcontractkit/external-adapters-js/pull/3562) [`8cc19c5`](https://github.com/smartcontractkit/external-adapters-js/commit/8cc19c591a7db6764d49290c14aa8bbdb8eef54d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- Updated dependencies [[`62f0f3b`](https://github.com/smartcontractkit/external-adapters-js/commit/62f0f3b031052e808224b80f7cfce4073c967664), [`8cc19c5`](https://github.com/smartcontractkit/external-adapters-js/commit/8cc19c591a7db6764d49290c14aa8bbdb8eef54d), [`5f0ae26`](https://github.com/smartcontractkit/external-adapters-js/commit/5f0ae2696a43a6c3fefb4ac0004a5914c9f86694), [`c7b5a90`](https://github.com/smartcontractkit/external-adapters-js/commit/c7b5a9033589de62006eddf078e5ab4c289e281d)]:
+  - @chainlink/multi-address-list-adapter@1.0.7
+  - @chainlink/stader-address-list-adapter@2.3.27
+  - @chainlink/eth-beacon-adapter@3.0.8
+  - @chainlink/gemini-adapter@3.0.20
+  - @chainlink/por-indexer-adapter@2.1.11
+  - @chainlink/stader-balance-adapter@1.4.24
+  - @chainlink/avalanche-platform-adapter@2.0.21
+  - @chainlink/lotus-adapter@3.0.20
+  - @chainlink/por-address-list-adapter@5.3.0
+  - @chainlink/moonbeam-address-list-adapter@1.1.37
+  - @chainlink/wbtc-address-set-adapter@2.1.10
+  - @chainlink/polkadot-balance-adapter@1.3.16
+  - @chainlink/coinbase-prime-adapter@1.2.9
+  - @chainlink/ignition-address-list-adapter@1.0.3
+  - @chainlink/renvm-address-set-adapter@1.5.89
+
 ## 1.22.3
 
 ### Patch Changes

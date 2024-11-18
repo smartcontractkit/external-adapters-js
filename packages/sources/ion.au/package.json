@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ion.au-adapter",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Chainlink ion.au adapter.",
   "keywords": [
     "Chainlink",
