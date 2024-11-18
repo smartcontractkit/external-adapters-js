@@ -169,12 +169,21 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     const providerDataRequestedUnixMs = Date.now()
     const balanceResponses = await Promise.all(balanceRequests)
 
-    // compute result by scaling all to 18 decimals, handles
-    const result = balanceResponses.reduce(
-      (accumulator, current) =>
-        accumulator + Number(current.balance) * Math.pow(10, RESULT_DECIMALS - current.decimals),
-      0,
-    )
+    // compute result by scaling all to desired RESULT_DECIMALS decimals
+    const result = balanceResponses.reduce((accumulator, current) => {
+      if (current.decimals < RESULT_DECIMALS) {
+        return (
+          accumulator +
+          BigInt(current.balance) * BigInt(Math.pow(10, RESULT_DECIMALS - current.decimals))
+        )
+      } else if (current.decimals > RESULT_DECIMALS) {
+        return (
+          accumulator +
+          BigInt(current.balance) / BigInt(Math.pow(10, current.decimals - RESULT_DECIMALS))
+        )
+      }
+      return accumulator + BigInt(current.balance) // RESULT_DECIMALS decimals
+    }, BigInt(0))
 
     return {
       data: {
