@@ -71,7 +71,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
     const addressManager = new ethers.Contract(
       contractAddress,
-      contractAddressNetwork == 'POLYGON' ? PolygonABI : ABI,
+      contractAddressNetwork.toUpperCase() == 'POLYGON' ? PolygonABI : ABI,
       provider,
     )
     const latestBlockNum = await provider.getBlockNumber()
