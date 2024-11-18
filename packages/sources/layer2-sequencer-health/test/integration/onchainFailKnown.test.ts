@@ -10,6 +10,7 @@ const mockMessages = {
   'https://arb1.arbitrum.io/rpc': 'gas price too low',
   'https://mainnet.optimism.io': 'cannot accept 0 gas price transaction',
   'https://mainnet.base.org': 'transaction underpriced',
+  'https://rpc.linea.build': 'Gas price below configured minimum gas price',
   'https://andromeda.metis.io/?owner=1088': 'cannot accept 0 gas price transaction',
   'https://rpc.scroll.io':
     'invalid transaction: insufficient funds for l1fee + gas * price + value',
@@ -150,6 +151,35 @@ describe('execute', () => {
         id,
         data: {
           network: 'base',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('Linea network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'linea',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'linea',
         },
       }
 
