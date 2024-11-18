@@ -19,6 +19,10 @@ Adapter that checks the Layer 2 Sequencer status
 |           |      `BASE_HEALTH_ENDPOINT`       |                                   Base Health Endpoint                                    |         |                                                                  |
 |           |          `BASE_CHAIN_ID`          |                              The chain id to connect to Base                              |         |                               8453                               |
 |           |           `BASE_DELTA`            |   Maximum time in milliseconds from last seen block to consider Base sequencer healthy    |         |                          120000 (2 min)                          |
+|           |       `LINEA_RPC_ENDPOINT`        |                                    Linea RPC Endpoint                                     |         |                     https://rpc.linea.build                      |
+|           |      `LINEA_HEALTH_ENDPOINT`      |                                   Linea Health Endpoint                                   |         |                                                                  |
+|           |         `LINEA_CHAIN_ID`          |                             The chain id to connect to Linea                              |         |                              59144                               |
+|           |           `LINEA_DELTA`           |   Maximum time in milliseconds from last seen block to consider Linea sequencer healthy   |         |                          120000 (2 min)                          |
 |           |       `METIS_RPC_ENDPOINT`        |                                    Metis RPC Endpoint                                     |         |              https://andromeda.metis.io/?owner=1088              |
 |           |      `METIS_HEALTH_ENDPOINT`      |                                   Metis Health Endpoint                                   |         |        https://andromeda-healthy.metisdevops.link/health         |
 |           |         `METIS_CHAIN_ID`          |                             The chain id to connect to Metis                              |         |                               1088                               |
@@ -42,9 +46,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                                 Options                                  | Defaults to |
-| :-------: | :-----: | :----------------------: | :----------------------------------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `metis`, `scroll`, `starkware`, `zksync` |             |
+| Required? |  Name   |       Description        |                                      Options                                      | Defaults to |
+| :-------: | :-----: | :----------------------: | :-------------------------------------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `linea`, `metis`, `scroll`, `starkware`, `zksync` |             |
 
 ---
 
