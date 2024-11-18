@@ -108,37 +108,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     const constructDecimalsKey = (network: string, contractAddress: string): string =>
       `${network}_${contractAddress}`
 
-    const decimalsRequests = []
-    for (const address of normalizedAddresses) {
-      const { network, contractAddress, decimalsSignature, provider } = address
-
-      // get decimals
-      const iface = new ethers.Interface([decimalsSignature])
-      const decimalsFunctionName = iface.getFunctionName(decimalsSignature)
-      const decimalsEncoded = iface.encodeFunctionData(decimalsFunctionName)
-
-      // push with callback including network and contract address
-      decimalsRequests.push(
-        provider
-          .call({
-            to: contractAddress,
-            data: decimalsEncoded,
-          })
-          .then((result) => ({
-            network,
-            contractAddress,
-            decimals: Number(iface.decodeFunctionResult(decimalsSignature, result)[0]),
-          })),
-      )
-    }
-
-    const decimalsResponses = await Promise.all(decimalsRequests)
-
-    const decimalsMap = new Map<string, number | null>()
-    decimalsResponses.forEach((response) => {
-      const decimalsKey = constructDecimalsKey(response.network, response.contractAddress)
-      decimalsMap.set(decimalsKey, response.decimals)
-    })
+    const decimalsMap = await this.constructDecimalsMap(normalizedAddresses, constructDecimalsKey)
 
     // construct list of RPC balance requests
     const balanceRequests = []
@@ -199,6 +169,44 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  private async constructDecimalsMap(
+    normalizedAddresses: NormalizedPoRTokenAddress[],
+    constructDecimalsKey: (network: string, contractAddress: string) => string,
+  ) {
+    const decimalsRequests = []
+    for (const address of normalizedAddresses) {
+      const { network, contractAddress, decimalsSignature, provider } = address
+
+      // get decimals
+      const iface = new ethers.Interface([decimalsSignature])
+      const decimalsFunctionName = iface.getFunctionName(decimalsSignature)
+      const decimalsEncoded = iface.encodeFunctionData(decimalsFunctionName)
+
+      // push with callback including network and contract address
+      decimalsRequests.push(
+        provider
+          .call({
+            to: contractAddress,
+            data: decimalsEncoded,
+          })
+          .then((result) => ({
+            network,
+            contractAddress,
+            decimals: Number(iface.decodeFunctionResult(decimalsSignature, result)[0]),
+          })),
+      )
+    }
+
+    const decimalsResponses = await Promise.all(decimalsRequests)
+
+    const decimalsMap = new Map<string, number | null>()
+    decimalsResponses.forEach((response) => {
+      const decimalsKey = constructDecimalsKey(response.network, response.contractAddress)
+      decimalsMap.set(decimalsKey, response.decimals)
+    })
+    return decimalsMap
   }
 
   // parsed in endpoint/evm, so guaranteed to have one of network, chainId per address
