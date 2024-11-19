@@ -117,6 +117,14 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
       const iface = new ethers.Interface([balanceOfSignature])
       const balanceOfFunctionName = iface.getFunctionName(balanceOfSignature)
 
+      const decimals = decimalsMap.get(constructDecimalsKey(network, contractAddress))
+      if (!decimals) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Could not get decimals for contract ${contractAddress}.`,
+        })
+      }
+
       for (const wallet of wallets) {
         const balanceOfEncoded = iface.encodeFunctionData(balanceOfFunctionName, [wallet])
         balanceRequests.push(
@@ -130,7 +138,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
               contractAddress,
               walletAddress: wallet,
               balance: String(iface.decodeFunctionResult(balanceOfSignature, result)[0]),
-              decimals: decimalsMap.get(constructDecimalsKey(network, contractAddress)) || 0,
+              decimals,
             })),
         )
       }
