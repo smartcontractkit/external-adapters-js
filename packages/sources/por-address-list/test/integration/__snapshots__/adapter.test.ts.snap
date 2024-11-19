@@ -65,7 +65,7 @@ exports[`execute address endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute apiAddress endpoint bedrock should return success 1`] = `
+exports[`execute apiAddress endpoint bedrock BTC should return success 1`] = `
 {
   "data": {
     "result": [
@@ -78,6 +78,55 @@ exports[`execute apiAddress endpoint bedrock should return success 1`] = `
         "address": "btc_2",
         "chainId": "mainnet",
         "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute apiAddress endpoint bedrock tokens should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "chainId": "1",
+        "contractAddress": "vault_1",
+        "wallets": [
+          "token_1",
+        ],
+      },
+      {
+        "chainId": "56",
+        "contractAddress": "vault_2",
+        "wallets": [
+          "token_2",
+        ],
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute apiAddress endpoint bedrock vault should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "vault_1",
+        "chainId": "1",
+        "network": "eth",
       },
     ],
   },

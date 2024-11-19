@@ -90,9 +90,32 @@ describe('execute', () => {
   })
 
   describe('apiAddress endpoint', () => {
-    it('bedrock should return success', async () => {
+    it('bedrock BTC should return success', async () => {
       const data = {
         endpoint: 'bedrockBtcAddress',
+        type: 'BTC',
+      }
+      mockBedRockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('bedrock tokens should return success', async () => {
+      const data = {
+        endpoint: 'bedrockBtcAddress',
+        type: 'tokens',
+      }
+      mockBedRockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('bedrock vault should return success', async () => {
+      const data = {
+        endpoint: 'bedrockBtcAddress',
+        type: 'vault',
       }
       mockBedRockResponseSuccess()
       const response = await testAdapter.request(data)
