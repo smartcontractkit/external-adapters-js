@@ -76,7 +76,7 @@ export type BaseEndpointTypes = {
     Result: string
     Data: {
       result: string
-      resultDecimals: number
+      decimals: number
       wallets: {
         network: string
         contractAddress: string

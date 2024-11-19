@@ -25,8 +25,8 @@ exports[`execute evm endpoint missing env var network RPC should fail 400 1`] = 
 exports[`execute evm endpoint should return success with chainId 1`] = `
 {
   "data": {
+    "decimals": 18,
     "result": "741008730000000000",
-    "resultDecimals": 18,
     "wallets": [
       {
         "balance": "74100873",
@@ -49,8 +49,8 @@ exports[`execute evm endpoint should return success with chainId 1`] = `
 exports[`execute evm endpoint should return success with network 1`] = `
 {
   "data": {
+    "decimals": 18,
     "result": "1927900630000000000",
-    "resultDecimals": 18,
     "wallets": [
       {
         "balance": "2746061",

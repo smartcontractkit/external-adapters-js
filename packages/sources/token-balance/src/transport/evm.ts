@@ -166,7 +166,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     return {
       data: {
         result: String(result),
-        resultDecimals: RESULT_DECIMALS,
+        decimals: RESULT_DECIMALS,
         wallets: balanceResponses,
       },
       statusCode: 200,
@@ -182,7 +182,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
   private async constructDecimalsMap(
     normalizedAddresses: NormalizedPoRTokenAddress[],
     constructDecimalsKey: (network: string, contractAddress: string) => string,
-  ) {
+  ): Promise<Map<string, number>> {
     const decimalsRequests = []
     for (const address of normalizedAddresses) {
       const { network, contractAddress, decimalsSignature, provider } = address
@@ -209,7 +209,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
 
     const decimalsResponses = await Promise.all(decimalsRequests)
 
-    const decimalsMap = new Map<string, number | null>()
+    const decimalsMap = new Map<string, number>()
     decimalsResponses.forEach((response) => {
       const decimalsKey = constructDecimalsKey(response.network, response.contractAddress)
       decimalsMap.set(decimalsKey, response.decimals)
