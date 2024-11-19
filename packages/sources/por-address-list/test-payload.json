@@ -11,7 +11,8 @@
     "network": "bitcoin",
     "batchSize": 100
  }, {
-    "endpoint": "bedrockBtcAddress"
+    "endpoint": "bedrockBtcAddress",
+    "type": "BTC"
  }, {
     "endpoint": "solvBtcAddress"
  }, {

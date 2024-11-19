@@ -27,7 +27,7 @@ export const config = new AdapterConfig({
   BEDROCK_UNIBTC_API_ENDPOINT: {
     description: 'An API endpoint for Bedrock uniBTC native BTC wallet address',
     type: 'string',
-    default: 'https://bedrock-datacenter.rockx.com/uniBTC/reserve/address',
+    default: 'https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json',
   },
   SOLVBTC_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC native BTC wallet address',
