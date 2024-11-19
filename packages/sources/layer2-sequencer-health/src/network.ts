@@ -16,6 +16,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   // TODO: Optimism error needs to be confirmed by their team
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
   [Networks.Base]: ['transaction underpriced'],
+  [Networks.Linea]: ['Gas price below configured minimum gas price'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
   [Networks.Scroll]: ['invalid transaction: insufficient funds for l1fee + gas * price + value'],
   // Sending an empty transaction to the dummy Starknet address should return one
@@ -88,6 +89,7 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
       [Networks.Base]: ['error', 'message'],
+      [Networks.Linea]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
       [Networks.Scroll]: ['error', 'error', 'message'],
       [Networks.Starkware]: ['message'],

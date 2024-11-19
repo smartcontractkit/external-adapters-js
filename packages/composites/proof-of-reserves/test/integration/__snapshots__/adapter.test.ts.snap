@@ -3,6 +3,7 @@
 exports[`execute Bitcoin list protocol should return success 1`] = `
 {
   "data": {
+    "decimals": 8,
     "result": "75100045155",
     "statusCode": 200,
   },
@@ -27,6 +28,7 @@ exports[`execute Ethereum list protocol should return success 1`] = `
 exports[`execute Filecoin Gemini protocol should return success 1`] = `
 {
   "data": {
+    "decimals": 0,
     "result": "127530375584000000000000",
     "statusCode": 200,
   },
@@ -38,10 +40,28 @@ exports[`execute Filecoin Gemini protocol should return success 1`] = `
 exports[`execute Filecoin list protocol w/ miner format address should return success 1`] = `
 {
   "data": {
+    "decimals": 0,
     "result": "127530375584000000000000",
     "statusCode": 200,
   },
   "result": "127530375584000000000000",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute multiReserves endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "751221097708354962165",
+    "statusCode": 200,
+    "timestamps": {
+      "providerDataReceivedUnixMs": 1641035471111,
+      "providerDataRequestedUnixMs": 1641035471111,
+    },
+  },
+  "jobRunID": "1",
+  "result": "751221097708354962165",
   "statusCode": 200,
 }
 `;

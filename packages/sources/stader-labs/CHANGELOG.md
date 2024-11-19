@@ -1,5 +1,11 @@
 # @chainlink/stader-labs-adapter
 
+## 3.0.14
+
+### Patch Changes
+
+- [#3565](https://github.com/smartcontractkit/external-adapters-js/pull/3565) [`d6a0224`](https://github.com/smartcontractkit/external-adapters-js/commit/d6a022426f1e873f958e23f6829751e5e8c344c5) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for env vars for rate providers
+
 ## 3.0.13
 
 ### Patch Changes

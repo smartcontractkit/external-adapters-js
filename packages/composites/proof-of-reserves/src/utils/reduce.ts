@@ -16,6 +16,7 @@ const returnParsedUnits = (jobRunID: string, result: string, units: number) => {
     data: {
       result: convertedResult,
       statusCode: 200,
+      decimals: units,
     },
   }
 }

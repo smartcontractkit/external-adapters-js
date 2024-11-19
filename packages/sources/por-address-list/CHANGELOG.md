@@ -1,5 +1,19 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.3.0
+
+### Minor Changes
+
+- [#3561](https://github.com/smartcontractkit/external-adapters-js/pull/3561) [`5f0ae26`](https://github.com/smartcontractkit/external-adapters-js/commit/5f0ae2696a43a6c3fefb4ac0004a5914c9f86694) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add multichainAddress endpoint
+
+- [#3551](https://github.com/smartcontractkit/external-adapters-js/pull/3551) [`c7b5a90`](https://github.com/smartcontractkit/external-adapters-js/commit/c7b5a9033589de62006eddf078e5ab4c289e281d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add ability to query API addresses
+
+### Patch Changes
+
+- [#3558](https://github.com/smartcontractkit/external-adapters-js/pull/3558) [`62f0f3b`](https://github.com/smartcontractkit/external-adapters-js/commit/62f0f3b031052e808224b80f7cfce4073c967664) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3562](https://github.com/smartcontractkit/external-adapters-js/pull/3562) [`8cc19c5`](https://github.com/smartcontractkit/external-adapters-js/commit/8cc19c591a7db6764d49290c14aa8bbdb8eef54d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 5.2.2
 
 ### Patch Changes
