@@ -1,0 +1,17 @@
+{
+  "requests": [{
+    "endpoint": "evm",
+    "addresses": [
+      {
+        "network": "ethereum",
+        "contractAddress": "0xC96dE26018A54D51c097160568752c4E3BD6C364",
+        "wallets": [
+            "0x3A29CD3052774224E7C2CF001254211C986967B2",
+            "0x3d9bCcA8Bc7D438a4c5171435f41a0AF5d5E6083",
+            "0x77A0545Dc1Dc6bAee8d9c1d436c6688a75Ae5777",
+            "0xAC364d14020f1da0044699691a91f06ca6131Fe3"
+        ]
+      }
+    ]
+  }]
+}
