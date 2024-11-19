@@ -108,6 +108,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     const constructDecimalsKey = (network: string, contractAddress: string): string =>
       `${network}_${contractAddress}`
 
+    const providerDataRequestedUnixMs = Date.now()
     const decimalsMap = await this.constructDecimalsMap(normalizedAddresses, constructDecimalsKey)
 
     // construct list of RPC balance requests
@@ -144,7 +145,6 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
       }
     }
 
-    const providerDataRequestedUnixMs = Date.now()
     const balanceResponses = await Promise.all(balanceRequests)
 
     // compute result by scaling all to desired RESULT_DECIMALS decimals
