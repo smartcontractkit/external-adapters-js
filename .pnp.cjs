@@ -835,6 +835,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/tiingo-state"\
     },\
     {\
+      "name": "@chainlink/token-balance-adapter",\
+      "reference": "workspace:packages/sources/token-balance"\
+    },\
+    {\
       "name": "@chainlink/tp-adapter",\
       "reference": "workspace:packages/sources/tp"\
     },\
@@ -1142,6 +1146,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tiingo-state-adapter", ["workspace:packages/sources/tiingo-state"]],\
     ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
     ["@chainlink/token-allocation-test-adapter", ["workspace:packages/non-deployable/token-allocation-test"]],\
+    ["@chainlink/token-balance-adapter", ["workspace:packages/sources/token-balance"]],\
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
@@ -9021,6 +9026,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/token-balance-adapter", [\
+      ["workspace:packages/sources/token-balance", {\
+        "packageLocation": "./packages/sources/token-balance/",\
+        "packageDependencies": [\
+          ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.115"],\
+          ["ethers", "npm:6.13.4"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/tp-adapter", [\
       ["workspace:packages/sources/tp", {\
         "packageLocation": "./packages/sources/tp/",\
@@ -16216,6 +16237,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-npm-16.11.68-c2f2ea9840-7906b0fe63.zip/node_modules/@types/node/",\
         "packageDependencies": [\
           ["@types/node", "npm:16.11.68"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.18.115", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-16.18.115-7b7a82126b-84d8fd70f2.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:16.18.115"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -32255,6 +32283,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["nock", [\
+      ["npm:13.5.4", {\
+        "packageLocation": "./.yarn/cache/nock-npm-13.5.4-2c4f77b249-75bad391ba.zip/node_modules/nock/",\
+        "packageDependencies": [\
+          ["nock", "npm:13.5.4"],\
+          ["debug", "virtual:6230e12b1d7dee1735a865cef131ea49c043e7f202fd08b14ceb90686e406b76a07840fc9510f1069465ad9695242b42830fc7fea7b01648a261463b7848122f#npm:4.3.7"],\
+          ["json-stringify-safe", "npm:5.0.1"],\
+          ["propagate", "npm:2.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:13.5.5", {\
         "packageLocation": "./.yarn/cache/nock-npm-13.5.5-ccb57f0a2f-c19d7bf965.zip/node_modules/nock/",\
         "packageDependencies": [\
@@ -38686,6 +38724,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["typescript", [\
+      ["patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07", {\
+        "packageLocation": "./.yarn/cache/typescript-patch-fe43cd9db9-746fdd0865.zip/node_modules/typescript/",\
+        "packageDependencies": [\
+          ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40", {\
         "packageLocation": "./.yarn/cache/typescript-patch-8964a48ba3-00504c01ee.zip/node_modules/typescript/",\
         "packageDependencies": [\

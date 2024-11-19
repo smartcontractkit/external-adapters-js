@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute evm endpoint missing address network and chainId should fail 400 1`] = `
+{
+  "error": {
+    "message": "One or more addresses is missing one of ['chainId', 'network'].",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute evm endpoint missing env var network RPC should fail 400 1`] = `
+{
+  "errorMessage": "Missing network environment variables for BAD-NETWORK.",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute evm endpoint should return success with chainId 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "741008730000000000",
+    "wallets": [
+      {
+        "balance": "74100873",
+        "contractAddress": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "decimals": 8,
+        "network": "base",
+        "walletAddress": "0x1fCca65fb6Ae3b2758b9b2B394CB227eAE404e1E",
+      },
+    ],
+  },
+  "result": "741008730000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute evm endpoint should return success with network 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "1927900630000000000",
+    "wallets": [
+      {
+        "balance": "2746061",
+        "contractAddress": "0xC96dE26018A54D51c097160568752c4E3BD6C364",
+        "decimals": 8,
+        "network": "ethereum",
+        "walletAddress": "0x3A29CD3052774224E7C2CF001254211C986967B2",
+      },
+      {
+        "balance": "115943129",
+        "contractAddress": "0xC96dE26018A54D51c097160568752c4E3BD6C364",
+        "decimals": 8,
+        "network": "ethereum",
+        "walletAddress": "0x3d9bCcA8Bc7D438a4c5171435f41a0AF5d5E6083",
+      },
+      {
+        "balance": "74100873",
+        "contractAddress": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "decimals": 8,
+        "network": "base",
+        "walletAddress": "0x1fCca65fb6Ae3b2758b9b2B394CB227eAE404e1E",
+      },
+    ],
+  },
+  "result": "1927900630000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
