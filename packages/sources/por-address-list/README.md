@@ -12,7 +12,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |          CHAIN_ID           |                                                        The chain id to connect to for the RPC URL                                                        | number |         |                                        `1`                                        |
 |           |         GROUP_SIZE          | The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter. | number |         |                                       `100`                                       |
 |           |    BACKGROUND_EXECUTE_MS    |                                The amount of time the background execute should sleep before performing the next request                                 | number |         |                                      `10000`                                      |
-|           | BEDROCK_UNIBTC_API_ENDPOINT |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         |           `https://bedrock-datacenter.rockx.com/uniBTC/reserve/address`           |
+|           | BEDROCK_UNIBTC_API_ENDPOINT |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         |     `https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json`      |
 |           |    SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         | `https://solv-btcaddress-test.s3.us-east-1.amazonaws.com/solv-btc-addresses.json` |
 
 ---
@@ -93,7 +93,9 @@ Request:
 
 ### Input Params
 
-There are no input parameters for this endpoint.
+| Required? | Name | Aliases |                                                            Description                                                             |  Type  |         Options          | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----: | :--------------------------------------------------------------------------------------------------------------------------------: | :----: | :----------------------: | :-----: | :--------: | :------------: |
+|    ✅     | type |         | The type of addresses you are looking for. BTC is native BTC address. tokens is for token-balance EA. vault is for eth-balance EA. | string | `BTC`, `tokens`, `vault` |         |            |                |
 
 ### Example
 
@@ -102,7 +104,8 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "bedrockbtcaddress"
+    "endpoint": "bedrockbtcaddress",
+    "type": "BTC"
   }
 }
 ```
