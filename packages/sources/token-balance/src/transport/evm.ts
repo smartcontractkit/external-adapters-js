@@ -43,7 +43,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
         continue
       }
 
-      // extract network name from XXX_CHAIN_ID & get RPC_URL
+      // extract network name from XXX_RPC_CHAIN_ID & get RPC_URL
       const networkName = key.split(_RPC_CHAIN_ID)[0]
       this.chainIdToStandardizedNetworkMap.set(chainId, networkName)
 
