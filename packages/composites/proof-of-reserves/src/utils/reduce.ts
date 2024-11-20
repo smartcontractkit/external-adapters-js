@@ -12,7 +12,7 @@ const returnParsedUnits = (
   jobRunID: string,
   result: string,
   units: number,
-  skipConvert: boolean = false,
+  skipConvert = false,
 ) => {
   const convertedResult =
     skipConvert || units === 0 ? result : ethers.utils.parseUnits(result, units).toString()
