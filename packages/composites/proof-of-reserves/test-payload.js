@@ -13,6 +13,7 @@ const indexerEnvironmentVariables = [
   { envKey: 'BTC_COM_ADAPTER_URL', value: 'btc_com' },
   { envKey: 'CRYPTOAPIS_ADAPTER_URL', value: 'cryptoapis' },
   { envKey: 'POR_INDEXER_ADAPTER_URL', value: 'por_indexer' },
+  { envKey: 'TOKEN_BALANCE_ADAPTER_URL', value: 'token_balance' },
   { envKey: 'SOCHAIN_ADAPTER_URL', value: 'sochain' },
 ]
 
