@@ -8,8 +8,14 @@ import { adapter as lotus } from '@chainlink/lotus-adapter'
 import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { ethers } from 'ethers'
 
-const returnParsedUnits = (jobRunID: string, result: string, units: number) => {
-  const convertedResult = units === 0 ? result : ethers.utils.parseUnits(result, units).toString()
+const returnParsedUnits = (
+  jobRunID: string,
+  result: string,
+  units: number,
+  skipConvert: boolean = false,
+) => {
+  const convertedResult =
+    skipConvert || units === 0 ? result : ethers.utils.parseUnits(result, units).toString()
   return {
     jobRunID,
     result: convertedResult,
@@ -34,9 +40,10 @@ export const runReduceAdapter = async (
     case bitcoinJsonRpc.NAME:
     case bitcoinPorIndexer.name:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
+    case tokenBalance.name:
+      return returnParsedUnits(input.jobRunID, input.data.result as string, 18)
     case lotus.name:
     case adaBalance.NAME:
-    case tokenBalance.name:
       // TODO: type makeExecute response
       return returnParsedUnits(input.jobRunID, input.data.result as string, 0)
   }
