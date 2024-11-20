@@ -20,6 +20,7 @@ describe('execute', () => {
     CACHE_ENABLED: 'false',
     ETH_BALANCE_ADAPTER_URL: 'https://eth-balance-adapter.com',
     POR_INDEXER_ADAPTER_URL: 'https://por-indexer-adapter.com',
+    TOKEN_BALANCE_ADAPTER_URL: 'https://token-balance-adapter.com',
     GEMINI_ADAPTER_URL: 'https://gemini-adapter.com',
     LOTUS_ADAPTER_URL: 'https://lotus-adapter.com',
   }

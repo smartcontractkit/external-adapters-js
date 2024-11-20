@@ -8388,6 +8388,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
           ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
           ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
+          ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
           ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
           ["@types/jest", "npm:27.5.2"],\

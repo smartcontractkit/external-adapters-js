@@ -7,6 +7,7 @@ type AddressObject = {
   address: string
   network?: string
   chainId?: string
+  wallets?: string[]
 }
 
 const indexerToNetwork: Record<string, string> = {
@@ -16,6 +17,7 @@ const indexerToNetwork: Record<string, string> = {
   avalanche_platform: 'avalanche',
   bitcoin_json_rpc: 'bitcoin',
   lotus: 'filecoin',
+  token_balance: 'multi-evm',
 }
 
 export const getValidAddresses = (
@@ -46,7 +48,7 @@ export const validateAddresses = (
 ): AddressObject[] => {
   const validatedAddresses: AddressObject[] = []
   for (const addressObj of addresses) {
-    const { address, network, chainId } = addressObj
+    const { address, network, chainId, wallets } = addressObj
     let validatedAddress: string | undefined = undefined
     let validationNetwork = network || indexerToNetwork[indexer]
     // If the indexer is eth_beacon, override the validationNetwork as it might contain a different value (goerli, ethereum, mainnet...)
@@ -74,6 +76,15 @@ export const validateAddresses = (
       case 'avalanche':
       case 'avalanche-fuji':
         validatedAddress = getValidAvalancheAddress(id, address)
+        break
+      case 'multi-evm':
+        if (wallets && wallets.length) {
+          const validWallets = wallets
+            .map((wallet) => getValidEvmAddress(id, wallet))
+            .filter(Boolean) as string[]
+          addressObj.wallets = validWallets
+          validatedAddresses.push(addressObj)
+        }
         break
       default:
         Logger.debug(

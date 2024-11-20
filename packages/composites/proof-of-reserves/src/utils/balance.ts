@@ -25,6 +25,7 @@ import { adapter as staderBalance } from '@chainlink/stader-balance-adapter'
 import { adapter as ethBeacon } from '@chainlink/eth-beacon-adapter'
 import { adapter as lotus } from '@chainlink/lotus-adapter'
 import { adapter as porIndexer } from '@chainlink/por-indexer-adapter'
+import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 
 // TODO: type
 export const adaptersV2: v2AdapterImplementation[] = [
@@ -47,6 +48,7 @@ export const adaptersV3: v3AdapterImplementation[] = [
   avalanchePlatform,
   lotus,
   porIndexer,
+  tokenBalance,
 ]
 
 // Get balances for address set
@@ -65,6 +67,9 @@ export const runBalanceAdapter = async (
       break
     case porIndexer.name:
       next = buildPorIndexerRequest(input, confirmations)
+      break
+    case tokenBalance.name:
+      next = buildTokenBalanceRequest(input, confirmations)
       break
     case ethBeacon.name:
       next = {
@@ -130,6 +135,17 @@ function buildPorIndexerRequest(input: AdapterResponse, minConfirmations: number
   return {
     id: input.jobRunID,
     data: {
+      addresses: input.data.result,
+      minConfirmations,
+    },
+  }
+}
+
+function buildTokenBalanceRequest(input: AdapterResponse, minConfirmations: number) {
+  return {
+    id: input.jobRunID,
+    data: {
+      endpoint: 'evm',
       addresses: input.data.result,
       minConfirmations,
     },

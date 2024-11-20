@@ -5133,6 +5133,7 @@ __metadata:
     "@chainlink/stader-address-list-adapter": "workspace:*"
     "@chainlink/stader-balance-adapter": "workspace:*"
     "@chainlink/swell-address-list-adapter": "workspace:*"
+    "@chainlink/token-balance-adapter": "workspace:*"
     "@chainlink/wbtc-address-set-adapter": "workspace:*"
     "@chainlink/wrapped-adapter": "workspace:*"
     "@types/jest": "npm:27.5.2"
@@ -5704,7 +5705,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-balance-adapter@workspace:packages/sources/token-balance":
+"@chainlink/token-balance-adapter@workspace:*, @chainlink/token-balance-adapter@workspace:packages/sources/token-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-balance-adapter@workspace:packages/sources/token-balance"
   dependencies:

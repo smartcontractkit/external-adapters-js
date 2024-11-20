@@ -5,6 +5,7 @@ import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import { adapter as bitcoinPorIndexer } from '@chainlink/por-indexer-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
 import { adapter as lotus } from '@chainlink/lotus-adapter'
+import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { ethers } from 'ethers'
 
 const returnParsedUnits = (jobRunID: string, result: string, units: number) => {
@@ -35,6 +36,7 @@ export const runReduceAdapter = async (
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
     case lotus.name:
     case adaBalance.NAME:
+    case tokenBalance.name:
       // TODO: type makeExecute response
       return returnParsedUnits(input.jobRunID, input.data.result as string, 0)
   }
