@@ -37,6 +37,7 @@
     { "path": "../../sources/moonbeam-address-list" },
     { "path": "../../sources/polkadot-balance" },
     { "path": "../../composites/multi-address-list" },
-    { "path": "../../sources/ignition-address-list" }
+    { "path": "../../sources/ignition-address-list" },
+    { "path": "../../sources/token-balance" }
   ]
 }
