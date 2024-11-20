@@ -27,19 +27,15 @@
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
-  "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "ethers": "^5.4.6",
-    "tslib": "^2.3.1"
-  },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.18.119",
-    "@types/supertest": "2.0.16",
     "nock": "13.5.5",
-    "supertest": "6.2.4",
     "typescript": "5.6.3"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "1.7.1",
+    "ethers": "^6.13.2",
+    "tslib": "2.4.1"
   }
 }

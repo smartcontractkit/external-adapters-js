@@ -6797,16 +6797,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/eth-balance/",\
         "packageDependencies": [\
           ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.7.2"],\
+          ["ethers", "npm:6.13.4"],\
           ["nock", "npm:13.5.5"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.0"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
