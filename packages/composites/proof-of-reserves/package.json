@@ -61,6 +61,7 @@
     "@chainlink/stader-address-list-adapter": "workspace:*",
     "@chainlink/stader-balance-adapter": "workspace:*",
     "@chainlink/swell-address-list-adapter": "workspace:*",
+    "@chainlink/token-balance-adapter": "workspace:*",
     "@chainlink/wbtc-address-set-adapter": "workspace:*",
     "@chainlink/wrapped-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
