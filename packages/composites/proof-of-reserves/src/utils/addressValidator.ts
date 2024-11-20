@@ -7,6 +7,7 @@ type AddressObject = {
   address: string
   network?: string
   chainId?: string
+  contractAddress?: string
   wallets?: string[]
 }
 
@@ -48,7 +49,7 @@ export const validateAddresses = (
 ): AddressObject[] => {
   const validatedAddresses: AddressObject[] = []
   for (const addressObj of addresses) {
-    const { address, network, chainId, wallets } = addressObj
+    const { address, network, chainId, contractAddress, wallets } = addressObj
     let validatedAddress: string | undefined = undefined
     let validationNetwork = network || indexerToNetwork[indexer]
     // If the indexer is eth_beacon, override the validationNetwork as it might contain a different value (goerli, ethereum, mainnet...)
@@ -78,7 +79,8 @@ export const validateAddresses = (
         validatedAddress = getValidAvalancheAddress(id, address)
         break
       case 'multi-evm':
-        if (wallets && wallets.length) {
+        if (contractAddress && wallets && wallets.length) {
+          getValidEvmAddress(id, contractAddress)
           const validWallets = wallets
             .map((wallet) => getValidEvmAddress(id, wallet))
             .filter(Boolean) as string[]
