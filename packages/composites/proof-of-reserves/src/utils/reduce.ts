@@ -41,7 +41,7 @@ export const runReduceAdapter = async (
     case bitcoinPorIndexer.name:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
     case tokenBalance.name:
-      return returnParsedUnits(input.jobRunID, input.data.result as string, 18)
+      return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
     case lotus.name:
     case adaBalance.NAME:
       // TODO: type makeExecute response
