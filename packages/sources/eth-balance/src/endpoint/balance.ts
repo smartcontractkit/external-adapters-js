@@ -148,24 +148,3 @@ const getBalance = async (
   address,
   balance: (await provider.getBalance(address, targetBlockTag)).toString(),
 })
-
-// const getBalanceMultiChain = async (
-//   address: string,
-//   targetBlockTag: string | number,
-//   config: Config,
-//   chainId: string,
-//   jobRunID: string | undefined,
-// ): Promise<AddressWithBalance> => {
-//   const provider = config.chainIdToProviderMap.get(chainId)
-//   if (!provider) {
-//     throw new AdapterInputError({
-//       jobRunID,
-//       message: `Missing provider mapping for chainId ${chainId}.`,
-//       statusCode: 400,
-//     })
-//   }
-//   return {
-//     address,
-//     balance: (await provider.getBalance(address, targetBlockTag)).toString(),
-//   }
-// }
