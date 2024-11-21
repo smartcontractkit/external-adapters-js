@@ -7,6 +7,7 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
+import { ethers } from 'ethers'
 
 export const supportedEndpoints = ['balance']
 
@@ -20,7 +21,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: true,
     type: 'array',
     description:
-      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+      'An array of addresses to get the balances of (as an object with string `address` as an attribute). Optionally includes a `chainId` attribute to select RPC provider by chain ID.',
   },
   minConfirmations: {
     required: false,
@@ -39,6 +40,7 @@ interface AddressWithBalance {
 
 type Address = {
   address: string
+  chainId?: string
 }
 
 interface ResponseWithResult extends Partial<AxiosResponse> {
@@ -60,6 +62,34 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
+  // verify chainId is present in all addresses or none
+  const chainIds = addresses.map((address) => address.chainId).filter(Boolean)
+  if (chainIds.length != addresses.length && chainIds.length != 0) {
+    throw new AdapterInputError({
+      jobRunID,
+      message: `'chainId' must be present or absent across all addresses.`,
+      statusCode: 400,
+    })
+  }
+
+  const addressProviders = []
+  for (const address of addresses) {
+    let provider
+    if (address.chainId) {
+      provider = config.chainIdToProviderMap.get(address.chainId)
+    } else {
+      provider = config.provider
+    }
+    if (!provider) {
+      throw new AdapterInputError({
+        jobRunID,
+        message: `Missing provider mapping for chainId ${address.chainId}.`,
+        statusCode: 400,
+      })
+    }
+    addressProviders.push({ address: address.address, provider })
+  }
+
   // The limitation of 64 is to make it work with both full and light/fast sync nodes
   if (!Number.isInteger(minConfirmations) || minConfirmations < 0 || minConfirmations > 64) {
     throw new AdapterInputError({
@@ -78,7 +108,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let balances
   try {
     balances = await Promise.all(
-      addresses.map((addr) => getBalance(addr.address, targetBlockTag, config)),
+      addressProviders.map((address) =>
+        getBalance(address.address, targetBlockTag, address.provider),
+      ),
     )
   } catch (e: any) {
     throw new AdapterDataProviderError({
@@ -111,8 +143,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 const getBalance = async (
   address: string,
   targetBlockTag: string | number,
-  config: Config,
+  provider: ethers.providers.Provider,
 ): Promise<AddressWithBalance> => ({
   address,
-  balance: (await config.provider.getBalance(address, targetBlockTag)).toString(),
+  balance: (await provider.getBalance(address, targetBlockTag)).toString(),
 })
