@@ -15,7 +15,7 @@ type RequestParams = typeof inputParameters.validated
 interface ResponseSchema {
   tokenSymbol: string
   chain: string
-  chainId: bigint
+  chainId: number
   tokenAddress: string
   vaultAddress: string
 }
