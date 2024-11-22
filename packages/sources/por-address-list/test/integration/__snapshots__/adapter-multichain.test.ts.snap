@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute multichainAddress endpoint should return success - vault 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "vault4",
+        "chainId": "223",
+        "network": "b2",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute multichainAddress endpoint should return success 1`] = `
 {
   "data": {
