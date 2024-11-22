@@ -91,7 +91,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
         response = buildTokenResponse(addressList, param.vaultPlaceHolder)
         break
       case 'vault':
-        response = buildValutResponse(addressList, param.vaultPlaceHolder)
+        response = buildVaultResponse(addressList, param.vaultPlaceHolder)
     }
 
     return {
@@ -133,7 +133,7 @@ const buildTokenResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: st
   ).sort()
 }
 
-const buildValutResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: string) => {
+const buildVaultResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: string) => {
   return addressList
     .filter((addr) => addr.tokenAddress == vaultPlaceHolder)
     .map((addr) => ({
