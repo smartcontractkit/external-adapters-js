@@ -85,23 +85,14 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       this.settings.GROUP_SIZE,
     )
 
-    const addressByChain = Map.groupBy(
-      addressList,
-      (address) => address.chainId.toString() + address.tokenAddress,
-    )
-
-    const response = Array.from(
-      new Map(
-        Array.from(addressByChain, ([k, v]) => [
-          k,
-          {
-            chainId: v[0].chainId.toString(),
-            contractAddress: v[0].tokenAddress,
-            wallets: v.map((v) => v.vaultAddress),
-          },
-        ]),
-      ).values(),
-    ).sort()
+    let response
+    switch (param.type) {
+      case 'tokens':
+        response = buildTokenResponse(addressList, param.vaultPlaceHolder)
+        break
+      case 'vault':
+        response = buildValutResponse(addressList, param.vaultPlaceHolder)
+    }
 
     return {
       data: {
@@ -120,6 +111,37 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
+}
+
+const buildTokenResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: string) => {
+  const addressByChain = Map.groupBy(
+    addressList.filter((addr) => addr.tokenAddress != vaultPlaceHolder),
+    (address) => address.chainId.toString() + address.tokenAddress,
+  )
+
+  return Array.from(
+    new Map(
+      Array.from(addressByChain, ([k, v]) => [
+        k,
+        {
+          chainId: v[0].chainId.toString(),
+          contractAddress: v[0].tokenAddress,
+          wallets: v.map((v) => v.vaultAddress),
+        },
+      ]),
+    ).values(),
+  ).sort()
+}
+
+const buildValutResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: string) => {
+  return addressList
+    .filter((addr) => addr.tokenAddress == vaultPlaceHolder)
+    .map((addr) => ({
+      address: addr.vaultAddress,
+      network: addr.chain,
+      chainId: addr.chainId.toString(),
+    }))
+    .sort()
 }
 
 export const addressTransport = new AddressTransport()

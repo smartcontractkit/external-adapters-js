@@ -27,6 +27,13 @@ const mockExpectedAddresses = [
     tokenAddress: 'token3',
     vaultAddress: 'vault3',
   },
+  {
+    tokenSymbol: 'B2 BTC',
+    chain: 'b2',
+    chainId: 223,
+    tokenAddress: 'PLACE_HOLDER',
+    vaultAddress: 'vault4',
+  },
 ]
 
 const mockAddressListLength = ethers.BigNumber.from(mockExpectedAddresses.length)
@@ -92,6 +99,20 @@ describe('execute', () => {
         endpoint: 'multichainAddress',
         contractAddress: 'mock-contract-address',
         contractAddressNetwork: 'BSC',
+        vaultPlaceHolder: 'PLACE_HOLDER',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success - vault', async () => {
+      const data = {
+        endpoint: 'multichainAddress',
+        contractAddress: 'mock-contract-address',
+        contractAddressNetwork: 'BSC',
+        vaultPlaceHolder: 'PLACE_HOLDER',
+        type: 'vault',
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
