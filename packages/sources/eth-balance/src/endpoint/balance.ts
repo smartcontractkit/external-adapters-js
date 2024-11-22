@@ -72,6 +72,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
+  // The limitation of 64 is to make it work with both full and light/fast sync nodes
+  if (!Number.isInteger(minConfirmations) || minConfirmations < 0 || minConfirmations > 64) {
+    throw new AdapterInputError({
+      jobRunID,
+      message: `Min confirmations must be an integer between 0 and 64`,
+      statusCode: 400,
+    })
+  }
+
+  const providerSet = new Set<ethers.providers.Provider>()
   const addressProviders = []
   for (const address of addresses) {
     let provider
@@ -87,30 +97,28 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
         statusCode: 400,
       })
     }
+    providerSet.add(provider)
     addressProviders.push({ address: address.address, provider })
   }
 
-  // The limitation of 64 is to make it work with both full and light/fast sync nodes
-  if (!Number.isInteger(minConfirmations) || minConfirmations < 0 || minConfirmations > 64) {
-    throw new AdapterInputError({
-      jobRunID,
-      message: `Min confirmations must be an integer between 0 and 64`,
-      statusCode: 400,
-    })
-  }
-
-  let targetBlockTag: string | number = 'latest'
+  const providerBlockTags = new Map<ethers.providers.Provider, number | string>()
   if (minConfirmations !== 0) {
-    const lastBlockNumber = await config.provider.getBlockNumber()
-    targetBlockTag = lastBlockNumber - minConfirmations
+    const providerBlockTagRequests = Array.from(providerSet).map((provider) =>
+      provider.getBlockNumber().then((result) => {
+        const targetBlockTag = result - minConfirmations
+        providerBlockTags.set(provider, targetBlockTag)
+      }),
+    )
+    await Promise.all(providerBlockTagRequests)
   }
 
   let balances
   try {
     balances = await Promise.all(
-      addressProviders.map((address) =>
-        getBalance(address.address, targetBlockTag, address.provider),
-      ),
+      addressProviders.map((address) => {
+        const targetBlockTag = providerBlockTags.get(address.provider) || 'latest'
+        return getBalance(address.address, targetBlockTag, address.provider)
+      }),
     )
   } catch (e: any) {
     throw new AdapterDataProviderError({
