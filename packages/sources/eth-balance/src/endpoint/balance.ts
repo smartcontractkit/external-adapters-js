@@ -81,6 +81,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
+  const providerSet = new Set<ethers.providers.Provider>()
   const addressProviders = []
   for (const address of addresses) {
     let provider
@@ -96,21 +97,28 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
         statusCode: 400,
       })
     }
+    providerSet.add(provider)
+    addressProviders.push({ address: address.address, provider })
+  }
 
-    let targetBlockTag: string | number = 'latest'
-    if (minConfirmations !== 0) {
-      const lastBlockNumber = await provider.getBlockNumber()
-      targetBlockTag = lastBlockNumber - minConfirmations
-    }
-    addressProviders.push({ address: address.address, provider, targetBlockTag })
+  const providerBlockTags = new Map<ethers.providers.Provider, number | string>()
+  if (minConfirmations !== 0) {
+    const providerBlockTagRequests = Array.from(providerSet).map((provider) =>
+      provider.getBlockNumber().then((result) => {
+        const targetBlockTag = result - minConfirmations
+        providerBlockTags.set(provider, targetBlockTag)
+      }),
+    )
+    await Promise.all(providerBlockTagRequests)
   }
 
   let balances
   try {
     balances = await Promise.all(
-      addressProviders.map((address) =>
-        getBalance(address.address, address.targetBlockTag, address.provider),
-      ),
+      addressProviders.map((address) => {
+        const targetBlockTag = providerBlockTags.get(address.provider) || 'latest'
+        return getBalance(address.address, targetBlockTag, address.provider)
+      }),
     )
   } catch (e: any) {
     throw new AdapterDataProviderError({
