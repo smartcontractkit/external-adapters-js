@@ -75,7 +75,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const addressProviders = []
   for (const address of addresses) {
     let provider
-    if (address.chainId) {
+    if (address.chainId && !isNaN(Number(address.chainId))) {
       provider = config.chainIdToProviderMap.get(address.chainId)
     } else {
       provider = config.provider
