@@ -30,6 +30,28 @@ exports[`execute with address.chainId should return success 1`] = `
 }
 `;
 
+exports[`execute with address.chainId should use default provider when string chainId (legacy) 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": [
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674",
+    },
+  ],
+  "statusCode": 200,
+}
+`;
+
 exports[`execute with explicit minConfirmations should return success 1`] = `
 {
   "data": {

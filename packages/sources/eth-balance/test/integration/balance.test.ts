@@ -136,6 +136,19 @@ describe('execute', () => {
       },
     }
 
+    const legacyChainId: AdapterRequest = {
+      id,
+      data: {
+        result: [
+          {
+            address: '0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed',
+            chainId: 'test',
+            network: 'ethereum',
+          },
+        ],
+      },
+    }
+
     it('should fail 400 when only some have chainId', async () => {
       await (context.req as SuperTest<Test>)
         .post('/')
@@ -154,6 +167,19 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400)
+    })
+
+    it('should use default provider when string chainId (legacy)', async () => {
+      mockETHBalanceAtBlockResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(legacyChainId)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
 
     it('should return success', async () => {
