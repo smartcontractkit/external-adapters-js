@@ -72,6 +72,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
+  // The limitation of 64 is to make it work with both full and light/fast sync nodes
+  if (!Number.isInteger(minConfirmations) || minConfirmations < 0 || minConfirmations > 64) {
+    throw new AdapterInputError({
+      jobRunID,
+      message: `Min confirmations must be an integer between 0 and 64`,
+      statusCode: 400,
+    })
+  }
+
   const addressProviders = []
   for (const address of addresses) {
     let provider
@@ -87,29 +96,20 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
         statusCode: 400,
       })
     }
-    addressProviders.push({ address: address.address, provider })
-  }
 
-  // The limitation of 64 is to make it work with both full and light/fast sync nodes
-  if (!Number.isInteger(minConfirmations) || minConfirmations < 0 || minConfirmations > 64) {
-    throw new AdapterInputError({
-      jobRunID,
-      message: `Min confirmations must be an integer between 0 and 64`,
-      statusCode: 400,
-    })
-  }
-
-  let targetBlockTag: string | number = 'latest'
-  if (minConfirmations !== 0) {
-    const lastBlockNumber = await config.provider.getBlockNumber()
-    targetBlockTag = lastBlockNumber - minConfirmations
+    let targetBlockTag: string | number = 'latest'
+    if (minConfirmations !== 0) {
+      const lastBlockNumber = await provider.getBlockNumber()
+      targetBlockTag = lastBlockNumber - minConfirmations
+    }
+    addressProviders.push({ address: address.address, provider, targetBlockTag })
   }
 
   let balances
   try {
     balances = await Promise.all(
       addressProviders.map((address) =>
-        getBalance(address.address, targetBlockTag, address.provider),
+        getBalance(address.address, address.targetBlockTag, address.provider),
       ),
     )
   } catch (e: any) {

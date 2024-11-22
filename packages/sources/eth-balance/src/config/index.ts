@@ -47,7 +47,7 @@ const constructChainIdProviderMap = (): Map<string, ethers.providers.Provider> =
 
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl, Number(chainId))
     chainIdToProviderMap.set(chainId, provider)
-    Logger.info(`created provider for network: ${networkName}, chain ID: ${chainId}`)
+    Logger.debug(`created provider for network: ${networkName}, chain ID: ${chainId}`)
   }
   return chainIdToProviderMap
 }
@@ -65,7 +65,7 @@ export const makeConfig = (prefix?: string): Config => {
 
   const chainIdToProviderMap = constructChainIdProviderMap()
 
-  Logger.info('creating new Json RPC Provider')
+  Logger.debug('creating new Json RPC Provider')
   return {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
