@@ -99,6 +99,7 @@ describe('execute', () => {
         endpoint: 'multichainAddress',
         contractAddress: 'mock-contract-address',
         contractAddressNetwork: 'BSC',
+        abiName: 'PoRAddressListMulti',
         vaultPlaceHolder: 'PLACE_HOLDER',
       }
       const response = await testAdapter.request(data)
@@ -111,6 +112,7 @@ describe('execute', () => {
         endpoint: 'multichainAddress',
         contractAddress: 'mock-contract-address',
         contractAddressNetwork: 'BSC',
+        abiName: 'PoRAddressListMulti',
         vaultPlaceHolder: 'PLACE_HOLDER',
         type: 'vault',
       }

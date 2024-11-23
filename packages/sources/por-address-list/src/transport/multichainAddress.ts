@@ -2,11 +2,13 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
-import ABI from '../config/PoRAddressListMulti.json'
-import PolygonABI from '../config/MultiEVMPoRAddressList.json'
+import PoRAddressListMultiABI from '../config/PoRAddressListMulti.json'
+import SolvMultiAddressListABI from '../config/SolvMultiAddressList.json'
+import MultiEVMPoRAddressListABI from '../config/MultiEVMPoRAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/multichainAddress'
 import { ethers } from 'ethers'
 import { fetchAddressList, addProvider, getProvider } from './utils'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export type AddressTransportTypes = BaseEndpointTypes
 
@@ -64,16 +66,13 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
-    const { confirmations, contractAddress, contractAddressNetwork, batchSize } = param
+    const { confirmations, contractAddress, contractAddressNetwork, abiName, batchSize } = param
 
     this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
     const provider = getProvider(contractAddressNetwork, this.providersMap)
+    const abi = this.getAbi(abiName)
 
-    const addressManager = new ethers.Contract(
-      contractAddress,
-      contractAddressNetwork.toUpperCase() == 'POLYGON' ? PolygonABI : ABI,
-      provider,
-    )
+    const addressManager = new ethers.Contract(contractAddress, abi, provider)
     const latestBlockNum = await provider.getBlockNumber()
 
     const providerDataRequestedUnixMs = Date.now()
@@ -105,6 +104,22 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
+    }
+  }
+
+  private getAbi(abiName: string) {
+    switch (abiName) {
+      case 'MultiEVMPoRAddressList':
+        return MultiEVMPoRAddressListABI
+      case 'PoRAddressListMulti':
+        return PoRAddressListMultiABI
+      case 'SolvMultiAddressList':
+        return SolvMultiAddressListABI
+      default:
+        throw new AdapterInputError({
+          errorResponse: 'abiName not found',
+          statusCode: 400,
+        })
     }
   }
 
