@@ -11,7 +11,7 @@ export const adapter = new PoRAdapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1s: 5,
+        rateLimit1s: 1,
       },
     },
   },

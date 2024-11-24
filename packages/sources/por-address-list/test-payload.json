@@ -18,6 +18,7 @@
  }, {
     "endpoint": "multichainAddress",
     "contractAddress": "0xb7C0817Dd23DE89E4204502dd2C2EF7F57d3A3B8",
-    "contractAddressNetwork": "BINANCE"
+    "contractAddressNetwork": "BINANCE",
+    "abiName": "PoRAddressListMulti"
  }]
 }
