@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Eth-balance
 
-![2.0.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 External adapter for fetching balances for ETH addresses
 
@@ -45,7 +45,7 @@ The balance endpoint will fetch the balance of each address in the query.
 
 | Required? |       Name       |     Aliases     |                                                                                              Description                                                                                               |  Type  | Options | Default | Depends On | Not Valid With |
 | :-------: | :--------------: | :-------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    addresses     |    `result`     |                                                   An array of addresses to get the balances of (as an object with string `address` as an attribute)                                                    | array  |         |         |            |                |
+|    ✅     |    addresses     |    `result`     |            An array of addresses to get the balances of (as an object with string `address` as an attribute). Optionally includes a `chainId` attribute to select RPC provider by chain ID.            | array  |         |         |            |                |
 |           | minConfirmations | `confirmations` | Number (integer, min 0, max 64) of blocks that must have been confirmed after the point against which the balance is checked (i.e. balance will be sourced from {latestBlockNumber - minConfirmations} | number |         |         |            |                |
 
 ### Example
@@ -189,6 +189,109 @@ Response:
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
       "balance": "15671674977708000"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "chainId": "test",
+        "network": "ethereum"
+      }
+    ],
+    "minConfirmations": 0,
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "xzqbeM/0OjheVRPpvPx0MmIkhxA="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "chainId": "1"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "chainId": "1"
+      }
+    ],
+    "minConfirmations": 0,
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "mz9FJkkeuV2jjIKJy/P3G25vW7M="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371"
+    },
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674"
     }
   ],
   "statusCode": 200,

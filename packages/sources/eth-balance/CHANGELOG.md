@@ -1,5 +1,15 @@
 # @chainlink/eth-balance-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3581](https://github.com/smartcontractkit/external-adapters-js/pull/3581) [`e6e5825`](https://github.com/smartcontractkit/external-adapters-js/commit/e6e58250e92f5741fb51d6a7c00531468f81af42) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Fix minConfirmations only using default provider
+
+- [#3579](https://github.com/smartcontractkit/external-adapters-js/pull/3579) [`4968910`](https://github.com/smartcontractkit/external-adapters-js/commit/4968910fd880a3c332ec86cc69c52f7d2487de25) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - use default provider for legacy chainIds
+
+- [#3576](https://github.com/smartcontractkit/external-adapters-js/pull/3576) [`92137cc`](https://github.com/smartcontractkit/external-adapters-js/commit/92137ccb362e675de978a65730c566d6bc806db2) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add multichain functionality via address chainId selectors
+
 ## 2.0.20
 
 ### Patch Changes
