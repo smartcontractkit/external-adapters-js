@@ -163,6 +163,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [therundown](./therundown/README.md)
 - [tiingo](./tiingo/README.md)
 - [tiingo-state](./tiingo-state/README.md)
+- [token-balance](./token-balance/README.md)
 - [tp](./tp/README.md)
 - [tradermade](./tradermade/README.md)
 - [tradingeconomics](./tradingeconomics/README.md)
