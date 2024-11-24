@@ -1,5 +1,21 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.24.0
+
+### Minor Changes
+
+- [#3563](https://github.com/smartcontractkit/external-adapters-js/pull/3563) [`0b81fee`](https://github.com/smartcontractkit/external-adapters-js/commit/0b81fee68b8ef52b68238ed15782996c2c721b69) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add multiReserves endpoint
+
+- [#3573](https://github.com/smartcontractkit/external-adapters-js/pull/3573) [`009020f`](https://github.com/smartcontractkit/external-adapters-js/commit/009020fd1fedcf1336445183854ee1d4196721e5) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Added token-balance indexer
+
+### Patch Changes
+
+- Updated dependencies [[`ad74721`](https://github.com/smartcontractkit/external-adapters-js/commit/ad747211e4c8b6a58bcfcd576321485528e57aef), [`07e73c0`](https://github.com/smartcontractkit/external-adapters-js/commit/07e73c00aa125a3e52d98953a4eb7a4b3f1d4e6b), [`1cd8872`](https://github.com/smartcontractkit/external-adapters-js/commit/1cd8872c70800dbcb7400756e0a336abe61d91ab), [`fa47637`](https://github.com/smartcontractkit/external-adapters-js/commit/fa47637be0997fe6f0be57e9bcc722645539e213), [`6e83b36`](https://github.com/smartcontractkit/external-adapters-js/commit/6e83b36071aa8252011566d5666cb97bfb52e96c), [`0b81fee`](https://github.com/smartcontractkit/external-adapters-js/commit/0b81fee68b8ef52b68238ed15782996c2c721b69), [`e6e5825`](https://github.com/smartcontractkit/external-adapters-js/commit/e6e58250e92f5741fb51d6a7c00531468f81af42), [`4968910`](https://github.com/smartcontractkit/external-adapters-js/commit/4968910fd880a3c332ec86cc69c52f7d2487de25), [`e5a1b76`](https://github.com/smartcontractkit/external-adapters-js/commit/e5a1b7679a106fd6370a4921048d95d9d545fead), [`92137cc`](https://github.com/smartcontractkit/external-adapters-js/commit/92137ccb362e675de978a65730c566d6bc806db2)]:
+  - @chainlink/por-address-list-adapter@5.4.0
+  - @chainlink/token-balance-adapter@1.0.0
+  - @chainlink/eth-balance-adapter@2.1.0
+  - @chainlink/renvm-address-set-adapter@1.5.90
+
 ## 1.23.0
 
 ### Minor Changes
