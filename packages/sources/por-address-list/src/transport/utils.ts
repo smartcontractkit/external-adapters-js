@@ -77,7 +77,7 @@ export const getProvider = (
     } else {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Missing ${networkName}_RPC_URL or ${networkName}_RPC_URL environment variables`,
+        message: `Missing ${networkName}_RPC_URL or ${networkName}_RPC_CHAIN_ID environment variables`,
       })
     }
   } else {
