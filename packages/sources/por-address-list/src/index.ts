@@ -8,6 +8,13 @@ export const adapter = new PoRAdapter({
   name: 'POR_ADDRESS_LIST',
   config,
   endpoints: [address, solvBTC, bedrockBTC, multichainAddress],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1s: 1,
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

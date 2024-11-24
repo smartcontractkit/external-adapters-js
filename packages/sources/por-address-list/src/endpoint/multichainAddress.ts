@@ -17,6 +17,12 @@ export const inputParameters = new InputParameters(
       type: 'string',
       required: true,
     },
+    abiName: {
+      description: 'Used to select the ABI by name',
+      type: 'string',
+      options: ['MultiEVMPoRAddressList', 'PoRAddressListMulti', 'SolvMultiAddressList'],
+      required: true,
+    },
     type: {
       description:
         'The type of addresses you are looking for. tokens is for token-balance EA. vault is for eth-balance EA.',
@@ -43,6 +49,7 @@ export const inputParameters = new InputParameters(
     {
       contractAddress: '0xb7C0817Dd23DE89E4204502dd2C2EF7F57d3A3B8',
       contractAddressNetwork: 'BINANCE',
+      abiName: 'MultiEVMPoRAddressList',
       type: 'tokens',
       vaultPlaceHolder: '0x0000000000000000000000000000000000000001',
       confirmations: 0,

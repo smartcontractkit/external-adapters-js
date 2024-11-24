@@ -59,6 +59,7 @@ describe('execute', () => {
     process.env.BEDROCK_UNIBTC_API_ENDPOINT = 'http://bedrock'
     process.env.SOLVBTC_API_ENDPOINT = 'http://solv'
     process.env.BACKGROUND_EXECUTE_MS = '0'
+    process.env.RATE_LIMIT_CAPACITY_SECOND = '500'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
