@@ -1,5 +1,23 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.4.0
+
+### Minor Changes
+
+- [#3582](https://github.com/smartcontractkit/external-adapters-js/pull/3582) [`e5a1b76`](https://github.com/smartcontractkit/external-adapters-js/commit/e5a1b7679a106fd6370a4921048d95d9d545fead) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Fix solv issues in multichain address list endpoint
+
+### Patch Changes
+
+- [#3577](https://github.com/smartcontractkit/external-adapters-js/pull/3577) [`ad74721`](https://github.com/smartcontractkit/external-adapters-js/commit/ad747211e4c8b6a58bcfcd576321485528e57aef) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix multi address list contract
+
+- [#3580](https://github.com/smartcontractkit/external-adapters-js/pull/3580) [`07e73c0`](https://github.com/smartcontractkit/external-adapters-js/commit/07e73c00aa125a3e52d98953a4eb7a4b3f1d4e6b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Typo
+
+- [#3569](https://github.com/smartcontractkit/external-adapters-js/pull/3569) [`fa47637`](https://github.com/smartcontractkit/external-adapters-js/commit/fa47637be0997fe6f0be57e9bcc722645539e213) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update bedrock address list
+
+- [#3578](https://github.com/smartcontractkit/external-adapters-js/pull/3578) [`6e83b36`](https://github.com/smartcontractkit/external-adapters-js/commit/6e83b36071aa8252011566d5666cb97bfb52e96c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add token and vault param
+
+- [#3563](https://github.com/smartcontractkit/external-adapters-js/pull/3563) [`0b81fee`](https://github.com/smartcontractkit/external-adapters-js/commit/0b81fee68b8ef52b68238ed15782996c2c721b69) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix input convension
+
 ## 5.3.0
 
 ### Minor Changes
