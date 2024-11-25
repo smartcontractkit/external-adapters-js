@@ -140,7 +140,13 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
               walletAddress: wallet,
               balance: String(iface.decodeFunctionResult(balanceOfSignature, result)[0]),
               decimals,
-            })),
+            }))
+            .catch((err) => {
+              logger.error(
+                `caught balanceOf error on ${network}, contract: ${contractAddress}, wallet ${wallet}`,
+              )
+              throw err
+            }),
         )
       }
     }
@@ -203,7 +209,11 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
             network,
             contractAddress,
             decimals: Number(iface.decodeFunctionResult(decimalsSignature, result)[0]),
-          })),
+          }))
+          .catch((err) => {
+            logger.error(`caught decimals error on ${network}, contract: ${contractAddress}`)
+            throw err
+          }),
       )
     }
 
