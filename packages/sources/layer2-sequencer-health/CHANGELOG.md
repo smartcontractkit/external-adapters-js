@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.6.0
+
+### Minor Changes
+
+- [#3567](https://github.com/smartcontractkit/external-adapters-js/pull/3567) [`78cca56`](https://github.com/smartcontractkit/external-adapters-js/commit/78cca56823f7f49667ce9a195391c8157c4232c1) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds L2EP support for Linea chain
+
 ## 4.5.2
 
 ### Patch Changes
