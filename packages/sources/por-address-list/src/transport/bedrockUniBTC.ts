@@ -89,14 +89,32 @@ const getAddresses = (
           chainId: 'mainnet',
         }))
         .sort()
-    case 'tokens':
-      return Object.entries(data.evm)
-        .map(([_, value]) => ({
-          chainId: value.chain_id.toString(),
-          contractAddress: value.vault,
-          wallets: value.tokens.filter((t) => t != VAULT_PLACEHOLDER).sort(),
-        }))
-        .sort()
+    case 'tokens': {
+      const list = Object.entries(data.evm)
+        .flatMap(([_, value]) =>
+          value.tokens.map((token) => ({
+            chainId: value.chain_id.toString(),
+            contractAddress: token,
+            wallet: value.vault,
+          })),
+        )
+        .filter((item) => item.contractAddress != VAULT_PLACEHOLDER)
+
+      const walletsByChain = Map.groupBy(list, (item) => item.chainId + item.contractAddress)
+
+      return Array.from(
+        new Map(
+          Array.from(walletsByChain, ([k, v]) => [
+            k,
+            {
+              chainId: v[0].chainId,
+              contractAddress: v[0].contractAddress,
+              wallets: v.map((v) => v.wallet).sort(),
+            },
+          ]),
+        ).values(),
+      ).sort()
+    }
     case 'vault':
       return Object.entries(data.evm)
         .filter(([_, value]) => value.tokens.includes(VAULT_PLACEHOLDER))

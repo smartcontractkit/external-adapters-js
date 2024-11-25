@@ -96,16 +96,16 @@ exports[`execute apiAddress endpoint bedrock tokens should return success 1`] = 
     "result": [
       {
         "chainId": "1",
-        "contractAddress": "vault_1",
+        "contractAddress": "token_1",
         "wallets": [
-          "token_1",
+          "vault_1",
         ],
       },
       {
         "chainId": "56",
-        "contractAddress": "vault_2",
+        "contractAddress": "token_2",
         "wallets": [
-          "token_2",
+          "vault_2",
         ],
       },
     ],
