@@ -32,6 +32,6 @@ export const config = new AdapterConfig({
   SOLVBTC_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC native BTC wallet address',
     type: 'string',
-    default: 'https://solv-btcaddress-test.s3.us-east-1.amazonaws.com/solv-btc-addresses.json',
+    default: 'https://por.sft-api.com/solv-btc-addresses.json',
   },
 })
