@@ -1,5 +1,13 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.4.1
+
+### Patch Changes
+
+- [#3586](https://github.com/smartcontractkit/external-adapters-js/pull/3586) [`9d3814e`](https://github.com/smartcontractkit/external-adapters-js/commit/9d3814e47e5674b1d66a070c26b5fa993b96823c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update Solv endpoint
+
+- [#3583](https://github.com/smartcontractkit/external-adapters-js/pull/3583) [`c033089`](https://github.com/smartcontractkit/external-adapters-js/commit/c033089d85cd153b01dc349d3ec7ccaf7ca3393d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix bedrock address logic
+
 ## 5.4.0
 
 ### Minor Changes
