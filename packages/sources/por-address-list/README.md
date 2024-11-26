@@ -1,19 +1,19 @@
 # POR_ADDRESS_LIST
 
-![5.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.4.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |            Name             |                                                                       Description                                                                        |  Type  | Options |                                      Default                                      |
-| :-------: | :-------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------------------------------------------------------: |
-|    ✅     |           RPC_URL           |                                   The RPC URL to connect to the EVM chain the address manager contract is deployed to.                                   | string |         |                                                                                   |
-|           |          CHAIN_ID           |                                                        The chain id to connect to for the RPC URL                                                        | number |         |                                        `1`                                        |
-|           |         GROUP_SIZE          | The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter. | number |         |                                       `100`                                       |
-|           |    BACKGROUND_EXECUTE_MS    |                                The amount of time the background execute should sleep before performing the next request                                 | number |         |                                      `10000`                                      |
-|           | BEDROCK_UNIBTC_API_ENDPOINT |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         |     `https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json`      |
-|           |    SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         | `https://solv-btcaddress-test.s3.us-east-1.amazonaws.com/solv-btc-addresses.json` |
+| Required? |            Name             |                                                                       Description                                                                        |  Type  | Options |                                 Default                                  |
+| :-------: | :-------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------------------------------------------: |
+|    ✅     |           RPC_URL           |                                   The RPC URL to connect to the EVM chain the address manager contract is deployed to.                                   | string |         |                                                                          |
+|           |          CHAIN_ID           |                                                        The chain id to connect to for the RPC URL                                                        | number |         |                                   `1`                                    |
+|           |         GROUP_SIZE          | The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter. | number |         |                                  `100`                                   |
+|           |    BACKGROUND_EXECUTE_MS    |                                The amount of time the background execute should sleep before performing the next request                                 | number |         |                                 `10000`                                  |
+|           | BEDROCK_UNIBTC_API_ENDPOINT |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         | `https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json` |
+|           |    SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         |            `https://por.sft-api.com/solv-btc-addresses.json`             |
 
 ---
 
