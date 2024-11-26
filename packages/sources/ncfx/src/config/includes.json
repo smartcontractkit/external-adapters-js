@@ -385,17 +385,6 @@
     ]
   },
   {
-    "from": "RON",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "USD",
-        "to": "RON",
-        "inverse": true
-      }
-    ]
-  },
-  {
     "from": "GHS",
     "to": "USD",
     "includes": [
