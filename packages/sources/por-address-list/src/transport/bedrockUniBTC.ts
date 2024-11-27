@@ -5,13 +5,14 @@ import { BaseEndpointTypes } from '../endpoint/bedrockBTC'
 interface ResponseSchema {
   btc: {
     type: string
+    bridge_source: string
     addr: string
   }[]
   evm: {
     [key: string]: {
       chain_id: number
       vault: string
-      tokens: string[]
+      tokens: [name: string, address: string, decimals: string, value: string][]
     }
   }
 }
@@ -94,7 +95,7 @@ const getAddresses = (
         .flatMap(([_, value]) =>
           value.tokens.map((token) => ({
             chainId: value.chain_id.toString(),
-            contractAddress: token,
+            contractAddress: token[1],
             wallet: value.vault,
           })),
         )
@@ -117,7 +118,7 @@ const getAddresses = (
     }
     case 'vault':
       return Object.entries(data.evm)
-        .filter(([_, value]) => value.tokens.includes(VAULT_PLACEHOLDER))
+        .filter(([_, value]) => value.tokens.map((token) => token[1]).includes(VAULT_PLACEHOLDER))
         .map(([key, value]) => ({
           address: value.vault,
           network: key,
