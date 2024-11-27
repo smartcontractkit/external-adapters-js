@@ -1,19 +1,5 @@
 import nock from 'nock'
 
-interface ResponseSchema {
-  btc: {
-    type: string
-    addr: string
-  }[]
-  evm: {
-    [key: string]: {
-      chain_id: number
-      vault: string
-      tokens: string[]
-    }
-  }
-}
-
 export const mockBedRockResponseSuccess = (): nock.Scope =>
   nock('http://bedrock', {
     encodedQueryParams: true,
@@ -23,19 +9,22 @@ export const mockBedRockResponseSuccess = (): nock.Scope =>
       200,
       () => ({
         btc: [
-          { type: 'addr', addr: 'btc_1' },
-          { type: 'addr', addr: 'btc_2' },
+          { type: 'addr', bridge_source: 'btc', addr: 'btc_1' },
+          { type: 'addr', bridge_source: 'btc', addr: 'btc_2' },
         ],
         evm: {
           eth: {
             chain_id: 1,
             vault: 'vault_1',
-            tokens: ['token_1', '0x0000000000000000000000000000000000000000'],
+            tokens: [
+              ['BTC', 'token_1', '18', '10'],
+              ['BTC', '0x0000000000000000000000000000000000000000', '18', '10'],
+            ],
           },
           bsc: {
             chain_id: 56,
             vault: 'vault_2',
-            tokens: ['token_2'],
+            tokens: [['BTC', 'token_2', '18', '10']],
           },
         },
       }),
