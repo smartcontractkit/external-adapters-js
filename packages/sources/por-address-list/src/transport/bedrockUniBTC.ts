@@ -12,7 +12,7 @@ interface ResponseSchema {
     [key: string]: {
       chain_id: number
       vault: string
-      tokens: string[][]
+      tokens: [name: string, address: string, decimals: string, value: string][]
     }
   }
 }
