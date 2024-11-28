@@ -1,6 +1,7 @@
 {
  "requests": [{
   "from": "FRAX",
-  "to": "USD"
+  "to": "USD",
+  "transport": "rest"
  }]
 }
