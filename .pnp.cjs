@@ -211,6 +211,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ada-balance"\
     },\
     {\
+      "name": "@chainlink/aleno-adapter",\
+      "reference": "workspace:packages/sources/aleno"\
+    },\
+    {\
       "name": "@chainlink/alongside-adapter",\
       "reference": "workspace:packages/sources/alongside"\
     },\
@@ -942,6 +946,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/accuweather-adapter", ["workspace:packages/sources/accuweather"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],\
+    ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/alongside-adapter", ["workspace:packages/sources/alongside"]],\
     ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
@@ -5221,6 +5226,23 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.5"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/aleno-adapter", [\
+      ["workspace:packages/sources/aleno", {\
+        "packageLocation": "./packages/sources/aleno/",\
+        "packageDependencies": [\
+          ["@chainlink/aleno-adapter", "workspace:packages/sources/aleno"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.119"],\
+          ["nock", "npm:13.5.5"],\
+          ["socket.io-client", "npm:4.8.1"],\
+          ["socket.io-mock-ts", "npm:1.0.2"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
@@ -15821,6 +15843,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-command-line-usage-npm-5.0.4-a0c17413f5-7173c356ca.zip/node_modules/@types/command-line-usage/",\
         "packageDependencies": [\
           ["@types/command-line-usage", "npm:5.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/component-emitter", [\
+      ["npm:1.2.14", {\
+        "packageLocation": "./.yarn/cache/@types-component-emitter-npm-1.2.14-517c2e4bd7-4cf41df13b.zip/node_modules/@types/component-emitter/",\
+        "packageDependencies": [\
+          ["@types/component-emitter", "npm:1.2.14"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -36717,6 +36748,17 @@ const RAW_RUNTIME_STATE =
           ["debug", "virtual:6230e12b1d7dee1735a865cef131ea49c043e7f202fd08b14ceb90686e406b76a07840fc9510f1069465ad9695242b42830fc7fea7b01648a261463b7848122f#npm:4.3.7"],\
           ["engine.io-client", "npm:6.6.2"],\
           ["socket.io-parser", "npm:4.2.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["socket.io-mock-ts", [\
+      ["npm:1.0.2", {\
+        "packageLocation": "./.yarn/cache/socket.io-mock-ts-npm-1.0.2-3b420fb22b-80f6b63708.zip/node_modules/socket.io-mock-ts/",\
+        "packageDependencies": [\
+          ["socket.io-mock-ts", "npm:1.0.2"],\
+          ["@types/component-emitter", "npm:1.2.14"],\
+          ["component-emitter", "npm:1.3.1"]\
         ],\
         "linkType": "HARD"\
       }]\

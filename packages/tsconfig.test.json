@@ -138,6 +138,9 @@
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/aleno/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alongside/tsconfig.test.json"
     },
     {
@@ -229,9 +232,6 @@
     },
     {
       "path": "./sources/coinapi/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/instruxi-sxt/tsconfig.test.json"
     },
     {
       "path": "./sources/coinbase/tsconfig.test.json"
@@ -421,6 +421,9 @@
     },
     {
       "path": "./sources/ignition-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/instruxi-sxt/tsconfig.test.json"
     },
     {
       "path": "./sources/intrinio/tsconfig.test.json"
