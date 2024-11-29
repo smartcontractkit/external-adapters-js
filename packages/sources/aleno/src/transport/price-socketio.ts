@@ -100,7 +100,7 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
     })
 
     this.socket.on('initial_token_states', (data) => {
-      logger.info('received initial data:')
+      logger.debug('received initial data:', data)
       this.parseResponseData(providerDataStreamEstablishedTime, data)
     })
 

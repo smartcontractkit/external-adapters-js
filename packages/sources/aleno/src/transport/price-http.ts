@@ -56,15 +56,17 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }
 
     return params.map((param) => {
-      let result = undefined
+      let result
+      let processTimestamp
 
       Object.values(response.data).forEach((row) => {
         if (row.baseSymbol === param.base && row.quoteSymbol === param.quote) {
           result = Number(row.price)
+          processTimestamp = row.processTimestamp
         }
       })
 
-      if (result === undefined) {
+      if (result === undefined || processTimestamp === undefined) {
         return {
           params: param,
           response: {
@@ -80,6 +82,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           result,
           data: {
             result,
+          },
+          timestamps: {
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: processTimestamp * 1000,
           },
         },
       }
