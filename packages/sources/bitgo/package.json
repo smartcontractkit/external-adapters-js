@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitgo-adapter",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Chainlink bitgo adapter.",
   "keywords": [
     "Chainlink",
