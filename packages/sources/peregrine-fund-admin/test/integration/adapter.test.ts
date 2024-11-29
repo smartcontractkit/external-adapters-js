@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockNAVResponseSuccess, mockReserveResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -35,12 +35,11 @@ describe('execute', () => {
   describe('nav endpoint', () => {
     it('should return success', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
+        assetId: 100,
         endpoint: 'nav',
         transport: 'rest',
       }
-      mockResponseSuccess()
+      mockNAVResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
@@ -50,12 +49,11 @@ describe('execute', () => {
   describe('reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
+        assetId: 100,
         endpoint: 'reserve',
         transport: 'rest',
       }
-      mockResponseSuccess()
+      mockReserveResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
