@@ -3,9 +3,6 @@ import nock from 'nock'
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://state-price.aleno.ai', {
     encodedQueryParams: true,
-    reqheaders: {
-      'x-api-key': 'fake-api-key',
-    },
   })
     .get('/baseTokenStates/latest')
     .reply(
