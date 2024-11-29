@@ -81,32 +81,32 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
       logger.info('Establish connection')
       this.socket = this.establishWsConnection(config.settings)
       providerDataStreamEstablishedTime = Date.now()
+
+      this.socket.on('connect', () => {
+        logger.info({ msg: 'Connection open' })
+      })
+
+      this.socket.on('disconnect', (reason, details) => {
+        logger.info({ msg: 'Connection closed', reason, details })
+      })
+
+      this.socket.on('connect_error', (error) => {
+        if (this.socket?.active) {
+          logger.info('temporary failure, the socket will automatically try to reconnect')
+        } else {
+          logger.error(error.message)
+        }
+      })
+
+      this.socket.on('initial_token_states', (data) => {
+        logger.debug('received initial data:', data)
+        this.parseResponseData(providerDataStreamEstablishedTime, data)
+      })
+
+      this.socket.on('new_token_states', (data) => {
+        this.parseResponseData(providerDataStreamEstablishedTime, data)
+      })
     }
-
-    this.socket.on('connect', () => {
-      logger.info({ msg: 'Connection open' })
-    })
-
-    this.socket.on('disconnect', (reason, details) => {
-      logger.info({ msg: 'Connection closed', reason, details })
-    })
-
-    this.socket.on('connect_error', (error) => {
-      if (this.socket?.active) {
-        logger.info('temporary failure, the socket will automatically try to reconnect')
-      } else {
-        logger.error(error.message)
-      }
-    })
-
-    this.socket.on('initial_token_states', (data) => {
-      logger.debug('received initial data:', data)
-      this.parseResponseData(providerDataStreamEstablishedTime, data)
-    })
-
-    this.socket.on('new_token_states', (data) => {
-      this.parseResponseData(providerDataStreamEstablishedTime, data)
-    })
 
     // The background execute loop no longer sleeps between executions, so we have to do it here
     logger.trace(
