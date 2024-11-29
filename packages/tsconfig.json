@@ -138,6 +138,9 @@
       "path": "./sources/ada-balance"
     },
     {
+      "path": "./sources/aleno"
+    },
+    {
       "path": "./sources/alongside"
     },
     {
@@ -420,6 +423,9 @@
       "path": "./sources/ignition-address-list"
     },
     {
+      "path": "./sources/instruxi-sxt"
+    },
+    {
       "path": "./sources/intrinio"
     },
     {
@@ -433,9 +439,6 @@
     },
     {
       "path": "./sources/json-rpc"
-    },
-    {
-      "path": "./sources/instruxi-sxt"
     },
     {
       "path": "./sources/kaiko"
