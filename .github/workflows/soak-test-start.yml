@@ -198,6 +198,12 @@ jobs:
             done
           fi
 
+      - name: Wait 10 Minutes for adapters to deply
+        if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
+        uses: jakejarvis/wait-action@919fc193e07906705e5b7a50f90ea9e74d20b2b0 # v0.1.1
+        with:
+          time: '10m'
+
       - name: Deploy k6
         if: steps.get-pr-info.outputs.TEST_ADAPTERS != ''
         env:
