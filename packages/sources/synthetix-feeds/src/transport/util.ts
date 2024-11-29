@@ -44,7 +44,7 @@ const getUSDeToUSD = async (
   const resultDecimal = new Decimal(utils.formatUnits(result, decimals).toString())
 
   if (resultDecimal > new Decimal(1)) {
-    logger.warn(`USDe/USD price ${resultDecimal} is over $1, capping to $1`)
+    logger.debug(`USDe/USD price ${resultDecimal} is over $1, capping to $1`)
     return new Decimal(1)
   } else {
     return resultDecimal
