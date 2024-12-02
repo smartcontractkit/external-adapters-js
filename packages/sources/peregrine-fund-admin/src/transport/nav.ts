@@ -1,18 +1,20 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/nav'
 
+export interface ResponseSchema {
+  Result: number
+  Data: {
+    equityNav: number
+    seniorNAV: number
+    juniorNav: number
+    providerIndicatedTimeUnixMs: undefined
+  }
+}
+
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
-    ResponseBody: {
-      Result: number
-      Data: {
-        seniorNAV: number
-        juniorNav: number
-        equityNav: number
-        updateDateTime: string
-      }
-    }
+    ResponseBody: ResponseSchema
   }
 }
 
@@ -60,9 +62,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       return {
         params: param,
         response: {
-          data: resData.Data,
-          result: resData.Result,
-          statusCode: response.status,
+          Result: 200,
+          Data: {
+            equityNav: resData.Data.equityNav,
+            seniorNAV: resData.Data.seniorNAV,
+            juniorNav: resData.Data.juniorNav,
+            providerIndicatedTimeUnixMs: Date.now(),
+          },
         },
       }
     })

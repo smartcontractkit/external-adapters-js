@@ -1,6 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { httpTransport } from '../transport/nav'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
 export const inputParameters = new InputParameters({
@@ -29,7 +30,7 @@ export interface ResponseSchema {
 // Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: ResponseSchema
+  Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
 
