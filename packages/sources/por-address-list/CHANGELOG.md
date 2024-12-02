@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.4.2
+
+### Patch Changes
+
+- [#3588](https://github.com/smartcontractkit/external-adapters-js/pull/3588) [`c6bcee9`](https://github.com/smartcontractkit/external-adapters-js/commit/c6bcee92e3db08da48e7da64369cc07198889466) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update bedrock BTC structure
+
 ## 5.4.1
 
 ### Patch Changes

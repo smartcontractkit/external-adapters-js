@@ -1,5 +1,12 @@
 # @chainlink/market-status-adapter
 
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [[`7dba1e5`](https://github.com/smartcontractkit/external-adapters-js/commit/7dba1e56315b521de5b8bc5c3f25eb19432f5b0f)]:
+  - @chainlink/ncfx-adapter@4.2.0
+
 ## 1.2.3
 
 ### Patch Changes

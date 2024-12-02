@@ -1,5 +1,11 @@
 # k6
 
+## 2.5.5
+
+### Patch Changes
+
+- [#3571](https://github.com/smartcontractkit/external-adapters-js/pull/3571) [`b7bd1ca`](https://github.com/smartcontractkit/external-adapters-js/commit/b7bd1ca4abfff356a633e4de5226228207da170c) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Accept 1% failure
+
 ## 2.5.4
 
 ### Patch Changes

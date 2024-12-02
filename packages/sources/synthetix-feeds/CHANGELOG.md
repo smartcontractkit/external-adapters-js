@@ -1,5 +1,11 @@
 # @chainlink/synthetix-feeds-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- [#3594](https://github.com/smartcontractkit/external-adapters-js/pull/3594) [`88b3002`](https://github.com/smartcontractkit/external-adapters-js/commit/88b3002a2d413733e2457761f7303d0864df42a2) Thanks [@alecgard](https://github.com/alecgard)! - Downgrade log from Warn to Debug
+
 ## 1.1.6
 
 ### Patch Changes
