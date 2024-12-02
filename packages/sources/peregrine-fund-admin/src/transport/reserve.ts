@@ -1,6 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/reserve'
-import { ResponseSchema } from '../endpoint/reserve'
 
 // HttpTransport extends base types from endpoint and adds additional, Provider-specific types like 'RequestBody', which is the type of
 // request body (not the request to adapter, but the request that adapter sends to Data Provider), and 'ResponseBody' which is
@@ -8,7 +7,13 @@ import { ResponseSchema } from '../endpoint/reserve'
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
-    ResponseBody: ResponseSchema
+    ResponseBody: {
+      Result: number
+      Data: {
+        totalValue: number
+        updateDateTime: string
+      }
+    }
   }
 }
 // HttpTransport is used to fetch and process data from a Provider using HTTP(S) protocol. It usually needs two methods
@@ -41,25 +46,22 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   // and the framework will save them in cache and return to user
   parseResponse: (params, response) => {
     return params.map((param) => {
-      const resData = response.data as ResponseSchema
+      const resData = response.data
 
-      if (!resData || !resData.totalValue) {
+      if (!resData || !resData.Data) {
         return {
           params: param,
           response: {
-            errorMessage: 'Missing totalValue in the response',
+            errorMessage: 'Missing equityNav in the response',
             statusCode: 502,
           },
         }
       }
-
       return {
         params: param,
         response: {
-          data: {
-            result: resData.totalValue,
-          },
-          result: resData.totalValue,
+          data: resData.Data,
+          result: resData.Result,
           statusCode: response.status,
         },
       }

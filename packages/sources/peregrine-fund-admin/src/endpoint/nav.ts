@@ -1,6 +1,5 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { httpTransport } from '../transport/nav'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 
@@ -39,4 +38,6 @@ export const endpoint = new AdapterEndpoint({
   name: 'nav',
   // Transport handles incoming requests, data processing and communication for this endpoint
   transport: httpTransport,
+  //input params,
+  inputParameters,
 })
