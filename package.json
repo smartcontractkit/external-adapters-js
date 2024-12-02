@@ -9,6 +9,7 @@
   "scripts": {
     "versions": "ts-node-transpile-only ./packages/scripts/src/versions",
     "new": "ts-node-transpile-only ./packages/scripts/src/new",
+    "new-tsconfig": "ts-node-transpile-only ./packages/scripts/src/new tsconfig",
     "bundle": "ncc build",
     "clean": "rm -rf **/dist; tsc -b --clean ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
