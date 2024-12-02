@@ -1,5 +1,11 @@
 # @chainlink/bitgo-adapter
 
+## 1.0.9
+
+### Patch Changes
+
+- [#3592](https://github.com/smartcontractkit/external-adapters-js/pull/3592) [`e9fed63`](https://github.com/smartcontractkit/external-adapters-js/commit/e9fed63b7ebfc7eb0100e3c37f8161881440c04b) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update default rate limit
+
 ## 1.0.8
 
 ### Patch Changes

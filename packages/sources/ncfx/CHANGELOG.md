@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 4.2.0
+
+### Minor Changes
+
+- [#3587](https://github.com/smartcontractkit/external-adapters-js/pull/3587) [`7dba1e5`](https://github.com/smartcontractkit/external-adapters-js/commit/7dba1e56315b521de5b8bc5c3f25eb19432f5b0f) Thanks [@cawthorne](https://github.com/cawthorne)! - Remove NCFX RON/USD Includes Config
+
 ## 4.1.8
 
 ### Patch Changes
