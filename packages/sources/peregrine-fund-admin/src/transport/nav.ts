@@ -1,20 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/nav'
-
-export interface ResponseSchema {
-  Id: string | null
-  assetId: string
-  seniorNAV: number
-  juniorNav: number
-  equityNav: number
-  totalLiability: number
-  totalAccounts: string
-  totalCollateral: number
-  collateral: number[]
-  accounts: number[]
-  updateTimestamp: string
-  id: string | null
-}
+import { ResponseSchema } from '../endpoint/nav'
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {

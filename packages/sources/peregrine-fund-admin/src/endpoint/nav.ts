@@ -12,10 +12,25 @@ export const inputParameters = new InputParameters({
   },
 })
 
+export interface ResponseSchema {
+  Id: string | null
+  assetId: string
+  seniorNAV: number
+  juniorNav: number
+  equityNav: number
+  totalLiability: number
+  totalAccounts: string
+  totalCollateral: number
+  collateral: number[]
+  accounts: number[]
+  updateTimestamp: string
+  id: string | null
+}
+
 // Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: ResponseSchema
   Settings: typeof config.settings
 }
 
@@ -24,6 +39,4 @@ export const endpoint = new AdapterEndpoint({
   name: 'nav',
   // Transport handles incoming requests, data processing and communication for this endpoint
   transport: httpTransport,
-  // Supported input parameters for this endpoint
-  inputParameters,
 })

@@ -1,13 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/reserve'
-
-export interface ResponseSchema {
-  assetId: string
-  totalValue: number
-  currencyBase: string
-  accountIds: number[]
-  updateDateTime: string
-}
+import { ResponseSchema } from '../endpoint/reserve'
 
 // HttpTransport extends base types from endpoint and adds additional, Provider-specific types like 'RequestBody', which is the type of
 // request body (not the request to adapter, but the request that adapter sends to Data Provider), and 'ResponseBody' which is
@@ -55,7 +48,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           params: param,
           response: {
             errorMessage: 'Missing totalValue in the response',
-            statusCode: 500,
+            statusCode: 502,
           },
         }
       }

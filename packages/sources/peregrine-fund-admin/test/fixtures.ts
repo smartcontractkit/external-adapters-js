@@ -34,7 +34,7 @@ export const mockReserveResponseSuccess = (): nock.Scope =>
   nock('https://fund-admin-data-adapter-v1-960005989691.europe-west2.run.app', {
     encodedQueryParams: true,
   })
-    .get('/api/v1/reservers/100')
+    .get('/api/v1/reserves/100')
     .reply(
       200,
       {
