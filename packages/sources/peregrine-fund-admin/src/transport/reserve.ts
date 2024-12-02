@@ -20,7 +20,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 }
 // HttpTransport is used to fetch and process data from a Provider using HTTP(S) protocol. It usually needs two methods
 // `prepareRequests` and `parseResponse`
-export const httpReserveTransport = new HttpTransport<HttpTransportTypes>({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   // `prepareRequests` method receives request payloads sent to associated endpoint alongside adapter config(environment variables)
   // and should return 'request information' to the Data Provider. Use this method to construct one or many requests, and the framework
   // will send them to Data Provider
@@ -31,8 +31,8 @@ export const httpReserveTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         // `request` contains any valid axios request configuration
         request: {
-          baseURL: config.DEFAULT_BASE_URL,
-          url: config.DEFAULT_RESERVE_URL,
+          baseURL: config.API_BASE_URL,
+          url: config.API_RESERVE_ENDPOINT,
           headers: {
             X_API_KEY: config.API_KEY,
           },

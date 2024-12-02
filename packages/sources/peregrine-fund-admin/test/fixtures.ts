@@ -4,10 +4,7 @@ export const mockNAVResponseSuccess = (): nock.Scope =>
   nock('https://fund-admin-data-adapter-v1-960005989691.europe-west2.run.app', {
     encodedQueryParams: true,
   })
-    .get('/api/v1/nav/')
-    .query({
-      assetId: 100,
-    }) // Endpoint to mock
+    .get('/api/v1/nav/100')
     .reply(
       200,
       {
@@ -37,10 +34,7 @@ export const mockReserveResponseSuccess = (): nock.Scope =>
   nock('https://fund-admin-data-adapter-v1-960005989691.europe-west2.run.app', {
     encodedQueryParams: true,
   })
-    .get('/api/v1/reservers/')
-    .query({
-      assetId: 100,
-    }) // Endpoint to mock
+    .get('/api/v1/reservers/100')
     .reply(
       200,
       {

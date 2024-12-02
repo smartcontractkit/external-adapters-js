@@ -17,21 +17,10 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: true,
   },
-  DEFAULT_BASE_URL: {
+  API_BASE_URL: {
     description: 'Base URL to Fund Admin Server Endpoint',
     type: 'string',
     default: DEFAULT_BASE_URL_VALUE,
-  },
-  DEFAULT_NAV_URL: {
-    description:
-      'An API endpoint for the latest Net Asset Value (NAV) calculation for a given asset',
-    type: 'string',
-    default: DEFAULT_NAV_URL_VALUE,
-  },
-  DEFAULT_RESERVE_URL: {
-    description: 'An API endpoint for the latest Proof of Reserve (PoR) for a given asset',
-    type: 'string',
-    default: DEFAULT_RESERVE_URL_VALUE,
   },
   API_NAV_ENDPOINT: {
     description:

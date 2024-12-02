@@ -16,13 +16,6 @@ export interface ResponseSchema {
   id: string | null
 }
 
-// export type HttpTransportTypes = BaseEndpointTypes & {
-//   Provider: {
-//     RequestBody: never
-//     ResponseBody: ResponseSchema
-//   }
-// }
-
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
@@ -32,7 +25,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 // HttpTransport is used to fetch and process data from a Provider using HTTP(S) protocol. It usually needs two methods
 // `prepareRequests` and `parseResponse`
-export const navHttpTransport = new HttpTransport<HttpTransportTypes>({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   // `prepareRequests` method receives request payloads sent to associated endpoint alongside adapter config(environment variables)
   // and should return 'request information' to the Data Provider. Use this method to construct one or many requests, and the framework
   // will send them to Data Provider
@@ -43,8 +36,8 @@ export const navHttpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         // `request` contains any valid axios request configuration
         request: {
-          baseURL: config.DEFAULT_BASE_URL,
-          url: config.DEFAULT_NAV_URL,
+          baseURL: config.API_BASE_URL,
+          url: config.API_NAV_ENDPOINT,
           headers: {
             X_API_KEY: config.API_KEY,
           },
@@ -67,7 +60,7 @@ export const navHttpTransport = new HttpTransport<HttpTransportTypes>({
           params: param,
           response: {
             errorMessage: 'Missing equityNav in the response',
-            statusCode: 500,
+            statusCode: 502,
           },
         }
       }
