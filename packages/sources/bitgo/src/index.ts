@@ -8,6 +8,14 @@ export const adapter = new PoRAdapter({
   name: 'BITGO',
   config,
   endpoints: [wallet],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 30,
+        note: 'Docs: 360 requests per minute per auth',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

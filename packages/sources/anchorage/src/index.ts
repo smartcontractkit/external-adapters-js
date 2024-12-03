@@ -8,6 +8,14 @@ export const adapter = new PoRAdapter({
   name: 'ANCHORAGE',
   config,
   endpoints: [wallet],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 30,
+        note: 'Docs: 10 requests per second per Organization, bursts of up to 100 requests per second',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

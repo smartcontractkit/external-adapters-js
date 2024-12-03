@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.144.0",
+  "version": "1.145.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -9,6 +9,7 @@
   "scripts": {
     "versions": "ts-node-transpile-only ./packages/scripts/src/versions",
     "new": "ts-node-transpile-only ./packages/scripts/src/new",
+    "new-tsconfig": "ts-node-transpile-only ./packages/scripts/src/new tsconfig",
     "bundle": "ncc build",
     "clean": "rm -rf **/dist; tsc -b --clean ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
@@ -53,7 +54,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "1.7.1",
+    "@chainlink/external-adapter-framework": "1.7.3",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.9",
     "@types/babel__core": "7.20.5",
