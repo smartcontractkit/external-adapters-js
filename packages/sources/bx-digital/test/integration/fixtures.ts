@@ -10,7 +10,7 @@ export const mockResponseSuccess = (): nock.Scope =>
       () => [
         { securityId: '1', lastModifiedTime: 1733155814, closingPrice: '111.11' },
         { securityId: '2', lastModifiedTime: 1733153530, closingPrice: '222.22' },
-        { securityId: '3', lastModifiedTime: 1733156220, closingPrice: '333.33' },
+        { securityId: '3', lastModifiedTime: 1733156220, closingPrice: 'lol' },
       ],
       [
         'Content-Type',

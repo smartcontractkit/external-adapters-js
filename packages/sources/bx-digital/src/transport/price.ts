@@ -42,7 +42,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
     return params.map((param) => {
       const security = response.data.find((r) => r.securityId == param.securityId)
-      if (security) {
+      if (security && !isNaN(Number(security?.closingPrice))) {
         return {
           params: param,
           response: {
