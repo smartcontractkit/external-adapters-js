@@ -2318,6 +2318,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/aleno-adapter@workspace:packages/sources/aleno":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/aleno-adapter@workspace:packages/sources/aleno"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.7.3"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.18.119"
+    nock: "npm:13.5.5"
+    socket.io-client: "npm:^4.8.1"
+    socket.io-mock-ts: "npm:1.0.2"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.6.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/alongside-adapter@workspace:packages/sources/alongside":
   version: 0.0.0-use.local
   resolution: "@chainlink/alongside-adapter@workspace:packages/sources/alongside"
@@ -11898,6 +11913,13 @@ __metadata:
   version: 5.0.4
   resolution: "@types/command-line-usage@npm:5.0.4"
   checksum: 10/7173c356ca8c9507feeeda8e660c52498929556e90be0cf2d09d35270c597481121cd0f006a74167c5577feebfbc75b648c0f8f01b8f06ce30bde9fe30d5ba40
+  languageName: node
+  linkType: hard
+
+"@types/component-emitter@npm:^1.2.11":
+  version: 1.2.14
+  resolution: "@types/component-emitter@npm:1.2.14"
+  checksum: 10/4cf41df13b25c6486f3936a74a0be33c83e6ff32ba07b9312b1eda4e7082018808ee6364d38243dbc74d0704e16cb20e018e5b59d726bab0607dc0199ee9299a
   languageName: node
   linkType: hard
 
@@ -30602,7 +30624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io-client@npm:^4.1.2":
+"socket.io-client@npm:^4.1.2, socket.io-client@npm:^4.8.1":
   version: 4.8.1
   resolution: "socket.io-client@npm:4.8.1"
   dependencies:
@@ -30611,6 +30633,16 @@ __metadata:
     engine.io-client: "npm:~6.6.1"
     socket.io-parser: "npm:~4.2.4"
   checksum: 10/7480cf1ab30eba371a96dd1ce2ce9018dcbeaf81035a066fb89d99df0d0a6388b05840c92d970317c739956b68b28b0f4833f3b18e460a24eef557b9bca127c1
+  languageName: node
+  linkType: hard
+
+"socket.io-mock-ts@npm:1.0.2":
+  version: 1.0.2
+  resolution: "socket.io-mock-ts@npm:1.0.2"
+  dependencies:
+    "@types/component-emitter": "npm:^1.2.11"
+    component-emitter: "npm:^1.3.0"
+  checksum: 10/80f6b63708b41d09d77ba79b28e177fc2a0719b50d3d37892e75ffb27104a055bc49d745b57600f3bef25d3ccbffce67e9cb49478c6f9280c069c91aa37bf0bd
   languageName: node
   linkType: hard
 
