@@ -2,11 +2,11 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/reserve'
 
 export interface ResponseSchema {
-  Result: number
-  Data: {
-    totalValue: number
-    providerIndicatedTimeUnixMs: undefined
-  }
+  assetId: string
+  totalValue: number
+  currencyBase: string
+  accountIds: number[]
+  updateDateTime: string
 }
 
 // HttpTransport extends base types from endpoint and adds additional, Provider-specific types like 'RequestBody', which is the type of
@@ -36,9 +36,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           headers: {
             X_API_KEY: config.API_KEY,
           },
-          params: {
-            assetId: param.assetId,
-          },
         },
       }
     })
@@ -47,27 +44,41 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   // an array of response objects to be stored in cache. Use this method to construct a list of response objects for every parameter in 'params'
   // and the framework will save them in cache and return to user
   parseResponse: (params, response) => {
-    return params.map((param) => {
-      const resData = response.data
-
-      if (!resData || !resData.Data) {
+    if (!response.data) {
+      return params.map((param) => {
         return {
           params: param,
           response: {
-            errorMessage: 'Missing equityNav in the response',
+            errorMessage: `The data provider didn't return any value`,
             statusCode: 502,
           },
         }
-      }
-      return {
-        params: param,
-        response: {
-          Result: 200,
-          Data: {
-            totalValue: resData.Data.totalValue,
-            providerIndicatedTimeUnixMs: Date.now(),
+      })
+    }
+
+    return params.map((param) => {
+      const totalValue = response.data.totalValue
+      if (totalValue) {
+        return {
+          params: param,
+          response: {
+            result: Number(response.data.totalValue),
+            data: {
+              result: Number(response.data.totalValue),
+            },
+            timestamps: {
+              providerIndicatedTimeUnixMs: Number(response.data.updateDateTime) * 1000,
+            },
           },
-        },
+        }
+      } else {
+        return {
+          params: param,
+          response: {
+            errorMessage: `The data provider didn't return any value for asset id: ${param}`,
+            statusCode: 502,
+          },
+        }
       }
     })
   },

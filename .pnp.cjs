@@ -727,6 +727,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/paypal"\
     },\
     {\
+      "name": "@chainlink/peregrine-fund-admin-adapter",\
+      "reference": "workspace:packages/sources/peregrine-fund-admin"\
+    },\
+    {\
       "name": "@chainlink/polkadot-balance-adapter",\
       "reference": "workspace:packages/sources/polkadot-balance"\
     },\
@@ -1108,6 +1112,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
     ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
     ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
+    ["@chainlink/peregrine-fund-admin-adapter", ["workspace:packages/sources/peregrine-fund-admin"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
@@ -8286,6 +8291,21 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:16.18.119"],\
           ["@types/paypal__payouts-sdk", "npm:1.0.6"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/peregrine-fund-admin-adapter", [\
+      ["workspace:packages/sources/peregrine-fund-admin", {\
+        "packageLocation": "./packages/sources/peregrine-fund-admin/",\
+        "packageDependencies": [\
+          ["@chainlink/peregrine-fund-admin-adapter", "workspace:packages/sources/peregrine-fund-admin"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.115"],\
+          ["nock", "npm:13.5.4"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\

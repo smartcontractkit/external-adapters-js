@@ -420,6 +420,9 @@
       "path": "./sources/ignition-address-list"
     },
     {
+      "path": "./sources/instruxi-sxt"
+    },
+    {
       "path": "./sources/intrinio"
     },
     {
@@ -433,9 +436,6 @@
     },
     {
       "path": "./sources/json-rpc"
-    },
-    {
-      "path": "./sources/instruxi-sxt"
     },
     {
       "path": "./sources/kaiko"
@@ -523,6 +523,9 @@
     },
     {
       "path": "./sources/paypal"
+    },
+    {
+      "path": "./sources/peregrine-fund-admin"
     },
     {
       "path": "./sources/polkadot-balance"

@@ -5045,6 +5045,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/peregrine-fund-admin-adapter@workspace:packages/sources/peregrine-fund-admin":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/peregrine-fund-admin-adapter@workspace:packages/sources/peregrine-fund-admin"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.7.1"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.18.115"
+    nock: "npm:13.5.4"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.6.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/polkadot-balance-adapter@workspace:*, @chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance"

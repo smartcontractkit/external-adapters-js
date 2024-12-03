@@ -4,13 +4,20 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
-export const inputParameters = new InputParameters({
-  assetId: {
-    required: true,
-    type: 'string',
-    description: 'The identifying number for the requested asset',
+export const inputParameters = new InputParameters(
+  {
+    assetId: {
+      required: true,
+      type: 'string',
+      description: 'The identifying number for the requested asset',
+    },
   },
-})
+  [
+    {
+      assetId: '100',
+    },
+  ],
+)
 
 export interface ResponseSchema {
   Id: string | null

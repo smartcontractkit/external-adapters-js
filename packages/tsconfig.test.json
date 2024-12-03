@@ -231,9 +231,6 @@
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
-      "path": "./sources/instruxi-sxt/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinbase/tsconfig.test.json"
     },
     {
@@ -423,6 +420,9 @@
       "path": "./sources/ignition-address-list/tsconfig.test.json"
     },
     {
+      "path": "./sources/instruxi-sxt/tsconfig.test.json"
+    },
+    {
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
@@ -523,6 +523,9 @@
     },
     {
       "path": "./sources/paypal/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/peregrine-fund-admin/tsconfig.test.json"
     },
     {
       "path": "./sources/polkadot-balance/tsconfig.test.json"
