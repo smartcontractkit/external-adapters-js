@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ncfx-adapter",
-  "version": "4.1.8",
+  "version": "4.2.0",
   "description": "Chainlink NCFX adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.7.1",
+    "@chainlink/external-adapter-framework": "1.7.3",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

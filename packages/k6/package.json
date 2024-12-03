@@ -1,6 +1,6 @@
 {
   "name": "k6",
-  "version": "2.5.4",
+  "version": "2.5.5",
   "devDependencies": {
     "@babel/core": "7.24.9",
     "@babel/plugin-proposal-class-properties": "7.18.6",

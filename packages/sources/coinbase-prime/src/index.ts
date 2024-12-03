@@ -11,7 +11,7 @@ export const adapter = new PoRAdapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1s: 25,
+        rateLimit1s: 5,
         note: 'Using the most restrictive rate limit. Docs: IP address at 100 requests per second (rps). Portfolio ID at 25 rps with a burst of 50 rps.',
       },
     },

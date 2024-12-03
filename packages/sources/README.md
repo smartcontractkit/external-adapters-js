@@ -7,6 +7,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [1forge](./1forge/README.md)
 - [accuweather](./accuweather/README.md)
 - [ada-balance](./ada-balance/README.md)
+- [aleno](./aleno/README.md)
 - [alongside](./alongside/README.md)
 - [alphachain](./alphachain/README.md)
 - [alpine](./alpine/README.md)
