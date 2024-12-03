@@ -138,6 +138,9 @@
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/aleno/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alongside/tsconfig.test.json"
     },
     {
