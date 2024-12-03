@@ -19,21 +19,6 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-export interface ResponseSchema {
-  Id: string | null
-  assetId: string
-  seniorNAV: number
-  juniorNav: number
-  equityNav: number
-  totalLiability: number
-  totalAccounts: string
-  totalCollateral: number
-  collateral: number[]
-  accounts: number[]
-  updateTimestamp: string
-  id: string | null
-}
-
 // Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

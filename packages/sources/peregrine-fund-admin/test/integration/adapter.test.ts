@@ -13,6 +13,9 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
+    process.env.API_BASE_URL = 'https://fake-api'
+    process.env.API_NAV_ENDPOINT = '/nav'
+    process.env.API_RESERVE_ENDPOINT = '/reserve'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -35,7 +38,7 @@ describe('execute', () => {
   describe('nav endpoint', () => {
     it('should return success', async () => {
       const data = {
-        assetId: 100,
+        assetId: '100',
         endpoint: 'nav',
         transport: 'rest',
       }
@@ -49,7 +52,7 @@ describe('execute', () => {
   describe('reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
-        assetId: 100,
+        assetId: '100',
         endpoint: 'reserve',
         transport: 'rest',
       }

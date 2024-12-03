@@ -6981,6 +6981,24 @@ const RAW_RUNTIME_STATE =
           ["yeoman-generator", "npm:3.2.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.7.3", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.7.3-ddd4342448-ff3e533079.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:1.7.3"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.7.8"],\
+          ["eventsource", "npm:2.0.2"],\
+          ["fastify", "npm:4.28.1"],\
+          ["ioredis", "npm:5.4.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:9.5.0"],\
+          ["pino-pretty", "npm:13.0.0"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:8dd7f0280a91f3456aff0f4884238a2de6f4621c6af864cf648871636777a1ef89241ef7f027320041482e75bf65944c572871182dad4dd35413b07acefb63d5#npm:8.18.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@chainlink/external-adapters-js", [\
@@ -8301,7 +8319,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/peregrine-fund-admin/",\
         "packageDependencies": [\
           ["@chainlink/peregrine-fund-admin-adapter", "workspace:packages/sources/peregrine-fund-admin"],\
-          ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.3"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.115"],\
           ["nock", "npm:13.5.4"],\
@@ -13432,6 +13450,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@opentelemetry/api", [\
+      ["npm:1.9.0", {\
+        "packageLocation": "./.yarn/cache/@opentelemetry-api-npm-1.9.0-7d0560d0dd-a607f0eef9.zip/node_modules/@opentelemetry/api/",\
+        "packageDependencies": [\
+          ["@opentelemetry/api", "npm:1.9.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@openzeppelin/contracts", [\
       ["npm:3.4.2", {\
         "packageLocation": "./.yarn/cache/@openzeppelin-contracts-npm-3.4.2-d16cc26fbd-e803e322bd.zip/node_modules/@openzeppelin/contracts/",\
@@ -18134,6 +18161,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/axios-npm-1.7.7-cfbedc233d-7f875ea13b.zip/node_modules/axios/",\
         "packageDependencies": [\
           ["axios", "npm:1.7.7"],\
+          ["follow-redirects", "virtual:cfbedc233d4c16068d815547ad303dec1092fdb3b8bb4ec9ab9c56bdd55b4e87650c7a525a88805756f4d2819c03abfd96a9983cfa927fedf995d1b8b879db38#npm:1.15.9"],\
+          ["form-data", "npm:4.0.1"],\
+          ["proxy-from-env", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.7.8", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.7.8-b20f5c399f-7ddcde1880.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.7.8"],\
           ["follow-redirects", "virtual:cfbedc233d4c16068d815547ad303dec1092fdb3b8bb4ec9ab9c56bdd55b4e87650c7a525a88805756f4d2819c03abfd96a9983cfa927fedf995d1b8b879db38#npm:1.15.9"],\
           ["form-data", "npm:4.0.1"],\
           ["proxy-from-env", "npm:1.1.0"]\
@@ -25501,6 +25538,13 @@ const RAW_RUNTIME_STATE =
           ["help-me", "npm:4.2.0"],\
           ["glob", "npm:8.1.0"],\
           ["readable-stream", "npm:3.6.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.0.0", {\
+        "packageLocation": "./.yarn/cache/help-me-npm-5.0.0-6239bd310f-5f99bd91da.zip/node_modules/help-me/",\
+        "packageDependencies": [\
+          ["help-me", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -34078,6 +34122,26 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
+      ["npm:13.0.0", {\
+        "packageLocation": "./.yarn/cache/pino-pretty-npm-13.0.0-70bb86dd46-9861fdbe88.zip/node_modules/pino-pretty/",\
+        "packageDependencies": [\
+          ["pino-pretty", "npm:13.0.0"],\
+          ["colorette", "npm:2.0.20"],\
+          ["dateformat", "npm:4.6.3"],\
+          ["fast-copy", "npm:3.0.2"],\
+          ["fast-safe-stringify", "npm:2.1.1"],\
+          ["help-me", "npm:5.0.0"],\
+          ["joycon", "npm:3.1.1"],\
+          ["minimist", "npm:1.2.8"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
+          ["pump", "npm:3.0.2"],\
+          ["secure-json-parse", "npm:2.7.0"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["strip-json-comments", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:4.8.0", {\
         "packageLocation": "./.yarn/cache/pino-pretty-npm-4.8.0-0c822e28cb-9beed2f59c.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
@@ -34416,6 +34480,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/prom-client-npm-13.2.0-8ff3450697-46df22a933.zip/node_modules/prom-client/",\
         "packageDependencies": [\
           ["prom-client", "npm:13.2.0"],\
+          ["tdigest", "npm:0.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:15.1.3", {\
+        "packageLocation": "./.yarn/cache/prom-client-npm-15.1.3-2fca26d488-eba75e15ab.zip/node_modules/prom-client/",\
+        "packageDependencies": [\
+          ["prom-client", "npm:15.1.3"],\
+          ["@opentelemetry/api", "npm:1.9.0"],\
           ["tdigest", "npm:0.1.2"]\
         ],\
         "linkType": "HARD"\

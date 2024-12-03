@@ -33,7 +33,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         // `request` contains any valid axios request configuration
         request: {
           baseURL: config.API_BASE_URL,
-          url: `${config.API_NAV_ENDPOINT}${param}`,
+          url: config.API_NAV_ENDPOINT,
           headers: {
             X_API_KEY: config.API_KEY,
           },

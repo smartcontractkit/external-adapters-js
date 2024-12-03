@@ -12,6 +12,13 @@ export const adapter = new Adapter({
   config,
   // List of supported endpoints
   endpoints: [nav, reserve],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 30,
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
