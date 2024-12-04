@@ -7686,7 +7686,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/kaiko-state-adapter", "workspace:packages/sources/kaiko-state"],\
           ["@chainlink/external-adapter-framework", "npm:1.7.4"],\
           ["@grpc/grpc-js", "npm:1.12.2"],\
-          ["@kaiko-data/sdk-node", "npm:1.24.0"],\
+          ["@kaiko-data/sdk-node", "npm:1.24.2"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
           ["exponential-backoff", "npm:3.1.1"],\
@@ -12701,10 +12701,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@kaiko-data/sdk-node", [\
-      ["npm:1.24.0", {\
-        "packageLocation": "./.yarn/cache/@kaiko-data-sdk-node-npm-1.24.0-74a378c9bb-91361fa850.zip/node_modules/@kaiko-data/sdk-node/",\
+      ["npm:1.24.2", {\
+        "packageLocation": "./.yarn/cache/@kaiko-data-sdk-node-npm-1.24.2-8aa80884e0-4ea57b3b86.zip/node_modules/@kaiko-data/sdk-node/",\
         "packageDependencies": [\
-          ["@kaiko-data/sdk-node", "npm:1.24.0"],\
+          ["@kaiko-data/sdk-node", "npm:1.24.2"],\
           ["@grpc/grpc-js", "npm:1.12.2"],\
           ["google-protobuf", "npm:3.21.4"]\
         ],\

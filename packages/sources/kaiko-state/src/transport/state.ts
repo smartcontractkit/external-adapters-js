@@ -73,11 +73,11 @@ export class KaikoStateTransport extends SubscriptionTransport<KaikoStateTranspo
 
     subscription.on('data', (response: StreamAggregatedStatePriceResponseV1) => {
       const cacheData = []
-      if (response.getAggregatedPriceEth().length > 0) {
+      if (response.getAggregatedPriceLst().length > 0) {
         cacheData.push(
           this._generateResponse(
-            'ETH',
-            response.getAggregatedPriceEth(),
+            response.getLstQuote().toUpperCase() == 'WETH' ? 'ETH' : response.getLstQuote(),
+            response.getAggregatedPriceLst(),
             providerDataRequestedUnixMs,
             response,
           ),

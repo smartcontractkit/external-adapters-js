@@ -4499,7 +4499,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:1.7.4"
     "@grpc/grpc-js": "npm:1.12.2"
-    "@kaiko-data/sdk-node": "npm:^1.24.0"
+    "@kaiko-data/sdk-node": "npm:^1.24.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.119"
     exponential-backoff: "npm:3.1.1"
@@ -9172,10 +9172,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kaiko-data/sdk-node@npm:^1.24.0":
-  version: 1.24.0
-  resolution: "@kaiko-data/sdk-node@npm:1.24.0"
-  checksum: 10/91361fa85062f724b76b18ec885a0fde9c5833d70c84fa655385af0bf53377b86454ae14ab2cbe5fb48f5e40e94f4cff81bf82820246b99992dd62a9faec56f0
+"@kaiko-data/sdk-node@npm:^1.24.2":
+  version: 1.24.2
+  resolution: "@kaiko-data/sdk-node@npm:1.24.2"
+  checksum: 10/4ea57b3b866541defd769c2cc2d8db1cf13e9da566dd0c9bdd5f831ee91fab736948c8fff89d535888ad2b365c519d503c6573b48d0344fb99a241abef10bf06
   languageName: node
   linkType: hard
 
