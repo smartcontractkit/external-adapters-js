@@ -22,6 +22,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           baseURL: config.API_ENDPOINT,
           headers: {
             'API-key': config.API_KEY,
+            'User-Agent': config.API_USER_AGENT,
           },
         },
       }
