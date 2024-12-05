@@ -119,7 +119,7 @@ export class KaikoStateTransport extends SubscriptionTransport<KaikoStateTranspo
     return {
       params: {
         base: response.getBase().toUpperCase(),
-        quote: quote,
+        quote: quote.toUpperCase(),
       },
       response: {
         data: {
