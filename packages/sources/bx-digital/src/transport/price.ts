@@ -1,5 +1,8 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/price'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('apy-finance-test allocations')
 
 export interface ResponseSchema {
   securityId: string
@@ -16,13 +19,19 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
+      logger.error('Use custome header')
       return {
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
           headers: {
             'API-key': config.API_KEY,
-            'User-Agent': config.API_USER_AGENT,
+            'User-Agent':
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+            Accept:
+              'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            Referer: 'https://example.com',
           },
         },
       }
