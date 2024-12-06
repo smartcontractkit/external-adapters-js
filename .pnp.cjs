@@ -703,6 +703,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/nikkei"\
     },\
     {\
+      "name": "@chainlink/nyfed-adapter",\
+      "reference": "workspace:packages/sources/nyfed"\
+    },\
+    {\
       "name": "@chainlink/oanda-adapter",\
       "reference": "workspace:packages/sources/oanda"\
     },\
@@ -1104,6 +1108,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
     ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
+    ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
     ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
     ["@chainlink/observation", ["workspace:packages/observation"]],\
     ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
@@ -8152,6 +8157,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.5"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/nyfed-adapter", [\
+      ["workspace:packages/sources/nyfed", {\
+        "packageLocation": "./packages/sources/nyfed/",\
+        "packageDependencies": [\
+          ["@chainlink/nyfed-adapter", "workspace:packages/sources/nyfed"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.4"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.119"],\
+          ["nock", "npm:13.5.5"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
