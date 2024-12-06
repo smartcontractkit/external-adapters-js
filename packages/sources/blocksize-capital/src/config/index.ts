@@ -4,7 +4,7 @@ export const defaultEndpoint = 'price'
 
 export const config = new AdapterConfig({
   API_KEY: {
-    description: 'The Blocksize Capital API key',
+    description: 'The Blocksize Capital API key to use',
     type: 'string',
     required: true,
     sensitive: true,
