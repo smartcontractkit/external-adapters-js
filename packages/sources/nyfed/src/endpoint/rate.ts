@@ -6,7 +6,7 @@ import { httpTransport } from '../transport/rate'
 
 export const inputParameters = new InputParameters(
   {
-    rate: {
+    symbol: {
       required: true,
       type: 'string',
       description: 'Symbol of the rate you are looking for',
@@ -14,7 +14,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      rate: 'SOFR',
+      symbol: 'SOFR',
     },
   ],
 )

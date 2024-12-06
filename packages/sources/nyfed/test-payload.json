@@ -1,5 +1,5 @@
 {
  "requests": [{
-  "rate": "SOFR"
+  "symbol": "SOFR"
  }]
 }

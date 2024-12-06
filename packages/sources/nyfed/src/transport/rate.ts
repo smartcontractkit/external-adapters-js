@@ -41,13 +41,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
     return params.map((param) => {
       const result = response.data.refRates.find(
-        (d) => d.type.toUpperCase() == param.rate.toUpperCase(),
+        (d) => d.type.toUpperCase() == param.symbol.toUpperCase(),
       )
-      if (result == undefined || result.percentRate == undefined) {
+      if (result?.percentRate == undefined) {
         return {
           params: param,
           response: {
-            errorMessage: `The data provider didn't return any value for ${param.rate}`,
+            errorMessage: `The data provider didn't return any value for ${param.symbol}`,
             statusCode: 502,
           },
         }
@@ -60,7 +60,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
               result: result.percentRate,
             },
             timestamps: {
-              providerIndicatedTimeUnixMs: new Date(result.effectiveDate).getTime(),
+              providerIndicatedTimeUnixMs: result.effectiveDate
+                ? new Date(result.effectiveDate).getTime()
+                : undefined,
             },
           },
         }

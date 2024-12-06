@@ -36,7 +36,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
       const response = await testAdapter.request({
-        rate: 'SOFR',
+        symbol: 'SOFR',
       })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
