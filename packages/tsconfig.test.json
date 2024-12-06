@@ -141,9 +141,6 @@
       "path": "./sources/aleno/tsconfig.test.json"
     },
     {
-      "path": "./sources/alongside/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
