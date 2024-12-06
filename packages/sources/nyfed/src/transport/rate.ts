@@ -40,7 +40,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }
 
     return params.map((param) => {
-      const result = response.data.refRates.find(
+      const result = response.data.refRates?.find(
         (d) => d.type.toUpperCase() == param.symbol.toUpperCase(),
       )
       if (result?.percentRate == undefined) {
