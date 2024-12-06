@@ -4922,6 +4922,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/nyfed-adapter@workspace:packages/sources/nyfed":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/nyfed-adapter@workspace:packages/sources/nyfed"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:1.7.4"
+    "@types/jest": "npm:27.5.2"
+    "@types/node": "npm:16.18.119"
+    nock: "npm:13.5.5"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.6.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/oanda-adapter@workspace:packages/sources/oanda":
   version: 0.0.0-use.local
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
