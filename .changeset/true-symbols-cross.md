@@ -22,7 +22,6 @@
 '@chainlink/moore-hk-adapter': patch
 '@chainlink/gemini-adapter': patch
 '@chainlink/gsr-adapter': patch
-'@chainlink/alongside-adapter': patch
 '@chainlink/m0-adapter': patch
 '@chainlink/elven-adapter': patch
 '@chainlink/dlc-btc-por-adapter': patch
