@@ -215,10 +215,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/aleno"\
     },\
     {\
-      "name": "@chainlink/alongside-adapter",\
-      "reference": "workspace:packages/sources/alongside"\
-    },\
-    {\
       "name": "@chainlink/alphachain-adapter",\
       "reference": "workspace:packages/sources/alphachain"\
     },\
@@ -951,7 +947,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
-    ["@chainlink/alongside-adapter", ["workspace:packages/sources/alongside"]],\
     ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
@@ -5247,26 +5242,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.5"],\
           ["socket.io-client", "npm:4.8.1"],\
           ["socket.io-mock-ts", "npm:1.0.2"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/alongside-adapter", [\
-      ["workspace:packages/sources/alongside", {\
-        "packageLocation": "./packages/sources/alongside/",\
-        "packageDependencies": [\
-          ["@chainlink/alongside-adapter", "workspace:packages/sources/alongside"],\
-          ["@chainlink/external-adapter-framework", "npm:1.7.4"],\
-          ["@types/crypto-js", "npm:4.2.2"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.18.119"],\
-          ["axios", "npm:1.7.8"],\
-          ["crypto-js", "npm:4.2.0"],\
-          ["ethers", "npm:5.7.2"],\
-          ["mathjs", "npm:11.12.0"],\
-          ["nock", "npm:13.5.5"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
@@ -20367,15 +20342,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["complex.js", [\
-      ["npm:2.4.2", {\
-        "packageLocation": "./.yarn/cache/complex.js-npm-2.4.2-c9d45fff42-089257e0f0.zip/node_modules/complex.js/",\
-        "packageDependencies": [\
-          ["complex.js", "npm:2.4.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["component-emitter", [\
       ["npm:1.2.1", {\
         "packageLocation": "./.yarn/cache/component-emitter-npm-1.2.1-b9e2b2aee2-a355c59b32.zip/node_modules/component-emitter/",\
@@ -22285,15 +22251,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["escape-latex", [\
-      ["npm:1.2.0", {\
-        "packageLocation": "./.yarn/cache/escape-latex-npm-1.2.0-1481ca81a7-73a787319f.zip/node_modules/escape-latex/",\
-        "packageDependencies": [\
-          ["escape-latex", "npm:1.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["escape-string-regexp", [\
       ["npm:1.0.5", {\
         "packageLocation": "./.yarn/cache/escape-string-regexp-npm-1.0.5-3284de402f-6092fda75c.zip/node_modules/escape-string-regexp/",\
@@ -23949,15 +23906,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/fp-ts-npm-1.19.5-24841190c4-17aa04bbbb.zip/node_modules/fp-ts/",\
         "packageDependencies": [\
           ["fp-ts", "npm:1.19.5"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["fraction.js", [\
-      ["npm:4.3.4", {\
-        "packageLocation": "./.yarn/cache/fraction.js-npm-4.3.4-ce148a1f45-3a1e6b2680.zip/node_modules/fraction.js/",\
-        "packageDependencies": [\
-          ["fraction.js", "npm:4.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -27782,15 +27730,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["javascript-natural-sort", [\
-      ["npm:0.7.1", {\
-        "packageLocation": "./.yarn/cache/javascript-natural-sort-npm-0.7.1-9018625996-7bf6eab678.zip/node_modules/javascript-natural-sort/",\
-        "packageDependencies": [\
-          ["javascript-natural-sort", "npm:0.7.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["jayson", [\
       ["npm:4.1.2", {\
         "packageLocation": "./.yarn/cache/jayson-npm-4.1.2-fce0868acb-7ad5e80e11.zip/node_modules/jayson/",\
@@ -30587,24 +30526,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["matcher", "npm:3.0.0"],\
           ["escape-string-regexp", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["mathjs", [\
-      ["npm:11.12.0", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-11.12.0-aa0437db5e-d0a3ab35fb.zip/node_modules/mathjs/",\
-        "packageDependencies": [\
-          ["mathjs", "npm:11.12.0"],\
-          ["@babel/runtime", "npm:7.26.0"],\
-          ["complex.js", "npm:2.4.2"],\
-          ["decimal.js", "npm:10.4.3"],\
-          ["escape-latex", "npm:1.2.0"],\
-          ["fraction.js", "npm:4.3.4"],\
-          ["javascript-natural-sort", "npm:0.7.1"],\
-          ["seedrandom", "npm:3.0.5"],\
-          ["tiny-emitter", "npm:2.1.0"],\
-          ["typed-function", "npm:4.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -35657,15 +35578,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["seedrandom", [\
-      ["npm:3.0.5", {\
-        "packageLocation": "./.yarn/cache/seedrandom-npm-3.0.5-6946e8f8db-acad5e516c.zip/node_modules/seedrandom/",\
-        "packageDependencies": [\
-          ["seedrandom", "npm:3.0.5"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["semver", [\
       ["npm:5.7.2", {\
         "packageLocation": "./.yarn/cache/semver-npm-5.7.2-938ee91eaa-fca14418a1.zip/node_modules/semver/",\
@@ -37535,15 +37447,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["tiny-emitter", [\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/cache/tiny-emitter-npm-2.1.0-2a4d94f487-75633f4de4.zip/node_modules/tiny-emitter/",\
-        "packageDependencies": [\
-          ["tiny-emitter", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["tiny-lru", [\
       ["npm:8.0.2", {\
         "packageLocation": "./.yarn/cache/tiny-lru-npm-8.0.2-b190e31fd1-74b193d83b.zip/node_modules/tiny-lru/",\
@@ -38122,15 +38025,6 @@ const RAW_RUNTIME_STATE =
           ["type-is", "npm:1.6.18"],\
           ["media-typer", "npm:0.3.0"],\
           ["mime-types", "npm:2.1.35"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["typed-function", [\
-      ["npm:4.2.1", {\
-        "packageLocation": "./.yarn/cache/typed-function-npm-4.2.1-68f0b6c302-2218d6e4a5.zip/node_modules/typed-function/",\
-        "packageDependencies": [\
-          ["typed-function", "npm:4.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
