@@ -507,6 +507,9 @@
       "path": "./sources/nikkei"
     },
     {
+      "path": "./sources/nyfed"
+    },
+    {
       "path": "./sources/oanda"
     },
     {
