@@ -130,6 +130,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [ncfx](./ncfx/README.md)
 - [nft-blue-chip](./nft-blue-chip/README.md)
 - [nikkei](./nikkei/README.md)
+- [nyfed](./nyfed/README.md)
 - [oanda](./oanda/README.md)
 - [oilpriceapi](./oilpriceapi/README.md)
 - [onchain-gas](./onchain-gas/README.md)
