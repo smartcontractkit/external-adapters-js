@@ -44,36 +44,7 @@ Endpoint to call the `calcGav` function on the contract.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "calculatorContract": "0x0b2cBB1974f17700531439E3e4AfF5e5D2AADD4A",
-    "vaultProxy": "0x44902e5a88371224d9ac172e391C64257B701Ade",
-    "endpoint": "calcGav"
-  },
-  "debug": {
-    "cacheKey": "yUw9SO6VrH2QFaTp1fXS40T8Kzg="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "gav": "19995161270996618818245984471",
-    "result": "19995161270996618818245984471"
-  },
-  "result": "19995161270996618818245984471",
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -164,10 +135,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "netValue": "10000000000000000000",
-    "result": "10000000000000000000"
+    "gav": "19995161270996618818245984471",
+    "result": "19995161270996618818245984471"
   },
-  "result": "10000000000000000000",
+  "result": "19995161270996618818245984471",
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -214,10 +185,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "netShareValue": "1000000000000000000",
-    "result": "1000000000000000000"
+    "netValue": "10000000000000000000",
+    "result": "10000000000000000000"
   },
-  "result": "1000000000000000000",
+  "result": "10000000000000000000",
   "statusCode": 200,
   "providerStatusCode": 200
 }
