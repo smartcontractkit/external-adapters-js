@@ -59,7 +59,7 @@
     "@changesets/cli": "2.27.9",
     "@types/babel__core": "7.20.5",
     "@types/babel__preset-env": "7.9.7",
-    "@types/eslint": "8.37.0",
+    "@types/eslint": "8.56.12",
     "@types/node": "16.18.119",
     "husky": "7.0.4",
     "lint-staged": "11.2.6",
