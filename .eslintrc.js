@@ -1,4 +1,4 @@
-// https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md
+// https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/troubleshooting/typed-linting/index.mdx
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
