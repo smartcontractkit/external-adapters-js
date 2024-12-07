@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/clear-bank-adapter",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Chainlink clear-bank adapter.",
   "keywords": [
     "Chainlink",
