@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.18.115",
-    "nock": "13.5.4",
+    "nock": "13.5.6",
     "typescript": "5.5.4"
   },
   "dependencies": {
