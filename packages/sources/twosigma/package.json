@@ -36,7 +36,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.18.119",
     "@types/sinonjs__fake-timers": "8.1.5",
-    "@types/ws": "8.5.12",
+    "@types/ws": "8.5.13",
     "nock": "13.5.5",
     "typescript": "5.6.3"
   }
