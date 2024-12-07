@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.7.13
+
+### Patch Changes
+
+- [#3604](https://github.com/smartcontractkit/external-adapters-js/pull/3604) [`bdfe76d`](https://github.com/smartcontractkit/external-adapters-js/commit/bdfe76d0fe4d5efc8e7dffd385544f1c799b3290) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Remove alongside EA
+
 ## 2.7.12
 
 ### Patch Changes
