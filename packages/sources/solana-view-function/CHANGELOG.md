@@ -1,5 +1,11 @@
 # @chainlink/solana-view-function-adapter
 
+## 2.2.37
+
+### Patch Changes
+
+- [#3600](https://github.com/smartcontractkit/external-adapters-js/pull/3600) [`4c2583c`](https://github.com/smartcontractkit/external-adapters-js/commit/4c2583c5bfce4f9362e52d126837e5e92eac468f) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update solana/web3 version to >= 1.95.8
+
 ## 2.2.36
 
 ### Patch Changes
