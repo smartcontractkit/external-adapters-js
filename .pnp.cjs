@@ -7339,7 +7339,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
-          ["axios", "npm:1.7.9"],\
+          ["axios", "npm:1.7.7"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.5"],\
@@ -18168,16 +18168,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/axios-npm-1.7.7-cfbedc233d-7f875ea13b.zip/node_modules/axios/",\
         "packageDependencies": [\
           ["axios", "npm:1.7.7"],\
-          ["follow-redirects", "virtual:cfbedc233d4c16068d815547ad303dec1092fdb3b8bb4ec9ab9c56bdd55b4e87650c7a525a88805756f4d2819c03abfd96a9983cfa927fedf995d1b8b879db38#npm:1.15.9"],\
-          ["form-data", "npm:4.0.1"],\
-          ["proxy-from-env", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:1.7.9", {\
-        "packageLocation": "./.yarn/cache/axios-npm-1.7.9-3c98466f87-b7a5f660ea.zip/node_modules/axios/",\
-        "packageDependencies": [\
-          ["axios", "npm:1.7.9"],\
           ["follow-redirects", "virtual:cfbedc233d4c16068d815547ad303dec1092fdb3b8bb4ec9ab9c56bdd55b4e87650c7a525a88805756f4d2819c03abfd96a9983cfa927fedf995d1b8b879db38#npm:1.15.9"],\
           ["form-data", "npm:4.0.1"],\
           ["proxy-from-env", "npm:1.1.0"]\

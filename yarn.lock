@@ -4192,7 +4192,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:1.7.1"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.119"
-    axios: "npm:^1.7.9"
+    axios: "npm:1.7.7"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
     nock: "npm:13.5.5"
@@ -13820,17 +13820,6 @@ __metadata:
   dependencies:
     follow-redirects: "npm:^1.14.0"
   checksum: 10/da644592cb6f8f9f8c64fdabd7e1396d6769d7a4c1ea5f8ae8beb5c2eb90a823e3a574352b0b934ac62edc762c0f52647753dc54f7d07279127a7e5c4cd20272
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.7.9":
-  version: 1.7.9
-  resolution: "axios@npm:1.7.9"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/b7a5f660ea53ba9c2a745bf5ad77ad8bf4f1338e13ccc3f9f09f810267d6c638c03dac88b55dae8dc98b79c57d2d6835be651d58d2af97c174f43d289a9fd007
   languageName: node
   linkType: hard
 
