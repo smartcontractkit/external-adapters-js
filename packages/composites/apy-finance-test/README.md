@@ -1,6 +1,6 @@
 # APY_FINANCE_TEST
 
-![0.2.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/apy-finance-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.2.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/apy-finance-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
