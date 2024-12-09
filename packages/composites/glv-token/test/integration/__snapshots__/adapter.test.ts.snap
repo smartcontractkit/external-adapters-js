@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint should return error when fewer than required source EAs respond 1`] = `
+{
+  "errorMessage": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x6a9505D0B44cFA863d9281EA5B0b34cB36243b45","data":"0x4015e2c2000000000000000000000000fd70de6b91282d8017aa4e741e9ae325cab992d8000000000000000000000000528a5bac7e746c9a509a1f4f6df58a03d44279f9","accessList":null}, error={"reason":"missing response","code":"SERVER_ERROR","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x6a9505d0b44cfa863d9281ea5b0b34cb36243b45\\",\\"data\\":\\"0x4015e2c2000000000000000000000000fd70de6b91282d8017aa4e741e9ae325cab992d8000000000000000000000000528a5bac7e746c9a509a1f4f6df58a03d44279f9\\"},\\"latest\\"],\\"id\\":59,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","serverError":{"code":"ERR_NOCK_NO_MATCH","status":404,"statusCode":404},"url":"http://localhost:3040"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;

@@ -44,7 +44,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
   name!: string
   responseCache!: ResponseCache<GlvTokenTransportTypes>
   requester!: Requester
-  provider!: ethers.providers.JsonRpcProvider
+  provider!: ethers.providers.JsonRpcProvide
   readerContract!: ethers.Contract
   glvReaderContract!: ethers.Contract
   abiEncoder!: utils.AbiCoder
@@ -62,7 +62,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.settings = adapterSettings
-    this.provider = new ethers.providers.JsonRpcProvider(
+    this.provider = ethers.providers.JsonRpcProvider(
       adapterSettings.ARBITRUM_RPC_URL,
       adapterSettings.ARBITRUM_CHAIN_ID,
     )
@@ -132,14 +132,14 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
       glv.markets[glvInfo.markets[i]] = mapSymbol(glvInfo.markets[i], this.marketsMap)
     }
 
-    const assets: Set<string> = new Set<string>()
-    assets.add(glv.longToken.symbol)
-    assets.add(glv.shortToken.symbol)
+    const assets: Array<string> = [glv.longToken.symbol, glv.shortToken.symbol]
     Object.keys(glv.markets).forEach((m) => {
-      assets.add(mapSymbol(glv.markets[m].indexToken, this.tokensMap).symbol)
+      assets.push(mapSymbol(glv.markets[m].indexToken, this.tokensMap).symbol)
     })
+
+    assets.sort()
     const providerDataRequestedUnixMs = Date.now()
-    const priceResult = await this.fetchPrices([...assets], providerDataRequestedUnixMs)
+    const priceResult = await this.fetchPrices([...new Set(assets)], providerDataRequestedUnixMs)
 
     const indexTokensPrices: Array<string | number>[] = []
     Object.keys(glv.markets).forEach((m) => {
