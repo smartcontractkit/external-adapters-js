@@ -1,5 +1,4 @@
 import Decimal from 'decimal.js'
-import fetch, { AxiosResponse } from 'axios'
 
 // The signed prices represent the price of one unit of the token using a value with 30 decimals of precision.
 export const SIGNED_PRICE_DECIMALS = 30
@@ -35,39 +34,11 @@ export const toFixed = (number: number, decimals: number): string => {
     .replace(/^0+/, '')
 }
 
-async function callApi(apiURL: string): Promise<AxiosResponse> {
-  try {
-    const response = await fetch(apiURL)
-    if (response.status != 200) {
-      throw new Error(`HTTP error! Status: ${response.status}`)
-    }
-    return response
-  } catch (error) {
-    throw new Error(`Error fetching the API: ${error}`)
-  }
-}
-
 export interface Token {
   symbol: string
   address: string
   decimals: number
   synthetic: null | boolean
-}
-
-interface ApiTokenData {
-  tokens: Token[]
-}
-
-export async function getTokenInfo() {
-  const token_info: Record<string, Token> = {}
-  const decimals_info: Record<string, number> = {}
-
-  const data: ApiTokenData = (await callApi('https://arbitrum-api.gmxinfra.io/tokens')).data
-  data.tokens.map((token) => {
-    token_info[token.address] = token
-    decimals_info[token.symbol] = token.decimals
-  })
-  return { token_info, decimals_info }
 }
 
 export interface Market {
@@ -76,20 +47,6 @@ export interface Market {
   longToken: string
   shortToken: string
   isListed: boolean
-}
-
-interface ApiMarketData {
-  markets: Market[]
-}
-
-export async function getMarketsInfo() {
-  const market_info: Record<string, Market> = {}
-
-  const data: ApiMarketData = (await callApi('https://arbitrum-api.gmxinfra.io/markets')).data
-  data.markets.map((market) => {
-    market_info[market.marketToken] = market
-  })
-  return market_info
 }
 
 export const glvMarkets = {

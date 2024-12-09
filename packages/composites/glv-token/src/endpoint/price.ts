@@ -2,8 +2,6 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { glvTokenTransport } from '../transport/price'
-// import { tokenAddresses } from '../transport/utils'
-// import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(
   {

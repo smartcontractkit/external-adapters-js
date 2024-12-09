@@ -32,13 +32,6 @@ export const config = new AdapterConfig(
       required: true,
       default: '0x6a9505D0B44cFA863d9281EA5B0b34cB36243b45',
     },
-    PNL_FACTOR_TYPE: {
-      description:
-        'PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price',
-      type: 'string',
-      required: true,
-      default: 'MAX_PNL_FACTOR_FOR_TRADERS',
-    },
     TIINGO_ADAPTER_URL: {
       description: 'URL of Tiingo EA',
       type: 'string',
@@ -60,6 +53,18 @@ export const config = new AdapterConfig(
       required: true,
       default: 2,
       validate: validator.integer({ min: 1, max: 3 }),
+    },
+    MARKET_INFO_API: {
+      description: 'URL market meta data supported by Glv',
+      type: 'string',
+      required: true,
+      default: 'https://arbitrum-api.gmxinfra.io/markets',
+    },
+    TOKEN_INFO_API: {
+      description: 'URL to token meta data supported by Glv ',
+      type: 'string',
+      required: true,
+      default: 'https://arbitrum-api.gmxinfra.io/tokens',
     },
     BACKGROUND_EXECUTE_MS: {
       description:

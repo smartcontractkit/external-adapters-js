@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/gmx-glv-adapter",
-  "version": "1.1.10",
+  "version": "0.0.0",
   "description": "Chainlink gmx-glv adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "1.7.1",
-    "axios": "1.7.7",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
     "tslib": "2.4.1"

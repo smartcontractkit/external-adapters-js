@@ -16,8 +16,6 @@ import {
   PriceData,
   SIGNED_PRICE_DECIMALS,
   Source,
-  getTokenInfo,
-  getMarketsInfo,
   Token,
   Market,
   mapSymbol,
@@ -44,15 +42,15 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
   name!: string
   responseCache!: ResponseCache<GlvTokenTransportTypes>
   requester!: Requester
-  provider!: ethers.providers.JsonRpcProvide
+  provider!: ethers.providers.JsonRpcProvider
   readerContract!: ethers.Contract
   glvReaderContract!: ethers.Contract
   abiEncoder!: utils.AbiCoder
   settings!: GlvTokenTransportTypes['Settings']
 
-  tokensMap!: Record<string, Token>
-  marketsMap!: Record<string, Market>
-  decimals!: Record<string, number>
+  tokensMap: Record<string, Token> = {}
+  marketsMap: Record<string, Market> = {}
+  decimals: Record<string, number> = {}
 
   async initialize(
     dependencies: TransportDependencies<GlvTokenTransportTypes>,
@@ -62,7 +60,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.settings = adapterSettings
-    this.provider = ethers.providers.JsonRpcProvider(
+    this.provider = new ethers.providers.JsonRpcProvider(
       adapterSettings.ARBITRUM_RPC_URL,
       adapterSettings.ARBITRUM_CHAIN_ID,
     )
@@ -79,11 +77,44 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
       this.provider,
     )
 
-    const { token_info: tokensMap, decimals_info: decimals } = await getTokenInfo()
+    await this.tokenInfo()
+    await this.marketInfo()
+  }
 
-    this.tokensMap = tokensMap
-    this.decimals = decimals
-    this.marketsMap = await getMarketsInfo()
+  async tokenInfo() {
+    const requestConfig = {
+      url: this.settings.TOKEN_INFO_API,
+      method: 'GET',
+      data: {},
+    }
+
+    const response = await this.requester.request<{ tokens: Token[] }>(
+      // const response = await this.requester.request(
+      JSON.stringify(requestConfig),
+      requestConfig,
+    )
+    const data: Token[] = response.response.data.tokens
+    data.map((token) => {
+      this.tokensMap[token.address] = token
+      this.decimals[token.symbol] = token.decimals
+    })
+  }
+
+  async marketInfo() {
+    const requestConfig = {
+      url: this.settings.MARKET_INFO_API,
+      method: 'GET',
+      data: {},
+    }
+
+    const response = await this.requester.request<{ markets: Market[] }>(
+      JSON.stringify(requestConfig),
+      requestConfig,
+    )
+    const data: Market[] = response.response.data.markets
+    data.map((market) => {
+      this.marketsMap[market.marketToken] = market
+    })
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
