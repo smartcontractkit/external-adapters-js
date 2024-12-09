@@ -1,0 +1,43 @@
+{
+  "name": "@chainlink/gmx-glv-adapter",
+  "version": "1.1.10",
+  "description": "Chainlink gmx-glv adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "gmx-glv"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.119",
+    "nock": "13.5.5",
+    "typescript": "5.6.3"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "1.7.1",
+    "axios": "^1.7.9",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.6",
+    "tslib": "2.4.1"
+  }
+}
