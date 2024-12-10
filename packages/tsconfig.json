@@ -48,6 +48,9 @@
       "path": "./composites/gm-token"
     },
     {
+      "path": "./composites/glv-token"
+    },
+    {
       "path": "./composites/google-weather"
     },
     {
