@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { reserves } from './endpoint'
+import { reserves, reserves2 } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: reserves.name,
   name: 'BITGO_RESERVES',
   config,
-  endpoints: [reserves],
+  endpoints: [reserves, reserves2],
   rateLimiting: {
     tiers: {
       default: {
