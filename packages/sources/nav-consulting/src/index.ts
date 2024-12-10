@@ -11,8 +11,8 @@ export const adapter = new Adapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1m: 20,
-        note: 'Nothing in docs, setting reasonable rate limit based on 2req/bg execute',
+        rateLimit1m: 6,
+        note: 'DP limit is 50/min',
       },
     },
   },
