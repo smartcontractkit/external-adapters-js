@@ -71,7 +71,7 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/dydx-rewards"\
     },\
     {\
-      "name": "@chainlink/glv-adapter",\
+      "name": "@chainlink/glv-token-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
     {\
@@ -1060,7 +1060,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
     ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
-    ["@chainlink/glv-adapter", ["workspace:packages/composites/glv-token"]],\
+    ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
     ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],\
@@ -7314,11 +7314,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/glv-adapter", [\
+    ["@chainlink/glv-token-adapter", [\
       ["workspace:packages/composites/glv-token", {\
         "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
-          ["@chainlink/glv-adapter", "workspace:packages/composites/glv-token"],\
+          ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
           ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\

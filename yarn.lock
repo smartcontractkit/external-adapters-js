@@ -4170,9 +4170,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/glv-adapter@workspace:packages/composites/glv-token":
+"@chainlink/glv-token-adapter@workspace:packages/composites/glv-token":
   version: 0.0.0-use.local
-  resolution: "@chainlink/glv-adapter@workspace:packages/composites/glv-token"
+  resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:1.7.1"
     "@types/jest": "npm:27.5.2"

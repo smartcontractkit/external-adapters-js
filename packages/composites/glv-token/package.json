@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/glv-adapter",
+  "name": "@chainlink/glv-token-adapter",
   "version": "0.0.0",
   "description": "Chainlink gmx-glv adapter.",
   "keywords": [
