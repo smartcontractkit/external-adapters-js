@@ -71,7 +71,7 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/dydx-rewards"\
     },\
     {\
-      "name": "@chainlink/gmx-glv-adapter",\
+      "name": "@chainlink/glv-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
     {\
@@ -1060,8 +1060,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
     ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
+    ["@chainlink/glv-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
-    ["@chainlink/gmx-glv-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
     ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],\
     ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
@@ -7314,11 +7314,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/gm-token-adapter", [\
-      ["workspace:packages/composites/gm-token", {\
-        "packageLocation": "./packages/composites/gm-token/",\
+    ["@chainlink/glv-adapter", [\
+      ["workspace:packages/composites/glv-token", {\
+        "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
-          ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
+          ["@chainlink/glv-adapter", "workspace:packages/composites/glv-token"],\
           ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
@@ -7331,11 +7331,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/gmx-glv-adapter", [\
-      ["workspace:packages/composites/glv-token", {\
-        "packageLocation": "./packages/composites/glv-token/",\
+    ["@chainlink/gm-token-adapter", [\
+      ["workspace:packages/composites/gm-token", {\
+        "packageLocation": "./packages/composites/gm-token/",\
         "packageDependencies": [\
-          ["@chainlink/gmx-glv-adapter", "workspace:packages/composites/glv-token"],\
+          ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
           ["@chainlink/external-adapter-framework", "npm:1.7.1"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\

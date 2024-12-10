@@ -4170,9 +4170,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/gm-token-adapter@workspace:packages/composites/gm-token":
+"@chainlink/glv-adapter@workspace:packages/composites/glv-token":
   version: 0.0.0-use.local
-  resolution: "@chainlink/gm-token-adapter@workspace:packages/composites/gm-token"
+  resolution: "@chainlink/glv-adapter@workspace:packages/composites/glv-token"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:1.7.1"
     "@types/jest": "npm:27.5.2"
@@ -4185,9 +4185,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/gmx-glv-adapter@workspace:packages/composites/glv-token":
+"@chainlink/gm-token-adapter@workspace:packages/composites/gm-token":
   version: 0.0.0-use.local
-  resolution: "@chainlink/gmx-glv-adapter@workspace:packages/composites/glv-token"
+  resolution: "@chainlink/gm-token-adapter@workspace:packages/composites/gm-token"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:1.7.1"
     "@types/jest": "npm:27.5.2"
