@@ -1,11 +1,19 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/reserves'
+import * as crypto from 'crypto'
+
+export interface DataSchema {
+  totalReserve?: string
+  reserveAmount?: string
+  cashReserve: string
+  investedReserve: string
+  lastUpdated: string
+}
 
 export interface ResponseSchema {
-  totalReserve: number
-  lastUpdated: string
-  cashReserve: number
-  investedReserve: number
+  data: string // formatted & escaped DataSchema
+  dataSignature: string
+  ripcord: boolean
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -27,26 +35,56 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     })
   },
-  parseResponse: (params, response) => {
-    const timestamps = {
-      providerIndicatedTimeUnixMs: new Date(response.data.lastUpdated).getTime(),
-    }
+  parseResponse: (params, response, adapterSettings) => {
+    const payload = response.data
 
-    if (!response.data) {
+    if (!payload || !payload.data) {
       return params.map((param) => {
         return {
           params: param,
           response: {
             errorMessage: `The data provider didn't return any value`,
             statusCode: 502,
-            timestamps,
           },
         }
       })
     }
 
+    if (payload.ripcord) {
+      return [
+        {
+          params: params[0],
+          response: {
+            errorMessage: 'Ripcord indicator true',
+            ripcord: response.data.ripcord,
+            statusCode: 502,
+          },
+        },
+      ]
+    }
+
+    const publicKey = adapterSettings.VERIFICATION_PUBKEY
+    const verifier = crypto.createVerify('sha256')
+    verifier.update(payload.data)
+    if (!verifier.verify(publicKey, payload.dataSignature, 'base64')) {
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage: `Data verification failed`,
+            statusCode: 502,
+          },
+        }
+      })
+    }
+
+    const data = JSON.parse(payload.data) as DataSchema
+    const timestamps = {
+      providerIndicatedTimeUnixMs: new Date(data.lastUpdated).getTime(),
+    }
+
     return params.map((param) => {
-      const result = response.data.totalReserve
+      const result = Number(data.totalReserve) || Number(data.reserveAmount)
       return {
         params: param,
         response: {

@@ -6,4 +6,9 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://reserves.usdstandard-test.com/por.json',
   },
+  VERIFICATION_PUBKEY: {
+    description: 'Public key used for verifying data signature',
+    type: 'string',
+    required: true,
+  },
 })
