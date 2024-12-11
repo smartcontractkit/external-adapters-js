@@ -1,13 +1,21 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { collateral } from './endpoint'
 import { config } from './config'
+import { rate } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: collateral.name,
-  name: 'ALONGSIDE',
+  defaultEndpoint: rate.name,
+  name: 'NYFED',
   config,
-  endpoints: [collateral],
+  endpoints: [rate],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 6,
+        note: 'Reasonable limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

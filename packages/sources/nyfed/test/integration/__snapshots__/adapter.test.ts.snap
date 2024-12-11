@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute rate endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 4.59,
+  },
+  "result": 4.59,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733356800000,
+  },
+}
+`;

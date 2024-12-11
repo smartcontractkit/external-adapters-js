@@ -8,6 +8,14 @@ export const adapter = new Adapter({
   name: 'NAV_CONSULTING',
   config,
   endpoints: [reserve],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 20,
+        note: 'Nothing in docs, setting reasonable rate limit based on 2req/bg execute',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

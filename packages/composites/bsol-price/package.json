@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bsol-price-adapter",
-  "version": "2.2.108",
+  "version": "2.2.109",
   "description": "Chainlink bsol-price adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/solana-view-function-adapter": "workspace:*",
     "@chainlink/token-allocation-adapter": "workspace:*",
-    "@solana/web3.js": "^1.33.0",
+    "@solana/web3.js": "^1.95.8",
     "@types/bn.js": "^5.1.0",
     "bignumber.js": "^9.0.0",
     "bn.js": "^5.2.0",
