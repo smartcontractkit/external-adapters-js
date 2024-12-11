@@ -192,6 +192,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
 
     // Prices have a spread from min to max. The last param (maximize-true/false) decides whether to maximize the market token price
     // or not. We get both values and return the median.
+
     const [[maximizedValue], [minimizedValue]] = await Promise.all([
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, true),
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, false),
