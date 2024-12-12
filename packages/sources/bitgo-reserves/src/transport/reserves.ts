@@ -1,6 +1,11 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  HttpTransport,
+  HttpTransportConfig,
+  TransportDependencies,
+} from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/reserves'
 import * as crypto from 'crypto'
+import { AdapterSettings } from '@chainlink/external-adapter-framework/config'
 
 export interface DataSchema {
   totalReserve: string
@@ -22,8 +27,29 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
+class ReservesHttpTransport extends HttpTransport<HttpTransportTypes> {
+  pubkey!: string
+
+  constructor(config: HttpTransportConfig<HttpTransportTypes>) {
+    super(config)
+  }
+
+  override async initialize(
+    dependencies: TransportDependencies<HttpTransportTypes>,
+    adapterSettings: AdapterSettings<{
+      API_ENDPOINT: { description: string; type: 'string'; default: string }
+      VERIFICATION_PUBKEY: { description: string; type: 'string'; required: true }
+    }>,
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.pubkey = adapterSettings.VERIFICATION_PUBKEY.replace(/\\n/g, '\n')
+  }
+}
+
 // returns reserves info for USDS
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
+export const httpTransport = new ReservesHttpTransport({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
@@ -34,7 +60,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     })
   },
-  parseResponse: (params, response, adapterSettings) => {
+  parseResponse: (params, response) => {
     const payload = response.data
 
     if (!payload || !payload.data) {
@@ -62,10 +88,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       ]
     }
 
-    const publicKey = adapterSettings.VERIFICATION_PUBKEY
     const verifier = crypto.createVerify('sha256')
     verifier.update(payload.data)
-    if (!verifier.verify(publicKey, payload.dataSignature, 'base64')) {
+    if (!verifier.verify(httpTransport.pubkey, payload.dataSignature, 'base64')) {
       return params.map((param) => {
         return {
           params: param,
