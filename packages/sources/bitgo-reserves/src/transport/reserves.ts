@@ -3,8 +3,7 @@ import { BaseEndpointTypes } from '../endpoint/reserves'
 import * as crypto from 'crypto'
 
 export interface DataSchema {
-  totalReserve?: string
-  reserveAmount?: string
+  totalReserve: string
   cashReserve: string
   investedReserve: string
   lastUpdated: string
@@ -82,9 +81,20 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     const timestamps = {
       providerIndicatedTimeUnixMs: new Date(data.lastUpdated).getTime(),
     }
+    const result = Number(data.totalReserve)
+    if (result === undefined || isNaN(result)) {
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage: `Missing totalReserve`,
+            statusCode: 502,
+          },
+        }
+      })
+    }
 
     return params.map((param) => {
-      const result = Number(data.totalReserve) || Number(data.reserveAmount)
       return {
         params: param,
         response: {
