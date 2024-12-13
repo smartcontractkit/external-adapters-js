@@ -45,7 +45,7 @@
       "path": "./composites/dydx-rewards"
     },
     {
-      "path": "./composites/glvtoken"
+      "path": "./composites/glv-token"
     },
     {
       "path": "./composites/gm-token"
