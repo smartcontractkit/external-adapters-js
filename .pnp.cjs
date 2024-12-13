@@ -7002,6 +7002,24 @@ const RAW_RUNTIME_STATE =
           ["ws", "virtual:c8f717633c4f979a0aa66e799ce4adc32ff45b94c827fa77a4e8d677869b2dc0ae745c2002ee3f705ccaa37419a2533cd747c63c14a4e06349bd3b77024d3ab7#npm:8.18.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.7.6", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-1.7.6-c9686be523-7029c7e1f4.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:1.7.6"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.7.9"],\
+          ["eventsource", "npm:2.0.2"],\
+          ["fastify", "npm:4.29.0"],\
+          ["ioredis", "npm:5.4.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:9.5.0"],\
+          ["pino-pretty", "npm:13.0.0"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:c8f717633c4f979a0aa66e799ce4adc32ff45b94c827fa77a4e8d677869b2dc0ae745c2002ee3f705ccaa37419a2533cd747c63c14a4e06349bd3b77024d3ab7#npm:8.18.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@chainlink/external-adapters-js", [\
@@ -7318,7 +7336,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
-          ["@chainlink/external-adapter-framework", "npm:1.7.4"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.6"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -18172,6 +18190,16 @@ const RAW_RUNTIME_STATE =
           ["proxy-from-env", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.7.9", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.7.9-3c98466f87-b7a5f660ea.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.7.9"],\
+          ["follow-redirects", "virtual:b20f5c399f1c73779564cfbf31ebf34158d62e6122d6790256982fed4a9dc55158231d1376ae0d31259b225576e217004a11eb64342859f09e60586674e3bee9#npm:1.15.9"],\
+          ["form-data", "npm:4.0.1"],\
+          ["proxy-from-env", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["axios-mock-adapter", [\
@@ -23439,6 +23467,29 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/fastify-npm-4.28.1-b5ef7d871c-8a749dd540.zip/node_modules/fastify/",\
         "packageDependencies": [\
           ["fastify", "npm:4.28.1"],\
+          ["@fastify/ajv-compiler", "npm:3.6.0"],\
+          ["@fastify/error", "npm:3.4.1"],\
+          ["@fastify/fast-json-stringify-compiler", "npm:4.3.0"],\
+          ["abstract-logging", "npm:2.0.1"],\
+          ["avvio", "npm:8.4.0"],\
+          ["fast-content-type-parse", "npm:1.1.0"],\
+          ["fast-json-stringify", "npm:5.16.1"],\
+          ["find-my-way", "npm:8.2.2"],\
+          ["light-my-request", "npm:5.14.0"],\
+          ["pino", "npm:9.5.0"],\
+          ["process-warning", "npm:3.0.0"],\
+          ["proxy-addr", "npm:2.0.7"],\
+          ["rfdc", "npm:1.4.1"],\
+          ["secure-json-parse", "npm:2.7.0"],\
+          ["semver", "npm:7.6.3"],\
+          ["toad-cache", "npm:3.7.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:4.29.0", {\
+        "packageLocation": "./.yarn/cache/fastify-npm-4.29.0-5649517761-e3ffa740fc.zip/node_modules/fastify/",\
+        "packageDependencies": [\
+          ["fastify", "npm:4.29.0"],\
           ["@fastify/ajv-compiler", "npm:3.6.0"],\
           ["@fastify/error", "npm:3.4.1"],\
           ["@fastify/fast-json-stringify-compiler", "npm:4.3.0"],\
