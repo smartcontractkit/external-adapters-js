@@ -19,7 +19,6 @@ import {
   Token,
   Market,
   mapSymbol,
-  glvMarkets,
   unsupportedAssets,
 } from './utils'
 import abi from '../config/readerAbi.json'
@@ -90,7 +89,6 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     }
 
     const response = await this.requester.request<{ tokens: Token[] }>(
-      // const response = await this.requester.request(
       JSON.stringify(requestConfig),
       requestConfig,
     )
@@ -146,6 +144,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<GlvTokenTransportTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
     const glv_address = param.glv
 
     const glvInfo = await this.glvReaderContract.getGlvInfo(
@@ -154,7 +153,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     )
 
     const glv: glvInformation = {
-      glvToken: mapSymbol(glvInfo.glv.glvToken, glvMarkets),
+      glvToken: glvInfo.glv.glvToken,
       longToken: mapSymbol(glvInfo.glv.longToken, this.tokensMap),
       shortToken: mapSymbol(glvInfo.glv.shortToken, this.tokensMap),
       markets: {},
@@ -170,7 +169,6 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     })
 
     assets.sort()
-    const providerDataRequestedUnixMs = Date.now()
     const priceResult = await this.fetchPrices([...new Set(assets)], providerDataRequestedUnixMs)
 
     const indexTokensPrices: Array<string | number>[] = []

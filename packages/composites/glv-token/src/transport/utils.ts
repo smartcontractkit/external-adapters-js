@@ -23,8 +23,8 @@ export const median = (values: number[]): number => {
 Formats a given number with a specified precision without leading zeros and decimal point.
 Price decimals = SIGNED_PRICE_DECIMALS - token decimals
 
-toFixed(14.84329267, 18) -> '14843292670000'
-toFixed(0.99999558, 6) -> '999995580000000000000000'
+toFixed(14.84329267, 6) -> '14843292670000'
+toFixed(0.99999558, 18) -> '999995580000000000000000'
  */
 export const toFixed = (number: number, decimals: number): string => {
   const n = new Decimal(number)
@@ -47,11 +47,6 @@ export interface Market {
   longToken: string
   shortToken: string
   isListed: boolean
-}
-
-export const glvMarkets = {
-  '0x528A5bac7E746C9A509A1f4F6dF58A03d44279F9': 'ETH/USDC',
-  '0xdF03EEd325b82bC1d4Db8b49c30ecc9E05104b96': 'WBTC/USDC',
 }
 
 export function mapSymbol(address: string, symbolMap: Record<string, any>) {
