@@ -23,8 +23,8 @@ export const median = (values: number[]): number => {
 Formats a given number with a specified precision without leading zeros and decimal point.
 Price decimals = SIGNED_PRICE_DECIMALS - token decimals
 
-toFixed(14.84329267, 6) -> '14843292670000'
-toFixed(0.99999558, 18) -> '999995580000000000000000'
+toFixed(14.84329267, 18) -> '14843292670000'
+toFixed(0.99999558, 6) -> '999995580000000000000000'
  */
 export const toFixed = (number: number, decimals: number): string => {
   const n = new Decimal(number)
@@ -53,8 +53,18 @@ export function mapSymbol(address: string, symbolMap: Record<string, any>) {
   return symbolMap[address]
 }
 
-export const unsupportedAssets: Record<string, string[]> = {
-  coinmetrics: ['TAO'],
-  tiingo: ['FLOKI'],
-  ncfx: [],
+const adapterParamOverride: Record<string, Record<string, string>> = {
+  coinmetrics: {
+    TAO: 'tao_bittensor',
+  },
+  tiingo: {
+    FLOKI: 'floki2',
+  },
+}
+
+export function mapParameter(source: string, param: string) {
+  if (source in adapterParamOverride && param in adapterParamOverride[source]) {
+    return adapterParamOverride[source][param]
+  }
+  return param
 }

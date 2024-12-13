@@ -19,7 +19,7 @@ import {
   Token,
   Market,
   mapSymbol,
-  unsupportedAssets,
+  mapParameter,
 } from './utils'
 import abi from '../config/readerAbi.json'
 import glvAbi from '../config/glvReaderAbi.json'
@@ -79,6 +79,11 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
 
     await this.tokenInfo()
     await this.marketInfo()
+
+    setInterval(() => {
+      this.tokenInfo()
+      this.marketInfo()
+    }, 60 * 60 * 3 * 1000) // 3 hours
   }
 
   async tokenInfo() {
@@ -92,6 +97,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
       JSON.stringify(requestConfig),
       requestConfig,
     )
+
     const data: Token[] = response.response.data.tokens
     data.map((token) => {
       this.tokensMap[token.address] = token
@@ -110,6 +116,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
       JSON.stringify(requestConfig),
       requestConfig,
     )
+
     const data: Market[] = response.response.data.markets
     data.map((market) => {
       this.marketsMap[market.marketToken] = market
@@ -235,7 +242,8 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     for (let i = 0; i < sources.length; i++) {
       const source = sources[i]
       const assetPromises = assets.map(async (asset) => {
-        const base = this.unwrapAsset(asset)
+        const mappedAsset = mapParameter(source.name, asset)
+        const base = this.unwrapAsset(mappedAsset)
         const requestConfig = {
           url: source.url,
           method: 'POST',
@@ -248,33 +256,28 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
           },
         }
 
-        if (unsupportedAssets[source.name].includes(asset)) {
-          // skip assets not supported by EA to avoid Rate Limiting Error
-          undefined
-        } else {
-          // try/catch is needed in a case if one of source EAs fails to return a response,
-          // we will still get and calculate the median price based on responses of remaining EAs (based on MIN_REQUIRED_SOURCE_SUCCESS setting)
-          try {
-            const response = await this.requester.request<{ data: LwbaResponseDataFields['Data'] }>(
-              JSON.stringify(requestConfig),
-              requestConfig,
-            )
-            const { bid, ask } = response.response.data.data
+        // try/catch is needed in a case if one of source EAs fails to return a response,
+        // we will still get and calculate the median price based on responses of remaining EAs (based on MIN_REQUIRED_SOURCE_SUCCESS setting)
+        try {
+          const response = await this.requester.request<{ data: LwbaResponseDataFields['Data'] }>(
+            JSON.stringify(requestConfig),
+            requestConfig,
+          )
+          const { bid, ask } = response.response.data.data
 
-            priceData[asset] = {
-              bids: [...(priceData[asset]?.bids || []), bid],
-              asks: [...(priceData[asset]?.asks || []), ask],
-            }
-
-            priceProviders[base] = priceProviders[base]
-              ? [...new Set([...priceProviders[base], source.name])]
-              : [source.name]
-          } catch (error) {
-            const e = error as Error
-            logger.error(
-              `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
-            )
+          priceData[asset] = {
+            bids: [...(priceData[asset]?.bids || []), bid],
+            asks: [...(priceData[asset]?.asks || []), ask],
           }
+
+          priceProviders[asset] = priceProviders[asset]
+            ? [...new Set([...priceProviders[asset], source.name])]
+            : [source.name]
+        } catch (error) {
+          const e = error as Error
+          logger.error(
+            `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
+          )
         }
       })
 
