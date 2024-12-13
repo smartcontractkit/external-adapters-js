@@ -57,3 +57,9 @@ export const glvMarkets = {
 export function mapSymbol(address: string, symbolMap: Record<string, any>) {
   return symbolMap[address]
 }
+
+export const unsupportedAssets: Record<string, string[]> = {
+  coinmetrics: ['TAO'],
+  tiingo: ['FLOKI'],
+  ncfx: [],
+}

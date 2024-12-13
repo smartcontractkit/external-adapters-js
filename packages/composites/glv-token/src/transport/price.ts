@@ -20,6 +20,7 @@ import {
   Market,
   mapSymbol,
   glvMarkets,
+  unsupportedAssets,
 } from './utils'
 import abi from '../config/readerAbi.json'
 import glvAbi from '../config/glvReaderAbi.json'
@@ -235,7 +236,6 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
 
     for (let i = 0; i < sources.length; i++) {
       const source = sources[i]
-
       const assetPromises = assets.map(async (asset) => {
         const base = this.unwrapAsset(asset)
         const requestConfig = {
@@ -250,28 +250,33 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
           },
         }
 
-        // try/catch is needed in a case if one of source EAs fails to return a response,
-        // we will still get and calculate the median price based on responses of remaining EAs (based on MIN_REQUIRED_SOURCE_SUCCESS setting)
-        try {
-          const response = await this.requester.request<{ data: LwbaResponseDataFields['Data'] }>(
-            JSON.stringify(requestConfig),
-            requestConfig,
-          )
-          const { bid, ask } = response.response.data.data
+        if (unsupportedAssets[source.name].includes(asset)) {
+          // skip assets not supported by EA to avoid Rate Limiting Error
+          undefined
+        } else {
+          // try/catch is needed in a case if one of source EAs fails to return a response,
+          // we will still get and calculate the median price based on responses of remaining EAs (based on MIN_REQUIRED_SOURCE_SUCCESS setting)
+          try {
+            const response = await this.requester.request<{ data: LwbaResponseDataFields['Data'] }>(
+              JSON.stringify(requestConfig),
+              requestConfig,
+            )
+            const { bid, ask } = response.response.data.data
 
-          priceData[asset] = {
-            bids: [...(priceData[asset]?.bids || []), bid],
-            asks: [...(priceData[asset]?.asks || []), ask],
+            priceData[asset] = {
+              bids: [...(priceData[asset]?.bids || []), bid],
+              asks: [...(priceData[asset]?.asks || []), ask],
+            }
+
+            priceProviders[base] = priceProviders[base]
+              ? [...new Set([...priceProviders[base], source.name])]
+              : [source.name]
+          } catch (error) {
+            const e = error as Error
+            logger.error(
+              `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
+            )
           }
-
-          priceProviders[base] = priceProviders[base]
-            ? [...new Set([...priceProviders[base], source.name])]
-            : [source.name]
-        } catch (error) {
-          const e = error as Error
-          logger.error(
-            `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
-          )
         }
       })
 
