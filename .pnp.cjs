@@ -5403,7 +5403,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["axios", "npm:1.7.8"],\
+          ["axios", "npm:1.7.9"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.5"],\
           ["supertest", "npm:6.2.4"],\
@@ -5900,7 +5900,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:1.7.6"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
-          ["axios", "npm:1.7.8"],\
+          ["axios", "npm:1.7.9"],\
           ["nock", "npm:13.5.5"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
