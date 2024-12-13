@@ -7,8 +7,6 @@ import {
   mockCoinmetricsEAResponseSuccess,
   mockNCFXEAResponseSuccess,
   mockTiingoEAResponseSuccess,
-  mockCoinmetricsEAResponseFailure,
-  mockNCFXEAResponseFailure,
 } from './fixtures'
 import { ethers } from 'ethers'
 
