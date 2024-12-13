@@ -80,10 +80,10 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     await this.tokenInfo()
     await this.marketInfo()
 
-    setInterval(() => {
-      this.tokenInfo()
-      this.marketInfo()
-    }, 60 * 60 * 3 * 1000) // 3 hours
+    // setInterval(() => {
+    //   this.tokenInfo()
+    //   this.marketInfo()
+    // }, 60 * 60 * 3 * 1000) // 3 hours
   }
 
   async tokenInfo() {
