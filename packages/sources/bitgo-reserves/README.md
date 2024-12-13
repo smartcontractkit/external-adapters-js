@@ -6,9 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     |            Description            |  Type  | Options |                     Default                      |
-| :-------: | :----------: | :-------------------------------: | :----: | :-----: | :----------------------------------------------: |
-|           | API_ENDPOINT | An API endpoint for Data Provider | string |         | `https://reserves.usdstandard-test.com/por.json` |
+| Required? |        Name         |                                                                              Description                                                                               |  Type  | Options |                     Default                      |
+| :-------: | :-----------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------------------: |
+|           |    API_ENDPOINT     |                                                                   An API endpoint for Data Provider                                                                    | string |         | `https://reserves.usdstandard-test.com/por.json` |
+|    ✅     | VERIFICATION_PUBKEY | Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\n...contents...\n-----END PUBLIC KEY-----" | string |         |                                                  |
 
 ---
 
