@@ -7318,7 +7318,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
-          ["@chainlink/external-adapter-framework", "npm:1.7.6"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.7"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
           ["decimal.js", "npm:10.4.3"],\
