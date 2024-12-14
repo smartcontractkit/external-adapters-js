@@ -1,5 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { glvTokenTransport } from '../transport/price'
 
@@ -20,10 +21,8 @@ export const inputParameters = new InputParameters(
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: {
-    Result: number
+  Response: SingleNumberResultResponse & {
     Data: {
-      result: number
       sources: Record<string, string[]>
     }
   }

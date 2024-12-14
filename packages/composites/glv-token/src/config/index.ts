@@ -20,12 +20,6 @@ export const config = new AdapterConfig(
       required: true,
       default: '0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8',
     },
-    READER_CONTRACT_ADDRESS: {
-      description: 'Address of Reader contract',
-      type: 'string',
-      required: true,
-      default: '0x0537C767cDAC0726c76Bb89e92904fe28fd02fE1',
-    },
     GLV_READER_CONTRACT_ADDRESS: {
       description: 'Address of Glv Reader Contract',
       type: 'string',

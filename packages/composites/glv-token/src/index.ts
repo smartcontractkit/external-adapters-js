@@ -5,7 +5,7 @@ import { price } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: price.name,
-  name: 'GLV',
+  name: 'GLV_TOKEN',
   config,
   endpoints: [price],
 })
