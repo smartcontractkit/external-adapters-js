@@ -21,7 +21,6 @@ import {
   mapSymbol,
   mapParameter,
 } from './utils'
-import abi from '../config/readerAbi.json'
 import glvAbi from '../config/glvReaderAbi.json'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 
@@ -64,11 +63,6 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
       adapterSettings.ARBITRUM_RPC_URL,
       adapterSettings.ARBITRUM_CHAIN_ID,
     )
-    this.readerContract = new ethers.Contract(
-      adapterSettings.READER_CONTRACT_ADDRESS,
-      abi,
-      this.provider,
-    )
     this.requester = dependencies.requester
 
     this.glvReaderContract = new ethers.Contract(
@@ -90,7 +84,6 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     const requestConfig = {
       url: this.settings.TOKEN_INFO_API,
       method: 'GET',
-      data: {},
     }
 
     const response = await this.requester.request<{ tokens: Token[] }>(
@@ -109,7 +102,6 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     const requestConfig = {
       url: this.settings.MARKET_INFO_API,
       method: 'GET',
-      data: {},
     }
 
     const response = await this.requester.request<{ markets: Market[] }>(
