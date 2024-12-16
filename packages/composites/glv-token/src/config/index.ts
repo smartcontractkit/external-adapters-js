@@ -60,6 +60,11 @@ export const config = new AdapterConfig(
       required: true,
       default: 'https://arbitrum-api.gmxinfra.io/tokens',
     },
+    METADATA_REFRESH_INTERVAL_MS: {
+      description: 'The amount of time the metadata should be refreshed',
+      type: 'number',
+      default: 60 * 60 * 3 * 1000, // 3 hours
+    },
     BACKGROUND_EXECUTE_MS: {
       description:
         'The amount of time the background execute should sleep before performing the next request',

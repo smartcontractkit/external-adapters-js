@@ -42,9 +42,7 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
   responseCache!: ResponseCache<GlvTokenTransportTypes>
   requester!: Requester
   provider!: ethers.providers.JsonRpcProvider
-  readerContract!: ethers.Contract
   glvReaderContract!: ethers.Contract
-  abiEncoder!: utils.AbiCoder
   settings!: GlvTokenTransportTypes['Settings']
 
   tokensMap: Record<string, Token> = {}
@@ -74,10 +72,12 @@ export class GlvTokenTransport extends SubscriptionTransport<GlvTokenTransportTy
     await this.tokenInfo()
     await this.marketInfo()
 
-    // setInterval(() => {
-    //   this.tokenInfo()
-    //   this.marketInfo()
-    // }, 60 * 60 * 3 * 1000) // 3 hours
+    if (this.settings.METADATA_REFRESH_INTERVAL_MS > 0) {
+      setInterval(() => {
+        this.tokenInfo()
+        this.marketInfo()
+      }, this.settings.METADATA_REFRESH_INTERVAL_MS)
+    }
   }
 
   async tokenInfo() {
