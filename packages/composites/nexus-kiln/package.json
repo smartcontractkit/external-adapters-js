@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nexus-kiln-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chainlink nexus-kiln adapter.",
   "keywords": [
     "Chainlink",
