@@ -45,6 +45,9 @@
       "path": "./composites/dydx-rewards/tsconfig.test.json"
     },
     {
+      "path": "./composites/glv-token/tsconfig.test.json"
+    },
+    {
       "path": "./composites/gm-token/tsconfig.test.json"
     },
     {
