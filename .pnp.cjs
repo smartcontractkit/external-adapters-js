@@ -71,6 +71,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/dydx-rewards"\
     },\
     {\
+      "name": "@chainlink/glv-token-adapter",\
+      "reference": "workspace:packages/composites/glv-token"\
+    },\
+    {\
       "name": "@chainlink/gm-token-adapter",\
       "reference": "workspace:packages/composites/gm-token"\
     },\
@@ -1060,6 +1064,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
     ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
+    ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
     ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],\
@@ -7303,6 +7308,23 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/glv-token-adapter", [\
+      ["workspace:packages/composites/glv-token", {\
+        "packageLocation": "./packages/composites/glv-token/",\
+        "packageDependencies": [\
+          ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
+          ["@chainlink/external-adapter-framework", "npm:1.7.7"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.119"],\
+          ["decimal.js", "npm:10.4.3"],\
+          ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.5"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
