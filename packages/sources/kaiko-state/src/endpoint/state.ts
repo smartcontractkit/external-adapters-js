@@ -35,7 +35,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'state',
-  aliases: [],
+  aliases: ['crypto'],
   transport: kaikoStateTransport,
   inputParameters,
   requestTransforms: [
