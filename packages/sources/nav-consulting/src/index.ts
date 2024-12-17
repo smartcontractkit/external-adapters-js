@@ -11,8 +11,8 @@ export const adapter = new Adapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1m: 20,
-        note: 'Nothing in docs, setting reasonable rate limit based on 2req/bg execute',
+        rateLimit1m: 4,
+        note: '60/min in total shared by 30 EA instance, each EA can do 2 per min per API. Each call hits 2 API',
       },
     },
   },
