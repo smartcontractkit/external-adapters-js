@@ -1,5 +1,11 @@
 # @chainlink/kaiko-state-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#3621](https://github.com/smartcontractkit/external-adapters-js/pull/3621) [`6bdc476`](https://github.com/smartcontractkit/external-adapters-js/commit/6bdc4767602d74284b98980be735110efd5f768f) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add crypto alias to state endpoint
+
 ## 1.0.3
 
 ### Patch Changes
