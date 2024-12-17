@@ -4,7 +4,7 @@ export const config = new AdapterConfig({
   WS_API_ENDPOINT: {
     description: 'WS endpoint for Data Provider',
     type: 'string',
-    default: 'wss://feed.zobula.xyz',
+    default: 'wss://production-feed.mobula.io',
   },
   API_KEY: {
     description: 'An API key for Data Provider',
