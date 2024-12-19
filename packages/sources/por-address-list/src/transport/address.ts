@@ -1,12 +1,13 @@
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
-import { POR_ADDRESS_LIST_ABI } from '../config/abi'
+import { POR_ADDRESS_LIST_ABI } from '../config/PorAddressList'
+import LOMBARD_POR_ADDRESS_LIST_ABI from '../config/LombardPorAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
 import { ethers } from 'ethers'
-import { fetchAddressList, addProvider, getProvider } from './utils'
+import { addProvider, getProvider } from './providerUtils'
+import { DefaultAddressManager, LombardAddressManager, AddressManager } from './addressManager'
 
 export type AddressTransportTypes = BaseEndpointTypes
 
@@ -61,6 +62,8 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
+
     const {
       confirmations,
       contractAddress,
@@ -69,27 +72,34 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       network,
       chainId,
       searchLimboValidators,
+      abiName,
     } = param
 
     this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
     const provider = getProvider(contractAddressNetwork, this.providersMap, this.provider)
 
-    const addressManager = new ethers.Contract(contractAddress, POR_ADDRESS_LIST_ABI, provider)
+    let addressManager: AddressManager<string[] | string[][]>
+
+    if (abiName == 'Lombard') {
+      addressManager = new LombardAddressManager(
+        contractAddress,
+        LOMBARD_POR_ADDRESS_LIST_ABI,
+        provider,
+      )
+    } else {
+      addressManager = new DefaultAddressManager(contractAddress, POR_ADDRESS_LIST_ABI, provider)
+    }
+
     const latestBlockNum = await provider.getBlockNumber()
 
-    const providerDataRequestedUnixMs = Date.now()
-    const addressList = await fetchAddressList<string>(
-      addressManager,
+    const addressList = await addressManager.fetchAddressList(
       latestBlockNum,
       confirmations,
       batchSize,
       this.settings.GROUP_SIZE,
     )
-    const addresses: PoRAddress[] = addressList.map((address) => ({
-      address,
-      network,
-      chainId,
-    }))
+
+    const addresses = addressManager.processPoRAddressList(addressList, network, chainId)
 
     return {
       data: {
