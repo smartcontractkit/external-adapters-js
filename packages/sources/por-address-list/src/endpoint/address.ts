@@ -44,6 +44,12 @@ export const inputParameters = new InputParameters(
       type: 'boolean',
       description: 'Flag to pass on to the balance adapter to search for limbo validators',
     },
+    abiName: {
+      type: 'string',
+      options: ['Lombard', 'Default'],
+      description: 'The name of ABI used for contractAddress',
+      default: 'Default',
+    },
   },
   [
     {
@@ -53,6 +59,7 @@ export const inputParameters = new InputParameters(
       batchSize: 10,
       network: 'ethereum',
       chainId: '1',
+      abiName: 'Default',
     },
   ],
 )

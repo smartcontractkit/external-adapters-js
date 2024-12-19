@@ -1,0 +1,250 @@
+[
+  { "inputs": [], "name": "AccessControlBadConfirmation", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" },
+      { "internalType": "bytes32", "name": "neededRole", "type": "bytes32" }
+    ],
+    "name": "AccessControlUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "inputs": [{ "internalType": "string", "name": "addressStr", "type": "string" }],
+    "name": "AddressAlreadyExists",
+    "type": "error"
+  },
+  {
+    "inputs": [{ "internalType": "string", "name": "addressStr", "type": "string" }],
+    "name": "AddressDoesNotExist",
+    "type": "error"
+  },
+  { "inputs": [], "name": "ArrayLengthMismatch", "type": "error" },
+  { "inputs": [], "name": "InvalidInitialization", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "addressStr", "type": "string" },
+      { "internalType": "string", "name": "messageOrPath", "type": "string" },
+      { "internalType": "bytes", "name": "signature", "type": "bytes" }
+    ],
+    "name": "InvalidMessageSignature",
+    "type": "error"
+  },
+  { "inputs": [], "name": "InvalidRootPubkey", "type": "error" },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "id", "type": "bytes32" }],
+    "name": "InvalidRootPubkeyId",
+    "type": "error"
+  },
+  { "inputs": [], "name": "NotInitializing", "type": "error" },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "pubkey", "type": "bytes" }],
+    "name": "RootPubkeyAlreadyExists",
+    "type": "error"
+  },
+  { "inputs": [], "name": "RootPubkeyCannotBeDeleted", "type": "error" },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "pubkey", "type": "bytes" }],
+    "name": "RootPubkeyDoesNotExist",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": false, "internalType": "uint64", "name": "version", "type": "uint64" }],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "previousAdminRole",
+        "type": "bytes32"
+      },
+      { "indexed": true, "internalType": "bytes32", "name": "newAdminRole", "type": "bytes32" }
+    ],
+    "name": "RoleAdminChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "indexed": true, "internalType": "address", "name": "account", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }
+    ],
+    "name": "RoleGranted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "indexed": true, "internalType": "address", "name": "account", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }
+    ],
+    "name": "RoleRevoked",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "DEFAULT_ADMIN_ROLE",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "OPERATOR_ROLE",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string[]", "name": "_addresses", "type": "string[]" },
+      { "internalType": "bytes32[]", "name": "_rootPkIds", "type": "bytes32[]" },
+      { "internalType": "string[]", "name": "_messagesOrDerivationData", "type": "string[]" },
+      { "internalType": "bytes[]", "name": "_signatures", "type": "bytes[]" }
+    ],
+    "name": "addAddresses",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "_pubkey", "type": "bytes" }],
+    "name": "addRootPubkey",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "string[]", "name": "_addresses", "type": "string[]" }],
+    "name": "deleteAddresses",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes", "name": "_pubkey", "type": "bytes" }],
+    "name": "deleteRootPubkey",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPoRAddressListLength",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_start", "type": "uint256" },
+      { "internalType": "uint256", "name": "_end", "type": "uint256" }
+    ],
+    "name": "getPoRAddressSignatureMessages",
+    "outputs": [
+      { "internalType": "string[]", "name": "", "type": "string[]" },
+      { "internalType": "bytes32[]", "name": "", "type": "bytes32[]" },
+      { "internalType": "string[]", "name": "", "type": "string[]" },
+      { "internalType": "bytes[]", "name": "", "type": "bytes[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "string[]", "name": "_addresses", "type": "string[]" }],
+    "name": "getPoRSignatureMessages",
+    "outputs": [
+      { "internalType": "bytes32[]", "name": "", "type": "bytes32[]" },
+      { "internalType": "string[]", "name": "", "type": "string[]" },
+      { "internalType": "bytes[]", "name": "", "type": "bytes[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }],
+    "name": "getRoleAdmin",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "_id", "type": "bytes32" }],
+    "name": "getRootPubkey",
+    "outputs": [{ "internalType": "bytes", "name": "", "type": "bytes" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "grantRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "hasRole",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "_owner", "type": "address" }],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "internalType": "address", "name": "callerConfirmation", "type": "address" }
+    ],
+    "name": "renounceRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "revokeRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }],
+    "name": "supportsInterface",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string[]", "name": "_addresses", "type": "string[]" },
+      { "internalType": "string[]", "name": "_messages", "type": "string[]" },
+      { "internalType": "bytes[]", "name": "_signatures", "type": "bytes[]" }
+    ],
+    "name": "updateMessageSignature",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
