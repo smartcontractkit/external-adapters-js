@@ -32,10 +32,10 @@ if (process.argv[2] == 'tsconfig') {
 
   execSync(`unzip ${result.trimEnd()} -d ./.yarn/cache`, { maxBuffer: 1024 * 1024 * 500 })
 
-  execSync(`npm install -g yo@4.3.1 > /dev/null 2>&1`)
+  execSync(`npm install -g yo@5.0.0 > /dev/null 2>&1`)
 
   console.log('Run the following command:')
   console.log(
-    `  yo ./.yarn/cache/node_modules/@chainlink/external-adapter-framework/generator-adapter ${path} --ignore-version-check && yarn new tsconfig`,
+    `  yo ./.yarn/cache/node_modules/@chainlink/external-adapter-framework/generator-adapter/generators/app/index.js ${path} && yarn new tsconfig`,
   )
 }

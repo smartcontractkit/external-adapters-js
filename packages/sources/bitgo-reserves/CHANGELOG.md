@@ -1,5 +1,31 @@
 # @chainlink/bitgo-reserves-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#3601](https://github.com/smartcontractkit/external-adapters-js/pull/3601) [`f4f0ce9`](https://github.com/smartcontractkit/external-adapters-js/commit/f4f0ce91640892459df1ee2044384266d5902d84) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - update bitgo-reserves EA with new payload
+
+### Minor Changes
+
+- [#3617](https://github.com/smartcontractkit/external-adapters-js/pull/3617) [`fdee738`](https://github.com/smartcontractkit/external-adapters-js/commit/fdee738f0e2fd6cd3b12b9066359e9ab9efbaf9a) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Preprocess VERIFICATION_PUBKEY env var
+
+### Patch Changes
+
+- [#3616](https://github.com/smartcontractkit/external-adapters-js/pull/3616) [`c04b1e7`](https://github.com/smartcontractkit/external-adapters-js/commit/c04b1e78319f9e5c4143879f561a61f9da6b0098) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update response payload to only reference totalReserve
+
+- [#3619](https://github.com/smartcontractkit/external-adapters-js/pull/3619) [`55df8b1`](https://github.com/smartcontractkit/external-adapters-js/commit/55df8b1867403001c5bb11339bb2244e6c219c3f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3618](https://github.com/smartcontractkit/external-adapters-js/pull/3618) [`e30440e`](https://github.com/smartcontractkit/external-adapters-js/commit/e30440e20f06c72eb701ac539692815e77978a73) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
+## 1.1.4
+
+### Patch Changes
+
+- [#3598](https://github.com/smartcontractkit/external-adapters-js/pull/3598) [`f9a4dc2`](https://github.com/smartcontractkit/external-adapters-js/commit/f9a4dc24e77f1f5b5e967b5f2d03eb58c15ef9b2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3595](https://github.com/smartcontractkit/external-adapters-js/pull/3595) [`8a15f40`](https://github.com/smartcontractkit/external-adapters-js/commit/8a15f408d53ccbf131e16c39faefa0ecabbe6ac7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.1.3
 
 ### Patch Changes

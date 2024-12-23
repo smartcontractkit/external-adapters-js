@@ -13,11 +13,18 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_ENDPOINT = 'http://test-endpoint.com'
+    process.env.VERIFICATION_PUBKEY = 'test'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter
+    jest.mock('crypto', () => ({
+      createVerify: jest.fn().mockImplementation((_algo) => ({
+        update: jest.fn().mockReturnThis(),
+        verify: jest.fn().mockImplementationOnce((a, b, c) => true),
+      })),
+    }))
+    const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -43,4 +50,5 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
+  // Note: issues with mock verifier prevent further tests
 })

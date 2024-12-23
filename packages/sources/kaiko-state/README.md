@@ -1,6 +1,6 @@
 # KAIKO_STATE
 
-![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/kaiko-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/kaiko-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -22,13 +22,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [state](#state-endpoint) | `state` |
+| Required? |   Name   |     Description     |  Type  |                       Options                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto](#state-endpoint), [state](#state-endpoint) | `state` |
 
 ## State Endpoint
 
-`state` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto`, `state`.
 
 ### Input Params
 

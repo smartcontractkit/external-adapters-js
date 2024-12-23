@@ -1,5 +1,31 @@
 # @chainlink/nav-consulting-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- [#3620](https://github.com/smartcontractkit/external-adapters-js/pull/3620) [`4bc9c06`](https://github.com/smartcontractkit/external-adapters-js/commit/4bc9c06a57ae947bc85f0b0298209848050e31c3) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update rate limiter
+
+## 1.1.1
+
+### Patch Changes
+
+- [#3619](https://github.com/smartcontractkit/external-adapters-js/pull/3619) [`55df8b1`](https://github.com/smartcontractkit/external-adapters-js/commit/55df8b1867403001c5bb11339bb2244e6c219c3f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3618](https://github.com/smartcontractkit/external-adapters-js/pull/3618) [`e30440e`](https://github.com/smartcontractkit/external-adapters-js/commit/e30440e20f06c72eb701ac539692815e77978a73) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bumped framework version
+
+## 1.1.0
+
+### Minor Changes
+
+- [#3610](https://github.com/smartcontractkit/external-adapters-js/pull/3610) [`1facc17`](https://github.com/smartcontractkit/external-adapters-js/commit/1facc17f4707c6acfde1c5f3cd920505153b9835) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add default rate limit
+
+### Patch Changes
+
+- [#3598](https://github.com/smartcontractkit/external-adapters-js/pull/3598) [`f9a4dc2`](https://github.com/smartcontractkit/external-adapters-js/commit/f9a4dc24e77f1f5b5e967b5f2d03eb58c15ef9b2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#3595](https://github.com/smartcontractkit/external-adapters-js/pull/3595) [`8a15f40`](https://github.com/smartcontractkit/external-adapters-js/commit/8a15f408d53ccbf131e16c39faefa0ecabbe6ac7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.0.2
 
 ### Patch Changes

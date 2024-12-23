@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinmetrics-adapter",
-  "version": "3.7.9",
+  "version": "3.7.11",
   "description": "Chainlink coinmetrics adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.7.3",
+    "@chainlink/external-adapter-framework": "1.7.7",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
