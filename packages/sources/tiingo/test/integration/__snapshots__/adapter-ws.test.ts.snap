@@ -15,6 +15,40 @@ exports[`websocket crypto endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket crypto_lwba endpoint should only subscribe once 1`] = `
+{
+  "data": {
+    "ask": 1794.2063137650225,
+    "bid": 1793.6242715443277,
+    "mid": 1793.915292654675,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1680187094577,
+  },
+}
+`;
+
+exports[`websocket crypto_lwba endpoint should only subscribe once 2`] = `
+{
+  "data": {
+    "ask": 1794.2063137650225,
+    "bid": 1793.6242715443277,
+    "mid": 1793.915292654675,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1680187094577,
+  },
+}
+`;
+
 exports[`websocket crypto_lwba endpoint should return error (invariant violation) 1`] = `
 {
   "error": {
