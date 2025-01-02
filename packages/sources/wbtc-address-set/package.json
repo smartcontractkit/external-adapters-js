@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/wbtc-address-set-adapter",
-  "version": "2.1.10",
+  "version": "2.1.12",
   "description": "Chainlink adapter to query wBTC address set.",
   "keywords": [
     "Chainlink",
@@ -37,7 +37,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.7.3",
+    "@chainlink/external-adapter-framework": "1.7.7",
     "tslib": "2.4.1"
   }
 }

@@ -1,15 +1,15 @@
 # MOBULA_STATE
 
-![1.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |          Description          |  Type  | Options |         Default         |
-| :-------: | :-------------: | :---------------------------: | :----: | :-----: | :---------------------: |
-|           | WS_API_ENDPOINT | WS endpoint for Data Provider | string |         | `wss://feed.zobula.xyz` |
-|    ✅     |     API_KEY     | An API key for Data Provider  | string |         |                         |
+| Required? |      Name       |          Description          |  Type  | Options |              Default              |
+| :-------: | :-------------: | :---------------------------: | :----: | :-----: | :-------------------------------: |
+|           | WS_API_ENDPOINT | WS endpoint for Data Provider | string |         | `wss://production-feed.mobula.io` |
+|    ✅     |     API_KEY     | An API key for Data Provider  | string |         |                                   |
 
 ---
 

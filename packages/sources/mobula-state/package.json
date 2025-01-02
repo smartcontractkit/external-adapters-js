@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/mobula-state-adapter",
-  "version": "1.1.4",
+  "version": "1.1.7",
   "description": "Chainlink mobula-state adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.7.3",
+    "@chainlink/external-adapter-framework": "1.7.7",
     "tslib": "2.4.1"
   }
 }

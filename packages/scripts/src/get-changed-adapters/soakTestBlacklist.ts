@@ -2,7 +2,6 @@ export const SoakTestBlacklist: string[] = [
   'accuweather',
   'ada-balance', // Missing: RPC URL
   'agoric',
-  'alongside', // Missing: RPC URL
   'alphachain',
   'alpine',
   'anchor', // Missing: RPC URL
@@ -40,6 +39,7 @@ export const SoakTestBlacklist: string[] = [
   'fmpcloud',
   'frxeth-exchange-rate',
   'genesis-volatility',
+  'glv-token', // Composite EA - Missing underlying source EAs
   'gm-token', // Composite EA - Missing underlying source EAs
   'google-bigquery',
   'google-weather',

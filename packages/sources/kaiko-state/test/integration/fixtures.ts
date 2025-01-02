@@ -3,7 +3,8 @@ export class MockClientReadableStream {
     if (event === 'data') {
       handler({
         getBase: jest.fn(() => 'ETH'),
-        getAggregatedPriceEth: jest.fn(() => '100.1'),
+        getAggregatedPriceLst: jest.fn(() => '100.1'),
+        getLstQuote: jest.fn(() => 'WETH'),
         getAggregatedPriceUsd: jest.fn(() => '100.2'),
       })
     }

@@ -1,3 +1,5 @@
 {
- "requests": [{}]
+ "requests": [{
+  "endpoint": "reserves"
+ }]
 }

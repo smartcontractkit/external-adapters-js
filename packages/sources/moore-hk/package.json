@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/moore-hk-adapter",
-  "version": "1.0.15",
+  "version": "1.0.17",
   "description": "Chainlink moore-hk adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.7.3",
+    "@chainlink/external-adapter-framework": "1.7.7",
     "tslib": "2.4.1"
   }
 }

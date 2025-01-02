@@ -45,6 +45,9 @@
       "path": "./composites/dydx-rewards"
     },
     {
+      "path": "./composites/glv-token"
+    },
+    {
       "path": "./composites/gm-token"
     },
     {
@@ -139,9 +142,6 @@
     },
     {
       "path": "./sources/aleno"
-    },
-    {
-      "path": "./sources/alongside"
     },
     {
       "path": "./sources/alphachain"
@@ -508,6 +508,9 @@
     },
     {
       "path": "./sources/nikkei"
+    },
+    {
+      "path": "./sources/nyfed"
     },
     {
       "path": "./sources/oanda"
