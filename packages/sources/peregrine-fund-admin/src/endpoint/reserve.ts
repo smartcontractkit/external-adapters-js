@@ -26,10 +26,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  // Endpoint name
   name: 'reserve',
-  // Supported input parameters for this endpoint
   inputParameters,
-  // Transport handles incoming requests, data processing and communication for this endpoint
   transport: httpTransport,
 })

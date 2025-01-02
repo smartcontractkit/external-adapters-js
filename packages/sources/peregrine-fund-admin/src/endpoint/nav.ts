@@ -19,7 +19,6 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-// Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: SingleNumberResultResponse
@@ -27,10 +26,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  // Endpoint name
   name: 'nav',
-  // Transport handles incoming requests, data processing and communication for this endpoint
   transport: httpTransport,
-  //input params,
   inputParameters,
 })

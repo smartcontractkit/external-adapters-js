@@ -4,13 +4,9 @@ import { config } from './config'
 import { nav, reserve } from './endpoint'
 
 export const adapter = new Adapter({
-  //Requests will direct to this endpoint if the `endpoint` input parameter is not specified.
   defaultEndpoint: nav.name,
-  // Adapter name
   name: 'PEREGRINE_FUND_ADMIN',
-  // Adapter configuration (environment variables)
   config,
-  // List of supported endpoints
   endpoints: [nav, reserve],
   rateLimiting: {
     tiers: {
