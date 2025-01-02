@@ -213,6 +213,9 @@
       "path": "./sources/btc.com/tsconfig.test.json"
     },
     {
+      "path": "./sources/bx-digital/tsconfig.test.json"
+    },
+    {
       "path": "./sources/cache.gold/tsconfig.test.json"
     },
     {

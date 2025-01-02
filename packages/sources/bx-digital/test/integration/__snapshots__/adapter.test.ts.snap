@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint should return failure for Nan 1`] = `
+{
+  "errorMessage": "The data provider didn't return any value for 3",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint should return success for security 1 1`] = `
+{
+  "data": {
+    "result": 111.11,
+  },
+  "result": 111.11,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733155814000,
+  },
+}
+`;
+
+exports[`execute price endpoint should return success for security 2 1`] = `
+{
+  "data": {
+    "result": 222.22,
+  },
+  "result": 222.22,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733153530000,
+  },
+}
+`;
