@@ -13,6 +13,8 @@ import {
 } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
+import * as lwbaTransport from '../../src/transport/crypto-lwba'
+import * as lwbaEndpoint from '../../src/endpoint/crypto-lwba'
 
 describe('websocket', () => {
   let mockWsServerCrypto: MockWebsocketServer | undefined
@@ -99,6 +101,25 @@ describe('websocket', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(spreadData)
       expect(response.json()).toMatchSnapshot()
+    })
+    it('should only subscribe once', async () => {
+      const lwbaDataLowercase = {
+        endpoint: 'crypto_lwba',
+        base: 'eth',
+        quote: 'usd',
+      }
+      const lwbaDataUppercase = {
+        endpoint: 'crypto_lwba',
+        base: 'ETH',
+        quote: 'USD',
+      }
+      const response1 = await testAdapter.request(lwbaDataLowercase)
+      expect(response1.json()).toMatchSnapshot()
+
+      const response2 = await testAdapter.request(lwbaDataUppercase)
+      expect(response2.json()).toMatchSnapshot()
+
+      expect(lwbaTransport.transport.subscriptionSet.getAll()).toHaveLength(1)
     })
     it('should return error (invariant violation)', async () => {
       // fast forward to next message (which contains an invariant violation)
