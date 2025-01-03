@@ -341,17 +341,6 @@
     ]
   },
   {
-    "from": "MNT",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "USD",
-        "to": "MNT",
-        "inverse": true
-      }
-    ]
-  },
-  {
     "from": "HKD",
     "to": "USD",
     "includes": [
