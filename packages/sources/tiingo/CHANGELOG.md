@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.6.9
+
+### Patch Changes
+
+- [`ef5dfa4`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5dfa49a909dbe4adc0ac2309616e81ef4ba9cb) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Force uppercase assets on cryptolwba endpoint
+
 ## 2.6.8
 
 ### Patch Changes
