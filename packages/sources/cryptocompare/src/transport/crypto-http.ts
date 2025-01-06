@@ -7,6 +7,12 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, res) => {
     const entries = []
+    if ('Response' in res.data && res.data.Response === 'Error') {
+      if ('Message' in res.data) {
+        console.error(`${res.data.Message}`)
+      }
+    }
+
     for (const requestPayload of params) {
       const entry = constructEntry(requestPayload, res.data, 'PRICE')
       if (entry) {
