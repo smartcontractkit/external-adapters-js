@@ -51,11 +51,23 @@ export const generateTransport = () => {
 
         return new Promise((resolve) => {
           connection.addEventListener('message', (event: MessageEvent) => {
-            const { msg, sta } = JSON.parse(event.data.toString())
-            if (msg === 'auth' && sta === 1) {
-              logger.info('Got logged in response, connection is ready')
-              providerDataStreamEstablishedUnixMs = Date.now()
-              resolve()
+            const { msg, sta, info } = JSON.parse(event.data.toString())
+            if (msg === 'auth') {
+              if (sta === 1) {
+                logger.info('Got logged in response, connection is ready')
+                providerDataStreamEstablishedUnixMs = Date.now()
+                resolve()
+              } else if (sta === 0) {
+                if (
+                  info ===
+                  'Server requested disconnection (code 2): Client limits for JSONWS exceeded (2 clients, 1 allowed)'
+                ) {
+                  logger.error(`${info}`)
+                } else if (info === 'Authentication failed (check credentials)') {
+                  logger.error(`${info}`)
+                }
+                logger.error(`${info}`)
+              }
             }
           })
           const options = {
