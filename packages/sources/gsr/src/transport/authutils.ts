@@ -47,6 +47,17 @@ export const getToken = async (
 
   if (!response.data.success) {
     logger.error(`Unable to get access token: ${response.data.error}`)
+
+    if (response.data.error === 'Server Error') {
+      logger.error('Server Error')
+    } else if (response.data.error === 'Signature mismatch') {
+      logger.error('Signature mismatch')
+    } else if (response.data.error === 'UserID not found') {
+      logger.error('UserID not found')
+    } else if (response.data.error === 'API key mismatch') {
+      logger.error('API key mismatch')
+    }
+
     throw new Error(response.data.error)
   }
 
