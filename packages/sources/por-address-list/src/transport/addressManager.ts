@@ -1,5 +1,8 @@
 import { ethers } from 'ethers'
 import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('por-address-manager')
 
 export abstract class AddressManager<T> {
   contract: ethers.Contract
@@ -43,6 +46,11 @@ export abstract class AddressManager<T> {
         batchRequests = []
       }
     }
+
+    if (addresses.length == 0) {
+      logger.error('Received empty PoRAddressList')
+    }
+
     return addresses
   }
 
@@ -51,26 +59,39 @@ export abstract class AddressManager<T> {
   abstract processPoRAddressList(result: T[], network: string, chainId: string): PoRAddress[]
 }
 
-export class DefaultAddressManager extends AddressManager<string[]> {
+type DefaultAddressManagerResponseType = string[]
+export class DefaultAddressManager extends AddressManager<DefaultAddressManagerResponseType> {
   getPoRAddressListCall(start: ethers.BigNumber, end: number, blockTag: number) {
     return this.contract.getPoRAddressList(start, end, { blockTag })
   }
 
-  processPoRAddressList(result: string[][], network: string, chainId: string) {
-    return result.flat().map((address) => ({
-      address,
-      network,
-      chainId,
-    }))
+  processPoRAddressList(
+    result: DefaultAddressManagerResponseType[],
+    network: string,
+    chainId: string,
+  ) {
+    return result
+      .flat()
+      .map((address) => ({
+        address,
+        network,
+        chainId,
+      }))
+      .sort()
   }
 }
 
-export class LombardAddressManager extends AddressManager<string[][]> {
+type LombardAddressManagerResponseType = string[][]
+export class LombardAddressManager extends AddressManager<LombardAddressManagerResponseType> {
   getPoRAddressListCall(start: ethers.BigNumber, end: number, blockTag: number) {
     return this.contract.getPoRAddressSignatureMessages(start.toNumber(), end, { blockTag })
   }
 
-  processPoRAddressList(result: string[][][], network: string, chainId: string) {
+  processPoRAddressList(
+    result: LombardAddressManagerResponseType[],
+    network: string,
+    chainId: string,
+  ) {
     return result
       .flatMap((r) => r[0])
       .filter((address) => address != '')
@@ -79,5 +100,6 @@ export class LombardAddressManager extends AddressManager<string[][]> {
         network: network,
         chainId: chainId,
       }))
+      .sort()
   }
 }
