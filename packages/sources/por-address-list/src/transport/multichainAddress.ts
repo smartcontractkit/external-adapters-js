@@ -7,8 +7,9 @@ import SolvMultiAddressListABI from '../config/SolvMultiAddressList.json'
 import MultiEVMPoRAddressListABI from '../config/MultiEVMPoRAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/multichainAddress'
 import { ethers } from 'ethers'
-import { fetchAddressList, addProvider, getProvider } from './utils'
+import { addProvider, getProvider } from './providerUtils'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { AddressManager } from './addressManager'
 
 export type AddressTransportTypes = BaseEndpointTypes
 
@@ -72,12 +73,11 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
     const provider = getProvider(contractAddressNetwork, this.providersMap)
     const abi = this.getAbi(abiName)
 
-    const addressManager = new ethers.Contract(contractAddress, abi, provider)
+    const addressManager = new MultiAddressManager(contractAddress, abi, provider)
     const latestBlockNum = await provider.getBlockNumber()
 
     const providerDataRequestedUnixMs = Date.now()
-    const addressList = await fetchAddressList<ResponseSchema>(
-      addressManager,
+    const addressList = await addressManager.fetchAddressList(
       latestBlockNum,
       confirmations,
       batchSize,
@@ -128,9 +128,21 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   }
 }
 
-const buildTokenResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: string) => {
+class MultiAddressManager extends AddressManager<ResponseSchema[]> {
+  getPoRAddressListCall(start: ethers.BigNumber, end: number, blockTag: number) {
+    return this.contract.getPoRAddressList(start, end, { blockTag })
+  }
+
+  // Method not used here
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  processPoRAddressList(_: ResponseSchema[][], __: string, ___: string) {
+    return []
+  }
+}
+
+const buildTokenResponse = (addressList: ResponseSchema[][], vaultPlaceHolder?: string) => {
   const addressByChain = Map.groupBy(
-    addressList.filter((addr) => addr.tokenAddress != vaultPlaceHolder),
+    addressList.flat().filter((addr) => addr.tokenAddress != vaultPlaceHolder),
     (address) => address.chainId.toString() + address.tokenAddress,
   )
 
@@ -148,8 +160,9 @@ const buildTokenResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: st
   ).sort()
 }
 
-const buildVaultResponse = (addressList: ResponseSchema[], vaultPlaceHolder?: string) => {
+const buildVaultResponse = (addressList: ResponseSchema[][], vaultPlaceHolder?: string) => {
   return addressList
+    .flat()
     .filter((addr) => addr.tokenAddress == vaultPlaceHolder)
     .map((addr) => ({
       address: addr.vaultAddress,
