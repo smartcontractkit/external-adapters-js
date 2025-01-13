@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.5.0
+
+### Minor Changes
+
+- [#3623](https://github.com/smartcontractkit/external-adapters-js/pull/3623) [`42ecd70`](https://github.com/smartcontractkit/external-adapters-js/commit/42ecd70697b63ed42e59dec5af46f2cb5e0fab3f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add Lombard PoR
+
 ## 5.4.4
 
 ### Patch Changes
