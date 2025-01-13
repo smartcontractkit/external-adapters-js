@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 4.3.0
+
+### Minor Changes
+
+- [#3624](https://github.com/smartcontractkit/external-adapters-js/pull/3624) [`23d203c`](https://github.com/smartcontractkit/external-adapters-js/commit/23d203cf5c289aebbaf06c316e8b75b46e97694b) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - modify includes.json
+
 ## 4.2.2
 
 ### Patch Changes
