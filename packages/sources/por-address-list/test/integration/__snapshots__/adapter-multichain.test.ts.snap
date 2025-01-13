@@ -27,6 +27,7 @@ exports[`execute multichainAddress endpoint should return success 1`] = `
       {
         "chainId": "56",
         "contractAddress": "token1",
+        "network": "bnb",
         "wallets": [
           "vault1",
           "vault2",
@@ -35,6 +36,7 @@ exports[`execute multichainAddress endpoint should return success 1`] = `
       {
         "chainId": "223",
         "contractAddress": "token3",
+        "network": "b2",
         "wallets": [
           "vault3",
         ],
