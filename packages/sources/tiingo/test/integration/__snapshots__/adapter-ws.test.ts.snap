@@ -92,32 +92,17 @@ exports[`websocket forex endpoint should return success 1`] = `
 }
 `;
 
-exports[`websocket iex endpoint Q request should return success 1`] = `
+exports[`websocket iex endpoint iex A request should return success 1`] = `
 {
   "data": {
-    "result": 170.285,
+    "result": 232.66,
   },
-  "result": 170.285,
+  "result": 232.66,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 3030,
-    "providerIndicatedTimeUnixMs": 1645032916595,
-  },
-}
-`;
-
-exports[`websocket iex endpoint T request should return success 1`] = `
-{
-  "data": {
-    "result": 106.21,
-  },
-  "result": 106.21,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 3038,
-    "providerDataStreamEstablishedUnixMs": 3030,
-    "providerIndicatedTimeUnixMs": 1645032916595,
+    "providerIndicatedTimeUnixMs": 1736885388216,
   },
 }
 `;
@@ -125,14 +110,14 @@ exports[`websocket iex endpoint T request should return success 1`] = `
 exports[`websocket iex endpoint should update the ttl after heartbeat is received 1`] = `
 {
   "data": {
-    "result": 170.285,
+    "result": 232.66,
   },
-  "result": 170.285,
+  "result": 232.66,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 3030,
-    "providerIndicatedTimeUnixMs": 1645032916595,
+    "providerIndicatedTimeUnixMs": 1736885388216,
   },
 }
 `;
