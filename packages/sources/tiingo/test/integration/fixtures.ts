@@ -413,49 +413,10 @@ export const mockCryptoLwbaWebSocketServer = (URL: string): MockWebsocketServer 
 }
 
 export const mockIexWebSocketServer = (URL: string): MockWebsocketServer => {
-  const wsResponseQ = {
+  const wsResponseIexA = {
     messageType: 'A',
     service: 'iex',
-    data: [
-      'Q',
-      '2022-02-16T12:35:16.595244526-05:00',
-      1645032916595244500,
-      'aapl',
-      399,
-      170.28,
-      170.285,
-      170.29,
-      100,
-      null,
-      null,
-      0,
-      0,
-      null,
-      null,
-      null,
-    ],
-  }
-  const wsResponseT = {
-    messageType: 'A',
-    service: 'iex',
-    data: [
-      'T',
-      '2022-02-16T12:35:16.595244526-05:00',
-      1645032916595244500,
-      'amzn',
-      null,
-      null,
-      null,
-      null,
-      null,
-      106.21,
-      null,
-      null,
-      0,
-      0,
-      0,
-      0,
-    ],
+    data: ['2025-01-14T15:09:48.216010528-05:00', 'aapl', 232.66],
   }
   const wsResponseHeartbeat = {
     response: { code: 200, message: 'HeartBeat' },
@@ -466,8 +427,7 @@ export const mockIexWebSocketServer = (URL: string): MockWebsocketServer => {
     let counter = 0
     socket.on('message', () => {
       if (counter++ === 0) {
-        socket.send(JSON.stringify(wsResponseQ))
-        socket.send(JSON.stringify(wsResponseT))
+        socket.send(JSON.stringify(wsResponseIexA))
         setTimeout(() => {
           socket.send(JSON.stringify(wsResponseHeartbeat))
         }, 10000)

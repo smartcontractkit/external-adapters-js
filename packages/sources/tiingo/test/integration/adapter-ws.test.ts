@@ -14,7 +14,6 @@ import {
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
 import * as lwbaTransport from '../../src/transport/crypto-lwba'
-import * as lwbaEndpoint from '../../src/endpoint/crypto-lwba'
 
 describe('websocket', () => {
   let mockWsServerCrypto: MockWebsocketServer | undefined
@@ -37,11 +36,6 @@ describe('websocket', () => {
   const priceDataAapl = {
     endpoint: 'iex',
     base: 'aapl',
-    transport: 'ws',
-  }
-  const priceDataAmzn = {
-    endpoint: 'iex',
-    base: 'amzn',
     transport: 'ws',
   }
   const priceDataForex = {
@@ -75,9 +69,8 @@ describe('websocket', () => {
     await testAdapter.request(priceData)
     await testAdapter.request(spreadData)
     await testAdapter.request(priceDataAapl)
-    await testAdapter.request(priceDataAmzn)
     await testAdapter.request(priceDataForex)
-    await testAdapter.waitForCache(5)
+    await testAdapter.waitForCache(4)
   })
 
   afterAll(async () => {
@@ -137,12 +130,8 @@ describe('websocket', () => {
   })
 
   describe('iex endpoint', () => {
-    it('Q request should return success', async () => {
+    it('iex A request should return success', async () => {
       const response = await testAdapter.request(priceDataAapl)
-      expect(response.json()).toMatchSnapshot()
-    })
-    it('T request should return success', async () => {
-      const response = await testAdapter.request(priceDataAmzn)
       expect(response.json()).toMatchSnapshot()
     })
 
