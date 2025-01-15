@@ -70,8 +70,8 @@ export const solvHttpTransport = new HttpTransport<HttpTransportTypes>({
         if (params[0].type == 'JUP') {
           return {
             address: r.mirrorXLinkId,
-            network: 'solana',
-            chainId: 'mainnet',
+            network: 'ceffu',
+            chainId: 'solv',
           } as PoRAddress
         } else {
           return {
