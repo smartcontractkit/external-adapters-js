@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/aleno-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink aleno adapter.",
   "keywords": [
     "Chainlink",
