@@ -222,6 +222,9 @@
       "path": "./sources/ccip-read/tsconfig.test.json"
     },
     {
+      "path": "./sources/ceffu/tsconfig.test.json"
+    },
+    {
       "path": "./sources/celsius-address-list/tsconfig.test.json"
     },
     {

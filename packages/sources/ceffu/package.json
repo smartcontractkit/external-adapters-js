@@ -1,0 +1,44 @@
+{
+  "name": "@chainlink/ceffu-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink ceffu adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "ceffu"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.119",
+    "https-proxy-agent": "7.0.6",
+    "nock": "13.5.4",
+    "query-string": "9.1.1",
+    "typescript": "5.6.3"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "2.0.0",
+    "decimal.js": "^10.3.1",
+    "ethers": "^6.13.2",
+    "tslib": "2.4.1"
+  }
+}
