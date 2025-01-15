@@ -1,5 +1,31 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.24.6
+
+### Patch Changes
+
+- [#3631](https://github.com/smartcontractkit/external-adapters-js/pull/3631) [`7338a47`](https://github.com/smartcontractkit/external-adapters-js/commit/7338a4769f2b9ab08024c9b1ad389cc238527a8e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow custom endpoint for indexer
+
+- [#3629](https://github.com/smartcontractkit/external-adapters-js/pull/3629) [`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version, includes fastify v4 to v5 upgrade
+
+- Updated dependencies [[`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234), [`d854e34`](https://github.com/smartcontractkit/external-adapters-js/commit/d854e340739416807240c183cd8721886bdb36a2)]:
+  - @chainlink/multi-address-list-adapter@1.0.11
+  - @chainlink/stader-address-list-adapter@2.3.30
+  - @chainlink/eth-beacon-adapter@3.0.11
+  - @chainlink/gemini-adapter@3.0.23
+  - @chainlink/por-indexer-adapter@2.1.14
+  - @chainlink/stader-balance-adapter@1.4.27
+  - @chainlink/avalanche-platform-adapter@2.0.24
+  - @chainlink/lotus-adapter@3.0.23
+  - @chainlink/por-address-list-adapter@5.5.1
+  - @chainlink/moonbeam-address-list-adapter@1.1.40
+  - @chainlink/wbtc-address-set-adapter@2.1.13
+  - @chainlink/polkadot-balance-adapter@1.3.19
+  - @chainlink/coinbase-prime-adapter@1.2.13
+  - @chainlink/ignition-address-list-adapter@1.0.6
+  - @chainlink/token-balance-adapter@1.0.4
+  - @chainlink/renvm-address-set-adapter@1.5.96
+
 ## 1.24.5
 
 ### Patch Changes
