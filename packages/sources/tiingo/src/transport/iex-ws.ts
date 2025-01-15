@@ -5,37 +5,7 @@ import { TiingoWebsocketTransport } from './utils'
 interface Message {
   service: string
   messageType: string
-  data: [
-    string,
-    string,
-    number,
-    string,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-  ]
-}
-
-const dateIndex = 1
-const tickerIndex = 3
-
-const priceIndexMap = {
-  lastTrade: 9,
-  quote: 6,
-}
-
-const updateTypeMap = {
-  lastTrade: 'T',
-  quote: 'Q',
+  data: [string, string, number]
 }
 
 type WsTransportTypes = BaseEndpointTypes & {
@@ -44,10 +14,14 @@ type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
+const dateIndex = 0
+const tickerIndex = 1
+const priceIndex = 2
+
 /*
 Tiingo EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
 we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
- */
+*/
 const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
   const params = await transport.subscriptionSet.getAll()
   transport.responseCache.writeTTL(transport.name, params, ttl)
@@ -69,32 +43,24 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
           return []
         }
 
-        const updateType = message.data[0]
-        // Expects Last Trade (T) or Quote (Q) messages
-        if (
-          !message?.data?.length ||
-          message.messageType !== 'A' ||
-          (updateType !== updateTypeMap.lastTrade && updateType !== updateTypeMap.quote)
-        ) {
+        if (!message?.data?.length || message.messageType !== 'A') {
           return []
         }
 
-        let result: number
-        if (updateType === updateTypeMap.lastTrade) {
-          result = message.data[priceIndexMap.lastTrade] as number
-        } else {
-          result = message.data[priceIndexMap.quote] as number
-        }
+        const dateString = message.data[dateIndex]
+        const ticker = message.data[tickerIndex]
+        const result = message.data[priceIndex]
+
         return [
           {
-            params: { base: message.data[tickerIndex] },
+            params: { base: ticker },
             response: {
               data: {
                 result,
               },
               result,
               timestamps: {
-                providerIndicatedTimeUnixMs: new Date(message.data[dateIndex]).getTime(),
+                providerIndicatedTimeUnixMs: new Date(dateString).getTime(),
               },
             },
           },
@@ -107,14 +73,20 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
         return {
           eventName: 'subscribe',
           authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 5, tickers: [params.base] },
+          eventData: {
+            thresholdLevel: 6,
+            tickers: [params.base],
+          },
         }
       },
       unsubscribeMessage: (params) => {
         return {
           eventName: 'unsubscribe',
           authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 5, tickers: [params.base] },
+          eventData: {
+            thresholdLevel: 6,
+            tickers: [params.base],
+          },
         }
       },
     },
