@@ -1,5 +1,15 @@
 ## v1.1.0
 
+## 2.7.0
+
+### Minor Changes
+
+- [#3635](https://github.com/smartcontractkit/external-adapters-js/pull/3635) [`da65fb1`](https://github.com/smartcontractkit/external-adapters-js/commit/da65fb1f1c29f630d74ae98f1d0f52fbf1e9cff7) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update IEX endpoint with new payload
+
+### Patch Changes
+
+- [#3629](https://github.com/smartcontractkit/external-adapters-js/pull/3629) [`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version, includes fastify v4 to v5 upgrade
+
 ## 2.6.9
 
 ### Patch Changes
