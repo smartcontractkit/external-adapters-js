@@ -323,6 +323,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ccip-read"\
     },\
     {\
+      "name": "@chainlink/ceffu-adapter",\
+      "reference": "workspace:packages/sources/ceffu"\
+    },\
+    {\
       "name": "@chainlink/celsius-address-list-adapter",\
       "reference": "workspace:packages/sources/celsius-address-list"\
     },\
@@ -987,6 +991,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bx-digital-adapter", ["workspace:packages/sources/bx-digital"]],\
     ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
     ["@chainlink/ccip-read-adapter", ["workspace:packages/sources/ccip-read"]],\
+    ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
     ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
@@ -5829,6 +5834,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/ceffu-adapter", [\
+      ["workspace:packages/sources/ceffu", {\
+        "packageLocation": "./packages/sources/ceffu/",\
+        "packageDependencies": [\
+          ["@chainlink/ceffu-adapter", "workspace:packages/sources/ceffu"],\
+          ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.119"],\
+          ["decimal.js", "npm:10.4.3"],\
+          ["ethers", "npm:6.13.4"],\
+          ["https-proxy-agent", "npm:7.0.6"],\
+          ["nock", "npm:13.5.4"],\
+          ["query-string", "npm:9.1.1"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/celsius-address-list-adapter", [\
       ["workspace:packages/sources/celsius-address-list", {\
         "packageLocation": "./packages/sources/celsius-address-list/",\
@@ -8425,6 +8449,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
           ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
           ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
+          ["@chainlink/ceffu-adapter", "workspace:packages/sources/ceffu"],\
           ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
           ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
@@ -17463,6 +17488,13 @@ const RAW_RUNTIME_STATE =
           ["debug", "virtual:6230e12b1d7dee1735a865cef131ea49c043e7f202fd08b14ceb90686e406b76a07840fc9510f1069465ad9695242b42830fc7fea7b01648a261463b7848122f#npm:4.3.7"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:7.1.3", {\
+        "packageLocation": "./.yarn/cache/agent-base-npm-7.1.3-b2c16e72fb-3db6d8d465.zip/node_modules/agent-base/",\
+        "packageDependencies": [\
+          ["agent-base", "npm:7.1.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["agentkeepalive", [\
@@ -21163,6 +21195,13 @@ const RAW_RUNTIME_STATE =
           ["decode-uri-component", "npm:0.2.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:0.4.1", {\
+        "packageLocation": "./.yarn/cache/decode-uri-component-npm-0.4.1-61db093ef6-74eec26f7b.zip/node_modules/decode-uri-component/",\
+        "packageDependencies": [\
+          ["decode-uri-component", "npm:0.4.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["decompress-response", [\
@@ -23604,6 +23643,13 @@ const RAW_RUNTIME_STATE =
           ["filter-obj", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.1.0", {\
+        "packageLocation": "./.yarn/cache/filter-obj-npm-5.1.0-a1ae61a7db-8f6dab6d8d.zip/node_modules/filter-obj/",\
+        "packageDependencies": [\
+          ["filter-obj", "npm:5.1.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["finalhandler", [\
@@ -25417,6 +25463,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["https-proxy-agent", "npm:7.0.5"],\
           ["agent-base", "npm:7.1.1"],\
+          ["debug", "virtual:6230e12b1d7dee1735a865cef131ea49c043e7f202fd08b14ceb90686e406b76a07840fc9510f1069465ad9695242b42830fc7fea7b01648a261463b7848122f#npm:4.3.7"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:7.0.6", {\
+        "packageLocation": "./.yarn/cache/https-proxy-agent-npm-7.0.6-27a95c2690-784b628cbd.zip/node_modules/https-proxy-agent/",\
+        "packageDependencies": [\
+          ["https-proxy-agent", "npm:7.0.6"],\
+          ["agent-base", "npm:7.1.3"],\
           ["debug", "virtual:6230e12b1d7dee1735a865cef131ea49c043e7f202fd08b14ceb90686e406b76a07840fc9510f1069465ad9695242b42830fc7fea7b01648a261463b7848122f#npm:4.3.7"]\
         ],\
         "linkType": "HARD"\
@@ -34171,6 +34226,16 @@ const RAW_RUNTIME_STATE =
           ["strict-uri-encode", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:9.1.1", {\
+        "packageLocation": "./.yarn/cache/query-string-npm-9.1.1-0fe72d5dee-fa6b40be91.zip/node_modules/query-string/",\
+        "packageDependencies": [\
+          ["query-string", "npm:9.1.1"],\
+          ["decode-uri-component", "npm:0.4.1"],\
+          ["filter-obj", "npm:5.1.0"],\
+          ["split-on-first", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["querystring", [\
@@ -36432,6 +36497,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/speedometer-npm-0.1.4-52d58d8e4a-870fde4357.zip/node_modules/speedometer/",\
         "packageDependencies": [\
           ["speedometer", "npm:0.1.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["split-on-first", [\
+      ["npm:3.0.0", {\
+        "packageLocation": "./.yarn/cache/split-on-first-npm-3.0.0-3b993e48ae-75dc27ecba.zip/node_modules/split-on-first/",\
+        "packageDependencies": [\
+          ["split-on-first", "npm:3.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
