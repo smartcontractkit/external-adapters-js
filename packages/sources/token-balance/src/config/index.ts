@@ -4,6 +4,7 @@ export const config = new AdapterConfig({
   ARBITRUM_RPC_URL: {
     description: 'RPC url of Arbitrum node',
     type: 'string',
+    default: '',
   },
   ARBITRUM_RPC_CHAIN_ID: {
     description: 'Arbitrum chain id',
@@ -13,6 +14,7 @@ export const config = new AdapterConfig({
   SOLANA_RPC_URL: {
     description: 'Solana Rpc Url',
     type: 'string',
+    default: '',
   },
   SOLANA_COMMITMENT: {
     description: 'Solana transaction commitment level',
