@@ -8,7 +8,7 @@ export const config = new AdapterConfig({
     sensitive: true,
   },
   PRIVATE_KEY: {
-    description: 'An Private key for Data Provider',
+    description: 'A Private key for Data Provider',
     type: 'string',
     required: true,
     sensitive: true,
