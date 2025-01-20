@@ -9118,6 +9118,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
           ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
+          ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.115"],\
           ["ethers", "npm:6.13.4"],\

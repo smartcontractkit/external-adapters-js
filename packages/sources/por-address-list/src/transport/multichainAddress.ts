@@ -4,6 +4,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import PoRAddressListMultiABI from '../config/PoRAddressListMulti.json'
 import SolvMultiAddressListABI from '../config/SolvMultiAddressList.json'
+import SolvSolanaMultiAddressListABI from '../config/SolvSolanaMultiAddressList.json'
 import MultiEVMPoRAddressListABI from '../config/MultiEVMPoRAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/multichainAddress'
 import { ethers } from 'ethers'
@@ -115,6 +116,8 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
         return PoRAddressListMultiABI
       case 'SolvMultiAddressList':
         return SolvMultiAddressListABI
+      case 'SolvSolanaMultiAddressList':
+        return SolvSolanaMultiAddressListABI
       default:
         throw new AdapterInputError({
           errorResponse: 'abiName not found',
@@ -152,6 +155,8 @@ const buildTokenResponse = (addressList: ResponseSchema[][], vaultPlaceHolder?: 
         k,
         {
           chainId: v[0].chainId.toString(),
+          network: v[0].chain,
+          token: v[0].tokenSymbol,
           contractAddress: v[0].tokenAddress,
           wallets: v.map((v) => v.vaultAddress),
         },
