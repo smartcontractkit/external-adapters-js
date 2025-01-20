@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import abi from '../config/abi.json'
+import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
 
 export const getRate = async (contractAddress: string, provider?: ethers.JsonRpcProvider) => {
   if (!provider) {
@@ -10,7 +10,7 @@ export const getRate = async (contractAddress: string, provider?: ethers.JsonRpc
     })
   }
 
-  const contract = new ethers.Contract(contractAddress, abi, provider)
+  const contract = new ethers.Contract(contractAddress, EACAggregatorProxy, provider)
   const [decimal, value]: [bigint, bigint] = await Promise.all([
     contract.decimals(),
     contract.latestAnswer(),
