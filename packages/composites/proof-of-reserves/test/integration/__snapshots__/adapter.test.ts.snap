@@ -53,6 +53,7 @@ exports[`execute multiReserves endpoint should return success 1`] = `
 {
   "data": {
     "decimals": 18,
+    "details": "{"result":"75100045155","statusCode":200,"decimals":8},{"result":"220646158354962165"}",
     "result": "751221097708354962165",
     "statusCode": 200,
     "timestamps": {

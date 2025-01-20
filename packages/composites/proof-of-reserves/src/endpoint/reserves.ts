@@ -25,6 +25,7 @@ export type TInputParameters = {
   addresses?: string[]
   disableAddressValidation?: boolean
   disableDuplicateAddressFiltering?: boolean
+  description?: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -88,6 +89,11 @@ const inputParameters: InputParameters<TInputParameters> = {
       'If this is set to `true` and a duplicate address is contained in the request, the balance of that address will be counted twice.',
     default: false,
   },
+  description: {
+    required: false,
+    type: 'string',
+    description: 'Optional human readable description on what this request is about',
+  },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, config.options)
@@ -117,5 +123,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     validator.validated.data.indexerEndpoint,
   )
   const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
+  reduceOutput.data.description = validator.validated.data.description
   return reduceOutput
 }
