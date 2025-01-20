@@ -64,7 +64,7 @@ export const getAssetPositions = async (
       })
     }
 
-    if (!response.response.data.data || !response.response.data.data.exchangeBalance) {
+    if (!response.response.data.data?.exchangeBalance) {
       throw new AdapterError({
         statusCode: 500,
         message: `Ceffu API does not return exchangeBalance, code: ${response.response.data.code}, message:${response.response.data.message}`,
