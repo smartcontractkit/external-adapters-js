@@ -61,6 +61,7 @@ export const runBalanceAdapter = async (
   config: Config,
   input: AdapterResponse,
   indexerEndpoint?: string,
+  indexerParams?: Record<string, string>,
 ): Promise<AdapterResponse> => {
   const execute = makeRequestFactory(config, indexer)
   let next
@@ -126,6 +127,10 @@ export const runBalanceAdapter = async (
 
   if (indexerEndpoint) {
     ;(next.data as any).endpoint = indexerEndpoint
+  }
+
+  for (const [key, value] of Object.entries(indexerParams || {})) {
+    ;(next.data as any)[key] = value
   }
 
   return callAdapter(execute, context, next, '_onBalance')
