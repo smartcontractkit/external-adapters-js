@@ -6,6 +6,10 @@ import {
 import { BaseEndpointTypes } from '../endpoint/reserves'
 import * as crypto from 'crypto'
 import { AdapterSettings } from '@chainlink/external-adapter-framework/config'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 export interface DataSchema {
   totalReserve: string
@@ -27,8 +31,17 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
+type ReservesAdapterSettings = AdapterSettings<{
+  PROD_API_ENDPOINT: { description: string; type: 'string'; default: string }
+  STAGING_API_ENDPOINT: { description: string; type: 'string'; default: string }
+  TEST_API_ENDPOINT: { description: string; type: 'string'; default: string }
+  PROD_PUBKEY: { description: string; type: 'string'; required: true }
+  STAGING_PUBKEY: { description: string; type: 'string'; required: false }
+  TEST_PUBKEY: { description: string; type: 'string'; required: false }
+}>
+
 class ReservesHttpTransport extends HttpTransport<HttpTransportTypes> {
-  pubkey!: string
+  adapterSettings!: ReservesAdapterSettings
 
   constructor(config: HttpTransportConfig<HttpTransportTypes>) {
     super(config)
@@ -36,26 +49,66 @@ class ReservesHttpTransport extends HttpTransport<HttpTransportTypes> {
 
   override async initialize(
     dependencies: TransportDependencies<HttpTransportTypes>,
-    adapterSettings: AdapterSettings<{
-      API_ENDPOINT: { description: string; type: 'string'; default: string }
-      VERIFICATION_PUBKEY: { description: string; type: 'string'; required: true }
-    }>,
+    adapterSettings: ReservesAdapterSettings,
     endpointName: string,
     transportName: string,
   ): Promise<void> {
     super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.pubkey = adapterSettings.VERIFICATION_PUBKEY.replace(/\\n/g, '\n')
+    this.adapterSettings = adapterSettings
+  }
+
+  getEnvEndpoint(providerEndpoint: string): string {
+    switch (providerEndpoint) {
+      case 'prod':
+        return this.adapterSettings.PROD_API_ENDPOINT
+      case 'staging':
+        return this.adapterSettings.STAGING_API_ENDPOINT
+      case 'test':
+        return this.adapterSettings.TEST_API_ENDPOINT
+      default:
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: 'provider environment endpoint not found',
+        })
+    }
+  }
+
+  getEnvPubkey(providerEndpoint: string): string {
+    let pubkey
+    switch (providerEndpoint) {
+      case 'prod':
+        pubkey = this.adapterSettings.PROD_PUBKEY
+        break
+      case 'staging':
+        pubkey = this.adapterSettings.STAGING_PUBKEY
+        break
+      case 'test':
+        pubkey = this.adapterSettings.TEST_PUBKEY
+        break
+      default:
+        break
+    }
+
+    if (!pubkey) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'provider environment pubkey not found',
+      })
+    }
+
+    return pubkey.replace(/\\n/g, '\n')
   }
 }
 
 // returns reserves info for USDS
 export const httpTransport = new ReservesHttpTransport({
-  prepareRequests: (params, config) => {
+  prepareRequests: (params) => {
     return params.map((param) => {
+      const providerEndpoint = httpTransport.getEnvEndpoint(param.providerEndpoint) as string
       return {
         params: [param],
         request: {
-          baseURL: config.API_ENDPOINT,
+          baseURL: providerEndpoint,
         },
       }
     })
@@ -90,8 +143,15 @@ export const httpTransport = new ReservesHttpTransport({
 
     const verifier = crypto.createVerify('sha256')
     verifier.update(payload.data)
-    if (!verifier.verify(httpTransport.pubkey, payload.dataSignature, 'base64')) {
-      return params.map((param) => {
+
+    const data = JSON.parse(payload.data) as DataSchema
+    const timestamps = {
+      providerIndicatedTimeUnixMs: new Date(data.lastUpdated).getTime(),
+    }
+
+    return params.map((param) => {
+      const pubkey = httpTransport.getEnvPubkey(param.providerEndpoint) as string
+      if (!verifier.verify(pubkey, payload.dataSignature, 'base64')) {
         return {
           params: param,
           response: {
@@ -99,16 +159,10 @@ export const httpTransport = new ReservesHttpTransport({
             statusCode: 502,
           },
         }
-      })
-    }
+      }
 
-    const data = JSON.parse(payload.data) as DataSchema
-    const timestamps = {
-      providerIndicatedTimeUnixMs: new Date(data.lastUpdated).getTime(),
-    }
-    const result = Number(data.totalReserve)
-    if (result === undefined || isNaN(result)) {
-      return params.map((param) => {
+      const result = Number(data.totalReserve)
+      if (result === undefined || isNaN(result)) {
         return {
           params: param,
           response: {
@@ -116,10 +170,8 @@ export const httpTransport = new ReservesHttpTransport({
             statusCode: 502,
           },
         }
-      })
-    }
+      }
 
-    return params.map((param) => {
       return {
         params: param,
         response: {

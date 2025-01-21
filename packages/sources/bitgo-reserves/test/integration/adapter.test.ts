@@ -12,8 +12,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_ENDPOINT = 'http://test-endpoint.com'
-    process.env.VERIFICATION_PUBKEY = 'test'
+    process.env.PROD_API_ENDPOINT = 'http://test-endpoint.com'
+    process.env.PROD_PUBKEY = 'test'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -43,6 +43,7 @@ describe('execute', () => {
     it('should return success', async () => {
       const data = {
         endpoint: 'reserves',
+        providerEndpoint: 'prod',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

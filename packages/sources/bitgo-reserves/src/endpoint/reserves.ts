@@ -4,7 +4,21 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { config } from '../config'
 import { httpTransport } from '../transport/reserves'
 
-export const inputParameters = new InputParameters({})
+export const inputParameters = new InputParameters(
+  {
+    providerEndpoint: {
+      description: 'Which environment endpoint to choose',
+      options: ['prod', 'staging', 'test'],
+      type: 'string',
+      required: true,
+    },
+  },
+  [
+    {
+      providerEndpoint: 'prod',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
