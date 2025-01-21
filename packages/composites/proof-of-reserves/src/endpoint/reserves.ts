@@ -21,6 +21,7 @@ export type TInputParameters = {
   protocolEndpoint?: string
   indexer: string
   indexerEndpoint?: string
+  indexerParams?: Record<string, string>
   confirmations?: number
   addresses?: string[]
   disableAddressValidation?: boolean
@@ -62,6 +63,10 @@ const inputParameters: InputParameters<TInputParameters> = {
   indexerEndpoint: {
     type: 'string',
     description: 'Optional endpoint for the indexer external adapter to use',
+  },
+  indexerParams: {
+    type: 'object',
+    description: 'Additional param for indexer external adapter to use',
   },
   confirmations: {
     required: false,
@@ -121,6 +126,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     config,
     validatedAddresses,
     validator.validated.data.indexerEndpoint,
+    validator.validated.data.indexerParams,
   )
   const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
   reduceOutput.data.description = validator.validated.data.description
