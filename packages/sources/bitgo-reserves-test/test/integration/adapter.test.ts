@@ -14,7 +14,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.STAGING_API_ENDPOINT = 'http://staging-endpoint.com'
     process.env.STAGING_PUBKEY = 'test'
-    process.env.TEST_API_ENDPOINT = 'http://staging-endpoint.com'
+    process.env.TEST_API_ENDPOINT = 'http://test-endpoint.com'
     process.env.TEST_PUBKEY = 'test'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
