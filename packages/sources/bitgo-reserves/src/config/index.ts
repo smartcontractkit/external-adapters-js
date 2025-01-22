@@ -4,7 +4,7 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'An API endpoint for Data Provider',
     type: 'string',
-    default: 'https://reserves.usdstandard-test.com/por.json',
+    default: 'https://reserves.gousd.com/por.json',
   },
   VERIFICATION_PUBKEY: {
     description:
