@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserves-staging endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 98765432.1,
+  },
+  "result": 98765432.1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733793826000,
+  },
+}
+`;
+
+exports[`execute reserves-test endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 98765432.1,
+  },
+  "result": 98765432.1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733793826000,
+  },
+}
+`;
