@@ -62,9 +62,20 @@ export const generateTransport = () => {
                   info ===
                   'Server requested disconnection (code 2): Client limits for JSONWS exceeded (2 clients, 1 allowed)'
                 ) {
-                  logger.error(`${info}`)
+                  logger.error(`${info}
+                    You have too many concurrent connections.
+                    Possible Solutions:
+                    1. Shut off your active TP/ICAP EAs when performing the above tests.
+                    2. Use your supplied username for TP EA and your username appended with “-iis“ for ICAP EA.
+                    3. Do not deploy more than 2 EAs for TP/ICAP.
+                    4. If you are still unable to have more than 2 connection please contact Chainlink Labs.`)
                 } else if (info === 'Authentication failed (check credentials)') {
-                  logger.error(`${info}`)
+                  logger.error(`${info}
+                    There is something wrong with credentials.
+                    Possible Solutions:
+                    1. Doublecheck your supplied credentials and that they are being correctly provided in the header.
+                    2. Contact Data Provider to ensure your subscription is active.
+                    3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please contact us.`)
                 }
                 logger.error(`${info}`)
               }
