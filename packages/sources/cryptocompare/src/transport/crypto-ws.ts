@@ -96,6 +96,10 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
               parsed,
               'You have connected with an invalid API key, IP address rate limits will now be applied. Please check if your key is correct',
             )
+            logger.warn(`Possible Solutions:
+            1. Doublecheck your supplied credentials.
+            2. Contact Data Provider to ensure your subscription is active
+            3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please contact us.`)
             resolve()
           } else {
             logger.warn(parsed, 'Unexpected message after WS connection open')
@@ -109,6 +113,9 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
 
       if (message.TYPE === MessageTypes.SUB_VALIDATION_ERROR) {
         logger.error(message, 'Assets are not supported by data provider')
+        logger.error(`Possible Solutions:
+        1. Confirm you are using the same symbol found in the job spec with the correct case.
+        2. There maybe an issue with the job spec or the Data Provider may have delisted the asset. Reach out to Chainlink Labs.`)
         return []
       }
 
