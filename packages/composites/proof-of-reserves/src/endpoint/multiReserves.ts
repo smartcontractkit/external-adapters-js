@@ -57,6 +57,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     statusCode: 200,
     data: {
       result: result,
+      details: results.map((r) => JSON.stringify(r.data)).toString(),
       statusCode: 200,
       decimals: 18,
       timestamps: {

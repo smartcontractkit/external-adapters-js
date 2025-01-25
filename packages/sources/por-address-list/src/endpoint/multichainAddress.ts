@@ -20,7 +20,12 @@ export const inputParameters = new InputParameters(
     abiName: {
       description: 'Used to select the ABI by name',
       type: 'string',
-      options: ['MultiEVMPoRAddressList', 'PoRAddressListMulti', 'SolvMultiAddressList'],
+      options: [
+        'MultiEVMPoRAddressList',
+        'PoRAddressListMulti',
+        'SolvMultiAddressList',
+        'SolvSolanaMultiAddressList',
+      ],
       required: true,
     },
     type: {

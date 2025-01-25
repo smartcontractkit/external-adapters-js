@@ -98,4 +98,5 @@ export const SoakTestBlacklist: string[] = [
   'bravenewcoin', // Our API Key has expired
   'celsius-address-list', // Not deployed internally
   'instruxi-sxt', // Developed by external party
+  'ceffu', // Missing: RPC URL
 ]

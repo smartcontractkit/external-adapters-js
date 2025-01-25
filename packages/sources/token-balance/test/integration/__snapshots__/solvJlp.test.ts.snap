@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute solvJlp endpoint return success 1`] = `
+{
+  "data": {
+    "btcUSD": {
+      "decimals": 8,
+      "value": "1000000000",
+    },
+    "decimals": 18,
+    "jlpUSD": {
+      "decimals": 8,
+      "value": "200000000",
+    },
+    "result": "20000000000000000000",
+    "wallets": [
+      {
+        "decimals": 0,
+        "token": "1",
+        "value": 100,
+        "wallet": "2",
+      },
+    ],
+  },
+  "result": "20000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

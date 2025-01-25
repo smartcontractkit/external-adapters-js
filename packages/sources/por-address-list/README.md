@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.4.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,6 +14,10 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |    BACKGROUND_EXECUTE_MS    |                                The amount of time the background execute should sleep before performing the next request                                 | number |         |                                 `10000`                                  |
 |           | BEDROCK_UNIBTC_API_ENDPOINT |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         | `https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json` |
 |           |    SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         |            `https://por.sft-api.com/solv-btc-addresses.json`             |
+|           |  SOLVBTC_BBN_API_ENDPOINT   |                                                An API endpoint for SolvBTC.BBN native BTC wallet address                                                 | string |         |          `https://por.sft-api.com/solv-btc-bbn-addresses.json`           |
+|           |  SOLVBTC_ENA_API_ENDPOINT   |                                                An API endpoint for SolvBTC.ENA native BTC wallet address                                                 | string |         |          `https://por.sft-api.com/solv-btc-ena-addresses.json`           |
+|           |  SOLVBTC_CORE_API_ENDPOINT  |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |          `https://por.sft-api.com/solv-btc-core-addresses.json`          |
+|           |  SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |           `https://por.sft-api.com/solv-btc-jup-mirrorx.json`            |
 
 ---
 
@@ -37,15 +41,16 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-| Required? |          Name          | Aliases |                                             Description                                              |  Type   | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------------------: | :-----: | :--------------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: | :--------: | :------------: |
-|           |     confirmations      |         |                            The number of confirmations to query data from                            | number  |         |         |            |                |
-|    ✅     |    contractAddress     |         |                         The contract address holding the custodial addresses                         | string  |         |         |            |                |
-|           | contractAddressNetwork |         | The network of the contract, used to match {NETWORK}\_RPC_URL and {NETWORK}\_RPC_CHAIN_ID in env var | string  |         |         |            |                |
-|           |       batchSize        |         |                     The number of addresses to fetch from the contract at a time                     | number  |         |  `10`   |            |                |
-|    ✅     |        network         |         |                           The network name to associate with the addresses                           | string  |         |         |            |                |
-|    ✅     |        chainId         |         |                             The chain ID to associate with the addresses                             | string  |         |         |            |                |
-|           | searchLimboValidators  |         |                Flag to pass on to the balance adapter to search for limbo validators                 | boolean |         |         |            |                |
+| Required? |          Name          | Aliases |                                             Description                                              |  Type   |       Options        |  Default  | Depends On | Not Valid With |
+| :-------: | :--------------------: | :-----: | :--------------------------------------------------------------------------------------------------: | :-----: | :------------------: | :-------: | :--------: | :------------: |
+|           |     confirmations      |         |                            The number of confirmations to query data from                            | number  |                      |           |            |                |
+|    ✅     |    contractAddress     |         |                         The contract address holding the custodial addresses                         | string  |                      |           |            |                |
+|           | contractAddressNetwork |         | The network of the contract, used to match {NETWORK}\_RPC_URL and {NETWORK}\_RPC_CHAIN_ID in env var | string  |                      |           |            |                |
+|           |       batchSize        |         |                     The number of addresses to fetch from the contract at a time                     | number  |                      |   `10`    |            |                |
+|    ✅     |        network         |         |                           The network name to associate with the addresses                           | string  |                      |           |            |                |
+|    ✅     |        chainId         |         |                             The chain ID to associate with the addresses                             | string  |                      |           |            |                |
+|           | searchLimboValidators  |         |                Flag to pass on to the balance adapter to search for limbo validators                 | boolean |                      |           |            |                |
+|           |        abiName         |         |                               The name of ABI used for contractAddress                               | string  | `Default`, `Lombard` | `Default` |            |                |
 
 ### Example
 
@@ -60,7 +65,8 @@ Request:
     "contractAddressNetwork": "",
     "batchSize": 10,
     "network": "ethereum",
-    "chainId": "1"
+    "chainId": "1",
+    "abiName": "Default"
   }
 }
 ```
@@ -73,7 +79,9 @@ Request:
 
 ### Input Params
 
-There are no input parameters for this endpoint.
+| Required? | Name | Aliases |                       Description                       |  Type  |              Options               | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----: | :-----------------------------------------------------: | :----: | :--------------------------------: | :-----: | :--------: | :------------: |
+|           | type |         | The type of bitcoin which we are fetching addresses for | string | `BBN`, `BTC`, `CORE`, `ENA`, `JUP` |  `BTC`  |            |                |
 
 ### Example
 
@@ -82,7 +90,8 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "solvbtcaddress"
+    "endpoint": "solvbtcaddress",
+    "type": "BTC"
   }
 }
 ```

@@ -40,11 +40,31 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
-    return params.map((param) => {
-      const security = response.data.find((r) => r.securityId == param.securityId)
-      if (security && !isNaN(Number(security?.closingPrice))) {
+    const missing = params
+      .filter((p) => !response.data.map((s) => s.securityId).includes(p.securityId))
+      .map((p) => ({
+        params: p,
+        response: {
+          errorMessage: `The data provider didn't return any value for ${p.securityId}`,
+          statusCode: 502,
+        },
+      }))
+
+    const valid = response.data.map((security) => {
+      const params = {
+        securityId: security.securityId,
+      }
+      if (isNaN(Number(security?.closingPrice))) {
         return {
-          params: param,
+          params,
+          response: {
+            errorMessage: `The data provider didn't return valid value for ${security.securityId}`,
+            statusCode: 502,
+          },
+        }
+      } else {
+        return {
+          params,
           response: {
             result: Number(security.closingPrice),
             data: {
@@ -55,15 +75,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
             },
           },
         }
-      } else {
-        return {
-          params: param,
-          response: {
-            errorMessage: `The data provider didn't return any value for ${param.securityId}`,
-            statusCode: 502,
-          },
-        }
       }
     })
+
+    return valid.concat(missing)
   },
 })

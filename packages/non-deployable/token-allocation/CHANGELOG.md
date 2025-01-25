@@ -1,5 +1,32 @@
 # @chainlink/token-allocation-adapter
 
+## 1.13.6
+
+### Patch Changes
+
+- [#3629](https://github.com/smartcontractkit/external-adapters-js/pull/3629) [`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version, includes fastify v4 to v5 upgrade
+
+- Updated dependencies [[`da65fb1`](https://github.com/smartcontractkit/external-adapters-js/commit/da65fb1f1c29f630d74ae98f1d0f52fbf1e9cff7), [`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234)]:
+  - @chainlink/tiingo-adapter@2.7.0
+  - @chainlink/finage-adapter@2.0.19
+  - @chainlink/cfbenchmarks-adapter@2.4.5
+  - @chainlink/kaiko-adapter@2.2.20
+  - @chainlink/coingecko-adapter@2.0.32
+  - @chainlink/coinmetrics-adapter@3.7.12
+  - @chainlink/blocksize-capital-adapter@2.3.13
+  - @chainlink/ncfx-adapter@4.3.1
+  - @chainlink/cryptocompare-adapter@3.3.10
+  - @chainlink/coinmarketcap-adapter@2.0.37
+  - @chainlink/coinpaprika-adapter@2.1.11
+
+## 1.13.5
+
+### Patch Changes
+
+- Updated dependencies [[`ef5dfa4`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5dfa49a909dbe4adc0ac2309616e81ef4ba9cb), [`23d203c`](https://github.com/smartcontractkit/external-adapters-js/commit/23d203cf5c289aebbaf06c316e8b75b46e97694b)]:
+  - @chainlink/tiingo-adapter@2.6.9
+  - @chainlink/ncfx-adapter@4.3.0
+
 ## 1.13.4
 
 ### Patch Changes
