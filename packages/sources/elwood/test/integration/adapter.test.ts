@@ -75,11 +75,12 @@ describe('websocket', () => {
 
     it('should skip subscribing if already subscribed', async () => {
       const symbol = `${dataAlreadySubscribed.base}-${dataAlreadySubscribed.quote}`
-      mockSubscriptionsResponse(apiKey, [symbol])
+      const subscriptionScope = mockSubscriptionsResponse(apiKey, [symbol])
       const scope = mockSubscribeResponse(apiKey, symbol)
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
       expect(scope.isDone()).toEqual(false)
+      expect(subscriptionScope.isDone()).toEqual(false)
     })
 
     it('should return success (LWBA)', async () => {
