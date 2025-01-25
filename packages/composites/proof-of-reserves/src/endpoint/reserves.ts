@@ -20,10 +20,13 @@ export type TInputParameters = {
   protocol: string
   protocolEndpoint?: string
   indexer: string
+  indexerEndpoint?: string
+  indexerParams?: Record<string, string>
   confirmations?: number
   addresses?: string[]
   disableAddressValidation?: boolean
   disableDuplicateAddressFiltering?: boolean
+  description?: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -57,6 +60,14 @@ const inputParameters: InputParameters<TInputParameters> = {
       ...indexerAdaptersV3.map(({ name }) => name.toUpperCase()),
     ],
   },
+  indexerEndpoint: {
+    type: 'string',
+    description: 'Optional endpoint for the indexer external adapter to use',
+  },
+  indexerParams: {
+    type: 'object',
+    description: 'Additional param for indexer external adapter to use',
+  },
   confirmations: {
     required: false,
     type: 'number',
@@ -82,6 +93,11 @@ const inputParameters: InputParameters<TInputParameters> = {
       'Gives the option to disabled the filtering of duplicate addresses in a request. ' +
       'If this is set to `true` and a duplicate address is contained in the request, the balance of that address will be counted twice.',
     default: false,
+  },
+  description: {
+    required: false,
+    type: 'string',
+    description: 'Optional human readable description on what this request is about',
   },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
@@ -109,7 +125,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     confirmations,
     config,
     validatedAddresses,
+    validator.validated.data.indexerEndpoint,
+    validator.validated.data.indexerParams,
   )
   const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
+  reduceOutput.data.description = validator.validated.data.description
   return reduceOutput
 }

@@ -186,6 +186,9 @@
       "path": "./sources/bitgo-reserves"
     },
     {
+      "path": "./sources/bitgo-reserves-test"
+    },
+    {
       "path": "./sources/bitso"
     },
     {
@@ -220,6 +223,9 @@
     },
     {
       "path": "./sources/ccip-read"
+    },
+    {
+      "path": "./sources/ceffu"
     },
     {
       "path": "./sources/celsius-address-list"

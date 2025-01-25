@@ -14,6 +14,7 @@ const indexerEnvironmentVariables = [
   { envKey: 'CRYPTOAPIS_ADAPTER_URL', value: 'cryptoapis' },
   { envKey: 'POR_INDEXER_ADAPTER_URL', value: 'por_indexer' },
   { envKey: 'TOKEN_BALANCE_ADAPTER_URL', value: 'token_balance' },
+  { envKey: 'CEFFU_ADAPTER_URL', value: 'ceffu' },
   { envKey: 'SOCHAIN_ADAPTER_URL', value: 'sochain' },
 ]
 

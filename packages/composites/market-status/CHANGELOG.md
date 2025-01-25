@@ -1,5 +1,22 @@
 # @chainlink/market-status-adapter
 
+## 1.2.8
+
+### Patch Changes
+
+- [#3629](https://github.com/smartcontractkit/external-adapters-js/pull/3629) [`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version, includes fastify v4 to v5 upgrade
+
+- Updated dependencies [[`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234)]:
+  - @chainlink/tradinghours-adapter@0.1.10
+  - @chainlink/ncfx-adapter@4.3.1
+
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [[`23d203c`](https://github.com/smartcontractkit/external-adapters-js/commit/23d203cf5c289aebbaf06c316e8b75b46e97694b)]:
+  - @chainlink/ncfx-adapter@4.3.0
+
 ## 1.2.6
 
 ### Patch Changes

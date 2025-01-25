@@ -15,6 +15,40 @@ exports[`websocket crypto endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket crypto_lwba endpoint should only subscribe once 1`] = `
+{
+  "data": {
+    "ask": 1794.2063137650225,
+    "bid": 1793.6242715443277,
+    "mid": 1793.915292654675,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1680187094577,
+  },
+}
+`;
+
+exports[`websocket crypto_lwba endpoint should only subscribe once 2`] = `
+{
+  "data": {
+    "ask": 1794.2063137650225,
+    "bid": 1793.6242715443277,
+    "mid": 1793.915292654675,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1680187094577,
+  },
+}
+`;
+
 exports[`websocket crypto_lwba endpoint should return error (invariant violation) 1`] = `
 {
   "error": {
@@ -58,32 +92,17 @@ exports[`websocket forex endpoint should return success 1`] = `
 }
 `;
 
-exports[`websocket iex endpoint Q request should return success 1`] = `
+exports[`websocket iex endpoint iex A request should return success 1`] = `
 {
   "data": {
-    "result": 170.285,
+    "result": 232.66,
   },
-  "result": 170.285,
+  "result": 232.66,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 3030,
-    "providerIndicatedTimeUnixMs": 1645032916595,
-  },
-}
-`;
-
-exports[`websocket iex endpoint T request should return success 1`] = `
-{
-  "data": {
-    "result": 106.21,
-  },
-  "result": 106.21,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 3038,
-    "providerDataStreamEstablishedUnixMs": 3030,
-    "providerIndicatedTimeUnixMs": 1645032916595,
+    "providerIndicatedTimeUnixMs": 1736885388216,
   },
 }
 `;
@@ -91,14 +110,14 @@ exports[`websocket iex endpoint T request should return success 1`] = `
 exports[`websocket iex endpoint should update the ttl after heartbeat is received 1`] = `
 {
   "data": {
-    "result": 170.285,
+    "result": 232.66,
   },
-  "result": 170.285,
+  "result": 232.66,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 3030,
-    "providerIndicatedTimeUnixMs": 1645032916595,
+    "providerIndicatedTimeUnixMs": 1736885388216,
   },
 }
 `;

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitgo-reserves-adapter",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Chainlink bitgo-reserves adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.7.7",
+    "@chainlink/external-adapter-framework": "2.0.0",
     "tslib": "2.4.1"
   }
 }

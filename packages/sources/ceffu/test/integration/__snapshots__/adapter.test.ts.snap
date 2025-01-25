@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute solv endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 8,
+    "exchangeBalances": [
+      "100.0",
+    ],
+    "rate": {
+      "decimal": 8,
+      "value": "5000000000",
+    },
+    "result": "200000000",
+  },
+  "result": "200000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
