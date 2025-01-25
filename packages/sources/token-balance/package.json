@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-balance-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chainlink token-balance adapter.",
   "keywords": [
     "Chainlink",
@@ -28,13 +28,14 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
+    "@solana/web3.js": "^1.95.8",
     "@types/jest": "27.5.2",
     "@types/node": "16.18.115",
     "nock": "13.5.4",
     "typescript": "5.5.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "1.7.7",
+    "@chainlink/external-adapter-framework": "2.0.0",
     "ethers": "^6.13.2",
     "tslib": "2.4.1"
   }

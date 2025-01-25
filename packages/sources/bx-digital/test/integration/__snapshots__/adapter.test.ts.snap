@@ -2,7 +2,7 @@
 
 exports[`execute price endpoint should return failure for Nan 1`] = `
 {
-  "errorMessage": "The data provider didn't return any value for 3",
+  "errorMessage": "The data provider didn't return valid value for 3",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

@@ -1,5 +1,17 @@
 # @chainlink/ncfx-adapter
 
+## 4.3.1
+
+### Patch Changes
+
+- [#3629](https://github.com/smartcontractkit/external-adapters-js/pull/3629) [`0bede17`](https://github.com/smartcontractkit/external-adapters-js/commit/0bede1726a01a0fc4c5831be521b974dfac79234) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version, includes fastify v4 to v5 upgrade
+
+## 4.3.0
+
+### Minor Changes
+
+- [#3624](https://github.com/smartcontractkit/external-adapters-js/pull/3624) [`23d203c`](https://github.com/smartcontractkit/external-adapters-js/commit/23d203cf5c289aebbaf06c316e8b75b46e97694b) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - modify includes.json
+
 ## 4.2.2
 
 ### Patch Changes

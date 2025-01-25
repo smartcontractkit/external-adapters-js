@@ -34,4 +34,24 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://por.sft-api.com/solv-btc-addresses.json',
   },
+  SOLVBTC_BBN_API_ENDPOINT: {
+    description: 'An API endpoint for SolvBTC.BBN native BTC wallet address',
+    type: 'string',
+    default: 'https://por.sft-api.com/solv-btc-bbn-addresses.json',
+  },
+  SOLVBTC_ENA_API_ENDPOINT: {
+    description: 'An API endpoint for SolvBTC.ENA native BTC wallet address',
+    type: 'string',
+    default: 'https://por.sft-api.com/solv-btc-ena-addresses.json',
+  },
+  SOLVBTC_CORE_API_ENDPOINT: {
+    description: 'An API endpoint for SolvBTC.CORE native BTC wallet address',
+    type: 'string',
+    default: 'https://por.sft-api.com/solv-btc-core-addresses.json',
+  },
+  SOLVBTC_JUP_API_ENDPOINT: {
+    description: 'An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU',
+    type: 'string',
+    default: 'https://por.sft-api.com/solv-btc-jup-mirrorx.json',
+  },
 })
