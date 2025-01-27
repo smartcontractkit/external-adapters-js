@@ -1,5 +1,21 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.24.7
+
+### Patch Changes
+
+- [#3642](https://github.com/smartcontractkit/external-adapters-js/pull/3642) [`38426f6`](https://github.com/smartcontractkit/external-adapters-js/commit/38426f6b8b41fa18bc4667b0fa2cbd154d8c34be) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow additional params to indexer
+
+- [#3636](https://github.com/smartcontractkit/external-adapters-js/pull/3636) [`7b75af6`](https://github.com/smartcontractkit/external-adapters-js/commit/7b75af66ff80441c8f0a3caa1bb23ad49a596fb3) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support ceffu
+
+- [#3640](https://github.com/smartcontractkit/external-adapters-js/pull/3640) [`35c16f2`](https://github.com/smartcontractkit/external-adapters-js/commit/35c16f2f5dc676305f81a2e93937bffa1bf41482) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add optional notes to each request
+
+- Updated dependencies [[`7b75af6`](https://github.com/smartcontractkit/external-adapters-js/commit/7b75af66ff80441c8f0a3caa1bb23ad49a596fb3), [`68d4356`](https://github.com/smartcontractkit/external-adapters-js/commit/68d4356abe89ae7da7e3ac302c1094ed33897417), [`7b75af6`](https://github.com/smartcontractkit/external-adapters-js/commit/7b75af66ff80441c8f0a3caa1bb23ad49a596fb3), [`68d4356`](https://github.com/smartcontractkit/external-adapters-js/commit/68d4356abe89ae7da7e3ac302c1094ed33897417)]:
+  - @chainlink/por-address-list-adapter@5.5.2
+  - @chainlink/token-balance-adapter@1.0.5
+  - @chainlink/ceffu-adapter@1.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.97
+
 ## 1.24.6
 
 ### Patch Changes
