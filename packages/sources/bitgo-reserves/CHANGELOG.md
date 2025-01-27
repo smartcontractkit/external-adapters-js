@@ -1,5 +1,11 @@
 # @chainlink/bitgo-reserves-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- [#3643](https://github.com/smartcontractkit/external-adapters-js/pull/3643) [`141bcb2`](https://github.com/smartcontractkit/external-adapters-js/commit/141bcb21b2bc95db86cddc3934d5fdc54e5cee19) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update default endpoint
+
 ## 2.0.1
 
 ### Patch Changes
