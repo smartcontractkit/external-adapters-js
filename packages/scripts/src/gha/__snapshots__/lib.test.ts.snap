@@ -616,10 +616,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "name": "tradingeconomics-adapter",
-      "type": "sources",
-    },
-    Object {
       "name": "trueusd-adapter",
       "type": "sources",
     },
@@ -1300,10 +1296,6 @@ Object {
     },
     Object {
       "name": "tradermade-adapter",
-      "type": "sources",
-    },
-    Object {
-      "name": "tradingeconomics-adapter",
       "type": "sources",
     },
     Object {
