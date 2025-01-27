@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- [#3637](https://github.com/smartcontractkit/external-adapters-js/pull/3637) [`68d4356`](https://github.com/smartcontractkit/external-adapters-js/commit/68d4356abe89ae7da7e3ac302c1094ed33897417) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add endpoint to handle JLP tokens on Solana for Solv
+
 ## 1.0.4
 
 ### Patch Changes
