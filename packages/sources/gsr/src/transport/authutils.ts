@@ -47,6 +47,25 @@ export const getToken = async (
 
   if (!response.data.success) {
     logger.error(`Unable to get access token: ${response.data.error}`)
+
+    if (response.data.error === 'Server Error') {
+      logger.error(`There is something wrong with token request.
+        Possible Solution:
+        1. Instance timestamp drift may cause your ts to be off from expected resulting in the signature being rejected.
+        2. Doublecheck your supplied credentials.
+        3. Contact Data Provider to ensure your subscription is active
+        4. If credentials are supplied under the node licensing agreement with Chainlink Labs, please contact us.`)
+    } else if (
+      ['Signature mismatch', 'UserID not found', 'API key mismatch'].includes(response.data.error)
+    ) {
+      logger.error(`There is something wrong with token request.
+        Possible Solution:
+        1. Doublecheck your supplied credentials.
+        2. Ensure creds are encoded correctly
+        3. Contact Data Provider to ensure your subscription is active
+        4. If credentials are supplied under the node licensing agreement with Chainlink Labs, please contact us.`)
+    }
+
     throw new Error(response.data.error)
   }
 

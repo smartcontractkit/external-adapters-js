@@ -186,6 +186,9 @@
       "path": "./sources/bitgo-reserves"
     },
     {
+      "path": "./sources/bitgo-reserves-test"
+    },
+    {
       "path": "./sources/bitso"
     },
     {

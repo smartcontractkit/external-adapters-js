@@ -275,6 +275,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitgo-reserves"\
     },\
     {\
+      "name": "@chainlink/bitgo-reserves-test-adapter",\
+      "reference": "workspace:packages/sources/bitgo-reserves-test"\
+    },\
+    {\
       "name": "@chainlink/bitso-adapter",\
       "reference": "workspace:packages/sources/bitso"\
     },\
@@ -978,6 +982,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
+    ["@chainlink/bitgo-reserves-test-adapter", ["workspace:packages/sources/bitgo-reserves-test"]],\
     ["@chainlink/bitso-adapter", ["workspace:packages/sources/bitso"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
@@ -5589,6 +5594,21 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.11.68"],\
+          ["nock", "npm:13.5.5"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/bitgo-reserves-test-adapter", [\
+      ["workspace:packages/sources/bitgo-reserves-test", {\
+        "packageLocation": "./packages/sources/bitgo-reserves-test/",\
+        "packageDependencies": [\
+          ["@chainlink/bitgo-reserves-test-adapter", "workspace:packages/sources/bitgo-reserves-test"],\
+          ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:16.18.119"],\
           ["nock", "npm:13.5.5"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
