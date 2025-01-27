@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.5.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -129,15 +129,15 @@ Request:
 
 ### Input Params
 
-| Required? |          Name          | Aliases |                                               Description                                               |  Type  |                                 Options                                 | Default  | Depends On | Not Valid With |
-| :-------: | :--------------------: | :-----: | :-----------------------------------------------------------------------------------------------------: | :----: | :---------------------------------------------------------------------: | :------: | :--------: | :------------: |
-|    ✅     |    contractAddress     |         |                          The contract address holding the custodial addresses                           | string |                                                                         |          |            |                |
-|    ✅     | contractAddressNetwork |         |  The network of the contract, used to match {NETWORK}\_RPC_URL and {NETWORK}\_RPC_CHAIN_ID in env var   | string |                                                                         |          |            |                |
-|    ✅     |        abiName         |         |                                     Used to select the ABI by name                                      | string | `MultiEVMPoRAddressList`, `PoRAddressListMulti`, `SolvMultiAddressList` |          |            |                |
-|           |          type          |         | The type of addresses you are looking for. tokens is for token-balance EA. vault is for eth-balance EA. | string |                            `tokens`, `vault`                            | `tokens` |            |                |
-|           |    vaultPlaceHolder    |         |                   The tokenAddress indicating which vaultAddress needs to be returned                   | string |                                                                         |          |            |                |
-|           |     confirmations      |         |                             The number of confirmations to query data from                              | number |                                                                         |          |            |                |
-|           |       batchSize        |         |                      The number of addresses to fetch from the contract at a time                       | number |                                                                         |   `10`   |            |                |
+| Required? |          Name          | Aliases |                                               Description                                               |  Type  |                                                Options                                                | Default  | Depends On | Not Valid With |
+| :-------: | :--------------------: | :-----: | :-----------------------------------------------------------------------------------------------------: | :----: | :---------------------------------------------------------------------------------------------------: | :------: | :--------: | :------------: |
+|    ✅     |    contractAddress     |         |                          The contract address holding the custodial addresses                           | string |                                                                                                       |          |            |                |
+|    ✅     | contractAddressNetwork |         |  The network of the contract, used to match {NETWORK}\_RPC_URL and {NETWORK}\_RPC_CHAIN_ID in env var   | string |                                                                                                       |          |            |                |
+|    ✅     |        abiName         |         |                                     Used to select the ABI by name                                      | string | `MultiEVMPoRAddressList`, `PoRAddressListMulti`, `SolvMultiAddressList`, `SolvSolanaMultiAddressList` |          |            |                |
+|           |          type          |         | The type of addresses you are looking for. tokens is for token-balance EA. vault is for eth-balance EA. | string |                                           `tokens`, `vault`                                           | `tokens` |            |                |
+|           |    vaultPlaceHolder    |         |                   The tokenAddress indicating which vaultAddress needs to be returned                   | string |                                                                                                       |          |            |                |
+|           |     confirmations      |         |                             The number of confirmations to query data from                              | number |                                                                                                       |          |            |                |
+|           |       batchSize        |         |                      The number of addresses to fetch from the contract at a time                       | number |                                                                                                       |   `10`   |            |                |
 
 ### Example
 

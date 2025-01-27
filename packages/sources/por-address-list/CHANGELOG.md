@@ -1,5 +1,13 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.5.2
+
+### Patch Changes
+
+- [#3636](https://github.com/smartcontractkit/external-adapters-js/pull/3636) [`7b75af6`](https://github.com/smartcontractkit/external-adapters-js/commit/7b75af66ff80441c8f0a3caa1bb23ad49a596fb3) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update output format for Ceffu
+
+- [#3637](https://github.com/smartcontractkit/external-adapters-js/pull/3637) [`68d4356`](https://github.com/smartcontractkit/external-adapters-js/commit/68d4356abe89ae7da7e3ac302c1094ed33897417) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Handle new contract for Solv which includes Solana
+
 ## 5.5.1
 
 ### Patch Changes
