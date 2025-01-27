@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 3.3.11
+
+### Patch Changes
+
+- [#3626](https://github.com/smartcontractkit/external-adapters-js/pull/3626) [`b81e24f`](https://github.com/smartcontractkit/external-adapters-js/commit/b81e24fa07f1dad509d095013f1c8bb573901995) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Add possible solutions to frequent errors
+
 ## 3.3.10
 
 ### Patch Changes
