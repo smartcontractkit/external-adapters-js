@@ -104,6 +104,13 @@ export const transport: WebSocketTransport<WsTransportTypes> =
       // are multiple EAs that share the same key then we should only subscribe to new symbols. For
       // the same reason, it is not safe to unsubscribe otherwise another EA expecting the symbol
       // may unexpectedly stop receiving data for it without knowing.
+
+      // `subscribes` will be populated if there are new subscriptions to be made. This can happen
+      // if we request a new pair to be subscribed to, or if the subscription set TTL has expired
+      if (!subscribes || subscribes.length === 0) return
+
+      logger.info(`Subscription requests: ${JSON.stringify(subscribes)}`)
+
       const subscriptions = await getSubscriptions(
         context.adapterSettings.API_ENDPOINT,
         context.adapterSettings.API_KEY,
