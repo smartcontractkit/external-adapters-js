@@ -8710,7 +8710,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
-          ["nock", "npm:14.0.0-beta.15"],\
+          ["nock", "npm:14.0.0"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
@@ -9274,7 +9274,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
-          ["nock", "npm:14.0.0-beta.15"],\
+          ["nock", "npm:14.0.0"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
@@ -12713,10 +12713,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@mswjs/interceptors", [\
-      ["npm:0.36.10", {\
-        "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.36.10-3730eb6609-e62b478751.zip/node_modules/@mswjs/interceptors/",\
+      ["npm:0.37.5", {\
+        "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.37.5-065eecd6e6-82c587af93.zip/node_modules/@mswjs/interceptors/",\
         "packageDependencies": [\
-          ["@mswjs/interceptors", "npm:0.36.10"],\
+          ["@mswjs/interceptors", "npm:0.37.5"],\
           ["@open-draft/deferred-promise", "npm:2.2.0"],\
           ["@open-draft/logger", "npm:0.3.0"],\
           ["@open-draft/until", "npm:2.1.0"],\
@@ -31811,11 +31811,11 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:14.0.0-beta.15", {\
-        "packageLocation": "./.yarn/cache/nock-npm-14.0.0-beta.15-c706d824e0-2ecd4505e4.zip/node_modules/nock/",\
+      ["npm:14.0.0", {\
+        "packageLocation": "./.yarn/cache/nock-npm-14.0.0-d6dfa91ed4-88138f268e.zip/node_modules/nock/",\
         "packageDependencies": [\
-          ["nock", "npm:14.0.0-beta.15"],\
-          ["@mswjs/interceptors", "npm:0.36.10"],\
+          ["nock", "npm:14.0.0"],\
+          ["@mswjs/interceptors", "npm:0.37.5"],\
           ["json-stringify-safe", "npm:5.0.1"],\
           ["propagate", "npm:2.0.1"]\
         ],\
