@@ -1,5 +1,11 @@
 # @chainlink/multi-address-list-adapter
 
+## 1.0.12
+
+### Patch Changes
+
+- [#3647](https://github.com/smartcontractkit/external-adapters-js/pull/3647) [`9a3754f`](https://github.com/smartcontractkit/external-adapters-js/commit/9a3754f3effe7ce5aac5555310cdbf4e28d392b3) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update default CACHE_MAX_AGE
+
 ## 1.0.11
 
 ### Patch Changes

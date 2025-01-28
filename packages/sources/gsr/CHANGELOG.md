@@ -1,5 +1,11 @@
 # @chainlink/gsr-adapter
 
+## 2.4.13
+
+### Patch Changes
+
+- [#3552](https://github.com/smartcontractkit/external-adapters-js/pull/3552) [`4b9503a`](https://github.com/smartcontractkit/external-adapters-js/commit/4b9503ae1169fd742fa7e0e8daa948f14530db6d) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency @types/ws to v8.5.14
+
 ## 2.4.12
 
 ### Patch Changes

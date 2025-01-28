@@ -1,5 +1,13 @@
 # @chainlink/elwood-adapter
 
+## 3.1.10
+
+### Patch Changes
+
+- [#3657](https://github.com/smartcontractkit/external-adapters-js/pull/3657) [`fae9387`](https://github.com/smartcontractkit/external-adapters-js/commit/fae938727472e756d8fdf283d1225eb5f0c498f4) Thanks [@akuzni2](https://github.com/akuzni2)! - Add a delay between subscribe requests
+
+- [#3660](https://github.com/smartcontractkit/external-adapters-js/pull/3660) [`9497aa6`](https://github.com/smartcontractkit/external-adapters-js/commit/9497aa629d2633e35f9f7a253502e6622b5c20a7) Thanks [@akuzni2](https://github.com/akuzni2)! - Await sleep command
+
 ## 3.1.9
 
 ### Patch Changes

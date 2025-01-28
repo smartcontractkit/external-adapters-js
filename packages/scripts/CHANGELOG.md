@@ -1,5 +1,15 @@
 # @chainlink/ea-scripts
 
+## 2.7.14
+
+### Patch Changes
+
+- [#3646](https://github.com/smartcontractkit/external-adapters-js/pull/3646) [`ca070f1`](https://github.com/smartcontractkit/external-adapters-js/commit/ca070f1fb1d770156dba4d013116375b99c9bdbb) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Remove un-used EA
+
+- Updated dependencies [[`ca070f1`](https://github.com/smartcontractkit/external-adapters-js/commit/ca070f1fb1d770156dba4d013116375b99c9bdbb), [`4b9503a`](https://github.com/smartcontractkit/external-adapters-js/commit/4b9503ae1169fd742fa7e0e8daa948f14530db6d)]:
+  - @chainlink/ea-bootstrap@2.29.3
+  - @chainlink/ea-factories@1.2.36
+
 ## 2.7.13
 
 ### Patch Changes
