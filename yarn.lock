@@ -2357,7 +2357,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.119"
-    "@types/ws": "npm:8.5.12"
+    "@types/ws": "npm:8.5.14"
     ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -3625,7 +3625,7 @@ __metadata:
     "@types/remote-redux-devtools": "npm:0.5.8"
     "@types/sinon": "npm:10.0.20"
     "@types/uuid": "npm:8.3.4"
-    "@types/ws": "npm:8.5.12"
+    "@types/ws": "npm:8.5.14"
     ajv: "npm:^8.6.2"
     axios: "npm:1.7.7"
     decimal.js: "npm:^10.3.1"
@@ -4355,7 +4355,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.119"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    "@types/ws": "npm:8.5.12"
+    "@types/ws": "npm:8.5.14"
     axios: "npm:1.7.8"
     crypto: "npm:1.0.1"
     nock: "npm:13.5.5"
@@ -5973,7 +5973,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:16.18.119"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    "@types/ws": "npm:8.5.12"
+    "@types/ws": "npm:8.5.14"
     nock: "npm:13.5.5"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -12687,12 +12687,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:8.5.12":
-  version: 8.5.12
-  resolution: "@types/ws@npm:8.5.12"
+"@types/ws@npm:8.5.14":
+  version: 8.5.14
+  resolution: "@types/ws@npm:8.5.14"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/d8a3ddfb5ff8fea992a043113579d61ac1ea21e8464415af9e2b01b205ed19d817821ad64ca1b3a90062d1df1c23b0f586d8351d25ca6728844df99a74e8f76d
+  checksum: 10/956692dd47d5fe042780f61a6310d47203d07622aa185ef2eee7e849f9e7d1e5c190b0d8db8c3ab204a8829e3603b6c6bcab9024cd11dffdd5ffc0df9fd83f2d
   languageName: node
   linkType: hard
 
