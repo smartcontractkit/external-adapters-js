@@ -4,6 +4,8 @@
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
+This EA has been deprecated, use TP instead.
+
 ## Known Issues
 
 ### Concurrent connections
