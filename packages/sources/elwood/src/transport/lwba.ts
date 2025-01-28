@@ -162,7 +162,7 @@ export const transport: WebSocketTransport<WsTransportTypes> =
         })
 
         if (messages.length > 1) {
-          sleep(context.adapterSettings.SUBSCRIBE_DELAY_MS || 0)
+          await sleep(context.adapterSettings.SUBSCRIBE_DELAY_MS || 0)
         }
       }
     }
