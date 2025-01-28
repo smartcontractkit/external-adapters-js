@@ -74,7 +74,6 @@ const environmentVariables = [
   { envKey: 'THERUNDOWN_ADAPTER_URL', value: 'therundown' },
   { envKey: 'TIINGO_ADAPTER_URL', value: 'tiingo' },
   { envKey: 'TRADERMADE_ADAPTER_URL', value: 'tradermade' },
-  { envKey: 'TRADINGECONOMICS_ADAPTER_URL', value: 'tradingeconomics' },
   { envKey: 'TRUEUSD_ADAPTER_URL', value: 'trueusd' },
   { envKey: 'TWELVEDATA_ADAPTER_URL', value: 'twelvedata' },
   { envKey: 'UNIBIT_ADAPTER_URL', value: 'unibit' },
