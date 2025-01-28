@@ -31,7 +31,7 @@
     "@solana/web3.js": "^1.95.8",
     "@types/jest": "27.5.2",
     "@types/node": "16.18.115",
-    "nock": "13.5.4",
+    "nock": "14.0.0",
     "typescript": "5.5.4"
   },
   "dependencies": {
