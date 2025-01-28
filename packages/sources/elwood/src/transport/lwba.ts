@@ -160,6 +160,12 @@ export const transport: WebSocketTransport<WsTransportTypes> =
             ])
           }
         })
+
+        if (messages.length > 1) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, context.adapterSettings.SUBSCRIBE_DELAY_MS || 0),
+          )
+        }
       }
     }
   })()

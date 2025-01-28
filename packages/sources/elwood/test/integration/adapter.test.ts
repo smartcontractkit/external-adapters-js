@@ -42,6 +42,8 @@ describe('websocket', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = apiKey
     process.env['METRICS_ENABLED'] = 'false'
+    process.env['SUBSCRIBE_DELAY_MS'] = '0'
+
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebSocketServer(
