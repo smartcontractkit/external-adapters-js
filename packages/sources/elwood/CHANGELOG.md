@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 3.1.9
+
+### Patch Changes
+
+- [#3645](https://github.com/smartcontractkit/external-adapters-js/pull/3645) [`539e8a3`](https://github.com/smartcontractkit/external-adapters-js/commit/539e8a3ed516efd7f0dd5fe2ac23f7f918bbeecc) Thanks [@akuzni2](https://github.com/akuzni2)! - Reduce the frequency of /subscriptions api calls to check active subscriptions to only when we desire to subscribe to a stream.
+
 ## 3.1.8
 
 ### Patch Changes

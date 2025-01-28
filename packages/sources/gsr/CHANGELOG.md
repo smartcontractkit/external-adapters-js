@@ -1,5 +1,11 @@
 # @chainlink/gsr-adapter
 
+## 2.4.12
+
+### Patch Changes
+
+- [#3628](https://github.com/smartcontractkit/external-adapters-js/pull/3628) [`094003f`](https://github.com/smartcontractkit/external-adapters-js/commit/094003f394d8354552c31d4518310a7827dcc762) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Add possible solutions to frequent errors
+
 ## 2.4.11
 
 ### Patch Changes

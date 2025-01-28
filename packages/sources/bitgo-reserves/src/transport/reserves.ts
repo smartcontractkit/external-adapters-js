@@ -48,7 +48,6 @@ class ReservesHttpTransport extends HttpTransport<HttpTransportTypes> {
   }
 }
 
-// returns reserves info for USDS
 export const httpTransport = new ReservesHttpTransport({
   prepareRequests: (params, config) => {
     return params.map((param) => {
