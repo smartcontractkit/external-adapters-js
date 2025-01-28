@@ -36,7 +36,7 @@ runs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
     # First, we want to install yarn since our base image doesn't have it installed
-    - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+    - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
       with:
         # This doesn't use cache: 'yarn' as the base image doesn't have it, and we're caching node_modules
         node-version: 22
@@ -50,7 +50,7 @@ runs:
     - name: Restore yarn cache
       id: restore-yarn-cache
       if: inputs.skip-cache != 'true'
-      uses: actions/cache/restore@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+      uses: actions/cache/restore@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
       with:
         # Restrict it to the run and attempt for debugging purposes, but in theory
         # these should be fine to persist between runs as well
@@ -70,7 +70,7 @@ runs:
       shell: bash
     - name: Cache yarn cache
       if: steps.restore-yarn-cache.outputs.cache-hit != 'true' && inputs.skip-cache != 'true'
-      uses: actions/cache/save@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+      uses: actions/cache/save@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
       with:
         key: yarn_cache-${{ hashFiles('./yarn.lock') }}-${{ github.run_id }}-${{ github.run_attempt }}
         path: |
@@ -80,7 +80,7 @@ runs:
     # Build TS files unless it's been specified otherwise
     - name: Restore TS built files if present
       id: restore-ts-build
-      uses: actions/cache/restore@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+      uses: actions/cache/restore@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
       if: |
         inputs.skip-setup != 'true'
         && inputs.skip-cache != 'true'
@@ -157,7 +157,7 @@ runs:
       if: |
         inputs.skip-setup != 'true'
         && inputs.skip-cache != 'true'
-      uses: actions/cache/save@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+      uses: actions/cache/save@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
       with:
         key: tsbuild-${{ github.sha }}-${{ github.run_id }}
         path: |
