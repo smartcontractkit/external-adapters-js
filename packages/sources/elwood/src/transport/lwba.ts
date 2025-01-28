@@ -1,6 +1,6 @@
 import { BaseEndpointTypesLwba } from '../endpoint/crypto-lwba'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import {
   DEFAULT_TRANSPORT_NAME,
   EndpointContext,
@@ -162,9 +162,7 @@ export const transport: WebSocketTransport<WsTransportTypes> =
         })
 
         if (messages.length > 1) {
-          await new Promise((resolve) =>
-            setTimeout(resolve, context.adapterSettings.SUBSCRIBE_DELAY_MS || 0),
-          )
+          sleep(context.adapterSettings.SUBSCRIBE_DELAY_MS || 0)
         }
       }
     }
