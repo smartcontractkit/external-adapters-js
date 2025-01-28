@@ -423,10 +423,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/curve"\
     },\
     {\
-      "name": "@chainlink/dar-adapter",\
-      "reference": "workspace:packages/sources/dar"\
-    },\
-    {\
       "name": "@chainlink/deep-blue-adapter",\
       "reference": "workspace:packages/sources/deep-blue"\
     },\
@@ -867,10 +863,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/tradermade"\
     },\
     {\
-      "name": "@chainlink/tradingeconomics-adapter",\
-      "reference": "workspace:packages/sources/tradingeconomics"\
-    },\
-    {\
       "name": "@chainlink/tradinghours-adapter",\
       "reference": "workspace:packages/sources/tradinghours"\
     },\
@@ -1024,7 +1016,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
     ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
-    ["@chainlink/dar-adapter", ["workspace:packages/sources/dar"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
     ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
@@ -1174,7 +1165,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/token-balance-adapter", ["workspace:packages/sources/token-balance"]],\
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
-    ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
     ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
     ["@chainlink/trumatic-matic-exchange-rate-adapter", ["workspace:packages/sources/trumatic-matic-exchange-rate"]],\
@@ -6275,24 +6265,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/dar-adapter", [\
-      ["workspace:packages/sources/dar", {\
-        "packageLocation": "./packages/sources/dar/",\
-        "packageDependencies": [\
-          ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-          ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.18.119"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.7.8"],\
-          ["nock", "npm:13.5.5"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/deep-blue-adapter", [\
       ["workspace:packages/sources/deep-blue", {\
         "packageLocation": "./packages/sources/deep-blue/",\
@@ -9080,23 +9052,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.5"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/tradingeconomics-adapter", [\
-      ["workspace:packages/sources/tradingeconomics", {\
-        "packageLocation": "./packages/sources/tradingeconomics/",\
-        "packageDependencies": [\
-          ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
-          ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:16.18.119"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.5"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\

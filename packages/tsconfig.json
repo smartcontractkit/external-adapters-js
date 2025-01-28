@@ -297,9 +297,6 @@
       "path": "./sources/curve"
     },
     {
-      "path": "./sources/dar"
-    },
-    {
       "path": "./sources/deep-blue"
     },
     {
@@ -628,9 +625,6 @@
     },
     {
       "path": "./sources/tradermade"
-    },
-    {
-      "path": "./sources/tradingeconomics"
     },
     {
       "path": "./sources/tradinghours"

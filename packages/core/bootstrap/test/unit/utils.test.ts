@@ -188,8 +188,8 @@ describe('utils', () => {
     it(`builds URL with basic auth (key:secret)`, () => {
       const withApiKey = (url: string, key: string, secret: string) =>
         buildUrl(url, '/client/:client', { client: `${key}:${secret}` }, ':')
-      const expected = `wss://stream.tradingeconomics.com/client/keystring:secretstring`
-      const actual = withApiKey('wss://stream.tradingeconomics.com', 'keystring', 'secretstring')
+      const expected = `wss://stream.testserver.com/client/keystring:secretstring`
+      const actual = withApiKey('wss://stream.testserver.com', 'keystring', 'secretstring')
 
       expect(actual).toEqual(expected)
     })

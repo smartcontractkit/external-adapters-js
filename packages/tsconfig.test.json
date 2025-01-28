@@ -297,9 +297,6 @@
       "path": "./sources/curve/tsconfig.test.json"
     },
     {
-      "path": "./sources/dar/tsconfig.test.json"
-    },
-    {
       "path": "./sources/deep-blue/tsconfig.test.json"
     },
     {
@@ -628,9 +625,6 @@
     },
     {
       "path": "./sources/tradermade/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/tradingeconomics/tsconfig.test.json"
     },
     {
       "path": "./sources/tradinghours/tsconfig.test.json"

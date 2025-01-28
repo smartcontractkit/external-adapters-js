@@ -54,12 +54,10 @@ For more details see the public node operator guide [here](https://www.notion.so
 - Improved time resolution from days to seconds and smooth-out the effect of added strikes for `crypto-volatility-index` adapter
 - Added a per-provider ratelimit reference
 - Added Prometheus metrics
-- `tradingeconomics` will now get stream data from TradingEconomics using a persistent WS connection
 - `make` commands are now TypeScript files that can be run through yarn scripts
 
 ### Removed
 
-- Removed custom `tradingeconomics-stream` as WS support is not included into `tradingeconomics` adapter
 - Removed serverless support (AWS Lambda & GPC Functions).
 
 ## [0.2.0] - 2021-4-13
@@ -69,7 +67,6 @@ For more details see the public node operator guide [here](https://www.notion.so
 - New adapters:
   - `agoric` to push results to the Agoric blockchain
   - `therundown` to get sports score data from TheRundown
-  - `tradingeconomics-stream` to get stream data from TradingEconomics
   - `blockstream` to get Bitcoin height and difficulty
 - Basic prometheus metrics endpoint
 
