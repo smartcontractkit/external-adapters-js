@@ -1,5 +1,49 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.24.9
+
+### Patch Changes
+
+- [#3656](https://github.com/smartcontractkit/external-adapters-js/pull/3656) [`f32e247`](https://github.com/smartcontractkit/external-adapters-js/commit/f32e2477bcc37a8e37b73676616c8d9e5dce9a45) Thanks [@renovate](https://github.com/apps/renovate)! - Update Node.js to v22.13.1
+
+- [#3564](https://github.com/smartcontractkit/external-adapters-js/pull/3564) [`3fac674`](https://github.com/smartcontractkit/external-adapters-js/commit/3fac674cfeb93f73009959ba2ea0fbf342c3c66d) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency nock to v13.5.6
+
+- Updated dependencies [[`f32e247`](https://github.com/smartcontractkit/external-adapters-js/commit/f32e2477bcc37a8e37b73676616c8d9e5dce9a45), [`3fac674`](https://github.com/smartcontractkit/external-adapters-js/commit/3fac674cfeb93f73009959ba2ea0fbf342c3c66d)]:
+  - @chainlink/multi-address-list-adapter@1.0.13
+  - @chainlink/ignition-address-list-adapter@1.0.7
+  - @chainlink/moonbeam-address-list-adapter@1.1.41
+  - @chainlink/celsius-address-list-adapter@2.0.22
+  - @chainlink/chain-reserve-wallet-adapter@3.0.22
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.38
+  - @chainlink/stader-address-list-adapter@2.3.31
+  - @chainlink/avalanche-platform-adapter@2.0.25
+  - @chainlink/swell-address-list-adapter@1.0.21
+  - @chainlink/renvm-address-set-adapter@1.5.99
+  - @chainlink/polkadot-balance-adapter@1.3.20
+  - @chainlink/por-address-list-adapter@5.5.3
+  - @chainlink/wbtc-address-set-adapter@2.1.14
+  - @chainlink/blockchain.com-adapter@1.3.38
+  - @chainlink/coinbase-prime-adapter@1.2.14
+  - @chainlink/stader-balance-adapter@1.4.28
+  - @chainlink/reduce-adapter@1.4.25
+  - @chainlink/token-balance-adapter@1.0.6
+  - @chainlink/ada-balance-adapter@2.5.38
+  - @chainlink/blockcypher-adapter@1.4.38
+  - @chainlink/eth-balance-adapter@2.1.2
+  - @chainlink/por-indexer-adapter@2.1.15
+  - @chainlink/blockchair-adapter@1.3.38
+  - @chainlink/cryptoapis-adapter@1.2.38
+  - @chainlink/eth-beacon-adapter@3.0.12
+  - @chainlink/ea-test-helpers@1.4.6
+  - @chainlink/amberdata-adapter@1.8.31
+  - @chainlink/btc.com-adapter@1.3.38
+  - @chainlink/sochain-adapter@1.3.38
+  - @chainlink/wrapped-adapter@2.2.38
+  - @chainlink/ea-bootstrap@2.29.4
+  - @chainlink/gemini-adapter@3.0.24
+  - @chainlink/ceffu-adapter@1.0.1
+  - @chainlink/lotus-adapter@3.0.24
+
 ## 1.24.8
 
 ### Patch Changes
