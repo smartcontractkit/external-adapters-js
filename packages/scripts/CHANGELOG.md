@@ -1,5 +1,13 @@
 # @chainlink/ea-scripts
 
+## 2.7.15
+
+### Patch Changes
+
+- Updated dependencies [[`f32e247`](https://github.com/smartcontractkit/external-adapters-js/commit/f32e2477bcc37a8e37b73676616c8d9e5dce9a45)]:
+  - @chainlink/ea-bootstrap@2.29.4
+  - @chainlink/ea-factories@1.2.37
+
 ## 2.7.14
 
 ### Patch Changes
