@@ -116,4 +116,19 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
+
+  describe('lwba endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'crypto-lwba',
+        glv: '0x528A5bac7E746C9A509A1f4F6dF58A03d44279F9',
+      }
+      mockTiingoEAResponseSuccess('ETH')
+      mockNCFXEAResponseSuccess('ETH')
+      mockCoinmetricsEAResponseSuccess('ETH')
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
 })

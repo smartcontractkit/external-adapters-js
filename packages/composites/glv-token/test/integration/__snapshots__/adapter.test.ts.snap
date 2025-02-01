@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute lwba endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 1.289471279771571,
+    "bid": 1.2896497821971917,
+    "mid": 1.2895605309843814,
+    "sources": {
+      "ETH": [
+        "tiingo",
+        "coinmetrics",
+        "ncfx",
+      ],
+      "USDC": [
+        "tiingo",
+        "coinmetrics",
+        "ncfx",
+      ],
+    },
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute price endpoint should return success 1`] = `
 {
   "data": {

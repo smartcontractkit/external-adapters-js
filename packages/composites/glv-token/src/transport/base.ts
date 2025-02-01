@@ -11,6 +11,7 @@ import { AdapterResponse, makeLogger } from '@chainlink/external-adapter-framewo
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import glvAbi from '../config/glvReaderAbi.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { BaseEndpointTypesLwba } from '../endpoint/lwba'
 import {
   mapParameter,
   mapSymbol,
@@ -41,7 +42,7 @@ type RequestParams = typeof inputParameters.validated
  * `formatResponse()` to produce different output shapes.
  */
 export abstract class BaseGlvTransport<
-  T extends BaseEndpointTypes,
+  T extends BaseEndpointTypes | BaseEndpointTypesLwba,
 > extends SubscriptionTransport<T> {
   abstract backgroundHandler(
     context: EndpointContext<T>,
