@@ -1,5 +1,14 @@
 # @chainlink/icap-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- [#3656](https://github.com/smartcontractkit/external-adapters-js/pull/3656) [`f32e247`](https://github.com/smartcontractkit/external-adapters-js/commit/f32e2477bcc37a8e37b73676616c8d9e5dce9a45) Thanks [@renovate](https://github.com/apps/renovate)! - Update Node.js to v22.13.1
+
+- Updated dependencies [[`f32e247`](https://github.com/smartcontractkit/external-adapters-js/commit/f32e2477bcc37a8e37b73676616c8d9e5dce9a45)]:
+  - @chainlink/tp-adapter@1.9.1
+
 ## 1.4.0
 
 ### Minor Changes

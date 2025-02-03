@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/instruxi-sxt-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chainlink instruxi-sxt adapter.",
   "keywords": [
     "Chainlink",
