@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/unibit-adapter",
-  "version": "1.4.37",
+  "version": "1.4.38",
   "description": "Chainlink unibit adapter.",
   "keywords": [
     "Chainlink",

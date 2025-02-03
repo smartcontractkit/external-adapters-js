@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinranking-adapter",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "Chainlink coinranking adapter.",
   "keywords": [
     "Chainlink",
