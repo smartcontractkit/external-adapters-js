@@ -34,7 +34,11 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    if (entries.length == 0) {
+      await sleep(1_000)
+    } else {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    }
   }
 
   async handleRequest(param: RequestParams) {

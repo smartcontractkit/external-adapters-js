@@ -8,14 +8,6 @@ export const adapter = new Adapter({
   name: 'NAV_CONSULTING',
   config,
   endpoints: [reserve],
-  rateLimiting: {
-    tiers: {
-      default: {
-        rateLimit1m: 4,
-        note: '60/min in total shared by 30 EA instance, each EA can do 2 per min per API. Each call hits 2 API',
-      },
-    },
-  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
