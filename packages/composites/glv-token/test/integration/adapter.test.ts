@@ -31,11 +31,12 @@ jest.mock('ethers', () => ({
           }
         },
         getGlvTokenPrice: (
-          contract_addr: string,
-          markets: string[],
+          dataStoreContractAddr: string,
+          marketAddresses: string[],
           indexTokenPrices: number[],
-          shortTokenPrices: number[],
-          glv_address: string,
+          longTokenPrice: number[],
+          shortTokenPrice: number[],
+          glvAddress: string,
           maximize: boolean,
         ) => {
           if (maximize) {
