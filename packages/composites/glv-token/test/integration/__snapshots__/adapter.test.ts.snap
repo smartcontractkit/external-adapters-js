@@ -3,7 +3,7 @@
 exports[`execute price endpoint should return success 1`] = `
 {
   "data": {
-    "result": 1.289471279771571,
+    "result": 1.2895605309843814,
     "sources": {
       "ETH": [
         "tiingo",
@@ -17,7 +17,7 @@ exports[`execute price endpoint should return success 1`] = `
       ],
     },
   },
-  "result": 1.289471279771571,
+  "result": 1.2895605309843814,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
