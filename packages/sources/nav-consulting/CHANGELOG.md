@@ -1,5 +1,11 @@
 # @chainlink/nav-consulting-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- [#3664](https://github.com/smartcontractkit/external-adapters-js/pull/3664) [`d317562`](https://github.com/smartcontractkit/external-adapters-js/commit/d31756286820c53196f4984f7fda1bddd642b33c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Reduce rate limiter
+
 ## 1.1.4
 
 ### Patch Changes
