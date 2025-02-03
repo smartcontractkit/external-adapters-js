@@ -7602,8 +7602,8 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/kaiko-state-adapter", "workspace:packages/sources/kaiko-state"],\
           ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
-          ["@grpc/grpc-js", "npm:1.12.2"],\
-          ["@kaiko-data/sdk-node", "npm:1.24.2"],\
+          ["@grpc/grpc-js", "npm:1.12.5"],\
+          ["@kaiko-data/sdk-node", "npm:1.26.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:22.12.0"],\
           ["exponential-backoff", "npm:3.1.1"],\
@@ -11575,10 +11575,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@grpc/grpc-js", [\
-      ["npm:1.12.2", {\
-        "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.12.2-733ec8eabe-0d0556da85.zip/node_modules/@grpc/grpc-js/",\
+      ["npm:1.12.5", {\
+        "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.12.5-81cf2bb511-4f8ead236d.zip/node_modules/@grpc/grpc-js/",\
         "packageDependencies": [\
-          ["@grpc/grpc-js", "npm:1.12.2"],\
+          ["@grpc/grpc-js", "npm:1.12.5"],\
           ["@grpc/proto-loader", "npm:0.7.13"],\
           ["@js-sdsl/ordered-map", "npm:4.4.2"]\
         ],\
@@ -12618,11 +12618,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@kaiko-data/sdk-node", [\
-      ["npm:1.24.2", {\
-        "packageLocation": "./.yarn/cache/@kaiko-data-sdk-node-npm-1.24.2-8aa80884e0-4ea57b3b86.zip/node_modules/@kaiko-data/sdk-node/",\
+      ["npm:1.26.0", {\
+        "packageLocation": "./.yarn/cache/@kaiko-data-sdk-node-npm-1.26.0-8b0a5f17fa-d343ec5fa4.zip/node_modules/@kaiko-data/sdk-node/",\
         "packageDependencies": [\
-          ["@kaiko-data/sdk-node", "npm:1.24.2"],\
-          ["@grpc/grpc-js", "npm:1.12.2"],\
+          ["@kaiko-data/sdk-node", "npm:1.26.0"],\
+          ["@grpc/grpc-js", "npm:1.12.5"],\
           ["google-protobuf", "npm:3.21.4"]\
         ],\
         "linkType": "HARD"\
@@ -26129,7 +26129,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ipfs-grpc-server-npm-0.7.4-cc3283202d-2691bbb646.zip/node_modules/ipfs-grpc-server/",\
         "packageDependencies": [\
           ["ipfs-grpc-server", "npm:0.7.4"],\
-          ["@grpc/grpc-js", "npm:1.12.2"],\
+          ["@grpc/grpc-js", "npm:1.12.5"],\
           ["change-case", "npm:4.1.2"],\
           ["coercer", "npm:1.1.2"],\
           ["debug", "virtual:18316b804e39e10c446c63495ce5eaa5ce989a46612e0ee0ee02c6d34327f1b5350aa9b949cce807abb977452110218e0d6c765fde606fe792cfc6107391696c#npm:4.3.7"],\

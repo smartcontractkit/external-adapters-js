@@ -4574,8 +4574,8 @@ __metadata:
   resolution: "@chainlink/kaiko-state-adapter@workspace:packages/sources/kaiko-state"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.0.0"
-    "@grpc/grpc-js": "npm:1.12.2"
-    "@kaiko-data/sdk-node": "npm:^1.24.2"
+    "@grpc/grpc-js": "npm:1.12.5"
+    "@kaiko-data/sdk-node": "npm:1.26.0"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     exponential-backoff: "npm:3.1.1"
@@ -8319,13 +8319,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:*, @grpc/grpc-js@npm:1.12.2, @grpc/grpc-js@npm:^1.1.8":
-  version: 1.12.2
-  resolution: "@grpc/grpc-js@npm:1.12.2"
+"@grpc/grpc-js@npm:*, @grpc/grpc-js@npm:1.12.5, @grpc/grpc-js@npm:^1.1.8":
+  version: 1.12.5
+  resolution: "@grpc/grpc-js@npm:1.12.5"
   dependencies:
     "@grpc/proto-loader": "npm:^0.7.13"
     "@js-sdsl/ordered-map": "npm:^4.4.2"
-  checksum: 10/0d0556da8515704b5e722b86097e04693d8c71ba286a076270a96e1ac3a4950e87559c718cc2875d3fcaa6cb8e07d0cc6b1db2673b8940829dfe8b75197844dd
+  checksum: 10/4f8ead236dcab4d94e15e62d65ad2d93732d37f5cc52ffafe67ae00f69eae4a4c97d6d34a1b9eac9f30206468f2d15302ea6649afcba1d38929afa9d1e7c12d5
   languageName: node
   linkType: hard
 
@@ -9248,10 +9248,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kaiko-data/sdk-node@npm:^1.24.2":
-  version: 1.24.2
-  resolution: "@kaiko-data/sdk-node@npm:1.24.2"
-  checksum: 10/4ea57b3b866541defd769c2cc2d8db1cf13e9da566dd0c9bdd5f831ee91fab736948c8fff89d535888ad2b365c519d503c6573b48d0344fb99a241abef10bf06
+"@kaiko-data/sdk-node@npm:1.26.0":
+  version: 1.26.0
+  resolution: "@kaiko-data/sdk-node@npm:1.26.0"
+  checksum: 10/d343ec5fa42fff3083cc94280be23079a1055c42fe82d781063f378d5875083988e5368a6a4215151729576fc1d4216ddf1f411a9c5bf095dd0fafc9253412c7
   languageName: node
   linkType: hard
 
