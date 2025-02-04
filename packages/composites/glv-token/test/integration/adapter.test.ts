@@ -9,6 +9,10 @@ import {
   mockTiingoEAResponseSuccess,
 } from './fixtures'
 import { ethers } from 'ethers'
+import {
+  LwbaResponseDataFields,
+  validateLwbaResponse,
+} from '@chainlink/external-adapter-framework/adapter'
 
 jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
@@ -129,6 +133,9 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      const resJson = response.json()
+      const resData = resJson.data as LwbaResponseDataFields['Data']
+      validateLwbaResponse(resData.bid, resData.mid, resData.ask)
     })
   })
 })

@@ -3,9 +3,9 @@
 exports[`execute lwba endpoint should return success 1`] = `
 {
   "data": {
-    "ask": 1.289471279771571,
-    "bid": 1.2896497821971917,
-    "mid": 1.2895605309843814,
+    "ask": 1.1473068612168396,
+    "bid": 1.1470467994160611,
+    "mid": 1.1471768303164502,
     "sources": {
       "ETH": [
         "tiingo",
