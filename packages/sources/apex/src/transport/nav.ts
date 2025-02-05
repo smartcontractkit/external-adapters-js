@@ -103,7 +103,6 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
       })
     }
     const result = navResponse.totalReserve
-    console.log(`result = ${result}`)
 
     return {
       data: {
@@ -170,7 +169,7 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
       expiryTimestampMs: startTimeMs + a.response.data.expires_in * 1000,
     }
 
-    console.log('authed')
+    logger.debug('Successfully fetched token')
     return a.response
   }
 
