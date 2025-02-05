@@ -243,6 +243,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ap-election"\
     },\
     {\
+      "name": "@chainlink/apex-adapter",\
+      "reference": "workspace:packages/sources/apex"\
+    },\
+    {\
       "name": "@chainlink/avalanche-platform-adapter",\
       "reference": "workspace:packages/sources/avalanche-platform"\
     },\
@@ -962,6 +966,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
+    ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
     ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
@@ -5274,6 +5279,22 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/apex-adapter", [\
+      ["workspace:packages/sources/apex", {\
+        "packageLocation": "./packages/sources/apex/",\
+        "packageDependencies": [\
+          ["@chainlink/apex-adapter", "workspace:packages/sources/apex"],\
+          ["@chainlink/external-adapter-framework", "npm:2.0.0"],\
+          ["@types/jest", "npm:27.5.2"],\
+          ["@types/node", "npm:22.12.0"],\
+          ["axios", "npm:1.7.9"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
