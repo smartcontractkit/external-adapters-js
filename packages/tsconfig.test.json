@@ -162,6 +162,9 @@
       "path": "./sources/ap-election/tsconfig.test.json"
     },
     {
+      "path": "./sources/apex/tsconfig.test.json"
+    },
+    {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
     },
     {

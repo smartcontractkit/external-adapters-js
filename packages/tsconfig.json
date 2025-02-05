@@ -162,6 +162,9 @@
       "path": "./sources/ap-election"
     },
     {
+      "path": "./sources/apex"
+    },
+    {
       "path": "./sources/avalanche-platform"
     },
     {
