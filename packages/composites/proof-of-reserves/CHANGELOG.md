@@ -1,5 +1,47 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.24.10
+
+### Patch Changes
+
+- [#3673](https://github.com/smartcontractkit/external-adapters-js/pull/3673) [`1e1c478`](https://github.com/smartcontractkit/external-adapters-js/commit/1e1c4785e78eeeda775b6a7630594498f60ad9bf) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Bumped framework version
+
+- Updated dependencies [[`293dbdc`](https://github.com/smartcontractkit/external-adapters-js/commit/293dbdc28582ef15cc79297d6848e4ff35a090ca), [`1e1c478`](https://github.com/smartcontractkit/external-adapters-js/commit/1e1c4785e78eeeda775b6a7630594498f60ad9bf)]:
+  - @chainlink/ea-bootstrap@2.29.5
+  - @chainlink/multi-address-list-adapter@1.0.14
+  - @chainlink/stader-address-list-adapter@2.3.32
+  - @chainlink/eth-beacon-adapter@3.0.13
+  - @chainlink/ceffu-adapter@1.0.2
+  - @chainlink/gemini-adapter@3.0.25
+  - @chainlink/por-indexer-adapter@2.1.16
+  - @chainlink/stader-balance-adapter@1.4.29
+  - @chainlink/avalanche-platform-adapter@2.0.26
+  - @chainlink/lotus-adapter@3.0.25
+  - @chainlink/por-address-list-adapter@5.5.4
+  - @chainlink/moonbeam-address-list-adapter@1.1.42
+  - @chainlink/wbtc-address-set-adapter@2.1.15
+  - @chainlink/polkadot-balance-adapter@1.3.21
+  - @chainlink/coinbase-prime-adapter@1.2.15
+  - @chainlink/ignition-address-list-adapter@1.0.8
+  - @chainlink/token-balance-adapter@1.0.7
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.39
+  - @chainlink/ea-test-helpers@1.4.6
+  - @chainlink/reduce-adapter@1.4.26
+  - @chainlink/ada-balance-adapter@2.5.39
+  - @chainlink/amberdata-adapter@1.8.32
+  - @chainlink/blockchain.com-adapter@1.3.39
+  - @chainlink/blockchair-adapter@1.3.39
+  - @chainlink/blockcypher-adapter@1.4.39
+  - @chainlink/btc.com-adapter@1.3.39
+  - @chainlink/celsius-address-list-adapter@2.0.23
+  - @chainlink/chain-reserve-wallet-adapter@3.0.23
+  - @chainlink/cryptoapis-adapter@1.2.39
+  - @chainlink/eth-balance-adapter@2.1.3
+  - @chainlink/renvm-address-set-adapter@1.5.100
+  - @chainlink/sochain-adapter@1.3.39
+  - @chainlink/swell-address-list-adapter@1.0.22
+  - @chainlink/wrapped-adapter@2.2.39
+
 ## 1.24.9
 
 ### Patch Changes
