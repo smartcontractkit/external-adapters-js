@@ -27,8 +27,6 @@ RC.2 through RC.7 details are summarized below:
 
 This release marks the fruition of our recent External Adapter efficiency efforts.
 
-For more details see the public node operator guide [here](https://www.notion.so/chainlink/EA-0-3-0-Migration-Guide-3ac0632093a94f4d9ad7ea9e4fab2693).
-
 ### Added
 
 - New performance improving middleware to the core EA framework:
