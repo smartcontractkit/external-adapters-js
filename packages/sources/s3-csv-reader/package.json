@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/s3-csv-reader-adapter",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Chainlink S3 reader adapter.",
   "keywords": [
     "Chainlink",
