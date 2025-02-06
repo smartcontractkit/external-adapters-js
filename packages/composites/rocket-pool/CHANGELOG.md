@@ -1,5 +1,13 @@
 # @chainlink/rocket-pool-adapter
 
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [[`293dbdc`](https://github.com/smartcontractkit/external-adapters-js/commit/293dbdc28582ef15cc79297d6848e4ff35a090ca)]:
+  - @chainlink/ea-bootstrap@2.29.5
+  - @chainlink/ea-reference-data-reader@1.3.39
+
 ## 1.1.14
 
 ### Patch Changes
