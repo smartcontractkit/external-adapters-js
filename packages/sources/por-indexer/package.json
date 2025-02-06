@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/por-indexer-adapter",
-  "version": "2.1.15",
+  "version": "2.1.16",
   "description": "Chainlink por-indexer adapter.",
   "keywords": [
     "Chainlink",
