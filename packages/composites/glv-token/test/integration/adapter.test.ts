@@ -9,6 +9,10 @@ import {
   mockTiingoEAResponseSuccess,
 } from './fixtures'
 import { ethers } from 'ethers'
+import {
+  LwbaResponseDataFields,
+  validateLwbaResponse,
+} from '@chainlink/external-adapter-framework/adapter'
 
 jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
@@ -114,6 +118,24 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('lwba endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'crypto-lwba',
+        glv: '0x528A5bac7E746C9A509A1f4F6dF58A03d44279F9',
+      }
+      mockTiingoEAResponseSuccess('ETH')
+      mockNCFXEAResponseSuccess('ETH')
+      mockCoinmetricsEAResponseSuccess('ETH')
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      const resJson = response.json()
+      const resData = resJson.data as LwbaResponseDataFields['Data']
+      validateLwbaResponse(resData.bid, resData.mid, resData.ask)
     })
   })
 })

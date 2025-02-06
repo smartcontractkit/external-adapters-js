@@ -59,6 +59,29 @@ Request:
 }
 ```
 
+## Crypto-lwba Endpoint
+
+Supported names for this endpoint are: `cryptolwba`.
+
+### Input Params
+
+| Required? | Name | Aliases | Description |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----: | :---------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | glv  |         | Glv address | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "crypto-lwba",
+    "glv": "0x528A5bac7E746C9A509A1f4F6dF58A03d44279F9"
+  }
+}
+```
+
 ---
 
 MIT License
