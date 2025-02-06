@@ -60,6 +60,13 @@ export const config = new AdapterConfig(
       required: true,
       default: 'https://arbitrum-api.gmxinfra.io/tokens',
     },
+    GLV_INFO_API_TIMEOUT_MS: {
+      description:
+        'The amount of time the request to the GLV info APIs should wait before timing out. ' +
+        'Distinct from timeout used to make requests to the EAs which can be set with API_TIMEOUT',
+      type: 'number',
+      default: 10_000,
+    },
     METADATA_REFRESH_INTERVAL_MS: {
       description: 'The amount of time the metadata should be refreshed',
       type: 'number',

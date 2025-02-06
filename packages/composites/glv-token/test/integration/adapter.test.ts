@@ -42,7 +42,7 @@ jest.mock('ethers', () => ({
           if (maximize) {
             return [
               {
-                _hex: '0x104681a4a04ccfed9f2e8d144e',
+                _hex: '0x0e7b25fe03f0eda42ead663c4f', // 1.1473068612168396
                 _isBigNumber: true,
               },
               {
@@ -54,7 +54,7 @@ jest.mock('ethers', () => ({
           }
           return [
             {
-              _hex: '0x1047154bfc2ec20ad4c399c9cd',
+              _hex: '0x0e7a4edfc978cf077056d4bea6', // 1.1470467994160611
               _isBigNumber: true,
             },
             {
