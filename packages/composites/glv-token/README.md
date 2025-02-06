@@ -1,6 +1,6 @@
 # GLV_TOKEN
 
-![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/glv-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/glv-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -18,9 +18,9 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     | MIN_REQUIRED_SOURCE_SUCCESS  |                                                   Minimum number of source EAs that need to successfully return a value.                                                    | number |         |                     `2`                      |
 |    ✅     |       MARKET_INFO_API        |                                                                    URL market meta data supported by Glv                                                                    | string |         |  `https://arbitrum-api.gmxinfra.io/markets`  |
 |    ✅     |        TOKEN_INFO_API        |                                                                   URL to token meta data supported by Glv                                                                   | string |         |  `https://arbitrum-api.gmxinfra.io/tokens`   |
+|           |   GLV_INFO_API_TIMEOUT_MS    | The amount of time the request to the GLV info APIs should wait before timing out. Distinct from timeout used to make requests to the EAs which can be set with API_TIMEOUT | number |         |                   `10000`                    |
 |           | METADATA_REFRESH_INTERVAL_MS |                                                             The amount of time the metadata should be refreshed                                                             | number |         |                  `10800000`                  |
 |           |    BACKGROUND_EXECUTE_MS     |                                          The amount of time the background execute should sleep before performing the next request                                          | number |         |                   `10000`                    |
-|           |   GLV_INFO_API_TIMEOUT_MS    | The amount of time the request to the GLV info APIs should wait before timing out. Distinct from timeout used to make requests to the EAs which can be set with API_TIMEOUT | number |         |                   `10000`                    |
 
 ---
 
@@ -32,9 +32,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                            Options                             | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#crypto-lwba-endpoint), [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
@@ -59,9 +59,11 @@ Request:
 }
 ```
 
+---
+
 ## Crypto-lwba Endpoint
 
-Supported names for this endpoint are: `cryptolwba`.
+`crypto-lwba` is the only supported name for this endpoint.
 
 ### Input Params
 

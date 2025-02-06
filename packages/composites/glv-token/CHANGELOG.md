@@ -1,5 +1,19 @@
 # @chainlink/glv-token-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3670](https://github.com/smartcontractkit/external-adapters-js/pull/3670) [`a1a5b26`](https://github.com/smartcontractkit/external-adapters-js/commit/a1a5b26177bef9656f3f838385a2130f175bbd7a) Thanks [@akuzni2](https://github.com/akuzni2)! - Add LWBA endpoint
+
+- [#3671](https://github.com/smartcontractkit/external-adapters-js/pull/3671) [`5bb85b8`](https://github.com/smartcontractkit/external-adapters-js/commit/5bb85b8a6ea3fd8caf2cdc4cb9830ba06f7e3399) Thanks [@akuzni2](https://github.com/akuzni2)! - Refactor price into a base transport
+
+### Patch Changes
+
+- [#3673](https://github.com/smartcontractkit/external-adapters-js/pull/3673) [`1e1c478`](https://github.com/smartcontractkit/external-adapters-js/commit/1e1c4785e78eeeda775b6a7630594498f60ad9bf) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Bumped framework version
+
+- [#3669](https://github.com/smartcontractkit/external-adapters-js/pull/3669) [`29cf6c0`](https://github.com/smartcontractkit/external-adapters-js/commit/29cf6c028f4677a86017b02219886f1488693468) Thanks [@akuzni2](https://github.com/akuzni2)! - test fix
+
 ## 1.0.2
 
 ### Patch Changes
