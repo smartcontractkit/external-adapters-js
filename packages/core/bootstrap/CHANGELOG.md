@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.29.5
+
+### Patch Changes
+
+- [#3666](https://github.com/smartcontractkit/external-adapters-js/pull/3666) [`293dbdc`](https://github.com/smartcontractkit/external-adapters-js/commit/293dbdc28582ef15cc79297d6848e4ff35a090ca) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency @types/lodash to v4.17.15
+
 ## 2.29.4
 
 ### Patch Changes
