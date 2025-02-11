@@ -1,5 +1,13 @@
 # @chainlink/twelvedata-adapter
 
+## 1.4.8
+
+### Patch Changes
+
+- Updated dependencies [[`293dbdc`](https://github.com/smartcontractkit/external-adapters-js/commit/293dbdc28582ef15cc79297d6848e4ff35a090ca)]:
+  - @chainlink/ea-bootstrap@2.29.5
+  - @chainlink/ea-test-helpers@1.4.6
+
 ## 1.4.7
 
 ### Patch Changes

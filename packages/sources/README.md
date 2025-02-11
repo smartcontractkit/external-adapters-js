@@ -14,6 +14,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [anchorage](./anchorage/README.md)
 - [anyblock](./anyblock/README.md)
 - [ap-election](./ap-election/README.md)
+- [apex](./apex/README.md)
 - [avalanche-platform](./avalanche-platform/README.md)
 - [bank-frick](./bank-frick/README.md)
 - [bea](./bea/README.md)

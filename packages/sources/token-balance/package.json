@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-balance-adapter",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Chainlink token-balance adapter.",
   "keywords": [
     "Chainlink",

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/blocksize-capital-adapter",
-  "version": "2.3.14",
+  "version": "2.3.15",
   "description": "Chainlink blocksize-capital adapter.",
   "keywords": [
     "Chainlink",
