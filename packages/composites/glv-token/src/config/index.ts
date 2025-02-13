@@ -8,6 +8,12 @@ export const config = new AdapterConfig(
       type: 'string',
       required: true,
     },
+    ARBITRUM_RPC_TIMEOUT_MS: {
+      description:
+        'The amount of time the RPC request to the Arbitrum node should wait before timing out.',
+      type: 'number',
+      default: 5_000,
+    },
     ARBITRUM_CHAIN_ID: {
       description: 'The chain id to connect to',
       type: 'number',
