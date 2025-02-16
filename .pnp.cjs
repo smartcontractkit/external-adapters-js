@@ -6368,7 +6368,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:22.12.0"],\
           ["bip32", "npm:4.0.0"],\
-          ["bitcoinjs-lib", "npm:6.1.6"],\
+          ["bitcoinjs-lib", "npm:6.1.7"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -18714,10 +18714,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.1.6", {\
-        "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.6-d063b5a8ff-18057362e9.zip/node_modules/bitcoinjs-lib/",\
+      ["npm:6.1.7", {\
+        "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.7-31b0bb4f5c-d501b1cd83.zip/node_modules/bitcoinjs-lib/",\
         "packageDependencies": [\
-          ["bitcoinjs-lib", "npm:6.1.6"],\
+          ["bitcoinjs-lib", "npm:6.1.7"],\
           ["@noble/hashes", "npm:1.5.0"],\
           ["bech32", "npm:2.0.0"],\
           ["bip174", "npm:2.1.1"],\
