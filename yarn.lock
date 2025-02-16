@@ -2591,7 +2591,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.1.0"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     fastify: "npm:^3.29.4"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -3625,7 +3625,7 @@ __metadata:
     "@types/uuid": "npm:8.3.4"
     "@types/ws": "npm:8.5.14"
     ajv: "npm:^8.6.2"
-    axios: "npm:1.7.7"
+    axios: "npm:1.7.9"
     decimal.js: "npm:^10.3.1"
     fast-redact: "npm:^3.0.1"
     fastify: "npm:^3.29.4"
@@ -3696,7 +3696,7 @@ __metadata:
     "@types/swagger-jsdoc": "npm:6.0.4"
     "@types/yaml": "npm:1.9.7"
     airtable: "npm:0.11.6"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     axios-mock-adapter: "npm:1.20.0"
     axios-observable: "npm:1.3.0"
     backoff-rxjs: "npm:6.5.7"
@@ -3759,7 +3759,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4208,7 +4208,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4354,7 +4354,7 @@ __metadata:
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     crypto: "npm:1.0.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4466,7 +4466,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
-    axios: "npm:1.7.7"
+    axios: "npm:1.7.9"
     decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -4497,7 +4497,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.6.3"
@@ -5049,7 +5049,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.1.0"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     decimal.js: "npm:^10.3.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -5060,7 +5060,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
   dependencies:
-    axios: "npm:1.7.7"
+    axios: "npm:1.7.9"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
   languageName: unknown
@@ -5137,7 +5137,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinon": "npm:10.0.20"
-    axios: "npm:1.7.7"
+    axios: "npm:1.7.9"
     sinon: "npm:12.0.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -5543,7 +5543,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.1.0"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     bignumber.js: "npm:^9.1.1"
     ethers: "npm:5.5.4"
     nock: "npm:13.5.6"
@@ -5829,7 +5829,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.1.0"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.7.8"
+    axios: "npm:1.7.9"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
     nock: "npm:13.5.6"
@@ -13842,28 +13842,6 @@ __metadata:
     axios: ^0.21.1
     rxjs: ^7.0.0
   checksum: 10/1a9c89355dd996be92d4e91341c4bd860607462d9f93c05ba51e51cffcf01f72de615f2498ace899467f11007d12ca90ca4f0a5095c007758c7a712e9f3e22b5
-  languageName: node
-  linkType: hard
-
-"axios@npm:1.7.7":
-  version: 1.7.7
-  resolution: "axios@npm:1.7.7"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/7f875ea13b9298cd7b40fd09985209f7a38d38321f1118c701520939de2f113c4ba137832fe8e3f811f99a38e12c8225481011023209a77b0c0641270e20cde1
-  languageName: node
-  linkType: hard
-
-"axios@npm:1.7.8":
-  version: 1.7.8
-  resolution: "axios@npm:1.7.8"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/7ddcde188041ac55090186254b4025eb2af842be3cf615ce45393fd7f543c1eab0ad2fdd2017a5f6190695e3ecea73ee5e9c37f204854aec2698f9579046efdf
   languageName: node
   linkType: hard
 
