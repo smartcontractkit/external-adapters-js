@@ -22,6 +22,28 @@ exports[`execute base network should return failure when transaction submission 
 }
 `;
 
+exports[`execute ink network should return failure when transaction submission is unknown 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute mantle network should return failure when transaction submission is unknown 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute metis network should return failure when transaction submission is unknown 1`] = `
 {
   "data": {
@@ -34,6 +56,28 @@ exports[`execute metis network should return failure when transaction submission
 `;
 
 exports[`execute optimism network should return failure when transaction submission is unknown 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute soneium network should return failure when transaction submission is unknown 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute unichain network should return failure when transaction submission is unknown 1`] = `
 {
   "data": {
     "result": 1,

@@ -137,4 +137,68 @@ describe('execute', () => {
       await sendRequestAndExpectStatus(data, 1)
     })
   })
+
+  describe('ink network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'ink',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('mantle network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'mantle',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('unichain network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'unichain',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('soneium network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'soneium',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
 })
