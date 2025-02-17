@@ -69,6 +69,30 @@ export const sendEVMDummyTransaction = async (
       gasPrice: 0,
       to: wallet.address,
     },
+    [Networks.Ink]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
+    [Networks.Mantle]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
+    [Networks.Unichain]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
+    [Networks.Soneium]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
   }
   await race<ethers.providers.TransactionResponse>({
     timeout,
@@ -103,6 +127,22 @@ const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> =
     timestamp: 0,
   },
   [Networks.zkSync]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Ink]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Mantle]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Unichain]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Soneium]: {
     block: 0,
     timestamp: 0,
   },

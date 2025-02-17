@@ -427,4 +427,184 @@ describe('execute', () => {
       await sendRequestAndExpectStatus(data, 1)
     })
   })
+
+  describe('ink network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'ink',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'ink',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'ink',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('mantle network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'mantle',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'mantle',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'mantle',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('unichain network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'unichain',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'unichain',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'unichain',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('soneium network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'soneium',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'soneium',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'soneium',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
 })
