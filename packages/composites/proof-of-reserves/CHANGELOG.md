@@ -1,5 +1,30 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.24.11
+
+### Patch Changes
+
+- Updated dependencies [[`6f467e6`](https://github.com/smartcontractkit/external-adapters-js/commit/6f467e6a1030de84fec40231a6326840a1a24122)]:
+  - @chainlink/stader-balance-adapter@1.4.30
+  - @chainlink/ea-bootstrap@2.29.6
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.40
+  - @chainlink/ea-test-helpers@1.4.6
+  - @chainlink/reduce-adapter@1.4.27
+  - @chainlink/ada-balance-adapter@2.5.40
+  - @chainlink/amberdata-adapter@1.8.33
+  - @chainlink/blockchain.com-adapter@1.3.40
+  - @chainlink/blockchair-adapter@1.3.40
+  - @chainlink/blockcypher-adapter@1.4.40
+  - @chainlink/btc.com-adapter@1.3.40
+  - @chainlink/celsius-address-list-adapter@2.0.24
+  - @chainlink/chain-reserve-wallet-adapter@3.0.24
+  - @chainlink/cryptoapis-adapter@1.2.40
+  - @chainlink/eth-balance-adapter@2.1.4
+  - @chainlink/renvm-address-set-adapter@1.5.101
+  - @chainlink/sochain-adapter@1.3.40
+  - @chainlink/swell-address-list-adapter@1.0.23
+  - @chainlink/wrapped-adapter@2.2.40
+
 ## 1.24.10
 
 ### Patch Changes
