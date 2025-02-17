@@ -25,6 +25,10 @@ const defaultRequireTxFailure = {
   [Networks.Scroll]: false,
   [Networks.Starkware]: true,
   [Networks.zkSync]: false,
+  [Networks.Ink]: false,
+  [Networks.Mantle]: false,
+  [Networks.Unichain]: false,
+  [Networks.Soneium]: false,
 }
 
 export type TInputParameters = {
@@ -43,6 +47,10 @@ export const inputParameters: InputParameters<TInputParameters> = {
       Networks.Scroll,
       Networks.Starkware,
       Networks.zkSync,
+      Networks.Ink,
+      Networks.Mantle,
+      Networks.Unichain,
+      Networks.Soneium,
     ],
   },
   requireTxFailure: {

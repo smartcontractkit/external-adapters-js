@@ -15,6 +15,10 @@ const mockMessages = {
   'https://rpc.scroll.io':
     'invalid transaction: insufficient funds for l1fee + gas * price + value',
   'https://mainnet.era.zksync.io': 'max fee per gas less than block base fee',
+  'https://rpc-gel.inkonchain.com': 'intrinsic gas too low: gas 0',
+  'https://rpc.mantle.xyz': 'failed to forward tx to sequencer',
+  'https://mainnet.unichain.org': 'intrinsic gas too low: gas 0',
+  'https://rpc.soneium.org': 'intrinsic gas too low: gas 0',
 }
 
 jest.mock('ethers', () => {
@@ -270,6 +274,122 @@ describe('execute', () => {
         id,
         data: {
           network: 'zksync',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('ink network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'ink',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'ink',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('mantle network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'mantle',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'mantle',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('unichain network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'unichain',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'unichain',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('soneium network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'soneium',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'soneium',
         },
       }
 

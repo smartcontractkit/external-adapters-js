@@ -31,6 +31,10 @@ export const ENV_LINEA_RPC_ENDPOINT = 'LINEA_RPC_ENDPOINT'
 export const ENV_METIS_RPC_ENDPOINT = 'METIS_RPC_ENDPOINT'
 export const ENV_SCROLL_RPC_ENDPOINT = 'SCROLL_RPC_ENDPOINT'
 export const ENV_ZKSYNC_RPC_ENDPOINT = 'ZKSYNC_RPC_ENDPOINT'
+export const ENV_INK_RPC_ENDPOINT = 'INK_RPC_ENDPOINT'
+export const ENV_MANTLE_RPC_ENDPOINT = 'MANTLE_RPC_ENDPOINT'
+export const ENV_UNICHAIN_RPC_ENDPOINT = 'UNICHAIN_RPC_ENDPOINT'
+export const ENV_SONEIUM_RPC_ENDPOINT = 'SONEIUM_RPC_ENDPOINT'
 
 export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
 export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
@@ -39,6 +43,10 @@ export const ENV_LINEA_CHAIN_ID = 'BASE_CHAIN_ID'
 export const ENV_METIS_CHAIN_ID = 'METIS_CHAIN_ID'
 export const ENV_SCROLL_CHAIN_ID = 'SCROLL_CHAIN_ID'
 export const ENV_ZKSYNC_CHAIN_ID = 'ZKSYNC_CHAIN_ID'
+export const ENV_INK_CHAIN_ID = 'INK_CHAIN_ID'
+export const ENV_MANTLE_CHAIN_ID = 'MANTLE_CHAIN_ID'
+export const ENV_UNICHAIN_CHAIN_ID = 'UNICHAIN_CHAIN_ID'
+export const ENV_SONEIUM_CHAIN_ID = 'SONEIUM_CHAIN_ID'
 
 export const DEFAULT_ARBITRUM_CHAIN_ID = '42161'
 export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
@@ -47,6 +55,10 @@ export const DEFAULT_LINEA_CHAIN_ID = '59144'
 export const DEFAULT_METIS_CHAIN_ID = '1088'
 export const DEFAULT_SCROLL_CHAIN_ID = '534352'
 export const DEFAULT_ZKSYNC_CHAIN_ID = '324'
+export const DEFAULT_INK_CHAIN_ID = '57073'
+export const DEFAULT_MANTLE_CHAIN_ID = '5000'
+export const DEFAULT_UNICHAIN_CHAIN_ID = '130'
+export const DEFAULT_SONEIUM_CHAIN_ID = '1868'
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -57,6 +69,10 @@ export enum Networks {
   Scroll = 'scroll',
   Starkware = 'starkware',
   zkSync = 'zksync',
+  Ink = 'ink',
+  Mantle = 'mantle',
+  Unichain = 'unichain',
+  Soneium = 'soneium',
 }
 
 export type EVMNetworks = Exclude<Networks, Networks.Starkware>
@@ -68,6 +84,10 @@ const DEFAULT_LINEA_RPC_ENDPOINT = 'https://rpc.linea.build'
 const DEFAULT_METIS_RPC_ENDPOINT = 'https://andromeda.metis.io/?owner=1088'
 const DEFAULT_SCROLL_RPC_ENDPOINT = 'https://rpc.scroll.io'
 const DEFAULT_ZKSYNC_RPC_ENDPOINT = 'https://mainnet.era.zksync.io'
+const DEFAULT_INK_RPC_ENDPOINT = 'https://rpc-gel.inkonchain.com'
+const DEFAULT_MANTLE_RPC_ENDPOINT = 'https://rpc.mantle.xyz'
+const DEFAULT_UNICHAIN_RPC_ENDPOINT = 'https://mainnet.unichain.org'
+const DEFAULT_SONEIUM_RPC_ENDPOINT = 'https://rpc.soneium.org'
 
 export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Arbitrum]: util.getEnv(ENV_ARBITRUM_RPC_ENDPOINT) || DEFAULT_ARBITRUM_RPC_ENDPOINT,
@@ -77,6 +97,10 @@ export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Metis]: util.getEnv(ENV_METIS_RPC_ENDPOINT) || DEFAULT_METIS_RPC_ENDPOINT,
   [Networks.Scroll]: util.getEnv(ENV_SCROLL_RPC_ENDPOINT) || DEFAULT_SCROLL_RPC_ENDPOINT,
   [Networks.zkSync]: util.getEnv(ENV_ZKSYNC_RPC_ENDPOINT) || DEFAULT_ZKSYNC_RPC_ENDPOINT,
+  [Networks.Ink]: util.getEnv(ENV_INK_RPC_ENDPOINT) || DEFAULT_INK_RPC_ENDPOINT,
+  [Networks.Mantle]: util.getEnv(ENV_MANTLE_RPC_ENDPOINT) || DEFAULT_MANTLE_RPC_ENDPOINT,
+  [Networks.Unichain]: util.getEnv(ENV_UNICHAIN_RPC_ENDPOINT) || DEFAULT_UNICHAIN_RPC_ENDPOINT,
+  [Networks.Soneium]: util.getEnv(ENV_SONEIUM_RPC_ENDPOINT) || DEFAULT_SONEIUM_RPC_ENDPOINT,
 }
 
 export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
@@ -101,6 +125,18 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
   [Networks.zkSync]:
     parseInt(util.getEnv(ENV_ZKSYNC_CHAIN_ID) || DEFAULT_ZKSYNC_CHAIN_ID) ||
     util.getEnv(ENV_ZKSYNC_CHAIN_ID),
+  [Networks.Ink]:
+    parseInt(util.getEnv(ENV_INK_CHAIN_ID) || DEFAULT_INK_CHAIN_ID) ||
+    util.getEnv(ENV_INK_CHAIN_ID),
+  [Networks.Mantle]:
+    parseInt(util.getEnv(ENV_MANTLE_CHAIN_ID) || DEFAULT_MANTLE_CHAIN_ID) ||
+    util.getEnv(ENV_MANTLE_CHAIN_ID),
+  [Networks.Unichain]:
+    parseInt(util.getEnv(ENV_UNICHAIN_CHAIN_ID) || DEFAULT_UNICHAIN_CHAIN_ID) ||
+    util.getEnv(ENV_UNICHAIN_CHAIN_ID),
+  [Networks.Soneium]:
+    parseInt(util.getEnv(ENV_SONEIUM_CHAIN_ID) || DEFAULT_SONEIUM_CHAIN_ID) ||
+    util.getEnv(ENV_SONEIUM_CHAIN_ID),
 }
 
 export const CHAIN_DELTA: Record<Networks, number> = {
@@ -112,6 +148,10 @@ export const CHAIN_DELTA: Record<Networks, number> = {
   [Networks.Scroll]: Number(util.getEnv('SCROLL_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Starkware]: Number(util.getEnv('STARKWARE_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.zkSync]: Number(util.getEnv('ZKSYNC_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Ink]: Number(util.getEnv('INK_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Mantle]: Number(util.getEnv('MANTLE_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Unichain]: Number(util.getEnv('UNICHAIN_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Soneium]: Number(util.getEnv('SONEIUM_DELTA')) || DEFAULT_DELTA_TIME,
 }
 
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
@@ -164,6 +204,26 @@ export const HEALTH_ENDPOINTS: HeathEndpoints = {
   },
   [Networks.zkSync]: {
     endpoint: util.getEnv('ZKSYNC_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.Ink]: {
+    endpoint: util.getEnv('INK_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.Mantle]: {
+    endpoint: util.getEnv('MANTLE_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.Unichain]: {
+    endpoint: util.getEnv('UNICHAIN_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.Soneium]: {
+    endpoint: util.getEnv('SONEIUM_HEALTH_ENDPOINT'),
     responsePath: [],
     processResponse: () => undefined,
   },

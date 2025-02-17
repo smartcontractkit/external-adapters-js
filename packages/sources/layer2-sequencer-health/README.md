@@ -39,6 +39,22 @@ Adapter that checks the Layer 2 Sequencer status
 |           |     `ZKSYNC_HEALTH_ENDPOINT`      |                                  zkSync Health Endpoint                                   |         |                                                                  |
 |           |         `ZKSYNC_CHAIN_ID`         |                             The chain id to connect to zkSync                             |         |                               324                                |
 |           |          `ZKSYNC_DELTA`           |  Maximum time in milliseconds from last seen block to consider zkSync sequencer healthy   |         |                          120000 (2 min)                          |
+|           |        `INK_RPC_ENDPOINT`         |                                     Ink RPC Endpoint                                      |         |                  https://rpc-gel.inkonchain.com                  |
+|           |       `INK_HEALTH_ENDPOINT`       |                                    Ink Health Endpoint                                    |         |                                                                  |
+|           |          `INK_CHAIN_ID`           |                              The chain id to connect to Ink                               |         |                              57073                               |
+|           |            `INK_DELTA`            |    Maximum time in milliseconds from last seen block to consider Ink sequencer healthy    |         |                          120000 (2 min)                          |
+|           |       `MANTLE_RPC_ENDPOINT`       |                                    Mantle RPC Endpoint                                    |         |                      https://rpc.mantle.xyz                      |
+|           |     `MANTLE_HEALTH_ENDPOINT`      |                                  Mantle Health Endpoint                                   |         |                                                                  |
+|           |         `MANTLE_CHAIN_ID`         |                             The chain id to connect to Mantle                             |         |                               5000                               |
+|           |          `MANTLE_DELTA`           |  Maximum time in milliseconds from last seen block to consider Mantle sequencer healthy   |         |                          120000 (2 min)                          |
+|           |      `UNICHAIN_RPC_ENDPOINT`      |                                   Unichain RPC Endpoint                                   |         |                   https://mainnet.unichain.org                   |
+|           |    `UNICHAIN_HEALTH_ENDPOINT`     |                                 Unichain Health Endpoint                                  |         |                                                                  |
+|           |        `UNICHAIN_CHAIN_ID`        |                            The chain id to connect to Unichain                            |         |                               130                                |
+|           |         `UNICHAIN_DELTA`          | Maximum time in milliseconds from last seen block to consider Unichain sequencer healthy  |         |                          120000 (2 min)                          |
+|           |      `SONEIUM_RPC_ENDPOINT`       |                                   Soneium RPC Endpoint                                    |         |                     https://rpc.soneium.org                      |
+|           |     `SONEIUM_HEALTH_ENDPOINT`     |                                  Soneium Health Endpoint                                  |         |                                                                  |
+|           |        `SONEIUM_CHAIN_ID`         |                            The chain id to connect to Soneium                             |         |                               1868                               |
+|           |          `SONEIUM_DELTA`          |  Maximum time in milliseconds from last seen block to consider Soneium sequencer healthy  |         |                          120000 (2 min)                          |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 
@@ -46,9 +62,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                                      Options                                      | Defaults to |
-| :-------: | :-----: | :----------------------: | :-------------------------------------------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `linea`, `metis`, `scroll`, `starkware`, `zksync` |             |
+| Required? |  Name   |       Description        |                                                          Options                                                          | Defaults to |
+| :-------: | :-----: | :----------------------: | :-----------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `linea`, `metis`, `scroll`, `starkware`, `zksync`, `ink`, `mantle`, `unichain`, `soneium` |             |
 
 ---
 
