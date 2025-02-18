@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/galaxy-adapter",
-  "version": "2.1.42",
+  "version": "2.1.43",
   "description": "Chainlink Galaxy adapter.",
   "keywords": [
     "Chainlink",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.1.0",
-    "axios": "1.7.8",
+    "axios": "1.7.9",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

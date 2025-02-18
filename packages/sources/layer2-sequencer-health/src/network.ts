@@ -28,6 +28,10 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   // the network detects a transaction sent with 0 gas.
   [Networks.Starkware]: ['Contract not found', 'Known(OutOfRangeFee)'],
   [Networks.zkSync]: ['max fee per gas less than block base fee'],
+  [Networks.Ink]: ['intrinsic gas too low: gas 0'],
+  [Networks.Mantle]: ['failed to forward tx to sequencer', 'intrinsic gas too low'],
+  [Networks.Unichain]: ['intrinsic gas too low: gas 0'],
+  [Networks.Soneium]: ['intrinsic gas too low: gas 0'],
 }
 
 export interface NetworkHealthCheck {
@@ -94,6 +98,10 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Scroll]: ['error', 'error', 'message'],
       [Networks.Starkware]: ['message'],
       [Networks.zkSync]: ['error', 'message'],
+      [Networks.Ink]: ['error', 'message'],
+      [Networks.Mantle]: ['error', 'message'],
+      [Networks.Unichain]: ['error', 'message'],
+      [Networks.Soneium]: ['error', 'message'],
     }
     return (Requester.getResult(error, paths[network]) as string) || ''
   }

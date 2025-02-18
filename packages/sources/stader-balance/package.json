@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stader-balance-adapter",
-  "version": "1.4.29",
+  "version": "1.4.30",
   "description": "Chainlink Stader balance adapter.",
   "keywords": [
     "Chainlink",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.1.0",
-    "axios": "1.7.8",
+    "axios": "1.7.9",
     "bignumber.js": "^9.1.1",
     "ethers": "5.5.4",
     "tslib": "^2.3.1"
