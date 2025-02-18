@@ -1,5 +1,15 @@
 # @chainlink/implied-price-adapter
 
+## 1.1.32
+
+### Patch Changes
+
+- [#3679](https://github.com/smartcontractkit/external-adapters-js/pull/3679) [`6f467e6`](https://github.com/smartcontractkit/external-adapters-js/commit/6f467e6a1030de84fec40231a6326840a1a24122) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency axios to v1.7.9
+
+- Updated dependencies [[`6f467e6`](https://github.com/smartcontractkit/external-adapters-js/commit/6f467e6a1030de84fec40231a6326840a1a24122)]:
+  - @chainlink/ea-bootstrap@2.29.6
+  - @chainlink/ea-test-helpers@1.4.6
+
 ## 1.1.31
 
 ### Patch Changes

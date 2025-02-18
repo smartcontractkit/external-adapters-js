@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/google-bigquery-adapter",
-  "version": "1.2.39",
+  "version": "1.2.40",
   "description": "Chainlink google-bigquery adapter.",
   "keywords": [
     "Chainlink",

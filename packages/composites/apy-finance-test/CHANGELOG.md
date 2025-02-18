@@ -1,5 +1,12 @@
 # @chainlink/apy-finance-test-adapter
 
+## 0.2.21
+
+### Patch Changes
+
+- Updated dependencies [[`6f467e6`](https://github.com/smartcontractkit/external-adapters-js/commit/6f467e6a1030de84fec40231a6326840a1a24122)]:
+  - @chainlink/token-allocation-test-adapter@0.0.21
+
 ## 0.2.20
 
 ### Patch Changes

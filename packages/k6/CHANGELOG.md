@@ -1,5 +1,11 @@
 # k6
 
+## 2.5.8
+
+### Patch Changes
+
+- [#3677](https://github.com/smartcontractkit/external-adapters-js/pull/3677) [`fe4990f`](https://github.com/smartcontractkit/external-adapters-js/commit/fe4990f9ccc2fc0d0fdd7a7bd1bde43d7197c53c) Thanks [@renovate](https://github.com/apps/renovate)! - Update babel monorepo to v7.26.9
+
 ## 2.5.7
 
 ### Patch Changes
