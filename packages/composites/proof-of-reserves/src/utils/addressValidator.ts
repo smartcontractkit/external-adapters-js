@@ -51,7 +51,7 @@ export const validateAddresses = (
   for (const addressObj of addresses) {
     const { address, network, chainId, contractAddress, wallets } = addressObj
     let validatedAddress: string | undefined = undefined
-    let validationNetwork = network || indexerToNetwork[indexer]
+    let validationNetwork = network || indexerToNetwork[indexer] || ''
     // If the indexer is eth_beacon, override the validationNetwork as it might contain a different value (goerli, ethereum, mainnet...)
     validationNetwork = indexer === 'eth_beacon' ? 'beacon' : validationNetwork
 
