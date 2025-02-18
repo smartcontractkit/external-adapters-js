@@ -1,5 +1,11 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 4.3.9
+
+### Patch Changes
+
+- [#3680](https://github.com/smartcontractkit/external-adapters-js/pull/3680) [`4a2b2f3`](https://github.com/smartcontractkit/external-adapters-js/commit/4a2b2f3c0a75f73737da1e18fbd1bb7290510726) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency bitcoinjs-lib to v6.1.7
+
 ## 4.3.8
 
 ### Patch Changes
