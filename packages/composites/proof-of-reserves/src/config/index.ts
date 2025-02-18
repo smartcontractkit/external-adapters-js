@@ -1,6 +1,10 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { DefaultConfig } from '@chainlink/ea-bootstrap'
-import { adaptersV2 as BalanceAdaptersV2, adaptersV3 as BalanceAdaptersV3 } from '../utils/balance'
+import {
+  adaptersV2 as BalanceAdaptersV2,
+  adaptersV3 as BalanceAdaptersV3,
+  ETHEREUM_CL_INDEXER,
+} from '../utils/balance'
 import {
   adaptersV2 as ProtocolAdaptersV2,
   adaptersV3 as ProtocolAdaptersV3,
@@ -60,5 +64,7 @@ export const makeOptions = (): Options => {
   }
   options.protocol.push(LIST_ADAPTER)
   options.protocol.push(LIST_ADAPTER.toLowerCase())
+  options.indexer.push(ETHEREUM_CL_INDEXER)
+  options.indexer.push(ETHEREUM_CL_INDEXER.toLowerCase())
   return options
 }

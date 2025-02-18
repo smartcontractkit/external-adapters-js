@@ -4,6 +4,7 @@ import {
   adaptersV2 as indexerAdaptersV2,
   adaptersV3 as indexerAdaptersV3,
   runBalanceAdapter,
+  ETHEREUM_CL_INDEXER,
 } from '../utils/balance'
 import {
   adaptersV2 as protocolAdaptersV2,
@@ -58,6 +59,7 @@ const inputParameters: InputParameters<TInputParameters> = {
       ...indexerAdaptersV2.map(({ NAME }) => NAME.toUpperCase()),
       ...indexerAdaptersV3.map(({ name }) => name.toLowerCase()),
       ...indexerAdaptersV3.map(({ name }) => name.toUpperCase()),
+      ETHEREUM_CL_INDEXER,
     ],
   },
   indexerEndpoint: {
@@ -118,7 +120,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     config,
     validator.validated.data.protocolEndpoint,
   )
+
   const validatedAddresses = getValidAddresses(protocolOutput, validator)
+
   const balanceOutput = await runBalanceAdapter(
     indexer,
     context,

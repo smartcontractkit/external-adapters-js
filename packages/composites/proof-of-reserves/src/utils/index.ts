@@ -8,13 +8,13 @@ import {
 } from '@chainlink/ea-bootstrap'
 
 export const makeRequestFactory =
-  (config: Config, prefix: string): Execute =>
+  (config: Config, prefix: string, postfix?: string): Execute =>
   async (input: AdapterRequest) =>
     (
       await Requester.request({
         ...config.api,
         method: 'post',
-        url: util.getURL(prefix, true),
+        url: (util.getURL(prefix, true) || '') + (postfix || ''),
         data: input,
       })
     ).data as AdapterResponse

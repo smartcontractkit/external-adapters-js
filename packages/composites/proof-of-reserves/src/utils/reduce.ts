@@ -1,5 +1,5 @@
 import * as reduce from '@chainlink/reduce-adapter'
-import { AdapterContext, AdapterResponse } from '@chainlink/ea-bootstrap'
+import { AdapterContext, AdapterError, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { callAdapter } from '.'
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import { adapter as bitcoinPorIndexer } from '@chainlink/por-indexer-adapter'
@@ -8,6 +8,7 @@ import { adapter as lotus } from '@chainlink/lotus-adapter'
 import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { adapter as ceffu } from '@chainlink/ceffu-adapter'
 import { ethers } from 'ethers'
+import { ETHEREUM_CL_INDEXER } from './balance'
 
 const returnParsedUnits = (
   jobRunID: string,
@@ -56,6 +57,23 @@ export const runReduceAdapter = async (
     case adaBalance.NAME:
       // TODO: type makeExecute response
       return returnParsedUnits(input.jobRunID, input.data.result as string, 0)
+    case ETHEREUM_CL_INDEXER:
+      if (input.data.isValid) {
+        return {
+          jobRunID: input.jobRunID,
+          result: input.data.totalBalance as string,
+          statusCode: 200,
+          data: {
+            result: input.data.totalBalance as string,
+            statusCode: 200,
+          },
+        }
+      } else {
+        throw new AdapterError({
+          statusCode: 400,
+          message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
+        })
+      }
   }
 
   const next = {
