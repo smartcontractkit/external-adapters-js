@@ -55,8 +55,7 @@ export const totalReserveTransport = new HttpTransport<TotalReserveTransportType
       return {
         params: [param],
         request: {
-          baseURL: config.API_ENDPOINT,
-          url: '/v1/sql',
+          url: config.API_ENDPOINT,
           method: 'POST',
           headers: {
             Accept: 'application/json',
