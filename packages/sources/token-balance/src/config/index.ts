@@ -1,6 +1,16 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
+  ETHEREUM_RPC_URL: {
+    description: 'RPC url of Ethereum node',
+    type: 'string',
+    default: '',
+  },
+  ETHEREUM_RPC_CHAIN_ID: {
+    description: 'Ethereum chain id',
+    type: 'number',
+    default: 1,
+  },
   ARBITRUM_RPC_URL: {
     description: 'RPC url of Arbitrum node',
     type: 'string',
