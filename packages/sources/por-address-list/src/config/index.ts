@@ -5,7 +5,7 @@ export const config = new AdapterConfig({
     description:
       'The RPC URL to connect to the EVM chain the address manager contract is deployed to.',
     type: 'string',
-    required: true,
+    required: false,
   },
   CHAIN_ID: {
     description: 'The chain id to connect to for the RPC URL',
@@ -23,6 +23,11 @@ export const config = new AdapterConfig({
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+  },
+  COINBASE_CBBTC_API_ENDPOINT: {
+    description: 'An API endpoint for Coinbase cbBTC native BTC wallet address',
+    type: 'string',
+    default: 'https://coinbase.com/cbbtc/proof-of-reserves.json',
   },
   BEDROCK_UNIBTC_API_ENDPOINT: {
     description: 'An API endpoint for Bedrock uniBTC native BTC wallet address',
