@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess, mockResponseError } from './fixtures'
+import { mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
