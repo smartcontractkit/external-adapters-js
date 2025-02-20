@@ -4,7 +4,7 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api-endpoint-placeholder.com', {
     encodedQueryParams: true,
   })
-    .post('/v1/sql')
+    .post('/')
     .reply(
       200,
       [{ TOTAL_RESERVE: 300000000 }],
@@ -25,7 +25,7 @@ export const mockResponseError = (): nock.Scope =>
   nock('https://api-endpoint-placeholder.com', {
     encodedQueryParams: true,
   })
-    .post('/v1/sql')
+    .post('/')
     .reply(
       400,
       {
