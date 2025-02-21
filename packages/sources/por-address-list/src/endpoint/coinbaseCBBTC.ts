@@ -20,7 +20,7 @@ export const inputParameters = new InputParameters(
   [
     {
       network: 'bitcoin',
-      chainId: '1',
+      chainId: 'mainnet',
     },
   ],
 )

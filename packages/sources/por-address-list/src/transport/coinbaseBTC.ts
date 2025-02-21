@@ -77,7 +77,7 @@ export const coinbaseHttpTransport = new HttpTransport<HttpTransportTypes>({
       ]
     }
 
-    const addresses = getAddresses(params[0].network, response.data)
+    const addresses = getAddresses(params[0].network, params[0].chainId, response.data)
 
     if (addresses.length == 0) {
       return [
@@ -107,13 +107,14 @@ export const coinbaseHttpTransport = new HttpTransport<HttpTransportTypes>({
 
 const getAddresses = (
   network_name: TypeFromDefinition<BaseEndpointTypes['Parameters']>['network'],
+  chain_id: TypeFromDefinition<BaseEndpointTypes['Parameters']>['chainId'],
   data: ResponseSchema,
 ) => {
   return data.reserveAddresses
     .map((d) => ({
       address: d.address,
       network: network_name,
-      chainId: 'mainnet',
+      chainId: chain_id,
     }))
     .sort()
 }
