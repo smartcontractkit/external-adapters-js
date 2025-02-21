@@ -319,10 +319,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/btc.com"\
     },\
     {\
-      "name": "@chainlink/bx-digital-adapter",\
-      "reference": "workspace:packages/sources/bx-digital"\
-    },\
-    {\
       "name": "@chainlink/cache.gold-adapter",\
       "reference": "workspace:packages/sources/cache.gold"\
     },\
@@ -990,7 +986,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
     ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
-    ["@chainlink/bx-digital-adapter", ["workspace:packages/sources/bx-digital"]],\
     ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
     ["@chainlink/ccip-read-adapter", ["workspace:packages/sources/ccip-read"]],\
     ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
@@ -5724,21 +5719,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bx-digital-adapter", [\
-      ["workspace:packages/sources/bx-digital", {\
-        "packageLocation": "./packages/sources/bx-digital/",\
-        "packageDependencies": [\
-          ["@chainlink/bx-digital-adapter", "workspace:packages/sources/bx-digital"],\
-          ["@chainlink/external-adapter-framework", "npm:2.1.0"],\
-          ["@types/jest", "npm:27.5.2"],\
-          ["@types/node", "npm:22.12.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
@@ -42857,7 +42837,7 @@ class MountFS extends BasePortableFakeFS {
         if (this.notMount.has(filePath))
           continue;
         try {
-          if (this.typeCheck !== null && (this.baseFs.lstatSync(filePath).mode & fs.constants.S_IFMT) !== this.typeCheck) {
+          if (this.typeCheck !== null && (this.baseFs.statSync(filePath).mode & fs.constants.S_IFMT) !== this.typeCheck) {
             this.notMount.add(filePath);
             continue;
           }
