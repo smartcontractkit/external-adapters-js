@@ -1,4 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes } from '../endpoint/coinbaseCBBTC'
 
 interface ResponseSchema {
@@ -53,12 +54,14 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 export const coinbaseHttpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
+    return params.map((param) => {
       return {
-        params,
+        params: [param],
         request: {
           baseURL: config.COINBASE_CBBTC_API_ENDPOINT,
         },
       }
+    })
   },
 
   parseResponse: (params, response) => {
@@ -74,7 +77,7 @@ export const coinbaseHttpTransport = new HttpTransport<HttpTransportTypes>({
       ]
     }
 
-    const addresses = getAddresses(response.data)
+    const addresses = getAddresses(params[0].network, response.data)
 
     if (addresses.length == 0) {
       return [
@@ -103,13 +106,14 @@ export const coinbaseHttpTransport = new HttpTransport<HttpTransportTypes>({
 })
 
 const getAddresses = (
+  network_name: TypeFromDefinition<BaseEndpointTypes['Parameters']>['network'],
   data: ResponseSchema,
 ) => {
-      return data.reserveAddresses
-        .map((d) => ({
-          address: d.address,
-          network: d.balance.network.name,
-          chainId: 'mainnet',
-        }))
-        .sort()
+  return data.reserveAddresses
+    .map((d) => ({
+      address: d.address,
+      network: network_name,
+      chainId: 'mainnet',
+    }))
+    .sort()
 }

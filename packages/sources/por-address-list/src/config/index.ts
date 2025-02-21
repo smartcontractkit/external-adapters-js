@@ -5,7 +5,7 @@ export const config = new AdapterConfig({
     description:
       'The RPC URL to connect to the EVM chain the address manager contract is deployed to.',
     type: 'string',
-    required: false,
+    required: true,
   },
   CHAIN_ID: {
     description: 'The chain id to connect to for the RPC URL',
