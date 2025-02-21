@@ -33,7 +33,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [bob](./bob/README.md)
 - [bravenewcoin](./bravenewcoin/README.md)
 - [btc.com](./btc.com/README.md)
-- [bx-digital](./bx-digital/README.md)
 - [cache.gold](./cache.gold/README.md)
 - [ccip-read](./ccip-read/README.md)
 - [ceffu](./ceffu/README.md)
