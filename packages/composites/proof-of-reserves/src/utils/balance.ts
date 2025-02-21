@@ -28,6 +28,8 @@ import { adapter as porIndexer } from '@chainlink/por-indexer-adapter'
 import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { adapter as ceffu } from '@chainlink/ceffu-adapter'
 
+export const ETHEREUM_CL_INDEXER = 'ETHEREUM_CL_INDEXER'
+
 // TODO: type
 export const adaptersV2: v2AdapterImplementation[] = [
   amberdata as unknown as v2AdapterImplementation,
@@ -63,7 +65,8 @@ export const runBalanceAdapter = async (
   indexerEndpoint?: string,
   indexerParams?: Record<string, string>,
 ): Promise<AdapterResponse> => {
-  const execute = makeRequestFactory(config, indexer)
+  const postfix = indexer == ETHEREUM_CL_INDEXER ? '/' + indexerEndpoint : ''
+  const execute = makeRequestFactory(config, indexer, postfix)
   let next
   switch (indexer) {
     case bitcoinJsonRpc.NAME:
