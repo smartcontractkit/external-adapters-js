@@ -142,6 +142,8 @@ describe('execute', () => {
     it('coinbase BTC should return success', async () => {
       const data = {
         endpoint: 'coinbaseBtcAddress',
+        network: 'bitcoin',
+        chainId: '1',
       }
       mockCoinbaseResponseSuccess()
       const response = await testAdapter.request(data)
