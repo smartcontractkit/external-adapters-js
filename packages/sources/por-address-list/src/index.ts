@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
 import { config } from './config'
-import { address, solvBTC, bedrockBTC, multichainAddress } from './endpoint'
+import { address, solvBTC, bedrockBTC, coinbaseBTC, multichainAddress } from './endpoint'
 
 export const adapter = new PoRAdapter({
   defaultEndpoint: address.name,
   name: 'POR_ADDRESS_LIST',
   config,
-  endpoints: [address, solvBTC, bedrockBTC, multichainAddress],
+  endpoints: [address, solvBTC, bedrockBTC, coinbaseBTC, multichainAddress],
   rateLimiting: {
     tiers: {
       default: {

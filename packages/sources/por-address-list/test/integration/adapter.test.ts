@@ -4,7 +4,11 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import { ethers } from 'ethers'
-import { mockBedRockResponseSuccess, mockSolvResponseSuccess } from './fixtures-api'
+import {
+  mockBedRockResponseSuccess,
+  mockCoinbaseResponseSuccess,
+  mockSolvResponseSuccess,
+} from './fixtures-api'
 
 const mockExpectedAddresses = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -57,6 +61,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:8545'
     process.env.BEDROCK_UNIBTC_API_ENDPOINT = 'http://bedrock'
+    process.env.COINBASE_CBBTC_API_ENDPOINT = 'http://coinbase'
     process.env.SOLVBTC_API_ENDPOINT = 'http://solv'
     process.env.BACKGROUND_EXECUTE_MS = '0'
     process.env.RATE_LIMIT_CAPACITY_SECOND = '500'
@@ -129,6 +134,18 @@ describe('execute', () => {
         endpoint: 'solvBtcAddress',
       }
       mockSolvResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('coinbase BTC should return success', async () => {
+      const data = {
+        endpoint: 'coinbaseBtcAddress',
+        network: 'bitcoin',
+        chainId: 'mainnet',
+      }
+      mockCoinbaseResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
