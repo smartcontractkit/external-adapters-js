@@ -35,7 +35,7 @@ cd grafana
 jb install
 ```
 
-4. Deploy the dashboards via [deployment](./scripts/deploy) script, view the script for
+3. Deploy the dashboards via [deployment](./scripts/deploy) script, view the script for
    environment variables to set
 
 ```sh
