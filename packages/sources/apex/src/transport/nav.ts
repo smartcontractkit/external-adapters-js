@@ -174,18 +174,14 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
   }
 
   async getNav(accountName: string, token: string): Promise<NavResponseSchema> {
-    const baseURL = this.settings.NAV_API_ENDPOINT
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    }
     const requestConfig = {
-      baseURL,
-      headers,
-      params: {
-        accountName,
+      baseURL: this.settings.NAV_API_ENDPOINT,
+      url: `?accountName=${accountName}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     }
-    const a = await this.requester.request(baseURL, requestConfig)
+    const a = await this.requester.request(JSON.stringify(requestConfig), requestConfig)
     if (a.response.status == 401) {
       throw new AdapterError({
         statusCode: 502,

@@ -28,7 +28,7 @@ export const config = new AdapterConfig({
   NAV_API_ENDPOINT: {
     description: 'An API endpoint for Data Provider',
     type: 'string',
-    default: 'https://api.apexgroup.com/v1/reports/NAV',
+    default: 'https://api.apexgroup.com/1ASkuiqAPUyZTQqYIK8RlC6G8tWupuC7/v1/reports/NAV',
   },
   AUTH_API_ENDPOINT: {
     description: 'An auth API endpoint for Data Provider',
