@@ -1,5 +1,19 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.25.0
+
+### Minor Changes
+
+- [#3686](https://github.com/smartcontractkit/external-adapters-js/pull/3686) [`6ac4280`](https://github.com/smartcontractkit/external-adapters-js/commit/6ac4280db8c3f500baa3d4e659c1353afce638eb) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Integrate with ETHEREUM_CL_INDEXER
+
+### Patch Changes
+
+- Updated dependencies [[`b414e38`](https://github.com/smartcontractkit/external-adapters-js/commit/b414e38f63ebcf29532ebbf49b348ce70a3b211f), [`a7c5607`](https://github.com/smartcontractkit/external-adapters-js/commit/a7c560786e3a85813ec1442237aaf4ceecbc7693), [`b87bad3`](https://github.com/smartcontractkit/external-adapters-js/commit/b87bad3245edf127342801e780358a5301b1581b)]:
+  - @chainlink/por-address-list-adapter@5.6.0
+  - @chainlink/por-indexer-adapter@2.1.17
+  - @chainlink/token-balance-adapter@1.0.8
+  - @chainlink/renvm-address-set-adapter@1.5.102
+
 ## 1.24.11
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.6.0
+
+### Minor Changes
+
+- [#3693](https://github.com/smartcontractkit/external-adapters-js/pull/3693) [`b414e38`](https://github.com/smartcontractkit/external-adapters-js/commit/b414e38f63ebcf29532ebbf49b348ce70a3b211f) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Coinbase PoR
+
 ## 5.5.4
 
 ### Patch Changes
