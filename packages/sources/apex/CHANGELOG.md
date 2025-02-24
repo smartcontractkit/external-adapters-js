@@ -1,5 +1,11 @@
 # @chainlink/apex-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#3697](https://github.com/smartcontractkit/external-adapters-js/pull/3697) [`9386505`](https://github.com/smartcontractkit/external-adapters-js/commit/938650552ffc49fafe7264b2cea872b4cf20b785) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update url
+
 ## 1.0.0
 
 ### Major Changes
