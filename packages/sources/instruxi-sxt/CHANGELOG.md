@@ -1,5 +1,11 @@
 # @chainlink/instruxi-sxt-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#3691](https://github.com/smartcontractkit/external-adapters-js/pull/3691) [`bd1b913`](https://github.com/smartcontractkit/external-adapters-js/commit/bd1b913fbba4739b39be3b662a781c06f89852eb) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Instruxi-sxt adapter. Update endpoint url reference to config
+
 ## 1.0.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 1.0.8
+
+### Patch Changes
+
+- [#3690](https://github.com/smartcontractkit/external-adapters-js/pull/3690) [`b87bad3`](https://github.com/smartcontractkit/external-adapters-js/commit/b87bad3245edf127342801e780358a5301b1581b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Ether Fi
+
 ## 1.0.7
 
 ### Patch Changes
