@@ -1,5 +1,12 @@
 # @chainlink/ap-election-adapter
 
+## 1.3.41
+
+### Patch Changes
+
+- Updated dependencies [[`cbb4f08`](https://github.com/smartcontractkit/external-adapters-js/commit/cbb4f08a8e2d006ddffff1acd1d7e6d11bdff9c6)]:
+  - @chainlink/ea-test-helpers@1.4.7
+
 ## 1.3.40
 
 ### Patch Changes
