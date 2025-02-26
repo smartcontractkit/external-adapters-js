@@ -3995,7 +3995,7 @@ __metadata:
     "@babel/preset-env": "npm:7.26.9"
     "@babel/preset-typescript": "npm:7.26.0"
     "@chainlink/external-adapter-framework": "npm:2.1.0"
-    "@changesets/changelog-github": "npm:0.5.0"
+    "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.27.12"
     "@types/babel__core": "npm:7.20.5"
     "@types/babel__preset-env": "npm:7.9.7"
@@ -6235,14 +6235,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@changesets/changelog-github@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@changesets/changelog-github@npm:0.5.0"
+"@changesets/changelog-github@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@changesets/changelog-github@npm:0.5.1"
   dependencies:
     "@changesets/get-github-info": "npm:^0.6.0"
-    "@changesets/types": "npm:^6.0.0"
+    "@changesets/types": "npm:^6.1.0"
     dotenv: "npm:^8.1.0"
-  checksum: 10/a9c01d918f67c3d5dd38a505da29261518bed932c67fe3eb85cc15a485d32c1d11549cd276f121b4e169f26fb20923b435e931e6a5e83e213623dd8c3733cde9
+  checksum: 10/1284e7dc067652edfa14792196e6036849455d121afabe63e8d1a7dc0e8fb0310edb58d1130f2a5944819ae4011eeecc7e0c44c1cda43e6a581a3add187c3447
   languageName: node
   linkType: hard
 
@@ -6431,6 +6431,13 @@ __metadata:
   version: 6.0.0
   resolution: "@changesets/types@npm:6.0.0"
   checksum: 10/214c58ff3e3da019c578b94815ec6748729a38b665d950acddf53f3a23073ac7a57dce45812c4bec0cbcd6902c84a482c804457d4c903602005b2399de8a4021
+  languageName: node
+  linkType: hard
+
+"@changesets/types@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "@changesets/types@npm:6.1.0"
+  checksum: 10/2dcd00712cb85d0c53afdd8d0e856b4bf9c0ce8dc36c838c918d44799aacd9ba8659b9ff610ff92b94fc03c8fd2b52c5b05418fcf8a1bd138cd9182414ede373
   languageName: node
   linkType: hard
 

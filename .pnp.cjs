@@ -1196,7 +1196,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.9"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.1.0"],\
-          ["@changesets/changelog-github", "npm:0.5.0"],\
+          ["@changesets/changelog-github", "npm:0.5.1"],\
           ["@changesets/cli", "npm:2.27.12"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
@@ -6946,7 +6946,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.9"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.1.0"],\
-          ["@changesets/changelog-github", "npm:0.5.0"],\
+          ["@changesets/changelog-github", "npm:0.5.1"],\
           ["@changesets/cli", "npm:2.27.12"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
@@ -9460,12 +9460,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/changelog-github", [\
-      ["npm:0.5.0", {\
-        "packageLocation": "./.yarn/cache/@changesets-changelog-github-npm-0.5.0-2e29d943c5-a9c01d918f.zip/node_modules/@changesets/changelog-github/",\
+      ["npm:0.5.1", {\
+        "packageLocation": "./.yarn/cache/@changesets-changelog-github-npm-0.5.1-ffa78a3948-1284e7dc06.zip/node_modules/@changesets/changelog-github/",\
         "packageDependencies": [\
-          ["@changesets/changelog-github", "npm:0.5.0"],\
+          ["@changesets/changelog-github", "npm:0.5.1"],\
           ["@changesets/get-github-info", "npm:0.6.0"],\
-          ["@changesets/types", "npm:6.0.0"],\
+          ["@changesets/types", "npm:6.1.0"],\
           ["dotenv", "npm:8.6.0"]\
         ],\
         "linkType": "HARD"\
@@ -9669,6 +9669,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@changesets-types-npm-6.0.0-2ff6c4e1b6-214c58ff3e.zip/node_modules/@changesets/types/",\
         "packageDependencies": [\
           ["@changesets/types", "npm:6.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.1.0", {\
+        "packageLocation": "./.yarn/cache/@changesets-types-npm-6.1.0-d358876ea4-2dcd00712c.zip/node_modules/@changesets/types/",\
+        "packageDependencies": [\
+          ["@changesets/types", "npm:6.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
