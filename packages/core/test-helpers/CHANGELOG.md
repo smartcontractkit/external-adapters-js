@@ -1,5 +1,11 @@
 # @chainlink/ea-test-helpers
 
+## 1.4.7
+
+### Patch Changes
+
+- [#3695](https://github.com/smartcontractkit/external-adapters-js/pull/3695) [`cbb4f08`](https://github.com/smartcontractkit/external-adapters-js/commit/cbb4f08a8e2d006ddffff1acd1d7e6d11bdff9c6) Thanks [@renovate](https://github.com/apps/renovate)! - update dependency hardhat to v2.22.19
+
 ## 1.4.6
 
 ### Patch Changes
