@@ -4977,7 +4977,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.1.0"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    ethers: "npm:6.13.4"
+    ethers: "npm:6.13.5"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.6.3"
@@ -17927,9 +17927,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:6.13.4":
-  version: 6.13.4
-  resolution: "ethers@npm:6.13.4"
+"ethers@npm:6.13.5, ethers@npm:^6.13.2":
+  version: 6.13.5
+  resolution: "ethers@npm:6.13.5"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.1"
     "@noble/curves": "npm:1.2.0"
@@ -17938,7 +17938,7 @@ __metadata:
     aes-js: "npm:4.0.0-beta.5"
     tslib: "npm:2.7.0"
     ws: "npm:8.17.1"
-  checksum: 10/221192fed93f6b0553f3e5e72bfd667d676220577d34ff854f677e955d6f608e60636a9c08b5d54039c532a9b9b7056384f0d7019eb6e111d53175806f896ac6
+  checksum: 10/ccba21a83679fb6a7c3eb9d187593501565d140064f2db28057a64d6707678bacf2adf4555882c4814688246da73173560df81fd3361fd2f227b5d3c75cb8685
   languageName: node
   linkType: hard
 
@@ -17956,21 +17956,6 @@ __metadata:
     uuid: "npm:2.0.1"
     xmlhttprequest: "npm:1.8.0"
   checksum: 10/a4cec0254f940a0fb118317d23676faa46eb5540fc0a3b9177b8aef71318f509ed19b8264f102b1a2a32d0256274ecc526fd926bd22a4a4ac25cd8e0e6560f12
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^6.13.2":
-  version: 6.13.5
-  resolution: "ethers@npm:6.13.5"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:1.10.1"
-    "@noble/curves": "npm:1.2.0"
-    "@noble/hashes": "npm:1.3.2"
-    "@types/node": "npm:22.7.5"
-    aes-js: "npm:4.0.0-beta.5"
-    tslib: "npm:2.7.0"
-    ws: "npm:8.17.1"
-  checksum: 10/ccba21a83679fb6a7c3eb9d187593501565d140064f2db28057a64d6707678bacf2adf4555882c4814688246da73173560df81fd3361fd2f227b5d3c75cb8685
   languageName: node
   linkType: hard
 
