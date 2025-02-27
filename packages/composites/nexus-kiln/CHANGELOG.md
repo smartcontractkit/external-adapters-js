@@ -1,5 +1,11 @@
 # @chainlink/nexus-kiln-adapter
 
+## 1.0.8
+
+### Patch Changes
+
+- [#3682](https://github.com/smartcontractkit/external-adapters-js/pull/3682) [`28b7f84`](https://github.com/smartcontractkit/external-adapters-js/commit/28b7f84e8323a3a38bc7c2a2242154bd68c31447) Thanks [@renovate](https://github.com/apps/renovate)! - update dependency ethers to v6.13.5
+
 ## 1.0.7
 
 ### Patch Changes
