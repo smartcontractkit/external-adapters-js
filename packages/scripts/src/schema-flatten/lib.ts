@@ -124,7 +124,7 @@ function createChainlinkLabsResolver() {
 
   const resolver: $RefParser.ResolverOptions = {
     order: 1,
-    canRead: /^https:\/\/external-adapters\.chainlinklabs\.com$/i,
+    canRead: /^https:\/\/external-adapters\.chainlinklabs\.com\//i,
     read: (file, callback) => {
       if (!callback) {
         console.error('[resolver] No callback found')
