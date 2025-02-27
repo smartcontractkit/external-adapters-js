@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Enzyme
 
-![2.0.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/enzyme/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.26](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/enzyme/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Adapter to interact with Enzyme contracts.
 
@@ -184,10 +184,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "netValue": "10000000000000000000",
-    "result": "10000000000000000000"
+    "netShareValue": "1000000000000000000",
+    "result": "1000000000000000000"
   },
-  "result": "10000000000000000000",
+  "result": "1000000000000000000",
   "statusCode": 200,
   "providerStatusCode": 200
 }
