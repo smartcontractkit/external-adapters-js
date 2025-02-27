@@ -1,5 +1,11 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3704](https://github.com/smartcontractkit/external-adapters-js/pull/3704) [`c242f89`](https://github.com/smartcontractkit/external-adapters-js/commit/c242f89745186dc922bba0f0911d1adfcc9e4354) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Aptos
+
 ## 1.1.10
 
 ### Patch Changes
