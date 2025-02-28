@@ -114,11 +114,11 @@ export class Overrider {
     internalOverrides: AdapterOverrides,
     inputOverrides: AdapterOverrides,
   ): AdapterOverrides => {
-    const combinedOverrides = internalOverrides || {}
-    for (const symbol of Object.keys(inputOverrides)) {
-      combinedOverrides[symbol] = inputOverrides[symbol]
+    const combinedOverrides = new Map(Object.entries(internalOverrides || {}))
+    for (const [symbol, value] of Object.entries(inputOverrides)) {
+      combinedOverrides.set(symbol, value)
     }
-    return combinedOverrides
+    return Object.fromEntries(combinedOverrides)
   }
 }
 
