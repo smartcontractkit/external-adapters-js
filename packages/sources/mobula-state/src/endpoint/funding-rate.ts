@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 import { config } from '../config'
-import { EXCHANGES, wsTransport } from '../transport/funding-rate'
+import { wsTransport } from '../transport/funding-rate'
 
 export const inputParameters = new InputParameters(
   {
@@ -21,7 +21,6 @@ export const inputParameters = new InputParameters(
     exchange: {
       required: true,
       type: 'string',
-      options: EXCHANGES,
       description: 'Which exchange to return the funding rate for',
     },
   },
