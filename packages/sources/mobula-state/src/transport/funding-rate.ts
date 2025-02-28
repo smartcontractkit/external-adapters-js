@@ -1,13 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 import { BaseEndpointTypes } from '../endpoint/funding-rate'
-
-const logger = makeLogger('MobulaStateFundingRate')
-
-export const EXCHANGES = ['binance', 'deribit'] as const
-
-export type Exchange = (typeof EXCHANGES)[number]
 
 /*
 Example response message:
@@ -19,12 +13,16 @@ Example response message:
     "marketPrice": "95747.20000000",
     "epochDurationMs": 28800000
   },
-  "deribitFundingRate":{
+  "deribitFundingRate": {
     "symbol": "BTC",
     "fundingTime": 1739862000000,
     "fundingRate": 0.0006396231268993106,
     "marketPrice": 95356.66,
     "epochDurationMs": 28800000
+  },
+  "queryDetails": {
+    "base": "BTC",
+    "quote": "USDC"
   }
 }
 */
@@ -38,7 +36,7 @@ interface FundingRateResponse {
 }
 
 export type WSResponse = {
-  [E in Exchange as `${E}FundingRate`]: FundingRateResponse
+  [K: `${string}FundingRate`]: FundingRateResponse
 } & {
   queryDetails: {
     base: string
@@ -52,19 +50,16 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const symbolToParams = new Map<string, { base: string; quote: string }>()
-
 export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_FUNDING_RATE_API_ENDPOINT,
   builders: {
     subscribeMessage: (params, context) => {
-      const symbol = `${params.base}${params.quote}`
-      symbolToParams.set(symbol, { base: params.base, quote: params.quote })
       return {
         type: 'funding',
         authorization: context.adapterSettings.API_KEY,
         payload: {
-          symbol,
+          symbol: params.base,
+          quote: params.quote,
         },
       }
     },
@@ -74,33 +69,27 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   handlers: {
     message(message) {
       const results: Array<ProviderResult<WsTransportTypes>> = []
-      const querySymbol = `${message.queryDetails.base}${message.queryDetails.quote ?? ''}`
-      if (message.binanceFundingRate) {
-        const result = getFundingRateResult(querySymbol, 'binance', message.binanceFundingRate)
-        if (result) results.push(result)
-      }
-      if (message.deribitFundingRate) {
-        const result = getFundingRateResult(querySymbol, 'deribit', message.deribitFundingRate)
-        if (result) results.push(result)
-      }
+      const queryDetails = message.queryDetails
+      Object.entries(message).forEach(([key, value]) => {
+        if (!key.endsWith('FundingRate')) {
+          return
+        }
+
+        const exchange = key.slice(0, -'FundingRate'.length).toLowerCase()
+        results.push(getFundingRateResult(exchange, queryDetails, value as FundingRateResponse))
+      })
       return results
     },
   },
 })
 
 const getFundingRateResult = (
-  querySymbol: string,
-  exchange: Exchange,
+  exchange: string,
+  queryDetails: WSResponse['queryDetails'],
   fundingRate: FundingRateResponse,
-): ProviderResult<WsTransportTypes> | undefined => {
-  const params = symbolToParams.get(querySymbol)
-  if (!params) {
-    logger.error(`No params found for symbol ${querySymbol}`)
-    return
-  }
-
+): ProviderResult<WsTransportTypes> => {
   return {
-    params: { ...params, exchange },
+    params: { base: queryDetails.base, quote: queryDetails.quote ?? '', exchange },
     response: {
       result: fundingRate.fundingRate,
       data: {

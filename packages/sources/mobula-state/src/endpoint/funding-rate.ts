@@ -27,8 +27,8 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      base: 'ETH',
-      quote: 'USD',
+      base: 'BTC',
+      quote: 'USDC',
       exchange: 'binance',
     },
   ],
@@ -51,7 +51,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'funding-rate',
-  aliases: [],
   transport: wsTransport,
   inputParameters,
 })
