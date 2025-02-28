@@ -34,9 +34,9 @@ export const inputParameters = new InputParameters(
 )
 
 export type Response = {
-  Result: number
+  Result: null
   Data: {
-    result: number
+    fundingRate: number
     fundingTime: number
     epochDurationMs: number
   }

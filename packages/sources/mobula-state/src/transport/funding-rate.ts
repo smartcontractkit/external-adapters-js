@@ -91,9 +91,9 @@ const getFundingRateResult = (
   return {
     params: { base: queryDetails.base, quote: queryDetails.quote ?? '', exchange },
     response: {
-      result: fundingRate.fundingRate,
+      result: null,
       data: {
-        result: fundingRate.fundingRate,
+        fundingRate: fundingRate.fundingRate,
         fundingTime: fundingRate.fundingTime,
         epochDurationMs: fundingRate.epochDurationMs,
       },
