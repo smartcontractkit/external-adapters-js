@@ -1,5 +1,12 @@
 # @chainlink/circuit-breaker-adapter
 
+## 1.3.8
+
+### Patch Changes
+
+- Updated dependencies [[`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df)]:
+  - @chainlink/ea-bootstrap@2.29.7
+
 ## 1.3.7
 
 ### Patch Changes
