@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/apex-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink apex adapter.",
   "keywords": [
     "Chainlink",
