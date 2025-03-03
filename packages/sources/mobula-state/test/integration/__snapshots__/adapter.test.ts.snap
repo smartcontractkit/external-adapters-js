@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket funding rate endpoint have data should return success 1`] = `
+{
+  "data": {
+    "epochDurationMs": 28800000,
+    "fundingRate": 0.009854,
+    "fundingTime": 1740441600000,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+  },
+}
+`;
+
+exports[`websocket funding rate endpoint no data should return failure 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
 exports[`websocket price endpoint have data should return success 1`] = `
 {
   "data": {

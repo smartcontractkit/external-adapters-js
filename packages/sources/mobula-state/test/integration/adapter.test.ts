@@ -21,9 +21,17 @@ describe('websocket', () => {
     transport: 'ws',
   }
 
+  const dataFundingRate = {
+    base: 'BTC',
+    quote: '',
+    exchange: 'binance',
+    endpoint: 'funding-rate',
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['WS_FUNDING_RATE_API_ENDPOINT'] = wsEndpoint
     process.env['API_KEY'] = 'mock-api-key'
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebsocketServer(wsEndpoint)
@@ -58,6 +66,23 @@ describe('websocket', () => {
         quote: 'EUR',
         endpoint: 'price',
         transport: 'ws',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('funding rate endpoint', () => {
+    it('have data should return success', async () => {
+      const response = await testAdapter.request(dataFundingRate)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('no data should return failure', async () => {
+      const response = await testAdapter.request({
+        base: 'ETH',
+        quote: '',
+        exchange: 'binance',
+        endpoint: 'funding-rate',
       })
       expect(response.json()).toMatchSnapshot()
     })
