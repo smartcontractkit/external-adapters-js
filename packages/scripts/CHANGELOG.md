@@ -1,5 +1,15 @@
 # @chainlink/ea-scripts
 
+## 2.7.19
+
+### Patch Changes
+
+- [#3707](https://github.com/smartcontractkit/external-adapters-js/pull/3707) [`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df) Thanks [@renovate](https://github.com/apps/renovate)! - update dependency axios to v1.8.1
+
+- Updated dependencies [[`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df)]:
+  - @chainlink/ea-bootstrap@2.29.7
+  - @chainlink/ea-factories@1.2.40
+
 ## 2.7.18
 
 ### Patch Changes

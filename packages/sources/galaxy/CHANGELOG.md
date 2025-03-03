@@ -1,5 +1,11 @@
 # @chainlink/galaxy-source-adapter
 
+## 2.1.44
+
+### Patch Changes
+
+- [#3707](https://github.com/smartcontractkit/external-adapters-js/pull/3707) [`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df) Thanks [@renovate](https://github.com/apps/renovate)! - update dependency axios to v1.8.1
+
 ## 2.1.43
 
 ### Patch Changes

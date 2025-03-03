@@ -1,5 +1,14 @@
 # @chainlink/apy-finance-adapter
 
+## 2.0.100
+
+### Patch Changes
+
+- Updated dependencies [[`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df)]:
+  - @chainlink/ea-bootstrap@2.29.7
+  - @chainlink/ea-test-helpers@1.4.7
+  - @chainlink/token-allocation-adapter@1.13.13
+
 ## 2.0.99
 
 ### Patch Changes
