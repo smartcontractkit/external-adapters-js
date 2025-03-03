@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.1.0",
-    "axios": "1.7.9",
+    "axios": "1.8.1",
     "bignumber.js": "^9.1.1",
     "ethers": "5.5.4",
     "tslib": "^2.3.1"
