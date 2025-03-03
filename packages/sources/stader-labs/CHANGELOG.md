@@ -1,5 +1,13 @@
 # @chainlink/stader-labs-adapter
 
+## 3.0.20
+
+### Patch Changes
+
+- Updated dependencies [[`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df)]:
+  - @chainlink/ea-bootstrap@2.29.7
+  - @chainlink/ea-test-helpers@1.4.7
+
 ## 3.0.19
 
 ### Patch Changes
