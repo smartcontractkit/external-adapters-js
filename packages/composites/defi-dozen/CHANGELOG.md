@@ -1,5 +1,13 @@
 # @chainlink/defi-dozen-adapter
 
+## 1.2.118
+
+### Patch Changes
+
+- Updated dependencies [[`cbb4f08`](https://github.com/smartcontractkit/external-adapters-js/commit/cbb4f08a8e2d006ddffff1acd1d7e6d11bdff9c6)]:
+  - @chainlink/ea-test-helpers@1.4.7
+  - @chainlink/token-allocation-adapter@1.13.12
+
 ## 1.2.117
 
 ### Patch Changes

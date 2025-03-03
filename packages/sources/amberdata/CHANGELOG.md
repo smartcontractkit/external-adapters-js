@@ -1,5 +1,12 @@
 # @chainlink/amberdata-adapter
 
+## 1.8.34
+
+### Patch Changes
+
+- Updated dependencies [[`cbb4f08`](https://github.com/smartcontractkit/external-adapters-js/commit/cbb4f08a8e2d006ddffff1acd1d7e6d11bdff9c6)]:
+  - @chainlink/ea-test-helpers@1.4.7
+
 ## 1.8.33
 
 ### Patch Changes

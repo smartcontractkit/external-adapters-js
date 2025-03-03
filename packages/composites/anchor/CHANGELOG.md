@@ -1,5 +1,13 @@
 # @chainlink/anchor-adapter
 
+## 4.0.25
+
+### Patch Changes
+
+- Updated dependencies [[`cbb4f08`](https://github.com/smartcontractkit/external-adapters-js/commit/cbb4f08a8e2d006ddffff1acd1d7e6d11bdff9c6)]:
+  - @chainlink/ea-test-helpers@1.4.7
+  - @chainlink/terra-view-function-adapter@1.3.41
+
 ## 4.0.24
 
 ### Patch Changes
