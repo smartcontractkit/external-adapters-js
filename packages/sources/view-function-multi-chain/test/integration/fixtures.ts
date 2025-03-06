@@ -118,3 +118,21 @@ export const mockETHGoerliContractCallResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockAptosSuccess = (): nock.Scope =>
+  nock('http://fake-aptos', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .post('/view')
+    .reply(200, () => [1], [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .persist()

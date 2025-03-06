@@ -6,6 +6,7 @@ import * as nock from 'nock'
 import {
   mockETHGoerliContractCallResponseSuccess,
   mockETHMainnetContractCallResponseSuccess,
+  mockAptosSuccess,
 } from './fixtures'
 import * as process from 'process'
 
@@ -23,10 +24,12 @@ describe('execute', () => {
       process.env.ETHEREUM_GOERLI_RPC_URL ?? 'http://localhost:8554'
     process.env.ETHEREUM_GOERLI_CHAIN_ID = process.env.ETHEREUM_GOERLI_CHAIN_ID ?? '5'
     process.env.BACKGROUND_EXECUTE_MS = '0'
+    process.env.APTOS_URL = process.env.APTOS_URL ?? 'http://fake-aptos'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     const adapter = (await import('./../../src')).adapter
+    adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
@@ -107,6 +110,18 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('aptos endpoint', () => {
+    it('should return success', async () => {
+      mockAptosSuccess()
+      const response = await testAdapter.request({
+        endpoint: 'aptos',
+        signature: '0x1::chain_id::get',
+      })
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
