@@ -1,5 +1,11 @@
 # @chainlink/mobula-state-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3699](https://github.com/smartcontractkit/external-adapters-js/pull/3699) [`16eae25`](https://github.com/smartcontractkit/external-adapters-js/commit/16eae25af5ad13f3941ac7ff160df2059272778f) Thanks [@martin-cll](https://github.com/martin-cll)! - New funding-rate endpoint
+
 ## 1.1.10
 
 ### Patch Changes
