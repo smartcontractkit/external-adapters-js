@@ -1,5 +1,15 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.31
+
+### Patch Changes
+
+- [#3711](https://github.com/smartcontractkit/external-adapters-js/pull/3711) [`352ee28`](https://github.com/smartcontractkit/external-adapters-js/commit/352ee28d36fbf176f6c443402ac865595517a559) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axios from 1.8.1 to 1.8.2
+
+- [#3707](https://github.com/smartcontractkit/external-adapters-js/pull/3707) [`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df) Thanks [@renovate](https://github.com/apps/renovate)! - update dependency axios to v1.8.1
+
+- [#3713](https://github.com/smartcontractkit/external-adapters-js/pull/3713) [`4753dfa`](https://github.com/smartcontractkit/external-adapters-js/commit/4753dfa17038ec4f0b8041becb216dfaec9e9f3f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.4.30
 
 ### Patch Changes
