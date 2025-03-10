@@ -26,7 +26,7 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['crypto', 'state'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('rest', httpTransport)
-    .register('socketio', socketioTransport),
+    .register('ws', socketioTransport),
   inputParameters,
-  defaultTransport: 'socketio',
+  defaultTransport: 'ws',
 })
