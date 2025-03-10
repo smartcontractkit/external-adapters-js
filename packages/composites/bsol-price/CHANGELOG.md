@@ -1,5 +1,15 @@
 # @chainlink/bsol-price-adapter
 
+## 2.2.119
+
+### Patch Changes
+
+- Updated dependencies [[`352ee28`](https://github.com/smartcontractkit/external-adapters-js/commit/352ee28d36fbf176f6c443402ac865595517a559), [`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df), [`4753dfa`](https://github.com/smartcontractkit/external-adapters-js/commit/4753dfa17038ec4f0b8041becb216dfaec9e9f3f)]:
+  - @chainlink/ea-bootstrap@2.29.7
+  - @chainlink/token-allocation-adapter@1.13.13
+  - @chainlink/ea-test-helpers@1.4.7
+  - @chainlink/solana-view-function-adapter@2.2.43
+
 ## 2.2.118
 
 ### Patch Changes
