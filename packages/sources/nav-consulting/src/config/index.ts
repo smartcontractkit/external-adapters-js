@@ -12,12 +12,12 @@ export const config = new AdapterConfig(
       description:
         'The amount of time the background execute should sleep before performing the next request',
       type: 'number',
-      default: 60_000, // one call per minute
+      default: 120_000, // one call per two minute
     },
   },
   {
     envDefaultOverrides: {
-      CACHE_MAX_AGE: 600_000, // 10 minute cache
+      CACHE_MAX_AGE: 900_000, // 15 minute cache
     },
   },
 )
