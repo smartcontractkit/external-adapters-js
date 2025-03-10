@@ -1,5 +1,11 @@
 # @chainlink/starknet-gas-price-adapter
 
+## 1.0.17
+
+### Patch Changes
+
+- [#3713](https://github.com/smartcontractkit/external-adapters-js/pull/3713) [`4753dfa`](https://github.com/smartcontractkit/external-adapters-js/commit/4753dfa17038ec4f0b8041becb216dfaec9e9f3f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.0.16
 
 ### Patch Changes

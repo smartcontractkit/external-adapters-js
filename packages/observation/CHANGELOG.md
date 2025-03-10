@@ -1,5 +1,13 @@
 # @chainlink/observation
 
+## 2.0.6
+
+### Patch Changes
+
+- [#3711](https://github.com/smartcontractkit/external-adapters-js/pull/3711) [`352ee28`](https://github.com/smartcontractkit/external-adapters-js/commit/352ee28d36fbf176f6c443402ac865595517a559) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump axios from 1.8.1 to 1.8.2
+
+- [#3707](https://github.com/smartcontractkit/external-adapters-js/pull/3707) [`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df) Thanks [@renovate](https://github.com/apps/renovate)! - update dependency axios to v1.8.1
+
 ## 2.0.5
 
 ### Patch Changes

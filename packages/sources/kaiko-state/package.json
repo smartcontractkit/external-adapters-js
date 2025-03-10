@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/kaiko-state-adapter",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Chainlink kaiko-state adapter.",
   "keywords": [
     "Chainlink",

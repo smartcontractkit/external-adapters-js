@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitex-adapter",
-  "version": "1.5.41",
+  "version": "1.5.42",
   "description": "Chainlink Bitex adapter.",
   "keywords": [
     "Chainlink",
