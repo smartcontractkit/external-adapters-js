@@ -1,5 +1,47 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.25.2
+
+### Patch Changes
+
+- [#3713](https://github.com/smartcontractkit/external-adapters-js/pull/3713) [`4753dfa`](https://github.com/smartcontractkit/external-adapters-js/commit/4753dfa17038ec4f0b8041becb216dfaec9e9f3f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- Updated dependencies [[`352ee28`](https://github.com/smartcontractkit/external-adapters-js/commit/352ee28d36fbf176f6c443402ac865595517a559), [`40eaef9`](https://github.com/smartcontractkit/external-adapters-js/commit/40eaef949333229726985b46aab6c527860bb3df), [`4753dfa`](https://github.com/smartcontractkit/external-adapters-js/commit/4753dfa17038ec4f0b8041becb216dfaec9e9f3f)]:
+  - @chainlink/stader-balance-adapter@1.4.31
+  - @chainlink/ea-bootstrap@2.29.7
+  - @chainlink/multi-address-list-adapter@1.0.15
+  - @chainlink/stader-address-list-adapter@2.3.33
+  - @chainlink/eth-beacon-adapter@3.0.14
+  - @chainlink/ceffu-adapter@1.0.3
+  - @chainlink/gemini-adapter@3.0.26
+  - @chainlink/por-indexer-adapter@2.1.18
+  - @chainlink/avalanche-platform-adapter@2.0.27
+  - @chainlink/lotus-adapter@3.0.26
+  - @chainlink/por-address-list-adapter@5.6.1
+  - @chainlink/moonbeam-address-list-adapter@1.1.43
+  - @chainlink/wbtc-address-set-adapter@2.1.16
+  - @chainlink/polkadot-balance-adapter@1.3.22
+  - @chainlink/coinbase-prime-adapter@1.2.16
+  - @chainlink/ignition-address-list-adapter@1.0.9
+  - @chainlink/token-balance-adapter@1.0.9
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.42
+  - @chainlink/ea-test-helpers@1.4.7
+  - @chainlink/reduce-adapter@1.4.29
+  - @chainlink/ada-balance-adapter@2.5.42
+  - @chainlink/amberdata-adapter@1.8.35
+  - @chainlink/blockchain.com-adapter@1.3.42
+  - @chainlink/blockchair-adapter@1.3.42
+  - @chainlink/blockcypher-adapter@1.4.42
+  - @chainlink/btc.com-adapter@1.3.42
+  - @chainlink/celsius-address-list-adapter@2.0.26
+  - @chainlink/chain-reserve-wallet-adapter@3.0.26
+  - @chainlink/cryptoapis-adapter@1.2.42
+  - @chainlink/eth-balance-adapter@2.1.6
+  - @chainlink/renvm-address-set-adapter@1.5.104
+  - @chainlink/sochain-adapter@1.3.42
+  - @chainlink/swell-address-list-adapter@1.0.25
+  - @chainlink/wrapped-adapter@2.2.42
+
 ## 1.25.1
 
 ### Patch Changes
