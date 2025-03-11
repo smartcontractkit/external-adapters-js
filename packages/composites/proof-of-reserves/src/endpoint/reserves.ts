@@ -110,25 +110,21 @@ const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     type: 'string',
     description: 'triggers request at scheduled time (UTC)',
-    default: false,
   },
   scheduleWindow: {
     required: false,
     type: 'boolean',
     description: 'time window during which requests are allowed',
-    default: false,
   },
   startUTC: {
     required: false,
     type: 'string',
     description: 'start time for scheduleWindow',
-    default: '0000',
   },
   endUTC: {
     required: false,
     type: 'string',
     description: 'end time for scheduleWindow',
-    default: '0800',
   },
 }
 
