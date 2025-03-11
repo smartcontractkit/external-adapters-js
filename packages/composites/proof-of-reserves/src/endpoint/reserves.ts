@@ -29,7 +29,6 @@ export type TInputParameters = {
   disableAddressValidation?: boolean
   disableDuplicateAddressFiltering?: boolean
   description?: string
-  scheduledTriggerUTC?: string
   scheduleWindow?: boolean
   startUTC?: string
   endUTC?: string
@@ -105,11 +104,6 @@ const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     type: 'string',
     description: 'Optional human readable description on what this request is about',
-  },
-  scheduledTriggerUTC: {
-    required: false,
-    type: 'string',
-    description: 'triggers request at scheduled time (UTC)',
   },
   scheduleWindow: {
     required: false,

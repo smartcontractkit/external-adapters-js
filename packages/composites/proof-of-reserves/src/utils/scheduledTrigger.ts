@@ -9,24 +9,3 @@ export const extractDate = (timeString: string) => {
 
   return utcDate
 }
-
-export const scheduleDailyFunction = (scheduledTrigger: string, callback: () => void) => {
-  function setNextExecution() {
-    const now = new Date()
-    const targetTime = extractDate(scheduledTrigger)
-
-    if (now >= targetTime) {
-      targetTime.setUTCDate(targetTime.getUTCDate() + 1) // Move to next day
-    }
-
-    const delay = targetTime.getTime() - now.getTime()
-    console.log(`Next execution in ${delay / 1000 / 60} minutes.`)
-
-    setTimeout(() => {
-      callback()
-      setNextExecution() // Schedule next execution
-    }, delay)
-  }
-
-  setNextExecution()
-}
