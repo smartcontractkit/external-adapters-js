@@ -14,7 +14,6 @@ import {
 import { runReduceAdapter } from '../utils/reduce'
 import { getValidAddresses } from '../utils/addressValidator'
 import { Config } from '../config'
-import { extractDate, scheduleDailyFunction } from '../utils/scheduledTrigger'
 
 export const supportedEndpoints = ['reserves']
 
