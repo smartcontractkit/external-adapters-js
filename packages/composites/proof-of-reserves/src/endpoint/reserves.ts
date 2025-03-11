@@ -14,6 +14,7 @@ import {
 import { runReduceAdapter } from '../utils/reduce'
 import { getValidAddresses } from '../utils/addressValidator'
 import { Config } from '../config'
+import { extractDate, scheduleDailyFunction } from '../utils/scheduledTrigger'
 
 export const supportedEndpoints = ['reserves']
 
@@ -28,6 +29,10 @@ export type TInputParameters = {
   disableAddressValidation?: boolean
   disableDuplicateAddressFiltering?: boolean
   description?: string
+  scheduledTriggerUTC?: string
+  scheduleWindow?: boolean
+  startUTC?: string
+  endUTC?: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -101,15 +106,54 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'Optional human readable description on what this request is about',
   },
+  scheduledTriggerUTC: {
+    required: false,
+    type: 'string',
+    description: 'triggers request at scheduled time (UTC)',
+    default: false,
+  },
+  scheduleWindow: {
+    required: false,
+    type: 'boolean',
+    description: 'time window during which requests are allowed',
+    default: false,
+  },
+  startUTC: {
+    required: false,
+    type: 'string',
+    description: 'start time for scheduleWindow',
+    default: '0000',
+  },
+  endUTC: {
+    required: false,
+    type: 'string',
+    description: 'end time for scheduleWindow',
+    default: '0800',
+  },
 }
+
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, config.options)
 
   const jobRunID = validator.validated.id
   const protocol = validator.validated.data.protocol.toUpperCase()
   const indexer = validator.validated.data.indexer.toUpperCase()
+
   // TODO: defaults fill as non-nullable
   const confirmations = validator.validated.data.confirmations as number
+
+  // check schedule window
+  if (validator.validated.data.scheduleWindow == true) {
+    const startUTC = extractDate(validator.validated.data.startUTC ?? '0000')
+    const endUTC = extractDate(validator.validated.data.endUTC ?? '0800')
+    const currentUTC = new Date()
+
+    if (currentUTC < startUTC || currentUTC > endUTC) {
+      throw new Error(
+        `Skipping request. Current UTC Hour: ${currentUTC} outside schedule window of start: ${startUTC} and end: ${endUTC}`,
+      )
+    }
+  }
 
   // TODO: type input
   const protocolOutput = await runProtocolAdapter(
