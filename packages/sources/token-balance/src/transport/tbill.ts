@@ -8,7 +8,7 @@ import OpenEdenTBILLProxy from '../config/OpenEdenTBILLProxy.json'
 import { ethers } from 'ethers'
 import { getRate } from './priceFeed'
 
-const logger = makeLogger('Token Balnce - Tbill')
+const logger = makeLogger('Token Balance - Tbill')
 
 type RequestParams = typeof inputParameters.validated
 
