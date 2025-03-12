@@ -35,7 +35,7 @@ export const inputParameters = new InputParameters(
     },
     ethTBillPriceContract: {
       type: 'string',
-      description: 'Address of ethrereum token contract',
+      description: 'Address of ethereum token contract',
       default: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
     },
     arbTBillPriceContract: {
