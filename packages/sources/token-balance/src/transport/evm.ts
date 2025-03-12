@@ -99,7 +99,9 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const addresses = param.addresses.filter((a) => a.chainId != '0')
+    const addresses = param.addresses.filter(
+      (a) => a.chainId !== '0' && a.token?.toUpperCase() !== 'TBILL',
+    )
 
     // verify providers exist for this request
     const normalizedAddresses = this.verifyProviders(addresses)

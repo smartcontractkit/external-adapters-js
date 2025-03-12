@@ -19,6 +19,11 @@ export const inputParameters = new InputParameters(
           type: 'string',
           description: 'Chain ID of the network',
         },
+        token: {
+          required: false,
+          type: 'string',
+          description: 'only JLP will be processed',
+        },
         contractAddress: {
           required: true,
           type: 'string',
@@ -45,6 +50,7 @@ export const inputParameters = new InputParameters(
         {
           network: 'Ethereum Mainnet',
           chainId: '1',
+          token: 'TBILL',
           contractAddress: '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a',
         },
       ],

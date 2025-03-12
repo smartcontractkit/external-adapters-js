@@ -90,15 +90,17 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     ])
 
     const results = await Promise.all(
-      addresses.map(async (address: AddressType) => {
-        let sharePriceUSD: PriceType = { value: BigInt(0), decimal: 0 }
-        if (address.chainId == '1') {
-          sharePriceUSD = EthTBillUSD
-        } else if (address.chainId == '42161') {
-          sharePriceUSD = ArbTBillUSD
-        }
-        return this.calculateTbillSharesUSD(address, sharePriceUSD)
-      }),
+      addresses
+        .filter((a) => a.token?.toUpperCase() == 'TBILL')
+        .map(async (address: AddressType) => {
+          let sharePriceUSD: PriceType = { value: BigInt(0), decimal: 0 }
+          if (address.chainId == '1') {
+            sharePriceUSD = EthTBillUSD
+          } else if (address.chainId == '42161') {
+            sharePriceUSD = ArbTBillUSD
+          }
+          return this.calculateTbillSharesUSD(address, sharePriceUSD)
+        }),
     )
 
     totalTBillUSD = results.reduce((sum: bigint, value: bigint) => sum + value, BigInt(0))

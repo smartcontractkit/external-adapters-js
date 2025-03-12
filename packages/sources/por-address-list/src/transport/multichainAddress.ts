@@ -88,14 +88,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
     let response
     switch (param.type) {
       case 'tokens':
-        response = buildTokenResponse(addressList, param.vaultPlaceHolder).filter(
-          (item) => item.token != 'TBILL',
-        )
-        break
-      case 'tbill':
-        response = buildTokenResponse(addressList, param.vaultPlaceHolder).filter(
-          (item) => item.token === 'TBILL',
-        )
+        response = buildTokenResponse(addressList, param.vaultPlaceHolder)
         break
       case 'vault':
         response = buildVaultResponse(addressList, param.vaultPlaceHolder)

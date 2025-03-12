@@ -31,7 +31,7 @@ export const inputParameters = new InputParameters(
     type: {
       description:
         'The type of addresses you are looking for. tokens is for token-balance EA. vault is for eth-balance EA.',
-      options: ['tokens', 'vault', 'tbill'],
+      options: ['tokens', 'vault'],
       type: 'string',
       default: 'tokens',
     },
