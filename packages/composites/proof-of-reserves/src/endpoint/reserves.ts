@@ -29,7 +29,6 @@ export type TInputParameters = {
   disableAddressValidation?: boolean
   disableDuplicateAddressFiltering?: boolean
   description?: string
-  scheduleWindow?: boolean
   startUTC?: string
   endUTC?: string
 }
@@ -105,20 +104,15 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'Optional human readable description on what this request is about',
   },
-  scheduleWindow: {
-    required: false,
-    type: 'boolean',
-    description: 'time window during which requests are allowed',
-  },
   startUTC: {
     required: false,
     type: 'string',
-    description: 'start time for scheduleWindow',
+    description: 'start time for scheduleWindow in UTC [Format 0000]',
   },
   endUTC: {
     required: false,
     type: 'string',
-    description: 'end time for scheduleWindow',
+    description: 'end time for scheduleWindow in UTC [Format 0000]',
   },
 }
 
@@ -133,9 +127,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const confirmations = validator.validated.data.confirmations as number
 
   // check schedule window
-  if (validator.validated.data.scheduleWindow == true) {
-    const startUTC = extractDate(validator.validated.data.startUTC ?? '0000')
-    const endUTC = extractDate(validator.validated.data.endUTC ?? '0800')
+  if (validator.validated.data.startUTC && validator.validated.data.endUTC) {
+    const startUTC = extractDate(validator.validated.data.startUTC)
+    const endUTC = extractDate(validator.validated.data.endUTC)
     const currentUTC = new Date()
 
     if (currentUTC < startUTC || currentUTC > endUTC) {
