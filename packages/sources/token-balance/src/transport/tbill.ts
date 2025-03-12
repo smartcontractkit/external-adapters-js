@@ -107,13 +107,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       addresses
         .filter((a) => a.token?.toUpperCase() == 'TBILL')
         .map(async (address: AddressType) => {
-          let sharePriceUSD: PriceType = { value: BigInt(0), decimal: 0 }
-          if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
-            sharePriceUSD = ethTbillUSD
-          } else if (address.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
-            sharePriceUSD = arbTbillUSD
-          }
-          return this.calculateTbillSharesUSD(context, address, sharePriceUSD)
+          return this.calculateTbillSharesUSD(context, address, ethTbillUSD, arbTbillUSD)
         }),
     )
 
@@ -137,7 +131,8 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async calculateTbillSharesUSD(
     context: EndpointContext<BaseEndpointTypes>,
     address: AddressType,
-    sharePriceUSD: PriceType,
+    ethTbillUSD: PriceType,
+    arbTbillUSD: PriceType,
   ) {
     const contract = new ethers.Contract(
       address.contractAddress,
@@ -165,6 +160,13 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
 
     totalShares = totalShares * BigInt(10 ** (RESULT_DECIMALS - Number(decimal)))
+
+    let sharePriceUSD: PriceType = { value: BigInt(0), decimal: 0 }
+    if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
+      sharePriceUSD = ethTbillUSD
+    } else if (address.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
+      sharePriceUSD = arbTbillUSD
+    }
 
     totalSharesUSD =
       (totalShares *
