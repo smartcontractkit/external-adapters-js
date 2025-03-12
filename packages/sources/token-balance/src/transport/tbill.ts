@@ -28,7 +28,6 @@ const RESULT_DECIMALS = 18
 export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ethProvider!: ethers.JsonRpcProvider
   arbProvider!: ethers.JsonRpcProvider
-  adapterSettings!: BaseEndpointTypes['Settings']
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -37,8 +36,6 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-
-    this.adapterSettings = adapterSettings
 
     if (!adapterSettings.ETHEREUM_RPC_URL) {
       logger.error('ETHEREUM_RPC_URL is missing')
@@ -60,14 +57,14 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(param: RequestParams) {
+  async handleRequest(context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
-      response = await this._handleRequest(param)
+      response = await this._handleRequest(context, param)
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
@@ -85,13 +82,14 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async _handleRequest(
+    context: EndpointContext<BaseEndpointTypes>,
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const addresses = param.addresses.filter(
       (a) =>
         a.chainId != '0' &&
-        (a.chainId === String(this.adapterSettings.ETHEREUM_RPC_CHAIN_ID) ||
-          a.chainId === String(this.adapterSettings.ARBITRUM_RPC_CHAIN_ID)),
+        (a.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID) ||
+          a.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)),
     )
 
     const providerDataRequestedUnixMs = Date.now()
@@ -110,12 +108,12 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
         .filter((a) => a.token?.toUpperCase() == 'TBILL')
         .map(async (address: AddressType) => {
           let sharePriceUSD: PriceType = { value: BigInt(0), decimal: 0 }
-          if (address.chainId === String(this.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
+          if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
             sharePriceUSD = ethTbillUSD
-          } else if (address.chainId === String(this.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
+          } else if (address.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
             sharePriceUSD = arbTbillUSD
           }
-          return this.calculateTbillSharesUSD(address, sharePriceUSD)
+          return this.calculateTbillSharesUSD(context, address, sharePriceUSD)
         }),
     )
 
@@ -136,11 +134,15 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async calculateTbillSharesUSD(address: AddressType, sharePriceUSD: PriceType) {
+  async calculateTbillSharesUSD(
+    context: EndpointContext<BaseEndpointTypes>,
+    address: AddressType,
+    sharePriceUSD: PriceType,
+  ) {
     const contract = new ethers.Contract(
       address.contractAddress,
       OpenEdenTBILLProxy,
-      this.getProvider(address),
+      this.getProvider(context, address),
     )
     const decimal = await contract.decimals()
     const queueLength = await contract.getWithdrawalQueueLength()
@@ -173,7 +175,10 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return totalSharesUSD
   }
 
-  getProvider(address: AddressType): ethers.JsonRpcProvider {
+  getProvider(
+    context: EndpointContext<BaseEndpointTypes>,
+    address: AddressType,
+  ): ethers.JsonRpcProvider {
     const { chainId } = address
     if (!chainId) {
       throw new AdapterInputError({
@@ -184,9 +189,9 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     let provider!: ethers.JsonRpcProvider
 
-    if (chainId === String(this.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
+    if (chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
       provider = this.ethProvider
-    } else if (chainId === String(this.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
+    } else if (chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
       provider = this.arbProvider
     }
 
