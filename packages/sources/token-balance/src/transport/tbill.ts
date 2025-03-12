@@ -87,9 +87,8 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const addresses = param.addresses.filter(
       (a) =>
-        a.chainId != '0' &&
-        (a.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID) ||
-          a.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)),
+        a.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID) ||
+        a.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID),
     )
 
     const providerDataRequestedUnixMs = Date.now()
@@ -134,11 +133,29 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     ethTbillUSD: PriceType,
     arbTbillUSD: PriceType,
   ) {
-    const contract = new ethers.Contract(
-      address.contractAddress,
-      OpenEdenTBILLProxy,
-      this.getProvider(context, address),
-    )
+    let sharePriceUSD!: PriceType
+    let provider!: ethers.JsonRpcProvider
+
+    if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
+      sharePriceUSD = ethTbillUSD
+      provider = this.ethProvider
+    } else if (address.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
+      sharePriceUSD = arbTbillUSD
+      provider = this.arbProvider
+    }
+
+    if (!provider) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Missing network environment variables for ${address.chainId}.`,
+      })
+    }
+
+    if (sharePriceUSD === undefined) {
+      throw new Error('sharePriceUSD is undefined')
+    }
+
+    const contract = new ethers.Contract(address.contractAddress, OpenEdenTBILLProxy, provider)
     const decimal = await contract.decimals()
     const queueLength = await contract.getWithdrawalQueueLength()
 
@@ -161,13 +178,6 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     totalShares = totalShares * BigInt(10 ** (RESULT_DECIMALS - Number(decimal)))
 
-    let sharePriceUSD: PriceType = { value: BigInt(0), decimal: 0 }
-    if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
-      sharePriceUSD = ethTbillUSD
-    } else if (address.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
-      sharePriceUSD = arbTbillUSD
-    }
-
     totalSharesUSD =
       (totalShares *
         sharePriceUSD.value *
@@ -175,36 +185,6 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       BigInt(10 ** RESULT_DECIMALS)
 
     return totalSharesUSD
-  }
-
-  getProvider(
-    context: EndpointContext<BaseEndpointTypes>,
-    address: AddressType,
-  ): ethers.JsonRpcProvider {
-    const { chainId } = address
-    if (!chainId) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing '${address.network}' or '${address.chainId}' environment variables.`,
-      })
-    }
-
-    let provider!: ethers.JsonRpcProvider
-
-    if (chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
-      provider = this.ethProvider
-    } else if (chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
-      provider = this.arbProvider
-    }
-
-    if (!provider) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing network environment variables for ${address.network}.`,
-      })
-    }
-
-    return provider
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
