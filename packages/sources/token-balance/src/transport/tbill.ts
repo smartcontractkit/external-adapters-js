@@ -26,8 +26,9 @@ type PriceType = {
 const RESULT_DECIMALS = 18
 
 export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
-  provider!: ethers.JsonRpcProvider
-  standardizedChainIDToProviderMap: Map<string, ethers.JsonRpcProvider> = new Map()
+  ethProvider!: ethers.JsonRpcProvider
+  arbProvider!: ethers.JsonRpcProvider
+  adapterSettings!: BaseEndpointTypes['Settings']
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -37,14 +38,25 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
 
-    this.standardizedChainIDToProviderMap.set(
-      '1',
-      new ethers.JsonRpcProvider('https://rpcs.cldev.sh/ethereum/mainnet', Number('1')),
-    )
-    this.standardizedChainIDToProviderMap.set(
-      '42161',
-      new ethers.JsonRpcProvider('https://rpcs.cldev.sh/arbitrum/mainnet', Number('42161')),
-    )
+    this.adapterSettings = adapterSettings
+
+    if (!adapterSettings.ETHEREUM_RPC_URL) {
+      logger.error('ETHEREUM_RPC_URL is missing')
+    } else {
+      this.ethProvider = new ethers.JsonRpcProvider(
+        adapterSettings.ETHEREUM_RPC_URL,
+        Number(adapterSettings.ETHEREUM_RPC_CHAIN_ID),
+      )
+    }
+
+    if (!adapterSettings.ARBITRUM_RPC_URL) {
+      logger.error('ARBITRUM_RPC_URL is missing')
+    } else {
+      this.arbProvider = new ethers.JsonRpcProvider(
+        adapterSettings.ARBITRUM_RPC_URL,
+        Number(adapterSettings.ARBITRUM_RPC_CHAIN_ID),
+      )
+    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -75,8 +87,12 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    let addresses = param.addresses.filter((a) => a.chainId != '0')
-    addresses = param.addresses.filter((a) => a.chainId === '1' || a.chainId === '42161')
+    const addresses = param.addresses.filter(
+      (a) =>
+        a.chainId != '0' &&
+        (a.chainId === String(this.adapterSettings.ETHEREUM_RPC_CHAIN_ID) ||
+          a.chainId === String(this.adapterSettings.ARBITRUM_RPC_CHAIN_ID)),
+    )
 
     const providerDataRequestedUnixMs = Date.now()
 
@@ -84,9 +100,9 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     let totalTBillUSD = BigInt(0)
 
     // NAV value of TBILL on ETH and ARB
-    const [EthTBillUSD, ArbTBillUSD] = await Promise.all([
-      getRate(param.ethTBillPriceContract, this.standardizedChainIDToProviderMap.get('1')),
-      getRate(param.arbTBillPriceContract, this.standardizedChainIDToProviderMap.get('42161')),
+    const [ethTbillUSD, arbTbillUSD] = await Promise.all([
+      getRate(param.ethTBillPriceContract, this.ethProvider),
+      getRate(param.arbTBillPriceContract, this.arbProvider),
     ])
 
     const results = await Promise.all(
@@ -94,10 +110,10 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
         .filter((a) => a.token?.toUpperCase() == 'TBILL')
         .map(async (address: AddressType) => {
           let sharePriceUSD: PriceType = { value: BigInt(0), decimal: 0 }
-          if (address.chainId == '1') {
-            sharePriceUSD = EthTBillUSD
-          } else if (address.chainId == '42161') {
-            sharePriceUSD = ArbTBillUSD
+          if (address.chainId === String(this.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
+            sharePriceUSD = ethTbillUSD
+          } else if (address.chainId === String(this.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
+            sharePriceUSD = arbTbillUSD
           }
           return this.calculateTbillSharesUSD(address, sharePriceUSD)
         }),
@@ -130,17 +146,20 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const queueLength = await contract.getWithdrawalQueueLength()
 
     // Total shares per address
-    let totalShares = BigInt(84248900137)
+    let totalShares = BigInt(0)
     let totalSharesUSD = BigInt(0)
 
     if (queueLength > 0) {
-      let index = 0
+      const indices = [...Array(queueLength).keys()]
 
-      while (index < queueLength) {
-        const queueInfo = await contract.getWithdrawalQueueInfo(index)
-        index += 1
-        totalShares += queueInfo.shares
-      }
+      const results = await Promise.all(
+        indices.map(async (index) => {
+          const queueInfo = await contract.getWithdrawalQueueInfo(index)
+          return queueInfo.shares
+        }),
+      )
+
+      totalShares = results.reduce((sum: bigint, shares: bigint) => sum + shares, BigInt(0))
     }
 
     totalShares = totalShares * BigInt(10 ** (RESULT_DECIMALS - Number(decimal)))
@@ -163,7 +182,13 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       })
     }
 
-    const provider = this.standardizedChainIDToProviderMap.get(chainId)
+    let provider!: ethers.JsonRpcProvider
+
+    if (chainId === String(this.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
+      provider = this.ethProvider
+    } else if (chainId === String(this.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
+      provider = this.arbProvider
+    }
 
     if (!provider) {
       throw new AdapterInputError({

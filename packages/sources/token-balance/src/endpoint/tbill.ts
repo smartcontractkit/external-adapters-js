@@ -22,7 +22,7 @@ export const inputParameters = new InputParameters(
         token: {
           required: false,
           type: 'string',
-          description: 'only JLP will be processed',
+          description: 'only TBILL will be processed',
         },
         contractAddress: {
           required: true,
