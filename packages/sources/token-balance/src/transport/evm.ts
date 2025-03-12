@@ -72,6 +72,8 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     process.env['ETHEREUM_RPC_CHAIN_ID'] = String(adapterSettings.ETHEREUM_RPC_CHAIN_ID)
     process.env['ARBITRUM_RPC_URL'] = adapterSettings.ARBITRUM_RPC_URL
     process.env['ARBITRUM_RPC_CHAIN_ID'] = String(adapterSettings.ARBITRUM_RPC_CHAIN_ID)
+    process.env['BASE_RPC_URL'] = adapterSettings.BASE_RPC_URL
+    process.env['BASE_RPC_CHAIN_ID'] = String(adapterSettings.BASE_RPC_CHAIN_ID)
     this.constructChainIdRpcMap()
   }
 
