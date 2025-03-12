@@ -68,6 +68,10 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    process.env['ETHEREUM_RPC_URL'] = adapterSettings.ETHEREUM_RPC_URL
+    process.env['ETHEREUM_RPC_CHAIN_ID'] = String(adapterSettings.ETHEREUM_RPC_CHAIN_ID)
+    process.env['ARBITRUM_RPC_URL'] = adapterSettings.ARBITRUM_RPC_URL
+    process.env['ARBITRUM_RPC_CHAIN_ID'] = String(adapterSettings.ARBITRUM_RPC_CHAIN_ID)
     this.constructChainIdRpcMap()
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/m0-adapter",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Chainlink m0 adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.1.0",
+    "@chainlink/external-adapter-framework": "2.1.2",
     "tslib": "2.4.1"
   }
 }

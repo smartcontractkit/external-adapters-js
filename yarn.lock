@@ -2405,7 +2405,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/aleno-adapter@workspace:packages/sources/aleno"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -2482,7 +2482,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/anchorage-adapter@workspace:packages/sources/anchorage"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -2528,10 +2528,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/apex-adapter@workspace:packages/sources/apex"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.6.3"
@@ -2558,12 +2558,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/apy-finance-test-adapter@workspace:packages/composites/apy-finance-test"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@chainlink/token-allocation-test-adapter": "workspace:*"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     ethers: "npm:5.4.7"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -2593,7 +2593,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -2606,10 +2606,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     fastify: "npm:^3.29.4"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -2703,7 +2703,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-adapter@workspace:packages/sources/bitgo"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -2716,7 +2716,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-reserves-adapter@workspace:packages/sources/bitgo-reserves"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -2729,7 +2729,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-reserves-test-adapter@workspace:packages/sources/bitgo-reserves-test"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -2805,7 +2805,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -2941,7 +2941,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ceffu-adapter@workspace:packages/sources/ceffu"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
@@ -2975,7 +2975,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -3018,10 +3018,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/clear-bank-adapter@workspace:packages/sources/clear-bank"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.6.3"
@@ -3064,7 +3064,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-prime-adapter@workspace:packages/sources/coinbase-prime"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/crypto-js": "npm:4.2.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -3095,7 +3095,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-adapter@workspace:packages/sources/coingecko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
@@ -3126,7 +3126,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -3139,7 +3139,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -3155,7 +3155,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -3301,7 +3301,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -3400,7 +3400,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/deep-blue-adapter@workspace:packages/sources/deep-blue"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -3462,7 +3462,7 @@ __metadata:
   resolution: "@chainlink/dlc-btc-por-adapter@workspace:packages/sources/dlc-btc-por"
   dependencies:
     "@bitcoinerlab/secp256k1": "npm:1.1.1"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@noble/hashes": "npm:1.4.0"
     "@scure/base": "npm:1.1.9"
     "@scure/btc-signer": "npm:1.2.2"
@@ -3544,7 +3544,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -3560,7 +3560,7 @@ __metadata:
   resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
   dependencies:
     "@chainlink/dxfeed-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
@@ -3598,7 +3598,7 @@ __metadata:
   resolution: "@chainlink/dydx-stark-adapter@workspace:packages/targets/dydx-stark"
   dependencies:
     "@authereum/starkware-crypto": "npm:1.9.7-beta.7"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:10.3.1"
@@ -3630,7 +3630,7 @@ __metadata:
     "@types/uuid": "npm:8.3.4"
     "@types/ws": "npm:8.5.14"
     ajv: "npm:^8.6.2"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     decimal.js: "npm:^10.3.1"
     fast-redact: "npm:^3.0.1"
     fastify: "npm:^3.29.4"
@@ -3693,7 +3693,7 @@ __metadata:
     "@apidevtools/json-schema-ref-parser": "npm:9.1.2"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/command-line-args": "npm:5.2.3"
     "@types/command-line-usage": "npm:5.0.4"
     "@types/jest": "npm:27.5.2"
@@ -3701,7 +3701,7 @@ __metadata:
     "@types/swagger-jsdoc": "npm:6.0.4"
     "@types/yaml": "npm:1.9.7"
     airtable: "npm:0.11.6"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     axios-mock-adapter: "npm:1.20.0"
     axios-observable: "npm:1.3.0"
     backoff-rxjs: "npm:6.5.7"
@@ -3744,7 +3744,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elven-adapter@workspace:packages/sources/elven"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
@@ -3759,12 +3759,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -3843,7 +3843,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     bignumber.js: "npm:9.1.2"
@@ -3939,7 +3939,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/expand-network-adapter@workspace:packages/sources/expand-network"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -3966,24 +3966,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:2.1.0":
-  version: 2.1.0
-  resolution: "@chainlink/external-adapter-framework@npm:2.1.0"
+"@chainlink/external-adapter-framework@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@chainlink/external-adapter-framework@npm:2.1.2"
   dependencies:
     ajv: "npm:8.17.1"
-    axios: "npm:1.7.9"
+    axios: "npm:1.8.2"
     eventsource: "npm:2.0.2"
     fastify: "npm:5.2.1"
-    ioredis: "npm:5.4.2"
+    ioredis: "npm:5.6.0"
     mock-socket: "npm:9.3.1"
     pino: "npm:9.6.0"
     pino-pretty: "npm:13.0.0"
     prom-client: "npm:15.1.3"
     redlock: "npm:5.0.0-beta.2"
-    ws: "npm:8.18.0"
+    ws: "npm:8.18.1"
   bin:
     create-external-adapter: adapter-generator.js
-  checksum: 10/227901783c9d58f0c7ae5445a79c7eab09fc00b838b5207e78d316188d228dcd800db0ae2a7cc89773a96315afe76547f18be0e3ecbf4741f93a77eab53b0ef9
+  checksum: 10/50926752b8583263f05d6627b81110fdbcfca2cefbcf9b3b6d58fd4593b81f2b75533e855c6c2b319973f2825aac2c7aefaddcfc4c0f20213fb1e16761e8ea4e
   languageName: node
   linkType: hard
 
@@ -3994,7 +3994,7 @@ __metadata:
     "@babel/core": "npm:7.26.9"
     "@babel/preset-env": "npm:7.26.9"
     "@babel/preset-typescript": "npm:7.26.0"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.27.12"
     "@types/babel__core": "npm:7.20.5"
@@ -4038,7 +4038,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-adapter@workspace:packages/sources/finage"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -4053,7 +4053,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finalto-adapter@workspace:packages/sources/finalto"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -4070,7 +4070,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finnhub-adapter@workspace:packages/sources/finnhub"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -4085,7 +4085,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finnhub-secondary-adapter@workspace:packages/sources/finnhub-secondary"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@chainlink/finnhub-adapter": "workspace:*"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
@@ -4101,7 +4101,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/fireblocks-adapter@workspace:packages/sources/fireblocks"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4175,7 +4175,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/frxeth-exchange-rate-adapter@workspace:packages/sources/frxeth-exchange-rate"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.7.2"
@@ -4208,12 +4208,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4224,7 +4224,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4266,7 +4266,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
@@ -4281,7 +4281,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gm-token-adapter@workspace:packages/composites/gm-token"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
@@ -4327,7 +4327,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gramchain-adapter@workspace:packages/sources/gramchain"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4353,13 +4353,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     crypto: "npm:1.0.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4391,7 +4391,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/harris-and-trotter-adapter@workspace:packages/sources/harris-and-trotter"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4407,7 +4407,7 @@ __metadata:
     "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
@@ -4423,7 +4423,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/icap-adapter@workspace:packages/sources/icap"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@chainlink/tp-adapter": "workspace:*"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -4440,7 +4440,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4453,7 +4453,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4471,7 +4471,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -4484,7 +4484,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4497,12 +4497,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.6.3"
@@ -4513,7 +4513,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4579,7 +4579,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-adapter@workspace:packages/sources/kaiko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4592,7 +4592,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-state-adapter@workspace:packages/sources/kaiko-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@grpc/grpc-js": "npm:1.12.5"
     "@kaiko-data/sdk-node": "npm:1.26.0"
     "@types/jest": "npm:27.5.2"
@@ -4661,7 +4661,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lido-por-adapter@workspace:packages/sources/lido-por"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.7.2"
@@ -4722,7 +4722,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.4.7"
@@ -4736,7 +4736,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/m0-adapter@workspace:packages/sources/m0"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4766,7 +4766,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/market-status-adapter@workspace:packages/composites/market-status"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@chainlink/ncfx-adapter": "workspace:*"
     "@chainlink/tradinghours-adapter": "workspace:*"
     "@sinonjs/fake-timers": "npm:9.1.2"
@@ -4847,7 +4847,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/mobula-state-adapter@workspace:packages/sources/mobula-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -4878,7 +4878,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@polkadot/keyring": "npm:10.4.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -4895,7 +4895,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/moore-hk-adapter@workspace:packages/sources/moore-hk"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -4911,7 +4911,7 @@ __metadata:
     "@chainlink/anchorage-adapter": "workspace:*"
     "@chainlink/bitgo-adapter": "workspace:*"
     "@chainlink/coinbase-prime-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/node-schedule": "npm:2.1.7"
@@ -4942,7 +4942,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nav-consulting-adapter@workspace:packages/sources/nav-consulting"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@date-fns/utc": "npm:2.1.0"
     "@types/crypto-js": "npm:4.2.2"
     "@types/jest": "npm:27.5.2"
@@ -4959,7 +4959,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -4974,7 +4974,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nexus-kiln-adapter@workspace:packages/composites/nexus-kiln"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:6.13.5"
@@ -4988,7 +4988,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
@@ -5039,7 +5039,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nyfed-adapter@workspace:packages/sources/nyfed"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -5052,9 +5052,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     decimal.js: "npm:^10.3.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -5065,7 +5065,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
   dependencies:
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
   languageName: unknown
@@ -5107,7 +5107,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -5142,7 +5142,7 @@ __metadata:
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/sinon": "npm:10.0.20"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     sinon: "npm:12.0.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -5184,7 +5184,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@polkadot/api": "npm:9.14.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -5198,7 +5198,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -5211,7 +5211,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.5.1"
@@ -5225,7 +5225,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
@@ -5256,7 +5256,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/eth-balance-adapter": "workspace:*"
     "@chainlink/eth-beacon-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/ignition-address-list-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
@@ -5375,7 +5375,7 @@ __metadata:
   resolution: "@chainlink/s3-csv-reader-adapter@workspace:packages/sources/s3-csv-reader"
   dependencies:
     "@aws-sdk/client-s3": "npm:^3.600.0"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.12.0"
     csv-parse: "npm:5.5.6"
@@ -5531,7 +5531,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.5.4"
@@ -5545,10 +5545,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     bignumber.js: "npm:^9.1.1"
     ethers: "npm:5.5.4"
     nock: "npm:13.5.6"
@@ -5578,7 +5578,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/starknet-gas-price-adapter@workspace:packages/sources/starknet-gas-price"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:14.0.0"
@@ -5608,7 +5608,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/superstate-adapter@workspace:packages/sources/superstate"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     "@types/node-schedule": "npm:2.1.7"
@@ -5678,7 +5678,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/synthetix-feeds-adapter@workspace:packages/sources/synthetix-feeds"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:10.4.3"
@@ -5741,7 +5741,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -5770,7 +5770,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -5785,7 +5785,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-state-adapter@workspace:packages/sources/tiingo-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -5812,7 +5812,7 @@ __metadata:
     "@chainlink/cryptocompare-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@chainlink/finage-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
@@ -5831,10 +5831,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-test-adapter@workspace:packages/non-deployable/token-allocation-test"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
-    axios: "npm:1.8.1"
+    axios: "npm:1.8.2"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
     nock: "npm:13.5.6"
@@ -5847,7 +5847,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-balance-adapter@workspace:packages/sources/token-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@solana/web3.js": "npm:^1.95.8"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -5862,7 +5862,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tp-adapter@workspace:packages/sources/tp"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -5880,7 +5880,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -5895,7 +5895,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradinghours-adapter@workspace:packages/sources/tradinghours"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -5913,7 +5913,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/trueusd-adapter@workspace:packages/sources/trueusd"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -5926,7 +5926,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/trumatic-matic-exchange-rate-adapter@workspace:packages/sources/trumatic-matic-exchange-rate"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.7.2"
@@ -5956,7 +5956,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/twosigma-adapter@workspace:packages/sources/twosigma"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
@@ -6052,7 +6052,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^6.13.2"
@@ -6066,7 +6066,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^6.13.2"
@@ -6080,7 +6080,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-starknet-latest-answer-adapter@workspace:packages/sources/view-starknet-latest-answer"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:14.0.0"
@@ -6094,7 +6094,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.1.0"
+    "@chainlink/external-adapter-framework": "npm:2.1.2"
     "@types/jest": "npm:27.5.2"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
@@ -13857,25 +13857,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.7.9":
-  version: 1.7.9
-  resolution: "axios@npm:1.7.9"
+"axios@npm:1.8.2":
+  version: 1.8.2
+  resolution: "axios@npm:1.8.2"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/b7a5f660ea53ba9c2a745bf5ad77ad8bf4f1338e13ccc3f9f09f810267d6c638c03dac88b55dae8dc98b79c57d2d6835be651d58d2af97c174f43d289a9fd007
-  languageName: node
-  linkType: hard
-
-"axios@npm:1.8.1":
-  version: 1.8.1
-  resolution: "axios@npm:1.8.1"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/5a09a2b39e724e018bc94d0424bb1a6042e71864039fbcc8c8d9dd50f3acd9d01f81b895994c9b46bc82c026afa3dfd1ec343a27bfe4723b70841f3b3dd6edfa
+  checksum: 10/d4328758128d0602cc809a8e7627622cb7839b379eae5e4d6b9d603dd4d5fb89159985630243ec107cf5c675cd8825dba737a319dff9499f3b7688d9a69ec9ed
   languageName: node
   linkType: hard
 
@@ -20725,9 +20714,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:5.4.2":
-  version: 5.4.2
-  resolution: "ioredis@npm:5.4.2"
+"ioredis@npm:5.6.0":
+  version: 5.6.0
+  resolution: "ioredis@npm:5.6.0"
   dependencies:
     "@ioredis/commands": "npm:^1.1.1"
     cluster-key-slot: "npm:^1.1.0"
@@ -20738,7 +20727,7 @@ __metadata:
     redis-errors: "npm:^1.2.0"
     redis-parser: "npm:^3.0.0"
     standard-as-callback: "npm:^2.1.0"
-  checksum: 10/1ba306dfb5ec03b07f797e7c55da99207448ce5f733ffd46b03a215ec4db73bd572adb7cf20c993e04f437e80ba4ebe261077d0fc98ed14162cd1b09aa4b8634
+  checksum: 10/4f636722993d5028e7a5905c33f46bcf24a1aaf7c5cd6929e0b5b28835bb42cdc958039e32d050af1065c099998a14dbe8b3c221547073b4318b9436c9f2da6a
   languageName: node
   linkType: hard
 
@@ -33264,9 +33253,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.18.0, ws@npm:^8.0.0, ws@npm:^8.5.0, ws@npm:^8.8.1":
-  version: 8.18.0
-  resolution: "ws@npm:8.18.0"
+"ws@npm:8.18.1":
+  version: 8.18.1
+  resolution: "ws@npm:8.18.1"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ">=5.0.2"
@@ -33275,7 +33264,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 10/70dfe53f23ff4368d46e4c0b1d4ca734db2c4149c6f68bc62cb16fc21f753c47b35fcc6e582f3bdfba0eaeb1c488cddab3c2255755a5c3eecb251431e42b3ff6
+  checksum: 10/3f38e9594f2af5b6324138e86b74df7d77bbb8e310bf8188679dd80bac0d1f47e51536a1923ac3365f31f3d8b25ea0b03e4ade466aa8292a86cd5defca64b19b
   languageName: node
   linkType: hard
 
@@ -33302,6 +33291,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/9c796b84ba80ffc2c2adcdfc9c8e9a219ba99caa435c9a8d45f9ac593bba325563b3f83edc5eb067cc6d21b9a6bf2c930adf76dd40af5f58a5ca6859e81858f0
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.0.0, ws@npm:^8.5.0, ws@npm:^8.8.1":
+  version: 8.18.0
+  resolution: "ws@npm:8.18.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10/70dfe53f23ff4368d46e4c0b1d4ca734db2c4149c6f68bc62cb16fc21f753c47b35fcc6e582f3bdfba0eaeb1c488cddab3c2255755a5c3eecb251431e42b3ff6
   languageName: node
   linkType: hard
 

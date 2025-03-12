@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-balance-adapter",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Chainlink token-balance adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.1.0",
+    "@chainlink/external-adapter-framework": "2.1.2",
     "ethers": "^6.13.2",
     "tslib": "2.4.1"
   }

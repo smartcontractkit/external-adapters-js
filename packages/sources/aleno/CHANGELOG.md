@@ -1,5 +1,17 @@
 # @chainlink/aleno-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3719](https://github.com/smartcontractkit/external-adapters-js/pull/3719) [`3a472a9`](https://github.com/smartcontractkit/external-adapters-js/commit/3a472a95b7c84f1f645f101e3cf1a39279a8c2c1) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update route to use standard ws
+
+## 1.0.6
+
+### Patch Changes
+
+- [#3713](https://github.com/smartcontractkit/external-adapters-js/pull/3713) [`4753dfa`](https://github.com/smartcontractkit/external-adapters-js/commit/4753dfa17038ec4f0b8041becb216dfaec9e9f3f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.0.5
 
 ### Patch Changes

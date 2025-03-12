@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nav-consulting-adapter",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Chainlink nav-consulting adapter.",
   "keywords": [
     "Chainlink",
@@ -38,7 +38,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.1.0",
+    "@chainlink/external-adapter-framework": "2.1.2",
     "tslib": "2.4.1"
   }
 }
