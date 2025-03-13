@@ -19,29 +19,19 @@ export const inputParameters = new InputParameters(
           type: 'string',
           description: 'Chain ID of the network',
         },
-        token: {
-          required: false,
-          type: 'string',
-          description: 'only TBILL will be processed',
-        },
         contractAddress: {
           required: true,
           type: 'string',
           description: 'Address of token contract',
         },
+        priceOracleAddress: {
+          required: true,
+          type: 'string',
+          description: 'Address of price oracle',
+        },
       },
       array: true,
       description: 'List of addresses to read',
-    },
-    ethTBillPriceContract: {
-      type: 'string',
-      description: 'Address of ethereum token contract',
-      default: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
-    },
-    arbTBillPriceContract: {
-      type: 'string',
-      description: 'Address of arbitrum token contract',
-      default: '0xc0952c8ba068c887B675B4182F3A65420D045F46',
     },
   },
   [
@@ -50,12 +40,10 @@ export const inputParameters = new InputParameters(
         {
           network: 'Ethereum Mainnet',
           chainId: '1',
-          token: 'TBILL',
           contractAddress: '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a',
+          priceOracleAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
         },
       ],
-      ethTBillPriceContract: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
-      arbTBillPriceContract: '0xc0952c8ba068c887B675B4182F3A65420D045F46',
     },
   ],
 )

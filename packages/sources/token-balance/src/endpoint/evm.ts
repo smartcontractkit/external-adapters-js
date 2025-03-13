@@ -21,11 +21,6 @@ export const inputParameters = new InputParameters(
           type: 'string',
           description: 'Chain ID of the network',
         },
-        token: {
-          required: false,
-          type: 'string',
-          description: 'only EVM will be processed',
-        },
         contractAddress: {
           required: true,
           type: 'string',

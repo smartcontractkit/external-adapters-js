@@ -16,12 +16,13 @@ type AddressType = {
   network?: string
   chainId?: string
   contractAddress: string
+  priceOracleAddress: string
 }
 
-type PriceType = {
-  value: bigint
-  decimal: number
-}
+// type PriceType = {
+//   value: bigint
+//   decimal: number
+// }
 
 const RESULT_DECIMALS = 18
 
@@ -97,17 +98,15 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     let totalTBillUSD = BigInt(0)
 
     // NAV value of TBILL on ETH and ARB
-    const [ethTbillUSD, arbTbillUSD] = await Promise.all([
-      getRate(param.ethTBillPriceContract, this.ethProvider),
-      getRate(param.arbTBillPriceContract, this.arbProvider),
-    ])
+    // const [ethTbillUSD, arbTbillUSD] = await Promise.all([
+    //   getRate(param.ethTBillPriceContract, this.ethProvider),
+    //   getRate(param.arbTBillPriceContract, this.arbProvider),
+    // ])
 
     const results = await Promise.all(
-      addresses
-        .filter((a) => a.token?.toUpperCase() == 'TBILL')
-        .map(async (address: AddressType) => {
-          return this.calculateTbillSharesUSD(context, address, ethTbillUSD, arbTbillUSD)
-        }),
+      addresses.map(async (address: AddressType) => {
+        return this.calculateTbillSharesUSD(context, address)
+      }),
     )
 
     totalTBillUSD = results.reduce((sum: bigint, value: bigint) => sum + value, BigInt(0))
@@ -127,20 +126,13 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async calculateTbillSharesUSD(
-    context: EndpointContext<BaseEndpointTypes>,
-    address: AddressType,
-    ethTbillUSD: PriceType,
-    arbTbillUSD: PriceType,
-  ) {
-    let sharePriceUSD!: PriceType
+  async calculateTbillSharesUSD(context: EndpointContext<BaseEndpointTypes>, address: AddressType) {
+    // let sharePriceUSD!: PriceType
     let provider!: ethers.JsonRpcProvider
 
     if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
-      sharePriceUSD = ethTbillUSD
       provider = this.ethProvider
     } else if (address.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
-      sharePriceUSD = arbTbillUSD
       provider = this.arbProvider
     }
 
@@ -151,13 +143,17 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       })
     }
 
+    const contract = new ethers.Contract(address.contractAddress, OpenEdenTBILLProxy, provider)
+
+    const [sharePriceUSD, decimal, queueLength] = await Promise.all([
+      await getRate(address.priceOracleAddress, provider),
+      contract.decimals(),
+      contract.getWithdrawalQueueLength(),
+    ])
+
     if (sharePriceUSD === undefined) {
       throw new Error('sharePriceUSD is undefined')
     }
-
-    const contract = new ethers.Contract(address.contractAddress, OpenEdenTBILLProxy, provider)
-    const decimal = await contract.decimals()
-    const queueLength = await contract.getWithdrawalQueueLength()
 
     // Total shares per address
     let totalShares = BigInt(0)

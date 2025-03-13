@@ -107,12 +107,12 @@ const inputParameters: InputParameters<TInputParameters> = {
   startUTC: {
     required: false,
     type: 'string',
-    description: 'start time for scheduleWindow in UTC [Format 0000]',
+    description: 'start time for scheduleWindow in UTC [Format HHMM]',
   },
   endUTC: {
     required: false,
     type: 'string',
-    description: 'end time for scheduleWindow in UTC [Format 0000]',
+    description: 'end time for scheduleWindow in UTC [Format HHMM]',
   },
 }
 
