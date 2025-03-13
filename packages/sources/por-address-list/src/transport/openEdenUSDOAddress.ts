@@ -96,7 +96,6 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
     return {
       data: {
-        // @ts-ignore
         result: response,
       },
       statusCode: 200,

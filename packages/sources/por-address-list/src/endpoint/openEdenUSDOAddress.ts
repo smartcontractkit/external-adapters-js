@@ -1,8 +1,16 @@
-import { PoRAddress, PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/por'
+import { PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { addressTransport } from '../transport/openEdenUSDOAddress'
+
+export type PoRTbillAddress = Record<string, unknown> & {
+  contractAddress: string
+  network: string
+  chainId: string
+  token: string
+  priceOracleAddress: string
+}
 
 export const inputParameters = new InputParameters(
   {
@@ -39,7 +47,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: null
     Data: {
-      result: PoRAddress[] | PoRTokenAddress[]
+      result: PoRTbillAddress[] | PoRTokenAddress[]
     }
   }
   Settings: typeof config.settings
