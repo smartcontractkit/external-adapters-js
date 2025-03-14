@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3722](https://github.com/smartcontractkit/external-adapters-js/pull/3722) [`d97b7be`](https://github.com/smartcontractkit/external-adapters-js/commit/d97b7bef892b19ecfbfcf24aebcf3d9adde1f7ba) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Version 1.0.8 and 1.0.9 introduces a bug where you must set ETHEREUM_RPC_CHAIN_ID env var to 1. This version fixed the bug now you don't have to set ETHEREUM_RPC_CHAIN_ID it will default to 1
+
 ## 1.0.9
 
 ### Patch Changes

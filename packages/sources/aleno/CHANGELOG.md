@@ -1,5 +1,11 @@
 # @chainlink/aleno-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- [#3725](https://github.com/smartcontractkit/external-adapters-js/pull/3725) [`93e165f`](https://github.com/smartcontractkit/external-adapters-js/commit/93e165fdad43a92de0a57a2b54a763e97322e80b) Thanks [@dskloetc](https://github.com/dskloetc)! - Change type definition of ResponseSchema to match API
+
 ## 1.1.0
 
 ### Minor Changes
