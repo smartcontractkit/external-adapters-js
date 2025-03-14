@@ -1,11 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-
 exports[`execute tbill endpoint should return success 1`] = `
 {
   "data": {
-      "decimals": 18,
-      "result": "0",
+    "decimals": 18,
+    "result": "0",
   },
   "result": "0",
   "statusCode": 200,
