@@ -116,7 +116,6 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async calculateTbillSharesUSD(context: EndpointContext<BaseEndpointTypes>, address: AddressType) {
-    // let sharePriceUSD!: PriceType
     let provider!: ethers.JsonRpcProvider
 
     if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
@@ -128,7 +127,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     if (!provider) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Missing network environment variables for ${address.chainId}.`,
+        message: `ChainId ${address.chainId} not supported for Tbill.`,
       })
     }
 

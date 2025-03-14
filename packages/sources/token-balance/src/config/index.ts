@@ -21,16 +21,6 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 42161,
   },
-  BASE_RPC_URL: {
-    description: 'RPC url of Base node',
-    type: 'string',
-    default: '',
-  },
-  BASE_RPC_CHAIN_ID: {
-    description: 'Base chain id',
-    type: 'number',
-    default: 8453,
-  },
   SOLANA_RPC_URL: {
     description: 'RPC url of Solana node',
     type: 'string',

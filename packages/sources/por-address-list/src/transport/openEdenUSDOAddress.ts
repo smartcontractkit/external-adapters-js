@@ -131,6 +131,7 @@ const buildTBILLResponse = (addressList: ResponseSchema[]) => {
       token: addr.tokenSymbol,
       priceOracleAddress: addr.tokenPriceOracle,
     }))
+    .sort()
 }
 
 export const addressTransport = new AddressTransport()
