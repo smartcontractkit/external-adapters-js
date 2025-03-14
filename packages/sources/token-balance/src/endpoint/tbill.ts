@@ -8,12 +8,6 @@ export const inputParameters = new InputParameters(
     addresses: {
       required: true,
       type: {
-        network: {
-          aliases: ['chain'],
-          required: false,
-          type: 'string',
-          description: 'Network of the contract',
-        },
         chainId: {
           required: false,
           type: 'string',
@@ -38,7 +32,6 @@ export const inputParameters = new InputParameters(
     {
       addresses: [
         {
-          network: 'Ethereum Mainnet',
           chainId: '1',
           contractAddress: '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a',
           priceOracleAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',

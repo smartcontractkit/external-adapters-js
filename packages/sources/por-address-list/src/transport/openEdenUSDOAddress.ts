@@ -5,6 +5,7 @@ import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/ut
 import OpenEdenUSDOPoRAddressList from '../config/OpenEdenUSDOPoRAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/openEdenUSDOAddress'
 import { ethers } from 'ethers'
+import { addProvider, getProvider } from './providerUtils'
 
 export type AddressTransportTypes = BaseEndpointTypes
 
@@ -65,17 +66,11 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
     const { contractAddress, contractAddressNetwork } = param
+
+    this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
+    const provider = getProvider(contractAddressNetwork, this.providersMap)
+
     const providerDataRequestedUnixMs = Date.now()
-
-    // provider
-    const networkName = contractAddressNetwork.toUpperCase()
-    const networkEnvName = `${networkName}_RPC_URL`
-    const chainIdEnvName = `${networkName}_RPC_CHAIN_ID`
-
-    const rpcUrl = process.env[networkEnvName]
-    const chainId = Number(process.env[chainIdEnvName])
-    const provider = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
-
     const contract = new ethers.Contract(contractAddress, OpenEdenUSDOPoRAddressList, provider)
     const endIndex = await contract.getPoRAddressListLength()
 
@@ -83,11 +78,11 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
     let response
     switch (param.type) {
-      case 'evm':
-        response = buildEVMResponse(addressList)
-        break
       case 'tbill':
         response = buildTBILLResponse(addressList)
+        break
+      case 'other':
+        response = buildOtherResponse(addressList)
     }
 
     if (response == undefined) {
@@ -113,9 +108,9 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   }
 }
 
-const buildEVMResponse = (addressList: ResponseSchema[]) => {
+const buildOtherResponse = (addressList: ResponseSchema[]) => {
   return addressList
-    .filter((addr) => addr.tokenSymbol == 'USDC' || addr.tokenSymbol == 'BUIDL')
+    .filter((addr) => addr.tokenSymbol != 'TBILL')
     .map((addr) => ({
       contractAddress: addr.tokenAddress,
       network: addr.chain,

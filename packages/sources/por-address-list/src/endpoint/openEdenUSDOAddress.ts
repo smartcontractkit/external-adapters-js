@@ -28,9 +28,9 @@ export const inputParameters = new InputParameters(
     type: {
       description:
         'The type of addresses you are looking for. evm is for evm endpoint in token-balance EA. tbill is for tbill endpoint in token-balance EA.',
-      options: ['evm', 'tbill'],
+      options: ['tbill', 'other'],
       type: 'string',
-      default: 'evm',
+      required: true,
     },
   },
   [

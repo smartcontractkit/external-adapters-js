@@ -19,11 +19,6 @@ type AddressType = {
   priceOracleAddress: string
 }
 
-// type PriceType = {
-//   value: bigint
-//   decimal: number
-// }
-
 const RESULT_DECIMALS = 18
 
 export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
@@ -97,12 +92,6 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     // AUM of TBILL across addresses
     let totalTBillUSD = BigInt(0)
 
-    // NAV value of TBILL on ETH and ARB
-    // const [ethTbillUSD, arbTbillUSD] = await Promise.all([
-    //   getRate(param.ethTBillPriceContract, this.ethProvider),
-    //   getRate(param.arbTBillPriceContract, this.arbProvider),
-    // ])
-
     const results = await Promise.all(
       addresses.map(async (address: AddressType) => {
         return this.calculateTbillSharesUSD(context, address)
@@ -145,7 +134,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     const contract = new ethers.Contract(address.contractAddress, OpenEdenTBILLProxy, provider)
 
-    const [sharePriceUSD, decimal, queueLength] = await Promise.all([
+    const [sharePriceUSD, ADDRESS_DECIMAL, queueLength] = await Promise.all([
       await getRate(address.priceOracleAddress, provider),
       contract.decimals(),
       contract.getWithdrawalQueueLength(),
@@ -172,7 +161,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       totalShares = results.reduce((sum: bigint, shares: bigint) => sum + shares, BigInt(0))
     }
 
-    totalShares = totalShares * BigInt(10 ** (RESULT_DECIMALS - Number(decimal)))
+    totalShares = totalShares * BigInt(10 ** (RESULT_DECIMALS - Number(ADDRESS_DECIMAL)))
 
     totalSharesUSD =
       (totalShares *
