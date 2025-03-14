@@ -4,10 +4,10 @@
 exports[`execute tbill endpoint should return success 1`] = `
 {
   "data": {
-        "result": "0",
-        "decimals": 18
-    },
-  "result": "1927900630000000000",
+      "decimals": 18,
+      "result": "0",
+  },
+  "result": "0",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

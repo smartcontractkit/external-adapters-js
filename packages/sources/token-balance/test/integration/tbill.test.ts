@@ -12,7 +12,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL ?? 'http://localhost-eth:8080'
+    process.env.ETHEREUM_RPC_URL =
+      process.env.ETHEREUM_RPC_URL ?? 'http://localhost-eth-mainnet:8080'
     process.env.ETHEREUM_RPC_CHAIN_ID = process.env.ETHEREUM_RPC_CHAIN_ID ?? '1'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
@@ -49,8 +50,8 @@ describe('execute', () => {
       mockETHContractCallResponseSuccess()
 
       const response = await testAdapter.request(data)
-      console.log('Response:', response)
       expect(response.statusCode).toBe(200)
+      console.log('Received Response:', JSON.stringify(response.json(), null, 2))
       expect(response.json()).toMatchSnapshot()
     })
   })
