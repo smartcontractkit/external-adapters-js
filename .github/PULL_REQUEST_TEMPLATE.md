@@ -1,7 +1,3 @@
-<!-- Employees: Please use Clubhouse/Shortcuts's "Open PR" button from the relevant story or include links to relevant Clubhouse/Shortcut stories in your branch name, commit messages, or pull request comments. Do not add links to your pull request description, they will be ignored. https://help.clubhouse.io/hc/en-us/articles/207540323-Using-The-Clubhouse-GitHub-Integration -->
-
-<!-- Employees: Delete this section. -->
-
 ## Closes #ISSUE_NUMBER_GOES_HERE
 
 ## Description

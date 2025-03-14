@@ -1,23 +1,23 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/price'
 
-export interface ResponseSchema {
-  [index: number]: {
-    id: string
-    baseSymbol: string
-    quoteSymbol: string
-    processTimestamp: number
-    processBlockChainId: string
-    processBlockNumber: number
-    processBlockTimestamp: number
-    aggregatedLast7DaysBaseVolume: number
-    price: number
-    aggregatedMarketDepthMinusOnePercentUsdAmount: number
-    aggregatedMarketDepthPlusOnePercentUsdAmount: number
-    aggregatedMarketDepthUsdAmount: number
-    aggregatedLast7DaysUsdVolume: number
-  }
+interface ResponseItem {
+  id: string
+  baseSymbol: string
+  quoteSymbol: string
+  processTimestamp: number
+  processBlockChainId: string
+  processBlockNumber: number
+  processBlockTimestamp: number
+  aggregatedLast7DaysBaseVolume: number
+  price: number
+  aggregatedMarketDepthMinusOnePercentUsdAmount: number
+  aggregatedMarketDepthPlusOnePercentUsdAmount: number
+  aggregatedMarketDepthUsdAmount: number
+  aggregatedLast7DaysUsdVolume: number
 }
+
+export type ResponseSchema = ResponseItem[]
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -59,7 +59,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       let result
       let processTimestamp
 
-      Object.values(response.data).forEach((row) => {
+      response.data.forEach((row) => {
         if (row.baseSymbol === param.base && row.quoteSymbol === param.quote) {
           result = Number(row.price)
           processTimestamp = row.processTimestamp
