@@ -37,8 +37,8 @@ export type Response = {
   Result: null
   Data: {
     fundingRate: number
-    fundingTime: number
-    epochDurationMs: number
+    fundingTimestamp: number
+    epochDuration: number
   }
 }
 

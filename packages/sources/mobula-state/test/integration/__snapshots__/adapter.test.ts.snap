@@ -3,9 +3,9 @@
 exports[`websocket funding rate endpoint have data should return success 1`] = `
 {
   "data": {
-    "epochDurationMs": 28800000,
+    "epochDuration": 28800,
     "fundingRate": 0.009854,
-    "fundingTime": 1740441600000,
+    "fundingTimestamp": 1740441600,
   },
   "result": null,
   "statusCode": 200,
