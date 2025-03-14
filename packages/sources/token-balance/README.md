@@ -22,7 +22,9 @@ Additional env vars in the form `${NETWORK}_RPC_URL` and `${NETWORK}_RPC_CHAIN_I
 |           | ETHEREUM_RPC_CHAIN_ID |                                     Ethereum chain id                                     | number |         |     `1`     |
 |           |   ARBITRUM_RPC_URL    |                                 RPC url of Arbitrum node                                  | string |         |     ``      |
 |           | ARBITRUM_RPC_CHAIN_ID |                                     Arbitrum chain id                                     | number |         |   `42161`   |
-|           |    SOLANA_RPC_URL     |                                      Solana Rpc Url                                       | string |         |     ``      |
+|           |     BASE_RPC_URL      |                                   RPC url of Base node                                    | string |         |     ``      |
+|           |   BASE_RPC_CHAIN_ID   |                                       Base chain id                                       | number |         |   `8453`    |
+|           |    SOLANA_RPC_URL     |                                  RPC url of Solana node                                   | string |         |     ``      |
 |           |   SOLANA_COMMITMENT   |                            Solana transaction commitment level                            | string |         | `finalized` |
 |           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |   `10000`   |
 
@@ -36,9 +38,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                 Options                                                  | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solvjlp](#solvjlp-endpoint) |  `evm`  |
+| Required? |   Name   |     Description     |  Type  |                                                              Options                                                               | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint) |  `evm`  |
 
 ## Evm Endpoint
 
@@ -146,6 +148,42 @@ Request:
     "splitMainAccount": "",
     "eigenStrategy": "0x93c4b944D05dfe6df7645A86cd2206016c51564D",
     "eigenStrategyUser": ""
+  }
+}
+```
+
+---
+
+## Tbill Endpoint
+
+`tbill` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |             Name             | Aliases |        Description        |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------------------------: | :-----: | :-----------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |          addresses           |         | List of addresses to read | object[] |         |         |            |                |
+|           |      addresses.network       | `chain` |  Network of the contract  |  string  |         |         |            |                |
+|           |      addresses.chainId       |         |  Chain ID of the network  |  string  |         |         |            |                |
+|    ✅     |  addresses.contractAddress   |         | Address of token contract |  string  |         |         |            |                |
+|    ✅     | addresses.priceOracleAddress |         |  Address of price oracle  |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "tbill",
+    "addresses": [
+      {
+        "network": "Ethereum Mainnet",
+        "chainId": "1",
+        "contractAddress": "0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a",
+        "priceOracleAddress": "0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40"
+      }
+    ]
   }
 }
 ```
