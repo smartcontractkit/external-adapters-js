@@ -135,3 +135,80 @@ export const mockBASEMainnetContractCallResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockETHContractCallResponseSuccess = (): nock.Scope =>
+  nock('http://localhost-eth:8080', {})
+    .post('/', (body: any) => Array.isArray(body))
+    .reply(
+      200,
+      (uri, requestBody: any[]) => {
+        return requestBody.map((request: JsonRpcPayload) => {
+          console.log(request)
+          if (request.method === 'eth_chainId') {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x1',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xce9a6626eb99eaea829d7fa613d5d0a2eae45f40' &&
+            request.params[0].data === '0x313ce567' // decimals()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000008',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xce9a6626eb99eaea829d7fa613d5d0a2eae45f40' &&
+            request.params[0].data === '0x50d25bcd' // latestAnswer()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x000000000000000000000000000000000000000000000000000000000687ee92',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a' &&
+            request.params[0].data === '0x313ce567' // decimals()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000006',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a' &&
+            request.params[0].data === '0xc5f24068' // getWithdrawalQueueLength()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            }
+          } else {
+            // Default response for unsupported calls
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              error: { code: -32601, message: 'Method not found' },
+            }
+          }
+        })
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
