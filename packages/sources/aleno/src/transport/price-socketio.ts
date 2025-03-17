@@ -20,8 +20,21 @@ export type SocketIOTransportTypes = BaseEndpointTypes & {
   }
 }
 
+const getSetDelta = (original: Set<string>, toRemove: Set<string>): string[] => {
+  const delta: string[] = []
+  for (const item of original) {
+    if (!toRemove.has(item)) {
+      delta.push(item)
+    }
+  }
+  return delta
+}
+
+class TimeoutError extends Error {}
+
 export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes> {
   socket?: Socket = undefined
+  confirmedSubscriptions: Set<string> | undefined = new Set()
 
   constructor() {
     super()
@@ -71,9 +84,115 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
     })
   }
 
+  async emitAndUpdateConfirmedSubscriptions(
+    context: EndpointContext<SocketIOTransportTypes>,
+    event: string,
+    subscriptions: string[],
+  ): Promise<void> {
+    type SubscribeResponse = { status: string; subscriptionsAfterUpdate: string[] }
+
+    // We block on getting the confirmed subscriptions to avoid race
+    // conditions between concurrent subscription updates.
+    // So we need to timeout to avoid blocking all progress or keeping a race
+    // condition if the background execute loop times out and continues.
+    const timeoutPromise = new Promise<SubscribeResponse>((_, reject) => {
+      setTimeout(() => {
+        reject(new TimeoutError('Timed out waiting for subscription confirmation'))
+      }, context.adapterSettings.API_TIMEOUT)
+    })
+
+    const subscribePromise = new Promise<SubscribeResponse>((resolve, reject) => {
+      this.socket!.emit(event, subscriptions, (response: SubscribeResponse) => {
+        if (response.status === 'ok') {
+          logger.info({
+            msg: 'Subscription update successful:',
+            response,
+          })
+          // Don't update confirmedSubscriptions here in case the request
+          // has already timed out.
+          resolve(response)
+        } else {
+          logger.error({ msg: 'Subscription update failed:', response })
+          reject(response)
+        }
+      })
+    })
+
+    try {
+      const response: SubscribeResponse = await Promise.race([subscribePromise, timeoutPromise])
+      this.confirmedSubscriptions = new Set(
+        response.subscriptionsAfterUpdate.map((sub) => sub.toUpperCase()),
+      )
+    } catch (error) {
+      // We can't be sure if the update was made, so we make sure we fetch
+      // subscriptions again by clearing confirmedSubscriptions.
+      this.confirmedSubscriptions = undefined
+
+      if (error instanceof TimeoutError) {
+        logger.error({ msg: error.message, subscriptions })
+      }
+      throw error
+    }
+  }
+
+  addSubscriptions(
+    context: EndpointContext<SocketIOTransportTypes>,
+    subscriptions: string[],
+  ): Promise<void> {
+    return this.emitAndUpdateConfirmedSubscriptions(context, 'subscribe', subscriptions)
+  }
+
+  removeSubscriptions(
+    context: EndpointContext<SocketIOTransportTypes>,
+    subscriptions: string[],
+  ): Promise<void> {
+    return this.emitAndUpdateConfirmedSubscriptions(context, 'unsubscribe', subscriptions)
+  }
+
+  async reconcileSubscriptions(
+    context: EndpointContext<SocketIOTransportTypes>,
+    subscriptions: SubscriptionDeltas<TypeFromDefinition<SocketIOTransportTypes['Parameters']>>,
+  ) {
+    if (this.confirmedSubscriptions === undefined) {
+      // Subscribe to get the current subscriptions in the response.
+      await this.addSubscriptions(context, [])
+    }
+    if (this.confirmedSubscriptions === undefined) {
+      logger.error('Unable to get current subscriptions')
+      return
+    }
+
+    const desiredSubscriptions = new Set(
+      subscriptions.desired.map((sub) => `${sub.base}/${sub.quote}`.toUpperCase()),
+    )
+
+    const toAdd = getSetDelta(desiredSubscriptions, this.confirmedSubscriptions)
+    const toRemove = getSetDelta(this.confirmedSubscriptions, desiredSubscriptions)
+
+    if (toAdd.length > 0 || toRemove.length > 0) {
+      logger.info({
+        msg: 'Changing subscriptions',
+        subscriptions,
+        confirmedSubscriptions: this.confirmedSubscriptions,
+        toAdd,
+        toRemove,
+      })
+    }
+
+    if (toAdd.length > 0) {
+      // Avoid updating subscriptions in parallel to avoid a race condition
+      // between responses updating confirmedSubscriptions.
+      await this.addSubscriptions(context, toAdd)
+    }
+
+    if (toRemove.length > 0) {
+      await this.removeSubscriptions(context, toRemove)
+    }
+  }
+
   async streamHandler(
     context: EndpointContext<SocketIOTransportTypes>,
-    _: SubscriptionDeltas<TypeFromDefinition<SocketIOTransportTypes['Parameters']>>,
+    subscriptions: SubscriptionDeltas<TypeFromDefinition<SocketIOTransportTypes['Parameters']>>,
   ): Promise<void> {
     let providerDataStreamEstablishedTime: number
 
@@ -106,6 +225,9 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
       this.socket.on('new_token_states', (data) => {
         this.parseResponseData(providerDataStreamEstablishedTime, data)
       })
+    } else {
+      // Await to avoid race conditions with future updates.
+      await this.reconcileSubscriptions(context, subscriptions)
     }
 
     // The background execute loop no longer sleeps between executions, so we have to do it here

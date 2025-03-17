@@ -15,7 +15,7 @@ export const config = new AdapterConfig({
   WS_API_ENDPOINT: {
     description: 'WS endpoint for Aleno',
     type: 'string',
-    default: 'https://ws-state-price.aleno.ai',
+    default: 'https://state-price-socket.aleno.ai',
   },
 
   BACKGROUND_EXECUTE_MS: {
