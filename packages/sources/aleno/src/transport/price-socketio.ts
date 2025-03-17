@@ -48,7 +48,7 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
     providerDataStreamEstablishedTime: number,
     data: ResponseSchema,
   ): Promise<void> {
-    Object.values(data).forEach((row) => {
+    data.forEach((row) => {
       this.responseCache.write(this.name, [
         {
           params: {
