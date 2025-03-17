@@ -35,13 +35,31 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('openedenUSDO endpoint', () => {
+  describe('openedenAddress endpoint tbill type', () => {
     it('should return success', async () => {
       const data = {
         endpoint: 'openedenAddress',
         contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
         contractAddressNetwork: 'BASE',
         type: 'tbill',
+      }
+
+      mockBaseContractCallResponseSuccess()
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('openedenAddress endpoint other type', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'openedenAddress',
+        contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
+        contractAddressNetwork: 'BASE',
+        type: 'other',
       }
 
       mockBaseContractCallResponseSuccess()

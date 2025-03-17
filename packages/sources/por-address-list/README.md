@@ -194,11 +194,11 @@ Request:
 
 ### Input Params
 
-| Required? |          Name          | Aliases |                                                               Description                                                                |  Type  |    Options     | Default | Depends On | Not Valid With |
-| :-------: | :--------------------: | :-----: | :--------------------------------------------------------------------------------------------------------------------------------------: | :----: | :------------: | :-----: | :--------: | :------------: |
-|    ✅     |    contractAddress     |         |                                           The contract address holding the custodial addresses                                           | string |                |         |            |                |
-|    ✅     | contractAddressNetwork |         |                   The network of the contract, used to match {NETWORK}\_RPC_URL and {NETWORK}\_RPC_CHAIN_ID in env var                   | string |                |         |            |                |
-|           |          type          |         | The type of addresses you are looking for. evm is for evm endpoint in token-balance EA. tbill is for tbill endpoint in token-balance EA. | string | `evm`, `tbill` |  `evm`  |            |                |
+| Required? |          Name          | Aliases |                                                               Description                                                                |  Type  |     Options      | Default | Depends On | Not Valid With |
+| :-------: | :--------------------: | :-----: | :--------------------------------------------------------------------------------------------------------------------------------------: | :----: | :--------------: | :-----: | :--------: | :------------: |
+|    ✅     |    contractAddress     |         |                                           The contract address holding the custodial addresses                                           | string |                  |         |            |                |
+|    ✅     | contractAddressNetwork |         |                   The network of the contract, used to match {NETWORK}\_RPC_URL and {NETWORK}\_RPC_CHAIN_ID in env var                   | string |                  |         |            |                |
+|    ✅     |          type          |         | The type of addresses you are looking for. evm is for evm endpoint in token-balance EA. tbill is for tbill endpoint in token-balance EA. | string | `other`, `tbill` |         |            |                |
 
 ### Example
 
