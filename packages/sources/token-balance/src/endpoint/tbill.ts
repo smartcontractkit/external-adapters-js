@@ -18,6 +18,12 @@ export const inputParameters = new InputParameters(
           type: 'string',
           description: 'Address of token contract',
         },
+        wallets: {
+          required: true,
+          type: 'string',
+          array: true,
+          description: 'Array of wallets to sum balances',
+        },
         priceOracleAddress: {
           required: true,
           type: 'string',
@@ -34,6 +40,7 @@ export const inputParameters = new InputParameters(
         {
           chainId: '1',
           contractAddress: '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a',
+          wallets: ['0x5EaFF7af80488033Bc845709806D5Fae5291eB88'],
           priceOracleAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
         },
       ],

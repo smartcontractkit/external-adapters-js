@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute openedenUSDO endpoint should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "chainId": "1",
+        "contractAddress": "0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a",
+        "network": "Ethereum Mainnet",
+        "priceOracleAddress": "0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40",
+        "token": "TBILL",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+      {
+        "chainId": "42161",
+        "contractAddress": "0xF84D28A8D28292842dD73D1c5F99476A80b6666A",
+        "network": "Arbitrum One",
+        "priceOracleAddress": "0xc0952c8ba068c887B675B4182F3A65420D045F46",
+        "token": "TBILL",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

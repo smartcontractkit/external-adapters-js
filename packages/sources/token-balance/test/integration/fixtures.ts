@@ -171,6 +171,28 @@ export const mockETHContractCallResponseSuccess = (): nock.Scope =>
             }
           } else if (
             request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
+            request.params[0].data ===
+              '0xf97832410000000000000000000000000000000000000000000000000000000000000000' // getWithdrawalQueueInfo()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
+            request.params[0].data ===
+              '0x70a082310000000000000000000000005eaff7af80488033bc845709806d5fae5291eb88' // balanceOf()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x00000000000000000000000000000000000000000000000000002098639125aa',
+            }
+          } else if (
+            request.method === 'eth_call' &&
             request.params[0].to === '0xce9a6626eb99eaea829d7fa613d5d0a2eae45f40' &&
             request.params[0].data === '0x313ce567' // decimals()
           ) {
@@ -187,7 +209,7 @@ export const mockETHContractCallResponseSuccess = (): nock.Scope =>
             return {
               jsonrpc: '2.0',
               id: request.id,
-              result: '0x000000000000000000000000000000000000000000000000000000000687ee92',
+              result: '0x0000000000000000000000000000000000000000000000000000000006882052',
             }
           } else {
             // Default response for unsupported calls

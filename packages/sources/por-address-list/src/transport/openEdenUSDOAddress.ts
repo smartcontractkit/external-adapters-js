@@ -129,6 +129,7 @@ const buildTBILLResponse = (addressList: ResponseSchema[]) => {
       network: addr.chain,
       chainId: addr.chainId.toString(),
       token: addr.tokenSymbol,
+      wallets: [addr.yourVaultAddress],
       priceOracleAddress: addr.tokenPriceOracle,
     }))
     .sort()
