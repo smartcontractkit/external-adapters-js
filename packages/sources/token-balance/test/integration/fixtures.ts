@@ -135,3 +135,101 @@ export const mockBASEMainnetContractCallResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockETHContractCallResponseSuccess = (): nock.Scope =>
+  nock('http://localhost-eth-mainnet:8080', {})
+    .post('/', (body: any) => Array.isArray(body))
+    .reply(
+      200,
+      (uri, requestBody: any[]) => {
+        return requestBody.map((request: JsonRpcPayload) => {
+          if (request.method === 'eth_chainId') {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x1',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
+            request.params[0].data === '0x313ce567' // decimals()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000006',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
+            request.params[0].data === '0xc5f24068' // getWithdrawalQueueLength()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
+            request.params[0].data ===
+              '0xf97832410000000000000000000000000000000000000000000000000000000000000000' // getWithdrawalQueueInfo()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
+            request.params[0].data ===
+              '0x70a082310000000000000000000000005eaff7af80488033bc845709806d5fae5291eb88' // balanceOf()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x00000000000000000000000000000000000000000000000000002098639125aa',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xce9a6626eb99eaea829d7fa613d5d0a2eae45f40' &&
+            request.params[0].data === '0x313ce567' // decimals()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000008',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xce9a6626eb99eaea829d7fa613d5d0a2eae45f40' &&
+            request.params[0].data === '0x50d25bcd' // latestAnswer()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000006882052',
+            }
+          } else {
+            // Default response for unsupported calls
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              error: { code: -32601, message: 'Method not found' },
+            }
+          }
+        })
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
