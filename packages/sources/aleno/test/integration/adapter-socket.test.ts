@@ -29,8 +29,8 @@ describe('execute', () => {
       testAdapter: {} as TestAdapter<never>,
     })
 
-    socket.clientMock.emit('initial_token_states', {
-      0: {
+    socket.clientMock.emit('initial_token_states', [
+      {
         id: 'FRAX/USD',
         baseSymbol: 'FRAX',
         quoteSymbol: 'USD',
@@ -45,7 +45,7 @@ describe('execute', () => {
         aggregatedMarketDepthUsdAmount: 41057587.41750349,
         aggregatedLast7DaysUsdVolume: 92915562.18873177,
       },
-    })
+    ])
   })
 
   afterAll(async () => {
