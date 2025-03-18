@@ -94,8 +94,8 @@ const getFundingRateResult = (
       result: null,
       data: {
         fundingRate: fundingRate.fundingRate,
-        fundingTime: fundingRate.fundingTime,
-        epochDurationMs: fundingRate.epochDurationMs,
+        fundingTimestamp: Math.trunc(fundingRate.fundingTime / 1000),
+        epochDuration: Math.trunc(fundingRate.epochDurationMs / 1000),
       },
     },
   }
