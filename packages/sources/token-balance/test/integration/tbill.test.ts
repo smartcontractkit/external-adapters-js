@@ -52,7 +52,6 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      console.log('Received Response:', JSON.stringify(response.json(), null, 2))
       expect(response.json()).toMatchSnapshot()
     })
   })

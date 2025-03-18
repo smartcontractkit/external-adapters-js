@@ -9,6 +9,7 @@ export type PoRTbillAddress = Record<string, unknown> & {
   network: string
   chainId: string
   token: string
+  wallets: string[]
   priceOracleAddress: string
 }
 

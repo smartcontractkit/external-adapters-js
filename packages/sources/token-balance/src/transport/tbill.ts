@@ -142,12 +142,14 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       OpenEdenTBILLProxy,
       provider,
     )
-    const [sharePriceUSD, CONTRACT_DECIMALS, queueLength, balanceResponse] = await Promise.all([
-      getRate(address.priceOracleAddress, provider),
-      contract.decimals(),
-      contract.getWithdrawalQueueLength(),
-      Promise.all(address.wallets.map((wallet) => contract.balanceOf(wallet))),
-    ])
+    const [sharePriceUSD, contractResultDecimals, queueLength, balanceResponse] = await Promise.all(
+      [
+        getRate(address.priceOracleAddress, provider),
+        contract.decimals(),
+        contract.getWithdrawalQueueLength(),
+        Promise.all(address.wallets.map((wallet) => contract.balanceOf(wallet))),
+      ],
+    )
 
     if (sharePriceUSD === undefined) {
       throw new Error('sharePriceUSD is undefined')
@@ -155,15 +157,10 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     let totalSharesUSD = BigInt(0)
     // TBILL x NAV Per Share Feed to Derive Total Value in $ USD.
-    totalSharesUSD += await this.getShareAum(balanceResponse, sharePriceUSD, CONTRACT_DECIMALS)
+    totalSharesUSD += await this.getShareAum(balanceResponse, sharePriceUSD, contractResultDecimals)
 
     // TBILL Withdrawal Queue Balance
-    totalSharesUSD += await this.getWithdrawalQueueAum(
-      queueLength,
-      contract,
-      sharePriceUSD,
-      CONTRACT_DECIMALS,
-    )
+    totalSharesUSD += await this.getWithdrawalQueueAum(queueLength, contract, sharePriceUSD)
 
     return totalSharesUSD
   }
@@ -171,13 +168,13 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async getShareAum(
     balanceResponse: bigint[],
     sharePriceUSD: SharePriceType,
-    CONTRACT_DECIMALS: bigint,
+    contractResultDecimals: bigint,
   ) {
     let totalShares = BigInt(0)
     totalShares = balanceResponse.reduce((accumulator, value) => {
       return (
         accumulator +
-        BigInt(value) * BigInt(Math.pow(10, RESULT_DECIMALS - Number(CONTRACT_DECIMALS)))
+        BigInt(value) * BigInt(Math.pow(10, RESULT_DECIMALS - Number(contractResultDecimals)))
       )
     }, BigInt(0))
 
@@ -191,9 +188,8 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   async getWithdrawalQueueAum(
     queueLength: bigint,
-    contract: Contract,
+    tbillWithrawalQueueContract: Contract,
     sharePriceUSD: SharePriceType,
-    CONTRACT_DECIMALS: bigint,
   ) {
     let totalShares = BigInt(0)
     if (queueLength > 0) {
@@ -201,12 +197,13 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
       const results = await Promise.all(
         indices.map(async (index) => {
-          const queueInfo = await contract.getWithdrawalQueueInfo(index)
+          const queueInfo = await tbillWithrawalQueueContract.getWithdrawalQueueInfo(index)
           return queueInfo.shares
         }),
       )
 
       totalShares = results.reduce((sum: bigint, shares: bigint) => sum + shares, BigInt(0))
+      totalShares = totalShares * BigInt(10 ** 6)
 
       return (
         (totalShares *
@@ -216,7 +213,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       )
     }
 
-    return totalShares * BigInt(10 ** (RESULT_DECIMALS - Number(CONTRACT_DECIMALS)))
+    return totalShares
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
