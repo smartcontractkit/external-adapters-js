@@ -160,7 +160,12 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     totalSharesUSD += await this.getShareAum(balanceResponse, sharePriceUSD, contractResultDecimals)
 
     // TBILL Withdrawal Queue Balance
-    totalSharesUSD += await this.getWithdrawalQueueAum(queueLength, contract, sharePriceUSD)
+    totalSharesUSD += await this.getWithdrawalQueueAum(
+      queueLength,
+      contract,
+      sharePriceUSD,
+      contractResultDecimals,
+    )
 
     return totalSharesUSD
   }
@@ -190,8 +195,10 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     queueLength: bigint,
     tbillWithrawalQueueContract: Contract,
     sharePriceUSD: SharePriceType,
+    contractResultDecimals: bigint,
   ) {
     let totalShares = BigInt(0)
+
     if (queueLength > 0) {
       const indices = [...Array(queueLength).keys()]
 
@@ -203,7 +210,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       )
 
       totalShares = results.reduce((sum: bigint, shares: bigint) => sum + shares, BigInt(0))
-      totalShares = totalShares * BigInt(10 ** 6)
+      totalShares = totalShares * BigInt(10 ** (RESULT_DECIMALS - Number(contractResultDecimals)))
 
       return (
         (totalShares *
