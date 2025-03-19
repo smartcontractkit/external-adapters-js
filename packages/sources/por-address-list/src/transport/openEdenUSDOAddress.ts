@@ -74,7 +74,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
     const contract = new ethers.Contract(contractAddress, OpenEdenUSDOPoRAddressList, provider)
     const endIndex = await contract.getPoRAddressListLength()
 
-    const addressList = await contract.getPoRAddressList(0, endIndex - 1)
+    const addressList = await contract.getPoRAddressList(0, endIndex)
 
     let response
     switch (param.type) {
