@@ -1,4 +1,5 @@
 [![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml)
+[![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/github-code-scanning/codeql)
 
 # Chainlink External Adapters (TypeScript)
 
