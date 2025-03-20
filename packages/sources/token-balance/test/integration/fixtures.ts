@@ -167,7 +167,7 @@ export const mockETHContractCallResponseSuccess = (): nock.Scope =>
             return {
               jsonrpc: '2.0',
               id: request.id,
-              result: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              result: '0x0000000000000000000000000000000000000000000000000000000000000001',
             }
           } else if (
             request.method === 'eth_call' &&
