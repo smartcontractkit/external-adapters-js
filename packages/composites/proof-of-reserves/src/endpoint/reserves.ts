@@ -14,6 +14,7 @@ import {
 import { runReduceAdapter } from '../utils/reduce'
 import { getValidAddresses } from '../utils/addressValidator'
 import { Config } from '../config'
+import { extractDate } from '../utils/scheduledTrigger'
 
 export const supportedEndpoints = ['reserves']
 
@@ -28,6 +29,8 @@ export type TInputParameters = {
   disableAddressValidation?: boolean
   disableDuplicateAddressFiltering?: boolean
   description?: string
+  startUTC?: string
+  endUTC?: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -101,6 +104,16 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'Optional human readable description on what this request is about',
   },
+  startUTC: {
+    required: false,
+    type: 'string',
+    description: 'start time for scheduleWindow in UTC [Format HHMM]',
+  },
+  endUTC: {
+    required: false,
+    type: 'string',
+    description: 'end time for scheduleWindow in UTC [Format HHMM]',
+  },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, config.options)
@@ -110,6 +123,19 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const indexer = validator.validated.data.indexer.toUpperCase()
   // TODO: defaults fill as non-nullable
   const confirmations = validator.validated.data.confirmations as number
+
+  // check schedule window
+  if (validator.validated.data.startUTC && validator.validated.data.endUTC) {
+    const startUTC = extractDate(validator.validated.data.startUTC)
+    const endUTC = extractDate(validator.validated.data.endUTC)
+    const currentUTC = new Date()
+
+    if (currentUTC < startUTC || currentUTC > endUTC) {
+      throw new Error(
+        `Skipping request. Current UTC Hour: ${currentUTC} outside schedule window of start: ${startUTC} and end: ${endUTC}`,
+      )
+    }
+  }
 
   // TODO: type input
   const protocolOutput = await runProtocolAdapter(
