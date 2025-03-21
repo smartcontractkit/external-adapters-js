@@ -1,5 +1,15 @@
 # @chainlink/aleno-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#3728](https://github.com/smartcontractkit/external-adapters-js/pull/3728) [`0c2f278`](https://github.com/smartcontractkit/external-adapters-js/commit/0c2f278e486d7da630c1b41356e35038e1bf697b) Thanks [@dskloetc](https://github.com/dskloetc)! - Subscribe and unsubscribe to assets on-demand. This requires using a different value for `WS_API_ENDPOINT`: "https://state-price-socket.aleno.ai" instead of "https://ws-state-price.aleno.ai". The default value has been changed but users who set this value explicitly will have to change it.
+
+### Patch Changes
+
+- [#3739](https://github.com/smartcontractkit/external-adapters-js/pull/3739) [`6920e67`](https://github.com/smartcontractkit/external-adapters-js/commit/6920e67081583de936806af89c44e1be807fc878) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 1.1.1
 
 ### Patch Changes
