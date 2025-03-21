@@ -1,5 +1,15 @@
 # @chainlink/token-balance-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3732](https://github.com/smartcontractkit/external-adapters-js/pull/3732) [`0ae0700`](https://github.com/smartcontractkit/external-adapters-js/commit/0ae07005a03447e3156b328355b8ebf8cb963529) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - OpenEden USDO PoR
+
+### Patch Changes
+
+- [#3739](https://github.com/smartcontractkit/external-adapters-js/pull/3739) [`6920e67`](https://github.com/smartcontractkit/external-adapters-js/commit/6920e67081583de936806af89c44e1be807fc878) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 1.1.0
 
 ### Minor Changes
