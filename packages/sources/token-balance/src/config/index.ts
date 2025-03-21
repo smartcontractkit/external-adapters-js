@@ -22,7 +22,7 @@ export const config = new AdapterConfig({
     default: 42161,
   },
   SOLANA_RPC_URL: {
-    description: 'Solana Rpc Url',
+    description: 'RPC url of Solana node',
     type: 'string',
     default: '',
   },
