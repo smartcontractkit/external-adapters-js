@@ -58,6 +58,12 @@ export const blocksizeDefaultWebsocketOpenHandler = (
         logger.debug('Got logged in response, connection is ready')
         resolve()
       } else {
+        if (parsed.error.message === 'invalid API key') {
+          logger.warn(`Possible Solutions:
+            1. Doublecheck your supplied credentials.
+            2. Contact Data Provider to ensure your subscription is active
+            3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please contact us.`)
+        }
         reject(new Error(`Failed to make WS connection: ${JSON.stringify(parsed)}`))
       }
     })

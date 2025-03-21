@@ -1,3 +1,7 @@
+[![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml)
+[![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/github-code-scanning/codeql)
+[![](https://img.shields.io/github/license/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/blob/main/LICENSE)
+
 # Chainlink External Adapters (TypeScript)
 
 This repository contains the source code for Chainlink external adapters. If you would like to contribute, please see the [Contributing](./CONTRIBUTING.md) page for more details.
