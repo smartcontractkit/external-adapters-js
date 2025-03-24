@@ -1,5 +1,15 @@
 # @chainlink/market-status-adapter
 
+## 1.2.12
+
+### Patch Changes
+
+- [#3739](https://github.com/smartcontractkit/external-adapters-js/pull/3739) [`6920e67`](https://github.com/smartcontractkit/external-adapters-js/commit/6920e67081583de936806af89c44e1be807fc878) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- Updated dependencies [[`6920e67`](https://github.com/smartcontractkit/external-adapters-js/commit/6920e67081583de936806af89c44e1be807fc878), [`ce7ce5d`](https://github.com/smartcontractkit/external-adapters-js/commit/ce7ce5d72215f25714f59c8962e36cb554da2f2e)]:
+  - @chainlink/tradinghours-adapter@0.1.14
+  - @chainlink/ncfx-adapter@4.4.0
+
 ## 1.2.11
 
 ### Patch Changes
