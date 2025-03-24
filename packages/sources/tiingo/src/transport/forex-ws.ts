@@ -1,5 +1,8 @@
 import { BaseEndpointTypes } from '../endpoint/forex'
 import { TiingoWebsocketReverseMappingTransport } from './utils'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('TiingoWebsocketReverseMappingTransport')
 
 interface Message {
   service: string
@@ -24,6 +27,15 @@ export const wsTransport: TiingoWebsocketReverseMappingTransport<WsTransportType
     },
 
     handlers: {
+      close: (event) => {
+        if (event.code != 1000) {
+          logger.error('Possible issue with credentials')
+          logger.error(`Possible Solution:
+            1. Doublecheck your supplied credentials.
+            2. Contact Data Provider to ensure your subscription is active
+            3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please make contact with us and we will look into it.`)
+        }
+      },
       message(message) {
         const pair = wsTransport.getReverseMapping(message.data[tickerIndex].toLowerCase())
 

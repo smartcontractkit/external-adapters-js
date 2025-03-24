@@ -1,6 +1,9 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { BaseEndpointTypes } from '../endpoint/iex'
 import { TiingoWebsocketTransport } from './utils'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('TiingoWebsocketTransport')
 
 interface Message {
   service: string
@@ -35,6 +38,15 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
     },
 
     handlers: {
+      close: (event) => {
+        if (event.code != 1000) {
+          logger.error('Possible issue with credentials')
+          logger.error(`Possible Solution:
+            1. Doublecheck your supplied credentials.
+            2. Contact Data Provider to ensure your subscription is active
+            3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please make contact with us and we will look into it.`)
+        }
+      },
       message(message, context) {
         // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
         if (message.messageType === 'H') {
