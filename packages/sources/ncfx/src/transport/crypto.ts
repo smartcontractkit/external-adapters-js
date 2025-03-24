@@ -28,7 +28,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   handlers: {
     open(connection, context) {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         // Set up listener
         connection.addEventListener('message', (event: MessageEvent) => {
           const parsed = JSON.parse(event.data.toString())
@@ -50,12 +50,34 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
             password: context.adapterSettings.API_PASSWORD,
           }),
         )
+      }).catch((error) => {
+        console.log(error.message)
+        if (
+          error.message ===
+          'Unexpected message after WS connection open: {"Type":"Error","Message":"Login failed, Invalid login"}'
+        ) {
+          logger.error(`Login failed, Invalid login`)
+          logger.error(`Possible Solutions:
+            1. Doublecheck your supplied credentials.
+            2. Contact Data Provider to ensure your subscription is active
+            3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please make contact with us and we will look into it.`)
+        }
+        throw error
       })
     },
 
     message(message: WsMessage) {
       if (isInfoMessage(message)) {
         logger.debug(`Received message ${message.Type}: ${message.Message}`)
+        if (
+          message.Message ===
+          "Request contains pairs you don't have access to, please check the request"
+        ) {
+          logger.error(`Request contains pairs you don't have access to`)
+          logger.error(`Possible Solutions:
+            1. Confirm you are using the same symbol found in the job spec with the correct case.
+            2. There maybe an issue with the job spec or the Data Provider may have delisted the asset. Reach out to Chainlink Labs.`)
+        }
         return
       }
 
