@@ -51,7 +51,6 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
           }),
         )
       }).catch((error) => {
-        console.log(error.message)
         if (
           error.message ===
           'Unexpected message after WS connection open: {"Type":"Error","Message":"Login failed, Invalid login"}'
