@@ -1,5 +1,12 @@
 # @chainlink/linear-finance-adapter
 
+## 2.3.109
+
+### Patch Changes
+
+- Updated dependencies [[`6920e67`](https://github.com/smartcontractkit/external-adapters-js/commit/6920e67081583de936806af89c44e1be807fc878)]:
+  - @chainlink/token-allocation-adapter@1.13.14
+
 ## 2.3.108
 
 ### Patch Changes

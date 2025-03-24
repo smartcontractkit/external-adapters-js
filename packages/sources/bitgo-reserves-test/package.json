@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitgo-reserves-test-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chainlink bitgo-reserves-test adapter.",
   "keywords": [
     "Chainlink",
