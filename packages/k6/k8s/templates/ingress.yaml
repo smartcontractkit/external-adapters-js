@@ -20,7 +20,7 @@ spec:
                 port: 
                   number: {{ .Values.service.port }}
           - path: /{{ .Values.name }}/(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: k6-{{ .Values.name }}

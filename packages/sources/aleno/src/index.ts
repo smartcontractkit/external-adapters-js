@@ -17,4 +17,6 @@ export const adapter = new Adapter({
   },
 })
 
+console.log('dskloetx says hello')
+
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
