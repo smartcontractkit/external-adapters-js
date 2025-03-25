@@ -57,7 +57,7 @@ Adapter that checks the Layer 2 Sequencer status
 |           |          `SONEIUM_DELTA`          |  Maximum time in milliseconds from last seen block to consider Soneium sequencer healthy  |         |                          120000 (2 min)                          |
 |           |        `CELO_RPC_ENDPOINT`        |                                     Celo RPC Endpoint                                     |         |                      https://forno.celo.org                      |
 |           |      `CELO_HEALTH_ENDPOINT`       |                                   Celo Health Endpoint                                    |         |                                                                  |
-|           |          `CELO_CHAIN_ID`          |                              The chain id to connect to Celo                              |         |                               1868                               |
+|           |          `CELO_CHAIN_ID`          |                              The chain id to connect to Celo                              |         |                              42220                               |
 |           |           `CELO_DELTA`            |   Maximum time in milliseconds from last seen block to consider Celo sequencer healthy    |         |                          120000 (2 min)                          |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
