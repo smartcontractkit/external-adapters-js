@@ -201,4 +201,20 @@ describe('execute', () => {
       await sendRequestAndExpectStatus(data, 1)
     })
   })
+
+  describe('celo network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'celo',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
 })

@@ -66,6 +66,28 @@ exports[`execute base network should return success when transaction submission 
 }
 `;
 
+exports[`execute celo network should return failure if tx not required 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute celo network should return success when transaction submission is known 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute ink network should return failure if tx not required 1`] = `
 {
   "data": {
