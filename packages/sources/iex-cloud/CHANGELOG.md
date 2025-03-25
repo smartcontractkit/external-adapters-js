@@ -1,5 +1,11 @@
 # @chainlink/iex-cloud-adapter
 
+## 2.0.35
+
+### Patch Changes
+
+- [#3739](https://github.com/smartcontractkit/external-adapters-js/pull/3739) [`6920e67`](https://github.com/smartcontractkit/external-adapters-js/commit/6920e67081583de936806af89c44e1be807fc878) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 2.0.34
 
 ### Patch Changes

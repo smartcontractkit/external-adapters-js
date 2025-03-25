@@ -1,5 +1,11 @@
 # @chainlink/m0-adapter
 
+## 0.0.11
+
+### Patch Changes
+
+- [#3739](https://github.com/smartcontractkit/external-adapters-js/pull/3739) [`6920e67`](https://github.com/smartcontractkit/external-adapters-js/commit/6920e67081583de936806af89c44e1be807fc878) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 0.0.10
 
 ### Patch Changes
