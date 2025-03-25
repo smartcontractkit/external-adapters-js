@@ -24,62 +24,156 @@ describe('impliedPrice', () => {
   describe('successful calls', () => {
     const jobID = '1'
 
-    it('return success without comma separated sources', async () => {
-      mockSuccessfulResponseCoingecko()
-      mockSuccessfulResponseCoinpaprika()
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          dividendSources: ['coingecko', 'coinpaprika'],
-          divisorSources: ['coingecko', 'coinpaprika'],
-          dividendInput: {
-            from: 'LINK',
-            to: 'USD',
+    describe('with operand1 and operand2 parameters', () => {
+      it('return success without comma separated sources', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            operand1Sources: ['coingecko', 'coinpaprika'],
+            operand2Sources: ['coingecko', 'coinpaprika'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'divide',
           },
-          divisorInput: {
-            from: 'ETH',
-            to: 'USD',
-          },
-        },
-      }
+        }
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns success with comma separated sources', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            operand1Sources: 'coingecko,coinpaprika',
+            operand2Sources: 'coingecko,coinpaprika',
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'divide',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('can multiply operands', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            operand1Sources: ['coingecko', 'coinpaprika'],
+            operand2Sources: ['coingecko', 'coinpaprika'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'multiply',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
     })
 
-    it('returns success with comma separated sources', async () => {
-      mockSuccessfulResponseCoingecko()
-      mockSuccessfulResponseCoinpaprika()
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          dividendSources: 'coingecko,coinpaprika',
-          divisorSources: 'coingecko,coinpaprika',
-          dividendInput: {
-            from: 'LINK',
-            to: 'USD',
+    describe('with dividend and divisor parameters', () => {
+      it('return success without comma separated sources', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            dividendSources: ['coingecko', 'coinpaprika'],
+            divisorSources: ['coingecko', 'coinpaprika'],
+            dividendInput: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            divisorInput: {
+              from: 'ETH',
+              to: 'USD',
+            },
           },
-          divisorInput: {
-            from: 'ETH',
-            to: 'USD',
-          },
-        },
-      }
+        }
 
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns success with comma separated sources', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            dividendSources: 'coingecko,coinpaprika',
+            divisorSources: 'coingecko,coinpaprika',
+            dividendInput: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            divisorInput: {
+              from: 'ETH',
+              to: 'USD',
+            },
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
     })
   })
 
@@ -155,6 +249,344 @@ describe('impliedPrice', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if dividendSources are missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          divisorSources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          divisorInput: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if divisorSources are missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          divisorInput: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if dividendInput is missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          divisorSources: ['coingecko', 'coinpaprika'],
+          divisorInput: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if divisorInput is missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          divisorSources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if operand1Sources are missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          operand2Sources: ['coingecko', 'coinpaprika'],
+          operand1Input: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          operand2Input: {
+            from: 'ETH',
+            to: 'USD',
+          },
+          operation: 'divide',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if operand2Sources are missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          operand1Sources: ['coingecko', 'coinpaprika'],
+          operand1Input: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          operand2Input: {
+            from: 'ETH',
+            to: 'USD',
+          },
+          operation: 'divide',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if operand1Input is missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          operand1Sources: ['coingecko', 'coinpaprika'],
+          operand2Sources: ['coingecko', 'coinpaprika'],
+          operand2Input: {
+            from: 'ETH',
+            to: 'USD',
+          },
+          operation: 'divide',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if operand2Input is missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          operand1Sources: ['coingecko', 'coinpaprika'],
+          operand2Sources: ['coingecko', 'coinpaprika'],
+          operand1Input: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          operation: 'divide',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if operation is missing', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          operand1Sources: ['coingecko', 'coinpaprika'],
+          operand2Sources: ['coingecko', 'coinpaprika'],
+          operand1Input: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          operand2Input: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if operation is used with dividend and divisor', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          divisorSources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          divisorInput: {
+            from: 'ETH',
+            to: 'USD',
+          },
+          operation: 'divide',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if additional operand parameters are given', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          divisorSources: ['coingecko', 'coinpaprika'],
+          operand1Sources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          divisorInput: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if additional dividend parameters are given', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          operand1Sources: ['coingecko', 'coinpaprika'],
+          dividendSources: ['coingecko', 'coinpaprika'],
+          operand2Sources: ['coingecko', 'coinpaprika'],
+          operand1Input: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          operand2Input: {
+            from: 'ETH',
+            to: 'USD',
+          },
+          operation: 'divide',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if parameters are mixed', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          operand2Sources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          operand2Input: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
       expect(response.body).toMatchSnapshot()
     })
   })

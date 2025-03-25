@@ -1,4 +1,11 @@
-import { AdapterResponseInvalidError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterError,
+  AdapterInputError,
+  AdapterResponseInvalidError,
+  Requester,
+  util,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import type {
   AdapterRequest,
   ExecuteWithConfig,
@@ -14,6 +21,13 @@ export const supportedEndpoints = ['impliedPrice']
 export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
 
 export type TInputParameters = {
+  operand1Sources: string | string[]
+  operand1MinAnswers?: number
+  operand1Input?: AdapterRequest
+  operand2Sources: string | string[]
+  operand2MinAnswers?: number
+  operand2Input?: AdapterRequest
+  operation?: string
   dividendSources: string | string[]
   dividendMinAnswers?: number
   dividendInput?: AdapterRequest
@@ -23,83 +37,214 @@ export type TInputParameters = {
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
-  dividendSources: {
-    required: true,
+  operand1Sources: {
+    required: false,
     description:
-      'An array (string[]) or comma delimited list (string) of source adapters to query for the dividend value',
+      'An array (string[]) or comma delimited list (string) of source adapters to query for the operand1 value',
+  },
+  operand1MinAnswers: {
+    required: false,
+    type: 'number',
+    description: 'The minimum number of answers needed to return a value for operand1',
+  },
+  operand1Input: {
+    required: false,
+    type: 'object',
+    description: 'The payload to send to the operand1 sources',
+  },
+  operand2Sources: {
+    required: false,
+    description:
+      'An array (string[]) or comma delimited list (string) of source adapters to query for the operand2 value',
+  },
+  operand2MinAnswers: {
+    required: false,
+    type: 'number',
+    description: 'The minimum number of answers needed to return a value for operand2',
+  },
+  operand2Input: {
+    required: false,
+    type: 'object',
+    description: 'The payload to send to the operand2 sources',
+  },
+  operation: {
+    required: false,
+    type: 'string',
+    description: 'The operation to perform on the operands',
+    options: ['divide', 'multiply'],
+  },
+  dividendSources: {
+    required: false,
+    description:
+      'Legacy: Use `operand1Sources instead. An array (string[]) or comma delimited list (string) of source adapters to query for the dividend value',
   },
   dividendMinAnswers: {
     required: false,
     type: 'number',
-    description: 'The minimum number of answers needed to return a value for the dividend',
-    default: 1,
+    description:
+      'Legacy: Use `operand1MinAnswers instead. The minimum number of answers needed to return a value for the dividend',
   },
   dividendInput: {
     required: false,
     type: 'object',
-    description: 'The payload to send to the dividend sources',
-    default: {} as AdapterRequest,
+    description: 'Legacy: Use `operand1Input` instead. The payload to send to the dividend sources',
   },
   divisorSources: {
-    required: true,
+    required: false,
     description:
-      'An array (string[]) or comma delimited list (string) of source adapters to query for the divisor value',
+      'Legacy: Use `operand2Sources` instead. An array (string[]) or comma delimited list (string) of source adapters to query for the divisor value',
   },
   divisorMinAnswers: {
     required: false,
     type: 'number',
-    description: 'The minimum number of answers needed to return a value for the divisor',
-    default: 1,
+    description:
+      'Legacy: Use `operand2MinAnswers` instead. The minimum number of answers needed to return a value for the divisor',
   },
   divisorInput: {
     required: false,
     type: 'object',
-    description: 'The payload to send to the divisor sources',
-    default: {} as AdapterRequest,
+    description: 'Legacy: Use `operand2Input` instead. The payload to send to the divisor sources',
   },
+}
+
+const hasSomeLegacyParameters = (data: TInputParameters): boolean => {
+  return !!(
+    data.dividendSources ||
+    data.dividendMinAnswers ||
+    data.dividendInput ||
+    data.divisorSources ||
+    data.divisorMinAnswers ||
+    data.divisorInput
+  )
+}
+
+const hasAllRequiredLegacyParameters = (data: TInputParameters): boolean => {
+  return !!(data.dividendSources && data.dividendInput && data.divisorSources && data.divisorInput)
+}
+
+const hasSomeNewParameters = (data: TInputParameters): boolean => {
+  return !!(
+    data.operand1Sources ||
+    data.operand1MinAnswers ||
+    data.operand1Input ||
+    data.operand2Sources ||
+    data.operand2MinAnswers ||
+    data.operand2Input ||
+    data.operation
+  )
+}
+
+const hasAllRequiredNewParameters = (data: TInputParameters): boolean => {
+  return !!(
+    data.operand1Sources &&
+    data.operand1Input &&
+    data.operand2Sources &&
+    data.operand2Input &&
+    data.operation
+  )
+}
+
+// Checks that either only legacy or only new parameters are used and that of
+// the used parameter set all required parameters are present.
+const customInputValidation = (validator: Validator<TInputParameters>) => {
+  const { data } = validator.validated
+  const usesLegacyParams = hasSomeLegacyParameters(data)
+  const usesNewParams = hasSomeNewParameters(data)
+
+  let message: string | undefined = undefined
+  if (usesLegacyParams && usesNewParams) {
+    message = 'Must use only dividend/divisor parameters or only operand1/operand2 parameters'
+  } else if (!usesLegacyParams && !usesNewParams) {
+    message = 'Must specify required dividend/divisor or required operand1/operand2 parameters'
+  } else {
+    if (usesLegacyParams) {
+      if (!hasAllRequiredLegacyParameters(data)) {
+        message =
+          'Must specify all required dividend/divisor parameters: dividendSources, dividendInput, divisorSources, divisorInput'
+      }
+    } else if (!hasAllRequiredNewParameters(data)) {
+      message =
+        'Must specify all required operand1/operand2 parameters: operand1Sources, operand1Input, operand2Sources, operand2Input, operation'
+    }
+  }
+
+  if (message) {
+    throw new AdapterInputError({
+      jobRunID: validator.validated.id,
+      statusCode: 400,
+      message,
+    })
+  }
+}
+
+const transformInput = (data: TInputParameters) => {
+  const usesLegacyParams = hasSomeLegacyParameters(data)
+  if (!usesLegacyParams) {
+    return
+  }
+  data.operation = 'divide'
+  data.operand1Sources = data.dividendSources
+  data.operand1MinAnswers = data.dividendMinAnswers
+  data.operand1Input = data.dividendInput
+  data.operand2Sources = data.divisorSources
+  data.operand2MinAnswers = data.divisorMinAnswers
+  data.operand2Input = data.divisorInput
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
 
+  customInputValidation(validator)
+  transformInput(validator.validated.data)
+
   const jobRunID = validator.validated.id
-  const dividendSources = parseSources(validator.validated.data.dividendSources)
-  const divisorSources = parseSources(validator.validated.data.divisorSources)
-  const dividendMinAnswers = validator.validated.data.dividendMinAnswers as number
-  const divisorMinAnswers = validator.validated.data.divisorMinAnswers as number
-  const dividendInput = validator.validated.data.dividendInput as AdapterRequest
-  const divisorInput = validator.validated.data.divisorInput as AdapterRequest
+  const operand1Sources = parseSources(validator.validated.data.operand1Sources)
+  const operand2Sources = parseSources(validator.validated.data.operand2Sources)
+  const operand1MinAnswers = validator.validated.data.operand1MinAnswers as number
+  const operand2MinAnswers = validator.validated.data.operand2MinAnswers as number
+  const operand1Input = validator.validated.data.operand1Input as AdapterRequest
+  const operand2Input = validator.validated.data.operand2Input as AdapterRequest
   // TODO: non-nullable default types
 
-  const dividendUrls = dividendSources.map((source) => util.getRequiredURL(source.toUpperCase()))
-  const dividendResult = await getExecuteMedian(
+  const operand1Urls = operand1Sources.map((source) => util.getRequiredURL(source.toUpperCase()))
+  const operand1Result = await getExecuteMedian(
     jobRunID,
-    dividendUrls,
-    dividendInput,
-    dividendMinAnswers,
+    operand1Urls,
+    operand1Input,
+    operand1MinAnswers,
     config,
   )
-  if (dividendResult.isZero()) {
+  if (operand1Result.isZero()) {
     throw new AdapterResponseInvalidError({ message: 'Dividend result is zero' })
   }
 
-  const divisorUrls = divisorSources.map((source) => util.getRequiredURL(source.toUpperCase()))
-  const divisorResult = await getExecuteMedian(
+  const operand2Urls = operand2Sources.map((source) => util.getRequiredURL(source.toUpperCase()))
+  const operand2Result = await getExecuteMedian(
     jobRunID,
-    divisorUrls,
-    divisorInput,
-    divisorMinAnswers,
+    operand2Urls,
+    operand2Input,
+    operand2MinAnswers,
     config,
   )
-  if (divisorResult.isZero()) {
+  if (operand2Result.isZero()) {
     throw new AdapterResponseInvalidError({ message: 'Divisor result is zero' })
   }
 
-  const result = dividendResult.div(divisorResult)
+  const operation = validator.validated.data.operation?.toLowerCase()
+  let result: Decimal
+  if (operation === 'divide') {
+    result = operand1Result.div(operand2Result)
+  } else if (operation === 'multiply') {
+    result = operand1Result.mul(operand2Result)
+  } else {
+    throw new AdapterError({
+      message: `Unsupported operation: ${operation}. This should not be possible because of input validation.`,
+    })
+  }
 
   const data = {
-    dividendResult: dividendResult.toString(),
-    divisorResult: divisorResult.toString(),
+    operand1Result: operand1Result.toString(),
+    operand2Result: operand2Result.toString(),
     result: result.toString(),
   }
 
