@@ -32,6 +32,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Mantle]: ['failed to forward tx to sequencer', 'intrinsic gas too low'],
   [Networks.Unichain]: ['intrinsic gas too low: gas 0'],
   [Networks.Soneium]: ['intrinsic gas too low: gas 0'],
+  [Networks.Celo]: ['intrinsic gas too low'],
 }
 
 export interface NetworkHealthCheck {
@@ -102,6 +103,7 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Mantle]: ['error', 'message'],
       [Networks.Unichain]: ['error', 'message'],
       [Networks.Soneium]: ['error', 'message'],
+      [Networks.Celo]: ['error', 'message'],
     }
     return (Requester.getResult(error, paths[network]) as string) || ''
   }

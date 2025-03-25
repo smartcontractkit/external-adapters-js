@@ -19,6 +19,7 @@ const mockMessages = {
   'https://rpc.mantle.xyz': 'failed to forward tx to sequencer',
   'https://mainnet.unichain.org': 'intrinsic gas too low: gas 0',
   'https://rpc.soneium.org': 'intrinsic gas too low: gas 0',
+  'https://forno.celo.org': 'intrinsic gas too low: gas 0',
 }
 
 jest.mock('ethers', () => {
@@ -390,6 +391,35 @@ describe('execute', () => {
         id,
         data: {
           network: 'soneium',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('celo network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'celo',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'celo',
         },
       }
 
