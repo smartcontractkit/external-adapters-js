@@ -8790,7 +8790,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:22.12.0"],\
-          ["nock", "npm:14.0.0"],\
+          ["nock", "npm:14.0.1"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
@@ -9354,7 +9354,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.3.0"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:22.12.0"],\
-          ["nock", "npm:14.0.0"],\
+          ["nock", "npm:14.0.1"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
@@ -31861,10 +31861,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:14.0.0", {\
-        "packageLocation": "./.yarn/cache/nock-npm-14.0.0-d6dfa91ed4-88138f268e.zip/node_modules/nock/",\
+      ["npm:14.0.1", {\
+        "packageLocation": "./.yarn/cache/nock-npm-14.0.1-8eff65b77d-5498352f9b.zip/node_modules/nock/",\
         "packageDependencies": [\
-          ["nock", "npm:14.0.0"],\
+          ["nock", "npm:14.0.1"],\
           ["@mswjs/interceptors", "npm:0.37.5"],\
           ["json-stringify-safe", "npm:5.0.1"],\
           ["propagate", "npm:2.0.1"]\
