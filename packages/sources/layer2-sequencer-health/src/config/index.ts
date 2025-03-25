@@ -35,6 +35,7 @@ export const ENV_INK_RPC_ENDPOINT = 'INK_RPC_ENDPOINT'
 export const ENV_MANTLE_RPC_ENDPOINT = 'MANTLE_RPC_ENDPOINT'
 export const ENV_UNICHAIN_RPC_ENDPOINT = 'UNICHAIN_RPC_ENDPOINT'
 export const ENV_SONEIUM_RPC_ENDPOINT = 'SONEIUM_RPC_ENDPOINT'
+export const ENV_CELO_RPC_ENDPOINT = 'CELO_RPC_ENDPOINT'
 
 export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
 export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
@@ -47,6 +48,7 @@ export const ENV_INK_CHAIN_ID = 'INK_CHAIN_ID'
 export const ENV_MANTLE_CHAIN_ID = 'MANTLE_CHAIN_ID'
 export const ENV_UNICHAIN_CHAIN_ID = 'UNICHAIN_CHAIN_ID'
 export const ENV_SONEIUM_CHAIN_ID = 'SONEIUM_CHAIN_ID'
+export const ENV_CELO_CHAIN_ID = 'CELO_CHAIN_ID'
 
 export const DEFAULT_ARBITRUM_CHAIN_ID = '42161'
 export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
@@ -59,6 +61,7 @@ export const DEFAULT_INK_CHAIN_ID = '57073'
 export const DEFAULT_MANTLE_CHAIN_ID = '5000'
 export const DEFAULT_UNICHAIN_CHAIN_ID = '130'
 export const DEFAULT_SONEIUM_CHAIN_ID = '1868'
+export const DEFAULT_CELO_CHAIN_ID = '42220'
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -73,6 +76,7 @@ export enum Networks {
   Mantle = 'mantle',
   Unichain = 'unichain',
   Soneium = 'soneium',
+  Celo = 'celo',
 }
 
 export type EVMNetworks = Exclude<Networks, Networks.Starkware>
@@ -88,6 +92,7 @@ const DEFAULT_INK_RPC_ENDPOINT = 'https://rpc-gel.inkonchain.com'
 const DEFAULT_MANTLE_RPC_ENDPOINT = 'https://rpc.mantle.xyz'
 const DEFAULT_UNICHAIN_RPC_ENDPOINT = 'https://mainnet.unichain.org'
 const DEFAULT_SONEIUM_RPC_ENDPOINT = 'https://rpc.soneium.org'
+const DEFAULT_CELO_RPC_ENDPOINT = 'https://forno.celo.org'
 
 export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Arbitrum]: util.getEnv(ENV_ARBITRUM_RPC_ENDPOINT) || DEFAULT_ARBITRUM_RPC_ENDPOINT,
@@ -101,6 +106,7 @@ export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Mantle]: util.getEnv(ENV_MANTLE_RPC_ENDPOINT) || DEFAULT_MANTLE_RPC_ENDPOINT,
   [Networks.Unichain]: util.getEnv(ENV_UNICHAIN_RPC_ENDPOINT) || DEFAULT_UNICHAIN_RPC_ENDPOINT,
   [Networks.Soneium]: util.getEnv(ENV_SONEIUM_RPC_ENDPOINT) || DEFAULT_SONEIUM_RPC_ENDPOINT,
+  [Networks.Celo]: util.getEnv(ENV_CELO_RPC_ENDPOINT) || DEFAULT_CELO_RPC_ENDPOINT,
 }
 
 export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
@@ -137,6 +143,9 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
   [Networks.Soneium]:
     parseInt(util.getEnv(ENV_SONEIUM_CHAIN_ID) || DEFAULT_SONEIUM_CHAIN_ID) ||
     util.getEnv(ENV_SONEIUM_CHAIN_ID),
+  [Networks.Celo]:
+    parseInt(util.getEnv(ENV_CELO_CHAIN_ID) || DEFAULT_CELO_CHAIN_ID) ||
+    util.getEnv(ENV_CELO_CHAIN_ID),
 }
 
 export const CHAIN_DELTA: Record<Networks, number> = {
@@ -152,6 +161,7 @@ export const CHAIN_DELTA: Record<Networks, number> = {
   [Networks.Mantle]: Number(util.getEnv('MANTLE_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Unichain]: Number(util.getEnv('UNICHAIN_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Soneium]: Number(util.getEnv('SONEIUM_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Celo]: Number(util.getEnv('CELO_DELTA')) || DEFAULT_DELTA_TIME,
 }
 
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
@@ -224,6 +234,11 @@ export const HEALTH_ENDPOINTS: HeathEndpoints = {
   },
   [Networks.Soneium]: {
     endpoint: util.getEnv('SONEIUM_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.Celo]: {
+    endpoint: util.getEnv('CELO_HEALTH_ENDPOINT'),
     responsePath: [],
     processResponse: () => undefined,
   },
