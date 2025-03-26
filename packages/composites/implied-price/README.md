@@ -20,10 +20,10 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 | :-------: | :------------------: | :-----------------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     |  `dividendSources`   | An array (string[]) or comma delimited list (string) of source adapters to query for the dividend value |         |             |
 |           | `dividendMinAnswers` |                 The minimum number of answers needed to return a value for the dividend                 |         |     `1`     |
-|           |   `dividendInput`    |                               The payload to send to the dividend sources                               |         |    `{}`     |
+|    ✅     |   `dividendInput`    |                               The payload to send to the dividend sources                               |         |             |
 |    ✅     |   `divisorSources`   | An array (string[]) or comma delimited list (string) of source adapters to query for the divisor value  |         |             |
 |           | `divisorMinAnswers`  |                 The minimum number of answers needed to return a value for the divisor                  |         |     `1`     |
-|           |    `divisorInput`    |                               The payload to send to the divisor sources                                |         |    `{}`     |
+|    ✅     |    `divisorInput`    |                               The payload to send to the divisor sources                                |         |             |
 
 Each source in `sources` needs to have a defined `*_ADAPTER_URL` defined as an env var.
 
