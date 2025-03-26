@@ -207,6 +207,62 @@ describe('impliedPrice', () => {
         .expect(500)
       expect(response.body).toMatchSnapshot()
     })
+
+    it('returns error if dividend has zero price', async () => {
+      mockSuccessfulResponseCoingecko()
+      mockSuccessfulResponseCoinpaprika()
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          divisorSources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'DEAD',
+            to: 'USD',
+          },
+          divisorInput: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns error if divisor has zero price', async () => {
+      mockSuccessfulResponseCoingecko()
+      mockSuccessfulResponseCoinpaprika()
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko', 'coinpaprika'],
+          divisorSources: ['coingecko', 'coinpaprika'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+          divisorInput: {
+            from: 'DEAD',
+            to: 'USD',
+          },
+        },
+      }
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
   })
 
   describe('validation error', () => {
@@ -214,6 +270,52 @@ describe('impliedPrice', () => {
 
     it('returns a validation error if the request data is empty', async () => {
       const data: AdapterRequest = { id: jobID, data: {} }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if the request is missing dividend input', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko'],
+          divisorSources: ['coingecko'],
+          divisorInput: {
+            from: 'ETH',
+            to: 'USD',
+          },
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if the request is missing divisor input', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          dividendSources: ['coingecko'],
+          divisorSources: ['coingecko'],
+          dividendInput: {
+            from: 'LINK',
+            to: 'USD',
+          },
+        },
+      }
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
