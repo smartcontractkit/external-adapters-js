@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`impliedPrice erroring calls returns error if dividend has zero price 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"dividendSources":["coingecko","coinpaprika"],"divisorSources":["coingecko","coinpaprika"],"dividendInput":{"from":"DEAD","to":"USD"},"divisorInput":{"from":"ETH","to":"USD"}}}",
+    "message": "Dividend result is zero",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`impliedPrice erroring calls returns error if divisor has zero price 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"dividendSources":["coingecko","coinpaprika"],"divisorSources":["coingecko","coinpaprika"],"dividendInput":{"from":"LINK","to":"USD"},"divisorInput":{"from":"DEAD","to":"USD"}}}",
+    "message": "Divisor result is zero",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`impliedPrice erroring calls returns error if not reaching minAnswers 1`] = `
 {
   "error": {
@@ -55,6 +81,32 @@ exports[`impliedPrice validation error returns a validation error if the request
   "error": {
     "feedID": "{"data":{}}",
     "message": "Required parameter dividendSources must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice validation error returns a validation error if the request is missing dividend input 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"dividendSources":["coingecko"],"divisorSources":["coingecko"],"divisorInput":{"from":"ETH","to":"USD"}}}",
+    "message": "Required parameter dividendInput must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice validation error returns a validation error if the request is missing divisor input 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"dividendSources":["coingecko"],"divisorSources":["coingecko"],"dividendInput":{"from":"LINK","to":"USD"}}}",
+    "message": "Required parameter divisorInput must be non-null and non-empty",
     "name": "AdapterError",
   },
   "jobRunID": "1",
