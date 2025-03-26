@@ -93,7 +93,7 @@ exports[`impliedPrice validation error returns a validation error if the request
 {
   "error": {
     "feedID": "{"data":{"dividendSources":["coingecko"],"divisorSources":["coingecko"],"divisorInput":{"from":"ETH","to":"USD"}}}",
-    "message": "dividendInput parameter must be an object with at least one property",
+    "message": "Required parameter dividendInput must be non-null and non-empty",
     "name": "AdapterError",
   },
   "jobRunID": "1",
@@ -106,7 +106,7 @@ exports[`impliedPrice validation error returns a validation error if the request
 {
   "error": {
     "feedID": "{"data":{"dividendSources":["coingecko"],"divisorSources":["coingecko"],"dividendInput":{"from":"LINK","to":"USD"}}}",
-    "message": "divisorInput parameter must be an object with at least one property",
+    "message": "Required parameter divisorInput must be non-null and non-empty",
     "name": "AdapterError",
   },
   "jobRunID": "1",

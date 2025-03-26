@@ -16,10 +16,10 @@ export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
 export type TInputParameters = {
   dividendSources: string | string[]
   dividendMinAnswers?: number
-  dividendInput?: AdapterRequest
+  dividendInput: AdapterRequest
   divisorSources: string | string[]
   divisorMinAnswers?: number
-  divisorInput?: AdapterRequest
+  divisorInput: AdapterRequest
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -35,10 +35,9 @@ const inputParameters: InputParameters<TInputParameters> = {
     default: 1,
   },
   dividendInput: {
-    required: false,
+    required: true,
     type: 'object',
     description: 'The payload to send to the dividend sources',
-    default: {} as AdapterRequest,
   },
   divisorSources: {
     required: true,
@@ -52,10 +51,9 @@ const inputParameters: InputParameters<TInputParameters> = {
     default: 1,
   },
   divisorInput: {
-    required: false,
+    required: true,
     type: 'object',
     description: 'The payload to send to the divisor sources',
-    default: {} as AdapterRequest,
   },
 }
 
@@ -67,8 +65,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const divisorSources = parseSources(validator.validated.data.divisorSources)
   const dividendMinAnswers = validator.validated.data.dividendMinAnswers as number
   const divisorMinAnswers = validator.validated.data.divisorMinAnswers as number
-  const dividendInput = validator.validated.data.dividendInput as AdapterRequest
-  const divisorInput = validator.validated.data.divisorInput as AdapterRequest
+  const dividendInput = validator.validated.data.dividendInput
+  const divisorInput = validator.validated.data.divisorInput
   // TODO: non-nullable default types
 
   const dividendUrls = dividendSources.map((source) => util.getRequiredURL(source.toUpperCase()))
