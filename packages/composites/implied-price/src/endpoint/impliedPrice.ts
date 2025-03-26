@@ -35,10 +35,9 @@ const inputParameters: InputParameters<TInputParameters> = {
     default: 1,
   },
   dividendInput: {
-    required: false,
+    required: true,
     type: 'object',
     description: 'The payload to send to the dividend sources',
-    default: {} as AdapterRequest,
   },
   divisorSources: {
     required: true,
@@ -52,10 +51,9 @@ const inputParameters: InputParameters<TInputParameters> = {
     default: 1,
   },
   divisorInput: {
-    required: false,
+    required: true,
     type: 'object',
     description: 'The payload to send to the divisor sources',
-    default: {} as AdapterRequest,
   },
 }
 
