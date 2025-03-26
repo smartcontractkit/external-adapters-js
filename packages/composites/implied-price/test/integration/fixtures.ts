@@ -46,6 +46,18 @@ export const mockSuccessfulResponseCoingecko = (): nock.Scope => {
       statusCode: 200,
       data: { result: 17.1 },
     })
+    .post('/coingecko', {
+      id: '1',
+      data: { from: 'DEAD', to: 'USD' },
+    })
+    .reply(200, {
+      jobRunID: '1',
+      providerStatusCode: 200,
+      result: 0,
+      maxAge: 30000,
+      statusCode: 200,
+      data: { result: 0 },
+    })
 }
 
 export const mockSuccessfulResponseCoinpaprika = (): nock.Scope =>
@@ -93,4 +105,16 @@ export const mockSuccessfulResponseCoinpaprika = (): nock.Scope =>
       maxAge: 30000,
       statusCode: 200,
       data: { result: 17.2 },
+    })
+    .post('/coinpaprika', {
+      id: '1',
+      data: { from: 'DEAD', to: 'USD' },
+    })
+    .reply(200, {
+      jobRunID: '1',
+      providerStatusCode: 200,
+      result: 0,
+      maxAge: 30000,
+      statusCode: 200,
+      data: { result: 0 },
     })
