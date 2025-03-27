@@ -9,9 +9,26 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { config } from '../config'
-import { ResponseSchema } from './price-http'
 
 const logger = makeLogger('SocketIOTransport')
+
+interface ResponseItem {
+  id: string
+  baseSymbol: string
+  quoteSymbol: string
+  processTimestamp: number
+  processBlockChainId: string
+  processBlockNumber: number
+  processBlockTimestamp: number
+  aggregatedLast7DaysBaseVolume: number
+  price: number
+  aggregatedMarketDepthMinusOnePercentUsdAmount: number
+  aggregatedMarketDepthPlusOnePercentUsdAmount: number
+  aggregatedMarketDepthUsdAmount: number
+  aggregatedLast7DaysUsdVolume: number
+}
+
+type ResponseSchema = ResponseItem[]
 
 export type SocketIOTransportTypes = BaseEndpointTypes & {
   Provider: {
