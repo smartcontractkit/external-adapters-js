@@ -1,4 +1,4 @@
-import { median, parseSources } from '../../src/endpoint/impliedPrice'
+import { median, parseSources } from '../../src/endpoint/computedPrice'
 
 describe('parseSources', () => {
   it('parses an array of sources', () => {
