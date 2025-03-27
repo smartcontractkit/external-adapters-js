@@ -3,6 +3,8 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { VALID_QUOTES } from '../config'
 import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/price'
+import { logPossibleSolutionForKnownErrors } from './error-handling'
+import { ResponseError } from './types'
 
 const logger = makeLogger('CoinMetrics WS')
 
@@ -25,10 +27,7 @@ export type WsAssetMetricsSuccessResponse = {
   ReferenceRateBTC?: string
 }
 export type WsAssetMetricsErrorResponse = {
-  error: {
-    type: string
-    message: string
-  }
+  error: ResponseError
 }
 export type WsAssetMetricsWarningResponse = {
   warning: {
@@ -89,6 +88,7 @@ export const handleAssetMetricsMessage = (
   if ('error' in message) {
     // Is WsAssetMetricsErrorResponse
     logger.error(message, `Error response from websocket`)
+    logPossibleSolutionForKnownErrors(message.error)
 
     const findBaseCurrenciesRegex = new RegExp(/'([^']+)'/g)
     if (message['error']['type'] === 'bad_parameter') {
