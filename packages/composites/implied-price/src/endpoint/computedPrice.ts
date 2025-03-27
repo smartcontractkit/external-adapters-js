@@ -1,4 +1,10 @@
-import { AdapterResponseInvalidError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterError,
+  AdapterResponseInvalidError,
+  Requester,
+  util,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import type {
   AdapterRequest,
   ExecuteWithConfig,
@@ -9,95 +15,119 @@ import type {
 import { AxiosResponse } from 'axios'
 import Decimal from 'decimal.js'
 
-export const supportedEndpoints = ['impliedPrice']
+export const supportedEndpoints = ['computedPrice']
 
 export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
 
 export type TInputParameters = {
-  dividendSources: string | string[]
-  dividendMinAnswers?: number
-  dividendInput: AdapterRequest
-  divisorSources: string | string[]
-  divisorMinAnswers?: number
-  divisorInput: AdapterRequest
+  operand1Sources: string | string[]
+  operand1MinAnswers?: number
+  operand1Input: AdapterRequest
+  operand2Sources: string | string[]
+  operand2MinAnswers?: number
+  operand2Input: AdapterRequest
+  operation: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
-  dividendSources: {
+  operand1Sources: {
     required: true,
     description:
-      'An array (string[]) or comma delimited list (string) of source adapters to query for the dividend value',
+      'An array (string[]) or comma delimited list (string) of source adapters to query for the operand1 value',
   },
-  dividendMinAnswers: {
+  operand1MinAnswers: {
     required: false,
     type: 'number',
-    description: 'The minimum number of answers needed to return a value for the dividend',
+    description: 'The minimum number of answers needed to return a value for the operand1',
     default: 1,
   },
-  dividendInput: {
+  operand1Input: {
     required: true,
     type: 'object',
-    description: 'The payload to send to the dividend sources',
+    description: 'The payload to send to the operand1 sources',
   },
-  divisorSources: {
+  operand2Sources: {
     required: true,
     description:
-      'An array (string[]) or comma delimited list (string) of source adapters to query for the divisor value',
+      'An array (string[]) or comma delimited list (string) of source adapters to query for the operand2 value',
   },
-  divisorMinAnswers: {
+  operand2MinAnswers: {
     required: false,
     type: 'number',
-    description: 'The minimum number of answers needed to return a value for the divisor',
+    description: 'The minimum number of answers needed to return a value for the operand2',
     default: 1,
   },
-  divisorInput: {
+  operand2Input: {
     required: true,
     type: 'object',
-    description: 'The payload to send to the divisor sources',
+    description: 'The payload to send to the operand2 sources',
+  },
+  operation: {
+    required: true,
+    type: 'string',
+    description: 'The operation to perform on the operands',
+    options: ['divide', 'multiply'],
   },
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
+export const execute: ExecuteWithConfig<Config> = (input, _, config) => {
   const validator = new Validator(input, inputParameters)
+  return executeComputedPrice(validator.validated.id, validator.validated.data, config)
+}
 
-  const jobRunID = validator.validated.id
-  const dividendSources = parseSources(validator.validated.data.dividendSources)
-  const divisorSources = parseSources(validator.validated.data.divisorSources)
-  const dividendMinAnswers = validator.validated.data.dividendMinAnswers as number
-  const divisorMinAnswers = validator.validated.data.divisorMinAnswers as number
-  const dividendInput = validator.validated.data.dividendInput
-  const divisorInput = validator.validated.data.divisorInput
+export const executeComputedPrice = async (
+  validatedId: string,
+  validatedData: TInputParameters,
+  config: Config,
+) => {
+  const jobRunID = validatedId
+  const operand1Sources = parseSources(validatedData.operand1Sources)
+  const operand2Sources = parseSources(validatedData.operand2Sources)
+  const operand1MinAnswers = validatedData.operand1MinAnswers as number
+  const operand2MinAnswers = validatedData.operand2MinAnswers as number
+  const operand1Input = validatedData.operand1Input
+  const operand2Input = validatedData.operand2Input
+  const operation = validatedData.operation.toLowerCase()
   // TODO: non-nullable default types
 
-  const dividendUrls = dividendSources.map((source) => util.getRequiredURL(source.toUpperCase()))
-  const dividendResult = await getExecuteMedian(
+  const operand1Urls = operand1Sources.map((source) => util.getRequiredURL(source.toUpperCase()))
+  const operand1Result = await getExecuteMedian(
     jobRunID,
-    dividendUrls,
-    dividendInput,
-    dividendMinAnswers,
+    operand1Urls,
+    operand1Input,
+    operand1MinAnswers,
     config,
   )
-  if (dividendResult.isZero()) {
-    throw new AdapterResponseInvalidError({ message: 'Dividend result is zero' })
+  if (operand1Result.isZero()) {
+    throw new AdapterResponseInvalidError({ message: 'Operand 1 result is zero' })
   }
 
-  const divisorUrls = divisorSources.map((source) => util.getRequiredURL(source.toUpperCase()))
-  const divisorResult = await getExecuteMedian(
+  const operand2Urls = operand2Sources.map((source) => util.getRequiredURL(source.toUpperCase()))
+  const operand2Result = await getExecuteMedian(
     jobRunID,
-    divisorUrls,
-    divisorInput,
-    divisorMinAnswers,
+    operand2Urls,
+    operand2Input,
+    operand2MinAnswers,
     config,
   )
-  if (divisorResult.isZero()) {
-    throw new AdapterResponseInvalidError({ message: 'Divisor result is zero' })
+  if (operand2Result.isZero()) {
+    throw new AdapterResponseInvalidError({ message: 'Operand 2 result is zero' })
   }
 
-  const result = dividendResult.div(divisorResult)
+  let result: Decimal
+  if (operation === 'divide') {
+    result = operand1Result.div(operand2Result)
+  } else if (operation === 'multiply') {
+    result = operand1Result.mul(operand2Result)
+  } else {
+    throw new AdapterError({
+      message: `Unsupported operation: ${operation}. This should not be possible because of input validation.`,
+    })
+  }
 
   const data = {
-    dividendResult: dividendResult.toString(),
-    divisorResult: divisorResult.toString(),
+    operand1Result: operand1Result.toString(),
+    operand2Result: operand2Result.toString(),
     result: result.toString(),
   }
 

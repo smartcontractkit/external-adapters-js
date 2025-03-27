@@ -1,5 +1,29 @@
 {
  "requests": [{
+  "endpoint": "computedPrice",
+  "operand1Sources": ["coingecko"],
+  "operand2Sources": ["coingecko"],
+  "operand1Input": {
+   "from": "LINK",
+   "to": "USD",
+   "overrides": {
+    "coingecko": {
+     "LINK": "chainlink"
+    }
+   }
+  },
+  "operand2Input": {
+   "from": "ETH",
+   "to": "USD",
+   "overrides": {
+    "coingecko": {
+     "ETH": "ethereum"
+    }
+   }
+  },
+  "operation": "divide"
+ },
+ {
   "dividendSources": ["coingecko"],
   "divisorSources": ["coingecko"],
   "dividendInput": {
