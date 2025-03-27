@@ -8,6 +8,8 @@ import {
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { logPossibleSolutionForKnownErrors } from './error-handling'
+import { ResponseError } from './types'
 
 const logger = makeLogger('CoinMetrics Crypto LWBA WS')
 
@@ -28,10 +30,7 @@ export type WsCryptoLwbaSuccessResponse = {
   cm_sequence_id: string
 }
 export type WsCryptoLwbaErrorResponse = {
-  error: {
-    type: string
-    message: string
-  }
+  error: ResponseError
 }
 export type WsCryptoLwbaWarningResponse = {
   warning: {
@@ -80,6 +79,7 @@ export const handleCryptoLwbaMessage = (
 ): MultiVarResult<WsTransportTypes>[] | undefined => {
   if ('error' in message) {
     logger.error(message, `Error response from websocket`)
+    logPossibleSolutionForKnownErrors(message.error)
   } else if ('warning' in message) {
     logger.warn(message, `Warning response from websocket`)
   } else if ('type' in message && message.type === 'reorg') {
