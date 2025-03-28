@@ -1,5 +1,13 @@
 # @chainlink/ea-bootstrap
 
+## 2.29.8
+
+### Patch Changes
+
+- [#3741](https://github.com/smartcontractkit/external-adapters-js/pull/3741) [`765b1de`](https://github.com/smartcontractkit/external-adapters-js/commit/765b1de0f9d31d3556647db88680050bd0faa39a) Thanks [@renovate](https://github.com/apps/renovate)! - fix(deps): update dependency axios to v1.8.4
+
+- [#3714](https://github.com/smartcontractkit/external-adapters-js/pull/3714) [`990b342`](https://github.com/smartcontractkit/external-adapters-js/commit/990b34254a468dd1c651e6f59afa33bcab2e7578) Thanks [@renovate](https://github.com/apps/renovate)! - chore(deps): update dependency @types/lodash to v4.17.16
+
 ## 2.29.7
 
 ### Patch Changes

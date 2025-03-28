@@ -1,5 +1,21 @@
 # @chainlink/implied-price-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3751](https://github.com/smartcontractkit/external-adapters-js/pull/3751) [`323e933`](https://github.com/smartcontractkit/external-adapters-js/commit/323e933e28a2ab31d7d4a19404e5d9121bb23f67) Thanks [@dskloetc](https://github.com/dskloetc)! - Support multiplying prices in addition to dividing
+
+### Patch Changes
+
+- [#3741](https://github.com/smartcontractkit/external-adapters-js/pull/3741) [`765b1de`](https://github.com/smartcontractkit/external-adapters-js/commit/765b1de0f9d31d3556647db88680050bd0faa39a) Thanks [@renovate](https://github.com/apps/renovate)! - fix(deps): update dependency axios to v1.8.4
+
+- [#3750](https://github.com/smartcontractkit/external-adapters-js/pull/3750) [`35196db`](https://github.com/smartcontractkit/external-adapters-js/commit/35196dbe47b8fab26a8d4201bd9903d9ad57567d) Thanks [@dskloetc](https://github.com/dskloetc)! - Mark dividendInput and divisorInput input parameters as required since they effectively are already required.
+
+- Updated dependencies [[`765b1de`](https://github.com/smartcontractkit/external-adapters-js/commit/765b1de0f9d31d3556647db88680050bd0faa39a), [`990b342`](https://github.com/smartcontractkit/external-adapters-js/commit/990b34254a468dd1c651e6f59afa33bcab2e7578)]:
+  - @chainlink/ea-bootstrap@2.29.8
+  - @chainlink/ea-test-helpers@1.4.7
+
 ## 1.1.34
 
 ### Patch Changes

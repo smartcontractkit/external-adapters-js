@@ -1,5 +1,11 @@
 # @chainlink/aleno-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3754](https://github.com/smartcontractkit/external-adapters-js/pull/3754) [`67df1a7`](https://github.com/smartcontractkit/external-adapters-js/commit/67df1a783fb7e21ee5589b7651f9c63689cc122f) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove REST transport. Will fall back to SocketIO transport even if REST is requested.
+
 ## 2.0.0
 
 ### Major Changes

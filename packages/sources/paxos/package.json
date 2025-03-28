@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/paxos-adapter",
-  "version": "1.4.34",
+  "version": "1.4.35",
   "description": "Chainlink paxos adapter.",
   "keywords": [
     "Chainlink",

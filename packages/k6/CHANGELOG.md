@@ -1,5 +1,11 @@
 # k6
 
+## 2.5.9
+
+### Patch Changes
+
+- [#3740](https://github.com/smartcontractkit/external-adapters-js/pull/3740) [`d35be11`](https://github.com/smartcontractkit/external-adapters-js/commit/d35be11b821685cb5bc8ede1091b764b9e2f089e) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency @babel/core to v7.26.10
+
 ## 2.5.8
 
 ### Patch Changes

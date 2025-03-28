@@ -1,5 +1,11 @@
 # @chainlink/starknet-gas-price-adapter
 
+## 1.0.19
+
+### Patch Changes
+
+- [#3715](https://github.com/smartcontractkit/external-adapters-js/pull/3715) [`2b08c76`](https://github.com/smartcontractkit/external-adapters-js/commit/2b08c76960b57aba9d4ee6f21076e859b9e46307) Thanks [@renovate](https://github.com/apps/renovate)! - chore(deps): update dependency nock to v14.0.1
+
 ## 1.0.18
 
 ### Patch Changes

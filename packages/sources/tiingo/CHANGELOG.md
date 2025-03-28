@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.8.0
+
+### Minor Changes
+
+- [#3744](https://github.com/smartcontractkit/external-adapters-js/pull/3744) [`5d2a357`](https://github.com/smartcontractkit/external-adapters-js/commit/5d2a3576a218babe1be1c691563f80a15e58b5ae) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Error Handling
+
 ## 2.7.4
 
 ### Patch Changes
