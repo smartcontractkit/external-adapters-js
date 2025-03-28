@@ -67,5 +67,17 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should use socket transport even if rest is requested', async () => {
+      const data = {
+        base: 'FRAX',
+        quote: 'USD',
+        endpoint: 'price',
+        transport: 'rest',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
