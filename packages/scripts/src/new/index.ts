@@ -1,6 +1,8 @@
 import { execSync } from 'child_process'
 import { generate, writeJson } from './lib'
 
+// random change to trigger CI
+
 if (process.argv[2] == 'tsconfig') {
   // Update tsconfig files
   generate().then(writeJson)
