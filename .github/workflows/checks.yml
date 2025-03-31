@@ -96,6 +96,8 @@ jobs:
     needs:
       - check-changesets
       - install-packages
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v4
