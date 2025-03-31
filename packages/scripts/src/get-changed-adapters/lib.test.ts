@@ -42,6 +42,7 @@ describe('get-changed-adapters cli', () => {
         checkArgs()
         expect('').toEqual('We should not make it to this expect statement')
       } catch (err) {
+        console.log('dskloetx', JSON.stringify(err))
         expect(err).toMatchSnapshot()
       }
     })
