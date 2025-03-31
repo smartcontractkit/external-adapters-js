@@ -93,7 +93,6 @@ jobs:
   non-unit-non-integration-tests:
     name: Run integration tests for changed adapters
     runs-on: [ubuntu-latest]
-    if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
       - check-changesets
       - install-packages
