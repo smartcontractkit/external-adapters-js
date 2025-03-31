@@ -30,6 +30,11 @@ jest.mock('fs', () => {
 })
 
 describe('get-changed-adapters cli', () => {
+  afterAll(() => {
+    // Prevent yarn jest from exiting with a non-zero code even when tests pass.
+    process.exitCode = 0
+  })
+
   describe('check args', () => {
     it('should print the usage string if not enough args are provided', async () => {
       process.argv = ['', '']
@@ -126,7 +131,7 @@ describe('get-changed-adapters cli', () => {
 
       // verify the console output
       expect(console.log).toHaveBeenCalledTimes(1)
-      expect(console.log).toHaveBeenCalledWith('coinpaprika')
+      expect(console.log).toHaveBeenCalledWith('xbto coinpaprika')
     })
   })
 })
