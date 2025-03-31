@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/xbto-adapter",
-  "version": "1.3.43",
+  "version": "1.3.44",
   "description": "Chainlink xbto adapter.",
   "keywords": [
     "Chainlink",

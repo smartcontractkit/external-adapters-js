@@ -89,6 +89,29 @@ jobs:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
         run: yarn test --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/integration"' -r | tr '\n' ' ')
 
+  # Run non-unit, non-integration tests
+  non-unit-non-integration-tests:
+    name: Run non-unit, non-integration tests for changed packages
+    runs-on: [ubuntu-latest]
+    if: needs.install-packages.outputs.changed-packages != '[]'
+    needs:
+      - check-changesets
+      - install-packages
+    permissions:
+      contents: read
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Run tests
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+        run: |
+          # TODO: Reduce the ignored patterns to only /dist/, /test/unit/ and
+          # /test/integration/ by making the other tests actually pass.
+          yarn test --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location' -r | tr '\n' ' ') --testPathIgnorePatterns="$(echo $CHANGED_PACKAGES | jq --raw-output 'map(.location | . + "/dist/|" + . + "/test/unit/|" + . + "/test/integration") | join("|")')|/test/e2e/|/test/transports/|packages/scripts/src/get-release-notes/|packages/scripts/src/ephemeral-adapters/|packages/scripts/src/gha/|packages/scripts/src/docker-build/|packages/scripts/src/schema-flatten/|packages/scripts/src/generate-image-name/|packages/scripts/src/flux-emulator/|packages/k6/src/"
+
   # Run linters
   linters:
     name: Run linters and formatters

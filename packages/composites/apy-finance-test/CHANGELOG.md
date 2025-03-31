@@ -1,5 +1,14 @@
 # @chainlink/apy-finance-test-adapter
 
+## 0.2.24
+
+### Patch Changes
+
+- [#3741](https://github.com/smartcontractkit/external-adapters-js/pull/3741) [`765b1de`](https://github.com/smartcontractkit/external-adapters-js/commit/765b1de0f9d31d3556647db88680050bd0faa39a) Thanks [@renovate](https://github.com/apps/renovate)! - fix(deps): update dependency axios to v1.8.4
+
+- Updated dependencies [[`765b1de`](https://github.com/smartcontractkit/external-adapters-js/commit/765b1de0f9d31d3556647db88680050bd0faa39a)]:
+  - @chainlink/token-allocation-test-adapter@0.0.24
+
 ## 0.2.23
 
 ### Patch Changes
