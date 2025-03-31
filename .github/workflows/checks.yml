@@ -49,7 +49,7 @@ jobs:
           base-branch: origin/${{ github.base_ref }}
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
-        run: BUILD_ALL=true ./.github/scripts/changed-adapters.sh
+        run: ./.github/scripts/changed-adapters.sh
 
   # ---------- Adapter checks (only for changed EAs) ----------
 
