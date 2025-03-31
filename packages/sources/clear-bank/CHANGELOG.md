@@ -1,5 +1,11 @@
 # @chainlink/clear-bank-adapter
 
+## 1.0.24
+
+### Patch Changes
+
+- [#3741](https://github.com/smartcontractkit/external-adapters-js/pull/3741) [`765b1de`](https://github.com/smartcontractkit/external-adapters-js/commit/765b1de0f9d31d3556647db88680050bd0faa39a) Thanks [@renovate](https://github.com/apps/renovate)! - fix(deps): update dependency axios to v1.8.4
+
 ## 1.0.23
 
 ### Patch Changes
