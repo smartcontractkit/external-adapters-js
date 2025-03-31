@@ -49,7 +49,7 @@ jobs:
           base-branch: origin/${{ github.base_ref }}
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
-        run: ./.github/scripts/changed-adapters.sh
+        run: BUILD_ALL=true ./.github/scripts/changed-adapters.sh
 
   # ---------- Adapter checks (only for changed EAs) ----------
 
@@ -91,7 +91,7 @@ jobs:
 
   # Run non-unit, non-integration tests
   non-unit-non-integration-tests:
-    name: Run integration tests for changed adapters
+    name: Run non-unit, non-integration tests for changed packages
     runs-on: [ubuntu-latest]
     needs:
       - check-changesets
@@ -102,9 +102,10 @@ jobs:
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
       - name: Run tests
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
         run: |
           set -x
-          CHANGED_PACKAGES=$(yarn workspaces list -R --json)
           # TODO: Reduce the ignored patterns to only /test/unit/ and
           # /test/integration/ by making the other tests actually pass.
           yarn test --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location' -r | tr '\n' ' ') --testPathIgnorePatterns="$(echo $CHANGED_PACKAGES | jq 'map(.location | . + "/test/unit/|" + . + "/test/integration") | join("|")')|/test/e2e/|/test/transports/|packages/scripts/src/get-release-notes/|packages/scripts/src/ephemeral-adapters/|packages/scripts/src/gha/|packages/scripts/src/docker-build/|packages/scripts/src/schema-flatten/|packages/scripts/src/generate-image-name/|packages/scripts/src/get-changed-adapters/|packages/k6/src/"
