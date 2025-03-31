@@ -108,21 +108,9 @@ jobs:
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
         run: |
-          yarn test packages/scripts/src/get-changed-adapters/lib.test.ts -u
-          git diff > dskloet-diff.txt
-          xxd dskloet-diff.txt > dskloet-diff.hex
-          cat dskloet-diff.txt
-          cat dskloet-diff.hex
           # TODO: Reduce the ignored patterns to only /dist/, /test/unit/ and
           # /test/integration/ by making the other tests actually pass.
           yarn test --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location' -r | tr '\n' ' ') --testPathIgnorePatterns="$(echo $CHANGED_PACKAGES | jq --raw-output 'map(.location | . + "/dist/|" + . + "/test/unit/|" + . + "/test/integration") | join("|")')|/test/e2e/|/test/transports/|packages/scripts/src/get-release-notes/|packages/scripts/src/ephemeral-adapters/|packages/scripts/src/gha/|packages/scripts/src/docker-build/|packages/scripts/src/schema-flatten/|packages/scripts/src/generate-image-name/|packages/scripts/src/flux-emulator/|packages/k6/src/"
-      - name: Upload diff.txt
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: snapshot-diff-dskloet
-          path: |
-            dskloet-diff.txt
-            dskloet-diff.hex
 
   # Run linters
   linters:
