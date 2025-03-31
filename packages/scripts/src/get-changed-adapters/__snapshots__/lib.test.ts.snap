@@ -1,45 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`get-changed-adapters cli check args should print the usage string if not enough args are provided 1`] = `
-"[31m[1m[22m[39m
-[31m[1mRequires 1 argument of the changed files file path.[22m[39m"
-`;
+exports[`get-changed-adapters cli check args should print the usage string if not enough args are provided 1`] = `"[31m[1mRequires 1 argument of the changed files file path.[22m[39m"`;
 
-exports[`get-changed-adapters cli check args should throw an error if the action argument is not a valid option 1`] = `
-"[31m[1m[22m[39m
-[31m[1mRequires 1 argument of the changed files file path.[22m[39m"
-`;
+exports[`get-changed-adapters cli check args should throw an error if the action argument is not a valid option 1`] = `"[31m[1mRequires 1 argument of the changed files file path.[22m[39m"`;
 
-exports[`get-changed-adapters cli createOutput should return the list of adapters when adapters exist in each type 1`] = `"coingecko coinpaprika"`;
+exports[`get-changed-adapters cli createOutput should return the list of adapters when adapters exist in each type 1`] = `"coingecko coinpaprika ghi coingecko coinmarketcap coinpaprika tiingo"`;
 
 exports[`get-changed-adapters cli generateFilteredAdaptersListByType should exclude non package and test files 1`] = `
-Object {
-  "composites": Array [
+{
+  "composites": [
     "bcd",
   ],
   "coreWasChanged": false,
-  "sources": Array [],
-  "targets": Array [],
+  "non-deployable": [],
+  "sources": [],
+  "targets": [],
 }
 `;
 
 exports[`get-changed-adapters cli generateFilteredAdaptersListByType should return the different types of adapters when multiple exist are changed and return that core was changed when core changes occur 1`] = `
-Object {
-  "composites": Array [
+{
+  "composites": [
     "bcd",
   ],
   "coreWasChanged": true,
-  "sources": Array [
+  "non-deployable": [],
+  "sources": [
     "abc",
   ],
-  "targets": Array [
+  "targets": [
     "gef",
   ],
 }
 `;
 
 exports[`get-changed-adapters cli loadChangedFileList should return an array of changed files 1`] = `
-Array [
+[
   "packages/sources/xbto/package.json",
   "packages/sources/coinpaprika/src/index.ts",
   "packages/sources/coingecko/test/integration/__snapshots__/adapter.test.ts.snap",
