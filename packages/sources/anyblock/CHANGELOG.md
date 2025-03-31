@@ -1,5 +1,13 @@
 # @chainlink/anyblock-adapter
 
+## 2.1.9
+
+### Patch Changes
+
+- Updated dependencies [[`765b1de`](https://github.com/smartcontractkit/external-adapters-js/commit/765b1de0f9d31d3556647db88680050bd0faa39a), [`990b342`](https://github.com/smartcontractkit/external-adapters-js/commit/990b34254a468dd1c651e6f59afa33bcab2e7578)]:
+  - @chainlink/ea-bootstrap@2.29.8
+  - @chainlink/ea-test-helpers@1.4.7
+
 ## 2.1.8
 
 ### Patch Changes
