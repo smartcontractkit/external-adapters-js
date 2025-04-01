@@ -85,6 +85,10 @@ describe('Ephemeral Adapters Testing', () => {
     jest.clearAllMocks()
   })
 
+  afterAll(() => {
+    process.exitCode = 0
+  })
+
   describe('starting and stopping ephemeral adapters', () => {
     it('should generate an expected qa adapter name', async () => {
       const inputs: Inputs = {
