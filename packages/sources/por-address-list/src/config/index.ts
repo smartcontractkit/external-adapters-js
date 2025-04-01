@@ -42,7 +42,7 @@ export const config = new AdapterConfig({
   SOLVBTC_BBN_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.BBN native BTC wallet address',
     type: 'string',
-    default: 'https://por.sft-api.com/solv-btc-bbn-addresses.json',
+    default: 'https://por.sft-api.com/x-solv-btc-addresses.json',
   },
   SOLVBTC_ENA_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.ENA native BTC wallet address',
