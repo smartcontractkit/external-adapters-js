@@ -17,9 +17,9 @@ At least one of each of the following categories must be set as an environment v
    |           |    `COINBASE_PRIME_ADAPTER_URL`     |         The location of a Coinbase Prime adapter         |         |             |
    |           |  `COINBASE_PRIME_ETH_ADAPTER_URL`   |         The location of a Coinbase Prime adapter         |         |             |
    |           |        `GEMINI_ADAPTER_URL`         |        The location of a Gemini external adapter         |         |             |
+   |           | `IGNITION_ADDRESS_LIST_ADAPTER_URL` | The location of a Ignition Address List external adapter |         |             |
    |           | `MOONBEAM_ADDRESS_LIST_ADAPTER_URL` | The location of a Moonbeam Address List external adapter |         |             |
    |           |  `MULTI_ADDRESS_LIST_ADAPTER_URL`   |  The location of a Multi Address List external adapter   |         |             |
-   |           | `IGNITION_ADDRESS_LIST_ADAPTER_URL` | The location of a Ignition Address List external adapter |         |             |
    |           |   `POR_ADDRESS_LIST_ADAPTER_URL`    |   The location of a PoR Address List external adapter    |         |             |
    |           |         `RENVM_ADAPTER_URL`         |         The location of a RenVM external adapter         |         |             |
    |           |  `STADER_ADDRESS_LIST_ADAPTER_URL`  |  The location of a Stader Address List external adapter  |         |             |
@@ -39,8 +39,10 @@ At least one of each of the following categories must be set as an environment v
    |           |     `BLOCKCHAIR_ADAPTER_URL`      |        The location of a Blockchair external adapter         |         |             |
    |           |     `BLOCKCYPHER_ADAPTER_URL`     |        The location of a Blockcypher external adapter        |         |             |
    |           |       `BTC_COM_ADAPTER_URL`       |          The location of a BTC.com external adapter          |         |             |
+   |           |        `CEFFU_ADAPTER_URL`        |           The location of a Ceffu external adapter           |         |             |
    |           |     `CRYPTOAPIS_ADAPTER_URL`      |        The location of a Crypto APIs external adapter        |         |             |
-   |           |     `ETH_BALANCE_ADAPTER_URL`     |        The location of a EthBalance external adapter         |         |             |
+   |           | `ETHEREUM_CL_INDEXER_ADAPTER_URL` |            The location of a Ethereum Cl Indexer             |         |             |
+   |           |     `ETH_BALANCE_ADAPTER_URL`     |       The location of an ETH Balance external adapter        |         |             |
    |           |     `ETH_BEACON_ADAPTER_URL`      |        The location of an ETH Beacon external adapter        |         |             |
    |           |        `LOTUS_ADAPTER_URL`        |           The location of a Lotus external adapter           |         |             |
    |           |  `POLKADOT_BALANCE_ADAPTER_URL`   |     The location of a Polkadot Balance external adapter      |         |             |
@@ -48,8 +50,6 @@ At least one of each of the following categories must be set as an environment v
    |           |       `SOCHAIN_ADAPTER_URL`       |          The location of a SoChain external adapter          |         |             |
    |           |   `STADER_BALANCE_ADAPTER_URL`    |      The location of a Stader Balance external adapter       |         |             |
    |           |    `TOKEN_BALANCE_ADAPTER_URL`    |       The location of a Token Balance external adapter       |         |             |
-   |           |        `CEFFU_ADAPTER_URL`        |           The location of a Ceffu external adapter           |         |             |
-   |           | `ETHEREUM_CL_INDEXER_ADAPTER_URL` |            The location of a Ethereum Cl Indexer             |         |             |
 
 ## Running
 
@@ -59,9 +59,9 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 | Required? |                Name                |                                             Description                                              |                                                                                                                                               Options                                                                                                                                               | Defaults to |
 | :-------: | :--------------------------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |             `protocol`             |                                 The protocol external adapter to use                                 |             `celsius_address_list`, `chain_reserve_wallet`, `coinbase_prime`, `coinbase_prime_eth` `gemini`,`moonbeam_address_list`, `multi_address_list`, `ignition_address_list`, `list`, `por_address_list`, `renvm`, `stader_address_list`, `swell_address_list`, `wbtc`, `wrapped`             |             |
+|    ✅     |             `protocol`             |                                 The protocol external adapter to use                                 |            `celsius_address_list`, `chain_reserve_wallet`, `coinbase_prime`, `coinbase_prime_eth` `gemini`, `ignition_address_list`, `list`, `moonbeam_address_list`, `multi_address_list`, `por_address_list`, `renvm`, `stader_address_list`, `swell_address_list`, `wbtc`, `wrapped`             |             |
 |           |         `protocolEndpoint`         |                      Optional endpoint for the protocol external adapter to use                      |                                                                                                                                                                                                                                                                                                     |             |
-|    ✅     |             `indexer`              |                                 The indexer external adapter to use                                  | `ada_balance`, `amberdata`, `avalanche_platform`, `bitcoin_json_rpc`, `blockchain_com`. `blockchair`, `blockcypher`, `btc_com`, `cryptoapis`, `eth_balance`, `eth_beacon`, `lotus`, `polkadot_balance`, `por_indexer`, `sochain`, `stader_balance`, `token_balance`, `ceffu`, `ethereum_cl_indexer` |             |
+|    ✅     |             `indexer`              |                                 The indexer external adapter to use                                  | `ada_balance`, `amberdata`, `avalanche_platform`, `bitcoin_json_rpc`, `blockchain_com`. `blockchair`, `blockcypher`, `btc_com`, `ceffu`, `cryptoapis`, `ethereum_cl_indexer`, `eth_balance`, `eth_beacon`, `lotus`, `polkadot_balance`, `por_indexer`, `sochain`, `stader_balance`, `token_balance` |             |
 |           |         `indexerEndpoint`          |                      Optional endpoint for the indexer external adapter to use                       |                                                                                                                                                                                                                                                                                                     |             |
 |           |          `indexerParams`           |                         Additional param for indexer external adapter to use                         |                                                                                                                                                                                                                                                                                                     |             |
 |           |          `confirmations`           | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                                                                                                                                                                                                                                     |      6      |
