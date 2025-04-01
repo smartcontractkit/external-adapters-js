@@ -4,7 +4,7 @@ import { mockReaddirSyncResponse, mockFileContentsMap } from '../fixtures/fs'
 
 jest.mock('../../workspace', () => {
   return {
-    getWorkspacePackages: () => {
+    getWorkspaceAdapters: () => {
       return mockGetWorkspacePackagesResponse
     },
   }
