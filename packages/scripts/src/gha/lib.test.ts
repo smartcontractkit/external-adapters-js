@@ -1,4 +1,16 @@
 import { getJobMatrix } from './lib'
+import { mockGetWorkspacePackagesResponse } from '../fixtures/getWorkspacePackages'
+
+jest.mock('../workspace', () => {
+  return {
+    getWorkspaceAdapters: () => {
+      return mockGetWorkspacePackagesResponse
+    },
+    getWorkspacePackages: () => {
+      return mockGetWorkspacePackagesResponse
+    },
+  }
+})
 
 describe('job matrix generation', () => {
   it('should generate a job matrix consumable by gha', async () => {

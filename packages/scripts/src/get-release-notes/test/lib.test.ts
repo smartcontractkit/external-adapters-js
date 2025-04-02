@@ -1,5 +1,5 @@
 import { getReleaseNotes } from '../lib'
-import { mockGetWorkspacePackagesResponse } from '../fixtures/getWorkspacePackages'
+import { mockGetWorkspacePackagesResponse } from '../../fixtures/getWorkspacePackages'
 import { mockReaddirSyncResponse, mockFileContentsMap } from '../fixtures/fs'
 
 jest.mock('../../workspace', () => {
