@@ -44,7 +44,6 @@ export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[]
     .split('\n')
     .filter(Boolean)
     .map((v) => {
-      console.log('dskloetx v', v)
       return JSON.parse(v)
     })
     .map(({ location, name }: WorkspaceAdapter) => {
