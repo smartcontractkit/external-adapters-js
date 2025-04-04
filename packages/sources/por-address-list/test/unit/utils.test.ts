@@ -132,21 +132,28 @@ describe('address endpoint', () => {
 
       verifyAddressListMatches(result, DEFAULT_EXPECTED_ADDRESSES)
 
+      expect(addressManager.contract.getPoRAddressList).toBeCalledTimes(4)
       expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
         1,
         ethers.BigNumber.from(0),
-        ethers.BigNumber.from(3),
+        ethers.BigNumber.from(2),
         { blockTag: LATEST_BLOCK_NUM - confirmations },
       )
       expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
         2,
-        ethers.BigNumber.from(4),
-        ethers.BigNumber.from(7),
+        ethers.BigNumber.from(3),
+        ethers.BigNumber.from(5),
         { blockTag: LATEST_BLOCK_NUM - confirmations },
       )
       expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
         3,
+        ethers.BigNumber.from(6),
         ethers.BigNumber.from(8),
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
+      )
+      expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
+        4,
+        ethers.BigNumber.from(9),
         ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length - 1),
         { blockTag: LATEST_BLOCK_NUM - confirmations },
       )
