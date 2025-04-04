@@ -199,3 +199,76 @@ export const mockBalanceLimboValidator = (): void => {
     )
     .persist()
 }
+
+// Mocks responses for the given addresses, batched into batches of 3.
+// Returns an array of request objects which can be used to check if the
+// request has happened and to resolve the request.
+export const mockBalanceBatchedAddresses = (addresses: string[]): void => {
+  const batchSize = 3
+  const requests: {
+    hasHappened: boolean
+    resolve: () => void
+  }[] = []
+
+  const mockAddresses = (startIndex, endIndex) => {
+    const addressesToMock = addresses.slice(startIndex, endIndex)
+    let resolve
+    const waitBeforeResolving = new Promise((r) => {
+      resolve = r
+    })
+    const request = {
+      hasHappened: false,
+      resolve,
+    }
+    requests.push(request)
+    nock('http://localhost:3500', { encodedQueryParams: true })
+      .persist()
+      .post('/eth/v1/beacon/states/finalized/validators', {
+        ids: addressesToMock,
+      })
+      .reply(
+        200,
+        async () => {
+          request.hasHappened = true
+          await waitBeforeResolving
+          return {
+            execution_optimistic: true,
+            data: addressesToMock.map((address, addressIndex) => ({
+              index: (416512 + startIndex + addressIndex).toString(),
+              balance: (32081209325 + startIndex + addressIndex).toString(),
+              status: 'active_ongoing',
+              validator: {
+                pubkey: address,
+                withdrawal_credentials:
+                  '0x00f50428677c60f997aadeab24aabf7fceaef491c96a52b463ae91f95611cf71',
+                effective_balance: '32000000000',
+                slashed: false,
+                activation_eligibility_epoch: '0',
+                activation_epoch: '0',
+                exit_epoch: '18446744073709551615',
+                withdrawable_epoch: '18446744073709551615',
+              },
+            })),
+          }
+        },
+        [
+          'content-type',
+          'application/json',
+          'server',
+          'Lighthouse/v3.1.0-aa022f4/x86_64-linux',
+          'content-length',
+          '124',
+          'date',
+          'Wed, 21 Sep 2022 10:58:34 GMT',
+        ],
+      )
+      .persist()
+  }
+
+  for (let batch = 0; batch < Math.ceil(addresses.length / batchSize); batch++) {
+    const start = batch * batchSize
+    const end = start + batchSize
+    mockAddresses(start, end)
+  }
+  return requests
+}
