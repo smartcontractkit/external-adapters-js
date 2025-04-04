@@ -1,3 +1,4 @@
+[![](https://img.shields.io/github/v/tag/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/releases)
 [![](https://img.shields.io/github/stars/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/stargazers)
 [![](https://img.shields.io/github/forks/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/network/members)
 [![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml)
