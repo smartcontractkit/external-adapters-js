@@ -1,3 +1,4 @@
+import { sleep } from '@chainlink/external-adapter-framework/util'
 import { ethers } from 'ethers'
 import { DefaultAddressManager } from '../../src/transport/addressManager'
 
@@ -16,6 +17,13 @@ const DEFAULT_EXPECTED_ADDRESSES = [
 
 const LATEST_BLOCK_NUM = 1000
 
+const getAddresses = (startIdx: ethers.BigNumber, endIdx: ethers.BigNumber) => {
+  const lastIdx = endIdx.gte(ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length))
+    ? DEFAULT_EXPECTED_ADDRESSES.length - 1
+    : endIdx.toNumber()
+  return DEFAULT_EXPECTED_ADDRESSES.slice(startIdx.toNumber(), lastIdx + 1)
+}
+
 jest.mock('ethers', () => {
   const originalModule = jest.requireActual('ethers')
 
@@ -32,16 +40,7 @@ jest.mock('ethers', () => {
         getPoRAddressListLength: jest
           .fn()
           .mockReturnValue(originalModule.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length)),
-        getPoRAddressList: jest
-          .fn()
-          .mockImplementation((startIdx: ethers.BigNumber, endIdx: ethers.BigNumber) => {
-            const lastIdx = endIdx.gte(
-              originalModule.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length),
-            )
-              ? DEFAULT_EXPECTED_ADDRESSES.length - 1
-              : endIdx.toNumber()
-            return DEFAULT_EXPECTED_ADDRESSES.slice(startIdx.toNumber(), lastIdx + 1)
-          }),
+        getPoRAddressList: jest.fn().mockImplementation(getAddresses),
       })),
     },
   }
@@ -157,6 +156,91 @@ describe('address endpoint', () => {
         ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length - 1),
         { blockTag: LATEST_BLOCK_NUM - confirmations },
       )
+    })
+
+    it('waits for a group of fetches to finish before fetching more', async () => {
+      const addressManager = new DefaultAddressManager(
+        '',
+        [],
+        new ethers.providers.JsonRpcProvider(),
+      )
+
+      const resolvers = []
+      const getAddressesDelayed = (startIdx: ethers.BigNumber, endIdx: ethers.BigNumber) => {
+        const answer = getAddresses(startIdx, endIdx)
+        return new Promise((resolve) => {
+          resolvers.push(() => resolve(answer))
+        })
+      }
+
+      addressManager.contract.getPoRAddressList.mockImplementation(getAddressesDelayed)
+
+      const confirmations = 0
+      const batchSize = 2
+      const batchGroupSize = 2
+
+      expect(resolvers.length).toBe(0)
+
+      const resultPromise = addressManager.fetchAddressList(
+        LATEST_BLOCK_NUM,
+        confirmations,
+        batchSize,
+        batchGroupSize,
+      )
+
+      await sleep(0)
+
+      expect(resolvers.length).toBe(2)
+      expect(addressManager.contract.getPoRAddressList).toBeCalledTimes(2)
+      expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
+        1,
+        ethers.BigNumber.from(0),
+        ethers.BigNumber.from(1),
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
+      )
+      expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
+        2,
+        ethers.BigNumber.from(2),
+        ethers.BigNumber.from(3),
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
+      )
+
+      resolvers[0]()
+      resolvers[1]()
+      await sleep(0)
+
+      expect(resolvers.length).toBe(4)
+      expect(addressManager.contract.getPoRAddressList).toBeCalledTimes(4)
+      expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
+        3,
+        ethers.BigNumber.from(4),
+        ethers.BigNumber.from(5),
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
+      )
+      expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
+        4,
+        ethers.BigNumber.from(6),
+        ethers.BigNumber.from(7),
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
+      )
+
+      resolvers[2]()
+      resolvers[3]()
+      await sleep(0)
+
+      expect(resolvers.length).toBe(5)
+      expect(addressManager.contract.getPoRAddressList).toBeCalledTimes(5)
+      expect(addressManager.contract.getPoRAddressList).toHaveBeenNthCalledWith(
+        5,
+        ethers.BigNumber.from(8),
+        ethers.BigNumber.from(9),
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
+      )
+
+      resolvers[4]()
+      await sleep(0)
+
+      verifyAddressListMatches(await resultPromise, DEFAULT_EXPECTED_ADDRESSES)
     })
   })
 })
