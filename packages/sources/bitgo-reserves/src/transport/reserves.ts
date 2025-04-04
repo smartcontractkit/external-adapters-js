@@ -5,7 +5,7 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/reserves'
 import * as crypto from 'crypto'
-import { AdapterSettings } from '@chainlink/external-adapter-framework/config'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export interface DataSchema {
   totalReserve: string
@@ -36,10 +36,7 @@ class ReservesHttpTransport extends HttpTransport<HttpTransportTypes> {
 
   override async initialize(
     dependencies: TransportDependencies<HttpTransportTypes>,
-    adapterSettings: AdapterSettings<{
-      API_ENDPOINT: { description: string; type: 'string'; default: string }
-      VERIFICATION_PUBKEY: { description: string; type: 'string'; required: true }
-    }>,
+    adapterSettings: HttpTransportTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -48,16 +45,28 @@ class ReservesHttpTransport extends HttpTransport<HttpTransportTypes> {
   }
 }
 
+export const getCreds = (client: string) => {
+  const apiKeyName = `${client.toUpperCase()}_API_ENDPOINT`
+  const pubKeyName = `${client.toUpperCase()}_VERIFICATION_PUBKEY`
+  const endpoint = process.env[apiKeyName]
+  const pubKey = process.env[pubKeyName]
+  if (!endpoint || !pubKey) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Missing '${apiKeyName}' or '${pubKeyName}' environment variables.`,
+    })
+  }
+  return [endpoint, pubKey.replace(/\\n/g, '\n')]
+}
+
 export const httpTransport = new ReservesHttpTransport({
   prepareRequests: (params, config) => {
-    return params.map((param) => {
-      return {
-        params: [param],
-        request: {
-          baseURL: config.API_ENDPOINT,
-        },
-      }
-    })
+    return params.map((param) => ({
+      params: [param],
+      request: {
+        baseURL: param.client === 'gousd' ? config.API_ENDPOINT : getCreds(param.client)[0],
+      },
+    }))
   },
   parseResponse: (params, response) => {
     const payload = response.data
@@ -89,7 +98,17 @@ export const httpTransport = new ReservesHttpTransport({
 
     const verifier = crypto.createVerify('sha256')
     verifier.update(payload.data)
-    if (!verifier.verify(httpTransport.pubkey, payload.dataSignature, 'base64')) {
+    let verified: boolean
+    try {
+      verified = verifier.verify(
+        params[0].client == 'gousd' ? httpTransport.pubkey : getCreds(params[0].client)[1],
+        payload.dataSignature,
+        'base64',
+      )
+    } catch (err) {
+      verified = false
+    }
+    if (!verified) {
       return params.map((param) => {
         return {
           params: param,
