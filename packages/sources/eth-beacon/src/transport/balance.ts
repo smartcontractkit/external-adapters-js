@@ -117,16 +117,12 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       const addresses = params.addresses.map(({ address }) => address)
       responses.push(await this.queryBeaconChain(url, addresses, statusList))
     } else {
-      const batchedAddresses: string[][] = []
       // Separate the address set into the specified batch size
       // Add the batches as comma-separated lists to a new list used to make the requests
-      for (let i = 0; i < params.addresses.length / batchSize; i++) {
-        batchedAddresses.push(
-          params.addresses
-            .slice(i * batchSize, i * batchSize + batchSize)
-            .map(({ address }) => address),
-        )
-      }
+      const batchedAddresses = splitArrayIntoChunks(
+        params.addresses.map(({ address }) => address),
+        batchSize,
+      )
 
       const groupSize = this.config.GROUP_SIZE
       const requestGroups = splitArrayIntoChunks(batchedAddresses, groupSize)

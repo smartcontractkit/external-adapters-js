@@ -221,7 +221,6 @@ export const mockBaseContractCallResponseSuccess = (): nock.Scope =>
         request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
         request.params[0].data === '0xc5f24068' // getWithdrawalQueueLength()
       ) {
-        console.log('getWithdrawalQueueLength')
         return {
           jsonrpc: '2.0',
           id: request.id,
@@ -233,7 +232,6 @@ export const mockBaseContractCallResponseSuccess = (): nock.Scope =>
         request.params[0].data ===
           '0xf3d4902a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006' // getPoRAddressList()
       ) {
-        console.log('getPoRAddressList')
         return {
           jsonrpc: '2.0',
           id: request.id,

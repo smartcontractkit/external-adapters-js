@@ -37,3 +37,38 @@ exports[`Balance Endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`Balance Endpoint should wait for the first group to finish before sending more requests 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "100000000000000000000000000000000000000000000001",
+        "balance": "11039074987459742",
+      },
+      {
+        "address": "100000000000000000000000000000000000000000000002",
+        "balance": "11040093482701534",
+      },
+      {
+        "address": "100000000000000000000000000000000000000000000003",
+        "balance": "5514630890463855",
+      },
+      {
+        "address": "100000000000000000000000000000000000000000000004",
+        "balance": "11039074987459742",
+      },
+      {
+        "address": "100000000000000000000000000000000000000000000005",
+        "balance": "11040093482701534",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1659338094909,
+    "providerDataRequestedUnixMs": 1659338094909,
+  },
+}
+`;

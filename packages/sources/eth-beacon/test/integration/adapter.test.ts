@@ -1,9 +1,11 @@
+import { sleep } from '@chainlink/external-adapter-framework/util'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
+  mockBalanceBatchedAddresses,
   mockBalanceLimboValidator,
   mockBalanceSuccess,
   mockBalanceWithStatusSuccess,
@@ -68,6 +70,8 @@ describe('execute', () => {
     process.env.ETH_CONSENSUS_RPC_URL = process.env.ETH_CONSENSUS_RPC_UR ?? 'http://localhost:3500'
     process.env.ETH_EXECUTION_RPC_URL = process.env.ETH_EXECUTION_RPC_URL ?? 'http://localhost:3501'
     process.env['BACKGROUND_EXECUTE_MS'] = '0'
+    process.env.BATCH_SIZE = '3'
+    process.env.GROUP_SIZE = '2'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -160,6 +164,81 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should batch requests', async () => {
+      const addresses = [
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009',
+        '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a',
+      ]
+
+      const data = {
+        result: addresses.map((address) => ({
+          address,
+        })),
+      }
+      const requests = mockBalanceBatchedAddresses(addresses)
+      requests.forEach((request) => {
+        request.resolve()
+      })
+      expect(requests.filter((r) => r.hasHappened).length).toBe(0)
+      const response = await testAdapter.request(data)
+      expect(requests.filter((r) => r.hasHappened).length).toBe(4)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should wait before sending the next group', async () => {
+      const addresses = [
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000013',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000014',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000015',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000017',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018',
+        '0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000019',
+        '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001a',
+        '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001b',
+        '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c',
+        '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001d',
+      ]
+
+      const data = {
+        result: addresses.map((address) => ({
+          address,
+        })),
+      }
+      const requests = mockBalanceBatchedAddresses(addresses)
+      expect(requests.filter((r) => r.hasHappened).length).toBe(0)
+      const responsePromise = testAdapter.request(data)
+      await sleep(100)
+      expect(requests.filter((r) => r.hasHappened).length).toBe(2)
+
+      requests[0].resolve()
+      requests[1].resolve()
+
+      await sleep(100)
+      expect(requests.filter((r) => r.hasHappened).length).toBe(4)
+
+      requests[2].resolve()
+      requests[3].resolve()
+      requests[4].resolve()
+
+      const response = await responsePromise
+
+      expect(requests.filter((r) => r.hasHappened).length).toBe(5)
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
