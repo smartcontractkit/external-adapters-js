@@ -128,7 +128,7 @@ async function callFunction<T extends unknown[], R>(
     } catch (e) {
       attempts++
 
-      if (attempts >= max_retry) throw new Error('Failed after maximum retries.')
+      if (attempts >= max_retry) throw e
       else {
         logger.info(`${max_retry - attempts} retries remaining, sleeping for ${timeToSleep}ms...`)
         await sleep(timeToSleep)
