@@ -29,7 +29,7 @@ export abstract class AddressManager<T> {
     let batchRequests: Promise<T>[] = []
 
     while (totalRequestedAddressesCount < numAddresses.toNumber()) {
-      const nextEndIdx = startIdx.add(batchSize)
+      const nextEndIdx = startIdx.add(batchSize - 1)
       const endIdx = nextEndIdx.gte(numAddresses) ? numAddresses.sub(1) : nextEndIdx
       const batchCall = this.getPoRAddressListCall(startIdx, endIdx, blockTag)
       batchRequests.push(batchCall)
