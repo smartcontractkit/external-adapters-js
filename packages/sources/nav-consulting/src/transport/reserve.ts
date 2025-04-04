@@ -51,52 +51,49 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
   }
 
   async handleRequest(param: WrappedRequestParams) {
-    let response: AdapterResponse<BaseEndpointTypes['Response']> | undefined
-    let attempts = 0
-    const timeToSleep = 60000 // 1 minute
-
-    while (attempts < param.retry) {
-      try {
-        response = await this._handleRequest(param.request)
-        break
-      } catch (e) {
-        attempts++
-
-        if (attempts === param.retry) {
-          const errorMessage = e instanceof Error ? e.message : 'Number of retry attempts exceeded '
-          logger.error(e, errorMessage)
-          response = {
-            statusCode: (e as AdapterError)?.statusCode || 502,
-            errorMessage,
-            timestamps: {
-              providerDataRequestedUnixMs: 0,
-              providerDataReceivedUnixMs: 0,
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          }
-        } else {
-          logger.info(
-            `${param.retry - attempts} retries remaining, sleeping for ${timeToSleep}ms...`,
-          )
-          await sleep(timeToSleep)
-        }
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(param)
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(e, errorMessage)
+      response = {
+        statusCode: (e as AdapterError)?.statusCode || 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
     }
-    if (response) {
-      await this.responseCache.write(this.name, [{ params: param.request, response }])
-    }
+    await this.responseCache.write(this.name, [{ params: param.request, response }])
   }
 
   async _handleRequest(
-    param: RequestParams,
+    param: WrappedRequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
+    const [apiKey, secret] = getApiKeys(param.request.fund)
 
-    const [apiKey, secret] = getApiKeys(param.fund)
-
-    const [fundId, date] = await getFund(this.url, apiKey, secret, this.requester)
-
-    const nav = await getFundNav(fundId, date, this.url, apiKey, secret, this.requester)
+    const [fundId, date] = await callFunction(
+      getFund,
+      param.retry,
+      this.url,
+      apiKey,
+      secret,
+      this.requester,
+    )
+    const nav = await callFunction(
+      getFundNav,
+      param.retry,
+      fundId,
+      date,
+      this.url,
+      apiKey,
+      secret,
+      this.requester,
+    )
 
     return {
       data: {
@@ -115,6 +112,30 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
+}
+
+async function callFunction<T extends unknown[], R>(
+  func: (...args: T) => Promise<R>,
+  max_retry: number,
+  ...args: T
+): Promise<R> {
+  let attempts = 0
+  const timeToSleep = 10000 // 10 seconds
+
+  while (attempts < max_retry) {
+    try {
+      return await func(...args)
+    } catch (e) {
+      attempts++
+
+      if (attempts >= max_retry) throw new Error('Failed after maximum retries.')
+      else {
+        logger.info(`${max_retry - attempts} retries remaining, sleeping for ${timeToSleep}ms...`)
+        await sleep(timeToSleep)
+      }
+    }
+  }
+  throw new Error('Unexpected error')
 }
 
 export const navConsultingTransport = new NavConsultingTransport()
