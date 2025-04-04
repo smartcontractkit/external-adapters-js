@@ -14,6 +14,11 @@ const logger = makeLogger('NavConsultingTransport')
 
 type RequestParams = typeof inputParameters.validated
 
+type WrappedRequestParams = {
+  request: RequestParams
+  retry: number
+}
+
 export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTypes> {
   name!: string
   responseCache!: ResponseCache<BaseEndpointTypes>
@@ -33,7 +38,11 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
     this.settings = adapterSettings
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await Promise.all(
+      entries.map(async (param) =>
+        this.handleRequest({ request: param, retry: context.adapterSettings.MAX_RETRIES }),
+      ),
+    )
     if (entries.length == 0) {
       await sleep(1_000)
     } else {
@@ -41,24 +50,41 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
     }
   }
 
-  async handleRequest(param: RequestParams) {
-    let response: AdapterResponse<BaseEndpointTypes['Response']>
-    try {
-      response = await this._handleRequest(param)
-    } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(e, errorMessage)
-      response = {
-        statusCode: (e as AdapterError)?.statusCode || 502,
-        errorMessage,
-        timestamps: {
-          providerDataRequestedUnixMs: 0,
-          providerDataReceivedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
+  async handleRequest(param: WrappedRequestParams) {
+    let response: AdapterResponse<BaseEndpointTypes['Response']> | undefined
+    let attempts = 0
+    const timeToSleep = 60000 // 1 minute
+
+    while (attempts < param.retry) {
+      try {
+        response = await this._handleRequest(param.request)
+        break
+      } catch (e) {
+        attempts++
+
+        if (attempts === param.retry) {
+          const errorMessage = e instanceof Error ? e.message : 'Number of retry attempts exceeded '
+          logger.error(e, errorMessage)
+          response = {
+            statusCode: (e as AdapterError)?.statusCode || 502,
+            errorMessage,
+            timestamps: {
+              providerDataRequestedUnixMs: 0,
+              providerDataReceivedUnixMs: 0,
+              providerIndicatedTimeUnixMs: undefined,
+            },
+          }
+        } else {
+          logger.info(
+            `${param.retry - attempts} retries remaining, sleeping for ${timeToSleep}ms...`,
+          )
+          await sleep(timeToSleep)
+        }
       }
     }
-    await this.responseCache.write(this.name, [{ params: param, response }])
+    if (response) {
+      await this.responseCache.write(this.name, [{ params: param.request, response }])
+    }
   }
 
   async _handleRequest(
