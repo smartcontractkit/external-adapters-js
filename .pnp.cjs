@@ -12738,7 +12738,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@kaiko-data-sdk-node-npm-1.26.0-8b0a5f17fa-d343ec5fa4.zip/node_modules/@kaiko-data/sdk-node/",\
         "packageDependencies": [\
           ["@kaiko-data/sdk-node", "npm:1.26.0"],\
-          ["@grpc/grpc-js", "npm:1.12.5"],\
+          ["@grpc/grpc-js", "npm:1.13.2"],\
           ["google-protobuf", "npm:3.21.4"]\
         ],\
         "linkType": "HARD"\
