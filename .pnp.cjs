@@ -7783,7 +7783,7 @@ const RAW_RUNTIME_STATE =
           ["csv-parse", "npm:4.16.3"],\
           ["decimal.js", "npm:10.4.3"],\
           ["moment", "npm:2.30.1"],\
-          ["moment-timezone", "npm:0.5.46"],\
+          ["moment-timezone", "npm:0.5.48"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -31297,10 +31297,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["moment-timezone", [\
-      ["npm:0.5.46", {\
-        "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.46-593e8bed01-7613ba388f.zip/node_modules/moment-timezone/",\
+      ["npm:0.5.48", {\
+        "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.48-3b583954df-8e0b7a0557.zip/node_modules/moment-timezone/",\
         "packageDependencies": [\
-          ["moment-timezone", "npm:0.5.46"],\
+          ["moment-timezone", "npm:0.5.48"],\
           ["moment", "npm:2.30.1"]\
         ],\
         "linkType": "HARD"\
