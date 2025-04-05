@@ -14,6 +14,11 @@ const logger = makeLogger('NavConsultingTransport')
 
 type RequestParams = typeof inputParameters.validated
 
+type WrappedRequestParams = {
+  request: RequestParams
+  retry: number
+}
+
 export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTypes> {
   name!: string
   responseCache!: ResponseCache<BaseEndpointTypes>
@@ -33,7 +38,11 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
     this.settings = adapterSettings
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await Promise.all(
+      entries.map(async (param) =>
+        this.handleRequest({ request: param, retry: context.adapterSettings.MAX_RETRIES }),
+      ),
+    )
     if (entries.length == 0) {
       await sleep(1_000)
     } else {
@@ -41,7 +50,7 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
     }
   }
 
-  async handleRequest(param: RequestParams) {
+  async handleRequest(param: WrappedRequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)
@@ -58,19 +67,33 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
         },
       }
     }
-    await this.responseCache.write(this.name, [{ params: param, response }])
+    await this.responseCache.write(this.name, [{ params: param.request, response }])
   }
 
   async _handleRequest(
-    param: RequestParams,
+    param: WrappedRequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
+    const [apiKey, secret] = getApiKeys(param.request.fund)
 
-    const [apiKey, secret] = getApiKeys(param.fund)
-
-    const [fundId, date] = await getFund(this.url, apiKey, secret, this.requester)
-
-    const nav = await getFundNav(fundId, date, this.url, apiKey, secret, this.requester)
+    const [fundId, date] = await callFunction(
+      getFund,
+      param.retry,
+      this.url,
+      apiKey,
+      secret,
+      this.requester,
+    )
+    const nav = await callFunction(
+      getFundNav,
+      param.retry,
+      fundId,
+      date,
+      this.url,
+      apiKey,
+      secret,
+      this.requester,
+    )
 
     return {
       data: {
@@ -89,6 +112,30 @@ export class NavConsultingTransport extends SubscriptionTransport<BaseEndpointTy
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
+}
+
+async function callFunction<T extends unknown[], R>(
+  func: (...args: T) => Promise<R>,
+  max_retry: number,
+  ...args: T
+): Promise<R> {
+  let attempts = 0
+  const timeToSleep = 10000 // 10 seconds
+
+  while (attempts < max_retry) {
+    try {
+      return await func(...args)
+    } catch (e) {
+      attempts++
+
+      if (attempts >= max_retry) throw e
+      else {
+        logger.info(`${max_retry - attempts} retries remaining, sleeping for ${timeToSleep}ms...`)
+        await sleep(timeToSleep)
+      }
+    }
+  }
+  throw new Error('Unexpected error')
 }
 
 export const navConsultingTransport = new NavConsultingTransport()
