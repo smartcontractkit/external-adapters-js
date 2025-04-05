@@ -1,5 +1,15 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.8.0
+
+### Minor Changes
+
+- [#3768](https://github.com/smartcontractkit/external-adapters-js/pull/3768) [`290fac6`](https://github.com/smartcontractkit/external-adapters-js/commit/290fac6fdc71a3cf0baf8deccf977934e6a4bbab) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix off-by-one bug in batch size of address fetching.
+
+### Patch Changes
+
+- [#3759](https://github.com/smartcontractkit/external-adapters-js/pull/3759) [`3e645ae`](https://github.com/smartcontractkit/external-adapters-js/commit/3e645aebb5a9b060161e7dd86a24a23856fdd64a) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update SolvBBN default endpoint
+
 ## 5.7.0
 
 ### Minor Changes
