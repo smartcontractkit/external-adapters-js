@@ -32,13 +32,11 @@ export const endpoint = new AdapterEndpoint({
   transport: httpTransport,
   inputParameters,
   customInputValidation: (request, adapterSettings): AdapterInputError | undefined => {
-    if (request.requestContext.data.client != 'gousd') {
+    if (
+      request.requestContext.data.client != 'gousd' ||
+      adapterSettings.VERIFICATION_PUBKEY.length == 0
+    ) {
       getCreds(request.requestContext.data.client)
-    } else if (adapterSettings.VERIFICATION_PUBKEY.length == 0) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing VERIFICATION_PUBKEY environment variable.`,
-      })
     }
     return
   },
