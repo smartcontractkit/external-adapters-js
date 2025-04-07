@@ -1,5 +1,11 @@
 # @chainlink/kaiko-state-adapter
 
+## 1.0.10
+
+### Patch Changes
+
+- [#3753](https://github.com/smartcontractkit/external-adapters-js/pull/3753) [`1587b51`](https://github.com/smartcontractkit/external-adapters-js/commit/1587b51db38baab52025047a3c32bc4204f1d329) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency @grpc/grpc-js to v1.13.2
+
 ## 1.0.9
 
 ### Patch Changes
