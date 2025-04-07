@@ -1,5 +1,11 @@
 # @chainlink/nav-consulting-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3766](https://github.com/smartcontractkit/external-adapters-js/pull/3766) [`75ee7c3`](https://github.com/smartcontractkit/external-adapters-js/commit/75ee7c3c2d18dcfca05ca56215230b6ceb061bb9) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Add retry function
+
 ## 1.1.8
 
 ### Patch Changes
