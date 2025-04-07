@@ -132,7 +132,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 }
 
 class MultiAddressManager extends AddressManager<ResponseSchema[]> {
-  getPoRAddressListCall(start: ethers.BigNumber, end: number, blockTag: number) {
+  getPoRAddressListCall(start: ethers.BigNumber, end: ethers.BigNumber, blockTag: number) {
     return this.contract.getPoRAddressList(start, end, { blockTag })
   }
 

@@ -54,14 +54,18 @@ export abstract class AddressManager<T> {
     return addresses
   }
 
-  abstract getPoRAddressListCall(start: ethers.BigNumber, end: number, blockTag: number): Promise<T>
+  abstract getPoRAddressListCall(
+    start: ethers.BigNumber,
+    end: ethers.BigNumber,
+    blockTag: number,
+  ): Promise<T>
 
   abstract processPoRAddressList(result: T[], network: string, chainId: string): PoRAddress[]
 }
 
 type DefaultAddressManagerResponseType = string[]
 export class DefaultAddressManager extends AddressManager<DefaultAddressManagerResponseType> {
-  getPoRAddressListCall(start: ethers.BigNumber, end: number, blockTag: number) {
+  getPoRAddressListCall(start: ethers.BigNumber, end: ethers.BigNumber, blockTag: number) {
     return this.contract.getPoRAddressList(start, end, { blockTag })
   }
 
@@ -83,7 +87,7 @@ export class DefaultAddressManager extends AddressManager<DefaultAddressManagerR
 
 type LombardAddressManagerResponseType = string[][]
 export class LombardAddressManager extends AddressManager<LombardAddressManagerResponseType> {
-  getPoRAddressListCall(start: ethers.BigNumber, end: number, blockTag: number) {
+  getPoRAddressListCall(start: ethers.BigNumber, end: ethers.BigNumber, blockTag: number) {
     return this.contract.getPoRAddressSignatureMessages(start.toNumber(), end, { blockTag })
   }
 
