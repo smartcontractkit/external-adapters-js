@@ -14,7 +14,21 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { deferredPromise, sleep } from '@chainlink/external-adapter-framework/util'
 import * as nock from 'nock'
+
+const totalPenaltyAmountCalls = {}
+
+const getTotalPenaltyAmount = (address) => {
+  if (!(address in totalPenaltyAmountCalls)) {
+    const [promise, resolve] = deferredPromise()
+    totalPenaltyAmountCalls[address] = {
+      resolve: () => resolve(mockPenaltyMap[address]),
+      promise,
+    }
+  }
+  return totalPenaltyAmountCalls[address].promise
+}
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -101,9 +115,7 @@ jest.mock('ethers', () => {
           getOperatorFee: jest.fn().mockImplementation((poolId) => {
             return mockOperatorFeePercentMap[poolId]
           }),
-          totalPenaltyAmount: jest.fn().mockImplementation((address) => {
-            return mockPenaltyMap[address]
-          }),
+          totalPenaltyAmount: jest.fn().mockImplementation(getTotalPenaltyAmount),
           getStakedEthPerNode: jest.fn().mockReturnValue(32_000_000_000_000_000_000),
           getCollateralETH: jest.fn().mockImplementation((poolId) => {
             return mockCollateralEthMap[poolId]
@@ -144,6 +156,7 @@ describe('Stader Balance', () => {
     process.env['ETHEREUM_RPC_URL'] = 'http://localhost:9091'
     process.env['BEACON_RPC_URL'] = 'http://localhost:9092'
     process.env['BACKGROUND_EXECUTE_MS'] = '0'
+    process.env['GROUP_SIZE'] = '2'
     const mockDate = new Date('2022-08-01T07:14:54.909Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -164,7 +177,29 @@ describe('Stader Balance', () => {
 
   describe('balance endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(addressData.data)
+      const responsePromise = testAdapter.request(addressData.data)
+      // We have 3 withdrawn validators and 4 active validators.
+      // So with a group size of 2, we expect first 2 + 1 calls for the
+      // withdrawn validators followed by 2 + 2 calls for the active
+      // validators.
+
+      await sleep(50)
+      expect(Object.keys(totalPenaltyAmountCalls)).toHaveLength(2)
+      Object.values(totalPenaltyAmountCalls).forEach((call) => call.resolve())
+
+      await sleep(50)
+      expect(Object.keys(totalPenaltyAmountCalls)).toHaveLength(3)
+      Object.values(totalPenaltyAmountCalls).forEach((call) => call.resolve())
+
+      await sleep(50)
+      expect(Object.keys(totalPenaltyAmountCalls)).toHaveLength(5)
+      Object.values(totalPenaltyAmountCalls).forEach((call) => call.resolve())
+
+      await sleep(50)
+      expect(Object.keys(totalPenaltyAmountCalls)).toHaveLength(7)
+      Object.values(totalPenaltyAmountCalls).forEach((call) => call.resolve())
+
+      const response = await responsePromise
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
