@@ -29,9 +29,9 @@ exports[`execute reserves endpoint should return success 1`] = `
 exports[`execute reserves endpoint should return success for multi client 1`] = `
 {
   "data": {
-    "result": 12345678.9,
+    "result": 12345678.91,
   },
-  "result": 12345678.9,
+  "result": 12345678.91,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

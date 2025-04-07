@@ -24,3 +24,28 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockResponseSuccessC1 = (): nock.Scope =>
+  nock('http://test-endpoint-c1.com', {
+    encodedQueryParams: true,
+  })
+    .get('/')
+    .reply(
+      200,
+      () => ({
+        data: '{"totalReserve":"12345678.91","cashReserve":"2345678.91","investedReserve":"10000000.01","lastUpdated":"2024-12-10T01:23:45Z"}',
+        dataSignature: 'testsig',
+        lastUpdated: '2024-10-01T01:23:45Z',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()

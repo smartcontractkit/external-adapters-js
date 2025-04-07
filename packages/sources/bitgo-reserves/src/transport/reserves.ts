@@ -46,17 +46,20 @@ class ReservesHttpTransport extends HttpTransport<HttpTransportTypes> {
 }
 
 export const getCreds = (client: string) => {
-  const apiKeyName = `${client.toUpperCase()}_API_ENDPOINT`
+  const apiEndpointName = `${client.toUpperCase()}_API_ENDPOINT`
   const pubKeyName = `${client.toUpperCase()}_VERIFICATION_PUBKEY`
-  const endpoint = process.env[apiKeyName]
+  const endpoint = process.env[apiEndpointName]
   const pubKey = process.env[pubKeyName]
   if (!endpoint || !pubKey) {
     throw new AdapterInputError({
       statusCode: 400,
-      message: `Missing '${apiKeyName}' or '${pubKeyName}' environment variables.`,
+      message: `Missing '${apiEndpointName}' or '${pubKeyName}' environment variables.`,
     })
   }
-  return [endpoint, pubKey.replace(/\\n/g, '\n')]
+  return {
+    endpoint: endpoint,
+    key: pubKey.replace(/\\n/g, '\n'),
+  }
 }
 
 export const httpTransport = new ReservesHttpTransport({
@@ -64,7 +67,7 @@ export const httpTransport = new ReservesHttpTransport({
     return params.map((param) => ({
       params: [param],
       request: {
-        baseURL: param.client === 'gousd' ? config.API_ENDPOINT : getCreds(param.client)[0],
+        baseURL: param.client === 'gousd' ? config.API_ENDPOINT : getCreds(param.client).endpoint,
       },
     }))
   },
@@ -101,7 +104,7 @@ export const httpTransport = new ReservesHttpTransport({
     let verified: boolean
     try {
       verified = verifier.verify(
-        params[0].client == 'gousd' ? httpTransport.pubkey : getCreds(params[0].client)[1],
+        params[0].client == 'gousd' ? httpTransport.pubkey : getCreds(params[0].client).key,
         payload.dataSignature,
         'base64',
       )
