@@ -22,6 +22,16 @@ export const inputParameters = new InputParameters({
     description: 'Array of function parameters in order',
     type: 'string',
   },
+  shouldDecode: {
+    type: 'boolean',
+    description: 'Should decode the result',
+    default: false,
+  },
+  decimals: {
+    type: 'number',
+    description: 'Decimals to use for the decoded result',
+    default: 18,
+  },
 })
 
 export type BaseEndpointTypes = {
@@ -29,6 +39,7 @@ export type BaseEndpointTypes = {
   Response: {
     Data: {
       result: string
+      decodedResult?: string | number
     }
     Result: string
   }

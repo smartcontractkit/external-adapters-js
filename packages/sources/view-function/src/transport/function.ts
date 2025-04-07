@@ -55,7 +55,7 @@ export class FunctionTransport extends SubscriptionTransport<FunctionTransportTy
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<FunctionTransportTypes['Response']>> {
-    const { address, signature, inputParams } = param
+    const { address, signature, inputParams, shouldDecode, decimals } = param
 
     const iface = new ethers.Interface([signature])
     const fnName = iface.getFunctionName(signature)
@@ -68,10 +68,19 @@ export class FunctionTransport extends SubscriptionTransport<FunctionTransportTy
       data: encoded,
     })
 
+    let data: BaseEndpointTypes['Response']['Data'] = {
+      result,
+    }
+
+    if (shouldDecode) {
+      const decodedResult = iface.decodeFunctionResult(fnName, result)
+      if (decodedResult.length === 1 && typeof decodedResult[0] === 'bigint') {
+        data = { ...data, decodedResult: Number(decodedResult[0]) / 10 ** decimals }
+      }
+    }
+
     return {
-      data: {
-        result,
-      },
+      data,
       statusCode: 200,
       result,
       timestamps: {
