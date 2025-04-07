@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseSuccess, mockResponseSuccessC1 } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -14,6 +14,9 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_ENDPOINT = 'http://test-endpoint.com'
     process.env.VERIFICATION_PUBKEY = 'test'
+
+    process.env.C1_API_ENDPOINT = 'http://test-endpoint-c1.com'
+    process.env.C1_VERIFICATION_PUBKEY = 'test-c1'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -47,6 +50,29 @@ describe('execute', () => {
       mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for multi client', async () => {
+      const data = {
+        endpoint: 'reserves',
+        client: 'c1',
+      }
+      mockResponseSuccessC1()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return failure for non exist client', async () => {
+      const data = {
+        endpoint: 'reserves',
+        client: 'c2',
+      }
+      mockResponseSuccess()
+      mockResponseSuccessC1()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })

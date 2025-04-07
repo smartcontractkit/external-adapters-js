@@ -1,11 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute reserves endpoint should return failure for non exist client 1`] = `
+{
+  "error": {
+    "message": "Missing 'C2_API_ENDPOINT' or 'C2_VERIFICATION_PUBKEY' environment variables.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute reserves endpoint should return success 1`] = `
 {
   "data": {
     "result": 12345678.9,
   },
   "result": 12345678.9,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733793825000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint should return success for multi client 1`] = `
+{
+  "data": {
+    "result": 12345678.91,
+  },
+  "result": 12345678.91,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
