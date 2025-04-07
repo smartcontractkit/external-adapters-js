@@ -29,7 +29,7 @@ export const inputParameters = new InputParameters({
   },
   decimals: {
     type: 'number',
-    description: 'Decimals to use for the decoded result',
+    description: 'Decimals to divide the result by - default to 18 (1 ETH)',
     default: 18,
   },
 })
