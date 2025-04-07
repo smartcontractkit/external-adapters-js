@@ -68,10 +68,8 @@ export const httpTransport = new ReservesHttpTransport({
       params: [param],
       request: {
         baseURL:
-          param.client === 'gousd'
-            ? config.API_ENDPOINT.length != 0
-              ? config.API_ENDPOINT
-              : getCreds(param.client).endpoint
+          param.client === 'gousd' && config.API_ENDPOINT.length != 0
+            ? config.API_ENDPOINT
             : getCreds(param.client).endpoint,
       },
     }))
@@ -107,10 +105,8 @@ export const httpTransport = new ReservesHttpTransport({
     const verifier = crypto.createVerify('sha256')
     verifier.update(payload.data)
     const verified = verifier.verify(
-      params[0].client == 'gousd'
-        ? httpTransport.pubkey.length != 0
-          ? httpTransport.pubkey
-          : getCreds(params[0].client).key
+      params[0].client == 'gousd' && httpTransport.pubkey.length != 0
+        ? httpTransport.pubkey
         : getCreds(params[0].client).key,
       payload.dataSignature,
       'base64',
