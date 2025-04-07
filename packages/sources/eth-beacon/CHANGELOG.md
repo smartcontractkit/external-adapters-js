@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 3.0.16
+
+### Patch Changes
+
+- [#3771](https://github.com/smartcontractkit/external-adapters-js/pull/3771) [`5f3a8eb`](https://github.com/smartcontractkit/external-adapters-js/commit/5f3a8ebc6a8936bc5a332886a0f0e4f31e38ae7e) Thanks [@dskloetc](https://github.com/dskloetc)! - Small refactoring in address batching.
+
 ## 3.0.15
 
 ### Patch Changes
