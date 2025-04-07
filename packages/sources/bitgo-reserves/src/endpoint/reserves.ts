@@ -32,12 +32,11 @@ export const endpoint = new AdapterEndpoint({
   transport: httpTransport,
   inputParameters,
   customInputValidation: (request, adapterSettings): AdapterInputError | undefined => {
-    if (
-      request.requestContext.data.client != 'gousd' ||
-      adapterSettings.VERIFICATION_PUBKEY.length == 0
-    ) {
-      getCreds(request.requestContext.data.client)
-    }
+    getCreds(
+      request.requestContext.data.client,
+      adapterSettings.API_ENDPOINT,
+      adapterSettings.VERIFICATION_PUBKEY,
+    )
     return
   },
 })
