@@ -12,5 +12,3 @@ export const adapter = new PoRAdapter({
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
-
-// Change to trigger CI. DO NOT SUBMIT
