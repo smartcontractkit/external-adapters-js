@@ -73,7 +73,17 @@ jobs:
       - name: Compile tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-        run: yarn tsc -b --noEmit $(echo $CHANGED_PACKAGES | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/aleno/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/dlc-btc-por/|/sources/eth-beacon/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/stader-balance/|/sources/token-balance/|/sources/view-function-multi-chain/|sources/view-function/')
+          FAILING_TESTS_PATTERN: '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/aleno/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/dlc-btc-por/|/sources/eth-beacon/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/token-balance/|/sources/view-function-multi-chain/|sources/view-function/'
+        run: |
+          # Tests that should compile:
+          yarn tsc -b --noEmit $(echo $CHANGED_PACKAGES | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN")
+          # Tests that should not compile:
+          for package in $(echo "$CHANGED_PACKAGES" | jq '.[].location + "/"' -r | grep -E "$FAILING_TESTS_PATTERN"); do
+            if yarn tsc -b --noEmit "${package}tsconfig.test.json"; then
+              echo "Compilation succeeded for $package. Remove it from FAILING_TESTS_PATTERN so it doesn't break again in the future."
+              exit 1
+            fi
+          done
 
   # Run unit tests
   unit-tests:
