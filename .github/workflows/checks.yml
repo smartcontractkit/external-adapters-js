@@ -51,13 +51,17 @@ jobs:
         id: changed-adapters
         run: ./.github/scripts/changed-adapters.sh
 
+  # ---------- Adapter checks (only for changed EAs) ----------
+
   # Check that there are no compilation errors in test.
   # There are many existing test with compilation errors, so we skip them
   # until we can fix them.
   compile-tests:
-    name: Compile tests
+    name: Compile tests for changed packages
     runs-on: [ubuntu-latest]
+    if: needs.install-packages.outputs.changed-packages != '[]'
     needs:
+      - check-changesets
       - install-packages
     steps:
       - name: Check out code
@@ -65,15 +69,9 @@ jobs:
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
       - name: Compile tests
-        run: |
-          yarn install --immutable
-          yarn setup
-          ls packages/*/*/tsconfig.test.json |
-            grep -v -E \
-              '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/aleno/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/dlc-btc-por/|/sources/eth-beacon/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/stader-balance/|/sources/token-balance/|/sources/view-function-multi-chain/|sources/view-function/' |
-            xargs yarn tsc -b --noEmit
-
-  # ---------- Adapter checks (only for changed EAs) ----------
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+        run: yarn tsc -b --noEmit $(echo $CHANGED_PACKAGES | jq '.[].location + "/tsconfig.test.json"' -r)
 
   # Run unit tests
   unit-tests:
