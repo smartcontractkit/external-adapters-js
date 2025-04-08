@@ -57,9 +57,6 @@ jobs:
   compile-tests:
     name: Compile tests
     runs-on: [ubuntu-latest]
-    needs:
-      - check-changesets
-      - install-packages
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -69,7 +66,7 @@ jobs:
         run: |
           ls packages/*/*/tsconfig.test.json |
             grep -v -E \
-              '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/aleno/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/dlc-btc-por/|/sources/eth-beacon/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/stader-balance/|/sources/token-balance/|/sources/view-function-multi-chain/' |
+              '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/aleno/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/dlc-btc-por/|/sources/eth-beacon/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/stader-balance/|/sources/token-balance/|/sources/view-function-multi-chain/|sources/view-function/' |
             xargs yarn tsc -b --noEmit
 
   # ---------- Adapter checks (only for changed EAs) ----------
