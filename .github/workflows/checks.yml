@@ -67,6 +67,7 @@ jobs:
       - name: Compile tests
         run: |
           yarn install --immutable
+          yarn setup
           ls packages/*/*/tsconfig.test.json |
             grep -v -E \
               '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/aleno/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/dlc-btc-por/|/sources/eth-beacon/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/stader-balance/|/sources/token-balance/|/sources/view-function-multi-chain/|sources/view-function/' |
