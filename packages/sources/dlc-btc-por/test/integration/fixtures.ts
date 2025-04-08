@@ -8,8 +8,8 @@ type DeferredRequest = {
 }
 
 export const mockBitcoinRPCResponseSuccessForTxId = (txid: string): DeferredRequest => {
-  const [waitBeforeResolving, resolve] = deferredPromise()
-  const [hasHappenedPromise, resolveHasHappened] = deferredPromise()
+  const [waitBeforeResolving, resolve] = deferredPromise<void>()
+  const [hasHappenedPromise, resolveHasHappened] = deferredPromise<void>()
   const request = {
     hasHappened: false,
     hasHappenedPromise,

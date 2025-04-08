@@ -165,7 +165,7 @@ describe('address endpoint', () => {
         new ethers.providers.JsonRpcProvider(),
       )
 
-      const resolvers = []
+      const resolvers: (() => void)[] = []
       const getAddressesDelayed = (startIdx: ethers.BigNumber, endIdx: ethers.BigNumber) => {
         const answer = getAddresses(startIdx, endIdx)
         return new Promise((resolve) => {
