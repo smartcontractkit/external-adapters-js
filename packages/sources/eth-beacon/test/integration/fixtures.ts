@@ -1,3 +1,4 @@
+import { deferredPromise } from '@chainlink/external-adapter-framework/util'
 import nock from 'nock'
 
 export const mockBalanceSuccess = (): nock.Scope =>
@@ -200,22 +201,21 @@ export const mockBalanceLimboValidator = (): void => {
     .persist()
 }
 
+type DeferredRequest = {
+  hasHappened: boolean
+  resolve: () => void
+}
+
 // Mocks responses for the given addresses, batched into batches of 3.
 // Returns an array of request objects which can be used to check if the
 // request has happened and to resolve the request.
-export const mockBalanceBatchedAddresses = (addresses: string[]): void => {
+export const mockBalanceBatchedAddresses = (addresses: string[]): DeferredRequest[] => {
   const batchSize = 3
-  const requests: {
-    hasHappened: boolean
-    resolve: () => void
-  }[] = []
+  const requests: DeferredRequest[] = []
 
-  const mockAddresses = (startIndex, endIndex) => {
+  const mockAddresses = (startIndex: number, endIndex: number) => {
     const addressesToMock = addresses.slice(startIndex, endIndex)
-    let resolve
-    const waitBeforeResolving = new Promise((r) => {
-      resolve = r
-    })
+    const [waitBeforeResolving, resolve] = deferredPromise<void>()
     const request = {
       hasHappened: false,
       resolve,
