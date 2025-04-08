@@ -53,6 +53,28 @@ jobs:
 
   # ---------- Adapter checks (only for changed EAs) ----------
 
+  # Check that there are no compilation errors in test.
+  # There are many existing tests with compilation errors, so we skip them
+  # until we can fix them.
+  compile-tests:
+    name: Compile tests for changed packages
+    runs-on: [ubuntu-latest]
+    if: needs.install-packages.outputs.changed-packages != '[]'
+    needs:
+      - check-changesets
+      - install-packages
+    permissions:
+      contents: read
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Compile tests
+        env:
+          CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
+        run: yarn tsc -b --noEmit $(echo $CHANGED_PACKAGES | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/aleno/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/dlc-btc-por/|/sources/eth-beacon/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/stader-balance/|/sources/token-balance/|/sources/view-function-multi-chain/|sources/view-function/')
+
   # Run unit tests
   unit-tests:
     name: Run unit tests for changed adapters
