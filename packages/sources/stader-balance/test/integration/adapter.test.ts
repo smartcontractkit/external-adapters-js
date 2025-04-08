@@ -1,3 +1,4 @@
+import type BigNumber from 'bignumber.js'
 import {
   addressData,
   mockCollateralEthMap,
@@ -17,11 +18,16 @@ import {
 import { deferredPromise, sleep } from '@chainlink/external-adapter-framework/util'
 import * as nock from 'nock'
 
-const totalPenaltyAmountCalls = {}
+type TotalPenaltyAmountCall = {
+  resolve: () => void
+  promise: Promise<BigNumber>
+}
 
-const getTotalPenaltyAmount = (address) => {
+const totalPenaltyAmountCalls: Record<string, TotalPenaltyAmountCall> = {}
+
+const getTotalPenaltyAmount = (address: string) => {
   if (!(address in totalPenaltyAmountCalls)) {
-    const [promise, resolve] = deferredPromise()
+    const [promise, resolve] = deferredPromise<BigNumber>()
     totalPenaltyAmountCalls[address] = {
       resolve: () => resolve(mockPenaltyMap[address]),
       promise,
