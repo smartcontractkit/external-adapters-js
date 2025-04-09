@@ -26,7 +26,7 @@ describe('timeFunctions', () => {
   describe('isBeforeTime', () => {
     it('should return true if current time is before the end time in the given timezone', () => {
       const mockToday = new Date('2024-05-24T13:20:00.000Z') // 13:20 UTC
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const endTimeS = '10:30:00' // Target
       const timezone = 'America/New_York'
@@ -38,7 +38,7 @@ describe('timeFunctions', () => {
 
     it('should return false if current time is after the end time in the given timezone', () => {
       const mockToday = new Date('2024-05-24T15:20:00.000Z') // 15:20 UTC
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const endTimeS = '10:30:00' // Target
       const timezone = 'America/New_York'
@@ -52,7 +52,7 @@ describe('timeFunctions', () => {
   describe('isAfterTime', () => {
     it('should return true if current time is after the start time in the given timezone', () => {
       const mockToday = new Date('2024-05-24T15:20:00.000Z') // 15:20 UTC
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const startTimeS = '10:30:00' // Target
       const timezone = 'America/New_York'
@@ -64,7 +64,7 @@ describe('timeFunctions', () => {
 
     it('should return false if current time is before the start time in the given timezone', () => {
       const mockToday = new Date('2024-05-24T13:20:00.000Z') // 13:20  UTC
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const startTimeS = '10:30:00' // Target
       const timezone = 'America/New_York'
@@ -78,7 +78,7 @@ describe('timeFunctions', () => {
   describe('isInTimeRange', () => {
     it('should return true if current time is within the time range in the given timezone', () => {
       const mockToday = new Date('2024-05-24T13:40:00.000Z') // 13:40 UTC
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const timezone = 'America/New_York'
 
@@ -89,7 +89,7 @@ describe('timeFunctions', () => {
 
     it('should return false if current time is not within the time range in the given timezone', () => {
       const mockToday = new Date('2024-05-24T15:20:00.000Z') // 15:20 UTC
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const timezone = 'America/New_York'
 
@@ -102,7 +102,7 @@ describe('timeFunctions', () => {
   describe('getStartingAndEndingDates', () => {
     it('should return dates with defaults', () => {
       const mockToday = new Date('2001-01-01T11:11:11.111Z')
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const { startDate, endDate } = getStartingAndEndingDates()
       expect(endDate).toBe('2001-01-01')
@@ -127,7 +127,7 @@ describe('timeFunctions', () => {
   describe('getPreviousNonWeekendDay', () => {
     it('should return the previous day formatted as MM/dd/yyyy', () => {
       const mockToday = new Date('2024-05-24T15:20:00.000Z')
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const timezone = 'America/New_York'
       const pnwd = getPreviousNonWeekendDay(timezone)
@@ -136,7 +136,7 @@ describe('timeFunctions', () => {
 
     it('should return Friday when current day is Monday', () => {
       const mockToday = new Date('2024-05-20T15:20:00.000Z') // Monday
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const timezone = 'America/New_York'
       const pnwd = getPreviousNonWeekendDay(timezone)
@@ -145,7 +145,7 @@ describe('timeFunctions', () => {
 
     it('should return Friday when current day is Sunday', () => {
       const mockToday = new Date('2024-05-19T15:19:00.000Z') // Sunday
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const timezone = 'America/New_York'
       const pnwd = getPreviousNonWeekendDay(timezone)
@@ -154,7 +154,7 @@ describe('timeFunctions', () => {
 
     it('should return Friday when current day is Saturday', () => {
       const mockToday = new Date('2024-05-18T15:19:00.000Z') // Saturday
-      jest.useFakeTimers('modern')
+      jest.useFakeTimers()
       jest.setSystemTime(mockToday)
       const timezone = 'America/New_York'
       const pnwd = getPreviousNonWeekendDay(timezone)
