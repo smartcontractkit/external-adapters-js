@@ -851,7 +851,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.25.9, @babel/code-frame@npm:^7.26.0, @babel/code-frame@npm:^7.26.2":
+"@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.25.9, @babel/code-frame@npm:^7.26.2":
   version: 7.26.2
   resolution: "@babel/code-frame@npm:7.26.2"
   dependencies:
@@ -883,7 +883,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.26.10":
+"@babel/core@npm:7.26.10, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.23.9":
   version: 7.26.10
   resolution: "@babel/core@npm:7.26.10"
   dependencies:
@@ -906,30 +906,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.23.9":
-  version: 7.26.0
-  resolution: "@babel/core@npm:7.26.0"
-  dependencies:
-    "@ampproject/remapping": "npm:^2.2.0"
-    "@babel/code-frame": "npm:^7.26.0"
-    "@babel/generator": "npm:^7.26.0"
-    "@babel/helper-compilation-targets": "npm:^7.25.9"
-    "@babel/helper-module-transforms": "npm:^7.26.0"
-    "@babel/helpers": "npm:^7.26.0"
-    "@babel/parser": "npm:^7.26.0"
-    "@babel/template": "npm:^7.25.9"
-    "@babel/traverse": "npm:^7.25.9"
-    "@babel/types": "npm:^7.26.0"
-    convert-source-map: "npm:^2.0.0"
-    debug: "npm:^4.1.0"
-    gensync: "npm:^1.0.0-beta.2"
-    json5: "npm:^2.2.3"
-    semver: "npm:^6.3.1"
-  checksum: 10/65767bfdb1f02e80d3af4f138066670ef8fdd12293de85ef151758a901c191c797e86d2e99b11c4cdfca33c72385ecaf38bbd7fa692791ec44c77763496b9b93
-  languageName: node
-  linkType: hard
-
-"@babel/generator@npm:^7.25.9, @babel/generator@npm:^7.26.0, @babel/generator@npm:^7.7.2":
+"@babel/generator@npm:^7.25.9":
   version: 7.26.2
   resolution: "@babel/generator@npm:7.26.2"
   dependencies:
@@ -942,7 +919,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.26.10, @babel/generator@npm:^7.27.0":
+"@babel/generator@npm:^7.26.10, @babel/generator@npm:^7.27.0, @babel/generator@npm:^7.7.2":
   version: 7.27.0
   resolution: "@babel/generator@npm:7.27.0"
   dependencies:
@@ -1090,14 +1067,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-plugin-utils@npm:^7.0.0, @babel/helper-plugin-utils@npm:^7.10.4, @babel/helper-plugin-utils@npm:^7.12.13, @babel/helper-plugin-utils@npm:^7.14.5, @babel/helper-plugin-utils@npm:^7.18.6, @babel/helper-plugin-utils@npm:^7.20.2, @babel/helper-plugin-utils@npm:^7.22.5, @babel/helper-plugin-utils@npm:^7.25.9, @babel/helper-plugin-utils@npm:^7.8.0":
+"@babel/helper-plugin-utils@npm:^7.0.0, @babel/helper-plugin-utils@npm:^7.18.6, @babel/helper-plugin-utils@npm:^7.20.2, @babel/helper-plugin-utils@npm:^7.22.5, @babel/helper-plugin-utils@npm:^7.25.9, @babel/helper-plugin-utils@npm:^7.8.0":
   version: 7.25.9
   resolution: "@babel/helper-plugin-utils@npm:7.25.9"
   checksum: 10/e347d87728b1ab10b6976d46403941c8f9008c045ea6d99997a7ffca7b852dc34b6171380f7b17edf94410e0857ff26f3a53d8618f11d73744db86e8ca9b8c64
   languageName: node
   linkType: hard
 
-"@babel/helper-plugin-utils@npm:^7.26.5":
+"@babel/helper-plugin-utils@npm:^7.10.4, @babel/helper-plugin-utils@npm:^7.12.13, @babel/helper-plugin-utils@npm:^7.14.5, @babel/helper-plugin-utils@npm:^7.26.5":
   version: 7.26.5
   resolution: "@babel/helper-plugin-utils@npm:7.26.5"
   checksum: 10/1cc0fd8514da3bb249bed6c27227696ab5e84289749d7258098701cffc0c599b7f61ec40dd332f8613030564b79899d9826813c96f966330bcfc7145a8377857
@@ -1172,16 +1149,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helpers@npm:^7.26.0":
-  version: 7.26.10
-  resolution: "@babel/helpers@npm:7.26.10"
-  dependencies:
-    "@babel/template": "npm:^7.26.9"
-    "@babel/types": "npm:^7.26.10"
-  checksum: 10/664146257974ccf064b42bd99b1b85717cce2bcebc5068273e13b230ee8bd98d87187c3783706758d76b678ebe0d2f48150eaa6cffc4f77af1342a78ec1cf57a
-  languageName: node
-  linkType: hard
-
 "@babel/helpers@npm:^7.26.10":
   version: 7.27.0
   resolution: "@babel/helpers@npm:7.27.0"
@@ -1192,7 +1159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.25.9, @babel/parser@npm:^7.26.0, @babel/parser@npm:^7.26.2":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.25.9, @babel/parser@npm:^7.26.2":
   version: 7.26.2
   resolution: "@babel/parser@npm:7.26.2"
   dependencies:
@@ -1203,7 +1170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.26.10, @babel/parser@npm:^7.27.0":
+"@babel/parser@npm:^7.14.7, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.26.10, @babel/parser@npm:^7.27.0":
   version: 7.27.0
   resolution: "@babel/parser@npm:7.27.0"
   dependencies:
@@ -2248,7 +2215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/template@npm:^7.25.9, @babel/template@npm:^7.3.3":
+"@babel/template@npm:^7.25.9":
   version: 7.25.9
   resolution: "@babel/template@npm:7.25.9"
   dependencies:
@@ -2270,7 +2237,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/template@npm:^7.27.0":
+"@babel/template@npm:^7.27.0, @babel/template@npm:^7.3.3":
   version: 7.27.0
   resolution: "@babel/template@npm:7.27.0"
   dependencies:
@@ -2326,7 +2293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.25.9, @babel/types@npm:^7.26.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.25.9, @babel/types@npm:^7.26.0, @babel/types@npm:^7.4.4":
   version: 7.26.0
   resolution: "@babel/types@npm:7.26.0"
   dependencies:
@@ -2356,7 +2323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.27.0":
+"@babel/types@npm:^7.27.0, @babel/types@npm:^7.3.3":
   version: 7.27.0
   resolution: "@babel/types@npm:7.27.0"
   dependencies:
@@ -2422,7 +2389,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2438,7 +2405,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.0"
@@ -2456,7 +2423,7 @@ __metadata:
     "@cardano-ogmios/client": "npm:^5.0.0"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/ws": "npm:8.5.14"
     ethers: "npm:^5.4.6"
@@ -2472,7 +2439,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -2489,7 +2456,7 @@ __metadata:
   resolution: "@chainlink/aleno-adapter@workspace:packages/sources/aleno"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     socket.io-client: "npm:^4.8.1"
@@ -2505,7 +2472,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -2518,7 +2485,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "npm:*"
     "@chainlink/ea-test-helpers": "npm:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.5.1"
     tslib: "npm:^2.3.1"
@@ -2533,7 +2500,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2550,7 +2517,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/terra-view-function-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
@@ -2566,7 +2533,7 @@ __metadata:
   resolution: "@chainlink/anchorage-adapter@workspace:packages/sources/anchorage"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -2580,7 +2547,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2596,7 +2563,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -2612,7 +2579,7 @@ __metadata:
   resolution: "@chainlink/apex-adapter@workspace:packages/sources/apex"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     axios: "npm:1.8.4"
     nock: "npm:13.5.6"
@@ -2628,7 +2595,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.4.7"
     nock: "npm:13.5.6"
@@ -2643,7 +2610,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@chainlink/token-allocation-test-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     axios: "npm:1.8.4"
@@ -2662,7 +2629,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/sportsdataio-adapter": "workspace:*"
     "@chainlink/therundown-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/luxon": "npm:1.27.1"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.4.7"
@@ -2677,7 +2644,7 @@ __metadata:
   resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -2690,7 +2657,7 @@ __metadata:
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     axios: "npm:1.8.4"
     fastify: "npm:^3.29.4"
@@ -2706,7 +2673,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -2723,7 +2690,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2739,7 +2706,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2756,7 +2723,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2772,7 +2739,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2787,7 +2754,7 @@ __metadata:
   resolution: "@chainlink/bitgo-adapter@workspace:packages/sources/bitgo"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -2800,7 +2767,7 @@ __metadata:
   resolution: "@chainlink/bitgo-reserves-adapter@workspace:packages/sources/bitgo-reserves"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -2813,7 +2780,7 @@ __metadata:
   resolution: "@chainlink/bitgo-reserves-test-adapter@workspace:packages/sources/bitgo-reserves-test"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -2828,7 +2795,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/express": "npm:4.17.21"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2845,7 +2812,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -2859,7 +2826,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -2873,7 +2840,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     blockcypher: "npm:^0.3.0"
@@ -2890,7 +2857,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -2905,7 +2872,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2921,7 +2888,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -2938,7 +2905,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2958,7 +2925,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@solana/web3.js": "npm:^1.95.8"
     "@types/bn.js": "npm:^5.1.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     bignumber.js: "npm:^9.0.0"
@@ -2977,7 +2944,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -2993,7 +2960,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3011,7 +2978,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "npm:*"
     "@ethersproject/abi": "npm:^5.5.0"
     "@ethersproject/bytes": "npm:^5.5.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.4.6"
     merkletreejs: "npm:^0.2.18"
@@ -3025,7 +2992,7 @@ __metadata:
   resolution: "@chainlink/ceffu-adapter@workspace:packages/sources/ceffu"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^6.13.2"
@@ -3043,7 +3010,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:5.4.7"
@@ -3060,7 +3027,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -3075,7 +3042,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.4.7"
     tslib: "npm:^2.3.1"
@@ -3089,7 +3056,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -3102,7 +3069,7 @@ __metadata:
   resolution: "@chainlink/clear-bank-adapter@workspace:packages/sources/clear-bank"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     axios: "npm:1.8.4"
     nock: "npm:13.5.6"
@@ -3117,7 +3084,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3133,7 +3100,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3149,7 +3116,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@types/crypto-js": "npm:4.2.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     crypto-js: "npm:4.2.0"
     nock: "npm:13.5.6"
@@ -3164,7 +3131,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3179,7 +3146,7 @@ __metadata:
   resolution: "@chainlink/coingecko-adapter@workspace:packages/sources/coingecko"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3195,7 +3162,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3210,7 +3177,7 @@ __metadata:
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -3224,7 +3191,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     ethers: "npm:^5.4.6"
@@ -3240,7 +3207,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -3255,7 +3222,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3271,7 +3238,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -3301,7 +3268,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3317,7 +3284,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.6.5"
@@ -3336,7 +3303,7 @@ __metadata:
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:5.0.32"
@@ -3354,7 +3321,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -3372,7 +3339,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
@@ -3386,7 +3353,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/supertest": "npm:2.0.16"
@@ -3403,7 +3370,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3419,7 +3386,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3435,7 +3402,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3452,7 +3419,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.4.7"
     nock: "npm:13.5.6"
@@ -3467,7 +3434,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -3484,7 +3451,7 @@ __metadata:
   resolution: "@chainlink/deep-blue-adapter@workspace:packages/sources/deep-blue"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -3499,7 +3466,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3516,7 +3483,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
@@ -3530,7 +3497,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3549,7 +3516,7 @@ __metadata:
     "@noble/hashes": "npm:1.4.0"
     "@scure/base": "npm:1.1.9"
     "@scure/btc-signer": "npm:1.2.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     bip32: "npm:4.0.0"
     bitcoinjs-lib: "npm:6.1.7"
@@ -3566,7 +3533,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.4"
@@ -3584,7 +3551,7 @@ __metadata:
     "@chainlink/dns-query-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3600,7 +3567,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     dwolla-v2: "npm:^3.2.0"
     tslib: "npm:^2.3.1"
@@ -3615,7 +3582,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
@@ -3629,7 +3596,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -3644,7 +3611,7 @@ __metadata:
   dependencies:
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     mock-socket: "npm:9.3.1"
@@ -3661,7 +3628,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     bignumber.js: "npm:^9.0.1"
@@ -3682,7 +3649,7 @@ __metadata:
   dependencies:
     "@authereum/starkware-crypto": "npm:1.9.7-beta.7"
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:10.3.1"
     ethers: "npm:5.4.7"
@@ -3698,7 +3665,7 @@ __metadata:
   dependencies:
     "@reduxjs/toolkit": "npm:^1.6.1"
     "@types/fast-redact": "npm:3.0.4"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/lodash": "npm:4.17.16"
     "@types/lru-cache": "npm:5.1.1"
     "@types/node": "npm:22.12.0"
@@ -3745,7 +3712,7 @@ __metadata:
   resolution: "@chainlink/ea-factories@workspace:packages/core/factories"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/object-path": "npm:0.11.4"
     object-path: "npm:^0.11.5"
@@ -3760,7 +3727,7 @@ __metadata:
   dependencies:
     "@chainlink/contracts": "npm:^0.8.0"
     "@chainlink/ea-bootstrap": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^4.0.48"
     tslib: "npm:^2.3.1"
@@ -3779,7 +3746,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@types/command-line-args": "npm:5.2.3"
     "@types/command-line-usage": "npm:5.0.4"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/shelljs": "npm:0.8.15"
     "@types/swagger-jsdoc": "npm:6.0.4"
     "@types/yaml": "npm:1.9.7"
@@ -3811,7 +3778,7 @@ __metadata:
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     hardhat: "npm:2.22.19"
@@ -3828,7 +3795,7 @@ __metadata:
   resolution: "@chainlink/elven-adapter@workspace:packages/sources/elven"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3844,7 +3811,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     axios: "npm:1.8.4"
@@ -3860,7 +3827,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:5.5.4"
@@ -3877,7 +3844,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -3894,7 +3861,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3911,7 +3878,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -3927,7 +3894,7 @@ __metadata:
   resolution: "@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     bignumber.js: "npm:9.1.2"
     ethers: "npm:5.7.2"
@@ -3943,7 +3910,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3959,7 +3926,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3975,7 +3942,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -3991,7 +3958,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4007,7 +3974,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -4024,7 +3991,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -4039,7 +4006,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4083,7 +4050,7 @@ __metadata:
     "@types/babel__core": "npm:7.20.5"
     "@types/babel__preset-env": "npm:7.9.7"
     "@types/eslint": "npm:8.56.12"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@typescript-eslint/eslint-plugin": "npm:5.59.11"
     "@typescript-eslint/parser": "npm:5.59.11"
@@ -4091,7 +4058,7 @@ __metadata:
     eslint: "npm:8.39.0"
     eslint-config-prettier: "npm:8.8.0"
     husky: "npm:7.0.4"
-    jest: "npm:29.5.0"
+    jest: "npm:^29.7.0"
     lint-staged: "npm:11.2.6"
     prettier: "npm:2.8.8"
     source-map-support: "npm:0.5.21"
@@ -4107,7 +4074,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4123,7 +4090,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -4138,7 +4105,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/uuid": "npm:8.3.4"
@@ -4155,7 +4122,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -4171,7 +4138,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@chainlink/finnhub-adapter": "workspace:*"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -4185,7 +4152,7 @@ __metadata:
   resolution: "@chainlink/fireblocks-adapter@workspace:packages/sources/fireblocks"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4199,7 +4166,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4215,7 +4182,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4228,7 +4195,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4244,7 +4211,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4259,7 +4226,7 @@ __metadata:
   resolution: "@chainlink/frxeth-exchange-rate-adapter@workspace:packages/sources/frxeth-exchange-rate"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.7.2"
     nock: "npm:13.5.6"
@@ -4275,7 +4242,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@ethercards/ec-util": "npm:1.0.8"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
@@ -4293,7 +4260,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     axios: "npm:1.8.4"
@@ -4308,7 +4275,7 @@ __metadata:
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4322,7 +4289,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4338,7 +4305,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4350,7 +4317,7 @@ __metadata:
   resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
@@ -4365,7 +4332,7 @@ __metadata:
   resolution: "@chainlink/gm-token-adapter@workspace:packages/composites/gm-token"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
@@ -4382,7 +4349,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@google-cloud/bigquery": "npm:^5.7.1"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4397,7 +4364,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/google-bigquery-adapter": "workspace:*"
     "@types/convert-units": "npm:2.3.11"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     convert-units: "npm:^2.3.4"
     geojson-validation: "npm:^1.0.2"
@@ -4411,7 +4378,7 @@ __metadata:
   resolution: "@chainlink/gramchain-adapter@workspace:packages/sources/gramchain"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4425,7 +4392,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4438,7 +4405,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
@@ -4459,7 +4426,7 @@ __metadata:
     "@harmony-js/core": "npm:0.1.57"
     "@harmony-js/crypto": "npm:^0.1.56"
     "@harmony-js/utils": "npm:^0.1.56"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:5.4.7"
@@ -4475,7 +4442,7 @@ __metadata:
   resolution: "@chainlink/harris-and-trotter-adapter@workspace:packages/sources/harris-and-trotter"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4491,7 +4458,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -4508,7 +4475,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@chainlink/tp-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -4524,7 +4491,7 @@ __metadata:
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -4537,7 +4504,7 @@ __metadata:
   resolution: "@chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4551,7 +4518,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     axios: "npm:1.8.4"
@@ -4568,7 +4535,7 @@ __metadata:
   resolution: "@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4582,7 +4549,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     axios: "npm:1.8.4"
@@ -4597,7 +4564,7 @@ __metadata:
   resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4611,7 +4578,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     cids: "npm:^1.1.8"
     ipfs: "npm:^0.60.0"
@@ -4632,7 +4599,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4648,7 +4615,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4663,7 +4630,7 @@ __metadata:
   resolution: "@chainlink/kaiko-adapter@workspace:packages/sources/kaiko"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -4678,7 +4645,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@grpc/grpc-js": "npm:1.13.2"
     "@kaiko-data/sdk-node": "npm:1.26.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     exponential-backoff: "npm:3.1.2"
     nock: "npm:13.5.6"
@@ -4694,7 +4661,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -4713,7 +4680,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4729,7 +4696,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -4745,7 +4712,7 @@ __metadata:
   resolution: "@chainlink/lido-por-adapter@workspace:packages/sources/lido-por"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.7.2"
     nock: "npm:13.5.6"
@@ -4761,7 +4728,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     csv-parse: "npm:^4.16.0"
@@ -4781,7 +4748,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4794,7 +4761,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4806,7 +4773,7 @@ __metadata:
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.4.7"
     nock: "npm:13.5.6"
@@ -4820,7 +4787,7 @@ __metadata:
   resolution: "@chainlink/m0-adapter@workspace:packages/sources/m0"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4837,7 +4804,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/fcsapi-adapter": "workspace:*"
     "@chainlink/finnhub-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     market-closure: "npm:^0.1.2"
     tslib: "npm:^2.3.1"
@@ -4853,7 +4820,7 @@ __metadata:
     "@chainlink/ncfx-adapter": "workspace:*"
     "@chainlink/tradinghours-adapter": "workspace:*"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/supertest": "npm:2.0.16"
@@ -4871,7 +4838,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4887,7 +4854,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4903,7 +4870,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -4916,7 +4883,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4932,7 +4899,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -4947,7 +4914,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -4963,7 +4930,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@polkadot/keyring": "npm:10.4.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:5.5.4"
@@ -4979,7 +4946,7 @@ __metadata:
   resolution: "@chainlink/moore-hk-adapter@workspace:packages/sources/moore-hk"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4995,7 +4962,7 @@ __metadata:
     "@chainlink/bitgo-adapter": "workspace:*"
     "@chainlink/coinbase-prime-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/node-schedule": "npm:2.1.7"
     nock: "npm:13.5.6"
@@ -5011,7 +4978,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5028,7 +4995,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@date-fns/utc": "npm:2.1.0"
     "@types/crypto-js": "npm:4.2.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     crypto-js: "npm:4.2.0"
     date-fns: "npm:4.1.0"
@@ -5044,7 +5011,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -5058,7 +5025,7 @@ __metadata:
   resolution: "@chainlink/nexus-kiln-adapter@workspace:packages/composites/nexus-kiln"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:6.13.5"
     nock: "npm:13.5.6"
@@ -5072,7 +5039,7 @@ __metadata:
   resolution: "@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
@@ -5090,7 +5057,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/uniswap-v2-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -5108,7 +5075,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5123,7 +5090,7 @@ __metadata:
   resolution: "@chainlink/nyfed-adapter@workspace:packages/sources/nyfed"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -5160,7 +5127,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5176,7 +5143,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5191,7 +5158,7 @@ __metadata:
   resolution: "@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -5205,7 +5172,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5222,7 +5189,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinon": "npm:10.0.20"
     axios: "npm:1.8.4"
@@ -5238,7 +5205,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5255,7 +5222,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@paypal/payouts-sdk": "npm:^1.1.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/paypal__payouts-sdk": "npm:1.0.6"
     tslib: "npm:^2.3.1"
@@ -5269,7 +5236,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@polkadot/api": "npm:9.14.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -5282,7 +5249,7 @@ __metadata:
   resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -5295,7 +5262,7 @@ __metadata:
   resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.5.1"
     nock: "npm:13.5.6"
@@ -5309,7 +5276,7 @@ __metadata:
   resolution: "@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
@@ -5357,7 +5324,7 @@ __metadata:
     "@chainlink/token-balance-adapter": "workspace:*"
     "@chainlink/wbtc-address-set-adapter": "workspace:*"
     "@chainlink/wrapped-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -5375,7 +5342,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -5389,7 +5356,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -5406,7 +5373,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -5423,7 +5390,7 @@ __metadata:
     "@renproject/interfaces": "npm:^2.5.1"
     "@renproject/ren": "npm:^2.5.1"
     "@renproject/utils": "npm:^2.5.1"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     bitcoinjs-lib: "npm:^5.2.0"
@@ -5441,7 +5408,7 @@ __metadata:
     "@chainlink/contracts": "npm:^0.8.0"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -5475,7 +5442,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5492,7 +5459,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
@@ -5510,7 +5477,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     bignumber.js: "npm:9.1.2"
@@ -5528,7 +5495,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/jsonwebtoken": "npm:8.5.9"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
@@ -5547,7 +5514,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
@@ -5565,7 +5532,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@solana/web3.js": "npm:^1.95.8"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     supertest: "npm:6.2.4"
@@ -5580,7 +5547,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinon": "npm:10.0.20"
     ethers: "npm:^5.4.2"
@@ -5597,7 +5564,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/luxon": "npm:2.4.0"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
@@ -5615,7 +5582,7 @@ __metadata:
   resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.5.4"
     nock: "npm:13.5.6"
@@ -5629,7 +5596,7 @@ __metadata:
   resolution: "@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     axios: "npm:1.8.4"
     bignumber.js: "npm:^9.1.1"
@@ -5646,7 +5613,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.6.9"
@@ -5662,7 +5629,7 @@ __metadata:
   resolution: "@chainlink/starknet-gas-price-adapter@workspace:packages/sources/starknet-gas-price"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:14.0.3"
     starknet: "npm:6.9.0"
@@ -5677,7 +5644,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5692,7 +5659,7 @@ __metadata:
   resolution: "@chainlink/superstate-adapter@workspace:packages/sources/superstate"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/node-schedule": "npm:2.1.7"
     date-fns: "npm:3.6.0"
@@ -5710,7 +5677,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
@@ -5728,7 +5695,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -5747,7 +5714,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.6.5"
@@ -5762,7 +5729,7 @@ __metadata:
   resolution: "@chainlink/synthetix-feeds-adapter@workspace:packages/sources/synthetix-feeds"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:10.4.3"
     ethers: "npm:5.7.2"
@@ -5778,7 +5745,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5795,7 +5762,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@terra-money/terra.js": "npm:^2.0.15"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5813,7 +5780,7 @@ __metadata:
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/graphql-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.6.3"
@@ -5825,7 +5792,7 @@ __metadata:
   resolution: "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -5839,7 +5806,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -5855,7 +5822,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -5870,7 +5837,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -5900,7 +5867,7 @@ __metadata:
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
     "@chainlink/tiingo-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
@@ -5915,7 +5882,7 @@ __metadata:
   resolution: "@chainlink/token-allocation-test-adapter@workspace:packages/non-deployable/token-allocation-test"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     axios: "npm:1.8.4"
     decimal.js: "npm:^10.3.1"
@@ -5932,7 +5899,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@solana/web3.js": "npm:^1.95.8"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^6.13.2"
     nock: "npm:13.5.6"
@@ -5947,7 +5914,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/supertest": "npm:2.0.16"
@@ -5965,7 +5932,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
@@ -5980,7 +5947,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/supertest": "npm:2.0.16"
@@ -5997,7 +5964,7 @@ __metadata:
   resolution: "@chainlink/trueusd-adapter@workspace:packages/sources/trueusd"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -6010,7 +5977,7 @@ __metadata:
   resolution: "@chainlink/trumatic-matic-exchange-rate-adapter@workspace:packages/sources/trumatic-matic-exchange-rate"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:5.7.2"
     nock: "npm:13.5.6"
@@ -6025,7 +5992,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -6041,7 +6008,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
@@ -6057,7 +6024,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -6073,7 +6040,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
@@ -6091,7 +6058,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -6107,7 +6074,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -6123,7 +6090,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
@@ -6136,7 +6103,7 @@ __metadata:
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^6.13.2"
     nock: "npm:13.5.6"
@@ -6150,7 +6117,7 @@ __metadata:
   resolution: "@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     ethers: "npm:^6.13.2"
     nock: "npm:13.5.6"
@@ -6164,7 +6131,7 @@ __metadata:
   resolution: "@chainlink/view-starknet-latest-answer-adapter@workspace:packages/sources/view-starknet-latest-answer"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:14.0.3"
     starknet: "npm:6.9.0"
@@ -6178,7 +6145,7 @@ __metadata:
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.4.0"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -6192,7 +6159,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -6208,7 +6175,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -6224,7 +6191,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
@@ -6241,7 +6208,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:27.5.2"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.12.0"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
@@ -9125,7 +9092,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/core@npm:^29.5.0, @jest/core@npm:^29.7.0":
+"@jest/core@npm:^29.7.0":
   version: 29.7.0
   resolution: "@jest/core@npm:29.7.0"
   dependencies:
@@ -9340,7 +9307,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/types@npm:^29.5.0, @jest/types@npm:^29.6.3":
+"@jest/types@npm:^29.6.3":
   version: 29.6.3
   resolution: "@jest/types@npm:29.6.3"
   dependencies:
@@ -12073,12 +12040,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__traverse@npm:*, @types/babel__traverse@npm:^7.0.6":
+"@types/babel__traverse@npm:*":
   version: 7.20.6
   resolution: "@types/babel__traverse@npm:7.20.6"
   dependencies:
     "@babel/types": "npm:^7.20.7"
   checksum: 10/63d13a3789aa1e783b87a8b03d9fb2c2c90078de7782422feff1631b8c2a25db626e63a63ac5a1465d47359201c73069dacb4b52149d17c568187625da3064ae
+  languageName: node
+  linkType: hard
+
+"@types/babel__traverse@npm:^7.0.6":
+  version: 7.20.7
+  resolution: "@types/babel__traverse@npm:7.20.7"
+  dependencies:
+    "@babel/types": "npm:^7.20.7"
+  checksum: 10/d005b58e1c26bdafc1ce564f60db0ee938393c7fc586b1197bdb71a02f7f33f72bc10ae4165776b6cafc77c4b6f2e1a164dd20bc36518c471b1131b153b4baa6
   languageName: node
   linkType: hard
 
@@ -12321,17 +12297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:27.5.2":
-  version: 27.5.2
-  resolution: "@types/jest@npm:27.5.2"
-  dependencies:
-    jest-matcher-utils: "npm:^27.0.0"
-    pretty-format: "npm:^27.0.0"
-  checksum: 10/8608696fbdea81bc9a600d1c5aeb290063357eaa55c0174e7db15087c4f483113b35f8b4c4ae364d2632cfed15a4dd674786254826b946c896de5612c8cb1a26
-  languageName: node
-  linkType: hard
-
-"@types/jest@npm:29.5.14":
+"@types/jest@npm:29.5.14, @types/jest@npm:^29.5.14":
   version: 29.5.14
   resolution: "@types/jest@npm:29.5.14"
   dependencies:
@@ -15458,9 +15424,9 @@ __metadata:
   linkType: hard
 
 "cjs-module-lexer@npm:^1.0.0":
-  version: 1.4.1
-  resolution: "cjs-module-lexer@npm:1.4.1"
-  checksum: 10/6e830a1e00a34d416949bbc1924f3e8da65cef4a6a09e2b7fa35722e2d1c34bf378d3baca987b698d1cbc3eb83e44b044039b4e82755c96f30e0f03d1d227637
+  version: 1.4.3
+  resolution: "cjs-module-lexer@npm:1.4.3"
+  checksum: 10/d2b92f919a2dedbfd61d016964fce8da0035f827182ed6839c97cac56e8a8077cfa6a59388adfe2bc588a19cef9bbe830d683a76a6e93c51f65852062cfe2591
   languageName: node
   linkType: hard
 
@@ -16906,13 +16872,6 @@ __metadata:
   version: 1.0.5
   resolution: "diff-match-patch@npm:1.0.5"
   checksum: 10/fd1ab417eba9559bda752a4dfc9a8ac73fa2ca8b146d29d153964b437168e301c09d8a688fae0cd81d32dc6508a4918a94614213c85df760793f44e245173bb6
-  languageName: node
-  linkType: hard
-
-"diff-sequences@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "diff-sequences@npm:27.5.1"
-  checksum: 10/34d852a13eb82735c39944a050613f952038614ce324256e1c3544948fa090f1ca7f329a4f1f57c31fe7ac982c17068d8915b633e300f040b97708c81ceb26cd
   languageName: node
   linkType: hard
 
@@ -21826,6 +21785,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-core-module@npm:^2.16.0":
+  version: 2.16.1
+  resolution: "is-core-module@npm:2.16.1"
+  dependencies:
+    hasown: "npm:^2.0.2"
+  checksum: 10/452b2c2fb7f889cbbf7e54609ef92cf6c24637c568acc7e63d166812a0fb365ae8a504c333a29add8bdb1686704068caa7f4e4b639b650dde4f00a038b8941fb
+  languageName: node
+  linkType: hard
+
 "is-data-descriptor@npm:^1.0.1":
   version: 1.0.1
   resolution: "is-data-descriptor@npm:1.0.1"
@@ -22846,7 +22814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-cli@npm:^29.5.0":
+"jest-cli@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest-cli@npm:29.7.0"
   dependencies:
@@ -22910,18 +22878,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "jest-diff@npm:27.5.1"
-  dependencies:
-    chalk: "npm:^4.0.0"
-    diff-sequences: "npm:^27.5.1"
-    jest-get-type: "npm:^27.5.1"
-    pretty-format: "npm:^27.5.1"
-  checksum: 10/af454f30f33af625832bdb02614e188a41e33ce79086b43f95dbcc515274dd36bf8443b8d0299e22c2416e7591da4321e6bc7f2b0aef56471d1133c6b6833221
-  languageName: node
-  linkType: hard
-
 "jest-diff@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest-diff@npm:29.7.0"
@@ -22970,13 +22926,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-get-type@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "jest-get-type@npm:27.5.1"
-  checksum: 10/63064ab70195c21007d897c1157bf88ff94a790824a10f8c890392e7d17eda9c3900513cb291ca1c8d5722cad79169764e9a1279f7c8a9c4cd6e9109ff04bbc0
-  languageName: node
-  linkType: hard
-
 "jest-get-type@npm:^29.6.3":
   version: 29.6.3
   resolution: "jest-get-type@npm:29.6.3"
@@ -23014,18 +22963,6 @@ __metadata:
     jest-get-type: "npm:^29.6.3"
     pretty-format: "npm:^29.7.0"
   checksum: 10/e3950e3ddd71e1d0c22924c51a300a1c2db6cf69ec1e51f95ccf424bcc070f78664813bef7aed4b16b96dfbdeea53fe358f8aeaaea84346ae15c3735758f1605
-  languageName: node
-  linkType: hard
-
-"jest-matcher-utils@npm:^27.0.0":
-  version: 27.5.1
-  resolution: "jest-matcher-utils@npm:27.5.1"
-  dependencies:
-    chalk: "npm:^4.0.0"
-    jest-diff: "npm:^27.5.1"
-    jest-get-type: "npm:^27.5.1"
-    pretty-format: "npm:^27.5.1"
-  checksum: 10/037f99878a0515581d7728ed3aed03707810f4da5a1c7ffb9d68a2c6c3180851a6ec40b559af37fbe891dde3ba12552b19e47b8188a27b6c5a53376be6907f32
   languageName: node
   linkType: hard
 
@@ -23283,14 +23220,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:29.5.0":
-  version: 29.5.0
-  resolution: "jest@npm:29.5.0"
+"jest@npm:^29.7.0":
+  version: 29.7.0
+  resolution: "jest@npm:29.7.0"
   dependencies:
-    "@jest/core": "npm:^29.5.0"
-    "@jest/types": "npm:^29.5.0"
+    "@jest/core": "npm:^29.7.0"
+    "@jest/types": "npm:^29.6.3"
     import-local: "npm:^3.0.2"
-    jest-cli: "npm:^29.5.0"
+    jest-cli: "npm:^29.7.0"
   peerDependencies:
     node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
   peerDependenciesMeta:
@@ -23298,7 +23235,7 @@ __metadata:
       optional: true
   bin:
     jest: bin/jest.js
-  checksum: 10/08c9b31f1d37deeb11fefd84fcc81b466c02d76f50056633d8c36951205ab7e220cd26efb49312849a2e08b43ce9f632f8a5b4f69717d9a91d8e069c0534115f
+  checksum: 10/97023d78446098c586faaa467fbf2c6b07ff06e2c85a19e3926adb5b0effe9ac60c4913ae03e2719f9c01ae8ffd8d92f6b262cedb9555ceeb5d19263d8c6362a
   languageName: node
   linkType: hard
 
@@ -28107,9 +28044,9 @@ __metadata:
   linkType: hard
 
 "pirates@npm:^4.0.4":
-  version: 4.0.6
-  resolution: "pirates@npm:4.0.6"
-  checksum: 10/d02dda76f4fec1cbdf395c36c11cf26f76a644f9f9a1bfa84d3167d0d3154d5289aacc72677aa20d599bb4a6937a471de1b65c995e2aea2d8687cbcd7e43ea5f
+  version: 4.0.7
+  resolution: "pirates@npm:4.0.7"
+  checksum: 10/2427f371366081ae42feb58214f04805d6b41d6b84d74480ebcc9e0ddbd7105a139f7c653daeaf83ad8a1a77214cf07f64178e76de048128fec501eab3305a96
   languageName: node
   linkType: hard
 
@@ -28215,17 +28152,6 @@ __metadata:
     lodash: "npm:^4.17.20"
     renderkid: "npm:^2.0.4"
   checksum: 10/fe56b2a949ca1360f34d7dcfc66fddfdba329ab16cd5cd265f830ab292b1539fc908aedafa934bc8505f783543249363282d6b41fcf1f5a535960af6db94dc61
-  languageName: node
-  linkType: hard
-
-"pretty-format@npm:^27.0.0, pretty-format@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "pretty-format@npm:27.5.1"
-  dependencies:
-    ansi-regex: "npm:^5.0.1"
-    ansi-styles: "npm:^5.0.0"
-    react-is: "npm:^17.0.1"
-  checksum: 10/248990cbef9e96fb36a3e1ae6b903c551ca4ddd733f8d0912b9cc5141d3d0b3f9f8dfb4d799fb1c6723382c9c2083ffbfa4ad43ff9a0e7535d32d41fd5f01da6
   languageName: node
   linkType: hard
 
@@ -28722,13 +28648,6 @@ __metadata:
   bin:
     rc: ./cli.js
   checksum: 10/5c4d72ae7eec44357171585938c85ce066da8ca79146b5635baf3d55d74584c92575fa4e2c9eac03efbed3b46a0b2e7c30634c012b4b4fa40d654353d3c163eb
-  languageName: node
-  linkType: hard
-
-"react-is@npm:^17.0.1":
-  version: 17.0.2
-  resolution: "react-is@npm:17.0.2"
-  checksum: 10/73b36281e58eeb27c9cc6031301b6ae19ecdc9f18ae2d518bdb39b0ac564e65c5779405d623f1df9abf378a13858b79442480244bd579968afc1faf9a2ce5e05
   languageName: node
   linkType: hard
 
@@ -29375,9 +29294,9 @@ __metadata:
   linkType: hard
 
 "resolve.exports@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "resolve.exports@npm:2.0.2"
-  checksum: 10/f1cc0b6680f9a7e0345d783e0547f2a5110d8336b3c2a4227231dd007271ffd331fd722df934f017af90bae0373920ca0d4005da6f76cb3176c8ae426370f893
+  version: 2.0.3
+  resolution: "resolve.exports@npm:2.0.3"
+  checksum: 10/536efee0f30a10fac8604e6cdc7844dbc3f4313568d09f06db4f7ed8a5b8aeb8585966fe975083d1f2dfbc87cf5f8bc7ab65a5c23385c14acbb535ca79f8398a
   languageName: node
   linkType: hard
 
@@ -29390,7 +29309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.1.6, resolve@npm:^1.10.0, resolve@npm:^1.14.2, resolve@npm:^1.20.0, resolve@npm:^1.9.0":
+"resolve@npm:^1.1.6, resolve@npm:^1.10.0, resolve@npm:^1.14.2, resolve@npm:^1.9.0":
   version: 1.22.8
   resolution: "resolve@npm:1.22.8"
   dependencies:
@@ -29403,6 +29322,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"resolve@npm:^1.20.0":
+  version: 1.22.10
+  resolution: "resolve@npm:1.22.10"
+  dependencies:
+    is-core-module: "npm:^2.16.0"
+    path-parse: "npm:^1.0.7"
+    supports-preserve-symlinks-flag: "npm:^1.0.0"
+  bin:
+    resolve: bin/resolve
+  checksum: 10/0a398b44da5c05e6e421d70108822c327675febb880eebe905587628de401854c61d5df02866ff34fc4cb1173a51c9f0e84a94702738df3611a62e2acdc68181
+  languageName: node
+  linkType: hard
+
 "resolve@patch:resolve@npm%3A1.17.0#optional!builtin<compat/resolve>":
   version: 1.17.0
   resolution: "resolve@patch:resolve@npm%3A1.17.0#optional!builtin<compat/resolve>::version=1.17.0&hash=c3c19d"
@@ -29412,7 +29344,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^1.1.6#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.9.0#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^1.1.6#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.9.0#optional!builtin<compat/resolve>":
   version: 1.22.8
   resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
@@ -29422,6 +29354,19 @@ __metadata:
   bin:
     resolve: bin/resolve
   checksum: 10/f345cd37f56a2c0275e3fe062517c650bb673815d885e7507566df589375d165bbbf4bdb6aa95600a9bc55f4744b81f452b5a63f95b9f10a72787dba3c90890a
+  languageName: node
+  linkType: hard
+
+"resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>":
+  version: 1.22.10
+  resolution: "resolve@patch:resolve@npm%3A1.22.10#optional!builtin<compat/resolve>::version=1.22.10&hash=c3c19d"
+  dependencies:
+    is-core-module: "npm:^2.16.0"
+    path-parse: "npm:^1.0.7"
+    supports-preserve-symlinks-flag: "npm:^1.0.0"
+  bin:
+    resolve: bin/resolve
+  checksum: 10/d4d878bfe3702d215ea23e75e0e9caf99468e3db76f5ca100d27ebdc527366fee3877e54bce7d47cc72ca8952fc2782a070d238bfa79a550eeb0082384c3b81a
   languageName: node
   linkType: hard
 
