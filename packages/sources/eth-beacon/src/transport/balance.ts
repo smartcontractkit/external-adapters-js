@@ -1,4 +1,5 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterResponse,
@@ -125,18 +126,14 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
       )
 
       const groupSize = this.config.GROUP_SIZE
-      const requestGroups = splitArrayIntoChunks(batchedAddresses, groupSize)
+      const runner = new GroupRunner(groupSize)
+      const queryBeaconChain = runner.wrapFunction((addresses: string[]) =>
+        this.queryBeaconChain(url, addresses, statusList),
+      )
+
       // Make request to beacon API for every batch
       // Send requests in groups
-      for (const group of requestGroups) {
-        responses.push(
-          ...(await Promise.all(
-            group.map((addresses) => {
-              return this.queryBeaconChain(url, addresses, statusList)
-            }),
-          )),
-        )
-      }
+      responses.push(...(await Promise.all(batchedAddresses.map(queryBeaconChain))))
     }
 
     // Flatten the results into single array for validators and balances
