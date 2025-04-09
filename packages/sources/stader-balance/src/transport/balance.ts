@@ -1,3 +1,4 @@
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 import {
@@ -20,7 +21,7 @@ import { StaderConfig } from './utils/stader-config'
 import { PermissionedPool } from './utils/permissioned-pool'
 import { StakeManager } from './utils/stake-manager'
 import { Pool } from './utils/pool'
-import { ValidatorFactory } from './utils/validator'
+import { ValidatorFactory, type ActiveValidator, type WithdrawnValidator } from './utils/validator'
 import { DepositEvent_ABI, StaderPenaltyContract_ABI } from '../config/StaderContractAbis'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -170,30 +171,27 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     const validatorBalances = []
 
-    // Perform active validator calculations
-    // These will need a call to get the penalty rate for each of them, so we have to batch these
-    const withdrawnBatches = splitArrayIntoChunks(
-      withdrawnValidators,
+    const calculateWithdrawnBalanceInGroups = new GroupRunner(
       context.adapterSettings.GROUP_SIZE,
-    )
-    for (const batch of withdrawnBatches) {
-      validatorBalances.push(
-        ...(await Promise.all(batch.map((v) => v.calculateBalance(validatorDeposit)))),
-      )
-    }
+    ).wrapFunction((v: WithdrawnValidator) => v.calculateBalance(validatorDeposit))
 
     // Perform active validator calculations
     // These will need a call to get the penalty rate for each of them, so we have to batch these
-    const activeBatches = splitArrayIntoChunks(activeValidators, context.adapterSettings.GROUP_SIZE)
-    for (const batch of activeBatches) {
-      validatorBalances.push(
-        ...(await Promise.all(
-          batch.map((v) =>
-            v.calculateBalance(validatorDeposit, depositedBalanceMap[v.addressData.address]),
-          ),
-        )),
-      )
-    }
+    validatorBalances.push(
+      ...(await Promise.all(withdrawnValidators.map((v) => calculateWithdrawnBalanceInGroups(v)))),
+    )
+
+    const calculateActiveBalanceInGroups = new GroupRunner(
+      context.adapterSettings.GROUP_SIZE,
+    ).wrapFunction((v: ActiveValidator) =>
+      v.calculateBalance(validatorDeposit, depositedBalanceMap[v.addressData.address]),
+    )
+
+    // Perform active validator calculations
+    // These will need a call to get the penalty rate for each of them, so we have to batch these
+    validatorBalances.push(
+      ...(await Promise.all(activeValidators.map((v) => calculateActiveBalanceInGroups(v)))),
+    )
 
     // Flatten all the balances out, they'll be aggregated in the proof-of-reserves EA
     const balances = [

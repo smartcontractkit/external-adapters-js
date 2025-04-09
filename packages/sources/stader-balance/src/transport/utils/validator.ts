@@ -255,7 +255,7 @@ abstract class Validator {
   }
 }
 
-class ActiveValidator extends Validator {
+export class ActiveValidator extends Validator {
   async calculateBalance(
     validatorDeposit: BigNumber,
     depositedEth: BigNumber = BigNumber(0),
@@ -314,7 +314,7 @@ class ActiveValidator extends Validator {
   }
 }
 
-class WithdrawnValidator extends Validator {
+export class WithdrawnValidator extends Validator {
   async calculateBalance(validatorDeposit: BigNumber): Promise<BalanceResponse> {
     const { userDeposit, poolCommission, withdrawalAddressBalance } =
       await this.fetchDataForBalanceCalculation(validatorDeposit)

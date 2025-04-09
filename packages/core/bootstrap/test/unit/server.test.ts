@@ -45,8 +45,12 @@ const executeResponse: AdapterResponse = {
 const execute: Execute = jest.fn(async () => executeResponse)
 
 describe('server', () => {
+  let serverAddress: string
+
   beforeAll(async () => {
-    await expose({}, execute).server()
+    const serverPort = ((await expose({}, execute).server()).server.address() as { port: number })
+      .port
+    serverAddress = `http://localhost:${serverPort}`
 
     // wait for metrics listener
     await spies[0].mock.results[0].value
@@ -60,7 +64,7 @@ describe('server', () => {
   })
 
   it('healthcheck returns OK', async () => {
-    const response = await axios.get('http://localhost:8080/health')
+    const response = await axios.get(`${serverAddress}/health`)
     expect(response.data.message).toBe('OK')
   })
 
@@ -70,7 +74,7 @@ describe('server', () => {
   })
 
   it('handles simple request', async () => {
-    const response = await axios.post('http://localhost:8080/', {
+    const response = await axios.post(`${serverAddress}/`, {
       data: {
         number: 123,
       },
@@ -82,7 +86,7 @@ describe('server', () => {
     await expect(
       async () =>
         await axios.post(
-          'http://localhost:8080/',
+          `${serverAddress}/`,
           {
             data: {
               number: 123,
@@ -99,14 +103,14 @@ describe('server', () => {
 
   it('returns OK on smoke endpoint when test payload is default (empty)', async () => {
     mockTestPayload.isDefault = true
-    const response = await axios.get('http://localhost:8080/smoke')
+    const response = await axios.get(`${serverAddress}/smoke`)
     expect(response.data).toBe('OK')
   })
 
   it('returns OK on smoke endpoint when all requests are successful', async () => {
     mockTestPayload.isDefault = false
     mockTestPayload.requests = [{}, {}]
-    const response = await axios.get('http://localhost:8080/smoke')
+    const response = await axios.get(`${serverAddress}/smoke`)
     expect(response.data).toBe('OK')
   })
 })
