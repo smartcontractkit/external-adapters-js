@@ -1,3 +1,4 @@
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { ethers } from 'ethers'
 import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
@@ -22,30 +23,25 @@ export abstract class AddressManager<T> {
     batchGroupSize = 10,
   ): Promise<T[]> {
     const blockTag = latestBlockNum - confirmations
-    const numAddresses = await this.contract.getPoRAddressListLength({ blockTag })
-    let totalRequestedAddressesCount = 0
-    let startIdx = ethers.BigNumber.from(0)
-    const addresses: T[] = []
-    let batchRequests: Promise<T>[] = []
+    const numAddresses = (await this.contract.getPoRAddressListLength({ blockTag })).toNumber()
+    const batchRequests: Promise<T>[] = []
 
-    while (totalRequestedAddressesCount < numAddresses.toNumber()) {
-      const nextEndIdx = startIdx.add(batchSize - 1)
-      const endIdx = nextEndIdx.gte(numAddresses) ? numAddresses.sub(1) : nextEndIdx
-      const batchCall = this.getPoRAddressListCall(startIdx, endIdx, blockTag)
-      batchRequests.push(batchCall)
-      // element at endIdx is included in result
-      const addressesRequested: number = endIdx.sub(startIdx).add(1).toNumber()
-      totalRequestedAddressesCount += addressesRequested
-      startIdx = endIdx.add(1)
+    const runner = new GroupRunner(batchGroupSize)
+    const getPoRAddressListCall = runner.wrapFunction(this.getPoRAddressListCall.bind(this))
 
-      if (
-        batchRequests.length >= batchGroupSize ||
-        totalRequestedAddressesCount >= numAddresses.toNumber()
-      ) {
-        addresses.push(...(await Promise.all(batchRequests)))
-        batchRequests = []
-      }
+    for (let startIndex = 0; startIndex < numAddresses; startIndex += batchSize) {
+      const endIndex = Math.min(startIndex + batchSize, numAddresses)
+      batchRequests.push(
+        getPoRAddressListCall(
+          ethers.BigNumber.from(startIndex),
+          // Subtract 1 because endIndex is inclusive
+          ethers.BigNumber.from(endIndex - 1),
+          blockTag,
+        ),
+      )
     }
+
+    const addresses = await Promise.all(batchRequests)
 
     if (addresses.length == 0) {
       logger.error('Received empty PoRAddressList')
