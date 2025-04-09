@@ -1,13 +1,9 @@
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import {
-  AdapterResponse,
-  makeLogger,
-  sleep,
-  splitArrayIntoChunks,
-} from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { ApiPromise, WsProvider } from '@polkadot/api'
 
 const logger = makeLogger('PolkadotBalanceLogger')
@@ -78,23 +74,23 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     try {
       // Break addresses down into batches to execute asynchronously
       // Firing requests for all addresses all at once could hit rate limiting for large address pools
-      const batchedAddresses = splitArrayIntoChunks(addresses, this.config.BATCH_SIZE)
-      for (const batch of batchedAddresses) {
-        await Promise.all(
-          batch.map((address) => {
-            const balancePromise = this.api.query.system.account(address).then((codec) => {
-              const balance = codec.toJSON() as unknown as ProviderResponse
-              if (balance) {
-                result.push({
-                  address,
-                  balance: parseInt(balance.data?.free || '0x0', 16).toString(),
-                })
-              }
-            })
-            return balancePromise
-          }),
-        )
-      }
+      const runner = new GroupRunner(this.config.BATCH_SIZE)
+      const queryAccount = runner.wrapFunction((address) => this.api.query.system.account(address))
+
+      await Promise.all(
+        addresses.map((address) => {
+          const balancePromise = queryAccount(address).then((codec) => {
+            const balance = codec.toJSON() as unknown as ProviderResponse
+            if (balance) {
+              result.push({
+                address,
+                balance: parseInt(balance.data?.free || '0x0', 16).toString(),
+              })
+            }
+          })
+          return balancePromise
+        }),
+      )
     } catch (e) {
       logger.error(e, 'Failed to retrieve balances')
       return {
