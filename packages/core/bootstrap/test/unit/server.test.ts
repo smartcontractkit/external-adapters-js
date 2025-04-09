@@ -2,8 +2,6 @@ import { AdapterResponse, Execute } from '../../src/types'
 import axios from 'axios'
 import { expose } from '../../src'
 
-// trigger
-
 // Mock metrics since the variable is initialized on import
 jest.mock('../../src/lib/metrics', () => ({
   ...(jest.requireActual('../../src/lib/metrics') as Record<string, unknown>),

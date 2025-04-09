@@ -4,6 +4,7 @@ import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
 
+// trigger
 describe('execute', () => {
   const id = '1'
   const context: SuiteContext = {
