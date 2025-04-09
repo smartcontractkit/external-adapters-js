@@ -1,3 +1,4 @@
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
@@ -95,24 +96,18 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
       getBitcoinNetwork(this.settings.BITCOIN_NETWORK),
     )
 
-    let totalPoR = 0
     const concurrencyGroupSize = this.settings.BITCOIN_RPC_GROUP_SIZE || vaultData.length
+
     // Process vault batches sequentially to not overload the BITCOIN_RPC server
-    for (let i = 0; i < vaultData.length; i += concurrencyGroupSize) {
-      let group = []
-      if (this.settings.BITCOIN_RPC_GROUP_SIZE > 0) {
-        group = vaultData.slice(i, i + concurrencyGroupSize)
-      } else {
-        group = vaultData
-      }
-      const deposits = await Promise.all(
-        group.map(async (vault) => {
-          return await this.verifyVaultDeposit(vault, attestorPublicKey)
-        }),
-      )
-      // totalPoR represents total proof of reserves value in bitcoins
-      totalPoR += deposits.reduce((sum, deposit) => sum + deposit, 0)
-    }
+    const runner = new GroupRunner(concurrencyGroupSize)
+    const getVaultDeposit = runner.wrapFunction((vault: RawVault) =>
+      this.verifyVaultDeposit(vault, attestorPublicKey),
+    )
+
+    const deposits = await Promise.all(vaultData.map(getVaultDeposit))
+
+    // totalPoR represents total proof of reserves value in bitcoins
+    const totalPoR = deposits.reduce((sum, deposit) => sum + deposit, 0)
 
     // multiply by 10^8 to convert to satoshis
     const result = totalPoR * 10 ** 8
