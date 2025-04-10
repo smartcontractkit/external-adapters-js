@@ -1,9 +1,9 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import * as socketIoClient from 'socket.io-client'
 import { SocketServerMock } from 'socket.io-mock-ts'
 import { config } from '../../src/config'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import * as socketIoClient from 'socket.io-client'
 import { type SocketIOTransportTypes, SocketIOTransport } from '../../src/transport/price-socketio'
 
 jest.mock('socket.io-client')
