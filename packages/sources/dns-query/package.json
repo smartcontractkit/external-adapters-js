@@ -30,7 +30,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "ethers": "^5.5.4",
-    "nock": "^13.2.4",
+    "nock": "^14.0.0",
     "supertest": "^6.2.2",
     "tslib": "^2.3.1"
   },
