@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/expand-network-adapter",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Chainlink expand-network adapter.",
   "keywords": [
     "Chainlink",
