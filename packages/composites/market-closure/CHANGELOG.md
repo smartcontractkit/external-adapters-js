@@ -1,5 +1,12 @@
 # @chainlink/market-closure-adapter
 
+## 1.3.46
+
+### Patch Changes
+
+- Updated dependencies [[`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359)]:
+  - @chainlink/finnhub-adapter@2.7.26
+
 ## 1.3.45
 
 ### Patch Changes

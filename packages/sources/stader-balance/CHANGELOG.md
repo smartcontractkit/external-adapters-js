@@ -1,5 +1,13 @@
 # @chainlink/stader-balance-adapter
 
+## 1.4.34
+
+### Patch Changes
+
+- [#3788](https://github.com/smartcontractkit/external-adapters-js/pull/3788) [`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#3793](https://github.com/smartcontractkit/external-adapters-js/pull/3793) [`b6654cf`](https://github.com/smartcontractkit/external-adapters-js/commit/b6654cf3f6942ad256f700ad5dd53d4ea0b3e69c) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor how RPCs are grouped
+
 ## 1.4.33
 
 ### Patch Changes
