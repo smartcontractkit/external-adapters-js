@@ -1,5 +1,15 @@
 # @chainlink/bitgo-reserves-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3772](https://github.com/smartcontractkit/external-adapters-js/pull/3772) [`a63ad03`](https://github.com/smartcontractkit/external-adapters-js/commit/a63ad0363ad4bc185dd0bb830449b30b61dd8392) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow multi client
+
+### Patch Changes
+
+- [#3788](https://github.com/smartcontractkit/external-adapters-js/pull/3788) [`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 2.0.6
 
 ### Patch Changes
