@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stader-address-list-adapter",
-  "version": "2.3.34",
+  "version": "2.3.35",
   "description": "Chainlink stader-address-list adapter.",
   "keywords": [
     "Chainlink",
