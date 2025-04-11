@@ -92,10 +92,11 @@ describe('TbillTransport', () => {
     adapterSettings,
   } as EndpointContext<BaseEndpointTypes>
 
-  let transport: TbillTransport
-  let responseCache = {
+  const responseCache = {
     write: jest.fn(),
   }
+
+  let transport: TbillTransport
 
   beforeEach(() => {
     jest.resetAllMocks()
@@ -106,7 +107,7 @@ describe('TbillTransport', () => {
     const dependencies = {
       responseCache,
       subscriptionSetFactory: {
-        buildSet: () => {},
+        buildSet: jest.fn(),
       },
     } as unknown as TransportDependencies<BaseEndpointTypes>
     transport.initialize(dependencies, adapterSettings, endpointName, transportName)
@@ -350,7 +351,7 @@ describe('TbillTransport', () => {
       const result = String(balance * price * 10 ** RESULT_DECIMALS)
 
       const walletAddress = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
-      let [decimalsPromise, decimalsResolve] = deferredPromise()
+      const [decimalsPromise, decimalsResolve] = deferredPromise()
       const resolve = () => decimalsResolve(balanceDecimals)
       ethTbillContract.decimals.mockResolvedValue(decimalsPromise)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
