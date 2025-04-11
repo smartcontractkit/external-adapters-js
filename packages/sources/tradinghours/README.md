@@ -23,19 +23,19 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                         Options                                                                                         |     Default     |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: |
-|           | endpoint | The endpoint to use | string | [forex-market-status](#market-status-endpoint), [market-status](#market-status-endpoint), [metals-market-status](#market-status-endpoint), [wti-market-status](#market-status-endpoint) | `market-status` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                Options                                                                                                                 |     Default     |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: |
+|           | endpoint | The endpoint to use | string | [forex-market-status](#market-status-endpoint), [market-status](#market-status-endpoint), [metals-market-status](#market-status-endpoint), [nyse-market-status](#market-status-endpoint), [wti-market-status](#market-status-endpoint) | `market-status` |
 
 ## Market-status Endpoint
 
-Supported names for this endpoint are: `forex-market-status`, `market-status`, `metals-market-status`, `wti-market-status`.
+Supported names for this endpoint are: `forex-market-status`, `market-status`, `metals-market-status`, `nyse-market-status`, `wti-market-status`.
 
 ### Input Params
 
-| Required? |  Name  | Aliases |      Description       |  Type  |         Options          | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :--------------------: | :----: | :----------------------: | :-----: | :--------: | :------------: |
-|    ✅     | market |         | The name of the market | string | `forex`, `metals`, `wti` |         |            |                |
+| Required? |  Name  | Aliases |      Description       |  Type  |             Options              | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :--------------------: | :----: | :------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | market |         | The name of the market | string | `forex`, `metals`, `nyse`, `wti` |         |            |                |
 
 ### Example
 
