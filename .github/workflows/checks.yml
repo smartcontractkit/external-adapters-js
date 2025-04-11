@@ -73,7 +73,7 @@ jobs:
       - name: Compile tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-          FAILING_TESTS_PATTERN: '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/token-balance/|/sources/view-function-multi-chain/|sources/view-function/'
+          FAILING_TESTS_PATTERN: '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/view-function-multi-chain/|sources/view-function/'
         run: |
           # Tests that should compile:
           yarn tsc -b --noEmit $(echo $CHANGED_PACKAGES | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN")
