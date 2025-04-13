@@ -75,7 +75,6 @@ jobs:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
           FAILING_TESTS_PATTERN: '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/por-address-list/|/sources/s3-csv-reader/|/sources/view-function-multi-chain/|sources/view-function/|/k6/|/observation/'
         run: |
-          set -x
           echo "Tests that should compile:"
           for package in $(echo "$CHANGED_PACKAGES" | jq '.[].location + "/"' -r | grep -v -E "\\.|$FAILING_TESTS_PATTERN"); do
             if ! yarn tsc -b --noEmit "${package}tsconfig.test.json"; then
