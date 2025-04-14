@@ -10,7 +10,7 @@
     "@types/babel__core": "7.20.5",
     "@types/babel__preset-env": "7.9.7",
     "@types/k6": "0.50.1",
-    "@types/node": "22.12.0",
+    "@types/node": "22.14.1",
     "@types/rimraf": "3.0.2",
     "babel-loader": "8.3.0",
     "clean-webpack-plugin": "4.0.0",
