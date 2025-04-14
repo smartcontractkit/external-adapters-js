@@ -14,10 +14,7 @@ export type SharePriceType = {
 export class GroupedProvider {
   private readonly runner: GroupRunner
 
-  constructor(
-    private readonly provider: ethers.JsonRpcProvider,
-    groupSize: number,
-  ) {
+  constructor(private readonly provider: ethers.JsonRpcProvider, groupSize: number) {
     this.runner = new GroupRunner(groupSize)
   }
 
