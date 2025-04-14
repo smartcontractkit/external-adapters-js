@@ -1,5 +1,13 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 4.3.12
+
+### Patch Changes
+
+- [#3788](https://github.com/smartcontractkit/external-adapters-js/pull/3788) [`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#3789](https://github.com/smartcontractkit/external-adapters-js/pull/3789) [`b607cde`](https://github.com/smartcontractkit/external-adapters-js/commit/b607cdeb3c319e2c89ef76cdea7a38c587bdb4d4) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor how RPCs are grouped
+
 ## 4.3.11
 
 ### Patch Changes

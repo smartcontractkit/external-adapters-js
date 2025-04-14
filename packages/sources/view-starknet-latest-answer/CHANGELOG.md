@@ -1,5 +1,13 @@
 # @chainlink/view-starknet-latest-answer-adapter
 
+## 1.0.21
+
+### Patch Changes
+
+- [#3788](https://github.com/smartcontractkit/external-adapters-js/pull/3788) [`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#3776](https://github.com/smartcontractkit/external-adapters-js/pull/3776) [`344dfed`](https://github.com/smartcontractkit/external-adapters-js/commit/344dfedb13e3d7ffdcd129f2da71a13ce8ae44d5) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency nock to v14.0.3
+
 ## 1.0.20
 
 ### Patch Changes
