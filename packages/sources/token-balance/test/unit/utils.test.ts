@@ -1,4 +1,5 @@
 import { deferredPromise } from '@chainlink/external-adapter-framework/util'
+import { ethers } from 'ethers'
 import EACAggregatorProxy from '../../src/config/EACAggregatorProxy.json'
 import OpenEdenTBILLProxy from '../../src/config/OpenEdenTBILLProxy.json'
 import { GroupedProvider } from '../../src/transport/utils'
@@ -8,7 +9,7 @@ const ethersNewContract = jest.fn()
 const makeEthers = () => {
   return {
     JsonRpcProvider: jest.fn(),
-    Contract: function (...args) {
+    Contract: function (...args: [string, unknown, ethers.JsonRpcProvider]) {
       return ethersNewContract(...args)
     },
   }
@@ -25,7 +26,7 @@ describe('transport/utils.ts', () => {
   })
 
   describe('GroupedProvider', () => {
-    const mockProvider = {}
+    const mockProvider = {} as ethers.JsonRpcProvider
     const groupSize = 3
     const tokenContractAddress = '0x0123'
     const priceOracleAddress = '0x4567'
@@ -164,10 +165,10 @@ describe('transport/utils.ts', () => {
       const groupedProvider = new GroupedProvider(mockProvider, groupSize)
       const walletAddresses = Array.from({ length: 7 }, (_, i) => `0x${i.toString(16)}`)
 
-      const resolvers: Array<() => void> = []
+      const resolvers: Array<(balance: bigint) => void> = []
       const mockTokenContract = {
         balanceOf: () => {
-          const [promise, resolve] = deferredPromise()
+          const [promise, resolve] = deferredPromise<bigint>()
           resolvers.push(resolve)
           return promise
         },
@@ -213,7 +214,6 @@ describe('transport/utils.ts', () => {
       const resolvers: (() => void)[] = []
       const deferred = <T>(value: T) => {
         return () => {
-          const count = resolvers.length
           const [promise, resolve] = deferredPromise<T>()
           resolvers.push(() => {
             resolve(value)
@@ -245,7 +245,7 @@ describe('transport/utils.ts', () => {
       groupedTokenContract.balanceOf('0x1234')
 
       groupedTokenContract.getWithdrawalQueueLength()
-      groupedTokenContract.getWithdrawalQueueInfo(0n)
+      groupedTokenContract.getWithdrawalQueueInfo(0)
       groupedPriceOracleContract.latestAnswer()
 
       await jest.runAllTimersAsync()
