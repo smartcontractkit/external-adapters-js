@@ -78,6 +78,7 @@ describe('TbillTransport', () => {
   const transportName = 'default_single_transport'
   const endpointName = 'tbill'
   const BACKGROUND_EXECUTE_MS = 1500
+  const GROUP_SIZE = 3
 
   const adapterSettings = {
     WARMUP_SUBSCRIPTION_TTL: 10_000,
@@ -86,6 +87,7 @@ describe('TbillTransport', () => {
     ETHEREUM_RPC_CHAIN_ID,
     ARBITRUM_RPC_CHAIN_ID,
     BACKGROUND_EXECUTE_MS,
+    GROUP_SIZE,
   } as unknown as BaseEndpointTypes['Settings']
 
   const context = {
@@ -572,6 +574,258 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(0)
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(1)
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(2)
+    })
+
+    it('should limit concurrent RPCs', async () => {
+      const balance = 3
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+
+      const walletAddress1 = '0x10AFF7AF80488033BC845709806D5FAE5291EB01'
+      const walletAddress2 = '0x20AFF7AF80488033BC845709806D5FAE5291EB02'
+
+      const resolvers: (() => void)[] = []
+      const deferred = <T>(value: T) => {
+        return () => {
+          const [promise, resolve] = deferredPromise<T>()
+          resolvers.push(() => {
+            resolve(value)
+          })
+          return promise
+        }
+      }
+
+      ethTbillContract.decimals.mockImplementation(deferred(balanceDecimals))
+      ethTbillContract.balanceOf.mockImplementation(
+        deferred(BigInt(balance * 10 ** balanceDecimals)),
+      )
+      ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
+      ethTbillPriceContract.latestAnswer.mockImplementation(
+        deferred(BigInt(price * 10 ** priceDecimals)),
+      )
+      ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
+
+      const param = {
+        addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
+          chainId: ETHEREUM_RPC_CHAIN_ID,
+          contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+          wallets: [walletAddress],
+        })),
+      } as RequestParams
+
+      transport.handleRequest(context, param)
+
+      // We expect 5 RPCs per address:
+      // 1. ethTbillContract.decimals
+      // 2. ethTbillContract.balanceOf
+      // 5. ethTbillContract.getWithdrawalQueueLength
+      // 3. ethTbillPriceContract.decimals
+      // 4. ethTbillPriceContract.latestAnswer
+      //
+      // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
+      // should have 4 batches of sizes 3, 3, 3, and 1.
+      const expectAndResolve = async (expectedCount: number) => {
+        await jest.runAllTimersAsync()
+        expect(resolvers).toHaveLength(expectedCount)
+        resolvers.forEach((resolve) => resolve())
+        resolvers.length = 0
+      }
+
+      await expectAndResolve(3)
+      await expectAndResolve(3)
+      await expectAndResolve(3)
+      await expectAndResolve(1)
+
+      expect(log).not.toBeCalled()
+      expect(ethTbillContract.balanceOf).toBeCalledTimes(2)
+      expect(ethTbillContract.decimals).toBeCalledTimes(2)
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+    })
+
+    it('should limit concurrent RPCs per provider', async () => {
+      const balance = 3
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+
+      const walletAddress1 = '0x10AFF7AF80488033BC845709806D5FAE5291EB01'
+      const walletAddress2 = '0x20AFF7AF80488033BC845709806D5FAE5291EB02'
+
+      const resolvers: (() => void)[] = []
+      const deferred = <T>(value: T) => {
+        return () => {
+          const [promise, resolve] = deferredPromise<T>()
+          resolvers.push(() => {
+            resolve(value)
+          })
+          return promise
+        }
+      }
+
+      ethTbillContract.decimals.mockImplementation(deferred(balanceDecimals))
+      ethTbillContract.balanceOf.mockImplementation(
+        deferred(BigInt(balance * 10 ** balanceDecimals)),
+      )
+      ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
+      ethTbillPriceContract.latestAnswer.mockImplementation(
+        deferred(BigInt(price * 10 ** priceDecimals)),
+      )
+      ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
+
+      arbTbillContract.decimals.mockImplementation(deferred(balanceDecimals))
+      arbTbillContract.balanceOf.mockImplementation(
+        deferred(BigInt(balance * 10 ** balanceDecimals)),
+      )
+      arbTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
+      arbTbillPriceContract.latestAnswer.mockImplementation(
+        deferred(BigInt(price * 10 ** priceDecimals)),
+      )
+      arbTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
+
+      const param = {
+        addresses: [walletAddress1, walletAddress2].flatMap((walletAddress) => [
+          {
+            chainId: ETHEREUM_RPC_CHAIN_ID,
+            contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress],
+          },
+          {
+            chainId: ARBITRUM_RPC_CHAIN_ID,
+            contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress],
+          },
+        ]),
+      } as RequestParams
+
+      transport.handleRequest(context, param)
+
+      // We expect 5 RPCs per address:
+      // 1. ethTbillContract.decimals
+      // 2. ethTbillContract.balanceOf
+      // 5. ethTbillContract.getWithdrawalQueueLength
+      // 3. ethTbillPriceContract.decimals
+      // 4. ethTbillPriceContract.latestAnswer
+      //
+      // So for 4 addresses we expect 20 RPCs. With a group size of 3 but a
+      // separate group size per provider, we should have 4 batches of sizes 6,
+      // 6, 6, and 2.
+      const expectAndResolve = async (expectedCount: number) => {
+        await jest.runAllTimersAsync()
+        expect(resolvers).toHaveLength(expectedCount)
+        resolvers.forEach((resolve) => resolve())
+        resolvers.length = 0
+      }
+
+      await expectAndResolve(6)
+      await expectAndResolve(6)
+      await expectAndResolve(6)
+      await expectAndResolve(2)
+
+      expect(log).not.toBeCalled()
+      expect(ethTbillContract.balanceOf).toBeCalledTimes(2)
+      expect(ethTbillContract.decimals).toBeCalledTimes(2)
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+
+      expect(arbTbillContract.balanceOf).toBeCalledTimes(2)
+      expect(arbTbillContract.decimals).toBeCalledTimes(2)
+      expect(arbTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
+      expect(arbTbillPriceContract.decimals).toBeCalledTimes(2)
+      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+    })
+
+    it('should reset RPC grouping for a new request', async () => {
+      const balance = 3
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+
+      const walletAddress1 = '0x10AFF7AF80488033BC845709806D5FAE5291EB01'
+      const walletAddress2 = '0x20AFF7AF80488033BC845709806D5FAE5291EB02'
+
+      const resolvers: (() => void)[] = []
+      const deferred = <T>(value: T) => {
+        return () => {
+          const [promise, resolve] = deferredPromise<T>()
+          resolvers.push(() => {
+            resolve(value)
+          })
+          return promise
+        }
+      }
+
+      ethTbillContract.decimals.mockImplementation(deferred(balanceDecimals))
+      ethTbillContract.balanceOf.mockImplementation(
+        deferred(BigInt(balance * 10 ** balanceDecimals)),
+      )
+      ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
+      ethTbillPriceContract.latestAnswer.mockImplementation(
+        deferred(BigInt(price * 10 ** priceDecimals)),
+      )
+      ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
+
+      const param = {
+        addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
+          chainId: ETHEREUM_RPC_CHAIN_ID,
+          contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+          wallets: [walletAddress],
+        })),
+      } as RequestParams
+
+      transport.handleRequest(context, param)
+
+      // We expect 5 RPCs per address:
+      // 1. ethTbillContract.decimals
+      // 2. ethTbillContract.balanceOf
+      // 5. ethTbillContract.getWithdrawalQueueLength
+      // 3. ethTbillPriceContract.decimals
+      // 4. ethTbillPriceContract.latestAnswer
+      //
+      // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
+      // should have 4 batches of sizes 3, 3, 3, and 1.
+      const expectAndResolve = async (expectedCount: number) => {
+        await jest.runAllTimersAsync()
+        expect(resolvers).toHaveLength(expectedCount)
+        resolvers.forEach((resolve) => resolve())
+        resolvers.length = 0
+      }
+
+      await expectAndResolve(3)
+      await expectAndResolve(3)
+      await expectAndResolve(3)
+      await expectAndResolve(1)
+
+      expect(log).not.toBeCalled()
+      expect(ethTbillContract.balanceOf).toBeCalledTimes(2)
+      expect(ethTbillContract.decimals).toBeCalledTimes(2)
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+
+      // When we make a new request, it should start with another group of 3,
+      // rather than just 2, which might happen if we reuse the same
+      // GroupRunner than ended with a group of 1 before.
+      transport.handleRequest(context, param)
+
+      await expectAndResolve(3)
+      await expectAndResolve(3)
+      await expectAndResolve(3)
+      await expectAndResolve(1)
+
+      expect(log).not.toBeCalled()
+      expect(ethTbillContract.balanceOf).toBeCalledTimes(4)
+      expect(ethTbillContract.decimals).toBeCalledTimes(4)
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(4)
+      expect(ethTbillPriceContract.decimals).toBeCalledTimes(4)
+      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(4)
     })
   })
 

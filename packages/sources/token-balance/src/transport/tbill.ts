@@ -1,12 +1,11 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/tbill'
-import OpenEdenTBILLProxy from '../config/OpenEdenTBILLProxy.json'
-import { ethers, Contract } from 'ethers'
-import { getRate } from './priceFeed'
+import { GroupedProvider, GroupedTokenContract, SharePriceType } from './utils'
 
 const logger = makeLogger('Token Balance - Tbill')
 
@@ -20,9 +19,10 @@ type AddressType = {
   priceOracleAddress: string
 }
 
-type SharePriceType = {
-  value: bigint
-  decimal: number
+type RequestContext = {
+  groupedProviders: {
+    [chainId: string]: GroupedProvider
+  }
 }
 
 const RESULT_DECIMALS = 18
@@ -65,8 +65,11 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   async handleRequest(context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
+    const requestContext: RequestContext = {
+      groupedProviders: {},
+    }
     try {
-      response = await this._handleRequest(context, param)
+      response = await this._handleRequest(context, param, requestContext)
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
@@ -86,6 +89,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(
     context: EndpointContext<BaseEndpointTypes>,
     param: RequestParams,
+    requestContext: RequestContext,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const addresses = param.addresses.filter(
       (a) =>
@@ -100,7 +104,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     const results = await Promise.all(
       addresses.map(async (address: AddressType) => {
-        return this.calculateTbillSharesUSD(context, address)
+        return this.calculateTbillSharesUSD(context, address, requestContext)
       }),
     )
 
@@ -121,29 +125,46 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async calculateTbillSharesUSD(context: EndpointContext<BaseEndpointTypes>, address: AddressType) {
+  getGroupedProvider(
+    context: EndpointContext<BaseEndpointTypes>,
+    address: AddressType,
+    requestContext: RequestContext,
+  ): GroupedProvider {
     let provider!: ethers.JsonRpcProvider
-
     if (address.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)) {
       provider = this.ethProvider
     } else if (address.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)) {
       provider = this.arbProvider
-    }
-
-    if (!provider) {
+    } else {
       throw new AdapterInputError({
         statusCode: 400,
         message: `ChainId ${address.chainId} not supported for Tbill.`,
       })
     }
 
-    const contract: Contract = new ethers.Contract(
-      address.contractAddress,
-      OpenEdenTBILLProxy,
-      provider,
+    if (!requestContext.groupedProviders[address.chainId]) {
+      requestContext.groupedProviders[address.chainId] = new GroupedProvider(
+        provider,
+        context.adapterSettings.GROUP_SIZE,
+      )
+    }
+    return requestContext.groupedProviders[address.chainId]
+  }
+
+  async calculateTbillSharesUSD(
+    context: EndpointContext<BaseEndpointTypes>,
+    address: AddressType,
+    requestContext: RequestContext,
+  ) {
+    let groupedProvider = this.getGroupedProvider(context, address, requestContext)
+
+    const contract = groupedProvider.createTokenContract(address.contractAddress)
+    const priceOracleContract = groupedProvider.createPriceOracleContract(
+      address.priceOracleAddress,
     )
+
     const [sharePriceUSD, sharesDecimals, queueLength, balanceResponse] = await Promise.all([
-      getRate(address.priceOracleAddress, provider),
+      priceOracleContract.getRate(),
       contract.decimals(),
       contract.getWithdrawalQueueLength(),
       Promise.all(address.wallets.map((wallet) => contract.balanceOf(wallet))),
@@ -190,7 +211,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   async getWithdrawalQueueAum(
     queueLength: bigint,
-    tbillWithrawalQueueContract: Contract,
+    tbillWithrawalQueueContract: GroupedTokenContract,
     sharePriceUSD: SharePriceType,
     sharesDecimals: bigint,
   ) {
