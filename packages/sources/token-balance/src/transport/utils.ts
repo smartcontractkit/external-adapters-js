@@ -1,7 +1,7 @@
-import OpenEdenTBILLProxy from '../config/OpenEdenTBILLProxy.json'
-import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { ethers } from 'ethers'
+import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
+import OpenEdenTBILLProxy from '../config/OpenEdenTBILLProxy.json'
 
 export type SharePriceType = {
   value: bigint

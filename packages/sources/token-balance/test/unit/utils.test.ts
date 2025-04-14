@@ -1,5 +1,5 @@
-import EACAggregatorProxy from '../../src/config/EACAggregatorProxy.json'
 import { deferredPromise } from '@chainlink/external-adapter-framework/util'
+import EACAggregatorProxy from '../../src/config/EACAggregatorProxy.json'
 import OpenEdenTBILLProxy from '../../src/config/OpenEdenTBILLProxy.json'
 import { GroupedProvider } from '../../src/transport/utils'
 
