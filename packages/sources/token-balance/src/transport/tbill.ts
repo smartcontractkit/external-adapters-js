@@ -156,7 +156,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     address: AddressType,
     requestContext: RequestContext,
   ) {
-    let groupedProvider = this.getGroupedProvider(context, address, requestContext)
+    const groupedProvider = this.getGroupedProvider(context, address, requestContext)
 
     const contract = groupedProvider.createTokenContract(address.contractAddress)
     const priceOracleContract = groupedProvider.createPriceOracleContract(
