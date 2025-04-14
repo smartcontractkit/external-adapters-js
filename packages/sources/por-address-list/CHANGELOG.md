@@ -1,5 +1,13 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.8.1
+
+### Patch Changes
+
+- [#3788](https://github.com/smartcontractkit/external-adapters-js/pull/3788) [`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#3792](https://github.com/smartcontractkit/external-adapters-js/pull/3792) [`95b26c9`](https://github.com/smartcontractkit/external-adapters-js/commit/95b26c98450ff2f990ec2651621bd2d0eac5ce66) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor how RPCs are grouped
+
 ## 5.8.0
 
 ### Minor Changes

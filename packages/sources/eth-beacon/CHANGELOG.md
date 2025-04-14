@@ -1,5 +1,13 @@
 # @chainlink/eth-beacon-adapter
 
+## 3.0.17
+
+### Patch Changes
+
+- [#3788](https://github.com/smartcontractkit/external-adapters-js/pull/3788) [`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#3790](https://github.com/smartcontractkit/external-adapters-js/pull/3790) [`9fa3351`](https://github.com/smartcontractkit/external-adapters-js/commit/9fa3351162470fbcbf83065e036bca16ab51938a) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor how RPCs are grouped
+
 ## 3.0.16
 
 ### Patch Changes
