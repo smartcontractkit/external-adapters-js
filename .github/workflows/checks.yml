@@ -76,12 +76,12 @@ jobs:
           FAILING_TESTS_PATTERN: '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/s3-csv-reader/|/sources/view-function-multi-chain/|sources/view-function/|/k6/|/observation/'
         run: |
           echo "Tests that should compile:"
-          for package in $(echo "$CHANGED_PACKAGES" | jq '.[].location + "/"' -r | grep -v -E "$FAILING_TESTS_PATTERN"); do
-            if ! yarn tsc -b --noEmit "${package}tsconfig.test.json"; then
-              echo "Compilation failed for $package."
-              exit 1
-            fi
-          done
+          configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN"))
+          if [ ${#configs_to_compile[@]} -eq 0 ]; then
+            echo "No tests to compile."
+          else
+            yarn tsc -b --noEmit "${configs_to_compile[@]}"
+          fi
           echo "Tests that should not compile:"
           for package in $(echo "$CHANGED_PACKAGES" | jq '.[].location + "/"' -r | grep -E "$FAILING_TESTS_PATTERN"); do
             if yarn tsc -b --noEmit "${package}tsconfig.test.json"; then
