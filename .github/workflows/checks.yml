@@ -47,6 +47,7 @@ jobs:
         uses: ./.github/actions/setup
         with:
           base-branch: origin/${{ github.base_ref }}
+          build-all: true
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
         run: BUILD_ALL=true ./.github/scripts/changed-adapters.sh
@@ -70,6 +71,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
+        with:
+          build-all: true
       - name: Compile tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
