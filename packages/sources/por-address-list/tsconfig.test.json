@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "include": ["src/**/*", "**/test", "src/**/*.json"],
   "compilerOptions": {
-    "lib": ["es2024"],
+    "target": "ESNext",
     "noEmit": true
   }
 }
