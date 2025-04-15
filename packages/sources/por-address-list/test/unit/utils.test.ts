@@ -2,6 +2,7 @@ import { sleep } from '@chainlink/external-adapter-framework/util'
 import { ethers } from 'ethers'
 import { DefaultAddressManager } from '../../src/transport/addressManager'
 
+// test
 const DEFAULT_EXPECTED_ADDRESSES = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
   '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',

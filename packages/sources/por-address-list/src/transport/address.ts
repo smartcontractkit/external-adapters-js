@@ -8,7 +8,6 @@ import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
 import { ethers } from 'ethers'
 import { addProvider, getProvider } from './providerUtils'
 import { DefaultAddressManager, LombardAddressManager, AddressManager } from './addressManager'
-// test
 
 export type AddressTransportTypes = BaseEndpointTypes
 
