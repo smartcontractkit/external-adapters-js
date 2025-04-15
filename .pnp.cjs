@@ -1202,7 +1202,7 @@ const RAW_RUNTIME_STATE =
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@vercel/ncc", "npm:0.38.3"],\
@@ -5090,7 +5090,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5108,7 +5108,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -5128,7 +5128,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/ws", "npm:8.5.14"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
@@ -5146,7 +5146,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["fastify", "npm:3.29.5"],\
@@ -5165,7 +5165,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/aleno-adapter", "workspace:packages/sources/aleno"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["socket.io-client", "npm:4.8.1"],\
           ["socket.io-mock-ts", "npm:1.0.2"],\
@@ -5183,7 +5183,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5198,7 +5198,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5215,7 +5215,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5234,7 +5234,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -5252,7 +5252,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5268,7 +5268,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5286,7 +5286,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -5304,7 +5304,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/apex-adapter", "workspace:packages/sources/apex"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -5322,7 +5322,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -5339,7 +5339,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["axios", "npm:1.8.4"],\
           ["ethers", "npm:5.4.7"],\
@@ -5361,7 +5361,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/luxon", "npm:1.27.1"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["luxon", "npm:1.28.1"],\
           ["tslib", "npm:2.8.1"],\
@@ -5377,7 +5377,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5392,7 +5392,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["fastify", "npm:3.29.5"],\
           ["nock", "npm:13.5.6"],\
@@ -5410,7 +5410,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
@@ -5429,7 +5429,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5447,7 +5447,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5466,7 +5466,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5484,7 +5484,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5501,7 +5501,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5516,7 +5516,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bitgo-reserves-adapter", "workspace:packages/sources/bitgo-reserves"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5531,7 +5531,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bitgo-reserves-test-adapter", "workspace:packages/sources/bitgo-reserves-test"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5548,7 +5548,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/express", "npm:4.17.21"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5567,7 +5567,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5583,7 +5583,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5599,7 +5599,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["blockcypher", "npm:0.3.0"],\
           ["nock", "npm:13.5.6"],\
@@ -5618,7 +5618,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -5635,7 +5635,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5653,7 +5653,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -5672,7 +5672,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5694,7 +5694,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["bn.js", "npm:5.2.1"],\
@@ -5715,7 +5715,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5733,7 +5733,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5753,7 +5753,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/abi", "npm:5.7.0"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["merkletreejs", "npm:0.2.32"],\
           ["tslib", "npm:2.8.1"],\
@@ -5769,7 +5769,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ceffu-adapter", "workspace:packages/sources/ceffu"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:6.13.5"],\
           ["https-proxy-agent", "npm:7.0.6"],\
@@ -5789,7 +5789,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
@@ -5808,7 +5808,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -5825,7 +5825,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5841,7 +5841,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5856,7 +5856,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -5873,7 +5873,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5891,7 +5891,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5909,7 +5909,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -5926,7 +5926,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5943,7 +5943,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5961,7 +5961,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -5978,7 +5978,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5994,7 +5994,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6012,7 +6012,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -6029,7 +6029,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6047,7 +6047,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["js-conflux-sdk", "npm:1.7.3"],\
@@ -6086,7 +6086,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6104,7 +6104,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6125,7 +6125,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.0.32"],\
           ["moment", "npm:2.30.1"],\
@@ -6145,7 +6145,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6165,7 +6165,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6181,7 +6181,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
@@ -6200,7 +6200,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6218,7 +6218,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6236,7 +6236,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6255,7 +6255,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -6272,7 +6272,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
@@ -6291,7 +6291,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/deep-blue-adapter", "workspace:packages/sources/deep-blue"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6308,7 +6308,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6327,7 +6327,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6343,7 +6343,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6364,7 +6364,7 @@ const RAW_RUNTIME_STATE =
           ["@scure/base", "npm:1.1.9"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["bip32", "npm:4.0.0"],\
           ["bitcoinjs-lib", "npm:6.1.7"],\
           ["ethers", "npm:5.7.2"],\
@@ -6383,7 +6383,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6403,7 +6403,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6421,7 +6421,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["dwolla-v2", "npm:3.4.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6438,7 +6438,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6454,7 +6454,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -6471,7 +6471,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.6"],\
@@ -6490,7 +6490,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.7.2"],\
@@ -6513,7 +6513,7 @@ const RAW_RUNTIME_STATE =
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.3.1"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
@@ -6533,7 +6533,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/lodash", "npm:4.17.16"],\
           ["@types/lru-cache", "npm:5.1.1"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/object-hash", "npm:2.2.1"],\
           ["@types/object-path", "npm:0.11.4"],\
           ["@types/pino", "npm:6.3.12"],\
@@ -6580,7 +6580,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/object-path", "npm:0.11.4"],\
           ["object-path", "npm:0.11.8"],\
           ["tslib", "npm:2.8.1"],\
@@ -6597,7 +6597,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/contracts", "npm:0.8.0"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:4.0.49"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6652,7 +6652,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.19"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -6671,7 +6671,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6689,7 +6689,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
@@ -6707,7 +6707,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.5.4"],\
           ["nock", "npm:13.5.6"],\
@@ -6726,7 +6726,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6745,7 +6745,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6764,7 +6764,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6782,7 +6782,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6800,7 +6800,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6818,7 +6818,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6836,7 +6836,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6854,7 +6854,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6872,7 +6872,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -6891,7 +6891,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -6908,7 +6908,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6953,7 +6953,7 @@ const RAW_RUNTIME_STATE =
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@vercel/ncc", "npm:0.38.3"],\
@@ -6979,7 +6979,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6997,7 +6997,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7014,7 +7014,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/uuid", "npm:8.3.4"],\
           ["nock", "npm:13.5.6"],\
@@ -7033,7 +7033,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7051,7 +7051,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7067,7 +7067,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/fireblocks-adapter", "workspace:packages/sources/fireblocks"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7083,7 +7083,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7101,7 +7101,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7116,7 +7116,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7134,7 +7134,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7151,7 +7151,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/frxeth-exchange-rate-adapter", "workspace:packages/sources/frxeth-exchange-rate"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7169,7 +7169,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@ethercards/ec-util", "npm:1.0.8"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["moment", "npm:2.30.1"],\
@@ -7189,7 +7189,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
@@ -7206,7 +7206,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7222,7 +7222,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7240,7 +7240,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7254,7 +7254,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -7271,7 +7271,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -7290,7 +7290,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@google-cloud/bigquery", "npm:5.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7307,7 +7307,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
           ["@types/convert-units", "npm:2.3.11"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["convert-units", "npm:2.3.4"],\
           ["geojson-validation", "npm:1.0.2"],\
           ["tslib", "npm:2.8.1"],\
@@ -7323,7 +7323,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7339,7 +7339,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7354,7 +7354,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["axios", "npm:1.8.4"],\
@@ -7377,7 +7377,7 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/crypto", "npm:0.1.58"],\
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
@@ -7395,7 +7395,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/harris-and-trotter-adapter", "workspace:packages/sources/harris-and-trotter"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7413,7 +7413,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
@@ -7432,7 +7432,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -7450,7 +7450,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7465,7 +7465,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ignition-address-list-adapter", "workspace:packages/sources/ignition-address-list"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7481,7 +7481,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["axios", "npm:1.8.4"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -7500,7 +7500,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/instruxi-sxt-adapter", "workspace:packages/sources/instruxi-sxt"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7516,7 +7516,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
@@ -7533,7 +7533,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7549,7 +7549,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["cids", "npm:1.1.9"],\
           ["ipfs", "npm:0.60.2"],\
           ["ipfs-core-types", "npm:0.9.0"],\
@@ -7572,7 +7572,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.3.4"],\
@@ -7590,7 +7590,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7607,7 +7607,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7624,7 +7624,7 @@ const RAW_RUNTIME_STATE =
           ["@grpc/grpc-js", "npm:1.13.2"],\
           ["@kaiko-data/sdk-node", "npm:1.26.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["exponential-backoff", "npm:3.1.2"],\
           ["nock", "npm:13.5.6"],\
           ["rxjs", "npm:7.8.2"],\
@@ -7642,7 +7642,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -7663,7 +7663,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7681,7 +7681,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -7699,7 +7699,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/lido-por-adapter", "workspace:packages/sources/lido-por"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7717,7 +7717,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["csv-parse", "npm:4.16.3"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -7739,7 +7739,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7754,7 +7754,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7768,7 +7768,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7784,7 +7784,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/m0-adapter", "workspace:packages/sources/m0"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7803,7 +7803,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["market-closure", "npm:0.1.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7821,7 +7821,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -7841,7 +7841,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7859,7 +7859,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7877,7 +7877,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7892,7 +7892,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7910,7 +7910,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7927,7 +7927,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.3.4"],\
@@ -7945,7 +7945,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.5.4"],\
           ["nock", "npm:13.5.6"],\
@@ -7963,7 +7963,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/moore-hk-adapter", "workspace:packages/sources/moore-hk"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7981,7 +7981,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.7"],\
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
@@ -7999,7 +7999,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8018,7 +8018,7 @@ const RAW_RUNTIME_STATE =
           ["@date-fns/utc", "npm:2.1.0"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
           ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
@@ -8036,7 +8036,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -8052,7 +8052,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/nexus-kiln-adapter", "workspace:packages/composites/nexus-kiln"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8068,7 +8068,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -8088,7 +8088,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
@@ -8108,7 +8108,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8125,7 +8125,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/nyfed-adapter", "workspace:packages/sources/nyfed"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8139,7 +8139,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["decimal.js", "npm:10.4.3"],\
           ["tslib", "npm:2.8.1"],\
@@ -8168,7 +8168,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8186,7 +8186,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8203,7 +8203,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8219,7 +8219,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8238,7 +8238,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinon", "npm:10.0.20"],\
           ["axios", "npm:1.8.4"],\
           ["sinon", "npm:12.0.1"],\
@@ -8256,7 +8256,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8275,7 +8275,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@paypal/payouts-sdk", "npm:1.1.1"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/paypal__payouts-sdk", "npm:1.0.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8291,7 +8291,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@polkadot/api", "npm:9.14.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8306,7 +8306,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8321,7 +8321,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8337,7 +8337,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8387,7 +8387,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
           ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
@@ -8423,7 +8423,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["object-path", "npm:0.11.8"],\
@@ -8442,7 +8442,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8461,7 +8461,7 @@ const RAW_RUNTIME_STATE =
           ["@renproject/ren", "npm:2.6.0"],\
           ["@renproject/utils", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bitcoinjs-lib", "npm:5.2.0"],\
           ["nock", "npm:13.5.6"],\
@@ -8481,7 +8481,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
@@ -8501,7 +8501,7 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/client-s3", "npm:3.696.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["csv-parse", "npm:5.5.6"],\
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.6"],\
@@ -8519,7 +8519,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8538,7 +8538,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -8558,7 +8558,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.7.2"],\
@@ -8579,7 +8579,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/jsonwebtoken", "npm:8.5.9"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["jsonwebtoken", "npm:9.0.2"],\
           ["nock", "npm:13.5.6"],\
@@ -8599,7 +8599,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -8619,7 +8619,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -8636,7 +8636,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinon", "npm:10.0.20"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -8656,7 +8656,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/luxon", "npm:2.4.0"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["luxon", "npm:1.28.1"],\
@@ -8675,7 +8675,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.5.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -8691,7 +8691,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.5.4"],\
@@ -8710,7 +8710,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -8728,7 +8728,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/starknet-gas-price-adapter", "workspace:packages/sources/starknet-gas-price"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:14.0.3"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
@@ -8745,7 +8745,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8762,7 +8762,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.7"],\
           ["date-fns", "npm:3.6.0"],\
           ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
@@ -8782,7 +8782,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -8802,7 +8802,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
@@ -8823,7 +8823,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["supertest", "npm:6.2.4"],\
@@ -8840,7 +8840,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/synthetix-feeds-adapter", "workspace:packages/sources/synthetix-feeds"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -8858,7 +8858,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8877,7 +8877,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@terra-money/terra.js", "npm:2.1.23"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8897,7 +8897,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8911,7 +8911,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8927,7 +8927,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8945,7 +8945,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8962,7 +8962,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8994,7 +8994,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -9011,7 +9011,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
@@ -9030,7 +9030,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -9047,7 +9047,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -9067,7 +9067,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -9084,7 +9084,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -9103,7 +9103,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9118,7 +9118,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -9135,7 +9135,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -9153,7 +9153,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["nock", "npm:13.5.6"],\
@@ -9171,7 +9171,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -9189,7 +9189,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
@@ -9209,7 +9209,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -9227,7 +9227,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -9245,7 +9245,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9260,7 +9260,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -9276,7 +9276,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -9292,7 +9292,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/view-starknet-latest-answer-adapter", "workspace:packages/sources/view-starknet-latest-answer"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:14.0.3"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
@@ -9308,7 +9308,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9324,7 +9324,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -9342,7 +9342,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -9360,7 +9360,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -9379,7 +9379,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -16331,11 +16331,11 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:22.12.0", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-22.12.0-7905337c99-aac2b6f6a8.zip/node_modules/@types/node/",\
+      ["npm:22.14.1", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-22.14.1-ff7e0a29d7-561b1ad98e.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:22.12.0"],\
-          ["undici-types", "npm:6.20.0"]\
+          ["@types/node", "npm:22.14.1"],\
+          ["undici-types", "npm:6.21.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -29131,7 +29131,7 @@ const RAW_RUNTIME_STATE =
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/k6", "npm:0.50.1"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/rimraf", "npm:3.0.2"],\
           ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.3.0"],\
           ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],\
@@ -38156,7 +38156,7 @@ const RAW_RUNTIME_STATE =
           ["@tsconfig/node12", "npm:1.0.11"],\
           ["@tsconfig/node14", "npm:1.0.3"],\
           ["@tsconfig/node16", "npm:1.0.4"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/swc__core", null],\
           ["@types/swc__wasm", null],\
           ["@types/typescript", null],\
@@ -38547,10 +38547,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.20.0", {\
-        "packageLocation": "./.yarn/cache/undici-types-npm-6.20.0-bd21e669af-583ac7bbf4.zip/node_modules/undici-types/",\
+      ["npm:6.21.0", {\
+        "packageLocation": "./.yarn/cache/undici-types-npm-6.21.0-eb2b0ed56a-ec8f41aa43.zip/node_modules/undici-types/",\
         "packageDependencies": [\
-          ["undici-types", "npm:6.20.0"]\
+          ["undici-types", "npm:6.21.0"]\
         ],\
         "linkType": "HARD"\
       }]\
