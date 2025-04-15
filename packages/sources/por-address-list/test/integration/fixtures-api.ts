@@ -1,5 +1,11 @@
 import nock from 'nock'
 
+type JsonRpcPayload = {
+  id: number
+  method: string
+  params: Array<{ to: string; data: string }>
+}
+
 export const mockCoinbaseResponseSuccess = (): nock.Scope =>
   nock('http://coinbase', {
     encodedQueryParams: true,
@@ -199,7 +205,7 @@ export const mockBaseContractCallResponseSuccess = (): nock.Scope =>
   nock('http://localhost-base:8080')
     .persist()
     .post('/')
-    .reply(200, (uri, request) => {
+    .reply(200, (_uri, request: JsonRpcPayload) => {
       if (request.method === 'eth_chainId') {
         return {
           jsonrpc: '2.0',
