@@ -49,6 +49,7 @@
     "@vercel/ncc": "0.38.3",
     "eslint": "8.39.0",
     "eslint-config-prettier": "8.8.0",
+    "prettier-plugin-organize-imports": "^4.1.0",
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
@@ -78,7 +79,7 @@
     "arrowParens": "always"
   },
   "lint-staged": {
-    "*.{js,css,md,ts,json,yml,yaml}": "yarn prettier --write"
+    "*.{js,css,md,ts,json,yml,yaml}": "yarn prettier --write --plugin=prettier-plugin-organize-imports"
   },
   "packageManager": "yarn@4.5.3",
   "resolutions": {
