@@ -135,6 +135,51 @@ describe('SocketIOTransport', () => {
     expect(subscribeSpy).toBeCalledTimes(1)
   })
 
+  it('should resubscribe after reconnect', async () => {
+    const subscribeCalls: SubscribeCall[] = []
+    const subscribeSpy = jest
+      .fn()
+      .mockImplementation((subscriptions: string[], callback: SubscribeCallback) => {
+        subscribeCalls.push({ subscriptions, callback })
+      })
+    mockSocket.clientMock.on('subscribe', subscribeSpy)
+
+    const transport = new SocketIOTransport()
+
+    transport.streamHandler(context, emptySubscriptions)
+    await jest.advanceTimersByTimeAsync(BACKGROUND_EXECUTE_MS_SSE)
+
+    mockSocket.clientMock.emit('connect')
+
+    const subscriptions = [{ base: 'FRAC', quote: 'USD' }]
+    const streamHandlerPromise = transport.streamHandler(context, {
+      desired: subscriptions,
+      new: subscriptions,
+      stale: [],
+    })
+
+    expect(subscribeSpy).toBeCalledTimes(1)
+    expect(subscribeSpy).toBeCalledWith(['FRAC/USD'], expect.any(Function))
+
+    subscribeCalls[0].callback({
+      status: 'ok',
+      involvedSubscriptions: ['frac/usd'],
+      subscriptionsAfterUpdate: ['frac/usd'],
+    })
+    await jest.advanceTimersByTimeAsync(BACKGROUND_EXECUTE_MS_SSE)
+    await streamHandlerPromise
+
+    // Simulate a reconnect
+    mockSocket.clientMock.emit('connect')
+
+    transport.streamHandler(context, { desired: subscriptions, new: [], stale: [] })
+    await jest.advanceTimersByTimeAsync(BACKGROUND_EXECUTE_MS_SSE)
+
+    // Resubscribed
+    expect(subscribeSpy).toBeCalledTimes(2)
+    expect(subscribeSpy).toHaveBeenNthCalledWith(2, ['FRAC/USD'], expect.any(Function))
+  })
+
   it('should unsubscribe', async () => {
     const subscribeCalls: SubscribeCall[] = []
     const subscribeSpy = jest.fn().mockImplementation((subscriptions, callback) => {
