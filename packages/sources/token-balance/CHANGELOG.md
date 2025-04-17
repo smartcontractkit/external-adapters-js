@@ -1,5 +1,23 @@
 # @chainlink/token-balance-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#3813](https://github.com/smartcontractkit/external-adapters-js/pull/3813) [`6b11b60`](https://github.com/smartcontractkit/external-adapters-js/commit/6b11b6099a0711973476d8f7b2ad2a73a60121fa) Thanks [@dskloetc](https://github.com/dskloetc)! - Limit concurrent RPCs made for tbill balances.
+
+- [#3821](https://github.com/smartcontractkit/external-adapters-js/pull/3821) [`233d11d`](https://github.com/smartcontractkit/external-adapters-js/commit/233d11d88bd853825f656c9322ef2e10a3ed8660) Thanks [@dskloetc](https://github.com/dskloetc)! - Only count TBILL withdrawal queue entries for the relevant addresses
+
+### Patch Changes
+
+- [#3805](https://github.com/smartcontractkit/external-adapters-js/pull/3805) [`2d18954`](https://github.com/smartcontractkit/external-adapters-js/commit/2d1895428866a279ca2464f494c5c3efcece1f3b) Thanks [@renovate](https://github.com/apps/renovate)! - Update NodeJS to version 22.14.0
+
+- [#3809](https://github.com/smartcontractkit/external-adapters-js/pull/3809) [`cf1f461`](https://github.com/smartcontractkit/external-adapters-js/commit/cf1f461401f2ee3105ff72f73c10e2d464ea3a44) Thanks [@dskloetc](https://github.com/dskloetc)! - Utility to limit concurrent contract RPCs
+
+- [#3801](https://github.com/smartcontractkit/external-adapters-js/pull/3801) [`c40ad81`](https://github.com/smartcontractkit/external-adapters-js/commit/c40ad81e979aed773a0dda68381bacdc6bc7f1d4) Thanks [@renovate](https://github.com/apps/renovate)! - Update TypeScript version to 5.8.3
+
+- [#3810](https://github.com/smartcontractkit/external-adapters-js/pull/3810) [`e47e08a`](https://github.com/smartcontractkit/external-adapters-js/commit/e47e08ac2b6224751d9cf486caee7964b6f58ad9) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 1.2.1
 
 ### Patch Changes

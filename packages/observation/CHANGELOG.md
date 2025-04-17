@@ -1,5 +1,11 @@
 # @chainlink/observation
 
+## 2.0.8
+
+### Patch Changes
+
+- [#3801](https://github.com/smartcontractkit/external-adapters-js/pull/3801) [`c40ad81`](https://github.com/smartcontractkit/external-adapters-js/commit/c40ad81e979aed773a0dda68381bacdc6bc7f1d4) Thanks [@renovate](https://github.com/apps/renovate)! - Update TypeScript version to 5.8.3
+
 ## 2.0.7
 
 ### Patch Changes

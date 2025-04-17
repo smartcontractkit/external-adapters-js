@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/deep-blue-adapter",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Chainlink deep-blue adapter.",
   "keywords": [
     "Chainlink",

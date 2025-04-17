@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,15 +16,16 @@ Additional env vars in the form `${NETWORK}_RPC_URL` and `${NETWORK}_RPC_CHAIN_I
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options |   Default   |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :---------: |
-|           |   ETHEREUM_RPC_URL    |                                 RPC url of Ethereum node                                  | string |         |     ``      |
-|           | ETHEREUM_RPC_CHAIN_ID |                                     Ethereum chain id                                     | number |         |     `1`     |
-|           |   ARBITRUM_RPC_URL    |                                 RPC url of Arbitrum node                                  | string |         |     ``      |
-|           | ARBITRUM_RPC_CHAIN_ID |                                     Arbitrum chain id                                     | number |         |   `42161`   |
-|           |    SOLANA_RPC_URL     |                                  RPC url of Solana node                                   | string |         |     ``      |
-|           |   SOLANA_COMMITMENT   |                            Solana transaction commitment level                            | string |         | `finalized` |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |   `10000`   |
+| Required? |         Name          |                                                                                            Description                                                                                             |  Type  | Options |   Default   |
+| :-------: | :-------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :---------: |
+|           |   ETHEREUM_RPC_URL    |                                                                                      RPC url of Ethereum node                                                                                      | string |         |     ``      |
+|           | ETHEREUM_RPC_CHAIN_ID |                                                                                         Ethereum chain id                                                                                          | number |         |     `1`     |
+|           |   ARBITRUM_RPC_URL    |                                                                                      RPC url of Arbitrum node                                                                                      | string |         |     ``      |
+|           | ARBITRUM_RPC_CHAIN_ID |                                                                                         Arbitrum chain id                                                                                          | number |         |   `42161`   |
+|           |    SOLANA_RPC_URL     |                                                                                       RPC url of Solana node                                                                                       | string |         |     ``      |
+|           |   SOLANA_COMMITMENT   |                                                                                Solana transaction commitment level                                                                                 | string |         | `finalized` |
+|           | BACKGROUND_EXECUTE_MS |                                                     The amount of time the background execute should sleep before performing the next request                                                      | number |         |   `10000`   |
+|           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |    `25`     |
 
 ---
 
