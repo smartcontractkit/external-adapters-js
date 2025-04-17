@@ -728,6 +728,8 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(4)
     })
 
+    // The previous test tests input with multiple address entries with 1 wallet each.
+    // This test tests input with one address entries with multiple wallets.
     it('should not double count withdrawal queue entries for multiple wallets', async () => {
       const balance1 = 3
       const balance2 = 5
