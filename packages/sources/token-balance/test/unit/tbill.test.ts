@@ -522,15 +522,14 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillContract.getWithdrawalQueueLength.mockResolvedValue(2)
-      // TODO: Shouldn't we only count withdrawals from walletAddress?
       ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
-        sender: '0x01',
-        receiver: '0x02',
+        sender: walletAddress,
+        receiver: walletAddress,
         shares: BigInt(withDrawalQueueAmount1 * 10 ** balanceDecimals),
       })
       ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
-        sender: '0x03',
-        receiver: '0x04',
+        sender: walletAddress,
+        receiver: walletAddress,
         shares: BigInt(withDrawalQueueAmount2 * 10 ** balanceDecimals),
       })
 
@@ -573,6 +572,240 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(1)
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(0)
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(2)
+    })
+
+    it('should ignore withdrawal queue entries unless both sender and receiver equal the wallet address', async () => {
+      const balance = 3
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+      const withDrawalQueueAmount1 = 1
+      const withDrawalQueueAmount2 = 2
+      const withDrawalQueueAmount3 = 3
+
+      const result = String(balance * price * 10 ** RESULT_DECIMALS)
+
+      const walletAddress = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
+      ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
+      ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
+      ethTbillContract.getWithdrawalQueueLength.mockResolvedValue(3)
+      ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
+        sender: '0x01',
+        receiver: walletAddress,
+        shares: BigInt(withDrawalQueueAmount1 * 10 ** balanceDecimals),
+      })
+      ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
+        sender: walletAddress,
+        receiver: '0x02',
+        shares: BigInt(withDrawalQueueAmount2 * 10 ** balanceDecimals),
+      })
+      ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
+        sender: '0x03',
+        receiver: '0x04',
+        shares: BigInt(withDrawalQueueAmount3 * 10 ** balanceDecimals),
+      })
+
+      ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
+      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+
+      const param: RequestParams = {
+        addresses: [
+          {
+            chainId: ETHEREUM_RPC_CHAIN_ID,
+            contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress],
+          },
+        ],
+      } as RequestParams
+
+      const now = Date.now()
+      await transport.handleRequest(context, param)
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: {
+            data: {
+              decimals: RESULT_DECIMALS,
+              result,
+            },
+            result,
+            statusCode: 200,
+            timestamps: {
+              providerDataRequestedUnixMs: now,
+              providerDataReceivedUnixMs: now,
+            },
+          },
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(0)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(2)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(3)
+    })
+
+    it('should not double count withdrawal queue entries for multiple addresses', async () => {
+      const balance1 = 3
+      const balance2 = 5
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+      const withDrawalQueueAmount1 = 1
+      const withDrawalQueueAmount2 = 2
+
+      const result = String(
+        (balance1 + balance2 + withDrawalQueueAmount1 + withDrawalQueueAmount2) *
+          price *
+          10 ** RESULT_DECIMALS,
+      )
+
+      const walletAddress1 = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
+      const walletAddress2 = '0x1000000000000000000000000000000000000001'
+      ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
+      ethTbillContract.balanceOf.mockResolvedValueOnce(BigInt(balance1 * 10 ** balanceDecimals))
+      ethTbillContract.balanceOf.mockResolvedValueOnce(BigInt(balance2 * 10 ** balanceDecimals))
+      ethTbillContract.getWithdrawalQueueLength.mockResolvedValue(2)
+      const withDrawalQueueEntries = [
+        {
+          sender: walletAddress1,
+          receiver: walletAddress1,
+          shares: BigInt(withDrawalQueueAmount1 * 10 ** balanceDecimals),
+        },
+        {
+          sender: walletAddress2,
+          receiver: walletAddress2,
+          shares: BigInt(withDrawalQueueAmount2 * 10 ** balanceDecimals),
+        },
+      ]
+      ethTbillContract.getWithdrawalQueueInfo.mockImplementation(
+        async (index: number) => withDrawalQueueEntries[index],
+      )
+
+      ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
+      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+
+      const param: RequestParams = {
+        addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
+          chainId: ETHEREUM_RPC_CHAIN_ID,
+          contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+          wallets: [walletAddress],
+        })),
+      } as RequestParams
+
+      const now = Date.now()
+      await transport.handleRequest(context, param)
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: {
+            data: {
+              decimals: RESULT_DECIMALS,
+              result,
+            },
+            result,
+            statusCode: 200,
+            timestamps: {
+              providerDataRequestedUnixMs: now,
+              providerDataReceivedUnixMs: now,
+            },
+          },
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(1, 0)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(2, 1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(3, 0)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(4, 1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(4)
+    })
+
+    // The previous test tests input with multiple address entries with 1 wallet each.
+    // This test tests input with one address entries with multiple wallets.
+    it('should not double count withdrawal queue entries for multiple wallets', async () => {
+      const balance1 = 3
+      const balance2 = 5
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+      const withDrawalQueueAmount1 = 1
+      const withDrawalQueueAmount2 = 2
+
+      const result = String(
+        (balance1 + balance2 + withDrawalQueueAmount1 + withDrawalQueueAmount2) *
+          price *
+          10 ** RESULT_DECIMALS,
+      )
+
+      const walletAddress1 = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
+      const walletAddress2 = '0x1000000000000000000000000000000000000001'
+      ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
+      ethTbillContract.balanceOf.mockResolvedValueOnce(BigInt(balance1 * 10 ** balanceDecimals))
+      ethTbillContract.balanceOf.mockResolvedValueOnce(BigInt(balance2 * 10 ** balanceDecimals))
+      ethTbillContract.getWithdrawalQueueLength.mockResolvedValue(2)
+      const withDrawalQueueEntries = [
+        {
+          sender: walletAddress1,
+          receiver: walletAddress1,
+          shares: BigInt(withDrawalQueueAmount1 * 10 ** balanceDecimals),
+        },
+        {
+          sender: walletAddress2,
+          receiver: walletAddress2,
+          shares: BigInt(withDrawalQueueAmount2 * 10 ** balanceDecimals),
+        },
+      ]
+      ethTbillContract.getWithdrawalQueueInfo.mockImplementation(
+        async (index: number) => withDrawalQueueEntries[index],
+      )
+
+      ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
+      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+
+      const param: RequestParams = {
+        addresses: [
+          {
+            chainId: ETHEREUM_RPC_CHAIN_ID,
+            contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress1, walletAddress2],
+          },
+        ],
+      } as RequestParams
+
+      const now = Date.now()
+      await transport.handleRequest(context, param)
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: {
+            data: {
+              decimals: RESULT_DECIMALS,
+              result,
+            },
+            result,
+            statusCode: 200,
+            timestamps: {
+              providerDataRequestedUnixMs: now,
+              providerDataReceivedUnixMs: now,
+            },
+          },
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(1, 0)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(2, 1)
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(2)
     })
 

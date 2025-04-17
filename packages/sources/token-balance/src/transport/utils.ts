@@ -50,7 +50,11 @@ export class GroupedTokenContract {
     return this.runner.run(() => this.contract.getWithdrawalQueueLength())
   }
 
-  async getWithdrawalQueueInfo(index: number): Promise<{ shares: bigint }> {
+  async getWithdrawalQueueInfo(index: number): Promise<{
+    sender: string
+    receiver: string
+    shares: bigint
+  }> {
     return this.runner.run(() => this.contract.getWithdrawalQueueInfo(index))
   }
 }
