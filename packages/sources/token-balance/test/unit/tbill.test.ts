@@ -728,6 +728,85 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(4)
     })
 
+    it('should not double count withdrawal queue entries for multiple wallets', async () => {
+      const balance1 = 3
+      const balance2 = 5
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+      const withDrawalQueueAmount1 = 1
+      const withDrawalQueueAmount2 = 2
+
+      const result = String(
+        (balance1 + balance2 + withDrawalQueueAmount1 + withDrawalQueueAmount2) *
+          price *
+          10 ** RESULT_DECIMALS,
+      )
+
+      const walletAddress1 = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
+      const walletAddress2 = '0x1000000000000000000000000000000000000001'
+      ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
+      ethTbillContract.balanceOf.mockResolvedValueOnce(BigInt(balance1 * 10 ** balanceDecimals))
+      ethTbillContract.balanceOf.mockResolvedValueOnce(BigInt(balance2 * 10 ** balanceDecimals))
+      ethTbillContract.getWithdrawalQueueLength.mockResolvedValue(2)
+      const withDrawalQueueEntries = [
+        {
+          sender: walletAddress1,
+          receiver: walletAddress1,
+          shares: BigInt(withDrawalQueueAmount1 * 10 ** balanceDecimals),
+        },
+        {
+          sender: walletAddress2,
+          receiver: walletAddress2,
+          shares: BigInt(withDrawalQueueAmount2 * 10 ** balanceDecimals),
+        },
+      ]
+      ethTbillContract.getWithdrawalQueueInfo.mockImplementation(
+        async (index: number) => withDrawalQueueEntries[index],
+      )
+
+      ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
+      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+
+      const param: RequestParams = {
+        addresses: [
+          {
+            chainId: ETHEREUM_RPC_CHAIN_ID,
+            contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress1, walletAddress2],
+          },
+        ],
+      } as RequestParams
+
+      const now = Date.now()
+      await transport.handleRequest(context, param)
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: {
+            data: {
+              decimals: RESULT_DECIMALS,
+              result,
+            },
+            result,
+            statusCode: 200,
+            timestamps: {
+              providerDataRequestedUnixMs: now,
+              providerDataReceivedUnixMs: now,
+            },
+          },
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(1, 0)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toHaveBeenNthCalledWith(2, 1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(2)
+    })
+
     it('should limit concurrent RPCs', async () => {
       const balance = 3
       const balanceDecimals = 6
