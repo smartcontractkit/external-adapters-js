@@ -182,6 +182,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     totalSharesUSD += await this.getWithdrawalQueueAum(
       queueLength,
       contract,
+      address.wallets,
       sharePriceUSD,
       sharesDecimals,
     )
@@ -212,6 +213,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async getWithdrawalQueueAum(
     queueLength: bigint,
     tbillWithrawalQueueContract: GroupedTokenContract,
+    wallets: string[],
     sharePriceUSD: SharePriceType,
     sharesDecimals: bigint,
   ) {
@@ -223,7 +225,11 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       const results = await Promise.all(
         indices.map(async (index) => {
           const queueInfo = await tbillWithrawalQueueContract.getWithdrawalQueueInfo(index)
-          return queueInfo.shares
+          if (queueInfo.sender === queueInfo.receiver && wallets.includes(queueInfo.sender)) {
+            return queueInfo.shares
+          } else {
+            return 0n
+          }
         }),
       )
 
