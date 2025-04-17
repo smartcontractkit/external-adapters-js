@@ -190,7 +190,7 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
       logger.info({
         msg: 'Changing subscriptions',
         subscriptions,
-        confirmedSubscriptions: this.confirmedSubscriptions,
+        confirmedSubscriptions: Array.from(this.confirmedSubscriptions),
         toAdd,
         toRemove,
       })
