@@ -43,8 +43,14 @@ export const runReduceAdapter = async (
     case bitcoinJsonRpc.NAME:
     case bitcoinPorIndexer.name:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
-    case tokenBalance.name:
-      return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
+    case tokenBalance.name: {
+      return returnParsedUnits(
+        input.jobRunID,
+        input.data.result as string,
+        input.data.decimals as number,
+        true,
+      )
+    }
     case ceffu.name:
       return returnParsedUnits(
         input.jobRunID,

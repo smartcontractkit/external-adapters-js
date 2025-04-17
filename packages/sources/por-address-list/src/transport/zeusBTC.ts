@@ -14,6 +14,7 @@ interface ResponseSchema {
   count: number
   totalReserveinBtc: string
   totalToken: string
+  minerFees: string
   lastUpdatedAt: string
 }
 
@@ -32,11 +33,11 @@ export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
       },
     }
   },
-  parseResponse: (_params, response) => {
+  parseResponse: (params, response) => {
     if (!response.data) {
       return [
         {
-          params: {},
+          params: params[0],
           response: {
             errorMessage: `The data provider didn't return any data for zeusBTC`,
             statusCode: 502,
@@ -50,7 +51,7 @@ export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
     if (addresses.length == 0) {
       return [
         {
-          params: {},
+          params: params[0],
           response: {
             errorMessage: `The data provider didn't return any address for zeusBTC`,
             statusCode: 502,
@@ -61,7 +62,7 @@ export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
 
     return [
       {
-        params: {},
+        params: params[0],
         response: {
           result: null,
           data: {
@@ -74,9 +75,11 @@ export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
 })
 
 const getAddresses = (data: ResponseSchema) => {
-  return data.result.map((d) => ({
-    address: d.address,
-    network: 'bitcoin',
-    chainId: 'mainnet',
-  }))
+  return data.result
+    .map((d) => ({
+      address: d.address,
+      network: 'bitcoin',
+      chainId: 'mainnet',
+    }))
+    .sort((a, b) => a.address.localeCompare(b.address))
 }
