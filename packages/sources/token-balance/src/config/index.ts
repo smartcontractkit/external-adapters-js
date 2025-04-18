@@ -42,4 +42,10 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 10_000,
   },
+  GROUP_SIZE: {
+    description:
+      'Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter.',
+    type: 'number',
+    default: 25,
+  },
 })

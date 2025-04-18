@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/multi-address-list-adapter",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Chainlink multi-address-list adapter.",
   "keywords": [
     "Chainlink",
@@ -29,16 +29,16 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@types/node": "22.12.0",
+    "@types/node": "22.14.1",
     "@types/node-schedule": "2.1.7",
     "nock": "13.5.6",
-    "typescript": "5.6.3"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@chainlink/anchorage-adapter": "workspace:*",
     "@chainlink/bitgo-adapter": "workspace:*",
     "@chainlink/coinbase-prime-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.4.0",
+    "@chainlink/external-adapter-framework": "2.5.0",
     "node-schedule": "2.1.1",
     "tslib": "2.4.1"
   }

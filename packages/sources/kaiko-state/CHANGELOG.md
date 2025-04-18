@@ -1,5 +1,15 @@
 # @chainlink/kaiko-state-adapter
 
+## 1.0.11
+
+### Patch Changes
+
+- [#3788](https://github.com/smartcontractkit/external-adapters-js/pull/3788) [`ef5fdd1`](https://github.com/smartcontractkit/external-adapters-js/commit/ef5fdd152d6615ed979198d05427705a6ccb6359) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#3777](https://github.com/smartcontractkit/external-adapters-js/pull/3777) [`acaae12`](https://github.com/smartcontractkit/external-adapters-js/commit/acaae123a0f5ce93fb945f2b4b59b506c7347b56) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency rxjs to v7.8.2
+
+- [#3774](https://github.com/smartcontractkit/external-adapters-js/pull/3774) [`a76d531`](https://github.com/smartcontractkit/external-adapters-js/commit/a76d53187d9d8af2e825d2ee7b4e0548ea7a96c5) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency exponential-backoff to v3.1.2
+
 ## 1.0.10
 
 ### Patch Changes

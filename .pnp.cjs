@@ -1195,14 +1195,14 @@ const RAW_RUNTIME_STATE =
           ["@babel/core", "npm:7.26.10"],\
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.9"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.0"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@changesets/changelog-github", "npm:0.5.1"],\
           ["@changesets/cli", "npm:2.27.12"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@vercel/ncc", "npm:0.38.3"],\
@@ -1212,9 +1212,10 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:29.7.0"],\
           ["lint-staged", "npm:11.2.6"],\
           ["prettier", "npm:2.8.8"],\
+          ["prettier-plugin-organize-imports", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.1.0"],\
           ["source-map-support", "npm:0.5.21"],\
           ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:10.9.2"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["yo", "npm:4.3.1"]\
         ],\
         "linkType": "SOFT"\
@@ -5090,12 +5091,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5108,13 +5109,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5128,12 +5129,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/ws", "npm:8.5.14"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
-          ["ws", "virtual:2dd1234f0ae0574a20ad049745b32594c090a61f4d17eb0a17990c9af644dc2d7f17b09e9e06e1c922ecab407fd7e23441ec8a1977b029cd737683a3eb211d2d#npm:8.18.1"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["ws", "virtual:92c6282a656a1fd120da854c0c8ad36ca9ba5f02bf2bf67669e207b99f5e6b0f770ed1bb6438134f379fe3b90d1f77d9e866648367272da0e1cfa4526a8a8d6f#npm:8.18.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5146,14 +5147,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["fastify", "npm:3.29.5"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5163,14 +5164,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/aleno/",\
         "packageDependencies": [\
           ["@chainlink/aleno-adapter", "workspace:packages/sources/aleno"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["socket.io-client", "npm:4.8.1"],\
           ["socket.io-mock-ts", "npm:1.0.2"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5183,9 +5184,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5198,10 +5199,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5215,12 +5216,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5234,13 +5235,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5250,12 +5251,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/anchorage/",\
         "packageDependencies": [\
           ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5268,12 +5269,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5286,13 +5287,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5302,13 +5303,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/apex/",\
         "packageDependencies": [\
           ["@chainlink/apex-adapter", "workspace:packages/sources/apex"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5322,11 +5323,11 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5336,17 +5337,17 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/apy-finance-test/",\
         "packageDependencies": [\
           ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["axios", "npm:1.8.4"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5361,11 +5362,11 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/luxon", "npm:1.27.1"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["luxon", "npm:1.28.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5375,12 +5376,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/avalanche-platform/",\
         "packageDependencies": [\
           ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5390,14 +5391,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bank-frick/",\
         "packageDependencies": [\
           ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["fastify", "npm:3.29.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5410,13 +5411,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5429,12 +5430,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5447,12 +5448,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5466,12 +5467,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5484,12 +5485,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5499,12 +5500,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bitgo/",\
         "packageDependencies": [\
           ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5514,12 +5515,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bitgo-reserves/",\
         "packageDependencies": [\
           ["@chainlink/bitgo-reserves-adapter", "workspace:packages/sources/bitgo-reserves"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5529,12 +5530,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bitgo-reserves-test/",\
         "packageDependencies": [\
           ["@chainlink/bitgo-reserves-test-adapter", "workspace:packages/sources/bitgo-reserves-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5548,12 +5549,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/express", "npm:4.17.21"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5567,9 +5568,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5583,9 +5584,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5599,13 +5600,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["blockcypher", "npm:0.3.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5615,14 +5616,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5635,12 +5636,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5653,13 +5654,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5672,12 +5673,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5694,14 +5695,14 @@ const RAW_RUNTIME_STATE =
           ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["bn.js", "npm:5.2.1"],\
           ["ethers", "npm:5.7.2"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5715,12 +5716,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5733,12 +5734,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5753,11 +5754,11 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/abi", "npm:5.7.0"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["merkletreejs", "npm:0.2.32"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5767,16 +5768,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ceffu/",\
         "packageDependencies": [\
           ["@chainlink/ceffu-adapter", "workspace:packages/sources/ceffu"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:6.13.5"],\
           ["https-proxy-agent", "npm:7.0.6"],\
           ["nock", "npm:13.5.6"],\
           ["query-string", "npm:9.1.1"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5789,13 +5790,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5805,14 +5806,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cfbenchmarks/",\
         "packageDependencies": [\
           ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5825,10 +5826,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5841,10 +5842,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5854,13 +5855,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/clear-bank/",\
         "packageDependencies": [\
           ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5873,12 +5874,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5891,12 +5892,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5906,14 +5907,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinbase-prime/",\
         "packageDependencies": [\
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5926,12 +5927,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5941,14 +5942,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coingecko/",\
         "packageDependencies": [\
           ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5961,12 +5962,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5976,12 +5977,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmarketcap/",\
         "packageDependencies": [\
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5991,15 +5992,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmetrics/",\
         "packageDependencies": [\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6009,14 +6010,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinpaprika/",\
         "packageDependencies": [\
           ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6029,12 +6030,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6047,14 +6048,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["js-conflux-sdk", "npm:1.7.3"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6086,12 +6087,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6104,13 +6105,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6125,13 +6126,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.0.32"],\
           ["moment", "npm:2.30.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6145,13 +6146,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6165,10 +6166,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6178,16 +6179,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cryptocompare/",\
         "packageDependencies": [\
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6200,12 +6201,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6218,12 +6219,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6236,12 +6237,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6255,11 +6256,11 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6272,14 +6273,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6289,12 +6290,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/deep-blue/",\
         "packageDependencies": [\
           ["@chainlink/deep-blue-adapter", "workspace:packages/sources/deep-blue"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6308,12 +6309,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6327,10 +6328,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6343,12 +6344,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6359,18 +6360,18 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dlc-btc-por-adapter", "workspace:packages/sources/dlc-btc-por"],\
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@noble/hashes", "npm:1.4.0"],\
           ["@scure/base", "npm:1.1.9"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["bip32", "npm:4.0.0"],\
           ["bitcoinjs-lib", "npm:6.1.7"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6383,13 +6384,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.3.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6403,12 +6404,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6421,10 +6422,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["dwolla-v2", "npm:3.4.0"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6438,10 +6439,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6451,14 +6452,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dxfeed/",\
         "packageDependencies": [\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6469,15 +6470,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6490,7 +6491,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.7.2"],\
@@ -6499,7 +6500,7 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["web3", "npm:1.10.4"]\
         ],\
         "linkType": "SOFT"\
@@ -6511,14 +6512,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/dydx-stark-adapter", "workspace:packages/targets/dydx-stark"],\
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.3.1"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6533,7 +6534,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/lodash", "npm:4.17.16"],\
           ["@types/lru-cache", "npm:5.1.1"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/object-hash", "npm:2.2.1"],\
           ["@types/object-path", "npm:0.11.4"],\
           ["@types/pino", "npm:6.3.12"],\
@@ -6566,9 +6567,9 @@ const RAW_RUNTIME_STATE =
           ["rxjs", "npm:6.6.7"],\
           ["sinon", "npm:14.0.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["uuid", "npm:8.3.2"],\
-          ["ws", "virtual:2dd1234f0ae0574a20ad049745b32594c090a61f4d17eb0a17990c9af644dc2d7f17b09e9e06e1c922ecab407fd7e23441ec8a1977b029cd737683a3eb211d2d#npm:8.18.1"]\
+          ["ws", "virtual:92c6282a656a1fd120da854c0c8ad36ca9ba5f02bf2bf67669e207b99f5e6b0f770ed1bb6438134f379fe3b90d1f77d9e866648367272da0e1cfa4526a8a8d6f#npm:8.18.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6580,11 +6581,11 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/object-path", "npm:0.11.4"],\
           ["object-path", "npm:0.11.8"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6597,10 +6598,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/contracts", "npm:0.8.0"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:4.0.49"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6614,7 +6615,7 @@ const RAW_RUNTIME_STATE =
           ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6639,7 +6640,7 @@ const RAW_RUNTIME_STATE =
           ["swagger-jsdoc", "npm:6.1.0"],\
           ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.1.5"],\
           ["tslib", "npm:2.3.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["yaml", "npm:2.2.2"]\
         ],\
         "linkType": "SOFT"\
@@ -6652,14 +6653,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.19"],\
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6669,14 +6670,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elven/",\
         "packageDependencies": [\
           ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6686,15 +6687,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elwood/",\
         "packageDependencies": [\
           ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6707,13 +6708,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.5.4"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6726,13 +6727,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6745,12 +6746,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6764,13 +6765,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6780,14 +6781,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/eth-beacon/",\
         "packageDependencies": [\
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6800,12 +6801,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6818,12 +6819,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6836,12 +6837,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6854,12 +6855,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6872,13 +6873,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6888,14 +6889,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/expand-network/",\
         "packageDependencies": [\
           ["@chainlink/expand-network-adapter", "workspace:packages/sources/expand-network"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6908,21 +6909,21 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
-      ["npm:2.4.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.4.0-2dd1234f0a-9ee4e5eb1d.zip/node_modules/@chainlink/external-adapter-framework/",\
+      ["npm:2.5.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.5.0-92c6282a65-ed9d8face1.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["ajv", "npm:8.17.1"],\
           ["axios", "npm:1.8.4"],\
           ["eventsource", "npm:2.0.2"],\
@@ -6933,7 +6934,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.0.0"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:2dd1234f0ae0574a20ad049745b32594c090a61f4d17eb0a17990c9af644dc2d7f17b09e9e06e1c922ecab407fd7e23441ec8a1977b029cd737683a3eb211d2d#npm:8.18.1"]\
+          ["ws", "virtual:92c6282a656a1fd120da854c0c8ad36ca9ba5f02bf2bf67669e207b99f5e6b0f770ed1bb6438134f379fe3b90d1f77d9e866648367272da0e1cfa4526a8a8d6f#npm:8.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6946,14 +6947,14 @@ const RAW_RUNTIME_STATE =
           ["@babel/core", "npm:7.26.10"],\
           ["@babel/preset-env", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.9"],\
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.0"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@changesets/changelog-github", "npm:0.5.1"],\
           ["@changesets/cli", "npm:2.27.12"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@vercel/ncc", "npm:0.38.3"],\
@@ -6963,9 +6964,10 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:29.7.0"],\
           ["lint-staged", "npm:11.2.6"],\
           ["prettier", "npm:2.8.8"],\
+          ["prettier-plugin-organize-imports", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.1.0"],\
           ["source-map-support", "npm:0.5.21"],\
           ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:10.9.2"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["yo", "npm:4.3.1"]\
         ],\
         "linkType": "SOFT"\
@@ -6979,12 +6981,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6994,14 +6996,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finage/",\
         "packageDependencies": [\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7011,15 +7013,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finalto/",\
         "packageDependencies": [\
           ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/uuid", "npm:8.3.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["uuid", "npm:8.3.2"]\
         ],\
         "linkType": "SOFT"\
@@ -7030,14 +7032,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finnhub/",\
         "packageDependencies": [\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7047,15 +7049,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finnhub-secondary/",\
         "packageDependencies": [\
           ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7065,12 +7067,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/fireblocks/",\
         "packageDependencies": [\
           ["@chainlink/fireblocks-adapter", "workspace:packages/sources/fireblocks"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7083,12 +7085,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7101,9 +7103,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7116,12 +7118,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7134,12 +7136,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7149,13 +7151,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/frxeth-exchange-rate/",\
         "packageDependencies": [\
           ["@chainlink/frxeth-exchange-rate-adapter", "workspace:packages/sources/frxeth-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7169,14 +7171,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@ethercards/ec-util", "npm:1.0.8"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["moment", "npm:2.30.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7186,15 +7188,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/galaxy/",\
         "packageDependencies": [\
           ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7204,12 +7206,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gemini/",\
         "packageDependencies": [\
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7222,12 +7224,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7240,9 +7242,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7252,14 +7254,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7269,14 +7271,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gm-token/",\
         "packageDependencies": [\
           ["@chainlink/gm-token-adapter", "workspace:packages/composites/gm-token"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7290,9 +7292,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@google-cloud/bigquery", "npm:5.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7307,11 +7309,11 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
           ["@types/convert-units", "npm:2.3.11"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["convert-units", "npm:2.3.4"],\
           ["geojson-validation", "npm:1.0.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7321,12 +7323,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gramchain/",\
         "packageDependencies": [\
           ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7339,9 +7341,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7351,17 +7353,17 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gsr/",\
         "packageDependencies": [\
           ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["axios", "npm:1.8.4"],\
           ["crypto", "npm:1.0.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7377,13 +7379,13 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/crypto", "npm:0.1.58"],\
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7393,12 +7395,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/harris-and-trotter/",\
         "packageDependencies": [\
           ["@chainlink/harris-and-trotter-adapter", "workspace:packages/sources/harris-and-trotter"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7411,15 +7413,15 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7429,16 +7431,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/icap/",\
         "packageDependencies": [\
           ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["mock-socket", "npm:9.3.1"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7448,12 +7450,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/iex-cloud/",\
         "packageDependencies": [\
           ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7463,12 +7465,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ignition-address-list/",\
         "packageDependencies": [\
           ["@chainlink/ignition-address-list-adapter", "workspace:packages/sources/ignition-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7481,14 +7483,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["axios", "npm:1.8.4"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7498,12 +7500,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/instruxi-sxt/",\
         "packageDependencies": [\
           ["@chainlink/instruxi-sxt-adapter", "workspace:packages/sources/instruxi-sxt"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7513,15 +7515,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/intrinio/",\
         "packageDependencies": [\
           ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.8.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7531,12 +7533,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ion.au/",\
         "packageDependencies": [\
           ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7549,7 +7551,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["cids", "npm:1.1.9"],\
           ["ipfs", "npm:0.60.2"],\
           ["ipfs-core-types", "npm:0.9.0"],\
@@ -7559,7 +7561,7 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:2.19.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7572,12 +7574,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.3.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7590,12 +7592,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7605,12 +7607,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/kaiko/",\
         "packageDependencies": [\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7620,16 +7622,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/kaiko-state/",\
         "packageDependencies": [\
           ["@chainlink/kaiko-state-adapter", "workspace:packages/sources/kaiko-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@grpc/grpc-js", "npm:1.13.2"],\
           ["@kaiko-data/sdk-node", "npm:1.26.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["exponential-backoff", "npm:3.1.2"],\
           ["nock", "npm:13.5.6"],\
           ["rxjs", "npm:7.8.2"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7642,7 +7644,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
@@ -7650,7 +7652,7 @@ const RAW_RUNTIME_STATE =
           ["starknet", "npm:6.9.0"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7663,12 +7665,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7681,13 +7683,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7697,13 +7699,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/lido-por/",\
         "packageDependencies": [\
           ["@chainlink/lido-por-adapter", "workspace:packages/sources/lido-por"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7717,7 +7719,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["csv-parse", "npm:4.16.3"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -7726,7 +7728,7 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7739,9 +7741,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7754,9 +7756,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7766,13 +7768,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/lotus/",\
         "packageDependencies": [\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7782,12 +7784,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/m0/",\
         "packageDependencies": [\
           ["@chainlink/m0-adapter", "workspace:packages/sources/m0"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7803,10 +7805,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["market-closure", "npm:0.1.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7816,19 +7818,19 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/market-status/",\
         "packageDependencies": [\
           ["@chainlink/market-status-adapter", "workspace:packages/composites/market-status"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
           ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7841,12 +7843,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7859,12 +7861,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7877,9 +7879,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7892,12 +7894,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7907,14 +7909,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/mobula-state/",\
         "packageDependencies": [\
           ["@chainlink/mobula-state-adapter", "workspace:packages/sources/mobula-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7927,12 +7929,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.3.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7942,16 +7944,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/moonbeam-address-list/",\
         "packageDependencies": [\
           ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.5.4"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7961,12 +7963,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/moore-hk/",\
         "packageDependencies": [\
           ["@chainlink/moore-hk-adapter", "workspace:packages/sources/moore-hk"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7979,14 +7981,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
           ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.7"],\
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7999,12 +8001,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8014,16 +8016,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nav-consulting/",\
         "packageDependencies": [\
           ["@chainlink/nav-consulting-adapter", "workspace:packages/sources/nav-consulting"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@date-fns/utc", "npm:2.1.0"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
           ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8033,14 +8035,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ncfx/",\
         "packageDependencies": [\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8050,13 +8052,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/nexus-kiln/",\
         "packageDependencies": [\
           ["@chainlink/nexus-kiln-adapter", "workspace:packages/composites/nexus-kiln"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8066,15 +8068,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nft-blue-chip/",\
         "packageDependencies": [\
           ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8088,14 +8090,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8108,12 +8110,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8123,12 +8125,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nyfed/",\
         "packageDependencies": [\
           ["@chainlink/nyfed-adapter", "workspace:packages/sources/nyfed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8138,12 +8140,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/oanda/",\
         "packageDependencies": [\
           ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["decimal.js", "npm:10.4.3"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8155,7 +8157,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/observation", "workspace:packages/observation"],\
           ["axios", "npm:1.8.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8168,12 +8170,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8186,12 +8188,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8201,12 +8203,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/openexchangerates/",\
         "packageDependencies": [\
           ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8219,12 +8221,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8238,12 +8240,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinon", "npm:10.0.20"],\
           ["axios", "npm:1.8.4"],\
           ["sinon", "npm:12.0.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8256,12 +8258,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8275,10 +8277,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@paypal/payouts-sdk", "npm:1.1.1"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/paypal__payouts-sdk", "npm:1.0.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8288,13 +8290,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/polkadot-balance/",\
         "packageDependencies": [\
           ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@polkadot/api", "npm:9.14.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8304,12 +8306,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/polygon/",\
         "packageDependencies": [\
           ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8319,13 +8321,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/por-address-list/",\
         "packageDependencies": [\
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8335,13 +8337,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/por-indexer/",\
         "packageDependencies": [\
           ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8368,7 +8370,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
           ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
           ["@chainlink/ignition-address-list-adapter", "workspace:packages/sources/ignition-address-list"],\
           ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
@@ -8387,14 +8389,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
           ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8423,13 +8425,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["object-path", "npm:0.11.8"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8442,9 +8444,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8461,13 +8463,13 @@ const RAW_RUNTIME_STATE =
           ["@renproject/ren", "npm:2.6.0"],\
           ["@renproject/utils", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bitcoinjs-lib", "npm:5.2.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8481,14 +8483,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8499,14 +8501,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@aws-sdk/client-s3", "npm:3.696.0"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["csv-parse", "npm:5.5.6"],\
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.6.3"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8519,12 +8521,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8538,13 +8540,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8558,14 +8560,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8579,13 +8581,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/jsonwebtoken", "npm:8.5.9"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["jsonwebtoken", "npm:9.0.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8599,13 +8601,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8619,11 +8621,11 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8636,13 +8638,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinon", "npm:10.0.20"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["sinon", "npm:12.0.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8656,14 +8658,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/luxon", "npm:2.4.0"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["luxon", "npm:1.28.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8673,13 +8675,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/stader-address-list/",\
         "packageDependencies": [\
           ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.5.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8689,15 +8691,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/stader-balance/",\
         "packageDependencies": [\
           ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.5.4"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8710,13 +8712,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8726,13 +8728,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/starknet-gas-price/",\
         "packageDependencies": [\
           ["@chainlink/starknet-gas-price-adapter", "workspace:packages/sources/starknet-gas-price"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:14.0.3"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8745,12 +8747,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8760,16 +8762,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/superstate/",\
         "packageDependencies": [\
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.7"],\
           ["date-fns", "npm:3.6.0"],\
           ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8782,13 +8784,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8802,7 +8804,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
@@ -8810,7 +8812,7 @@ const RAW_RUNTIME_STATE =
           ["synthetix", "npm:2.45.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:2.19.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8823,12 +8825,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8838,14 +8840,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/synthetix-feeds/",\
         "packageDependencies": [\
           ["@chainlink/synthetix-feeds-adapter", "workspace:packages/sources/synthetix-feeds"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8858,12 +8860,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8877,12 +8879,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@terra-money/terra.js", "npm:2.1.23"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8897,9 +8899,9 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8909,12 +8911,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/the-network-firm/",\
         "packageDependencies": [\
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8927,12 +8929,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8942,14 +8944,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8959,14 +8961,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo-state/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-state-adapter", "workspace:packages/sources/tiingo-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8988,18 +8990,18 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9009,15 +9011,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/non-deployable/token-allocation-test/",\
         "packageDependencies": [\
           ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.8.4"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9027,14 +9029,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/token-balance/",\
         "packageDependencies": [\
           ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9044,17 +9046,17 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tp/",\
         "packageDependencies": [\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["mock-socket", "npm:9.3.1"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9064,14 +9066,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tradermade/",\
         "packageDependencies": [\
           ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9081,17 +9083,17 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tradinghours/",\
         "packageDependencies": [\
           ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9101,12 +9103,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/trueusd/",\
         "packageDependencies": [\
           ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9116,13 +9118,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
         "packageDependencies": [\
           ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9135,12 +9137,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9150,15 +9152,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/twosigma/",\
         "packageDependencies": [\
           ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9171,12 +9173,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9189,14 +9191,14 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9209,12 +9211,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9227,12 +9229,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9245,10 +9247,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9258,13 +9260,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-function/",\
         "packageDependencies": [\
           ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9274,13 +9276,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9290,13 +9292,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-starknet-latest-answer/",\
         "packageDependencies": [\
           ["@chainlink/view-starknet-latest-answer-adapter", "workspace:packages/sources/view-starknet-latest-answer"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:14.0.3"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9306,12 +9308,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/wbtc-address-set/",\
         "packageDependencies": [\
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-          ["@chainlink/external-adapter-framework", "npm:2.4.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9324,12 +9326,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9342,12 +9344,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9360,12 +9362,12 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -9379,13 +9381,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.7.2"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -15664,7 +15666,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@substrate/smoldot-light", "npm:0.7.9"],\
           ["pako", "npm:2.1.0"],\
-          ["ws", "virtual:2dd1234f0ae0574a20ad049745b32594c090a61f4d17eb0a17990c9af644dc2d7f17b09e9e06e1c922ecab407fd7e23441ec8a1977b029cd737683a3eb211d2d#npm:8.18.1"]\
+          ["ws", "virtual:92c6282a656a1fd120da854c0c8ad36ca9ba5f02bf2bf67669e207b99f5e6b0f770ed1bb6438134f379fe3b90d1f77d9e866648367272da0e1cfa4526a8a8d6f#npm:8.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16331,11 +16333,11 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:22.12.0", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-22.12.0-7905337c99-aac2b6f6a8.zip/node_modules/@types/node/",\
+      ["npm:22.14.1", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-22.14.1-ff7e0a29d7-561b1ad98e.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:22.12.0"],\
-          ["undici-types", "npm:6.20.0"]\
+          ["@types/node", "npm:22.14.1"],\
+          ["undici-types", "npm:6.21.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -16792,7 +16794,7 @@ const RAW_RUNTIME_STATE =
           ["natural-compare-lite", "npm:1.4.0"],\
           ["semver", "npm:7.6.3"],\
           ["tsutils", "virtual:9852e9bc0ff1bffcf638d7ce6fcd7902a5ac949ed60aac9c02e7bc5e177c7925687fd8192cb76e65ef7fbf7dbad81a771ef469d4ca4767bf1d834651051ba0a2#npm:3.21.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/eslint",\
@@ -16824,7 +16826,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/typescript-estree", "virtual:567271b594913e0f849532a76568b9c40d4f7e3dce838b8e1be41c2fb140aa3fc27d3533c39c4a35dedb18d8828f0637bc6feac047409fd298bf5bc68cc32a14#npm:5.59.11"],\
           ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
           ["eslint", "npm:8.39.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/eslint",\
@@ -16865,7 +16867,7 @@ const RAW_RUNTIME_STATE =
           ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
           ["eslint", "npm:8.39.0"],\
           ["tsutils", "virtual:9852e9bc0ff1bffcf638d7ce6fcd7902a5ac949ed60aac9c02e7bc5e177c7925687fd8192cb76e65ef7fbf7dbad81a771ef469d4ca4767bf1d834651051ba0a2#npm:3.21.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/eslint",\
@@ -16905,7 +16907,7 @@ const RAW_RUNTIME_STATE =
           ["is-glob", "npm:4.0.3"],\
           ["semver", "npm:7.6.3"],\
           ["tsutils", "virtual:9852e9bc0ff1bffcf638d7ce6fcd7902a5ac949ed60aac9c02e7bc5e177c7925687fd8192cb76e65ef7fbf7dbad81a771ef469d4ca4767bf1d834651051ba0a2#npm:3.21.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -25141,7 +25143,7 @@ const RAW_RUNTIME_STATE =
           ["tinyglobby", "npm:0.2.12"],\
           ["ts-node", null],\
           ["tsort", "npm:0.0.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["undici", "npm:5.28.5"],\
           ["uuid", "npm:8.3.2"],\
           ["ws", "virtual:f6e474cf40bbabeb7f1fe6c393b6955df38a58db2d59ee7489b1a74f73c369a1f22a33bd1aedfcae125bddf304fd7dc4ee8d6311eaf92ab0350b94d49e9a172e#npm:7.5.10"]\
@@ -28761,7 +28763,7 @@ const RAW_RUNTIME_STATE =
           ["whatwg-encoding", "npm:3.1.1"],\
           ["whatwg-mimetype", "npm:4.0.0"],\
           ["whatwg-url", "npm:14.2.0"],\
-          ["ws", "virtual:2dd1234f0ae0574a20ad049745b32594c090a61f4d17eb0a17990c9af644dc2d7f17b09e9e06e1c922ecab407fd7e23441ec8a1977b029cd737683a3eb211d2d#npm:8.18.1"],\
+          ["ws", "virtual:92c6282a656a1fd120da854c0c8ad36ca9ba5f02bf2bf67669e207b99f5e6b0f770ed1bb6438134f379fe3b90d1f77d9e866648367272da0e1cfa4526a8a8d6f#npm:8.18.1"],\
           ["xml-name-validator", "npm:5.0.0"]\
         ],\
         "packagePeers": [\
@@ -29131,7 +29133,7 @@ const RAW_RUNTIME_STATE =
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/k6", "npm:0.50.1"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/rimraf", "npm:3.0.2"],\
           ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.3.0"],\
           ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],\
@@ -29139,7 +29141,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.0.3"],\
           ["os-browserify", "npm:0.3.0"],\
           ["path-browserify", "npm:1.0.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["webpack", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:5.94.0"],\
           ["webpack-cli", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.10.0"]\
         ],\
@@ -33985,6 +33987,36 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["prettier-plugin-organize-imports", [\
+      ["npm:4.1.0", {\
+        "packageLocation": "./.yarn/cache/prettier-plugin-organize-imports-npm-4.1.0-49b8116ea7-8223af6d42.zip/node_modules/prettier-plugin-organize-imports/",\
+        "packageDependencies": [\
+          ["prettier-plugin-organize-imports", "npm:4.1.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.1.0", {\
+        "packageLocation": "./.yarn/__virtual__/prettier-plugin-organize-imports-virtual-dacaab286d/0/cache/prettier-plugin-organize-imports-npm-4.1.0-49b8116ea7-8223af6d42.zip/node_modules/prettier-plugin-organize-imports/",\
+        "packageDependencies": [\
+          ["prettier-plugin-organize-imports", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:4.1.0"],\
+          ["@types/prettier", null],\
+          ["@types/typescript", null],\
+          ["@types/vue-tsc", null],\
+          ["prettier", "npm:2.8.8"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["vue-tsc", null]\
+        ],\
+        "packagePeers": [\
+          "@types/prettier",\
+          "@types/typescript",\
+          "@types/vue-tsc",\
+          "prettier",\
+          "typescript",\
+          "vue-tsc"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["pretty-bytes", [\
       ["npm:4.0.2", {\
         "packageLocation": "./.yarn/cache/pretty-bytes-npm-4.0.2-a7ae1bbbd6-bdc7b33808.zip/node_modules/pretty-bytes/",\
@@ -38110,7 +38142,7 @@ const RAW_RUNTIME_STATE =
           ["lodash.memoize", "npm:4.1.2"],\
           ["make-error", "npm:1.3.6"],\
           ["semver", "npm:7.6.3"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["yargs-parser", "npm:20.2.9"]\
         ],\
         "packagePeers": [\
@@ -38156,7 +38188,7 @@ const RAW_RUNTIME_STATE =
           ["@tsconfig/node12", "npm:1.0.11"],\
           ["@tsconfig/node14", "npm:1.0.3"],\
           ["@tsconfig/node16", "npm:1.0.4"],\
-          ["@types/node", "npm:22.12.0"],\
+          ["@types/node", "npm:22.14.1"],\
           ["@types/swc__core", null],\
           ["@types/swc__wasm", null],\
           ["@types/typescript", null],\
@@ -38166,7 +38198,7 @@ const RAW_RUNTIME_STATE =
           ["create-require", "npm:1.1.1"],\
           ["diff", "npm:4.0.2"],\
           ["make-error", "npm:1.3.6"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["v8-compile-cache-lib", "npm:3.0.1"],\
           ["yn", "npm:3.1.1"]\
         ],\
@@ -38256,7 +38288,7 @@ const RAW_RUNTIME_STATE =
           ["tsutils", "virtual:9852e9bc0ff1bffcf638d7ce6fcd7902a5ac949ed60aac9c02e7bc5e177c7925687fd8192cb76e65ef7fbf7dbad81a771ef469d4ca4767bf1d834651051ba0a2#npm:3.21.0"],\
           ["@types/typescript", null],\
           ["tslib", "npm:1.14.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -38469,17 +38501,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["typescript", [\
-      ["patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07", {\
-        "packageLocation": "./.yarn/cache/typescript-patch-fe43cd9db9-746fdd0865.zip/node_modules/typescript/",\
+      ["patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5", {\
+        "packageLocation": "./.yarn/cache/typescript-patch-f64146f279-b9b1e73dab.zip/node_modules/typescript/",\
         "packageDependencies": [\
-          ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40", {\
-        "packageLocation": "./.yarn/cache/typescript-patch-8964a48ba3-00504c01ee.zip/node_modules/typescript/",\
-        "packageDependencies": [\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -38554,10 +38579,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.20.0", {\
-        "packageLocation": "./.yarn/cache/undici-types-npm-6.20.0-bd21e669af-583ac7bbf4.zip/node_modules/undici-types/",\
+      ["npm:6.21.0", {\
+        "packageLocation": "./.yarn/cache/undici-types-npm-6.21.0-eb2b0ed56a-ec8f41aa43.zip/node_modules/undici-types/",\
         "packageDependencies": [\
-          ["undici-types", "npm:6.20.0"]\
+          ["undici-types", "npm:6.21.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -40095,23 +40120,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:2dd1234f0ae0574a20ad049745b32594c090a61f4d17eb0a17990c9af644dc2d7f17b09e9e06e1c922ecab407fd7e23441ec8a1977b029cd737683a3eb211d2d#npm:8.18.1", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-77f51d3790/0/cache/ws-npm-8.18.1-369b0f5491-3f38e9594f.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["ws", "virtual:2dd1234f0ae0574a20ad049745b32594c090a61f4d17eb0a17990c9af644dc2d7f17b09e9e06e1c922ecab407fd7e23441ec8a1977b029cd737683a3eb211d2d#npm:8.18.1"],\
-          ["@types/bufferutil", null],\
-          ["@types/utf-8-validate", null],\
-          ["bufferutil", null],\
-          ["utf-8-validate", null]\
-        ],\
-        "packagePeers": [\
-          "@types/bufferutil",\
-          "@types/utf-8-validate",\
-          "bufferutil",\
-          "utf-8-validate"\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["virtual:5eef7f59d1d1aa0582a7b75dde266b71af8bd36e062eaf8f33ffa3a9a4f4c8f703b23c6b4cc826183bdcc4769c89f98c10fa6fcbba77be1d9b4b8d97cc3e059c#npm:8.17.1", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-60464f8a68/0/cache/ws-npm-8.17.1-f57fb24a2c-4264ae92c0.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -40150,6 +40158,23 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/__virtual__/ws-virtual-e1e964a4e5/0/cache/ws-npm-7.4.6-9c9a725604-150e3f917b.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["ws", "virtual:88293ff29fa54efecc98d655f7a7551b282025b3465bc23ca5bb7a89a31c17930a7319e98225cf138bf4e6ccead5b30ae3c800738697b87af3441226d65f7ee3#npm:7.4.6"],\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:92c6282a656a1fd120da854c0c8ad36ca9ba5f02bf2bf67669e207b99f5e6b0f770ed1bb6438134f379fe3b90d1f77d9e866648367272da0e1cfa4526a8a8d6f#npm:8.18.1", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-b59f1e8d32/0/cache/ws-npm-8.18.1-369b0f5491-3f38e9594f.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "virtual:92c6282a656a1fd120da854c0c8ad36ca9ba5f02bf2bf67669e207b99f5e6b0f770ed1bb6438134f379fe3b90d1f77d9e866648367272da0e1cfa4526a8a8d6f#npm:8.18.1"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\

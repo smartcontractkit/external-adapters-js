@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bank-frick-adapter",
-  "version": "1.1.46",
+  "version": "1.1.47",
   "description": "Chainlink bank-frick adapter.",
   "keywords": [
     "Chainlink",
@@ -28,15 +28,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.4.0",
+    "@chainlink/external-adapter-framework": "2.5.0",
     "axios": "1.8.4",
     "fastify": "^3.29.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@types/node": "22.12.0",
+    "@types/node": "22.14.1",
     "nock": "13.5.6",
-    "typescript": "5.6.3"
+    "typescript": "5.8.3"
   }
 }

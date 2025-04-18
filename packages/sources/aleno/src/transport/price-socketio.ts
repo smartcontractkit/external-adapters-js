@@ -1,14 +1,14 @@
-import { io, Socket } from 'socket.io-client'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import {
   StreamingTransport,
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { BaseEndpointTypes } from '../endpoint/price'
+import { io, Socket } from 'socket.io-client'
 import { config } from '../config'
+import { BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('SocketIOTransport')
 
@@ -190,7 +190,7 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
       logger.info({
         msg: 'Changing subscriptions',
         subscriptions,
-        confirmedSubscriptions: this.confirmedSubscriptions,
+        confirmedSubscriptions: Array.from(this.confirmedSubscriptions),
         toAdd,
         toRemove,
       })
@@ -220,6 +220,7 @@ export class SocketIOTransport extends StreamingTransport<SocketIOTransportTypes
 
       this.socket.on('connect', () => {
         logger.info({ msg: 'Connection open' })
+        this.confirmedSubscriptions = new Set<string>()
       })
 
       this.socket.on('disconnect', (reason, details) => {

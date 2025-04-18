@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/historical-average-adapter",
-  "version": "1.2.78",
+  "version": "1.2.79",
   "description": "Chainlink historical-average adapter.",
   "keywords": [
     "Chainlink",
@@ -37,12 +37,12 @@
   },
   "devDependencies": {
     "@chainlink/ea-test-helpers": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.4.0",
+    "@chainlink/external-adapter-framework": "2.5.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "22.12.0",
+    "@types/node": "22.14.1",
     "@types/supertest": "2.0.16",
     "nock": "13.5.6",
     "supertest": "6.2.4",
-    "typescript": "5.6.3"
+    "typescript": "5.8.3"
   }
 }
