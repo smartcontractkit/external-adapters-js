@@ -8,13 +8,22 @@ import {
   coinbaseBTC,
   multichainAddress,
   openedenAddress,
+  zeusBtcAddress,
 } from './endpoint'
 
 export const adapter = new PoRAdapter({
   defaultEndpoint: address.name,
   name: 'POR_ADDRESS_LIST',
   config,
-  endpoints: [address, solvBTC, bedrockBTC, coinbaseBTC, multichainAddress, openedenAddress],
+  endpoints: [
+    address,
+    solvBTC,
+    bedrockBTC,
+    coinbaseBTC,
+    multichainAddress,
+    openedenAddress,
+    zeusBtcAddress,
+  ],
   rateLimiting: {
     tiers: {
       default: {

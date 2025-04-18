@@ -8,6 +8,7 @@ import {
   mockBedRockResponseSuccess,
   mockCoinbaseResponseSuccess,
   mockSolvResponseSuccess,
+  mockZeusResponseSuccess,
 } from './fixtures-api'
 
 const mockExpectedAddresses = [
@@ -146,6 +147,18 @@ describe('execute', () => {
         chainId: 'mainnet',
       }
       mockCoinbaseResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('zeus BTC should return success', async () => {
+      const data = {
+        endpoint: 'zeusBtcAddress',
+        network: 'bitcoin',
+        chainId: 'mainnet',
+      }
+      mockZeusResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

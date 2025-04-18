@@ -199,3 +199,38 @@ exports[`execute apiAddress endpoint solv should return success 1`] = `
   },
 }
 `;
+
+exports[`execute apiAddress endpoint zeus BTC should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "bc1p795t8whcfpl6uyxj38enzt43cg8scphrgvn2e79y3xgflv6s6nrsrmudk6",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bc1pd46txhc0a3t8juc2r4njyuk4rv3099dcn039ny0hzgt24tgx3qlszg5e6f",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bc1p96utmwdngv3xwdn90d7wg4tyqke70fs6js8ajgqkk89zn08z8d5q8xzchd",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bc1p698gf9gm8j34gvars97j6spsgrlxlhvyfajt2tsz2vnw9fcat9cqjcjn4v",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
