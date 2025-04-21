@@ -1,5 +1,33 @@
 # @chainlink/token-allocation-adapter
 
+## 1.13.17
+
+### Patch Changes
+
+- [#3805](https://github.com/smartcontractkit/external-adapters-js/pull/3805) [`2d18954`](https://github.com/smartcontractkit/external-adapters-js/commit/2d1895428866a279ca2464f494c5c3efcece1f3b) Thanks [@renovate](https://github.com/apps/renovate)! - Update NodeJS to version 22.14.0
+
+- [#3801](https://github.com/smartcontractkit/external-adapters-js/pull/3801) [`c40ad81`](https://github.com/smartcontractkit/external-adapters-js/commit/c40ad81e979aed773a0dda68381bacdc6bc7f1d4) Thanks [@renovate](https://github.com/apps/renovate)! - Update TypeScript version to 5.8.3
+
+- [#3810](https://github.com/smartcontractkit/external-adapters-js/pull/3810) [`e47e08a`](https://github.com/smartcontractkit/external-adapters-js/commit/e47e08ac2b6224751d9cf486caee7964b6f58ad9) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- Updated dependencies [[`2d18954`](https://github.com/smartcontractkit/external-adapters-js/commit/2d1895428866a279ca2464f494c5c3efcece1f3b), [`c40ad81`](https://github.com/smartcontractkit/external-adapters-js/commit/c40ad81e979aed773a0dda68381bacdc6bc7f1d4), [`e47e08a`](https://github.com/smartcontractkit/external-adapters-js/commit/e47e08ac2b6224751d9cf486caee7964b6f58ad9)]:
+  - @chainlink/blocksize-capital-adapter@2.4.2
+  - @chainlink/coinmarketcap-adapter@2.0.43
+  - @chainlink/cryptocompare-adapter@3.3.17
+  - @chainlink/cfbenchmarks-adapter@2.4.11
+  - @chainlink/coinmetrics-adapter@3.8.2
+  - @chainlink/coinpaprika-adapter@2.1.17
+  - @chainlink/coinranking-adapter@2.1.15
+  - @chainlink/ea-test-helpers@1.4.8
+  - @chainlink/amberdata-adapter@1.8.37
+  - @chainlink/coingecko-adapter@2.0.38
+  - @chainlink/coinapi-adapter@1.3.34
+  - @chainlink/ea-bootstrap@2.29.9
+  - @chainlink/finage-adapter@2.0.25
+  - @chainlink/tiingo-adapter@2.8.2
+  - @chainlink/kaiko-adapter@2.2.26
+  - @chainlink/ncfx-adapter@4.4.2
+
 ## 1.13.16
 
 ### Patch Changes
