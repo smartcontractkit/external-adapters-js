@@ -1,5 +1,19 @@
 # @chainlink/aleno-adapter
 
+## 2.1.2
+
+### Patch Changes
+
+- [#3805](https://github.com/smartcontractkit/external-adapters-js/pull/3805) [`2d18954`](https://github.com/smartcontractkit/external-adapters-js/commit/2d1895428866a279ca2464f494c5c3efcece1f3b) Thanks [@renovate](https://github.com/apps/renovate)! - Update NodeJS to version 22.14.0
+
+- [#3820](https://github.com/smartcontractkit/external-adapters-js/pull/3820) [`9aac776`](https://github.com/smartcontractkit/external-adapters-js/commit/9aac77624c45153c21febeb38e5112de70f87a0b) Thanks [@dskloetc](https://github.com/dskloetc)! - Log confirmedSubscriptions properly
+
+- [#3819](https://github.com/smartcontractkit/external-adapters-js/pull/3819) [`a84ca7f`](https://github.com/smartcontractkit/external-adapters-js/commit/a84ca7f22e057836e354613bdedc2d4eb19c5a9b) Thanks [@dskloetc](https://github.com/dskloetc)! - Bug fix: Recreate subscriptions after reconnecting
+
+- [#3801](https://github.com/smartcontractkit/external-adapters-js/pull/3801) [`c40ad81`](https://github.com/smartcontractkit/external-adapters-js/commit/c40ad81e979aed773a0dda68381bacdc6bc7f1d4) Thanks [@renovate](https://github.com/apps/renovate)! - Update TypeScript version to 5.8.3
+
+- [#3810](https://github.com/smartcontractkit/external-adapters-js/pull/3810) [`e47e08a`](https://github.com/smartcontractkit/external-adapters-js/commit/e47e08ac2b6224751d9cf486caee7964b6f58ad9) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 2.1.1
 
 ### Patch Changes
