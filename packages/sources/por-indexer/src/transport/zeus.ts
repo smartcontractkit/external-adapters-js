@@ -1,13 +1,9 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/zeus'
-
-const logger = makeLogger('PoR Indexer - Zeus')
+import {
+  HttpTransport,
+  HttpTransportConfig,
+  TransportDependencies,
+} from '@chainlink/external-adapter-framework/transports'
+import { BaseEndpointTypes } from '../endpoint/zeus'
 
 interface ResponseSchema {
   accountName: string
@@ -26,92 +22,73 @@ interface ResponseSchema {
   lastUpdatedAt: string
 }
 
-type RequestParams = typeof inputParameters.validated
-
-export class ZeusBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
-  requester!: Requester
-  config!: BaseEndpointTypes['Settings']
-  endpointName!: string
-
-  async initialize(
-    dependencies: TransportDependencies<BaseEndpointTypes>,
-    adapterSettings: BaseEndpointTypes['Settings'],
-    endpointName: string,
-    transportName: string,
-  ): Promise<void> {
-    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.requester = dependencies.requester
-    this.config = adapterSettings
-    this.endpointName = endpointName
-  }
-
-  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-  }
-
-  async handleRequest(param: RequestParams) {
-    let response: AdapterResponse<BaseEndpointTypes['Response']>
-    try {
-      response = await this._handleRequest(param)
-    } catch (e: unknown) {
-      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(e, errorMessage)
-      response = {
-        statusCode: (e as AdapterInputError)?.statusCode || 502,
-        errorMessage,
-        timestamps: {
-          providerDataRequestedUnixMs: 0,
-          providerDataReceivedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
-    }
-    await this.responseCache.write(this.name, [{ params: param, response }])
-  }
-
-  async _handleRequest(
-    _param: RequestParams,
-  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const providerDataRequestedUnixMs = Date.now()
-
-    const requestConfig = {
-      baseURL: this.config.ZEUS_ZBTC_API_URL,
-    }
-
-    const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
-      context: {
-        adapterSettings: this.config,
-        inputParameters,
-        endpointName: this.endpointName,
-      },
-      data: {},
-      transportName: this.name,
-    })
-
-    const response = await this.requester.request<ResponseSchema>(requestKey, requestConfig)
-    const result = response.response.data.minerFees
-
-    const [intPart, fracPart = ''] = result.split('.')
-    const minerFees = BigInt((intPart + fracPart.padEnd(8, '0')).replace(/^0+/, '') || '0')
-
-    return {
-      data: {
-        result: String(result),
-      },
-      statusCode: 200,
-      result: String(minerFees),
-      timestamps: {
-        providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
-      },
-    }
-  }
-
-  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
-    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+export type HttpTransportTypes = BaseEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
   }
 }
 
-export const zeusBalanceTransport = new ZeusBalanceTransport()
+class ZeusBalanceTransport extends HttpTransport<HttpTransportTypes> {
+  endpoint!: string
+
+  constructor(config: HttpTransportConfig<HttpTransportTypes>) {
+    super(config)
+  }
+
+  override async initialize(
+    dependencies: TransportDependencies<HttpTransportTypes>,
+    adapterSettings: HttpTransportTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.endpoint = adapterSettings.ZEUS_ZBTC_API_URL
+  }
+}
+
+export const httpTransport = new ZeusBalanceTransport({
+  prepareRequests: (params, config) => {
+    return {
+      params: params,
+      request: {
+        baseURL: config.ZEUS_ZBTC_API_URL,
+      },
+    }
+  },
+
+  parseResponse: (params, response) => {
+    const payload = response.data
+
+    if (!payload) {
+      return [
+        {
+          params: params[0],
+          response: {
+            errorMessage: `The data provider didn't return any value`,
+            statusCode: 502,
+          },
+        },
+      ]
+    }
+
+    const result = payload.minerFees
+
+    const timestamps = {
+      providerIndicatedTimeUnixMs: new Date(response.data.lastUpdatedAt).getTime(),
+    }
+
+    return [
+      {
+        params: params[0],
+        response: {
+          result,
+          data: {
+            result,
+          },
+          timestamps,
+        },
+      },
+    ]
+  },
+})
