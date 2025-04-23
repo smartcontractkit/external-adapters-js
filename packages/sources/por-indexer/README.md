@@ -18,13 +18,14 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 
 ## Environment Variables
 
-| Required? |               Name               |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :------------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|           | BITCOIN_MAINNET_POR_INDEXER_URL  |                              Indexer URL for Bitcoin mainnet                              | string |         |   ``    |
-|           | BITCOIN_TESTNET_POR_INDEXER_URL  |                              Indexer URL for Bitcoin testnet                              | string |         |   ``    |
-|           | DOGECOIN_MAINNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin mainnet                              | string |         |   ``    |
-|           | DOGECOIN_TESTNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin testnet                              | string |         |   ``    |
-|           |      BACKGROUND_EXECUTE_MS       | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
+| Required? |               Name               |                                        Description                                        |  Type  | Options |                              Default                              |
+| :-------: | :------------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------------------------------------: |
+|           | BITCOIN_MAINNET_POR_INDEXER_URL  |                              Indexer URL for Bitcoin mainnet                              | string |         |                                ``                                 |
+|           | BITCOIN_TESTNET_POR_INDEXER_URL  |                              Indexer URL for Bitcoin testnet                              | string |         |                                ``                                 |
+|           | DOGECOIN_MAINNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin mainnet                              | string |         |                                ``                                 |
+|           | DOGECOIN_TESTNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin testnet                              | string |         |                                ``                                 |
+|           |        ZEUS_ZBTC_API_URL         |                                   API url for zeus zBTC                                   | string |         | `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves` |
+|           |      BACKGROUND_EXECUTE_MS       | The amount of time the background execute should sleep before performing the next request | number |         |                              `10000`                              |
 
 ---
 
@@ -36,9 +37,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                         Options                          |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [index](#balance-endpoint) | `balance` |
+| Required? |   Name   |     Description     |  Type  |                                             Options                                              |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [index](#balance-endpoint), [zeusminerfee](#zeusminerfee-endpoint) | `balance` |
 
 ## Balance Endpoint
 
@@ -70,6 +71,28 @@ Request:
       }
     ],
     "minConfirmations": 0
+  }
+}
+```
+
+---
+
+## Zeusminerfee Endpoint
+
+`zeusminerfee` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "zeusminerfee"
   }
 }
 ```
