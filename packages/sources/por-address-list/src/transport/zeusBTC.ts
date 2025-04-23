@@ -29,7 +29,7 @@ export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
     return {
       params,
       request: {
-        baseURL: config.ZEUS_BTC_API_ENDPOINT,
+        baseURL: config.ZEUS_ZBTC_API_URL,
       },
     }
   },

@@ -59,7 +59,7 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://por.sft-api.com/solv-btc-jup-mirrorx.json',
   },
-  ZEUS_BTC_API_ENDPOINT: {
+  ZEUS_ZBTC_API_URL: {
     description: 'An API endpoint for Zeus native BTC wallet address',
     type: 'string',
     default: 'https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves',

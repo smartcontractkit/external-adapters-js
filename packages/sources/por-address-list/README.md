@@ -19,7 +19,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |  SOLVBTC_ENA_API_ENDPOINT   |                                                An API endpoint for SolvBTC.ENA native BTC wallet address                                                 | string |         |          `https://por.sft-api.com/solv-btc-ena-addresses.json`           |
 |           |  SOLVBTC_CORE_API_ENDPOINT  |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |          `https://por.sft-api.com/solv-btc-core-addresses.json`          |
 |           |  SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |           `https://por.sft-api.com/solv-btc-jup-mirrorx.json`            |
-|           |    ZEUS_BTC_API_ENDPOINT    |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |    `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves`     |
+|           |      ZEUS_ZBTC_API_URL      |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |    `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves`     |
 
 ---
 
