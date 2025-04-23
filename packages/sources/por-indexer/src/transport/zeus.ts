@@ -1,8 +1,4 @@
-import {
-  HttpTransport,
-  HttpTransportConfig,
-  TransportDependencies,
-} from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/zeus'
 
 interface ResponseSchema {
@@ -29,25 +25,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-class ZeusBalanceTransport extends HttpTransport<HttpTransportTypes> {
-  endpoint!: string
-
-  constructor(config: HttpTransportConfig<HttpTransportTypes>) {
-    super(config)
-  }
-
-  override async initialize(
-    dependencies: TransportDependencies<HttpTransportTypes>,
-    adapterSettings: HttpTransportTypes['Settings'],
-    endpointName: string,
-    transportName: string,
-  ): Promise<void> {
-    super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.endpoint = adapterSettings.ZEUS_ZBTC_API_URL
-  }
-}
-
-export const httpTransport = new ZeusBalanceTransport({
+export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return {
       params: params,
