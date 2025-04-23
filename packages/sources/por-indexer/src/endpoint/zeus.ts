@@ -11,7 +11,6 @@ export type BaseEndpointTypes = {
     Result: string
     Data: {
       result: string
-      decimals: number
     }
   }
   Settings: typeof config.settings

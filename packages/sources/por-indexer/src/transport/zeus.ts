@@ -1,13 +1,13 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/zeus'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 
-const logger = makeLogger('Token Balances - Zeus')
+const logger = makeLogger('PoR Indexer - Zeus')
 
 interface ResponseSchema {
   accountName: string
@@ -27,8 +27,6 @@ interface ResponseSchema {
 }
 
 type RequestParams = typeof inputParameters.validated
-
-const RESULT_DECIMALS = 8
 
 export class ZeusBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
@@ -99,8 +97,7 @@ export class ZeusBalanceTransport extends SubscriptionTransport<BaseEndpointType
 
     return {
       data: {
-        result: String(minerFees),
-        decimals: RESULT_DECIMALS,
+        result: String(result),
       },
       statusCode: 200,
       result: String(minerFees),
