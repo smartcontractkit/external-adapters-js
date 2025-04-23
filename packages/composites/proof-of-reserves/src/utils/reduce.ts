@@ -1,13 +1,13 @@
-import * as reduce from '@chainlink/reduce-adapter'
-import { AdapterContext, AdapterError, AdapterResponse } from '@chainlink/ea-bootstrap'
-import { callAdapter } from '.'
-import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
-import { adapter as bitcoinPorIndexer } from '@chainlink/por-indexer-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
-import { adapter as lotus } from '@chainlink/lotus-adapter'
-import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
+import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import { adapter as ceffu } from '@chainlink/ceffu-adapter'
+import { AdapterContext, AdapterError, AdapterResponse } from '@chainlink/ea-bootstrap'
+import { adapter as lotus } from '@chainlink/lotus-adapter'
+import { adapter as bitcoinPorIndexer } from '@chainlink/por-indexer-adapter'
+import * as reduce from '@chainlink/reduce-adapter'
+import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { ethers } from 'ethers'
+import { callAdapter } from '.'
 import { ETHEREUM_CL_INDEXER } from './balance'
 
 const returnParsedUnits = (
@@ -43,14 +43,8 @@ export const runReduceAdapter = async (
     case bitcoinJsonRpc.NAME:
     case bitcoinPorIndexer.name:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
-    case tokenBalance.name: {
-      return returnParsedUnits(
-        input.jobRunID,
-        input.data.result as string,
-        input.data.decimals as number,
-        true,
-      )
-    }
+    case tokenBalance.name:
+      return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
     case ceffu.name:
       return returnParsedUnits(
         input.jobRunID,

@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/zeus'
+import { BaseEndpointTypes } from '../endpoint/zeusMinerFee'
 
 interface ResponseSchema {
   accountName: string
@@ -38,7 +38,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   parseResponse: (params, response) => {
     const payload = response.data
 
-    if (!payload) {
+    if (!payload || !payload.minerFees) {
       return [
         {
           params: params[0],
