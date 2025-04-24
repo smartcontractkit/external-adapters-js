@@ -29,7 +29,7 @@ export const mockResponseZeusMinerFeeSuccess = () =>
     .reply(
       200,
       () => ({
-        minerFees: 0.01083,
+        minerFees: '0.01083',
         lastUpdatedAt: '2025-04-24T08:05:37.400942Z',
       }),
       [
@@ -43,11 +43,3 @@ export const mockResponseZeusMinerFeeSuccess = () =>
         'Origin',
       ],
     )
-
-// nock('http://localhost:8546')
-//       .persist()
-//       .get('/')
-//       .reply(200, { message: 'Success' })
-//       .on('request', (req) => {
-//         console.log('Intercepted request:', req)
-//       })

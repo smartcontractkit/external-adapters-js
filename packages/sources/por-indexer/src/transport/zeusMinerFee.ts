@@ -4,7 +4,7 @@ import { BaseEndpointTypes } from '../endpoint/zeusMinerFee'
 interface ResponseSchema {
   accountName: string
   result: {
-    id: string
+    id: number
     address: string
     symbol: string
     addressType: string
@@ -38,7 +38,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   parseResponse: (params, response) => {
     const payload = response.data
 
-    if (!payload || !payload.minerFees) {
+    if (!payload || payload?.minerFees == null) {
       return [
         {
           params: params[0],

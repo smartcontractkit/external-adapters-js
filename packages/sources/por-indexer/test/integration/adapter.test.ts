@@ -4,7 +4,6 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import { mockResponseSuccess, mockResponseZeusMinerFeeSuccess } from './fixtures'
-// import { endpoint } from '../../src/endpoint/balance'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -91,8 +90,6 @@ describe('execute', () => {
       }
       mockResponseZeusMinerFeeSuccess()
       const response = await testAdapter.request(data)
-      console.log(response.json())
-      console.log('Nock is done:', nock.isDone())
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

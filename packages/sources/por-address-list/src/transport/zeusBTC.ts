@@ -4,7 +4,7 @@ import { BaseEndpointTypes } from '../endpoint/zeusBTC'
 interface ResponseSchema {
   accountName: string
   result: {
-    id: string
+    id: number
     address: string
     symbol: string
     addressType: string
