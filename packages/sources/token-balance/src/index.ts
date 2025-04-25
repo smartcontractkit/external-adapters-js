@@ -1,7 +1,7 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { etherFi, evm, solvJlp, tbill } from './endpoint'
+import { evm, solvJlp, etherFi, tbill } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: evm.name,
