@@ -19,6 +19,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |  SOLVBTC_ENA_API_ENDPOINT   |                                                An API endpoint for SolvBTC.ENA native BTC wallet address                                                 | string |         |          `https://por.sft-api.com/solv-btc-ena-addresses.json`           |
 |           |  SOLVBTC_CORE_API_ENDPOINT  |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |          `https://por.sft-api.com/solv-btc-core-addresses.json`          |
 |           |  SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |           `https://por.sft-api.com/solv-btc-jup-mirrorx.json`            |
+|           |      ZEUS_ZBTC_API_URL      |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |    `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves`     |
 
 ---
 
@@ -32,9 +33,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                    Options                                                                                                                                     |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint) | `address` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                          Options                                                                                                                                                           |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint), [zeusbtcaddress](#zeusbtcaddress-endpoint) | `address` |
 
 ## Address Endpoint
 
@@ -211,6 +212,28 @@ Request:
     "contractAddress": "0x440139321A15d14ce0729E004e91D66BaF1A08B0",
     "contractAddressNetwork": "BASE",
     "type": "tbill"
+  }
+}
+```
+
+---
+
+## Zeusbtcaddress Endpoint
+
+`zeusbtcaddress` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "zeusbtcaddress"
   }
 }
 ```

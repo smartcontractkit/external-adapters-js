@@ -1,5 +1,65 @@
 import nock from 'nock'
 
+export const mockZeusResponseSuccess = (): nock.Scope =>
+  nock('http://indexer.zeuslayer.io', {
+    encodedQueryParams: true,
+  })
+    .get('/')
+    .reply(
+      200,
+      () => ({
+        accountName: 'zBTC',
+        count: 4,
+        lastUpdatedAt: '2025-04-14T09:49:28.08802Z',
+        result: [
+          {
+            address: 'bc1p795t8whcfpl6uyxj38enzt43cg8scphrgvn2e79y3xgflv6s6nrsrmudk6',
+            addressType: 'taproot',
+            balance: '13.74225149',
+            id: 4,
+            symbol: 'BTC',
+            walletName: 'anagram',
+          },
+          {
+            address: 'bc1pd46txhc0a3t8juc2r4njyuk4rv3099dcn039ny0hzgt24tgx3qlszg5e6f',
+            addressType: 'taproot',
+            balance: '15.44962550',
+            id: 3,
+            symbol: 'BTC',
+            walletName: 'animoca-ventures',
+          },
+          {
+            address: 'bc1p96utmwdngv3xwdn90d7wg4tyqke70fs6js8ajgqkk89zn08z8d5q8xzchd',
+            addressType: 'taproot',
+            balance: '14.47874067',
+            id: 2,
+            symbol: 'BTC',
+            walletName: 'mechanism-capital',
+          },
+          {
+            address: 'bc1p698gf9gm8j34gvars97j6spsgrlxlhvyfajt2tsz2vnw9fcat9cqjcjn4v',
+            addressType: 'taproot',
+            balance: '39.62438252',
+            id: 1,
+            symbol: 'BTC',
+            walletName: 'zeus-foundation',
+          },
+        ],
+        totalReserveinBtc: '83.29500018',
+        totalToken: '83.29131987',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
 type JsonRpcPayload = {
   id: number
   method: string

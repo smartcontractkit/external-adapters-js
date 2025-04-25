@@ -21,6 +21,11 @@ export const configDefinition = {
     type: 'string',
     default: '',
   },
+  ZEUS_ZBTC_API_URL: {
+    description: 'API url for zeus zBTC',
+    type: 'string',
+    default: 'https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves',
+  },
 } as const
 
 export const config = new AdapterConfig(
