@@ -35,3 +35,18 @@ exports[`execute balance endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute zeusminerfees endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "0.01083",
+  },
+  "result": "0.01083",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1745481937400,
+  },
+}
+`;
