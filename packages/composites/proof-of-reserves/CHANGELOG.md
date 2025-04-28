@@ -1,5 +1,16 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.26.5
+
+### Patch Changes
+
+- [#3808](https://github.com/smartcontractkit/external-adapters-js/pull/3808) [`a766f35`](https://github.com/smartcontractkit/external-adapters-js/commit/a766f35cbbe9efcbf65de050365976ad81bc7343) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Zeus zBtc
+
+- Updated dependencies [[`a766f35`](https://github.com/smartcontractkit/external-adapters-js/commit/a766f35cbbe9efcbf65de050365976ad81bc7343)]:
+  - @chainlink/por-address-list-adapter@5.9.0
+  - @chainlink/por-indexer-adapter@2.2.0
+  - @chainlink/renvm-address-set-adapter@1.5.111
+
 ## 1.26.4
 
 ### Patch Changes

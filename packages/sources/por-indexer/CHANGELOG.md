@@ -1,5 +1,11 @@
 # @chainlink/por-indexer-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#3808](https://github.com/smartcontractkit/external-adapters-js/pull/3808) [`a766f35`](https://github.com/smartcontractkit/external-adapters-js/commit/a766f35cbbe9efcbf65de050365976ad81bc7343) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Zeus zBtc
+
 ## 2.1.21
 
 ### Patch Changes
