@@ -66,3 +66,21 @@ exports[`execute multiReserves endpoint should return success 1`] = `
   "statusCode": 200,
 }
 `;
+
+exports[`execute multiReserves endpoint with scaling should return success 1`] = `
+{
+  "data": {
+    "decimals": 2,
+    "details": "{"result":"75100045155","statusCode":200,"decimals":8},{"result":"220646158354962165"}",
+    "result": "75122",
+    "statusCode": 200,
+    "timestamps": {
+      "providerDataReceivedUnixMs": 1641035471111,
+      "providerDataRequestedUnixMs": 1641035471111,
+    },
+  },
+  "jobRunID": "1",
+  "result": "75122",
+  "statusCode": 200,
+}
+`;
