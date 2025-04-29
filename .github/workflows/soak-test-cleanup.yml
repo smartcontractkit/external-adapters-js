@@ -4,6 +4,7 @@ on:
   pull_request:
     types: [closed]
     paths:
+      - '**'
       - 'packages/sources/**'
       - 'packages/composites/**'
       - 'packages/targets/**'
@@ -11,7 +12,7 @@ on:
 
 jobs:
   cleanup-ephemeral-adapters-on-pr-close:
-    skip: true
+    if: false
     name: Cleanup Ephemeral Adapters used for testing
     runs-on: ubuntu-latest
     environment: QA
