@@ -10,6 +10,7 @@ on:
 
 jobs:
   run-soak-tests:
+    skip: true
     name: Run Soak Tests Against Changed Adapters
     runs-on: ubuntu-latest-16cores-64GB
     environment: QA

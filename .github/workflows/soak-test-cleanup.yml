@@ -11,6 +11,7 @@ on:
 
 jobs:
   cleanup-ephemeral-adapters-on-pr-close:
+    skip: true
     name: Cleanup Ephemeral Adapters used for testing
     runs-on: ubuntu-latest
     environment: QA
