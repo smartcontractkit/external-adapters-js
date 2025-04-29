@@ -3,7 +3,6 @@ name: Soak test
 on:
   pull_request:
     paths:
-      - '**'
       - 'packages/sources/**'
       - 'packages/composites/**'
       - 'packages/targets/**'
@@ -11,6 +10,7 @@ on:
 
 jobs:
   run-soak-tests:
+    # TODO(DF-21181): Fix or delete the soak test
     if: false
     name: Run Soak Tests Against Changed Adapters
     runs-on: ubuntu-latest-16cores-64GB
