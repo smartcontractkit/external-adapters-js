@@ -1,14 +1,14 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import {
-  mockPoRindexerSuccess,
   mockEthBalanceSuccess,
   mockGeminiFilecoinAddressList,
   mockLotusSuccess,
+  mockPoRindexerSuccess,
 } from './fixtures'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
-import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const context: SuiteContext = {
@@ -149,6 +149,56 @@ describe('execute', () => {
         id: '1',
         data: {
           endpoint: 'multiReserves',
+          input: [
+            {
+              protocol: 'list',
+              indexer: 'por_indexer',
+              addresses: [
+                {
+                  address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+                  chainId: 'mainnet',
+                  network: 'bitcoin',
+                },
+                {
+                  address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
+                  chainId: 'mainnet',
+                  network: 'bitcoin',
+                },
+              ],
+            },
+            {
+              indexer: 'eth_balance',
+              protocol: 'list',
+              addresses: [
+                '0x8288C280F35FB8809305906C79BD075962079DD8',
+                '0x81910675DbaF69deE0fD77570BFD07f8E436386A',
+              ],
+              confirmations: 5,
+            },
+          ],
+        },
+      }
+      mockPoRindexerSuccess()
+      mockEthBalanceSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('multiReserves endpoint with scaling', () => {
+    it('should return success', async () => {
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'multiReserves',
+          outputDecimals: 2,
           input: [
             {
               protocol: 'list',
