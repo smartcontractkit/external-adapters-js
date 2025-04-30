@@ -11,6 +11,8 @@ on:
 
 jobs:
   cleanup-ephemeral-adapters-on-pr-close:
+    # TODO(DF-21181): Fix or delete the soak test
+    if: false
     name: Cleanup Ephemeral Adapters used for testing
     runs-on: ubuntu-latest
     environment: QA

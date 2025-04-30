@@ -1382,7 +1382,7 @@ const RAW_RUNTIME_STATE =
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
           ["@authereum/starkware-types", "npm:1.2.0-beta.1"],\
           ["bip39", "npm:3.1.0"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["elliptic", "npm:6.6.1"],\
           ["enc-utils", "npm:2.2.3"],\
           ["ethereumjs-wallet", "npm:1.0.2"],\
@@ -5698,7 +5698,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["ethers", "npm:5.7.2"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -9959,7 +9959,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.7.0"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["bitwise", "npm:2.2.1"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["braces", "npm:3.0.3"],\
           ["diff", "npm:5.2.0"],\
           ["glob-parent", "npm:6.0.2"],\
@@ -10316,7 +10316,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.0.15"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
-          ["bn.js", "npm:4.12.1"]\
+          ["bn.js", "npm:4.12.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -10326,7 +10326,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.4.2"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
-          ["bn.js", "npm:4.12.1"]\
+          ["bn.js", "npm:4.12.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -10336,7 +10336,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.5.0"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
-          ["bn.js", "npm:4.12.1"]\
+          ["bn.js", "npm:4.12.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -10346,7 +10346,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.7.0"],\
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
-          ["bn.js", "npm:5.2.1"]\
+          ["bn.js", "npm:5.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11129,7 +11129,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
           ["@ethersproject/properties", "npm:5.7.0"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.5.4"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
@@ -11142,7 +11142,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
           ["@ethersproject/properties", "npm:5.7.0"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.5.4"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
@@ -11155,7 +11155,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
           ["@ethersproject/properties", "npm:5.7.0"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["elliptic", "npm:6.5.4"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
@@ -12175,7 +12175,7 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/utils", "npm:0.1.56"],\
           ["aes-js", "npm:3.1.2"],\
           ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.6.1"],\
           ["hdkey", "npm:1.1.2"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -12194,7 +12194,7 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["aes-js", "npm:3.1.2"],\
           ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.6.1"],\
           ["hdkey", "npm:1.1.2"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -12255,7 +12255,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@harmony-js/utils", "npm:0.1.56"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
@@ -12265,7 +12265,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
@@ -13838,7 +13838,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/x-textdecoder", "npm:10.4.2"],\
           ["@polkadot/x-textencoder", "npm:10.4.2"],\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.1"]\
+          ["bn.js", "npm:5.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14396,7 +14396,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.9.1"],\
           ["axios", "npm:0.21.4"],\
           ["bignumber.js", "npm:9.1.2"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["bs58", "npm:6.0.0"],\
           ["ethers", "npm:5.7.2"],\
           ["immutable", "npm:4.3.7"]\
@@ -14414,7 +14414,7 @@ const RAW_RUNTIME_STATE =
           ["@renproject/utils", "npm:2.6.0"],\
           ["@types/node", "npm:22.9.1"],\
           ["bignumber.js", "npm:9.1.2"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["immutable", "npm:4.3.7"]\
         ],\
         "linkType": "HARD"\
@@ -15438,7 +15438,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/buffer-layout", "npm:4.0.1"],\
           ["agentkeepalive", "npm:4.5.0"],\
           ["bigint-buffer", "npm:1.1.5"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["borsh", "npm:0.7.0"],\
           ["bs58", "npm:4.0.1"],\
           ["buffer", "npm:6.0.3"],\
@@ -18006,7 +18006,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/asn1.js-npm-5.4.1-37c7edbcb0-63d57c766f.zip/node_modules/asn1.js/",\
         "packageDependencies": [\
           ["asn1.js", "npm:5.4.1"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["inherits", "npm:2.0.4"],\
           ["minimalistic-assert", "npm:1.0.1"],\
           ["safer-buffer", "npm:2.1.2"]\
@@ -18936,17 +18936,17 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:4.12.1", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-4.12.1-024a57532b-07f22df888.zip/node_modules/bn.js/",\
+      ["npm:4.12.2", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-4.12.2-c97b742b8d-5803983405.zip/node_modules/bn.js/",\
         "packageDependencies": [\
-          ["bn.js", "npm:4.12.1"]\
+          ["bn.js", "npm:4.12.2"]\
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:5.2.1", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.1-dc952b1965-7a7e8764d7.zip/node_modules/bn.js/",\
+      ["npm:5.2.2", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.2-a1a52ffece-51ebb2df83.zip/node_modules/bn.js/",\
         "packageDependencies": [\
-          ["bn.js", "npm:5.2.1"]\
+          ["bn.js", "npm:5.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19011,7 +19011,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/borsh-npm-0.7.0-c3e1c21bb3-e51a9395da.zip/node_modules/borsh/",\
         "packageDependencies": [\
           ["borsh", "npm:0.7.0"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["bs58", "npm:4.0.1"],\
           ["text-encoding-utf-8", "npm:1.0.2"]\
         ],\
@@ -22000,7 +22000,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/elliptic-npm-6.5.4-0ca8204a86-2cd7ff4b69.zip/node_modules/elliptic/",\
         "packageDependencies": [\
           ["elliptic", "npm:6.5.4"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["brorand", "npm:1.1.0"],\
           ["hash.js", "npm:1.1.7"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -22014,7 +22014,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/elliptic-npm-6.6.1-87bb857cbc-dc678c9feb.zip/node_modules/elliptic/",\
         "packageDependencies": [\
           ["elliptic", "npm:6.6.1"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["brorand", "npm:1.1.0"],\
           ["hash.js", "npm:1.1.7"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -22634,7 +22634,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/eth-lib-npm-0.1.29-f0336c8400-ee4fcd8400.zip/node_modules/eth-lib/",\
         "packageDependencies": [\
           ["eth-lib", "npm:0.1.29"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.6.1"],\
           ["nano-json-stream-parser", "npm:0.1.2"],\
           ["servify", "npm:0.1.12"],\
@@ -22647,7 +22647,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/eth-lib-npm-0.2.7-7f1c4117da-36dca25fab.zip/node_modules/eth-lib/",\
         "packageDependencies": [\
           ["eth-lib", "npm:0.2.7"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.6.1"],\
           ["xhr-request-promise", "npm:0.1.3"]\
         ],\
@@ -22657,7 +22657,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/eth-lib-npm-0.2.8-3c025a63dd-85a6f1673c.zip/node_modules/eth-lib/",\
         "packageDependencies": [\
           ["eth-lib", "npm:0.2.8"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.6.1"],\
           ["xhr-request-promise", "npm:0.1.3"]\
         ],\
@@ -22725,7 +22725,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ethereumjs-abi-npm-0.6.8-c911e0a245-d4633ca300.zip/node_modules/ethereumjs-abi/",\
         "packageDependencies": [\
           ["ethereumjs-abi", "npm:0.6.8"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["ethereumjs-util", "npm:6.2.1"]\
         ],\
         "linkType": "HARD"\
@@ -22737,7 +22737,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ethereumjs-util", "npm:6.2.1"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["create-hash", "npm:1.2.0"],\
           ["elliptic", "npm:6.6.1"],\
           ["ethereum-cryptography", "npm:0.1.3"],\
@@ -22751,7 +22751,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ethereumjs-util", "npm:7.1.5"],\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["create-hash", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:0.1.3"],\
           ["rlp", "npm:2.2.7"]\
@@ -22782,7 +22782,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ethers", "npm:4.0.49"],\
           ["aes-js", "npm:3.0.0"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["elliptic", "npm:6.5.4"],\
           ["hash.js", "npm:1.1.3"],\
           ["js-sha3", "npm:0.5.7"],\
@@ -29178,7 +29178,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/keccak256-npm-1.0.6-30a3b4497e-c7370708a3.zip/node_modules/keccak256/",\
         "packageDependencies": [\
           ["keccak256", "npm:1.0.6"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["buffer", "npm:6.0.3"],\
           ["keccak", "npm:3.0.4"]\
         ],\
@@ -35555,7 +35555,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/rlp-npm-2.2.7-4cb283b8fe-cf1919a2dc.zip/node_modules/rlp/",\
         "packageDependencies": [\
           ["rlp", "npm:2.2.7"],\
-          ["bn.js", "npm:5.2.1"]\
+          ["bn.js", "npm:5.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -35627,7 +35627,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/rsv-signature-npm-1.1.0-7857bc865f-7dee5101d3.zip/node_modules/rsv-signature/",\
         "packageDependencies": [\
           ["rsv-signature", "npm:1.1.0"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["enc-utils", "npm:2.2.3"]\
         ],\
         "linkType": "HARD"\
@@ -35928,7 +35928,7 @@ const RAW_RUNTIME_STATE =
           ["secp256k1", "npm:3.8.1"],\
           ["bindings", "npm:1.5.0"],\
           ["bip66", "npm:1.1.5"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["create-hash", "npm:1.2.0"],\
           ["drbg.js", "npm:1.0.1"],\
           ["elliptic", "npm:6.6.1"],\
@@ -37859,7 +37859,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["tiny-secp256k1", "npm:1.1.7"],\
           ["bindings", "npm:1.5.0"],\
-          ["bn.js", "npm:4.12.1"],\
+          ["bn.js", "npm:4.12.2"],\
           ["create-hmac", "npm:1.1.7"],\
           ["elliptic", "npm:6.6.1"],\
           ["nan", "npm:2.22.0"],\
@@ -39514,7 +39514,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/web3-eth-iban-npm-1.10.4-ec1d92bdf6-b5e33aaf3d.zip/node_modules/web3-eth-iban/",\
         "packageDependencies": [\
           ["web3-eth-iban", "npm:1.10.4"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["web3-utils", "npm:1.10.4"]\
         ],\
         "linkType": "HARD"\
@@ -39611,7 +39611,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["web3-utils", "npm:1.10.4"],\
           ["@ethereumjs/util", "npm:8.1.0"],\
-          ["bn.js", "npm:5.2.1"],\
+          ["bn.js", "npm:5.2.2"],\
           ["ethereum-bloom-filters", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:2.2.1"],\
           ["ethjs-unit", "npm:0.1.6"],\
