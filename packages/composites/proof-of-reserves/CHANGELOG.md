@@ -1,5 +1,14 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.26.6
+
+### Patch Changes
+
+- [#3830](https://github.com/smartcontractkit/external-adapters-js/pull/3830) [`6014acc`](https://github.com/smartcontractkit/external-adapters-js/commit/6014acc26a87a1e1f4ed6ae9e881489229f02be7) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add outputDecimals field to multiReserves endpoint
+
+- Updated dependencies []:
+  - @chainlink/renvm-address-set-adapter@1.5.112
+
 ## 1.26.5
 
 ### Patch Changes
