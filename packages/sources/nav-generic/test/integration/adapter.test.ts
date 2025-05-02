@@ -22,6 +22,7 @@ describe('execute', () => {
     process.env.MISSING_VALUE_INTEGRATION_API_KEY = 'fake-api-key'
     process.env.ERROR_RESPONSE_API_KEY = 'fake-api-key'
     process.env.DEFAULT_API_ENDPOINT = 'https://dataproviderapi.com'
+    process.env.BACKGROUND_EXECUTE_MS_HTTP = '1'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
