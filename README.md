@@ -2,6 +2,7 @@
 [![](https://img.shields.io/github/stars/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/stargazers)
 [![](https://img.shields.io/github/forks/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/network/members)
 [![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/checks.yml)
+[![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/soak-test-start.yml/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/soak-test-start.yml)
 [![](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/smartcontractkit/external-adapters-js/actions/workflows/github-code-scanning/codeql)
 [![](https://img.shields.io/github/license/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/blob/main/LICENSE)
 
