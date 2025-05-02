@@ -183,8 +183,6 @@ jobs:
           fetch-depth: 0
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
-        with:
-          fetch-branch: ${{ github.head_ref }}
       - name: Test Master List Generation
         run: yarn generate:master-list -v
       - name: Test README Generation
