@@ -184,7 +184,7 @@ jobs:
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
         with:
-          fetch-branch: ${{ github.base_ref }}
+          fetch-branch: ${{ github.head_ref }}
       - name: Test Master List Generation
         run: yarn generate:master-list -v
       - name: Test README Generation
