@@ -38,8 +38,6 @@ export function mockBooleanOnlyGalaxisApiResp(apiEndpoint: string, date: string)
     .reply(200, MOCK_BOOLEAN_ONLY_GALAXIS_API_RESP, [
       'Connection',
       'close',
-      'Content-Length',
-      '4902',
       'Cache-Control',
       'max-age=300',
       'Content-Security-Policy',
@@ -119,8 +117,6 @@ export function mockNonBooleanOnlyGalaxisApiResp(apiEndpoint: string, date: stri
     .reply(200, MOCK_NON_BOOLEAN_ONLY_GALAXIS_API_RESP, [
       'Connection',
       'close',
-      'Content-Length',
-      '4902',
       'Cache-Control',
       'max-age=300',
       'Content-Security-Policy',

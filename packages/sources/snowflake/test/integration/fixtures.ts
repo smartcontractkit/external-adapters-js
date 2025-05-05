@@ -70,8 +70,6 @@ export const mockSnowflakeResponse = (): Scope =>
         'deny',
         'X-XSS-Protection',
         ': 1; mode=block',
-        'Content-Length',
-        '907',
         'Connection',
         'Close',
       ],

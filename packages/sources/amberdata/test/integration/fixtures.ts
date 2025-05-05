@@ -20,8 +20,6 @@ export function mockCryptoEndpoint(): nock.Scope {
       [
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '161',
         'Connection',
         'close',
         'Date',
@@ -74,8 +72,6 @@ export function mockCryptoEndpoint(): nock.Scope {
       [
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '161',
         'Connection',
         'close',
         'Date',
@@ -133,8 +129,6 @@ export const mockBalanceEndpoint = (): nock.Scope =>
       [
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '285',
         'Connection',
         'close',
         'Date',
@@ -190,8 +184,6 @@ nock('https://web3api.io:443', { encodedQueryParams: true })
     [
       'Content-Type',
       'application/json; charset=utf-8',
-      'Content-Length',
-      '282',
       'Connection',
       'close',
       'Date',
@@ -3117,8 +3109,6 @@ export function mockMarketCapEndpoint(): nock.Scope {
       [
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '72323',
         'Connection',
         'close',
         'Date',
@@ -3180,8 +3170,6 @@ export function mockVolumeEndpoint(): nock.Scope {
       [
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '243',
         'Connection',
         'close',
         'Date',

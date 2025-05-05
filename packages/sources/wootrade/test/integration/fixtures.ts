@@ -24,8 +24,6 @@ export const mockWootradeResponseSuccess = (): nock.Scope =>
         'Wed, 22 Sep 2021 14:24:17 GMT',
         'Content-Type',
         'application/json',
-        'Content-Length',
-        '152',
         'Connection',
         'close',
         'Server',

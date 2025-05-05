@@ -117,8 +117,6 @@ export const mockCoinmarketcapAdapter = (): nock.Scope =>
       [
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '1570',
         'ETag',
         'W/"622-9erE3lcWoqAfMLTzKbOESASP4e0"',
         'Connection',
