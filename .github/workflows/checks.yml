@@ -251,9 +251,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Run yarn
-        env:
-          # Disable hardened mode to replicate local behavior.
-          YARN_ENABLE_HARDENED_MODE: 0
         run: yarn
       - name: Check no relavant files were added
         run: |
