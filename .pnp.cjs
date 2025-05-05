@@ -699,6 +699,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/nav-consulting"\
     },\
     {\
+      "name": "@chainlink/nav-generic-adapter",\
+      "reference": "workspace:packages/sources/nav-generic"\
+    },\
+    {\
       "name": "@chainlink/ncfx-adapter",\
       "reference": "workspace:packages/sources/ncfx"\
     },\
@@ -1109,6 +1113,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
     ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
     ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
+    ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
@@ -8023,6 +8028,21 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
           ["date-fns", "npm:4.1.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/nav-generic-adapter", [\
+      ["workspace:packages/sources/nav-generic", {\
+        "packageLocation": "./packages/sources/nav-generic/",\
+        "packageDependencies": [\
+          ["@chainlink/nav-generic-adapter", "workspace:packages/sources/nav-generic"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
