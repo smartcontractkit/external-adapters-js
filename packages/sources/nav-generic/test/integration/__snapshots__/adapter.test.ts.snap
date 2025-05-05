@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should handle error response 1`] = `
+{
+  "errorMessage": "Provider request failed with status 403: {}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute nav endpoint should handle missing env var 1`] = `
+{
+  "error": {
+    "message": "missing MISSING_ENV_VAR_API_KEY",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`execute nav endpoint should handle missing value failure 1`] = `
+{
+  "errorMessage": "The data provider didn't return any value for missing-value-integration",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute nav endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 100,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1746214393080,
+  },
+}
+`;
+
+exports[`execute nav endpoint value: 0 should be valid 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1746214393080,
+  },
+}
+`;
