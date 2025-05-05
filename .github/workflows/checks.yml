@@ -244,7 +244,7 @@ jobs:
 
   yarn-cache-complete:
     name: Check that running yarn doesn't create untracked files in .yarn/cache
-    runs-on: [ubuntu-latest]
+    runs-on: [macos-latest]
     permissions:
       contents: read
     steps:
@@ -254,9 +254,7 @@ jobs:
         env:
           # Disable hardened mode to replicate local behavior.
           YARN_ENABLE_HARDENED_MODE: 0
-        run: |
-          touch .yarn/cache/foo-bar.zip
-          # yarn
+        run: yarn
       - name: Check no relavant files were added
         run: |
           if [[ "$(git status --porcelain)" != "" ]]; then
