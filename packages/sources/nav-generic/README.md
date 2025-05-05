@@ -2,10 +2,12 @@
 
 ## Environment Variables
 
-| Required? |            Name             |       Description        |  Type  | Options | Default |
-| :-------: | :-------------------------: | :----------------------: | :----: | :-----: | :-----: |
-|    ✅     |   {INTEGRATION}\_API_KEY    |   Integration API key    | string |         |         |
-|    ✅     | {INTEGRATION}\_API_ENDPOINT | Integration API endpoint | string |         |         |
+Need to be added to support each integration.
+
+| Required? |          Name          |     Description     |  Type  | Options | Default |
+| :-------: | :--------------------: | :-----------------: | :----: | :-----: | :-----: |
+|    ✅     | {INTEGRATION}\_API_KEY | Integration API key | string |         |         |
+|    ✅     | {INTEGRATION}\_API_URL | Integration API url | string |         |         |
 
 ---
 
