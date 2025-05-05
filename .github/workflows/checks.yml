@@ -241,3 +241,20 @@ jobs:
             done
             exit 1
           fi
+
+  yarn-cache-complete:
+    name: Check that running yarn doesn't create untracked files in .yarn/cache
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Run yarn
+        run: yarn
+      - name: Check no relavant files were added
+        run: |
+          if [[ "$(git status --porcelain)" != "" ]]; then
+            echo "Yarn created untracked changes. Please add them to the PR."
+            git status
+            exit 1
+          fi
+          echo "Yarn did not create untracked changes."
