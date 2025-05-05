@@ -8,6 +8,9 @@ dist
 # Yarn 2
 .yarn/*
 !.yarn/cache
+# fsevents files are specific to Mac so Renovate keeps removing them and then
+# they appear again during development.
+.yarn/cache/fsevents-patch-*.zip
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
