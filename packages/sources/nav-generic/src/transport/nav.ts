@@ -19,36 +19,39 @@ const normalizeIntegrationForEnvVar = (integration: string): string => {
   return integration.toUpperCase().replace(/-/g, '_')
 }
 
-export const getApiKey = (integration: string): string => {
+export const getApiConfigs = (integration: string): { apiKey: string; apiUrl: string } => {
   const envVarIntegration = normalizeIntegrationForEnvVar(integration)
-  const apiKey = process.env[`${envVarIntegration}_API_KEY`]
+  const apiKeyEnvVarName = `${envVarIntegration}_API_KEY`
+  const apiKey = process.env[apiKeyEnvVarName]
 
   if (!apiKey) {
     throw new AdapterError({
-      message: `missing ${envVarIntegration}_API_KEY`,
+      message: `missing ${apiKeyEnvVarName}`,
       statusCode: 500,
     })
   }
 
-  return apiKey
-}
+  const apiUrlEnvVarName = `${envVarIntegration}_API_URL`
+  const apiUrl = process.env[apiUrlEnvVarName]
 
-const getApiEndpoint = (integration: string, defaultEndpoint: string): string => {
-  const normalizedIntegration = normalizeIntegrationForEnvVar(integration)
-  return process.env[`${normalizedIntegration}_API_ENDPOINT`] || defaultEndpoint
+  if (!apiUrl) {
+    throw new AdapterError({
+      message: `missing ${apiUrlEnvVarName}`,
+      statusCode: 500,
+    })
+  }
+
+  return { apiKey, apiUrl }
 }
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params, config) => {
+  prepareRequests: (params) => {
     return params.map((param) => {
-      const integrationName = param.integration.toLowerCase()
-      const apiKey = getApiKey(integrationName)
-      const apiEndpoint = getApiEndpoint(integrationName, config.DEFAULT_API_ENDPOINT)
+      const { apiKey, apiUrl } = getApiConfigs(param.integration.toLowerCase())
       return {
         params: [param],
         request: {
-          baseURL: apiEndpoint,
-          url: `${integrationName}/nav`,
+          baseURL: apiUrl,
           headers: {
             'x-api-key': apiKey,
           },

@@ -3,7 +3,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getApiKey, httpTransport } from '../transport/nav'
+import { getApiConfigs, httpTransport } from '../transport/nav'
 
 export const inputParameters = new InputParameters(
   {
@@ -32,7 +32,7 @@ export const endpoint = new AdapterEndpoint({
   transport: httpTransport,
   inputParameters,
   customInputValidation: (request): AdapterError | undefined => {
-    getApiKey(request.requestContext.data.integration)
+    getApiConfigs(request.requestContext.data.integration)
     return
   },
 })

@@ -18,10 +18,14 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.TEST_INTEGRATION_API_KEY = 'fake-api-key'
+    process.env.TEST_INTEGRATION_API_URL = 'https://dataproviderapi.com/test-integration/nav'
     process.env.TEST_0_VAL_API_KEY = 'fake-api-key'
+    process.env.TEST_0_VAL_API_URL = 'https://dataproviderapi.com/test-0-val/nav'
     process.env.MISSING_VALUE_INTEGRATION_API_KEY = 'fake-api-key'
+    process.env.MISSING_VALUE_INTEGRATION_API_URL =
+      'https://dataproviderapi.com/missing-value-integration/nav'
     process.env.ERROR_RESPONSE_API_KEY = 'fake-api-key'
-    process.env.DEFAULT_API_ENDPOINT = 'https://dataproviderapi.com'
+    process.env.ERROR_RESPONSE_API_URL = 'https://dataproviderapi.com/error-response/nav'
     process.env.BACKGROUND_EXECUTE_MS_HTTP = '1'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -48,7 +52,7 @@ describe('execute', () => {
         integration: 'test-integration',
         endpoint: 'nav',
       }
-      mockHappyPathResponseSuccess()
+      mockHappyPathResponseSuccess(data.integration)
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
@@ -58,7 +62,7 @@ describe('execute', () => {
         integration: 'test-0-val',
         endpoint: 'nav',
       }
-      mockValue0ResponseSuccess()
+      mockValue0ResponseSuccess(data.integration)
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
@@ -68,7 +72,7 @@ describe('execute', () => {
         integration: 'missing-value-integration',
         endpoint: 'nav',
       }
-      mockResponseFailure()
+      mockResponseFailure(data.integration)
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
@@ -78,7 +82,7 @@ describe('execute', () => {
         integration: 'error-response',
         endpoint: 'nav',
       }
-      mockErrorResponseFailure()
+      mockErrorResponseFailure(data.integration)
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()

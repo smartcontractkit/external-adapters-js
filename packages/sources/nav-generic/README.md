@@ -1,14 +1,11 @@
 # NAV_GENERIC
 
-![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nav-generic/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
-
-This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
-
 ## Environment Variables
 
-| Required? |         Name         | Description  |  Type  | Options | Default |
-| :-------: | :------------------: | :----------: | :----: | :-----: | :-----: |
-|    ✅     | DEFAULT_API_ENDPOINT | API endpoint | string |         |         |
+| Required? |            Name             |       Description        |  Type  | Options | Default |
+| :-------: | :-------------------------: | :----------------------: | :----: | :-----: | :-----: |
+|    ✅     |   {INTEGRATION}\_API_KEY    |   Integration API key    | string |         |         |
+|    ✅     | {INTEGRATION}\_API_ENDPOINT | Integration API endpoint | string |         |         |
 
 ---
 
