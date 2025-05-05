@@ -254,7 +254,9 @@ jobs:
         env:
           # Disable hardened mode to replicate local behavior.
           YARN_ENABLE_HARDENED_MODE: 0
-        run: yarn
+        run: |
+          touch .yarn/cache/foo-bar.zip
+          # yarn
       - name: Check no relavant files were added
         run: |
           if [[ "$(git status --porcelain)" != "" ]]; then
