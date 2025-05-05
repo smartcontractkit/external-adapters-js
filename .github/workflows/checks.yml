@@ -245,15 +245,17 @@ jobs:
   yarn-cache-complete:
     name: Check that running yarn doesn't create untracked files in .yarn/cache
     runs-on: [ubuntu-latest]
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Run yarn
-        run: yarn
-      - name: Check no relavant files were added
         env:
           # Disable hardened mode to replicate local behavior.
-          YARN_ENABLE_HARDENED_MODE: false
+          YARN_ENABLE_HARDENED_MODE: 0
+        run: yarn
+      - name: Check no relavant files were added
         run: |
           if [[ "$(git status --porcelain)" != "" ]]; then
             echo "Yarn created untracked changes. Please add them to the PR."
