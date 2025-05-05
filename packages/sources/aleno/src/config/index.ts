@@ -7,11 +7,6 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: true,
   },
-  API_ENDPOINT: {
-    description: 'An API endpoint for Data Provider',
-    type: 'string',
-    default: 'https://state-price.aleno.ai',
-  },
   WS_API_ENDPOINT: {
     description: 'WS endpoint for Aleno',
     type: 'string',
