@@ -26,8 +26,6 @@ export function mockMacroScoreAPIResponseSuccess() {
         'Sun, 18 Jul 2021 21:08:00 GMT',
         'Content-Type',
         'application/json',
-        'Content-Length',
-        '212',
         'Connection',
         'close',
         'x-amzn-RequestId',

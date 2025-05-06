@@ -286,8 +286,6 @@ export const mockDataProviderResponses = (): nock.Scope =>
         'Express',
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '714',
         'ETag',
         'W/"4c-80HqZxTKkxT2QbzJJxLmlKoGX1c"',
         'Date',

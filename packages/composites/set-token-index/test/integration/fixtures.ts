@@ -30,8 +30,6 @@ export const mockDataProviderResponses = (): void => {
           'Express',
           'Content-Type',
           'application/json; charset=utf-8',
-          'Content-Length',
-          '714',
           'ETag',
           'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
           'Date',

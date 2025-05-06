@@ -842,8 +842,6 @@ export const mockGamesResponse = (key: string) => {
       [
         'Connection',
         'close',
-        'Content-Length',
-        '23257',
         'Content-Type',
         'application/json; charset=utf-8',
         'Last-Modified',

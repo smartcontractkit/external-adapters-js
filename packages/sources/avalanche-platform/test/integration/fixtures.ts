@@ -32,8 +32,6 @@ export const mockBalanceSuccess = (): nock.Scope =>
         'application/json',
         'server',
         'Lighthouse/v3.1.0-aa022f4/x86_64-linux',
-        'content-length',
-        '124',
         'date',
         'Wed, 21 Sep 2022 10:58:34 GMT',
       ],
