@@ -18538,10 +18538,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["base-x", [\
-      ["npm:3.0.10", {\
-        "packageLocation": "./.yarn/cache/base-x-npm-3.0.10-2d05c06792-5230773955.zip/node_modules/base-x/",\
+      ["npm:3.0.11", {\
+        "packageLocation": "./.yarn/cache/base-x-npm-3.0.11-3798da0834-c2e3c443fd.zip/node_modules/base-x/",\
         "packageDependencies": [\
-          ["base-x", "npm:3.0.10"],\
+          ["base-x", "npm:3.0.11"],\
           ["safe-buffer", "npm:5.2.1"]\
         ],\
         "linkType": "HARD"\
@@ -19200,7 +19200,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/bs58-npm-4.0.1-8d2a7822b1-b3c5365bb9.zip/node_modules/bs58/",\
         "packageDependencies": [\
           ["bs58", "npm:4.0.1"],\
-          ["base-x", "npm:3.0.10"]\
+          ["base-x", "npm:3.0.11"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -31627,7 +31627,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/multibase-npm-0.6.1-61881fbece-c9e3bf20dc.zip/node_modules/multibase/",\
         "packageDependencies": [\
           ["multibase", "npm:0.6.1"],\
-          ["base-x", "npm:3.0.10"],\
+          ["base-x", "npm:3.0.11"],\
           ["buffer", "npm:5.7.1"]\
         ],\
         "linkType": "HARD"\
@@ -31636,7 +31636,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/multibase-npm-0.7.0-9e9562f6bb-a5cbbf00b8.zip/node_modules/multibase/",\
         "packageDependencies": [\
           ["multibase", "npm:0.7.0"],\
-          ["base-x", "npm:3.0.10"],\
+          ["base-x", "npm:3.0.11"],\
           ["buffer", "npm:5.7.1"]\
         ],\
         "linkType": "HARD"\
