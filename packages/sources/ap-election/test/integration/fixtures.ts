@@ -25,8 +25,6 @@ export const mockResponseWithNoRaces = (apikey: string): nock.Scope => {
       [
         'Content-Type',
         'application/json',
-        'Content-Length',
-        '929',
         'Connection',
         'close',
         'Date',
@@ -253,8 +251,6 @@ export const mockResponseWithMultipleRaces = (apikey: string): nock.Scope => {
       [
         'Content-Type',
         'application/json',
-        'Content-Length',
-        '929',
         'Connection',
         'close',
         'Date',
@@ -404,8 +400,6 @@ export const mockResponseWithNationalAndState = (apikey: string): nock.Scope => 
       [
         'Content-Type',
         'application/json',
-        'Content-Length',
-        '929',
         'Connection',
         'close',
         'Date',
@@ -523,8 +517,6 @@ export const mockStatusLevelResponse = (apikey: string): nock.Scope => {
       [
         'Content-Type',
         'application/json',
-        'Content-Length',
-        '929',
         'Connection',
         'close',
         'Date',

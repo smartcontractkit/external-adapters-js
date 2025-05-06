@@ -17,8 +17,6 @@ export const mockResponseSuccess = (): nock.Scope =>
     .reply(200, { jsonrpc: '2.0', result: '33426744125000000000000', id: 1 }, [
       'Date',
       'Wed, 22 Sep 2021 14:38:41 GMT',
-      'Content-Length',
-      '60',
       'Content-Type',
       'text/plain; charset=utf-8',
       'Connection',
@@ -34,8 +32,6 @@ export const mockResponseSuccess = (): nock.Scope =>
     .reply(200, { jsonrpc: '2.0', result: '850000000000000000', id: 2 }, [
       'Date',
       'Wed, 22 Sep 2021 14:38:42 GMT',
-      'Content-Length',
-      '55',
       'Content-Type',
       'text/plain; charset=utf-8',
       'Connection',
