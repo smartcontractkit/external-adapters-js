@@ -14,8 +14,6 @@ export const mockMCO2Response = (): nock.Scope =>
         'Mon, 15 Nov 2021 16:14:53 GMT',
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '437',
         'Connection',
         'close',
         'Vary',

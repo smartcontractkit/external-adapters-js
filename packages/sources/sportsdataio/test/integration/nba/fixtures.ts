@@ -93,8 +93,6 @@ export const mockSportsDataProviderResponse = (key: string) => {
       [
         'Connection',
         'close',
-        'Content-Length',
-        '1884',
         'Content-Type',
         'application/json; charset=utf-8',
         'Last-Modified',

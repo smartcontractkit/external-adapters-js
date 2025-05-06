@@ -28,8 +28,6 @@ export function mockCoinpaprikaAdapterResponseSuccess(): nock.Scope {
         '1636374693',
         'Content-Type',
         'application/json; charset=utf-8',
-        'Content-Length',
-        '92',
         'ETag',
         'W/"5c-z1n244ezdMwpLTzNvSBGxzBiHkA"',
         'Connection',

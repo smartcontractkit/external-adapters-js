@@ -1,5 +1,5 @@
-import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+import nock from 'nock'
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tiingo.com', {
     encodedQueryParams: true,
@@ -174,8 +174,6 @@ export const mockResponseSuccess = (): nock.Scope =>
       [
         'content-type',
         'application/json',
-        'content-length',
-        '170',
         'vary',
         'Accept, Cookie, Origin',
         'allow',

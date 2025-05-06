@@ -1,5 +1,5 @@
-import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.finage.co.uk', {
@@ -58,8 +58,6 @@ export const mockResponseSuccess = (): nock.Scope =>
     .reply(200, { symbol: 'GBPUSD', ask: 1.34435, bid: 1.34426, timestamp: 1637060382000 }, [
       'Content-Type',
       'application/json; charset=utf-8',
-      'Content-Length',
-      '73',
       'Connection',
       'close',
     ])
@@ -69,8 +67,6 @@ export const mockResponseSuccess = (): nock.Scope =>
     .reply(200, { symbol: 'BTCUSD', price: 50940.12, timestamp: 1638898619885 }, [
       'Content-Type',
       'application/json; charset=utf-8',
-      'Content-Length',
-      '73',
       'Connection',
       'close',
     ])
