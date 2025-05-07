@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.5.0",
+    "@chainlink/external-adapter-framework": "2.6.0",
     "@grpc/grpc-js": "1.13.2",
     "@kaiko-data/sdk-node": "1.26.0",
     "exponential-backoff": "3.1.2",
