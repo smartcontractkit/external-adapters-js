@@ -24,7 +24,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.5.0",
+    "@chainlink/external-adapter-framework": "2.6.0",
     "axios": "1.8.4",
     "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
