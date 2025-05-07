@@ -224,16 +224,6 @@ exports[`execute apiAddress endpoint zeus BTC should return success 1`] = `
         "chainId": "mainnet",
         "network": "bitcoin",
       },
-      {
-        "address": "bc1pq7pr972ckfwrwrprqw5en54ytr58jndcaafr780hm35ttz4ekmas3fctx4",
-        "chainId": "mainnet",
-        "network": "bitcoin",
-      },
-      {
-        "address": "bc1pxdp8fy8nmkytn450x6drjujvu6jmcymq0agjgfecc5xdlecw566s07mjzx",
-        "chainId": "mainnet",
-        "network": "bitcoin",
-      },
     ],
   },
   "result": null,
