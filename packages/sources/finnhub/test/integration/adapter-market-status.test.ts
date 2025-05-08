@@ -39,13 +39,13 @@ describe('Market status endpoint', () => {
   const openData = {
     data: {
       endpoint: 'market-status',
-      exchange: 'US',
+      market: 'US',
     },
   }
   const closedData = {
     data: {
       endpoint: 'market-status',
-      exchange: 'AD',
+      market: 'AD',
     },
   }
 
