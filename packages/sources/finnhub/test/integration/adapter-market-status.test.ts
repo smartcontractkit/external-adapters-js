@@ -42,6 +42,10 @@ describe('Market status endpoint', () => {
     endpoint: 'market-status',
     market: 'AD',
   }
+  const closedNullData = {
+    endpoint: 'market-status',
+    market: 'AS',
+  }
   const invalidMarket = {
     endpoint: 'market-status',
     market: 'FFF',
@@ -59,6 +63,14 @@ describe('Market status endpoint', () => {
     mockMarketStatusResponseSuccess()
 
     const response = await testAdapter.request(closedData)
+    expect(response.body).toMatchSnapshot()
+    expect(response.json().result).toEqual(MarketStatus.CLOSED)
+  })
+
+  it('should return success with closed; null status in response', async () => {
+    mockMarketStatusResponseSuccess()
+
+    const response = await testAdapter.request(closedNullData)
     expect(response.body).toMatchSnapshot()
     expect(response.json().result).toEqual(MarketStatus.CLOSED)
   })

@@ -116,3 +116,18 @@ export const mockMarketStatusResponseSuccess = (): nock.Scope =>
       },
       ['Content-Type', 'application/json'],
     )
+    .persist()
+    .get('/stock/market-status')
+    .query({ token: 'fake-api-key', exchange: 'AS' })
+    .reply(
+      200,
+      {
+        exchange: 'AS',
+        holiday: null,
+        isOpen: false,
+        session: null,
+        timezone: 'Europe/Amsterdam',
+        t: 1697018041,
+      },
+      ['Content-Type', 'application/json'],
+    )

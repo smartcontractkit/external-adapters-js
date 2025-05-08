@@ -4,4 +4,6 @@ exports[`Market status endpoint should return error for invalid market 1`] = `"{
 
 exports[`Market status endpoint should return success with closed 1`] = `"{"result":1,"data":{"result":1},"timestamps":{"providerDataRequestedUnixMs":1641035471111,"providerDataReceivedUnixMs":1641035471111,"providerIndicatedTimeUnixMs":1697018041},"statusCode":200}"`;
 
+exports[`Market status endpoint should return success with closed; null status in response 1`] = `"{"result":1,"data":{"result":1},"timestamps":{"providerDataRequestedUnixMs":1641035471111,"providerDataReceivedUnixMs":1641035471111,"providerIndicatedTimeUnixMs":1697018041},"statusCode":200}"`;
+
 exports[`Market status endpoint should return success with open 1`] = `"{"result":2,"data":{"result":2},"timestamps":{"providerDataRequestedUnixMs":1641035471111,"providerDataReceivedUnixMs":1641035471111,"providerIndicatedTimeUnixMs":1697018041},"statusCode":200}"`;
