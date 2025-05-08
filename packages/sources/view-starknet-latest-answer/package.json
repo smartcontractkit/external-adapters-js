@@ -30,11 +30,11 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "nock": "14.0.3",
+    "nock": "14.0.4",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.5.0",
+    "@chainlink/external-adapter-framework": "2.6.0",
     "starknet": "6.9.0",
     "tslib": "2.4.1"
   }

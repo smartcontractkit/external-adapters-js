@@ -112,19 +112,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@asamuzakjp/css-color@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "@asamuzakjp/css-color@npm:3.1.1"
-  dependencies:
-    "@csstools/css-calc": "npm:^2.1.2"
-    "@csstools/css-color-parser": "npm:^3.0.8"
-    "@csstools/css-parser-algorithms": "npm:^3.0.4"
-    "@csstools/css-tokenizer": "npm:^3.0.3"
-    lru-cache: "npm:^10.4.3"
-  checksum: 10/42dd131c3f6297259b353b6a226e782800babe64003e41f3598e3fe98543eecea2a5d9c1869ed1c853b639ed9e259c685c6b7c96d1e0b5c0d154f874a8a8c3d9
-  languageName: node
-  linkType: hard
-
 "@assemblyscript/loader@npm:^0.9.4":
   version: 0.9.4
   resolution: "@assemblyscript/loader@npm:0.9.4"
@@ -2433,29 +2420,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/agoric-adapter@workspace:packages/targets/agoric":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/agoric-adapter@workspace:packages/targets/agoric"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.4.6"
-    fastify: "npm:^3.29.4"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/aleno-adapter@workspace:packages/sources/aleno":
   version: 0.0.0-use.local
   resolution: "@chainlink/aleno-adapter@workspace:packages/sources/aleno"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2532,7 +2501,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/anchorage-adapter@workspace:packages/sources/anchorage"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2578,10 +2547,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/apex-adapter@workspace:packages/sources/apex"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -2608,12 +2577,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/apy-finance-test-adapter@workspace:packages/composites/apy-finance-test"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@chainlink/token-allocation-test-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     ethers: "npm:5.4.7"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -2643,7 +2612,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2656,11 +2625,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.8.4"
-    fastify: "npm:^3.29.4"
+    axios: "npm:1.9.0"
+    fastify: "npm:^5.0.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2753,7 +2722,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-adapter@workspace:packages/sources/bitgo"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2766,7 +2735,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-reserves-adapter@workspace:packages/sources/bitgo-reserves"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2779,7 +2748,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-reserves-test-adapter@workspace:packages/sources/bitgo-reserves-test"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2855,7 +2824,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2991,7 +2960,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ceffu-adapter@workspace:packages/sources/ceffu"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
@@ -3025,7 +2994,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3068,10 +3037,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/clear-bank-adapter@workspace:packages/sources/clear-bank"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -3114,7 +3083,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-prime-adapter@workspace:packages/sources/coinbase-prime"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/crypto-js": "npm:4.2.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3145,7 +3114,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-adapter@workspace:packages/sources/coingecko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -3176,7 +3145,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -3189,7 +3158,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3205,7 +3174,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3351,7 +3320,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3450,7 +3419,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/deep-blue-adapter@workspace:packages/sources/deep-blue"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -3512,7 +3481,7 @@ __metadata:
   resolution: "@chainlink/dlc-btc-por-adapter@workspace:packages/sources/dlc-btc-por"
   dependencies:
     "@bitcoinerlab/secp256k1": "npm:1.1.1"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@noble/hashes": "npm:1.4.0"
     "@scure/base": "npm:1.1.9"
     "@scure/btc-signer": "npm:1.2.2"
@@ -3594,7 +3563,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3610,7 +3579,7 @@ __metadata:
   resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
   dependencies:
     "@chainlink/dxfeed-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -3648,7 +3617,7 @@ __metadata:
   resolution: "@chainlink/dydx-stark-adapter@workspace:packages/targets/dydx-stark"
   dependencies:
     "@authereum/starkware-crypto": "npm:1.9.7-beta.7"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:10.3.1"
@@ -3680,10 +3649,10 @@ __metadata:
     "@types/uuid": "npm:8.3.4"
     "@types/ws": "npm:8.5.14"
     ajv: "npm:^8.6.2"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     decimal.js: "npm:^10.3.1"
     fast-redact: "npm:^3.0.1"
-    fastify: "npm:^3.29.4"
+    fastify: "npm:^5.0.0"
     lodash: "npm:^4.17.21"
     lru-cache: "npm:^6.0.0"
     mock-socket: "npm:9.3.1"
@@ -3743,7 +3712,7 @@ __metadata:
     "@apidevtools/json-schema-ref-parser": "npm:9.1.2"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/command-line-args": "npm:5.2.3"
     "@types/command-line-usage": "npm:5.0.4"
     "@types/jest": "npm:^29.5.14"
@@ -3751,7 +3720,7 @@ __metadata:
     "@types/swagger-jsdoc": "npm:6.0.4"
     "@types/yaml": "npm:1.9.7"
     airtable: "npm:0.11.6"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     axios-mock-adapter: "npm:1.20.0"
     axios-observable: "npm:1.3.0"
     backoff-rxjs: "npm:6.5.7"
@@ -3794,7 +3763,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elven-adapter@workspace:packages/sources/elven"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -3809,12 +3778,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3893,7 +3862,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     bignumber.js: "npm:9.1.2"
@@ -3989,7 +3958,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/expand-network-adapter@workspace:packages/sources/expand-network"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4016,24 +3985,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:2.5.0":
-  version: 2.5.0
-  resolution: "@chainlink/external-adapter-framework@npm:2.5.0"
+"@chainlink/external-adapter-framework@npm:2.6.0":
+  version: 2.6.0
+  resolution: "@chainlink/external-adapter-framework@npm:2.6.0"
   dependencies:
     ajv: "npm:8.17.1"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     eventsource: "npm:2.0.2"
-    fastify: "npm:5.2.2"
-    ioredis: "npm:5.6.0"
+    fastify: "npm:5.3.2"
+    ioredis: "npm:5.6.1"
     mock-socket: "npm:9.3.1"
     pino: "npm:9.6.0"
     pino-pretty: "npm:13.0.0"
     prom-client: "npm:15.1.3"
     redlock: "npm:5.0.0-beta.2"
-    ws: "npm:8.18.1"
+    ws: "npm:8.18.2"
   bin:
     create-external-adapter: adapter-generator.js
-  checksum: 10/ed9d8face14362ee651fb70bddd6fa723028100297b013bf3afab958774b491a2b3c0dc948da2a71a632914e5eb161d22703a50062d9b5967e1703dd3e04dcd5
+  checksum: 10/146006d56407e255cecedac471c1e9435db79e2f77dc19b3c8fae9c9c9b028e6eb2876a2fcd3ac897d220d96c9d5fcce83b518058446debc8b361e50cc77a8b2
   languageName: node
   linkType: hard
 
@@ -4044,7 +4013,7 @@ __metadata:
     "@babel/core": "npm:7.26.10"
     "@babel/preset-env": "npm:7.26.9"
     "@babel/preset-typescript": "npm:7.26.0"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@changesets/changelog-github": "npm:0.5.1"
     "@changesets/cli": "npm:2.27.12"
     "@types/babel__core": "npm:7.20.5"
@@ -4089,7 +4058,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-adapter@workspace:packages/sources/finage"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4104,7 +4073,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finalto-adapter@workspace:packages/sources/finalto"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4121,7 +4090,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finnhub-adapter@workspace:packages/sources/finnhub"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4136,7 +4105,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finnhub-secondary-adapter@workspace:packages/sources/finnhub-secondary"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@chainlink/finnhub-adapter": "workspace:*"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
@@ -4152,7 +4121,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/fireblocks-adapter@workspace:packages/sources/fireblocks"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4226,7 +4195,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/frxeth-exchange-rate-adapter@workspace:packages/sources/frxeth-exchange-rate"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:5.7.2"
@@ -4259,12 +4228,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4275,7 +4244,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4317,7 +4286,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
@@ -4332,7 +4301,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gm-token-adapter@workspace:packages/composites/gm-token"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
@@ -4378,7 +4347,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gramchain-adapter@workspace:packages/sources/gramchain"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4404,13 +4373,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     crypto: "npm:1.0.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4442,7 +4411,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/harris-and-trotter-adapter@workspace:packages/sources/harris-and-trotter"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4458,7 +4427,7 @@ __metadata:
     "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -4474,7 +4443,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/icap-adapter@workspace:packages/sources/icap"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@chainlink/tp-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4491,7 +4460,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4504,7 +4473,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4522,7 +4491,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -4535,7 +4504,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4548,12 +4517,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4564,7 +4533,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4630,7 +4599,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-adapter@workspace:packages/sources/kaiko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4643,9 +4612,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-state-adapter@workspace:packages/sources/kaiko-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
-    "@grpc/grpc-js": "npm:1.13.2"
-    "@kaiko-data/sdk-node": "npm:1.26.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@grpc/grpc-js": "npm:1.13.3"
+    "@kaiko-data/sdk-node": "npm:1.27.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     exponential-backoff: "npm:3.1.2"
@@ -4712,7 +4681,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lido-por-adapter@workspace:packages/sources/lido-por"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:5.7.2"
@@ -4773,7 +4742,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.4.7"
@@ -4787,7 +4756,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/m0-adapter@workspace:packages/sources/m0"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4817,7 +4786,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/market-status-adapter@workspace:packages/composites/market-status"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@chainlink/ncfx-adapter": "workspace:*"
     "@chainlink/tradinghours-adapter": "workspace:*"
     "@sinonjs/fake-timers": "npm:9.1.2"
@@ -4898,7 +4867,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/mobula-state-adapter@workspace:packages/sources/mobula-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4929,7 +4898,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@polkadot/keyring": "npm:10.4.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4946,7 +4915,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/moore-hk-adapter@workspace:packages/sources/moore-hk"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4962,7 +4931,7 @@ __metadata:
     "@chainlink/anchorage-adapter": "workspace:*"
     "@chainlink/bitgo-adapter": "workspace:*"
     "@chainlink/coinbase-prime-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/node-schedule": "npm:2.1.7"
@@ -4993,7 +4962,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nav-consulting-adapter@workspace:packages/sources/nav-consulting"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@date-fns/utc": "npm:2.1.0"
     "@types/crypto-js": "npm:4.2.2"
     "@types/jest": "npm:^29.5.14"
@@ -5010,7 +4979,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nav-generic-adapter@workspace:packages/sources/nav-generic"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -5023,7 +4992,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5038,7 +5007,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nexus-kiln-adapter@workspace:packages/composites/nexus-kiln"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:6.13.5"
@@ -5052,7 +5021,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
@@ -5103,7 +5072,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nyfed-adapter@workspace:packages/sources/nyfed"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -5116,9 +5085,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     decimal.js: "npm:^10.3.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -5129,7 +5098,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
   dependencies:
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -5171,7 +5140,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/openexchangerates-adapter@workspace:packages/sources/openexchangerates"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -5206,7 +5175,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinon": "npm:10.0.20"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     sinon: "npm:12.0.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -5248,7 +5217,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@polkadot/api": "npm:9.14.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5262,7 +5231,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -5275,7 +5244,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.5.1"
@@ -5289,7 +5258,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
@@ -5320,7 +5289,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/eth-balance-adapter": "workspace:*"
     "@chainlink/eth-beacon-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/ignition-address-list-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
@@ -5439,7 +5408,7 @@ __metadata:
   resolution: "@chainlink/s3-csv-reader-adapter@workspace:packages/sources/s3-csv-reader"
   dependencies:
     "@aws-sdk/client-s3": "npm:^3.600.0"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
     csv-parse: "npm:5.5.6"
@@ -5595,7 +5564,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:5.5.4"
@@ -5609,10 +5578,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     bignumber.js: "npm:^9.1.1"
     ethers: "npm:5.5.4"
     nock: "npm:13.5.6"
@@ -5642,10 +5611,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/starknet-gas-price-adapter@workspace:packages/sources/starknet-gas-price"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:14.0.3"
+    nock: "npm:14.0.4"
     starknet: "npm:6.9.0"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -5672,7 +5641,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/superstate-adapter@workspace:packages/sources/superstate"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/node-schedule": "npm:2.1.7"
@@ -5742,7 +5711,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/synthetix-feeds-adapter@workspace:packages/sources/synthetix-feeds"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:10.4.3"
@@ -5805,7 +5774,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -5834,7 +5803,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5849,7 +5818,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-state-adapter@workspace:packages/sources/tiingo-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5876,7 +5845,7 @@ __metadata:
     "@chainlink/cryptocompare-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@chainlink/finage-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
@@ -5895,10 +5864,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-test-adapter@workspace:packages/non-deployable/token-allocation-test"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.8.4"
+    axios: "npm:1.9.0"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
     nock: "npm:13.5.6"
@@ -5911,7 +5880,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-balance-adapter@workspace:packages/sources/token-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@solana/web3.js": "npm:^1.95.8"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5926,7 +5895,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tp-adapter@workspace:packages/sources/tp"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5944,7 +5913,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-adapter@workspace:packages/sources/tradermade"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5959,7 +5928,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradinghours-adapter@workspace:packages/sources/tradinghours"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5977,7 +5946,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/trueusd-adapter@workspace:packages/sources/trueusd"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -5990,7 +5959,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/trumatic-matic-exchange-rate-adapter@workspace:packages/sources/trumatic-matic-exchange-rate"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:5.7.2"
@@ -6020,7 +5989,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/twosigma-adapter@workspace:packages/sources/twosigma"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -6116,7 +6085,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
@@ -6130,7 +6099,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
@@ -6144,10 +6113,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/view-starknet-latest-answer-adapter@workspace:packages/sources/view-starknet-latest-answer"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:14.0.3"
+    nock: "npm:14.0.4"
     starknet: "npm:6.9.0"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -6158,7 +6127,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -6532,52 +6501,6 @@ __metadata:
   dependencies:
     "@jridgewell/trace-mapping": "npm:0.3.9"
   checksum: 10/b6e38a1712fab242c86a241c229cf562195aad985d0564bd352ac404be583029e89e93028ffd2c251d2c407ecac5fb0cbdca94a2d5c10f29ac806ede0508b3ff
-  languageName: node
-  linkType: hard
-
-"@csstools/color-helpers@npm:^5.0.2":
-  version: 5.0.2
-  resolution: "@csstools/color-helpers@npm:5.0.2"
-  checksum: 10/8763079c54578bd2215c68de0795edb9cfa29bffa29625bff89f3c47d9df420d86296ff3a6fa8c29ca037bbaa64dc10a963461233341de0516a3161a3b549e7b
-  languageName: node
-  linkType: hard
-
-"@csstools/css-calc@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "@csstools/css-calc@npm:2.1.2"
-  peerDependencies:
-    "@csstools/css-parser-algorithms": ^3.0.4
-    "@csstools/css-tokenizer": ^3.0.3
-  checksum: 10/23ba633b15ba733f9da6d65e6a97a34116d10add7df15f6b05df93f00bb47b335a2268fcfd93c442da5d4678706f7bb26ffcc26a74621e34fe0d399bb27e53d3
-  languageName: node
-  linkType: hard
-
-"@csstools/css-color-parser@npm:^3.0.8":
-  version: 3.0.8
-  resolution: "@csstools/css-color-parser@npm:3.0.8"
-  dependencies:
-    "@csstools/color-helpers": "npm:^5.0.2"
-    "@csstools/css-calc": "npm:^2.1.2"
-  peerDependencies:
-    "@csstools/css-parser-algorithms": ^3.0.4
-    "@csstools/css-tokenizer": ^3.0.3
-  checksum: 10/935d0d6b484ee3b38390c765c66b0bb6632ca4172f211ef87f259a193bdae7f818732e8ef214fcce06016d5cf8fa1d917c24e4ff42f7359f589a979acc7e4511
-  languageName: node
-  linkType: hard
-
-"@csstools/css-parser-algorithms@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "@csstools/css-parser-algorithms@npm:3.0.4"
-  peerDependencies:
-    "@csstools/css-tokenizer": ^3.0.3
-  checksum: 10/dfb6926218d9f8ba25d8b43ea46c03863c819481f8c55e4de4925780eaab9e6bcd6bead1d56b4ef82d09fcd9d69a7db2750fa9db08eece9470fd499dc76d0edb
-  languageName: node
-  linkType: hard
-
-"@csstools/css-tokenizer@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "@csstools/css-tokenizer@npm:3.0.3"
-  checksum: 10/6baa3160e426e1f177b8f10d54ec7a4a596090f65a05f16d7e9e4da049962a404eabc5f885f4867093702c259cd4080ac92a438326e22dea015201b3e71f5bbb
   languageName: node
   linkType: hard
 
@@ -8328,15 +8251,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/ajv-compiler@npm:^1.0.0":
-  version: 1.1.0
-  resolution: "@fastify/ajv-compiler@npm:1.1.0"
-  dependencies:
-    ajv: "npm:^6.12.6"
-  checksum: 10/d90d8c5dfeff6b1e70843e776e24b965528fdc5691407d1bb02af3f67f42b65503dbcd7acd881ab74219fae7d53a4f49301a62a269268f88337d728575966a5f
-  languageName: node
-  linkType: hard
-
 "@fastify/ajv-compiler@npm:^4.0.0":
   version: 4.0.2
   resolution: "@fastify/ajv-compiler@npm:4.0.2"
@@ -8352,13 +8266,6 @@ __metadata:
   version: 2.1.1
   resolution: "@fastify/busboy@npm:2.1.1"
   checksum: 10/2bb8a7eca8289ed14c9eb15239bc1019797454624e769b39a0b90ed204d032403adc0f8ed0d2aef8a18c772205fa7808cf5a1b91f21c7bfc7b6032150b1062c5
-  languageName: node
-  linkType: hard
-
-"@fastify/error@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@fastify/error@npm:2.0.0"
-  checksum: 10/ecf0834966b2bfb33ff834e3d55fe4dc04cbe9f822fda6c937b12cce4f162be4f8b0577ee665bc856d7012b1640c12472a1829a22ae38d287342c90b0f33a595
   languageName: node
   linkType: hard
 
@@ -8472,13 +8379,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:1.13.2":
-  version: 1.13.2
-  resolution: "@grpc/grpc-js@npm:1.13.2"
+"@grpc/grpc-js@npm:1.13.3":
+  version: 1.13.3
+  resolution: "@grpc/grpc-js@npm:1.13.3"
   dependencies:
     "@grpc/proto-loader": "npm:^0.7.13"
     "@js-sdsl/ordered-map": "npm:^4.4.2"
-  checksum: 10/80b7bebc1d110e85d70ebf0b697630093d5cfd60d5043e9b8ea3fc44b1108d75d18faa996460309f6b129418cfd7e23a302453e7551538c5b12d72b424635ff7
+  checksum: 10/0b5016baf063ae115972b9765b53ade072a6feb5bf45ddbbc24f2aab6e69ebb6069792cf0451fb6e08eaf58a837e1916b8f04740008fa6550bf8442ee2588305
   languageName: node
   linkType: hard
 
@@ -9411,10 +9318,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kaiko-data/sdk-node@npm:1.26.0":
-  version: 1.26.0
-  resolution: "@kaiko-data/sdk-node@npm:1.26.0"
-  checksum: 10/d343ec5fa42fff3083cc94280be23079a1055c42fe82d781063f378d5875083988e5368a6a4215151729576fc1d4216ddf1f411a9c5bf095dd0fafc9253412c7
+"@kaiko-data/sdk-node@npm:1.27.2":
+  version: 1.27.2
+  resolution: "@kaiko-data/sdk-node@npm:1.27.2"
+  checksum: 10/21b33436651414c7069ac321cb9454c41825866df7252ebb8de22f336c2bfa34227758946b3e9fe6373e857c42cf1f723d9b9408e0e186ccf597d8d8272d1436
   languageName: node
   linkType: hard
 
@@ -9497,18 +9404,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.38.1":
-  version: 0.38.1
-  resolution: "@mswjs/interceptors@npm:0.38.1"
+"@mswjs/interceptors@npm:^0.38.5":
+  version: 0.38.6
+  resolution: "@mswjs/interceptors@npm:0.38.6"
   dependencies:
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/logger": "npm:^0.3.0"
     "@open-draft/until": "npm:^2.0.0"
     is-node-process: "npm:^1.2.0"
-    jsdom: "npm:^26.0.0"
     outvariant: "npm:^1.4.3"
     strict-event-emitter: "npm:^0.5.1"
-  checksum: 10/8bffe0b98c97d564d60049e7f541d5920a05ebac4982d79b5a0361fce2260a41fe39a230d97abb8bc9500504e17f9e3ef40403856d791b8ba50ca6af1ea3d48f
+  checksum: 10/1716a2b8ec1dcd634968318b417fc88560d3b368e55552faa9d82e5c36ebeeb2c3993cbcf964783502cb164fba3fffd558b2f44638506ed7478e5fcc5ee8d3ea
   languageName: node
   linkType: hard
 
@@ -13439,7 +13345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:8.17.1, ajv@npm:^8.0.0, ajv@npm:^8.1.0, ajv@npm:^8.12.0, ajv@npm:^8.6.2":
+"ajv@npm:8.17.1, ajv@npm:^8.0.0, ajv@npm:^8.12.0, ajv@npm:^8.6.2":
   version: 8.17.1
   resolution: "ajv@npm:8.17.1"
   dependencies:
@@ -13451,7 +13357,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:^6.10.0, ajv@npm:^6.11.0, ajv@npm:^6.12.3, ajv@npm:^6.12.4, ajv@npm:^6.12.5, ajv@npm:^6.12.6":
+"ajv@npm:^6.10.0, ajv@npm:^6.12.3, ajv@npm:^6.12.4, ajv@npm:^6.12.5":
   version: 6.12.6
   resolution: "ajv@npm:6.12.6"
   dependencies:
@@ -13624,13 +13530,6 @@ __metadata:
   version: 2.0.0
   resolution: "aproba@npm:2.0.0"
   checksum: 10/c2b9a631298e8d6f3797547e866db642f68493808f5b37cd61da778d5f6ada890d16f668285f7d60bd4fc3b03889bd590ffe62cf81b700e9bb353431238a0a7b
-  languageName: node
-  linkType: hard
-
-"archy@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "archy@npm:1.0.0"
-  checksum: 10/d7928049a57988b86df3f4de75ca16a4252ccee591d085c627e649fc54c5ae5daa833f17aa656bd825bd00bc0a2756ae03d2b983050bdbda1046b6d832bf7303
   languageName: node
   linkType: hard
 
@@ -13915,18 +13814,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"avvio@npm:^7.1.2":
-  version: 7.2.5
-  resolution: "avvio@npm:7.2.5"
-  dependencies:
-    archy: "npm:^1.0.0"
-    debug: "npm:^4.0.0"
-    fastq: "npm:^1.6.1"
-    queue-microtask: "npm:^1.1.2"
-  checksum: 10/6e3128de9bb4cabf2ac4c6bb9efad9a1a2397249b1b302193aba6fd9af1764c9f41240894679c74f9a86988a769b650792afc7267e5e8c735eaeaf255429af4a
-  languageName: node
-  linkType: hard
-
 "avvio@npm:^9.0.0":
   version: 9.1.0
   resolution: "avvio@npm:9.1.0"
@@ -13977,14 +13864,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.8.4":
-  version: 1.8.4
-  resolution: "axios@npm:1.8.4"
+"axios@npm:1.9.0":
+  version: 1.9.0
+  resolution: "axios@npm:1.9.0"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/a10f0dd836613924e48cf03dc2eff3fd21b14f764807aedaee4880a70c0f142aaebdb21da7ce27104d4c16ca00d0e452a20a20851f60e385a8d5bad1ae909d46
+  checksum: 10/a2f90bba56820883879f32a237e2b9ff25c250365dcafd41cec41b3406a3df334a148f90010182dfdadb4b41dc59f6f0b3e8898ff41b666d1157b5f3f4523497
   languageName: node
   linkType: hard
 
@@ -15071,16 +14958,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"call-bind-apply-helpers@npm:^1.0.1, call-bind-apply-helpers@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "call-bind-apply-helpers@npm:1.0.2"
-  dependencies:
-    es-errors: "npm:^1.3.0"
-    function-bind: "npm:^1.1.2"
-  checksum: 10/00482c1f6aa7cfb30fb1dbeb13873edf81cfac7c29ed67a5957d60635a56b2a4a480f1016ddbdb3395cc37900d46037fb965043a51c5c789ffeab4fc535d18b5
-  languageName: node
-  linkType: hard
-
 "call-bind@npm:^1.0.2, call-bind@npm:^1.0.7":
   version: 1.0.7
   resolution: "call-bind@npm:1.0.7"
@@ -16030,13 +15907,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "cookie@npm:0.5.0"
-  checksum: 10/aae7911ddc5f444a9025fbd979ad1b5d60191011339bce48e555cb83343d0f98b865ff5c4d71fecdfb8555a5cafdc65632f6fce172f32aaf6936830a883a0380
-  languageName: node
-  linkType: hard
-
 "cookie@npm:^1.0.1":
   version: 1.0.2
   resolution: "cookie@npm:1.0.2"
@@ -16309,16 +16179,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssstyle@npm:^4.2.1":
-  version: 4.3.0
-  resolution: "cssstyle@npm:4.3.0"
-  dependencies:
-    "@asamuzakjp/css-color": "npm:^3.1.1"
-    rrweb-cssom: "npm:^0.8.0"
-  checksum: 10/81e0634b1905080a4f07a117a345c773f531c01cb6dd408077b46d03e2c5b5b5f0b88ab36eba5fb82ce35ef2c5ddb02a3fd57f99b54e7ab0bd06d8708c319080
-  languageName: node
-  linkType: hard
-
 "csv-parse@npm:5.5.6":
   version: 5.5.6
   resolution: "csv-parse@npm:5.5.6"
@@ -16365,16 +16225,6 @@ __metadata:
   version: 4.0.1
   resolution: "data-uri-to-buffer@npm:4.0.1"
   checksum: 10/0d0790b67ffec5302f204c2ccca4494f70b4e2d940fea3d36b09f0bb2b8539c2e86690429eb1f1dc4bcc9e4df0644193073e63d9ee48ac9fce79ec1506e4aa4c
-  languageName: node
-  linkType: hard
-
-"data-urls@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "data-urls@npm:5.0.0"
-  dependencies:
-    whatwg-mimetype: "npm:^4.0.0"
-    whatwg-url: "npm:^14.0.0"
-  checksum: 10/5c40568c31b02641a70204ff233bc4e42d33717485d074244a98661e5f2a1e80e38fe05a5755dfaf2ee549f2ab509d6a3af2a85f4b2ad2c984e5d176695eaf46
   languageName: node
   linkType: hard
 
@@ -16477,7 +16327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:*, debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.0, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:~4.3.1, debug@npm:~4.3.2":
+"debug@npm:*, debug@npm:4, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.0, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:^4.3.5, debug@npm:~4.3.1, debug@npm:~4.3.2":
   version: 4.3.7
   resolution: "debug@npm:4.3.7"
   dependencies:
@@ -16558,13 +16408,6 @@ __metadata:
   version: 10.4.3
   resolution: "decimal.js@npm:10.4.3"
   checksum: 10/de663a7bc4d368e3877db95fcd5c87b965569b58d16cdc4258c063d231ca7118748738df17cd638f7e9dd0be8e34cec08d7234b20f1f2a756a52fc5a38b188d0
-  languageName: node
-  linkType: hard
-
-"decimal.js@npm:^10.4.3":
-  version: 10.5.0
-  resolution: "decimal.js@npm:10.5.0"
-  checksum: 10/714d49cf2f2207b268221795ede330e51452b7c451a0c02a770837d2d4faed47d603a729c2aa1d952eb6c4102d999e91c9b952c1aa016db3c5cba9fc8bf4cda2
   languageName: node
   linkType: hard
 
@@ -17072,17 +16915,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dunder-proto@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "dunder-proto@npm:1.0.1"
-  dependencies:
-    call-bind-apply-helpers: "npm:^1.0.1"
-    es-errors: "npm:^1.3.0"
-    gopd: "npm:^1.2.0"
-  checksum: 10/5add88a3d68d42d6e6130a0cac450b7c2edbe73364bbd2fc334564418569bea97c6943a8fcd70e27130bf32afc236f30982fc4905039b703f23e9e0433c29934
-  languageName: node
-  linkType: hard
-
 "duplexer3@npm:^0.1.4":
   version: 0.1.5
   resolution: "duplexer3@npm:0.1.5"
@@ -17420,13 +17252,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"entities@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "entities@npm:4.5.0"
-  checksum: 10/ede2a35c9bce1aeccd055a1b445d41c75a14a2bb1cd22e242f20cf04d236cdcd7f9c859eb83f76885327bfae0c25bf03303665ee1ce3d47c5927b98b0e3e3d48
-  languageName: node
-  linkType: hard
-
 "env-paths@npm:^2.2.0":
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
@@ -17482,13 +17307,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-define-property@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "es-define-property@npm:1.0.1"
-  checksum: 10/f8dc9e660d90919f11084db0a893128f3592b781ce967e4fccfb8f3106cb83e400a4032c559184ec52ee1dbd4b01e7776c7cd0b3327b1961b1a4a7008920fe78
-  languageName: node
-  linkType: hard
-
 "es-errors@npm:^1.3.0":
   version: 1.3.0
   resolution: "es-errors@npm:1.3.0"
@@ -17500,27 +17318,6 @@ __metadata:
   version: 1.5.4
   resolution: "es-module-lexer@npm:1.5.4"
   checksum: 10/f29c7c97a58eb17640dcbd71bd6ef754ad4f58f95c3073894573d29dae2cad43ecd2060d97ed5b866dfb7804d5590fb7de1d2c5339a5fceae8bd60b580387fc5
-  languageName: node
-  linkType: hard
-
-"es-object-atoms@npm:^1.0.0, es-object-atoms@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "es-object-atoms@npm:1.1.1"
-  dependencies:
-    es-errors: "npm:^1.3.0"
-  checksum: 10/54fe77de288451dae51c37bfbfe3ec86732dc3778f98f3eb3bdb4bf48063b2c0b8f9c93542656986149d08aa5be3204286e2276053d19582b76753f1a2728867
-  languageName: node
-  linkType: hard
-
-"es-set-tostringtag@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "es-set-tostringtag@npm:2.1.0"
-  dependencies:
-    es-errors: "npm:^1.3.0"
-    get-intrinsic: "npm:^1.2.6"
-    has-tostringtag: "npm:^1.0.2"
-    hasown: "npm:^2.0.2"
-  checksum: 10/86814bf8afbcd8966653f731415888019d4bc4aca6b6c354132a7a75bb87566751e320369654a101d23a91c87a85c79b178bcf40332839bd347aff437c4fb65f
   languageName: node
   linkType: hard
 
@@ -18496,13 +18293,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-content-type-parse@npm:^1.0.0":
-  version: 1.1.0
-  resolution: "fast-content-type-parse@npm:1.1.0"
-  checksum: 10/8637228a19b11296992af5d9b5f5ae84c6f27a465cf36a901b303b784ce0ca6f10502375da59958eb2b9c4949b98e5cc460ecb4bd777d22c3fa236c1e8da1ed8
-  languageName: node
-  linkType: hard
-
 "fast-copy@npm:^3.0.2":
   version: 3.0.2
   resolution: "fast-copy@npm:3.0.2"
@@ -18548,18 +18338,6 @@ __metadata:
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
   checksum: 10/2c20055c1fa43c922428f16ca8bb29f2807de63e5c851f665f7ac9790176c01c3b40335257736b299764a8d383388dabc73c8083b8e1bc3d99f0a941444ec60e
-  languageName: node
-  linkType: hard
-
-"fast-json-stringify@npm:^2.5.2":
-  version: 2.7.13
-  resolution: "fast-json-stringify@npm:2.7.13"
-  dependencies:
-    ajv: "npm:^6.11.0"
-    deepmerge: "npm:^4.2.2"
-    rfdc: "npm:^1.2.0"
-    string-similarity: "npm:^4.0.1"
-  checksum: 10/c9c9f4cd7313b242ba313d77d7a5eff086889aec7f018459c770231c170e311dc0d3f7977a9705b83cd92d4091274e4fa750c43992653ebd6551660fb617154b
   languageName: node
   linkType: hard
 
@@ -18679,9 +18457,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:5.2.2":
-  version: 5.2.2
-  resolution: "fastify@npm:5.2.2"
+"fastify@npm:5.3.2, fastify@npm:^5.0.0":
+  version: 5.3.2
+  resolution: "fastify@npm:5.3.2"
   dependencies:
     "@fastify/ajv-compiler": "npm:^4.0.0"
     "@fastify/error": "npm:^4.0.0"
@@ -18693,40 +18471,16 @@ __metadata:
     find-my-way: "npm:^9.0.0"
     light-my-request: "npm:^6.0.0"
     pino: "npm:^9.0.0"
-    process-warning: "npm:^4.0.0"
+    process-warning: "npm:^5.0.0"
     rfdc: "npm:^1.3.1"
-    secure-json-parse: "npm:^3.0.1"
+    secure-json-parse: "npm:^4.0.0"
     semver: "npm:^7.6.0"
     toad-cache: "npm:^3.7.0"
-  checksum: 10/c35f129ea25ed1a3c4d49a7c3064ab8b8c4857774b213912ce269fc928a2b7e27fc8c55d54fd07f889458a8237ee452a65fa278478ef1b2c8de5e7a34b49a1e2
+  checksum: 10/afb57c5ff72196e50f23a8374bb3c7e55e272db0190f24659f3671d04d13532a7032103c7fdcdfdd7f5c111d497a05e0ad1ccdf56f61ec63d3191462d4c34aa5
   languageName: node
   linkType: hard
 
-"fastify@npm:^3.29.4":
-  version: 3.29.5
-  resolution: "fastify@npm:3.29.5"
-  dependencies:
-    "@fastify/ajv-compiler": "npm:^1.0.0"
-    "@fastify/error": "npm:^2.0.0"
-    abstract-logging: "npm:^2.0.0"
-    avvio: "npm:^7.1.2"
-    fast-content-type-parse: "npm:^1.0.0"
-    fast-json-stringify: "npm:^2.5.2"
-    find-my-way: "npm:^4.5.0"
-    flatstr: "npm:^1.0.12"
-    light-my-request: "npm:^4.2.0"
-    pino: "npm:^6.13.0"
-    process-warning: "npm:^1.0.0"
-    proxy-addr: "npm:^2.0.7"
-    rfdc: "npm:^1.1.4"
-    secure-json-parse: "npm:^2.0.0"
-    semver: "npm:^7.3.2"
-    tiny-lru: "npm:^8.0.1"
-  checksum: 10/cd86e3fceb9ef6dfe694d889059f01528f7417c55a57b4c6af56edade67b17a59829580d2ac64a40e49e5650bbf29ba5eb59935fccb9a48058456833380e1a42
-  languageName: node
-  linkType: hard
-
-"fastq@npm:^1.11.0, fastq@npm:^1.17.1, fastq@npm:^1.6.0, fastq@npm:^1.6.1":
+"fastq@npm:^1.11.0, fastq@npm:^1.17.1, fastq@npm:^1.6.0":
   version: 1.17.1
   resolution: "fastq@npm:1.17.1"
   dependencies:
@@ -18905,18 +18659,6 @@ __metadata:
     make-dir: "npm:^3.0.2"
     pkg-dir: "npm:^4.1.0"
   checksum: 10/3907c2e0b15132704ed67083686cd3e68ab7d9ecc22e50ae9da20678245d488b01fa22c0e34c0544dc6edc4354c766f016c8c186a787be7c17f7cde8c5281e85
-  languageName: node
-  linkType: hard
-
-"find-my-way@npm:^4.5.0":
-  version: 4.5.1
-  resolution: "find-my-way@npm:4.5.1"
-  dependencies:
-    fast-decode-uri-component: "npm:^1.0.1"
-    fast-deep-equal: "npm:^3.1.3"
-    safe-regex2: "npm:^2.0.0"
-    semver-store: "npm:^0.3.0"
-  checksum: 10/64db8e7f1371706f369748b1373c060a27e2c03bb673af168140bbd6fc9cb87b8afbf21129f8609c835eabf7d3f6ad3d09f4e5ce14633c58ae1a4e4e677119cc
   languageName: node
   linkType: hard
 
@@ -19114,18 +18856,6 @@ __metadata:
     combined-stream: "npm:^1.0.8"
     mime-types: "npm:^2.1.12"
   checksum: 10/6adb1cff557328bc6eb8a68da205f9ae44ab0e88d4d9237aaf91eed591ffc64f77411efb9016af7d87f23d0a038c45a788aa1c6634e51175c4efa36c2bc53774
-  languageName: node
-  linkType: hard
-
-"form-data@npm:^4.0.1":
-  version: 4.0.2
-  resolution: "form-data@npm:4.0.2"
-  dependencies:
-    asynckit: "npm:^0.4.0"
-    combined-stream: "npm:^1.0.8"
-    es-set-tostringtag: "npm:^2.1.0"
-    mime-types: "npm:^2.1.12"
-  checksum: 10/82c65b426af4a40090e517a1bc9057f76970b4c6043e37aa49859c447d88553e77d4cc5626395079a53d2b0889ba5f2a49f3900db3ad3f3f1bf76613532572fb
   languageName: node
   linkType: hard
 
@@ -19546,24 +19276,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-intrinsic@npm:^1.2.6":
-  version: 1.3.0
-  resolution: "get-intrinsic@npm:1.3.0"
-  dependencies:
-    call-bind-apply-helpers: "npm:^1.0.2"
-    es-define-property: "npm:^1.0.1"
-    es-errors: "npm:^1.3.0"
-    es-object-atoms: "npm:^1.1.1"
-    function-bind: "npm:^1.1.2"
-    get-proto: "npm:^1.0.1"
-    gopd: "npm:^1.2.0"
-    has-symbols: "npm:^1.1.0"
-    hasown: "npm:^2.0.2"
-    math-intrinsics: "npm:^1.1.0"
-  checksum: 10/6e9dd920ff054147b6f44cb98104330e87caafae051b6d37b13384a45ba15e71af33c3baeac7cb630a0aaa23142718dcf25b45cfdd86c184c5dcb4e56d953a10
-  languageName: node
-  linkType: hard
-
 "get-iterator@npm:^1.0.2":
   version: 1.0.2
   resolution: "get-iterator@npm:1.0.2"
@@ -19589,16 +19301,6 @@ __metadata:
   version: 0.1.2
   resolution: "get-params@npm:0.1.2"
   checksum: 10/7768710dd5e68805b51981a6fbb0a689728d280357f5dd1a080fd7e732d9b4ccf7fc5e0fc792ff482022d8af37242ff5e72b2b50dbafccb21db4f77eb9c646c4
-  languageName: node
-  linkType: hard
-
-"get-proto@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "get-proto@npm:1.0.1"
-  dependencies:
-    dunder-proto: "npm:^1.0.1"
-    es-object-atoms: "npm:^1.0.0"
-  checksum: 10/4fc96afdb58ced9a67558698b91433e6b037aaa6f1493af77498d7c85b141382cf223c0e5946f334fb328ee85dfe6edd06d218eaf09556f4bc4ec6005d7f5f7b
   languageName: node
   linkType: hard
 
@@ -19912,13 +19614,6 @@ __metadata:
   dependencies:
     get-intrinsic: "npm:^1.1.3"
   checksum: 10/5fbc7ad57b368ae4cd2f41214bd947b045c1a4be2f194a7be1778d71f8af9dbf4004221f3b6f23e30820eb0d052b4f819fe6ebe8221e2a3c6f0ee4ef173421ca
-  languageName: node
-  linkType: hard
-
-"gopd@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "gopd@npm:1.2.0"
-  checksum: 10/94e296d69f92dc1c0768fcfeecfb3855582ab59a7c75e969d5f96ce50c3d201fd86d5a2857c22565764d5bb8a816c7b1e58f133ec318cd56274da36c5e3fb1a1
   languageName: node
   linkType: hard
 
@@ -20240,13 +19935,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"has-symbols@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "has-symbols@npm:1.1.0"
-  checksum: 10/959385c98696ebbca51e7534e0dc723ada325efa3475350951363cce216d27373e0259b63edb599f72eb94d6cde8577b4b2375f080b303947e560f85692834fa
-  languageName: node
-  linkType: hard
-
 "has-to-string-tag-x@npm:^1.2.0":
   version: 1.4.1
   resolution: "has-to-string-tag-x@npm:1.4.1"
@@ -20464,15 +20152,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-encoding-sniffer@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "html-encoding-sniffer@npm:4.0.0"
-  dependencies:
-    whatwg-encoding: "npm:^3.1.1"
-  checksum: 10/e86efd493293a5671b8239bd099d42128433bb3c7b0fdc7819282ef8e118a21f5dead0ad6f358e024a4e5c84f17ebb7a9b36075220fac0a6222b207248bede6f
-  languageName: node
-  linkType: hard
-
 "html-escaper@npm:^2.0.0":
   version: 2.0.2
   resolution: "html-escaper@npm:2.0.2"
@@ -20548,7 +20227,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-proxy-agent@npm:^7.0.0, http-proxy-agent@npm:^7.0.2":
+"http-proxy-agent@npm:^7.0.0":
   version: 7.0.2
   resolution: "http-proxy-agent@npm:7.0.2"
   dependencies:
@@ -20589,7 +20268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"https-proxy-agent@npm:7.0.6, https-proxy-agent@npm:^7.0.6":
+"https-proxy-agent@npm:7.0.6":
   version: 7.0.6
   resolution: "https-proxy-agent@npm:7.0.6"
   dependencies:
@@ -20678,7 +20357,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"iconv-lite@npm:0.6.3, iconv-lite@npm:^0.6.2":
+"iconv-lite@npm:^0.6.2":
   version: 0.6.3
   resolution: "iconv-lite@npm:0.6.3"
   dependencies:
@@ -20980,9 +20659,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:5.6.0":
-  version: 5.6.0
-  resolution: "ioredis@npm:5.6.0"
+"ioredis@npm:5.6.1":
+  version: 5.6.1
+  resolution: "ioredis@npm:5.6.1"
   dependencies:
     "@ioredis/commands": "npm:^1.1.1"
     cluster-key-slot: "npm:^1.1.0"
@@ -20993,7 +20672,7 @@ __metadata:
     redis-errors: "npm:^1.2.0"
     redis-parser: "npm:^3.0.0"
     standard-as-callback: "npm:^2.1.0"
-  checksum: 10/4f636722993d5028e7a5905c33f46bcf24a1aaf7c5cd6929e0b5b28835bb42cdc958039e32d050af1065c099998a14dbe8b3c221547073b4318b9436c9f2da6a
+  checksum: 10/632186e21f2d8b94a12918b5feef0f5df70315e303988989adb0d190377759ffa601660be7536489c0768803a0fb6eb94f861b33c1fcfc673d518fdd31c541e2
   languageName: node
   linkType: hard
 
@@ -22124,13 +21803,6 @@ __metadata:
   dependencies:
     isobject: "npm:^3.0.1"
   checksum: 10/2a401140cfd86cabe25214956ae2cfee6fbd8186809555cd0e84574f88de7b17abacb2e477a6a658fa54c6083ecbda1e6ae404c7720244cd198903848fca70ca
-  languageName: node
-  linkType: hard
-
-"is-potential-custom-element-name@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "is-potential-custom-element-name@npm:1.0.1"
-  checksum: 10/ced7bbbb6433a5b684af581872afe0e1767e2d1146b2207ca0068a648fb5cab9d898495d1ac0583524faaf24ca98176a7d9876363097c2d14fee6dd324f3a1ab
   languageName: node
   linkType: hard
 
@@ -23394,40 +23066,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^26.0.0":
-  version: 26.0.0
-  resolution: "jsdom@npm:26.0.0"
-  dependencies:
-    cssstyle: "npm:^4.2.1"
-    data-urls: "npm:^5.0.0"
-    decimal.js: "npm:^10.4.3"
-    form-data: "npm:^4.0.1"
-    html-encoding-sniffer: "npm:^4.0.0"
-    http-proxy-agent: "npm:^7.0.2"
-    https-proxy-agent: "npm:^7.0.6"
-    is-potential-custom-element-name: "npm:^1.0.1"
-    nwsapi: "npm:^2.2.16"
-    parse5: "npm:^7.2.1"
-    rrweb-cssom: "npm:^0.8.0"
-    saxes: "npm:^6.0.0"
-    symbol-tree: "npm:^3.2.4"
-    tough-cookie: "npm:^5.0.0"
-    w3c-xmlserializer: "npm:^5.0.0"
-    webidl-conversions: "npm:^7.0.0"
-    whatwg-encoding: "npm:^3.1.1"
-    whatwg-mimetype: "npm:^4.0.0"
-    whatwg-url: "npm:^14.1.0"
-    ws: "npm:^8.18.0"
-    xml-name-validator: "npm:^5.0.0"
-  peerDependencies:
-    canvas: ^3.0.0
-  peerDependenciesMeta:
-    canvas:
-      optional: true
-  checksum: 10/8c230ee4657240bbbca6b4ebb484be53fc6a777a22a3357c80c5537222813666e3e1f54740bc13e769c461d9598ba7dac402c245949c6cef7ef7014ce6f36f01
-  languageName: node
-  linkType: hard
-
 "jsesc@npm:^3.0.2, jsesc@npm:~3.0.2":
   version: 3.0.2
   resolution: "jsesc@npm:3.0.2"
@@ -24398,18 +24036,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"light-my-request@npm:^4.2.0":
-  version: 4.12.0
-  resolution: "light-my-request@npm:4.12.0"
-  dependencies:
-    ajv: "npm:^8.1.0"
-    cookie: "npm:^0.5.0"
-    process-warning: "npm:^1.0.0"
-    set-cookie-parser: "npm:^2.4.1"
-  checksum: 10/e1a6240df7ce1690c2bac49800ddc6a65cfdc581565d865fe9f82a4ce57bdc435b1cb4e50800835f9a167756cd5addf80ab1770fb84f33932bf6eba4fefec3d7
-  languageName: node
-  linkType: hard
-
 "light-my-request@npm:^6.0.0":
   version: 6.4.0
   resolution: "light-my-request@npm:6.4.0"
@@ -25049,7 +24675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0, lru-cache@npm:^10.4.3":
+"lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
   checksum: 10/e6e90267360476720fa8e83cc168aa2bf0311f3f2eea20a6ba78b90a885ae72071d9db132f40fda4129c803e7dcec3a6b6a6fbb44ca90b081630b810b5d6a41a
@@ -25284,13 +24910,6 @@ __metadata:
   dependencies:
     escape-string-regexp: "npm:^4.0.0"
   checksum: 10/8bee1a7ab7609c2c21d9c9254b6785fa708eadf289032b556d57a34e98fcd4c537659a004dafee6ce80ab157099e645c199dc52678dff1e7fb0a6684e0da4dbe
-  languageName: node
-  linkType: hard
-
-"math-intrinsics@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "math-intrinsics@npm:1.1.0"
-  checksum: 10/11df2eda46d092a6035479632e1ec865b8134bdfc4bd9e571a656f4191525404f13a283a515938c3a8de934dbfd9c09674d9da9fa831e6eb7e22b50b197d2edd
   languageName: node
   linkType: hard
 
@@ -26384,14 +26003,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nock@npm:14.0.3":
-  version: 14.0.3
-  resolution: "nock@npm:14.0.3"
+"nock@npm:14.0.4":
+  version: 14.0.4
+  resolution: "nock@npm:14.0.4"
   dependencies:
-    "@mswjs/interceptors": "npm:^0.38.1"
+    "@mswjs/interceptors": "npm:^0.38.5"
     json-stringify-safe: "npm:^5.0.1"
     propagate: "npm:^2.0.0"
-  checksum: 10/e9f9599c43b38d10337b749d246bbdb4092c67a38c3c7211635975724e0fd2fc6a629acdbebbeffcc94a9d37704262b6be5cd4647e3bcc02874fa6449766ea94
+  checksum: 10/43ad012cbaf6062e500e1535ec2ef6e7e3f037289e3b2a88490204701b9434bb873f4f43fce603c47237d13ee7985ca949f5e6b55b68bc6446929ff1da1d0b53
   languageName: node
   linkType: hard
 
@@ -26882,13 +26501,6 @@ __metadata:
     bn.js: "npm:4.11.6"
     strip-hex-prefix: "npm:1.0.0"
   checksum: 10/702e8f00b6b90abd23f711056005179c3bd5ce3b063c47d468250f63ab3b9b4b82e27bff3b4642a9e71e06c717d5ed359873501746df0a64c3db1fa6d704e704
-  languageName: node
-  linkType: hard
-
-"nwsapi@npm:^2.2.16":
-  version: 2.2.20
-  resolution: "nwsapi@npm:2.2.20"
-  checksum: 10/3dbfbd64c10dfd1edaf4992a6e859af306ec22846b86da2b31e69a743a8b4d7ac3b6ca767dbf248dabea8652905e402d6986f8ba491852e8568e334ec22e1882
   languageName: node
   linkType: hard
 
@@ -27605,15 +27217,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parse5@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "parse5@npm:7.2.1"
-  dependencies:
-    entities: "npm:^4.5.0"
-  checksum: 10/fd1a8ad1540d871e1ad6ca9bf5b67e30280886f1ce4a28052c0cb885723aa984d8cb1ec3da998349a6146960c8a84aa87b1a42600eb3b94495c7303476f2f88e
-  languageName: node
-  linkType: hard
-
 "parseurl@npm:~1.3.3":
   version: 1.3.3
   resolution: "parseurl@npm:1.3.3"
@@ -28241,6 +27844,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"process-warning@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "process-warning@npm:5.0.0"
+  checksum: 10/10f3e00ac9fc1943ec4566ff41fff2b964e660f853c283e622257719839d340b4616e707d62a02d6aa0038761bb1fa7c56bc7308d602d51bd96f05f9cd305dcd
+  languageName: node
+  linkType: hard
+
 "process@npm:^0.11.10":
   version: 0.11.10
   resolution: "process@npm:0.11.10"
@@ -28425,7 +28035,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proxy-addr@npm:^2.0.7, proxy-addr@npm:~2.0.7":
+"proxy-addr@npm:~2.0.7":
   version: 2.0.7
   resolution: "proxy-addr@npm:2.0.7"
   dependencies:
@@ -28593,7 +28203,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"queue-microtask@npm:^1.1.0, queue-microtask@npm:^1.1.2, queue-microtask@npm:^1.2.2, queue-microtask@npm:^1.2.3":
+"queue-microtask@npm:^1.1.0, queue-microtask@npm:^1.2.2, queue-microtask@npm:^1.2.3":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
   checksum: 10/72900df0616e473e824202113c3df6abae59150dfb73ed13273503127235320e9c8ca4aaaaccfd58cf417c6ca92a6e68ee9a5c3182886ae949a768639b388a7b
@@ -29443,13 +29053,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ret@npm:~0.2.0":
-  version: 0.2.2
-  resolution: "ret@npm:0.2.2"
-  checksum: 10/9f16517f77a3b508c529bc22187c132cd7907cd9270601d6794e1c8a58f6990872b4697b4edfdebb4f87017f9f0a285007b740a9ffb8236805b923fd1bc84eb1
-  languageName: node
-  linkType: hard
-
 "ret@npm:~0.5.0":
   version: 0.5.0
   resolution: "ret@npm:0.5.0"
@@ -29502,7 +29105,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rfdc@npm:^1.1.4, rfdc@npm:^1.2.0, rfdc@npm:^1.3.0, rfdc@npm:^1.3.1":
+"rfdc@npm:^1.2.0, rfdc@npm:^1.3.0, rfdc@npm:^1.3.1":
   version: 1.4.1
   resolution: "rfdc@npm:1.4.1"
   checksum: 10/2f3d11d3d8929b4bfeefc9acb03aae90f971401de0add5ae6c5e38fec14f0405e6a4aad8fdb76344bfdd20c5193110e3750cbbd28ba86d73729d222b6cf4a729
@@ -29614,13 +29217,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rrweb-cssom@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "rrweb-cssom@npm:0.8.0"
-  checksum: 10/07521ee36fb6569c17906afad1ac7ff8f099d49ade9249e190693ac36cdf27f88d9acf0cc66978935d5d0a23fca105643d7e9125b9a9d91ed9db9e02d31d7d80
-  languageName: node
-  linkType: hard
-
 "rsv-signature@npm:^1.1.0":
   version: 1.1.0
   resolution: "rsv-signature@npm:1.1.0"
@@ -29713,15 +29309,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safe-regex2@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "safe-regex2@npm:2.0.0"
-  dependencies:
-    ret: "npm:~0.2.0"
-  checksum: 10/af1f0b367d0c769eccca7a5aa93d222e542fb494940849c7bbbbe8942c0026cf207f15ba3aacdd4f3e4f6b5a31fa7a775f7cdd8e6670b893fd16e96247fdbd02
-  languageName: node
-  linkType: hard
-
 "safe-regex2@npm:^4.0.0":
   version: 4.0.1
   resolution: "safe-regex2@npm:4.0.1"
@@ -29767,15 +29354,6 @@ __metadata:
   version: 1.4.1
   resolution: "sax@npm:1.4.1"
   checksum: 10/b1c784b545019187b53a0c28edb4f6314951c971e2963a69739c6ce222bfbc767e54d320e689352daba79b7d5e06d22b5d7113b99336219d6e93718e2f99d335
-  languageName: node
-  linkType: hard
-
-"saxes@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "saxes@npm:6.0.0"
-  dependencies:
-    xmlchars: "npm:^2.2.0"
-  checksum: 10/97b50daf6ca3a153e89842efa18a862e446248296622b7473c169c84c823ee8a16e4a43bac2f73f11fc8cb9168c73fbb0d73340f26552bac17970e9052367aa9
   languageName: node
   linkType: hard
 
@@ -29923,17 +29501,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secure-json-parse@npm:^2.0.0, secure-json-parse@npm:^2.4.0":
+"secure-json-parse@npm:^2.4.0":
   version: 2.7.0
   resolution: "secure-json-parse@npm:2.7.0"
   checksum: 10/974386587060b6fc5b1ac06481b2f9dbbb0d63c860cc73dc7533f27835fdb67b0ef08762dbfef25625c15bc0a0c366899e00076cb0d556af06b71e22f1dede4c
   languageName: node
   linkType: hard
 
-"secure-json-parse@npm:^3.0.1":
-  version: 3.0.2
-  resolution: "secure-json-parse@npm:3.0.2"
-  checksum: 10/a83e2067eef8f5c25b0614f261593721d5cb56c7b739197cb64b7f1fcc6944b632aac4cbc8817cf5976b891a7d6eee8bd07e1aabe082eabf424922f112a7a356
+"secure-json-parse@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "secure-json-parse@npm:4.0.0"
+  checksum: 10/c36c9dec9afaf4ef929a5469995d70d2f20d3d89b57219f22e0349b342715987283dbc1a80ab6f39e0bb28f8c3f3f073ce5363765c20c8d003ac243b4a89bd3d
   languageName: node
   linkType: hard
 
@@ -29957,13 +29535,6 @@ __metadata:
   version: 2.0.0
   resolution: "semver-regex@npm:2.0.0"
   checksum: 10/da7d6f5ceae80e2097933b1e4ea2815c2cfa2c50c6501db1a3d435a6063c0f23d66bc25fe8d06755048f3d7588d85339db6471446b2c91fea907e5c2ada5b0df
-  languageName: node
-  linkType: hard
-
-"semver-store@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "semver-store@npm:0.3.0"
-  checksum: 10/bb8f8ae2cf92c68e0490bc69e9e5ebd80eb71ad48fdb4e4f0caa62052d6182a38677ba16738ec418b92b5abd571b3f85dd45571c3504c1bf6570622f66f2f854
   languageName: node
   linkType: hard
 
@@ -30085,7 +29656,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"set-cookie-parser@npm:^2.4.1, set-cookie-parser@npm:^2.4.8, set-cookie-parser@npm:^2.6.0":
+"set-cookie-parser@npm:^2.4.8, set-cookie-parser@npm:^2.6.0":
   version: 2.7.1
   resolution: "set-cookie-parser@npm:2.7.1"
   checksum: 10/c92b1130032693342bca13ea1b1bc93967ab37deec4387fcd8c2a843c0ef2fd9a9f3df25aea5bb3976cd05a91c2cf4632dd6164d6e1814208fb7d7e14edd42b4
@@ -30927,13 +30498,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-similarity@npm:^4.0.1":
-  version: 4.0.4
-  resolution: "string-similarity@npm:4.0.4"
-  checksum: 10/53365fe64d4958e88951f0016b2174aaea330f762f522be6081bae4cac3e3396f723c8ec4091c0b0e266129652ead5dde3683c31d3a07ff1b6aa35057de28b1b
-  languageName: node
-  linkType: hard
-
 "string-width-cjs@npm:string-width@^4.2.0, string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.0.0, string-width@npm:^4.1.0, string-width@npm:^4.2.0, string-width@npm:^4.2.2, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
@@ -31364,13 +30928,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"symbol-tree@npm:^3.2.4":
-  version: 3.2.4
-  resolution: "symbol-tree@npm:3.2.4"
-  checksum: 10/c09a00aadf279d47d0c5c46ca3b6b2fbaeb45f0a184976d599637d412d3a70bbdc043ff33effe1206dea0e36e0ad226cb957112e7ce9a4bf2daedf7fa4f85c53
-  languageName: node
-  linkType: hard
-
 "synthetix@npm:2.45.3":
   version: 2.45.3
   resolution: "synthetix@npm:2.45.3"
@@ -31654,13 +31211,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-lru@npm:^8.0.1":
-  version: 8.0.2
-  resolution: "tiny-lru@npm:8.0.2"
-  checksum: 10/74b193d83b9edbe690b4e97e3cfd66c8a66d593c33b2c7133f132adacbf0442afbef82c679848208010137175aac3db9e68f350bef68cc299c0f2eb589554ffb
-  languageName: node
-  linkType: hard
-
 "tiny-secp256k1@npm:^1.1.1, tiny-secp256k1@npm:^1.1.3":
   version: 1.1.7
   resolution: "tiny-secp256k1@npm:1.1.7"
@@ -31689,24 +31239,6 @@ __metadata:
   version: 2.1.0
   resolution: "titleize@npm:2.1.0"
   checksum: 10/f4e6a479cba7d45fd3a0da1ced7f0c7701ce4f0b9a1751f0d561e69657a4bbd84699825c2f4184ec8b6b28570cfdc42ee4bf6fd9a4565816d6a85c87b2926940
-  languageName: node
-  linkType: hard
-
-"tldts-core@npm:^6.1.85":
-  version: 6.1.85
-  resolution: "tldts-core@npm:6.1.85"
-  checksum: 10/4068bede7cd6b690387621e2740758ec1205c8b2ee3ce6dc9d0b9d09b7b659f6dfc6129b2e3227c363d4015d62528580d378cbf0c28e94de55f10206f67adadc
-  languageName: node
-  linkType: hard
-
-"tldts@npm:^6.1.32":
-  version: 6.1.85
-  resolution: "tldts@npm:6.1.85"
-  dependencies:
-    tldts-core: "npm:^6.1.85"
-  bin:
-    tldts: bin/cli.js
-  checksum: 10/f3270f24ed57efcbb34364e827dc1cace9b5b95a2668051e69e21ad75df49466cfeaef47e7e9b56541ef633eff1e083a43b006b6306a9d2d24e5c36a038cb400
   languageName: node
   linkType: hard
 
@@ -31825,15 +31357,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tough-cookie@npm:^5.0.0":
-  version: 5.1.2
-  resolution: "tough-cookie@npm:5.1.2"
-  dependencies:
-    tldts: "npm:^6.1.32"
-  checksum: 10/de430e6e6d34b794137e05b8ac2aa6b74ebbe6cdceb4126f168cf1e76101162a4b2e0e7587c3b70e728bd8654fc39958b2035be7619ee6f08e7257610ba4cd04
-  languageName: node
-  linkType: hard
-
 "tough-cookie@npm:~2.5.0":
   version: 2.5.0
   resolution: "tough-cookie@npm:2.5.0"
@@ -31841,15 +31364,6 @@ __metadata:
     psl: "npm:^1.1.28"
     punycode: "npm:^2.1.1"
   checksum: 10/024cb13a4d1fe9af57f4323dff765dd9b217cc2a69be77e3b8a1ca45600aa33a097b6ad949f225d885e904f4bd3ceccef104741ef202d8378e6ca78e850ff82f
-  languageName: node
-  linkType: hard
-
-"tr46@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "tr46@npm:5.1.0"
-  dependencies:
-    punycode: "npm:^2.3.1"
-  checksum: 10/2f0249354018432250bc31287f857cb7a73c43a1753b0ddccc97d140d261fe5deddeb1bf1d77afbdb29f867721f46238e3f32e97b473ba0c7e29bc5c34ccc08f
   languageName: node
   linkType: hard
 
@@ -32858,15 +32372,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"w3c-xmlserializer@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "w3c-xmlserializer@npm:5.0.0"
-  dependencies:
-    xml-name-validator: "npm:^5.0.0"
-  checksum: 10/d78f59e6b4f924aa53b6dfc56949959229cae7fe05ea9374eb38d11edcec01398b7f5d7a12576bd5acc57ff446abb5c9115cd83b9d882555015437cf858d42f0
-  languageName: node
-  linkType: hard
-
 "walk-up-path@npm:^1.0.0":
   version: 1.0.0
   resolution: "walk-up-path@npm:1.0.0"
@@ -33269,13 +32774,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webidl-conversions@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "webidl-conversions@npm:7.0.0"
-  checksum: 10/4c4f65472c010eddbe648c11b977d048dd96956a625f7f8b9d64e1b30c3c1f23ea1acfd654648426ce5c743c2108a5a757c0592f02902cf7367adb7d14e67721
-  languageName: node
-  linkType: hard
-
 "webpack-cli@npm:4.10.0":
   version: 4.10.0
   resolution: "webpack-cli@npm:4.10.0"
@@ -33377,36 +32875,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"whatwg-encoding@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "whatwg-encoding@npm:3.1.1"
-  dependencies:
-    iconv-lite: "npm:0.6.3"
-  checksum: 10/bbef815eb67f91487c7f2ef96329743f5fd8357d7d62b1119237d25d41c7e452dff8197235b2d3c031365a17f61d3bb73ca49d0ed1582475aa4a670815e79534
-  languageName: node
-  linkType: hard
-
 "whatwg-fetch@npm:^3.4.1":
   version: 3.6.20
   resolution: "whatwg-fetch@npm:3.6.20"
   checksum: 10/2b4ed92acd6a7ad4f626a6cb18b14ec982bbcaf1093e6fe903b131a9c6decd14d7f9c9ca3532663c2759d1bdf01d004c77a0adfb2716a5105465c20755a8c57c
-  languageName: node
-  linkType: hard
-
-"whatwg-mimetype@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "whatwg-mimetype@npm:4.0.0"
-  checksum: 10/894a618e2d90bf444b6f309f3ceb6e58cf21b2beaa00c8b333696958c4076f0c7b30b9d33413c9ffff7c5832a0a0c8569e5bb347ef44beded72aeefd0acd62e8
-  languageName: node
-  linkType: hard
-
-"whatwg-url@npm:^14.0.0, whatwg-url@npm:^14.1.0":
-  version: 14.2.0
-  resolution: "whatwg-url@npm:14.2.0"
-  dependencies:
-    tr46: "npm:^5.1.0"
-    webidl-conversions: "npm:^7.0.0"
-  checksum: 10/f0a95b0601c64f417c471536a2d828b4c16fe37c13662483a32f02f183ed0f441616609b0663fb791e524e8cd56d9a86dd7366b1fc5356048ccb09b576495e7c
   languageName: node
   linkType: hard
 
@@ -33673,9 +33145,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.18.1, ws@npm:^8.0.0, ws@npm:^8.18.0, ws@npm:^8.5.0, ws@npm:^8.8.1":
-  version: 8.18.1
-  resolution: "ws@npm:8.18.1"
+"ws@npm:8.18.2":
+  version: 8.18.2
+  resolution: "ws@npm:8.18.2"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ">=5.0.2"
@@ -33684,7 +33156,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 10/3f38e9594f2af5b6324138e86b74df7d77bbb8e310bf8188679dd80bac0d1f47e51536a1923ac3365f31f3d8b25ea0b03e4ade466aa8292a86cd5defca64b19b
+  checksum: 10/018e04ec95561d88248d53a2eaf094b4ae131e9b062f2679e6e8a62f04649bc543448f1e038125225ac6bbb25f54c1e65d7a2cc9dbc1e28b43e5e6b7162ad88e
   languageName: node
   linkType: hard
 
@@ -33711,6 +33183,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/9c796b84ba80ffc2c2adcdfc9c8e9a219ba99caa435c9a8d45f9ac593bba325563b3f83edc5eb067cc6d21b9a6bf2c930adf76dd40af5f58a5ca6859e81858f0
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.0.0, ws@npm:^8.5.0, ws@npm:^8.8.1":
+  version: 8.18.1
+  resolution: "ws@npm:8.18.1"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10/3f38e9594f2af5b6324138e86b74df7d77bbb8e310bf8188679dd80bac0d1f47e51536a1923ac3365f31f3d8b25ea0b03e4ade466aa8292a86cd5defca64b19b
   languageName: node
   linkType: hard
 
@@ -33757,13 +33244,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xml-name-validator@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "xml-name-validator@npm:5.0.0"
-  checksum: 10/43f30f3f6786e406dd665acf08cd742d5f8a46486bd72517edb04b27d1bcd1599664c2a4a99fc3f1e56a3194bff588b12f178b7972bc45c8047bdc4c3ac8d4a1
-  languageName: node
-  linkType: hard
-
 "xml2js@npm:^0.4.19":
   version: 0.4.23
   resolution: "xml2js@npm:0.4.23"
@@ -33788,13 +33268,6 @@ __metadata:
   version: 11.0.1
   resolution: "xmlbuilder@npm:11.0.1"
   checksum: 10/c8c3d208783718db5b285101a736cd8e6b69a5c265199a0739abaa93d1a1b7de5489fd16df4e776e18b2c98cb91f421a7349e99fd8c1ebeb44ecfed72a25091a
-  languageName: node
-  linkType: hard
-
-"xmlchars@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "xmlchars@npm:2.2.0"
-  checksum: 10/4ad5924974efd004a47cce6acf5c0269aee0e62f9a805a426db3337af7bcbd331099df174b024ace4fb18971b8a56de386d2e73a1c4b020e3abd63a4a9b917f1
   languageName: node
   linkType: hard
 
