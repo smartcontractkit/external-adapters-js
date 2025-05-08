@@ -6,7 +6,6 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { SuperTest, Test } from 'supertest'
 
 import { mockMarketStatusResponseSuccess } from './fixtures'
 
@@ -52,13 +51,7 @@ describe('Market status endpoint', () => {
   it('should return success with open', async () => {
     mockMarketStatusResponseSuccess()
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send(openData)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
+    const response = await testAdapter.request(openData)
     expect(response.body).toMatchSnapshot()
     expect(response.body.result).toEqual(MarketStatus.OPEN)
   })
@@ -66,13 +59,7 @@ describe('Market status endpoint', () => {
   it('should return success with closed', async () => {
     mockMarketStatusResponseSuccess()
 
-    const response = await (context.req as SuperTest<Test>)
-      .post('/')
-      .send(closedData)
-      .set('Accept', '*/*')
-      .set('Content-Type', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200)
+    const response = await testAdapter.request(closedData)
     expect(response.body).toMatchSnapshot()
     expect(response.body.result).toEqual(MarketStatus.CLOSED)
   })
