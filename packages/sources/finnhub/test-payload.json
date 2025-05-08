@@ -42,6 +42,14 @@
         {
             "base": "MSFT",
             "endpoint": "stock"
+        },
+        {
+            "market": "US",
+            "endpoint": "market-status"
+        },
+        {
+            "market": "AD",
+            "endpoint": "market-status"
         }
     ]
 }
