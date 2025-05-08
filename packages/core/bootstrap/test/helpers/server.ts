@@ -108,7 +108,7 @@ export class Server {
       res.status(200).send(ERROR_CUSTOM_RESPONSE)
     })
 
-    app.listen(this.port, '::')
+    app.listen({ port: this.port, host: '::' })
     this.app = app
   }
 

@@ -165,10 +165,16 @@ export const initHandler =
     })
 
     return new Promise((resolve) => {
-      app.listen(port, eaHost, (_, address) => {
-        logger.info(`Server listening on ${address}`)
-        resolve(app)
-      })
+      app.listen(
+        {
+          port,
+          host: eaHost,
+        },
+        (_, address) => {
+          logger.info(`Server listening on ${address}`)
+          resolve(app)
+        },
+      )
     })
   }
 
@@ -187,5 +193,8 @@ function setupMetricsServer(name: string) {
     res.send(await client.register.metrics())
   })
 
-  metricsApp.listen(metricsPort, eaHost)
+  metricsApp.listen({
+    port: metricsPort,
+    host: eaHost,
+  })
 }
