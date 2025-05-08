@@ -675,9 +675,6 @@
       "path": "./sources/xbto/tsconfig.test.json"
     },
     {
-      "path": "./targets/agoric/tsconfig.test.json"
-    },
-    {
       "path": "./targets/conflux/tsconfig.test.json"
     },
     {
