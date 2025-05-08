@@ -88,7 +88,7 @@ export const mockMarketStatusResponseSuccess = (): nock.Scope =>
   })
     .persist()
     .get('/stock/market-status')
-    .query({ exchange: 'US' })
+    .query({ token: 'fake-api-key', exchange: 'US' })
     .reply(
       200,
       {
@@ -105,7 +105,7 @@ export const mockMarketStatusResponseSuccess = (): nock.Scope =>
     )
     .persist()
     .get('/stock/market-status')
-    .query({ exchange: 'AD' })
+    .query({ token: 'fake-api-key', exchange: 'AD' })
     .reply(
       200,
       {
