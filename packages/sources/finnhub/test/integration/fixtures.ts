@@ -92,14 +92,12 @@ export const mockMarketStatusResponseSuccess = (): nock.Scope =>
     .reply(
       200,
       {
-        data: {
-          exchange: 'US',
-          holiday: null,
-          isOpen: true,
-          session: 'regular',
-          timezone: 'America/New_York',
-          t: 1697018041,
-        },
+        exchange: 'US',
+        holiday: null,
+        isOpen: true,
+        session: 'regular',
+        timezone: 'America/New_York',
+        t: 1697018041,
       },
       ['Content-Type', 'application/json'],
     )
@@ -109,14 +107,12 @@ export const mockMarketStatusResponseSuccess = (): nock.Scope =>
     .reply(
       200,
       {
-        data: {
-          exchange: 'AD',
-          holiday: null,
-          isOpen: false,
-          session: 'pre-market',
-          timezone: 'Asia/Dubai',
-          t: 1697018041,
-        },
+        exchange: 'AD',
+        holiday: null,
+        isOpen: false,
+        session: 'pre-market',
+        timezone: 'Asia/Dubai',
+        t: 1697018041,
       },
       ['Content-Type', 'application/json'],
     )

@@ -1,11 +1,10 @@
-import process from 'process'
-
 import { MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import process from 'process'
 
 import { mockMarketStatusResponseSuccess } from './fixtures'
 
@@ -36,16 +35,12 @@ describe('Market status endpoint', () => {
   })
 
   const openData = {
-    data: {
-      endpoint: 'market-status',
-      market: 'US',
-    },
+    endpoint: 'market-status',
+    market: 'US',
   }
   const closedData = {
-    data: {
-      endpoint: 'market-status',
-      market: 'AD',
-    },
+    endpoint: 'market-status',
+    market: 'AD',
   }
 
   it('should return success with open', async () => {

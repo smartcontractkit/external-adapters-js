@@ -92,14 +92,12 @@ function isMarket(v: any): v is Market {
 
 // See: https://finnhub.io/docs/api/market-status
 type ResponseBody = {
-  data: {
-    exchange: string // US
-    holiday: string | null // Christmas
-    isOpen: boolean // false
-    session: string | null // pre-market
-    timezone: string // America/New_York
-    t: number // 1697018041
-  }
+  exchange: string // US
+  holiday: string | null // Christmas
+  isOpen: boolean // false
+  session: string | null // pre-market
+  timezone: string // America/New_York
+  t: number // 1697018041
 }
 
 export type HttpEndpointTypes = BaseEndpointTypes & {
@@ -112,19 +110,18 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
 const logger = makeLogger('FinnhubMarketStatusEndpoint')
 
 export const transport = new HttpTransport<HttpEndpointTypes>({
-  prepareRequests: (params, settings: typeof config.settings) => {
+  prepareRequests: (params, config) => {
     return params.map((param) => {
       const market = param.market
       if (!isMarket(market)) {
         logger.warn(`Invalid market in params: ${market}`)
-        return
       }
       const requestConfig = {
-        baseURL: `${settings.API_ENDPOINT}/stock/market-status`,
+        baseURL: `${config.API_ENDPOINT}/stock/market-status`,
         method: 'GET',
         params: {
           exchange: market,
-          token: settings.API_KEY,
+          token: config.API_KEY,
         },
       }
       return {
@@ -135,21 +132,23 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
-      const marketStatus = parseMarketStatus(res.data.session)
-      return [
-        {
-          params: param,
-          response: {
+      let marketStatus = MarketStatus.CLOSED
+      if (res.data.session !== null) {
+        marketStatus = parseMarketStatus(res.data.session)
+      }
+
+      return {
+        params: param,
+        response: {
+          result: marketStatus,
+          data: {
             result: marketStatus,
-            data: {
-              result: marketStatus,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: new Date(res.data.t),
-            },
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs: new Date(res.data.t).getTime(),
           },
         },
-      ]
+      }
     })
   },
 })
