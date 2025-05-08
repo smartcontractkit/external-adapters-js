@@ -1,6 +1,5 @@
-import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, AdapterRequest, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import Fastify, { FastifyInstance } from 'fastify'
 import { Action, makeExecute, TInputParameters } from '../../src/adapter'
 import { makeConfig } from '../../src/config'
@@ -128,7 +127,7 @@ describe('execute', () => {
             }
           })
 
-          server.listen(port, '0.0.0.0')
+          server.listen({ port, host: '0.0.0.0' })
           resolve(true)
         }),
     )
