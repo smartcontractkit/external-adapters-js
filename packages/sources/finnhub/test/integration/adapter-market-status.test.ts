@@ -48,7 +48,7 @@ describe('Market status endpoint', () => {
 
     const response = await testAdapter.request(openData)
     expect(response.body).toMatchSnapshot()
-    expect(response.body.result).toEqual(MarketStatus.OPEN)
+    expect(response.json().result).toEqual(MarketStatus.OPEN)
   })
 
   it('should return success with closed', async () => {
@@ -56,6 +56,6 @@ describe('Market status endpoint', () => {
 
     const response = await testAdapter.request(closedData)
     expect(response.body).toMatchSnapshot()
-    expect(response.body.result).toEqual(MarketStatus.CLOSED)
+    expect(response.json().result).toEqual(MarketStatus.CLOSED)
   })
 })
