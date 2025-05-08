@@ -96,7 +96,7 @@ type ResponseBody = {
     exchange: string // US
     holiday: string | null // Christmas
     isOpen: boolean // false
-    session: string // pre-market
+    session: string | null // pre-market
     timezone: string // America/New_York
     t: number // 1697018041
   }
@@ -112,7 +112,7 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
 const logger = makeLogger('FinnhubMarketStatusEndpoint')
 
 export const transport = new HttpTransport<HttpEndpointTypes>({
-  prepareRequests: (params, config) => {
+  prepareRequests: (params, settings: typeof config.settings) => {
     return params.map((param) => {
       const market = param.market
       if (!isMarket(market)) {
@@ -120,13 +120,11 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
         return
       }
       const requestConfig = {
-        baseURL: config.API_ENDPOINT,
-        url: '/stock/market-status',
-        headers: {
-          Authorization: `Bearer ${config.API_KEY}`,
-        },
+        baseURL: `${settings.API_ENDPOINT}/stock/market-status`,
+        method: 'GET',
         params: {
           exchange: market,
+          token: settings.API_KEY,
         },
       }
       return {

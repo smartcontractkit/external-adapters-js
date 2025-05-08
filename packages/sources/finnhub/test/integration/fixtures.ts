@@ -81,3 +81,42 @@ export const mockResponseSuccess = (): nock.Scope => {
       ],
     )
 }
+
+export const mockMarketStatusResponseSuccess = (): nock.Scope =>
+  nock('https://finnhub.io/api/v1', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/stock/market-status')
+    .query({ exchange: 'US' })
+    .reply(
+      200,
+      {
+        data: {
+          exchange: 'US',
+          holiday: null,
+          isOpen: true,
+          session: 'regular',
+          timezone: 'America/New_York',
+          t: 1697018041,
+        },
+      },
+      ['Content-Type', 'application/json'],
+    )
+    .persist()
+    .get('/stock/market-status')
+    .query({ exchange: 'AD' })
+    .reply(
+      200,
+      {
+        data: {
+          exchange: 'AD',
+          holiday: null,
+          isOpen: false,
+          session: 'pre-market',
+          timezone: 'Asia/Dubai',
+          t: 1697018041,
+        },
+      },
+      ['Content-Type', 'application/json'],
+    )
