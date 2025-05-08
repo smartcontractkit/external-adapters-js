@@ -931,10 +931,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/xbto"\
     },\
     {\
-      "name": "@chainlink/agoric-adapter",\
-      "reference": "workspace:packages/targets/agoric"\
-    },\
-    {\
       "name": "@chainlink/conflux-adapter",\
       "reference": "workspace:packages/targets/conflux"\
     },\
@@ -957,7 +953,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],\
     ["@chainlink/accuweather-adapter", ["workspace:packages/sources/accuweather"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
-    ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
@@ -5140,26 +5135,6 @@ const RAW_RUNTIME_STATE =
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.18.1"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/agoric-adapter", [\
-      ["workspace:packages/targets/agoric", {\
-        "packageLocation": "./packages/targets/agoric/",\
-        "packageDependencies": [\
-          ["@chainlink/agoric-adapter", "workspace:packages/targets/agoric"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.7.2"],\
-          ["fastify", "npm:5.3.2"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\

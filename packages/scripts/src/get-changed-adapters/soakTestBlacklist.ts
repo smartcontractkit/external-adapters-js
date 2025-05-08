@@ -1,7 +1,6 @@
 export const SoakTestBlacklist: string[] = [
   'accuweather',
   'ada-balance', // Missing: RPC URL
-  'agoric',
   'alphachain',
   'alpine',
   'anchor', // Missing: RPC URL
