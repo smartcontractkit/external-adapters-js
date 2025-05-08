@@ -1,20 +1,23 @@
-import type {
-  AdapterContext,
-  Execute,
-  Middleware,
-  AdapterRequest,
-  AdapterData,
-  EnvDefaultOverrides,
-} from '../types'
 import Fastify, { FastifyInstance } from 'fastify'
 import { join } from 'path'
+import process from 'process'
 import * as client from 'prom-client'
 import { executeSync, store, withMiddleware } from '../index'
-import { defaultOptions } from './middleware/cache'
-import { loadTestPayload } from './config/test-payload-loader'
-import { logger } from './modules/logger'
-import { METRICS_ENABLED, setupMetrics } from './metrics'
+import type {
+  AdapterContext,
+  AdapterData,
+  AdapterRequest,
+  EnvDefaultOverrides,
+  Execute,
+  Middleware,
+} from '../types'
+import { Limits } from './config/provider-limits'
 import { get as getRateLimitConfig } from './config/provider-limits/config'
+import { loadTestPayload } from './config/test-payload-loader'
+import { METRICS_ENABLED, setupMetrics } from './metrics'
+import { defaultOptions } from './middleware/cache'
+import { logger } from './modules/logger'
+import { serverShutdown } from './store'
 import {
   buildCensorList,
   envVarValidations,
@@ -24,9 +27,6 @@ import {
   parseBool,
   toObjectWithNumbers,
 } from './util'
-import { Limits } from './config/provider-limits'
-import process from 'process'
-import { serverShutdown } from './store'
 
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
@@ -165,10 +165,16 @@ export const initHandler =
     })
 
     return new Promise((resolve) => {
-      app.listen(port, eaHost, (_, address) => {
-        logger.info(`Server listening on ${address}`)
-        resolve(app)
-      })
+      app.listen(
+        {
+          port,
+          host: eaHost,
+        },
+        (_, address) => {
+          logger.info(`Server listening on ${address}`)
+          resolve(app)
+        },
+      )
     })
   }
 
@@ -187,5 +193,8 @@ function setupMetricsServer(name: string) {
     res.send(await client.register.metrics())
   })
 
-  metricsApp.listen(metricsPort, eaHost)
+  metricsApp.listen({
+    port: metricsPort,
+    host: eaHost,
+  })
 }
