@@ -5,14 +5,15 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 import { config } from '../config'
-import { markets, transport } from '../transport/market-status'
+import { transport } from '../transport/market-status'
+import { validMarkets } from './utils'
 
 const inputParameters = new InputParameters({
   market: {
     aliases: [],
     type: 'string',
     description: 'The name of the market',
-    options: markets,
+    options: validMarkets,
     required: true,
   },
 })
@@ -25,7 +26,7 @@ export type BaseEndpointTypes = {
 
 export const marketStatusEndpoint = new MarketStatusEndpoint({
   name: 'market-status',
-  aliases: markets.map((market) => `${market}-market-status`),
+  aliases: validMarkets.map((market) => `${market}-market-status`),
   transport,
   inputParameters,
 })

@@ -1,94 +1,7 @@
 import { MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
-
-export const markets = [
-  'AD',
-  'AS',
-  'AT',
-  'AX',
-  'BA',
-  'BC',
-  'BD',
-  'BE',
-  'BH',
-  'BK',
-  'BO',
-  'BR',
-  'CA',
-  'CN',
-  'CO',
-  'CR',
-  'CS',
-  'DB',
-  'DE',
-  'DU',
-  'F',
-  'HE',
-  'HK',
-  'HM',
-  'IC',
-  'IR',
-  'IS',
-  'JK',
-  'JO',
-  'KL',
-  'KQ',
-  'KS',
-  'KW',
-  'L',
-  'LS',
-  'MC',
-  'ME',
-  'MI',
-  'MT',
-  'MU',
-  'MX',
-  'NE',
-  'NL',
-  'NS',
-  'NZ',
-  'OL',
-  'PA',
-  'PM',
-  'PR',
-  'QA',
-  'RO',
-  'RG',
-  'SA',
-  'SG',
-  'SI',
-  'SN',
-  'SR',
-  'SS',
-  'ST',
-  'SW',
-  'SZ',
-  'T',
-  'TA',
-  'TL',
-  'TO',
-  'TW',
-  'TWO',
-  'US',
-  'V',
-  'VI',
-  'VN',
-  'VS',
-  'WA',
-  'HA',
-  'SX',
-  'TG',
-  'SC',
-] as const
-
-export type Market = (typeof markets)[number]
-
-function isMarket(v: any): v is Market {
-  return markets.includes(v as Market)
-}
 
 // See: https://finnhub.io/docs/api/market-status
 type ResponseBody = {
@@ -107,17 +20,13 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
   }
 }
 
-const logger = makeLogger('FinnhubMarketStatusEndpoint')
-
 export const transport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const market = param.market
-      if (!isMarket(market)) {
-        logger.warn(`Invalid market in params: ${market}`)
-      }
       const requestConfig = {
-        baseURL: `${config.API_ENDPOINT}/stock/market-status`,
+        baseURL: config.API_ENDPOINT,
+        url: `/stock/market-status`,
         method: 'GET',
         params: {
           exchange: market,
@@ -132,10 +41,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
-      let marketStatus = MarketStatus.CLOSED
-      if (res.data.session !== null) {
-        marketStatus = parseMarketStatus(res.data.session)
-      }
+      const marketStatus = parseMarketStatus(res.data?.session)
 
       return {
         params: param,
@@ -145,7 +51,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
             result: marketStatus,
           },
           timestamps: {
-            providerIndicatedTimeUnixMs: new Date(res.data.t).getTime(),
+            providerIndicatedTimeUnixMs: res.data.t ? new Date(res.data.t).getTime() : 0,
           },
         },
       }
@@ -153,9 +59,9 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
 })
 
-export function parseMarketStatus(marketStatus: string): MarketStatus {
-  if (marketStatus === 'regular') {
-    return MarketStatus.OPEN
+export function parseMarketStatus(marketStatus: string | null | undefined): MarketStatus {
+  if (marketStatus === undefined) {
+    return MarketStatus.UNKNOWN
   }
-  return MarketStatus.CLOSED
+  return marketStatus === 'regular' ? MarketStatus.OPEN : MarketStatus.CLOSED
 }
