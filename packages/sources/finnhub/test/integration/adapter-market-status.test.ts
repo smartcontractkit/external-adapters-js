@@ -38,14 +38,6 @@ describe('Market status endpoint', () => {
     endpoint: 'market-status',
     market: 'NYSE',
   }
-  const closedData = {
-    endpoint: 'market-status',
-    market: 'AD',
-  }
-  const closedNullData = {
-    endpoint: 'market-status',
-    market: 'AS',
-  }
   const invalidMarket = {
     endpoint: 'market-status',
     market: 'FFF',
