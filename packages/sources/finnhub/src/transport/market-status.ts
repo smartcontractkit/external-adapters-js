@@ -3,6 +3,10 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
+export const markets = ['NYSE'] as const
+
+const marketToExchange = new Map<string, string>([['NYSE', 'US']])
+
 // See: https://finnhub.io/docs/api/market-status
 type ResponseBody = {
   exchange: string // US
@@ -29,7 +33,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
         url: `/stock/market-status`,
         method: 'GET',
         params: {
-          exchange: market,
+          exchange: marketToExchange.get(market),
           token: config.API_KEY,
         },
       }
@@ -50,9 +54,9 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
           data: {
             result: marketStatus,
           },
-          timestamps: {
-            providerIndicatedTimeUnixMs: res.data.t ? new Date(res.data.t).getTime() : 0,
-          },
+          ...(res.data?.t && {
+            timestamps: { providerIndicatedTimeUnixMs: new Date(res.data.t).getTime() },
+          }),
         },
       }
     })

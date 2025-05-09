@@ -5,15 +5,14 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 import { config } from '../config'
-import { transport } from '../transport/market-status'
-import { validMarkets } from './utils'
+import { markets, transport } from '../transport/market-status'
 
 const inputParameters = new InputParameters({
   market: {
     aliases: [],
     type: 'string',
     description: 'The name of the market',
-    options: validMarkets,
+    options: markets,
     required: true,
   },
 })

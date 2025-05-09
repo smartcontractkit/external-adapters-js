@@ -36,7 +36,7 @@ describe('Market status endpoint', () => {
 
   const openData = {
     endpoint: 'market-status',
-    market: 'US',
+    market: 'NYSE',
   }
   const closedData = {
     endpoint: 'market-status',
@@ -55,31 +55,15 @@ describe('Market status endpoint', () => {
     mockMarketStatusResponseSuccess()
 
     const response = await testAdapter.request(openData)
-    expect(response.body).toMatchSnapshot()
+    expect(response.json()).toMatchSnapshot()
     expect(response.json().result).toEqual(MarketStatus.OPEN)
-  })
-
-  it('should return success with closed', async () => {
-    mockMarketStatusResponseSuccess()
-
-    const response = await testAdapter.request(closedData)
-    expect(response.body).toMatchSnapshot()
-    expect(response.json().result).toEqual(MarketStatus.CLOSED)
-  })
-
-  it('should return success with closed; null status in response', async () => {
-    mockMarketStatusResponseSuccess()
-
-    const response = await testAdapter.request(closedNullData)
-    expect(response.body).toMatchSnapshot()
-    expect(response.json().result).toEqual(MarketStatus.CLOSED)
   })
 
   it('should return error for invalid market', async () => {
     mockMarketStatusResponseSuccess()
 
     const response = await testAdapter.request(invalidMarket)
-    expect(response.body).toMatchSnapshot()
+    expect(response.json()).toMatchSnapshot()
     expect(response.statusCode).toBe(400)
   })
 })

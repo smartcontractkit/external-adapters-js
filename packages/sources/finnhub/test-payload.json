@@ -44,11 +44,7 @@
             "endpoint": "stock"
         },
         {
-            "market": "US",
-            "endpoint": "market-status"
-        },
-        {
-            "market": "AD",
+            "market": "NYSE",
             "endpoint": "market-status"
         }
     ]
