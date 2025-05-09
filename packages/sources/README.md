@@ -128,6 +128,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [moore-hk](./moore-hk/README.md)
 - [mycryptoapi](./mycryptoapi/README.md)
 - [nav-consulting](./nav-consulting/README.md)
+- [nav-generic](./nav-generic/README.md)
 - [ncfx](./ncfx/README.md)
 - [nft-blue-chip](./nft-blue-chip/README.md)
 - [nikkei](./nikkei/README.md)
