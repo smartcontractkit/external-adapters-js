@@ -675,9 +675,6 @@
       "path": "./sources/xbto"
     },
     {
-      "path": "./targets/agoric"
-    },
-    {
       "path": "./targets/conflux"
     },
     {

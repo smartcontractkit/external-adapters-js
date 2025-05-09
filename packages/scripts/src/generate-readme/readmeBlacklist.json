@@ -1,7 +1,6 @@
 {
   "blacklist": [
     "ada-balance",
-    "agoric",
     "alphachain",
     "alpine",
     "anchor",
