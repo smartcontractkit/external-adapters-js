@@ -1,5 +1,13 @@
 # @chainlink/fluent-finance-adapter
 
+## 2.0.19
+
+### Patch Changes
+
+- Updated dependencies [[`a99c949`](https://github.com/smartcontractkit/external-adapters-js/commit/a99c9491b135bc223859d55432faf039618d56a4)]:
+  - @chainlink/ea-bootstrap@2.29.10
+  - @chainlink/ea-test-helpers@1.4.8
+
 ## 2.0.18
 
 ### Patch Changes
