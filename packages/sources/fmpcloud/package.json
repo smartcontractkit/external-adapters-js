@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/fmpcloud-adapter",
-  "version": "1.3.44",
+  "version": "1.3.45",
   "description": "Chainlink fmpcloud adapter.",
   "keywords": [
     "Chainlink",

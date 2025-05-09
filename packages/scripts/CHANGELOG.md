@@ -1,5 +1,17 @@
 # @chainlink/ea-scripts
 
+## 2.8.0
+
+### Minor Changes
+
+- [#3845](https://github.com/smartcontractkit/external-adapters-js/pull/3845) [`e7bb9fb`](https://github.com/smartcontractkit/external-adapters-js/commit/e7bb9fbcf84832f4c9b28b13ac410d84802ee52a) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete agoric adaptor
+
+### Patch Changes
+
+- Updated dependencies [[`a99c949`](https://github.com/smartcontractkit/external-adapters-js/commit/a99c9491b135bc223859d55432faf039618d56a4)]:
+  - @chainlink/ea-bootstrap@2.29.10
+  - @chainlink/ea-factories@1.2.43
+
 ## 2.7.21
 
 ### Patch Changes

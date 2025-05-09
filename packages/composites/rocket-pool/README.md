@@ -1,6 +1,6 @@
 # Rocket Pool Adapter
 
-![1.1.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/rocket-pool/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.1.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/rocket-pool/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Chainlink external adapter for rETH-related feeds.
 

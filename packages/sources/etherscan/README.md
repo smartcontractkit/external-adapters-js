@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EtherScan
 
-![1.3.44](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherscan/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.45](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherscan/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.etherscan.io
 

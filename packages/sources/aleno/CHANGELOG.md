@@ -1,5 +1,13 @@
 # @chainlink/aleno-adapter
 
+## 2.1.3
+
+### Patch Changes
+
+- [#3835](https://github.com/smartcontractkit/external-adapters-js/pull/3835) [`e3a12d8`](https://github.com/smartcontractkit/external-adapters-js/commit/e3a12d8d3b89c37dd3f217378ad07856c0d17d5b) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove unused config variable API_ENDPOINT.
+
+- [#3840](https://github.com/smartcontractkit/external-adapters-js/pull/3840) [`8b08579`](https://github.com/smartcontractkit/external-adapters-js/commit/8b085790e1fcd3543ec0ea540e1915bacd998ec4) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 2.1.2
 
 ### Patch Changes

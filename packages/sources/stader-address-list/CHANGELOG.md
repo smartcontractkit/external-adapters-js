@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 2.3.37
+
+### Patch Changes
+
+- [#3840](https://github.com/smartcontractkit/external-adapters-js/pull/3840) [`8b08579`](https://github.com/smartcontractkit/external-adapters-js/commit/8b085790e1fcd3543ec0ea540e1915bacd998ec4) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 2.3.36
 
 ### Patch Changes
