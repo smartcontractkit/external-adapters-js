@@ -3,9 +3,14 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
-export const markets = ['NYSE'] as const
+export const markets = ['NYSE', 'US'] as const
 
-const marketToExchange = new Map<string, string>([['NYSE', 'US']])
+export type Market = (typeof markets)[number]
+
+const marketToExchange: Record<Market, string> = {
+  NYSE: 'US',
+  US: 'US',
+}
 
 // See: https://finnhub.io/docs/api/market-status
 type ResponseBody = {
@@ -27,13 +32,13 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
 export const transport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const market = param.market
+      const market = marketToExchange[param.market as Market]
       const requestConfig = {
         baseURL: config.API_ENDPOINT,
-        url: `/stock/market-status`,
+        url: '/stock/market-status',
         method: 'GET',
         params: {
-          exchange: marketToExchange.get(market),
+          exchange: market,
           token: config.API_KEY,
         },
       }
@@ -47,17 +52,22 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
     return params.map((param) => {
       const marketStatus = parseMarketStatus(res.data?.session)
 
+      const response: any = {
+        result: marketStatus,
+        data: {
+          result: marketStatus,
+        },
+      }
+
+      if (res.data?.t) {
+        response.timestamps = {
+          providerIndicatedTimeUnixMs: new Date(res.data.t * 1000).getTime(),
+        }
+      }
+
       return {
         params: param,
-        response: {
-          result: marketStatus,
-          data: {
-            result: marketStatus,
-          },
-          ...(res.data?.t && {
-            timestamps: { providerIndicatedTimeUnixMs: new Date(res.data.t).getTime() },
-          }),
-        },
+        response,
       }
     })
   },

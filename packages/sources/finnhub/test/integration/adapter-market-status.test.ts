@@ -6,12 +6,17 @@ import {
 import * as nock from 'nock'
 import process from 'process'
 
-import { mockMarketStatusResponseSuccess } from './fixtures'
+import {
+  mockMarketStatusResponseSuccessClosed,
+  mockMarketStatusResponseSuccessNull,
+  mockMarketStatusResponseSuccessOpen,
+} from './fixtures'
 
 describe('Market status endpoint', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
+  const cacheKey = 'FINNHUB-market-status-default_single_transport-{"market":"nyse"}'
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -26,6 +31,11 @@ describe('Market status endpoint', () => {
     })
   })
 
+  beforeEach(() => {
+    testAdapter.mockCache.delete(cacheKey)
+    nock.cleanAll()
+  })
+
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
@@ -34,7 +44,7 @@ describe('Market status endpoint', () => {
     spy.mockRestore()
   })
 
-  const openData = {
+  const validData = {
     endpoint: 'market-status',
     market: 'NYSE',
   }
@@ -44,15 +54,31 @@ describe('Market status endpoint', () => {
   }
 
   it('should return success with open', async () => {
-    mockMarketStatusResponseSuccess()
+    mockMarketStatusResponseSuccessOpen()
 
-    const response = await testAdapter.request(openData)
+    const response = await testAdapter.request(validData)
     expect(response.json()).toMatchSnapshot()
     expect(response.json().result).toEqual(MarketStatus.OPEN)
   })
 
+  it('should return success with closed', async () => {
+    mockMarketStatusResponseSuccessClosed()
+
+    const response = await testAdapter.request(validData)
+    expect(response.json()).toMatchSnapshot()
+    expect(response.json().result).toEqual(MarketStatus.CLOSED)
+  })
+
+  it('should return success with closed; null status in response', async () => {
+    mockMarketStatusResponseSuccessNull()
+
+    const response = await testAdapter.request(validData)
+    expect(response.json()).toMatchSnapshot()
+    expect(response.json().result).toEqual(MarketStatus.CLOSED)
+  })
+
   it('should return error for invalid market', async () => {
-    mockMarketStatusResponseSuccess()
+    mockMarketStatusResponseSuccessOpen()
 
     const response = await testAdapter.request(invalidMarket)
     expect(response.json()).toMatchSnapshot()

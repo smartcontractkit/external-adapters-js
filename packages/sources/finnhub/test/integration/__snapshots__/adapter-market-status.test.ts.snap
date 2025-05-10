@@ -3,11 +3,41 @@
 exports[`Market status endpoint should return error for invalid market 1`] = `
 {
   "error": {
-    "message": "[Param: market] input is not one of valid options (NYSE)",
+    "message": "[Param: market] input is not one of valid options (NYSE,US)",
     "name": "AdapterError",
   },
   "status": "errored",
   "statusCode": 400,
+}
+`;
+
+exports[`Market status endpoint should return success with closed 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1697018041000,
+  },
+}
+`;
+
+exports[`Market status endpoint should return success with closed; null status in response 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1697018041000,
+  },
 }
 `;
 
@@ -21,7 +51,7 @@ exports[`Market status endpoint should return success with open 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
-    "providerIndicatedTimeUnixMs": 1697018041,
+    "providerIndicatedTimeUnixMs": 1697018041000,
   },
 }
 `;

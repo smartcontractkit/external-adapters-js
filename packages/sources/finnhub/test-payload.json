@@ -46,6 +46,10 @@
         {
             "market": "NYSE",
             "endpoint": "market-status"
+        },
+        {
+            "market": "US",
+            "endpoint": "market-status"
         }
     ]
 }
