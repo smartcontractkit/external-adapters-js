@@ -81,3 +81,63 @@ export const mockResponseSuccess = (): nock.Scope => {
       ],
     )
 }
+
+export const mockMarketStatusResponseSuccessOpen = (): nock.Scope =>
+  nock('https://finnhub.io/api/v1', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/stock/market-status')
+    .query({ token: 'fake-api-key', exchange: 'US' })
+    .reply(
+      200,
+      {
+        exchange: 'US',
+        holiday: null,
+        isOpen: true,
+        session: 'regular',
+        timezone: 'America/New_York',
+        t: 1697018041,
+      },
+      ['Content-Type', 'application/json'],
+    )
+
+export const mockMarketStatusResponseSuccessClosed = (): nock.Scope =>
+  nock('https://finnhub.io/api/v1', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/stock/market-status')
+    .query({ token: 'fake-api-key', exchange: 'US' })
+    .reply(
+      200,
+      {
+        exchange: 'US',
+        holiday: null,
+        isOpen: false,
+        session: 'pre-market',
+        timezone: 'America/New_York',
+        t: 1697018041,
+      },
+      ['Content-Type', 'application/json'],
+    )
+
+export const mockMarketStatusResponseSuccessNull = (): nock.Scope =>
+  nock('https://finnhub.io/api/v1', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/stock/market-status')
+    .query({ token: 'fake-api-key', exchange: 'US' })
+    .reply(
+      200,
+      {
+        exchange: 'US',
+        holiday: 'Christmas',
+        isOpen: false,
+        session: null,
+        timezone: 'America/New_York',
+        t: 1697018041,
+      },
+      ['Content-Type', 'application/json'],
+    )
