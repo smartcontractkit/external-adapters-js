@@ -32,7 +32,9 @@ describe('Market status endpoint', () => {
   })
 
   beforeEach(() => {
-    testAdapter.mockCache.delete(cacheKey)
+    if (testAdapter.mockCache) {
+      testAdapter.mockCache.delete(cacheKey)
+    }
     nock.cleanAll()
   })
 
