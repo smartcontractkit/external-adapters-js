@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitgo-reserves-adapter",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Chainlink bitgo-reserves adapter.",
   "keywords": [
     "Chainlink",
