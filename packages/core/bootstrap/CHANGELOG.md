@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.29.10
+
+### Patch Changes
+
+- [#3843](https://github.com/smartcontractkit/external-adapters-js/pull/3843) [`a99c949`](https://github.com/smartcontractkit/external-adapters-js/commit/a99c9491b135bc223859d55432faf039618d56a4) Thanks [@renovate](https://github.com/apps/renovate)! - Update Fastify dependency from 3.29.4 to ^5.0.0
+
 ## 2.29.9
 
 ### Patch Changes
