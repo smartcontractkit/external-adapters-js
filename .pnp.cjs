@@ -379,6 +379,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/coinmetrics"\
     },\
     {\
+      "name": "@chainlink/coinmetrics-lwba-adapter",\
+      "reference": "workspace:packages/sources/coinmetrics-lwba"\
+    },\
+    {\
       "name": "@chainlink/coinpaprika-adapter",\
       "reference": "workspace:packages/sources/coinpaprika"\
     },\
@@ -1006,6 +1010,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
     ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
     ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
+    ["@chainlink/coinmetrics-lwba-adapter", ["workspace:packages/sources/coinmetrics-lwba"]],\
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
     ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
@@ -5997,6 +6002,24 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmetrics/",\
         "packageDependencies": [\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
+          ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["ethers", "npm:5.7.2"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/coinmetrics-lwba-adapter", [\
+      ["workspace:packages/sources/coinmetrics-lwba", {\
+        "packageLocation": "./packages/sources/coinmetrics-lwba/",\
+        "packageDependencies": [\
+          ["@chainlink/coinmetrics-lwba-adapter", "workspace:packages/sources/coinmetrics-lwba"],\
           ["@chainlink/external-adapter-framework", "npm:2.5.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\

@@ -3201,6 +3201,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/coinmetrics-lwba-adapter@workspace:packages/sources/coinmetrics-lwba":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/coinmetrics-lwba-adapter@workspace:packages/sources/coinmetrics-lwba"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.5.0"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    ethers: "npm:^5.4.6"
+    nock: "npm:13.5.6"
+    tslib: "npm:^2.3.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/coinpaprika-adapter@workspace:*, @chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
