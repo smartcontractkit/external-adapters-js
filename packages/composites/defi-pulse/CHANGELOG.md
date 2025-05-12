@@ -1,5 +1,14 @@
 # @chainlink/defi-pulse-adapter
 
+## 1.2.124
+
+### Patch Changes
+
+- Updated dependencies [[`8b08579`](https://github.com/smartcontractkit/external-adapters-js/commit/8b085790e1fcd3543ec0ea540e1915bacd998ec4), [`a99c949`](https://github.com/smartcontractkit/external-adapters-js/commit/a99c9491b135bc223859d55432faf039618d56a4)]:
+  - @chainlink/token-allocation-adapter@1.13.18
+  - @chainlink/ea-bootstrap@2.29.10
+  - @chainlink/ea-test-helpers@1.4.8
+
 ## 1.2.123
 
 ### Patch Changes

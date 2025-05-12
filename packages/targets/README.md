@@ -6,7 +6,6 @@ This document was generated automatically. Please see [Master List Generator](..
 
 ## List
 
-- [agoric](./agoric/README.md)
 - [conflux](./conflux/README.md)
 - [dydx-stark](./dydx-stark/README.md)
 - [ethwrite](./ethwrite/README.md)

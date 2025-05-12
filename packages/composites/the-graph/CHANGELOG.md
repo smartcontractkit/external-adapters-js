@@ -1,5 +1,15 @@
 # @chainlink/the-graph-adapter
 
+## 1.2.46
+
+### Patch Changes
+
+- Updated dependencies [[`a99c949`](https://github.com/smartcontractkit/external-adapters-js/commit/a99c9491b135bc223859d55432faf039618d56a4)]:
+  - @chainlink/ea-bootstrap@2.29.10
+  - @chainlink/ea-reference-data-reader@1.3.44
+  - @chainlink/ea-test-helpers@1.4.8
+  - @chainlink/graphql-adapter@1.2.45
+
 ## 1.2.45
 
 ### Patch Changes
