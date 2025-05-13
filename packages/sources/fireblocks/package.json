@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/fireblocks-adapter",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Chainlink fireblocks adapter.",
   "keywords": [
     "Chainlink",
