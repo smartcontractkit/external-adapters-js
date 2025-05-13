@@ -1,4 +1,5 @@
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
 import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
 import OpenEdenTBILLProxy from '../config/OpenEdenTBILLProxy.json'
@@ -85,4 +86,16 @@ export class GroupedPriceOracleContract {
       decimal: Number(decimal),
     }
   }
+}
+
+export const getNetworkEnvVar = (network: string, suffix: string): string => {
+  const envVarName = `${network.toUpperCase()}${suffix}`
+  const envVar = process.env[envVarName]
+  if (!envVar) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Environment variable ${envVarName} is missing`,
+    })
+  }
+  return envVar
 }
