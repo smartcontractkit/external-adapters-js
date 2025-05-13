@@ -6,11 +6,7 @@ import {
 import * as nock from 'nock'
 import process from 'process'
 
-import {
-  mockMarketStatusResponseSuccessClosed,
-  mockMarketStatusResponseSuccessNull,
-  mockMarketStatusResponseSuccessOpen,
-} from './fixtures'
+import { mockMarketStatusResponseSuccess } from './fixtures'
 
 describe('Market status endpoint', () => {
   let spy: jest.SpyInstance
@@ -31,13 +27,6 @@ describe('Market status endpoint', () => {
     })
   })
 
-  beforeEach(() => {
-    if (testAdapter.mockCache) {
-      testAdapter.mockCache.delete(cacheKey)
-    }
-    nock.cleanAll()
-  })
-
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
@@ -46,41 +35,61 @@ describe('Market status endpoint', () => {
     spy.mockRestore()
   })
 
-  const validData = {
+  const openMarket = {
     endpoint: 'market-status',
     market: 'NYSE',
   }
+  const closedMarket = {
+    endpoint: 'market-status',
+    market: 'AD',
+  }
+  const nullMarket = {
+    endpoint: 'market-status',
+    market: 'AS',
+  }
+  const unknownMarket = {
+    endpoint: 'market-status',
+    market: 'AT',
+  }
   const invalidMarket = {
     endpoint: 'market-status',
-    market: 'FFF',
+    market: 'invalid_market',
   }
 
   it('should return success with open', async () => {
-    mockMarketStatusResponseSuccessOpen()
+    mockMarketStatusResponseSuccess()
 
-    const response = await testAdapter.request(validData)
+    const response = await testAdapter.request(openMarket)
     expect(response.json()).toMatchSnapshot()
     expect(response.json().result).toEqual(MarketStatus.OPEN)
   })
 
   it('should return success with closed', async () => {
-    mockMarketStatusResponseSuccessClosed()
+    mockMarketStatusResponseSuccess()
 
-    const response = await testAdapter.request(validData)
+    const response = await testAdapter.request(closedMarket)
     expect(response.json()).toMatchSnapshot()
     expect(response.json().result).toEqual(MarketStatus.CLOSED)
   })
 
   it('should return success with closed; null status in response', async () => {
-    mockMarketStatusResponseSuccessNull()
+    mockMarketStatusResponseSuccess()
 
-    const response = await testAdapter.request(validData)
+    const response = await testAdapter.request(nullMarket)
     expect(response.json()).toMatchSnapshot()
     expect(response.json().result).toEqual(MarketStatus.CLOSED)
   })
 
+  it('should return success with unknown', async () => {
+    mockMarketStatusResponseSuccess()
+
+    const response = await testAdapter.request(unknownMarket)
+    expect(response.json()).toMatchSnapshot()
+    expect(response.json().result).toEqual(MarketStatus.UNKNOWN)
+  })
+
   it('should return error for invalid market', async () => {
-    mockMarketStatusResponseSuccessOpen()
+    mockMarketStatusResponseSuccess()
 
     const response = await testAdapter.request(invalidMarket)
     expect(response.json()).toMatchSnapshot()

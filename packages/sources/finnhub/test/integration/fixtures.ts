@@ -82,7 +82,7 @@ export const mockResponseSuccess = (): nock.Scope => {
     )
 }
 
-export const mockMarketStatusResponseSuccessOpen = (): nock.Scope =>
+export const mockMarketStatusResponseSuccess = (): nock.Scope =>
   nock('https://finnhub.io/api/v1', {
     encodedQueryParams: true,
   })
@@ -101,43 +101,45 @@ export const mockMarketStatusResponseSuccessOpen = (): nock.Scope =>
       },
       ['Content-Type', 'application/json'],
     )
-
-export const mockMarketStatusResponseSuccessClosed = (): nock.Scope =>
-  nock('https://finnhub.io/api/v1', {
-    encodedQueryParams: true,
-  })
-    .persist()
     .get('/stock/market-status')
-    .query({ token: 'fake-api-key', exchange: 'US' })
+    .query({ token: 'fake-api-key', exchange: 'AD' })
     .reply(
       200,
       {
-        exchange: 'US',
+        exchange: 'AD',
         holiday: null,
         isOpen: false,
         session: 'pre-market',
-        timezone: 'America/New_York',
+        timezone: 'Asia/Dubai',
         t: 1697018041,
       },
       ['Content-Type', 'application/json'],
     )
-
-export const mockMarketStatusResponseSuccessNull = (): nock.Scope =>
-  nock('https://finnhub.io/api/v1', {
-    encodedQueryParams: true,
-  })
-    .persist()
     .get('/stock/market-status')
-    .query({ token: 'fake-api-key', exchange: 'US' })
+    .query({ token: 'fake-api-key', exchange: 'AS' })
     .reply(
       200,
       {
-        exchange: 'US',
-        holiday: 'Christmas',
+        exchange: 'AS',
+        holiday: 'Fake Holiday',
         isOpen: false,
         session: null,
-        timezone: 'America/New_York',
+        timezone: 'Europe/Amsterdam',
         t: 1697018041,
+      },
+      ['Content-Type', 'application/json'],
+    )
+    .get('/stock/market-status')
+    .query({ token: 'fake-api-key', exchange: 'AT' })
+    .reply(
+      200,
+      {
+        exchange: '',
+        holiday: null,
+        isOpen: null,
+        session: null,
+        timezone: null,
+        t: null,
       },
       ['Content-Type', 'application/json'],
     )

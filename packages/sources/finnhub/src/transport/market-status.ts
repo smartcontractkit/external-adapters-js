@@ -3,13 +3,12 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
-export const markets = ['NYSE', 'US'] as const
+export const marketAliases = ['NYSE'] as const
 
-export type Market = (typeof markets)[number]
+export type Market = (typeof marketAliases)[number]
 
 const marketToExchange: Record<Market, string> = {
   NYSE: 'US',
-  US: 'US',
 }
 
 // See: https://finnhub.io/docs/api/market-status
@@ -32,7 +31,9 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
 export const transport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const market = marketToExchange[param.market as Market]
+      const market = marketAliases.includes(param.market)
+        ? marketToExchange[param.market as Market]
+        : param.market
       const requestConfig = {
         baseURL: config.API_ENDPOINT,
         url: '/stock/market-status',
@@ -50,7 +51,12 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
-      const marketStatus = parseMarketStatus(res.data?.session)
+      // Check if res.data exists and if every value in res.data is null
+      const allNull =
+        !res.data || Object.values(res.data).every((value) => value === null || value === '')
+
+      // Set marketStatus to unknown if allNull is true, otherwise parse normally
+      const marketStatus = allNull ? MarketStatus.UNKNOWN : parseMarketStatus(res.data?.session)
 
       const response: any = {
         result: marketStatus,
