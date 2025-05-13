@@ -1,5 +1,15 @@
 # @chainlink/kaiko-state-adapter
 
+## 1.0.13
+
+### Patch Changes
+
+- [#3840](https://github.com/smartcontractkit/external-adapters-js/pull/3840) [`8b08579`](https://github.com/smartcontractkit/external-adapters-js/commit/8b085790e1fcd3543ec0ea540e1915bacd998ec4) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#3847](https://github.com/smartcontractkit/external-adapters-js/pull/3847) [`4f9d115`](https://github.com/smartcontractkit/external-adapters-js/commit/4f9d1158adbccb25d70522c8f35aaf29b0d43bf4) Thanks [@renovate](https://github.com/apps/renovate)! - Update @kaiko-data/sdk-node@npm from 1.26.0 to 1.27.2
+
+- [#3802](https://github.com/smartcontractkit/external-adapters-js/pull/3802) [`8f53d40`](https://github.com/smartcontractkit/external-adapters-js/commit/8f53d40e16f559cbb51db80ea7a79fecd53684bc) Thanks [@renovate](https://github.com/apps/renovate)! - Update @grpc/grpc-js from 1.13.2 to 1.13.3
+
 ## 1.0.12
 
 ### Patch Changes
