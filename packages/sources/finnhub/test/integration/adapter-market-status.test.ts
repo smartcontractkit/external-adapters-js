@@ -12,7 +12,6 @@ describe('Market status endpoint', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
-  const cacheKey = 'FINNHUB-market-status-default_single_transport-{"market":"nyse"}'
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
