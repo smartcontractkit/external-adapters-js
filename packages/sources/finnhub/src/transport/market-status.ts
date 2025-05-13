@@ -31,7 +31,7 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
 export const transport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const market = marketAliases.includes(param.market)
+      const market = marketAliases.includes(param.market as Market)
         ? marketToExchange[param.market as Market]
         : param.market
       const requestConfig = {
