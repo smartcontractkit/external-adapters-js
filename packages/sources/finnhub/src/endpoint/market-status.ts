@@ -26,7 +26,6 @@ export type BaseEndpointTypes = {
 
 export const marketStatusEndpoint = new MarketStatusEndpoint({
   name: 'market-status',
-  aliases: [],
   transport,
   inputParameters,
 })
