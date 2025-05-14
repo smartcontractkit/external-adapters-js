@@ -78,7 +78,7 @@ jobs:
           set -x
           echo "Changed packages: $CHANGED_PACKAGES"
           echo "Tests that should compile:"
-          configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN"))
+          configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN" || true))
           echo "Configs to compile: '${configs_to_compile[@]}'"
           if [ ${#configs_to_compile[@]} -eq 0 ]; then
             echo "No tests to compile."
