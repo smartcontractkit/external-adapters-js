@@ -3,6 +3,7 @@ import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/c
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
@@ -103,6 +104,22 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  getTokenBalances({
+    addresses,
+    tokenIssuerAddress,
+  }: {
+    addresses: {
+      address: string
+    }[]
+    tokenIssuerAddress: string
+  }): Promise<Decimal[]> {
+    const runner = new GroupRunner(this.config.GROUP_SIZE)
+    const getBalance = runner.wrapFunction(({ address }: { address: string }) =>
+      this.getTokenBalance({ address: address, tokenIssuerAddress }),
+    )
+    return Promise.all(addresses.map(getBalance))
   }
 
   async getTokenBalance({

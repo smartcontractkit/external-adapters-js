@@ -1,7 +1,7 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/xrpl'
@@ -26,11 +26,13 @@ describe('XrplTransport', () => {
   const endpointName = 'xrpl'
   const XRPL_RPC_URL = 'https://xrpl.rpc.url'
   const BACKGROUND_EXECUTE_MS = 1500
+  const GROUP_SIZE = 3
 
   const adapterSettings = makeStub('adapterSettings', {
     XRPL_RPC_URL,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
+    GROUP_SIZE,
     MAX_COMMON_KEY_SIZE: 300,
   } as unknown as BaseEndpointTypes['Settings'])
 
@@ -108,17 +110,19 @@ describe('XrplTransport', () => {
     return requestKey
   }
 
-  const mockLineBalances = (balances: string[]) => {
-    requester.request.mockResolvedValueOnce({
-      response: {
-        data: {
-          result: {
-            lines: balances.map((expectedBalance) => ({
-              balance: expectedBalance,
-            })),
+  const mockLineBalances = (balances: string[] | Promise<string[]>) => {
+    requester.request.mockImplementationOnce(async () => {
+      return {
+        response: {
+          data: {
+            result: {
+              lines: (await balances).map((expectedBalance) => ({
+                balance: expectedBalance,
+              })),
+            },
           },
         },
-      },
+      }
     })
   }
 
@@ -223,6 +227,129 @@ describe('XrplTransport', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       })
+    })
+  })
+
+  describe('getTokenBalances', () => {
+    it('should return the token balance of multiple addresses', async () => {
+      const address1 = 'r101'
+      const address2 = 'r102'
+      const tokenIssuerAddress = 'r456'
+      mockLineBalances(['100.0'])
+      mockLineBalances(['200.0'])
+
+      const expectedRequestConfig1 = requestConfigForAddresses({
+        address: address1,
+        tokenIssuerAddress,
+      })
+      const expectedRequestKey1 = requestKeyForConfig(expectedRequestConfig1)
+
+      const expectedRequestConfig2 = requestConfigForAddresses({
+        address: address2,
+        tokenIssuerAddress,
+      })
+      const expectedRequestKey2 = requestKeyForConfig(expectedRequestConfig2)
+
+      const balance = await transport.getTokenBalances({
+        addresses: [{ address: address1 }, { address: address2 }],
+        tokenIssuerAddress,
+      })
+
+      expect(balance).toEqual([new Decimal(100), new Decimal(200)])
+
+      expect(requester.request).toHaveBeenNthCalledWith(
+        1,
+        expectedRequestKey1,
+        expectedRequestConfig1,
+      )
+      expect(requester.request).toHaveBeenNthCalledWith(
+        2,
+        expectedRequestKey2,
+        expectedRequestConfig2,
+      )
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toHaveBeenNthCalledWith(
+        1,
+        `Generated HTTP request queue key: "${expectedRequestKey1}"`,
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        2,
+        `Generated HTTP request queue key: "${expectedRequestKey2}"`,
+      )
+      expect(log).toBeCalledTimes(2)
+      log.mockClear()
+    })
+
+    it('should wait for the first group of RPCs to finish before sending the next group', async () => {
+      const [lines1, resolveLines1] = deferredPromise<string[]>()
+      const [lines2, resolveLines2] = deferredPromise<string[]>()
+      const [lines3, resolveLines3] = deferredPromise<string[]>()
+      const [lines4, resolveLines4] = deferredPromise<string[]>()
+
+      const address1 = 'r101'
+      const address2 = 'r102'
+      const address3 = 'r103'
+      const address4 = 'r104'
+      const tokenIssuerAddress = 'r456'
+      mockLineBalances(lines1)
+      mockLineBalances(lines2)
+      mockLineBalances(lines3)
+      mockLineBalances(lines4)
+
+      const balancePromise = transport.getTokenBalances({
+        addresses: [
+          { address: address1 },
+          { address: address2 },
+          { address: address3 },
+          { address: address4 },
+        ],
+        tokenIssuerAddress,
+      })
+
+      await jest.runAllTimersAsync()
+
+      // Only 3 of the 4 requests were made because GROUP_SIZE is 3
+      expect(requester.request).toBeCalledTimes(3)
+
+      resolveLines1(['101.0'])
+      resolveLines2(['102.0'])
+
+      await jest.runAllTimersAsync()
+      expect(requester.request).toBeCalledTimes(3)
+
+      resolveLines3(['103.0'])
+
+      await jest.runAllTimersAsync()
+      expect(requester.request).toBeCalledTimes(4)
+
+      resolveLines4(['104.0'])
+
+      expect(await balancePromise).toEqual([
+        new Decimal(101),
+        new Decimal(102),
+        new Decimal(103),
+        new Decimal(104),
+      ])
+
+      expect(log).toHaveBeenNthCalledWith(
+        1,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        2,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        3,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        4,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toBeCalledTimes(4)
+      log.mockClear()
     })
   })
 
