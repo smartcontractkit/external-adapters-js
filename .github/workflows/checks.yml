@@ -76,7 +76,7 @@ jobs:
           FAILING_TESTS_PATTERN: '/composites/dydx-rewards/|/composites/glv-token/|/composites/gm-token/|/core/bootstrap/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/icap/|/sources/ipfs/|/sources/layer2-sequencer-health/|/sources/s3-csv-reader/|/sources/view-function-multi-chain/|sources/view-function/|/k6/|/observation/'
         run: |
           echo "Tests that should compile:"
-          configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN"))
+          configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN" || true))
           if [ ${#configs_to_compile[@]} -eq 0 ]; then
             echo "No tests to compile."
           else
