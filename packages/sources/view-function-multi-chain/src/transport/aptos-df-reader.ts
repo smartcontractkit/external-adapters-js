@@ -1,5 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/aptos-df-reader'
+import { doPrepareRequests, ErrorObj, RequestObj } from '../utils/aptos-common'
 
 type Feed = {
   benchmark: string
@@ -14,38 +15,25 @@ type FeedObj = {
   feed_id: string
 }
 
-type ErrorObj = {
-  message: string
-  error_code: string
-  vm_error_code: number
-}
-
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
-    RequestBody: { function: string; type_arguments: string[]; arguments: string[] }
+    RequestBody: RequestObj
     ResponseBody: FeedObj[][] | ErrorObj
   }
 }
-export const aptosTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params, config) => {
+
+export const transport = new HttpTransport<HttpTransportTypes>({
+  prepareRequests: (params) => {
     return params.map((param) => {
-      const rpcUrl =
-        param.networkType == 'testnet' ? config['APTOS_TESTNET_URL'] : config['APTOS_URL']
+      const request = doPrepareRequests(
+        param.networkType,
+        param.signature,
+        param.type,
+        param.arguments,
+      )
       return {
         params: [param],
-        request: {
-          baseURL: rpcUrl,
-          url: '/view',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data: {
-            function: param.signature,
-            type_arguments: [],
-            arguments: [],
-          },
-        },
+        ...request,
       }
     })
   },
