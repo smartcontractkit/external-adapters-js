@@ -75,8 +75,11 @@ jobs:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
           FAILING_TESTS_PATTERN: 'packages/composites/dydx-rewards/|packages/composites/glv-token/|packages/composites/gm-token/|packages/core/bootstrap/|packages/sources/bitgo-reserves-test/|packages/sources/bitgo-reserves/|packages/sources/coinpaprika/|packages/sources/cryptocompare/|packages/sources/icap/|packages/sources/ipfs/|packages/sources/layer2-sequencer-health/|packages/sources/s3-csv-reader/|packages/sources/view-function-multi-chain/|packages/sources/view-function/|/k6/|/observation/'
         run: |
+          set -x
+          echo "Changed packages: $CHANGED_PACKAGES"
           echo "Tests that should compile:"
           configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN"))
+          echo "Configs to compile: '${configs_to_compile[@]}'"
           if [ ${#configs_to_compile[@]} -eq 0 ]; then
             echo "No tests to compile."
           else
@@ -84,6 +87,7 @@ jobs:
           fi
           echo "Tests that should not compile:"
           for package in $(echo "$CHANGED_PACKAGES" | jq '.[].location + "/"' -r | grep -E "$FAILING_TESTS_PATTERN"); do
+            echo "Compiling $package is expected to fail"
             if yarn tsc -b --noEmit "${package}tsconfig.test.json"; then
               echo "Compilation succeeded for $package. Remove it from FAILING_TESTS_PATTERN so it doesn't break again in the future."
               exit 1
