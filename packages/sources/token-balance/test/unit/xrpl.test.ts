@@ -230,7 +230,7 @@ describe('XrplTransport', () => {
     })
   })
 
-  describe('getTokenBalances', () => {
+  describe('getTotalTokenBalance', () => {
     it('should return the token balance of multiple addresses', async () => {
       const address1 = 'r101'
       const address2 = 'r102'
@@ -250,12 +250,12 @@ describe('XrplTransport', () => {
       })
       const expectedRequestKey2 = requestKeyForConfig(expectedRequestConfig2)
 
-      const balance = await transport.getTokenBalances({
+      const balance = await transport.getTotalTokenBalance({
         addresses: [{ address: address1 }, { address: address2 }],
         tokenIssuerAddress,
       })
 
-      expect(balance).toEqual([new Decimal(100), new Decimal(200)])
+      expect(balance).toEqual(new Decimal(300))
 
       expect(requester.request).toHaveBeenNthCalledWith(
         1,
@@ -297,7 +297,7 @@ describe('XrplTransport', () => {
       mockLineBalances(lines3)
       mockLineBalances(lines4)
 
-      const balancePromise = transport.getTokenBalances({
+      const balancePromise = transport.getTotalTokenBalance({
         addresses: [
           { address: address1 },
           { address: address2 },
@@ -325,12 +325,7 @@ describe('XrplTransport', () => {
 
       resolveLines4(['104.0'])
 
-      expect(await balancePromise).toEqual([
-        new Decimal(101),
-        new Decimal(102),
-        new Decimal(103),
-        new Decimal(104),
-      ])
+      expect(await balancePromise).toEqual(new Decimal(410))
 
       expect(log).toHaveBeenNthCalledWith(
         1,

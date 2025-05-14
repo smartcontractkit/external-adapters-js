@@ -106,7 +106,7 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  getTokenBalances({
+  async getTotalTokenBalance({
     addresses,
     tokenIssuerAddress,
   }: {
@@ -114,12 +114,13 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
       address: string
     }[]
     tokenIssuerAddress: string
-  }): Promise<Decimal[]> {
+  }): Promise<Decimal> {
     const runner = new GroupRunner(this.config.GROUP_SIZE)
     const getBalance = runner.wrapFunction(({ address }: { address: string }) =>
       this.getTokenBalance({ address: address, tokenIssuerAddress }),
     )
-    return Promise.all(addresses.map(getBalance))
+    const balances = await Promise.all(addresses.map(getBalance))
+    return balances.reduce((acc, balance) => acc.plus(balance), new Decimal(0))
   }
 
   async getTokenBalance({
