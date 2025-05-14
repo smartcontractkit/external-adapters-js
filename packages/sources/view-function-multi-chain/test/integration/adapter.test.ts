@@ -112,7 +112,13 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
+      expect(response.json()).toEqual({
+        errorMessage: expect.stringMatching(
+          /no matching function \(argument="key", value="symbol\(\) view returns \(string\)", code=INVALID_ARGUMENT, version=/,
+        ),
+        statusCode: 502,
+        timestamps: { providerDataReceivedUnixMs: 0, providerDataRequestedUnixMs: 0 },
+      })
     })
   })
 

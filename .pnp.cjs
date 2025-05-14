@@ -9014,6 +9014,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["decimal.js", "npm:10.5.0"],\
           ["ethers", "npm:6.14.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -21397,6 +21398,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/decimal.js-npm-10.4.3-e7d483387c-de663a7bc4.zip/node_modules/decimal.js/",\
         "packageDependencies": [\
           ["decimal.js", "npm:10.4.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:10.5.0", {\
+        "packageLocation": "./.yarn/cache/decimal.js-npm-10.5.0-f021b10ac9-714d49cf2f.zip/node_modules/decimal.js/",\
+        "packageDependencies": [\
+          ["decimal.js", "npm:10.5.0"]\
         ],\
         "linkType": "HARD"\
       }]\

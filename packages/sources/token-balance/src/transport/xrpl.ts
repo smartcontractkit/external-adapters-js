@@ -1,8 +1,11 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/xrpl'
 
 const logger = makeLogger('Token Balance - XRPL')
@@ -11,9 +14,32 @@ type RequestParams = typeof inputParameters.validated
 
 const RESULT_DECIMALS = 18
 
+type AccountLinesResponse = {
+  result: {
+    account: string
+    ledger_hash?: string
+    ledger_index?: number
+    lines: {
+      account: string
+      balance: string // decimal number
+      currency: string
+      limit: string
+      limit_peer: string
+      no_ripple?: boolean
+      no_ripple_peer?: boolean
+      peer_authorized?: boolean
+      quality_in: number
+      quality_out: number
+    }[]
+    status?: string
+    validated?: boolean
+  }
+}
+
 export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   endpointName!: string
+  requester!: Requester
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -24,6 +50,11 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
     this.endpointName = endpointName
+    this.requester = dependencies.requester
+
+    if (!adapterSettings.XRPL_RPC_URL) {
+      logger.error('Environment variable XRPL_RPC_URL is missing')
+    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -72,6 +103,55 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  async getTokenBalance({
+    address,
+    tokenIssuerAddress,
+  }: {
+    address: string
+    tokenIssuerAddress: string
+  }): Promise<Decimal> {
+    if (!this.config.XRPL_RPC_URL) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'Environment variable XRPL_RPC_URL is missing',
+      })
+    }
+
+    const requestConfig = {
+      method: 'POST',
+      baseURL: this.config.XRPL_RPC_URL,
+      data: {
+        method: 'account_lines',
+        params: [
+          {
+            account: address,
+            ledger_index: 'validated',
+            peer: tokenIssuerAddress,
+          },
+        ],
+      },
+    }
+
+    const result = await this.requester.request<AccountLinesResponse>(
+      calculateHttpRequestKey<BaseEndpointTypes>({
+        context: {
+          adapterSettings: this.config,
+          inputParameters,
+          endpointName: this.endpointName,
+        },
+        data: requestConfig.data,
+        transportName: this.name,
+      }),
+      requestConfig,
+    )
+
+    let balance = new Decimal(0)
+    for (const line of result.response.data.result.lines) {
+      balance = balance.plus(new Decimal(line.balance))
+    }
+    return balance
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
