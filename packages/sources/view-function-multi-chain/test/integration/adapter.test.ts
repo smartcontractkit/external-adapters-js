@@ -3,12 +3,12 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import * as process from 'process'
 import {
+  mockAptosSuccess,
   mockETHGoerliContractCallResponseSuccess,
   mockETHMainnetContractCallResponseSuccess,
-  mockAptosSuccess,
 } from './fixtures'
-import * as process from 'process'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -110,7 +110,13 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
+      expect(response.json()).toEqual({
+        errorMessage: expect.stringMatching(
+          /no matching function \(argument="key", value="symbol\(\) view returns \(string\)", code=INVALID_ARGUMENT, version=/,
+        ),
+        statusCode: 502,
+        timestamps: { providerDataReceivedUnixMs: 0, providerDataRequestedUnixMs: 0 },
+      })
     })
   })
 
