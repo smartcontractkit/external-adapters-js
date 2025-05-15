@@ -3725,7 +3725,7 @@ __metadata:
     axios-observable: "npm:1.3.0"
     backoff-rxjs: "npm:6.5.7"
     chalk: "npm:4.1.2"
-    class-validator: "npm:0.14.1"
+    class-validator: "npm:0.14.2"
     command-line-args: "npm:5.2.1"
     command-line-usage: "npm:6.1.3"
     human-id: "npm:4.1.1"
@@ -15743,14 +15743,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-validator@npm:0.14.1":
-  version: 0.14.1
-  resolution: "class-validator@npm:0.14.1"
+"class-validator@npm:0.14.2":
+  version: 0.14.2
+  resolution: "class-validator@npm:0.14.2"
   dependencies:
     "@types/validator": "npm:^13.11.8"
-    libphonenumber-js: "npm:^1.10.53"
+    libphonenumber-js: "npm:^1.11.1"
     validator: "npm:^13.9.0"
-  checksum: 10/0c34592a1cbdd5e9c35cd02f4babd94120339e875fc7627aa2bf5dffb45ecc373275e854389c6ff3d39781cddb85a18193b4e9e8f4d77d6d90e445fd0b8b8e11
+  checksum: 10/37fbbc2ddb335993bf6bbe3fcaa55ddb03e31dccdf6413753e7323e1f106fed888d298b1ecc3b2000d40096e63ee983790c2155056d0a404629bb22b31b051e0
   languageName: node
   linkType: hard
 
@@ -24492,10 +24492,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libphonenumber-js@npm:^1.10.53":
-  version: 1.11.14
-  resolution: "libphonenumber-js@npm:1.11.14"
-  checksum: 10/44433ddcd1f542b68a417c33e1b3ca4f9bb06c1fd8f2f1cd1683472072e12157f2d88d8eb3624a806a1ed1c1012c9f159934f764e7b6ff736c6d17010a7c03d5
+"libphonenumber-js@npm:^1.11.1":
+  version: 1.12.8
+  resolution: "libphonenumber-js@npm:1.12.8"
+  checksum: 10/476e5268f5a86509de80ed5e573afbd2aff457d88cbe116208d167563f538705d3b29c9cc45e8d58dc6b5d00babc348443e49239c367c4e2e26e8c71e96372bc
   languageName: node
   linkType: hard
 
