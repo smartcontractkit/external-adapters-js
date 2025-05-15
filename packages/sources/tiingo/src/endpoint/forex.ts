@@ -23,6 +23,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
+// test comment - remove
 export const endpoint = new ForexPriceEndpoint({
   name: 'forex',
   aliases: ['fx', 'commodities'],
