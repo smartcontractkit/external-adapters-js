@@ -66,10 +66,12 @@ export const calcTraderRewards = (
   Object.keys(traderScore).forEach((addr) => {
     if (addr === '0x00000000002763419d1c9adda5df54f13d63e29b') {
       console.log('dskloetx calcTraderRewards 1', {
-        traderRewardsAmount: traderRewardsAmount.toString(),
-        'traderScore[addr]': traderScore[addr].toString(),
-        traderScoreSum: traderScoreSum.toString(),
-        'bn.BigNumber.ROUND_FLOOR': bn.BigNumber.ROUND_FLOOR,
+        traderRewardsAmount: traderRewardsAmount,
+        'traderRewardsAmount.toString()': traderRewardsAmount.toString(),
+        'traderScore[addr]': traderScore[addr],
+        'traderScore[addr].toString()': traderScore[addr].toString(),
+        traderScoreSum: traderScoreSum,
+        'traderScoreSum.toString()': traderScoreSum.toString(),
       })
     }
     const reward = traderRewardsAmount
