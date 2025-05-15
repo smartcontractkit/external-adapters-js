@@ -28,9 +28,8 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.5.0",
-    "ethers": "^5.4.6",
-    "tslib": "^2.3.1"
+    "@chainlink/external-adapter-framework": "2.6.0",
+    "tslib": "2.4.1"
   },
   "devDependencies": {
     "@sinonjs/fake-timers": "9.1.2",
