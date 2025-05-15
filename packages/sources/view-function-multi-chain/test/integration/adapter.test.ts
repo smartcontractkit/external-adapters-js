@@ -3,12 +3,13 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import * as process from 'process'
 import {
+  mockAptosDfReaderSuccess,
+  mockAptosSuccess,
   mockETHGoerliContractCallResponseSuccess,
   mockETHMainnetContractCallResponseSuccess,
-  mockAptosSuccess,
 } from './fixtures'
-import * as process from 'process'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -25,6 +26,7 @@ describe('execute', () => {
     process.env.ETHEREUM_GOERLI_CHAIN_ID = process.env.ETHEREUM_GOERLI_CHAIN_ID ?? '5'
     process.env.BACKGROUND_EXECUTE_MS = '0'
     process.env.APTOS_URL = process.env.APTOS_URL ?? 'http://fake-aptos'
+    process.env.APTOS_TESTNET_URL = process.env.APTOS_TESTNET_URL ?? 'http://fake-aptos-testnet'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -110,7 +112,13 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
+      expect(response.json()).toEqual({
+        errorMessage: expect.stringMatching(
+          /no matching function \(argument="key", value="symbol\(\) view returns \(string\)", code=INVALID_ARGUMENT, version=/,
+        ),
+        statusCode: 502,
+        timestamps: { providerDataReceivedUnixMs: 0, providerDataRequestedUnixMs: 0 },
+      })
     })
   })
 
@@ -120,6 +128,21 @@ describe('execute', () => {
       const response = await testAdapter.request({
         endpoint: 'aptos',
         signature: '0x1::chain_id::get',
+      })
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('aptos-df-reader endpoint', () => {
+    it('should return success', async () => {
+      mockAptosDfReaderSuccess()
+      const response = await testAdapter.request({
+        endpoint: 'aptos-df-reader',
+        networkType: 'testnet',
+        signature:
+          '0xf1099f135ddddad1c065203431be328a408b0ca452ada70374ce26bd2b32fdd3::registry::get_feeds',
+        feedId: '0x015d2ae47f000328000000000000000000000000000000000000000000000000',
       })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nexus-kiln-adapter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Chainlink nexus-kiln adapter.",
   "keywords": [
     "Chainlink",
@@ -30,12 +30,12 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "ethers": "6.13.5",
+    "ethers": "6.13.7",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.5.0",
+    "@chainlink/external-adapter-framework": "2.6.0",
     "tslib": "2.4.1"
   }
 }

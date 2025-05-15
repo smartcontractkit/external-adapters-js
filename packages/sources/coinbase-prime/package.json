@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinbase-prime-adapter",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "description": "Chainlink coinbase-prime adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.5.0",
+    "@chainlink/external-adapter-framework": "2.6.0",
     "@types/crypto-js": "4.2.2",
     "crypto-js": "4.2.0",
     "tslib": "2.4.1"

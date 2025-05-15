@@ -1,4 +1,7 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  ForexPriceEndpoint,
+  priceEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -7,28 +10,12 @@ import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/forex-http'
 import { wsTransport } from '../transport/forex-ws'
 
-const inputParameters = new InputParameters(
+const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
-    base: {
-      aliases: ['from', 'market', 'asset'],
-      required: true,
-      type: 'string',
-      description: 'The asset to query',
-    },
-    quote: {
-      aliases: ['to'],
-      required: true,
-      type: 'string',
-      description: 'The quote to convert to',
-    },
+    base: 'GBP',
+    quote: 'USD',
   },
-  [
-    {
-      base: 'GBP',
-      quote: 'USD',
-    },
-  ],
-)
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -36,7 +23,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new ForexPriceEndpoint({
   name: 'forex',
   aliases: ['fx', 'commodities'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()

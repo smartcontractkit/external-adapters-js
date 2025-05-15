@@ -1,6 +1,6 @@
 # Chainlink NFTX Collection Price Composite Adapter
 
-![3.0.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/nftx/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![3.0.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/nftx/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter calculates NFTX redemption values for an NFT collection, combining the price for the associated vToken with the collection's fee settings.
 

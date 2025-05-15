@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Market status endpoint should return error for invalid market 1`] = `
+{
+  "error": {
+    "message": "[Param: market] input is not one of valid options (AD,AS,AT,AX,BA,BC,BD,BE,BH,BK,BO,BR,CA,CN,CO,CR,CS,DB,DE,DU,F,HE,HK,HM,IC,IR,IS,JK,JO,KL,KQ,KS,KW,L,LS,MC,ME,MI,MT,MU,MX,NE,NL,NS,NZ,OL,PA,PM,PR,QA,RO,RG,SA,SG,SI,SN,SR,SS,ST,SW,SZ,T,TA,TL,TO,TW,TWO,US,V,VI,VN,VS,WA,HA,SX,TG,SC,NYSE)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`Market status endpoint should return success with closed 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1697018041000,
+  },
+}
+`;
+
+exports[`Market status endpoint should return success with closed; null status in response 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1697018041000,
+  },
+}
+`;
+
+exports[`Market status endpoint should return success with open 1`] = `
+{
+  "data": {
+    "result": 2,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1697018041000,
+  },
+}
+`;
+
+exports[`Market status endpoint should return success with unknown 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

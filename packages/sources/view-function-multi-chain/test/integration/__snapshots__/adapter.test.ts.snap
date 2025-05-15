@@ -14,13 +14,16 @@ exports[`execute aptos endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute function endpoint should return error for invalid input 1`] = `
+exports[`execute aptos-df-reader endpoint should return success 1`] = `
 {
-  "errorMessage": "no matching function (argument="key", value="symbol() view returns (string)", code=INVALID_ARGUMENT, version=6.13.5)",
-  "statusCode": 502,
+  "data": {
+    "result": "10568348893862534",
+  },
+  "result": "10568348893862534",
+  "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
   },
 }
 `;
