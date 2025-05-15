@@ -14,6 +14,20 @@ exports[`execute aptos endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute aptos-df-reader endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "10568348893862534",
+  },
+  "result": "10568348893862534",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute function endpoint should return success 1`] = `
 {
   "data": {
