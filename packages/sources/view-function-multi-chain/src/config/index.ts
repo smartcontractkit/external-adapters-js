@@ -7,7 +7,12 @@ export const config = new AdapterConfig({
     required: false,
     default: '',
   },
-
+  APTOS_TESTNET_URL: {
+    description: 'Aptos testnet rest api url',
+    type: 'string',
+    required: false,
+    default: '',
+  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

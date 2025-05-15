@@ -138,3 +138,50 @@ export const mockAptosSuccess = (): nock.Scope =>
       'Origin',
     ])
     .persist()
+
+export const mockAptosDfReaderSuccess = (): nock.Scope =>
+  nock('http://fake-aptos-testnet', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .post('/view')
+    .reply(
+      200,
+      () => [
+        [
+          {
+            feed: {
+              benchmark: '10568348893862534',
+              config_id: '0x',
+              description: 'truAPT-APT Exchange Rate',
+              observation_timestamp: '1747197639',
+              report:
+                '0x00030b04d917b020da9373073eebdf46a804972050dc1c28f6fb4e9975e84e700000000000000000000000000000000000000000000000000000000068241cfe0000000000000000000000000000000000000000000000000000000068241ec700000000000000007fffffffffffffffffffffffffffffffffffffffffffffff00000000000000007fffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000006825704700000000000000000000000000000000000000000000000000258bdb79ae5a8600000000000000000000000000000000000000000000000000258bdb79ae5a8600000000000000000000000000000000000000000000000000258bdb79ae5a86',
+            },
+            feed_id: '0x015d2ae47f000328000000000000000000000000000000000000000000000000',
+          },
+          {
+            feed: {
+              benchmark: '1025605000000',
+              config_id: '0x',
+              description: 'eAPT-APT Exchange Rate',
+              observation_timestamp: '1747158560',
+              report:
+                '0x00030b04d917b020da9373073eebdf46a804972050dc1c28f6fb4e9975e84e71000000000000000000000000000000000000000000000000000000006823861c000000000000000000000000000000000000000000000000000000006823862000000000000000007fffffffffffffffffffffffffffffffffffffffffffffff00000000000000007fffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000006824d7a0000000000000000000000000000000000000000000000000000000eecad25b40000000000000000000000000000000000000000000000000000000eecad25b40000000000000000000000000000000000000000000000000000000eecad25b40',
+            },
+            feed_id: '0x017b2eb719000326000000000000000000000000000000000000000000000000',
+          },
+        ],
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
