@@ -64,5 +64,21 @@ describe('rewards-verifier', () => {
       expect(result.slice(0, 30)).toEqual(expectedRewards.slice(0, 30))
       console.log('dskloetx test 2')
     })
+
+    it('bla', () => {
+      const traderRewardsAmount = new bn.BigNumber('3.835616e+24')
+      const traderScoreAddr = new bn.BigNumber('136.2080366087203706546465621375922553920933956156')
+      const traderScoreSum = new bn.BigNumber(
+        '27180191.497704501803055711578679243004027107008846592684248',
+      )
+
+      const reward = traderRewardsAmount
+        .times(traderScoreAddr)
+        .div(traderScoreSum)
+        .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
+        .toFixed()
+
+      expect(reward).toEqual('0')
+    })
   })
 })
