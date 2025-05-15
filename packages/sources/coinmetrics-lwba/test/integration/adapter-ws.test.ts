@@ -39,7 +39,7 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(dataLwba)
-    await testAdapter.waitForCache(2)
+    await testAdapter.waitForCache(1)
   })
 
   afterAll(async () => {
