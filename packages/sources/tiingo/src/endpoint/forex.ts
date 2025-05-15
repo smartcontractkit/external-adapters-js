@@ -26,7 +26,7 @@ export type BaseEndpointTypes = {
 // test comment - remove
 export const endpoint = new ForexPriceEndpoint({
   name: 'forex',
-  aliases: ['fx', 'commodities'],
+  aliases: ['fx', 'commodities', 'ttt'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
