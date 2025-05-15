@@ -6585,7 +6585,7 @@ const RAW_RUNTIME_STATE =
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/shelljs", "npm:0.8.15"],\
+          ["@types/shelljs", "npm:0.8.16"],\
           ["@types/swagger-jsdoc", "npm:6.0.4"],\
           ["@types/yaml", "npm:1.9.7"],\
           ["airtable", "npm:0.11.6"],\
@@ -16840,10 +16840,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/shelljs", [\
-      ["npm:0.8.15", {\
-        "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.15-4684136e20-1f756acc24.zip/node_modules/@types/shelljs/",\
+      ["npm:0.8.16", {\
+        "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.16-36ab2edae0-4f6c95f4ca.zip/node_modules/@types/shelljs/",\
         "packageDependencies": [\
-          ["@types/shelljs", "npm:0.8.15"],\
+          ["@types/shelljs", "npm:0.8.16"],\
           ["@types/glob", "npm:7.2.0"],\
           ["@types/node", "npm:22.9.1"]\
         ],\
