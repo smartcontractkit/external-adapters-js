@@ -1,12 +1,15 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import type {
-  ExecuteWithConfig,
-  Execute,
   AdapterContext,
+  Execute,
+  ExecuteWithConfig,
   InputParameters,
 } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import * as IPFS from '@chainlink/ipfs-adapter'
+import * as bn from 'bignumber.js'
+import { BigNumber, ethers } from 'ethers'
+import { MerkleTree } from 'merkletreejs'
 import { ExtendedConfig } from '../config'
-import { ethers, BigNumber } from 'ethers'
 import { OracleRequester } from '../contracts'
 import {
   AddressRewards,
@@ -16,12 +19,9 @@ import {
   OracleRewardsData,
   storeJsonTree,
 } from '../ipfs-data'
-import * as IPFS from '@chainlink/ipfs-adapter'
-import { MerkleTree } from 'merkletreejs'
-import * as bn from 'bignumber.js'
-import * as initial from './formulas/initial'
-import * as DIP7 from './formulas/dip-7'
 import * as APRIL2022 from './formulas/april-2022'
+import * as DIP7 from './formulas/dip-7'
+import * as initial from './formulas/initial'
 import * as JUNE2022 from './formulas/june-2022'
 
 export const NAME = 'poke'
@@ -202,11 +202,21 @@ export const addReward = (
   address: string,
   amount: number | string | BigNumber,
 ): void => {
+  const oldAddress = address
   address = ethers.utils.getAddress(address)
+  if (address === '0x00000000002763419d1c9adDA5df54f13D63e29B') {
+    console.log('dskloetx addReward', oldAddress, address, new Error().stack)
+  }
   if (address in addressRewards) {
     addressRewards[address] = addressRewards[address].add(amount)
+    if (address === '0x00000000002763419d1c9adDA5df54f13D63e29B') {
+      console.log('dskloetx addReward 0x00000000002763419d1c9adDA5df54f13D63e29B +=', amount)
+    }
   } else {
     addressRewards[address] = BigNumber.from(amount)
+    if (address === '0x00000000002763419d1c9adDA5df54f13D63e29B') {
+      console.log('dskloetx addReward 0x00000000002763419d1c9adDA5df54f13D63e29B =', amount)
+    }
   }
 }
 
