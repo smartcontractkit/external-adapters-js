@@ -4,8 +4,39 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import Decimal from 'decimal.js'
+import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/xrpl'
 import { XrplTransport } from '../../src/transport/xrpl'
+
+const originalEnv = { ...process.env }
+
+const restoreEnv = () => {
+  for (const key of Object.keys(process.env)) {
+    if (key in originalEnv) {
+      process.env[key] = originalEnv[key]
+    } else {
+      delete process.env[key]
+    }
+  }
+}
+
+const ethersNewContract = jest.fn()
+const ethersNewJsonRpcProvider = jest.fn()
+
+const makeEthers = () => {
+  return {
+    JsonRpcProvider: function (...args: [string, number]) {
+      return ethersNewJsonRpcProvider(...args)
+    },
+    Contract: function (...args: [string, unknown, ethers.JsonRpcProvider]) {
+      return ethersNewContract(...args)
+    },
+  }
+}
+
+jest.mock('ethers', () => ({
+  ethers: makeEthers(),
+}))
 
 const log = jest.fn()
 const logger = {
@@ -127,6 +158,7 @@ describe('XrplTransport', () => {
   }
 
   beforeEach(async () => {
+    restoreEnv()
     jest.resetAllMocks()
     jest.useFakeTimers()
 
@@ -172,14 +204,36 @@ describe('XrplTransport', () => {
 
   describe('handleRequest', () => {
     it('should cache response', async () => {
+      const priceOracleAddress = '0x123'
+      const priceOracleNetwork = 'arbitrum'
+      const arbitrumRpcUrl = 'https://arb.rpc.url'
+      const arbitrumChainId = 42161
+      const tokenPrice = 200_000_000n
+      const tokenDecimals = 8
       const address = 'r101'
+      const tokenIssuerAddress = 'r456'
+      const balance = 123
+
+      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
+      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumChainId.toString()
+
+      const contract = makeStub('contract', {
+        decimals: jest.fn().mockResolvedValue(tokenDecimals),
+        latestAnswer: jest.fn().mockResolvedValue(tokenPrice),
+      })
+      ethersNewContract.mockReturnValue(contract)
+
+      mockLineBalances([balance.toString()])
 
       const param = makeStub('param', {
+        priceOracleAddress,
+        priceOracleNetwork,
+        tokenIssuerAddress,
         addresses: [{ address }],
       })
       await transport.handleRequest(context, param)
 
-      const expectedResult = '0'
+      const expectedResult = (246 * 10 ** 18).toString()
       const expectedResponse = {
         statusCode: 200,
         result: expectedResult,
@@ -201,19 +255,48 @@ describe('XrplTransport', () => {
         },
       ])
       expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(log).toBeCalledWith(expect.stringContaining('Generated HTTP request queue key:'))
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
     })
   })
 
   describe('_handleRequest', () => {
-    it('should return a response', async () => {
-      const address = 'r101'
+    it('should add balances and multiply by token price', async () => {
+      const priceOracleAddress = '0x123'
+      const priceOracleNetwork = 'arbitrum'
+      const arbitrumRpcUrl = 'https://arb.rpc.url'
+      const arbitrumChainId = 42161
+      const tokenPrice = 200_000_000n
+      const tokenDecimals = 8
+      const address1 = 'r101'
+      const address2 = 'r102'
+      const tokenIssuerAddress = 'r456'
+      const balance1 = 100
+      const balance2 = 200
+
+      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
+      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumChainId.toString()
+
+      const contract = makeStub('contract', {
+        decimals: jest.fn().mockResolvedValue(tokenDecimals),
+        latestAnswer: jest.fn().mockResolvedValue(tokenPrice),
+      })
+      ethersNewContract.mockReturnValue(contract)
+
+      mockLineBalances([balance1.toString()])
+      mockLineBalances([balance2.toString()])
 
       const param = makeStub('param', {
-        addresses: [{ address }],
+        priceOracleAddress,
+        priceOracleNetwork,
+        tokenIssuerAddress,
+        addresses: [{ address: address1 }, { address: address2 }],
       })
       const response = await transport._handleRequest(param)
 
-      const expectedResult = '0'
+      const expectedResult = (600 * 10 ** 18).toString()
       expect(response).toEqual({
         statusCode: 200,
         result: expectedResult,
@@ -227,6 +310,73 @@ describe('XrplTransport', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       })
+
+      expect(log).toHaveBeenNthCalledWith(
+        1,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        2,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toBeCalledTimes(2)
+      log.mockClear()
+    })
+
+    it('should record received timestamp separate from requested timestamp', async () => {
+      const priceOracleAddress = '0x123'
+      const priceOracleNetwork = 'arbitrum'
+      const arbitrumRpcUrl = 'https://arb.rpc.url'
+      const arbitrumChainId = 42161
+      const tokenPrice = 200_000_000n
+      const tokenDecimals = 8
+      const address = 'r101'
+      const tokenIssuerAddress = 'r456'
+      const balance = 100
+
+      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
+      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumChainId.toString()
+
+      const contract = makeStub('contract', {
+        decimals: jest.fn().mockResolvedValue(tokenDecimals),
+        latestAnswer: jest.fn().mockResolvedValue(tokenPrice),
+      })
+      ethersNewContract.mockReturnValue(contract)
+
+      const [balancePromise, resolveBalance] = deferredPromise<string[]>()
+      mockLineBalances(balancePromise)
+
+      const param = makeStub('param', {
+        priceOracleAddress,
+        priceOracleNetwork,
+        tokenIssuerAddress,
+        addresses: [{ address }],
+      })
+
+      const requestTimestamp = Date.now()
+      const responsePromise = transport._handleRequest(param)
+      jest.advanceTimersByTime(1234)
+      const responseTimestamp = Date.now()
+      expect(responseTimestamp).toBeGreaterThan(requestTimestamp)
+
+      resolveBalance([balance.toString()])
+
+      const expectedResult = (200 * 10 ** 18).toString()
+      expect(await responsePromise).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          decimals: 18,
+          result: expectedResult,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: requestTimestamp,
+          providerDataReceivedUnixMs: responseTimestamp,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      log.mockClear()
     })
   })
 

@@ -5,6 +5,21 @@ import { xrplTransport } from '../transport/xrpl'
 
 export const inputParameters = new InputParameters(
   {
+    tokenIssuerAddress: {
+      required: true,
+      type: 'string',
+      description: 'Identifies the token, e.g., TBILL, to fetch the balance of',
+    },
+    priceOracleAddress: {
+      required: true,
+      type: 'string',
+      description: 'Address of the price oracle contract to use to convert the above token to USD',
+    },
+    priceOracleNetwork: {
+      required: true,
+      type: 'string',
+      description: 'EVM network on which to query the price oracle (ethereum, arbitrum, etc.)',
+    },
     addresses: {
       required: true,
       type: {
@@ -20,6 +35,9 @@ export const inputParameters = new InputParameters(
   },
   [
     {
+      tokenIssuerAddress: 'rJNE2NNz83GJYtWVLwMvchDWEon3huWnFn',
+      priceOracleAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
+      priceOracleNetwork: 'ethereum',
       addresses: [
         {
           address: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
