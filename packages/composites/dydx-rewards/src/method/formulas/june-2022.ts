@@ -46,6 +46,10 @@ export const calcTraderRewards = (
         (epochData.averageActiveStakedDYDX[primaryAddress] || 0) + g
   })
 
+  let i = 0
+  let j = 1
+  const output = ['']
+  const output2 = ['']
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const linkedAddress = epochData?.linkedPrimaryAddresses?.[addr]
     if (linkedAddress) return
@@ -59,7 +63,15 @@ export const calcTraderRewards = (
       .times(bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c)
     traderScore[addr] = score
     traderScoreSum = traderScoreSum.plus(score)
+    i += 1
+    output.push(`${i} ${score.toString()} ${traderScoreSum.toString()}`)
+    if (i === j) {
+      output2.push(`${i} ${score.toString()} ${traderScoreSum.toString()}`)
+      j *= 2
+    }
   })
+
+  console.log('dskloetx calcTraderRewards traderScoreSum:', output.join('\n'), output2.join('\n'))
 
   if (traderScoreSum.isZero()) return
 
