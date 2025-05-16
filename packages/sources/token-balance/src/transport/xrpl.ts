@@ -8,6 +8,8 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/xrpl'
+import { getTokenPrice } from './priceFeed'
+import { SharePriceType } from './utils'
 
 const logger = makeLogger('Token Balance - XRPL')
 
@@ -84,12 +86,19 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async _handleRequest(
-    _param: RequestParams,
+    param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
+    const [tokenPriceInUsd, tokenBalance]: [SharePriceType, Decimal] = await Promise.all([
+      getTokenPrice(param),
+      this.getTotalTokenBalance(param),
+    ])
 
-    // TODO: Implement the logic
-    const result = '0'
+    const tokenBalanceInUsd = tokenBalance
+      .times(new Decimal(tokenPriceInUsd.value.toString()))
+      .times(10 ** (RESULT_DECIMALS - tokenPriceInUsd.decimal))
+
+    const result = tokenBalanceInUsd.toFixed(0)
 
     return {
       data: {
