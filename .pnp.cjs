@@ -6585,7 +6585,7 @@ const RAW_RUNTIME_STATE =
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/shelljs", "npm:0.8.15"],\
+          ["@types/shelljs", "npm:0.8.16"],\
           ["@types/swagger-jsdoc", "npm:6.0.4"],\
           ["@types/yaml", "npm:1.9.7"],\
           ["airtable", "npm:0.11.6"],\
@@ -6594,7 +6594,7 @@ const RAW_RUNTIME_STATE =
           ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
           ["backoff-rxjs", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:6.5.7"],\
           ["chalk", "npm:4.1.2"],\
-          ["class-validator", "npm:0.14.1"],\
+          ["class-validator", "npm:0.14.2"],\
           ["command-line-args", "npm:5.2.1"],\
           ["command-line-usage", "npm:6.1.3"],\
           ["human-id", "npm:4.1.1"],\
@@ -8036,7 +8036,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.13.5"],\
+          ["ethers", "npm:6.13.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -16840,10 +16840,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/shelljs", [\
-      ["npm:0.8.15", {\
-        "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.15-4684136e20-1f756acc24.zip/node_modules/@types/shelljs/",\
+      ["npm:0.8.16", {\
+        "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.16-36ab2edae0-4f6c95f4ca.zip/node_modules/@types/shelljs/",\
         "packageDependencies": [\
-          ["@types/shelljs", "npm:0.8.15"],\
+          ["@types/shelljs", "npm:0.8.16"],\
           ["@types/glob", "npm:7.2.0"],\
           ["@types/node", "npm:22.9.1"]\
         ],\
@@ -20138,12 +20138,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["class-validator", [\
-      ["npm:0.14.1", {\
-        "packageLocation": "./.yarn/cache/class-validator-npm-0.14.1-f0ce3b1130-0c34592a1c.zip/node_modules/class-validator/",\
+      ["npm:0.14.2", {\
+        "packageLocation": "./.yarn/cache/class-validator-npm-0.14.2-e722f4bf99-37fbbc2ddb.zip/node_modules/class-validator/",\
         "packageDependencies": [\
-          ["class-validator", "npm:0.14.1"],\
+          ["class-validator", "npm:0.14.2"],\
           ["@types/validator", "npm:13.12.2"],\
-          ["libphonenumber-js", "npm:1.11.14"],\
+          ["libphonenumber-js", "npm:1.12.8"],\
           ["validator", "npm:13.12.0"]\
         ],\
         "linkType": "HARD"\
@@ -23114,10 +23114,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.13.5", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-6.13.5-1c74b226ee-ccba21a836.zip/node_modules/ethers/",\
+      ["npm:6.13.7", {\
+        "packageLocation": "./.yarn/cache/ethers-npm-6.13.7-f6f30c4272-930ab1a444.zip/node_modules/ethers/",\
         "packageDependencies": [\
-          ["ethers", "npm:6.13.5"],\
+          ["ethers", "npm:6.13.7"],\
           ["@adraffy/ens-normalize", "npm:1.10.1"],\
           ["@noble/curves", "npm:1.2.0"],\
           ["@noble/hashes", "npm:1.3.2"],\
@@ -29819,10 +29819,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["libphonenumber-js", [\
-      ["npm:1.11.14", {\
-        "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.11.14-98ab40e33d-44433ddcd1.zip/node_modules/libphonenumber-js/",\
+      ["npm:1.12.8", {\
+        "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.12.8-806f5fa775-476e5268f5.zip/node_modules/libphonenumber-js/",\
         "packageDependencies": [\
-          ["libphonenumber-js", "npm:1.11.14"]\
+          ["libphonenumber-js", "npm:1.12.8"]\
         ],\
         "linkType": "HARD"\
       }]\
