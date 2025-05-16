@@ -233,3 +233,72 @@ export const mockETHContractCallResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockXrplResponseSuccess = (): nock.Scope =>
+  nock('http://localhost-xrpl:8080', { encodedQueryParams: true })
+    .persist()
+    .post('/', {
+      method: 'account_lines',
+      params: [
+        {
+          account: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
+          ledger_index: 'validated',
+          peer: 'rJNE2NNz83GJYtWVLwMvchDWEon3huWnFn',
+        },
+      ],
+    })
+    .reply(
+      200,
+      {
+        result: {
+          account: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
+          ledger_hash: '1D08128C3E24093DCF18AE9E6800D795207320B3CAB8C1CD4F5C34F99107955D',
+          ledger_index: 96115827,
+          lines: [
+            {
+              account: 'rJNE2NNz83GJYtWVLwMvchDWEon3huWnFn',
+              balance: '4663215.314987',
+              currency: 'TBL',
+              limit: '9999999999999999',
+              limit_peer: '0',
+              no_ripple: true,
+              no_ripple_peer: false,
+              peer_authorized: true,
+              quality_in: 0,
+              quality_out: 0,
+            },
+          ],
+          status: 'success',
+          validated: true,
+        },
+      },
+      [
+        'Date',
+        'Wed, 14 May 2025 13:00:06 GMT',
+        'Content-Type',
+        'application/json; charset=UTF-8',
+        'Content-Length',
+        '444',
+        'Connection',
+        'keep-alive',
+        'nel',
+        '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}',
+        'x-kong-upstream-latency',
+        '3',
+        'x-kong-proxy-latency',
+        '1',
+        'via',
+        'kong/3.4.0',
+        'cf-cache-status',
+        'DYNAMIC',
+        'report-to',
+        '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=W2C1dDN5VsyGgu6eSLNm74YaGLBWjASjNyCy3BQVTxAgPjWM9LBCaxZtWqLWP7XitG%2B0rUqCxqWliq3G%2FkEL6u8JW6dnWy6nhLU3P8a9NNs0%2FF1PrYlnsyEsDqWa35qHikiBJsoIU1ZrZ3izVA%2FPLPMCdw%3D%3D"}]}',
+        'cf-ray',
+        '93fa939bcbb0fef1-PDX',
+        'alt-svc',
+        'h3=":443"; ma=86400',
+        'x-rpc-provider',
+        'simplyvc1',
+      ],
+    )
+    .persist()
