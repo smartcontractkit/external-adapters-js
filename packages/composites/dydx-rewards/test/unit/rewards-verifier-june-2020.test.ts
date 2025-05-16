@@ -80,5 +80,25 @@ describe('rewards-verifier', () => {
 
       expect(reward).toEqual('0')
     })
+
+    it('bla 2', () => {
+      const a = 0.8
+      const b = 0.15
+      const c = 0.05
+      const d = 1773340334.110449
+      const f = 18.567997
+      const g = 0
+
+      const score = new bn.BigNumber(f ** a)
+        .times(d ** b)
+        .times(bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c)
+      console.log('dskloetx test bla 2 score:', score.toString())
+      console.log('dskloetx test bla 2 d ** b', d ** b)
+      console.log(
+        'dskloetx test bla 2 bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c',
+        bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c,
+      )
+      expect(score.toString()).toEqual('0')
+    })
   })
 })
