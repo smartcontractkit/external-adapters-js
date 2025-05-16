@@ -69,9 +69,19 @@ export const calcTraderRewards = (
       output2.push(`${i} ${score.toString()} ${traderScoreSum.toString()}`)
       j *= 2
     }
+    if (i === 1402) {
+      console.log('dskloetx calcTraderRewards', i, score.toString(), traderScoreSum.toString(), {
+        a,
+        b,
+        c,
+        d,
+        f,
+        g,
+      })
+    }
   })
 
-  console.log('dskloetx calcTraderRewards traderScoreSum:', output.join('\n'), output2.join('\n'))
+  //console.log('dskloetx calcTraderRewards traderScoreSum:', output.join('\n'), output2.join('\n'))
 
   if (traderScoreSum.isZero()) return
 
