@@ -77,6 +77,17 @@ export const calcTraderRewards = (
         d,
         f,
         g,
+        dd: d === 1773340334.110449,
+        ff: f === 18.567997,
+        fa: f ** a === 10.351708783335381,
+        db: d ** b === 24.39601062398205,
+        gc: 10 ** c === 1.1220184543019633,
+        FA: new bn.BigNumber(f ** a).toString(),
+        FADB: new bn.BigNumber(10.351708783335381).times(24.39601062398205).toString(),
+        FADBGC: new bn.BigNumber(10.351708783335381)
+          .times(24.39601062398205)
+          .times(1.1220184543019633)
+          .toString(),
       })
     }
   })
