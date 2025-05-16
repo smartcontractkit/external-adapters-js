@@ -24,6 +24,7 @@ Additional env vars in the form `${NETWORK}_RPC_URL` and `${NETWORK}_RPC_CHAIN_I
 |           | ARBITRUM_RPC_CHAIN_ID |                                                                                         Arbitrum chain id                                                                                          | number |         |   `42161`   |
 |           |    SOLANA_RPC_URL     |                                                                                       RPC url of Solana node                                                                                       | string |         |     ``      |
 |           |   SOLANA_COMMITMENT   |                                                                                Solana transaction commitment level                                                                                 | string |         | `finalized` |
+|           |     XRPL_RPC_URL      |                                                                                        RPC url of XRPL node                                                                                        | string |         |     ``      |
 |           | BACKGROUND_EXECUTE_MS |                                                     The amount of time the background execute should sleep before performing the next request                                                      | number |         |   `10000`   |
 |           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |    `25`     |
 
@@ -37,9 +38,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                              Options                                                               | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint) |  `evm`  |
+| Required? |   Name   |     Description     |  Type  |                                                                          Options                                                                           | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
 
 ## Evm Endpoint
 
@@ -181,6 +182,42 @@ Request:
         "contractAddress": "0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a",
         "wallets": ["0x5EaFF7af80488033Bc845709806D5Fae5291eB88"],
         "priceOracleAddress": "0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Xrpl Endpoint
+
+`xrpl` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |        Name        | Aliases |                                  Description                                  |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------------: | :-----: | :---------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | tokenIssuerAddress |         |          Identifies the token, e.g., TBILL, to fetch the balance of           |  string  |         |         |            |                |
+|    ✅     | priceOracleAddress |         | Address of the price oracle contract to use to convert the above token to USD |  string  |         |         |            |                |
+|    ✅     | priceOracleNetwork |         |   EVM network on which to query the price oracle (ethereum, arbitrum, etc.)   |  string  |         |         |            |                |
+|    ✅     |     addresses      |         |                           List of addresses to read                           | object[] |         |         |            |                |
+|    ✅     | addresses.address  |         |                Address of the account to fetch the balance of                 |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "xrpl",
+    "tokenIssuerAddress": "rJNE2NNz83GJYtWVLwMvchDWEon3huWnFn",
+    "priceOracleAddress": "0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40",
+    "priceOracleNetwork": "ethereum",
+    "addresses": [
+      {
+        "address": "rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH"
       }
     ]
   }
