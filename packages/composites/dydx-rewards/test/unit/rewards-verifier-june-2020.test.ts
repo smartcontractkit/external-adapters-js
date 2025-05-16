@@ -93,11 +93,19 @@ describe('rewards-verifier', () => {
         .times(d ** b)
         .times(bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c)
       console.log('dskloetx test bla 2 score:', score.toString())
+      console.log('dskloetx test bla 2 f ** a', f ** a)
       console.log('dskloetx test bla 2 d ** b', d ** b)
       console.log(
         'dskloetx test bla 2 bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c',
         bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c,
       )
+
+      const fa = 10.351708783335381
+      const db = 24.39601062398205
+      const gc = 1.1220184543019633
+      const score2 = new bn.BigNumber(fa).times(db).times(gc)
+      console.log('dskloetx test bla 2 score2:', score2.toString())
+
       expect(score.toString()).toEqual('0')
     })
   })
