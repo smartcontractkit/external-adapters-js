@@ -46,6 +46,10 @@ export const calcTraderRewards = (
         (epochData.averageActiveStakedDYDX[primaryAddress] || 0) + g
   })
 
+  let i = 0
+  let j = 1
+  const output = ['']
+  const output2 = ['']
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const linkedAddress = epochData?.linkedPrimaryAddresses?.[addr]
     if (linkedAddress) return
@@ -59,18 +63,63 @@ export const calcTraderRewards = (
       .times(bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c)
     traderScore[addr] = score
     traderScoreSum = traderScoreSum.plus(score)
+    i += 1
+    output.push(`${i} ${score.toString()} ${traderScoreSum.toString()}`)
+    if (i === j) {
+      output2.push(`${i} ${score.toString()} ${traderScoreSum.toString()}`)
+      j *= 2
+    }
+    if (i === 1402) {
+      console.log('dskloetx calcTraderRewards', i, score.toString(), traderScoreSum.toString(), {
+        a,
+        b,
+        c,
+        d,
+        f,
+        g,
+        dd: d === 1773340334.110449,
+        ff: f === 18.567997,
+        fa: f ** a === 10.351708783335381,
+        db: d ** b === 24.39601062398205,
+        gc: 10 ** c === 1.1220184543019633,
+        FA: new bn.BigNumber(f ** a).toString(),
+        FADB: new bn.BigNumber(10.351708783335381).times(24.39601062398205).toString(),
+        FADBGC: new bn.BigNumber(10.351708783335381)
+          .times(24.39601062398205)
+          .times(1.1220184543019633)
+          .toString(),
+      })
+    }
   })
+
+  //console.log('dskloetx calcTraderRewards traderScoreSum:', output.join('\n'), output2.join('\n'))
 
   if (traderScoreSum.isZero()) return
 
   Object.keys(traderScore).forEach((addr) => {
+    if (addr === '0x00000000002763419d1c9adda5df54f13d63e29b') {
+      console.log('dskloetx calcTraderRewards 1', {
+        traderRewardsAmount: traderRewardsAmount,
+        'traderRewardsAmount.toString()': traderRewardsAmount.toString(),
+        'traderScore[addr]': traderScore[addr],
+        'traderScore[addr].toString()': traderScore[addr].toString(),
+        traderScoreSum: traderScoreSum,
+        'traderScoreSum.toString()': traderScoreSum.toString(),
+      })
+    }
     const reward = traderRewardsAmount
       .times(traderScore[addr])
       .div(traderScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
       .toFixed()
     if (reward !== '0') {
+      if (addr === '0x00000000002763419d1c9adda5df54f13d63e29b') {
+        console.log('dskloetx calcTraderRewards 2', reward)
+      }
       addReward(addressRewards, addr, reward)
+      if (addr === '0x00000000002763419d1c9adda5df54f13d63e29b') {
+        console.log('dskloetx calcTraderRewards 3', reward)
+      }
     }
   })
 }
