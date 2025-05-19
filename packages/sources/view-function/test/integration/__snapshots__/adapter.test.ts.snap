@@ -1,16 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute function endpoint should return error for invalid input 1`] = `
-{
-  "errorMessage": "no matching function (argument="key", value="symbol() view returns (string)", code=INVALID_ARGUMENT, version=6.13.5)",
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
-  },
-}
-`;
-
 exports[`execute function endpoint should return success 1`] = `
 {
   "data": {
