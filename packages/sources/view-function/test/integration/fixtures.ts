@@ -3,8 +3,10 @@ import nock from 'nock'
 type JsonRpcPayload = {
   id: number
   method: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  params: Array<any> | Record<string, any>
+  params: {
+    to: string
+    data: string
+  }[]
   jsonrpc: '2.0'
 }
 
@@ -16,7 +18,7 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
     .post('/', (body: any) => Array.isArray(body))
     .reply(
       200,
-      (uri, requestBody: any[]) => {
+      (_uri, requestBody: any[]) => {
         return requestBody.map((request: JsonRpcPayload) => {
           if (request.method === 'eth_chainId') {
             return {
