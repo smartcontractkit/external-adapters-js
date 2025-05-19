@@ -5361,7 +5361,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
-          ["fastify", "npm:5.3.2"],\
+          ["fastify", "npm:5.3.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6515,7 +6515,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.9.0"],\
           ["decimal.js", "npm:10.4.3"],\
           ["fast-redact", "npm:3.5.0"],\
-          ["fastify", "npm:5.3.2"],\
+          ["fastify", "npm:5.3.3"],\
           ["lodash", "npm:4.17.21"],\
           ["lru-cache", "npm:6.0.0"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -23711,6 +23711,28 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/",\
         "packageDependencies": [\
           ["fastify", "npm:5.3.2"],\
+          ["@fastify/ajv-compiler", "npm:4.0.2"],\
+          ["@fastify/error", "npm:4.0.0"],\
+          ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
+          ["@fastify/proxy-addr", "npm:5.0.0"],\
+          ["abstract-logging", "npm:2.0.1"],\
+          ["avvio", "npm:9.1.0"],\
+          ["fast-json-stringify", "npm:6.0.0"],\
+          ["find-my-way", "npm:9.1.0"],\
+          ["light-my-request", "npm:6.4.0"],\
+          ["pino", "npm:9.5.0"],\
+          ["process-warning", "npm:5.0.0"],\
+          ["rfdc", "npm:1.4.1"],\
+          ["secure-json-parse", "npm:4.0.0"],\
+          ["semver", "npm:7.6.3"],\
+          ["toad-cache", "npm:3.7.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.3.3", {\
+        "packageLocation": "./.yarn/cache/fastify-npm-5.3.3-eb42d209ad-8a736ed5c4.zip/node_modules/fastify/",\
+        "packageDependencies": [\
+          ["fastify", "npm:5.3.3"],\
           ["@fastify/ajv-compiler", "npm:4.0.2"],\
           ["@fastify/error", "npm:4.0.0"],\
           ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
