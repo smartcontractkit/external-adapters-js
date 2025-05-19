@@ -5741,7 +5741,7 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:6.14.0"],\
           ["https-proxy-agent", "npm:7.0.6"],\
           ["nock", "npm:13.5.6"],\
-          ["query-string", "npm:9.1.1"],\
+          ["query-string", "npm:9.1.2"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -34490,10 +34490,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:9.1.1", {\
-        "packageLocation": "./.yarn/cache/query-string-npm-9.1.1-0fe72d5dee-fa6b40be91.zip/node_modules/query-string/",\
+      ["npm:9.1.2", {\
+        "packageLocation": "./.yarn/cache/query-string-npm-9.1.2-e533d8a9a0-133dbacbc7.zip/node_modules/query-string/",\
         "packageDependencies": [\
-          ["query-string", "npm:9.1.1"],\
+          ["query-string", "npm:9.1.2"],\
           ["decode-uri-component", "npm:0.4.1"],\
           ["filter-obj", "npm:5.1.0"],\
           ["split-on-first", "npm:3.0.0"]\
