@@ -18401,8 +18401,8 @@ __metadata:
   linkType: hard
 
 "ethers@npm:^6.13.2":
-  version: 6.14.0
-  resolution: "ethers@npm:6.14.0"
+  version: 6.14.1
+  resolution: "ethers@npm:6.14.1"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.1"
     "@noble/curves": "npm:1.2.0"
@@ -18411,7 +18411,7 @@ __metadata:
     aes-js: "npm:4.0.0-beta.5"
     tslib: "npm:2.7.0"
     ws: "npm:8.17.1"
-  checksum: 10/a74621712d68983d6d9d8ea2fcfe01d7c1c0f88c33c776fa545d6c768088be66eb25ff0a9f1f1d96c39c75420bd9412db9514825faa5e2756758456156467f28
+  checksum: 10/20bd332bef5f38a94ca79863e56d02dcde692e4eb1f492b7dbbb5817c2488dd3af8056e315f75afbdfd07119dd5fa2dc065cac72859ca0b71eb815690aebeb53
   languageName: node
   linkType: hard
 
