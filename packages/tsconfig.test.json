@@ -42,9 +42,6 @@
       "path": "./composites/dxdao/tsconfig.test.json"
     },
     {
-      "path": "./composites/dydx-rewards/tsconfig.test.json"
-    },
-    {
       "path": "./composites/glv-token/tsconfig.test.json"
     },
     {
