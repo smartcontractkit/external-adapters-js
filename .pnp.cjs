@@ -5508,7 +5508,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/express", "npm:4.17.21"],\
+          ["@types/express", "npm:4.17.22"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -5733,10 +5733,10 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["ethers", "npm:6.14.0"],\
+          ["ethers", "npm:6.14.1"],\
           ["https-proxy-agent", "npm:7.0.6"],\
           ["nock", "npm:13.5.6"],\
-          ["query-string", "npm:9.1.1"],\
+          ["query-string", "npm:9.1.2"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8987,7 +8987,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:6.14.0"],\
+          ["ethers", "npm:6.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9217,7 +9217,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.0"],\
+          ["ethers", "npm:6.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9233,7 +9233,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.0"],\
+          ["ethers", "npm:6.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -16226,10 +16226,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/express", [\
-      ["npm:4.17.21", {\
-        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.21-be92a0245e-7a6d26cf6f.zip/node_modules/@types/express/",\
+      ["npm:4.17.22", {\
+        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.22-cb2b862707-9497634fc3.zip/node_modules/@types/express/",\
         "packageDependencies": [\
-          ["@types/express", "npm:4.17.21"],\
+          ["@types/express", "npm:4.17.22"],\
           ["@types/body-parser", "npm:1.19.5"],\
           ["@types/express-serve-static-core", "npm:4.19.6"],\
           ["@types/qs", "npm:6.9.17"],\
@@ -22849,10 +22849,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.14.0", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-6.14.0-d8fe026299-a74621712d.zip/node_modules/ethers/",\
+      ["npm:6.14.1", {\
+        "packageLocation": "./.yarn/cache/ethers-npm-6.14.1-8cfd0fa935-20bd332bef.zip/node_modules/ethers/",\
         "packageDependencies": [\
-          ["ethers", "npm:6.14.0"],\
+          ["ethers", "npm:6.14.1"],\
           ["@adraffy/ens-normalize", "npm:1.10.1"],\
           ["@noble/curves", "npm:1.2.0"],\
           ["@noble/hashes", "npm:1.3.2"],\
@@ -33868,10 +33868,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:9.1.1", {\
-        "packageLocation": "./.yarn/cache/query-string-npm-9.1.1-0fe72d5dee-fa6b40be91.zip/node_modules/query-string/",\
+      ["npm:9.1.2", {\
+        "packageLocation": "./.yarn/cache/query-string-npm-9.1.2-e533d8a9a0-133dbacbc7.zip/node_modules/query-string/",\
         "packageDependencies": [\
-          ["query-string", "npm:9.1.1"],\
+          ["query-string", "npm:9.1.2"],\
           ["decode-uri-component", "npm:0.4.1"],\
           ["filter-obj", "npm:5.1.0"],\
           ["split-on-first", "npm:3.0.0"]\
