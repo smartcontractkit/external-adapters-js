@@ -2967,7 +2967,7 @@ __metadata:
     ethers: "npm:^6.13.2"
     https-proxy-agent: "npm:7.0.6"
     nock: "npm:13.5.6"
-    query-string: "npm:9.1.1"
+    query-string: "npm:9.1.2"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -28646,14 +28646,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"query-string@npm:9.1.1":
-  version: 9.1.1
-  resolution: "query-string@npm:9.1.1"
+"query-string@npm:9.1.2":
+  version: 9.1.2
+  resolution: "query-string@npm:9.1.2"
   dependencies:
     decode-uri-component: "npm:^0.4.1"
     filter-obj: "npm:^5.1.0"
     split-on-first: "npm:^3.0.0"
-  checksum: 10/fa6b40be91463123cf6da43e067539d5b7b7f2e69fc7f7113d70a943149a1f0dcfa163534310cae2827175df0616dbbe4a9dcb9821b62794d5bfe1ca6f309195
+  checksum: 10/133dbacbc793133f3a3607c7bdd98315ba4378f5f1f3c296f6787c5f04a2452a4a04fe8306dfb2633070d466b53d66ad96f872c439dd63d4d2d1d7d923d38567
   languageName: node
   linkType: hard
 
