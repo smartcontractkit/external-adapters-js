@@ -5513,7 +5513,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/express", "npm:4.17.21"],\
+          ["@types/express", "npm:4.17.22"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -16284,10 +16284,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/express", [\
-      ["npm:4.17.21", {\
-        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.21-be92a0245e-7a6d26cf6f.zip/node_modules/@types/express/",\
+      ["npm:4.17.22", {\
+        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.22-cb2b862707-9497634fc3.zip/node_modules/@types/express/",\
         "packageDependencies": [\
-          ["@types/express", "npm:4.17.21"],\
+          ["@types/express", "npm:4.17.22"],\
           ["@types/body-parser", "npm:1.19.5"],\
           ["@types/express-serve-static-core", "npm:4.19.6"],\
           ["@types/qs", "npm:6.9.17"],\
