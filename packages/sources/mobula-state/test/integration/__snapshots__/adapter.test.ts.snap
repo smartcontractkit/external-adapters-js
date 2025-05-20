@@ -16,6 +16,22 @@ exports[`websocket funding rate endpoint have data should return success 1`] = `
 }
 `;
 
+exports[`websocket funding rate endpoint have partial data return success 1`] = `
+{
+  "data": {
+    "epochDuration": 14400,
+    "fundingRate": -0.00059603,
+    "fundingTimestamp": 1747368000,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+  },
+}
+`;
+
 exports[`websocket funding rate endpoint no data should return failure 1`] = `
 {
   "error": {
