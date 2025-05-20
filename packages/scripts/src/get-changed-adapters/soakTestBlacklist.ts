@@ -27,7 +27,6 @@ export const SoakTestBlacklist: string[] = [
   'dns-query', // Missing: env vars
   'dns-record-check', // Missing: Same as above
   'dwolla',
-  'dydx-rewards',
   'dydx-stark',
   'dxdao',
   'etherscan',
