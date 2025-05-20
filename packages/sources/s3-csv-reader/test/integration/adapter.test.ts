@@ -68,6 +68,7 @@ jest.mock('@aws-sdk/client-s3', () => {
             }
             return true
           }
+          return undefined
         }),
       }
     }),
