@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.8.1
+
+### Patch Changes
+
+- [#3874](https://github.com/smartcontractkit/external-adapters-js/pull/3874) [`001baa4`](https://github.com/smartcontractkit/external-adapters-js/commit/001baa48af49d73cccf8d8238d1af527bd3a1d11) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove dydx-rewards external adapter
+
 ## 2.8.0
 
 ### Minor Changes

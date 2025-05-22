@@ -67,35 +67,7 @@ Check Google’s DNS service to determine if a given domain is owned by a given 
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "dnsProof",
-    "name": "www5.infernos.io",
-    "record": "0xf75519f611776c22275474151a04183665b7feDe"
-  },
-  "debug": {
-    "cacheKey": "98615ee48df7696e0c0b798d3956bb3904d880d2"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": true
-  },
-  "result": true,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
