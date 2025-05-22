@@ -1,12 +1,13 @@
-import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/proof-of-reserves'
 import abi from '../config/dlc-manager-abi.json'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/proof-of-reserves'
 import {
   BitcoinTransaction,
   createTaprootMultisigPayment,
@@ -16,7 +17,6 @@ import {
   getUnspendableKeyCommittedToUUID,
   RawVault,
 } from './utils'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('dlcBTC PoR')
 
@@ -106,11 +106,10 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
 
     const deposits = await Promise.all(vaultData.map(getVaultDeposit))
 
-    // totalPoR represents total proof of reserves value in bitcoins
-    const totalPoR = deposits.reduce((sum, deposit) => sum + deposit, 0)
+    // totalPoR represents total proof of reserves value in satoshis
+    const totalPoR = deposits.reduce((sum, deposit) => sum + Math.round(deposit * 10 ** 8), 0)
 
-    // multiply by 10^8 to convert to satoshis
-    const result = totalPoR * 10 ** 8
+    const result = Number(totalPoR)
 
     return {
       data: {
