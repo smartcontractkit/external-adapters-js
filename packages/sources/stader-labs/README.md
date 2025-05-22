@@ -45,33 +45,7 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "maticx"
-  },
-  "debug": {
-    "cacheKey": "Q3XCND2iB5CU/2lKGBCT16/dPq0="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 47732197
-  },
-  "result": 47732197,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -87,33 +61,7 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "sftmx"
-  },
-  "debug": {
-    "cacheKey": "xJ+iPjUW3lBOVvhun6x6eoNkNhY="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 26263763
-  },
-  "result": 26263763,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -129,33 +77,7 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "bnbx"
-  },
-  "debug": {
-    "cacheKey": "B4CBC4FYyPZBSbz59588HqQe+TU="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 28917028197
-  },
-  "result": 28917028197,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
