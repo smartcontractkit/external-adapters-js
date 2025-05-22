@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ceffu-adapter",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Chainlink ceffu adapter.",
   "keywords": [
     "Chainlink",
