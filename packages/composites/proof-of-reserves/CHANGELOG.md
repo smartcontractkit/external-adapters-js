@@ -1,5 +1,14 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.26.8
+
+### Patch Changes
+
+- Updated dependencies [[`412e59b`](https://github.com/smartcontractkit/external-adapters-js/commit/412e59b440234552f9b6eaf2ad41d3e01da580e3), [`7c291f5`](https://github.com/smartcontractkit/external-adapters-js/commit/7c291f59c2f3862db84f94a0208b1b5f3debc01c)]:
+  - @chainlink/ceffu-adapter@1.0.8
+  - @chainlink/token-balance-adapter@1.4.0
+  - @chainlink/renvm-address-set-adapter@1.5.114
+
 ## 1.26.7
 
 ### Patch Changes
