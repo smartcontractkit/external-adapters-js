@@ -67,7 +67,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [defi-pulse](./defi-pulse/README.md)
 - [dns-record-check](./dns-record-check/README.md)
 - [dxdao](./dxdao/README.md)
-- [dydx-rewards](./dydx-rewards/README.md)
 - [glv-token](./glv-token/README.md)
 - [gm-token](./gm-token/README.md)
 - [google-weather](./google-weather/README.md)
