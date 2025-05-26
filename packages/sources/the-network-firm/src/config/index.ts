@@ -6,4 +6,16 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/',
   },
+  V2_API_ENDPOINT: {
+    description: 'TNF v2 API Endpoint',
+    type: 'string',
+    default: 'https://api.ledgerlens.io/oc/v1',
+  },
+  EMGEMX_API_KEY: {
+    description: 'API key used for emgemx endpoint',
+    type: 'string',
+    required: false,
+    sensitive: true,
+    default: '',
+  },
 })

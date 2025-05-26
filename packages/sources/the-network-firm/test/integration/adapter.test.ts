@@ -5,6 +5,7 @@ import {
 import * as nock from 'nock'
 import {
   mockBackedResponseSuccess,
+  mockEmgemxResponseSuccess,
   mockEurrResponseSuccess,
   mockGiftResponseSuccess,
   mockMCO2Response,
@@ -21,6 +22,9 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    process.env.V2_API_ENDPOINT = 'http://test-endpoint-new'
+    process.env.EMGEMX_API_KEY = 'api-key'
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -115,6 +119,19 @@ describe('execute', () => {
         endpoint: 'gift',
       }
       mockGiftResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('emgemx endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'emgemx',
+      }
+      mockEmgemxResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
