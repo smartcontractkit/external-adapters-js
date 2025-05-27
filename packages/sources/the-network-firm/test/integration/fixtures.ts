@@ -228,3 +228,31 @@ export const mockGiftResponseFailure = (): nock.Scope =>
       ripcordDetails: ['Balances'],
     })
     .persist()
+
+export const mockEmgemxResponseSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/emgemx-tdfkf3')
+    .reply(200, {
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: false,
+      ripcordDetails: [],
+      timestamp: '2025-05-23T13:45:17.250Z',
+    })
+    .persist()
+
+export const mockEmgemxResponseRipcordFailure = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/emgemx-tdfkf3')
+    .reply(200, {
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: true,
+      ripcordDetails: ['Balances'],
+      timestamp: '2025-05-23T13:45:17.250Z',
+    })
+    .persist()
