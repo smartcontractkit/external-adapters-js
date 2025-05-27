@@ -3,7 +3,7 @@ import {
   PoRProviderResponse,
 } from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { httpTransport } from '../transport/emgemx'
 
@@ -19,9 +19,9 @@ export const endpoint = new PoRProviderEndpoint({
   name: 'emgemx',
   transport: httpTransport,
   inputParameters,
-  customInputValidation: (_, adapterSettings): AdapterError | undefined => {
+  customInputValidation: (_, adapterSettings): AdapterInputError | undefined => {
     if (!adapterSettings.EMGEMX_API_KEY) {
-      throw new AdapterError({
+      throw new AdapterInputError({
         statusCode: 500,
         message: 'missing EMGEMX_API_KEY env var',
       })
