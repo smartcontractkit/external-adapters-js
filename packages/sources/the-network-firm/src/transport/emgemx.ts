@@ -21,7 +21,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     return {
       params,
       request: {
-        baseURL: config.V2_API_ENDPOINT,
+        baseURL: config.ALT_API_ENDPOINT,
         url: '/emgemx-tdfkf3',
         headers: {
           apikey: config.EMGEMX_API_KEY,

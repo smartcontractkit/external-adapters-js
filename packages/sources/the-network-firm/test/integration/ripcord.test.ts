@@ -24,7 +24,7 @@ describe('execute', () => {
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    process.env.V2_API_ENDPOINT = 'http://test-endpoint-new'
+    process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
     process.env.EMGEMX_API_KEY = 'api-key'
 
     const adapter = (await import('../../src')).adapter
