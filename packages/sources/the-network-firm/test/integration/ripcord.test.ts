@@ -5,6 +5,7 @@ import {
 import * as nock from 'nock'
 import {
   mockBackedResponseFailure,
+  mockEmgemxResponseRipcordFailure,
   mockEurrResponseFailure,
   mockGiftResponseFailure,
   mockSTBTResponseFailure,
@@ -22,6 +23,9 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
+    process.env.EMGEMX_API_KEY = 'api-key'
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
@@ -93,6 +97,18 @@ describe('execute', () => {
         endpoint: 'gift',
       }
       mockGiftResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('emgemx endpoint when ripcord true ', () => {
+    it('should return error', async () => {
+      const data = {
+        endpoint: 'emgemx',
+      }
+      mockEmgemxResponseRipcordFailure()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
