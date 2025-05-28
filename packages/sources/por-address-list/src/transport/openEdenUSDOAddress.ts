@@ -1,10 +1,10 @@
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import { ethers } from 'ethers'
 import OpenEdenUSDOPoRAddressList from '../config/OpenEdenUSDOPoRAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/openEdenUSDOAddress'
-import { ethers } from 'ethers'
 import { addProvider, getProvider } from './providerUtils'
 
 export type AddressTransportTypes = BaseEndpointTypes
@@ -123,7 +123,7 @@ const buildOtherResponse = (addressList: ResponseSchema[]) => {
 
 const buildTBILLResponse = (addressList: ResponseSchema[]) => {
   return addressList
-    .filter((addr) => addr.tokenSymbol == 'TBILL')
+    .filter((addr) => ['TBILL', 'USYC'].includes(addr.tokenSymbol))
     .map((addr) => ({
       contractAddress: addr.tokenAddress,
       network: addr.chain,

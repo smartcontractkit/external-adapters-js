@@ -15,6 +15,7 @@ type AddressType = {
   network?: string
   chainId?: string
   contractAddress: string
+  token: string
   wallets: Array<string>
   priceOracleAddress: string
 }
@@ -163,10 +164,13 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       address.priceOracleAddress,
     )
 
+    const check = await contract.getWithdrawalQueueLength(address.token)
+    console.log(check)
+
     const [sharePriceUSD, sharesDecimals, queueLength, balanceResponse] = await Promise.all([
       priceOracleContract.getRate(),
       contract.decimals(),
-      contract.getWithdrawalQueueLength(),
+      contract.getWithdrawalQueueLength(address.token),
       Promise.all(address.wallets.map((wallet) => contract.balanceOf(wallet))),
     ])
 

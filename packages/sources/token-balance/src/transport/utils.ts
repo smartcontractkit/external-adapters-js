@@ -47,8 +47,16 @@ export class GroupedTokenContract {
     return this.runner.run(() => this.contract.balanceOf(walletAddress))
   }
 
-  async getWithdrawalQueueLength(): Promise<bigint> {
+  async _getWithdrawalQueueLength(): Promise<bigint> {
     return this.runner.run(() => this.contract.getWithdrawalQueueLength())
+  }
+
+  async getWithdrawalQueueLength(token: string): Promise<bigint> {
+    if (token == 'TBILL') {
+      return this.runner.run(() => this.contract.getWithdrawalQueueLength())
+    } else {
+      return BigInt(0)
+    }
   }
 
   async getWithdrawalQueueInfo(index: number): Promise<{
