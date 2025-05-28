@@ -75,8 +75,15 @@ export class GroupedPriceOracleContract {
     return this.runner.run(() => this.contract.decimals())
   }
 
+  async latestRoundData(): Promise<bigint[]> {
+    return this.runner.run(() => this.contract.latestRoundData())
+  }
+
   async latestAnswer(): Promise<bigint> {
-    return this.runner.run(() => this.contract.latestAnswer())
+    return this.runner.run(async () => {
+      const [, answer] = await this.latestRoundData()
+      return answer
+    })
   }
 
   async getRate(): Promise<SharePriceType> {
