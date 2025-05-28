@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#3869](https://github.com/smartcontractkit/external-adapters-js/pull/3869) [`7c291f5`](https://github.com/smartcontractkit/external-adapters-js/commit/7c291f59c2f3862db84f94a0208b1b5f3debc01c) Thanks [@dskloetc](https://github.com/dskloetc)! - Add XRPL endpoint. This requires setting the XRPL_RPC_URL environment variable to work.
+
 ## 1.3.1
 
 ### Patch Changes
