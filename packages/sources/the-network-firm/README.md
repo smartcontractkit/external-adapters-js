@@ -1,14 +1,16 @@
 # THE_NETWORK_FIRM
 
-![1.2.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     |     Description     |  Type  | Options |                                   Default                                   |
-| :-------: | :----------: | :-----------------: | :----: | :-----: | :-------------------------------------------------------------------------: |
-|           | API_ENDPOINT | API Endpoint to use | string |         | `https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/` |
+| Required? |       Name       |           Description            |  Type  | Options |                                   Default                                   |
+| :-------: | :--------------: | :------------------------------: | :----: | :-----: | :-------------------------------------------------------------------------: |
+|           |   API_ENDPOINT   |       API Endpoint to use        | string |         | `https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/` |
+|           | ALT_API_ENDPOINT |       TNF alt API Endpoint       | string |         |                      `https://api.ledgerlens.io/oc/v1`                      |
+|           |  EMGEMX_API_KEY  | API key used for emgemx endpoint | string |         |                                     ``                                      |
 
 ---
 
@@ -22,9 +24,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                    Options                                                                                    | Default |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [eurr](#eurr-endpoint), [gift](#gift-endpoint), [mco2](#mco2-endpoint), [stbt](#stbt-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                                  Options                                                                                                  | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [emgemx](#emgemx-endpoint), [eurr](#eurr-endpoint), [gift](#gift-endpoint), [mco2](#mco2-endpoint), [stbt](#stbt-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
 
 ## Backed Endpoint
 
@@ -155,6 +157,28 @@ Request:
 {
   "data": {
     "endpoint": "usdr"
+  }
+}
+```
+
+---
+
+## Emgemx Endpoint
+
+`emgemx` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "emgemx"
   }
 }
 ```
