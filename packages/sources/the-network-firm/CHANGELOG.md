@@ -1,5 +1,11 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#3884](https://github.com/smartcontractkit/external-adapters-js/pull/3884) [`cce569f`](https://github.com/smartcontractkit/external-adapters-js/commit/cce569fcbf0785fcf00e0f7a4060d1ae06dd9f75) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add emgemx endpoint
+
 ## 1.2.27
 
 ### Patch Changes
