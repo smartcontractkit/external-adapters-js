@@ -164,7 +164,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     )
 
     const [sharePriceUSD, sharesDecimals, queueLength, balanceResponse] = await Promise.all([
-      priceOracleContract.getRate(),
+      priceOracleContract.getRateFromLatestRoundData(),
       contract.decimals(),
       contract.getWithdrawalQueueLength(),
       Promise.all(address.wallets.map((wallet) => contract.balanceOf(wallet))),

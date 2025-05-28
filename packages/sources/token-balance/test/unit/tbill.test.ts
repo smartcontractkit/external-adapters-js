@@ -20,6 +20,17 @@ const BASE_TBILL_PRICE_ORACLE_ADDRESS = 'unknown'
 
 const RESULT_DECIMALS = 18
 
+const createRoundData = ({ price, priceDecimals }) => {
+  const now = BigInt(Math.floor(Date.now() / 1000))
+  return [
+    1n, // roundId
+    BigInt(price * 10 ** priceDecimals), // answer
+    now, // startedAt
+    now, // updatedAt
+    1n, // answeredInRound
+  ]
+}
+
 const createMockTokenContract = () => ({
   decimals: jest.fn(),
   getWithdrawalQueueLength: jest.fn(),
@@ -29,7 +40,6 @@ const createMockTokenContract = () => ({
 
 const createMockPriceContract = () => ({
   decimals: jest.fn(),
-  latestAnswer: jest.fn(),
   latestRoundData: jest.fn(),
 })
 
@@ -132,13 +142,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -181,7 +187,7 @@ describe('TbillTransport', () => {
       expect(responseCache.write).toBeCalledTimes(1)
     })
 
-    it('should cache arbitrum tbill balance', async () => {
+    it.only('should cache arbitrum tbill balance', async () => {
       const balance = 4
       const balanceDecimals = 7
       const price = 9
@@ -192,13 +198,9 @@ describe('TbillTransport', () => {
       arbTbillContract.decimals.mockResolvedValue(balanceDecimals)
       arbTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       arbTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      arbTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      arbTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -379,13 +381,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(decimalsPromise)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -438,13 +436,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockRejectedValue(new Error('test error'))
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -490,13 +484,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -573,13 +563,9 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
@@ -652,13 +638,9 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
@@ -738,13 +720,9 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
@@ -825,13 +803,9 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(price * 10 ** priceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [

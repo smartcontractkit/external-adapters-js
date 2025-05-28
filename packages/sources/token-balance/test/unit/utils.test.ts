@@ -151,9 +151,9 @@ describe('transport/utils.ts', () => {
       const groupedPriceOracleContract =
         groupedProvider.createPriceOracleContract(priceOracleAddress)
 
-      const [, answer] = await groupedPriceOracleContract.latestRoundData()
+      const latestRoundData = await groupedPriceOracleContract.latestRoundData()
 
-      expect(answer).toBe(value)
+      expect(latestRoundData).toEqual([0, 142536n, 0, 0, 0])
       expect(mockPriceOracleContract.latestRoundData).toBeCalledTimes(1)
     })
 
@@ -169,7 +169,7 @@ describe('transport/utils.ts', () => {
       const groupedPriceOracleContract =
         groupedProvider.createPriceOracleContract(priceOracleAddress)
 
-      expect(await groupedPriceOracleContract.getRate()).toEqual({
+      expect(await groupedPriceOracleContract.getRateFromLatestRoundData()).toEqual({
         value,
         decimal: Number(decimals),
       })
