@@ -11922,15 +11922,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:1.13.3", {\
-        "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.13.3-9dcb5a84de-0b5016baf0.zip/node_modules/@grpc/grpc-js/",\
-        "packageDependencies": [\
-          ["@grpc/grpc-js", "npm:1.13.3"],\
-          ["@grpc/proto-loader", "npm:0.7.13"],\
-          ["@js-sdsl/ordered-map", "npm:4.4.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.13.4", {\
         "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.13.4-4aa5cd2dfd-f1eb910ff7.zip/node_modules/@grpc/grpc-js/",\
         "packageDependencies": [\
@@ -12978,7 +12969,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@kaiko-data-sdk-node-npm-1.27.2-1e71474b73-21b3343665.zip/node_modules/@kaiko-data/sdk-node/",\
         "packageDependencies": [\
           ["@kaiko-data/sdk-node", "npm:1.27.2"],\
-          ["@grpc/grpc-js", "npm:1.13.3"],\
+          ["@grpc/grpc-js", "npm:1.13.4"],\
           ["google-protobuf", "npm:3.21.4"]\
         ],\
         "linkType": "HARD"\
