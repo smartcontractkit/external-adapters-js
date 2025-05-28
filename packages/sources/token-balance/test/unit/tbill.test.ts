@@ -545,74 +545,74 @@ describe('TbillTransport', () => {
       expect(responseCache.write).toBeCalledTimes(1)
     })
 
-    // it('add withdrawal queue amount to wallet balance', async () => {
-    //   const balance = 3
-    //   const balanceDecimals = 6
-    //   const price = 7
-    //   const priceDecimals = 8
-    //   const withDrawalQueueAmount1 = 1
-    //   const withDrawalQueueAmount2 = 2
+    it('add withdrawal queue amount to wallet balance', async () => {
+      const balance = 3
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+      const withDrawalQueueAmount1 = 1
+      const withDrawalQueueAmount2 = 2
 
-    //   const result = String(
-    //     (balance + withDrawalQueueAmount1 + withDrawalQueueAmount2) * price * 10 ** RESULT_DECIMALS,
-    //   )
+      const result = String(
+        (balance + withDrawalQueueAmount1 + withDrawalQueueAmount2) * price * 10 ** RESULT_DECIMALS,
+      )
 
-    //   const walletAddress = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
-    //   ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
-    //   ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
-    //   ethTbillContract.getWithdrawalQueueLength.mockResolvedValue(2)
-    //   ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
-    //     sender: walletAddress,
-    //     receiver: walletAddress,
-    //     shares: BigInt(withDrawalQueueAmount1 * 10 ** balanceDecimals),
-    //   })
-    //   ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
-    //     sender: walletAddress,
-    //     receiver: walletAddress,
-    //     shares: BigInt(withDrawalQueueAmount2 * 10 ** balanceDecimals),
-    //   })
+      const walletAddress = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
+      ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
+      ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
+      ethTbillContract.getWithdrawalQueueLength.mockResolvedValue(2)
+      ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
+        sender: walletAddress,
+        receiver: walletAddress,
+        shares: BigInt(withDrawalQueueAmount1 * 10 ** balanceDecimals),
+      })
+      ethTbillContract.getWithdrawalQueueInfo.mockResolvedValueOnce({
+        sender: walletAddress,
+        receiver: walletAddress,
+        shares: BigInt(withDrawalQueueAmount2 * 10 ** balanceDecimals),
+      })
 
-    //   ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-    //   ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
+      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
 
-    //   const param: RequestParams = {
-    //     addresses: [
-    //       {
-    //         chainId: ETHEREUM_RPC_CHAIN_ID,
-    //         contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
-    //         priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
-    //         wallets: [walletAddress],
-    //       },
-    //     ],
-    //   } as RequestParams
+      const param: RequestParams = {
+        addresses: [
+          {
+            chainId: ETHEREUM_RPC_CHAIN_ID,
+            contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress],
+          },
+        ],
+      } as RequestParams
 
-    //   const now = Date.now()
-    //   await transport.handleRequest(context, param)
+      const now = Date.now()
+      await transport.handleRequest(context, param)
 
-    //   expect(responseCache.write).toBeCalledWith(transportName, [
-    //     {
-    //       params: param,
-    //       response: {
-    //         data: {
-    //           decimals: RESULT_DECIMALS,
-    //           result,
-    //         },
-    //         result,
-    //         statusCode: 200,
-    //         timestamps: {
-    //           providerDataRequestedUnixMs: now,
-    //           providerDataReceivedUnixMs: now,
-    //         },
-    //       },
-    //     },
-    //   ])
-    //   expect(responseCache.write).toBeCalledTimes(1)
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: {
+            data: {
+              decimals: RESULT_DECIMALS,
+              result,
+            },
+            result,
+            statusCode: 200,
+            timestamps: {
+              providerDataRequestedUnixMs: now,
+              providerDataReceivedUnixMs: now,
+            },
+          },
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
 
-    //   expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(1)
-    //   expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(0)
-    //   expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(1)
-    //   expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(2)
-    // })
+      expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(0)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledWith(1)
+      expect(ethTbillContract.getWithdrawalQueueInfo).toBeCalledTimes(2)
+    })
 
     // it('should ignore withdrawal queue entries unless both sender and receiver equal the wallet address', async () => {
     //   const balance = 3

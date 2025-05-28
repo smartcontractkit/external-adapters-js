@@ -156,25 +156,25 @@ describe('transport/utils.ts', () => {
       expect(mockPriceOracleContract.latestRoundData).toBeCalledTimes(1)
     })
 
-    //  it('should call decimals and latestAnswer for getRate', async () => {
-    //    const groupedProvider = new GroupedProvider(mockProvider, groupSize)
-    //    const value = 142537n
-    //    const decimals = 15n
-    //    const mockPriceOracleContract = {
-    //      decimals: jest.fn().mockResolvedValue(decimals),
-    //      latestAnswer: jest.fn().mockResolvedValue(value),
-    //    }
-    //    ethersNewContract.mockReturnValueOnce(mockPriceOracleContract)
-    //    const groupedPriceOracleContract =
-    //      groupedProvider.createPriceOracleContract(priceOracleAddress)
+    it('should call decimals and latestAnswer for getRate', async () => {
+      const groupedProvider = new GroupedProvider(mockProvider, groupSize)
+      const value = 142537n
+      const decimals = 15n
+      const mockPriceOracleContract = {
+        decimals: jest.fn().mockResolvedValue(decimals),
+        latestRoundData: jest.fn().mockResolvedValue([0, value, 0, 0, 0]),
+      }
+      ethersNewContract.mockReturnValueOnce(mockPriceOracleContract)
+      const groupedPriceOracleContract =
+        groupedProvider.createPriceOracleContract(priceOracleAddress)
 
-    //    expect(await groupedPriceOracleContract.getRate()).toEqual({
-    //      value,
-    //      decimal: Number(decimals),
-    //    })
-    //    expect(mockPriceOracleContract.decimals).toBeCalledTimes(1)
-    //    expect(mockPriceOracleContract.latestAnswer).toBeCalledTimes(1)
-    //  })
+      expect(await groupedPriceOracleContract.getRate()).toEqual({
+        value,
+        decimal: Number(decimals),
+      })
+      expect(mockPriceOracleContract.decimals).toBeCalledTimes(1)
+      expect(mockPriceOracleContract.latestRoundData).toBeCalledTimes(1)
+    })
 
     // it('should limit the number of concurrent requests to the group size', async () => {
     //   const groupedProvider = new GroupedProvider(mockProvider, groupSize)
@@ -249,7 +249,7 @@ describe('transport/utils.ts', () => {
 
     //   const mockPriceOracleContract = {
     //     decimals: deferred(18n),
-    //     latestAnswer: deferred(1235n),
+    //     latestRoundData: jest.fn().mockResolvedValue(deferred([0, 1235n, 0, 0, 0])),
     //   }
     //   ethersNewContract.mockReturnValueOnce(mockPriceOracleContract)
     //   const groupedPriceOracleContract =
