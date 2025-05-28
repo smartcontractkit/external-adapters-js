@@ -164,9 +164,6 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
       address.priceOracleAddress,
     )
 
-    const check = await contract.getWithdrawalQueueLength(address.token)
-    console.log(check)
-
     const [sharePriceUSD, sharesDecimals, queueLength, balanceResponse] = await Promise.all([
       priceOracleContract.getRate(),
       contract.decimals(),
