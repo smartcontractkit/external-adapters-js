@@ -545,7 +545,7 @@ describe('TbillTransport', () => {
       expect(responseCache.write).toBeCalledTimes(1)
     })
 
-    it.only('add withdrawal queue amount to wallet balance', async () => {
+    it('add withdrawal queue amount to wallet balance', async () => {
       const balance = 3
       const balanceDecimals = 6
       const price = 7
@@ -573,7 +573,13 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue([
+        BigInt(1), // roundId
+        BigInt(price * 10 ** priceDecimals), // answer
+        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+        BigInt(1), // answeredInRound
+      ])
 
       const param: RequestParams = {
         addresses: [
@@ -646,7 +652,13 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue([
+        BigInt(1), // roundId
+        BigInt(price * 10 ** priceDecimals), // answer
+        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+        BigInt(1), // answeredInRound
+      ])
 
       const param: RequestParams = {
         addresses: [
@@ -726,7 +738,13 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue([
+        BigInt(1), // roundId
+        BigInt(price * 10 ** priceDecimals), // answer
+        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+        BigInt(1), // answeredInRound
+      ])
 
       const param: RequestParams = {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
@@ -807,7 +825,13 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue([
+        BigInt(1), // roundId
+        BigInt(price * 10 ** priceDecimals), // answer
+        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+        BigInt(1), // answeredInRound
+      ])
 
       const param: RequestParams = {
         addresses: [
@@ -873,8 +897,14 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred([
+          BigInt(1), // roundId
+          BigInt(price * 10 ** priceDecimals), // answer
+          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+          BigInt(1), // answeredInRound
+        ]),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -894,7 +924,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestRoundData
       //
       // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
       // should have 4 batches of sizes 3, 3, 3, and 1.
@@ -915,7 +945,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
     })
 
     it('should limit concurrent RPCs per provider', async () => {
@@ -943,8 +973,14 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred([
+          BigInt(1), // roundId
+          BigInt(price * 10 ** priceDecimals), // answer
+          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+          BigInt(1), // answeredInRound
+        ]),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -953,8 +989,14 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       arbTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      arbTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      arbTbillPriceContract.latestRoundData.mockImplementation(
+        deferred([
+          BigInt(1), // roundId
+          BigInt(price * 10 ** priceDecimals), // answer
+          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+          BigInt(1), // answeredInRound
+        ]),
       )
       arbTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -982,7 +1024,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestRoundData
       //
       // So for 4 addresses we expect 20 RPCs. With a group size of 3 but a
       // separate group size per provider, we should have 4 batches of sizes 6,
@@ -1004,13 +1046,13 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(2)
       expect(arbTbillContract.decimals).toBeCalledTimes(2)
       expect(arbTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(arbTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(2)
     })
 
     it('should reset RPC grouping for a new request', async () => {
@@ -1038,8 +1080,14 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred([
+          BigInt(1), // roundId
+          BigInt(price * 10 ** priceDecimals), // answer
+          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
+          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
+          BigInt(1), // answeredInRound
+        ]),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -1059,7 +1107,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestARoundData
       //
       // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
       // should have 4 batches of sizes 3, 3, 3, and 1.
@@ -1080,7 +1128,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       // When we make a new request, it should start with another group of 3,
       // rather than just 2, which might happen if we reuse the same
@@ -1097,7 +1145,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(4)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(4)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(4)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(4)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(4)
     })
   })
 

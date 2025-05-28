@@ -226,7 +226,7 @@ describe('transport/utils.ts', () => {
       }
     })
 
-    it.only('should concurrent requests across methods and contracts', async () => {
+    it('should concurrent requests across methods and contracts', async () => {
       const resolvers: (() => void)[] = []
       const deferred = <T>(value: T) => {
         return () => {
@@ -250,7 +250,7 @@ describe('transport/utils.ts', () => {
 
       const mockPriceOracleContract = {
         decimals: deferred(18n),
-        latestRoundData: jest.fn().mockResolvedValue(deferred([0, 1235n, 0, 0, 0])),
+        latestRoundData: deferred([0, 1235n, 0, 0, 0]),
       }
       ethersNewContract.mockReturnValueOnce(mockPriceOracleContract)
       const groupedPriceOracleContract =
