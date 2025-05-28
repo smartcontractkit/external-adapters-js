@@ -20,7 +20,7 @@ const BASE_TBILL_PRICE_ORACLE_ADDRESS = 'unknown'
 
 const RESULT_DECIMALS = 18
 
-const createRoundData = ({ price, priceDecimals }) => {
+const createRoundData = ({ price, priceDecimals }: { price: number; priceDecimals: number }) => {
   const now = BigInt(Math.floor(Date.now() / 1000))
   return [
     1n, // roundId
