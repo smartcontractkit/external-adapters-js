@@ -41,34 +41,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "vaultAddress": "0x269616D549D7e8Eaa82DFb17028d0B212D11232A",
-    "endpoint": "price"
-  },
-  "debug": {
-    "cacheKey": "hgXqzD9ji3qyHVo+vugB/XttLU0="
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "fee": "0.02",
-    "price": "65.319915591679174162",
-    "priceWithFee": "66.626313903512757645"
-  },
-  "statusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
