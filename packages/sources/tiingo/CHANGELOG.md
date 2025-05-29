@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.8.4
+
+### Patch Changes
+
+- [#3849](https://github.com/smartcontractkit/external-adapters-js/pull/3849) [`6588c9f`](https://github.com/smartcontractkit/external-adapters-js/commit/6588c9f57677083c77255573c8dd027d6b8bc0a2) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Fix forex includes file recognition
+
 ## 2.8.3
 
 ### Patch Changes
