@@ -187,7 +187,7 @@ describe('TbillTransport', () => {
       expect(responseCache.write).toBeCalledTimes(1)
     })
 
-    it.only('should cache arbitrum tbill balance', async () => {
+    it('should cache arbitrum tbill balance', async () => {
       const balance = 4
       const balanceDecimals = 7
       const price = 9
@@ -280,13 +280,9 @@ describe('TbillTransport', () => {
         BigInt(ethTbillBalance2 * 10 ** ethTbillBalanceDecimals),
       )
       ethTbillPriceContract.decimals.mockResolvedValue(ethTbillPriceDecimals)
-      ethTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(ethTbillPrice * 10 ** ethTbillPriceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price: ethTbillPrice, priceDecimals: ethTbillPriceDecimals }),
+      )
 
       arbTbillContract.decimals.mockResolvedValue(arbTbillBalanceDecimals)
       arbTbillContract.balanceOf.mockResolvedValueOnce(
@@ -296,13 +292,9 @@ describe('TbillTransport', () => {
         BigInt(arbTbillBalance2 * 10 ** arbTbillBalanceDecimals),
       )
       arbTbillPriceContract.decimals.mockResolvedValue(arbTbillPriceDecimals)
-      arbTbillPriceContract.latestRoundData.mockResolvedValue([
-        BigInt(1), // roundId
-        BigInt(arbTbillPrice * 10 ** arbTbillPriceDecimals), // answer
-        BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-        BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-        BigInt(1), // answeredInRound
-      ])
+      arbTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price: arbTbillPrice, priceDecimals: arbTbillPriceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -872,13 +864,7 @@ describe('TbillTransport', () => {
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
       ethTbillPriceContract.latestRoundData.mockImplementation(
-        deferred([
-          BigInt(1), // roundId
-          BigInt(price * 10 ** priceDecimals), // answer
-          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-          BigInt(1), // answeredInRound
-        ]),
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -948,13 +934,7 @@ describe('TbillTransport', () => {
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
       ethTbillPriceContract.latestRoundData.mockImplementation(
-        deferred([
-          BigInt(1), // roundId
-          BigInt(price * 10 ** priceDecimals), // answer
-          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-          BigInt(1), // answeredInRound
-        ]),
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -964,13 +944,7 @@ describe('TbillTransport', () => {
       )
       arbTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
       arbTbillPriceContract.latestRoundData.mockImplementation(
-        deferred([
-          BigInt(1), // roundId
-          BigInt(price * 10 ** priceDecimals), // answer
-          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-          BigInt(1), // answeredInRound
-        ]),
+        deferred(createRoundData({ price, priceDecimals })),
       )
       arbTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -1055,13 +1029,7 @@ describe('TbillTransport', () => {
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
       ethTbillPriceContract.latestRoundData.mockImplementation(
-        deferred([
-          BigInt(1), // roundId
-          BigInt(price * 10 ** priceDecimals), // answer
-          BigInt(Math.floor(Date.now() / 1000)), // startedAt (current timestamp)
-          BigInt(Math.floor(Date.now() / 1000)), // updatedAt (current timestamp)
-          BigInt(1), // answeredInRound
-        ]),
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 

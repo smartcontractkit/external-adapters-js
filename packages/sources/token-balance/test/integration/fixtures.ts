@@ -204,7 +204,7 @@ export const mockETHContractCallResponseSuccess = (): nock.Scope =>
           } else if (
             request.method === 'eth_call' &&
             request.params[0].to === '0xce9a6626eb99eaea829d7fa613d5d0a2eae45f40' &&
-            request.params[0].data === '0xfeaf968c' // latestAnswer()
+            request.params[0].data === '0xfeaf968c' // latestRoundData()
           ) {
             return {
               jsonrpc: '2.0',
