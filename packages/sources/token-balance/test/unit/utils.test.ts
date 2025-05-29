@@ -43,6 +43,7 @@ describe('transport/utils.ts', () => {
     const groupSize = 3
     const tokenContractAddress = '0x0123'
     const priceOracleAddress = '0x4567'
+    const tokenSymbol = 'TBILL'
 
     it('should create a token Contract', () => {
       const groupedProvider = new GroupedProvider(mockProvider, groupSize)
@@ -96,7 +97,7 @@ describe('transport/utils.ts', () => {
       ethersNewContract.mockReturnValueOnce(mockTokenContract)
       const groupedTokenContract = groupedProvider.createTokenContract(tokenContractAddress)
 
-      expect(await groupedTokenContract.getWithdrawalQueueLength()).toBe(queueLength)
+      expect(await groupedTokenContract.getWithdrawalQueueLength(tokenSymbol)).toBe(queueLength)
       expect(mockTokenContract.getWithdrawalQueueLength).toBeCalledTimes(1)
     })
 
@@ -260,7 +261,7 @@ describe('transport/utils.ts', () => {
       groupedPriceOracleContract.decimals()
       groupedTokenContract.balanceOf('0x1234')
 
-      groupedTokenContract.getWithdrawalQueueLength()
+      groupedTokenContract.getWithdrawalQueueLength(tokenSymbol)
       groupedTokenContract.getWithdrawalQueueInfo(0)
       groupedPriceOracleContract.latestRoundData()
 
