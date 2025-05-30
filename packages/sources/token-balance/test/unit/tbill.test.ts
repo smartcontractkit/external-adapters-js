@@ -9,6 +9,8 @@ type RequestParams = typeof inputParameters.validated
 const ETHEREUM_RPC_CHAIN_ID = '1'
 const ETHEREUM_TBILL_CONTRACT_ADDRESS = '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a'
 const ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS = '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40'
+const ETHEREUM_USYC_CONTRACT_ADDRESS = '0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b'
+const ETHEREUM_USYC_PRICE_ORACLE_ADDRESS = '0x4c48bcb2160F8e0aDbf9D4F3B034f1e36d1f8b3e'
 
 const ARBITRUM_RPC_CHAIN_ID = '42161'
 const ARBITRUM_TBILL_CONTRACT_ADDRESS = '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
@@ -18,7 +20,19 @@ const BASE_RPC_CHAIN_ID = '8453'
 const BASE_TBILL_CONTRACT_ADDRESS = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
 const BASE_TBILL_PRICE_ORACLE_ADDRESS = 'unknown'
 
+const TOKEN_SYMBOL = 'TBILL'
 const RESULT_DECIMALS = 18
+
+const createRoundData = ({ price, priceDecimals }: { price: number; priceDecimals: number }) => {
+  const now = BigInt(Math.floor(Date.now() / 1000))
+  return [
+    1n, // roundId
+    BigInt(price * 10 ** priceDecimals), // answer
+    now, // startedAt
+    now, // updatedAt
+    1n, // answeredInRound
+  ]
+}
 
 const createMockTokenContract = () => ({
   decimals: jest.fn(),
@@ -29,17 +43,21 @@ const createMockTokenContract = () => ({
 
 const createMockPriceContract = () => ({
   decimals: jest.fn(),
-  latestAnswer: jest.fn(),
+  latestRoundData: jest.fn(),
 })
 
 const ethTbillContract = createMockTokenContract()
 const ethTbillPriceContract = createMockPriceContract()
+const ethUsycContract = createMockTokenContract()
+const ethUsycPriceContract = createMockPriceContract()
 const arbTbillContract = createMockTokenContract()
 const arbTbillPriceContract = createMockPriceContract()
 
 const contracts: Record<string, unknown> = {
   [ETHEREUM_TBILL_CONTRACT_ADDRESS]: ethTbillContract,
   [ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS]: ethTbillPriceContract,
+  [ETHEREUM_USYC_CONTRACT_ADDRESS]: ethUsycContract,
+  [ETHEREUM_USYC_PRICE_ORACLE_ADDRESS]: ethUsycPriceContract,
   [ARBITRUM_TBILL_CONTRACT_ADDRESS]: arbTbillContract,
   [ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS]: arbTbillPriceContract,
 }
@@ -120,6 +138,64 @@ describe('TbillTransport', () => {
   })
 
   describe('handleRequest', () => {
+    it('should cache ethereum usyc balance', async () => {
+      const balance = 3
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+      const result = String(balance * price * 10 ** RESULT_DECIMALS)
+
+      const walletAddress = '0x602a1cb1f821a3e8f507a7637a4be7af19578f75'
+      ethUsycContract.decimals.mockResolvedValue(balanceDecimals)
+      ethUsycContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
+      ethUsycPriceContract.decimals.mockResolvedValue(priceDecimals)
+      ethUsycPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
+
+      const param = {
+        addresses: [
+          {
+            chainId: ETHEREUM_RPC_CHAIN_ID,
+            contractAddress: ETHEREUM_USYC_CONTRACT_ADDRESS,
+            token: 'USYC',
+            priceOracleAddress: ETHEREUM_USYC_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress],
+          },
+        ],
+      } as RequestParams
+
+      const now = Date.now()
+      await transport.handleRequest(context, param)
+
+      expect(ethUsycContract.balanceOf).toBeCalledWith(walletAddress)
+      expect(ethUsycContract.balanceOf).toBeCalledTimes(1)
+      expect(ethUsycPriceContract.latestRoundData).toBeCalledTimes(1)
+      expect(ethUsycContract.getWithdrawalQueueLength).toBeCalledTimes(0)
+
+      expect(arbTbillContract.balanceOf).toBeCalledTimes(0)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(0)
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: {
+            data: {
+              decimals: RESULT_DECIMALS,
+              result,
+            },
+            result,
+            statusCode: 200,
+            timestamps: {
+              providerDataRequestedUnixMs: now,
+              providerDataReceivedUnixMs: now,
+            },
+          },
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+    })
+
     it('should cache ethereum tbill balance', async () => {
       const balance = 3
       const balanceDecimals = 6
@@ -131,13 +207,16 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -149,10 +228,10 @@ describe('TbillTransport', () => {
 
       expect(ethTbillContract.balanceOf).toBeCalledWith(walletAddress)
       expect(ethTbillContract.balanceOf).toBeCalledTimes(1)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(1)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(1)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(0)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(0)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(0)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -185,13 +264,16 @@ describe('TbillTransport', () => {
       arbTbillContract.decimals.mockResolvedValue(balanceDecimals)
       arbTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       arbTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      arbTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      arbTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -203,10 +285,10 @@ describe('TbillTransport', () => {
 
       expect(arbTbillContract.balanceOf).toBeCalledWith(walletAddress)
       expect(arbTbillContract.balanceOf).toBeCalledTimes(1)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(1)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(1)
 
       expect(ethTbillContract.balanceOf).toBeCalledTimes(0)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(0)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(0)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -265,8 +347,8 @@ describe('TbillTransport', () => {
         BigInt(ethTbillBalance2 * 10 ** ethTbillBalanceDecimals),
       )
       ethTbillPriceContract.decimals.mockResolvedValue(ethTbillPriceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(
-        BigInt(ethTbillPrice * 10 ** ethTbillPriceDecimals),
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price: ethTbillPrice, priceDecimals: ethTbillPriceDecimals }),
       )
 
       arbTbillContract.decimals.mockResolvedValue(arbTbillBalanceDecimals)
@@ -277,8 +359,8 @@ describe('TbillTransport', () => {
         BigInt(arbTbillBalance2 * 10 ** arbTbillBalanceDecimals),
       )
       arbTbillPriceContract.decimals.mockResolvedValue(arbTbillPriceDecimals)
-      arbTbillPriceContract.latestAnswer.mockResolvedValue(
-        BigInt(arbTbillPrice * 10 ** arbTbillPriceDecimals),
+      arbTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price: arbTbillPrice, priceDecimals: arbTbillPriceDecimals }),
       )
 
       const param = {
@@ -292,18 +374,21 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [ethWalletAddress2],
           },
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [arbWalletAddress1],
           },
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [arbWalletAddress2],
           },
@@ -317,13 +402,13 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.balanceOf).toHaveBeenNthCalledWith(2, ethWalletAddress2)
       expect(ethTbillContract.balanceOf).toBeCalledTimes(2)
       // TODO: Do we really need 2 calls to the price contract?
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       expect(arbTbillContract.balanceOf).toHaveBeenNthCalledWith(1, arbWalletAddress1)
       expect(arbTbillContract.balanceOf).toHaveBeenNthCalledWith(2, arbWalletAddress2)
       expect(arbTbillContract.balanceOf).toBeCalledTimes(2)
       // TODO: Do we really need 2 calls to the price contract?
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -358,13 +443,16 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(decimalsPromise)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -411,13 +499,16 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockRejectedValue(new Error('test error'))
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -457,19 +548,23 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
           {
             chainId: BASE_RPC_CHAIN_ID,
             contractAddress: BASE_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: BASE_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -481,10 +576,10 @@ describe('TbillTransport', () => {
 
       expect(ethTbillContract.balanceOf).toBeCalledWith(walletAddress)
       expect(ethTbillContract.balanceOf).toBeCalledTimes(1)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(1)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(1)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(0)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(0)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(0)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -534,13 +629,16 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -607,13 +705,16 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -687,12 +788,15 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
           chainId: ETHEREUM_RPC_CHAIN_ID,
           contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          token: TOKEN_SYMBOL,
           priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
           wallets: [walletAddress],
         })),
@@ -768,13 +872,16 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress1, walletAddress2],
           },
@@ -834,8 +941,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -843,6 +950,7 @@ describe('TbillTransport', () => {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
           chainId: ETHEREUM_RPC_CHAIN_ID,
           contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          token: TOKEN_SYMBOL,
           priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
           wallets: [walletAddress],
         })),
@@ -855,7 +963,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestRoundData
       //
       // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
       // should have 4 batches of sizes 3, 3, 3, and 1.
@@ -876,7 +984,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
     })
 
     it('should limit concurrent RPCs per provider', async () => {
@@ -904,8 +1012,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -914,8 +1022,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       arbTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      arbTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      arbTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       arbTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -924,12 +1032,14 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -943,7 +1053,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestRoundData
       //
       // So for 4 addresses we expect 20 RPCs. With a group size of 3 but a
       // separate group size per provider, we should have 4 batches of sizes 6,
@@ -965,13 +1075,13 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(2)
       expect(arbTbillContract.decimals).toBeCalledTimes(2)
       expect(arbTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(arbTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(2)
     })
 
     it('should reset RPC grouping for a new request', async () => {
@@ -999,8 +1109,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -1008,6 +1118,7 @@ describe('TbillTransport', () => {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
           chainId: ETHEREUM_RPC_CHAIN_ID,
           contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          token: TOKEN_SYMBOL,
           priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
           wallets: [walletAddress],
         })),
@@ -1020,7 +1131,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestARoundData
       //
       // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
       // should have 4 batches of sizes 3, 3, 3, and 1.
@@ -1041,7 +1152,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       // When we make a new request, it should start with another group of 3,
       // rather than just 2, which might happen if we reuse the same
@@ -1058,7 +1169,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(4)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(4)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(4)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(4)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(4)
     })
   })
 
