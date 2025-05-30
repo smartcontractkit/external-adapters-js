@@ -9,6 +9,8 @@ type RequestParams = typeof inputParameters.validated
 const ETHEREUM_RPC_CHAIN_ID = '1'
 const ETHEREUM_TBILL_CONTRACT_ADDRESS = '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a'
 const ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS = '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40'
+const ETHEREUM_USYC_CONTRACT_ADDRESS = '0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b'
+const ETHEREUM_USYC_PRICE_ORACLE_ADDRESS = '0x4c48bcb2160F8e0aDbf9D4F3B034f1e36d1f8b3e'
 
 const ARBITRUM_RPC_CHAIN_ID = '42161'
 const ARBITRUM_TBILL_CONTRACT_ADDRESS = '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
@@ -18,6 +20,7 @@ const BASE_RPC_CHAIN_ID = '8453'
 const BASE_TBILL_CONTRACT_ADDRESS = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
 const BASE_TBILL_PRICE_ORACLE_ADDRESS = 'unknown'
 
+const TOKEN_SYMBOL = 'TBILL'
 const RESULT_DECIMALS = 18
 
 const createRoundData = ({ price, priceDecimals }: { price: number; priceDecimals: number }) => {
@@ -45,12 +48,16 @@ const createMockPriceContract = () => ({
 
 const ethTbillContract = createMockTokenContract()
 const ethTbillPriceContract = createMockPriceContract()
+const ethUsycContract = createMockTokenContract()
+const ethUsycPriceContract = createMockPriceContract()
 const arbTbillContract = createMockTokenContract()
 const arbTbillPriceContract = createMockPriceContract()
 
 const contracts: Record<string, unknown> = {
   [ETHEREUM_TBILL_CONTRACT_ADDRESS]: ethTbillContract,
   [ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS]: ethTbillPriceContract,
+  [ETHEREUM_USYC_CONTRACT_ADDRESS]: ethUsycContract,
+  [ETHEREUM_USYC_PRICE_ORACLE_ADDRESS]: ethUsycPriceContract,
   [ARBITRUM_TBILL_CONTRACT_ADDRESS]: arbTbillContract,
   [ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS]: arbTbillPriceContract,
 }
@@ -131,6 +138,64 @@ describe('TbillTransport', () => {
   })
 
   describe('handleRequest', () => {
+    it('should cache ethereum usyc balance', async () => {
+      const balance = 3
+      const balanceDecimals = 6
+      const price = 7
+      const priceDecimals = 8
+      const result = String(balance * price * 10 ** RESULT_DECIMALS)
+
+      const walletAddress = '0x602a1cb1f821a3e8f507a7637a4be7af19578f75'
+      ethUsycContract.decimals.mockResolvedValue(balanceDecimals)
+      ethUsycContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
+      ethUsycPriceContract.decimals.mockResolvedValue(priceDecimals)
+      ethUsycPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
+
+      const param = {
+        addresses: [
+          {
+            chainId: ETHEREUM_RPC_CHAIN_ID,
+            contractAddress: ETHEREUM_USYC_CONTRACT_ADDRESS,
+            token: 'USYC',
+            priceOracleAddress: ETHEREUM_USYC_PRICE_ORACLE_ADDRESS,
+            wallets: [walletAddress],
+          },
+        ],
+      } as RequestParams
+
+      const now = Date.now()
+      await transport.handleRequest(context, param)
+
+      expect(ethUsycContract.balanceOf).toBeCalledWith(walletAddress)
+      expect(ethUsycContract.balanceOf).toBeCalledTimes(1)
+      expect(ethUsycPriceContract.latestRoundData).toBeCalledTimes(1)
+      expect(ethUsycContract.getWithdrawalQueueLength).toBeCalledTimes(0)
+
+      expect(arbTbillContract.balanceOf).toBeCalledTimes(0)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(0)
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: {
+            data: {
+              decimals: RESULT_DECIMALS,
+              result,
+            },
+            result,
+            statusCode: 200,
+            timestamps: {
+              providerDataRequestedUnixMs: now,
+              providerDataReceivedUnixMs: now,
+            },
+          },
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+    })
+
     it('should cache ethereum tbill balance', async () => {
       const balance = 3
       const balanceDecimals = 6
@@ -151,6 +216,7 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -207,6 +273,7 @@ describe('TbillTransport', () => {
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -307,18 +374,21 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [ethWalletAddress2],
           },
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [arbWalletAddress1],
           },
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [arbWalletAddress2],
           },
@@ -382,6 +452,7 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -437,6 +508,7 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -485,12 +557,14 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
           {
             chainId: BASE_RPC_CHAIN_ID,
             contractAddress: BASE_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: BASE_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -564,6 +638,7 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -639,6 +714,7 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -720,6 +796,7 @@ describe('TbillTransport', () => {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
           chainId: ETHEREUM_RPC_CHAIN_ID,
           contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          token: TOKEN_SYMBOL,
           priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
           wallets: [walletAddress],
         })),
@@ -804,6 +881,7 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress1, walletAddress2],
           },
@@ -872,6 +950,7 @@ describe('TbillTransport', () => {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
           chainId: ETHEREUM_RPC_CHAIN_ID,
           contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          token: TOKEN_SYMBOL,
           priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
           wallets: [walletAddress],
         })),
@@ -953,12 +1032,14 @@ describe('TbillTransport', () => {
           {
             chainId: ETHEREUM_RPC_CHAIN_ID,
             contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
           {
             chainId: ARBITRUM_RPC_CHAIN_ID,
             contractAddress: ARBITRUM_TBILL_CONTRACT_ADDRESS,
+            token: TOKEN_SYMBOL,
             priceOracleAddress: ARBITRUM_TBILL_PRICE_ORACLE_ADDRESS,
             wallets: [walletAddress],
           },
@@ -1037,6 +1118,7 @@ describe('TbillTransport', () => {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
           chainId: ETHEREUM_RPC_CHAIN_ID,
           contractAddress: ETHEREUM_TBILL_CONTRACT_ADDRESS,
+          token: TOKEN_SYMBOL,
           priceOracleAddress: ETHEREUM_TBILL_PRICE_ORACLE_ADDRESS,
           wallets: [walletAddress],
         })),
