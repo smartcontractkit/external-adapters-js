@@ -4,7 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { ethers } from 'ethers'
 import * as nock from 'nock'
-import { mockResponseSuccess, mockResponseFailure } from './fixtures'
+import { mockResponseFailure, mockResponseSuccess } from './fixtures'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -77,7 +77,7 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return ripcord', async () => {
+    it('should return error', async () => {
       const data = {
         lidoContract: 'invalid',
       }
