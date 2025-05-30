@@ -99,13 +99,3 @@ export const getNetworkEnvVar = (network: string, suffix: string): string => {
   }
   return envVar
 }
-
-export const getWithdrawalQueueLength = (
-  contract: GroupedTokenContract,
-  token = 'TBILL',
-): Promise<bigint> => {
-  if (token === 'USYC') {
-    return Promise.resolve(BigInt(0))
-  }
-  return contract.getWithdrawalQueueLength()
-}
