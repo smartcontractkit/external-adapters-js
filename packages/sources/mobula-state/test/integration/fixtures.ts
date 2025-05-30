@@ -35,6 +35,22 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
           queryDetails: { base: 'BTC', quote: null },
         }),
       )
+
+      socket.send(
+        JSON.stringify({
+          binanceFundingRate: {
+            symbol: 'AERGOUSDT',
+            fundingTime: 1747368000001,
+            fundingRate: -0.00059603,
+            marketPrice: '0.15456000',
+            epochDurationMs: 14400000,
+            fundingRateCap: 2,
+            fundingRateFloor: -2,
+          },
+          deribitFundingRate: null,
+          queryDetails: { base: 'AERGO', quote: null },
+        }),
+      )
     })
   })
 
