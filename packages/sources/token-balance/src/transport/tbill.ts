@@ -5,7 +5,12 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/tbill'
-import { GroupedProvider, GroupedTokenContract, SharePriceType } from './utils'
+import {
+  GroupedProvider,
+  GroupedTokenContract,
+  SharePriceType,
+  getWithdrawalQueueLength,
+} from './utils'
 
 const logger = makeLogger('Token Balance - Tbill')
 
@@ -167,7 +172,7 @@ export class TbillTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const [sharePriceUSD, sharesDecimals, queueLength, balanceResponse] = await Promise.all([
       priceOracleContract.getRateFromLatestRoundData(),
       contract.decimals(),
-      contract.getWithdrawalQueueLength(address.token),
+      getWithdrawalQueueLength(contract, address.token),
       Promise.all(address.wallets.map((wallet) => contract.balanceOf(wallet))),
     ])
 
