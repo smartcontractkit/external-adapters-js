@@ -131,7 +131,7 @@ describe('AddressTransport', () => {
       })
     })
 
-    it('should return tbill address', async () => {
+    it('should return tbill and usyc address', async () => {
       const addresses = [tbillAddress, usycAddress, usdcAddress]
       addressListContract.getPoRAddressList.mockResolvedValue(addresses)
       addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
