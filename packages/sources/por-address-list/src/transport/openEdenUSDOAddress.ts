@@ -21,6 +21,9 @@ interface ResponseSchema {
   yourVaultAddress: string
 }
 
+// Tokens with Net Asset Value (NAV)-based pricing
+const pricedAssets = ['TBILL', 'USYC']
+
 export class AddressTransport extends SubscriptionTransport<AddressTransportTypes> {
   providersMap: Record<string, ethers.providers.JsonRpcProvider> = {}
   settings!: AddressTransportTypes['Settings']
@@ -110,7 +113,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
 const buildOtherResponse = (addressList: ResponseSchema[]) => {
   return addressList
-    .filter((addr) => addr.tokenSymbol != 'TBILL')
+    .filter((addr) => !pricedAssets.includes(addr.tokenSymbol))
     .map((addr) => ({
       contractAddress: addr.tokenAddress,
       network: addr.chain,
@@ -123,7 +126,7 @@ const buildOtherResponse = (addressList: ResponseSchema[]) => {
 
 const buildTBILLResponse = (addressList: ResponseSchema[]) => {
   return addressList
-    .filter((addr) => ['TBILL', 'USYC'].includes(addr.tokenSymbol))
+    .filter((addr) => pricedAssets.includes(addr.tokenSymbol))
     .map((addr) => ({
       contractAddress: addr.tokenAddress,
       network: addr.chain,

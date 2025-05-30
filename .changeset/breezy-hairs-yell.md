@@ -2,4 +2,4 @@
 '@chainlink/por-address-list-adapter': minor
 ---
 
-Support USYC token
+Include USYC token for type tbill in openedenaddress endpoint
