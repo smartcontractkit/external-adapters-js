@@ -43,7 +43,6 @@ describe('execute', () => {
           {
             contractAddress: '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a',
             chainId: '1',
-            token: 'TBILL',
             wallets: ['0x5EaFF7af80488033Bc845709806D5Fae5291eB88'],
             priceOracleAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
           },

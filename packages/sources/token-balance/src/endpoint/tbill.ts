@@ -19,7 +19,7 @@ export const inputParameters = new InputParameters(
           description: 'Address of token contract',
         },
         token: {
-          required: true,
+          required: false,
           type: 'string',
           default: 'TBILL',
           description: 'Token symbol',
