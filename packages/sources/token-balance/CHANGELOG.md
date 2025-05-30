@@ -1,5 +1,13 @@
 # @chainlink/token-balance-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#3886](https://github.com/smartcontractkit/external-adapters-js/pull/3886) [`63a5a5f`](https://github.com/smartcontractkit/external-adapters-js/commit/63a5a5f485d38729392d88d37e4f234727c4afb6) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Switch from using latestAnswer to latestRoundData
+
+- [#3891](https://github.com/smartcontractkit/external-adapters-js/pull/3891) [`a955e95`](https://github.com/smartcontractkit/external-adapters-js/commit/a955e958d8f2c457506da4eb3a409728ee2077a0) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Include USYC token for type tbill in token-balance endpoint
+
 ## 1.4.0
 
 ### Minor Changes
