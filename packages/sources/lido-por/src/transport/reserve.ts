@@ -1,18 +1,18 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { ethers } from 'ethers'
-import { TimestampedAdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { TimestampedAdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { ethers } from 'ethers'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
 import {
   EthereumClResponse,
-  parseBeaconBalance,
   getBufferedEther,
   getWithdrawalCredential,
+  parseBeaconBalance,
 } from './util'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 
 type RequestParams = typeof inputParameters.validated
 
@@ -100,6 +100,7 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return {
       data: {
         result: balance,
+        ripcord: false,
       },
       result: balance,
       timestamps: {
