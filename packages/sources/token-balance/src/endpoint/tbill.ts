@@ -21,6 +21,7 @@ export const inputParameters = new InputParameters(
         token: {
           required: true,
           type: 'string',
+          default: 'TBILL',
           description: 'Token symbol',
         },
         wallets: {
