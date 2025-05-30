@@ -1,7 +1,10 @@
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { BaseEndpointTypes } from '../../src/endpoint/openEdenUSDOAddress'
+import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/openEdenUSDOAddress'
 import { AddressTransport } from '../../src/transport/openEdenUSDOAddress'
+
+type RequestParams = typeof inputParameters.validated
 
 const originalEnv = { ...process.env }
 
@@ -71,10 +74,6 @@ describe('AddressTransport', () => {
     WARMUP_SUBSCRIPTION_TTL: 10_000,
   } as unknown as BaseEndpointTypes['Settings'])
 
-  const context = makeStub('context', {
-    adapterSettings,
-  } as EndpointContext<BaseEndpointTypes>)
-
   const responseCache = {
     write: jest.fn(),
   }
@@ -89,6 +88,7 @@ describe('AddressTransport', () => {
   let transport: AddressTransport
 
   beforeEach(async () => {
+    restoreEnv()
     jest.restoreAllMocks()
     jest.useFakeTimers()
 
@@ -106,7 +106,7 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'tbill',
-      })
+      } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
         statusCode: 200,
@@ -130,7 +130,7 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'tbill',
-      })
+      } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
         statusCode: 200,
@@ -163,7 +163,7 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'other',
-      })
+      } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
         statusCode: 200,
