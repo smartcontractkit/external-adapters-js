@@ -47,6 +47,8 @@ jest.mock('ethers', () => ({
 const walletAddress = '0x5EaFF7af80488033Bc845709806D5Fae5291eB88'
 const tbillContractAddress = '0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a'
 const tbillPriceOracleAddress = '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40'
+const usycContractAddress = '0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b'
+const usycPriceOracleAddress = '0x602a1cb1f821a3e8f507a7637a4be7af19578f75'
 const usdcContractAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const tbillAddress = makeStub('tbillAddress', {
   chain: 'Ethereem Mainnet',
@@ -54,6 +56,14 @@ const tbillAddress = makeStub('tbillAddress', {
   tokenSymbol: 'TBILL',
   tokenAddress: tbillContractAddress,
   tokenPriceOracle: tbillPriceOracleAddress,
+  yourVaultAddress: walletAddress,
+})
+const usycAddress = makeStub('usycAddress', {
+  chain: 'Ethereem Mainnet',
+  chainId: 1,
+  tokenSymbol: 'USYC',
+  tokenAddress: usycContractAddress,
+  tokenPriceOracle: usycPriceOracleAddress,
   yourVaultAddress: walletAddress,
 })
 const usdcAddress = makeStub('otherAddress', {
@@ -122,7 +132,7 @@ describe('AddressTransport', () => {
     })
 
     it('should return tbill address', async () => {
-      const addresses = [tbillAddress, usdcAddress]
+      const addresses = [tbillAddress, usycAddress, usdcAddress]
       addressListContract.getPoRAddressList.mockResolvedValue(addresses)
       addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
 
@@ -143,6 +153,14 @@ describe('AddressTransport', () => {
               token: 'TBILL',
               wallets: [walletAddress],
               priceOracleAddress: tbillPriceOracleAddress,
+            },
+            {
+              contractAddress: usycContractAddress,
+              network: 'Ethereem Mainnet',
+              chainId: '1',
+              token: 'USYC',
+              wallets: [walletAddress],
+              priceOracleAddress: usycPriceOracleAddress,
             },
           ],
         },
