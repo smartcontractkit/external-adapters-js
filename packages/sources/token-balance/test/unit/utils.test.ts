@@ -140,38 +140,41 @@ describe('transport/utils.ts', () => {
       expect(mockPriceOracleContract.decimals).toBeCalledTimes(1)
     })
 
-    it('should call latestAnswer on a price oracle Contract', async () => {
+    it('should call latestRoundData on a price oracle Contract', async () => {
       const groupedProvider = new GroupedProvider(mockProvider, groupSize)
-      const value = 142536n
+      const expectedRoundData = [1n, 142536n, 2n, 3n, 4n]
       const mockPriceOracleContract = {
-        latestAnswer: jest.fn().mockResolvedValue(value),
+        latestRoundData: jest.fn().mockResolvedValue(expectedRoundData),
       }
       ethersNewContract.mockReturnValueOnce(mockPriceOracleContract)
+
       const groupedPriceOracleContract =
         groupedProvider.createPriceOracleContract(priceOracleAddress)
 
-      expect(await groupedPriceOracleContract.latestAnswer()).toBe(value)
-      expect(mockPriceOracleContract.latestAnswer).toBeCalledTimes(1)
+      const latestRoundData = await groupedPriceOracleContract.latestRoundData()
+
+      expect(latestRoundData).toEqual(expectedRoundData)
+      expect(mockPriceOracleContract.latestRoundData).toBeCalledTimes(1)
     })
 
-    it('should call decimals and latestAnswer for getRate', async () => {
+    it('should call decimals and latestRoundData for getRate', async () => {
       const groupedProvider = new GroupedProvider(mockProvider, groupSize)
       const value = 142537n
       const decimals = 15n
       const mockPriceOracleContract = {
         decimals: jest.fn().mockResolvedValue(decimals),
-        latestAnswer: jest.fn().mockResolvedValue(value),
+        latestRoundData: jest.fn().mockResolvedValue([1n, value, 2n, 3n, 4n]),
       }
       ethersNewContract.mockReturnValueOnce(mockPriceOracleContract)
       const groupedPriceOracleContract =
         groupedProvider.createPriceOracleContract(priceOracleAddress)
 
-      expect(await groupedPriceOracleContract.getRate()).toEqual({
+      expect(await groupedPriceOracleContract.getRateFromLatestRoundData()).toEqual({
         value,
         decimal: Number(decimals),
       })
       expect(mockPriceOracleContract.decimals).toBeCalledTimes(1)
-      expect(mockPriceOracleContract.latestAnswer).toBeCalledTimes(1)
+      expect(mockPriceOracleContract.latestRoundData).toBeCalledTimes(1)
     })
 
     it('should limit the number of concurrent requests to the group size', async () => {
@@ -247,7 +250,7 @@ describe('transport/utils.ts', () => {
 
       const mockPriceOracleContract = {
         decimals: deferred(18n),
-        latestAnswer: deferred(1235n),
+        latestRoundData: deferred([1n, 1235n, 2n, 3n, 4n]),
       }
       ethersNewContract.mockReturnValueOnce(mockPriceOracleContract)
       const groupedPriceOracleContract =
@@ -259,7 +262,7 @@ describe('transport/utils.ts', () => {
 
       groupedTokenContract.getWithdrawalQueueLength()
       groupedTokenContract.getWithdrawalQueueInfo(0)
-      groupedPriceOracleContract.latestAnswer()
+      groupedPriceOracleContract.latestRoundData()
 
       await jest.runAllTimersAsync()
       expect(resolvers).toHaveLength(3)

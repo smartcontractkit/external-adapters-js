@@ -20,6 +20,17 @@ const BASE_TBILL_PRICE_ORACLE_ADDRESS = 'unknown'
 
 const RESULT_DECIMALS = 18
 
+const createRoundData = ({ price, priceDecimals }: { price: number; priceDecimals: number }) => {
+  const now = BigInt(Math.floor(Date.now() / 1000))
+  return [
+    1n, // roundId
+    BigInt(price * 10 ** priceDecimals), // answer
+    now, // startedAt
+    now, // updatedAt
+    1n, // answeredInRound
+  ]
+}
+
 const createMockTokenContract = () => ({
   decimals: jest.fn(),
   getWithdrawalQueueLength: jest.fn(),
@@ -29,7 +40,7 @@ const createMockTokenContract = () => ({
 
 const createMockPriceContract = () => ({
   decimals: jest.fn(),
-  latestAnswer: jest.fn(),
+  latestRoundData: jest.fn(),
 })
 
 const ethTbillContract = createMockTokenContract()
@@ -131,7 +142,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -149,10 +162,10 @@ describe('TbillTransport', () => {
 
       expect(ethTbillContract.balanceOf).toBeCalledWith(walletAddress)
       expect(ethTbillContract.balanceOf).toBeCalledTimes(1)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(1)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(1)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(0)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(0)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(0)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -185,7 +198,9 @@ describe('TbillTransport', () => {
       arbTbillContract.decimals.mockResolvedValue(balanceDecimals)
       arbTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       arbTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      arbTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      arbTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -203,10 +218,10 @@ describe('TbillTransport', () => {
 
       expect(arbTbillContract.balanceOf).toBeCalledWith(walletAddress)
       expect(arbTbillContract.balanceOf).toBeCalledTimes(1)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(1)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(1)
 
       expect(ethTbillContract.balanceOf).toBeCalledTimes(0)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(0)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(0)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -265,8 +280,8 @@ describe('TbillTransport', () => {
         BigInt(ethTbillBalance2 * 10 ** ethTbillBalanceDecimals),
       )
       ethTbillPriceContract.decimals.mockResolvedValue(ethTbillPriceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(
-        BigInt(ethTbillPrice * 10 ** ethTbillPriceDecimals),
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price: ethTbillPrice, priceDecimals: ethTbillPriceDecimals }),
       )
 
       arbTbillContract.decimals.mockResolvedValue(arbTbillBalanceDecimals)
@@ -277,8 +292,8 @@ describe('TbillTransport', () => {
         BigInt(arbTbillBalance2 * 10 ** arbTbillBalanceDecimals),
       )
       arbTbillPriceContract.decimals.mockResolvedValue(arbTbillPriceDecimals)
-      arbTbillPriceContract.latestAnswer.mockResolvedValue(
-        BigInt(arbTbillPrice * 10 ** arbTbillPriceDecimals),
+      arbTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price: arbTbillPrice, priceDecimals: arbTbillPriceDecimals }),
       )
 
       const param = {
@@ -317,13 +332,13 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.balanceOf).toHaveBeenNthCalledWith(2, ethWalletAddress2)
       expect(ethTbillContract.balanceOf).toBeCalledTimes(2)
       // TODO: Do we really need 2 calls to the price contract?
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       expect(arbTbillContract.balanceOf).toHaveBeenNthCalledWith(1, arbWalletAddress1)
       expect(arbTbillContract.balanceOf).toHaveBeenNthCalledWith(2, arbWalletAddress2)
       expect(arbTbillContract.balanceOf).toBeCalledTimes(2)
       // TODO: Do we really need 2 calls to the price contract?
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -358,7 +373,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(decimalsPromise)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -411,7 +428,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockRejectedValue(new Error('test error'))
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -457,7 +476,9 @@ describe('TbillTransport', () => {
       ethTbillContract.decimals.mockResolvedValue(balanceDecimals)
       ethTbillContract.balanceOf.mockResolvedValue(BigInt(balance * 10 ** balanceDecimals))
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param = {
         addresses: [
@@ -481,10 +502,10 @@ describe('TbillTransport', () => {
 
       expect(ethTbillContract.balanceOf).toBeCalledWith(walletAddress)
       expect(ethTbillContract.balanceOf).toBeCalledTimes(1)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(1)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(1)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(0)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(0)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(0)
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -534,7 +555,9 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
@@ -607,7 +630,9 @@ describe('TbillTransport', () => {
       })
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
@@ -687,7 +712,9 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [walletAddress1, walletAddress2].map((walletAddress) => ({
@@ -768,7 +795,9 @@ describe('TbillTransport', () => {
       )
 
       ethTbillPriceContract.decimals.mockResolvedValue(priceDecimals)
-      ethTbillPriceContract.latestAnswer.mockResolvedValue(BigInt(price * 10 ** priceDecimals))
+      ethTbillPriceContract.latestRoundData.mockResolvedValue(
+        createRoundData({ price, priceDecimals }),
+      )
 
       const param: RequestParams = {
         addresses: [
@@ -834,8 +863,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -855,7 +884,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestRoundData
       //
       // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
       // should have 4 batches of sizes 3, 3, 3, and 1.
@@ -876,7 +905,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
     })
 
     it('should limit concurrent RPCs per provider', async () => {
@@ -904,8 +933,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -914,8 +943,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       arbTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      arbTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      arbTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       arbTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -943,7 +972,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestRoundData
       //
       // So for 4 addresses we expect 20 RPCs. With a group size of 3 but a
       // separate group size per provider, we should have 4 batches of sizes 6,
@@ -965,13 +994,13 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(2)
       expect(arbTbillContract.decimals).toBeCalledTimes(2)
       expect(arbTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(arbTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(arbTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(2)
     })
 
     it('should reset RPC grouping for a new request', async () => {
@@ -999,8 +1028,8 @@ describe('TbillTransport', () => {
         deferred(BigInt(balance * 10 ** balanceDecimals)),
       )
       ethTbillPriceContract.decimals.mockImplementation(deferred(priceDecimals))
-      ethTbillPriceContract.latestAnswer.mockImplementation(
-        deferred(BigInt(price * 10 ** priceDecimals)),
+      ethTbillPriceContract.latestRoundData.mockImplementation(
+        deferred(createRoundData({ price, priceDecimals })),
       )
       ethTbillContract.getWithdrawalQueueLength.mockImplementation(deferred(0))
 
@@ -1020,7 +1049,7 @@ describe('TbillTransport', () => {
       // 2. ethTbillContract.balanceOf
       // 5. ethTbillContract.getWithdrawalQueueLength
       // 3. ethTbillPriceContract.decimals
-      // 4. ethTbillPriceContract.latestAnswer
+      // 4. ethTbillPriceContract.latestARoundData
       //
       // So for 2 addresses we expect 10 RPCs. With a group size of 3, we
       // should have 4 batches of sizes 3, 3, 3, and 1.
@@ -1041,7 +1070,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(2)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(2)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(2)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(2)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(2)
 
       // When we make a new request, it should start with another group of 3,
       // rather than just 2, which might happen if we reuse the same
@@ -1058,7 +1087,7 @@ describe('TbillTransport', () => {
       expect(ethTbillContract.decimals).toBeCalledTimes(4)
       expect(ethTbillContract.getWithdrawalQueueLength).toBeCalledTimes(4)
       expect(ethTbillPriceContract.decimals).toBeCalledTimes(4)
-      expect(ethTbillPriceContract.latestAnswer).toBeCalledTimes(4)
+      expect(ethTbillPriceContract.latestRoundData).toBeCalledTimes(4)
     })
   })
 
