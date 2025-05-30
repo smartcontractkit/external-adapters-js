@@ -171,6 +171,7 @@ describe('TbillTransport', () => {
       expect(ethUsycContract.balanceOf).toBeCalledWith(walletAddress)
       expect(ethUsycContract.balanceOf).toBeCalledTimes(1)
       expect(ethUsycPriceContract.latestRoundData).toBeCalledTimes(1)
+      expect(ethUsycContract.getWithdrawalQueueLength).toBeCalledTimes(0)
 
       expect(arbTbillContract.balanceOf).toBeCalledTimes(0)
       expect(arbTbillPriceContract.latestRoundData).toBeCalledTimes(0)
