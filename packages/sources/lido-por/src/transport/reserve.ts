@@ -80,10 +80,6 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     if (beaconBalance.isNegative()) {
       return {
         errorMessage: `ethereum-cl-indexer balance endpoint returns negative value ${beaconBalance}`,
-        ripcord: true,
-        ripcordDetails: JSON.stringify(
-          `ethereum-cl-indexer balance endpoint returns negative value`,
-        ),
         statusCode: 502,
         timestamps: {
           providerDataRequestedUnixMs,
@@ -100,7 +96,6 @@ export class BalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return {
       data: {
         result: balance,
-        ripcord: false,
       },
       result: balance,
       timestamps: {
