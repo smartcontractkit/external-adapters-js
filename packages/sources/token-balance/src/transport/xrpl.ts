@@ -56,7 +56,7 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.requester = dependencies.requester
 
     if (!adapterSettings.XRPL_RPC_URL) {
-      logger.error('Environment variable XRPL_RPC_URL is missing')
+      logger.warn('Environment variable XRPL_RPC_URL is missing')
     }
   }
 
