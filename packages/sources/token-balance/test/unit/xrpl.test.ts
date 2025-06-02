@@ -39,10 +39,11 @@ jest.mock('ethers', () => ({
 }))
 
 const log = jest.fn()
+const warningLog = jest.fn()
 const logger = {
   fatal: log,
   error: log,
-  warn: log,
+  warn: warningLog,
   info: log,
   debug: log,
   trace: log,
@@ -169,6 +170,7 @@ describe('XrplTransport', () => {
 
   afterEach(() => {
     expect(log).not.toBeCalled()
+    expect(warningLog).not.toBeCalled()
   })
 
   describe('initialize', () => {
@@ -184,9 +186,9 @@ describe('XrplTransport', () => {
         transportName,
       )
 
-      expect(log).toBeCalledWith('Environment variable XRPL_RPC_URL is missing')
-      expect(log).toBeCalledTimes(1)
-      log.mockClear()
+      expect(warningLog).toBeCalledWith('Environment variable XRPL_RPC_URL is missing')
+      expect(warningLog).toBeCalledTimes(1)
+      warningLog.mockClear()
     })
   })
 
@@ -562,9 +564,9 @@ describe('XrplTransport', () => {
           tokenIssuerAddress,
         }),
       ).rejects.toThrow('Environment variable XRPL_RPC_URL is missing')
-      expect(log).toBeCalledWith('Environment variable XRPL_RPC_URL is missing')
-      expect(log).toBeCalledTimes(1)
-      log.mockClear()
+      expect(warningLog).toBeCalledWith('Environment variable XRPL_RPC_URL is missing')
+      expect(warningLog).toBeCalledTimes(1)
+      warningLog.mockClear()
     })
   })
 })
