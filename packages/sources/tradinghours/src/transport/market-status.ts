@@ -4,13 +4,14 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
-export const markets = ['forex', 'metals', 'wti'] as const
+export const markets = ['forex', 'metals', 'nyse', 'wti'] as const
 
 export type Market = (typeof markets)[number]
 
 const marketToFinId: Record<Market, string> = {
   forex: 'US.CHNLNK.FX',
   metals: 'US.CHNLNK.METAL',
+  nyse: 'US.NYSE',
   wti: 'US.CHNLNK.WTI',
 }
 
