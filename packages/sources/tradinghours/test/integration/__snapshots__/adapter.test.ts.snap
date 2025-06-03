@@ -10,7 +10,6 @@ exports[`Market status endpoint should return success with closed 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
-    "providerIndicatedTimeUnixMs": 1717191454000,
   },
 }
 `;
@@ -25,7 +24,20 @@ exports[`Market status endpoint should return success with open 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,
     "providerDataRequestedUnixMs": 1641035471111,
-    "providerIndicatedTimeUnixMs": 1717191454000,
+  },
+}
+`;
+
+exports[`Market status endpoint should return success with open with uppercase market 1`] = `
+{
+  "data": {
+    "result": 2,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
