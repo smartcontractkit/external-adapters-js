@@ -5,29 +5,6 @@ exports[`Market status endpoint should return error for invalid market 1`] = `
   "error": {
     "message": "[Param: market] input is not one of valid options (AD,AS,AT,AX,BA,BC,BD,BE,BH,BK,BO,BR,CA,CN,CO,CR,CS,DB,DE,DU,F,HE,HK,HM,IC,IR,IS,JK,JO,KL,KQ,KS,KW,L,LS,MC,ME,MI,MT,MU,MX,NE,NL,NS,NZ,OL,PA,PM,PR,QA,RO,RG,SA,SG,SI,SN,SR,SS,ST,SW,SZ,T,TA,TL,TO,TW,TWO,US,V,VI,VN,VS,WA,HA,SX,TG,SC,NYSE)",
     "name": "AdapterError",
-    "stack": "AdapterError: [Param: market] input is not one of valid options (AD,AS,AT,AX,BA,BC,BD,BE,BH,BK,BO,BR,CA,CN,CO,CR,CS,DB,DE,DU,F,HE,HK,HM,IC,IR,IS,JK,JO,KL,KQ,KS,KW,L,LS,MC,ME,MI,MT,MU,MX,NE,NL,NS,NZ,OL,PA,PM,PR,QA,RO,RG,SA,SG,SI,SN,SR,SS,ST,SW,SZ,T,TA,TL,TO,TW,TWO,US,V,VI,VN,VS,WA,HA,SX,TG,SC,NYSE)
-    at ProcessedParam.validationError (/Users/martin/repos/external-adapters-js/.yarn/cache/@chainlink-external-adapter-framework-npm-2.6.0-52db29fdab-146006d564.zip/node_modules/src/validation/input-params.ts:286:12)
-    at ProcessedParam.validateInputType (/Users/martin/repos/external-adapters-js/.yarn/cache/@chainlink-external-adapter-framework-npm-2.6.0-52db29fdab-146006d564.zip/node_modules/src/validation/input-params.ts:367:18)
-    at ProcessedParam.validateInput (/Users/martin/repos/external-adapters-js/.yarn/cache/@chainlink-external-adapter-framework-npm-2.6.0-52db29fdab-146006d564.zip/node_modules/src/validation/input-params.ts:344:17)
-    at InputParameters.validateInput (/Users/martin/repos/external-adapters-js/.yarn/cache/@chainlink-external-adapter-framework-npm-2.6.0-52db29fdab-146006d564.zip/node_modules/src/validation/input-params.ts:471:37)
-    at Object.<anonymous> (/Users/martin/repos/external-adapters-js/.yarn/cache/@chainlink-external-adapter-framework-npm-2.6.0-52db29fdab-146006d564.zip/node_modules/src/validation/index.ts:67:52)
-    at hookIterator (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/hooks.js:408:10)
-    at next (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/hooks.js:242:18)
-    at Object.<anonymous> (/Users/martin/repos/external-adapters-js/.yarn/cache/@chainlink-external-adapter-framework-npm-2.6.0-52db29fdab-146006d564.zip/node_modules/src/index.ts:219:5)
-    at hookIterator (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/hooks.js:408:10)
-    at next (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/hooks.js:242:18)
-    at hookRunner (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/hooks.js:264:5)
-    at validationCompleted (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/handleRequest.js:112:5)
-    at preValidationCallback (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/handleRequest.js:96:5)
-    at handler (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/handleRequest.js:73:7)
-    at /Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/contentTypeParser.js:214:9
-    at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
-    at done (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/contentTypeParser.js:207:14)
-    at Parser.defaultJsonParser [as fn] (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/contentTypeParser.js:312:7)
-    at Request.onEnd (/Users/martin/repos/external-adapters-js/.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/lib/contentTypeParser.js:296:27)
-    at Request.emit (node:events:518:28)
-    at endReadableNT (node:internal/streams/readable:1698:12)
-    at processTicksAndRejections (node:internal/process/task_queues:90:21)",
   },
   "status": "errored",
   "statusCode": 400,
