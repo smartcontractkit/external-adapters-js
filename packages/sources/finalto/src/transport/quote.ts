@@ -1,7 +1,7 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/forex'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { v4 as uuidv4 } from 'uuid'
+import { BaseEndpointTypes } from '../endpoint/quote'
 
 const logger = makeLogger('FinaltoWSTransport')
 
@@ -33,6 +33,14 @@ const getSubscriptionId = (symbol: string): string => {
   const uniqueKey = uuidv4()
   subscriptionIdMap[symbol] = `${symbol}-${uniqueKey}`
   return subscriptionIdMap[symbol]
+}
+
+const buildSymbol = ({ base, quote }: { base: string; quote: string }): string => {
+  if (base.includes('.')) {
+    // e.g. "AAPL.xnas"
+    return base
+  }
+  return `${base}${quote}`.toUpperCase()
 }
 
 // DP returns the date info in an unparseable format like 20240112-11:11:11.111
@@ -106,7 +114,9 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
           ]
         }
 
-        const result = (Number(bidInfo.Px) + Number(askInfo.Px)) / 2
+        const bid = Number(bidInfo.Px)
+        const ask = Number(askInfo.Px)
+        const result = (bid + ask) / 2
 
         return [
           {
@@ -115,6 +125,9 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
               result,
               data: {
                 result,
+                bid,
+                mid: result,
+                ask,
               },
               timestamps: {
                 providerIndicatedTimeUnixMs: parseDate(message.SendTime),
@@ -126,7 +139,7 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
     },
     builders: {
       subscribeMessage: (params) => {
-        const symbol = `${params.base}${params.quote}`.toUpperCase()
+        const symbol = buildSymbol(params)
         wsTransport.setReverseMapping(symbol, params)
         const id = getSubscriptionId(symbol)
         return {
@@ -140,7 +153,7 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         }
       },
       unsubscribeMessage: (params) => {
-        const symbol = `${params.base}${params.quote}`.toUpperCase()
+        const symbol = buildSymbol(params)
         const id = getSubscriptionId(symbol)
         delete subscriptionIdMap[symbol]
         return {

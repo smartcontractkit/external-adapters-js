@@ -12,7 +12,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
           }),
         )
       }
-      return socket.send(
+      socket.send(
         JSON.stringify({
           MsgSeqNum: '12',
           MsgType: 'SymbolPrices',
@@ -31,6 +31,48 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
           SendTime: '20240111-05:32:40.198',
           SubID: parsed.SubID,
           Symbol: 'GBPUSD',
+        }),
+      )
+      socket.send(
+        JSON.stringify({
+          MsgSeqNum: '12',
+          MsgType: 'SymbolPrices',
+          Prices: [
+            {
+              Px: '200.84',
+              Type: 'B',
+              Vol: '1000000',
+            },
+            {
+              Px: '200.88',
+              Type: 'O',
+              Vol: '1000000',
+            },
+          ],
+          SendTime: '20240111-05:32:40.198',
+          SubID: parsed.SubID,
+          Symbol: 'AAPL.xnas',
+        }),
+      )
+      socket.send(
+        JSON.stringify({
+          MsgSeqNum: '12',
+          MsgType: 'SymbolPrices',
+          Prices: [
+            {
+              Px: '461.92',
+              Type: 'B',
+              Vol: '1000000',
+            },
+            {
+              Px: '461.96',
+              Type: 'O',
+              Vol: '1000000',
+            },
+          ],
+          SendTime: '20240111-05:32:40.198',
+          SubID: parsed.SubID,
+          Symbol: 'MSFT.xnas',
         }),
       )
     })
