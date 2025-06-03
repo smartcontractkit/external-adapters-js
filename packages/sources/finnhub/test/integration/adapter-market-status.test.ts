@@ -54,6 +54,10 @@ describe('Market status endpoint', () => {
     endpoint: 'market-status',
     market: 'invalid_market',
   }
+  const lowerCaseMarket = {
+    endpoint: 'market-status',
+    market: 'nyse',
+  }
 
   it('should return success with open', async () => {
     mockMarketStatusResponseSuccess()
@@ -93,5 +97,13 @@ describe('Market status endpoint', () => {
     const response = await testAdapter.request(invalidMarket)
     expect(response.json()).toMatchSnapshot()
     expect(response.statusCode).toBe(400)
+  })
+
+  it('should return success with lower case market', async () => {
+    mockMarketStatusResponseSuccess()
+
+    const response = await testAdapter.request(lowerCaseMarket)
+    expect(response.json()).toMatchSnapshot()
+    expect(response.json().result).toEqual(MarketStatus.OPEN)
   })
 })
