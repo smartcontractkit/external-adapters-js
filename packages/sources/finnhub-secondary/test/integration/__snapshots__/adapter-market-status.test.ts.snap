@@ -3,7 +3,7 @@
 exports[`Market status endpoint should return error for invalid market 1`] = `
 {
   "error": {
-    "message": "[Param: market] input is not one of valid options (AD,AS,AT,AX,BA,BC,BD,BE,BH,BK,BO,BR,CA,CN,CO,CR,CS,DB,DE,DU,F,HE,HK,HM,IC,IR,IS,JK,JO,KL,KQ,KS,KW,L,LS,MC,ME,MI,MT,MU,MX,NE,NL,NS,NZ,OL,PA,PM,PR,QA,RO,RG,SA,SG,SI,SN,SR,SS,ST,SW,SZ,T,TA,TL,TO,TW,TWO,US,V,VI,VN,VS,WA,HA,SX,TG,SC,NYSE)",
+    "message": "[Param: market] input is not one of valid options (AD,AS,AT,AX,BA,BC,BD,BE,BH,BK,BO,BR,CA,CN,CO,CR,CS,DB,DE,DU,F,HE,HK,HM,IC,IR,IS,JK,JO,KL,KQ,KS,KW,L,LS,MC,ME,MI,MT,MU,MX,NE,NL,NS,NZ,OL,PA,PM,PR,QA,RO,RG,SA,SG,SI,SN,SR,SS,ST,SW,SZ,T,TA,TL,TO,TW,TWO,US,V,VI,VN,VS,WA,HA,SX,TG,SC,NYSE,ad,as,at,ax,ba,bc,bd,be,bh,bk,bo,br,ca,cn,co,cr,cs,db,de,du,f,he,hk,hm,ic,ir,is,jk,jo,kl,kq,ks,kw,l,ls,mc,me,mi,mt,mu,mx,ne,nl,ns,nz,ol,pa,pm,pr,qa,ro,rg,sa,sg,si,sn,sr,ss,st,sw,sz,t,ta,tl,to,tw,two,us,v,vi,vn,vs,wa,ha,sx,tg,sc,nyse)",
     "name": "AdapterError",
   },
   "status": "errored",
