@@ -4,7 +4,7 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
-export const markets = ['forex', 'metals', 'wti'] as const
+export const markets = ['forex', 'metals', 'wti', 'nyse'] as const
 
 export type Market = (typeof markets)[number]
 
@@ -12,9 +12,10 @@ const marketToFinId: Record<Market, string> = {
   forex: 'US.CHNLNK.FX',
   metals: 'US.CHNLNK.METAL',
   wti: 'US.CHNLNK.WTI',
+  nyse: 'US.NYSE',
 }
 
-function isMarket(v: any): v is Market {
+function isMarket(v: string): v is Market {
   return markets.includes(v as Market)
 }
 
@@ -32,10 +33,6 @@ type ResponseBody = {
       until: string // 2024-06-02T16:00:00-05:00
       next_bell: string // 2024-06-02T17:00:00-05:00
     }
-  }
-  meta: {
-    utc_time: string // 2024-05-31T21:37:34+00:00
-    time: string // 2024-05-31T21:37:34+00:00
   }
 }
 
@@ -92,9 +89,6 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
             result: marketStatus,
             data: {
               result: marketStatus,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: new Date(res.data.meta.time).getTime(),
             },
           },
         },

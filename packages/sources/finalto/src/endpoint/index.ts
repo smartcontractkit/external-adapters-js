@@ -1,1 +1,1 @@
-export { endpoint as forex } from './forex'
+export { endpoint as quote } from './quote'

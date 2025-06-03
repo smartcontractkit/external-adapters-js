@@ -27,10 +27,6 @@ export const mockResponseSuccess = (): nock.Scope =>
             next_bell: '2024-06-02T17:00:00-05:00',
           },
         },
-        meta: {
-          utc_time: '2024-05-31T21:37:34+00:00',
-          time: '2024-05-31T21:37:34+00:00',
-        },
       },
       ['Content-Type', 'application/json'],
     )
@@ -65,10 +61,6 @@ export const mockResponseSuccess = (): nock.Scope =>
             until: '2024-06-02T16:00:00-05:00',
             next_bell: '2024-06-02T17:00:00-05:00',
           },
-        },
-        meta: {
-          utc_time: '2024-05-31T21:37:34+00:00',
-          time: '2024-05-31T21:37:34+00:00',
         },
       },
       ['Content-Type', 'application/json'],

@@ -1,9 +1,9 @@
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import { mockWebsocketServer } from './fixtures'
@@ -18,6 +18,23 @@ describe('websocket', () => {
     base: 'GBP',
     quote: 'USD',
     endpoint: 'forex',
+  }
+
+  const dataStock = {
+    base: 'AAPL.xnas',
+    quote: 'USD',
+    endpoint: 'stock',
+  }
+
+  const dataStockWithOverride = {
+    base: 'MSFT',
+    quote: 'USD',
+    overrides: {
+      finalto: {
+        MSFT: 'MSFT.xnas',
+      },
+    },
+    endpoint: 'stock',
   }
 
   beforeAll(async () => {
@@ -36,7 +53,9 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(dataForex)
-    await testAdapter.waitForCache(1)
+    await testAdapter.request(dataStock)
+    await testAdapter.request(dataStockWithOverride)
+    await testAdapter.waitForCache(2)
   })
 
   afterAll(async () => {
@@ -65,6 +84,18 @@ describe('websocket', () => {
     it('should return error (empty quote)', async () => {
       const response = await testAdapter.request({ base: 'EUR' })
       expect(response.statusCode).toEqual(400)
+    })
+  })
+
+  describe('stock endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(dataStock)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with base override', async () => {
+      const response = await testAdapter.request(dataStockWithOverride)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })

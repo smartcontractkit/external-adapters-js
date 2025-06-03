@@ -1,11 +1,11 @@
 import {
-  ForexPriceEndpoint,
+  PriceEndpoint,
   priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { wsTransport } from '../transport/forex'
+import { wsTransport } from '../transport/quote'
 
 export const inputParameters = new InputParameters(
   {
@@ -25,9 +25,9 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new ForexPriceEndpoint({
-  name: 'forex',
-  aliases: ['fx', 'commodities'],
+export const endpoint = new PriceEndpoint({
+  name: 'quote',
+  aliases: ['forex', 'fx', 'commodities', 'stock'],
   transport: wsTransport,
   inputParameters,
 })
