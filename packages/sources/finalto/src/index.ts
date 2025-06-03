@@ -1,14 +1,14 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { forex } from './endpoint'
 import includes from './config/includes.json'
+import { quote } from './endpoint'
 
 export const adapter = new PriceAdapter({
-  defaultEndpoint: forex.name,
+  defaultEndpoint: quote.name,
   name: 'FINALTO',
   config,
-  endpoints: [forex],
+  endpoints: [quote],
   includes,
 })
 
