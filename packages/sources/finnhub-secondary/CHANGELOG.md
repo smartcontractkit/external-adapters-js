@@ -1,5 +1,16 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 0.4.0
+
+### Minor Changes
+
+- [#3900](https://github.com/smartcontractkit/external-adapters-js/pull/3900) [`99d8ce9`](https://github.com/smartcontractkit/external-adapters-js/commit/99d8ce9a4b3e6657f0648832d32e26630bce66c9) Thanks [@martin-cll](https://github.com/martin-cll)! - Add market-status endpoint
+
+### Patch Changes
+
+- Updated dependencies [[`99d8ce9`](https://github.com/smartcontractkit/external-adapters-js/commit/99d8ce9a4b3e6657f0648832d32e26630bce66c9)]:
+  - @chainlink/finnhub-adapter@2.8.1
+
 ## 0.3.35
 
 ### Patch Changes
