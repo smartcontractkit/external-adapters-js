@@ -16,6 +16,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.NCFX_ADAPTER_URL = 'https://ncfx-adapter.com'
     process.env.TRADINGHOURS_ADAPTER_URL = 'https://tradinghours-adapter.com'
+    process.env.FINNHUB_SECONDARY_ADAPTER_URL = 'https://finnhub-secondary-adapter.com'
 
     const adapter = (await import('./../../src')).adapter as unknown as Adapter
     clock = FakeTimers.install()
@@ -163,6 +164,20 @@ describe('execute', () => {
         providerDataRequestedUnixMs: expect.any(Number),
         providerIndicatedTimeUnixMs: expect.any(Number),
       },
+    })
+  })
+
+  describe('for nyse market', () => {
+    it('returns open if tradinghours is open', async () => {
+      const market = 'nyse'
+      fixtures.mockTradinghoursOpen(market)
+      fixtures.mockFinnhubSecondaryClosed(market)
+    })
+
+    it('returns open if tradinghours is unknown and finnhub is open', async () => {
+      const market = 'nyse'
+      fixtures.mockTradinghoursUnknown(market)
+      fixtures.mockFinnhubSecondaryOpen(market)
     })
   })
 })

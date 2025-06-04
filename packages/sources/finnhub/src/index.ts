@@ -27,4 +27,11 @@ const adapter = new PriceAdapter({
 
 const server = (): Promise<ServerInstance | undefined> => expose(adapter)
 
-export { adapter, buildQuoteEndpoint, config, rateLimiting, server }
+export {
+  adapter,
+  buildQuoteEndpoint,
+  config,
+  marketStatus as marketStatusEndpoint,
+  rateLimiting,
+  server,
+}
