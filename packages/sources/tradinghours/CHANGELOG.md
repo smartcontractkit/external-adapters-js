@@ -1,5 +1,11 @@
 # @chainlink/tradinghours-adapter
 
+## 0.2.0
+
+### Minor Changes
+
+- [#3899](https://github.com/smartcontractkit/external-adapters-js/pull/3899) [`76e8737`](https://github.com/smartcontractkit/external-adapters-js/commit/76e8737331c8f9d02b498d82c30c6acadb7a57d3) Thanks [@martin-cll](https://github.com/martin-cll)! - Add support for NYSE market
+
 ## 0.1.17
 
 ### Patch Changes
