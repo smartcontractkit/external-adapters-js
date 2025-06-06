@@ -93,6 +93,9 @@
       "path": "./composites/savax-price"
     },
     {
+      "path": "./composites/secure-mint"
+    },
+    {
       "path": "./composites/set-token-index"
     },
     {
@@ -499,6 +502,9 @@
     },
     {
       "path": "./sources/nav-consulting"
+    },
+    {
+      "path": "./sources/nav-generic"
     },
     {
       "path": "./sources/ncfx"
