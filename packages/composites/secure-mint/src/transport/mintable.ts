@@ -82,6 +82,7 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
       ),
     ])
 
+    // We will prevent minting if there is more supply + pre-mint than reserve
     const overmint = BigInt(supply.premint) + BigInt(supply.supply) > reserve.reserveAmount
 
     const data = {
