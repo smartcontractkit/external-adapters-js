@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute mintable endpoint should block overmint 1`] = `
+{
+  "data": {
+    "latestRelevantBlocks": {
+      "1": 5,
+    },
+    "mintables": {
+      "1": {
+        "block": 6,
+        "mintable": "0",
+      },
+    },
+    "reserveInfo": {
+      "reserveAmount": "1000000000000000000",
+      "timestamp": 2,
+    },
+    "supplyDetails": {
+      "chains": {
+        "1": {
+          "aggregate_pre_mint": false,
+          "latest_block": 5,
+          "mintable": "8",
+          "request_block": 7,
+          "response_block": 6,
+          "token_ccip_burn": "12",
+          "token_ccip_mint": "11",
+          "token_native_mint": "10",
+          "token_pre_mint": "13",
+          "token_supply": "9",
+        },
+      },
+      "premint": "500000000000000001",
+      "supply": "500000000000000000",
+    },
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute mintable endpoint should return success 1`] = `
+{
+  "data": {
+    "latestRelevantBlocks": {
+      "1": 5,
+    },
+    "mintables": {
+      "1": {
+        "block": 6,
+        "mintable": "8",
+      },
+    },
+    "reserveInfo": {
+      "reserveAmount": "1000000000000000000",
+      "timestamp": 2,
+    },
+    "supplyDetails": {
+      "chains": {
+        "1": {
+          "aggregate_pre_mint": false,
+          "latest_block": 5,
+          "mintable": "8",
+          "request_block": 7,
+          "response_block": 6,
+          "token_ccip_burn": "12",
+          "token_ccip_mint": "11",
+          "token_native_mint": "10",
+          "token_pre_mint": "13",
+          "token_supply": "9",
+        },
+      },
+      "premint": "4",
+      "supply": "3",
+    },
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
