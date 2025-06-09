@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.10.0
+
+### Minor Changes
+
+- [#3889](https://github.com/smartcontractkit/external-adapters-js/pull/3889) [`1a73657`](https://github.com/smartcontractkit/external-adapters-js/commit/1a736576b43de3ab02068141bccdfc9f906667a8) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Include USYC token for type tbill in openedenaddress endpoint
+
 ## 5.9.1
 
 ### Patch Changes
