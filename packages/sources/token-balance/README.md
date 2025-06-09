@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -165,7 +165,7 @@ Request:
 |    ✅     |          addresses           |         |    List of addresses to read     | object[] |         |         |            |                |
 |           |      addresses.chainId       |         |     Chain ID of the network      |  string  |         |         |            |                |
 |    ✅     |  addresses.contractAddress   |         |    Address of token contract     |  string  |         |         |            |                |
-|    ✅     |       addresses.token        |         |           Token symbol           |  string  |         |         |            |                |
+|           |       addresses.token        |         |           Token symbol           |  string  |         | `TBILL` |            |                |
 |    ✅     |      addresses.wallets       |         | Array of wallets to sum balances | string[] |         |         |            |                |
 |    ✅     | addresses.priceOracleAddress |         |     Address of price oracle      |  string  |         |         |            |                |
 
