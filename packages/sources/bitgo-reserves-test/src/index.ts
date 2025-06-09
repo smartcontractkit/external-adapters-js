@@ -8,6 +8,13 @@ export const adapter = new Adapter({
   name: 'BITGO_RESERVES-TEST',
   config,
   endpoints: [reservesStaging, reservesTest],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 10, // setting a rate limit so we don't blast the server as fast as possible
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
