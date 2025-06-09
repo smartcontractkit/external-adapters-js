@@ -1,5 +1,11 @@
 # @chainlink/bitgo-reserves-test-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3903](https://github.com/smartcontractkit/external-adapters-js/pull/3903) [`72544e2`](https://github.com/smartcontractkit/external-adapters-js/commit/72544e2421e99bd9b87f2d7e3fa61f7550ef89ee) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Improve compatibility of API
+
 ## 1.0.7
 
 ### Patch Changes
