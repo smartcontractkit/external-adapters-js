@@ -15,6 +15,45 @@ exports[`execute reserves-staging endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute reserves-test endpoint should return ripcord - string 1`] = `
+{
+  "errorMessage": "Ripcord indicator true",
+  "ripcord": "True",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserves-test endpoint should return ripcord 1`] = `
+{
+  "errorMessage": "Ripcord indicator true",
+  "ripcord": true,
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserves-test endpoint should return success - string ripcord 1`] = `
+{
+  "data": {
+    "result": 12345678.9,
+  },
+  "result": 12345678.9,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733793825000,
+  },
+}
+`;
+
 exports[`execute reserves-test endpoint should return success 1`] = `
 {
   "data": {

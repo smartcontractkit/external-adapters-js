@@ -10,7 +10,7 @@ export interface DataSchema {
 export interface ResponseSchema {
   data: string // formatted & escaped DataSchema
   dataSignature: string
-  ripcord: boolean
+  ripcord: boolean | string
 }
 
 export function createRequest(params: { [key: string]: string }[], endpoint: string) {
@@ -41,7 +41,10 @@ export function parseResponse(
     })
   }
 
-  if (payload.ripcord) {
+  if (
+    (typeof payload.ripcord === 'boolean' && payload.ripcord) ||
+    (typeof payload.ripcord === 'string' && payload.ripcord.toUpperCase() === 'TRUE')
+  ) {
     return [
       {
         params: params[0],
