@@ -3,9 +3,12 @@ import {
   HttpTransportConfig,
   TransportDependencies,
 } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/reserves'
-import * as crypto from 'crypto'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import * as crypto from 'crypto'
+import { BaseEndpointTypes } from '../endpoint/reserves'
+
+const logger = makeLogger('ReservesTransport')
 
 export interface DataSchema {
   totalReserve: string
@@ -17,7 +20,7 @@ export interface DataSchema {
 export interface ResponseSchema {
   data: string // formatted & escaped DataSchema
   dataSignature: string
-  ripcord: boolean
+  ripcord: string | boolean
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -99,7 +102,10 @@ export const httpTransport = new ReservesHttpTransport({
       })
     }
 
-    if (payload.ripcord) {
+    if (
+      (typeof payload.ripcord === 'boolean' && payload.ripcord) ||
+      (typeof payload.ripcord === 'string' && payload.ripcord.toUpperCase() === 'TRUE')
+    ) {
       return [
         {
           params: params[0],
@@ -114,17 +120,31 @@ export const httpTransport = new ReservesHttpTransport({
 
     const verifier = crypto.createVerify('sha256')
     verifier.update(payload.data)
-    const verified = verifier.verify(
-      getCreds(params[0].client, httpTransport.endpoint, httpTransport.pubkey).key,
-      payload.dataSignature,
-      'base64',
-    )
-    if (!verified) {
+
+    try {
+      const verified = verifier.verify(
+        getCreds(params[0].client, httpTransport.endpoint, httpTransport.pubkey).key,
+        payload.dataSignature,
+        'base64',
+      )
+      if (!verified) {
+        return params.map((param) => {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Data verification failed`,
+              statusCode: 502,
+            },
+          }
+        })
+      }
+    } catch (e) {
+      logger.error(e)
       return params.map((param) => {
         return {
           params: param,
           response: {
-            errorMessage: `Data verification failed`,
+            errorMessage: `Data verification failed ${e}`,
             statusCode: 502,
           },
         }

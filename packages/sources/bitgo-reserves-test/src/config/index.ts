@@ -8,7 +8,7 @@ export const config = new AdapterConfig({
   },
   STAGING_PUBKEY: {
     description:
-      'Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\\n...contents...\\n-----END PUBLIC KEY-----"',
+      'Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\n...contents...\n-----END PUBLIC KEY-----"',
     type: 'string',
     required: true,
   },
@@ -19,7 +19,7 @@ export const config = new AdapterConfig({
   },
   TEST_PUBKEY: {
     description:
-      'Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\\n...contents...\\n-----END PUBLIC KEY-----"',
+      'Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\n...contents...\n-----END PUBLIC KEY-----"',
     type: 'string',
     required: true,
   },
