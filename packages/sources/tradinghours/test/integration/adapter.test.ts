@@ -43,6 +43,12 @@ describe('Market status endpoint', () => {
       market: 'forex',
     },
   }
+  const openDataUppercase = {
+    data: {
+      endpoint: 'market-status',
+      market: 'FOREX',
+    },
+  }
   const closedData = {
     data: {
       endpoint: 'market-status',
@@ -76,5 +82,19 @@ describe('Market status endpoint', () => {
       .expect(200)
     expect(response.body).toMatchSnapshot()
     expect(response.body.result).toEqual(MarketStatus.CLOSED)
+  })
+
+  it('should return success with open with uppercase market', async () => {
+    mockResponseSuccess()
+
+    const response = await (context.req as SuperTest<Test>)
+      .post('/')
+      .send(openDataUppercase)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body).toMatchSnapshot()
+    expect(response.body.result).toEqual(MarketStatus.OPEN)
   })
 })

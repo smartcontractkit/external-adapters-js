@@ -1,10 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute reserve endpoint should return ripcord 1`] = `
+exports[`execute reserve endpoint should return error 1`] = `
 {
   "errorMessage": "ethereum-cl-indexer balance endpoint returns negative value -1",
-  "ripcord": true,
-  "ripcordDetails": ""ethereum-cl-indexer balance endpoint returns negative value"",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

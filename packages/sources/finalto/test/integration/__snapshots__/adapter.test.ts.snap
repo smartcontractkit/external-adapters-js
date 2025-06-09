@@ -3,12 +3,51 @@
 exports[`websocket forex endpoint should return success 1`] = `
 {
   "data": {
+    "ask": 6.82543,
+    "bid": 6.82427,
+    "mid": 6.82485,
     "result": 6.82485,
   },
   "result": 6.82485,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1022,
+    "providerDataReceivedUnixMs": 3042,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1704951160198,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 200.88,
+    "bid": 200.84,
+    "mid": 200.86,
+    "result": 200.86,
+  },
+  "result": 200.86,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3042,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1704951160198,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should return success with base override 1`] = `
+{
+  "data": {
+    "ask": 461.96,
+    "bid": 461.92,
+    "mid": 461.94,
+    "result": 461.94,
+  },
+  "result": 461.94,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3042,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1704951160198,
   },

@@ -1,10 +1,10 @@
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import { ethers } from 'ethers'
 import OpenEdenUSDOPoRAddressList from '../config/OpenEdenUSDOPoRAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/openEdenUSDOAddress'
-import { ethers } from 'ethers'
 import { addProvider, getProvider } from './providerUtils'
 
 export type AddressTransportTypes = BaseEndpointTypes
@@ -20,6 +20,9 @@ interface ResponseSchema {
   tokenPriceOracle: string //if there is a Price Oracle contract, else 0x0000000000000000000000000000000000000000
   yourVaultAddress: string
 }
+
+// Tokens with Net Asset Value (NAV)-based pricing
+const pricedAssets = ['TBILL', 'USYC']
 
 export class AddressTransport extends SubscriptionTransport<AddressTransportTypes> {
   providersMap: Record<string, ethers.providers.JsonRpcProvider> = {}
@@ -110,7 +113,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
 const buildOtherResponse = (addressList: ResponseSchema[]) => {
   return addressList
-    .filter((addr) => addr.tokenSymbol != 'TBILL')
+    .filter((addr) => !pricedAssets.includes(addr.tokenSymbol))
     .map((addr) => ({
       contractAddress: addr.tokenAddress,
       network: addr.chain,
@@ -123,7 +126,7 @@ const buildOtherResponse = (addressList: ResponseSchema[]) => {
 
 const buildTBILLResponse = (addressList: ResponseSchema[]) => {
   return addressList
-    .filter((addr) => addr.tokenSymbol == 'TBILL')
+    .filter((addr) => pricedAssets.includes(addr.tokenSymbol))
     .map((addr) => ({
       contractAddress: addr.tokenAddress,
       network: addr.chain,

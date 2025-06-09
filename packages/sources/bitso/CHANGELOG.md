@@ -1,5 +1,11 @@
 # @chainlink/bitso-adapter
 
+## 1.4.46
+
+### Patch Changes
+
+- [#3870](https://github.com/smartcontractkit/external-adapters-js/pull/3870) [`eb8b2a9`](https://github.com/smartcontractkit/external-adapters-js/commit/eb8b2a9bf5cdba67e7549fb77d8059a9af38b877) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency @types/express from v4.17.21 to v4.17.22
+
 ## 1.4.45
 
 ### Patch Changes

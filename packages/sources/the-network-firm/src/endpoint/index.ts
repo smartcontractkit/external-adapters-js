@@ -1,4 +1,5 @@
 export { endpoint as backed } from './backed'
+export { endpoint as emgemx } from './emgemx'
 export { endpoint as eurr } from './eurr'
 export { endpoint as gift } from './gift'
 export { endpoint as mco2 } from './mco2'

@@ -1,5 +1,11 @@
 # @chainlink/dlc-btc-por-adapter
 
+## 4.4.0
+
+### Minor Changes
+
+- [#3879](https://github.com/smartcontractkit/external-adapters-js/pull/3879) [`9d717d1`](https://github.com/smartcontractkit/external-adapters-js/commit/9d717d1dc50ea9bc9202c553e02ba0d72352ca3c) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix rounding error
+
 ## 4.3.14
 
 ### Patch Changes

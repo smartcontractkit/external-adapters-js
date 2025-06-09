@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/kaiko-state-adapter",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Chainlink kaiko-state adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.6.0",
-    "@grpc/grpc-js": "1.13.3",
+    "@grpc/grpc-js": "1.13.4",
     "@kaiko-data/sdk-node": "1.27.2",
     "exponential-backoff": "3.1.2",
     "rxjs": "7.8.2",
