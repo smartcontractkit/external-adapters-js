@@ -46,6 +46,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: number
     Data: {
+      overmint: boolean
       mintables: {
         [key: string]: {
           mintable: string

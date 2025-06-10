@@ -12,6 +12,7 @@ exports[`execute mintable endpoint should block overmint 1`] = `
         "mintable": "0",
       },
     },
+    "overmint": true,
     "reserveInfo": {
       "reserveAmount": "1000000000000000000",
       "timestamp": 2,
@@ -56,6 +57,7 @@ exports[`execute mintable endpoint should return success 1`] = `
         "mintable": "8",
       },
     },
+    "overmint": false,
     "reserveInfo": {
       "reserveAmount": "1000000000000000000",
       "timestamp": 2,

@@ -86,6 +86,7 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
     const overmint = BigInt(supply.premint) + BigInt(supply.supply) > reserve.reserveAmount
 
     const data = {
+      overmint,
       mintables: Object.fromEntries(
         Object.entries(supply.chains).map(([id, data]) => [
           id,

@@ -158,6 +158,7 @@ describe('MintableTransport', () => {
 
       expect(response).toEqual({
         data: {
+          overmint: false,
           latestRelevantBlocks: {
             1: latestBlock,
           },
@@ -219,9 +220,9 @@ describe('MintableTransport', () => {
     })
 
     it('overmint - 0 mintable', async () => {
-      const reserveResult = 0
+      const reserveResult = 1
       const premint = '102'
-      const supply = '103'
+      const supply = '1000000000000000003'
       const mintable = '104'
       const responseBlock = 105
       const latestBlock = 106
@@ -269,6 +270,7 @@ describe('MintableTransport', () => {
 
       expect(response).toEqual({
         data: {
+          overmint: true,
           latestRelevantBlocks: {
             1: latestBlock,
           },
@@ -317,6 +319,131 @@ describe('MintableTransport', () => {
         token: param.token,
         chains: {
           [supplyChain]: supplyChainBlock,
+        },
+      })
+      const expectedSupplyRequestKey = requestKeyForConfig(expectedSupplyRequestConfig)
+
+      expect(requester.request).toHaveBeenNthCalledWith(
+        2,
+        expectedSupplyRequestKey,
+        expectedSupplyRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledTimes(2)
+    })
+
+    it('multi chains', async () => {
+      const reserveResult = 1
+      const premint = '102'
+      const supply = '1'
+      const supplyChain = ['1', '56']
+      const supplyChainBlock = [107, 108]
+
+      const reservesResponse = makeStub('reservesResponse', {
+        response: {
+          data: {
+            result: reserveResult,
+            timestamps: {
+              providerDataReceivedUnixMs: Date.now(),
+            },
+          },
+        },
+      })
+
+      requester.request.mockResolvedValueOnce(reservesResponse)
+
+      const supplyResponse = makeStub('supplyResponse', {
+        response: {
+          data: {
+            premint,
+            supply,
+            chains: {
+              '1': {
+                mintable: '104',
+                response_block: 105,
+                latest_block: 106,
+              },
+              '56': {
+                mintable: '2104',
+                response_block: 2105,
+                latest_block: 2106,
+              },
+            },
+          },
+        },
+      })
+
+      requester.request.mockResolvedValueOnce(supplyResponse)
+
+      const param = makeStub('param', {
+        token: 'ETH',
+        reserves: 'Bitgo',
+        supplyChains: supplyChain,
+        supplyChainBlocks: supplyChainBlock,
+      } as typeof inputParameters.validated)
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        data: {
+          overmint: false,
+          latestRelevantBlocks: {
+            1: 106,
+            56: 2106,
+          },
+          mintables: {
+            '1': {
+              block: 105,
+              mintable: '104',
+            },
+            '56': {
+              block: 2105,
+              mintable: '2104',
+            },
+          },
+          reserveInfo: {
+            reserveAmount: BigInt(reserveResult * 10 ** 18).toString(),
+            timestamp: Date.now(),
+          },
+          supplyDetails: {
+            chains: {
+              '1': {
+                latest_block: 106,
+                mintable: '104',
+                response_block: 105,
+              },
+              '56': {
+                latest_block: 2106,
+                mintable: '2104',
+                response_block: 2105,
+              },
+            },
+            premint,
+            supply,
+          },
+        },
+        result: 0,
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: Date.now(),
+          providerDataRequestedUnixMs: Date.now(),
+        },
+      })
+
+      const expectedReserveRequestConfig = requestConfigForReserve({
+        token: param.token,
+      })
+      const expectedReserveRequestKey = requestKeyForConfig(expectedReserveRequestConfig)
+
+      expect(requester.request).toHaveBeenNthCalledWith(
+        1,
+        expectedReserveRequestKey,
+        expectedReserveRequestConfig,
+      )
+
+      const expectedSupplyRequestConfig = requestConfigForSupply({
+        token: param.token,
+        chains: {
+          '1': 107,
+          '56': 108,
         },
       })
       const expectedSupplyRequestKey = requestKeyForConfig(expectedSupplyRequestConfig)
