@@ -75,6 +75,11 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
           return
         }
 
+        if (!value) {
+          // Dont add results when the value is null - one of the exchanges could be unavailable
+          return
+        }
+
         const exchange = key.slice(0, -'FundingRate'.length).toLowerCase()
         results.push(getFundingRateResult(exchange, queryDetails, value as FundingRateResponse))
       })
