@@ -1,5 +1,16 @@
 # @chainlink/market-status-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#3901](https://github.com/smartcontractkit/external-adapters-js/pull/3901) [`c619154`](https://github.com/smartcontractkit/external-adapters-js/commit/c619154bdebd03502ee784aa41e92aa5d5ee0ab1) Thanks [@martin-cll](https://github.com/martin-cll)! - Add support for nyse market and finnhub-secondary adapter
+
+### Patch Changes
+
+- Updated dependencies [[`76e8737`](https://github.com/smartcontractkit/external-adapters-js/commit/76e8737331c8f9d02b498d82c30c6acadb7a57d3)]:
+  - @chainlink/tradinghours-adapter@0.2.0
+
 ## 1.2.15
 
 ### Patch Changes

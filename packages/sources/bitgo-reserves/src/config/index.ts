@@ -8,7 +8,7 @@ export const config = new AdapterConfig({
   },
   VERIFICATION_PUBKEY: {
     description:
-      'Public RSA key used for verifying data signature for Go USD. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\\n...contents...\\n-----END PUBLIC KEY-----"',
+      'Public RSA key used for verifying data signature for Go USD. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\n...contents...\n-----END PUBLIC KEY-----"',
     type: 'string',
     default: '',
   },

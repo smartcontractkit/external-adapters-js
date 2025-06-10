@@ -3,7 +3,13 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess, mockResponseSuccessC1 } from './fixtures'
+import {
+  mockResponseRipcord,
+  mockResponseStringRipcord,
+  mockResponseSuccess,
+  mockResponseSuccessC1,
+  mockResponseSuccessStringFalse,
+} from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -32,6 +38,11 @@ describe('execute', () => {
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
+  })
+
+  afterEach(() => {
+    nock.cleanAll()
+    testAdapter.mockCache?.cache.clear()
   })
 
   afterAll(async () => {
@@ -73,6 +84,36 @@ describe('execute', () => {
       mockResponseSuccessC1()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success - string ripcord', async () => {
+      const data = {
+        endpoint: 'reserves',
+      }
+      mockResponseSuccessStringFalse()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return fail - ripcord', async () => {
+      const data = {
+        endpoint: 'reserves',
+      }
+      mockResponseRipcord()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return fail - string ripcord', async () => {
+      const data = {
+        endpoint: 'reserves',
+      }
+      mockResponseStringRipcord()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })

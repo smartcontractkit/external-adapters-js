@@ -1,5 +1,13 @@
 # @chainlink/lido-por-adapter
 
+## 1.1.12
+
+### Patch Changes
+
+- [#3887](https://github.com/smartcontractkit/external-adapters-js/pull/3887) [`ff448be`](https://github.com/smartcontractkit/external-adapters-js/commit/ff448be80b55c8b62acf686c2abceb8dca70d15c) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add default ripcord false to response
+
+- [#3892](https://github.com/smartcontractkit/external-adapters-js/pull/3892) [`5c89c0f`](https://github.com/smartcontractkit/external-adapters-js/commit/5c89c0f645b634eb5e52b58727ffaa3f1d7b6c37) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - remove ripcord
+
 ## 1.1.11
 
 ### Patch Changes

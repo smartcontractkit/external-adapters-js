@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute reserves endpoint should return fail - ripcord 1`] = `
+{
+  "errorMessage": "Ripcord indicator true",
+  "ripcord": true,
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserves endpoint should return fail - string ripcord 1`] = `
+{
+  "errorMessage": "Ripcord indicator true",
+  "ripcord": "True",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute reserves endpoint should return failure for non exist client 1`] = `
 {
   "error": {
@@ -8,6 +32,21 @@ exports[`execute reserves endpoint should return failure for non exist client 1`
   },
   "status": "errored",
   "statusCode": 400,
+}
+`;
+
+exports[`execute reserves endpoint should return success - string ripcord 1`] = `
+{
+  "data": {
+    "result": 12345678.9,
+  },
+  "result": 12345678.9,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1733793825000,
+  },
 }
 `;
 
