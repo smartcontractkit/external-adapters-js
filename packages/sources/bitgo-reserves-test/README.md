@@ -1,23 +1,30 @@
 # BITGO_RESERVES-TEST
 
-![1.0.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitgo-reserves-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitgo-reserves-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name         |                                                                              Description                                                                               |  Type  | Options |                    Default                    |
-| :-------: | :------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------------------: |
-|           | STAGING_API_ENDPOINT |                                                                 Staging API endpoint for Data Provider                                                                 | string |         | `https://reserves.gousd-staging.com/por.json` |
-|    ✅     |    STAGING_PUBKEY    | Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\n...contents...\n-----END PUBLIC KEY-----" | string |         |                                               |
-|           |  TEST_API_ENDPOINT   |                                                                  Test API endpoint for Data Provider                                                                   | string |         |  `https://reserves.gousd-test.com/por.json`   |
-|    ✅     |     TEST_PUBKEY      | Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----\n...contents...\n-----END PUBLIC KEY-----" | string |         |                                               |
+| Required? |         Name         |                                                         Description                                                         |  Type  | Options |                    Default                    |
+| :-------: | :------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------------------: |
+|           | STAGING_API_ENDPOINT |                                           Staging API endpoint for Data Provider                                            | string |         | `https://reserves.gousd-staging.com/por.json` |
+|    ✅     |    STAGING_PUBKEY    | Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY----- |
+
+...contents...
+-----END PUBLIC KEY-----" | string | | |
+| | TEST_API_ENDPOINT | Test API endpoint for Data Provider | string | | `https://reserves.gousd-test.com/por.json` |
+| ✅ | TEST_PUBKEY | Public RSA key used for verifying data signature. Expected to be formatted as a single line eg: "-----BEGIN PUBLIC KEY-----
+...contents...
+-----END PUBLIC KEY-----" | string | | |
 
 ---
 
 ## Data Provider Rate Limits
 
-There are no rate limits for this adapter.
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| default |                             |             10              |                           |      |
 
 ---
 

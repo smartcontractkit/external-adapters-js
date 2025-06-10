@@ -1,5 +1,11 @@
 # @chainlink/finalto-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3898](https://github.com/smartcontractkit/external-adapters-js/pull/3898) [`74360b8`](https://github.com/smartcontractkit/external-adapters-js/commit/74360b879d47638459fa11544e5b620c9397b182) Thanks [@martin-cll](https://github.com/martin-cll)! - Add support for stock assets
+
 ## 1.0.23
 
 ### Patch Changes

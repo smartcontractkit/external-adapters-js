@@ -1,6 +1,6 @@
 # FINALTO
 
-![1.0.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finalto/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finalto/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -22,13 +22,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                     Options                                     | Default |
-| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint) | `forex` |
+| Required? |   Name   |     Description     |  Type  |                                                               Options                                                               | Default |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#quote-endpoint), [forex](#quote-endpoint), [fx](#quote-endpoint), [quote](#quote-endpoint), [stock](#quote-endpoint) | `quote` |
 
-## Forex Endpoint
+## Quote Endpoint
 
-Supported names for this endpoint are: `commodities`, `forex`, `fx`.
+Supported names for this endpoint are: `commodities`, `forex`, `fx`, `quote`, `stock`.
 
 ### Input Params
 
@@ -44,7 +44,7 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "forex",
+    "endpoint": "quote",
     "base": "GBP",
     "quote": "USD"
   }
