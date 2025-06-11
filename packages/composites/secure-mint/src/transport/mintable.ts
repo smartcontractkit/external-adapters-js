@@ -100,7 +100,7 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
         reserveAmount: reserve.reserveAmount.toString(),
         timestamp: reserve.timestamp,
       },
-      latestRelevantBlocks: Object.fromEntries(
+      latestBlocks: Object.fromEntries(
         Object.entries(supply.chains).map(([id, data]) => [id, data.latest_block]),
       ),
       supplyDetails: supply,

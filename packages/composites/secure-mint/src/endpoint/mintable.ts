@@ -57,7 +57,7 @@ export type BaseEndpointTypes = {
         reserveAmount: string
         timestamp: number
       }
-      latestRelevantBlocks: {
+      latestBlocks: {
         [key: string]: number
       }
       supplyDetails: IndexerResponse

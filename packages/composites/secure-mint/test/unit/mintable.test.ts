@@ -159,7 +159,7 @@ describe('MintableTransport', () => {
       expect(response).toEqual({
         data: {
           overmint: false,
-          latestRelevantBlocks: {
+          latestBlocks: {
             1: latestBlock,
           },
           mintables: {
@@ -271,7 +271,7 @@ describe('MintableTransport', () => {
       expect(response).toEqual({
         data: {
           overmint: true,
-          latestRelevantBlocks: {
+          latestBlocks: {
             1: latestBlock,
           },
           mintables: {
@@ -385,7 +385,7 @@ describe('MintableTransport', () => {
       expect(response).toEqual({
         data: {
           overmint: false,
-          latestRelevantBlocks: {
+          latestBlocks: {
             1: 106,
             56: 2106,
           },

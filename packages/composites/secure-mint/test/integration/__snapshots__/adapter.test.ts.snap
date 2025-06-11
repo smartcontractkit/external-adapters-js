@@ -3,7 +3,7 @@
 exports[`execute mintable endpoint should block overmint 1`] = `
 {
   "data": {
-    "latestRelevantBlocks": {
+    "latestBlocks": {
       "1": 5,
     },
     "mintables": {
@@ -48,7 +48,7 @@ exports[`execute mintable endpoint should block overmint 1`] = `
 exports[`execute mintable endpoint should return success 1`] = `
 {
   "data": {
-    "latestRelevantBlocks": {
+    "latestBlocks": {
       "1": 5,
     },
     "mintables": {
