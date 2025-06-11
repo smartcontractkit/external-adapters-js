@@ -455,5 +455,119 @@ describe('MintableTransport', () => {
       )
       expect(requester.request).toHaveBeenCalledTimes(2)
     })
+
+    it('multi chains - one error', async () => {
+      const reserveResult = 1
+      const premint = '102'
+      const supply = '1'
+      const supplyChain = ['1', '56']
+      const supplyChainBlock = [107, 108]
+
+      const reservesResponse = makeStub('reservesResponse', {
+        response: {
+          data: {
+            result: reserveResult,
+            timestamps: {
+              providerDataReceivedUnixMs: Date.now(),
+            },
+          },
+        },
+      })
+
+      requester.request.mockResolvedValueOnce(reservesResponse)
+
+      const supplyResponse = makeStub('supplyResponse', {
+        response: {
+          data: {
+            premint,
+            supply,
+            chains: {
+              '1': {
+                error_message: 'error1',
+                latest_block: 106,
+              },
+              '56': {
+                mintable: '2104',
+                response_block: 2105,
+                latest_block: 2106,
+              },
+            },
+          },
+        },
+      })
+
+      requester.request.mockResolvedValueOnce(supplyResponse)
+
+      const param = makeStub('param', {
+        token: 'ETH',
+        reserves: 'Bitgo',
+        supplyChains: supplyChain,
+        supplyChainBlocks: supplyChainBlock,
+      } as typeof inputParameters.validated)
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        data: {
+          overmint: false,
+          latestBlocks: {
+            1: 106,
+            56: 2106,
+          },
+          mintables: {},
+          reserveInfo: {
+            reserveAmount: BigInt(reserveResult * 10 ** 18).toString(),
+            timestamp: Date.now(),
+          },
+          supplyDetails: {
+            chains: {
+              '1': {
+                error_message: 'error1',
+                latest_block: 106,
+              },
+              '56': {
+                latest_block: 2106,
+                mintable: '2104',
+                response_block: 2105,
+              },
+            },
+            premint,
+            supply,
+          },
+        },
+        result: 0,
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: Date.now(),
+          providerDataRequestedUnixMs: Date.now(),
+        },
+      })
+
+      const expectedReserveRequestConfig = requestConfigForReserve({
+        token: param.token,
+      })
+      const expectedReserveRequestKey = requestKeyForConfig(expectedReserveRequestConfig)
+
+      expect(requester.request).toHaveBeenNthCalledWith(
+        1,
+        expectedReserveRequestKey,
+        expectedReserveRequestConfig,
+      )
+
+      const expectedSupplyRequestConfig = requestConfigForSupply({
+        token: param.token,
+        chains: {
+          '1': 107,
+          '56': 108,
+        },
+      })
+      const expectedSupplyRequestKey = requestKeyForConfig(expectedSupplyRequestConfig)
+
+      expect(requester.request).toHaveBeenNthCalledWith(
+        2,
+        expectedSupplyRequestKey,
+        expectedSupplyRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledTimes(2)
+    })
   })
 })

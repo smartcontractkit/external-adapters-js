@@ -45,6 +45,36 @@ exports[`execute mintable endpoint should block overmint 1`] = `
 }
 `;
 
+exports[`execute mintable endpoint should handle error 1`] = `
+{
+  "data": {
+    "latestBlocks": {
+      "1": 5,
+    },
+    "mintables": {},
+    "overmint": false,
+    "reserveInfo": {
+      "reserveAmount": "1000000000000000000",
+      "timestamp": 2,
+    },
+    "supplyDetails": {
+      "chains": {
+        "1": {
+          "error_message": "some error messages",
+          "latest_block": 5,
+        },
+      },
+    },
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute mintable endpoint should return success 1`] = `
 {
   "data": {
