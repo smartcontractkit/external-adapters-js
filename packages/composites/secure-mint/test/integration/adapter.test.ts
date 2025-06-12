@@ -64,5 +64,21 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should handle error', async () => {
+      mockBitgoSuccess()
+      mockIndexerSuccess()
+
+      const data = {
+        token: 'token3',
+        reserves: 'Bitgo',
+        supplyChains: ['1'],
+        supplyChainBlocks: [0],
+      }
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

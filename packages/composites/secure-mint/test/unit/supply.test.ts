@@ -19,6 +19,10 @@ const requester = makeStub('requester', {
   request: jest.fn(),
 })
 
+beforeEach(() => {
+  requester.request.mockReset()
+})
+
 describe('getReserve', () => {
   it('returns parsed reserveAmount and timestamp', async () => {
     const response = {
@@ -78,6 +82,48 @@ describe('getReserve', () => {
         chains: {
           '1': 100,
           '56': 200,
+        },
+      },
+    })
+
+    expect(result).toStrictEqual(response)
+  })
+
+  it('returns parsed error_message', async () => {
+    const response = {
+      chains: {
+        '1': {
+          latest_block: 300,
+          error_message: 'error',
+        },
+      },
+    }
+    requester.request.mockResolvedValueOnce(
+      makeStub('reservesResponse', {
+        response: {
+          data: response,
+        },
+      }),
+    )
+
+    const result = await getSupply(
+      token,
+      ['1'],
+      [100],
+      requester as unknown as Requester,
+      config,
+      endpointName,
+      transportName,
+    )
+
+    expect(requester.request).toHaveBeenNthCalledWith(1, expect.any(String), {
+      method: 'post',
+      baseURL: config.SECURE_MINT_INDEXER_URL,
+      url: 'data',
+      data: {
+        token,
+        chains: {
+          '1': 100,
         },
       },
     })

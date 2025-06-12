@@ -20,6 +20,14 @@ export const mockBitgoSuccess = (): nock.Scope =>
       },
     }))
     .persist()
+    .post('/', { data: { client: 'token3' } })
+    .reply(200, () => ({
+      result: 1,
+      timestamps: {
+        providerDataReceivedUnixMs: 2,
+      },
+    }))
+    .persist()
 
 export const mockIndexerSuccess = (): nock.Scope =>
   nock('http://fake-indexer', {
@@ -71,6 +79,21 @@ export const mockIndexerSuccess = (): nock.Scope =>
           token_ccip_burn: '12',
           token_pre_mint: '13',
           aggregate_pre_mint: false,
+        },
+      },
+    }))
+    .persist()
+    .post('/data', {
+      token: 'token3',
+      chains: {
+        '1': 0,
+      },
+    })
+    .reply(200, () => ({
+      chains: {
+        '1': {
+          error_message: 'some error messages',
+          latest_block: 5,
         },
       },
     }))

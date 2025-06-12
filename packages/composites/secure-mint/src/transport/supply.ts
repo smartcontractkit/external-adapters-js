@@ -4,6 +4,7 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { BaseEndpointTypes, inputParameters } from '../endpoint/mintable'
 
 type ChainData = {
+  error_message: string
   latest_block: number
   response_block: number
   request_block: number
