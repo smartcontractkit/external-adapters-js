@@ -41,6 +41,14 @@ export const getApiConfigs = (integration: string): { apiKey: string; apiUrl: st
     })
   }
 
+  // audit fix, ensure https at the url config level
+  if (!apiUrl.startsWith('https://')) {
+    throw new AdapterError({
+      message: `${apiUrlEnvVarName} does not start with https://`,
+      statusCode: 500,
+    })
+  }
+
   return { apiKey, apiUrl }
 }
 

@@ -33,6 +33,17 @@ exports[`execute nav endpoint should handle missing value failure 1`] = `
 }
 `;
 
+exports[`execute nav endpoint should handle non https api url error 1`] = `
+{
+  "error": {
+    "message": "INCORRECT_API_URL_API_URL does not start with https://",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`execute nav endpoint should return success 1`] = `
 {
   "data": {
