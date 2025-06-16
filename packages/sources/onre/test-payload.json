@@ -1,6 +1,6 @@
 {
  "requests": [{
-  "from": "BTC",
-  "to": "USD"
+    "fundId": 1,
+    "reportValue": "net_asset_value"
  }]
 }
