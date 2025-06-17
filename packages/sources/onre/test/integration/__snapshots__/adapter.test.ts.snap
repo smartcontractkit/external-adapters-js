@@ -11,34 +11,13 @@ exports[`execute nav endpoint should return failure - invalid FundId 1`] = `
 }
 `;
 
-exports[`execute nav endpoint should return success - aum 1`] = `
-{
-  "data": {
-    "result": {
-      "currency": null,
-      "fundId": 1,
-      "navDate": "1749839400000",
-      "navPerShare": 2.01702150000035,
-    },
-  },
-  "result": 15172254.246303676,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
 exports[`execute nav endpoint should return success - nav 1`] = `
 {
   "data": {
-    "result": {
-      "currency": null,
-      "fundId": 1,
-      "navDate": "1749839400000",
-      "navPerShare": 2.01702150000035,
-    },
+    "currency": null,
+    "fundId": 1,
+    "navDate": "1749839400000",
+    "navPerShare": 2.01702150000035,
   },
   "result": 2.01702150000035,
   "statusCode": 200,

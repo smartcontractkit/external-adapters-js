@@ -43,16 +43,6 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
-    it('should return success - aum', async () => {
-      const data = {
-        fundId: 1,
-        reportValue: 'assets_under_management',
-      }
-      mockResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
     it('should return failure - invalid FundId', async () => {
       const data = {
         fundId: 2,
