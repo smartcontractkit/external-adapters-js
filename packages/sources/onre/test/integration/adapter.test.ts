@@ -60,7 +60,6 @@ describe('execute', () => {
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
-      console.log(response.json())
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })

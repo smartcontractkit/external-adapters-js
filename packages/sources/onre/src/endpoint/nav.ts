@@ -1,5 +1,4 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { httpTransport } from '../transport/nav'
@@ -18,7 +17,7 @@ export const inputParameters = new InputParameters(
       description: 'Which value to report on',
       type: 'string',
       default: NetAssetValue,
-      options: [NetAssetValue, AssetsUnderManagement],
+      options: [NetAssetValue],
     },
   },
   [
@@ -29,9 +28,19 @@ export const inputParameters = new InputParameters(
   ],
 )
 
+export type NavResultResponse = {
+  Result: number
+  Data: {
+    navPerShare: number
+    navDate: string
+    currency: string | null
+    fundId: number
+  }
+}
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: NavResultResponse
   Settings: typeof config.settings
 }
 

@@ -1,14 +1,8 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { AssetsUnderManagement, BaseEndpointTypes, NetAssetValue } from '../endpoint/nav'
+import { BaseEndpointTypes } from '../endpoint/nav'
+import { parseDateToTimestamp } from './utils'
 
-type ResultType = {
-  navPerShare: number
-  navDate: string
-  currency: string | null
-  fundId: number
-}
-
-interface ProviderResponseItem {
+interface FundNavData {
   net_asset_value_date: string
   net_asset_value: string
   assets_under_management: string | null
@@ -16,7 +10,11 @@ interface ProviderResponseItem {
   fund_id: number
 }
 
-type ProviderResponseSchema = ProviderResponseItem[]
+type ProviderResponseSchema = FundNavData[]
+
+type FundNavDataWithTimestamp = Omit<FundNavData, 'net_asset_value_date'> & {
+  net_asset_value_date: number
+}
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -32,13 +30,11 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: '/nav',
         },
       }
     })
   },
 
-  // @ts-ignore
   parseResponse: (params, response) => {
     if (!response.data) {
       return params.map((param) => {
@@ -65,39 +61,36 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
 
       const dataWithDateMs = filteredData.map((item) => {
-        const [month, day, year] = item.net_asset_value_date.split('/').map(Number)
         return {
           ...item,
-          net_asset_value_date: new Date(year, month - 1, day).getTime(),
+          net_asset_value_date: parseDateToTimestamp(item.net_asset_value_date),
         }
       })
 
-      const sortedData = dataWithDateMs.sort(
+      dataWithDateMs[1].net_asset_value_date = null
+
+      const dataWithDateMsFiltered = dataWithDateMs.filter((item) =>
+        Number.isFinite(item.net_asset_value_date),
+      ) as FundNavDataWithTimestamp[]
+      const sortedData = dataWithDateMsFiltered.sort(
         (a, b) => b.net_asset_value_date - a.net_asset_value_date,
       )
       const latestData = sortedData[0]
 
-      const result_data: ResultType = {
+      const resultData = {
         navPerShare: Number(latestData.net_asset_value),
         navDate: String(latestData.net_asset_value_date),
         currency: null,
         fundId: latestData.fund_id,
       }
 
-      let result
-      if (param.reportValue === NetAssetValue) {
-        result = Number(latestData.net_asset_value)
-      } else if (param.reportValue === AssetsUnderManagement) {
-        result = Number(latestData.assets_under_management)
-      }
+      const result = Number(latestData.net_asset_value)
 
       return {
         params: param,
         response: {
           result: result,
-          data: {
-            result: result_data,
-          },
+          data: resultData,
         },
       }
     })
