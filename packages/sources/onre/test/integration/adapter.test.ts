@@ -41,6 +41,7 @@ describe('execute', () => {
       mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
+      console.log(response.json())
       expect(response.json()).toMatchSnapshot()
     })
     it('should return failure - invalid FundId', async () => {

@@ -16,7 +16,7 @@ exports[`execute nav endpoint should return success - nav 1`] = `
   "data": {
     "currency": null,
     "fundId": 1,
-    "navDate": "1749839400000",
+    "navDate": "1749859200000",
     "navPerShare": 2.01702150000035,
   },
   "result": 2.01702150000035,

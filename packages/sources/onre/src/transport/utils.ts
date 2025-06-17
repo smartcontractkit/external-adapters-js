@@ -3,6 +3,6 @@ export function parseDateToTimestamp(dateString: string): number | null {
 
   if (![month, day, year].every(Number.isFinite)) return null
 
-  const timestamp = new Date(year, month - 1, day, 0, 0, 0).getTime()
+  const timestamp = Date.UTC(year, month - 1, day, 0, 0, 0)
   return Number.isFinite(timestamp) ? timestamp : null
 }
