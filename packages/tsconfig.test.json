@@ -420,6 +420,9 @@
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
+      "path": "./sources/ice/tsconfig.test.json"
+    },
+    {
       "path": "./sources/iex-cloud/tsconfig.test.json"
     },
     {
@@ -499,6 +502,9 @@
     },
     {
       "path": "./sources/nav-consulting/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/nav-generic/tsconfig.test.json"
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"

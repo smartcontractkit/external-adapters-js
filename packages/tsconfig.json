@@ -420,6 +420,9 @@
       "path": "./sources/icap"
     },
     {
+      "path": "./sources/ice"
+    },
+    {
       "path": "./sources/iex-cloud"
     },
     {
@@ -499,6 +502,9 @@
     },
     {
       "path": "./sources/nav-consulting"
+    },
+    {
+      "path": "./sources/nav-generic"
     },
     {
       "path": "./sources/ncfx"
