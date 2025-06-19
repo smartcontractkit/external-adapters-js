@@ -1,0 +1,9 @@
+NetDania License Terms
+
+This project includes modified versions of software originally developed by NetDania Creations ApS. The Intellectual Property Rights related to this software are owned by NetDania and shall not be transferred to any other person or legal entity.
+
+These components are proprietary and may only be used:
+- As part of the Chainlink External Adapter (EA) project;
+- By Chainlink Labs and Chainlink Node Operators in order to retrieve the content provided by NetDania.
+
+For additional usage terms and attributions, please refer to the copyright notice included at the top of each relevant file.
