@@ -1,20 +1,35 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  API_KEY: {
-    description: 'An API key for ICE',
+  USER_GROUP: {
+    description: 'User group for ICE',
+    type: 'string',
+    default: 'chain.link',
+  },
+  PASSWORD: {
+    description: 'Password for ICE',
     type: 'string',
     required: true,
     sensitive: true,
   },
   API_ENDPOINT: {
-    description: 'An API endpoint for ICE',
+    description: 'streaming server endpoint for ICE',
     type: 'string',
-    default: 'https://dataproviderapi.com',
+    default: 'https://balancer.netdania.com/StreamingServer/StreamingServer',
   },
-  WS_API_ENDPOINT: {
-    description: 'websocket endpoint for ICE',
+  FAILOVER_API_ENDPOINT: {
+    description: 'failover endpoints for ICE',
     type: 'string',
-    default: 'ws://localhost:9090',
+    default: 'https://balancer.datafeeds.io/StreamingServer/StreamingServer',
+  }, // TODO how to have multiple failover endpoints?
+  POLLING_INTERVAL: {
+    description: 'Polling interval for ICE',
+    type: 'number',
+    default: 2000,
+  },
+  CONNECTING_TIMEOUT_MS: {
+    description: 'Connecting timeout in milliseconds for ICE',
+    type: 'number',
+    default: 2000,
   },
 })

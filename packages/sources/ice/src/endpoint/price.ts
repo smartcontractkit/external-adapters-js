@@ -35,9 +35,9 @@ export type BidAskMidResponse = {
     ask: string
     bid: string
     mid: string
-    ts: string
+    ts: number
   }
-  receivedTs: string
+  receivedTs: number
 }
 
 // Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
@@ -49,7 +49,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   // Endpoint name
-  name: 'price',
+  name: 'price', // ice instead?
   // Alternative endpoint names for this endpoint
   aliases: ['latest-price', 'data-price', 'getReqObjPrice'],
   // Transport handles incoming requests, data processing and communication for this endpoint

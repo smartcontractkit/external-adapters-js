@@ -1,9 +1,10 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { EventEmitter } from 'events'
-import { StreamingClientConfig } from './config'
+import { config } from '../../config/'
+import { ConnectionType } from './config'
 import { window } from './jsApi/jsapi-nodejs'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-ignore this should be the single place we do this
 const JsApi = window.NetDania.JsApi
 
 const logger = makeLogger('ICE StreamingClient')
@@ -147,11 +148,20 @@ export class Utils {
  * Any change to subscriptions will not take effect until refresh().
  */
 export class StreamingClient extends EventEmitter {
+  // TODO urgh, how to get rid of this?
   connection: JsApi.JSONConnection
 
-  constructor(public readonly config: StreamingClientConfig) {
+  constructor(public readonly cfg: typeof config.settings) {
     super()
-    this.connection = new JsApi.JSONConnection(config)
+
+    this.connection = new JsApi.JSONConnection({
+      host: cfg.API_ENDPOINT,
+      failoverHosts: [cfg.FAILOVER_API_ENDPOINT],
+      behavior: ConnectionType.POLLING,
+      pollingInterval: cfg.POLLING_INTERVAL,
+      usergroup: cfg.USER_GROUP,
+      password: cfg.PASSWORD,
+    })
 
     this.connection.addListener(Events.ONINIT, function (info: string) {
       logger.info('ONINIT:' + info + '\n')
@@ -229,7 +239,7 @@ export class StreamingClient extends EventEmitter {
       const timeout = setTimeout(() => {
         logger.error('Connecting timed out.')
         reject(new Error('Connection timeout'))
-      }, this.config.connectingTimeoutMs)
+      }, this.cfg.CONNECTING_TIMEOUT_MS)
 
       this.connection.addListener(Events.ONERROR, (error: ErrorResponse) => {
         clearTimeout(timeout)

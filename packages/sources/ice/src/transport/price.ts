@@ -3,11 +3,14 @@ import {
   StreamingTransport,
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
-import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import {
+  makeLogger,
+  sleep,
+  TimestampedProviderResult,
+} from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
-import { StreamingClient } from './netdania'
-import { StreamingClientConfig } from './netdania/config'
+import { PartialPriceUpdate, StreamingClient } from './netdania'
 
 const logger = makeLogger('NetDaniaStreamingTransport')
 
@@ -41,21 +44,37 @@ export type PriceResponse = {
   sequence: number
 }
 
-export interface NetDaniaConnectionConfig {
-  host: string
-  failoverHosts: string[]
-  behavior: number
-  pollingInterval: number
-  usergroup: string
-  password: string
-}
-
 export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointTypes> {
   private client: StreamingClient
 
-  constructor(public readonly config: StreamingClientConfig) {
+  constructor() {
     super()
-    this.client = new StreamingClient(config)
+    this.client = new StreamingClient(config.settings)
+    this.client.on('price', async (ppu: PartialPriceUpdate) => {
+      const result: TimestampedProviderResult<BaseEndpointTypes>[] = []
+      const base: string,
+        quote: string = requestIdToInstrument(ppu.id).splitAt(3)
+      const bidAskMidResponse = {
+        Result: number, // per-instrument sequence?
+        Data: {
+          ticker: ppu.ticker,
+          ask: ppu.ask,
+          bid: ppu.bid,
+          mid: ppu.mid,
+          ts: ppu.ts.toString(),
+        },
+        receivedTs: Date.now(),
+      }
+      await this.responseCache.write(this.name, [
+        {
+          params: {
+            base: base,
+            quote: quote,
+          },
+          response: bidAskMidResponse,
+        },
+      ])
+    })
   }
 
   override getSubscriptionTtlFromConfig(adapterSettings: typeof config.settings): number {
@@ -68,7 +87,7 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
   ): Promise<void> {
     this.unsubscribe(subscriptions.stale)
     this.subscribe(subscriptions.new)
-    this.ensureFlushed(context)
+    this.ensureFlushed()
 
     /*
     await Promise.all(
@@ -78,11 +97,8 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
     sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
   }
 
-  private ensureFlushed(context: EndpointContext<BaseEndpointTypes>) {
-    if (!this.client.isConnected()) {
-      this.connection.connect(context)
-    }
-    // This method should ensure that the Streaming connection is established
+  private async ensureFlushed() {
+    this.client.flush()
   }
 
   private unsubscribe(stale: { base: string; quote: string }[]) {
@@ -94,7 +110,7 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
   }
 }
 
-// export const transport = new NetDaniaStreamingTransport()
+export const transport = new NetDaniaStreamingTransport()
 
 /*
 const type SpotBidAskMid = {
