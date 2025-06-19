@@ -4459,6 +4459,7 @@ __metadata:
     nock: "npm:^13.3.0"
     tslib: "npm:^2.8.0"
     typescript: "npm:5.8.3"
+    xmlhttprequest: "npm:1.8.0"
   languageName: unknown
   linkType: soft
 

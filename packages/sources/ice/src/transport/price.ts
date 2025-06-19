@@ -1,13 +1,21 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import {
+  EndpointContext,
+  LwbaEndpointGenerics,
+  LwbaResponseDataFields,
+} from '@chainlink/external-adapter-framework/adapter'
 import {
   StreamingTransport,
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
-import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import {
+  makeLogger,
+  ResponseGenerics,
+  sleep,
+  TimestampedAdapterResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
-import { StreamingClient } from './netdania'
-import { StreamingClientConfig } from './netdania/config'
+import { InstrumentPartialUpdate, PartialPriceUpdate, StreamingClient } from './netdania'
 
 const logger = makeLogger('NetDaniaStreamingTransport')
 
@@ -28,34 +36,83 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export type PriceResponse = {
-  type: 'Price'
-  data: {
-    price: string
-    bid: string
-    ask: string
-    mid: string
-    symbol: string
-    lastReceived: string
-  }
-  sequence: number
+type FullPriceUpdate = Required<PartialPriceUpdate> & {
+  firstTs: number
+  version: number // incremented on each update; useful to disambiguate updates with the same ts
 }
 
-export interface NetDaniaConnectionConfig {
-  host: string
-  failoverHosts: string[]
-  behavior: number
-  pollingInterval: number
-  usergroup: string
-  password: string
-}
-
-export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointTypes> {
+export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointGenerics> {
   private client: StreamingClient
+  private localCache: Map<string, FullPriceUpdate> = new Map()
 
-  constructor(public readonly config: StreamingClientConfig) {
+  constructor() {
     super()
-    this.client = new StreamingClient(config)
+    this.client = new StreamingClient(config.settings)
+    this.client.on('price', async (update: InstrumentPartialUpdate) => {
+      // get base and quote from the instrument name in the requestIdToInstrument map
+      const base = update.instrument.substring(0, 3)
+      const quote = update.instrument.substring(3, 6)
+
+      logger.trace(`Received price update for ${base}/${quote}: ${JSON.stringify(update.data)}`)
+
+      const coalesced: FullPriceUpdate = this.coalesce(update)
+
+      const bidAskMidResponse: TimestampedAdapterResponse<
+        ResponseGenerics & LwbaResponseDataFields
+      > = {
+        result: null,
+        data: {
+          bid: coalesced.bid,
+          mid: coalesced.mid,
+          ask: coalesced.ask,
+        },
+        timestamps: {
+          providerDataStreamEstablishedUnixMs: coalesced.firstTs * 1000,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: coalesced.ts * 1000,
+        },
+      }
+      await this.responseCache.write(this.name, [
+        {
+          params: {
+            base: base,
+            quote: quote,
+          },
+          response: bidAskMidResponse,
+        },
+      ])
+    })
+  }
+
+  private coalesce(update: InstrumentPartialUpdate): FullPriceUpdate {
+    const got = this.localCache.get(update.instrument)
+    if (!got) {
+      if (
+        !update.data.bid ||
+        !update.data.mid ||
+        !update.data.ask ||
+        !update.data.ts ||
+        !update.data.timezone
+      ) {
+        throw new Error(`Invalid update for ${update.instrument}: ${JSON.stringify(update.data)}`)
+      } else {
+        const prime = {
+          bid: update.data.bid,
+          mid: update.data.mid,
+          ask: update.data.ask,
+          firstTs: update.data.ts, // first timestamp, remains
+          ts: update.data.ts, // current timestamp, will be updated
+          timezone: update.data.timezone,
+          version: 1, // first version
+        } as FullPriceUpdate
+        this.localCache.set(update.instrument, prime)
+        return prime
+      }
+    } else {
+      const coalesced: FullPriceUpdate = { ...got, ...update.data, version: got.version + 1 }
+      this.localCache.set(update.instrument, coalesced)
+      return coalesced
+    }
   }
 
   override getSubscriptionTtlFromConfig(adapterSettings: typeof config.settings): number {
@@ -66,70 +123,55 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
     context: EndpointContext<BaseEndpointTypes>,
     subscriptions: SubscriptionDeltas<{ base: string; quote: string }>,
   ): Promise<void> {
-    this.unsubscribe(subscriptions.stale)
-    this.subscribe(subscriptions.new)
-    this.ensureFlushed(context)
+    await Promise.all([this.unsubscribe(subscriptions.stale), this.subscribe(subscriptions.new)])
+    await this.ensureFlushed()
+    await this.ensureDesired(subscriptions.desired)
 
-    /*
-    await Promise.all(
-      subscriptions.desired.map(async (subscription) => this.handleRequest(subscription, context)),
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+  }
+
+  private async ensureFlushed() {
+    await this.client.flush()
+  }
+
+  private async ensureDesired(desired: { base: string; quote: string }[]) {
+    const currentInstruments = this.client.getActiveInstruments()
+    const desiredInstruments = desired.map(this.pairToInstrument)
+
+    const undesired = currentInstruments.filter(
+      (instrument) => !desiredInstruments.includes(instrument),
     )
-*/
-    sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-  }
+    const unincluded = desiredInstruments.filter(
+      (instrument) => !currentInstruments.includes(instrument),
+    )
 
-  private ensureFlushed(context: EndpointContext<BaseEndpointTypes>) {
-    if (!this.client.isConnected()) {
-      this.connection.connect(context)
+    if (undesired.length > 0) {
+      logger.warn(
+        `Found undesired included instruments still active: ${undesired}. Unsubscribing (again?).`,
+      )
+      await this.client.removeInstruments(undesired)
     }
-    // This method should ensure that the Streaming connection is established
+    if (unincluded.length > 0) {
+      logger.warn(
+        `Found unincluded desired instruments still active: ${unincluded}. Subscribing (again?).`,
+      )
+      await this.client.addInstruments(unincluded)
+    }
   }
 
-  private unsubscribe(stale: { base: string; quote: string }[]) {
+  private pairToInstrument(pair: { base: string; quote: string }): string {
+    return `${pair.base}${pair.quote}`
+  }
+
+  private async unsubscribe(stale: { base: string; quote: string }[]) {
     logger.info(`Unsubscribing from pairs ${stale}`)
+    return this.client.removeInstruments(stale.map(this.pairToInstrument))
   }
 
-  private subscribe(fresh: { base: string; quote: string }[]) {
+  private async subscribe(fresh: { base: string; quote: string }[]) {
     logger.info(`Subscribing to pairs ${fresh}`)
+    return this.client.addInstruments(fresh.map(this.pairToInstrument))
   }
 }
 
-// export const transport = new NetDaniaStreamingTransport()
-
-/*
-const type SpotBidAskMid = {
-  data_provider_name: name,
-  request_url: baseUrl,
-  base,
-  quote,
-  ask: convertNaNToNull(parseFloat(dataObject[11])),
-  mid: convertNaNToNull(parseFloat(dataObject[9])),
-  bid: convertNaNToNull(parseFloat(dataObject[10])),
-  last: convertNaNToNull(parseFloat(last)),
-  last_update: lastUpdate,
-  client_received_timestamp: Date.now(),
-}
-*/
-
-/*
-interface ConnectionConfig {
-  host: string
-  failoverHosts: string[]
-  behavior: any
-  pollingInterval: number
-  usergroup: string
-  password: string
-}
-
-type PriceDataItem = {
-  f: number
-  v: any
-}
-
-type PriceResponse = {
-  type: number
-  id: number
-  data: PriceDataItem[]
-  modifiedFids: number[]
-}
-*/
+export const transport = new NetDaniaStreamingTransport()
