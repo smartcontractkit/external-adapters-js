@@ -5,6 +5,7 @@ import overrides from '../config/overrides.json'
 import { transport } from '../transport/price'
 
 // Input parameters define the structure of the request expected by the endpoint. The second parameter defines example input data that will be used in EA readme
+
 export const inputParameters = new InputParameters(
   {
     base: {
@@ -14,7 +15,7 @@ export const inputParameters = new InputParameters(
       description: 'The symbol of symbols of the currency to query',
     },
     quote: {
-      aliases: ['to', 'convert'],
+      aliases: ['to', 'market'],
       required: true,
       type: 'string',
       description: 'The symbol of the currency to convert to',
@@ -49,7 +50,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   // Endpoint name
-  name: 'price', // ice instead?
+  name: 'price',
   // Alternative endpoint names for this endpoint
   aliases: ['latest-price', 'data-price', 'getReqObjPrice'],
   // Transport handles incoming requests, data processing and communication for this endpoint

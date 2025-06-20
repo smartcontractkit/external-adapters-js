@@ -160,7 +160,7 @@ export class StreamingClient extends EventEmitter {
       behavior: ConnectionType.POLLING,
       pollingInterval: cfg.POLLING_INTERVAL,
       usergroup: cfg.USER_GROUP,
-      password: cfg.PASSWORD,
+      password: cfg.NETDANIA_PASSWORD,
     })
 
     this.connection.addListener(Events.ONINIT, function (info: string) {

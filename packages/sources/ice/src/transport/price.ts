@@ -1,12 +1,17 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import {
+  EndpointContext,
+  LwbaEndpointGenerics,
+  LwbaResponseDataFields,
+} from '@chainlink/external-adapter-framework/adapter'
 import {
   StreamingTransport,
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import {
   makeLogger,
+  ResponseGenerics,
   sleep,
-  TimestampedProviderResult,
+  TimestampedAdapterResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
@@ -31,36 +36,32 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export type PriceResponse = {
-  type: 'Price'
-  data: {
-    price: string
-    bid: string
-    ask: string
-    mid: string
-    symbol: string
-    lastReceived: string
-  }
-  sequence: number
-}
-
-export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointTypes> {
+export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointGenerics> {
   private client: StreamingClient
+  private requestIdToInstrument: Map<number, string> = new Map()
 
   constructor() {
     super()
     this.client = new StreamingClient(config.settings)
     this.client.on('price', async (ppu: PartialPriceUpdate) => {
-      const result: TimestampedProviderResult<BaseEndpointTypes>[] = []
-      const base: string,
-        quote: string = requestIdToInstrument(ppu.id).splitAt(3)
-      const bidAskMidResponse = {
-        Result: number, // per-instrument sequence?
-        Data: {
-          ticker: ppu.ticker,
-          ask: ppu.ask,
+      // get base and quote from the instrument name in the requestIdToInstrument map
+      const instrument = this.requestIdToInstrument.get(ppu.id)
+      if (!instrument) {
+        logger.error(`Received price update for unknown instrument with ID ${ppu.id}`)
+        return
+      }
+      const base = instrument.substring(0, 3)
+      const quote = instrument.substring(3, 6)
+      logger.info(`Received price update for ${base}/${quote}: ${JSON.stringify(ppu)}`)
+      const bidAskMidResponse: TimestampedAdapterResponse<
+        ResponseGenerics & LwbaResponseDataFields
+      > = {
+        result: null,
+        data: {
           bid: ppu.bid,
           mid: ppu.mid,
+          ask: ppu.ask,
+          ticker: ppu.ticker,
           ts: ppu.ts.toString(),
         },
         receivedTs: Date.now(),
@@ -89,63 +90,24 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
     this.subscribe(subscriptions.new)
     this.ensureFlushed()
 
-    /*
-    await Promise.all(
-      subscriptions.desired.map(async (subscription) => this.handleRequest(subscription, context)),
-    )
-*/
     sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
   }
 
   private async ensureFlushed() {
-    this.client.flush()
+    await this.client.flush()
   }
 
   private unsubscribe(stale: { base: string; quote: string }[]) {
     logger.info(`Unsubscribing from pairs ${stale}`)
   }
 
-  private subscribe(fresh: { base: string; quote: string }[]) {
+  private async subscribe(fresh: { base: string; quote: string }[]) {
     logger.info(`Subscribing to pairs ${fresh}`)
+    const instruments = fresh.map((pair) => `${pair.base}${pair.quote}`)
+    const requestIds = this.client.addInstruments(instruments)
+
+    // what happens when instrument is already subscribed?
   }
 }
 
 export const transport = new NetDaniaStreamingTransport()
-
-/*
-const type SpotBidAskMid = {
-  data_provider_name: name,
-  request_url: baseUrl,
-  base,
-  quote,
-  ask: convertNaNToNull(parseFloat(dataObject[11])),
-  mid: convertNaNToNull(parseFloat(dataObject[9])),
-  bid: convertNaNToNull(parseFloat(dataObject[10])),
-  last: convertNaNToNull(parseFloat(last)),
-  last_update: lastUpdate,
-  client_received_timestamp: Date.now(),
-}
-*/
-
-/*
-interface ConnectionConfig {
-  host: string
-  failoverHosts: string[]
-  behavior: any
-  pollingInterval: number
-  usergroup: string
-  password: string
-}
-
-type PriceDataItem = {
-  f: number
-  v: any
-}
-
-type PriceResponse = {
-  type: number
-  id: number
-  data: PriceDataItem[]
-  modifiedFids: number[]
-}
-*/

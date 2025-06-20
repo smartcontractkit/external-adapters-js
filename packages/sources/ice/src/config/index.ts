@@ -6,7 +6,7 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'chain.link',
   },
-  PASSWORD: {
+  NETDANIA_PASSWORD: {
     description: 'Password for ICE',
     type: 'string',
     required: true,
@@ -15,6 +15,7 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'streaming server endpoint for ICE',
     type: 'string',
+    required: false,
     default: 'https://balancer.netdania.com/StreamingServer/StreamingServer',
   },
   FAILOVER_API_ENDPOINT: {

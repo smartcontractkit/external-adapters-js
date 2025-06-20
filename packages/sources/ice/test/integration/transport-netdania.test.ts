@@ -1,6 +1,6 @@
 import { LoggerFactoryProvider, sleep } from '@chainlink/external-adapter-framework/util'
+import { config } from '../../src/config'
 import { PartialPriceUpdate, StreamingClient } from '../../src/transport/netdania'
-import { ConnectionType } from '../../src/transport/netdania/config'
 
 // base mock log, useful for asserting regardless of level
 const mlog: jest.Mock<any, any> = jest.fn((a) => {
@@ -8,12 +8,12 @@ const mlog: jest.Mock<any, any> = jest.fn((a) => {
 })
 
 const mlogger: {
-  fatal: jest.Mock<any, any>
-  error: jest.Mock<any, any>
-  warn: jest.Mock<any, any>
-  info: jest.Mock<any, any>
-  debug: jest.Mock<any, any>
-  trace: jest.Mock<any, any>
+  fatal: jest.Mock
+  error: jest.Mock
+  warn: jest.Mock
+  info: jest.Mock
+  debug: jest.Mock
+  trace: jest.Mock
 } = {
   fatal: jest.fn((...args) => mlog(['fatal'].concat(args))),
   error: jest.fn((...args) => mlog(['error'].concat(args))),
@@ -25,12 +25,12 @@ const mlogger: {
 
 const loggerFactory: {
   child: () => {
-    fatal: jest.Mock<any, any>
-    error: jest.Mock<any, any>
-    warn: jest.Mock<any, any>
-    info: jest.Mock<any, any>
-    debug: jest.Mock<any, any>
-    trace: jest.Mock<any, any>
+    fatal: jest.Mock
+    error: jest.Mock
+    warn: jest.Mock
+    info: jest.Mock
+    debug: jest.Mock
+    trace: jest.Mock
   }
 } = { child: () => mlogger }
 
@@ -38,22 +38,12 @@ LoggerFactoryProvider.set(loggerFactory)
 
 const logger = console
 
-describe('a price transport streaming client', () => {
-  const password = process.env.NETDANIA_PASSWORD || ''
-  const connectionConfig = {
-    host: 'https://balancer.netdania.com/StreamingServer/StreamingServer',
-    failoverHosts: [
-      'https://balancer-cro.netdania.com/StreamingServer/StreamingServer',
-      'https://balancer.datafeeds.io/StreamingServer/StreamingServer',
-      'https://balancer-cro.datafeeds.io/StreamingServer/StreamingServer',
-    ],
-    behavior: ConnectionType.POLLING, //POLLING, LONGPOLLING, AUTO, STREAMING
-    pollingInterval: 1000, //milliseconds (NetDania.JsApi.PoolingInterval.AUTO),
-    usergroup: 'chain.link',
-    password: password,
-    connectingTimeoutMs: 2000,
-  }
-  const client = new StreamingClient(connectionConfig)
+/** These tests do depend on a live NetDania connection, so they
+ * should not be run in CI */
+describe('a netdania price transport', () => {
+  config.initialize()
+  config.validate()
+  const client = new StreamingClient(config.settings)
   let requestIdsFromBeforeEach: number[]
 
   beforeEach(async () => {
@@ -120,12 +110,19 @@ describe('a price transport streaming client', () => {
     expect(distinctIdsReceived).toStrictEqual(new Set(requestIds.concat(requestIdsFromBeforeEach)))
   })
 
+  it('addInstruments() play', async () => {
+    const requestIds = await client.addInstruments(instruments[0])
+    await client.flush()
+    expect(requestIds.length).toBe(1)
+    expect(requestIds).toStrictEqual(requestIdsFromBeforeEach)
+  })
+
   it('removeInstruments() drops the monitoring of previously added instruments', async () => {
     const cb = jest.fn()
     client.on('price', cb)
     const countBeforeRemove = cb.mock.calls.length
     await client.removeInstruments(requestIdsFromBeforeEach)
-    await sleep(1500)
+    await sleep(2000)
     // no effect until flush
     expect(cb.mock.calls.length).toBeGreaterThan(countBeforeRemove)
     await client.flush()
