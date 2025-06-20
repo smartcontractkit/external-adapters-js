@@ -1,18 +1,18 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/nav'
-import { parseDateToTimestamp } from './utils'
+import { parseDateToTimestamp, sanityCheckData, toBigInt } from './utils'
 
 interface FundNavData {
   net_asset_value_date: string
   net_asset_value: string
-  assets_under_management: string | null
+  assets_under_management: string
   fund_name: string
   fund_id: number
 }
 
 type ProviderResponseSchema = FundNavData[]
 
-type FundNavDataWithTimestamp = Omit<FundNavData, 'net_asset_value_date'> & {
+export type FundNavDataWithTimestamp = Omit<FundNavData, 'net_asset_value_date'> & {
   net_asset_value_date: number
 }
 
@@ -35,7 +35,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
 
-  parseResponse: (params, response) => {
+  parseResponse: (params, response, adapterSettings) => {
     if (!response.data) {
       return params.map((param) => {
         return {
@@ -75,12 +75,35 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       const sortedData = dataWithDateMsFiltered.sort(
         (a, b) => b.net_asset_value_date - a.net_asset_value_date,
       )
-      const latestData = sortedData[0]
+      const latestData = sortedData[1]
+
+      if (!sanityCheckData(latestData)) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `The data by data provider for ${param} is null in value`,
+            statusCode: 502,
+          },
+        }
+      }
 
       const resultData = {
-        navPerShare: Number(latestData.net_asset_value),
+        navPerShare: {
+          value: toBigInt(
+            latestData.net_asset_value,
+            adapterSettings.NAV_PRICE_PRECISION,
+          ).toString(),
+          precision: adapterSettings.NAV_PRICE_PRECISION,
+        },
         navDate: String(latestData.net_asset_value_date),
-        currency: null,
+        currency: 'USD',
+        aum: {
+          value: toBigInt(
+            latestData.assets_under_management,
+            adapterSettings.AUM_PRECISION,
+          ).toString(),
+          precision: adapterSettings.AUM_PRECISION,
+        },
         fundId: latestData.fund_id,
       }
 
