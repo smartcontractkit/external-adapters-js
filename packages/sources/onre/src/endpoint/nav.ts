@@ -14,7 +14,7 @@ export const inputParameters = new InputParameters(
       required: true,
     },
     reportValue: {
-      description: 'Which value to report on',
+      description: 'Which value to report on as top-level result',
       type: 'string',
       default: NetAssetValue,
       options: [NetAssetValue],

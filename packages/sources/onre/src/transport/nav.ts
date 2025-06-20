@@ -67,8 +67,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
       })
 
-      dataWithDateMs[1].net_asset_value_date = null
-
       const dataWithDateMsFiltered = dataWithDateMs.filter((item) =>
         Number.isFinite(item.net_asset_value_date),
       ) as FundNavDataWithTimestamp[]
