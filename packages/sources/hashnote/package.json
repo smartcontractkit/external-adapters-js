@@ -28,13 +28,14 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
-    "@types/jest": "27.5.2",
-    "@types/node": "16.18.119",
-    "nock": "13.5.5",
-    "typescript": "5.6.3"
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.14.1",
+    "nock": "13.5.6",
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.6.0",
+    "axios": "1.9.0",
     "tslib": "2.4.1"
   }
 }

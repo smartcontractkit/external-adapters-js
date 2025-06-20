@@ -1,36 +1,31 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/price'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
-      required: true,
+    token: {
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
+      default: 'USYC',
+      description: 'The token to get the price report for. Currently only USYC is supported.',
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      token: 'USYC',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: {
+    Result: string
+    Data: {
+      result: string
+    }
+  }
   Settings: typeof config.settings
 }
 
@@ -39,5 +34,4 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['hashnote'],
 })

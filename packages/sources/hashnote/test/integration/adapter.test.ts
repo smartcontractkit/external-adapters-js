@@ -35,10 +35,8 @@ describe('execute', () => {
   describe('price endpoint', () => {
     it('should return success', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
+        token: 'usyc',
         endpoint: 'price',
-        transport: 'rest',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
