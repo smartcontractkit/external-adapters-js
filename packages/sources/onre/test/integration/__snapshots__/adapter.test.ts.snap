@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should return failure - invalid FundId 1`] = `
+{
+  "errorMessage": "The data provider didn't return any value for fundId: 2",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute nav endpoint should return success - nav 1`] = `
+{
+  "data": {
+    "aum": {
+      "precision": 26,
+      "value": "1216514098716837796116030716880000",
+    },
+    "currency": "USD",
+    "fundId": 1,
+    "navDate": "1749772800000",
+    "navPerShare": {
+      "precision": 17,
+      "value": "101654803794770000",
+    },
+  },
+  "result": 1.0165480379477,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

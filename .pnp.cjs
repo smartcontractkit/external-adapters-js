@@ -735,6 +735,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/onchain-gas"\
     },\
     {\
+      "name": "@chainlink/onre-adapter",\
+      "reference": "workspace:packages/sources/onre"\
+    },\
+    {\
       "name": "@chainlink/openexchangerates-adapter",\
       "reference": "workspace:packages/sources/openexchangerates"\
     },\
@@ -1123,6 +1127,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/observation", ["workspace:packages/observation"]],\
     ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
     ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
+    ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
     ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
@@ -8172,6 +8177,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/onre-adapter", [\
+      ["workspace:packages/sources/onre", {\
+        "packageLocation": "./packages/sources/onre/",\
+        "packageDependencies": [\
+          ["@chainlink/onre-adapter", "workspace:packages/sources/onre"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
