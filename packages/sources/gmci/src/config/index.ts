@@ -10,6 +10,6 @@ export const config = new AdapterConfig({
   WS_API_ENDPOINT: {
     description: 'WS endpoint for GMCI Data Provider',
     type: 'string',
-    default: 'ws://api.gmci.co/private',
+    default: 'wss://api.gmci.co/private',
   },
 })
