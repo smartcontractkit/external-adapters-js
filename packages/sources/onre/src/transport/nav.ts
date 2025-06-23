@@ -73,7 +73,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       const sortedData = dataWithDateMsFiltered.sort(
         (a, b) => b.net_asset_value_date - a.net_asset_value_date,
       )
-      const latestData = sortedData[1]
+      const latestData = sortedData[0]
 
       if (!sanityCheckData(latestData)) {
         return {
@@ -87,20 +87,14 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
       const resultData = {
         navPerShare: {
-          value: toBigInt(
-            latestData.net_asset_value,
-            adapterSettings.NAV_PRICE_PRECISION,
-          ).toString(),
-          precision: adapterSettings.NAV_PRICE_PRECISION,
+          value: toBigInt(latestData.net_asset_value, adapterSettings.PRECISION).toString(),
+          precision: adapterSettings.PRECISION,
         },
         navDate: String(latestData.net_asset_value_date),
         currency: 'USD',
         aum: {
-          value: toBigInt(
-            latestData.assets_under_management,
-            adapterSettings.AUM_PRECISION,
-          ).toString(),
-          precision: adapterSettings.AUM_PRECISION,
+          value: toBigInt(latestData.assets_under_management, adapterSettings.PRECISION).toString(),
+          precision: adapterSettings.PRECISION,
         },
         fundId: latestData.fund_id,
       }

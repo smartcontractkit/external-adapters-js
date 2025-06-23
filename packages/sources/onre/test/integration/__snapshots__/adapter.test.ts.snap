@@ -15,18 +15,18 @@ exports[`execute nav endpoint should return success - nav 1`] = `
 {
   "data": {
     "aum": {
-      "precision": 26,
-      "value": "1216514098716837796116030716880000",
+      "precision": 18,
+      "value": "15172254246303676556448765",
     },
     "currency": "USD",
     "fundId": 1,
-    "navDate": "1749772800000",
+    "navDate": "1749859200000",
     "navPerShare": {
-      "precision": 17,
-      "value": "101654803794770000",
+      "precision": 18,
+      "value": "2017021500000350000",
     },
   },
-  "result": 1.0165480379477,
+  "result": 2.01702150000035,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

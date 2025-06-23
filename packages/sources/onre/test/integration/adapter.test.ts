@@ -32,6 +32,10 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
+  beforeEach(() => {
+    nock.cleanAll()
+  })
+
   describe('nav endpoint', () => {
     it('should return success - nav', async () => {
       const data = {
@@ -43,6 +47,7 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
     it('should return failure - invalid FundId', async () => {
       const data = {
         fundId: 2,
