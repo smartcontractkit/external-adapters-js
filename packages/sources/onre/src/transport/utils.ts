@@ -9,13 +9,6 @@ export function parseDateToTimestamp(dateString: string): number | null {
   return Number.isFinite(timestamp) ? timestamp : null
 }
 
-export function toBigInt(value: string, precision: number) {
-  const [integerPart, decimalPart = ''] = value.split('.')
-  const integerBigInt = BigInt(integerPart) * 10n ** BigInt(precision)
-  const decimalBigInt = BigInt((decimalPart + '0'.repeat(precision)).slice(0, precision))
-  return integerBigInt + decimalBigInt
-}
-
 export function sanityCheckData(data: FundNavDataWithTimestamp) {
   if (data.net_asset_value == null || data.assets_under_management == null) {
     return false

@@ -28,18 +28,13 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-type BigIntResult = {
-  value: string
-  precision: number
-}
-
 export type NavResultResponse = {
   Result: number
   Data: {
-    navPerShare: BigIntResult
+    navPerShare: number
     navDate: string
     currency: string
-    aum: BigIntResult
+    aum: string
     fundId: number
   }
 }

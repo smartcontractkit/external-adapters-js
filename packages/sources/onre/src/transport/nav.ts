@@ -1,6 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/nav'
-import { parseDateToTimestamp, sanityCheckData, toBigInt } from './utils'
+import { parseDateToTimestamp, sanityCheckData } from './utils'
 
 interface FundNavData {
   net_asset_value_date: string
@@ -35,7 +35,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
 
-  parseResponse: (params, response, adapterSettings) => {
+  parseResponse: (params, response) => {
     if (!response.data) {
       return params.map((param) => {
         return {
@@ -86,16 +86,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
 
       const resultData = {
-        navPerShare: {
-          value: toBigInt(latestData.net_asset_value, adapterSettings.PRECISION).toString(),
-          precision: adapterSettings.PRECISION,
-        },
+        navPerShare: Number(latestData.net_asset_value),
         navDate: String(latestData.net_asset_value_date),
         currency: 'USD',
-        aum: {
-          value: toBigInt(latestData.assets_under_management, adapterSettings.PRECISION).toString(),
-          precision: adapterSettings.PRECISION,
-        },
+        aum: latestData.assets_under_management,
         fundId: latestData.fund_id,
       }
 

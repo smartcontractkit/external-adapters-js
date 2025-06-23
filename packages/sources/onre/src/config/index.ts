@@ -6,9 +6,4 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://onre-api-prod.ew.r.appspot.com/nav',
   },
-  PRECISION: {
-    description: 'Precision for NAV Price/AUM',
-    type: 'number',
-    default: 18,
-  },
 })
