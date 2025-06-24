@@ -15,6 +15,7 @@ type ChainData = {
   token_ccip_burn: string
   token_pre_mint: string
   aggregate_pre_mint: boolean
+  block_finality: string
 }
 export type IndexerResponse = {
   supply: string

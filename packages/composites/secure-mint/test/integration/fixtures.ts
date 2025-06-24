@@ -54,6 +54,7 @@ export const mockIndexerSuccess = (): nock.Scope =>
           token_ccip_burn: '12',
           token_pre_mint: '13',
           aggregate_pre_mint: false,
+          block_finality: 'finalized',
         },
       },
     }))
@@ -79,6 +80,7 @@ export const mockIndexerSuccess = (): nock.Scope =>
           token_ccip_burn: '12',
           token_pre_mint: '13',
           aggregate_pre_mint: false,
+          block_finality: '0',
         },
       },
     }))

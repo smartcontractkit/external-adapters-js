@@ -21,6 +21,7 @@ exports[`execute mintable endpoint should block overmint 1`] = `
       "chains": {
         "1": {
           "aggregate_pre_mint": false,
+          "block_finality": "0",
           "latest_block": 5,
           "mintable": "8",
           "request_block": 7,
@@ -96,6 +97,7 @@ exports[`execute mintable endpoint should return success 1`] = `
       "chains": {
         "1": {
           "aggregate_pre_mint": false,
+          "block_finality": "finalized",
           "latest_block": 5,
           "mintable": "8",
           "request_block": 7,

@@ -40,6 +40,7 @@ describe('getReserve', () => {
           token_ccip_burn: '1000',
           token_pre_mint: '1100',
           aggregate_pre_mint: false,
+          block_finality: 'finalized',
         },
         '56': {
           latest_block: 3000,
@@ -52,6 +53,7 @@ describe('getReserve', () => {
           token_ccip_burn: '10000',
           token_pre_mint: '11000',
           aggregate_pre_mint: true,
+          block_finality: '10',
         },
       },
     }
