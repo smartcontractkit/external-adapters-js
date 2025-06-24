@@ -1,5 +1,11 @@
 # @chainlink/mobula-state-adapter
 
+## 1.3.4
+
+### Patch Changes
+
+- [#3904](https://github.com/smartcontractkit/external-adapters-js/pull/3904) [`7230c63`](https://github.com/smartcontractkit/external-adapters-js/commit/7230c63b1112b81d8444f0edefd9025751afe99f) Thanks [@fmunshi](https://github.com/fmunshi)! - When a specific exchange returns nil ignore its funding rate value
+
 ## 1.3.3
 
 ### Patch Changes

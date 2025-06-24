@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/mobula-state-adapter",
-  "version": "1.3.4",
-  "description": "Chainlink mobula-state adapter.",
+  "name": "@chainlink/secure-mint-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink secure-mint adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "mobula-state"
+    "secure-mint"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,10 +28,9 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
-    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/sinonjs__fake-timers": "8.1.5",
+    "ethers": "^6.14.3",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },

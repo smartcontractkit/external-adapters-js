@@ -135,6 +135,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/savax-price"\
     },\
     {\
+      "name": "@chainlink/secure-mint-adapter",\
+      "reference": "workspace:packages/composites/secure-mint"\
+    },\
+    {\
       "name": "@chainlink/set-token-index-adapter",\
       "reference": "workspace:packages/composites/set-token-index"\
     },\
@@ -581,6 +585,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/harris-and-trotter-adapter",\
       "reference": "workspace:packages/sources/harris-and-trotter"\
+    },\
+    {\
+      "name": "@chainlink/hashnote-adapter",\
+      "reference": "workspace:packages/sources/hashnote"\
     },\
     {\
       "name": "@chainlink/icap-adapter",\
@@ -1072,6 +1080,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
+    ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
@@ -1137,6 +1146,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
     ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
+    ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
     ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
@@ -7348,6 +7358,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/hashnote-adapter", [\
+      ["workspace:packages/sources/hashnote", {\
+        "packageLocation": "./packages/sources/hashnote/",\
+        "packageDependencies": [\
+          ["@chainlink/hashnote-adapter", "workspace:packages/sources/hashnote"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["axios", "npm:1.9.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/historical-average-adapter", [\
       ["workspace:packages/composites/historical-average", {\
         "packageLocation": "./packages/composites/historical-average/",\
@@ -8519,6 +8545,22 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/secure-mint-adapter", [\
+      ["workspace:packages/composites/secure-mint", {\
+        "packageLocation": "./packages/composites/secure-mint/",\
+        "packageDependencies": [\
+          ["@chainlink/secure-mint-adapter", "workspace:packages/composites/secure-mint"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["ethers", "npm:6.14.3"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -22873,6 +22915,20 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ethers-npm-6.14.1-8cfd0fa935-20bd332bef.zip/node_modules/ethers/",\
         "packageDependencies": [\
           ["ethers", "npm:6.14.1"],\
+          ["@adraffy/ens-normalize", "npm:1.10.1"],\
+          ["@noble/curves", "npm:1.2.0"],\
+          ["@noble/hashes", "npm:1.3.2"],\
+          ["@types/node", "npm:22.7.5"],\
+          ["aes-js", "npm:4.0.0-beta.5"],\
+          ["tslib", "npm:2.7.0"],\
+          ["ws", "virtual:f6f30c4272f844f402d8d213d035455fc44a62513f59bd32b98e4d10a455319bfdb6af196858aad2a4a77298527df147593f20513687bbb4b6d88888784cc3b0#npm:8.17.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.14.3", {\
+        "packageLocation": "./.yarn/cache/ethers-npm-6.14.3-629d34af0f-ce68b962f1.zip/node_modules/ethers/",\
+        "packageDependencies": [\
+          ["ethers", "npm:6.14.3"],\
           ["@adraffy/ens-normalize", "npm:1.10.1"],\
           ["@noble/curves", "npm:1.2.0"],\
           ["@noble/hashes", "npm:1.3.2"],\

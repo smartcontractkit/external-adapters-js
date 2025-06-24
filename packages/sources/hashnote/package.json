@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/mobula-state-adapter",
-  "version": "1.3.4",
-  "description": "Chainlink mobula-state adapter.",
+  "name": "@chainlink/hashnote-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink hashnote adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "mobula-state"
+    "hashnote"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,15 +28,14 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
-    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.6.0",
+    "axios": "1.9.0",
     "tslib": "2.4.1"
   }
 }
