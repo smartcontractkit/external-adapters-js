@@ -14,17 +14,11 @@ exports[`execute nav endpoint should return failure - invalid FundId 1`] = `
 exports[`execute nav endpoint should return success - nav 1`] = `
 {
   "data": {
-    "aum": {
-      "precision": 18,
-      "value": "15172254246303676556448765",
-    },
+    "aum": "15172254.24630367655644876519110000",
     "currency": "USD",
     "fundId": 1,
     "navDate": "1749859200000",
-    "navPerShare": {
-      "precision": 18,
-      "value": "2017021500000350000",
-    },
+    "navPerShare": 2.01702150000035,
   },
   "result": 2.01702150000035,
   "statusCode": 200,
