@@ -5,6 +5,7 @@ import overrides from '../config/overrides.json'
 import { transport } from '../transport/price'
 
 // Input parameters define the structure of the request expected by the endpoint. The second parameter defines example input data that will be used in EA readme
+
 export const inputParameters = new InputParameters(
   {
     base: {
@@ -14,7 +15,7 @@ export const inputParameters = new InputParameters(
       description: 'The symbol of symbols of the currency to query',
     },
     quote: {
-      aliases: ['to', 'convert'],
+      aliases: ['to', 'market'],
       required: true,
       type: 'string',
       description: 'The symbol of the currency to convert to',
@@ -22,7 +23,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      base: 'BTC',
+      base: 'EUR',
       quote: 'USD',
     },
   ],
@@ -35,15 +36,16 @@ export type BidAskMidResponse = {
     ask: string
     bid: string
     mid: string
-    ts: string
+    ts: number
   }
-  receivedTs: string
+  receivedTs: number
 }
 
 // Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: BidAskMidResponse
+  // shouldn't the above be TimestampedAdapterResponse<ResponseGenerics & LwbaResponseDataFields>?
   Settings: typeof config.settings
 }
 
