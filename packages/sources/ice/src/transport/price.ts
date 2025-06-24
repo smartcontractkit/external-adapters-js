@@ -16,34 +16,18 @@ import {
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { InstrumentPartialUpdate, PartialPriceUpdate, StreamingClient } from './netdania'
+import { LocalPriceCache } from './cache'
 
 const logger = makeLogger('NetDaniaStreamingTransport')
 
-export interface ResponseSchema {
-  [key: string]: {
-    price: number
-    errorMessage?: string
-  }
-}
-
-// HttpTransport extends base types from endpoint and adds additional, Provider-specific types like 'RequestBody', which is the type of
-// request body (not the request to adapter, but the request that adapter sends to Data Provider), and 'ResponseBody' which is
-// the type of raw response from Data Provider
-export type HttpTransportTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: any
-  }
-}
-
-type FullPriceUpdate = Required<PartialPriceUpdate> & {
+export type FullPriceUpdate = Required<PartialPriceUpdate> & {
   firstTs: number
   version: number // incremented on each update; useful to disambiguate updates with the same ts
 }
 
 export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointGenerics> {
   private client: StreamingClient
-  private localCache: Map<string, FullPriceUpdate> = new Map()
+  private localCache: LocalPriceCache = new LocalPriceCache()
 
   constructor() {
     super()
@@ -55,7 +39,7 @@ export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointG
 
       logger.trace(`Received price update for ${base}/${quote}: ${JSON.stringify(update.data)}`)
 
-      const coalesced: FullPriceUpdate = this.coalesce(update)
+      const coalesced: FullPriceUpdate = this.localCache.coalesceAndGet(update)
 
       const bidAskMidResponse: TimestampedAdapterResponse<
         ResponseGenerics & LwbaResponseDataFields
@@ -82,37 +66,6 @@ export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointG
         },
       ])
     })
-  }
-
-  private coalesce(update: InstrumentPartialUpdate): FullPriceUpdate {
-    const got = this.localCache.get(update.instrument)
-    if (!got) {
-      if (
-        !update.data.bid ||
-        !update.data.mid ||
-        !update.data.ask ||
-        !update.data.ts ||
-        !update.data.timezone
-      ) {
-        throw new Error(`Invalid update for ${update.instrument}: ${JSON.stringify(update.data)}`)
-      } else {
-        const prime = {
-          bid: update.data.bid,
-          mid: update.data.mid,
-          ask: update.data.ask,
-          firstTs: update.data.ts, // first timestamp, remains
-          ts: update.data.ts, // current timestamp, will be updated
-          timezone: update.data.timezone,
-          version: 1, // first version
-        } as FullPriceUpdate
-        this.localCache.set(update.instrument, prime)
-        return prime
-      }
-    } else {
-      const coalesced: FullPriceUpdate = { ...got, ...update.data, version: got.version + 1 }
-      this.localCache.set(update.instrument, coalesced)
-      return coalesced
-    }
   }
 
   override getSubscriptionTtlFromConfig(adapterSettings: typeof config.settings): number {
@@ -165,7 +118,9 @@ export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointG
 
   private async unsubscribe(stale: { base: string; quote: string }[]) {
     logger.info(`Unsubscribing from pairs ${stale}`)
-    return this.client.removeInstruments(stale.map(this.pairToInstrument))
+    const instruments = stale.map(this.pairToInstrument)
+    await this.client.removeInstruments(instruments)
+    return this.localCache.drop(instruments)
   }
 
   private async subscribe(fresh: { base: string; quote: string }[]) {

@@ -9,8 +9,8 @@ const JsApi = window.NetDania.JsApi
 
 const logger = makeLogger('ICE StreamingClient')
 
-type RequestId = number
-type Instrument = string
+export type RequestId = number
+export type Instrument = string // mk this a {base: string, quote: string} to match InputParameters?
 type Provider = string
 
 // from JsApi.Fields
@@ -109,7 +109,7 @@ export type PartialPriceUpdate = {
   timezone?: string
 }
 
-// make EventEmitter more strongly typed with the types of the events we emit
+// TODO make EventEmitter more strongly typed with the types of the events we emit
 export type InstrumentPartialUpdate = {
   instrument: Instrument
   data: PartialPriceUpdate
@@ -276,12 +276,12 @@ export class StreamingClient extends EventEmitter {
   }
 
   /**
-   * Adds instruments to the connection and returns their request IDs, skipping any that are already added.
+   * Adds instruments to the connection and returning only those effectively added.
    * @param instruments - Array of instrument strings to monitor.
    * @param provider - Underlying provider of prices, defaults to "idc".
-   * @returns Array of RequestId corresponding to the newly added instruments.
+   * @returns Array of newly added instruments.
    */
-  public async addInstruments(instruments: string[], provider = 'idc'): Promise<Instrument[]> {
+  public async addInstruments(instruments: Instrument[], provider = 'idc'): Promise<Instrument[]> {
     const existingInstruments = new Set(this.requestIdToInstrument.values()) // values is unique only by construction
     const instrumentsToAdd: Set<string> = new Set(
       [...instruments].filter((x) => !existingInstruments.has(x)),
