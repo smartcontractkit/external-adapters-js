@@ -10,8 +10,5 @@ export function parseDateToTimestamp(dateString: string): number | null {
 }
 
 export function sanityCheckData(data: FundNavDataWithTimestamp) {
-  if (data.net_asset_value == null || data.assets_under_management == null) {
-    return false
-  }
-  return true
+  return data.net_asset_value != null && data.assets_under_management != null
 }
