@@ -47,7 +47,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'reserves',
-  aliases: ['por', 'nav'],
+  aliases: ['nav'],
   transport: httpTransport,
   inputParameters,
 })
