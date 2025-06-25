@@ -1,5 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/price'
+import { convertTimetoUnixMs } from './util'
 
 export interface PriceMessage {
   last_updated: string
@@ -35,51 +36,36 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   }),
 
   handlers: {
-    // @ts-ignore
     message(message) {
       if (message.success === false) {
         return
       }
 
-      let data
       if (message.topic === 'price') {
-        data = message.data[0] as PriceMessage
-        return [
-          {
-            params: { index: data.symbol },
-            response: {
-              result: data.price,
-              data: {
-                result: data.price,
-              },
-              timestamps: {
-                providerIndicatedTimeUnixMs: data.last_updated,
-              },
+        const result = (message.data as PriceMessage[]).map((item) => ({
+          params: { index: item.symbol },
+          response: {
+            result: item.price,
+            data: {
+              result: item.price,
+            },
+            timestamps: {
+              providerIndicatedTimeUnixMs: convertTimetoUnixMs(item.last_updated),
             },
           },
-        ]
+        }))
+        return result
       } else if (message.topic === 'rebalance_status') {
-        data = message.data[0] as RebalanceMessage
-        return
+        ;(message.data as RebalanceMessage[]).find(
+          (item) => item.symbol === 'GMCI30',
+        ) as RebalanceMessage
+        return []
+      } else {
+        return []
       }
-
-      //   return [
-      //   {
-      //     params: { index: data.symbol },
-      //     response: {
-      //       result: data.price,
-      //       data: {
-      //         result: data.price,
-      //       },
-      //       timestamps: {
-      //         providerIndicatedTimeUnixMs: data.last_updated,
-      //       },
-      //     },
-      //   },
-      // ]
     },
   },
-  // `builders` are builder methods, that will be used to prepare specific WS messages to be sent to Data Provider
+
   builders: {
     subscribeMessage: (params) => {
       return {
@@ -90,12 +76,14 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         ],
       }
     },
-    // `unsubscribeMessage` accepts request parameters and should construct and return a payload that will be sent to Data Provider
-    // Use this method to unsubscribe from live feeds
+
     unsubscribeMessage: (params) => {
       return {
-        type: 'unsubscribe',
-        symbols: `${params.index}`.toUpperCase(),
+        op: 'unsubscribe',
+        args: [
+          `price.${params.index}`.toLowerCase(),
+          `rebalance_status.${params.index}`.toLowerCase(),
+        ],
       }
     },
   },
