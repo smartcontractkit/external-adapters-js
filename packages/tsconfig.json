@@ -420,6 +420,9 @@
       "path": "./sources/harris-and-trotter"
     },
     {
+      "path": "./sources/hashnote"
+    },
+    {
       "path": "./sources/icap"
     },
     {
@@ -526,6 +529,9 @@
     },
     {
       "path": "./sources/onchain-gas"
+    },
+    {
+      "path": "./sources/onre"
     },
     {
       "path": "./sources/openexchangerates"
