@@ -4414,6 +4414,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/hashnote-adapter@workspace:packages/sources/hashnote":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/hashnote-adapter@workspace:packages/sources/hashnote"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    axios: "npm:1.9.0"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average":
   version: 0.0.0-use.local
   resolution: "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average"
@@ -5126,6 +5140,19 @@ __metadata:
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/onre-adapter@workspace:packages/sources/onre":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/onre-adapter@workspace:packages/sources/onre"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft

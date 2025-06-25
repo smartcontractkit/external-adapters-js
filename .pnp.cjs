@@ -591,6 +591,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/harris-and-trotter"\
     },\
     {\
+      "name": "@chainlink/hashnote-adapter",\
+      "reference": "workspace:packages/sources/hashnote"\
+    },\
+    {\
       "name": "@chainlink/icap-adapter",\
       "reference": "workspace:packages/sources/icap"\
     },\
@@ -733,6 +737,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/onchain-gas-adapter",\
       "reference": "workspace:packages/sources/onchain-gas"\
+    },\
+    {\
+      "name": "@chainlink/onre-adapter",\
+      "reference": "workspace:packages/sources/onre"\
     },\
     {\
       "name": "@chainlink/openexchangerates-adapter",\
@@ -1077,6 +1085,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
+    ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
@@ -1123,6 +1132,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/observation", ["workspace:packages/observation"]],\
     ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
     ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
+    ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
     ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
@@ -7370,6 +7380,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/hashnote-adapter", [\
+      ["workspace:packages/sources/hashnote", {\
+        "packageLocation": "./packages/sources/hashnote/",\
+        "packageDependencies": [\
+          ["@chainlink/hashnote-adapter", "workspace:packages/sources/hashnote"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["axios", "npm:1.9.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/historical-average-adapter", [\
       ["workspace:packages/composites/historical-average", {\
         "packageLocation": "./packages/composites/historical-average/",\
@@ -8173,6 +8199,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/onre-adapter", [\
+      ["workspace:packages/sources/onre", {\
+        "packageLocation": "./packages/sources/onre/",\
+        "packageDependencies": [\
+          ["@chainlink/onre-adapter", "workspace:packages/sources/onre"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

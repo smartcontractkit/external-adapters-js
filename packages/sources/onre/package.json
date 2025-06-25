@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/nav-generic-adapter",
-  "version": "1.0.1",
-  "description": "Chainlink nav-generic adapter.",
+  "name": "@chainlink/onre-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink onre adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "nav-generic"
+    "onre"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
