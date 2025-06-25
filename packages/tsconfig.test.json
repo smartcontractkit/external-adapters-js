@@ -420,6 +420,9 @@
       "path": "./sources/harris-and-trotter/tsconfig.test.json"
     },
     {
+      "path": "./sources/hashnote/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
@@ -526,6 +529,9 @@
     },
     {
       "path": "./sources/onchain-gas/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/onre/tsconfig.test.json"
     },
     {
       "path": "./sources/openexchangerates/tsconfig.test.json"
