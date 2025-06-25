@@ -1,7 +1,7 @@
 import fs from 'fs'
-import { MonitorPriceResponse, PartialPriceUpdate } from '../../src/transport/netdania'
+import { MonitorPriceResponse, Utils } from '../../src/transport/netdania'
 
-describe('streaming client utils', () => {
+describe('PartialPriceUpdate', () => {
   let rawUpdates: MonitorPriceResponse[]
 
   // read from the raw-price-updates.jsonl file in the same directory
@@ -18,7 +18,7 @@ describe('streaming client utils', () => {
   it('must parse all the correct updates correctly', async () => {
     for (const update of rawUpdates) {
       console.debug(`Parsing update: ${JSON.stringify(update)}`)
-      const ppu = new PartialPriceUpdate(update)
+      const ppu = Utils.mkPartialPriceUpdate(update)
       expect(ppu).toBeDefined()
     }
   })
@@ -41,8 +41,28 @@ describe('streaming client utils', () => {
       modifiedFids: [11, 3015, 10, 152, 9, 3013],
     }
 
-    const ppu = new PartialPriceUpdate(update)
+    const ppu = Utils.mkPartialPriceUpdate(update)
     expect(ppu).toBeDefined()
+  })
+
+  it('must throw on invalid updates', () => {
+    const update: MonitorPriceResponse = {
+      type: 1, // otherwise valid
+      id: 6,
+      data: [
+        { f: 11, v: '1296.5' },
+        { f: 3015, v: '1750333500165' },
+        { f: 10, v: '1291.5' },
+        {
+          f: 152,
+          v: '1750333500165',
+        },
+        { f: 9, v: '1294' },
+        { f: 3013, v: '1750333500165' },
+      ],
+      modifiedFids: [11, 3015, 10, 152, 9, 3013],
+    }
+    expect(() => Utils.mkPartialPriceUpdate(update)).toThrow('Not a price response, type is 1, expected 2.')
   })
 
   // it('every update merged with the history for its instrument yields a valid price', async () => {})

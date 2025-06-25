@@ -60,40 +60,8 @@ export class Utils {
   static readonly MID_PRICE: FieldId = JsApi.Fields.QUOTE_MID_PRICE
   static readonly TIME_STAMP: FieldId = JsApi.Fields.QUOTE_TIME_STAMP
   static readonly TIME_ZONE: FieldId = JsApi.Fields.QUOTE_TIME_ZONE
-}
 
-/** Our view of the (partial) updates we receive from the server. */
-export class PartialPriceUpdate {
-  ask?: number
-  bid?: number
-  mid?: number
-  ts?: number
-  timezone?: string
-
-  constructor(priceResponse: MonitorPriceResponse) {
-    if (priceResponse.type !== 2) {
-      throw new Error('Not a price response, type is ${priceResponse.type}, expected 2.')
-    }
-    const ts = this.getField(priceResponse.data, Utils.TIME_STAMP)
-    if (ts === 'N/A') {
-      throw new Error("Invalid timestamp 'N/A'. Cannot create PartialPriceUpdate.")
-    }
-
-    const bid = this.getField(priceResponse.data, Utils.BID)
-    const ask = this.getField(priceResponse.data, Utils.ASK)
-    const mid = this.getField(priceResponse.data, Utils.MID_PRICE)
-    const tz = this.getField(priceResponse.data, Utils.TIME_ZONE)
-
-    // an update with null ts is still valid; it just has the same timestamp as the previous one
-    this.ts = ts !== null ? parseInt(ts) : undefined
-    this.bid = bid !== null ? parseFloat(bid) : undefined
-    this.ask = ask !== null ? parseFloat(ask) : undefined
-    this.mid = mid !== null ? parseFloat(mid) : undefined
-    this.timezone = tz !== null ? tz : undefined
-  }
-
-  // TODO maybe optimise this to make use of the ordered modifiedFids array
-  private getField(data: Field[], fieldId: FieldId): string | null {
+  private static getField(data: Field[], fieldId: FieldId): string | null {
     const field = data.find((f) => f.f === fieldId)
     if (field) {
       return field.v
@@ -101,6 +69,44 @@ export class PartialPriceUpdate {
       return null
     }
   }
+
+  static mkPartialPriceUpdate(priceResponse: MonitorPriceResponse): PartialPriceUpdate | null {
+    if (priceResponse.type !== 2) {
+      throw new Error(`Not a price response, type is ${priceResponse.type}, expected 2.`)
+    }
+    const ts = Utils.getField(priceResponse.data, Utils.TIME_STAMP)
+    if (ts === 'N/A') {
+      throw new Error("Invalid timestamp 'N/A'. Cannot create PartialPriceUpdate.")
+    }
+
+    const bid = Utils.getField(priceResponse.data, Utils.BID)
+    const ask = Utils.getField(priceResponse.data, Utils.ASK)
+    const mid = Utils.getField(priceResponse.data, Utils.MID_PRICE)
+    const tz = Utils.getField(priceResponse.data, Utils.TIME_ZONE)
+
+    // if none of the above are present, this update is void, return null
+    if (bid === null && ask === null && mid === null && tz === null) {
+      return null
+    }
+
+    // an update with null ts is still valid; it just has the same timestamp as the previous one
+    return {
+      ts: ts !== null ? parseInt(ts) : undefined,
+      bid: bid !== null ? parseFloat(bid) : undefined,
+      ask: ask !== null ? parseFloat(ask) : undefined,
+      mid: mid !== null ? parseFloat(mid) : undefined,
+      timezone: tz !== null ? tz : undefined,
+    } as PartialPriceUpdate
+  }
+}
+
+/** Our view of the (partial) updates we receive from the server. */
+export type PartialPriceUpdate = {
+  ask?: number
+  bid?: number
+  mid?: number
+  ts?: number
+  timezone?: string
 }
 
 // make EventEmitter more strongly typed with the types of the events we emit
@@ -207,11 +213,13 @@ export class StreamingClient extends EventEmitter {
       logger.error('Could not find instrument for price update: ', JSON.stringify(priceUpdate))
     } else {
       try {
-        const ipu: InstrumentPartialUpdate = {
-          instrument: instrument,
-          data: new PartialPriceUpdate(priceUpdate),
+        const update = Utils.mkPartialPriceUpdate(priceUpdate)
+        if (update) {
+          this.emit('price', {
+            instrument: instrument,
+            data: update,
+          })
         }
-        this.emit('price', ipu)
       } catch (e) {
         logger.error(e, 'Error emitting price update: ', JSON.stringify(priceUpdate))
       }
