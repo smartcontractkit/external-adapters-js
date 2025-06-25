@@ -1,6 +1,6 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { EventEmitter } from 'events'
-import { config } from '../../config/'
+import { BaseEndpointTypes } from '../../endpoint/price'
 import { ConnectionType } from './config'
 import { window } from './jsApi/jsapi-nodejs'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -134,9 +134,8 @@ export class StreamingClient extends EventEmitter {
   private connection: JsApi.JSONConnection
   private requestIdToInstrument: Map<RequestId, Instrument> = new Map()
 
-  constructor(public readonly cfg: typeof config.settings) {
+  constructor(public readonly cfg: BaseEndpointTypes['Settings']) {
     super()
-
     this.connection = new JsApi.JSONConnection({
       host: cfg.API_ENDPOINT,
       failoverHosts: [cfg.FAILOVER_API_ENDPOINT],

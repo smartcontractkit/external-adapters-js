@@ -1,8 +1,8 @@
 import {
   EndpointContext,
-  LwbaEndpointGenerics,
   LwbaResponseDataFields,
 } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   StreamingTransport,
   SubscriptionDeltas,
@@ -13,10 +13,9 @@ import {
   sleep,
   TimestampedAdapterResponse,
 } from '@chainlink/external-adapter-framework/util'
-import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
-import { InstrumentPartialUpdate, PartialPriceUpdate, StreamingClient } from './netdania'
 import { LocalPriceCache } from './cache'
+import { InstrumentPartialUpdate, PartialPriceUpdate, StreamingClient } from './netdania'
 
 const logger = makeLogger('NetDaniaStreamingTransport')
 
@@ -25,13 +24,18 @@ export type FullPriceUpdate = Required<PartialPriceUpdate> & {
   version: number // incremented on each update; useful to disambiguate updates with the same ts
 }
 
-export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointGenerics> {
-  private client: StreamingClient
+export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointTypes> {
+  private client!: StreamingClient
   private localCache: LocalPriceCache = new LocalPriceCache()
 
-  constructor() {
-    super()
-    this.client = new StreamingClient(config.settings)
+  async initialize(
+    dependencies: TransportDependencies<BaseEndpointTypes>,
+    adapterSettings: BaseEndpointTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ) {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.client = new StreamingClient(adapterSettings)
     this.client.on('price', async (update: InstrumentPartialUpdate) => {
       // get base and quote from the instrument name in the requestIdToInstrument map
       const base = update.instrument.substring(0, 3)
@@ -68,7 +72,7 @@ export class NetDaniaStreamingTransport extends StreamingTransport<LwbaEndpointG
     })
   }
 
-  override getSubscriptionTtlFromConfig(adapterSettings: typeof config.settings): number {
+  override getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.WS_SUBSCRIPTION_TTL
   }
 

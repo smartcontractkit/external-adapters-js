@@ -1,4 +1,7 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  AdapterEndpoint,
+  LwbaResponseDataFields,
+} from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
@@ -9,7 +12,7 @@ import { transport } from '../transport/price'
 export const inputParameters = new InputParameters(
   {
     base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+      aliases: ['from', 'coin', 'symbol'],
       required: true,
       type: 'string',
       description: 'The symbol of symbols of the currency to query',
@@ -44,7 +47,7 @@ export type BidAskMidResponse = {
 // Endpoints contain a type parameter that allows specifying relevant types of an endpoint, for example, request payload type, Adapter response type and Adapter configuration (environment variables) type
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: BidAskMidResponse
+  Response: LwbaResponseDataFields
   // shouldn't the above be TimestampedAdapterResponse<ResponseGenerics & LwbaResponseDataFields>?
   Settings: typeof config.settings
 }
