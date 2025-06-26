@@ -27,7 +27,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: '/funddetails/nav',
+          url: '/funddetails/nav/',
           headers: {
             'x-wt-dataspan-key': config.API_KEY,
           },
