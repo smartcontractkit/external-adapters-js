@@ -6,4 +6,10 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://dataspanapi.wisdomtree.com',
   },
+  API_KEY: {
+    description: 'WisdomTree API key value',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
 })

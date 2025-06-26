@@ -28,6 +28,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         request: {
           baseURL: config.API_ENDPOINT,
           url: '/funddetails/nav',
+          headers: {
+            'x-wt-dataspan-key': config.API_KEY,
+          },
           params: {
             ticker: param.ticker.toUpperCase(),
           },
@@ -36,7 +39,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
-    // console.log(response)
     if (!response.data) {
       return params.map((param) => {
         return {

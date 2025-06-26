@@ -14,7 +14,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
+    process.env.API_KEY = 'SOME_API_KEY'
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
