@@ -3,8 +3,11 @@ import nock from 'nock'
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://dataspanapi.wisdomtree.com', {
     encodedQueryParams: true,
+    reqheaders: {
+      'x-wt-dataspan-key': 'SOME_API_KEY',
+    },
   })
-    .get('/funddetails/nav')
+    .get('/funddetails/nav/')
     .query({
       ticker: 'WTGXX',
     })
