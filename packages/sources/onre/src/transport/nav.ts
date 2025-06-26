@@ -10,7 +10,11 @@ interface FundNavData {
   fund_id: number
 }
 
-type ProviderResponseSchema = FundNavData[]
+interface ProviderResponseSchema {
+  data: FundNavData[]
+  ripcord: boolean
+  ripcordDetails: Object | null
+}
 
 export type FundNavDataWithTimestamp = Omit<FundNavData, 'net_asset_value_date'> & {
   net_asset_value_date: number
@@ -48,8 +52,21 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
+    if (typeof response.data.ripcord === 'boolean' && response.data.ripcord) {
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage: 'Ripcord indicator true',
+            ripcord: response.data.ripcordDetails,
+            statusCode: 502,
+          },
+        }
+      })
+    }
+
     return params.map((param) => {
-      const filteredData = response.data.filter((item) => item.fund_id === param.fundId)
+      const filteredData = response.data.data.filter((item) => item.fund_id === param.fundId)
       if (filteredData.length === 0) {
         return {
           params: param,

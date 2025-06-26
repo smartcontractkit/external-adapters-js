@@ -93,6 +93,9 @@
       "path": "./composites/savax-price"
     },
     {
+      "path": "./composites/secure-mint"
+    },
+    {
       "path": "./composites/set-token-index"
     },
     {
@@ -417,6 +420,9 @@
       "path": "./sources/harris-and-trotter"
     },
     {
+      "path": "./sources/hashnote"
+    },
+    {
       "path": "./sources/icap"
     },
     {
@@ -501,6 +507,9 @@
       "path": "./sources/nav-consulting"
     },
     {
+      "path": "./sources/nav-generic"
+    },
+    {
       "path": "./sources/ncfx"
     },
     {
@@ -520,6 +529,9 @@
     },
     {
       "path": "./sources/onchain-gas"
+    },
+    {
+      "path": "./sources/onre"
     },
     {
       "path": "./sources/openexchangerates"
