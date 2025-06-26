@@ -51,6 +51,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
+    const timestamps = {
+      providerIndicatedTimeUnixMs: new Date(response.data.dt).getTime(),
+    }
+
     return params.map((param) => {
       const result = response.data.nav
       return {
@@ -60,6 +64,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           data: {
             result,
           },
+          timestamps,
         },
       }
     })
