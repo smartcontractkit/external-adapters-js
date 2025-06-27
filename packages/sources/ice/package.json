@@ -1,0 +1,41 @@
+{
+  "name": "@chainlink/ice-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink ice adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "ice"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.14.1",
+    "nock": "^13.3.0",
+    "typescript": "5.8.3",
+    "xmlhttprequest": "1.8.0"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "2.6.0",
+    "tslib": "^2.8.0"
+  }
+}

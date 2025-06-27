@@ -595,6 +595,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/icap"\
     },\
     {\
+      "name": "@chainlink/ice-adapter",\
+      "reference": "workspace:packages/sources/ice"\
+    },\
+    {\
       "name": "@chainlink/iex-cloud-adapter",\
       "reference": "workspace:packages/sources/iex-cloud"\
     },\
@@ -1087,6 +1091,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
+    ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
@@ -7415,6 +7420,22 @@ const RAW_RUNTIME_STATE =
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/ice-adapter", [\
+      ["workspace:packages/sources/ice", {\
+        "packageLocation": "./packages/sources/ice/",\
+        "packageDependencies": [\
+          ["@chainlink/ice-adapter", "workspace:packages/sources/ice"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["xmlhttprequest", "npm:1.8.0"]\
         ],\
         "linkType": "SOFT"\
       }]\

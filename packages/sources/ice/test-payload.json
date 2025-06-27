@@ -1,0 +1,6 @@
+{
+ "requests": [{
+  "from": "EUR",
+  "to": "USD"
+ }]
+}
