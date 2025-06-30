@@ -21,6 +21,9 @@ exports[`execute nav endpoint should return success - nav 1`] = `
     "navPerShare": 2.01702150000035,
   },
   "result": 2.01702150000035,
+  "ripcord": 0,
+  "ripcordDettails": null,
+  "ripcordValue": false,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
