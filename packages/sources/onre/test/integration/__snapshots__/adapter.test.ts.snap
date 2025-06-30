@@ -22,7 +22,7 @@ exports[`execute nav endpoint should return success - nav 1`] = `
   },
   "result": 2.01702150000035,
   "ripcord": 0,
-  "ripcordDettails": null,
+  "ripcordDetails": null,
   "ripcordValue": false,
   "statusCode": 200,
   "timestamps": {
