@@ -106,7 +106,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           data: resultData,
           ripcord: Number(response.data.ripcord),
           ripcordValue: response.data.ripcord,
-          ripcordDettails: response.data.ripcordDetails,
+          ripcordDetails: response.data.ripcordDetails,
         },
       }
     })
