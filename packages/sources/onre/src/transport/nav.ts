@@ -13,7 +13,7 @@ interface FundNavData {
 interface ProviderResponseSchema {
   data: FundNavData[]
   ripcord: boolean
-  ripcordDetails: object | null
+  ripcordDetails: string | null
 }
 
 export type FundNavDataWithTimestamp = Omit<FundNavData, 'net_asset_value_date'> & {
