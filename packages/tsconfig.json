@@ -675,6 +675,9 @@
       "path": "./sources/wbtc-address-set"
     },
     {
+      "path": "./sources/wisdomtree"
+    },
+    {
       "path": "./sources/wootrade"
     },
     {
