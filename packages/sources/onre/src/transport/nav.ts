@@ -52,19 +52,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
-    // if (typeof response.data.ripcord === 'boolean' && response.data.ripcord) {
-    //   return params.map((param) => {
-    //     return {
-    //       params: param,
-    //       response: {
-    //         errorMessage: 'Ripcord indicator true',
-    //         ripcord: response.data.ripcordDetails,
-    //         statusCode: 502,
-    //       },
-    //     }
-    //   })
-    // }
-
     return params.map((param) => {
       const filteredData = response.data.data.filter((item) => item.fund_id === param.fundId)
       if (filteredData.length === 0) {
