@@ -43,6 +43,6 @@ export const config = new AdapterConfig({
   CONNECTING_TIMEOUT_MS: {
     description: 'Connecting timeout in milliseconds for ICE',
     type: 'number',
-    default: 2000,
+    default: 4000,
   },
 })

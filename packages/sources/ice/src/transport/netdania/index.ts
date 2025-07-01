@@ -148,6 +148,7 @@ export class StreamingClient extends EventEmitter {
 
   constructor(public readonly cfg: BaseEndpointTypes['Settings']) {
     super()
+    logger.debug('Streaming client constructor called with config: ' + JSON.stringify(cfg))
     this.connection = new JsApi.JSONConnection({
       host: cfg.API_ENDPOINT,
       failoverHosts: [
@@ -216,7 +217,6 @@ export class StreamingClient extends EventEmitter {
    * @emits InstrumentPartialUpdate
    */
   onPriceUpdateHandler = (priceUpdate: MonitorPriceResponse) => {
-    logger.debug(`onPriceUpdateHandler ${priceUpdate.id}`)
     logger.trace(JSON.stringify(priceUpdate, null, 0))
     const instrument = this.requestIdToInstrument.get(priceUpdate.id)
     if (!instrument) {
@@ -254,12 +254,14 @@ export class StreamingClient extends EventEmitter {
         resolve()
       })
 
-      this.connection.Connect()
+      this.connection._tryReconnect = true
+      this.connection.reconnect()
       this.flush()
     })
   }
 
   public disconnect() {
+    this.removeAllInstruments()
     this.connection._tryReconnect = false // disable auto-reconnect
     this.connection.disconnect()
   }
@@ -289,7 +291,7 @@ export class StreamingClient extends EventEmitter {
    * @param provider - Underlying provider of prices, defaults to "idc".
    * @returns Array of newly added instruments.
    */
-  public async addInstruments(instruments: Instrument[], provider = 'idc'): Promise<Instrument[]> {
+  public addInstruments(instruments: Instrument[], provider = 'idc'): Instrument[] {
     const existingInstruments = new Set(this.requestIdToInstrument.values()) // values is unique only by construction
     const instrumentsToAdd: string[] = Array.from(
       new Set([...instruments].filter((x) => !existingInstruments.has(x))),
@@ -309,15 +311,24 @@ export class StreamingClient extends EventEmitter {
   public removeInstruments(instruments: Instrument[]) {
     const existingInstruments = new Set(this.requestIdToInstrument.values())
     const instrumentsToRemove = instruments.filter((i) => existingInstruments.has(i))
-    if (instrumentsToRemove.length === 0) {
-      logger.warn('removeInstruments(): Nothing to do. Either all already removed or never added.')
-    } else {
+    if (instrumentsToRemove.length > 0) {
       const requestIdsToRemove = Array.from(this.requestIdToInstrument.entries())
         .filter((entry) => instrumentsToRemove.includes(entry[1]))
         .map((entry) => entry[0])
       this.connection.RemoveRequests(requestIdsToRemove)
       requestIdsToRemove.forEach((id) => this.requestIdToInstrument.delete(id))
       this.flush()
+    }
+  }
+
+  public removeAllInstruments() {
+    if (this.requestIdToInstrument.size > 0) {
+      const requestIdsToRemove = Array.from(this.requestIdToInstrument.entries()).map(
+        (entry) => entry[0],
+      )
+      this.connection.RemoveRequests(requestIdsToRemove)
+      this.flush()
+      this.requestIdToInstrument.clear()
     }
   }
 
