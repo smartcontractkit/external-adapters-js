@@ -30,6 +30,8 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
+    "axios": "^1.10.0",
+    "mock-xmlhttprequest": "8.4.1",
     "nock": "^13.3.0",
     "typescript": "5.8.3",
     "xmlhttprequest": "1.8.0"

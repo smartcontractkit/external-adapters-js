@@ -136,6 +136,7 @@ export class StreamingClient extends EventEmitter {
 
   constructor(public readonly cfg: BaseEndpointTypes['Settings']) {
     super()
+    logger.debug('Streaming client constructor called with config: ' + JSON.stringify(cfg))
     this.connection = new JsApi.JSONConnection({
       host: cfg.API_ENDPOINT,
       failoverHosts: [cfg.FAILOVER_API_ENDPOINT],
@@ -243,12 +244,15 @@ export class StreamingClient extends EventEmitter {
         resolve()
       })
 
-      this.connection.Connect()
+      this.connection._tryReconnect = true
+      logger.debug("connection.reconnect()")
+      this.connection.reconnect()
       this.flush()
     })
   }
 
   public async disconnect(): Promise<void> {
+    await this.removeAllInstruments()
     this.connection._tryReconnect = false // disable auto-reconnect
     this.connection.disconnect()
   }
@@ -282,7 +286,7 @@ export class StreamingClient extends EventEmitter {
    * @param provider - Underlying provider of prices, defaults to "idc".
    * @returns Array of newly added instruments.
    */
-  public async addInstruments(instruments: Instrument[], provider = 'idc'): Promise<Instrument[]> {
+  public addInstruments(instruments: Instrument[], provider = 'idc'): Instrument[] {
     const existingInstruments = new Set(this.requestIdToInstrument.values()) // values is unique only by construction
     const instrumentsToAdd: string[] = Array.from(new Set(
       [...instruments].filter((x) => !existingInstruments.has(x)),
@@ -312,5 +316,13 @@ export class StreamingClient extends EventEmitter {
       requestIdsToRemove.forEach((id) => this.requestIdToInstrument.delete(id))
       await this.flush()
     }
+  }
+
+  public async removeAllInstruments(): Promise<void> {
+    const requestIdsToRemove = Array.from(this.requestIdToInstrument.entries())
+      .map((entry) => entry[0])
+    this.connection.RemoveRequests(requestIdsToRemove)
+    await this.flush()
+    this.requestIdToInstrument.clear()
   }
 }
