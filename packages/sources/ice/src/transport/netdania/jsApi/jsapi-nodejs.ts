@@ -12,9 +12,7 @@
 */
 /* eslint-disable */
 //@ts-nocheck
-import * as httprequest from 'xmlhttprequest'
-
-const XMLHttpRequest = httprequest.XMLHttpRequest
+import { XMLHttpRequest } from 'xmlhttprequest'
 
 export const window = { NetDania: {} }
 ;(window.NetDania.JsApi = {}),
@@ -198,6 +196,9 @@ void 0 === window.location?.host &&
                 NetDania.JsApi.Utilities.keyStr.charAt(r),
             )
         return E.toString()
+      }),
+      (NetDania.JsApi.mkXHR = function () {
+        return new NetDania.JsApi.jXHR()
       }),
       (NetDania.JsApi.getXReqPageSize = function () {
         var e =
@@ -1254,7 +1255,7 @@ void 0 === window.location?.host &&
           (!(this._isConnected || (this._xreq && this._pending)) || this._isSuspended) &&
           ((this._requestQueue.length > 0 && this._isFlushed) || e || this._isSuspended)
         ) {
-          ;(this._xreq = new NetDania.JsApi.jXHR()),
+          ;(this._xreq = NetDania.JsApi.mkXHR()),
             (this._pending = !0),
             (this._isDisconnected = !1),
             !1 !== e && (this._handshakeMade = !1),
@@ -1589,7 +1590,7 @@ void 0 === window.location?.host &&
         var i = this
         if ((clearTimeout(this._pollingFunction), this._isConnected)) {
           if (!1 === this._pending && void 0 !== this._pollingParams && !this._isDisconnected) {
-            var n = new NetDania.JsApi.jXHR()
+            var n = NetDania.JsApi.mkXHR()
             this._pending = !0
             var s,
               a = this._pollingParams + '&ts=' + +new Date()
@@ -1619,7 +1620,7 @@ void 0 === window.location?.host &&
                       }, i.POLLING_TIMEOUT))
                   }
                   ;(i._pendingRequest = !0),
-                    (n = new NetDania.JsApi.jXHR()).open('GET', s, !0),
+                    (n = NetDania.JsApi.mkXHR()).open('GET', s, !0),
                     _(),
                     (n.onprogress = function (e) {
                       _()
@@ -1807,7 +1808,7 @@ void 0 === window.location?.host &&
           this._isFailoverActive && !this.m_isDisconnected)
         ) {
           NetDania.JsApi.DetectCORSAvailability(!0)
-          var e = new NetDania.JsApi.jXHR(),
+          var e = NetDania.JsApi.mkXHR(),
             t = this.config.host + '?xinfo=1&group=' + this._usergroup + '&app=' + this._appId,
             i = this
           ;(e.onerror = function () {}),
@@ -1872,7 +1873,7 @@ void 0 === window.location?.host &&
         else {
           if (null !== this._sessionId) {
             NetDania.JsApi.DetectCORSAvailability(!0)
-            var e = new NetDania.JsApi.jXHR(),
+            var e = NetDania.JsApi.mkXHR(),
               t = this.m_host + '?sessid=' + this._sessionId + '&xcmd=',
               i = this
             ;(e.onerror = function () {}),
@@ -2004,7 +2005,7 @@ void 0 === window.location?.host &&
         this._pending = !0
         var i = this
         if (e.length > 0 && this._isConnected) {
-          var n = new NetDania.JsApi.jXHR(),
+          var n = NetDania.JsApi.mkXHR(),
             s = e.slice(0, this._xreqPageSize)
           e = e.slice(this._xreqPageSize, e.length)
           var a = NetDania.JsApi.encode64(JSON.stringify(s))
@@ -2054,7 +2055,7 @@ void 0 === window.location?.host &&
               : ((this._pendingRequestInstrument = !1),
                 (function e(t) {
                   i._pendingRequestInstrument ||
-                    (((n = new NetDania.JsApi.jXHR()).timeout = i.REQUEST_INSTRUMENT_TIMEOUT),
+                    (((n = NetDania.JsApi.mkXHR()).timeout = i.REQUEST_INSTRUMENT_TIMEOUT),
                     (n.ontimeout = function (n, s) {
                       i._sessionId === n &&
                         ((i._pendingRequestInstrument = !1),
@@ -2727,7 +2728,7 @@ void 0 === window.location?.host &&
       }),
       (NetDania.JsApi.JSONConnection.getApplicationInfo = function (t, i, n, s, a) {
         NetDania.JsApi.DetectCORSAvailability(!0)
-        let o = new NetDania.JsApi.jXHR(),
+        let o = NetDania.JsApi.mkXHR(),
           r =
             t +
             '?xinfo=1&group=' +
@@ -2777,7 +2778,7 @@ void 0 === window.location?.host &&
       (NetDania.JsApi.JSONConnection.prototype.loadWorkspace = function (e, t) {
         let i,
           n,
-          s = new NetDania.JsApi.jXHR()
+          s = NetDania.JsApi.mkXHR()
         ;(n =
           '?xload&group=' +
           this._usergroup +
@@ -2808,7 +2809,7 @@ void 0 === window.location?.host &&
         let s, a
         const o = ++NetDania.JsApi.globalCurrentReqId,
           r = { i: o },
-          E = new NetDania.JsApi.jXHR()
+          E = NetDania.JsApi.mkXHR()
         return (
           (a = '?xsave&group=' + this._usergroup + '&app=' + i + '&id=' + e + '&ts=' + +new Date()),
           this.config.proxy,
