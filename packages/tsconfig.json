@@ -510,6 +510,9 @@
       "path": "./sources/nav-generic"
     },
     {
+      "path": "./sources/nav-libre"
+    },
+    {
       "path": "./sources/ncfx"
     },
     {

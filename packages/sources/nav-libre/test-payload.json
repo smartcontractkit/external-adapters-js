@@ -1,0 +1,7 @@
+{
+ "requests": [{
+    "globalFundID": 1234,
+    "fromDate": "01-01-2024",
+    "toDate": "01-30-2024"
+ }]
+}
