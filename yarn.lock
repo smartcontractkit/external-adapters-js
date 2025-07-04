@@ -4449,6 +4449,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/ice-adapter@workspace:packages/sources/ice":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ice-adapter@workspace:packages/sources/ice"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:^13.3.0"
+    tslib: "npm:^2.8.0"
+    typescript: "npm:5.8.3"
+    xmlhttprequest: "npm:1.8.0"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
