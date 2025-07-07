@@ -1,42 +1,41 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { HttpTransportTypes, prepareRequests } from './common'
+
+const logger = makeLogger('UraniumHTTPTransport')
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) =>
-    prepareRequests(params, config.ALT_API_ENDPOINT, '/emgemx-tdfkf3', config.EMGEMX_API_KEY),
+    prepareRequests(
+      params,
+      config.ALT_API_ENDPOINT,
+      '/uranium-digital-qohmmjqaf4jk',
+      config.URANIUM_API_KEY,
+    ),
   parseResponse: (params, response) => {
     return params.map((param) => {
       const timestamps = {
         providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
       }
 
-      // Return error if ripcord == true
-      if (response.data.ripcord) {
-        const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(
-          ', ',
-        )}`
+      const reserve = response.data.totalReserve
+      const supply = response.data.totalToken
+
+      if (!response.data || isNaN(Number(reserve)) || isNaN(Number(supply))) {
         return {
           params: param,
           response: {
-            errorMessage: message,
-            ripcord: response.data.ripcord,
-            ripcordDetails: response.data.ripcordDetails.join(', '),
+            errorMessage:
+              'Response is missing response fields (expected: totalReserve & totalToken)',
+            ripcord: response.data.ripcord ?? undefined,
             statusCode: 502,
             timestamps,
           },
         }
       }
 
-      const reserve = response.data.totalReserve
-      if (reserve == null || isNaN(Number(reserve))) {
-        return {
-          params: param,
-          response: {
-            errorMessage: 'Response is missing valid totalReserve field',
-            statusCode: 502,
-            timestamps,
-          },
-        }
+      if (response.data.ripcord) {
+        logger.debug(`Ripcord indicator true. Details: ${response.data.ripcordDetails.join(', ')}`)
       }
 
       const result = Number(reserve)
@@ -47,6 +46,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           data: {
             result,
             ripcord: response.data.ripcord,
+            ripcordAsInt: Number(response.data.ripcord),
           },
           timestamps,
         },
