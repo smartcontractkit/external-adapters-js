@@ -1,6 +1,16 @@
 {
- "requests": [{
-  "from": "EUR",
-  "to": "USD"
- }]
+  "requests": [
+    {
+      "from": "EUR",
+      "to": "USD"
+    },
+    {
+      "from": "XAU",
+      "to": "USD"
+    },
+    {
+      "from": "USD",
+      "to": "JPY"
+    }
+  ]
 }
