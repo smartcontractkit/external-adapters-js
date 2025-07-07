@@ -4,7 +4,7 @@ import { config } from './config'
 import { birc, crypto, cryptolwba } from './endpoint'
 
 export const adapter = new PriceAdapter({
-  name: 'CFBENCHMARKS',
+  name: config.API_SECONDARY ? 'CFBENCHMARKS2' : 'CFBENCHMARKS',
   endpoints: [crypto, birc, cryptolwba],
   defaultEndpoint: crypto.name,
   config,
