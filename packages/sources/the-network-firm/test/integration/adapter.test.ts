@@ -39,6 +39,7 @@ describe('execute', () => {
   afterEach(() => {
     nock.cleanAll()
 
+    // clear EA cache
     const keys = testAdapter.mockCache?.cache.keys()
     if (!keys) {
       throw new Error('unexpected failure 1')
