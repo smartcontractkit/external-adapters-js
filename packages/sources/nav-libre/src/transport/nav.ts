@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import dayjs from 'dayjs'
 import { BaseEndpointTypes } from '../endpoint/nav'
-import { getNavRequestHeaders } from './authentication'
+import { getRequestHeaders } from './authentication'
 
 export interface ResponseSchema {
   Data: {
@@ -50,6 +50,15 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         throw new Error('toDate must be in MM-DD-YYYY format')
       }
 
+      const response = await getFund(
+        getFund,
+        param.globalFundID,
+        config.API_ENDPOINT,
+        config.API_KEY,
+        config.SECRET_KEY,
+        this.requestor,
+      )
+
       const method = 'GET'
       const path =
         '/navapigateway/api/v1/FundAccountingData/GetOfficialNAVAndPerformanceReturnsForFund'
@@ -57,7 +66,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       // Body is empy for GET
       const body = ''
 
-      const headers = getNavRequestHeaders(
+      const headers = getRequestHeaders(
         method,
         path + '?' + query,
         body,
@@ -114,3 +123,33 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }))
   },
 })
+
+// async function callFunction<T extends unknown[], R>(
+//   func: (...args: T) => Promise<R>,
+//   maxRetry: number,
+//   ...args: T
+// ): Promise<R> {
+//   return retry(
+//     async (bail, attempt) => {
+//       try {
+//         return await func(...args)
+//       } catch (err) {
+//         if (attempt >= maxRetry) {
+//           // give up and bubble the error
+//           bail(err)
+//           return // unreachable, but satisfies TS
+//         }
+//         // otherwise throw to trigger another retry
+//         throw err
+//       }
+//     },
+//     {
+//       retries: maxRetry,
+//       minTimeout: 10000,
+//       maxTimeout: 10000,
+//       onRetry: (err, attempt) => {
+//         logger.info(`${maxRetry - attempt} retries remaining, sleeping for 10000ms...`)
+//       },
+//     },
+//   )
+// }
