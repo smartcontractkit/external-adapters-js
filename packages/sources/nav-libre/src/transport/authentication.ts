@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 /**
  * Generate the necessary headers for calling the NAV API with a 5-minute-valid signature.
  */
-export const getNavRequestHeaders = (
+export const getRequestHeaders = (
   method: string,
   path: string,
   body: string,
