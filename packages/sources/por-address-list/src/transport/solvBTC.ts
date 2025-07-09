@@ -1,6 +1,6 @@
+import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/solvBTC'
-import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 
 interface ResponseSchema {
   accountName: string
@@ -34,7 +34,8 @@ export const solvHttpTransport = new HttpTransport<HttpTransportTypes>({
           case 'BBN':
             return config.SOLVBTC_BBN_API_ENDPOINT
           case 'ENA':
-            return config.SOLVBTC_ENA_API_ENDPOINT
+          case 'TRADING':
+            return config.SOLVBTC_TRADING_API_ENDPOINT
           case 'CORE':
             return config.SOLVBTC_CORE_API_ENDPOINT
           case 'JUP':
