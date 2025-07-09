@@ -44,3 +44,24 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+    .get('/navapigateway/api/v1/ClientMasterData/GetAccountingDataDates')
+    .query(true)
+    .reply(
+      200,
+      {
+        LogID: 123456,
+        FromDate: '01-01-2024',
+        ToDate: '01-31-2024',
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()

@@ -1,155 +1,113 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import dayjs from 'dayjs'
-import { BaseEndpointTypes } from '../endpoint/nav'
-import { getRequestHeaders } from './authentication'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
+import { getFund } from './fund'
+import { getFundDates } from './fund-dates'
 
-export interface ResponseSchema {
-  Data: {
-    'Trading Level Net ROR': {
-      DTD: number
-      MTD: number
-      QTD: number
-      YTD: number
-      ITD: number
-    }
-    'Net ROR': {
-      DTD: number
-      MTD: number
-      QTD: number
-      YTD: number
-      ITD: number
-    }
-    'NAV Per Share': number
-    'Next NAV Price': number
-    'Accounting Date': string
-    'Ending Balance': number
-  }[]
-}
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { clampToBusinessWindow, parseDateString, toDateString } from './date-utils'
+const logger = makeLogger('NavLibreTransport')
 
-export type HttpTransportTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
+type RequestParams = typeof inputParameters.validated
+
+export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  config!: BaseEndpointTypes['Settings']
+  endpointName!: string
+  name!: string
+  requester!: Requester
+
+  async initialize(
+    dependencies: TransportDependencies<BaseEndpointTypes>,
+    adapterSettings: BaseEndpointTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.endpointName = endpointName
+    this.requester = dependencies.requester
+    this.config = adapterSettings
+  }
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  }
+
+  async handleRequest(_context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(param)
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(e, errorMessage)
+      response = {
+        statusCode: (e as AdapterInputError)?.statusCode || 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    param: RequestParams,
+  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
+    logger.debug(`Handling request for globalFundID: ${param.globalFundID}`)
+    const { FromDate, ToDate } = await getFundDates(
+      param.globalFundID,
+      this.config.API_ENDPOINT,
+      this.config.API_KEY,
+      this.config.SECRET_KEY,
+      this.requester,
+    )
+    let from = parseDateString(FromDate)
+    const to = parseDateString(ToDate)
+    from = clampToBusinessWindow(from, to)
+
+    logger.debug(`Fetching NAV for globalFundID: ${param.globalFundID} from ${from} to ${to}`)
+    const fund = await getFund(
+      param.globalFundID,
+      toDateString(from),
+      toDateString(to),
+      this.config.API_ENDPOINT,
+      this.config.API_KEY,
+      this.config.SECRET_KEY,
+      this.requester,
+    )
+
+    // Find the latest NAV entry by Accounting Date
+    const latest = fund.reduce((a, b) => {
+      return new Date(a['Accounting Date']) > new Date(b['Accounting Date']) ? a : b
+    })
+    const [month, day, year] = latest['Accounting Date'].split('-').map(Number)
+    // Assumes UTC
+    const providerIndicatedTimeUnixMs = Date.UTC(year, month - 1, day) // month is 0-based
+    return {
+      statusCode: 200,
+      result: latest['NAV Per Share'],
+      data: {
+        globalFundID: param.globalFundID,
+        navPerShare: latest['NAV Per Share'],
+        navDate: latest['Accounting Date'],
+      },
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs,
+      },
+    }
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params, config) => {
-    return params.map((param) => {
-      // Set defaults for fromDate and toDate if not provided
-      const now = dayjs()
-      const fromDate = param.fromDate || now.subtract(7, 'day').format('MM-DD-YYYY')
-      const toDate = param.toDate || now.format('MM-DD-YYYY')
-
-      // Validate date format MM-DD-YYYY
-      const dateRegex = /^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-\d{4}$/
-      if (fromDate && !dateRegex.test(fromDate)) {
-        throw new Error('fromDate must be in MM-DD-YYYY format')
-      }
-      if (toDate && !dateRegex.test(toDate)) {
-        throw new Error('toDate must be in MM-DD-YYYY format')
-      }
-
-      const response = await getFund(
-        getFund,
-        param.globalFundID,
-        config.API_ENDPOINT,
-        config.API_KEY,
-        config.SECRET_KEY,
-        this.requestor,
-      )
-
-      const method = 'GET'
-      const path =
-        '/navapigateway/api/v1/FundAccountingData/GetOfficialNAVAndPerformanceReturnsForFund'
-      const query = `globalFundID=${param.globalFundID}&fromDate=${fromDate}&toDate=${toDate}`
-      // Body is empy for GET
-      const body = ''
-
-      const headers = getRequestHeaders(
-        method,
-        path + '?' + query,
-        body,
-        config.API_KEY,
-        config.SECRET_KEY,
-      )
-      return {
-        params: [param],
-        request: {
-          baseURL: config.API_ENDPOINT,
-          url: path,
-          headers,
-          params: {
-            globalFundID: param.globalFundID,
-            fromDate,
-            toDate,
-          },
-        },
-      }
-    })
-  },
-  parseResponse: (params, response) => {
-    if (!response.data || !Array.isArray(response.data.Data) || response.data.Data.length === 0) {
-      return params.map((param) => ({
-        params: param,
-        response: {
-          errorMessage: `No NAV data returned for fund ${param.globalFundID}`,
-          statusCode: 502,
-        },
-      }))
-    }
-
-    // Find the latest NAV entry by Accounting Date
-    const latest = response.data.Data.reduce((a, b) => {
-      return new Date(a['Accounting Date']) > new Date(b['Accounting Date']) ? a : b
-    })
-
-    const timestamps = {
-      providerIndicatedTimeUnixMs: new Date(latest['Accounting Date']).getTime(),
-    }
-
-    return params.map((param) => ({
-      params: param,
-      response: {
-        result: latest['NAV Per Share'],
-        data: {
-          navPerShare: latest['NAV Per Share'],
-          navDate: latest['Accounting Date'],
-          globalFundID: param.globalFundID,
-        },
-        timestamps,
-        statusCode: 200,
-      },
-    }))
-  },
-})
-
-// async function callFunction<T extends unknown[], R>(
-//   func: (...args: T) => Promise<R>,
-//   maxRetry: number,
-//   ...args: T
-// ): Promise<R> {
-//   return retry(
-//     async (bail, attempt) => {
-//       try {
-//         return await func(...args)
-//       } catch (err) {
-//         if (attempt >= maxRetry) {
-//           // give up and bubble the error
-//           bail(err)
-//           return // unreachable, but satisfies TS
-//         }
-//         // otherwise throw to trigger another retry
-//         throw err
-//       }
-//     },
-//     {
-//       retries: maxRetry,
-//       minTimeout: 10000,
-//       maxTimeout: 10000,
-//       onRetry: (err, attempt) => {
-//         logger.info(`${maxRetry - attempt} retries remaining, sleeping for 10000ms...`)
-//       },
-//     },
-//   )
-// }
+export const navLibreTransport = new NavLibreTransport()

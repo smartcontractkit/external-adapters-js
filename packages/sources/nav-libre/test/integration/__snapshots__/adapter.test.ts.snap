@@ -10,8 +10,9 @@ exports[`execute nav endpoint should return success 1`] = `
   "result": 123.45,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
+    "providerDataReceivedUnixMs": 978307200000,
+    "providerDataRequestedUnixMs": 978307200000,
+    "providerIndicatedTimeUnixMs": 1704067200000,
   },
 }
 `;

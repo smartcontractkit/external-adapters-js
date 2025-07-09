@@ -14,7 +14,8 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
     process.env.SECRET_KEY = 'SOME_SECRET_KEY'
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
+    const mockDate = new Date('2001-01-01T00:00:00.000Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     const adapter = (await import('./../../src')).adapter
@@ -36,8 +37,6 @@ describe('execute', () => {
     it('should return success', async () => {
       const data = {
         globalFundID: 1234,
-        fromDate: '01-01-2024',
-        toDate: '01-01-2024',
         endpoint: 'nav',
         transport: 'rest',
       }

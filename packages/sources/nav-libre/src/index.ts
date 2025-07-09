@@ -8,13 +8,6 @@ export const adapter = new Adapter({
   name: 'NAV_LIBRE',
   config,
   endpoints: [nav],
-  rateLimiting: {
-    tiers: {
-      default: {
-        rateLimit1m: 1,
-      },
-    },
-  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
