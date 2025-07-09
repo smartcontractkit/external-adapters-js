@@ -1,4 +1,11 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+// import WebSocket from 'ws'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateCacheKey } from '@chainlink/external-adapter-framework/cache'
+import {
+  WebSocketTransport,
+  WebSocketTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
+import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { convertTimetoUnixMs } from './util'
 
@@ -27,9 +34,74 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const wsTransport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
-  options: async (context) => ({
+export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
+  override buildConnectionHandlers(
+    context: EndpointContext<BaseEndpointTypes>,
+    connection: WebSocket,
+    connectionReadyResolve: (value: WebSocket) => void,
+  ) {
+    const handlers = super.buildConnectionHandlers(context, connection, connectionReadyResolve)
+
+    handlers.message = async (event) => {
+      await super
+        .buildConnectionHandlers(context, connection, connectionReadyResolve)
+        .message(event)
+      const parsed = super.deserializeMessage(event.data)
+
+      for (const data of parsed.data) {
+        const price_data = await this.responseCache.cache.get(
+          calculateCacheKey({
+            transportName: this.name,
+            data: { index: data.symbol, type: 'price' },
+            adapterName: 'GMCI',
+            endpointName: 'price',
+            adapterSettings: config.settings,
+          }),
+        )
+
+        const rebalance_data = await this.responseCache.cache.get(
+          calculateCacheKey({
+            transportName: this.name,
+            data: { index: data.symbol, type: 'rebalance_status' },
+            adapterName: 'GMCI',
+            endpointName: 'price',
+            adapterSettings: config.settings,
+          }),
+        )
+
+        if (price_data != undefined && rebalance_data != undefined) {
+          const result = {
+            params: { index: data.symbol },
+            response: {
+              statusCode: 200,
+              result: Number(price_data.result),
+              data: { ...rebalance_data.data, result: price_data.result },
+              timestamps: price_data.timestamps,
+            },
+          }
+
+          await this.responseCache.cache.set(
+            calculateCacheKey({
+              transportName: this.name,
+              data: { index: parsed.data[0].symbol },
+              adapterName: 'GMCI',
+              endpointName: 'price',
+              adapterSettings: config.settings,
+            }),
+            result.response,
+            90000,
+          )
+        }
+      }
+    }
+
+    return handlers
+  }
+}
+
+export const options: WebSocketTransportConfig<WsTransportTypes> = {
+  url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
+  options: async (context: EndpointContext<WsTransportTypes>) => ({
     headers: {
       'X-GMCI-API-KEY': context.adapterSettings.API_KEY,
     },
@@ -43,7 +115,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
       if (message.topic === 'price') {
         const result = (message.data as PriceMessage[]).map((item) => ({
-          params: { index: item.symbol },
+          params: { index: item.symbol, type: 'price' },
           response: {
             result: item.price,
             data: {
@@ -54,12 +126,23 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
             },
           },
         }))
+
         return result
       } else if (message.topic === 'rebalance_status') {
-        ;(message.data as RebalanceMessage[]).find(
-          (item) => item.symbol === 'GMCI30',
-        ) as RebalanceMessage
-        return []
+        const result = (message.data as RebalanceMessage[]).map((item) => ({
+          params: { index: item.symbol, type: 'rebalance_status' },
+          response: {
+            result: 0,
+            data: {
+              status: item.status,
+              end_time: item.end_time,
+              start_time: item.start_time,
+              symbol: item.symbol,
+            },
+          },
+        }))
+
+        return result
       } else {
         return []
       }
@@ -87,4 +170,6 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       }
     },
   },
-})
+}
+
+export const transport = new GMCIWebsocketTransport(options)
