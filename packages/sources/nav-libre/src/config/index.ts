@@ -16,11 +16,17 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'An API endpoint for Data Provider',
     type: 'string',
-    default: 'https://api.navfundservices.com/',
+    default: 'https://api.navfundservices.com',
   },
   MAX_RETRIES: {
     description: 'Maximum attempts of sending a request',
     type: 'number',
     default: 3,
+  },
+  BACKGROUND_EXECUTE_MS: {
+    description:
+      'The amount of time the background execute should sleep before performing the next request',
+    type: 'number',
+    default: 120_000, // one call per two minute
   },
 })

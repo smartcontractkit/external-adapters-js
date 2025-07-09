@@ -1,8 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import dayjs from 'dayjs'
 import { config } from '../config'
-import { httpTransport } from '../transport/nav'
+import { navLibreTransport } from '../transport/nav'
 
 export const inputParameters = new InputParameters(
   {
@@ -11,24 +10,10 @@ export const inputParameters = new InputParameters(
       type: 'number',
       description: 'The global fund ID for the Libre fund',
     },
-    fromDate: {
-      required: false,
-      type: 'string',
-      description: 'Start date in MM-DD-YYYY format (defaults to 7 days ago)',
-      default: dayjs().subtract(7, 'day').format('MM-DD-YYYY'),
-    },
-    toDate: {
-      required: false,
-      type: 'string',
-      description: 'End date in MM-DD-YYYY format (defaults to today)',
-      default: dayjs().format('MM-DD-YYYY'),
-    },
   },
   [
     {
-      globalFundID: 139767,
-      fromDate: '12-30-2024',
-      toDate: '01-15-2025',
+      globalFundID: 1234,
     },
   ],
 )
@@ -47,7 +32,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'nav',
-  aliases: [],
-  transport: httpTransport,
+  transport: navLibreTransport,
   inputParameters,
 })
