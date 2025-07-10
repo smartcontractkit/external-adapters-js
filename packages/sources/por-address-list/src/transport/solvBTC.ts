@@ -34,6 +34,7 @@ export const solvHttpTransport = new HttpTransport<HttpTransportTypes>({
           case 'BBN':
             return config.SOLVBTC_BBN_API_ENDPOINT
           case 'ENA':
+            return config.SOLVBTC_ENA_API_ENDPOINT
           case 'TRADING':
             return config.SOLVBTC_TRADING_API_ENDPOINT
           case 'CORE':

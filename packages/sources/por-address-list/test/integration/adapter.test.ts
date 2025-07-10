@@ -2,12 +2,14 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as nock from 'nock'
 import { ethers } from 'ethers'
+import * as nock from 'nock'
 import {
   mockBedRockResponseSuccess,
   mockCoinbaseResponseSuccess,
+  mockSolvJupResponseSuccess,
   mockSolvResponseSuccess,
+  mockSolvTypeResponseSuccess,
   mockZeusResponseSuccess,
 } from './fixtures-api'
 
@@ -64,6 +66,11 @@ describe('execute', () => {
     process.env.BEDROCK_UNIBTC_API_ENDPOINT = 'http://bedrock'
     process.env.COINBASE_CBBTC_API_ENDPOINT = 'http://coinbase'
     process.env.SOLVBTC_API_ENDPOINT = 'http://solv'
+    process.env.SOLVBTC_BBN_API_ENDPOINT = 'http://solv-bbn'
+    process.env.SOLVBTC_ENA_API_ENDPOINT = 'http://solv-ena'
+    process.env.SOLVBTC_TRADING_API_ENDPOINT = 'http://solv-trading'
+    process.env.SOLVBTC_CORE_API_ENDPOINT = 'http://solv-core'
+    process.env.SOLVBTC_JUP_API_ENDPOINT = 'http://solv-jup'
     process.env.BACKGROUND_EXECUTE_MS = '0'
     process.env.RATE_LIMIT_CAPACITY_SECOND = '500'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -135,6 +142,65 @@ describe('execute', () => {
         endpoint: 'solvBtcAddress',
       }
       mockSolvResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('solv BBN should return success', async () => {
+      const type = 'BBN'
+      const data = {
+        endpoint: 'solvBtcAddress',
+        type,
+      }
+      mockSolvTypeResponseSuccess(type)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('solv ENA should return success', async () => {
+      const type = 'ENA'
+      const data = {
+        endpoint: 'solvBtcAddress',
+        type,
+      }
+      mockSolvTypeResponseSuccess(type)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('solv TRADING should return success', async () => {
+      const type = 'TRADING'
+      const data = {
+        endpoint: 'solvBtcAddress',
+        type,
+      }
+      mockSolvTypeResponseSuccess(type)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('solv CORE should return success', async () => {
+      const type = 'CORE'
+      const data = {
+        endpoint: 'solvBtcAddress',
+        type,
+      }
+      mockSolvTypeResponseSuccess(type)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('solv JUP should return success', async () => {
+      const data = {
+        endpoint: 'solvBtcAddress',
+        type: 'JUP',
+      }
+      mockSolvJupResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
