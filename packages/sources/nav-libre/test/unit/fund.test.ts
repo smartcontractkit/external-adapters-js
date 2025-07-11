@@ -17,7 +17,11 @@ describe('getFund', () => {
   let getRequestHeadersStub: jest.SpyInstance
   beforeEach(() => {
     jest.clearAllMocks()
-    getRequestHeadersStub = jest.spyOn(authModule, 'getRequestHeaders').mockReturnValue({})
+    getRequestHeadersStub = jest.spyOn(authModule, 'getRequestHeaders').mockReturnValue({
+      'x-date': 'dummy',
+      'x-content-sha256': 'dummy',
+      'x-hmac256-signature': 'dummy',
+    })
   })
 
   afterEach(() => {
