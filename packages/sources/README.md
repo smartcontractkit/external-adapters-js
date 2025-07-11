@@ -102,6 +102,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [harris-and-trotter](./harris-and-trotter/README.md)
 - [hashnote](./hashnote/README.md)
 - [icap](./icap/README.md)
+- [ice](./ice/README.md)
 - [iex-cloud](./iex-cloud/README.md)
 - [ignition-address-list](./ignition-address-list/README.md)
 - [instruxi-sxt](./instruxi-sxt/README.md)
