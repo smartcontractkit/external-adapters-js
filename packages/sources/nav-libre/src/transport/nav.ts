@@ -8,7 +8,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { clampToBusinessWindow, parseDateString, toDateString } from './date-utils'
+import { clampStartByBusinessDays, parseDateString, toDateString } from './date-utils'
 const logger = makeLogger('NavLibreTransport')
 
 type RequestParams = typeof inputParameters.validated
@@ -69,7 +69,7 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
     )
     let from = parseDateString(FromDate)
     const to = parseDateString(ToDate)
-    from = clampToBusinessWindow(from, to)
+    from = clampStartByBusinessDays(from, to)
 
     logger.debug(`Fetching NAV for globalFundID: ${param.globalFundID} from ${from} to ${to}`)
     const fund = await getFund(
@@ -82,20 +82,23 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
       this.requester,
     )
 
+    const ACCOUNTING_DATE_KEY = 'Accounting Date'
+    const NAV_PER_SHARE_KEY = 'NAV Per Share'
     // Find the latest NAV entry by Accounting Date
-    const latest = fund.reduce((a, b) => {
-      return new Date(a['Accounting Date']) > new Date(b['Accounting Date']) ? a : b
-    })
-    const [month, day, year] = latest['Accounting Date'].split('-').map(Number)
+    const latest = fund.reduce((latestRow, row) =>
+      parseDateString(row[ACCOUNTING_DATE_KEY]) > parseDateString(latestRow[ACCOUNTING_DATE_KEY])
+        ? row
+        : latestRow,
+    )
     // Assumes UTC
-    const providerIndicatedTimeUnixMs = Date.UTC(year, month - 1, day) // month is 0-based
+    const providerIndicatedTimeUnixMs = parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime()
     return {
       statusCode: 200,
-      result: latest['NAV Per Share'],
+      result: latest[NAV_PER_SHARE_KEY],
       data: {
         globalFundID: param.globalFundID,
-        navPerShare: latest['NAV Per Share'],
-        navDate: latest['Accounting Date'],
+        navPerShare: latest[NAV_PER_SHARE_KEY],
+        navDate: latest[ACCOUNTING_DATE_KEY],
       },
       timestamps: {
         providerDataRequestedUnixMs,

@@ -33,7 +33,7 @@ export const getFund = async (
   apiKey: string,
   secret: string,
   requester: Requester,
-) => {
+): Promise<FundResponse['Data']> => {
   const method = 'GET'
   const url = `/navapigateway/api/v1/FundAccountingData/GetOfficialNAVAndPerformanceReturnsForFund?globalFundID=${globalFundID}&fromDate=${fromDate}&toDate=${toDate}`
   // Body is empy for GET

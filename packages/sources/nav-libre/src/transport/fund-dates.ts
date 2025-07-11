@@ -2,7 +2,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { getRequestHeaders } from './authentication'
 
-interface FundDatesResponse {
+export interface FundDatesResponse {
   LogID: number
   FromDate: string
   ToDate: string
@@ -14,7 +14,7 @@ export const getFundDates = async (
   apiKey: string,
   secret: string,
   requester: Requester,
-) => {
+): Promise<FundDatesResponse> => {
   const method = 'GET'
   const url = `/navapigateway/api/v1/ClientMasterData/GetAccountingDataDates?globalFundID=${globalFundID}`
   const requestConfig = {

@@ -13,11 +13,11 @@ export function parseDateString(dateStr: string): Date {
   if (!isValid(parsed)) {
     throw new Error(`date must be in ${DATE_FORMAT} format: got "${dateStr}"`)
   }
-  return parsed
+  return new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()))
 }
 
-/** Ensure the window is <= N business days. Returns the (possibly adjusted) from-date. */
-export function clampToBusinessWindow(
+/** Returns a start date that is at most `maxBusinessDays` before `endDate`. */
+export function clampStartByBusinessDays(
   from: Date,
   to: Date,
   maxBusinessDays = MAX_BUSINESS_DAYS,
