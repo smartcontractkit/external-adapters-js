@@ -174,6 +174,136 @@ exports[`execute apiAddress endpoint coinbase BTC should return success 1`] = `
 }
 `;
 
+exports[`execute apiAddress endpoint solv BBN should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "bbn_s_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bbn_s_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1609499471112,
+  },
+}
+`;
+
+exports[`execute apiAddress endpoint solv CORE should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "core_s_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "core_s_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1609499471112,
+  },
+}
+`;
+
+exports[`execute apiAddress endpoint solv ENA should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "ena_s_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "ena_s_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1609499471112,
+  },
+}
+`;
+
+exports[`execute apiAddress endpoint solv JUP should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "jup_s_1",
+        "chainId": "solv",
+        "network": "ceffu",
+      },
+      {
+        "address": "jup_s_2",
+        "chainId": "solv",
+        "network": "ceffu",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1609499471112,
+  },
+}
+`;
+
+exports[`execute apiAddress endpoint solv TRADING should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "trading_s_1",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "trading_s_2",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1609499471112,
+  },
+}
+`;
+
 exports[`execute apiAddress endpoint solv should return success 1`] = `
 {
   "data": {

@@ -261,6 +261,86 @@ export const mockSolvResponseSuccess = (): nock.Scope =>
     )
     .persist()
 
+export const mockSolvTypeResponseSuccess = (solvType: string): nock.Scope => {
+  const solvTypeLower = solvType.toLowerCase()
+  return nock(`http://solv-${solvTypeLower}`, {
+    encodedQueryParams: true,
+  })
+    .get('/')
+    .reply(
+      200,
+      () => ({
+        accountName: solvTypeLower,
+        result: [
+          {
+            id: 0,
+            address: `${solvTypeLower}_s_1`,
+            symbol: 'BTC',
+            addressType: 'type_1',
+            walletName: 'name_1',
+          },
+          {
+            id: 1,
+            address: `${solvTypeLower}_s_2`,
+            symbol: 'BTC',
+            addressType: 'type_2',
+            walletName: 'name_2',
+          },
+        ],
+        count: 2,
+        lastUpdatedAt: '2021-01-01T11:11:11.112Z',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+}
+
+export const mockSolvJupResponseSuccess = (): nock.Scope =>
+  nock(`http://solv-jup`, {
+    encodedQueryParams: true,
+  })
+    .get('/')
+    .reply(
+      200,
+      () => ({
+        accountName: 'SolvBTC.JUP',
+        result: [
+          {
+            id: 0,
+            mirrorXLinkId: `jup_s_1`,
+            label: 'label_1',
+          },
+          {
+            id: 1,
+            mirrorXLinkId: `jup_s_2`,
+            label: 'label_2',
+          },
+        ],
+        count: 2,
+        lastUpdatedAt: '2021-01-01T11:11:11.112Z',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+
 export const mockBaseContractCallResponseSuccess = (): nock.Scope =>
   nock('http://localhost-base:8080')
     .persist()

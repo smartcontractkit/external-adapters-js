@@ -10,7 +10,7 @@ export const inputParameters = new InputParameters(
   {
     type: {
       description: 'The type of bitcoin which we are fetching addresses for',
-      options: ['BTC', 'BBN', 'ENA', 'CORE', 'JUP'],
+      options: ['BTC', 'BBN', 'ENA', 'CORE', 'JUP', 'TRADING'],
       type: 'string',
       default: 'BTC',
     },

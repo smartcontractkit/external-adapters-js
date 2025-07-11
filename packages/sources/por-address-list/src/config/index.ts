@@ -45,9 +45,14 @@ export const config = new AdapterConfig({
     default: 'https://por.sft-api.com/x-solv-btc-addresses.json',
   },
   SOLVBTC_ENA_API_ENDPOINT: {
-    description: 'An API endpoint for SolvBTC.ENA native BTC wallet address',
+    description: 'An API endpoint for SolvBTC.ENA native BTC wallet address. Deprecated',
     type: 'string',
     default: 'https://por.sft-api.com/solv-btc-ena-addresses.json',
+  },
+  SOLVBTC_TRADING_API_ENDPOINT: {
+    description: 'An API endpoint for SolvBTC.TRADING native BTC wallet address',
+    type: 'string',
+    default: 'https://por.sft-api.com/solv-btc-trading-addresses.json',
   },
   SOLVBTC_CORE_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.CORE native BTC wallet address',
