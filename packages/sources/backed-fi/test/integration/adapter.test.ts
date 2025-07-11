@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseFailure, mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -12,7 +12,6 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -35,14 +34,25 @@ describe('execute', () => {
   describe('multiplier endpoint', () => {
     it('should return success', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
+        tokenSymbol: 'METAx',
+        network: 'Arbitrum',
         endpoint: 'multiplier',
-        transport: 'rest',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return failure - invalid network', async () => {
+      const data = {
+        tokenSymbol: 'METAx',
+        network: 'Ethereum',
+        endpoint: 'multiplier',
+      }
+      mockResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })

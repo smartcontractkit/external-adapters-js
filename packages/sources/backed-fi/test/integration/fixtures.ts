@@ -1,22 +1,51 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://dataproviderapi.com', {
+  nock('https://api.backed.fi/api/v1/token', {
     encodedQueryParams: true,
   })
-    .get('/cryptocurrency/price')
-    .query({
-      symbol: 'ETH',
-      convert: 'USD',
-    })
-    .reply(200, () => ({ ETH: { price: 10000 } }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .get('/METAx/multiplier?network=Arbitrum')
+    .reply(
+      200,
+      () => ({
+        activationDateTime: 0,
+        currentMultiplier: 1,
+        newMultiplier: 0,
+        reason: null,
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+
+export const mockResponseFailure = (): nock.Scope =>
+  nock('https://api.backed.fi/api/v1/token', {
+    encodedQueryParams: true,
+  })
+    .get('/METAx/multiplier?network=Ethereum')
+    .reply(
+      200,
+      () => ({
+        error: 'Something went wrong',
+        message: "Cannot read properties of undefined (reading 'multiplier')",
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .persist()

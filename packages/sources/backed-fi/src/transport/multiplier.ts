@@ -6,6 +6,8 @@ export interface ResponseSchema {
   currentMultiplier: number
   newMultiplier: number
   reason: string | null
+  error: string
+  message: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -40,13 +42,25 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
+    if (response.data.error) {
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage: response.data.message,
+            statusCode: 502,
+          },
+        }
+      })
+    }
+
     return params.map((param) => {
       const result = response.data.currentMultiplier
       return {
         params: param,
         response: {
-          result,
-          data: { ...response.data },
+          result: result,
+          data: response.data,
         },
       }
     })
