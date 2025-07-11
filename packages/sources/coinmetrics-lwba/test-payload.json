@@ -1,0 +1,9 @@
+{
+    "requests": [
+        {
+            "from": "ETH",
+            "to": "USD",
+            "endpoint": "crypto-lwba"
+        }
+    ]
+}
