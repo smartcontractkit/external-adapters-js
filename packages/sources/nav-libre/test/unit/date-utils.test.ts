@@ -31,7 +31,7 @@ describe('date-utils', () => {
     })
   })
 
-  describe('clampToBusinessWindow', () => {
+  describe('clampStartByBusinessDays', () => {
     const to = parse('07-15-2025', DATE_FORMAT, new Date())
 
     it('returns the original from date when within the limit', () => {
