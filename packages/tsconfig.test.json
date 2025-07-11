@@ -429,6 +429,9 @@
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
+      "path": "./sources/ice/tsconfig.test.json"
+    },
+    {
       "path": "./sources/iex-cloud/tsconfig.test.json"
     },
     {

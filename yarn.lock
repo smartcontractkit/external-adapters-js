@@ -4462,6 +4462,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/ice-adapter@workspace:packages/sources/ice":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ice-adapter@workspace:packages/sources/ice"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    mock-xmlhttprequest: "npm:8.4.1"
+    tslib: "npm:^2.8.0"
+    typescript: "npm:5.8.3"
+    xmlhttprequest: "npm:1.8.0"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/iex-cloud-adapter@workspace:packages/sources/iex-cloud"
@@ -25634,6 +25648,13 @@ __metadata:
   version: 9.3.1
   resolution: "mock-socket@npm:9.3.1"
   checksum: 10/c5c07568f2859db6926d79cb61580c07e67958b5cd6b52d1270fdfa17ae066d7f74a18a4208fc4386092eea4e1ee001aa23f015c88a1774265994e4fae34d18e
+  languageName: node
+  linkType: hard
+
+"mock-xmlhttprequest@npm:8.4.1":
+  version: 8.4.1
+  resolution: "mock-xmlhttprequest@npm:8.4.1"
+  checksum: 10/60b2a13eb50f24694b6e0e9a660928c09b81fe6f9c9df70fedf8de8ae5deaa1993a52b75e29613daf24356591497584f11b4d99f8224680e60163bc6fe9ae6ca
   languageName: node
   linkType: hard
 
