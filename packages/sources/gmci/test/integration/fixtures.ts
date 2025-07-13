@@ -3,7 +3,7 @@ import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/
 export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.on('message', (message) => {
+    socket.on('message', () => {
       socket.send(
         JSON.stringify({
           op: 'subscribe',
