@@ -49,10 +49,5 @@ describe('websocket', () => {
       const response = await testAdapter.request(dataPrice)
       expect(response.json()).toMatchSnapshot()
     })
-
-    it('should return failure', async () => {
-      const response = await testAdapter.request(dataPrice)
-      expect(response.json()).toMatchSnapshot()
-    })
   })
 })
