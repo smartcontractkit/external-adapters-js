@@ -256,3 +256,44 @@ export const mockEmgemxResponseRipcordFailure = (): nock.Scope =>
       timestamp: '2025-05-23T13:45:17.250Z',
     })
     .persist()
+
+export const mockUraniumResponseSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/uranium-digital-qohmmjqaf4jk')
+    .reply(200, {
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: false,
+      ripcordDetails: [],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
+
+export const mockUraniumResponseRipcordSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/uranium-digital-qohmmjqaf4jk')
+    .reply(200, {
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: true,
+      ripcordDetails: ['Integrations'],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
+
+export const mockUraniumResponseFailure = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/uranium-digital-qohmmjqaf4jk')
+    .reply(200, {
+      totalToken: null,
+      ripcord: true,
+      ripcordDetails: ['Integrations'],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()

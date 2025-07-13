@@ -14,7 +14,7 @@ exports[`execute backed endpoint when ripcord true should return error 1`] = `
 }
 `;
 
-exports[`execute emgemx endpoint when ripcord true  should return error 1`] = `
+exports[`execute emgemx endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
   "ripcord": true,
@@ -28,7 +28,7 @@ exports[`execute emgemx endpoint when ripcord true  should return error 1`] = `
 }
 `;
 
-exports[`execute eurr endpoint when ripcord true  should return error 1`] = `
+exports[`execute eurr endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
   "ripcord": true,
@@ -42,7 +42,7 @@ exports[`execute eurr endpoint when ripcord true  should return error 1`] = `
 }
 `;
 
-exports[`execute gift endpoint when ripcord true  should return error 1`] = `
+exports[`execute gift endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
   "ripcord": true,
@@ -56,7 +56,7 @@ exports[`execute gift endpoint when ripcord true  should return error 1`] = `
 }
 `;
 
-exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
+exports[`execute stbt endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
   "ripcord": true,
@@ -70,7 +70,24 @@ exports[`execute stbt endpoint when ripcord true  should return error 1`] = `
 }
 `;
 
-exports[`execute usdr endpoint when ripcord true  should return error 1`] = `
+exports[`execute uranium endpoint when ripcord true should succeed 1`] = `
+{
+  "data": {
+    "result": 1000000,
+    "ripcord": true,
+    "ripcordAsInt": 1,
+  },
+  "result": 1000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
+exports[`execute usdr endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
   "ripcord": true,

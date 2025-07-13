@@ -426,7 +426,13 @@
       "path": "./sources/harris-and-trotter"
     },
     {
+      "path": "./sources/hashnote"
+    },
+    {
       "path": "./sources/icap"
+    },
+    {
+      "path": "./sources/ice"
     },
     {
       "path": "./sources/iex-cloud"
@@ -532,6 +538,9 @@
     },
     {
       "path": "./sources/onchain-gas"
+    },
+    {
+      "path": "./sources/onre"
     },
     {
       "path": "./sources/openexchangerates"
@@ -673,6 +682,9 @@
     },
     {
       "path": "./sources/wbtc-address-set"
+    },
+    {
+      "path": "./sources/wisdomtree"
     },
     {
       "path": "./sources/wootrade"

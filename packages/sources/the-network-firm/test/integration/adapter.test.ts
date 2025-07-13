@@ -1,6 +1,6 @@
 import {
-  TestAdapter,
   setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
@@ -10,6 +10,8 @@ import {
   mockGiftResponseSuccess,
   mockMCO2Response,
   mockSTBTResponseSuccess,
+  mockUraniumResponseFailure,
+  mockUraniumResponseSuccess,
   mockUSDRResponseSuccess,
 } from './fixtures'
 
@@ -25,12 +27,26 @@ describe('execute', () => {
 
     process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
     process.env.EMGEMX_API_KEY = 'api-key'
+    process.env.URANIUM_API_KEY = 'api-key'
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
+  })
+
+  afterEach(() => {
+    nock.cleanAll()
+
+    // clear EA cache
+    const keys = testAdapter.mockCache?.cache.keys()
+    if (!keys) {
+      throw new Error('unexpected failure 1')
+    }
+    for (const key of keys) {
+      testAdapter.mockCache?.delete(key)
+    }
   })
 
   afterAll(async () => {
@@ -135,6 +151,29 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('uranium endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'uranium',
+      }
+      mockUraniumResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should fail', async () => {
+      const data = {
+        endpoint: 'uranium',
+      }
+      mockUraniumResponseFailure()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })
