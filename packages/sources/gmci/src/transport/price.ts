@@ -54,7 +54,7 @@ export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes>
           calculateCacheKey({
             transportName: this.name,
             data: { index: data.symbol, type: 'price' },
-            adapterName: 'GMCI',
+            adapterName: adapter.name,
             endpointName: 'price',
             adapterSettings: config.settings,
           }),
@@ -91,7 +91,7 @@ export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes>
             calculateCacheKey({
               transportName: this.name,
               data: { index: parsed.data[0].symbol },
-              adapterName: 'GMCI',
+              adapterName: adapter.name,
               endpointName: 'price',
               adapterSettings: config.settings,
             }),
