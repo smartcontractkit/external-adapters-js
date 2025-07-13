@@ -5,6 +5,7 @@ import {
   WebSocketTransport,
   WebSocketTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
+import { adapter } from '..'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { convertTimetoUnixMs } from './util'
@@ -63,7 +64,7 @@ export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes>
           calculateCacheKey({
             transportName: this.name,
             data: { index: data.symbol, type: 'rebalance_status' },
-            adapterName: 'GMCI',
+            adapterName: adapter.name,
             endpointName: 'price',
             adapterSettings: config.settings,
           }),
@@ -75,7 +76,13 @@ export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes>
             response: {
               statusCode: 200,
               result: Number(price_data.result),
-              data: { ...rebalance_data.data, result: price_data.result },
+              data: {
+                status: rebalance_data.data?.status ?? '',
+                end_time: rebalance_data.data?.end_time ?? '',
+                start_time: rebalance_data.data?.start_time ?? '',
+                symbol: rebalance_data.data?.symbol ?? '',
+                result: Number(price_data?.result),
+              },
               timestamps: price_data.timestamps,
             },
           }
@@ -120,6 +127,10 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
             result: item.price,
             data: {
               result: item.price,
+              status: '',
+              end_time: '',
+              start_time: '',
+              symbol: item.symbol,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: convertTimetoUnixMs(item.last_updated),
@@ -138,6 +149,7 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
               end_time: item.end_time,
               start_time: item.start_time,
               symbol: item.symbol,
+              result: 0,
             },
           },
         }))
