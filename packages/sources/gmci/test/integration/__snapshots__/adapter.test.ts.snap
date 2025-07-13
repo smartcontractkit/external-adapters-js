@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint should return success 1`] = `
+{
+  "data": {
+    "end_time": "2025-07-25T16:30:00Z",
+    "result": 183.7141917913536,
+    "start_time": "2025-07-25T15:30:00Z",
+    "status": "rebalanced",
+    "symbol": "GMCI30",
+  },
+  "result": 183.7141917913536,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1752394072746,
+  },
+}
+`;

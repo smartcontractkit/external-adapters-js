@@ -15,10 +15,7 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const dataPrice = {
-    base: 'ETH',
-    quote: 'USD',
-    endpoint: 'price',
-    transport: 'ws',
+    index: 'GMCI30',
   }
 
   beforeAll(async () => {
@@ -49,6 +46,11 @@ describe('websocket', () => {
 
   describe('price endpoint', () => {
     it('should return success', async () => {
+      const response = await testAdapter.request(dataPrice)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return failure', async () => {
       const response = await testAdapter.request(dataPrice)
       expect(response.json()).toMatchSnapshot()
     })
