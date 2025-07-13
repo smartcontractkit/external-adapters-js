@@ -408,6 +408,9 @@
       "path": "./sources/gmci"
     },
     {
+      "path": "./sources/gmci"
+    },
+    {
       "path": "./sources/google-bigquery"
     },
     {
