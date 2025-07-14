@@ -429,6 +429,9 @@
       "path": "./sources/icap"
     },
     {
+      "path": "./sources/ice"
+    },
+    {
       "path": "./sources/iex-cloud"
     },
     {
