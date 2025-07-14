@@ -4,7 +4,8 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.backed.fi/api/v1/token', {
     encodedQueryParams: true,
   })
-    .get('/METAx/multiplier?network=Arbitrum')
+    .get('/METAx/multiplier')
+    .query({ network: 'Arbitrum' })
     .reply(
       200,
       () => ({

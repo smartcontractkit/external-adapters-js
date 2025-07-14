@@ -23,8 +23,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `${param.tokenSymbol}/multiplier?network=${param.network}`,
-          params: {},
+          url: `${param.tokenSymbol}/multiplier`,
+          params: {
+            network: param.network,
+          },
         },
       }
     })
