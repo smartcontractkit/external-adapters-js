@@ -1,4 +1,3 @@
-// import WebSocket from 'ws'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { calculateCacheKey } from '@chainlink/external-adapter-framework/cache'
 import {
