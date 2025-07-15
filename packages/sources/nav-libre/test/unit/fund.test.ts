@@ -33,15 +33,15 @@ describe('getFund', () => {
         data: { Data: mockResponse },
       },
     })
-    const result = await getFund(
-      123,
-      '01-01-2000',
-      '01-05-2000',
-      'http://base',
-      'apiKey',
-      'secret',
-      mockRequester,
-    )
+    const result = await getFund({
+      globalFundID: 123,
+      fromDate: '01-01-2000',
+      toDate: '01-05-2000',
+      baseURL: 'http://base',
+      apiKey: 'apiKey',
+      secret: 'secret',
+      requester: mockRequester,
+    })
     expect(result).toEqual(mockResponse)
   })
 
@@ -50,7 +50,15 @@ describe('getFund', () => {
       response: { data: undefined },
     })
     await expect(
-      getFund(123, '01-01-2000', '01-05-2000', 'http://base', 'apiKey', 'secret', mockRequester),
+      getFund({
+        globalFundID: 123,
+        fromDate: '01-01-2000',
+        toDate: '01-05-2000',
+        baseURL: 'http://base',
+        apiKey: 'apiKey',
+        secret: 'secret',
+        requester: mockRequester,
+      }),
     ).rejects.toThrow()
   })
 })

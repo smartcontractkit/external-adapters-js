@@ -60,27 +60,36 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
     logger.debug(`Handling request for globalFundID: ${param.globalFundID}`)
-    const { FromDate, ToDate } = await getFundDates(
-      param.globalFundID,
-      this.config.API_ENDPOINT,
-      this.config.API_KEY,
-      this.config.SECRET_KEY,
-      this.requester,
-    )
-    let from = parseDateString(FromDate)
-    const to = parseDateString(ToDate)
-    from = clampStartByBusinessDays(from, to)
+    const { FromDate: earliestPossibleFromStr, ToDate: latestPossibleToStr } = await getFundDates({
+      globalFundID: param.globalFundID,
+      baseURL: this.config.API_ENDPOINT,
+      apiKey: this.config.API_KEY,
+      secret: this.config.SECRET_KEY,
+      requester: this.requester,
+    })
 
-    logger.debug(`Fetching NAV for globalFundID: ${param.globalFundID} from ${from} to ${to}`)
-    const fund = await getFund(
-      param.globalFundID,
-      toDateString(from),
-      toDateString(to),
-      this.config.API_ENDPOINT,
-      this.config.API_KEY,
-      this.config.SECRET_KEY,
-      this.requester,
+    const earliestPossibleFrom = parseDateString(earliestPossibleFromStr)
+    const latestPossibleTo = parseDateString(latestPossibleToStr)
+
+    // Clamp to trailing-7-business-days window
+    const preferredFrom = clampStartByBusinessDays(
+      earliestPossibleFrom,
+      latestPossibleTo,
+      7, // 7 business days
     )
+
+    logger.debug(
+      `Fetching NAV for globalFundID: ${param.globalFundID} from ${preferredFrom} to ${latestPossibleTo}`,
+    )
+    const fund = await getFund({
+      globalFundID: param.globalFundID,
+      fromDate: toDateString(preferredFrom),
+      toDate: toDateString(latestPossibleTo),
+      baseURL: this.config.API_ENDPOINT,
+      apiKey: this.config.API_KEY,
+      secret: this.config.SECRET_KEY,
+      requester: this.requester,
+    })
 
     const ACCOUNTING_DATE_KEY = 'Accounting Date'
     const NAV_PER_SHARE_KEY = 'NAV Per Share'

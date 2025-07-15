@@ -20,7 +20,14 @@ describe('getFundDates', () => {
     mockRequester.request = jest.fn().mockResolvedValue({
       response: { data: mockResponse },
     })
-    const result = await getFundDates(123, 'http://base', 'apiKey', 'secret', mockRequester)
+    const result = await getFundDates({
+      globalFundID: 123,
+      baseURL: 'http://base',
+      apiKey: 'apiKey',
+      secret: 'secret',
+      requester: mockRequester,
+    })
+
     expect(result).toEqual(mockResponse)
   })
 
@@ -29,7 +36,13 @@ describe('getFundDates', () => {
       response: { data: undefined },
     })
     await expect(
-      getFundDates(123, 'http://base', 'apiKey', 'secret', mockRequester),
+      getFundDates({
+        globalFundID: 123,
+        baseURL: 'http://base',
+        apiKey: 'apiKey',
+        secret: 'secret',
+        requester: mockRequester,
+      }),
     ).rejects.toThrow()
   })
 })

@@ -25,15 +25,23 @@ interface FundResponse {
   }[]
 }
 
-export const getFund = async (
-  globalFundID: number,
-  fromDate: string,
-  toDate: string,
-  baseURL: string,
-  apiKey: string,
-  secret: string,
-  requester: Requester,
-): Promise<FundResponse['Data']> => {
+export const getFund = async ({
+  globalFundID,
+  fromDate,
+  toDate,
+  baseURL,
+  apiKey,
+  secret,
+  requester,
+}: {
+  globalFundID: number
+  fromDate: string
+  toDate: string
+  baseURL: string
+  apiKey: string
+  secret: string
+  requester: Requester
+}): Promise<FundResponse['Data']> => {
   const method = 'GET'
   const url = `/navapigateway/api/v1/FundAccountingData/GetOfficialNAVAndPerformanceReturnsForFund?globalFundID=${globalFundID}&fromDate=${fromDate}&toDate=${toDate}`
   // Body is empy for GET

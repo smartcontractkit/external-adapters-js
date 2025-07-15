@@ -8,17 +8,23 @@ export interface FundDatesResponse {
   ToDate: string
 }
 
-export const getFundDates = async (
-  globalFundID: number,
-  baseUrl: string,
-  apiKey: string,
-  secret: string,
-  requester: Requester,
-): Promise<FundDatesResponse> => {
+export const getFundDates = async ({
+  globalFundID,
+  baseURL,
+  apiKey,
+  secret,
+  requester,
+}: {
+  globalFundID: number
+  baseURL: string
+  apiKey: string
+  secret: string
+  requester: Requester
+}): Promise<FundDatesResponse> => {
   const method = 'GET'
   const url = `/navapigateway/api/v1/ClientMasterData/GetAccountingDataDates?globalFundID=${globalFundID}`
   const requestConfig = {
-    baseURL: baseUrl,
+    baseURL: baseURL,
     url: url,
     method: method,
     headers: getRequestHeaders(method, url, '', apiKey, secret),
