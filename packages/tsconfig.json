@@ -168,6 +168,9 @@
       "path": "./sources/avalanche-platform"
     },
     {
+      "path": "./sources/backed-fi"
+    },
+    {
       "path": "./sources/bank-frick"
     },
     {
