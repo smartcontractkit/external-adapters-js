@@ -251,6 +251,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/avalanche-platform"\
     },\
     {\
+      "name": "@chainlink/backed-fi-adapter",\
+      "reference": "workspace:packages/sources/backed-fi"\
+    },\
+    {\
       "name": "@chainlink/bank-frick-adapter",\
       "reference": "workspace:packages/sources/bank-frick"\
     },\
@@ -986,6 +990,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
+    ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
@@ -5367,6 +5372,21 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/avalanche-platform/",\
         "packageDependencies": [\
           ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/backed-fi-adapter", [\
+      ["workspace:packages/sources/backed-fi", {\
+        "packageLocation": "./packages/sources/backed-fi/",\
+        "packageDependencies": [\
+          ["@chainlink/backed-fi-adapter", "workspace:packages/sources/backed-fi"],\
           ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
