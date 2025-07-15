@@ -8,6 +8,14 @@ export const adapter = new Adapter({
   name: 'BACKED_FI',
   config,
   endpoints: [multiplier],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 6,
+        note: 'Setting reasonable default limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

@@ -31,7 +31,8 @@ export const mockResponseFailure = (): nock.Scope =>
   nock('https://api.backed.fi/api/v1/token', {
     encodedQueryParams: true,
   })
-    .get('/METAx/multiplier?network=Ethereum')
+    .get('/METAx/multiplier')
+    .query({ network: 'Ethereum' })
     .reply(
       200,
       () => ({
