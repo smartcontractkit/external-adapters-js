@@ -1,5 +1,4 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import * as authModule from '../../src/transport/authentication'
 import { getFund } from '../../src/transport/fund'
 
 describe('getFund', () => {
@@ -14,19 +13,10 @@ describe('getFund', () => {
     },
   ]
 
-  let getRequestHeadersStub: jest.SpyInstance
   beforeEach(() => {
     jest.clearAllMocks()
-    getRequestHeadersStub = jest.spyOn(authModule, 'getRequestHeaders').mockReturnValue({
-      'x-date': 'dummy',
-      'x-content-sha256': 'dummy',
-      'x-hmac256-signature': 'dummy',
-    })
   })
 
-  afterEach(() => {
-    getRequestHeadersStub.mockRestore()
-  })
   it('returns fund data on success', async () => {
     mockRequester.request = jest.fn().mockResolvedValue({
       response: {

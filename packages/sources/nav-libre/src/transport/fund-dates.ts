@@ -27,7 +27,13 @@ export const getFundDates = async ({
     baseURL: baseURL,
     url: url,
     method: method,
-    headers: getRequestHeaders(method, url, '', apiKey, secret),
+    headers: getRequestHeaders({
+      method: method,
+      path: url,
+      body: '',
+      apiKey: apiKey,
+      secret: secret,
+    }),
   }
 
   const sourceResponse = await requester.request<FundDatesResponse>(

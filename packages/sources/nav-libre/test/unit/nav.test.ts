@@ -20,7 +20,6 @@ const adapterSettings = makeStub('adapterSettings', {
   API_KEY: 'apiKey',
   SECRET_KEY: 'secret',
   BACKGROUND_EXECUTE_MS: 0,
-  MAX_RETRIES: 3,
   WARMUP_SUBSCRIPTION_TTL: 10_000,
 } as unknown as BaseEndpointTypes['Settings'])
 
@@ -32,12 +31,6 @@ const dependencies = makeStub('dependencies', {
   responseCache,
   subscriptionSetFactory: { buildSet: jest.fn() },
 } as unknown as TransportDependencies<any>)
-
-beforeEach(async () => {
-  transport = new NavLibreTransport() as unknown as InstanceType<typeof NavLibreTransport>
-  await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
-  jest.resetAllMocks()
-})
 
 // helper to pull the cached response written in handleRequest
 const getCachedResponse = () => (responseCache.write.mock.calls[0][1] as any)[0].response
@@ -60,6 +53,12 @@ const FUND_RES = makeStub('fundRes', {
 })
 
 describe('NavLibreTransport – handleRequest', () => {
+  beforeEach(async () => {
+    transport = new NavLibreTransport() as unknown as InstanceType<typeof NavLibreTransport>
+    await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
+    jest.resetAllMocks()
+  })
+
   it('returns latest NAV and writes to cache', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
     requester.request.mockResolvedValueOnce(FUND_RES)
@@ -85,17 +84,21 @@ describe('NavLibreTransport – handleRequest', () => {
         providerIndicatedTimeUnixMs: expect.any(Number),
       }),
     })
+    expect(requester.request).toHaveBeenNthCalledWith(
+      1,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('/GetAccountingDataDates'),
+      }),
+    )
 
-    expect(requester.request).toHaveBeenCalledTimes(2)
-    const fundDatesCall = requester.request.mock.calls[0]
-    expect(fundDatesCall[1]).toMatchObject({
-      url: expect.stringContaining('/GetAccountingDataDates'),
-    })
-
-    const fundCall = requester.request.mock.calls[1]
-    expect(fundCall[1]).toMatchObject({
-      url: expect.stringContaining('/GetOfficialNAVAndPerformanceReturnsForFund'),
-    })
+    expect(requester.request).toHaveBeenNthCalledWith(
+      2,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('/GetOfficialNAVAndPerformanceReturnsForFund'),
+      }),
+    )
   })
 
   it('maps downstream AdapterError to 502 response', async () => {
@@ -129,8 +132,13 @@ describe('NavLibreTransport – handleRequest', () => {
 
     await transport.handleRequest({ adapterSettings } as any, param)
 
-    const fundCallCfg = requester.request.mock.calls[1][1]
-    expect(fundCallCfg.url).toContain('fromDate=06-28-2025')
+    expect(requester.request).toHaveBeenNthCalledWith(
+      2,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('fromDate=06-28-2025'),
+      }),
+    )
   })
 
   it('caches 400 when Fund rows are empty', async () => {

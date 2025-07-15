@@ -44,14 +44,18 @@ export const getFund = async ({
 }): Promise<FundResponse['Data']> => {
   const method = 'GET'
   const url = `/navapigateway/api/v1/FundAccountingData/GetOfficialNAVAndPerformanceReturnsForFund?globalFundID=${globalFundID}&fromDate=${fromDate}&toDate=${toDate}`
-  // Body is empy for GET
-  const body = ''
 
   const requestConfig = {
     baseURL: baseURL,
     url: url,
     method: method,
-    headers: getRequestHeaders(method, url, body, apiKey, secret),
+    headers: getRequestHeaders({
+      method: method,
+      path: url,
+      body: '',
+      apiKey: apiKey,
+      secret: secret,
+    }),
   }
 
   const response = await requester.request<FundResponse>(
