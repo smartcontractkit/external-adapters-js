@@ -49,5 +49,24 @@ describe('websocket', () => {
       const response = await testAdapter.request(dataPrice)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should receive a price message and update cache', async () => {
+      // Send adapter HTTP request
+      const response = await testAdapter.request(dataPrice)
+
+      expect(response.statusCode).toBe(200)
+      const json = response.json()
+      expect(json.data.result).toBe(183.7141917913536)
+      expect(json.result).toBe(183.7141917913536)
+      expect(json.timestamps.providerIndicatedTimeUnixMs).toBe(1752394072746)
+    })
+
+    it('should receive a rebalance_status message and update cache', async () => {
+      const response = await testAdapter.request(dataPrice)
+      const json = response.json()
+      expect(json.data.status).toBe('rebalanced')
+      expect(json.data.start_time).toBe('2025-07-25T15:30:00Z')
+      expect(json.data.end_time).toBe('2025-07-25T16:30:00Z')
+    })
   })
 })
