@@ -426,7 +426,13 @@
       "path": "./sources/harris-and-trotter/tsconfig.test.json"
     },
     {
+      "path": "./sources/hashnote/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/ice/tsconfig.test.json"
     },
     {
       "path": "./sources/iex-cloud/tsconfig.test.json"
@@ -532,6 +538,9 @@
     },
     {
       "path": "./sources/onchain-gas/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/onre/tsconfig.test.json"
     },
     {
       "path": "./sources/openexchangerates/tsconfig.test.json"
@@ -673,6 +682,9 @@
     },
     {
       "path": "./sources/wbtc-address-set/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/wisdomtree/tsconfig.test.json"
     },
     {
       "path": "./sources/wootrade/tsconfig.test.json"

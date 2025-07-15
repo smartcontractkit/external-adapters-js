@@ -1,34 +1,9 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/emgemx'
-
-export interface ResponseSchema {
-  totalReserve: string
-  totalToken: string
-  ripcord: boolean
-  ripcordDetails: string[]
-  timestamp: string
-}
-
-export type HttpTransportTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: ResponseSchema
-  }
-}
+import { HttpTransportTypes, prepareRequests } from './common'
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params, config) => {
-    return {
-      params,
-      request: {
-        baseURL: config.ALT_API_ENDPOINT,
-        url: '/emgemx-tdfkf3',
-        headers: {
-          apikey: config.EMGEMX_API_KEY,
-        },
-      },
-    }
-  },
+  prepareRequests: (params, config) =>
+    prepareRequests(params, config.ALT_API_ENDPOINT, '/emgemx-tdfkf3', config.EMGEMX_API_KEY),
   parseResponse: (params, response) => {
     return params.map((param) => {
       const timestamps = {
