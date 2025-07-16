@@ -113,7 +113,7 @@ export class Utils {
       }
       return urlObj.toString()
     } catch (e) {
-      throw new Error(`Invalid URL: ${url}. Cannot sanitize.`, e)
+      throw new Error(`Invalid URL: ${url}. Cannot sanitize.`)
     }
   }
 }
