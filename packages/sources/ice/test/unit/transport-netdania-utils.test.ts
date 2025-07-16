@@ -60,12 +60,21 @@ describe('PartialPriceUpdate', () => {
     )
   })
 
-  it('must sanitize a url by idempotently redacting the h parameter', () => {
-    expect(Utils.sanitize('https://example.com/path?h=12345&otherParam=value')).toBe(
-      'https://example.com/path?h=redacted&otherParam=value',
+  it('must sanitize a full url by idempotently redacting the h parameter', () => {
+    expect(Utils.sanitize('https://example.com/path?h=12345&otherParam=value&cb=?')).toBe(
+      'https://example.com/path?h=redacted&otherParam=value&cb=?',
     )
 
     const urlWithoutH = 'https://example.com/path?sessid=UP12345&otherParam=value'
+    expect(Utils.sanitize(urlWithoutH)).toBe(urlWithoutH)
+  })
+
+  it('must sanitize a partial url by idempotently redacting the h parameter', () => {
+    expect(Utils.sanitize('?xstream=1&v=5&dt=0&h=eyJnIjoiY2hhaW4ubGluayIsImFpIjoiTm9kZUpTQVBJdjEuNS4yIiwicHIiOjIsImF1IjoibG9jYWxob3N0OjgwODAiLCJxdXAiOjEsInAiOiJmYWtlLWFwaS1rZXkifQ..&xcmd=W3sidCI6MSwiaSI6MSwibSI6MSwicyI6IkVVUlVTRCIsInAiOiJpZGMifV0.&cb=?&ts=1752653143000')).toBe(
+      '?xstream=1&v=5&dt=0&h=redacted&xcmd=W3sidCI6MSwiaSI6MSwibSI6MSwicyI6IkVVUlVTRCIsInAiOiJpZGMifV0.&cb=?&ts=1752653143000',
+    )
+
+    const urlWithoutH = '?xstream=1&v=5&dt=0&xcmd=W3sidCI6MSwiaSI6MSwibSI6MSwicyI6IkVVUlVTRCIsInAiOiJpZGMifV0.&cb=?&ts=1752653143000'
     expect(Utils.sanitize(urlWithoutH)).toBe(urlWithoutH)
   })
 })
