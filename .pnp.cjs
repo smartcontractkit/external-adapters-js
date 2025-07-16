@@ -5783,7 +5783,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["https-proxy-agent", "npm:7.0.6"],\
           ["nock", "npm:13.5.6"],\
           ["query-string", "npm:9.1.2"],\
@@ -8628,7 +8628,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.3"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9119,7 +9119,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9349,7 +9349,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9365,7 +9365,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -22996,24 +22996,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.14.1", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-6.14.1-8cfd0fa935-20bd332bef.zip/node_modules/ethers/",\
+      ["npm:6.15.0", {\
+        "packageLocation": "./.yarn/cache/ethers-npm-6.15.0-f266964bbf-21ab1d31e1.zip/node_modules/ethers/",\
         "packageDependencies": [\
-          ["ethers", "npm:6.14.1"],\
-          ["@adraffy/ens-normalize", "npm:1.10.1"],\
-          ["@noble/curves", "npm:1.2.0"],\
-          ["@noble/hashes", "npm:1.3.2"],\
-          ["@types/node", "npm:22.7.5"],\
-          ["aes-js", "npm:4.0.0-beta.5"],\
-          ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:f6f30c4272f844f402d8d213d035455fc44a62513f59bd32b98e4d10a455319bfdb6af196858aad2a4a77298527df147593f20513687bbb4b6d88888784cc3b0#npm:8.17.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.14.3", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-6.14.3-629d34af0f-ce68b962f1.zip/node_modules/ethers/",\
-        "packageDependencies": [\
-          ["ethers", "npm:6.14.3"],\
+          ["ethers", "npm:6.15.0"],\
           ["@adraffy/ens-normalize", "npm:1.10.1"],\
           ["@noble/curves", "npm:1.2.0"],\
           ["@noble/hashes", "npm:1.3.2"],\
