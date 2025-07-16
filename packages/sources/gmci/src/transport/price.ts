@@ -68,41 +68,80 @@ export type WsTransportTypes = BaseEndpointTypes & {
 export class GmciWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
   price_cache = new LocalCache<CachedPriceResponse>(10)
   rebalance_status_cache = new LocalCache<CachedRebalanceResponse>(10)
-}
 
-export async function processMessage(symbols: Array<string>, transport: GmciWebsocketTransport) {
-  for (const symbol of symbols) {
-    const [cached_price_data, cached_rebalance_data] = await Promise.all([
-      transport.price_cache.get(symbol),
-      transport.rebalance_status_cache.get(symbol),
-    ])
-
-    if (cached_price_data != undefined && cached_rebalance_data != undefined) {
-      const now = Date.now()
-
-      const price_data = cached_price_data as CachedPriceResponse
-      const rebalance_data = cached_rebalance_data as CachedRebalanceResponse
-
-      const result: TimestampedProviderResult<WsTransportTypes> = {
-        params: { index: symbol },
-        response: {
-          result: price_data.response.result,
-          data: {
-            result: price_data.response.result,
-            status: rebalance_data.response.data.status,
-            end_time: rebalance_data.response.data.end_time,
-            start_time: rebalance_data.response.data.start_time,
-            symbol,
+  async processMessage(transport: GmciWebsocketTransport, message: WsResponse) {
+    if (message.topic === 'price') {
+      for (const item of message.data as PriceMessage[]) {
+        const result = {
+          params: { index: item.symbol, type: 'price' },
+          response: {
+            result: item.price,
+            data: {
+              result: item.price,
+              symbol: item.symbol,
+            },
+            timestamps: {
+              providerIndicatedTimeUnixMs: convertTimetoUnixMs(item.last_updated),
+            },
           },
-          timestamps: {
-            providerDataStreamEstablishedUnixMs: transport.providerDataStreamEstablished,
-            providerDataReceivedUnixMs: now,
-            providerIndicatedTimeUnixMs: price_data.response.timestamps.providerIndicatedTimeUnixMs,
-          },
-        },
+        }
+        transport.price_cache.set(item.symbol, result, 90000)
       }
+    } else if (message.topic === 'rebalance_status') {
+      for (const item of message.data as RebalanceMessage[]) {
+        const result = {
+          params: { index: item.symbol, type: 'rebalance_status' },
+          response: {
+            data: {
+              status: item.status,
+              end_time: item.end_time,
+              start_time: item.start_time,
+              symbol: item.symbol,
+            },
+          },
+        }
+        transport.rebalance_status_cache.set(item.symbol, result, 90000)
+      }
+    }
 
-      await transport.responseCache.write(transport.name, [result])
+    if (message.topic === 'price' || message.topic === 'rebalance_status') {
+      const symbols: Array<string> = (message.data as any[]).map((d) => d.symbol)
+
+      for (const symbol of symbols) {
+        const [cached_price_data, cached_rebalance_data] = await Promise.all([
+          transport.price_cache.get(symbol),
+          transport.rebalance_status_cache.get(symbol),
+        ])
+
+        if (cached_price_data != undefined && cached_rebalance_data != undefined) {
+          const now = Date.now()
+
+          const price_data = cached_price_data as CachedPriceResponse
+          const rebalance_data = cached_rebalance_data as CachedRebalanceResponse
+
+          const result: TimestampedProviderResult<WsTransportTypes> = {
+            params: { index: symbol },
+            response: {
+              result: price_data.response.result,
+              data: {
+                result: price_data.response.result,
+                status: rebalance_data.response.data.status,
+                end_time: rebalance_data.response.data.end_time,
+                start_time: rebalance_data.response.data.start_time,
+                symbol,
+              },
+              timestamps: {
+                providerDataStreamEstablishedUnixMs: transport.providerDataStreamEstablished,
+                providerDataReceivedUnixMs: now,
+                providerIndicatedTimeUnixMs:
+                  price_data.response.timestamps.providerIndicatedTimeUnixMs,
+              },
+            },
+          }
+
+          await transport.responseCache.write(transport.name, [result])
+        }
+      }
     }
   }
 }
@@ -121,44 +160,7 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
         return
       }
 
-      if (message.topic === 'price') {
-        for (const item of message.data as PriceMessage[]) {
-          const result = {
-            params: { index: item.symbol, type: 'price' },
-            response: {
-              result: item.price,
-              data: {
-                result: item.price,
-                symbol: item.symbol,
-              },
-              timestamps: {
-                providerIndicatedTimeUnixMs: convertTimetoUnixMs(item.last_updated),
-              },
-            },
-          }
-          transport.price_cache.set(item.symbol, result, 90000)
-        }
-      } else if (message.topic === 'rebalance_status') {
-        for (const item of message.data as RebalanceMessage[]) {
-          const result = {
-            params: { index: item.symbol, type: 'rebalance_status' },
-            response: {
-              data: {
-                status: item.status,
-                end_time: item.end_time,
-                start_time: item.start_time,
-                symbol: item.symbol,
-              },
-            },
-          }
-          transport.rebalance_status_cache.set(item.symbol, result, 90000)
-        }
-      }
-
-      const symbols: Array<string> = (message.data as any[]).map((d) => d.symbol)
-
-      processMessage(symbols, transport)
-
+      transport.processMessage(transport, message)
       return []
     },
   },
