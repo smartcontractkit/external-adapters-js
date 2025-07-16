@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.11.0
+
+### Minor Changes
+
+- [#3928](https://github.com/smartcontractkit/external-adapters-js/pull/3928) [`652f6b9`](https://github.com/smartcontractkit/external-adapters-js/commit/652f6b99f15341f95a2fb49bff060f45dd97527e) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add solv TRADING type
+
 ## 5.10.0
 
 ### Minor Changes
