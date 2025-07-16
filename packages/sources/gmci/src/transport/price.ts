@@ -1,11 +1,10 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateCacheKey } from '@chainlink/external-adapter-framework/cache'
+import { LocalCache } from '@chainlink/external-adapter-framework/cache'
 import {
   WebSocketTransport,
   WebSocketTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
-import { adapter } from '..'
-import { config } from '../config'
+import { TimestampedProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { convertTimetoUnixMs } from './util'
 
@@ -15,11 +14,43 @@ export interface PriceMessage {
   symbol: string
 }
 
+export interface CachedPriceResponse {
+  params: {
+    index: string
+    type: string
+  }
+  response: {
+    result: number
+    data: {
+      result: number
+      symbol: string
+    }
+    timestamps: {
+      providerIndicatedTimeUnixMs: number
+    }
+  }
+}
+
 export interface RebalanceMessage {
   end_time: string
   start_time: string
   status: string
   symbol: string
+}
+
+export interface CachedRebalanceResponse {
+  params: {
+    index: string
+    type: string
+  }
+  response: {
+    data: {
+      status: string
+      end_time: string
+      start_time: string
+      symbol: string
+    }
+  }
 }
 
 export interface WSResponse {
@@ -35,73 +66,44 @@ export type WsTransportTypes = BaseEndpointTypes & {
 }
 
 export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
-  override buildConnectionHandlers(
-    context: EndpointContext<BaseEndpointTypes>,
-    connection: WebSocket,
-    connectionReadyResolve: (value: WebSocket) => void,
-  ) {
-    const handlers = super.buildConnectionHandlers(context, connection, connectionReadyResolve)
+  price_cache = new LocalCache<CachedPriceResponse>(10)
+  rebalance_status_cache = new LocalCache<CachedRebalanceResponse>(10)
+}
 
-    handlers.message = async (event) => {
-      await super
-        .buildConnectionHandlers(context, connection, connectionReadyResolve)
-        .message(event)
-      const parsed = super.deserializeMessage(event.data)
+export async function processMessage(symbols: Array<string>, transport: GMCIWebsocketTransport) {
+  for (const symbol of symbols) {
+    const [cached_price_data, cached_rebalance_data] = await Promise.all([
+      transport.price_cache.get(symbol),
+      transport.rebalance_status_cache.get(symbol),
+    ])
 
-      for (const data of parsed.data) {
-        const price_data = await this.responseCache.cache.get(
-          calculateCacheKey({
-            transportName: this.name,
-            data: { index: data.symbol, type: 'price' },
-            adapterName: adapter.name,
-            endpointName: 'price',
-            adapterSettings: config.settings,
-          }),
-        )
+    if (cached_price_data != undefined && cached_rebalance_data != undefined) {
+      const now = Date.now()
 
-        const rebalance_data = await this.responseCache.cache.get(
-          calculateCacheKey({
-            transportName: this.name,
-            data: { index: data.symbol, type: 'rebalance_status' },
-            adapterName: adapter.name,
-            endpointName: 'price',
-            adapterSettings: config.settings,
-          }),
-        )
+      const price_data = cached_price_data as CachedPriceResponse
+      const rebalance_data = cached_rebalance_data as CachedRebalanceResponse
 
-        if (price_data != undefined && rebalance_data != undefined) {
-          const result = {
-            params: { index: data.symbol },
-            response: {
-              statusCode: 200,
-              result: Number(price_data.result),
-              data: {
-                status: rebalance_data.data?.status ?? '',
-                end_time: rebalance_data.data?.end_time ?? '',
-                start_time: rebalance_data.data?.start_time ?? '',
-                symbol: rebalance_data.data?.symbol ?? '',
-                result: Number(price_data?.result),
-              },
-              timestamps: price_data.timestamps,
-            },
-          }
-
-          await this.responseCache.cache.set(
-            calculateCacheKey({
-              transportName: this.name,
-              data: { index: parsed.data[0].symbol },
-              adapterName: adapter.name,
-              endpointName: 'price',
-              adapterSettings: config.settings,
-            }),
-            result.response,
-            90000,
-          )
-        }
+      const result: TimestampedProviderResult<WsTransportTypes> = {
+        params: { index: symbol },
+        response: {
+          result: price_data.response.result,
+          data: {
+            result: price_data.response.result,
+            status: rebalance_data.response.data.status,
+            end_time: rebalance_data.response.data.end_time,
+            start_time: rebalance_data.response.data.start_time,
+            symbol,
+          },
+          timestamps: {
+            providerDataStreamEstablishedUnixMs: transport.providerDataStreamEstablished,
+            providerDataReceivedUnixMs: now,
+            providerIndicatedTimeUnixMs: price_data.response.timestamps.providerIndicatedTimeUnixMs,
+          },
+        },
       }
-    }
 
-    return handlers
+      await transport.responseCache.write(transport.name, [result])
+    }
   }
 }
 
@@ -120,43 +122,44 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
       }
 
       if (message.topic === 'price') {
-        const result = (message.data as PriceMessage[]).map((item) => ({
-          params: { index: item.symbol, type: 'price' },
-          response: {
-            result: item.price,
-            data: {
+        for (const item of message.data as PriceMessage[]) {
+          const result = {
+            params: { index: item.symbol, type: 'price' },
+            response: {
               result: item.price,
-              status: '',
-              end_time: '',
-              start_time: '',
-              symbol: item.symbol,
+              data: {
+                result: item.price,
+                symbol: item.symbol,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: convertTimetoUnixMs(item.last_updated),
+              },
             },
-            timestamps: {
-              providerIndicatedTimeUnixMs: convertTimetoUnixMs(item.last_updated),
-            },
-          },
-        }))
-
-        return result
+          }
+          transport.price_cache.set(item.symbol, result, 90000)
+        }
       } else if (message.topic === 'rebalance_status') {
-        const result = (message.data as RebalanceMessage[]).map((item) => ({
-          params: { index: item.symbol, type: 'rebalance_status' },
-          response: {
-            result: 0,
-            data: {
-              status: item.status,
-              end_time: item.end_time,
-              start_time: item.start_time,
-              symbol: item.symbol,
-              result: 0,
+        for (const item of message.data as RebalanceMessage[]) {
+          const result = {
+            params: { index: item.symbol, type: 'rebalance_status' },
+            response: {
+              data: {
+                status: item.status,
+                end_time: item.end_time,
+                start_time: item.start_time,
+                symbol: item.symbol,
+              },
             },
-          },
-        }))
-
-        return result
-      } else {
-        return []
+          }
+          transport.rebalance_status_cache.set(item.symbol, result, 90000)
+        }
       }
+
+      const symbols: Array<string> = (message.data as any[]).map((d) => d.symbol)
+
+      processMessage(symbols, transport)
+
+      return []
     },
   },
 
