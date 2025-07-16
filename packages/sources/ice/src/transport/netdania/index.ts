@@ -106,11 +106,15 @@ export class Utils {
   }
 
   static sanitize(url: string): string {
-    const urlObj = new URL(url)
-    if (urlObj.searchParams.has('h')) {
-      urlObj.searchParams.set('h', 'redacted')
+    try {
+      const urlObj = new URL(url)
+      if (urlObj.searchParams.has('h')) {
+        urlObj.searchParams.set('h', 'redacted')
+      }
+      return urlObj.toString()
+    } catch (e) {
+      throw new Error(`Invalid URL: ${url}. Cannot sanitize.`, e)
     }
-    return urlObj.toString()
   }
 }
 
