@@ -53,7 +53,7 @@ export interface CachedRebalanceResponse {
   }
 }
 
-export interface WSResponse {
+export interface WsResponse {
   success: boolean
   data: Array<PriceMessage | RebalanceMessage>
   topic: string
@@ -61,16 +61,16 @@ export interface WSResponse {
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
-    WsMessage: WSResponse
+    WsMessage: WsResponse
   }
 }
 
-export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
+export class GmciWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
   price_cache = new LocalCache<CachedPriceResponse>(10)
   rebalance_status_cache = new LocalCache<CachedRebalanceResponse>(10)
 }
 
-export async function processMessage(symbols: Array<string>, transport: GMCIWebsocketTransport) {
+export async function processMessage(symbols: Array<string>, transport: GmciWebsocketTransport) {
   for (const symbol of symbols) {
     const [cached_price_data, cached_rebalance_data] = await Promise.all([
       transport.price_cache.get(symbol),
@@ -186,4 +186,4 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
   },
 }
 
-export const transport = new GMCIWebsocketTransport(options)
+export const transport = new GmciWebsocketTransport(options)
