@@ -69,6 +69,37 @@ export class GMCIWebsocketTransport extends WebSocketTransport<WsTransportTypes>
   rebalance_status_cache = new LocalCache<CachedRebalanceResponse>(10)
 }
 
+export async function processMessage(symbols: Array<string>) {
+  symbols.map(async (symbol) => {
+    const [cached_price_data, cached_rebalance_data] = await Promise.all([
+      transport.price_cache.get(symbol),
+      transport.rebalance_status_cache.get(symbol),
+    ])
+
+    if (cached_price_data != undefined && cached_rebalance_data != undefined) {
+      const price_data = cached_price_data as CachedPriceResponse
+      const rebalance_data = cached_rebalance_data as CachedRebalanceResponse
+      const result = {
+        params: { index: symbol },
+        response: {
+          statusCode: 200,
+          result: price_data.response.result,
+          data: {
+            result: price_data.response.result,
+            status: rebalance_data.response.data.status,
+            end_time: rebalance_data.response.data.end_time,
+            start_time: rebalance_data.response.data.start_time,
+            symbol,
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs: price_data.response.timestamps.providerIndicatedTimeUnixMs,
+          },
+        },
+      }
+    }
+  })
+}
+
 export const options: WebSocketTransportConfig<WsTransportTypes> = {
   url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context: EndpointContext<WsTransportTypes>) => ({
@@ -83,8 +114,6 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
       if (message.success === false) {
         return
       }
-
-      const results: Array<BaseEndpointTypes> = []
 
       if (message.topic === 'price') {
         for (const item of message.data as PriceMessage[]) {
@@ -120,44 +149,9 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
         }
       }
 
-      const symbols = (message.data as any[]).map((d) => d.symbol)
+      const symbols: Array<string> = (message.data as any[]).map((d) => d.symbol)
 
-      const promises = symbols.map(async (symbol) => {
-        const [cached_price_data, cached_rebalance_data] = await Promise.all([
-          transport.price_cache.get(symbol),
-          transport.rebalance_status_cache.get(symbol),
-        ])
-
-        if (cached_price_data != undefined && cached_rebalance_data != undefined) {
-          const price_data = cached_price_data as CachedPriceResponse
-          const rebalance_data = cached_rebalance_data as CachedRebalanceResponse
-          const result = {
-            params: { index: symbol },
-            response: {
-              statusCode: 200,
-              result: price_data.response.result,
-              data: {
-                result: price_data.response.result,
-                status: rebalance_data.response.data.status,
-                end_time: rebalance_data.response.data.end_time,
-                start_time: rebalance_data.response.data.start_time,
-                symbol,
-              },
-              timestamps: {
-                providerIndicatedTimeUnixMs:
-                  price_data.response.timestamps.providerIndicatedTimeUnixMs,
-              },
-            },
-          }
-
-          // @ts-ignore
-          results.push(result)
-        }
-      })
-
-      Promise.all(promises).then(() => results)
-      console.log(results)
-      return results
+      processMessage(symbols)
     },
   },
 
