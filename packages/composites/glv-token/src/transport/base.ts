@@ -70,10 +70,11 @@ export abstract class BaseGlvTransport<
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.settings = adapterSettings
-    this.provider = new ethers.providers.JsonRpcProvider(
-      adapterSettings.ARBITRUM_RPC_URL,
-      adapterSettings.ARBITRUM_CHAIN_ID,
-    )
+    const conn = {
+      url: adapterSettings.ARBITRUM_RPC_URL,
+      timeout: adapterSettings.ARBITRUM_RPC_TIMEOUT_MS,
+    }
+    this.provider = new ethers.providers.JsonRpcProvider(conn, adapterSettings.ARBITRUM_CHAIN_ID)
     this.requester = dependencies.requester
 
     this.glvReaderContract = new ethers.Contract(
@@ -148,10 +149,13 @@ export abstract class BaseGlvTransport<
     const providerDataRequestedUnixMs = Date.now()
     const glv_address = param.glv
 
+    let start = Date.now()
     const glvInfo = await this.glvReaderContract.getGlvInfo(
       this.settings.DATASTORE_CONTRACT_ADDRESS,
       glv_address,
     )
+    let end = Date.now() - start
+    logger.debug(`Fetched glv info in ${end}ms`)
 
     const glv: glvInformation = {
       glvToken: glvInfo.glv.glvToken,
@@ -190,10 +194,13 @@ export abstract class BaseGlvTransport<
       glv_address,
     ]
 
+    start = Date.now()
     const [[maximizedPriceRaw], [minimizedPriceRaw]] = await Promise.all([
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, true),
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, false),
     ])
+    end = Date.now() - start
+    logger.info(`Fetched glv token price in ${end}ms`)
 
     const maximizedPrice = Number(utils.formatUnits(maximizedPriceRaw, SIGNED_PRICE_DECIMALS))
     const minimizedPrice = Number(utils.formatUnits(minimizedPriceRaw, SIGNED_PRICE_DECIMALS))
@@ -226,6 +233,7 @@ export abstract class BaseGlvTransport<
     const priceProviders: Record<string, string[]> = {}
     const promises = []
 
+    const start = Date.now()
     for (let i = 0; i < sources.length; i++) {
       const source = sources[i]
       const assetPromises = assets.map(async (asset) => {
@@ -270,6 +278,8 @@ export abstract class BaseGlvTransport<
     }
 
     await Promise.all(promises)
+    const end = Date.now() - start
+    logger.debug(`Fetched prices in ${end}ms`)
 
     this.validateRequiredResponses(priceProviders, sources, assets, dataRequestedTimestamp)
 
