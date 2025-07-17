@@ -21,9 +21,6 @@ export const inputParameters = new InputParameters(
 export type GMCIResultResponse = {
   Result: number
   Data: {
-    status: string
-    end_time: string
-    start_time: string
     symbol: string
     result: number
   }
