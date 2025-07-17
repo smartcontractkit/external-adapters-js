@@ -3167,7 +3167,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/coinmetrics-adapter@workspace:*, @chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics":
+"@chainlink/coinmetrics-adapter@workspace:*, @chainlink/coinmetrics-adapter@workspace:^, @chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
@@ -3187,7 +3187,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-lwba-adapter@workspace:packages/sources/coinmetrics-lwba"
   dependencies:
-    "@chainlink/coinmetrics-adapter": "workspace:*"
+    "@chainlink/coinmetrics-adapter": "workspace:^"
     "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
