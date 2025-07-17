@@ -6,8 +6,8 @@
     "moduleResolution": "node16",
     "module": "node16",
     "paths": {
-      "@chainlink/coinmetrics-adapter/*": ["../../coinmetrics/src/*"],
-      "@chainlink/coinmetrics-adapter": ["../../coinmetrics/src"]
+      "@chainlink/coinmetrics-adapter/*": ["../coinmetrics/src/*"],
+      "@chainlink/coinmetrics-adapter": ["../coinmetrics/src"]
     }
   },
   "include": ["src/**/*", "src/**/*.json"],
