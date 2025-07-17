@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/coinmetrics-adapter",
-  "version": "3.8.3",
-  "description": "Chainlink coinmetrics adapter.",
+  "name": "@chainlink/coinmetrics-lwba-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink coinmetrics-lwba adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "coinmetrics"
+    "coinmetrics-lwba"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,11 +27,6 @@
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
-  "dependencies": {
-    "@chainlink/external-adapter-framework": "2.6.0",
-    "ethers": "^5.4.6",
-    "tslib": "^2.3.1"
-  },
   "devDependencies": {
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
@@ -40,10 +35,9 @@
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
-  "exports": {
-    "./endpoint/lwba": "./dist/endpoint/lwba.js",
-    "./transport/lwba": "./dist/transport/lwba.js",
-    "./transport/error-handling": "./dist/transport/error-handling.js",
-    "./config": "./dist/config/index.js"
+  "dependencies": {
+    "@chainlink/coinmetrics-adapter": "workspace:*",
+    "@chainlink/external-adapter-framework": "2.6.0",
+    "tslib": "2.4.1"
   }
 }
