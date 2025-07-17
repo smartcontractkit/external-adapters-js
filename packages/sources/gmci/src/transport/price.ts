@@ -3,6 +3,7 @@ import {
   WebSocketTransport,
   WebSocketTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { convertTimetoUnixMs } from './util'
 
@@ -19,17 +20,27 @@ export interface RebalanceMessage {
   symbol: string
 }
 
-export interface WsResponse {
+interface WsPriceResponse {
   success: boolean
-  data: Array<PriceMessage | RebalanceMessage>
-  topic: string
+  data: Array<PriceMessage>
+  topic: 'price'
 }
+
+interface WsRebalanceResponse {
+  success: boolean
+  data: Array<RebalanceMessage>
+  topic: 'rebalance_status'
+}
+
+export type WsResponse = WsPriceResponse | WsRebalanceResponse
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: WsResponse
   }
 }
+
+const logger = makeLogger('GmciTransport')
 
 export const options: WebSocketTransportConfig<WsTransportTypes> = {
   url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
@@ -42,13 +53,14 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
   handlers: {
     message(message) {
       if (message.success === false) {
+        logger.info(message)
         return
       }
 
       const results = []
 
       if (message.topic === 'price') {
-        for (const item of message.data as PriceMessage[]) {
+        for (const item of message.data) {
           results.push({
             params: { index: item.symbol },
             response: {
