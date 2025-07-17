@@ -62,7 +62,7 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
       if (message.topic === 'price') {
         for (const item of message.data) {
           results.push({
-            params: { index: item.symbol },
+            params: { symbol: item.symbol },
             response: {
               result: item.price,
               data: {
@@ -84,14 +84,14 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
     subscribeMessage: (params) => {
       return {
         op: 'subscribe',
-        args: [`price.${params.index}`.toLowerCase()],
+        args: [`price.${params.symbol}`.toLowerCase()],
       }
     },
 
     unsubscribeMessage: (params) => {
       return {
         op: 'unsubscribe',
-        args: [`price.${params.index}`.toLowerCase()],
+        args: [`price.${params.symbol}`.toLowerCase()],
       }
     },
   },
