@@ -47,11 +47,11 @@ describe('websocket', () => {
   describe('price endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(dataPrice)
+
       expect(response.json()).toMatchSnapshot()
     })
 
     it('should receive a price message', async () => {
-      // Send adapter HTTP request
       const response = await testAdapter.request(dataPrice)
 
       expect(response.statusCode).toBe(200)
