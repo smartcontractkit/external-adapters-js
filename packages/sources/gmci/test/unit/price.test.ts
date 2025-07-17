@@ -23,7 +23,7 @@ describe('builders.subscribeMessage', () => {
   const context = {} as EndpointContext<WsTransportTypes>
 
   it('builds correct subscribe message for a symbol', () => {
-    const message = builders.subscribeMessage!({ index: 'GMCI30' }, context) as any
+    const message = builders.subscribeMessage!({ symbol: 'GMCI30' }, context) as any
     expect(message.op).toBe('subscribe')
     expect(message.args).toContain('price.gmci30')
     expect(message.args.length).toBe(1)
@@ -35,7 +35,7 @@ describe('builders.unsubscribeMessage', () => {
   const context = {} as EndpointContext<WsTransportTypes>
 
   it('builds correct unsubscribe message for a symbol', () => {
-    const message = builders.unsubscribeMessage!({ index: 'GMCI30' }, context) as any
+    const message = builders.unsubscribeMessage!({ symbol: 'GMCI30' }, context) as any
     expect(message.op).toBe('unsubscribe')
     expect(message.args).toContain('price.gmci30')
     expect(message.args.length).toBe(1)
@@ -60,7 +60,7 @@ describe('message handler', () => {
 
     expect(results).toEqual([
       {
-        params: { index: 'GMCI30' },
+        params: { symbol: 'GMCI30' },
         response: {
           result: 190,
           data: {
@@ -107,7 +107,7 @@ describe('message handler', () => {
     const results = options.handlers.message!(mockMessage)
 
     expect(results).toHaveLength(2)
-    expect(results?.[0].params.index).toBe('GMCI30')
-    expect(results?.[1].params.index).toBe('GML2')
+    expect(results?.[0].params.symbol).toBe('GMCI30')
+    expect(results?.[1].params.symbol).toBe('GML2')
   })
 })
