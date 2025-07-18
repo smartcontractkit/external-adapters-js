@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "include": ["src/**/*", "**/test", "src/**/*.json"],
   "compilerOptions": {
-    "noEmit": false
+    "noEmit": false,
+    "moduleResolution": "node16",
+    "module": "esnext"
   }
   // "references": [{ "path": "../coinmetrics" }]
 }
