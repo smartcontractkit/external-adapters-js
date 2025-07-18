@@ -113,4 +113,22 @@ describe('message handler', () => {
     expect(results?.[0].params.symbol).toBe('GMCI30')
     expect(results?.[1].params.symbol).toBe('GML2')
   })
+
+  it('return nothing for rebalance message', () => {
+    const mockMessage: WsResponse = {
+      success: true,
+      topic: 'rebalance_status',
+      data: [
+        {
+          symbol: 'GMCI30',
+          status: 'rebalanced',
+          start_time: '2024-03-29T15:30:00Z',
+          end_time: '2024-03-29T16:30:00Z',
+        },
+      ],
+    }
+
+    const result = handlers.message(mockMessage, context)
+    expect(result).toEqual([])
+  })
 })
