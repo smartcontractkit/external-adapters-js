@@ -4,7 +4,7 @@
   "compilerOptions": {
     "noEmit": false,
     "moduleResolution": "node16",
-    "module": "esnext"
+    "module": "node16"
   }
   // "references": [{ "path": "../coinmetrics" }]
 }
