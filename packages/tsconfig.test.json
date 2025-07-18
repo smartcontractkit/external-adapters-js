@@ -408,6 +408,12 @@
       "path": "./sources/geodb/tsconfig.test.json"
     },
     {
+      "path": "./sources/gmci/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/gmci/tsconfig.test.json"
+    },
+    {
       "path": "./sources/google-bigquery/tsconfig.test.json"
     },
     {
