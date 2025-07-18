@@ -44,10 +44,14 @@ describe('builders.unsubscribeMessage', () => {
 
 describe('message handler', () => {
   const mockContext = {
-    endpointName: 'test_endpoint',
-    inputParameters: { symbol: 'GMCI30' },
-    adapterSettings: { API_KEY: 'test_api_key', WS_API_ENDPOINT: 'test_ws_endpoint' },
-  }
+    input: {
+      params: { symbol: 'GMCI30' },
+    },
+    adapterConfig: {
+      API_KEY: 'test_api_key',
+      WS_API_ENDPOINT: 'test_ws_endpoint',
+    },
+  } as any
 
   it('parses a valid price message', () => {
     const mockpriceMessage = {
