@@ -51,7 +51,7 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
   }),
 
   handlers: {
-    message(message) {
+    message(message: WsResponse) {
       if (message.success === false) {
         logger.info(message)
         return

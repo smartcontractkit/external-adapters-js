@@ -1,6 +1,6 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { options, WsTransportTypes } from '../../src/transport/price'
+import { options, WsResponse, WsTransportTypes } from '../../src/transport/price'
 import { convertTimetoUnixMs } from '../../src/transport/util'
 
 // Initialize logger to avoid errors during test
@@ -43,18 +43,11 @@ describe('builders.unsubscribeMessage', () => {
 })
 
 describe('message handler', () => {
-  const mockContext = {
-    input: {
-      params: { symbol: 'GMCI30' },
-    },
-    adapterConfig: {
-      API_KEY: 'test_api_key',
-      WS_API_ENDPOINT: 'test_ws_endpoint',
-    },
-  } as any
+  const handlers = options.handlers!
+  const context = {} as EndpointContext<WsTransportTypes>
 
   it('parses a valid price message', () => {
-    const mockpriceMessage = {
+    const mockpriceMessage: WsResponse = {
       success: true,
       topic: 'price',
       data: [
@@ -66,7 +59,7 @@ describe('message handler', () => {
       ],
     }
 
-    const results = options.handlers.message(mockpriceMessage, mockContext)
+    const results = handlers.message(mockpriceMessage, context)
 
     expect(results).toEqual([
       {
@@ -86,18 +79,18 @@ describe('message handler', () => {
   })
 
   it('returns nothing for unsuccessful messages', () => {
-    const mockUnsuccessfulMessage = {
+    const mockUnsuccessfulMessage: WsResponse = {
       success: false,
       topic: 'price',
       data: [],
     }
 
-    const result = options.handlers.message(mockUnsuccessfulMessage, mockContext)
+    const result = handlers.message(mockUnsuccessfulMessage, context)
     expect(result).toBeUndefined()
   })
 
   it('parses multiple price entries', () => {
-    const mockMessage = {
+    const mockMessage: WsResponse = {
       success: true,
       topic: 'price',
       data: [
@@ -114,7 +107,7 @@ describe('message handler', () => {
       ],
     }
 
-    const results = options.handlers.message(mockMessage, mockContext)
+    const results = handlers.message(mockMessage, context)
 
     expect(results).toHaveLength(2)
     expect(results?.[0].params.symbol).toBe('GMCI30')
