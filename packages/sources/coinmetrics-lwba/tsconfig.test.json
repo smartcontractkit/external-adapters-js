@@ -3,6 +3,6 @@
   "include": ["src/**/*", "**/test", "src/**/*.json"],
   "compilerOptions": {
     "noEmit": false
-  },
-  "references": [{ "path": "../coinmetrics" }]
+  }
+  // "references": [{ "path": "../coinmetrics" }]
 }
