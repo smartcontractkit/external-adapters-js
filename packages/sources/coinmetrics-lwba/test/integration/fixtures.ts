@@ -1,16 +1,5 @@
-import { WsCryptoLwbaSuccessResponse } from '@chainlink/coinmetrics-adapter/src/transport/lwba'
+import { WsCryptoLwbaSuccessResponse } from '@chainlink/coinmetrics-adapter/transport/lwba'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
-
-export const mockWebSocketServer = (URL: string) => {
-  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
-  mockWsServer.on('connection', (socket) => {
-    const parseMessage = () => {
-      setTimeout(() => socket.send(JSON.stringify(wsResponseBody)), 10)
-    }
-    parseMessage()
-  })
-  return mockWsServer
-}
 
 const wsLwbaResponseBody: WsCryptoLwbaSuccessResponse = {
   pair: 'eth-usd',

@@ -41,9 +41,25 @@
     "typescript": "5.8.3"
   },
   "exports": {
-    "./endpoint/lwba": "./dist/endpoint/lwba.js",
-    "./transport/lwba": "./dist/transport/lwba.js",
-    "./transport/error-handling": "./dist/transport/error-handling.js",
-    "./config": "./dist/config/index.js"
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./src/index.ts"
+    },
+    "./endpoint/lwba": {
+      "default": "./dist/endpoint/lwba.js",
+      "types": "./dist/endpoint/lwba.d.ts"
+    },
+    "./transport/lwba": {
+      "default": "./dist/transport/lwba.js",
+      "types": "./dist/transport/lwba.d.ts"
+    },
+    "./transport/error-handling": {
+      "default": "./dist/transport/error-handling.js",
+      "types": "./dist/transport/error-handling.d.ts"
+    },
+    "./config": {
+      "default": "./dist/config/index.js",
+      "types": "./dist/config/index.d.ts"
+    }
   }
 }

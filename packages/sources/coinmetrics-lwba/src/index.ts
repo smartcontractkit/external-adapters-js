@@ -22,6 +22,16 @@ export const adapter = new Adapter({
   name: 'COINMETRICS_LWBA',
   config,
   endpoints: [endpoint],
+  rateLimiting: {
+    tiers: {
+      community: {
+        rateLimit1m: 100,
+      },
+      paid: {
+        rateLimit1s: 300,
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
