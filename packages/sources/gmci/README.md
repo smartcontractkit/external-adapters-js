@@ -6,10 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       |            Description             |  Type  | Options |           Default           |
-| :-------: | :-------------: | :--------------------------------: | :----: | :-----: | :-------------------------: |
-|    ✅     |     API_KEY     |    An API key for Data Provider    | string |         |                             |
-|           | WS_API_ENDPOINT | WS endpoint for GMCI Data Provider | string |         | `wss://api.gmci.co/private` |
+| Required? |      Name       |            Description             |  Type  | Options | Default |
+| :-------: | :-------------: | :--------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |     API_KEY     |    An API key for Data Provider    | string |         |         |
+|           | WS_API_ENDPOINT | WS endpoint for GMCI Data Provider | string |         |         |
 
 ---
 
@@ -31,9 +31,9 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? | Name  | Aliases | Description |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | index |         | Index name  | string |         |         |            |                |
+| Required? |  Name  | Aliases | Description |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :---------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | symbol |         | Index name  | string |         |         |            |                |
 
 ### Example
 
@@ -43,7 +43,7 @@ Request:
 {
   "data": {
     "endpoint": "price",
-    "index": "GMCI30"
+    "symbol": "GMCI30"
   }
 }
 ```
