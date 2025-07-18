@@ -43,6 +43,12 @@ describe('builders.unsubscribeMessage', () => {
 })
 
 describe('message handler', () => {
+  const mockContext = {
+    endpointName: 'test_endpoint',
+    inputParameters: { symbol: 'GMCI30' },
+    adapterSettings: { API_KEY: 'test_api_key', WS_API_ENDPOINT: 'test_ws_endpoint' },
+  }
+
   it('parses a valid price message', () => {
     const mockpriceMessage = {
       success: true,
@@ -56,7 +62,7 @@ describe('message handler', () => {
       ],
     }
 
-    const results = options.handlers.message(mockpriceMessage)
+    const results = options.handlers.message(mockpriceMessage, mockContext)
 
     expect(results).toEqual([
       {
@@ -82,7 +88,7 @@ describe('message handler', () => {
       data: [],
     }
 
-    const result = options.handlers.message(mockUnsuccessfulMessage)
+    const result = options.handlers.message(mockUnsuccessfulMessage, mockContext)
     expect(result).toBeUndefined()
   })
 
@@ -104,7 +110,7 @@ describe('message handler', () => {
       ],
     }
 
-    const results = options.handlers.message(mockMessage)
+    const results = options.handlers.message(mockMessage, mockContext)
 
     expect(results).toHaveLength(2)
     expect(results?.[0].params.symbol).toBe('GMCI30')
