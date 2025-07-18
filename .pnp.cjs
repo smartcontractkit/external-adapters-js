@@ -251,6 +251,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/avalanche-platform"\
     },\
     {\
+      "name": "@chainlink/backed-fi-adapter",\
+      "reference": "workspace:packages/sources/backed-fi"\
+    },\
+    {\
       "name": "@chainlink/bank-frick-adapter",\
       "reference": "workspace:packages/sources/bank-frick"\
     },\
@@ -715,6 +719,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/nav-generic"\
     },\
     {\
+      "name": "@chainlink/nav-libre-adapter",\
+      "reference": "workspace:packages/sources/nav-libre"\
+    },\
+    {\
       "name": "@chainlink/ncfx-adapter",\
       "reference": "workspace:packages/sources/ncfx"\
     },\
@@ -986,6 +994,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
+    ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
@@ -1131,6 +1140,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
     ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
     ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
+    ["@chainlink/nav-libre-adapter", ["workspace:packages/sources/nav-libre"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
@@ -5377,6 +5387,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/backed-fi-adapter", [\
+      ["workspace:packages/sources/backed-fi", {\
+        "packageLocation": "./packages/sources/backed-fi/",\
+        "packageDependencies": [\
+          ["@chainlink/backed-fi-adapter", "workspace:packages/sources/backed-fi"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/bank-frick-adapter", [\
       ["workspace:packages/sources/bank-frick", {\
         "packageLocation": "./packages/sources/bank-frick/",\
@@ -8058,6 +8083,25 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/nav-libre-adapter", [\
+      ["workspace:packages/sources/nav-libre", {\
+        "packageLocation": "./packages/sources/nav-libre/",\
+        "packageDependencies": [\
+          ["@chainlink/nav-libre-adapter", "workspace:packages/sources/nav-libre"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["crypto-js", "npm:4.2.0"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["uuid", "npm:11.1.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -38380,6 +38424,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["uuid", [\
+      ["npm:11.1.0", {\
+        "packageLocation": "./.yarn/cache/uuid-npm-11.1.0-61d0d08928-d2da43b49b.zip/node_modules/uuid/",\
+        "packageDependencies": [\
+          ["uuid", "npm:11.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.0.1", {\
         "packageLocation": "./.yarn/unplugged/uuid-npm-2.0.1-a78a0c30dd/node_modules/uuid/",\
         "packageDependencies": [\

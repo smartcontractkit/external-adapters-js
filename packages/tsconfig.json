@@ -168,6 +168,9 @@
       "path": "./sources/avalanche-platform"
     },
     {
+      "path": "./sources/backed-fi"
+    },
+    {
       "path": "./sources/bank-frick"
     },
     {
@@ -517,6 +520,9 @@
     },
     {
       "path": "./sources/nav-generic"
+    },
+    {
+      "path": "./sources/nav-libre"
     },
     {
       "path": "./sources/ncfx"

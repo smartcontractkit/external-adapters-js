@@ -168,6 +168,9 @@
       "path": "./sources/avalanche-platform/tsconfig.test.json"
     },
     {
+      "path": "./sources/backed-fi/tsconfig.test.json"
+    },
+    {
       "path": "./sources/bank-frick/tsconfig.test.json"
     },
     {
@@ -517,6 +520,9 @@
     },
     {
       "path": "./sources/nav-generic/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/nav-libre/tsconfig.test.json"
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"

@@ -2621,6 +2621,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/backed-fi-adapter@workspace:packages/sources/backed-fi":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/backed-fi-adapter@workspace:packages/sources/backed-fi"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@types/jest": "npm:29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
@@ -5007,6 +5020,23 @@ __metadata:
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/nav-libre-adapter@workspace:packages/sources/nav-libre":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/nav-libre-adapter@workspace:packages/sources/nav-libre"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@types/crypto-js": "npm:^4"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    crypto-js: "npm:^4.2.0"
+    date-fns: "npm:^4.1.0"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+    uuid: "npm:^11.1.0"
   languageName: unknown
   linkType: soft
 
@@ -12507,7 +12537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/crypto-js@npm:4.2.2":
+"@types/crypto-js@npm:4.2.2, @types/crypto-js@npm:^4":
   version: 4.2.2
   resolution: "@types/crypto-js@npm:4.2.2"
   checksum: 10/a40fc5a9219fd33f54ba3e094c5e5ab2904d3106681a76f1029bb038976591e9c8959099963bf4474fde21c2d8d00c1f896445206a3a58f85588f9cb1bd96a9a
@@ -16422,7 +16452,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:4.2.0":
+"crypto-js@npm:4.2.0, crypto-js@npm:^4.2.0":
   version: 4.2.0
   resolution: "crypto-js@npm:4.2.0"
   checksum: 10/c7bcc56a6e01c3c397e95aa4a74e4241321f04677f9a618a8f48a63b5781617248afb9adb0629824792e7ec20ca0d4241a49b6b2938ae6f973ec4efc5c53c924
@@ -16616,7 +16646,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:4.1.0":
+"date-fns@npm:4.1.0, date-fns@npm:^4.1.0":
   version: 4.1.0
   resolution: "date-fns@npm:4.1.0"
   checksum: 10/d5f6e9de5bbc52310f786099e18609289ed5e30af60a71e0646784c8185ddd1d0eebcf7c96b7faaaefc4a8366f3a3a4244d099b6d0866ee2bec80d1361e64342
@@ -32132,6 +32162,15 @@ __metadata:
   bin:
     uuid: ./bin/uuid
   checksum: 10/30804effc1c230352ed62b75f69bf7ecdbf3787dcf1e9ec58ab7f48f3ecf799520f498d35e596d82461df9aefb426e908b76d177124ba62298ecf079ce2315dc
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "uuid@npm:11.1.0"
+  bin:
+    uuid: dist/esm/bin/uuid
+  checksum: 10/d2da43b49b154d154574891ced66d0c83fc70caaad87e043400cf644423b067542d6f3eb641b7c819224a7cd3b4c2f21906acbedd6ec9c6a05887aa9115a9cf5
   languageName: node
   linkType: hard
 
