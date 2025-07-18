@@ -104,7 +104,7 @@ describe('message handler', () => {
       ],
     }
 
-    const results = options.handlers.message!(mockMessage)
+    const results = options.handlers.message(mockMessage)
 
     expect(results).toHaveLength(2)
     expect(results?.[0].params.symbol).toBe('GMCI30')
