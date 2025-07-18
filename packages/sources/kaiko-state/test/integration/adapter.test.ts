@@ -49,5 +49,23 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+    it('should return success with ETH quote', async () => {
+      const data = {
+        base: 'RETH',
+        quote: 'ETH',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should return success with BTC quote', async () => {
+      const data = {
+        base: 'SOLVBTC',
+        quote: 'BTC',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
