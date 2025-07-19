@@ -42,32 +42,22 @@
   },
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
+      "default": "./dist/index.js",
+      "types": "./src/index.ts"
     },
     "./endpoint/lwba": {
-      "import": "./dist/endpoint/lwba.js",
-      "require": "./dist/endpoint/lwba.js",
       "default": "./dist/endpoint/lwba.js",
       "types": "./dist/endpoint/lwba.d.ts"
     },
     "./transport/lwba": {
-      "import": "./dist/transport/lwba.js",
-      "require": "./dist/transport/lwba.js",
       "default": "./dist/transport/lwba.js",
       "types": "./dist/transport/lwba.d.ts"
     },
     "./transport/error-handling": {
-      "import": "./dist/transport/error-handling.js",
-      "require": "./dist/transport/error-handling.js",
       "default": "./dist/transport/error-handling.js",
       "types": "./dist/transport/error-handling.d.ts"
     },
     "./config": {
-      "import": "./dist/config/index.js",
-      "require": "./dist/config/index.js",
       "default": "./dist/config/index.js",
       "types": "./dist/config/index.d.ts"
     }
