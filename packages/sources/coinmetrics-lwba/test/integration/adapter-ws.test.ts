@@ -34,6 +34,7 @@ describe('crypto-lwba websocket', () => {
     mockWsServer = mockCryptoLwbaWebSocketServer(wsEndpoint)
 
     // start adapter with fake timers
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { adapter } = require('../../src')
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
