@@ -1,5 +1,11 @@
 # @chainlink/kaiko-state-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#3937](https://github.com/smartcontractkit/external-adapters-js/pull/3937) [`a26f93b`](https://github.com/smartcontractkit/external-adapters-js/commit/a26f93becef53c1ce7e3d9cf658a402b07b6de9f) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Cache wbtc quotes as /btc
+
 ## 1.0.14
 
 ### Patch Changes
