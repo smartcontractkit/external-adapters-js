@@ -4,9 +4,8 @@ export const wsMessageContent = (
   thresholdLevel: number,
   base: string,
   quote: string,
-  skipSlash = false,
 ) => {
-  const ticker = skipSlash ? `${base}${quote}` : `${base}/${quote}`
+  const ticker = `${base}/${quote}`
   return {
     eventName,
     authorization: apiKey,
