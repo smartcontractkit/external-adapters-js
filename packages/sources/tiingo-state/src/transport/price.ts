@@ -1,5 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseCryptoEndpointTypes } from '../endpoint/price'
+import { wsMessageContent } from './utils'
 
 interface Message {
   service: string
@@ -21,6 +22,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => {
     return `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`
   },
+
   handlers: {
     message(message) {
       if (!message?.data?.length || message.messageType !== 'A' || !message.data[priceIndex]) {
@@ -46,18 +48,22 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
   builders: {
     subscribeMessage: (params, context) => {
-      return {
-        eventName: 'subscribe',
-        authorization: context.adapterSettings.API_KEY,
-        eventData: { thresholdLevel: 8, tickers: [`${params.base}/${params.quote}`] },
-      }
+      return wsMessageContent(
+        'subscribe',
+        context.adapterSettings.API_KEY,
+        8,
+        params.base,
+        params.quote,
+      )
     },
     unsubscribeMessage: (params, context) => {
-      return {
-        eventName: 'unsubscribe',
-        authorization: context.adapterSettings.API_KEY,
-        eventData: { thresholdLevel: 8, tickers: [`${params.base}/${params.quote}`] },
-      }
+      return wsMessageContent(
+        'unsubscribe',
+        context.adapterSettings.API_KEY,
+        8,
+        params.base,
+        params.quote,
+      )
     },
   },
 })

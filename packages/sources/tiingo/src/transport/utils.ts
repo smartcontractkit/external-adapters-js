@@ -1,11 +1,11 @@
-import { BaseCryptoEndpointTypes, inputParameters } from '../endpoint/utils'
 import { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import {
   WebsocketReverseMappingTransport,
   WebSocketTransport,
 } from '@chainlink/external-adapter-framework/transports/websocket'
-import { config } from '../config'
 import { splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
+import { BaseCryptoEndpointTypes, inputParameters } from '../endpoint/utils'
 export interface ProviderResponseBody {
   ticker: string
   baseCurrency: string
@@ -115,6 +115,25 @@ export const constructEntry = <T extends typeof inputParameters.validated>(
       },
     }
   })
+}
+
+export const wsMessageContent = (
+  eventName: 'subscribe' | 'unsubscribe',
+  apiKey: string,
+  thresholdLevel: number,
+  base: string,
+  quote: string,
+  skipSlash = false, // needed for forex
+) => {
+  const ticker = skipSlash ? `${base}${quote}` : `${base}/${quote}`
+  return {
+    eventName,
+    authorization: apiKey,
+    eventData: {
+      thresholdLevel,
+      tickers: [ticker.toLowerCase()],
+    },
+  }
 }
 
 export class TiingoWebsocketTransport<

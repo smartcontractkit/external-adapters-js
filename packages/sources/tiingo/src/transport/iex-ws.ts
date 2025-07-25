@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/iex'
 import { TiingoWebsocketTransport } from './utils'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('TiingoWebsocketTransport')
 
@@ -87,7 +87,7 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
           authorization: wsTransport.apiKey,
           eventData: {
             thresholdLevel: 6,
-            tickers: [params.base],
+            tickers: [params.base.toLowerCase()],
           },
         }
       },
@@ -97,7 +97,7 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
           authorization: wsTransport.apiKey,
           eventData: {
             thresholdLevel: 6,
-            tickers: [params.base],
+            tickers: [params.base.toLowerCase()],
           },
         }
       },
