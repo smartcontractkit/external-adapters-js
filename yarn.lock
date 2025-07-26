@@ -4304,6 +4304,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/gmci-adapter@workspace:packages/sources/gmci":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gmci-adapter@workspace:packages/sources/gmci"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/google-bigquery-adapter@workspace:*, @chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery":
   version: 0.0.0-use.local
   resolution: "@chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery"
