@@ -747,6 +747,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/onchain-gas"\
     },\
     {\
+      "name": "@chainlink/ondo-adapter",\
+      "reference": "workspace:packages/sources/ondo"\
+    },\
+    {\
       "name": "@chainlink/onre-adapter",\
       "reference": "workspace:packages/sources/onre"\
     },\
@@ -1146,6 +1150,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/observation", ["workspace:packages/observation"]],\
     ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
     ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
+    ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
@@ -8247,6 +8252,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/ondo-adapter", [\
+      ["workspace:packages/sources/ondo", {\
+        "packageLocation": "./packages/sources/ondo/",\
+        "packageDependencies": [\
+          ["@chainlink/ondo-adapter", "workspace:packages/sources/ondo"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
