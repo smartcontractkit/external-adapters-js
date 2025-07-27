@@ -7,6 +7,7 @@ import { httpTransport } from '../transport/price'
 export const inputParameters = new InputParameters(
   {
     asset: {
+      aliases: ['symbol'],
       required: true,
       type: 'string',
       description: 'Asset price to request from Data Provider',
