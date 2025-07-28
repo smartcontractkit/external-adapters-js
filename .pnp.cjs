@@ -571,10 +571,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/geodb"\
     },\
     {\
-      "name": "@chainlink/gmci-adapter",\
-      "reference": "workspace:packages/sources/gmci"\
-    },\
-    {\
       "name": "@chainlink/google-bigquery-adapter",\
       "reference": "workspace:packages/sources/google-bigquery"\
     },\
@@ -1098,7 +1094,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
-    ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
     ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
     ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],\
     ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
@@ -7274,23 +7269,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/gmci-adapter", [\
-      ["workspace:packages/sources/gmci", {\
-        "packageLocation": "./packages/sources/gmci/",\
-        "packageDependencies": [\
-          ["@chainlink/gmci-adapter", "workspace:packages/sources/gmci"],\
-          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
