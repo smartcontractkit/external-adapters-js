@@ -5905,6 +5905,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -23127,6 +23128,20 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ethers-npm-6.14.3-629d34af0f-ce68b962f1.zip/node_modules/ethers/",\
         "packageDependencies": [\
           ["ethers", "npm:6.14.3"],\
+          ["@adraffy/ens-normalize", "npm:1.10.1"],\
+          ["@noble/curves", "npm:1.2.0"],\
+          ["@noble/hashes", "npm:1.3.2"],\
+          ["@types/node", "npm:22.7.5"],\
+          ["aes-js", "npm:4.0.0-beta.5"],\
+          ["tslib", "npm:2.7.0"],\
+          ["ws", "virtual:f6f30c4272f844f402d8d213d035455fc44a62513f59bd32b98e4d10a455319bfdb6af196858aad2a4a77298527df147593f20513687bbb4b6d88888784cc3b0#npm:8.17.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.15.0", {\
+        "packageLocation": "./.yarn/cache/ethers-npm-6.15.0-f266964bbf-21ab1d31e1.zip/node_modules/ethers/",\
+        "packageDependencies": [\
+          ["ethers", "npm:6.15.0"],\
           ["@adraffy/ens-normalize", "npm:1.10.1"],\
           ["@noble/curves", "npm:1.2.0"],\
           ["@noble/hashes", "npm:1.3.2"],\
