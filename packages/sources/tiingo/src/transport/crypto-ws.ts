@@ -1,6 +1,6 @@
-import { TiingoWebsocketTransport } from './utils'
-import { BaseCryptoEndpointTypes } from '../endpoint/utils'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseCryptoEndpointTypes } from '../endpoint/utils'
+import { TiingoWebsocketTransport, wsMessageContent } from './utils'
 
 const logger = makeLogger('TiingoWebsocketTransport')
 
@@ -63,18 +63,10 @@ export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
 
     builders: {
       subscribeMessage: (params) => {
-        return {
-          eventName: 'subscribe',
-          authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 6, tickers: [`${params.base}/${params.quote}`] },
-        }
+        return wsMessageContent('subscribe', wsTransport.apiKey, 6, params.base, params.quote)
       },
       unsubscribeMessage: (params) => {
-        return {
-          eventName: 'unsubscribe',
-          authorization: wsTransport.apiKey,
-          eventData: { thresholdLevel: 6, tickers: [`${params.base}/${params.quote}`] },
-        }
+        return wsMessageContent('unsubscribe', wsTransport.apiKey, 6, params.base, params.quote)
       },
     },
   })
