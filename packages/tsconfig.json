@@ -546,6 +546,9 @@
       "path": "./sources/onchain-gas"
     },
     {
+      "path": "./sources/ondo"
+    },
+    {
       "path": "./sources/onre"
     },
     {

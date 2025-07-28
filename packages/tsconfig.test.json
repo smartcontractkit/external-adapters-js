@@ -546,6 +546,9 @@
       "path": "./sources/onchain-gas/tsconfig.test.json"
     },
     {
+      "path": "./sources/ondo/tsconfig.test.json"
+    },
+    {
       "path": "./sources/onre/tsconfig.test.json"
     },
     {
