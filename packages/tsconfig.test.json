@@ -267,6 +267,9 @@
       "path": "./sources/coinmetrics/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinmetrics-lwba/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinpaprika/tsconfig.test.json"
     },
     {

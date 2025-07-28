@@ -267,6 +267,9 @@
       "path": "./sources/coinmetrics"
     },
     {
+      "path": "./sources/coinmetrics-lwba"
+    },
+    {
       "path": "./sources/coinpaprika"
     },
     {
