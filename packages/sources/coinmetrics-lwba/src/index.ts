@@ -18,7 +18,6 @@ export const config = makeConfig({
 })
 
 const newEndpoint = Object.assign(Object.create(Object.getPrototypeOf(endpoint)), endpoint)
-newEndpoint.rateLimiting = { allocationPercentage: 100 }
 
 export const adapter = new Adapter({
   defaultEndpoint: newEndpoint.name,
