@@ -7,13 +7,12 @@ import { baseOptions, WsTransportTypes } from './shared'
 
 export const options: WebSocketTransportConfig<WsTransportTypes> = {
   ...baseOptions,
-  url: (context: EndpointContext<WsTransportTypes>) =>
-    context.adapterSettings.WINTERMUTE_WS_API_ENDPOINT,
+  url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.GMCI_WS_API_ENDPOINT,
   options: async (context: EndpointContext<WsTransportTypes>) => ({
     headers: {
-      'X-GMCI-API-KEY': context.adapterSettings.WINTERMUTE_API_KEY,
+      'X-GMCI-API-KEY': context.adapterSettings.GMCI_API_KEY,
     },
   }),
 }
 
-export const wintermuteTransport = new WebSocketTransport(options)
+export const gmciTransport = new WebSocketTransport(options)

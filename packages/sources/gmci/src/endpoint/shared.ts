@@ -1,7 +1,5 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { transport } from '../transport/price'
 
 export const inputParameters = new InputParameters(
   {
@@ -31,10 +29,3 @@ export type BaseEndpointTypes = {
   Response: GMCIResultResponse
   Settings: typeof config.settings
 }
-
-export const endpoint = new AdapterEndpoint({
-  name: 'price',
-  aliases: [],
-  transport: transport,
-  inputParameters,
-})

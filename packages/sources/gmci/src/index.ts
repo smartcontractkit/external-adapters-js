@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { price, wintermute } from './endpoint'
+import { gmci, wintermute } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: price.name,
+  defaultEndpoint: gmci.name,
   name: 'GMCI',
   config,
-  endpoints: [price, wintermute],
+  endpoints: [gmci, wintermute],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
