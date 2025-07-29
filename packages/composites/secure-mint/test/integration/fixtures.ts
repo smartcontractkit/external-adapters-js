@@ -8,7 +8,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
     .reply(200, () => ({
       result: 1,
       timestamps: {
-        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: 2,
       },
     }))
     .persist()
@@ -16,7 +16,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
     .reply(200, () => ({
       result: 1,
       timestamps: {
-        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: 2,
       },
     }))
     .persist()
@@ -24,7 +24,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
     .reply(200, () => ({
       result: 1,
       timestamps: {
-        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: 2,
       },
     }))
     .persist()
