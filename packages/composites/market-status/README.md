@@ -6,12 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |             Name              |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :---------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |   TRADINGHOURS_ADAPTER_URL    |                              URL of the TradingHours adapter                              | string |         |         |
-|    ✅     |       NCFX_ADAPTER_URL        |                                  URL of the NCFX adapter                                  | string |         |         |
-|    ✅     | FINNHUB_SECONDARY_ADAPTER_URL |                           URL of the Finnhub Secondary adapter                            | string |         |         |
-|           |     BACKGROUND_EXECUTE_MS     | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
+| Required? |           Name           |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :----------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | TRADINGHOURS_ADAPTER_URL |                              URL of the TradingHours adapter                              | string |         |         |
+|    ✅     |     NCFX_ADAPTER_URL     |                                  URL of the NCFX adapter                                  | string |         |         |
+|    ✅     |   FINNHUB_ADAPTER_URL    |                                URL of the Finnhub adapter                                 | string |         |         |
+|           |  BACKGROUND_EXECUTE_MS   | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
 
 ---
 
