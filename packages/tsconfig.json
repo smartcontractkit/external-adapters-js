@@ -243,6 +243,9 @@
       "path": "./sources/clear-bank"
     },
     {
+      "path": "./sources/cmeth"
+    },
+    {
       "path": "./sources/coinapi"
     },
     {

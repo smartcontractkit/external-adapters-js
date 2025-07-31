@@ -121,8 +121,9 @@ describe('MintableTransport', () => {
         response: {
           data: {
             result: reserveResult,
+            ripcord: '',
             timestamps: {
-              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: Date.now(),
             },
           },
         },
@@ -166,10 +167,14 @@ describe('MintableTransport', () => {
             '1': {
               block: responseBlock,
               mintable,
+              mintablePacked: mintable,
+              nativeMint: '0',
+              totalAborts: '0',
             },
           },
           reserveInfo: {
             reserveAmount: BigInt(reserveResult * 10 ** 18).toString(),
+            ripcord: false,
             timestamp: Date.now(),
           },
           supplyDetails: {
@@ -233,8 +238,9 @@ describe('MintableTransport', () => {
         response: {
           data: {
             result: reserveResult,
+            ripcord: '',
             timestamps: {
-              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: Date.now(),
             },
           },
         },
@@ -278,11 +284,15 @@ describe('MintableTransport', () => {
             '1': {
               block: responseBlock,
               mintable: '0',
+              mintablePacked: '0',
+              nativeMint: '0',
+              totalAborts: '0',
             },
           },
           reserveInfo: {
             reserveAmount: BigInt(reserveResult * 10 ** 18).toString(),
             timestamp: Date.now(),
+            ripcord: false,
           },
           supplyDetails: {
             chains: {
@@ -342,8 +352,9 @@ describe('MintableTransport', () => {
         response: {
           data: {
             result: reserveResult,
+            ripcord: '',
             timestamps: {
-              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: Date.now(),
             },
           },
         },
@@ -393,15 +404,22 @@ describe('MintableTransport', () => {
             '1': {
               block: 105,
               mintable: '104',
+              mintablePacked: '104',
+              nativeMint: '0',
+              totalAborts: '0',
             },
             '56': {
               block: 2105,
               mintable: '2104',
+              mintablePacked: '2104',
+              nativeMint: '0',
+              totalAborts: '0',
             },
           },
           reserveInfo: {
             reserveAmount: BigInt(reserveResult * 10 ** 18).toString(),
             timestamp: Date.now(),
+            ripcord: false,
           },
           supplyDetails: {
             chains: {
@@ -467,8 +485,9 @@ describe('MintableTransport', () => {
         response: {
           data: {
             result: reserveResult,
+            ripcord: '',
             timestamps: {
-              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: Date.now(),
             },
           },
         },
@@ -517,6 +536,7 @@ describe('MintableTransport', () => {
           reserveInfo: {
             reserveAmount: BigInt(reserveResult * 10 ** 18).toString(),
             timestamp: Date.now(),
+            ripcord: false,
           },
           supplyDetails: {
             chains: {

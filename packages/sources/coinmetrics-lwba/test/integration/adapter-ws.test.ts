@@ -28,6 +28,7 @@ describe('crypto-lwba websocket', () => {
     process.env['CACHE_MAX_AGE'] = '5000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['API_KEY'] = 'fake-api-key'
 
     // mock WS provider + server
     mockWebSocketProvider(WebSocketClassProvider)
@@ -54,6 +55,18 @@ describe('crypto-lwba websocket', () => {
 
   describe('happy path', () => {
     it('returns a successful response', async () => {
+      const response = await testAdapter.request(requestPayload)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('returns a successful response for crypto alias', async () => {
+      requestPayload.endpoint = 'crypto'
+      const response = await testAdapter.request(requestPayload)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('returns a successful response for price alias', async () => {
+      requestPayload.endpoint = 'price'
       const response = await testAdapter.request(requestPayload)
       expect(response.json()).toMatchSnapshot()
     })
