@@ -3064,7 +3064,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cmeth-adapter@workspace:packages/sources/cmeth"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.7.0"
+    "@chainlink/external-adapter-framework": "npm:2.6.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.15.0"
@@ -4025,27 +4025,6 @@ __metadata:
   bin:
     create-external-adapter: adapter-generator.js
   checksum: 10/146006d56407e255cecedac471c1e9435db79e2f77dc19b3c8fae9c9c9b028e6eb2876a2fcd3ac897d220d96c9d5fcce83b518058446debc8b361e50cc77a8b2
-  languageName: node
-  linkType: hard
-
-"@chainlink/external-adapter-framework@npm:2.7.0":
-  version: 2.7.0
-  resolution: "@chainlink/external-adapter-framework@npm:2.7.0"
-  dependencies:
-    ajv: "npm:8.17.1"
-    axios: "npm:1.10.0"
-    eventsource: "npm:4.0.0"
-    fastify: "npm:5.4.0"
-    ioredis: "npm:5.6.1"
-    mock-socket: "npm:9.3.1"
-    pino: "npm:9.7.0"
-    pino-pretty: "npm:13.0.0"
-    prom-client: "npm:15.1.3"
-    redlock: "npm:5.0.0-beta.2"
-    ws: "npm:8.18.3"
-  bin:
-    create-external-adapter: adapter-generator.js
-  checksum: 10/e915a365b03b58c1d29fa8622ffbb8f8d0050130644dbc5d5c05683a2df4902e567d3d1aa128dce040f04a1dc712e5aa80485d11c1f75b3c11287f711add01bd
   languageName: node
   linkType: hard
 
@@ -14370,17 +14349,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.10.0":
-  version: 1.10.0
-  resolution: "axios@npm:1.10.0"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/d43c80316a45611fd395743e15d16ea69a95f2b7f7095f2bb12cb78f9ca0a905194a02e52a3bf4e0db9f85fd1186d6c690410644c10ecd8bb0a468e57c2040e4
-  languageName: node
-  linkType: hard
-
 "axios@npm:1.9.0":
   version: 1.9.0
   resolution: "axios@npm:1.9.0"
@@ -18445,26 +18413,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventsource-parser@npm:^3.0.1":
-  version: 3.0.3
-  resolution: "eventsource-parser@npm:3.0.3"
-  checksum: 10/b8f8e79333441ad0eb9299e3fa693ab506892ffc53f0cc1d23134090351cf2d71c8e405a2e879f6acfbd2e17f41d5a00dafba05ff25c82141fc07078ad992187
-  languageName: node
-  linkType: hard
-
 "eventsource@npm:2.0.2":
   version: 2.0.2
   resolution: "eventsource@npm:2.0.2"
   checksum: 10/e1c4c3664cebf9efdd55c90818ef847099f298bf521768d479cf22d8a681e666b3042de85327711ba6a8414ac6a04c70d2aeb4f405bba8239a8c36e06a019374
-  languageName: node
-  linkType: hard
-
-"eventsource@npm:4.0.0":
-  version: 4.0.0
-  resolution: "eventsource@npm:4.0.0"
-  dependencies:
-    eventsource-parser: "npm:^3.0.1"
-  checksum: 10/8717a1f87cb2332122f1063129d9e12714b74e1e1c562f87231ff3f064d9fa5459b525622de15b758f3100877032e8acbc760e14d8ae992f544459f6a2245fbb
   languageName: node
   linkType: hard
 
@@ -18875,29 +18827,6 @@ __metadata:
     semver: "npm:^7.6.0"
     toad-cache: "npm:^3.7.0"
   checksum: 10/afb57c5ff72196e50f23a8374bb3c7e55e272db0190f24659f3671d04d13532a7032103c7fdcdfdd7f5c111d497a05e0ad1ccdf56f61ec63d3191462d4c34aa5
-  languageName: node
-  linkType: hard
-
-"fastify@npm:5.4.0":
-  version: 5.4.0
-  resolution: "fastify@npm:5.4.0"
-  dependencies:
-    "@fastify/ajv-compiler": "npm:^4.0.0"
-    "@fastify/error": "npm:^4.0.0"
-    "@fastify/fast-json-stringify-compiler": "npm:^5.0.0"
-    "@fastify/proxy-addr": "npm:^5.0.0"
-    abstract-logging: "npm:^2.0.1"
-    avvio: "npm:^9.0.0"
-    fast-json-stringify: "npm:^6.0.0"
-    find-my-way: "npm:^9.0.0"
-    light-my-request: "npm:^6.0.0"
-    pino: "npm:^9.0.0"
-    process-warning: "npm:^5.0.0"
-    rfdc: "npm:^1.3.1"
-    secure-json-parse: "npm:^4.0.0"
-    semver: "npm:^7.6.0"
-    toad-cache: "npm:^3.7.0"
-  checksum: 10/bc474e9b3ab05ed54e3d31d124f262d1e64afe758496ea9a8f0ad2b4555c0922887c41e3e7f96a7d203a5ef90040f682b5227917f70aecf60d72a70a942709cd
   languageName: node
   linkType: hard
 
@@ -27814,27 +27743,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:9.7.0":
-  version: 9.7.0
-  resolution: "pino@npm:9.7.0"
-  dependencies:
-    atomic-sleep: "npm:^1.0.0"
-    fast-redact: "npm:^3.1.1"
-    on-exit-leak-free: "npm:^2.1.0"
-    pino-abstract-transport: "npm:^2.0.0"
-    pino-std-serializers: "npm:^7.0.0"
-    process-warning: "npm:^5.0.0"
-    quick-format-unescaped: "npm:^4.0.3"
-    real-require: "npm:^0.2.0"
-    safe-stable-stringify: "npm:^2.3.1"
-    sonic-boom: "npm:^4.0.1"
-    thread-stream: "npm:^3.0.0"
-  bin:
-    pino: bin.js
-  checksum: 10/01f489e01457ceeb46aa73189922381a6e6c7e0b8599a49d2d18e4d765e7898e36534b7bfd389aca9702c57d680f14dc87d66ab4e80792266f928b051ba8872a
-  languageName: node
-  linkType: hard
-
 "pino@npm:^6.0.0, pino@npm:^6.13.0":
   version: 6.14.0
   resolution: "pino@npm:6.14.0"
@@ -33019,21 +32927,6 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/018e04ec95561d88248d53a2eaf094b4ae131e9b062f2679e6e8a62f04649bc543448f1e038125225ac6bbb25f54c1e65d7a2cc9dbc1e28b43e5e6b7162ad88e
-  languageName: node
-  linkType: hard
-
-"ws@npm:8.18.3":
-  version: 8.18.3
-  resolution: "ws@npm:8.18.3"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10/725964438d752f0ab0de582cd48d6eeada58d1511c3f613485b5598a83680bedac6187c765b0fe082e2d8cc4341fc57707c813ae780feee82d0c5efe6a4c61b6
   languageName: node
   linkType: hard
 

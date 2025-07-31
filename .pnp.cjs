@@ -5902,7 +5902,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cmeth/",\
         "packageDependencies": [\
           ["@chainlink/cmeth-adapter", "workspace:packages/sources/cmeth"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.15.0"],\
@@ -6977,24 +6977,6 @@ const RAW_RUNTIME_STATE =
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
           ["ws", "virtual:52db29fdab7b8bb41a78c30ad19b074771c2c8f5b4e93cd16906e019f9c2c98a3cb090798af8928a24efd5fe1fbdad0d05a3d7a9d7be621d92f9ea5d126eba0c#npm:8.18.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:2.7.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.7.0-bdc244f853-e915a365b0.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
-          ["ajv", "npm:8.17.1"],\
-          ["axios", "npm:1.10.0"],\
-          ["eventsource", "npm:4.0.0"],\
-          ["fastify", "npm:5.4.0"],\
-          ["ioredis", "npm:5.6.1"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:9.7.0"],\
-          ["pino-pretty", "npm:13.0.0"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -18552,16 +18534,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:1.10.0", {\
-        "packageLocation": "./.yarn/cache/axios-npm-1.10.0-0c877f1ea6-d43c80316a.zip/node_modules/axios/",\
-        "packageDependencies": [\
-          ["axios", "npm:1.10.0"],\
-          ["follow-redirects", "virtual:007b36cf567c5c0b0b89b54b5fd89ec08f3a2a884d74d5c6d450b18bf5cf65f53734a0c801662b1c2259c9afe08585fed46b3182771fef81b1aa08fab6405199#npm:1.15.9"],\
-          ["form-data", "npm:4.0.1"],\
-          ["proxy-from-env", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.9.0", {\
         "packageLocation": "./.yarn/cache/axios-npm-1.9.0-007b36cf56-a2f90bba56.zip/node_modules/axios/",\
         "packageDependencies": [\
@@ -23236,23 +23208,6 @@ const RAW_RUNTIME_STATE =
           ["eventsource", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/eventsource-npm-4.0.0-b5fd928b64-8717a1f87c.zip/node_modules/eventsource/",\
-        "packageDependencies": [\
-          ["eventsource", "npm:4.0.0"],\
-          ["eventsource-parser", "npm:3.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["eventsource-parser", [\
-      ["npm:3.0.3", {\
-        "packageLocation": "./.yarn/cache/eventsource-parser-npm-3.0.3-7c3a5b61ae-b8f8e79333.zip/node_modules/eventsource-parser/",\
-        "packageDependencies": [\
-          ["eventsource-parser", "npm:3.0.3"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["evp_bytestokey", [\
@@ -23713,28 +23668,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/fastify-npm-5.3.3-eb42d209ad-8a736ed5c4.zip/node_modules/fastify/",\
         "packageDependencies": [\
           ["fastify", "npm:5.3.3"],\
-          ["@fastify/ajv-compiler", "npm:4.0.2"],\
-          ["@fastify/error", "npm:4.0.0"],\
-          ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
-          ["@fastify/proxy-addr", "npm:5.0.0"],\
-          ["abstract-logging", "npm:2.0.1"],\
-          ["avvio", "npm:9.1.0"],\
-          ["fast-json-stringify", "npm:6.0.0"],\
-          ["find-my-way", "npm:9.1.0"],\
-          ["light-my-request", "npm:6.4.0"],\
-          ["pino", "npm:9.5.0"],\
-          ["process-warning", "npm:5.0.0"],\
-          ["rfdc", "npm:1.4.1"],\
-          ["secure-json-parse", "npm:4.0.0"],\
-          ["semver", "npm:7.6.3"],\
-          ["toad-cache", "npm:3.7.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:5.4.0", {\
-        "packageLocation": "./.yarn/cache/fastify-npm-5.4.0-2bcf8f1bd7-bc474e9b3a.zip/node_modules/fastify/",\
-        "packageDependencies": [\
-          ["fastify", "npm:5.4.0"],\
           ["@fastify/ajv-compiler", "npm:4.0.2"],\
           ["@fastify/error", "npm:4.0.0"],\
           ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
@@ -33538,24 +33471,6 @@ const RAW_RUNTIME_STATE =
           ["thread-stream", "npm:3.1.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:9.7.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.7.0-169cc56689-01f489e014.zip/node_modules/pino/",\
-        "packageDependencies": [\
-          ["pino", "npm:9.7.0"],\
-          ["atomic-sleep", "npm:1.0.0"],\
-          ["fast-redact", "npm:3.5.0"],\
-          ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino-abstract-transport", "npm:2.0.0"],\
-          ["pino-std-serializers", "npm:7.0.0"],\
-          ["process-warning", "npm:5.0.0"],\
-          ["quick-format-unescaped", "npm:4.0.4"],\
-          ["real-require", "npm:0.2.0"],\
-          ["safe-stable-stringify", "npm:2.5.0"],\
-          ["sonic-boom", "npm:4.2.0"],\
-          ["thread-stream", "npm:3.1.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["pino-abstract-transport", [\
@@ -39336,13 +39251,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["npm:8.18.3", {\
-        "packageLocation": "./.yarn/cache/ws-npm-8.18.3-665d39209d-725964438d.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["ws", "npm:8.18.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
       ["virtual:1fc28e6a0bc7815dccbbc173bcb3ef80b7886ec6e060ad7ffa801b5e503acf145bc09f828c59d5aaed91f20a8fac2a8a89557b62fd0994ad897388a4c69deac5#npm:8.18.0", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-9e159cd071/0/cache/ws-npm-8.18.0-56f68bc4d6-70dfe53f23.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -39402,23 +39310,6 @@ const RAW_RUNTIME_STATE =
           ["@types/utf-8-validate", null],\
           ["bufferutil", "npm:4.0.8"],\
           ["utf-8-validate", "npm:5.0.10"]\
-        ],\
-        "packagePeers": [\
-          "@types/bufferutil",\
-          "@types/utf-8-validate",\
-          "bufferutil",\
-          "utf-8-validate"\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-d1b48d3beb/0/cache/ws-npm-8.18.3-665d39209d-725964438d.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["ws", "virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3"],\
-          ["@types/bufferutil", null],\
-          ["@types/utf-8-validate", null],\
-          ["bufferutil", null],\
-          ["utf-8-validate", null]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\
