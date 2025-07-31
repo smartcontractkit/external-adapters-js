@@ -6,17 +6,17 @@ import { InputParametersDefinition } from '@chainlink/external-adapter-framework
 import fs from 'fs'
 import path from 'path'
 import process from 'process'
-import * as generatorPack from '../../package.json'
 import { exec, test } from 'shelljs'
+import * as generatorPack from '../../package.json'
 import {
   EndpointDetails,
   EnvVars,
   IOMap,
   JsonObject,
   Package,
-  Schema,
   RateLimits,
   RateLimitsSchema,
+  Schema,
 } from '../shared/docGenTypes'
 import {
   capitalize,
@@ -55,6 +55,29 @@ const checkFilePaths = (filePaths: string[]): string => {
     if (test('-f', filePath)) return filePath
   }
   throw Error(`No file found in the following paths: ${filePaths.join(',')}`)
+}
+
+// Checks if an object appears to be an instance of the given class while
+// allowing for the possibility that the class is from a different version
+// of the package.
+const objectHasShapeOfClass = (object, Class): boolean => {
+  if (object instanceof Class) {
+    return true
+  }
+
+  const objectProps = Object.getOwnPropertyNames(object.constructor.prototype)
+  const classProps = Object.getOwnPropertyNames(Class.prototype)
+
+  if (objectProps.length !== classProps.length) {
+    return false
+  }
+
+  for (const prop of classProps) {
+    if (!objectProps.includes(prop)) {
+      return false
+    }
+  }
+  return true
 }
 
 export class ReadmeGenerator {
@@ -474,7 +497,9 @@ export class ReadmeGenerator {
           inputTable = getBalanceTable()
         } else {
           let inputTableText: TableText
-          if (endpointDetails.inputParameters instanceof V3InputParameters) {
+          // We don't use instanceof because it doesn't work if the package
+          // depends on a different version of the framework.
+          if (objectHasShapeOfClass(endpointDetails.inputParameters, V3InputParameters)) {
             inputTableText = this.buildV3InputParamsTable(
               endpointDetails.inputParameters.definition,
             )
