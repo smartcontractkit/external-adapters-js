@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/secure-mint-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink secure-mint adapter.",
   "keywords": [
     "Chainlink",
