@@ -5,11 +5,6 @@ import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 export const config = makeConfig({
   NAME: 'COINMETRICS_LWBA',
-  API_KEY: {
-    description: 'Unused in LWBA',
-    type: 'string',
-    required: false,
-  },
   API_ENDPOINT: {
     description: 'Unused in LWBA',
     type: 'string',
@@ -18,6 +13,7 @@ export const config = makeConfig({
 })
 
 const newEndpoint = Object.assign(Object.create(Object.getPrototypeOf(endpoint)), endpoint)
+newEndpoint.aliases.push('crypto', 'price')
 
 export const adapter = new Adapter({
   defaultEndpoint: newEndpoint.name,
