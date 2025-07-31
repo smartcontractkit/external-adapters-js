@@ -10,11 +10,15 @@ exports[`execute mintable endpoint should block overmint 1`] = `
       "1": {
         "block": 6,
         "mintable": "0",
+        "mintablePacked": "0",
+        "nativeMint": "0",
+        "totalAborts": "0",
       },
     },
     "overmint": true,
     "reserveInfo": {
       "reserveAmount": "1000000000000000000",
+      "ripcord": false,
       "timestamp": 2,
     },
     "supplyDetails": {
@@ -56,6 +60,7 @@ exports[`execute mintable endpoint should handle error 1`] = `
     "overmint": false,
     "reserveInfo": {
       "reserveAmount": "1000000000000000000",
+      "ripcord": false,
       "timestamp": 2,
     },
     "supplyDetails": {
@@ -86,11 +91,15 @@ exports[`execute mintable endpoint should return success 1`] = `
       "1": {
         "block": 6,
         "mintable": "8",
+        "mintablePacked": "8",
+        "nativeMint": "0",
+        "totalAborts": "0",
       },
     },
     "overmint": false,
     "reserveInfo": {
       "reserveAmount": "1000000000000000000",
+      "ripcord": false,
       "timestamp": 2,
     },
     "supplyDetails": {
