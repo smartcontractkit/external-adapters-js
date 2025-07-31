@@ -14,6 +14,7 @@
     "chain-reserve-wallet",
     "circuit-breaker",
     "coingecko",
+    "coinmetrics-lwba",
     "conflux",
     "crypto-volatility-index",
     "cryptoapis-v2",
