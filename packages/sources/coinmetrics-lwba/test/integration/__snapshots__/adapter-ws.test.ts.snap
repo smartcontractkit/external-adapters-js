@@ -53,17 +53,11 @@ exports[`crypto-lwba websocket happy path returns a successful response for pric
 
 exports[`crypto-lwba websocket invariant violation handling handles a violation payload from the stream 1`] = `
 {
-  "data": {
-    "ask": 1562.2733948803843,
-    "bid": 1562.3384315992228,
-    "mid": 1562.3733948803842,
+  "error": {
+    "message": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 1562.3384315992228, mid: 1562.3733948803842, ask: 1562.2733948803843)",
+    "name": "AdapterLWBAError",
   },
-  "result": 1562.3733948803842,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1064,
-    "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1678248273750,
-  },
+  "status": "errored",
+  "statusCode": 500,
 }
 `;

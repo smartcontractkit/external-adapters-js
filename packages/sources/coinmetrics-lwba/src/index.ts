@@ -16,10 +16,17 @@ export const config = makeConfig({
 
 const newEndpoint = Object.assign(Object.create(Object.getPrototypeOf(endpoint)), endpoint)
 newEndpoint.aliases.push('crypto', 'price')
+const originalValidate = endpoint.customOutputValidation
 newEndpoint.customOutputValidation = (resp: AdapterResponse): AdapterError | undefined => {
-  const mid = (resp.data as any)?.mid
-  if (mid !== undefined) {
-    resp.result = mid
+  const err = originalValidate?.(resp)
+  if (err) {
+    return err
+  }
+  if (!resp.errorMessage) {
+    const mid = (resp.data as any)?.mid
+    if (mid !== undefined) {
+      resp.result = mid
+    }
   }
   return undefined // no validation error
 }
