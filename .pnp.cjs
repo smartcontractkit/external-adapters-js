@@ -5902,7 +5902,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cmeth/",\
         "packageDependencies": [\
           ["@chainlink/cmeth-adapter", "workspace:packages/sources/cmeth"],\
-          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.15.0"],\
@@ -6058,7 +6058,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/coinmetrics-lwba-adapter", "workspace:packages/sources/coinmetrics-lwba"],\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7330,7 +7330,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/gmci/",\
         "packageDependencies": [\
           ["@chainlink/gmci-adapter", "workspace:packages/sources/gmci"],\
-          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -8328,7 +8328,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ondo/",\
         "packageDependencies": [\
           ["@chainlink/ondo-adapter", "workspace:packages/sources/ondo"],\
-          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\

@@ -3064,7 +3064,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cmeth-adapter@workspace:packages/sources/cmeth"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.15.0"
@@ -3202,7 +3202,7 @@ __metadata:
   resolution: "@chainlink/coinmetrics-lwba-adapter@workspace:packages/sources/coinmetrics-lwba"
   dependencies:
     "@chainlink/coinmetrics-adapter": "workspace:^"
-    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4338,7 +4338,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gmci-adapter@workspace:packages/sources/gmci"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5222,7 +5222,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ondo-adapter@workspace:packages/sources/ondo"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.6.0"
+    "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"

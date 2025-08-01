@@ -99,6 +99,10 @@
 '@chainlink/trumatic-matic-exchange-rate-adapter': patch
 '@chainlink/token-allocation-adapter': patch
 '@chainlink/token-allocation-test-adapter': patch
+'@chainlink/gmci-adapter': patch
+'@chainlink/ondo-adapter': patch
+'@chainlink/coinmetrics-lwba-adapter': patch
+'@chainlink/cmeth-adapter': patch
 ---
 
 Bumped framework version
