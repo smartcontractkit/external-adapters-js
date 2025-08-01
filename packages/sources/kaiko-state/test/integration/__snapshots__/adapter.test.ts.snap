@@ -14,3 +14,30 @@ exports[`execute state endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute state endpoint should return success with BTC quote 1`] = `
+{
+  "data": {
+    "result": 100.5,
+  },
+  "result": 100.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute state endpoint should return success with ETH quote 1`] = `
+{
+  "data": {
+    "result": 100.3,
+  },
+  "result": 100.3,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

@@ -351,6 +351,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/clear-bank"\
     },\
     {\
+      "name": "@chainlink/cmeth-adapter",\
+      "reference": "workspace:packages/sources/cmeth"\
+    },\
+    {\
       "name": "@chainlink/coinapi-adapter",\
       "reference": "workspace:packages/sources/coinapi"\
     },\
@@ -381,6 +385,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/coinmetrics-adapter",\
       "reference": "workspace:packages/sources/coinmetrics"\
+    },\
+    {\
+      "name": "@chainlink/coinmetrics-lwba-adapter",\
+      "reference": "workspace:packages/sources/coinmetrics-lwba"\
     },\
     {\
       "name": "@chainlink/coinpaprika-adapter",\
@@ -571,6 +579,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/geodb"\
     },\
     {\
+      "name": "@chainlink/gmci-adapter",\
+      "reference": "workspace:packages/sources/gmci"\
+    },\
+    {\
       "name": "@chainlink/google-bigquery-adapter",\
       "reference": "workspace:packages/sources/google-bigquery"\
     },\
@@ -745,6 +757,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/onchain-gas-adapter",\
       "reference": "workspace:packages/sources/onchain-gas"\
+    },\
+    {\
+      "name": "@chainlink/ondo-adapter",\
+      "reference": "workspace:packages/sources/ondo"\
     },\
     {\
       "name": "@chainlink/onre-adapter",\
@@ -1018,6 +1034,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
     ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
     ["@chainlink/clear-bank-adapter", ["workspace:packages/sources/clear-bank"]],\
+    ["@chainlink/cmeth-adapter", ["workspace:packages/sources/cmeth"]],\
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
     ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
     ["@chainlink/coinbase-prime-adapter", ["workspace:packages/sources/coinbase-prime"]],\
@@ -1026,6 +1043,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
     ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
     ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
+    ["@chainlink/coinmetrics-lwba-adapter", ["workspace:packages/sources/coinmetrics-lwba"]],\
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
     ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
@@ -1090,6 +1108,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
+    ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
     ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
     ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],\
     ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
@@ -1146,6 +1165,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/observation", ["workspace:packages/observation"]],\
     ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
     ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
+    ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
@@ -5877,6 +5897,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/cmeth-adapter", [\
+      ["workspace:packages/sources/cmeth", {\
+        "packageLocation": "./packages/sources/cmeth/",\
+        "packageDependencies": [\
+          ["@chainlink/cmeth-adapter", "workspace:packages/sources/cmeth"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/coinapi-adapter", [\
       ["workspace:packages/sources/coinapi", {\
         "packageLocation": "./packages/sources/coinapi/",\
@@ -6011,6 +6047,24 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/coinmetrics-lwba-adapter", [\
+      ["workspace:packages/sources/coinmetrics-lwba", {\
+        "packageLocation": "./packages/sources/coinmetrics-lwba/",\
+        "packageDependencies": [\
+          ["@chainlink/coinmetrics-lwba-adapter", "workspace:packages/sources/coinmetrics-lwba"],\
+          ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -7271,6 +7325,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/gmci-adapter", [\
+      ["workspace:packages/sources/gmci", {\
+        "packageLocation": "./packages/sources/gmci/",\
+        "packageDependencies": [\
+          ["@chainlink/gmci-adapter", "workspace:packages/sources/gmci"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/google-bigquery-adapter", [\
       ["workspace:packages/sources/google-bigquery", {\
         "packageLocation": "./packages/sources/google-bigquery/",\
@@ -8252,6 +8323,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/ondo-adapter", [\
+      ["workspace:packages/sources/ondo", {\
+        "packageLocation": "./packages/sources/ondo/",\
+        "packageDependencies": [\
+          ["@chainlink/ondo-adapter", "workspace:packages/sources/ondo"],\
+          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/onre-adapter", [\
       ["workspace:packages/sources/onre", {\
         "packageLocation": "./packages/sources/onre/",\
@@ -8816,7 +8902,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:14.0.4"],\
+          ["nock", "npm:14.0.6"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9381,7 +9467,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:14.0.4"],\
+          ["nock", "npm:14.0.6"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -13207,10 +13293,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@mswjs/interceptors", [\
-      ["npm:0.38.6", {\
-        "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.38.6-2d0b613e0e-1716a2b8ec.zip/node_modules/@mswjs/interceptors/",\
+      ["npm:0.39.3", {\
+        "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.39.3-168e8b29cd-f5fbf0a408.zip/node_modules/@mswjs/interceptors/",\
         "packageDependencies": [\
-          ["@mswjs/interceptors", "npm:0.38.6"],\
+          ["@mswjs/interceptors", "npm:0.39.3"],\
           ["@open-draft/deferred-promise", "npm:2.2.0"],\
           ["@open-draft/logger", "npm:0.3.0"],\
           ["@open-draft/until", "npm:2.1.0"],\
@@ -23033,6 +23119,20 @@ const RAW_RUNTIME_STATE =
           ["ws", "virtual:f6f30c4272f844f402d8d213d035455fc44a62513f59bd32b98e4d10a455319bfdb6af196858aad2a4a77298527df147593f20513687bbb4b6d88888784cc3b0#npm:8.17.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:6.15.0", {\
+        "packageLocation": "./.yarn/cache/ethers-npm-6.15.0-f266964bbf-21ab1d31e1.zip/node_modules/ethers/",\
+        "packageDependencies": [\
+          ["ethers", "npm:6.15.0"],\
+          ["@adraffy/ens-normalize", "npm:1.10.1"],\
+          ["@noble/curves", "npm:1.2.0"],\
+          ["@noble/hashes", "npm:1.3.2"],\
+          ["@types/node", "npm:22.7.5"],\
+          ["aes-js", "npm:4.0.0-beta.5"],\
+          ["tslib", "npm:2.7.0"],\
+          ["ws", "virtual:f6f30c4272f844f402d8d213d035455fc44a62513f59bd32b98e4d10a455319bfdb6af196858aad2a4a77298527df147593f20513687bbb4b6d88888784cc3b0#npm:8.17.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["ethjs-unit", [\
@@ -31744,11 +31844,11 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:14.0.4", {\
-        "packageLocation": "./.yarn/cache/nock-npm-14.0.4-4cdbf599c8-43ad012cba.zip/node_modules/nock/",\
+      ["npm:14.0.6", {\
+        "packageLocation": "./.yarn/cache/nock-npm-14.0.6-3889b97e7e-32048a34b1.zip/node_modules/nock/",\
         "packageDependencies": [\
-          ["nock", "npm:14.0.4"],\
-          ["@mswjs/interceptors", "npm:0.38.6"],\
+          ["nock", "npm:14.0.6"],\
+          ["@mswjs/interceptors", "npm:0.39.3"],\
           ["json-stringify-safe", "npm:5.0.1"],\
           ["propagate", "npm:2.0.1"]\
         ],\

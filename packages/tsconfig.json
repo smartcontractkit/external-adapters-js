@@ -243,6 +243,9 @@
       "path": "./sources/clear-bank"
     },
     {
+      "path": "./sources/cmeth"
+    },
+    {
       "path": "./sources/coinapi"
     },
     {
@@ -265,6 +268,9 @@
     },
     {
       "path": "./sources/coinmetrics"
+    },
+    {
+      "path": "./sources/coinmetrics-lwba"
     },
     {
       "path": "./sources/coinpaprika"
@@ -408,6 +414,12 @@
       "path": "./sources/geodb"
     },
     {
+      "path": "./sources/gmci"
+    },
+    {
+      "path": "./sources/gmci"
+    },
+    {
       "path": "./sources/google-bigquery"
     },
     {
@@ -538,6 +550,9 @@
     },
     {
       "path": "./sources/onchain-gas"
+    },
+    {
+      "path": "./sources/ondo"
     },
     {
       "path": "./sources/onre"

@@ -9,6 +9,7 @@ import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/iex-http'
 import { wsTransport } from '../transport/iex-ws'
+import { tiingoCommonSubscriptionRequestTransform } from './utils'
 
 const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
   {
@@ -31,4 +32,5 @@ export const endpoint = new StockEndpoint({
   defaultTransport: 'ws',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
+  requestTransforms: [tiingoCommonSubscriptionRequestTransform],
 })

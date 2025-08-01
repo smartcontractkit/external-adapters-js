@@ -243,6 +243,9 @@
       "path": "./sources/clear-bank/tsconfig.test.json"
     },
     {
+      "path": "./sources/cmeth/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
@@ -265,6 +268,9 @@
     },
     {
       "path": "./sources/coinmetrics/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/coinmetrics-lwba/tsconfig.test.json"
     },
     {
       "path": "./sources/coinpaprika/tsconfig.test.json"
@@ -408,6 +414,12 @@
       "path": "./sources/geodb/tsconfig.test.json"
     },
     {
+      "path": "./sources/gmci/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/gmci/tsconfig.test.json"
+    },
+    {
       "path": "./sources/google-bigquery/tsconfig.test.json"
     },
     {
@@ -538,6 +550,9 @@
     },
     {
       "path": "./sources/onchain-gas/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/ondo/tsconfig.test.json"
     },
     {
       "path": "./sources/onre/tsconfig.test.json"

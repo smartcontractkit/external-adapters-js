@@ -98,6 +98,10 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
               id,
               {
                 mintable: overmint ? '0' : data.mintable,
+                // TODO: Update these with actual values
+                nativeMint: '0',
+                totalAborts: '0',
+                mintablePacked: overmint ? '0' : data.mintable,
                 block: data.response_block,
               },
             ]),
@@ -105,6 +109,7 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
       reserveInfo: {
         reserveAmount: reserve.reserveAmount.toString(),
         timestamp: reserve.timestamp,
+        ripcord: reserve.ripcord,
       },
       latestBlocks: Object.fromEntries(
         Object.entries(supply.chains).map(([id, data]) => [id, data.latest_block]),

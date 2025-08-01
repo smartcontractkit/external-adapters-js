@@ -1,5 +1,11 @@
 # @chainlink/secure-mint-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- [#3944](https://github.com/smartcontractkit/external-adapters-js/pull/3944) [`657fe04`](https://github.com/smartcontractkit/external-adapters-js/commit/657fe04a2e5a6801675ef2b5ee9d45991f057396) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add v0.5 fields
+
 ## 1.0.1
 
 ### Patch Changes

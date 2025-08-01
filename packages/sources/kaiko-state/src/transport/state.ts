@@ -1,13 +1,13 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { sleep, makeLogger } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/state'
 
-import { generateCreds, getProviderIndicatedTimeUnixMs } from './utils'
 import { ClientReadableStream, ServiceError } from '@grpc/grpc-js'
-import { BehaviorSubject, distinctUntilChanged, from, fromEvent, switchMap } from 'rxjs'
 import { backOff } from 'exponential-backoff'
+import { BehaviorSubject, distinctUntilChanged, from, fromEvent, switchMap } from 'rxjs'
+import { generateCreds, getProviderIndicatedTimeUnixMs } from './utils'
 
 import { StreamAggregatedStatePriceServiceV1Client } from '@kaiko-data/sdk-node/sdk/sdk_grpc_pb'
 import { StreamAggregatedStatePriceRequestV1 } from '@kaiko-data/sdk-node/sdk/stream/aggregated_state_price_v1/request_pb'
@@ -73,10 +73,17 @@ export class KaikoStateTransport extends SubscriptionTransport<KaikoStateTranspo
 
     subscription.on('data', (response: StreamAggregatedStatePriceResponseV1) => {
       const cacheData = []
+
       if (response.getAggregatedPriceLst().length > 0) {
+        const quote =
+          response.getLstQuote().toUpperCase() == 'WETH'
+            ? 'ETH'
+            : response.getLstQuote().toUpperCase() == 'WBTC'
+            ? 'BTC'
+            : response.getLstQuote()
         cacheData.push(
           this._generateResponse(
-            response.getLstQuote().toUpperCase() == 'WETH' ? 'ETH' : response.getLstQuote(),
+            quote,
             response.getAggregatedPriceLst(),
             providerDataRequestedUnixMs,
             response,
