@@ -1,6 +1,6 @@
 # COINMETRICS
 
-![3.8.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.9.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,9 +25,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                           Options                                                                                                                                                                            | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [burned](#burned-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto](#price-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [price-ws](#price-endpoint), [price](#price-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [total-burned](#total-burned-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                            Options                                                                                                                                                                                                            | Default |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [burned](#burned-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto](#crypto-lwba-endpoint), [crypto](#price-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [price-ws](#price-endpoint), [price](#crypto-lwba-endpoint), [price](#price-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [total-burned](#total-burned-endpoint) | `price` |
 
 ## Price Endpoint
 
@@ -58,7 +58,7 @@ Request:
 
 ## Crypto-lwba Endpoint
 
-Supported names for this endpoint are: `crypto-lwba`, `crypto_lwba`, `cryptolwba`.
+Supported names for this endpoint are: `crypto`, `crypto-lwba`, `crypto_lwba`, `cryptolwba`, `price`.
 
 ### Input Params
 
