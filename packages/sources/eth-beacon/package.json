@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/eth-beacon-adapter",
-  "version": "3.0.19",
+  "version": "3.0.20",
   "description": "Chainlink eth-beacon adapter.",
   "keywords": [
     "Chainlink",
