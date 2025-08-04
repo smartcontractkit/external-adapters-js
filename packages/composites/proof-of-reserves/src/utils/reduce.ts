@@ -6,6 +6,7 @@ import { adapter as lotus } from '@chainlink/lotus-adapter'
 import { adapter as bitcoinPorIndexer } from '@chainlink/por-indexer-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
+import { adapter as viewFunctionMultiChain } from '@chainlink/view-function-multi-chain-adapter'
 import { ethers } from 'ethers'
 import { callAdapter } from '.'
 import { ETHEREUM_CL_INDEXER } from './balance'
@@ -74,6 +75,8 @@ export const runReduceAdapter = async (
           message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
         })
       }
+    case viewFunctionMultiChain.name:
+      return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
   }
 
   const next = {
