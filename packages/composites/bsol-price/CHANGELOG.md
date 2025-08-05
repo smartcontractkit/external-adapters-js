@@ -1,5 +1,12 @@
 # @chainlink/bsol-price-adapter
 
+## 2.2.127
+
+### Patch Changes
+
+- Updated dependencies [[`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af)]:
+  - @chainlink/token-allocation-adapter@1.13.21
+
 ## 2.2.126
 
 ### Patch Changes
