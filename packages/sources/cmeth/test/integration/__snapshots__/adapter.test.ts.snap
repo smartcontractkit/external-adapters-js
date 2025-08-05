@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint should return success 1`] = `
+{
+  "data": {
+    "balances": {
+      "V1:SymbioticRestakingPool": {
+        "V1:PositionManager-Symbiotic": "0",
+      },
+      "mETH": {
+        "BoringVault": "600148699891045598199",
+        "DelayedWithdraw": "1141793853000000000000",
+        "PositionManager-Karak": "0",
+        "V1:PositionManager-Eigen_A41": "0",
+        "V1:PositionManager-Eigen_P2P": "0",
+        "V1:PositionManager-Symbiotic": "0",
+        "V2:PositionManager-Eigen_A41": "0",
+        "V2:PositionManager-Eigen_P2P": "0",
+        "V2:PositionManager-Symbiotic": "0",
+      },
+    },
+    "blockHeight": 23030750,
+    "decimals": 18,
+    "result": "1000000000000000000",
+    "totalLpts": {
+      "PositionManager-Karak": "26378",
+      "V1:PositionManager-Eigen_A41": "0",
+      "V1:PositionManager-Eigen_P2P": "0",
+      "V2:PositionManager-Eigen_A41": "52230000000000000000000",
+      "V2:PositionManager-Eigen_P2P": "52230000000000000000000",
+      "V2:PositionManager-Symbiotic": "90460000000000000000000",
+    },
+    "totalReserve": "196661942552891045624577",
+    "totalSupply": "196661942552891045624577",
+  },
+  "result": "1000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

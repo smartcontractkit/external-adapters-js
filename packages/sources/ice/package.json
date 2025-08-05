@@ -35,7 +35,7 @@
     "xmlhttprequest": "1.8.0"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.6.0",
+    "@chainlink/external-adapter-framework": "2.7.0",
     "tslib": "^2.8.0"
   }
 }

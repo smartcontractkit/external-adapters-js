@@ -1,6 +1,6 @@
 # GMCI
 
-![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gmci/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gmci/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -9,7 +9,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |      Name       |            Description             |  Type  | Options | Default |
 | :-------: | :-------------: | :--------------------------------: | :----: | :-----: | :-----: |
 |    ✅     |     API_KEY     |    An API key for Data Provider    | string |         |         |
-|           | WS_API_ENDPOINT | WS endpoint for GMCI Data Provider | string |         |         |
+|    ✅     | WS_API_ENDPOINT | WS endpoint for GMCI Data Provider | string |         |         |
 
 ---
 

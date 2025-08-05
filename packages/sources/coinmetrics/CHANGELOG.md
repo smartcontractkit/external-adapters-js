@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.9.0
+
+### Minor Changes
+
+- [#3935](https://github.com/smartcontractkit/external-adapters-js/pull/3935) [`83c7796`](https://github.com/smartcontractkit/external-adapters-js/commit/83c779664ede47d9504284bc041688f31bc8e716) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds Coinmetrics LWBA EA
+
 ## 3.8.3
 
 ### Patch Changes
