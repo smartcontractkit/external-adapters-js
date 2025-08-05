@@ -24,4 +24,12 @@ describe('parseHexToBigInt', () => {
     expect(() => parseHexToBigInt('0xGHIJK')).toThrow('Invalid hex string: 0xGHIJK')
     expect(() => parseHexToBigInt('xyz')).toThrow('Invalid hex string: xyz')
   })
+
+  it('should parse large hex values correctly', () => {
+    const largeHex = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff' // 256-bit max value
+    const bigIntResult = parseHexToBigInt(largeHex)
+    expect(bigIntResult.toString()).toBe(
+      '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+    )
+  })
 })
