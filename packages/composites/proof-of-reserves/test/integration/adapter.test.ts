@@ -8,6 +8,7 @@ import {
   mockGeminiFilecoinAddressList,
   mockLotusSuccess,
   mockPoRindexerSuccess,
+  mockViewFunctionMultiChainSuccess,
 } from './fixtures'
 
 describe('execute', () => {
@@ -23,6 +24,7 @@ describe('execute', () => {
     TOKEN_BALANCE_ADAPTER_URL: 'https://token-balance-adapter.com',
     GEMINI_ADAPTER_URL: 'https://gemini-adapter.com',
     LOTUS_ADAPTER_URL: 'https://lotus-adapter.com',
+    VIEW_FUNCTION_MULTI_CHAIN_ADAPTER_URL: 'https://view-function-multi-chain-adapter.com',
   }
 
   setupExternalAdapterTest(envVariables, context)
@@ -180,6 +182,40 @@ describe('execute', () => {
       }
       mockPoRindexerSuccess()
       mockEthBalanceSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('view-function-multi-chain should return success', async () => {
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'multiReserves',
+          input: [
+            {
+              protocol: 'list',
+              addresses: [''],
+              indexer: 'view_function_multi_chain',
+              indexerEndpoint: 'function',
+              indexerParams: {
+                signature: 'function getPending() public view returns (uint256)',
+                address: '0xa69b964a597435A2F938cc55FaAbe34F2A9AF278',
+                network: 'BASE',
+              },
+              disableDuplicateAddressFiltering: true,
+              decimals: 6,
+            },
+          ],
+        },
+      }
+      mockViewFunctionMultiChainSuccess()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')

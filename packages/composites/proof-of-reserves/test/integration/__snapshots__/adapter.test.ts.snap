@@ -67,6 +67,24 @@ exports[`execute multiReserves endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute multiReserves endpoint view-function-multi-chain should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "details": "{"result":"55179134309666000000000000","statusCode":200,"decimals":18}",
+    "result": "55179134309666000000000000",
+    "statusCode": 200,
+    "timestamps": {
+      "providerDataReceivedUnixMs": 1641035471111,
+      "providerDataRequestedUnixMs": 1641035471111,
+    },
+  },
+  "jobRunID": "1",
+  "result": "55179134309666000000000000",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute multiReserves endpoint with scaling should return success 1`] = `
 {
   "data": {

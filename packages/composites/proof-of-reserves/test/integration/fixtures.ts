@@ -1,5 +1,22 @@
 import nock from 'nock'
 
+export const mockViewFunctionMultiChainSuccess = (): nock.Scope => {
+  return nock('https://view-function-multi-chain-adapter.com')
+    .post('/')
+    .reply(200, {
+      jobRunID: '1',
+      result: '0x0000000000000000000000000000000000000000000000000000322f64b31522',
+      statusCode: 200,
+      data: {
+        result: '0x0000000000000000000000000000000000000000000000000000322f64b31522',
+      },
+      metricsMeta: {
+        feedId:
+          '{"signature":"function getpending() public view returns (uint256)","address":"0xa69b964a597435a2f938cc55faabe34f2a9af278","inputParams":[],"network":"base"}',
+      },
+    })
+}
+
 export const mockPoRindexerSuccess = (): nock.Scope => {
   return nock('https://por-indexer-adapter.com')
     .post('/')
