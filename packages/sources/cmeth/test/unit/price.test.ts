@@ -544,6 +544,18 @@ describe('CmethTransport', () => {
       expect(ethers.Contract).toHaveBeenCalledTimes(5)
     })
 
+    it('should handle example input as a valid request', async () => {
+      const cmethTotalSupply = 10000000n
+
+      methContract.balanceOf.mockResolvedValue(0n)
+      restakingPoolContract.balanceOf.mockResolvedValueOnce(0n)
+      positionManagerContract.getTotalLPT.mockResolvedValueOnce(0n)
+      positionManager2Contract.getTotalLPT.mockResolvedValueOnce(0n)
+      cmethContract.totalSupply.mockResolvedValueOnce(cmethTotalSupply)
+
+      await transport._handleRequest(inputParameters.examples![0])
+    })
+
     describe('with invalid input', () => {
       it('should throw if address is missing', async () => {
         const param = makeStub('param', {
