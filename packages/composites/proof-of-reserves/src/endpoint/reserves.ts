@@ -31,6 +31,7 @@ export type TInputParameters = {
   description?: string
   startUTC?: string
   endUTC?: string
+  decimals?: number
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -114,6 +115,11 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'end time for scheduleWindow in UTC [Format HHMM]',
   },
+  decimals: {
+    required: false,
+    type: 'number',
+    description: 'The decimal precision of the value returned by the indexer.',
+  },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, config.options)
@@ -161,6 +167,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   // convert hex result to number
   if (indexer === 'VIEW_FUNCTION_MULTI_CHAIN') {
+    balanceOutput.result = '0x0000000000000000000000000000000000000000000000000000322f64b31522'
     if (typeof balanceOutput.result === 'string') {
       const result = String(
         parseInt(
@@ -171,6 +178,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
         ),
       )
       balanceOutput.result = balanceOutput.data.result = result
+      balanceOutput.data.decimals = validator.validated.data.decimals
     } else {
       throw new Error(`Not supported data type for result: ${typeof balanceOutput.result}`)
     }

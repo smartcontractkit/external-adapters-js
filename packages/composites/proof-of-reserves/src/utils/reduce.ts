@@ -76,7 +76,13 @@ export const runReduceAdapter = async (
         })
       }
     case viewFunctionMultiChain.name:
-      return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
+      return returnParsedUnits(
+        input.jobRunID,
+        input.data.result as string,
+        18 - (input.data.decimals as number),
+        false,
+        18,
+      )
   }
 
   const next = {
