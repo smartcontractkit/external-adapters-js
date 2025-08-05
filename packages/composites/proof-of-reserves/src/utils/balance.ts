@@ -181,3 +181,15 @@ function buildCeffuRequest(input: AdapterResponse) {
     },
   }
 }
+
+export function parseHexToBigInt(value: unknown): bigint {
+  if (typeof value !== 'string') {
+    throw new Error(`Expected a hex string, but received type: ${typeof value}`)
+  }
+
+  if (!/^0x[0-9a-fA-F]+$/.test(value)) {
+    throw new Error(`Invalid hex string: ${value}`)
+  }
+
+  return BigInt(value)
+}

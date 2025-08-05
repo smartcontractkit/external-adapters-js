@@ -9,7 +9,7 @@ import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { adapter as viewFunctionMultiChain } from '@chainlink/view-function-multi-chain-adapter'
 import { ethers } from 'ethers'
 import { callAdapter } from '.'
-import { ETHEREUM_CL_INDEXER } from './balance'
+import { ETHEREUM_CL_INDEXER, parseHexToBigInt } from './balance'
 
 const returnParsedUnits = (
   jobRunID: string,
@@ -76,6 +76,9 @@ export const runReduceAdapter = async (
         })
       }
     case viewFunctionMultiChain.name:
+      const result = parseHexToBigInt(input.data.result)
+      input.data.result = result.toString()
+
       return returnParsedUnits(
         input.jobRunID,
         input.data.result as string,

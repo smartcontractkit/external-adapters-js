@@ -165,24 +165,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     validator.validated.data.indexerParams,
   )
 
-  // convert hex result to number
-  if (indexer === 'VIEW_FUNCTION_MULTI_CHAIN') {
-    balanceOutput.result = '0x0000000000000000000000000000000000000000000000000000322f64b31522'
-    if (typeof balanceOutput.result === 'string') {
-      const result = String(
-        parseInt(
-          balanceOutput.result.startsWith('0x')
-            ? balanceOutput.result.slice(2)
-            : balanceOutput.result ?? '0',
-          16,
-        ),
-      )
-      balanceOutput.result = balanceOutput.data.result = result
-      balanceOutput.data.decimals = validator.validated.data.decimals
-    } else {
-      throw new Error(`Not supported data type for result: ${typeof balanceOutput.result}`)
-    }
+  if (validator.validated.data.decimals) {
+    balanceOutput.data.decimals = validator.validated.data.decimals
   }
+
   const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
   reduceOutput.data.description = validator.validated.data.description
   return reduceOutput
