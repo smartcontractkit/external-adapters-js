@@ -27,8 +27,6 @@ export type ContractBalanceMap<T> = {
   }
 }
 
-const RESULT_DECIMALS = 18
-
 // Exported for testing
 export const sumBigints = (bigints: bigint[]): bigint => {
   return bigints.reduce((sum, value) => sum + value)
@@ -134,15 +132,13 @@ export class CmethTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     this.checkForUnusedAddresses(addressMap)
 
-    const unit = 10n ** BigInt(RESULT_DECIMALS)
-    const exchangeRate = totalSupply === 0n ? 0n : (totalReserve * unit) / totalSupply
+    const exchangeRate = totalSupply === 0n ? 0 : Number(totalReserve) / Number(totalSupply)
 
-    const result = String(exchangeRate > unit ? unit : exchangeRate)
+    const result = Math.min(1.0, exchangeRate)
 
     const response = {
       data: {
         result,
-        decimals: RESULT_DECIMALS,
         blockHeight,
         balances: contractBalanceMapToString(balances),
         totalLpts: Object.fromEntries(
