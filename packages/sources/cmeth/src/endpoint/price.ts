@@ -144,10 +144,9 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: string
+    Result: number
     Data: {
-      result: string
-      decimals: number
+      result: number
       balances: {
         [tokenContract: string]: {
           [address: string]: string
