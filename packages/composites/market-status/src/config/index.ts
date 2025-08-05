@@ -11,8 +11,8 @@ export const config = new AdapterConfig({
     type: 'string',
     required: true,
   },
-  FINNHUB_ADAPTER_URL: {
-    description: 'URL of the Finnhub adapter',
+  FINNHUB_SECONDARY_ADAPTER_URL: {
+    description: 'URL of the Finnhub Secondary adapter',
     type: 'string',
     required: true,
   },

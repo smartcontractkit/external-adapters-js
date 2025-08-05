@@ -1,4 +1,4 @@
-export const adapterNames = ['NCFX', 'TRADINGHOURS', 'FINNHUB'] as const
+export const adapterNames = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY'] as const
 
 export type AdapterName = (typeof adapterNames)[number]
 
@@ -18,6 +18,6 @@ export const marketAdapters: Record<string, { primary: AdapterName; secondary: A
   },
   nyse: {
     primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB',
+    secondary: 'FINNHUB_SECONDARY',
   },
 }

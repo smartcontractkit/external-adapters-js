@@ -79,8 +79,8 @@ export const mockNCFXError = (market: string): nock.Scope => {
     .reply(500, {})
 }
 
-export const mockFinnhubOpen = (market: string): nock.Scope => {
-  return nock('https://finnhub-adapter.com')
+export const mockFinnhubSecondaryOpen = (market: string): nock.Scope => {
+  return nock('https://finnhub-secondary-adapter.com')
     .persist()
     .post('/', { data: { endpoint: 'market-status', market } })
     .reply(200, {
@@ -92,8 +92,8 @@ export const mockFinnhubOpen = (market: string): nock.Scope => {
     })
 }
 
-export const mockFinnhubClosed = (market: string): nock.Scope => {
-  return nock('https://finnhub-adapter.com')
+export const mockFinnhubSecondaryClosed = (market: string): nock.Scope => {
+  return nock('https://finnhub-secondary-adapter.com')
     .persist()
     .post('/', { data: { endpoint: 'market-status', market } })
     .reply(200, {
