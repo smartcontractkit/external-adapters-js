@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@chainlink/ea-test-helpers": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.6.0",
+    "@chainlink/external-adapter-framework": "2.7.0",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
     "@types/supertest": "2.0.16",
