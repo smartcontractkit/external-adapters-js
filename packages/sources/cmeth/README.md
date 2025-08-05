@@ -60,10 +60,6 @@ Request:
         "address": "0xd5F7838F5C461fefF7FE49ea5ebaF7728bB0ADfa"
       },
       {
-        "name": "KmETH",
-        "address": "0x7c22725d1e0871f0043397c9761ad99a86ffd498"
-      },
-      {
         "name": "BoringVault",
         "address": "0x33272D40b247c4cd9C646582C9bbAD44e85D4fE4"
       },
@@ -106,35 +102,35 @@ Request:
     ],
     "balanceOf": [
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "BoringVault"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "PositionManager-Karak"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "V1:PositionManager-Symbiotic"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "V1:PositionManager-Eigen_A41"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "V1:PositionManager-Eigen_P2P"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "V2:PositionManager-Symbiotic"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "V2:PositionManager-Eigen_A41"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "V2:PositionManager-Eigen_P2P"
       },
       {
@@ -142,7 +138,7 @@ Request:
         "account": "V1:PositionManager-Symbiotic"
       },
       {
-        "tokenContract": "cmETH",
+        "tokenContract": "mETH",
         "account": "DelayedWithdraw"
       }
     ],

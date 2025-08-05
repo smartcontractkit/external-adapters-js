@@ -51,10 +51,6 @@ export const inputParameters = new InputParameters(
       addresses: [
         { name: 'cmETH', address: '0xE6829d9a7eE3040e1276Fa75293Bde931859e8fA' },
         { name: 'mETH', address: '0xd5F7838F5C461fefF7FE49ea5ebaF7728bB0ADfa' },
-        {
-          name: 'KmETH',
-          address: '0x7c22725d1e0871f0043397c9761ad99a86ffd498',
-        },
         { name: 'BoringVault', address: '0x33272D40b247c4cd9C646582C9bbAD44e85D4fE4' },
         { name: 'DelayedWithdraw', address: '0x12Be34bE067Ebd201f6eAf78a861D90b2a66B113' },
         { name: 'PositionManager-Karak', address: '0x52EA8E95378d01B0aaD3B034Ca0656b0F0cc21A2' },
@@ -89,35 +85,35 @@ export const inputParameters = new InputParameters(
       ],
       balanceOf: [
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'BoringVault',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'PositionManager-Karak',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'V1:PositionManager-Symbiotic',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'V1:PositionManager-Eigen_A41',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'V1:PositionManager-Eigen_P2P',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'V2:PositionManager-Symbiotic',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'V2:PositionManager-Eigen_A41',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'V2:PositionManager-Eigen_P2P',
         },
         {
@@ -125,7 +121,7 @@ export const inputParameters = new InputParameters(
           account: 'V1:PositionManager-Symbiotic',
         },
         {
-          tokenContract: 'cmETH',
+          tokenContract: 'mETH',
           account: 'DelayedWithdraw',
         },
       ],
