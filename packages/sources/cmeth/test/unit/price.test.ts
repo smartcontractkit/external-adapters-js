@@ -23,8 +23,6 @@ const POSITION_MANAGER_2_ADDRESS = '0x919531146f9a25dfc161d5ab23b117feae2c1d36'
 const RESTAKING_POOL_ADDRESS = '0x475d3eb031d250070b63fa145f0fcfc5d97c304a'
 const DELAYED_WITHDRAW_ADDRESS = '0x12Be34bE067Ebd201f6eAf78a861D90b2a66B113'
 
-const RESULT_DECIMALS = 18
-
 const BLOCK_HEIGHT = 12345678
 
 const ethProvider = makeStub('ethProvider', {
@@ -160,7 +158,7 @@ describe('CmethTransport', () => {
       const now = Date.now()
       await transport.handleRequest(param)
 
-      const result = '987000000000000000'
+      const result = 0.987
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
@@ -168,7 +166,6 @@ describe('CmethTransport', () => {
           response: {
             data: {
               result,
-              decimals: RESULT_DECIMALS,
               blockHeight: BLOCK_HEIGHT,
               balances: {
                 mETH: {
@@ -227,12 +224,11 @@ describe('CmethTransport', () => {
       const now = Date.now()
       const response = await transport._handleRequest(param)
 
-      const result = '987000000000000000'
+      const result = 0.987
 
       expect(response).toEqual({
         data: {
           result,
-          decimals: RESULT_DECIMALS,
           blockHeight: BLOCK_HEIGHT,
           balances: {
             mETH: {
@@ -292,12 +288,11 @@ describe('CmethTransport', () => {
       const now = Date.now()
       const response = await transport._handleRequest(param)
 
-      const result = '1000000000000000000'
+      const result = 1.0
 
       expect(response).toEqual({
         data: {
           result,
-          decimals: RESULT_DECIMALS,
           blockHeight: BLOCK_HEIGHT,
           balances: {
             mETH: {
@@ -363,12 +358,11 @@ describe('CmethTransport', () => {
       const now = Date.now()
       const response = await transport._handleRequest(param)
 
-      const result = '900000000000000000'
+      const result = 0.9
 
       expect(response).toEqual({
         data: {
           result,
-          decimals: RESULT_DECIMALS,
           blockHeight: BLOCK_HEIGHT,
           balances: {
             mETH: {
@@ -472,12 +466,11 @@ describe('CmethTransport', () => {
       const now = Date.now()
       const response = await transport._handleRequest(param)
 
-      const result = '50001500000000000'
+      const result = 0.0500015
 
       expect(response).toEqual({
         data: {
           result,
-          decimals: RESULT_DECIMALS,
           blockHeight: BLOCK_HEIGHT,
           balances: {
             mETH: {
