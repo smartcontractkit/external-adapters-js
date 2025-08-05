@@ -75,7 +75,7 @@ export const runReduceAdapter = async (
           message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
         })
       }
-    case viewFunctionMultiChain.name:
+    case viewFunctionMultiChain.name: {
       const result = parseHexToBigInt(input.data.result)
       input.data.result = result.toString()
 
@@ -86,6 +86,7 @@ export const runReduceAdapter = async (
         false,
         18,
       )
+    }
   }
 
   const next = {
