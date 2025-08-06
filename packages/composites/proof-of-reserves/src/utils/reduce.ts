@@ -9,7 +9,18 @@ import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { adapter as viewFunctionMultiChain } from '@chainlink/view-function-multi-chain-adapter'
 import { ethers } from 'ethers'
 import { callAdapter } from '.'
-import { ETHEREUM_CL_INDEXER, parseHexToBigInt } from './balance'
+import { ETHEREUM_CL_INDEXER } from './balance'
+
+export function parseHexToBigInt(value: unknown): bigint {
+  if (typeof value !== 'string') {
+    throw new Error(`Expected a hex string, but received type: ${typeof value}`)
+  }
+
+  if (!/^0x[0-9a-fA-F]+$/.test(value)) {
+    throw new Error(`Invalid hex string: ${value}`)
+  }
+  return BigInt(value)
+}
 
 const returnParsedUnits = (
   jobRunID: string,
@@ -37,7 +48,7 @@ export const runReduceAdapter = async (
   indexer: string,
   context: AdapterContext,
   input: AdapterResponse,
-  contractDecimal?: number,
+  viewFunctionIndexerResultDecimals?: number,
 ): Promise<AdapterResponse> => {
   // Some adapters' balances come already reduced
   // but needs to be converted from their base unit
@@ -76,18 +87,17 @@ export const runReduceAdapter = async (
           message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
         })
       }
-    case viewFunctionMultiChain.name: {
-      if (!contractDecimal) {
-        throw new Error('contractDecimal is a required parameter')
+    case viewFunctionMultiChain.name:
+      if (!viewFunctionIndexerResultDecimals) {
+        throw new Error('viewFunctionIndexerResultDecimals is a required parameter')
       }
       return returnParsedUnits(
         input.jobRunID,
         parseHexToBigInt(input.data.result).toString(),
-        18 - (contractDecimal as number),
+        18 - (viewFunctionIndexerResultDecimals as number),
         false,
         18,
       )
-    }
   }
 
   const next = {

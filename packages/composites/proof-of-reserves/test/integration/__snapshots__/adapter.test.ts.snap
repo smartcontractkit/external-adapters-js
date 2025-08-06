@@ -71,7 +71,7 @@ exports[`execute multiReserves endpoint view-function-multi-chain fails 1`] = `
 {
   "error": {
     "feedID": "054baf47a9ff27c8384416a3ce83c17c",
-    "message": "contractDecimal is a required parameter",
+    "message": "viewFunctionIndexerResultDecimals is a required parameter",
     "name": "Error",
   },
   "jobRunID": "1",

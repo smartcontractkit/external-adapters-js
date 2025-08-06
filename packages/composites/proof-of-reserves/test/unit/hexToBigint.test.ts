@@ -1,4 +1,4 @@
-import { parseHexToBigInt } from '../../src/utils/balance'
+import { parseHexToBigInt } from '../../src/utils/reduce'
 
 describe('parseHexToBigInt', () => {
   it('should parse valid hex strings to BigInt', () => {
