@@ -37,6 +37,7 @@ export const runReduceAdapter = async (
   indexer: string,
   context: AdapterContext,
   input: AdapterResponse,
+  contractDecimal?: number,
 ): Promise<AdapterResponse> => {
   // Some adapters' balances come already reduced
   // but needs to be converted from their base unit
@@ -79,10 +80,13 @@ export const runReduceAdapter = async (
       const result = parseHexToBigInt(input.data.result)
       input.data.result = result.toString()
 
+      if (!contractDecimal) {
+        throw new Error('contractDecimal is a required parameter')
+      }
       return returnParsedUnits(
         input.jobRunID,
         input.data.result as string,
-        18 - (input.data.decimals as number),
+        18 - (contractDecimal as number),
         false,
         18,
       )

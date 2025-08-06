@@ -5,10 +5,10 @@ export const mockViewFunctionMultiChainSuccess = (): nock.Scope => {
     .post('/')
     .reply(200, {
       jobRunID: '1',
-      result: '0x0000000000000000000000000000000000000000000000000000322f64b31522',
+      result: '0x000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF',
       statusCode: 200,
       data: {
-        result: '0x0000000000000000000000000000000000000000000000000000322f64b31522',
+        result: '0x000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF',
       },
       metricsMeta: {
         feedId:
