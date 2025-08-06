@@ -20,8 +20,7 @@ exports[`execute price endpoint should return success 1`] = `
       },
     },
     "blockHeight": 23030750,
-    "decimals": 18,
-    "result": "1000000000000000000",
+    "result": 1,
     "totalLpts": {
       "PositionManager-Karak": "26378",
       "V1:PositionManager-Eigen_A41": "0",
@@ -33,7 +32,7 @@ exports[`execute price endpoint should return success 1`] = `
     "totalReserve": "196661942552891045624577",
     "totalSupply": "196661942552891045624577",
   },
-  "result": "1000000000000000000",
+  "result": 1,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
