@@ -67,6 +67,32 @@ exports[`execute multiReserves endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute multiReserves endpoint view-function-multi-chain fails 1`] = `
+{
+  "error": {
+    "feedID": "054baf47a9ff27c8384416a3ce83c17c",
+    "message": "viewFunctionIndexerResultDecimals is a required parameter when using the view-function-multi-chain indexer",
+    "name": "Error",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`execute multiReserves endpoint view-function-multi-chain should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "18446744073709551615000000000000",
+    "statusCode": 200,
+  },
+  "jobRunID": "1",
+  "result": "18446744073709551615000000000000",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute multiReserves endpoint with scaling should return success 1`] = `
 {
   "data": {

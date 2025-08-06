@@ -1,10 +1,12 @@
-import { Validator } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { Validator } from '@chainlink/ea-bootstrap'
+import { Config } from '../config'
+import { getValidAddresses } from '../utils/addressValidator'
 import {
+  ETHEREUM_CL_INDEXER,
   adaptersV2 as indexerAdaptersV2,
   adaptersV3 as indexerAdaptersV3,
   runBalanceAdapter,
-  ETHEREUM_CL_INDEXER,
 } from '../utils/balance'
 import {
   adaptersV2 as protocolAdaptersV2,
@@ -12,8 +14,6 @@ import {
   runProtocolAdapter,
 } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
-import { getValidAddresses } from '../utils/addressValidator'
-import { Config } from '../config'
 import { extractDate } from '../utils/scheduledTrigger'
 
 export const supportedEndpoints = ['reserves']
@@ -31,6 +31,7 @@ export type TInputParameters = {
   description?: string
   startUTC?: string
   endUTC?: string
+  viewFunctionIndexerResultDecimals?: number
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -114,6 +115,13 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'end time for scheduleWindow in UTC [Format HHMM]',
   },
+  // TODO: https://smartcontract-it.atlassian.net/browse/OPDATA-3775
+  viewFunctionIndexerResultDecimals: {
+    required: false,
+    type: 'number',
+    description:
+      'The decimal precision of the value returned by the view-function-multi-chain indexer for the contract answer.',
+  },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, config.options)
@@ -158,7 +166,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     validator.validated.data.indexerEndpoint,
     validator.validated.data.indexerParams,
   )
-  const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
+
+  const reduceOutput = await runReduceAdapter(
+    indexer,
+    context,
+    balanceOutput,
+    validator.validated.data.viewFunctionIndexerResultDecimals,
+  )
   reduceOutput.data.description = validator.validated.data.description
   return reduceOutput
 }
