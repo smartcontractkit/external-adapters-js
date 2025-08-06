@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#3946](https://github.com/smartcontractkit/external-adapters-js/pull/3946) [`50a3b70`](https://github.com/smartcontractkit/external-adapters-js/commit/50a3b70267e598627e63fab2ac56cbd9cb974985) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Remove Withdrawal Queue
+
 ## 1.5.1
 
 ### Patch Changes
