@@ -71,7 +71,7 @@ exports[`execute multiReserves endpoint view-function-multi-chain fails 1`] = `
 {
   "error": {
     "feedID": "054baf47a9ff27c8384416a3ce83c17c",
-    "message": "viewFunctionIndexerResultDecimals is a required parameter",
+    "message": "viewFunctionIndexerResultDecimals is a required parameter when using the view-function-multi-chain indexer",
     "name": "Error",
   },
   "jobRunID": "1",
