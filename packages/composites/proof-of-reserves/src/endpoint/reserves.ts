@@ -31,7 +31,7 @@ export type TInputParameters = {
   description?: string
   startUTC?: string
   endUTC?: string
-  contractAnswerDecimals?: number
+  indexerResultDecimals?: number
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -115,7 +115,7 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'end time for scheduleWindow in UTC [Format HHMM]',
   },
-  contractAnswerDecimals: {
+  indexerResultDecimals: {
     required: false,
     type: 'number',
     description:
@@ -170,7 +170,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     indexer,
     context,
     balanceOutput,
-    validator.validated.data.contractAnswerDecimals,
+    validator.validated.data.indexerResultDecimals,
   )
   reduceOutput.data.description = validator.validated.data.description
   return reduceOutput

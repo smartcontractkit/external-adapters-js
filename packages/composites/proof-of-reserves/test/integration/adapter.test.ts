@@ -208,7 +208,7 @@ describe('execute', () => {
             network: 'BASE',
           },
           disableDuplicateAddressFiltering: true,
-          contractAnswerDecimals: 6,
+          indexerResultDecimals: 6,
         },
       }
       mockViewFunctionMultiChainSuccess()
