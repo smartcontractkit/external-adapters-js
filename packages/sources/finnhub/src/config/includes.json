@@ -1,16 +1,5 @@
 [
   {
-    "from": "XPT",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "OANDA:XPT_USD",
-        "to": "",
-        "inverse": false
-      }
-    ]
-  },
-  {
     "from": "BCO",
     "to": "USD",
     "includes": [
