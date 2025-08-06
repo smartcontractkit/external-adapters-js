@@ -89,7 +89,9 @@ export const runReduceAdapter = async (
       }
     case viewFunctionMultiChain.name:
       if (!viewFunctionIndexerResultDecimals) {
-        throw new Error('viewFunctionIndexerResultDecimals is a required parameter')
+        throw new Error(
+          'viewFunctionIndexerResultDecimals is a required parameter when using the view-function-multi-chain indexer',
+        )
       }
       return returnParsedUnits(
         input.jobRunID,
