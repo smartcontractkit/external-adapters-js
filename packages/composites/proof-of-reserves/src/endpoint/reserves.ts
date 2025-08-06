@@ -115,6 +115,7 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'end time for scheduleWindow in UTC [Format HHMM]',
   },
+  // TODO: https://smartcontract-it.atlassian.net/browse/OPDATA-3775
   viewFunctionIndexerResultDecimals: {
     required: false,
     type: 'number',
