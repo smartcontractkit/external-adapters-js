@@ -119,7 +119,7 @@ const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     type: 'number',
     description:
-      'The decimal precision of the value returned by the indexer for the contract answer.',
+      'The decimal precision of the value returned by the view-function-multi-chain indexer for the contract answer.',
   },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {

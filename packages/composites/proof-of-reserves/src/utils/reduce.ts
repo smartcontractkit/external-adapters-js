@@ -77,15 +77,12 @@ export const runReduceAdapter = async (
         })
       }
     case viewFunctionMultiChain.name: {
-      const result = parseHexToBigInt(input.data.result)
-      input.data.result = result.toString()
-
       if (!contractDecimal) {
         throw new Error('contractDecimal is a required parameter')
       }
       return returnParsedUnits(
         input.jobRunID,
-        input.data.result as string,
+        parseHexToBigInt(input.data.result).toString(),
         18 - (contractDecimal as number),
         false,
         18,
