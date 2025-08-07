@@ -1,5 +1,17 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.27.0
+
+### Minor Changes
+
+- [#3952](https://github.com/smartcontractkit/external-adapters-js/pull/3952) [`6ccaedb`](https://github.com/smartcontractkit/external-adapters-js/commit/6ccaedb088fb853841f0c2b73ba6f6b0f09bb105) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Add View Function Multi Chain EA to Proof Of Reserves Composite Adapter as an Indexer.
+
+### Patch Changes
+
+- Updated dependencies [[`50a3b70`](https://github.com/smartcontractkit/external-adapters-js/commit/50a3b70267e598627e63fab2ac56cbd9cb974985)]:
+  - @chainlink/token-balance-adapter@2.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.118
+
 ## 1.26.11
 
 ### Patch Changes

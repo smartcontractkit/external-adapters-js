@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-lwba-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#3950](https://github.com/smartcontractkit/external-adapters-js/pull/3950) [`f551919`](https://github.com/smartcontractkit/external-adapters-js/commit/f55191932f856b170299e60a2086d015231ff922) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Updates result to include mid
+
 ## 2.0.1
 
 ### Patch Changes
