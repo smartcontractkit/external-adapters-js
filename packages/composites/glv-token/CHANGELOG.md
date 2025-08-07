@@ -1,5 +1,11 @@
 # @chainlink/glv-token-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#3958](https://github.com/smartcontractkit/external-adapters-js/pull/3958) [`72bfb25`](https://github.com/smartcontractkit/external-adapters-js/commit/72bfb25f14371934848006818847099afb4f2181) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support SPX6900
+
 ## 1.1.6
 
 ### Patch Changes
