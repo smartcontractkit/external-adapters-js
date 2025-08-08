@@ -23,8 +23,8 @@ beforeEach(() => {
   requester.request.mockReset()
 })
 
-describe('getReserve', () => {
-  it('returns parsed reserveAmount and timestamp', async () => {
+describe('getSupply', () => {
+  it('returns supply', async () => {
     const response = {
       supply: 100,
       premint: 200,
@@ -35,11 +35,14 @@ describe('getReserve', () => {
           request_block: 500,
           mintable: '600',
           token_supply: '700',
-          token_native_mint: '800',
-          token_ccip_mint: '900',
-          token_ccip_burn: '1000',
-          token_pre_mint: '1100',
-          aggregate_pre_mint: false,
+          token_ccip_mint: '800',
+          token_ccip_burn: '900',
+          token_request_mint: '1000',
+          token_revert_mint: '1100',
+          token_attest_mint: '1200',
+          aggregate_mint_request: false,
+          token_native_mint: '1300',
+          aggregate_native_mint: true,
           block_finality: 'finalized',
         },
         '56': {
@@ -48,11 +51,14 @@ describe('getReserve', () => {
           request_block: 5000,
           mintable: '6000',
           token_supply: '7000',
-          token_native_mint: '8000',
-          token_ccip_mint: '9000',
-          token_ccip_burn: '10000',
-          token_pre_mint: '11000',
-          aggregate_pre_mint: true,
+          token_ccip_mint: '8000',
+          token_ccip_burn: '9000',
+          token_request_mint: '10000',
+          token_revert_mint: '11000',
+          token_attest_mint: '12000',
+          aggregate_mint_request: false,
+          token_native_mint: '13000',
+          aggregate_native_mint: true,
           block_finality: '10',
         },
       },

@@ -109,13 +109,15 @@ describe('MintableTransport', () => {
   describe('_handleRequest', () => {
     it('should calculate how much can be minted', async () => {
       const reserveResult = 1001
-      const premint = '102'
+      const mintableTotal = '102'
       const supply = '103'
       const mintable = '104'
       const responseBlock = 105
       const latestBlock = 106
       const supplyChain = '1'
       const supplyChainBlock = 107
+      const tokenNativeMint = '108'
+      const tokenRevertMint = '109'
 
       const reservesResponse = makeStub('reservesResponse', {
         response: {
@@ -134,11 +136,13 @@ describe('MintableTransport', () => {
       const supplyResponse = makeStub('supplyResponse', {
         response: {
           data: {
-            premint,
+            mintable: mintableTotal,
             supply,
             chains: {
               [supplyChain]: {
                 mintable,
+                token_native_mint: tokenNativeMint,
+                token_revert_mint: tokenRevertMint,
                 response_block: responseBlock,
                 latest_block: latestBlock,
               },
@@ -167,9 +171,9 @@ describe('MintableTransport', () => {
             '1': {
               block: responseBlock,
               mintable,
-              mintablePacked: mintable,
-              nativeMint: '0',
-              totalAborts: '0',
+              mintablePacked: '321',
+              nativeMint: tokenNativeMint,
+              totalAborts: tokenRevertMint,
             },
           },
           reserveInfo: {
@@ -182,10 +186,12 @@ describe('MintableTransport', () => {
               '1': {
                 latest_block: latestBlock,
                 mintable,
+                token_native_mint: tokenNativeMint,
+                token_revert_mint: tokenRevertMint,
                 response_block: responseBlock,
               },
             },
-            premint,
+            mintable: mintableTotal,
             supply,
           },
         },
@@ -226,13 +232,15 @@ describe('MintableTransport', () => {
 
     it('overmint - 0 mintable', async () => {
       const reserveResult = 1
-      const premint = '102'
+      const mintableTotal = '102'
       const supply = '1000000000000000003'
       const mintable = '104'
       const responseBlock = 105
       const latestBlock = 106
       const supplyChain = '1'
       const supplyChainBlock = 107
+      const tokenNativeMint = '108'
+      const tokenRevertMint = '109'
 
       const reservesResponse = makeStub('reservesResponse', {
         response: {
@@ -251,11 +259,13 @@ describe('MintableTransport', () => {
       const supplyResponse = makeStub('supplyResponse', {
         response: {
           data: {
-            premint,
+            mintable: mintableTotal,
             supply,
             chains: {
               [supplyChain]: {
                 mintable,
+                token_native_mint: tokenNativeMint,
+                token_revert_mint: tokenRevertMint,
                 response_block: responseBlock,
                 latest_block: latestBlock,
               },
@@ -285,8 +295,8 @@ describe('MintableTransport', () => {
               block: responseBlock,
               mintable: '0',
               mintablePacked: '0',
-              nativeMint: '0',
-              totalAborts: '0',
+              nativeMint: tokenNativeMint,
+              totalAborts: tokenRevertMint,
             },
           },
           reserveInfo: {
@@ -300,9 +310,11 @@ describe('MintableTransport', () => {
                 latest_block: latestBlock,
                 mintable,
                 response_block: responseBlock,
+                token_native_mint: tokenNativeMint,
+                token_revert_mint: tokenRevertMint,
               },
             },
-            premint,
+            mintable: mintableTotal,
             supply,
           },
         },
@@ -343,7 +355,7 @@ describe('MintableTransport', () => {
 
     it('multi chains', async () => {
       const reserveResult = 1
-      const premint = '102'
+      const mintableTotal = '102'
       const supply = '1'
       const supplyChain = ['1', '56']
       const supplyChainBlock = [107, 108]
@@ -365,18 +377,22 @@ describe('MintableTransport', () => {
       const supplyResponse = makeStub('supplyResponse', {
         response: {
           data: {
-            premint,
+            mintable: mintableTotal,
             supply,
             chains: {
               '1': {
                 mintable: '104',
                 response_block: 105,
                 latest_block: 106,
+                token_native_mint: '107',
+                token_revert_mint: '108',
               },
               '56': {
                 mintable: '2104',
                 response_block: 2105,
                 latest_block: 2106,
+                token_native_mint: '2107',
+                token_revert_mint: '2108',
               },
             },
           },
@@ -404,16 +420,16 @@ describe('MintableTransport', () => {
             '1': {
               block: 105,
               mintable: '104',
-              mintablePacked: '104',
-              nativeMint: '0',
-              totalAborts: '0',
+              mintablePacked: '319',
+              nativeMint: '107',
+              totalAborts: '108',
             },
             '56': {
               block: 2105,
               mintable: '2104',
-              mintablePacked: '2104',
-              nativeMint: '0',
-              totalAborts: '0',
+              mintablePacked: '6319',
+              nativeMint: '2107',
+              totalAborts: '2108',
             },
           },
           reserveInfo: {
@@ -427,14 +443,18 @@ describe('MintableTransport', () => {
                 latest_block: 106,
                 mintable: '104',
                 response_block: 105,
+                token_native_mint: '107',
+                token_revert_mint: '108',
               },
               '56': {
                 latest_block: 2106,
                 mintable: '2104',
                 response_block: 2105,
+                token_native_mint: '2107',
+                token_revert_mint: '2108',
               },
             },
-            premint,
+            mintable: mintableTotal,
             supply,
           },
         },
@@ -476,7 +496,7 @@ describe('MintableTransport', () => {
 
     it('multi chains - one error', async () => {
       const reserveResult = 1
-      const premint = '102'
+      const mintableTotal = '102'
       const supply = '1'
       const supplyChain = ['1', '56']
       const supplyChainBlock = [107, 108]
@@ -498,7 +518,7 @@ describe('MintableTransport', () => {
       const supplyResponse = makeStub('supplyResponse', {
         response: {
           data: {
-            premint,
+            mintable: mintableTotal,
             supply,
             chains: {
               '1': {
@@ -550,7 +570,7 @@ describe('MintableTransport', () => {
                 response_block: 2105,
               },
             },
-            premint,
+            mintable: mintableTotal,
             supply,
           },
         },
