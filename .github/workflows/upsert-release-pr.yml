@@ -1,4 +1,4 @@
-name: Upsert Release PR
+name: Upsert Release PR (testing individual release)
 
 # Creates PRs in external-adapters-js and infra-k8s to release individually selected adapters.
 
