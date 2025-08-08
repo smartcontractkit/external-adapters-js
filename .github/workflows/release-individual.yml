@@ -78,8 +78,8 @@ jobs:
           # All the previous steps would technically make more sense in the script itself, but we
           # keep them as separate ones so it's easier to see them from the github UI to debug.
           version: ./.github/scripts/run-changesets.sh ${{ env.CHANGESET_IGNORE_ARGS }}
-          title: 'Release ${{ env.BUMPED_VERSION }}'
-          commit: 'Release ${{ env.BUMPED_VERSION }}'
+          title: 'testing Release ${{ env.BUMPED_VERSION }}'
+          commit: 'testing Release ${{ env.BUMPED_VERSION }}'
       - name: Tag changesets commit
         run: |
           # Delete the tags if they already exist (ignore errors if they don't)
