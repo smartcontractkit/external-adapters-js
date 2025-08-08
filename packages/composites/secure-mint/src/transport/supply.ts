@@ -10,16 +10,19 @@ type ChainData = {
   request_block: number
   mintable: string
   token_supply: string
-  token_native_mint: string
   token_ccip_mint: string
   token_ccip_burn: string
-  token_pre_mint: string
-  aggregate_pre_mint: boolean
+  token_request_mint: string
+  token_revert_mint: string
+  token_attest_mint: string
+  aggregate_mint_request: boolean
+  token_native_mint: string
+  aggregate_native_mint: boolean
   block_finality: string
 }
 export type IndexerResponse = {
   supply: string
-  premint: string
+  mintable: string
   chains: { [chainName: string]: ChainData }
 }
 
