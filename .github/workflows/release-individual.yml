@@ -35,7 +35,7 @@ jobs:
       - name: Set CHANGESET_IGNORE_ARGS env var
         run: |
           CHANGESET_IGNORE_ARGS="$(.github/scripts/packages-to-ignore.sh ${{ github.event.inputs.adapters }} | sed -e 's/^/--ignore /')"
-          echo "CHANGESET_IGNORE_ARGS=$CHANGESET_IGNORE_ARGS" >> $GITHUB_ENV
+          echo "CHANGESET_IGNORE_ARGS=\"$CHANGESET_IGNORE_ARGS\"" >> $GITHUB_ENV
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
           # Get from output of previous step:
