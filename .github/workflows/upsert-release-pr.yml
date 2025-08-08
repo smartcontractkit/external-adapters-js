@@ -34,8 +34,10 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Set CHANGESET_IGNORE_ARGS env var
         run: |
-          CHANGESET_IGNORE_ARGS="$(.github/scripts/packages-to-ignore.sh ${{ github.event.inputs.adapters }} | sed -e 's/^/--ignore /')"
+          CHANGESET_IGNORE_ARGS="$(.github/scripts/packages-to-ignore.sh ${{ github.event.inputs.adapters }} | sed -e 's/^/--ignore /' | tr '\n' ' ')"
+          echo "$CHANGESET_IGNORE_ARGS"
           echo "CHANGESET_IGNORE_ARGS=$CHANGESET_IGNORE_ARGS" >> $GITHUB_ENV
+          cat $GITHUB_ENV
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
           # Get from output of previous step:
