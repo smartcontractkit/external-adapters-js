@@ -72,6 +72,10 @@ jobs:
       - name: Stash changes for changesets action to pick up in custom script
         run: |
           git stash
+      - name: Choose a branch for the release PR
+        run: |
+          BRANCH_NAME=$(echo release-${{ github.event.inputs.adapters }} | tr ',' '-' | sed -e 's/[^a-zA-Z0-9]/-/g')
+          git checkout -b "$BRANCH_NAME"
       - name: Create Release Pull Request
         uses: smartcontractkit/.github/actions/signed-commits@4b7aa1d5b60f0d5704400a1d2b192905ad386e6c # changesets-signed-commits@1.2.4
         with:
