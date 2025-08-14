@@ -1,5 +1,5 @@
-import { PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { addressTransport } from '../transport/openEdenUSDOAddress'
@@ -32,6 +32,11 @@ export const inputParameters = new InputParameters(
       options: ['tbill', 'other'],
       type: 'string',
       required: true,
+    },
+    reservesNetwork: {
+      description: 'The network of the reserves',
+      type: 'string',
+      required: false,
     },
   },
   [

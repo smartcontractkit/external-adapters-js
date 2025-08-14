@@ -4,6 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { ethers } from 'ethers'
 import OpenEdenUSDOPoRAddressList from '../config/OpenEdenUSDOPoRAddressList.json'
+import OpenEdenUSDOPoRAddressListSolana from '../config/OpenEdenUSDOPoRAddressListSolana.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/openEdenUSDOAddress'
 import { addProvider, getProvider } from './providerUtils'
 
@@ -68,13 +69,17 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
-    const { contractAddress, contractAddressNetwork } = param
+    const { contractAddress, contractAddressNetwork, reservesNetwork } = param
 
     this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
     const provider = getProvider(contractAddressNetwork, this.providersMap)
 
     const providerDataRequestedUnixMs = Date.now()
-    const contract = new ethers.Contract(contractAddress, OpenEdenUSDOPoRAddressList, provider)
+    const abiInterface =
+      reservesNetwork?.toLowerCase?.() ?? ''
+        ? OpenEdenUSDOPoRAddressListSolana
+        : OpenEdenUSDOPoRAddressList
+    const contract = new ethers.Contract(contractAddress, abiInterface, provider)
     const endIndex = await contract.getPoRAddressListLength()
 
     const addressList = await contract.getPoRAddressList(0, endIndex)
@@ -125,6 +130,7 @@ const buildOtherResponse = (addressList: ResponseSchema[]) => {
 }
 
 const buildTBILLResponse = (addressList: ResponseSchema[]) => {
+  // TODO: Build response for Solana
   return addressList
     .filter((addr) => pricedAssets.includes(addr.tokenSymbol))
     .map((addr) => ({
