@@ -7,16 +7,15 @@ import { Commitment, Connection } from '@solana/web3.js'
 import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/usdoSolana'
 import { getRate } from './priceFeed'
-import { getToken } from './solana'
+import { getTokenBalance } from './utils'
 
 const logger = makeLogger('Token Balance - Tbill Solana')
 
 type RequestParams = typeof inputParameters.validated
 
-type AddressType = {
+type tokenMint = {
   token: string
   contractAddress: string
-  wallets: Array<string>
 }
 
 type PriceOracleType = {
@@ -98,6 +97,7 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const addresses = param.addresses
+    const tokenMint = param.tokenMint
     const priceOracle: PriceOracleType = param.priceOracle
     const providerDataRequestedUnixMs = Date.now()
 
@@ -117,25 +117,17 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
     // 2. Fetch TBILL price ONCE from oracle contract
     const priceFeed = await getRate(priceOracle.contractAddress, evmProvider)
 
-    // 3. Fetch balances for each Solana wallet in parallel,
-    //    and calculate their USD value using the SINGLE priceFeed
-    const results = await Promise.all(
-      addresses.map(async (address: AddressType) => {
-        return this.calculateTokenSharesUSD(address, priceFeed)
-      }),
-    )
+    // 3. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE priceFeed
+    const totalTokenUSD = await this.calculateTokenSharesUSD(addresses, tokenMint, priceFeed)
 
-    // 4. Sum up the USD values across all addresses to get total AUM
-    const totalTBillUSD = results.reduce((sum, value) => sum + value, BigInt(0))
-
-    // 5. Build adapter response object
+    // 4. Build adapter response object
     return {
       data: {
-        result: String(totalTBillUSD), // formatted as string for API
+        result: String(totalTokenUSD), // formatted as string for API
         decimals: RESULT_DECIMALS, // fixed output decimals
       },
       statusCode: 200,
-      result: String(totalTBillUSD),
+      result: String(totalTokenUSD),
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -145,11 +137,12 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
   }
 
   async calculateTokenSharesUSD(
-    address: AddressType,
+    addresses: string[],
+    tokenMint: tokenMint,
     priceFeed: { value: bigint; decimal: number },
   ): Promise<bigint> {
     //1. Fetch TBILL token balances for the given address on Solana
-    const { result: balances } = await getToken([address], address.token, this.connection)
+    const { result: balances } = await getTokenBalance(addresses, tokenMint, this.connection)
 
     // 2. Multiply Solana token balances by oracle price and normalize decimals to RESULT_DECIMALS
     let totalSharesUSD = BigInt(0)

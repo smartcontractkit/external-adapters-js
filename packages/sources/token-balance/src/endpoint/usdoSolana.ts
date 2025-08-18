@@ -7,6 +7,13 @@ export const inputParameters = new InputParameters(
   {
     addresses: {
       required: true,
+      type: 'string',
+      array: true,
+      description: 'Array of wallets to sum balances',
+    },
+    tokenMint: {
+      required: true,
+      description: 'token mint',
       type: {
         token: {
           required: false,
@@ -19,15 +26,7 @@ export const inputParameters = new InputParameters(
           type: 'string',
           description: 'Address of token mint address',
         },
-        wallets: {
-          required: true,
-          type: 'string',
-          array: true,
-          description: 'Array of wallets to sum balances',
-        },
       },
-      array: true,
-      description: 'List of addresses to read',
     },
     priceOracle: {
       required: true,
@@ -48,13 +47,11 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      addresses: [
-        {
-          token: 'TBILL',
-          contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6 ',
-          wallets: ['G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'],
-        },
-      ],
+      addresses: ['G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'],
+      tokenMint: {
+        token: 'TBILL',
+        contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6 ',
+      },
       priceOracle: {
         contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
         chainId: '1',
