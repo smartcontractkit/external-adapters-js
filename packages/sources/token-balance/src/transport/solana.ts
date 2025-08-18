@@ -1,5 +1,5 @@
-import { Connection, PublicKey } from '@solana/web3.js'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { Connection, PublicKey } from '@solana/web3.js'
 import { inputParameters } from '../endpoint/solvJlp'
 
 export const getToken = async (
@@ -16,7 +16,7 @@ export const getToken = async (
 
   const response = await Promise.all(
     addresses
-      .filter((a) => a.token?.toLowerCase() == token)
+      .filter((a) => a.token?.toLowerCase() == token.toLowerCase())
       .flatMap((a) =>
         a.wallets.map((wallet) => ({
           token: new PublicKey(a.contractAddress),

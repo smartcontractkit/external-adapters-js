@@ -1,0 +1,82 @@
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import { usdoSolanaTransport } from '../transport/usdoSolana'
+
+export const inputParameters = new InputParameters(
+  {
+    addresses: {
+      required: true,
+      type: {
+        token: {
+          required: false,
+          type: 'string',
+          default: 'TBILL',
+          description: 'Token symbol',
+        },
+        contractAddress: {
+          required: true,
+          type: 'string',
+          description: 'Address of token mint address',
+        },
+        wallets: {
+          required: true,
+          type: 'string',
+          array: true,
+          description: 'Array of wallets to sum balances',
+        },
+      },
+      array: true,
+      description: 'List of addresses to read',
+    },
+    priceOracle: {
+      required: true,
+      description: 'price Oracle',
+      type: {
+        contractAddress: {
+          required: true,
+          type: 'string',
+          description: 'Address of price oracle contract',
+        },
+        chainId: {
+          required: true,
+          type: 'string',
+          description: 'Chain ID of the network',
+        },
+      },
+    },
+  },
+  [
+    {
+      addresses: [
+        {
+          token: 'TBILL',
+          contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6 ',
+          wallets: ['G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'],
+        },
+      ],
+      priceOracle: {
+        contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
+        chainId: '1',
+      },
+    },
+  ],
+)
+
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: {
+    Result: string
+    Data: {
+      result: string
+      decimals: number
+    }
+  }
+  Settings: typeof config.settings
+}
+
+export const endpoint = new AdapterEndpoint({
+  name: 'usdoSolana',
+  transport: usdoSolanaTransport,
+  inputParameters,
+})
