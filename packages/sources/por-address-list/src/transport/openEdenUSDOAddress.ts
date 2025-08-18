@@ -86,6 +86,9 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
     let response
     switch (param.type) {
+      case 'solana':
+        response = buildSolanaResponse(addressList)
+        break
       case 'tbill':
         response = buildTBILLResponse(addressList)
         break
@@ -99,6 +102,7 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
     return {
       data: {
+        // @ts-ignore
         result: response,
       },
       statusCode: 200,
@@ -129,8 +133,15 @@ const buildOtherResponse = (addressList: ResponseSchema[]) => {
     .sort()
 }
 
+const buildSolanaResponse = (addressList: String[]) => {
+  return addressList
+    .map((addr) => ({
+      contractAddress: addr,
+    }))
+    .sort()
+}
+
 const buildTBILLResponse = (addressList: ResponseSchema[]) => {
-  // TODO: Build response for Solana
   return addressList
     .filter((addr) => pricedAssets.includes(addr.tokenSymbol))
     .map((addr) => ({
