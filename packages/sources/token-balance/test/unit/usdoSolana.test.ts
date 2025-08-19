@@ -37,14 +37,14 @@ describe('USDOSolanaTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest(context, {
-      addresses: ['wallet1'],
+      addresses: [{ address: 'wallet1', network: 'BASE', chainId: '8453' }],
       tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
       priceOracle: { contractAddress: 'oracle1', chainId: '1' },
     })
 
     expect(getRate).toHaveBeenCalledWith('oracle1', transport.ethProvider)
     expect(getTokenBalance).toHaveBeenCalledWith(
-      ['wallet1'],
+      [{ address: 'wallet1', network: 'BASE', chainId: '8453' }],
       { token: 'TBILL', contractAddress: 'mint1' },
       transport.connection,
     )
@@ -59,7 +59,7 @@ describe('USDOSolanaTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest(context, {
-      addresses: ['wallet2'],
+      addresses: [{ address: 'wallet2', network: 'BASE', chainId: '8453' }],
       tokenMint: { token: 'TBILL', contractAddress: 'mint2' },
       priceOracle: { contractAddress: 'oracle2', chainId: '42161' },
     })
@@ -71,7 +71,7 @@ describe('USDOSolanaTransport._handleRequest', () => {
   it('throws AdapterInputError on unsupported chainId', async () => {
     await expect(
       transport._handleRequest(context, {
-        addresses: ['walletX'],
+        addresses: [{ address: 'wallet1', network: 'BASE', chainId: '8453' }],
         tokenMint: { token: 'TBILL', contractAddress: 'mintX' },
         priceOracle: { contractAddress: 'oracleX', chainId: '999' },
       }),
@@ -83,7 +83,7 @@ describe('USDOSolanaTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest(context, {
-        addresses: ['wallet1'],
+        addresses: [{ address: 'wallet1', network: 'BASE', chainId: '8453' }],
         tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
         priceOracle: { contractAddress: 'oracle1', chainId: '1' },
       }),
@@ -96,7 +96,7 @@ describe('USDOSolanaTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest(context, {
-        addresses: ['wallet1'],
+        addresses: [{ address: 'wallet1', network: 'BASE', chainId: '8453' }],
         tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
         priceOracle: { contractAddress: 'oracle1', chainId: '1' },
       }),
