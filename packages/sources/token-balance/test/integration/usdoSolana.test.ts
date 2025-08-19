@@ -37,14 +37,13 @@ jest.mock('@solana/web3.js', () => ({
   },
 }))
 
-// --- Mock EVM (ethers) ---
 jest.mock('ethers', () => {
   return {
     ethers: {
       JsonRpcProvider: function (): JsonRpcProvider {
         return {} as JsonRpcProvider
       },
-      Contract: function (address: string) {
+      Contract: function () {
         return {
           decimals: jest.fn().mockResolvedValue(8),
           latestAnswer: jest.fn().mockResolvedValue(150000000n), // 1.5 USD for test

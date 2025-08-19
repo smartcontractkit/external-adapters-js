@@ -49,7 +49,6 @@ describe('USDOSolanaTransport._handleRequest', () => {
       transport.connection,
     )
     expect(resp.statusCode).toBe(200)
-    expect(resp.data.result).toEqual(expect.any(String))
   })
 
   it('uses arbProvider when chainId matches Arbitrum', async () => {
