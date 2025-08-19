@@ -30,7 +30,7 @@ export const getToken = async (
 
   const response = await Promise.all(
     addresses
-      .filter((a) => a.token?.toLowerCase() == token.toLowerCase())
+      .filter((a) => a.token?.toLowerCase() == token)
       .flatMap((a) =>
         a.wallets.map((wallet) => ({
           token: new PublicKey(a.contractAddress),
