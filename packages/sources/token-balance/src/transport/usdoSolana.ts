@@ -137,7 +137,7 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
   }
 
   async calculateTokenSharesUSD(
-    addresses: string[],
+    addresses: typeof inputParameters.validated.addresses,
     tokenMint: tokenMint,
     priceFeed: { value: bigint; decimal: number },
   ): Promise<bigint> {

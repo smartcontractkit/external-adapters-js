@@ -6,7 +6,6 @@ import { PublicKey } from '@solana/web3.js'
 import { JsonRpcProvider } from 'ethers'
 import * as nock from 'nock'
 
-// --- Mock Solana ---
 jest.mock('@solana/web3.js', () => ({
   ...jest.requireActual('@solana/web3.js'),
   PublicKey: function (): PublicKey {
@@ -88,7 +87,13 @@ describe('execute', () => {
     it('returns success', async () => {
       const data = {
         endpoint: 'usdoSolana',
-        addresses: ['G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'],
+        addresses: [
+          {
+            address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
+            network: 'BASE',
+            chainId: '8453',
+          },
+        ],
         tokenMint: {
           token: 'TBILL',
           contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',

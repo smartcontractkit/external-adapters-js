@@ -7,7 +7,24 @@ export const inputParameters = new InputParameters(
   {
     addresses: {
       required: true,
-      type: 'string',
+      type: {
+        network: {
+          aliases: ['chain'],
+          required: false,
+          type: 'string',
+          description: 'Network of the contract',
+        },
+        chainId: {
+          required: false,
+          type: 'string',
+          description: 'Chain ID of the network',
+        },
+        address: {
+          required: true,
+          type: 'string',
+          description: 'Address of token contract',
+        },
+      },
       array: true,
       description: 'Array of wallets to sum balances',
     },
@@ -47,7 +64,13 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      addresses: ['G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'],
+      addresses: [
+        {
+          address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
+          network: 'BASE',
+          chainId: '8453',
+        },
+      ],
       tokenMint: {
         token: 'TBILL',
         contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6 ',

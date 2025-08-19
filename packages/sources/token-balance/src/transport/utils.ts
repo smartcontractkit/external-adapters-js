@@ -119,7 +119,7 @@ export const getTokenBalance = async (
   // Query balances for each wallet
   const response = await Promise.all(
     addresses.map(async (wallet) =>
-      connection.getParsedTokenAccountsByOwner(new PublicKey(wallet), {
+      connection.getParsedTokenAccountsByOwner(new PublicKey(wallet.address.trim()), {
         mint,
       }),
     ),
