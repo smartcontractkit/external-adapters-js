@@ -2,4 +2,4 @@
 '@chainlink/por-address-list-adapter': major
 ---
 
-Add Solana abi interface - openEdenUSDO
+Modify Por-addr-list to support integration of additional tokens by OpenEden
