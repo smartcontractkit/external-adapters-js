@@ -28,7 +28,7 @@ export const inputParameters = new InputParameters(
     },
     type: {
       description:
-        'The type of addresses you are looking for. tbill returns only TBILL tokens, other returns all others.',
+        'The type of addresses you are looking for. tbill/priced returns only priced tokens like TBILL, USYC tokens, other/pegged returns all others.',
       options: ['tbill', 'priced', 'other', 'pegged'],
       type: 'string',
       required: true,

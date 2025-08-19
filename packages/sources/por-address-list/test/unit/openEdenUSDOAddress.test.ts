@@ -118,7 +118,6 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'tbill',
-        abiName: 'evm',
       } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
@@ -143,7 +142,47 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'tbill',
-        abiName: 'evm',
+      } as RequestParams)
+      const response = await transport._handleRequest(params)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: {
+          result: [
+            {
+              contractAddress: tbillContractAddress,
+              network: 'Ethereem Mainnet',
+              chainId: '1',
+              token: 'TBILL',
+              wallets: [walletAddress],
+              priceOracleAddress: tbillPriceOracleAddress,
+            },
+            {
+              contractAddress: usycContractAddress,
+              network: 'Ethereem Mainnet',
+              chainId: '1',
+              token: 'USYC',
+              wallets: [walletAddress],
+              priceOracleAddress: usycPriceOracleAddress,
+            },
+          ],
+        },
+        result: null,
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+        },
+      })
+    })
+
+    it('should return priced token address', async () => {
+      const addresses = [tbillAddress, usycAddress, usdcAddress]
+      addressListContract.getPoRAddressList.mockResolvedValue(addresses)
+      addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
+
+      const params = makeStub('params', {
+        contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
+        contractAddressNetwork: 'BASE',
+        type: 'priced',
       } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
@@ -185,7 +224,38 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'other',
-        abiName: 'evm',
+      } as RequestParams)
+      const response = await transport._handleRequest(params)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: {
+          result: [
+            {
+              contractAddress: usdcContractAddress,
+              network: 'Ethereem Mainnet',
+              chainId: '1',
+              token: 'USDC',
+              wallets: [walletAddress],
+            },
+          ],
+        },
+        result: null,
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+        },
+      })
+    })
+
+    it('should return pegged token address', async () => {
+      const addresses = [tbillAddress, usdcAddress, usycAddress]
+      addressListContract.getPoRAddressList.mockResolvedValue(addresses)
+      addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
+
+      const params = makeStub('params', {
+        contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
+        contractAddressNetwork: 'BASE',
+        type: 'pegged',
       } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
