@@ -1,4 +1,4 @@
-import { validateAddresses, filterDuplicates } from '../../src/utils/addressValidator'
+import { filterDuplicates, validateAddresses } from '../../src/utils/addressValidator'
 
 describe('Validates Ethereum addresses and filters duplicates', () => {
   const validChecksumAddresses = [

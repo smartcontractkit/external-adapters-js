@@ -1,6 +1,6 @@
-import { utils } from 'ethers'
-import { Logger, util, Validator } from '@chainlink/ea-bootstrap'
 import type { AdapterResponse } from '@chainlink/ea-bootstrap'
+import { Logger, util, Validator } from '@chainlink/ea-bootstrap'
+import { utils } from 'ethers'
 import { TInputParameters } from '../endpoint/reserves'
 
 type AddressObject = {
