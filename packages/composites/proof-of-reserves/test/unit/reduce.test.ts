@@ -15,7 +15,7 @@ describe('reduce', () => {
             isValid: true,
             totalBalance,
           },
-        } as AdapterResponse)
+        } as unknown as AdapterResponse)
 
         const response = await runReduceAdapter('ETHEREUM_CL_INDEXER', context, input)
 
@@ -40,7 +40,7 @@ describe('reduce', () => {
             isValid: false,
             totalBalance,
           },
-        } as AdapterResponse)
+        } as unknown as AdapterResponse)
 
         await expect(() => runReduceAdapter('ETHEREUM_CL_INDEXER', context, input)).rejects.toThrow(
           `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
