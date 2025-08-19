@@ -8,6 +8,8 @@ import OpenEdenUSDOPoRAddressListSolana from '../config/OpenEdenUSDOPoRAddressLi
 import { BaseEndpointTypes, inputParameters } from '../endpoint/openEdenUSDOAddress'
 import { addProvider, getProvider } from './providerUtils'
 
+const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 export type AddressTransportTypes = BaseEndpointTypes
 
 type RequestParams = typeof inputParameters.validated
@@ -21,9 +23,6 @@ interface ResponseSchema {
   tokenPriceOracle: string //if there is a Price Oracle contract, else 0x0000000000000000000000000000000000000000
   yourVaultAddress: string
 }
-
-// Tokens with Net Asset Value (NAV)-based pricing
-const pricedAssets = ['TBILL', 'USYC']
 
 export class AddressTransport extends SubscriptionTransport<AddressTransportTypes> {
   providersMap: Record<string, ethers.providers.JsonRpcProvider> = {}
@@ -69,16 +68,21 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
-    const { contractAddress, contractAddressNetwork, reservesNetwork } = param
+    const { contractAddress, contractAddressNetwork, abiName } = param
 
     this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
     const provider = getProvider(contractAddressNetwork, this.providersMap)
 
     const providerDataRequestedUnixMs = Date.now()
     const abiInterface =
-      reservesNetwork?.toLowerCase?.() ?? ''
+      abiName?.toLowerCase() === 'solana'
         ? OpenEdenUSDOPoRAddressListSolana
-        : OpenEdenUSDOPoRAddressList
+        : abiName?.toLowerCase() === 'evm'
+        ? OpenEdenUSDOPoRAddressList
+        : (() => {
+            throw new Error(`Invalid abiName: ${abiName}. Must be 'evm' or 'solana'.`)
+          })()
+
     const contract = new ethers.Contract(contractAddress, abiInterface, provider)
     const endIndex = await contract.getPoRAddressListLength()
 
@@ -86,14 +90,16 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
     let response
     switch (param.type) {
-      case 'solana':
-        response = buildSolanaResponse(addressList)
-        break
       case 'tbill':
-        response = buildTBILLResponse(addressList)
+      case 'priced':
+        response = buildPricedTokenResponse(addressList)
         break
       case 'other':
-        response = buildOtherResponse(addressList)
+      case 'pegged':
+        response = buildPeggedTokenResponse(addressList)
+        break
+      default:
+        response = addressList
     }
 
     if (response == undefined) {
@@ -102,7 +108,6 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
 
     return {
       data: {
-        // @ts-ignore
         result: response,
       },
       statusCode: 200,
@@ -120,39 +125,37 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   }
 }
 
-const buildOtherResponse = (addressList: ResponseSchema[]) => {
-  return addressList
-    .filter((addr) => !pricedAssets.includes(addr.tokenSymbol))
-    .map((addr) => ({
-      contractAddress: addr.tokenAddress,
-      network: addr.chain,
-      chainId: addr.chainId.toString(),
-      token: addr.tokenSymbol,
-      wallets: [addr.yourVaultAddress],
-    }))
-    .sort()
+const buildPeggedTokenResponse = (addressList: ResponseSchema[]) => {
+  return (
+    addressList
+      // pegged assets have oracle set to ZERO_ADDRESS
+      .filter((addr) => addr.tokenPriceOracle === ZERO_ADDRESS)
+      .map((addr) => ({
+        contractAddress: addr.tokenAddress,
+        network: addr.chain,
+        chainId: addr.chainId.toString(),
+        token: addr.tokenSymbol,
+        wallets: [addr.yourVaultAddress],
+      }))
+      .sort((a, b) => a.token.localeCompare(b.token))
+  )
 }
 
-const buildSolanaResponse = (addressList: String[]) => {
-  return addressList
-    .map((addr) => ({
-      contractAddress: addr,
-    }))
-    .sort()
-}
-
-const buildTBILLResponse = (addressList: ResponseSchema[]) => {
-  return addressList
-    .filter((addr) => pricedAssets.includes(addr.tokenSymbol))
-    .map((addr) => ({
-      contractAddress: addr.tokenAddress,
-      network: addr.chain,
-      chainId: addr.chainId.toString(),
-      token: addr.tokenSymbol,
-      wallets: [addr.yourVaultAddress],
-      priceOracleAddress: addr.tokenPriceOracle,
-    }))
-    .sort()
+const buildPricedTokenResponse = (addressList: ResponseSchema[]) => {
+  return (
+    addressList
+      // priced assets have oracle != ZERO_ADDRESS
+      .filter((addr) => addr.tokenPriceOracle !== ZERO_ADDRESS)
+      .map((addr) => ({
+        contractAddress: addr.tokenAddress,
+        network: addr.chain,
+        chainId: addr.chainId.toString(),
+        token: addr.tokenSymbol,
+        wallets: [addr.yourVaultAddress],
+        priceOracleAddress: addr.tokenPriceOracle,
+      }))
+      .sort((a, b) => a.token.localeCompare(b.token))
+  )
 }
 
 export const addressTransport = new AddressTransport()

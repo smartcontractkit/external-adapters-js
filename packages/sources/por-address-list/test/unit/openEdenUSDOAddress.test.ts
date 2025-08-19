@@ -50,6 +50,7 @@ const tbillPriceOracleAddress = '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40'
 const usycContractAddress = '0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b'
 const usycPriceOracleAddress = '0x602a1cb1f821a3e8f507a7637a4be7af19578f75'
 const usdcContractAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+const usdcPriceOracleAddress = '0x0000000000000000000000000000000000000000'
 const tbillAddress = makeStub('tbillAddress', {
   chain: 'Ethereem Mainnet',
   chainId: 1,
@@ -71,6 +72,7 @@ const usdcAddress = makeStub('otherAddress', {
   chainId: 1,
   tokenSymbol: 'USDC',
   tokenAddress: usdcContractAddress,
+  tokenPriceOracle: usdcPriceOracleAddress,
   yourVaultAddress: walletAddress,
 })
 
@@ -116,6 +118,7 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'tbill',
+        abiName: 'evm',
       } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
@@ -140,6 +143,7 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'tbill',
+        abiName: 'evm',
       } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({
@@ -181,6 +185,7 @@ describe('AddressTransport', () => {
         contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
         contractAddressNetwork: 'BASE',
         type: 'other',
+        abiName: 'evm',
       } as RequestParams)
       const response = await transport._handleRequest(params)
       expect(response).toEqual({

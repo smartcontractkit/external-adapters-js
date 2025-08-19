@@ -13,10 +13,6 @@ export type PoRTbillAddress = Record<string, unknown> & {
   priceOracleAddress: string
 }
 
-export type PoRSolanaAddress = Record<string, unknown> & {
-  contractAddress: string
-}
-
 export const inputParameters = new InputParameters(
   {
     contractAddress: {
@@ -30,15 +26,16 @@ export const inputParameters = new InputParameters(
       type: 'string',
       required: true,
     },
+    abiName: {
+      description: 'The name of ABI used for contractAddress',
+      type: 'string',
+      options: ['evm', 'solana'],
+      default: 'evm',
+    },
     type: {
       description:
         'The type of addresses you are looking for. tbill returns only TBILL tokens, other returns all others.',
-      options: ['solana', 'tbill', 'other'],
-      type: 'string',
-      required: true,
-    },
-    reservesNetwork: {
-      description: 'The network of the reserves',
+      options: ['tbill', 'priced', 'other', 'pegged'],
       type: 'string',
       required: false,
     },
@@ -47,6 +44,7 @@ export const inputParameters = new InputParameters(
     {
       contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
       contractAddressNetwork: 'BASE',
+      abiName: 'evm',
       type: 'tbill',
     },
   ],
@@ -57,7 +55,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: null
     Data: {
-      result: PoRTbillAddress[] | PoRTokenAddress[] | PoRSolanaAddress[]
+      result: PoRTbillAddress[] | PoRTokenAddress[]
     }
   }
   Settings: typeof config.settings
