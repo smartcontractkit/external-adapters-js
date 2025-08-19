@@ -1,10 +1,8 @@
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { Connection, PublicKey } from '@solana/web3.js'
 import { ethers } from 'ethers'
 import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
 import OpenEdenTBILLProxy from '../config/OpenEdenTBILLProxy.json'
-import { inputParameters } from '../endpoint/usdoSolana'
 
 export type SharePriceType = {
   value: bigint
@@ -100,50 +98,4 @@ export const getNetworkEnvVar = (network: string, suffix: string): string => {
     })
   }
   return envVar
-}
-
-export const getTokenBalance = async (
-  addresses: typeof inputParameters.validated.addresses,
-  tokenMint: typeof inputParameters.validated.tokenMint,
-  connection?: Connection,
-) => {
-  if (!connection) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: 'SOLANA_RPC_URL is missing',
-    })
-  }
-
-  const mint = new PublicKey(tokenMint.contractAddress.trim())
-
-  // Query balances for each wallet
-  const response = await Promise.all(
-    addresses.map(async (wallet) =>
-      connection.getParsedTokenAccountsByOwner(new PublicKey(wallet.address.trim()), {
-        mint,
-      }),
-    ),
-  )
-
-  // Extract balances
-  const result = response
-    .flatMap((r) => r.value)
-    .map((v) => ({
-      value: BigInt(v.account.data.parsed.info.tokenAmount.amount),
-      decimals: Number(v.account.data.parsed.info.tokenAmount.decimals),
-    }))
-
-  const formattedResponse = response
-    .flatMap((r) => r.value)
-    .map((r) => ({
-      token: r.account.data.parsed.info.mint,
-      wallet: r.account.data.parsed.info.owner,
-      value: r.account.data.parsed.info.tokenAmount.amount,
-      decimals: r.account.data.parsed.info.tokenAmount.decimals,
-    }))
-
-  return {
-    result,
-    formattedResponse,
-  }
 }

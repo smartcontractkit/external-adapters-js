@@ -6,22 +6,12 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { Commitment, Connection } from '@solana/web3.js'
 import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/usdoSolana'
-import { getRate } from './priceFeed'
-import { getTokenBalance } from './utils'
+import { getTokenPrice } from './priceFeed'
+import { getTokenBalance } from './solana'
 
 const logger = makeLogger('Token Balance - Tbill Solana')
 
 type RequestParams = typeof inputParameters.validated
-
-type tokenMint = {
-  token: string
-  contractAddress: string
-}
-
-type PriceOracleType = {
-  contractAddress: string
-  chainId: string
-}
 
 const RESULT_DECIMALS = 18
 
@@ -67,15 +57,15 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+  async handleRequest(param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
 
     try {
-      response = await this._handleRequest(context, param)
+      response = await this._handleRequest(param)
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
@@ -93,31 +83,19 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
   }
 
   async _handleRequest(
-    context: EndpointContext<BaseEndpointTypes>,
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const addresses = param.addresses
     const tokenMint = param.tokenMint
-    const priceOracle: PriceOracleType = param.priceOracle
     const providerDataRequestedUnixMs = Date.now()
 
-    // 1. Select provider (Ethereum or Arbitrum) based on chainId in request
-    const evmProvider =
-      priceOracle.chainId === String(context.adapterSettings.ETHEREUM_RPC_CHAIN_ID)
-        ? this.ethProvider
-        : priceOracle.chainId === String(context.adapterSettings.ARBITRUM_RPC_CHAIN_ID)
-        ? this.arbProvider
-        : (() => {
-            throw new AdapterInputError({
-              message: `Unsupported chainId: ${priceOracle.chainId} for price oracle`,
-              statusCode: 400,
-            })
-          })()
+    // 1. Fetch TBILL price ONCE from oracle contract
+    const priceFeed = await getTokenPrice({
+      priceOracleAddress: param.priceOracle.contractAddress,
+      priceOracleNetwork: param.priceOracle.network,
+    })
 
-    // 2. Fetch TBILL price ONCE from oracle contract
-    const priceFeed = await getRate(priceOracle.contractAddress, evmProvider)
-
-    // 3. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE priceFeed
+    // 2. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE priceFeed
     const totalTokenUSD = await this.calculateTokenSharesUSD(addresses, tokenMint, priceFeed)
 
     // 4. Build adapter response object
@@ -138,7 +116,7 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
 
   async calculateTokenSharesUSD(
     addresses: typeof inputParameters.validated.addresses,
-    tokenMint: tokenMint,
+    tokenMint: typeof inputParameters.validated.tokenMint,
     priceFeed: { value: bigint; decimal: number },
   ): Promise<bigint> {
     //1. Fetch TBILL token balances for the given address on Solana
