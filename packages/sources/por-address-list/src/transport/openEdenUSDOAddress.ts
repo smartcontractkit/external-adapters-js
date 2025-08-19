@@ -125,7 +125,7 @@ const buildPeggedTokenResponse = (addressList: ResponseSchema[]) => {
         token: addr.tokenSymbol,
         wallets: [addr.yourVaultAddress],
       }))
-      .sort((a, b) => a.token.localeCompare(b.token))
+      .sort()
   )
 }
 
@@ -142,7 +142,7 @@ const buildPricedTokenResponse = (addressList: ResponseSchema[]) => {
         wallets: [addr.yourVaultAddress],
         priceOracleAddress: addr.tokenPriceOracle,
       }))
-      .sort((a, b) => a.token.localeCompare(b.token))
+      .sort()
   )
 }
 
