@@ -6,18 +6,18 @@ exports[`execute openedenAddress endpoint other type should return success 1`] =
     "result": [
       {
         "chainId": "1",
-        "contractAddress": "0x7712c34205737192402172409a8F7ccef8aA2AEc",
+        "contractAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
         "network": "Ethereum Mainnet",
-        "token": "BUIDL",
+        "token": "USDC",
         "wallets": [
           "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
         ],
       },
       {
         "chainId": "1",
-        "contractAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "contractAddress": "0x7712c34205737192402172409a8F7ccef8aA2AEc",
         "network": "Ethereum Mainnet",
-        "token": "USDC",
+        "token": "BUIDL",
         "wallets": [
           "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
         ],
@@ -57,18 +57,18 @@ exports[`execute openedenAddress endpoint pegged type should return success 1`] 
     "result": [
       {
         "chainId": "1",
-        "contractAddress": "0x7712c34205737192402172409a8F7ccef8aA2AEc",
+        "contractAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
         "network": "Ethereum Mainnet",
-        "token": "BUIDL",
+        "token": "USDC",
         "wallets": [
           "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
         ],
       },
       {
         "chainId": "1",
-        "contractAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "contractAddress": "0x7712c34205737192402172409a8F7ccef8aA2AEc",
         "network": "Ethereum Mainnet",
-        "token": "USDC",
+        "token": "BUIDL",
         "wallets": [
           "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
         ],
