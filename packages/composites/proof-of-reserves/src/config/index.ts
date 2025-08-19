@@ -1,14 +1,13 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { DefaultConfig } from '@chainlink/ea-bootstrap'
+import { DefaultConfig, Requester, util } from '@chainlink/ea-bootstrap'
 import {
   adaptersV2 as BalanceAdaptersV2,
   adaptersV3 as BalanceAdaptersV3,
   ETHEREUM_CL_INDEXER,
 } from '../utils/balance'
 import {
+  LIST_ADAPTER,
   adaptersV2 as ProtocolAdaptersV2,
   adaptersV3 as ProtocolAdaptersV3,
-  LIST_ADAPTER,
 } from '../utils/protocol'
 
 export interface Config extends DefaultConfig {
