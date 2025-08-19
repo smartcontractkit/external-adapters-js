@@ -26,25 +26,18 @@ export const inputParameters = new InputParameters(
       type: 'string',
       required: true,
     },
-    abiName: {
-      description: 'The name of ABI used for contractAddress',
-      type: 'string',
-      options: ['evm', 'solana'],
-      default: 'evm',
-    },
     type: {
       description:
         'The type of addresses you are looking for. tbill returns only TBILL tokens, other returns all others.',
       options: ['tbill', 'priced', 'other', 'pegged'],
       type: 'string',
-      required: false,
+      required: true,
     },
   },
   [
     {
       contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
       contractAddressNetwork: 'BASE',
-      abiName: 'evm',
       type: 'tbill',
     },
   ],

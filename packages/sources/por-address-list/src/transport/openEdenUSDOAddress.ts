@@ -4,7 +4,6 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { ethers } from 'ethers'
 import OpenEdenUSDOPoRAddressList from '../config/OpenEdenUSDOPoRAddressList.json'
-import OpenEdenUSDOPoRAddressListSolana from '../config/OpenEdenUSDOPoRAddressListSolana.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/openEdenUSDOAddress'
 import { addProvider, getProvider } from './providerUtils'
 
@@ -68,22 +67,14 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
-    const { contractAddress, contractAddressNetwork, abiName } = param
+    const { contractAddress, contractAddressNetwork } = param
 
     this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
     const provider = getProvider(contractAddressNetwork, this.providersMap)
 
     const providerDataRequestedUnixMs = Date.now()
-    const abiInterface =
-      abiName?.toLowerCase() === 'solana'
-        ? OpenEdenUSDOPoRAddressListSolana
-        : abiName?.toLowerCase() === 'evm'
-        ? OpenEdenUSDOPoRAddressList
-        : (() => {
-            throw new Error(`Invalid abiName: ${abiName}. Must be 'evm' or 'solana'.`)
-          })()
 
-    const contract = new ethers.Contract(contractAddress, abiInterface, provider)
+    const contract = new ethers.Contract(contractAddress, OpenEdenUSDOPoRAddressList, provider)
     const endIndex = await contract.getPoRAddressListLength()
 
     const addressList = await contract.getPoRAddressList(0, endIndex)
@@ -97,9 +88,6 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       case 'other':
       case 'pegged':
         response = buildPeggedTokenResponse(addressList)
-        break
-      default:
-        response = addressList
     }
 
     if (response == undefined) {

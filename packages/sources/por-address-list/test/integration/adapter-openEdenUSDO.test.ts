@@ -3,10 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
-import {
-  mockBaseContractCallResponseSuccess,
-  mockBaseContractCallSolanaResponseSuccess,
-} from './fixtures-api'
+import { mockBaseContractCallResponseSuccess } from './fixtures-api'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -45,7 +42,24 @@ describe('execute', () => {
         contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
         contractAddressNetwork: 'BASE',
         type: 'tbill',
-        abiName: 'evm',
+      }
+
+      mockBaseContractCallResponseSuccess()
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('openedenAddress endpoint priced type', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'openedenAddress',
+        contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
+        contractAddressNetwork: 'BASE',
+        type: 'priced',
       }
 
       mockBaseContractCallResponseSuccess()
@@ -64,7 +78,6 @@ describe('execute', () => {
         contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
         contractAddressNetwork: 'BASE',
         type: 'other',
-        abiName: 'evm',
       }
 
       mockBaseContractCallResponseSuccess()
@@ -76,16 +89,16 @@ describe('execute', () => {
     })
   })
 
-  describe('openedenAddress abiName solana', () => {
+  describe('openedenAddress endpoint pegged type', () => {
     it('should return success', async () => {
       const data = {
         endpoint: 'openedenAddress',
-        contractAddress: '0xbEeE5862649eF24c1F1d5e799505F67F1e7bAB9a',
+        contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
         contractAddressNetwork: 'BASE',
-        abiName: 'solana',
+        type: 'pegged',
       }
 
-      mockBaseContractCallSolanaResponseSuccess()
+      mockBaseContractCallResponseSuccess()
 
       const response = await testAdapter.request(data)
 

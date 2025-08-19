@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute openedenAddress abiName solana should return success 1`] = `
-{
-  "data": {
-    "result": [
-      "G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG",
-    ],
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
 exports[`execute openedenAddress endpoint other type should return success 1`] = `
 {
   "data": {
@@ -52,6 +36,92 @@ exports[`execute openedenAddress endpoint other type should return success 1`] =
         "contractAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
         "network": "Base",
         "token": "USDC",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute openedenAddress endpoint pegged type should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "chainId": "1",
+        "contractAddress": "0x7712c34205737192402172409a8F7ccef8aA2AEc",
+        "network": "Ethereum Mainnet",
+        "token": "BUIDL",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+      {
+        "chainId": "1",
+        "contractAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        "network": "Ethereum Mainnet",
+        "token": "USDC",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+      {
+        "chainId": "42161",
+        "contractAddress": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+        "network": "Arbitrum One",
+        "token": "USDC",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+      {
+        "chainId": "8453",
+        "contractAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "network": "Base",
+        "token": "USDC",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute openedenAddress endpoint priced type should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "chainId": "1",
+        "contractAddress": "0xdd50C053C096CB04A3e3362E2b622529EC5f2e8a",
+        "network": "Ethereum Mainnet",
+        "priceOracleAddress": "0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40",
+        "token": "TBILL",
+        "wallets": [
+          "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
+        ],
+      },
+      {
+        "chainId": "42161",
+        "contractAddress": "0xF84D28A8D28292842dD73D1c5F99476A80b6666A",
+        "network": "Arbitrum One",
+        "priceOracleAddress": "0xc0952c8ba068c887B675B4182F3A65420D045F46",
+        "token": "TBILL",
         "wallets": [
           "0x5EaFF7af80488033Bc845709806D5Fae5291eB88",
         ],
