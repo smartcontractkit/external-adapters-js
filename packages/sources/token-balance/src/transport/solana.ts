@@ -122,9 +122,10 @@ export const getTokenBalance = async (
 
   // Cache decimals (fetch from mint account once)
   const mintInfo = await connection.getParsedAccountInfo(mint)
-  const cachedDecimals =
-    // @ts-ignore parsed account layout
-    mintInfo.value?.data?.parsed?.info?.decimals ?? 0
+  let cachedDecimals = 0
+  if (mintInfo.value?.data && 'parsed' in mintInfo.value.data) {
+    cachedDecimals = mintInfo.value.data.parsed.info.decimals
+  }
 
   // Error tolerant fetch
   const responses = await Promise.allSettled(
