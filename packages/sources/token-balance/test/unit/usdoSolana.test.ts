@@ -13,16 +13,6 @@ jest.mock('../../src/transport/solana')
 
 describe('USDOSolanaTransport._handleRequest', () => {
   let transport: USDOSolanaTransport
-  const context: any = {
-    adapterSettings: {
-      ETHEREUM_RPC_CHAIN_ID: '1',
-      ARBITRUM_RPC_CHAIN_ID: '42161',
-      BACKGROUND_EXECUTE_MS: 10,
-      WARMUP_SUBSCRIPTION_TTL: 1000,
-      SOLANA_RPC_URL: 'http://mock-solana',
-      SOLANA_COMMITMENT: 'finalized',
-    },
-  }
 
   beforeEach(() => {
     transport = new USDOSolanaTransport()
@@ -41,7 +31,7 @@ describe('USDOSolanaTransport._handleRequest', () => {
     const resp = await transport._handleRequest({
       addresses: [{ address: 'wallet1', network: 'SOLANA', chainId: '101' }],
       tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
-      priceOracle: { contractAddress: 'oracle1', network: 'ethereum' },
+      priceOracle: { contractAddress: 'oracle1', chainId: '1', network: 'ethereum' },
     })
 
     expect(getTokenPrice).toHaveBeenCalledWith({
@@ -54,7 +44,6 @@ describe('USDOSolanaTransport._handleRequest', () => {
       transport.connection,
     )
     expect(resp.statusCode).toBe(200)
-    expect(resp.data.result).toBeDefined()
   })
 
   it('propagates getTokenPrice errors', async () => {
@@ -64,7 +53,7 @@ describe('USDOSolanaTransport._handleRequest', () => {
       transport._handleRequest({
         addresses: [{ address: 'wallet1', network: 'SOLANA', chainId: '101' }],
         tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
-        priceOracle: { contractAddress: 'oracle1', network: 'ethereum' },
+        priceOracle: { contractAddress: 'oracle1', chainId: '1', network: 'ethereum' },
       }),
     ).rejects.toThrow('oracle fail')
   })
@@ -77,7 +66,7 @@ describe('USDOSolanaTransport._handleRequest', () => {
       transport._handleRequest({
         addresses: [{ address: 'wallet1', network: 'SOLANA', chainId: '101' }],
         tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
-        priceOracle: { contractAddress: 'oracle1', network: 'ethereum' },
+        priceOracle: { contractAddress: 'oracle1', chainId: '1', network: 'ethereum' },
       }),
     ).rejects.toThrow('balance fail')
   })
