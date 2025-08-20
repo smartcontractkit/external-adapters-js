@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.12.0
+
+### Minor Changes
+
+- [#3962](https://github.com/smartcontractkit/external-adapters-js/pull/3962) [`36ab417`](https://github.com/smartcontractkit/external-adapters-js/commit/36ab41730da606d90b754e41b458bde67d523543) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Modify Por-addr-list to support integration of additional tokens by OpenEden
+
 ## 5.11.1
 
 ### Patch Changes
