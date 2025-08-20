@@ -6,13 +6,16 @@ import { PublicKey } from '@solana/web3.js'
 import { JsonRpcProvider } from 'ethers'
 import * as nock from 'nock'
 
+/**
+ * --- Mock Solana ---
+ */
 jest.mock('@solana/web3.js', () => ({
   ...jest.requireActual('@solana/web3.js'),
   PublicKey: function (): PublicKey {
     return {} as PublicKey
   },
   Connection: class {
-    getParsedTokenAccountsByOwner() {
+    async getParsedTokenAccountsByOwner() {
       return {
         value: [
           {
@@ -34,21 +37,48 @@ jest.mock('@solana/web3.js', () => ({
         ],
       }
     }
+    async getBalance() {
+      return 0
+    }
+    async getParsedAccountInfo() {
+      return {
+        context: { slot: 1 },
+        value: {
+          data: {
+            parsed: {
+              info: {
+                mint: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
+                tokenAmount: {
+                  amount: '1000000000',
+                  decimals: 6,
+                },
+              },
+            },
+          },
+        },
+      }
+    }
   },
 }))
 
+/**
+ * --- Mock Ethers ---
+ * (matches import { ethers } from 'ethers')
+ */
 jest.mock('ethers', () => {
   return {
     ethers: {
-      JsonRpcProvider: function (): JsonRpcProvider {
-        return {} as JsonRpcProvider
-      },
-      Contract: function () {
-        return {
-          decimals: jest.fn().mockResolvedValue(8),
-          latestAnswer: jest.fn().mockResolvedValue(150000000n), // 1.5 USD for test
-        }
-      },
+      JsonRpcProvider: jest.fn().mockImplementation(() => ({} as JsonRpcProvider)),
+      Contract: jest.fn().mockImplementation(() => ({
+        decimals: jest.fn().mockResolvedValue(8),
+        latestAnswer: jest.fn().mockResolvedValue(150000000n), // 1.5 USD
+        latestRoundData: jest.fn().mockResolvedValue({
+          answer: 150000000n,
+          startedAt: 1,
+          updatedAt: 1,
+          answeredInRound: 1,
+        }),
+      })),
     },
   }
 })
@@ -69,6 +99,7 @@ describe('execute', () => {
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
+
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
@@ -89,8 +120,8 @@ describe('execute', () => {
         addresses: [
           {
             address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
-            network: 'BASE',
-            chainId: '8453',
+            network: 'SOLANA',
+            chainId: '0',
           },
         ],
         tokenMint: {
@@ -100,10 +131,12 @@ describe('execute', () => {
         priceOracle: {
           contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
           chainId: '1',
+          network: 'ETHEREUM',
         },
       }
 
       const response = await testAdapter.request(data)
+      console.log('DEBUG response:', response.json()) // helpful if it fails
 
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
