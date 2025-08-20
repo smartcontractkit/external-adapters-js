@@ -1,5 +1,5 @@
-import { PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { addressTransport } from '../transport/openEdenUSDOAddress'
@@ -28,8 +28,8 @@ export const inputParameters = new InputParameters(
     },
     type: {
       description:
-        'The type of addresses you are looking for. tbill returns only TBILL tokens, other returns all others.',
-      options: ['tbill', 'other'],
+        'The type of addresses you are looking for. tbill/priced returns only priced tokens like TBILL, USYC tokens, other/pegged returns all others.',
+      options: ['tbill', 'priced', 'other', 'pegged'],
       type: 'string',
       required: true,
     },
