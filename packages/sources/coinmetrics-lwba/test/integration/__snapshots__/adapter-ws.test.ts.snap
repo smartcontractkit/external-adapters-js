@@ -7,7 +7,7 @@ exports[`crypto-lwba websocket happy path returns a successful response 1`] = `
     "bid": 1562.3384315992228,
     "mid": 1562.3733948803842,
   },
-  "result": null,
+  "result": 1562.3733948803842,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1024,
@@ -24,7 +24,7 @@ exports[`crypto-lwba websocket happy path returns a successful response for cryp
     "bid": 1562.3384315992228,
     "mid": 1562.3733948803842,
   },
-  "result": null,
+  "result": 1562.3733948803842,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1024,
@@ -41,7 +41,7 @@ exports[`crypto-lwba websocket happy path returns a successful response for pric
     "bid": 1562.3384315992228,
     "mid": 1562.3733948803842,
   },
-  "result": null,
+  "result": 1562.3733948803842,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1024,

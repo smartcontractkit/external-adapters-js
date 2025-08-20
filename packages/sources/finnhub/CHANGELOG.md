@@ -1,5 +1,17 @@
 # @chainlink/finnhub-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#3955](https://github.com/smartcontractkit/external-adapters-js/pull/3955) [`14fefdf`](https://github.com/smartcontractkit/external-adapters-js/commit/14fefdf1e20c87d31b29afe4fcda4e6582a17d8f) Thanks [@calvwang9](https://github.com/calvwang9)! - Use `overrides.json` and `includes.json` from finnhub-secondary. The finnhub adapter will no longer use FHFX forex symbols, and instead use OANDA - this is technically a breaking change, but upgrading to this version will not break any existing feeds.
+
+## 2.8.2
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 2.8.1
 
 ### Patch Changes

@@ -39,6 +39,7 @@
     { "path": "../../composites/multi-address-list" },
     { "path": "../../sources/ignition-address-list" },
     { "path": "../../sources/token-balance" },
-    { "path": "../../sources/ceffu" }
+    { "path": "../../sources/ceffu" },
+    { "path": "../../sources/view-function-multi-chain" }
   ]
 }
