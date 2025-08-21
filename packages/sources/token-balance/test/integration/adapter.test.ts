@@ -20,6 +20,7 @@ describe('execute', () => {
     process.env.ETHEREUM_RPC_CHAIN_ID = process.env.ETHEREUM_RPC_CHAIN_ID ?? '1'
     process.env.BASE_RPC_URL = process.env.BASE_RPC_URL ?? 'http://localhost-base-mainnet:8080'
     process.env.BASE_RPC_CHAIN_ID = process.env.BASE_RPC_CHAIN_ID ?? '8453'
+    process.env.SOLANA_RPC_URL = process.env.SOLANA_RPC_URL ?? 'http://localhost-solana:8080'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')

@@ -15,6 +15,7 @@ describe('execute', () => {
     process.env.XRPL_RPC_URL = 'http://localhost-xrpl:8080'
     process.env.ETHEREUM_RPC_URL = 'http://localhost-eth-mainnet:8080'
     process.env.ETHEREUM_RPC_CHAIN_ID = '1'
+    process.env.SOLANA_RPC_URL = process.env.SOLANA_RPC_URL ?? 'http://localhost-solana:8080'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')

@@ -8,14 +8,8 @@ export const inputParameters = new InputParameters(
     addresses: {
       required: true,
       description:
-        'List of wallet accounts to query. The balances of all provided wallets will be retrieved and summed together.',
+        'List of wallet addresses to query. The balances of all provided wallets will be retrieved and summed together.',
       type: {
-        network: {
-          required: false,
-          type: 'string',
-          description: 'Blockchain network where the wallet resides.',
-          default: 'SOLANA',
-        },
         address: {
           required: true,
           type: 'string',
@@ -51,11 +45,6 @@ export const inputParameters = new InputParameters(
           type: 'string',
           description: 'Contract address of the price oracle used to fetch token price data.',
         },
-        chainId: {
-          required: true,
-          type: 'string',
-          description: 'Chain ID where the price oracle contract is deployed.',
-        },
         network: {
           required: true,
           type: 'string',
@@ -70,7 +59,6 @@ export const inputParameters = new InputParameters(
       addresses: [
         {
           address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
-          network: 'SOLANA',
         },
       ],
       tokenMint: {
@@ -79,7 +67,6 @@ export const inputParameters = new InputParameters(
       },
       priceOracle: {
         contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
-        chainId: '1',
         network: 'ETHEREUM',
       },
     },

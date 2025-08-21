@@ -85,12 +85,7 @@ function extractBalances(
   accounts: Awaited<ReturnType<typeof fetchTokenAccounts>>,
 ): ExtractedBalance[] {
   if (accounts.length === 0) {
-    return [
-      {
-        value: BigInt(0),
-        decimals: 0,
-      },
-    ]
+    return []
   }
 
   return accounts.map((v) => ({

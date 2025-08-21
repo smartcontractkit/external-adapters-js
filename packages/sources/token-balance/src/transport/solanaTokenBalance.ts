@@ -27,6 +27,10 @@ export class SolanaTokenBalanceTransport extends SubscriptionTransport<BaseEndpo
 
     if (!adapterSettings.SOLANA_RPC_URL) {
       logger.error('SOLANA_RPC_URL is missing')
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'Environment variable SOLANA_RPC_URL is missing',
+      })
     } else {
       this.connection = new Connection(
         adapterSettings.SOLANA_RPC_URL,
@@ -98,22 +102,10 @@ export class SolanaTokenBalanceTransport extends SubscriptionTransport<BaseEndpo
     tokenMint: typeof inputParameters.validated.tokenMint,
     tokenPrice: { value: bigint; decimal: number },
   ): Promise<bigint> {
-    //1. Fetch token balances for the given address on Solana
+    // 1. Fetch token balances for the given address on Solana
     const { result: balances } = await getTokenBalance(addresses, tokenMint, this.connection)
 
-    // 2. Multiply Solana token balances by oracle price and normalize decimals to RESULT_DECIMALS
-    // let totalAumUSD = BigInt(0)
-    // for (const bal of balances) {
-    //   // Normalize token balance decimals to RESULT_DECIMALS
-    //   const normalizedAum = bal.value * BigInt(10 ** (RESULT_DECIMALS - bal.decimals))
-
-    //   // Multiply balance by oracle price and normalize again
-    //   totalAumUSD +=
-    //     (normalizedAum * tokenPrice.value * BigInt(10 ** (RESULT_DECIMALS - tokenPrice.decimal))) /
-    //     BigInt(10 ** RESULT_DECIMALS)
-    // }
-
-    // 1. Sum raw balances (all balances are for the same mint, so same decimals)
+    // 2. Sum raw balances (all balances are for the same mint, so same decimals)
     let totalRaw = BigInt(0)
     let tokenDecimals = 0
 
@@ -122,17 +114,17 @@ export class SolanaTokenBalanceTransport extends SubscriptionTransport<BaseEndpo
       tokenDecimals = bal.decimals // safe because same token
     }
 
-    // 2. Normalize once to RESULT_DECIMALS
+    // 3. Normalize once to RESULT_DECIMALS
     const normalizedBalance = totalRaw * BigInt(10 ** (RESULT_DECIMALS - tokenDecimals))
 
-    // 3. Multiply by oracle price (which has its own decimals)
+    // 4. Multiply by oracle price (which has its own decimals)
     const totalAumUSD =
       (normalizedBalance *
         tokenPrice.value *
         BigInt(10 ** (RESULT_DECIMALS - tokenPrice.decimal))) /
       BigInt(10 ** RESULT_DECIMALS)
 
-    // 3. Return total USD value for this address
+    // 5. Return total USD value for this address
     return totalAumUSD
   }
 
