@@ -16,8 +16,6 @@ describe('solanaTokenBalanceTransport._handleRequest', () => {
 
   beforeEach(() => {
     transport = new SolanaTokenBalanceTransport()
-    transport.ethProvider = {} as any
-    transport.arbProvider = {} as any
     transport.connection = {} as any
     jest.clearAllMocks()
   })
@@ -29,7 +27,7 @@ describe('solanaTokenBalanceTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest({
-      addresses: [{ address: 'wallet1', network: 'SOLANA', chainId: '101' }],
+      addresses: [{ address: 'wallet1', network: 'SOLANA' }],
       tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
       priceOracle: { contractAddress: 'oracle1', chainId: '1', network: 'ethereum' },
     })
@@ -39,7 +37,7 @@ describe('solanaTokenBalanceTransport._handleRequest', () => {
       priceOracleNetwork: 'ethereum',
     })
     expect(getTokenBalance).toHaveBeenCalledWith(
-      [{ address: 'wallet1', network: 'SOLANA', chainId: '101' }],
+      [{ address: 'wallet1', network: 'SOLANA' }],
       { token: 'TBILL', contractAddress: 'mint1' },
       transport.connection,
     )
@@ -51,7 +49,7 @@ describe('solanaTokenBalanceTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest({
-        addresses: [{ address: 'wallet1', network: 'SOLANA', chainId: '101' }],
+        addresses: [{ address: 'wallet1', network: 'SOLANA' }],
         tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
         priceOracle: { contractAddress: 'oracle1', chainId: '1', network: 'ethereum' },
       }),
@@ -64,7 +62,7 @@ describe('solanaTokenBalanceTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest({
-        addresses: [{ address: 'wallet1', network: 'SOLANA', chainId: '101' }],
+        addresses: [{ address: 'wallet1', network: 'SOLANA' }],
         tokenMint: { token: 'TBILL', contractAddress: 'mint1' },
         priceOracle: { contractAddress: 'oracle1', chainId: '1', network: 'ethereum' },
       }),
