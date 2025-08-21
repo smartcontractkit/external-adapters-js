@@ -1,5 +1,5 @@
-import { Connection, PublicKey } from '@solana/web3.js'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { Connection, PublicKey } from '@solana/web3.js'
 import { inputParameters } from '../endpoint/solvJlp'
 
 export const getToken = async (
