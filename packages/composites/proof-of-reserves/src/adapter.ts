@@ -1,7 +1,7 @@
-import { Builder } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   APIEndpoint,
+  Builder,
   ExecuteFactory,
   ExecuteWithConfig,
 } from '@chainlink/ea-bootstrap'

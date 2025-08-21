@@ -53,6 +53,24 @@ describe('execute', () => {
     })
   })
 
+  describe('openedenAddress endpoint priced type', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'openedenAddress',
+        contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
+        contractAddressNetwork: 'BASE',
+        type: 'priced',
+      }
+
+      mockBaseContractCallResponseSuccess()
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
   describe('openedenAddress endpoint other type', () => {
     it('should return success', async () => {
       const data = {
@@ -60,6 +78,24 @@ describe('execute', () => {
         contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
         contractAddressNetwork: 'BASE',
         type: 'other',
+      }
+
+      mockBaseContractCallResponseSuccess()
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('openedenAddress endpoint pegged type', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'openedenAddress',
+        contractAddress: '0x440139321A15d14ce0729E004e91D66BaF1A08B0',
+        contractAddressNetwork: 'BASE',
+        type: 'pegged',
       }
 
       mockBaseContractCallResponseSuccess()
