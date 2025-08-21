@@ -12,7 +12,7 @@ jest.mock('../../src/transport/priceFeed')
 jest.mock('../../src/transport/solana')
 
 describe('solanaTokenBalanceTransport._handleRequest', () => {
-  let transport: solanaTokenBalanceTransport
+  let transport: SolanaTokenBalanceTransport
 
   beforeEach(() => {
     transport = new SolanaTokenBalanceTransport()
