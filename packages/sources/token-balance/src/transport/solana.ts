@@ -5,15 +5,20 @@ import { inputParameters } from '../endpoint/solvJlp'
 
 const logger = makeLogger('Solana helper functions')
 
-type tokenMint = {
+type TokenMint = {
   token?: string
   contractAddress: string
 }
 
-type address = {
+type Address = {
   address: string
   chainId?: string
   network?: string
+}
+
+type ExtractedBalance = {
+  value: bigint
+  decimals: number
 }
 
 export const getToken = async (
@@ -66,13 +71,6 @@ export const getToken = async (
   }
 }
 
-function sanitizeInputs(addresses: { address: string }[], tokenMint: { contractAddress: string }) {
-  return {
-    mint: new PublicKey(tokenMint.contractAddress.trim()),
-    normalizedAddresses: addresses.map((a) => a.address.trim()),
-  }
-}
-
 async function fetchTokenAccounts(address: string, mint: PublicKey, connection: Connection) {
   const response = await connection.getParsedTokenAccountsByOwner(new PublicKey(address), { mint })
 
@@ -80,37 +78,32 @@ async function fetchTokenAccounts(address: string, mint: PublicKey, connection: 
     logger.warn(`No token account found for address: ${address} and mint: ${mint.toBase58()}`)
   }
 
-  return response
+  return response.value
 }
 
 function extractBalances(
-  response: Awaited<ReturnType<typeof fetchTokenAccounts>>,
-  cachedDecimals: number,
-) {
-  if (response.value.length === 0) {
+  accounts: Awaited<ReturnType<typeof fetchTokenAccounts>>,
+): ExtractedBalance[] {
+  if (accounts.length === 0) {
     return [
       {
-        token: '',
-        wallet: '',
         value: BigInt(0),
-        decimals: cachedDecimals,
+        decimals: 0,
       },
     ]
   }
 
-  return response.value.map((v) => ({
-    token: v.account.data.parsed.info.mint,
-    wallet: v.account.data.parsed.info.owner,
+  return accounts.map((v) => ({
     value: BigInt(v.account.data.parsed.info.tokenAmount.amount),
-    decimals: Number(v.account.data.parsed.info.tokenAmount.decimals ?? cachedDecimals),
+    decimals: Number(v.account.data.parsed.info.tokenAmount.decimals),
   }))
 }
 
 export const getTokenBalance = async (
-  addresses: address[],
-  tokenMint: tokenMint,
+  addresses: Address[],
+  tokenMint: TokenMint,
   connection?: Connection,
-) => {
+): Promise<{ result: ExtractedBalance[] }> => {
   if (!connection) {
     throw new AdapterInputError({
       statusCode: 400,
@@ -118,24 +111,17 @@ export const getTokenBalance = async (
     })
   }
 
-  const { mint, normalizedAddresses } = sanitizeInputs(addresses, tokenMint)
-
-  // Cache decimals (fetch from mint account once)
-  const mintInfo = await connection.getParsedAccountInfo(mint)
-  let cachedDecimals = 0
-  if (mintInfo.value?.data && 'parsed' in mintInfo.value.data) {
-    cachedDecimals = mintInfo.value.data.parsed.info.decimals
-  }
+  const mint = new PublicKey(tokenMint.contractAddress)
 
   // Error tolerant fetch
   const responses = await Promise.allSettled(
-    normalizedAddresses.map((address) => fetchTokenAccounts(address, mint, connection)),
+    addresses.map((addr) => fetchTokenAccounts(addr.address, mint, connection)),
   )
 
   // Flatten and normalize results
   const results = responses.flatMap((res) => {
     if (res.status === 'fulfilled') {
-      return extractBalances(res.value, cachedDecimals)
+      return extractBalances(res.value)
     } else {
       logger.error(`Failed to fetch token accounts: ${res.reason}`)
       return []

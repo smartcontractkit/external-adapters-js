@@ -4,20 +4,17 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { Commitment, Connection } from '@solana/web3.js'
-import { ethers } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/usdoSolana'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/solanaTokenBalance'
 import { getTokenPrice } from './priceFeed'
 import { getTokenBalance } from './solana'
 
-const logger = makeLogger('Token Balance - Tbill Solana')
+const logger = makeLogger('Token Balance - Solana')
 
 type RequestParams = typeof inputParameters.validated
 
 const RESULT_DECIMALS = 18
 
-export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
-  ethProvider!: ethers.JsonRpcProvider
-  arbProvider!: ethers.JsonRpcProvider
+export class SolanaTokenBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   connection!: Connection
 
   async initialize(
@@ -27,24 +24,6 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-
-    if (!adapterSettings.ETHEREUM_RPC_URL) {
-      logger.error('ETHEREUM_RPC_URL is missing')
-    } else {
-      this.ethProvider = new ethers.JsonRpcProvider(
-        adapterSettings.ETHEREUM_RPC_URL,
-        Number(adapterSettings.ETHEREUM_RPC_CHAIN_ID),
-      )
-    }
-
-    if (!adapterSettings.ARBITRUM_RPC_URL) {
-      logger.error('ARBITRUM_RPC_URL is missing')
-    } else {
-      this.arbProvider = new ethers.JsonRpcProvider(
-        adapterSettings.ARBITRUM_RPC_URL,
-        Number(adapterSettings.ARBITRUM_RPC_CHAIN_ID),
-      )
-    }
 
     if (!adapterSettings.SOLANA_RPC_URL) {
       logger.error('SOLANA_RPC_URL is missing')
@@ -89,14 +68,14 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
     const tokenMint = param.tokenMint
     const providerDataRequestedUnixMs = Date.now()
 
-    // 1. Fetch TBILL price ONCE from oracle contract
-    const priceFeed = await getTokenPrice({
+    // 1. Fetch token price ONCE from oracle contract
+    const tokenPrice = await getTokenPrice({
       priceOracleAddress: param.priceOracle.contractAddress,
       priceOracleNetwork: param.priceOracle.network,
     })
 
-    // 2. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE priceFeed
-    const totalTokenUSD = await this.calculateTokenSharesUSD(addresses, tokenMint, priceFeed)
+    // 2. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE tokenPrice
+    const totalTokenUSD = await this.calculateTokenAumUSD(addresses, tokenMint, tokenPrice)
 
     // 4. Build adapter response object
     return {
@@ -114,28 +93,47 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
     }
   }
 
-  async calculateTokenSharesUSD(
+  async calculateTokenAumUSD(
     addresses: typeof inputParameters.validated.addresses,
     tokenMint: typeof inputParameters.validated.tokenMint,
-    priceFeed: { value: bigint; decimal: number },
+    tokenPrice: { value: bigint; decimal: number },
   ): Promise<bigint> {
-    //1. Fetch TBILL token balances for the given address on Solana
+    //1. Fetch token balances for the given address on Solana
     const { result: balances } = await getTokenBalance(addresses, tokenMint, this.connection)
 
     // 2. Multiply Solana token balances by oracle price and normalize decimals to RESULT_DECIMALS
-    let totalSharesUSD = BigInt(0)
-    for (const bal of balances) {
-      // Normalize token balance decimals to RESULT_DECIMALS
-      const normalizedShares = bal.value * BigInt(10 ** (RESULT_DECIMALS - bal.decimals))
+    // let totalAumUSD = BigInt(0)
+    // for (const bal of balances) {
+    //   // Normalize token balance decimals to RESULT_DECIMALS
+    //   const normalizedAum = bal.value * BigInt(10 ** (RESULT_DECIMALS - bal.decimals))
 
-      // Multiply balance by oracle price and normalize again
-      totalSharesUSD +=
-        (normalizedShares * priceFeed.value * BigInt(10 ** (RESULT_DECIMALS - priceFeed.decimal))) /
-        BigInt(10 ** RESULT_DECIMALS)
+    //   // Multiply balance by oracle price and normalize again
+    //   totalAumUSD +=
+    //     (normalizedAum * tokenPrice.value * BigInt(10 ** (RESULT_DECIMALS - tokenPrice.decimal))) /
+    //     BigInt(10 ** RESULT_DECIMALS)
+    // }
+
+    // 1. Sum raw balances (all balances are for the same mint, so same decimals)
+    let totalRaw = BigInt(0)
+    let tokenDecimals = 0
+
+    for (const bal of balances) {
+      totalRaw += bal.value
+      tokenDecimals = bal.decimals // safe because same token
     }
 
+    // 2. Normalize once to RESULT_DECIMALS
+    const normalizedBalance = totalRaw * BigInt(10 ** (RESULT_DECIMALS - tokenDecimals))
+
+    // 3. Multiply by oracle price (which has its own decimals)
+    const totalAumUSD =
+      (normalizedBalance *
+        tokenPrice.value *
+        BigInt(10 ** (RESULT_DECIMALS - tokenPrice.decimal))) /
+      BigInt(10 ** RESULT_DECIMALS)
+
     // 3. Return total USD value for this address
-    return totalSharesUSD
+    return totalAumUSD
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -143,4 +141,4 @@ export class USDOSolanaTransport extends SubscriptionTransport<BaseEndpointTypes
   }
 }
 
-export const usdoSolanaTransport = new USDOSolanaTransport()
+export const solanaTokenBalanceTransport = new SolanaTokenBalanceTransport()

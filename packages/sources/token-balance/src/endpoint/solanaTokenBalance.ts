@@ -1,66 +1,66 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { usdoSolanaTransport } from '../transport/usdoSolana'
+import { solanaTokenBalanceTransport } from '../transport/solanaTokenBalance'
 
 export const inputParameters = new InputParameters(
   {
     addresses: {
       required: true,
-      description: 'Array of wallets to sum balances',
+      description:
+        'List of wallet accounts to query. The balances of all provided wallets will be retrieved and summed together.',
       type: {
         network: {
           required: false,
           type: 'string',
-          description: 'Network of the contract',
-        },
-        chainId: {
-          required: false,
-          type: 'string',
-          description: 'Chain ID of the network',
+          description: 'Blockchain network where the wallet resides.',
+          default: 'SOLANA',
         },
         address: {
           required: true,
           type: 'string',
-          description: 'Address of token contract',
+          description: 'Public wallet address whose token balance will be queried.',
         },
       },
       array: true,
     },
     tokenMint: {
       required: true,
-      description: 'token mint - an on-chain account that defines a token’s metadata',
+      description:
+        'Token mint information. A mint is the canonical on-chain account that defines the token’s metadata (name, symbol, supply rules).',
       type: {
         token: {
           required: false,
           type: 'string',
-          description: 'Token symbol',
+          description: 'Readable token symbol (e.g., USDC, TBILL). Used for reference only.',
         },
         contractAddress: {
           required: true,
           type: 'string',
-          description: 'Address of token mint',
+          description: 'On-chain contract address of the token mint',
         },
       },
     },
     priceOracle: {
       required: true,
-      description: 'price Oracle',
+      description:
+        'Configuration of the on-chain price oracle that provides real-time token valuations.',
       type: {
         contractAddress: {
           required: true,
           type: 'string',
-          description: 'Address of price oracle contract',
+          description: 'Contract address of the price oracle used to fetch token price data.',
         },
         chainId: {
           required: true,
           type: 'string',
-          description: 'Chain ID of the network',
+          description: 'Chain ID where the price oracle contract is deployed.',
         },
         network: {
           required: true,
           type: 'string',
-          description: 'Network of contractAddress ',
+          description:
+            'Blockchain network of the price oracle contract (e.g., ETHEREUM, ARBITRUM).',
         },
       },
     },
@@ -71,7 +71,6 @@ export const inputParameters = new InputParameters(
         {
           address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
           network: 'SOLANA',
-          chainId: '0',
         },
       ],
       tokenMint: {
@@ -100,7 +99,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'usdoSolana',
-  transport: usdoSolanaTransport,
+  name: 'solanaTokenBalance',
+  transport: solanaTokenBalanceTransport,
   inputParameters,
 })
