@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute usdoSolana endpoint returns success 1`] = `
+exports[`execute SolanaTokenBalanceTransport endpoint returns success 1`] = `
 {
   "data": {
     "decimals": 18,

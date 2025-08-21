@@ -1,6 +1,6 @@
 import { getTokenPrice } from '../../src/transport/priceFeed'
 import { getTokenBalance } from '../../src/transport/solana'
-import { USDOSolanaTransport } from '../../src/transport/usdoSolana'
+import { SolanaTokenBalanceTransport } from '../../src/transport/solanaTokenBalance'
 
 jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscription', () => {
   return {
@@ -11,11 +11,11 @@ jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscriptio
 jest.mock('../../src/transport/priceFeed')
 jest.mock('../../src/transport/solana')
 
-describe('USDOSolanaTransport._handleRequest', () => {
-  let transport: USDOSolanaTransport
+describe('solanaTokenBalanceTransport._handleRequest', () => {
+  let transport: solanaTokenBalanceTransport
 
   beforeEach(() => {
-    transport = new USDOSolanaTransport()
+    transport = new SolanaTokenBalanceTransport()
     transport.ethProvider = {} as any
     transport.arbProvider = {} as any
     transport.connection = {} as any
