@@ -48,6 +48,7 @@ export const runReduceAdapter = async (
   indexer: string,
   context: AdapterContext,
   input: AdapterResponse,
+  indexerEndpoint?: string,
   viewFunctionIndexerResultDecimals?: number,
 ): Promise<AdapterResponse> => {
   // Some adapters' balances come already reduced
@@ -71,6 +72,26 @@ export const runReduceAdapter = async (
       // TODO: type makeExecute response
       return returnParsedUnits(input.jobRunID, input.data.result as string, 0)
     case ETHEREUM_CL_INDEXER:
+      if (indexerEndpoint === 'porBalance') {
+        const hasInvalidResults = (input.data.result as unknown as Record<string, unknown>[])?.some(
+          (result) => result.isValid === false,
+        )
+        if (hasInvalidResults) {
+          throw new AdapterError({
+            statusCode: 400,
+            message: 'ETHEREUM_CL_INDEXER endpoint porBalance ripcord is true',
+          })
+        }
+        // If all results are valid, use default processing below the
+        // switch block.
+        break
+      } else if (indexerEndpoint !== 'etherFiBalance') {
+        throw new AdapterError({
+          statusCode: 400,
+          message: `ETHEREUM_CL_INDEXER indexerEndpoint is not supported: ${indexerEndpoint}`,
+        })
+      }
+      // For etherFiBalance endpoint:
       if (input.data.isValid) {
         return {
           jobRunID: input.jobRunID,
