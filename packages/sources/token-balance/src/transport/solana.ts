@@ -2,11 +2,14 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { Commitment, Connection } from '@solana/web3.js'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/solanaTokenBalance'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/solana'
 import { getTokenPrice } from './priceFeed'
-import { getTokenBalance } from './solana'
+import { getTokenBalance } from './solana-utils'
 
 const logger = makeLogger('Token Balance - Solana')
 
@@ -14,7 +17,7 @@ type RequestParams = typeof inputParameters.validated
 
 const RESULT_DECIMALS = 18
 
-export class SolanaTokenBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
   connection!: Connection
 
   async initialize(
@@ -107,24 +110,33 @@ export class SolanaTokenBalanceTransport extends SubscriptionTransport<BaseEndpo
 
     // 2. Sum raw balances (all balances are for the same mint, so same decimals)
     let totalRaw = BigInt(0)
-    let tokenDecimals = 0
 
+    let tokenDecimals = undefined
     for (const bal of balances) {
       totalRaw += bal.value
-      tokenDecimals = bal.decimals // safe because same token
+      if (!bal.decimals) {
+        throw new AdapterError({
+          statusCode: 400,
+          message: 'Missing decimals on balance response',
+        })
+      }
+      if (tokenDecimals !== undefined && bal.decimals !== tokenDecimals) {
+        throw new AdapterError({
+          statusCode: 400,
+          message: `Inconsistent balance decimals: ${tokenDecimals} != ${bal.decimals}`,
+        })
+      }
+      tokenDecimals = bal.decimals
     }
+    tokenDecimals ??= RESULT_DECIMALS
 
-    // 3. Normalize once to RESULT_DECIMALS
-    const normalizedBalance = totalRaw * BigInt(10 ** (RESULT_DECIMALS - tokenDecimals))
-
-    // 4. Multiply by oracle price (which has its own decimals)
+    // 3. Calculate AUM
     const totalAumUSD =
-      (normalizedBalance *
-        tokenPrice.value *
-        BigInt(10 ** (RESULT_DECIMALS - tokenPrice.decimal))) /
-      BigInt(10 ** RESULT_DECIMALS)
+      (totalRaw * tokenPrice.value * 10n ** BigInt(RESULT_DECIMALS)) /
+      10n ** BigInt(tokenDecimals) /
+      10n ** BigInt(tokenPrice.decimal)
 
-    // 5. Return total USD value for this address
+    // 4. Return total USD value for this address
     return totalAumUSD
   }
 
@@ -133,4 +145,4 @@ export class SolanaTokenBalanceTransport extends SubscriptionTransport<BaseEndpo
   }
 }
 
-export const solanaTokenBalanceTransport = new SolanaTokenBalanceTransport()
+export const solanaTransport = new SolanaTransport()

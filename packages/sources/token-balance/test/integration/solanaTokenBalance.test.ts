@@ -106,10 +106,10 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('SolanaTokenBalanceTransport endpoint', () => {
+  describe('SolanaTransport endpoint', () => {
     it('returns success', async () => {
       const data = {
-        endpoint: 'solanaTokenBalance',
+        endpoint: 'solana',
         addresses: [
           {
             address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',

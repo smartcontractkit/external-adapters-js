@@ -14,3 +14,18 @@ exports[`execute SolanaTokenBalanceTransport endpoint returns success 1`] = `
   },
 }
 `;
+
+exports[`execute SolanaTransport endpoint returns success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "1500000000000000000000",
+  },
+  "result": "1500000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

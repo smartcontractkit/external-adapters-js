@@ -1,3 +1,4 @@
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { Connection, PublicKey } from '@solana/web3.js'
 import { inputParameters } from '../endpoint/solvJlp'

@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { solanaTokenBalanceTransport } from '../transport/solanaTokenBalance'
+import { solanaTransport } from '../transport/solana'
 
 export const inputParameters = new InputParameters(
   {
@@ -86,7 +86,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'solanaTokenBalance',
-  transport: solanaTokenBalanceTransport,
+  name: 'solana',
+  transport: solanaTransport,
   inputParameters,
 })
