@@ -591,6 +591,9 @@
       "path": "./sources/satoshitango/tsconfig.test.json"
     },
     {
+      "path": "./sources/sftp-generic/tsconfig.test.json"
+    },
+    {
       "path": "./sources/snowflake/tsconfig.test.json"
     },
     {

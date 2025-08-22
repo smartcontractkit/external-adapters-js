@@ -1,0 +1,47 @@
+{
+  "name": "@chainlink/sftp-generic-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink sftp-generic adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "sftp-generic"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist",
+    "test": "jest",
+    "test:unit": "jest test/unit",
+    "test:integration": "jest test/integration"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "2.7.0",
+    "decimal.js": "^10.5.0",
+    "ssh2-sftp-client": "^10.0.3",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.14.1",
+    "@types/ssh2-sftp-client": "^9.0.3",
+    "jest": "^29.7.0",
+    "nock": "13.5.6",
+    "typescript": "5.8.3"
+  }
+}

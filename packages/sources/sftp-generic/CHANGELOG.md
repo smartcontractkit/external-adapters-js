@@ -1,0 +1,2 @@
+# @chainlink/sftp-generic-adapter
+
