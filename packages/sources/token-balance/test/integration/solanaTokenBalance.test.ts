@@ -113,8 +113,6 @@ describe('execute', () => {
         addresses: [
           {
             address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
-            network: 'SOLANA',
-            chainId: '0',
           },
         ],
         tokenMint: {
@@ -123,7 +121,6 @@ describe('execute', () => {
         },
         priceOracle: {
           contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
-          chainId: '1',
           network: 'ETHEREUM',
         },
       }

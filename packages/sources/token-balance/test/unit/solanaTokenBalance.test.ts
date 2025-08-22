@@ -27,7 +27,7 @@ describe('solanaTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest({
-      addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG', network: 'SOLANA' }],
+      addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG' }],
       tokenMint: {
         token: 'TBILL',
         contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
@@ -44,7 +44,7 @@ describe('solanaTransport._handleRequest', () => {
       priceOracleNetwork: 'ethereum',
     })
     expect(getTokenBalance).toHaveBeenCalledWith(
-      [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG', network: 'SOLANA' }],
+      [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG' }],
       { token: 'TBILL', contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6' },
       transport.connection,
     )
@@ -63,7 +63,7 @@ describe('solanaTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest({
-      addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG', network: 'SOLANA' }],
+      addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG' }],
       tokenMint: {
         token: 'TBILL',
         contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
@@ -80,7 +80,7 @@ describe('solanaTransport._handleRequest', () => {
       priceOracleNetwork: 'ethereum',
     })
     expect(getTokenBalance).toHaveBeenCalledWith(
-      [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG', network: 'SOLANA' }],
+      [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG' }],
       { token: 'TBILL', contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6' },
       transport.connection,
     )
@@ -99,7 +99,7 @@ describe('solanaTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest({
-        addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG', network: 'SOLANA' }],
+        addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG' }],
         tokenMint: {
           token: 'TBILL',
           contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
@@ -119,7 +119,7 @@ describe('solanaTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest({
-        addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG', network: 'SOLANA' }],
+        addresses: [{ address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG' }],
         tokenMint: {
           token: 'TBILL',
           contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
