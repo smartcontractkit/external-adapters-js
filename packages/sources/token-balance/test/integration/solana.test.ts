@@ -6,6 +6,13 @@ import { PublicKey } from '@solana/web3.js'
 import { JsonRpcProvider } from 'ethers'
 import * as nock from 'nock'
 
+const token = 'tbill'
+const mintAddress = '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6'
+const ownerAddress = 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'
+const balanceDecimals = 6
+const tokenPriceDecimals = 8
+const mockTokenPriceValue = BigInt(1.5 * 10 ** tokenPriceDecimals)
+
 jest.mock('@solana/web3.js', () => ({
   ...jest.requireActual('@solana/web3.js'),
   PublicKey: function (): PublicKey {
@@ -20,11 +27,11 @@ jest.mock('@solana/web3.js', () => ({
               data: {
                 parsed: {
                   info: {
-                    mint: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
-                    owner: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
+                    mint: mintAddress,
+                    owner: ownerAddress,
                     tokenAmount: {
-                      amount: '1000000000', // 1e9
-                      decimals: 6,
+                      amount: String(1e9),
+                      decimals: balanceDecimals,
                     },
                   },
                 },
@@ -32,27 +39,6 @@ jest.mock('@solana/web3.js', () => ({
             },
           },
         ],
-      }
-    }
-    async getBalance() {
-      return 0
-    }
-    async getParsedAccountInfo() {
-      return {
-        context: { slot: 1 },
-        value: {
-          data: {
-            parsed: {
-              info: {
-                mint: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
-                tokenAmount: {
-                  amount: '1000000000',
-                  decimals: 6,
-                },
-              },
-            },
-          },
-        },
       }
     }
   },
@@ -63,14 +49,8 @@ jest.mock('ethers', () => {
     ethers: {
       JsonRpcProvider: jest.fn().mockImplementation(() => ({} as JsonRpcProvider)),
       Contract: jest.fn().mockImplementation(() => ({
-        decimals: jest.fn().mockResolvedValue(8),
-        latestAnswer: jest.fn().mockResolvedValue(150000000n), // 1.5 USD
-        latestRoundData: jest.fn().mockResolvedValue({
-          answer: 150000000n,
-          startedAt: 1,
-          updatedAt: 1,
-          answeredInRound: 1,
-        }),
+        decimals: jest.fn().mockResolvedValue(tokenPriceDecimals),
+        latestAnswer: jest.fn().mockResolvedValue(mockTokenPriceValue),
       })),
     },
   }
@@ -112,12 +92,12 @@ describe('execute', () => {
         endpoint: 'solana',
         addresses: [
           {
-            address: 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG',
+            address: ownerAddress,
           },
         ],
         tokenMint: {
-          token: 'TBILL',
-          contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6',
+          token: token,
+          contractAddress: mintAddress,
         },
         priceOracle: {
           contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',

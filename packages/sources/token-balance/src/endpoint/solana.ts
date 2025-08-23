@@ -21,17 +21,17 @@ export const inputParameters = new InputParameters(
     tokenMint: {
       required: true,
       description:
-        'Token mint information. A mint is the canonical on-chain account that defines the token’s metadata (name, symbol, supply rules).',
+        'A token mint is the canonical on-chain account that defines the token’s metadata (name, symbol, supply rules).',
       type: {
         token: {
-          required: false,
+          required: true,
           type: 'string',
-          description: 'Readable token symbol (e.g., USDC, TBILL). Used for reference only.',
+          description: 'token symbol of token mint.',
         },
         contractAddress: {
           required: true,
           type: 'string',
-          description: 'On-chain contract address of the token mint',
+          description: 'On-chain contract address of the token mint.',
         },
       },
     },
@@ -62,7 +62,7 @@ export const inputParameters = new InputParameters(
         },
       ],
       tokenMint: {
-        token: 'TBILL',
+        token: 'tbill',
         contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6 ',
       },
       priceOracle: {

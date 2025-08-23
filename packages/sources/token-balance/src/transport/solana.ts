@@ -9,7 +9,7 @@ import {
 import { Commitment, Connection } from '@solana/web3.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/solana'
 import { getTokenPrice } from './priceFeed'
-import { getTokenBalance } from './solana-utils'
+import { getToken } from './solana-utils'
 
 const logger = makeLogger('Token Balance - Solana')
 
@@ -29,11 +29,7 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
 
     if (!adapterSettings.SOLANA_RPC_URL) {
-      logger.error('SOLANA_RPC_URL is missing')
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: 'Environment variable SOLANA_RPC_URL is missing',
-      })
+      logger.warn('SOLANA_RPC_URL is missing')
     } else {
       this.connection = new Connection(
         adapterSettings.SOLANA_RPC_URL,
@@ -84,7 +80,7 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     // 2. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE tokenPrice
     const totalTokenUSD = await this.calculateTokenAumUSD(addresses, tokenMint, tokenPrice)
 
-    // 4. Build adapter response object
+    // 3. Build adapter response object
     return {
       data: {
         result: String(totalTokenUSD), // formatted as string for API
@@ -105,10 +101,23 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     tokenMint: typeof inputParameters.validated.tokenMint,
     tokenPrice: { value: bigint; decimal: number },
   ): Promise<bigint> {
-    // 1. Fetch token balances for the given address on Solana
-    const { result: balances } = await getTokenBalance(addresses, tokenMint, this.connection)
+    // 1. Transform new schema → getToken schema
+    const addressesForGetToken = [
+      {
+        token: tokenMint.token,
+        contractAddress: tokenMint.contractAddress,
+        wallets: addresses.map((a) => a.address),
+      },
+    ]
 
-    // 2. Sum raw balances (all balances are for the same mint, so same decimals)
+    // 2. Fetch token balances for the given address on Solana
+    const { result: balances } = await getToken(
+      addressesForGetToken,
+      tokenMint.token,
+      this.connection,
+    )
+
+    // 3. Sum raw balances (all balances are for the same mint, so same decimals)
     let totalRaw = BigInt(0)
 
     let tokenDecimals = undefined
@@ -130,13 +139,13 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
     tokenDecimals ??= RESULT_DECIMALS
 
-    // 3. Calculate AUM
+    // 4. Calculate AUM
     const totalAumUSD =
       (totalRaw * tokenPrice.value * 10n ** BigInt(RESULT_DECIMALS)) /
       10n ** BigInt(tokenDecimals) /
       10n ** BigInt(tokenPrice.decimal)
 
-    // 4. Return total USD value for this address
+    // 5. Return total USD value for this address
     return totalAumUSD
   }
 
