@@ -235,6 +235,12 @@ describe('solanaTransport._handleRequest', () => {
         value: BigInt(b.value * 10 ** b.decimals),
         decimals: b.decimals,
       })),
+      formattedResponse: balances.map((b) => ({
+        token: 'mockToken',
+        wallet: 'mockWallet',
+        value: b.value,
+        decimals: b.decimals,
+      })),
     })
 
     const resp = await transport._handleRequest({
@@ -294,6 +300,12 @@ describe('solanaTransport._handleRequest', () => {
     jest.mocked(getToken).mockResolvedValue({
       result: balances.map((b) => ({
         value: BigInt(b.value * 10 ** b.decimals),
+        decimals: b.decimals,
+      })),
+      formattedResponse: balances.map((b) => ({
+        token: 'mockToken',
+        wallet: 'mockWallet',
+        value: b.value,
         decimals: b.decimals,
       })),
     })
