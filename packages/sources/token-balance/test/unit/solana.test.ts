@@ -30,23 +30,26 @@ describe('solanaTransport._handleRequest', () => {
   const tokenPriceValue = 44.8967
   const tokenPriceDecimals = 8
   const tokenBalanceDecimals = 6
-  const expectedUsdBalance = tokenBalanceValue * tokenPriceValue
-  jest
-    .mocked(getTokenPrice)
-    .mockResolvedValue({
-      value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
-      decimal: tokenPriceDecimals,
-    })
-  jest
-    .mocked(getToken)
-    .mockResolvedValue({
-      result: [
-        {
-          value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
-          decimals: tokenBalanceDecimals,
-        },
-      ],
-    })
+  jest.mocked(getTokenPrice).mockResolvedValue({
+    value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
+    decimal: tokenPriceDecimals,
+  })
+  jest.mocked(getToken).mockResolvedValue({
+    result: [
+      {
+        value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
+        decimals: tokenBalanceDecimals,
+      },
+    ],
+    formattedResponse: [
+      {
+        token: tokenMintContractAddress,
+        wallet: ownerAddress,
+        value: (tokenBalanceValue * 10 ** tokenBalanceDecimals).toString(),
+        decimals: tokenBalanceDecimals,
+      },
+    ],
+  })
 
   it('fetches price and balances, calculates correct USD result', async () => {
     const tokenBalanceValue = 1000
@@ -54,22 +57,26 @@ describe('solanaTransport._handleRequest', () => {
     const tokenPriceDecimals = 8
     const tokenBalanceDecimals = 6
     const expectedUsdBalance = tokenBalanceValue * tokenPriceValue
-    jest
-      .mocked(getTokenPrice)
-      .mockResolvedValue({
-        value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
-        decimal: tokenPriceDecimals,
-      })
-    jest
-      .mocked(getToken)
-      .mockResolvedValue({
-        result: [
-          {
-            value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
-            decimals: tokenBalanceDecimals,
-          },
-        ],
-      })
+    jest.mocked(getTokenPrice).mockResolvedValue({
+      value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
+      decimal: tokenPriceDecimals,
+    })
+    jest.mocked(getToken).mockResolvedValue({
+      result: [
+        {
+          value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+      formattedResponse: [
+        {
+          token: tokenMintContractAddress,
+          wallet: ownerAddress,
+          value: (tokenBalanceValue * 10 ** tokenBalanceDecimals).toString(),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+    })
 
     const resp = await transport._handleRequest({
       addresses: [{ address: ownerAddress }],
@@ -109,22 +116,26 @@ describe('solanaTransport._handleRequest', () => {
     const tokenPriceDecimals = 8
 
     const expectedUsdBalance = tokenBalanceValue * tokenPriceValue
-    jest
-      .mocked(getTokenPrice)
-      .mockResolvedValue({
-        value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
-        decimal: tokenPriceDecimals,
-      })
-    jest
-      .mocked(getToken)
-      .mockResolvedValue({
-        result: [
-          {
-            value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
-            decimals: tokenBalanceDecimals,
-          },
-        ],
-      })
+    jest.mocked(getTokenPrice).mockResolvedValue({
+      value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
+      decimal: tokenPriceDecimals,
+    })
+    jest.mocked(getToken).mockResolvedValue({
+      result: [
+        {
+          value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+      formattedResponse: [
+        {
+          token: tokenMintContractAddress,
+          wallet: ownerAddress,
+          value: (tokenBalanceValue * 10 ** tokenBalanceDecimals).toString(),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+    })
 
     const resp = await transport._handleRequest({
       addresses: [{ address: ownerAddress }],
@@ -180,12 +191,10 @@ describe('solanaTransport._handleRequest', () => {
     const tokenPriceValue = 9
     const tokenPriceDecimals = 8
 
-    jest
-      .mocked(getTokenPrice)
-      .mockResolvedValue({
-        value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
-        decimal: tokenPriceDecimals,
-      })
+    jest.mocked(getTokenPrice).mockResolvedValue({
+      value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
+      decimal: tokenPriceDecimals,
+    })
     jest.mocked(getToken).mockRejectedValue(new Error('balance fail'))
 
     await expect(
@@ -216,13 +225,11 @@ describe('solanaTransport._handleRequest', () => {
     // Expected total USD balance (before scaling)
     const expectedUsdBalance = balances.reduce((acc, b) => acc + b.value * tokenPriceValue, 0)
 
-    // Mock price
     jest.mocked(getTokenPrice).mockResolvedValue({
       value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
       decimal: tokenPriceDecimals,
     })
 
-    // Mock balances
     jest.mocked(getToken).mockResolvedValue({
       result: balances.map((b) => ({
         value: BigInt(b.value * 10 ** b.decimals),
