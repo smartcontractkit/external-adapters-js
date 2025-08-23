@@ -1,19 +1,9 @@
 {
   "requests": [
     {
-      "operation": "list",
-      "remotePath": "/data"
-    },
-    {
       "operation": "download",
       "remotePath": "/data",
-      "fileName": "example.txt"
-    },
-    {
-      "operation": "upload",
-      "remotePath": "/upload",
-      "fileName": "new-file.txt",
-      "fileContent": "SGVsbG8gV29ybGQ="
+      "instrument": "FTSE100INDEX"
     }
   ]
 }
