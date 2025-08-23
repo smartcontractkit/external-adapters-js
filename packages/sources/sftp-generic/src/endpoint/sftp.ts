@@ -16,7 +16,7 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Remote path on the SFTP server (defaults to root /)',
     },
-    fileName: {
+    instrument: {
       required: true,
       type: 'string',
       description: 'Name of the file for download or upload operations',
@@ -26,10 +26,17 @@ export const inputParameters = new InputParameters(
     {
       operation: 'download',
       remotePath: '/data',
-      fileName: 'example.txt',
+      instrument: 'FTSE100INDEX',
     },
   ],
 )
+
+export const indiceToFileMap = {
+  'FTSE100INDEX': 'vall{{dd}}{{mm}}.csv',
+  'Russell1000INDEX': 'daily_values_russell_{{dd}}{{mm}}.csv',
+  'Russell2000INDEX': 'daily_values_russell_{{dd}}{{mm}}.csv',
+  'Russell3000INDEX': 'daily_values_russell_{{dd}}{{mm}}.csv'
+}
 
 export type TInputParameters = typeof inputParameters.definition
 

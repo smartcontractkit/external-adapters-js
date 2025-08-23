@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SFTP Generic Adapter sftp endpoint should fail when SFTP connection fails 1`] = `
+{
+  "errorMessage": "Failed to connect to SFTP server: Connection failed",
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data-connfail","instrument":"ftse100index"}",
+    },
+  },
+  "statusCode": 500,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should fail when SFTP connection times out 1`] = `
+{
+  "errorMessage": "Failed to connect to SFTP server: Connection timeout",
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data-timeout","instrument":"ftse100index"}",
+    },
+  },
+  "statusCode": 500,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should fail when file is not found 1`] = `
+{
+  "errorMessage": "Failed to download file: File not found: /data-notfound/vall2308.csv",
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data-notfound","instrument":"ftse100index"}",
+    },
+  },
+  "statusCode": 500,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should fail when file operation fails 1`] = `
+{
+  "errorMessage": "Failed to download file: File operation failed",
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data-opfail","instrument":"ftse100index"}",
+    },
+  },
+  "statusCode": 500,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should fail with missing required parameters 1`] = `
+{
+  "error": {
+    "message": "[Param: operation] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should fail with unsupported instrument 1`] = `
+{
+  "errorMessage": "Unsupported instrument: UNSUPPORTED_INDEX",
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data","instrument":"unsupported_index"}",
+    },
+  },
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should fail with unsupported operation 1`] = `
+{
+  "error": {
+    "message": "[Param: operation] input is not one of valid options (download)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should handle different remote paths correctly 1`] = `
+{
+  "data": {
+    "result": "{"operation":"download","fileName":"vall2308.csv","path":"/custom/path","content":"Date,Open,High,Low,Close,Volume\\n2024-08-23,7500.00,7520.00,7485.00,7510.00,1000000\\n2024-08-22,7485.00,7505.00,7470.00,7500.00,950000\\n2024-08-21,7470.00,7490.00,7455.00,7485.00,900000","contentType":"text/csv","timestamp":1724407200000}",
+  },
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/custom/path","instrument":"ftse100index"}",
+    },
+  },
+  "result": "{"operation":"download","fileName":"vall2308.csv","path":"/custom/path","content":"Date,Open,High,Low,Close,Volume\\n2024-08-23,7500.00,7520.00,7485.00,7510.00,1000000\\n2024-08-22,7485.00,7505.00,7470.00,7500.00,950000\\n2024-08-21,7470.00,7490.00,7455.00,7485.00,900000","contentType":"text/csv","timestamp":1724407200000}",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1724407200000,
+    "providerDataRequestedUnixMs": 1724407200000,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should successfully download FTSE100INDEX file 1`] = `
+{
+  "data": {
+    "result": "{"operation":"download","fileName":"vall2308.csv","path":"/data","content":"Date,Open,High,Low,Close,Volume\\n2024-08-23,7500.00,7520.00,7485.00,7510.00,1000000\\n2024-08-22,7485.00,7505.00,7470.00,7500.00,950000\\n2024-08-21,7470.00,7490.00,7455.00,7485.00,900000","contentType":"text/csv","timestamp":1724407200000}",
+  },
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data","instrument":"ftse100index"}",
+    },
+  },
+  "result": "{"operation":"download","fileName":"vall2308.csv","path":"/data","content":"Date,Open,High,Low,Close,Volume\\n2024-08-23,7500.00,7520.00,7485.00,7510.00,1000000\\n2024-08-22,7485.00,7505.00,7470.00,7500.00,950000\\n2024-08-21,7470.00,7490.00,7455.00,7485.00,900000","contentType":"text/csv","timestamp":1724407200000}",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1724407200000,
+    "providerDataRequestedUnixMs": 1724407200000,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should successfully download Russell1000INDEX file 1`] = `
+{
+  "data": {
+    "result": "{"operation":"download","fileName":"daily_values_russell_2308.csv","path":"/data","content":"Date,Price,Volume,MarketCap\\n2024-08-23,2450.50,5000000,2500000000\\n2024-08-22,2440.25,4800000,2480000000\\n2024-08-21,2435.75,4600000,2460000000","contentType":"text/csv","timestamp":1724407200000}",
+  },
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data","instrument":"russell1000index"}",
+    },
+  },
+  "result": "{"operation":"download","fileName":"daily_values_russell_2308.csv","path":"/data","content":"Date,Price,Volume,MarketCap\\n2024-08-23,2450.50,5000000,2500000000\\n2024-08-22,2440.25,4800000,2480000000\\n2024-08-21,2435.75,4600000,2460000000","contentType":"text/csv","timestamp":1724407200000}",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1724407200000,
+    "providerDataRequestedUnixMs": 1724407200000,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should successfully download Russell2000INDEX file 1`] = `
+{
+  "data": {
+    "result": "{"operation":"download","fileName":"daily_values_russell_2308.csv","path":"/data","content":"Date,Price,Volume,MarketCap\\n2024-08-23,1950.50,3000000,1950000000\\n2024-08-22,1940.25,2800000,1940000000\\n2024-08-21,1935.75,2600000,1930000000","contentType":"text/csv","timestamp":1724407200000}",
+  },
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data","instrument":"russell2000index"}",
+    },
+  },
+  "result": "{"operation":"download","fileName":"daily_values_russell_2308.csv","path":"/data","content":"Date,Price,Volume,MarketCap\\n2024-08-23,1950.50,3000000,1950000000\\n2024-08-22,1940.25,2800000,1940000000\\n2024-08-21,1935.75,2600000,1930000000","contentType":"text/csv","timestamp":1724407200000}",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1724407200000,
+    "providerDataRequestedUnixMs": 1724407200000,
+  },
+}
+`;
+
+exports[`SFTP Generic Adapter sftp endpoint should successfully download Russell3000INDEX file 1`] = `
+{
+  "data": {
+    "result": "{"operation":"download","fileName":"daily_values_russell_2308.csv","path":"/data","content":"Date,Price,Volume,MarketCap\\n2024-08-23,2750.50,8000000,4450000000\\n2024-08-22,2740.25,7800000,4430000000\\n2024-08-21,2735.75,7600000,4410000000","contentType":"text/csv","timestamp":1724407200000}",
+  },
+  "meta": {
+    "adapterName": "SFTP_GENERIC",
+    "metrics": {
+      "feedId": "{"operation":"download","remotePath":"/data","instrument":"russell3000index"}",
+    },
+  },
+  "result": "{"operation":"download","fileName":"daily_values_russell_2308.csv","path":"/data","content":"Date,Price,Volume,MarketCap\\n2024-08-23,2750.50,8000000,4450000000\\n2024-08-22,2740.25,7800000,4430000000\\n2024-08-21,2735.75,7600000,4410000000","contentType":"text/csv","timestamp":1724407200000}",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1724407200000,
+    "providerDataRequestedUnixMs": 1724407200000,
+  },
+}
+`;

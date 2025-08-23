@@ -4,7 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import SftpClient from 'ssh2-sftp-client'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/sftp'
+import { BaseEndpointTypes, indiceToFileMap, inputParameters } from '../endpoint/sftp'
 
 const logger = makeLogger('SFTP Generic Transport')
 
@@ -70,7 +70,6 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    console.log('_handleRequest called with params:', param)
     const providerDataRequestedUnixMs = Date.now()
     
     try {
@@ -94,19 +93,14 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       }
     } catch (error) {
       // Only disconnect on error to allow connection reuse
-      console.log('Error in _handleRequest, disconnecting:', error)
       await this.disconnectFromSftp()
       throw error
     }
-    // Remove the finally block to keep connection alive for reuse
   }
 
   private async connectToSftp(): Promise<void> {
-    console.log('connectToSftp called, checking connection status...')
-    
     // Check if already connected
     if (this.isConnected) {
-      console.log('Already connected to SFTP server, skipping connection')
       return
     }
 
@@ -134,21 +128,16 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
 
     try {
-      console.log('Connecting to SFTP server with config:', connectConfig)
-      
       // Add a timeout wrapper around the connection
       const connectPromise = this.sftpClient.connect(connectConfig)
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error('Connection timeout after 30 seconds')), 30000)
       })
       
-      console.log('Starting connection attempt...')
       await Promise.race([connectPromise, timeoutPromise])
-      console.log('Connection attempt completed')
       this.isConnected = true
       logger.debug('Successfully connected to SFTP server')
     } catch (error) {
-      console.log('Connection failed with error:', error)
       this.isConnected = false
       logger.error(error, 'Failed to connect to SFTP server')
       throw new AdapterInputError({
@@ -171,13 +160,13 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   private async processFiles(param: RequestParams): Promise<string> {
     if (param.operation === 'download') {
-      if (!param.fileName) {
+      if (!param.instrument) {
         throw new AdapterInputError({
           statusCode: 400,
-          message: 'fileName is required for download operation',
+          message: 'instrument is required for download operation',
         })
       }
-      return await this.downloadFile(param.remotePath || '/', param.fileName)
+      return await this.downloadFile(param.remotePath || '/', param.instrument as string)
     } else {
       throw new AdapterInputError({
         statusCode: 400,
@@ -186,36 +175,59 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  private async downloadFile(remotePath: string, fileName: string): Promise<string> {
+  private async downloadFile(remotePath: string, instrument: string): Promise<string> {
+    const fullPath = this.buildFilePath(remotePath, instrument)
+    const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
     try {
-      const fullPath = `${remotePath}/${fileName}`.replace(/\/+/g, '/')
-      console.log('Attempting to download file from SFTP:', fullPath)
       const fileContent = await this.sftpClient.get(fullPath)
       if (!fileContent) {
         throw new AdapterInputError({
           statusCode: 404,
-          message: `File is empty or not found: ${fileName}`,
+          message: `File is empty or not found: ${instrumentFilePath}`,
         })
       }
+
       const result = {
         operation: 'download',
-        fileName,
+        fileName: instrumentFilePath,
         path: remotePath,
         content: fileContent.toString('utf8'), // Convert to UTF-8 text for CSV files
         contentType: 'text/csv',  
-      
         timestamp: Date.now(),
       }
 
-      console.log('File downloaded successfully:', result)
       return JSON.stringify(result)
     } catch (error) {
-      logger.error(error, `Failed to download file: ${fileName} from ${remotePath}`)
+      logger.error(error, `Failed to download file: ${instrumentFilePath} from ${remotePath}`)
       throw new AdapterInputError({
         statusCode: 500,
         message: `Failed to download file: ${error instanceof Error ? error.message : 'Unknown error'}`,
       })
     }
+  }
+
+  private buildFilePath(remotePath: string, instrument: string): string {
+    const filePathTemplate = this.getInstrumentFilePath(instrument)
+    
+    // Get current date and format day and month with leading zeros
+    const now = new Date()
+    const currentDay = now.getDate().toString().padStart(2, '0')
+    const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0') // getMonth() returns 0-11
+    
+    const instrumentFilePath = filePathTemplate.replace('{{dd}}', currentDay).replace('{{mm}}', currentMonth)
+    return `${remotePath}/${instrumentFilePath}`.replace(/\/+/g, '/')
+  }
+
+  getInstrumentFilePath(instrument: string): string {
+    const filePathTemplate = indiceToFileMap[instrument as keyof typeof indiceToFileMap]
+
+      if (!filePathTemplate) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Unsupported instrument: ${instrument}`,
+        })
+      }
+      return filePathTemplate
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -224,7 +236,6 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   // Clean up method to close SFTP connection when transport is destroyed
   async cleanup(): Promise<void> {
-    console.log('Cleaning up SFTP transport...')
     await this.disconnectFromSftp()
   }
 }
