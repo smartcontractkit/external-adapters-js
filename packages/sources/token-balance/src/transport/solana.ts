@@ -51,6 +51,7 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
+
       response = {
         statusCode: (e as AdapterInputError)?.statusCode || 502,
         errorMessage,
@@ -84,7 +85,7 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return {
       data: {
         result: String(totalTokenUSD), // formatted as string for API
-        decimals: RESULT_DECIMALS, // fixed output decimals
+        decimals: RESULT_DECIMALS,
       },
       statusCode: 200,
       result: String(totalTokenUSD),

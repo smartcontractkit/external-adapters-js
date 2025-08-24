@@ -30,12 +30,18 @@ export const getToken = async (
       ),
   )
 
-  const result = response
-    .flatMap((r) => r.value)
-    .map((v) => ({
+  const result = response.flatMap((r, i) => {
+    if (!r.value || r.value.length === 0) {
+      throw new AdapterInputError({
+        statusCode: 502,
+        message: `Missing token account for wallet ${addresses[i].wallets.join(', ')}`,
+      })
+    }
+    return r.value.map((v) => ({
       value: BigInt(v.account.data.parsed.info.tokenAmount.amount),
       decimals: Number(v.account.data.parsed.info.tokenAmount.decimals),
     }))
+  })
 
   const formattedResponse = response
     .flatMap((r) => r.value)
