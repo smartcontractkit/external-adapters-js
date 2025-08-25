@@ -1,4 +1,3 @@
-import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { endpoint as sftpEndpoint } from './endpoint/sftp'
 import { config } from './config'
