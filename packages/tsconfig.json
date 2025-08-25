@@ -399,6 +399,9 @@
       "path": "./sources/frxeth-exchange-rate"
     },
     {
+      "path": "./sources/ftse-sftp"
+    },
+    {
       "path": "./sources/galaxis"
     },
     {
@@ -412,9 +415,6 @@
     },
     {
       "path": "./sources/geodb"
-    },
-    {
-      "path": "./sources/gmci"
     },
     {
       "path": "./sources/gmci"
@@ -540,6 +540,9 @@
       "path": "./sources/nikkei"
     },
     {
+      "path": "./sources/nomia"
+    },
+    {
       "path": "./sources/nyfed"
     },
     {
@@ -589,9 +592,6 @@
     },
     {
       "path": "./sources/satoshitango"
-    },
-    {
-      "path": "./sources/sftp-generic"
     },
     {
       "path": "./sources/snowflake"

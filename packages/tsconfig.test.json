@@ -399,6 +399,9 @@
       "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
     },
     {
+      "path": "./sources/ftse-sftp/tsconfig.test.json"
+    },
+    {
       "path": "./sources/galaxis/tsconfig.test.json"
     },
     {
@@ -412,9 +415,6 @@
     },
     {
       "path": "./sources/geodb/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/gmci/tsconfig.test.json"
     },
     {
       "path": "./sources/gmci/tsconfig.test.json"
@@ -540,6 +540,9 @@
       "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
+      "path": "./sources/nomia/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nyfed/tsconfig.test.json"
     },
     {
@@ -589,9 +592,6 @@
     },
     {
       "path": "./sources/satoshitango/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/sftp-generic/tsconfig.test.json"
     },
     {
       "path": "./sources/snowflake/tsconfig.test.json"
