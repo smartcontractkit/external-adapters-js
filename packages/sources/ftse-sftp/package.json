@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/sftp-generic-adapter",
+  "name": "@chainlink/ftse-sftp",
   "version": "0.0.0",
-  "description": "Chainlink sftp-generic adapter.",
+  "description": "Chainlink ftse-sftp adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "sftp-generic"
+    "ftse-sftp"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
