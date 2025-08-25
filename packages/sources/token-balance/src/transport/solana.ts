@@ -68,8 +68,7 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const addresses = param.addresses
-    const tokenMint = param.tokenMint
+    const { addresses, tokenMint } = param
     const providerDataRequestedUnixMs = Date.now()
 
     // 1. Fetch token price ONCE from oracle contract
@@ -119,7 +118,7 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     )
 
     // 3. Sum raw balances (all balances are for the same mint, so same decimals)
-    let totalRaw = BigInt(0)
+    let totalRaw = 0n
 
     let tokenDecimals = undefined
     for (const bal of balances) {

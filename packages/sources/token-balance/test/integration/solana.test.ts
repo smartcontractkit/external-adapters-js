@@ -9,6 +9,7 @@ import * as nock from 'nock'
 const token = 'tbill'
 const mintAddress = '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6'
 const ownerAddress = 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'
+const priceOracleAddress = '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40'
 const balanceDecimals = 6
 const tokenPriceDecimals = 8
 const mockTokenPriceValue = BigInt(1.5 * 10 ** tokenPriceDecimals)
@@ -100,7 +101,7 @@ describe('execute', () => {
           contractAddress: mintAddress,
         },
         priceOracle: {
-          contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
+          contractAddress: priceOracleAddress,
           network: 'ETHEREUM',
         },
       }
