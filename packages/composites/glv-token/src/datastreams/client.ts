@@ -62,17 +62,21 @@ export class DataStreamsHttpClient {
     quote_asset?: string
     feed_type?: string
   }): Promise<FeedsResponse> {
-    const qs = new URLSearchParams()
-    if (params?.base_asset) qs.set('base_asset', params.base_asset)
-    if (params?.quote_asset) qs.set('quote_asset', params.quote_asset)
-    if (params?.feed_type) qs.set('feed_type', params.feed_type)
-    const path = `/api/v1/feeds${qs.toString() ? `?${qs.toString()}` : ''}`
+    const query = new URLSearchParams()
+    if (params?.base_asset) query.set('base_asset', params.base_asset)
+    if (params?.quote_asset) query.set('quote_asset', params.quote_asset)
+    if (params?.feed_type) query.set('feed_type', params.feed_type)
+    const path = `/api/v1/feeds${query.toString() ? `?${query.toString()}` : ''}`
     return this.request<FeedsResponse>('GET', path)
   }
 
   async resolveFeedId(base: string, quote: string, feedType?: string): Promise<string> {
-    const r = await this.listFeeds({ base_asset: base, quote_asset: quote, feed_type: feedType })
-    const ids = (r.feeds ?? [])
+    const response = await this.listFeeds({
+      base_asset: base,
+      quote_asset: quote,
+      feed_type: feedType,
+    })
+    const ids = (response.feeds ?? [])
       .map((f) => (f.feedID ?? f.feedid ?? '').toLowerCase())
       .filter(Boolean)
     if (ids.length === 0) throw new Error(`No feed found for ${base}/${quote}`)
@@ -84,14 +88,14 @@ export class DataStreamsHttpClient {
     feedId: string,
   ): Promise<{ fullReportHex: string; observationsTimestamp: number; validFromTimestamp: number }> {
     const path = `/api/v1/reports/latest?feedID=${encodeURIComponent(feedId)}`
-    const r = await this.request<LatestReportResponse>('GET', path)
-    const rr = r.report
-    const full = rr.fullReport ?? rr.fullreport
-    if (!full) throw new Error(`Missing fullReport for ${feedId}`)
+    const response = await this.request<LatestReportResponse>('GET', path)
+    const rawReport = response.report
+    const fullReport = rawReport.fullReport ?? rawReport.fullreport
+    if (!fullReport) throw new Error(`Missing fullReport for ${feedId}`)
     return {
-      fullReportHex: full,
-      observationsTimestamp: rr.observationsTimestamp,
-      validFromTimestamp: rr.validFromTimestamp,
+      fullReportHex: fullReport,
+      observationsTimestamp: rawReport.observationsTimestamp,
+      validFromTimestamp: rawReport.validFromTimestamp,
     }
   }
 }

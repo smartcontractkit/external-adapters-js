@@ -1,25 +1,25 @@
 import {
+  LwbaResponseDataFields,
+  validateLwbaResponse,
+} from '@chainlink/external-adapter-framework/adapter'
+import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { ethers } from 'ethers'
 import * as nock from 'nock'
 import {
   mockCoinmetricsEAResponseSuccess,
   mockNCFXEAResponseSuccess,
   mockTiingoEAResponseSuccess,
 } from './fixtures'
-import { ethers } from 'ethers'
-import {
-  LwbaResponseDataFields,
-  validateLwbaResponse,
-} from '@chainlink/external-adapter-framework/adapter'
 
 jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
   ethers: {
     providers: {
-      JsonRpcProvider: function (): ethers.providers.JsonRpcProvider {
-        return {} as ethers.providers.JsonRpcProvider
+      JsonRpcProvider: function (): ethers.JsonRpcProvider {
+        return {} as ethers.JsonRpcProvider
       },
     },
     Contract: function () {
