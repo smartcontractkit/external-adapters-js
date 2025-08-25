@@ -1,5 +1,6 @@
 import type { TInputParameters as SftpInputParameters } from './sftp'
+import * as sftp from './sftp'
 
 export type TInputParameters = SftpInputParameters
 
-export * as sftp from './sftp'
+export { sftp }

@@ -32,7 +32,7 @@ import { SftpTransport } from '../../src/transport/sftp'
 
 describe('SftpTransport', () => {
   let transport: SftpTransport
-  
+
   beforeEach(() => {
     transport = new SftpTransport()
     // Set up the config manually since we can't call initialize properly
@@ -175,7 +175,7 @@ describe('SftpTransport', () => {
 
     it('should handle file operation errors gracefully', async () => {
       mockSftpClientInstance.setShouldFailFileOperation(true)
-      
+
       try {
         await (transport as any).downloadFile('/data', 'FTSE100INDEX')
       } catch (error) {
@@ -186,7 +186,7 @@ describe('SftpTransport', () => {
 
     it('should handle missing file errors', async () => {
       // Don't set up any files in the mock
-      
+
       try {
         await (transport as any).downloadFile('/data', 'FTSE100INDEX')
       } catch (error) {
@@ -197,7 +197,7 @@ describe('SftpTransport', () => {
 
     it('should handle connection timeout', async () => {
       mockSftpClientInstance.setConnectionTimeout(true)
-      
+
       try {
         await (transport as any).connectToSftp()
       } catch (error) {
@@ -211,14 +211,14 @@ describe('SftpTransport', () => {
     it('should process CSV file content correctly', async () => {
       const csvContent = 'Date,Open,High,Low,Close\\n2024-08-23,100,110,95,105'
       const filePath = '/data/vall2308.csv'
-      
+
       mockSftpClientInstance.setFiles({
         [filePath]: csvContent,
       })
 
       const result = await (transport as any).downloadFile('/data', 'FTSE100INDEX')
       const parsedResult = JSON.parse(result)
-      
+
       expect(parsedResult.operation).toBe('download')
       expect(parsedResult.fileName).toBe('vall2308.csv')
       expect(parsedResult.path).toBe('/data')
@@ -229,7 +229,7 @@ describe('SftpTransport', () => {
 
     it('should handle empty file content', async () => {
       const filePath = '/data/vall2308.csv'
-      
+
       mockSftpClientInstance.setFiles({
         [filePath]: '',
       })

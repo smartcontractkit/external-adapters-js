@@ -20,7 +20,7 @@ export const inputParameters = new InputParameters(
       required: true,
       type: 'string',
       description: 'Name of the file for download or upload operations',
-    }
+    },
   },
   [
     {
@@ -32,10 +32,10 @@ export const inputParameters = new InputParameters(
 )
 
 export const indiceToFileMap = {
-  'FTSE100INDEX': 'vall{{dd}}{{mm}}.csv',
-  'Russell1000INDEX': 'daily_values_russell_{{dd}}{{mm}}.csv',
-  'Russell2000INDEX': 'daily_values_russell_{{dd}}{{mm}}.csv',
-  'Russell3000INDEX': 'daily_values_russell_{{dd}}{{mm}}.csv'
+  FTSE100INDEX: 'vall{{dd}}{{mm}}.csv',
+  Russell1000INDEX: 'daily_values_russell_{{dd}}{{mm}}.csv',
+  Russell2000INDEX: 'daily_values_russell_{{dd}}{{mm}}.csv',
+  Russell3000INDEX: 'daily_values_russell_{{dd}}{{mm}}.csv',
 }
 
 export type TInputParameters = typeof inputParameters.definition

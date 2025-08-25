@@ -78,8 +78,8 @@ export class MockSftpClient {
     }
 
     const files = Object.keys(this.files)
-      .filter(path => path.startsWith(remotePath))
-      .map(path => ({
+      .filter((path) => path.startsWith(remotePath))
+      .map((path) => ({
         name: path.split('/').pop(),
         type: '-',
         size: this.files[path].length,

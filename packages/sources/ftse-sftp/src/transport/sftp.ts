@@ -71,7 +71,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    
+
     try {
       // Connect to SFTP server (will reuse existing connection if available)
       await this.connectToSftp()
@@ -133,7 +133,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error('Connection timeout after 30 seconds')), 30000)
       })
-      
+
       await Promise.race([connectPromise, timeoutPromise])
       this.isConnected = true
       logger.debug('Successfully connected to SFTP server')
@@ -142,7 +142,9 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       logger.error(error, 'Failed to connect to SFTP server')
       throw new AdapterInputError({
         statusCode: 500,
-        message: `Failed to connect to SFTP server: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to connect to SFTP server: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       })
     }
   }
@@ -192,7 +194,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
         fileName: instrumentFilePath,
         path: remotePath,
         content: fileContent.toString('utf8'), // Convert to UTF-8 text for CSV files
-        contentType: 'text/csv',  
+        contentType: 'text/csv',
         timestamp: Date.now(),
       }
 
@@ -201,33 +203,37 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       logger.error(error, `Failed to download file: ${instrumentFilePath} from ${remotePath}`)
       throw new AdapterInputError({
         statusCode: 500,
-        message: `Failed to download file: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        message: `Failed to download file: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       })
     }
   }
 
   private buildFilePath(remotePath: string, instrument: string): string {
     const filePathTemplate = this.getInstrumentFilePath(instrument)
-    
+
     // Get current date and format day and month with leading zeros
     const now = new Date()
     const currentDay = now.getDate().toString().padStart(2, '0')
     const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0') // getMonth() returns 0-11
-    
-    const instrumentFilePath = filePathTemplate.replace('{{dd}}', currentDay).replace('{{mm}}', currentMonth)
+
+    const instrumentFilePath = filePathTemplate
+      .replace('{{dd}}', currentDay)
+      .replace('{{mm}}', currentMonth)
     return `${remotePath}/${instrumentFilePath}`.replace(/\/+/g, '/')
   }
 
   getInstrumentFilePath(instrument: string): string {
     const filePathTemplate = indiceToFileMap[instrument as keyof typeof indiceToFileMap]
 
-      if (!filePathTemplate) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `Unsupported instrument: ${instrument}`,
-        })
-      }
-      return filePathTemplate
+    if (!filePathTemplate) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Unsupported instrument: ${instrument}`,
+      })
+    }
+    return filePathTemplate
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

@@ -2,11 +2,7 @@
   "preset": "ts-jest",
   "testEnvironment": "node",
   "testMatch": ["**/test/**/*.test.ts"],
-  "collectCoverageFrom": [
-    "src/**/*.ts",
-    "!src/**/*.d.ts",
-    "!src/index.ts"
-  ],
+  "collectCoverageFrom": ["src/**/*.ts", "!src/**/*.d.ts", "!src/index.ts"],
   "coverageReporters": ["text", "lcov", "html"],
   "coverageDirectory": "coverage",
   "moduleDirectories": ["node_modules", "src"],
