@@ -1,9 +1,15 @@
 // Mock the SubscriptionTransport before importing anything else to avoid circular dependency
 jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscription', () => ({
   SubscriptionTransport: class MockSubscriptionTransport {
-    constructor(_dependencies?: any) {}
-    async backgroundHandler(_context: any, _entries: any[]): Promise<void> {}
-    async initialize(..._args: any[]): Promise<void> {}
+    constructor() {
+      // Mock constructor implementation
+    }
+    async backgroundHandler(): Promise<void> {
+      // Mock background handler implementation
+    }
+    async initialize(): Promise<void> {
+      // Mock initialize implementation
+    }
   },
 }))
 
@@ -22,11 +28,10 @@ jest.mock('@chainlink/external-adapter-framework/util', () => ({
 
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { mockSftpClientInstance } from '../mocks/sftpClient'
+import MockSftpClientDefault from '../mocks/sftpClient'
 
 // Mock ssh2-sftp-client
-jest.mock('ssh2-sftp-client', () => {
-  return require('../mocks/sftpClient').default
-})
+jest.mock('ssh2-sftp-client', () => MockSftpClientDefault)
 
 // Now import the SftpTransport after mocking dependencies
 import { SftpTransport } from '../../src/transport/sftp'

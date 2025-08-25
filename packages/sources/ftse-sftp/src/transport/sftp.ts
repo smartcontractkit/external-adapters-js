@@ -14,7 +14,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   endpointName!: string
   sftpClient: SftpClient
-  private isConnected: boolean = false
+  private isConnected = false
 
   constructor() {
     super()
