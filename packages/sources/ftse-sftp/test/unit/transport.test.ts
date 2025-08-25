@@ -1,9 +1,9 @@
 // Mock the SubscriptionTransport before importing anything else to avoid circular dependency
 jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscription', () => ({
   SubscriptionTransport: class MockSubscriptionTransport {
-    constructor(dependencies?: any) {}
-    async backgroundHandler(context: any, entries: any[]): Promise<void> {}
-    async initialize(...args: any[]): Promise<void> {}
+    constructor(_dependencies?: any) {}
+    async backgroundHandler(_context: any, _entries: any[]): Promise<void> {}
+    async initialize(..._args: any[]): Promise<void> {}
   },
 }))
 
@@ -17,6 +17,7 @@ jest.mock('@chainlink/external-adapter-framework/util', () => ({
   })),
   sleep: jest.fn(),
   AdapterResponse: jest.fn(),
+  hasRepeatedValues: jest.fn(() => false),
 }))
 
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -85,15 +86,41 @@ describe('SftpTransport', () => {
 
   describe('buildFilePath', () => {
     let originalDateNow: typeof Date.now
+    let originalDate: DateConstructor
 
     beforeAll(() => {
       originalDateNow = Date.now
-      // Mock current date to 2024-08-23
-      Date.now = jest.fn(() => new Date('2024-08-23T10:00:00.000Z').getTime())
+      originalDate = global.Date
+      // Mock both Date constructor and Date.now to return consistent date
+      const mockDate = new originalDate('2024-08-23T10:00:00.000Z')
+      global.Date = jest.fn(() => mockDate) as any
+      global.Date.now = jest.fn(() => mockDate.getTime())
+      // Copy static methods from original Date
+      Object.setPrototypeOf(global.Date, originalDate)
+      Object.getOwnPropertyNames(originalDate).forEach((name) => {
+        if (name !== 'length' && name !== 'name' && name !== 'prototype') {
+          ;(global.Date as any)[name] = (originalDate as any)[name]
+        }
+      })
     })
 
     afterAll(() => {
       Date.now = originalDateNow
+      global.Date = originalDate
+    })
+
+    beforeEach(() => {
+      // Ensure both Date constructor and Date.now return the same mocked date
+      const mockDate = new originalDate('2024-08-23T10:00:00.000Z')
+      global.Date = jest.fn(() => mockDate) as any
+      global.Date.now = jest.fn(() => mockDate.getTime())
+      // Copy static methods from original Date
+      Object.setPrototypeOf(global.Date, originalDate)
+      Object.getOwnPropertyNames(originalDate).forEach((name) => {
+        if (name !== 'length' && name !== 'name' && name !== 'prototype') {
+          ;(global.Date as any)[name] = (originalDate as any)[name]
+        }
+      })
     })
 
     it('should build correct file path with date substitution for FTSE100INDEX', () => {
@@ -129,10 +156,21 @@ describe('SftpTransport', () => {
 
   describe('date formatting', () => {
     let originalDate: DateConstructor
+    let originalDateNow: typeof Date.now
+
+    beforeEach(() => {
+      // Store both Date constructor and Date.now
+      originalDate = global.Date
+      originalDateNow = Date.now
+    })
 
     afterEach(() => {
+      // Restore both Date constructor and Date.now
       if (originalDate) {
         global.Date = originalDate
+      }
+      if (originalDateNow) {
+        Date.now = originalDateNow
       }
     })
 
@@ -174,6 +212,8 @@ describe('SftpTransport', () => {
     })
 
     it('should handle file operation errors gracefully', async () => {
+      // First establish connection, then set it to fail file operations
+      await mockSftpClientInstance.connect({})
       mockSftpClientInstance.setShouldFailFileOperation(true)
 
       try {
@@ -185,7 +225,8 @@ describe('SftpTransport', () => {
     })
 
     it('should handle missing file errors', async () => {
-      // Don't set up any files in the mock
+      // First establish connection, then don't set up any files in the mock
+      await mockSftpClientInstance.connect({})
 
       try {
         await (transport as any).downloadFile('/data', 'FTSE100INDEX')
@@ -208,6 +249,46 @@ describe('SftpTransport', () => {
   })
 
   describe('file processing', () => {
+    let originalDateNow: typeof Date.now
+    let originalDate: DateConstructor
+
+    beforeAll(() => {
+      originalDateNow = Date.now
+      originalDate = global.Date
+      // Mock both Date constructor and Date.now to return consistent date
+      const mockDate = new originalDate('2024-08-23T10:00:00.000Z')
+      global.Date = jest.fn(() => mockDate) as any
+      global.Date.now = jest.fn(() => mockDate.getTime())
+      // Copy static methods from original Date
+      Object.setPrototypeOf(global.Date, originalDate)
+      Object.getOwnPropertyNames(originalDate).forEach((name) => {
+        if (name !== 'length' && name !== 'name' && name !== 'prototype') {
+          ;(global.Date as any)[name] = (originalDate as any)[name]
+        }
+      })
+    })
+
+    afterAll(() => {
+      Date.now = originalDateNow
+      global.Date = originalDate
+    })
+
+    beforeEach(async () => {
+      // Ensure the mock is connected for file processing tests
+      await mockSftpClientInstance.connect({})
+      // Ensure both Date constructor and Date.now return the same mocked date
+      const mockDate = new originalDate('2024-08-23T10:00:00.000Z')
+      global.Date = jest.fn(() => mockDate) as any
+      global.Date.now = jest.fn(() => mockDate.getTime())
+      // Copy static methods from original Date
+      Object.setPrototypeOf(global.Date, originalDate)
+      Object.getOwnPropertyNames(originalDate).forEach((name) => {
+        if (name !== 'length' && name !== 'name' && name !== 'prototype') {
+          ;(global.Date as any)[name] = (originalDate as any)[name]
+        }
+      })
+    })
+
     it('should process CSV file content correctly', async () => {
       const csvContent = 'Date,Open,High,Low,Close\\n2024-08-23,100,110,95,105'
       const filePath = '/data/vall2308.csv'
@@ -228,6 +309,8 @@ describe('SftpTransport', () => {
     })
 
     it('should handle empty file content', async () => {
+      // First establish connection
+      await mockSftpClientInstance.connect({})
       const filePath = '/data/vall2308.csv'
 
       mockSftpClientInstance.setFiles({
