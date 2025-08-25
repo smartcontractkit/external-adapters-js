@@ -26,31 +26,6 @@ describe('solanaTransport._handleRequest', () => {
     jest.clearAllMocks()
   })
 
-  const tokenBalanceValue = 1000
-  const tokenPriceValue = 44.8967
-  const tokenPriceDecimals = 8
-  const tokenBalanceDecimals = 6
-  jest.mocked(getTokenPrice).mockResolvedValue({
-    value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
-    decimal: tokenPriceDecimals,
-  })
-  jest.mocked(getToken).mockResolvedValue({
-    result: [
-      {
-        value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
-        decimals: tokenBalanceDecimals,
-      },
-    ],
-    formattedResponse: [
-      {
-        token: tokenMintContractAddress,
-        wallet: ownerAddress,
-        value: (tokenBalanceValue * 10 ** tokenBalanceDecimals).toString(),
-        decimals: tokenBalanceDecimals,
-      },
-    ],
-  })
-
   it('fetches price and balances, calculates correct USD result', async () => {
     const tokenBalanceValue = 1000
     const tokenPriceValue = 44
@@ -290,7 +265,6 @@ describe('solanaTransport._handleRequest', () => {
       { value: 200, decimals: 8 },
     ]
 
-    // Mock price
     jest.mocked(getTokenPrice).mockResolvedValue({
       value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
       decimal: tokenPriceDecimals,
