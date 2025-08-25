@@ -417,6 +417,9 @@
       "path": "./sources/gmci"
     },
     {
+      "path": "./sources/gmci"
+    },
+    {
       "path": "./sources/google-bigquery"
     },
     {
@@ -537,9 +540,6 @@
       "path": "./sources/nikkei"
     },
     {
-      "path": "./sources/nomia"
-    },
-    {
       "path": "./sources/nyfed"
     },
     {
@@ -589,6 +589,9 @@
     },
     {
       "path": "./sources/satoshitango"
+    },
+    {
+      "path": "./sources/sftp-generic"
     },
     {
       "path": "./sources/snowflake"
