@@ -4,6 +4,10 @@
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
+## Variable env vars
+
+- The `clientIdPassword` input param maps the request's `clientId` field to the wildcard env var `{clientIdPassword}_PASSWORD`
+
 ## Environment Variables
 
 | Required? |     Name     |            Description            |  Type  | Options |                       Default                       |
