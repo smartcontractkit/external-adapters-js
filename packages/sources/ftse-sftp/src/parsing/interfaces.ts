@@ -49,5 +49,5 @@ export const defaultCSVConfig: CSVParserConfig = {
   hasHeader: true,
   skipEmptyLines: true,
   trimWhitespace: true,
-  encoding: 'utf-8'
+  encoding: 'utf-8',
 }

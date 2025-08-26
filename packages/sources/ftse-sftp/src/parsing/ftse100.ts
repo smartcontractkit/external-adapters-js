@@ -3,71 +3,44 @@ import { ParsedData } from './interfaces'
 
 /**
  * Specific data structure for FTSE data
- * Based on the actual FTSE CSV format with Index Code, No. Cons, Index (GBP), TRI (GBP)
+ * Based on the actual FTSE CSV format with Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, GBP Index
  */
 export interface FTSE100Data extends ParsedData {
   indexCode: string
   indexSectorName: string
-  noCons: number | null
-  indexGBP: number | null
-  indexEUR: number | null
-  triGBP: number | null
-  triEUR: number | null
-  xdAdjToday: number | null
-  xdAdjYTD: number | null
-  mcapGBP: number | null
-  mcapEUR: number | null
-  actualDivYld: number | null
-  netCover: number | null
-  peRatio: number | null
-  indexPercentChg: number | null
-  triPercentChg: number | null
-  weightAllShare: number | null
+  numberOfConstituents: number | null
+  indexBaseCurrency: string
+  gbpIndex: number | null
 }
 
 /**
  * CSV Parser for FTSE format
- * Expects columns: Index Code, Index/Sector Name, No. Cons, Index (GBP), Index (EUR), TRI (GBP), etc.
+ * Expects columns: Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, GBP Index
  */
 export class FTSE100Parser extends BaseCSVParser {
   private readonly expectedColumns = [
     'Index Code',
     'Index/Sector Name',
-    'No. Cons',
-    'Index (GBP)',
-    'Index (EUR)',
-    'TRI (GBP)',
-    'TRI (EUR)',
-    'XD adj today',
-    'XD adj YTD',
-    'Mcap (GBP)',
-    'Mcap (EUR)',
-    'Actual Div Yld',
-    'Net Cover',
-    'P/E Ratio',
-    'Index % chg',
-    'TRI % chg',
-    '% wgt (All-share)'
+    'Number of Constituents',
+    'Index Base Currency',
+    'USD Index',
+    'GBP Index',
+    'EUR Index',
+    'JPY Index',
+    'AUD Index',
+    'CNY Index',
+    'HKD Index',
+    'CAD Index',
+    'LOC Index',
+    'Base Currency (GBP) Index',
   ]
 
   private readonly fieldMapping = {
     indexCode: { index: 0, type: 'string' as const },
     indexSectorName: { index: 1, type: 'string' as const },
-    noCons: { index: 2, type: 'number' as const },
-    indexGBP: { index: 3, type: 'number' as const },
-    indexEUR: { index: 4, type: 'number' as const },
-    triGBP: { index: 5, type: 'number' as const },
-    triEUR: { index: 6, type: 'number' as const },
-    xdAdjToday: { index: 7, type: 'number' as const },
-    xdAdjYTD: { index: 8, type: 'number' as const },
-    mcapGBP: { index: 9, type: 'number' as const },
-    mcapEUR: { index: 10, type: 'number' as const },
-    actualDivYld: { index: 11, type: 'number' as const },
-    netCover: { index: 12, type: 'number' as const },
-    peRatio: { index: 13, type: 'number' as const },
-    indexPercentChg: { index: 14, type: 'number' as const },
-    triPercentChg: { index: 15, type: 'number' as const },
-    weightAllShare: { index: 16, type: 'number' as const }
+    numberOfConstituents: { index: 2, type: 'number' as const },
+    indexBaseCurrency: { index: 3, type: 'string' as const },
+    gbpIndex: { index: 5, type: 'number' as const }, // GBP Index is at index 5
   }
 
   constructor() {
@@ -76,7 +49,7 @@ export class FTSE100Parser extends BaseCSVParser {
       delimiter: '\t',
       hasHeader: true,
       skipEmptyLines: true,
-      trimWhitespace: true
+      trimWhitespace: true,
     })
   }
 
@@ -92,16 +65,36 @@ export class FTSE100Parser extends BaseCSVParser {
     const lines = this.splitIntoLines(csvContent)
     const results: FTSE100Data[] = []
 
-    // Skip header if present
-    const startIndex = this.config.hasHeader ? 1 : 0
+    // Skip the first 3 lines (copyright, title, empty line) and then the header line
+    // Find the line that starts with "Index Code" to locate the actual data header
+    let dataStartIndex = -1
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].trim().startsWith('Index Code')) {
+        dataStartIndex = i + 1 // Start after the header line
+        break
+      }
+    }
 
-    for (let i = startIndex; i < lines.length; i++) {
+    if (dataStartIndex === -1) {
+      throw new Error('Could not find data header line starting with "Index Code"')
+    }
+
+    for (let i = dataStartIndex; i < lines.length; i++) {
       try {
         const line = lines[i]
+        if (!line.trim()) continue // Skip empty lines
+
         const fields = this.parseLine(line)
 
-        if (fields.length < 4) { // Minimum required fields
-          console.warn(`Line ${i + 1}: Expected at least 4 fields (Index Code, No. Cons, Index GBP, TRI GBP), got ${fields.length}`)
+        if (fields.length < 6) {
+          // Minimum required fields
+          console.warn(
+            `Line ${
+              i + 1
+            }: Expected at least 6 fields (Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, USD Index, GBP Index), got ${
+              fields.length
+            }`,
+          )
           continue
         }
 
@@ -127,40 +120,61 @@ export class FTSE100Parser extends BaseCSVParser {
    * Enhanced validation specific to FTSE format
    */
   validateFormat(csvContent: string): boolean {
-    if (!super.validateFormat(csvContent)) {
+    // Skip the base validation since our header is not on the first line
+    if (!csvContent || csvContent.trim().length === 0) {
       return false
     }
 
     const lines = this.splitIntoLines(csvContent)
-    
-    if (this.config.hasHeader) {
-      const headerLine = lines[0]
-      const headers = this.parseLine(headerLine)
-      
-      // Check if required columns are present
-      const requiredColumns = ['Index Code', 'No. Cons', 'Index (GBP)', 'TRI (GBP)']
-      return requiredColumns.every(col => 
-        headers.some(header => header.toLowerCase().includes(col.toLowerCase()))
-      )
+    if (lines.length === 0) {
+      return false
     }
 
-    return true
+    // Find the header line that starts with "Index Code"
+    let headerLineIndex = -1
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].trim().startsWith('Index Code')) {
+        headerLineIndex = i
+        break
+      }
+    }
+
+    if (headerLineIndex === -1) {
+      return false
+    }
+
+    const headerLine = lines[headerLineIndex]
+    const headers = this.parseLine(headerLine)
+
+    // Check if required columns are present
+    const requiredColumns = [
+      'Index Code',
+      'Index/Sector Name',
+      'Number of Constituents',
+      'Index Base Currency',
+      'GBP Index',
+    ]
+    return requiredColumns.every((col) =>
+      headers.some((header) => header.toLowerCase().includes(col.toLowerCase())),
+    )
   }
 
   /**
    * Get only the essential fields you specified
    */
   getEssentialData(data: FTSE100Data[]): Array<{
-    indexCode: string,
-    noCons: number | null,
-    indexGBP: number | null,
-    triGBP: number | null
+    indexCode: string
+    indexSectorName: string
+    numberOfConstituents: number | null
+    indexBaseCurrency: string
+    gbpIndex: number | null
   }> {
-    return data.map(item => ({
+    return data.map((item) => ({
       indexCode: item.indexCode,
-      noCons: item.noCons,
-      indexGBP: item.indexGBP,
-      triGBP: item.triGBP
+      indexSectorName: item.indexSectorName,
+      numberOfConstituents: item.numberOfConstituents,
+      indexBaseCurrency: item.indexBaseCurrency,
+      gbpIndex: item.gbpIndex,
     }))
   }
 }
