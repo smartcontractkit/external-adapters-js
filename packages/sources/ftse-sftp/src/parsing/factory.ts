@@ -1,6 +1,6 @@
 import { CSVParser } from './interfaces'
 import { FTSE100Parser } from './ftse100'
-import { RussellParser } from './russell'
+import { RussellDailyValuesParser } from './russell'
 
 /**
  * Supported CSV parser types
@@ -17,47 +17,17 @@ export enum CSVParserType {
  */
 export class CSVParserFactory {
   /**
-   * Create a parser instance based on the specified type
-   */
-  static createParser(type: CSVParserType): CSVParser {
-    switch (type) {
-      case CSVParserType.FTSE100:
-        return new FTSE100Parser()
-      case CSVParserType.Russell1000INDEX:
-        return new RussellParser()
-      case CSVParserType.Russell2000INDEX:
-        return new RussellParser()
-      case CSVParserType.Russell3000INDEX:
-        return new RussellParser()
-      default:
-        throw new Error(`Unsupported parser type: ${type}`)
-    }
-  }
-
-  /**
-   * Auto-detect parser type based on CSV content
-   * Returns the first parser that validates the format
-   */
-  static detectParser(csvContent: string): CSVParser | null {
-    const parsers = [new FTSE100Parser()]
-
-    for (const parser of parsers) {
-      if (parser.validateFormat(csvContent)) {
-        return parser
-      }
-    }
-
-    return null
-  }
-
-  /**
    * Auto-detect parser type based on filename
    */
   static detectParserByFilename(filename: string): CSVParser | null {
     const lowercaseFilename = filename.toLowerCase()
 
-    if (lowercaseFilename.includes('vall')) {
+    if (lowercaseFilename.includes('ukallv')) {
       return new FTSE100Parser()
+    }
+
+    if (lowercaseFilename.includes('daily_values_russell')) {
+      return new RussellDailyValuesParser()
     }
 
     return null
