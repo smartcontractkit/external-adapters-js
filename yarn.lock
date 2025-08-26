@@ -4227,9 +4227,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ftse-sftp@workspace:packages/sources/ftse-sftp":
+"@chainlink/ftse-sftp-adapter@workspace:packages/sources/ftse-sftp":
   version: 0.0.0-use.local
-  resolution: "@chainlink/ftse-sftp@workspace:packages/sources/ftse-sftp"
+  resolution: "@chainlink/ftse-sftp-adapter@workspace:packages/sources/ftse-sftp"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"

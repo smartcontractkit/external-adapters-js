@@ -559,7 +559,7 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/frxeth-exchange-rate"\
     },\
     {\
-      "name": "@chainlink/ftse-sftp",\
+      "name": "@chainlink/ftse-sftp-adapter",\
       "reference": "workspace:packages/sources/ftse-sftp"\
     },\
     {\
@@ -1109,7 +1109,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
     ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
     ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
-    ["@chainlink/ftse-sftp", ["workspace:packages/sources/ftse-sftp"]],\
+    ["@chainlink/ftse-sftp-adapter", ["workspace:packages/sources/ftse-sftp"]],\
     ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
     ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
@@ -7214,11 +7214,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/ftse-sftp", [\
+    ["@chainlink/ftse-sftp-adapter", [\
       ["workspace:packages/sources/ftse-sftp", {\
         "packageLocation": "./packages/sources/ftse-sftp/",\
         "packageDependencies": [\
-          ["@chainlink/ftse-sftp", "workspace:packages/sources/ftse-sftp"],\
+          ["@chainlink/ftse-sftp-adapter", "workspace:packages/sources/ftse-sftp"],\
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7228,7 +7228,7 @@ const RAW_RUNTIME_STATE =
           ["jest-util", "npm:29.7.0"],\
           ["nock", "npm:13.5.6"],\
           ["ssh2-sftp-client", "npm:10.0.3"],\
-          ["ts-jest", "virtual:f8e337e6fb0dea8d1b7ca51dd5a68a77e8ba8f4fa130d3aa2e90f2c260d1d3a6dafae9961ef5a0f8b944b578d32ebf13a1c03817a18c17ed8653aa4064d2c586#npm:29.4.1"],\
+          ["ts-jest", "virtual:574dc4ff24172c9d1b6014b09ac4f0f8a617e1a95145ad46aecd2ebd04a4f75de4ab8a41492c5d05a29c48f79f7f8b9ebb3a7bb1b88d778e9d134d1f21b3f7cf#npm:29.4.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -37820,10 +37820,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:f8e337e6fb0dea8d1b7ca51dd5a68a77e8ba8f4fa130d3aa2e90f2c260d1d3a6dafae9961ef5a0f8b944b578d32ebf13a1c03817a18c17ed8653aa4064d2c586#npm:29.4.1", {\
-        "packageLocation": "./.yarn/__virtual__/ts-jest-virtual-06554e0dab/0/cache/ts-jest-npm-29.4.1-ab76d85d32-6aed48232c.zip/node_modules/ts-jest/",\
+      ["virtual:574dc4ff24172c9d1b6014b09ac4f0f8a617e1a95145ad46aecd2ebd04a4f75de4ab8a41492c5d05a29c48f79f7f8b9ebb3a7bb1b88d778e9d134d1f21b3f7cf#npm:29.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/ts-jest-virtual-5e87ff59fd/0/cache/ts-jest-npm-29.4.1-ab76d85d32-6aed48232c.zip/node_modules/ts-jest/",\
         "packageDependencies": [\
-          ["ts-jest", "virtual:f8e337e6fb0dea8d1b7ca51dd5a68a77e8ba8f4fa130d3aa2e90f2c260d1d3a6dafae9961ef5a0f8b944b578d32ebf13a1c03817a18c17ed8653aa4064d2c586#npm:29.4.1"],\
+          ["ts-jest", "virtual:574dc4ff24172c9d1b6014b09ac4f0f8a617e1a95145ad46aecd2ebd04a4f75de4ab8a41492c5d05a29c48f79f7f8b9ebb3a7bb1b88d778e9d134d1f21b3f7cf#npm:29.4.1"],\
           ["@babel/core", null],\
           ["@jest/transform", null],\
           ["@jest/types", null],\
