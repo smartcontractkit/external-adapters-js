@@ -1,0 +1,249 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import SftpClient from 'ssh2-sftp-client'
+import { BaseEndpointTypes, indiceToFileMap, inputParameters } from '../endpoint/sftp'
+
+const logger = makeLogger('SFTP Generic Transport')
+
+type RequestParams = typeof inputParameters.validated
+
+export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  config!: BaseEndpointTypes['Settings']
+  endpointName!: string
+  sftpClient: SftpClient
+  private isConnected = false
+
+  constructor() {
+    super()
+    this.sftpClient = new SftpClient()
+  }
+
+  async initialize(
+    dependencies: TransportDependencies<BaseEndpointTypes>,
+    adapterSettings: BaseEndpointTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.config = adapterSettings
+    this.endpointName = endpointName
+
+    if (!adapterSettings.SFTP_HOST) {
+      logger.warn('Environment variable SFTP_HOST is missing')
+    }
+    if (!adapterSettings.SFTP_USERNAME) {
+      logger.warn('Environment variable SFTP_USERNAME is missing')
+    }
+    if (!adapterSettings.SFTP_PASSWORD) {
+      logger.warn('SFTP_PASSWORD must be provided')
+    }
+  }
+
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  }
+
+  async handleRequest(_context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(param)
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      logger.error(e, errorMessage)
+      response = {
+        statusCode: (e as AdapterInputError)?.statusCode || 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    param: RequestParams,
+  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
+
+    try {
+      // Connect to SFTP server (will reuse existing connection if available)
+      await this.connectToSftp()
+
+      // Process files based on the request parameters
+      const result = await this.processFiles(param)
+
+      return {
+        data: {
+          result,
+        },
+        statusCode: 200,
+        result,
+        timestamps: {
+          providerDataRequestedUnixMs,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    } catch (error) {
+      // Only disconnect on error to allow connection reuse
+      await this.disconnectFromSftp()
+      throw error
+    }
+  }
+
+  private async connectToSftp(): Promise<void> {
+    // Check if already connected
+    if (this.isConnected) {
+      return
+    }
+
+    if (!this.config.SFTP_HOST) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'Environment variable SFTP_HOST is missing',
+      })
+    }
+
+    const connectConfig: any = {
+      host: this.config.SFTP_HOST,
+      port: this.config.SFTP_PORT || 22,
+      username: this.config.SFTP_USERNAME,
+    }
+
+    // Use either password or private key authentication
+    if (this.config.SFTP_PASSWORD) {
+      connectConfig.password = this.config.SFTP_PASSWORD
+    } else {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'SFTP_PASSWORD must be provided',
+      })
+    }
+
+    try {
+      // Add a timeout wrapper around the connection
+      const connectPromise = this.sftpClient.connect(connectConfig)
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Connection timeout after 30 seconds')), 30000)
+      })
+
+      await Promise.race([connectPromise, timeoutPromise])
+      this.isConnected = true
+      logger.debug('Successfully connected to SFTP server')
+    } catch (error) {
+      this.isConnected = false
+      logger.error(error, 'Failed to connect to SFTP server')
+      throw new AdapterInputError({
+        statusCode: 500,
+        message: `Failed to connect to SFTP server: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
+      })
+    }
+  }
+
+  private async disconnectFromSftp(): Promise<void> {
+    try {
+      await this.sftpClient.end()
+      this.isConnected = false
+      logger.debug('Disconnected from SFTP server')
+    } catch (error) {
+      this.isConnected = false
+      logger.warn(error, 'Error while disconnecting from SFTP server')
+    }
+  }
+
+  private async processFiles(param: RequestParams): Promise<string> {
+    if (param.operation === 'download') {
+      if (!param.instrument) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: 'instrument is required for download operation',
+        })
+      }
+      return await this.downloadFile(param.remotePath || '/', param.instrument as string)
+    } else {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Unsupported operation: ${param.operation}`,
+      })
+    }
+  }
+
+  private async downloadFile(remotePath: string, instrument: string): Promise<string> {
+    const fullPath = this.buildFilePath(remotePath, instrument)
+    const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
+    try {
+      const fileContent = await this.sftpClient.get(fullPath)
+      if (!fileContent) {
+        throw new AdapterInputError({
+          statusCode: 404,
+          message: `File is empty or not found: ${instrumentFilePath}`,
+        })
+      }
+
+      const result = {
+        operation: 'download',
+        fileName: instrumentFilePath,
+        path: remotePath,
+        content: fileContent.toString('utf8'), // Convert to UTF-8 text for CSV files
+        contentType: 'text/csv',
+        timestamp: Date.now(),
+      }
+
+      return JSON.stringify(result)
+    } catch (error) {
+      logger.error(error, `Failed to download file: ${instrumentFilePath} from ${remotePath}`)
+      throw new AdapterInputError({
+        statusCode: 500,
+        message: `Failed to download file: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
+      })
+    }
+  }
+
+  private buildFilePath(remotePath: string, instrument: string): string {
+    const filePathTemplate = this.getInstrumentFilePath(instrument)
+
+    // Get current date and format day and month with leading zeros
+    const now = new Date()
+    const currentDay = now.getDate().toString().padStart(2, '0')
+    const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0') // getMonth() returns 0-11
+
+    const instrumentFilePath = filePathTemplate
+      .replace('{{dd}}', currentDay)
+      .replace('{{mm}}', currentMonth)
+    return `${remotePath}/${instrumentFilePath}`.replace(/\/+/g, '/')
+  }
+
+  getInstrumentFilePath(instrument: string): string {
+    const filePathTemplate = indiceToFileMap[instrument as keyof typeof indiceToFileMap]
+
+    if (!filePathTemplate) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Unsupported instrument: ${instrument}`,
+      })
+    }
+    return filePathTemplate
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+  }
+
+  // Clean up method to close SFTP connection when transport is destroyed
+  async cleanup(): Promise<void> {
+    await this.disconnectFromSftp()
+  }
+}
+
+export const sftpTransport = new SftpTransport()
