@@ -1,13 +1,15 @@
 import { CSVParser } from './interfaces'
 import { FTSE100Parser } from './ftse100'
-import { FTSE250Parser } from './ftse250'
+import { RussellParser } from './russell'
 
 /**
  * Supported CSV parser types
  */
 export enum CSVParserType {
   FTSE100 = 'ftse100',
-  FTSE250 = 'ftse250'
+  Russell1000INDEX = 'russell1000',
+  Russell2000INDEX = 'russell2000',
+  Russell3000INDEX = 'russell3000',
 }
 
 /**
@@ -21,10 +23,12 @@ export class CSVParserFactory {
     switch (type) {
       case CSVParserType.FTSE100:
         return new FTSE100Parser()
-      
-      case CSVParserType.FTSE250:
-        return new FTSE250Parser()
-      
+      case CSVParserType.Russell1000INDEX:
+        return new RussellParser()
+      case CSVParserType.Russell2000INDEX:
+        return new RussellParser()
+      case CSVParserType.Russell3000INDEX:
+        return new RussellParser()
       default:
         throw new Error(`Unsupported parser type: ${type}`)
     }
@@ -35,10 +39,7 @@ export class CSVParserFactory {
    * Returns the first parser that validates the format
    */
   static detectParser(csvContent: string): CSVParser | null {
-    const parsers = [
-      new FTSE100Parser(),
-      new FTSE250Parser()
-    ]
+    const parsers = [new FTSE100Parser()]
 
     for (const parser of parsers) {
       if (parser.validateFormat(csvContent)) {
@@ -55,12 +56,8 @@ export class CSVParserFactory {
   static detectParserByFilename(filename: string): CSVParser | null {
     const lowercaseFilename = filename.toLowerCase()
 
-    if (lowercaseFilename.includes('ftse100') || lowercaseFilename.includes('ftse_100')) {
+    if (lowercaseFilename.includes('vall')) {
       return new FTSE100Parser()
-    }
-    
-    if (lowercaseFilename.includes('ftse250') || lowercaseFilename.includes('ftse_250')) {
-      return new FTSE250Parser()
     }
 
     return null

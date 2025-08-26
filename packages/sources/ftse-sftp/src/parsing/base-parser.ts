@@ -40,9 +40,9 @@ export abstract class BaseCSVParser implements CSVParser {
       const headerLine = lines[0]
       const headers = this.parseLine(headerLine)
       const expectedColumns = this.getExpectedColumns()
-      
+
       // Basic check - at least some expected columns should be present
-      return expectedColumns.some(col => headers.includes(col))
+      return expectedColumns.some((col) => headers.includes(col))
     }
 
     return true
@@ -53,11 +53,11 @@ export abstract class BaseCSVParser implements CSVParser {
    */
   protected splitIntoLines(csvContent: string): string[] {
     const lines = csvContent.split(/\r?\n/)
-    
+
     if (this.config.skipEmptyLines) {
-      return lines.filter(line => line.trim().length > 0)
+      return lines.filter((line) => line.trim().length > 0)
     }
-    
+
     return lines
   }
 
@@ -98,14 +98,17 @@ export abstract class BaseCSVParser implements CSVParser {
 
     // Add the last field
     fields.push(this.config.trimWhitespace ? currentField.trim() : currentField)
-    
+
     return fields
   }
 
   /**
    * Convert a string value to appropriate type
    */
-  protected convertValue(value: string, expectedType: 'string' | 'number' | 'date' = 'string'): string | number | Date | null {
+  protected convertValue(
+    value: string,
+    expectedType: 'string' | 'number' | 'date' = 'string',
+  ): string | number | Date | null {
     if (!value || value.trim() === '') {
       return null
     }
@@ -113,13 +116,15 @@ export abstract class BaseCSVParser implements CSVParser {
     const trimmedValue = value.trim()
 
     switch (expectedType) {
-      case 'number':
+      case 'number': {
         const numValue = parseFloat(trimmedValue.replace(/,/g, ''))
         return isNaN(numValue) ? null : numValue
+      }
 
-      case 'date':
+      case 'date': {
         const dateValue = new Date(trimmedValue)
         return isNaN(dateValue.getTime()) ? null : dateValue
+      }
 
       case 'string':
       default:
@@ -130,7 +135,10 @@ export abstract class BaseCSVParser implements CSVParser {
   /**
    * Map CSV fields to an object using a field mapping
    */
-  protected mapFieldsToObject(fields: string[], fieldMapping: Record<string, { index: number; type?: 'string' | 'number' | 'date' }>): ParsedData {
+  protected mapFieldsToObject(
+    fields: string[],
+    fieldMapping: Record<string, { index: number; type?: 'string' | 'number' | 'date' }>,
+  ): ParsedData {
     const result: ParsedData = {}
 
     for (const [key, mapping] of Object.entries(fieldMapping)) {
