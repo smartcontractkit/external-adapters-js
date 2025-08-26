@@ -11,7 +11,7 @@ export const adapter = new Adapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1m: 3,
+        rateLimit1m: 12,
         note: 'Conservative rate limit as key is shared',
       },
     },
