@@ -12,7 +12,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.CLIENTID1_PASSWORD = 'fake-api-key'
+    process.env.PASSWORD_ABC123 = 'fake-api-key'
     process.env.API_ENDPOINT = 'https://dataproviderapi.com'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -38,7 +38,6 @@ describe('execute', () => {
       const data = {
         clientId: 'abc123',
         isin: 'A0B1C2D3',
-        clientIdPassword: 'clientId1',
         endpoint: 'nav',
       }
       mockResponseSuccess()
@@ -46,11 +45,10 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
-    it('missing client ID mapped password should fail 500', async () => {
+    it('missing client ID password should fail 500', async () => {
       const data = {
-        clientId: 'abc123',
+        clientId: 'BAD_CLIENT_ID',
         isin: 'A0B1C2D3',
-        clientIdPassword: 'clientId2',
         endpoint: 'nav',
       }
       const response = await testAdapter.request(data)
@@ -60,7 +58,6 @@ describe('execute', () => {
       const data = {
         clientId: 'abc123',
         isin: 'BAD_ISIN',
-        clientIdPassword: 'clientId1',
         endpoint: 'nav',
       }
       mockResponseFailure()

@@ -37,8 +37,8 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const getPasswordFromEnvVar = (clientIdPassword: string): string => {
-  const passwordEnvVar = `${clientIdPassword.toUpperCase()}_PASSWORD`
+export const getPasswordFromEnvVar = (clientId: string): string => {
+  const passwordEnvVar = `PASSWORD_${clientId.toUpperCase()}`
   const password = process.env[passwordEnvVar]
   if (!password) {
     throw new AdapterInputError({
@@ -52,7 +52,6 @@ export const getPasswordFromEnvVar = (clientIdPassword: string): string => {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      param.clientIdPassword
       return {
         params: [param],
         request: {
@@ -60,7 +59,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           url: `/${param.clientId}/${param.isin}/performance`,
           auth: {
             username: param.clientId,
-            password: getPasswordFromEnvVar(param.clientIdPassword),
+            password: getPasswordFromEnvVar(param.clientId),
           },
           params: param,
         },

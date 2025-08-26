@@ -1,3 +1,3 @@
 ## Variable env vars
 
-- The `clientIdPassword` input param maps the request's `clientId` field to the wildcard env var `{clientIdPassword}_PASSWORD`
+- The `clientId` input param maps the request's `clientId` field to the wildcard env var `PASSWORD_{clientId}`

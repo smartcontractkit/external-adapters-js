@@ -20,17 +20,11 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'The ISIN identifying the fund',
     },
-    clientIdPassword: {
-      required: true,
-      type: 'string',
-      description: 'The mapped client ID to the password env var',
-    },
   },
   [
     {
       clientId: 'abc123',
       isin: 'A0B1C2D3',
-      clientIdPassword: 'clientId1',
     },
   ],
 )
@@ -49,7 +43,7 @@ export const endpoint = new AdapterEndpoint({
   customInputValidation: (
     req: AdapterRequest<typeof inputParameters.validated>,
   ): AdapterInputError | undefined => {
-    getPasswordFromEnvVar(req.requestContext.data.clientIdPassword)
+    getPasswordFromEnvVar(req.requestContext.data.clientId)
     return
   },
 })
