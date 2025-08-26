@@ -6,7 +6,7 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Variable env vars
 
-- The `clientIdPassword` input param maps the request's `clientId` field to the wildcard env var `{clientIdPassword}_PASSWORD`
+- The `clientId` input param maps the request's `clientId` field to the wildcard env var `PASSWORD_{clientId}`
 
 ## Environment Variables
 
@@ -36,11 +36,10 @@ Supported names for this endpoint are: `nav`, `price`.
 
 ### Input Params
 
-| Required? |       Name       | Aliases |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------------: | :-----: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |     clientId     |         | The client ID associated with the fund | string |         |         |            |                |
-|    ✅     |       isin       |         |     The ISIN identifying the fund      | string |         |         |            |                |
-|    ✅     | clientIdPassword |         |          The mapped client ID          | string |         |         |            |                |
+| Required? |   Name   | Aliases |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | clientId |         | The client ID associated with the fund | string |         |         |            |                |
+|    ✅     |   isin   |         |     The ISIN identifying the fund      | string |         |         |            |                |
 
 ### Example
 
@@ -51,8 +50,7 @@ Request:
   "data": {
     "endpoint": "price",
     "clientId": "abc123",
-    "isin": "A0B1C2D3",
-    "clientIdPassword": "clientId1"
+    "isin": "A0B1C2D3"
   }
 }
 ```
