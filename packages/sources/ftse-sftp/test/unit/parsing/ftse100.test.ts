@@ -133,9 +133,7 @@ UKX\tSome Value`
     })
 
     it('should handle null values correctly', async () => {
-      const csvContent = createFTSETestData([
-        'UKX\tFTSE 100 Index\t\tGBP\t4659.89\t\t4523.90',
-      ])
+      const csvContent = createFTSETestData(['UKX\tFTSE 100 Index\t\tGBP\t4659.89\t\t4523.90'])
 
       const result = await parser.parse(csvContent)
 

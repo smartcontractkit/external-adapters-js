@@ -31,14 +31,18 @@ export interface ParsedData {
 }
 
 /**
- * Configuration options for CSV parsing
+ * Configuration options for CSV parsing using csv-parse library
  */
 export interface CSVParserConfig {
   delimiter?: string
-  hasHeader?: boolean
-  skipEmptyLines?: boolean
-  trimWhitespace?: boolean
+  columns?: boolean | string[]
+  skip_empty_lines?: boolean
+  trim?: boolean
   encoding?: string
+  from_line?: number
+  to_line?: number
+  relax_column_count?: boolean
+  [key: string]: any // Allow other csv-parse options
 }
 
 /**
@@ -46,8 +50,9 @@ export interface CSVParserConfig {
  */
 export const defaultCSVConfig: CSVParserConfig = {
   delimiter: ',',
-  hasHeader: true,
-  skipEmptyLines: true,
-  trimWhitespace: true,
+  columns: true,
+  skip_empty_lines: true,
+  trim: true,
   encoding: 'utf-8',
+  relax_column_count: true, // Allow rows with different column counts
 }

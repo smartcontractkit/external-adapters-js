@@ -16,25 +16,20 @@ export interface RussellDailyValuesData extends ParsedData {
  */
 export class RussellDailyValuesParser extends BaseCSVParser {
   private readonly expectedColumns = [
-    '', // Index name column (no header)
+    'Index Name', // We'll treat the index name as the first column
     'Open',
     'High',
     'Low',
     'Close',
   ]
 
-  private readonly fieldMapping = {
-    indexName: { index: 0, type: 'string' as const },
-    close: { index: 4, type: 'number' as const },
-  }
-
   constructor() {
     // Russell daily values data is tab-separated
     super({
       delimiter: '\t',
-      hasHeader: false, // The data format has complex headers that we'll skip
-      skipEmptyLines: true,
-      trimWhitespace: true,
+      columns: false, // We'll handle the headers manually since they're complex
+      skip_empty_lines: true,
+      trim: true,
     })
   }
 
@@ -43,52 +38,46 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   }
 
   async parse(csvContent: string): Promise<RussellDailyValuesData[]> {
-    const lines = this.splitIntoLines(csvContent)
+    const lines = csvContent.split(/\r?\n/)
     const results: RussellDailyValuesData[] = []
 
     // Find the start of actual data - look for lines that start with "Russell"
-    let dataStartIndex = -1
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim()
-      if (line.startsWith('Russell') && (line.includes('®') || line.includes('�'))) {
-        dataStartIndex = i
-        break
-      }
-    }
+    const dataLines = lines.filter((line) => {
+      const trimmed = line.trim()
+      return trimmed.startsWith('Russell') && (trimmed.includes('®') || trimmed.includes('�'))
+    })
 
-    if (dataStartIndex === -1) {
+    if (dataLines.length === 0) {
       throw new Error('Could not find Russell index data in the provided content')
     }
 
-    // Parse data lines starting from the identified index
-    for (let i = dataStartIndex; i < lines.length; i++) {
+    // Parse each Russell data line using csv-parse
+    for (const line of dataLines) {
       try {
-        const line = lines[i].trim()
+        // Parse a single line as CSV
+        const parsed = this.parseCSV(line, { columns: false })
 
-        // Skip empty lines or lines that don't contain Russell data
-        if (!line || !line.startsWith('Russell') || !(line.includes('®') || line.includes('�'))) {
+        if (!parsed || parsed.length === 0 || !parsed[0] || parsed[0].length < 5) {
+          console.warn(`Skipping line with insufficient fields: ${line.substring(0, 100)}`)
           continue
         }
 
-        const fields = this.parseLine(line)
+        const fields = parsed[0] // First (and only) row from parsing single line
 
-        if (fields.length < 5) {
-          // Minimum required fields (indexName, open, high, low, close)
-          console.warn(`Line ${i + 1}: Expected at least 5 fields, got ${fields.length}`)
-          continue
+        const data: RussellDailyValuesData = {
+          indexName: this.convertValue(fields[0], 'string') as string,
+          close: this.convertValue(fields[4], 'number') as number | null,
         }
-
-        const data = this.mapFieldsToObject(fields, this.fieldMapping) as RussellDailyValuesData
 
         // Additional validation for required fields
         if (!data.indexName || data.indexName === '') {
-          console.warn(`Line ${i + 1}: Missing required index name field`)
+          console.warn(`Missing required index name field in line: ${line.substring(0, 100)}`)
           continue
         }
 
         results.push(data)
       } catch (error) {
-        console.error(`Error parsing line ${i + 1}:`, error)
+        console.error(`Error parsing line: ${line.substring(0, 100)}`, error)
         // Continue with next line instead of failing completely
       }
     }
@@ -100,7 +89,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
    * Enhanced validation specific to Russell Daily Values format
    */
   validateFormat(csvContent: string): boolean {
-    if (!super.validateFormat(csvContent)) {
+    if (!csvContent || csvContent.trim().length === 0) {
       return false
     }
 
