@@ -8,8 +8,11 @@ jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscriptio
       write: jest.fn(),
     }
     name = 'test'
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     async initialize() {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     async backgroundHandler() {}
   },
 }))
@@ -23,6 +26,7 @@ jest.mock('@chainlink/external-adapter-framework/util', () => ({
   })),
   sleep: jest.fn(),
   AdapterResponse: jest.fn(),
+  hasRepeatedValues: jest.fn((arr: unknown[]) => new Set(arr).size !== arr.length),
 }))
 
 // Mock SFTP client
@@ -57,7 +61,7 @@ class MockSftpClient {
 
   async get(remotePath: string): Promise<Buffer> {
     if (!this.isConnected) {
-      throw new Error('Not connected to SFTP server')
+      throw new Error('Not connected to SFTP')
     }
 
     if (this.shouldFailFileOperation) {
@@ -73,10 +77,13 @@ class MockSftpClient {
   }
 }
 
+// Create the mock instance to use across tests
 const mockSftpClient = new MockSftpClient()
 
 jest.mock('ssh2-sftp-client', () => {
-  return jest.fn().mockImplementation(() => mockSftpClient)
+  return function() {
+    return mockSftpClient
+  }
 })
 
 describe('SFTP Transport Integration Tests', () => {
@@ -247,14 +254,14 @@ ASX	FTSE All-Share Index	543	GBP	4659.78333168	5017.12840249	4523.79182181	2963.
       expect(() => {
         transport.getInstrumentFilePath('UNSUPPORTED_INSTRUMENT')
       }).toThrow(AdapterInputError)
-      
+
       let error: Error | undefined
       try {
         transport.getInstrumentFilePath('UNSUPPORTED_INSTRUMENT')
       } catch (e) {
         error = e as Error
       }
-      
+
       expect(error).toBeDefined()
       expect({
         name: error?.name,
@@ -265,17 +272,13 @@ ASX	FTSE All-Share Index	543	GBP	4659.78333168	5017.12840249	4523.79182181	2963.
     it('should handle SFTP connection failures', async () => {
       mockSftpClient.setShouldFailConnection(true)
 
-      await expect(
-        (transport as any).connectToSftp()
-      ).rejects.toThrow()
+      await expect((transport as any).connectToSftp()).rejects.toThrow()
     })
 
     it('should handle file not found errors', async () => {
       mockSftpClient.setFiles({}) // No files available
 
-      await expect(
-        (transport as any).downloadFile('/data', 'FTSE100INDEX')
-      ).rejects.toThrow()
+      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow()
     })
 
     it('should handle file operation failures', async () => {
@@ -284,9 +287,7 @@ ASX	FTSE All-Share Index	543	GBP	4659.78333168	5017.12840249	4523.79182181	2963.
       })
       mockSftpClient.setShouldFailFileOperation(true)
 
-      await expect(
-        (transport as any).downloadFile('/data', 'FTSE100INDEX')
-      ).rejects.toThrow()
+      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow()
     })
 
     it('should handle empty file content', async () => {
@@ -294,9 +295,7 @@ ASX	FTSE All-Share Index	543	GBP	4659.78333168	5017.12840249	4523.79182181	2963.
         '/data/ukallv2308.csv': '', // Empty file
       })
 
-      await expect(
-        (transport as any).downloadFile('/data', 'FTSE100INDEX')
-      ).rejects.toThrow()
+      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow()
     })
   })
 
@@ -324,17 +323,17 @@ ASX	FTSE All-Share Index	543	GBP	4659.78333168	5017.12840249	4523.79182181	2963.
     it('should validate required SFTP_HOST', async () => {
       ;(transport as any).config.SFTP_HOST = undefined
 
-      await expect(
-        (transport as any).connectToSftp()
-      ).rejects.toThrow('Environment variable SFTP_HOST is missing')
+      await expect((transport as any).connectToSftp()).rejects.toThrow(
+        'Environment variable SFTP_HOST is missing',
+      )
     })
 
     it('should validate required SFTP_PASSWORD', async () => {
       ;(transport as any).config.SFTP_PASSWORD = undefined
 
-      await expect(
-        (transport as any).connectToSftp()
-      ).rejects.toThrow('SFTP_PASSWORD must be provided')
+      await expect((transport as any).connectToSftp()).rejects.toThrow(
+        'SFTP_PASSWORD must be provided',
+      )
     })
   })
 })

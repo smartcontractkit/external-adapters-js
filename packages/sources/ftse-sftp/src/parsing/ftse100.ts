@@ -44,12 +44,14 @@ export class FTSE100Parser extends BaseCSVParser {
   }
 
   constructor() {
-    // FTSE data is tab-separated based on the actual file format
+    // FTSE data is comma-separated based on the actual file format
     super({
-      delimiter: '\t',
+      delimiter: ',',
       columns: true,
       skip_empty_lines: true,
       trim: true,
+      quote: '"',
+      escape: '"',
     })
   }
 

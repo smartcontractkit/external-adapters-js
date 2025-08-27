@@ -25,10 +25,7 @@
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
-    "start": "yarn server:dist",
-    "test": "jest",
-    "test:unit": "jest test/unit",
-    "test:integration": "jest test/integration"
+    "start": "yarn server:dist"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.7.0",

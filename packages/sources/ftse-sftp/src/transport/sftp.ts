@@ -80,7 +80,6 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       // Process files based on the request parameters
       const result = await this.processFiles(param)
 
-
       return {
         data: {
           result,
@@ -192,10 +191,17 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
         })
       }
 
-      
       const csvContent = fileContent.toString('utf8')
       logger.debug(`Downloaded file content length: ${csvContent.length} characters`)
-      
+
+      // Check if the content is empty after conversion to string
+      if (!csvContent || csvContent.trim().length === 0) {
+        throw new AdapterInputError({
+          statusCode: 404,
+          message: `File is empty or not found: ${instrumentFilePath}`,
+        })
+      }
+
       // Use the parser factory to detect the right parser based on filename
       const parser = CSVParserFactory.detectParserByFilename(instrumentFilePath)
       if (!parser) {
@@ -207,11 +213,15 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
       // Parse the CSV content and return the corresponding DataObject
       const parsedData = await parser.parse(csvContent)
-      logger.debug(`Successfully parsed ${parsedData.length} records from file: ${instrumentFilePath}`)
+      logger.debug(
+        `Successfully parsed ${parsedData.length} records from file: ${instrumentFilePath}`,
+      )
       return parsedData
-
     } catch (error) {
-      logger.error(error, `Failed to download and parse file: ${instrumentFilePath} from ${remotePath}`)
+      logger.error(
+        error,
+        `Failed to download and parse file: ${instrumentFilePath} from ${remotePath}`,
+      )
       throw new AdapterInputError({
         statusCode: 500,
         message: `Failed to download and parse file: ${

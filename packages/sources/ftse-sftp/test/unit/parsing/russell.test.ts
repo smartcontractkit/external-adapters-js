@@ -1,6 +1,6 @@
 import { RussellDailyValuesParser, RussellDailyValuesData } from '../../../src/parsing/russell'
 
-// Helper function to create test data with actual tab separators
+// Helper function to create test data with actual comma separators
 const createRussellTestData = (dataRows: string[]): string => {
   const preamble = `Russell Daily Values for August 26, 2025
 Currency: USD
@@ -50,14 +50,14 @@ describe('RussellDailyValuesParser', () => {
       const validContent = `Russell Daily Values
 Some header information
 
-Russell 1000® Index	1234.56	1250.00	1220.00	1245.50	10.94	0.88	1280.00	1200.00	45.50	3.79	1300.00	1100.00	145.50	13.25`
+Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25`
 
       expect(parser.validateFormat(validContent)).toBe(true)
     })
 
     it('should return false for content without ® symbol', () => {
       const invalidContent = `Some header
-Russell 1000 Index	1234.56	1250.00`
+Russell 1000 Index,1234.56,1250.00`
 
       expect(parser.validateFormat(invalidContent)).toBe(false)
     })
@@ -66,8 +66,8 @@ Russell 1000 Index	1234.56	1250.00`
   describe('parse', () => {
     it('should parse valid Russell CSV content correctly', async () => {
       const csvContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t1245.50\t10.94\t0.88\t1280.00\t1200.00\t45.50\t3.79\t1300.00\t1100.00\t145.50\t13.25',
-        'Russell 2000® Index\t987.65\t995.00\t980.00\t990.25\t2.60\t0.26\t1010.00\t970.00\t20.25\t2.09\t1050.00\t920.00\t70.25\t7.64',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
+        'Russell 2000® Index,987.65,995.00,980.00,990.25,2.60,0.26,1010.00,970.00,20.25,2.09,1050.00,920.00,70.25,7.64',
       ])
 
       const result = await parser.parse(csvContent)
@@ -95,9 +95,9 @@ Just random data`
 
     it('should skip lines that do not start with Russell', async () => {
       const csvContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t1245.50\t10.94\t0.88\t1280.00\t1200.00\t45.50\t3.79\t1300.00\t1100.00\t145.50\t13.25',
-        'Some other index\t987.65\t995.00\t980.00\t990.25\t2.60',
-        'Russell 2000® Index\t987.65\t995.00\t980.00\t990.25\t2.60\t0.26\t1010.00\t970.00\t20.25\t2.09\t1050.00\t920.00\t70.25\t7.64',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
+        'Some other index,987.65,995.00,980.00,990.25,2.60',
+        'Russell 2000® Index,987.65,995.00,980.00,990.25,2.60,0.26,1010.00,970.00,20.25,2.09,1050.00,920.00,70.25,7.64',
       ])
 
       const result = await parser.parse(csvContent)
@@ -109,9 +109,9 @@ Just random data`
 
     it('should skip lines with insufficient fields', async () => {
       const csvContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t1245.50\t10.94\t0.88\t1280.00\t1200.00\t45.50\t3.79\t1300.00\t1100.00\t145.50\t13.25',
-        'Russell Short® Index\t987.65\t995.00\t980.00',
-        'Russell 2000® Index\t987.65\t995.00\t980.00\t990.25\t2.60\t0.26\t1010.00\t970.00\t20.25\t2.09\t1050.00\t920.00\t70.25\t7.64',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
+        'Russell Short® Index,987.65,995.00,980.00',
+        'Russell 2000® Index,987.65,995.00,980.00,990.25,2.60,0.26,1010.00,970.00,20.25,2.09,1050.00,920.00,70.25,7.64',
       ])
 
       const result = await parser.parse(csvContent)
@@ -123,9 +123,9 @@ Just random data`
 
     it('should skip lines with empty index name', async () => {
       const csvContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t1245.50\t10.94\t0.88\t1280.00\t1200.00\t45.50\t3.79\t1300.00\t1100.00\t145.50\t13.25',
-        '\t1234.56\t1250.00\t1220.00\t1245.50\t10.94',
-        'Russell 2000® Index\t987.65\t995.00\t980.00\t990.25\t2.60\t0.26\t1010.00\t970.00\t20.25\t2.09\t1050.00\t920.00\t70.25\t7.64',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
+        ',1234.56,1250.00,1220.00,1245.50,10.94',
+        'Russell 2000® Index,987.65,995.00,980.00,990.25,2.60,0.26,1010.00,970.00,20.25,2.09,1050.00,920.00,70.25,7.64',
       ])
 
       const result = await parser.parse(csvContent)
@@ -137,7 +137,7 @@ Just random data`
 
     it('should handle null close values correctly', async () => {
       const csvContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t\t10.94\t0.88\t1280.00\t1200.00\t45.50\t3.79\t1300.00\t1100.00\t145.50\t13.25',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
       ])
 
       const result = await parser.parse(csvContent)
@@ -149,7 +149,7 @@ Just random data`
 
     it('should handle numeric values with commas', async () => {
       const csvContent = createRussellTestData([
-        'Russell 1000® Index\t1,234.56\t1,250.00\t1,220.00\t1,245.50\t10.94\t0.88\t1,280.00\t1,200.00\t45.50\t3.79\t1,300.00\t1,100.00\t145.50\t13.25',
+        '"Russell 1000® Index","1,234.56","1,250.00","1,220.00","1,245.50",10.94,0.88,"1,280.00","1,200.00",45.50,3.79,"1,300.00","1,100.00",145.50,13.25',
       ])
 
       const result = await parser.parse(csvContent)
@@ -161,9 +161,9 @@ Just random data`
 
     it('should skip empty lines', async () => {
       const csvContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t1245.50\t10.94\t0.88\t1280.00\t1200.00\t45.50\t3.79\t1300.00\t1100.00\t145.50\t13.25',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
         '',
-        'Russell 2000® Index\t987.65\t995.00\t980.00\t990.25\t2.60\t0.26\t1010.00\t970.00\t20.25\t2.09\t1050.00\t920.00\t70.25\t7.64',
+        'Russell 2000® Index,987.65,995.00,980.00,990.25,2.60,0.26,1010.00,970.00,20.25,2.09,1050.00,920.00,70.25,7.64',
       ])
 
       const result = await parser.parse(csvContent)

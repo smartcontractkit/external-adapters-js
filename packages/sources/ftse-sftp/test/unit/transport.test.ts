@@ -23,7 +23,7 @@ jest.mock('@chainlink/external-adapter-framework/util', () => ({
   })),
   sleep: jest.fn(),
   AdapterResponse: jest.fn(),
-  hasRepeatedValues: jest.fn(() => false),
+  hasRepeatedValues: jest.fn((arr: unknown[]) => new Set(arr).size !== arr.length),
 }))
 
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -58,22 +58,22 @@ describe('SftpTransport', () => {
   describe('getInstrumentFilePath', () => {
     it('should return correct file path for FTSE100INDEX', () => {
       const result = transport.getInstrumentFilePath('FTSE100INDEX')
-      expect(result).toBe('vall{{dd}}{{mm}}.csv')
+      expect(result).toBe('ukallv{{dd}}{{mm}}.csv')
     })
 
     it('should return correct file path for Russell1000INDEX', () => {
       const result = transport.getInstrumentFilePath('Russell1000INDEX')
-      expect(result).toBe('daily_values_russell_{{dd}}{{mm}}.csv')
+      expect(result).toBe('daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV')
     })
 
     it('should return correct file path for Russell2000INDEX', () => {
       const result = transport.getInstrumentFilePath('Russell2000INDEX')
-      expect(result).toBe('daily_values_russell_{{dd}}{{mm}}.csv')
+      expect(result).toBe('daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV')
     })
 
     it('should return correct file path for Russell3000INDEX', () => {
       const result = transport.getInstrumentFilePath('Russell3000INDEX')
-      expect(result).toBe('daily_values_russell_{{dd}}{{mm}}.csv')
+      expect(result).toBe('daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV')
     })
 
     it('should throw error for unsupported instrument', () => {
@@ -130,32 +130,32 @@ describe('SftpTransport', () => {
 
     it('should build correct file path with date substitution for FTSE100INDEX', () => {
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/vall2308.csv')
+      expect(result).toBe('/data/ukallv2308.csv')
     })
 
     it('should build correct file path with date substitution for Russell1000INDEX', () => {
       const result = (transport as any).buildFilePath('/data', 'Russell1000INDEX')
-      expect(result).toBe('/data/daily_values_russell_2308.csv')
+      expect(result).toBe('/data/daily_values_russell_240823.CSV')
     })
 
     it('should handle root path correctly', () => {
       const result = (transport as any).buildFilePath('/', 'FTSE100INDEX')
-      expect(result).toBe('/vall2308.csv')
+      expect(result).toBe('/ukallv2308.csv')
     })
 
     it('should handle path with trailing slash', () => {
       const result = (transport as any).buildFilePath('/data/', 'FTSE100INDEX')
-      expect(result).toBe('/data/vall2308.csv')
+      expect(result).toBe('/data/ukallv2308.csv')
     })
 
     it('should handle path without leading slash', () => {
       const result = (transport as any).buildFilePath('data', 'FTSE100INDEX')
-      expect(result).toBe('data/vall2308.csv') // The method doesn't add leading slash
+      expect(result).toBe('data/ukallv2308.csv') // The method doesn't add leading slash
     })
 
     it('should handle nested paths correctly', () => {
       const result = (transport as any).buildFilePath('/custom/nested/path', 'FTSE100INDEX')
-      expect(result).toBe('/custom/nested/path/vall2308.csv')
+      expect(result).toBe('/custom/nested/path/ukallv2308.csv')
     })
   })
 
@@ -184,7 +184,7 @@ describe('SftpTransport', () => {
       global.Date = jest.fn(() => new originalDate('2024-01-05T10:00:00.000Z')) as any
 
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/vall0501.csv')
+      expect(result).toBe('/data/ukallv0501.csv')
     })
 
     it('should format double digit day and month correctly', () => {
@@ -192,7 +192,7 @@ describe('SftpTransport', () => {
       global.Date = jest.fn(() => new originalDate('2024-12-25T10:00:00.000Z')) as any
 
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/vall2512.csv')
+      expect(result).toBe('/data/ukallv2512.csv')
     })
 
     it('should handle end of month correctly', () => {
@@ -200,7 +200,7 @@ describe('SftpTransport', () => {
       global.Date = jest.fn(() => new originalDate('2024-02-29T10:00:00.000Z')) as any // Leap year
 
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/vall2902.csv')
+      expect(result).toBe('/data/ukallv2902.csv')
     })
   })
 
@@ -295,28 +295,31 @@ describe('SftpTransport', () => {
     })
 
     it('should process CSV file content correctly', async () => {
-      const csvContent = 'Date,Open,High,Low,Close\\n2024-08-23,100,110,95,105'
-      const filePath = '/data/vall2308.csv'
+      const csvContent = `26/08/2025 (C) FTSE International Limited 2025. All Rights Reserved
+FTSE UK All-Share Indices Valuation Service
+
+Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
+UKX,FTSE 100 Index,100,GBP,8124.50,8317.59,7503.20,1205432.12,12789.45,58745.67,64789.01,11567.23,8317.59,8317.59`
+      const filePath = '/data/ukallv2308.csv'
 
       mockSftpClientInstance.setFiles({
         [filePath]: csvContent,
       })
 
       const result = await (transport as any).downloadFile('/data', 'FTSE100INDEX')
-      const parsedResult = JSON.parse(result)
 
-      expect(parsedResult.operation).toBe('download')
-      expect(parsedResult.fileName).toBe('vall2308.csv')
-      expect(parsedResult.path).toBe('/data')
-      expect(parsedResult.content).toBe(csvContent)
-      expect(parsedResult.contentType).toBe('text/csv')
-      expect(parsedResult.timestamp).toBeDefined()
+      // The downloadFile method should return parsed data from the CSV parser
+      expect(Array.isArray(result)).toBe(true)
+      expect(result.length).toBeGreaterThan(0)
+      expect(result[0]).toHaveProperty('indexCode')
+      expect(result[0]).toHaveProperty('gbpIndex')
+      expect(result[0].indexCode).toBe('UKX')
     })
 
     it('should handle empty file content', async () => {
       // First establish connection
       await mockSftpClientInstance.connect({})
-      const filePath = '/data/vall2308.csv'
+      const filePath = '/data/ukallv2308.csv'
 
       mockSftpClientInstance.setFiles({
         [filePath]: '',
@@ -326,7 +329,7 @@ describe('SftpTransport', () => {
         await (transport as any).downloadFile('/data', 'FTSE100INDEX')
       } catch (error) {
         expect(error).toBeInstanceOf(Error)
-        expect((error as Error).message).toContain('empty') // The AdapterInputError message should mention empty
+        expect((error as Error).message).toContain('File is empty or not found') // The AdapterInputError message should mention empty
       }
     })
   })

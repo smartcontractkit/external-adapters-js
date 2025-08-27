@@ -368,7 +368,7 @@ describe('FTSE SFTP adapter', () => {
         expect(responseBody.timestamps).toHaveProperty('providerDataReceivedUnixMs')
         expect(typeof responseBody.timestamps.providerDataRequestedUnixMs).toBe('number')
         expect(typeof responseBody.timestamps.providerDataReceivedUnixMs).toBe('number')
-        
+
         // Capture the complete response structure in snapshot
         expect(response.json()).toMatchSnapshot()
       } else {

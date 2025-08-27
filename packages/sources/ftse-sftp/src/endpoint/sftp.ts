@@ -24,8 +24,13 @@ export const inputParameters = new InputParameters(
   [
     {
       operation: 'download',
-      remotePath: '/data',
+      remotePath: '/data/valuation/uk_all_share/',
       instrument: 'FTSE100INDEX',
+    },
+    {
+      operation: 'download',
+      remotePath: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+      instrument: 'Russell1000INDEX',
     },
   ],
 )
@@ -44,7 +49,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: any // The parsed data will be returned as result
     Data: {
-      result: any // The parsed data 
+      result: any // The parsed data
     }
   }
   Settings: typeof config.settings
