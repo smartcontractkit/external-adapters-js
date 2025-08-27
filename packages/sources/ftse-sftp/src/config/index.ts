@@ -19,14 +19,9 @@ export const config = new AdapterConfig({
     required: true,
   },
   SFTP_PASSWORD: {
-    description: 'SFTP password for authentication (alternative to private key)',
+    description: 'SFTP password for authentication',
     type: 'string',
     sensitive: true,
-  },
-  GROUP_SIZE: {
-    description: 'Number of concurrent SFTP operations',
-    type: 'number',
-    default: 5,
   },
   BACKGROUND_EXECUTE_MS: {
     description:
