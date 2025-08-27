@@ -597,6 +597,9 @@
       "path": "./sources/sochain"
     },
     {
+      "path": "./sources/solactive"
+    },
+    {
       "path": "./sources/solana-view-function"
     },
     {
