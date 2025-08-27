@@ -24,9 +24,9 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   ]
 
   constructor() {
-    // Russell daily values data is tab-separated
+    // Russell daily values data is comma-separated in the actual file
     super({
-      delimiter: '\t',
+      delimiter: ',',
       columns: false, // We'll handle the headers manually since they're complex
       skip_empty_lines: true,
       trim: true,
@@ -41,20 +41,24 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     const lines = csvContent.split(/\r?\n/)
     const results: RussellDailyValuesData[] = []
 
-    // Find the start of actual data - look for lines that start with "Russell"
+    // Find the start of actual data - look for lines that start with "Russell" and contain '®' or '�'
     const dataLines = lines.filter((line) => {
       const trimmed = line.trim()
-      return trimmed.startsWith('Russell') && (trimmed.includes('®') || trimmed.includes('�'))
+      // Accept both '®' and '�' as the symbol in the index name
+      // Also handle quoted fields that start with "Russell
+      return (
+        (trimmed.startsWith('Russell') || trimmed.startsWith('"Russell')) &&
+        (trimmed.includes('®') || trimmed.includes('�'))
+      )
     })
 
     if (dataLines.length === 0) {
       throw new Error('Could not find Russell index data in the provided content')
     }
 
-    // Parse each Russell data line using csv-parse
     for (const line of dataLines) {
       try {
-        // Parse a single line as CSV
+        // Parse a single line as CSV (comma-separated)
         const parsed = this.parseCSV(line, { columns: false })
 
         if (!parsed || parsed.length === 0 || !parsed[0] || parsed[0].length < 5) {
@@ -62,10 +66,16 @@ export class RussellDailyValuesParser extends BaseCSVParser {
           continue
         }
 
-        const fields = parsed[0] // First (and only) row from parsing single line
+        const fields = parsed[0]
+
+        // Remove quotes if present in index name
+        let indexName = this.convertValue(fields[0], 'string') as string
+        if (indexName && indexName.startsWith('"') && indexName.endsWith('"')) {
+          indexName = indexName.slice(1, -1)
+        }
 
         const data: RussellDailyValuesData = {
-          indexName: this.convertValue(fields[0], 'string') as string,
+          indexName,
           close: this.convertValue(fields[4], 'number') as number | null,
         }
 
@@ -92,8 +102,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     if (!csvContent || csvContent.trim().length === 0) {
       return false
     }
-
-    // Check if the content contains Russell index data
+    // Check if the content contains Russell index data (accept both '®' and '�')
     return csvContent.includes('Russell') && (csvContent.includes('®') || csvContent.includes('�'))
   }
 

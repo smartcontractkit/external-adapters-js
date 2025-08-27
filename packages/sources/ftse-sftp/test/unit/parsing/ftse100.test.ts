@@ -1,9 +1,9 @@
 import { FTSE100Parser, FTSE100Data } from '../../../src/parsing/ftse100'
 
-// Helper function to create test data with actual tab separators
+// Helper function to create test data with actual comma separators
 const createFTSETestData = (dataRows: string[]): string => {
   const header =
-    'Index Code\tIndex/Sector Name\tNumber of Constituents\tIndex Base Currency\tUSD Index\tGBP Index\tEUR Index\tJPY Index\tAUD Index\tCNY Index\tHKD Index\tCAD Index\tLOC Index\tBase Currency (GBP) Index'
+    'Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index'
   const preamble = `26/08/2025 (C) FTSE International Limited 2025. All Rights Reserved
 FTSE UK All-Share Indices Valuation Service
 
@@ -55,7 +55,7 @@ describe('FTSE100Parser', () => {
 
     it('should return true for valid FTSE format', () => {
       const validContent = createFTSETestData([
-        'UKX\tFTSE 100 Index\t100\tGBP\t4659.89\t5017.25\t4523.90',
+        'UKX,FTSE 100 Index,100,GBP,4659.89,5017.25,4523.90',
       ])
 
       expect(parser.validateFormat(validContent)).toBe(true)
@@ -65,8 +65,8 @@ describe('FTSE100Parser', () => {
       const invalidContent = `26/08/2025 (C) FTSE International Limited 2025. All Rights Reserved
 FTSE UK All-Share Indices Valuation Service
 
-Wrong Header\tSome Other Column
-UKX\tSome Value`
+Wrong Header,Some Other Column
+UKX,Some Value`
 
       expect(parser.validateFormat(invalidContent)).toBe(false)
     })
@@ -75,7 +75,7 @@ UKX\tSome Value`
   describe('parse', () => {
     it('should parse valid FTSE CSV content correctly', async () => {
       const csvContent = createFTSETestData([
-        'UKX\tFTSE 100 Index\t100\tGBP\t4659.89484111\t5017.24846324\t4523.90007694\t2963.46786723\t6470.75900926\t10384.47293100\t4667.43880552\t5177.36970414\t\t5017.24846324',
+        'UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324',
       ])
 
       const result = await parser.parse(csvContent)
@@ -100,17 +100,17 @@ UKX\tSome Value`
       const invalidContent = `26/08/2025 (C) FTSE International Limited 2025. All Rights Reserved
 FTSE UK All-Share Indices Valuation Service
 
-Wrong Header\tSome Column
-UKX\tSome Value`
+Wrong Header,Some Column
+UKX,Some Value`
 
       await expect(parser.parse(invalidContent)).rejects.toThrow('Invalid CSV format for FTSE data')
     })
 
     it('should skip lines with insufficient fields', async () => {
       const csvContent = createFTSETestData([
-        'UKX\tFTSE 100 Index\t100\tGBP\t4659.89\t5017.25\t4523.90',
-        'INVALID_ROW\tOnlyTwoFields',
-        'AS0\tFTSE All-Small Index\t234\tGBP\t4659.78\t5017.13\t4523.79', // This should be filtered out
+        'UKX,FTSE 100 Index,100,GBP,4659.89,5017.25,4523.90',
+        'INVALID_ROW,OnlyTwoFields',
+        'AS0,FTSE All-Small Index,234,GBP,4659.78,5017.13,4523.79', // This should be filtered out
       ])
 
       const result = await parser.parse(csvContent)
@@ -121,9 +121,9 @@ UKX\tSome Value`
 
     it('should skip lines with empty index code', async () => {
       const csvContent = createFTSETestData([
-        'UKX\tFTSE 100 Index\t100\tGBP\t4659.89\t5017.25\t4523.90',
-        '\tEmpty Index Code\t543\tGBP\t4659.78\t5017.13\t4523.79',
-        'AS0\tFTSE All-Small Index\t234\tGBP\t4659.78\t5017.13\t4523.79', // This should be filtered out
+        'UKX,FTSE 100 Index,100,GBP,4659.89,5017.25,4523.90',
+        ',Empty Index Code,543,GBP,4659.78,5017.13,4523.79',
+        'AS0,FTSE All-Small Index,234,GBP,4659.78,5017.13,4523.79', // This should be filtered out
       ])
 
       const result = await parser.parse(csvContent)
@@ -133,7 +133,7 @@ UKX\tSome Value`
     })
 
     it('should handle null values correctly', async () => {
-      const csvContent = createFTSETestData(['UKX\tFTSE 100 Index\t\tGBP\t4659.89\t\t4523.90'])
+      const csvContent = createFTSETestData(['UKX,FTSE 100 Index,,GBP,4659.89,,4523.90'])
 
       const result = await parser.parse(csvContent)
 
@@ -145,9 +145,9 @@ UKX\tSome Value`
 
     it('should skip empty lines in data section', async () => {
       const csvContent = createFTSETestData([
-        'UKX\tFTSE 100 Index\t100\tGBP\t4659.89\t5017.25\t4523.90',
+        'UKX,FTSE 100 Index,100,GBP,4659.89,5017.25,4523.90',
         '',
-        'AS0\tFTSE All-Small Index\t234\tGBP\t4659.78\t5017.13\t4523.79', // This should be filtered out
+        'AS0,FTSE All-Small Index,234,GBP,4659.78,5017.13,4523.79', // This should be filtered out
       ])
 
       const result = await parser.parse(csvContent)
