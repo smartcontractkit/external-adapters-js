@@ -36,7 +36,7 @@ describe('CSV Parsers Integration', () => {
 
       // Sample FTSE data
       const ftseContent = createFTSETestData([
-        'AS0\tFTSE All-Small Index\t234\tGBP\t4659.89484111\t5017.24846324\t4523.90007694\t2963.46786723\t6470.75900926\t10384.47293100\t4667.43880552\t5177.36970414\t\t5017.24846324',
+        'UKX\tFTSE 100 Index\t100\tGBP\t4659.89484111\t5017.24846324\t4523.90007694\t2963.46786723\t6470.75900926\t10384.47293100\t4667.43880552\t5177.36970414\t\t5017.24846324',
       ])
 
       // Sample Russell data
@@ -50,7 +50,7 @@ describe('CSV Parsers Integration', () => {
 
       // Verify FTSE results
       expect(ftseResult).toHaveLength(1)
-      expect(ftseResult[0].indexCode).toBe('AS0')
+      expect(ftseResult[0].indexCode).toBe('UKX')
       expect(ftseResult[0].gbpIndex).toBe(5017.24846324)
 
       // Verify Russell results
@@ -73,7 +73,7 @@ describe('CSV Parsers Integration', () => {
       ])
 
       // Try to parse FTSE data with Russell parser
-      const ftseContent = createFTSETestData(['AS0\tFTSE All-Small Index\t5017.25'])
+      const ftseContent = createFTSETestData(['UKX\tFTSE 100 Index\t5017.25'])
 
       // FTSE parser should reject Russell format
       await expect(ftseParser.parse(russellContent)).rejects.toThrow()
@@ -106,9 +106,9 @@ describe('CSV Parsers Integration', () => {
 
       const ftseData = [
         {
-          indexCode: 'AS0',
-          indexSectorName: 'FTSE All-Small Index',
-          numberOfConstituents: 234,
+          indexCode: 'UKX',
+          indexSectorName: 'FTSE 100 Index',
+          numberOfConstituents: 100,
           indexBaseCurrency: 'GBP',
           gbpIndex: 5017.25,
         },

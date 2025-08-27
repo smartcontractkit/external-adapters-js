@@ -105,8 +105,10 @@ export class FTSE100Parser extends BaseCSVParser {
           continue
         }
 
-        // Add all valid records (remove UKX filter for testing)
-        results.push(data)
+        // Only include records where indexCode is "UKX" (FTSE 100 Index)
+        if (data.indexCode === 'UKX') {
+          results.push(data)
+        }
       } catch (error) {
         console.debug(`Error parsing line ${i + 1}:`, error)
         // Continue with next line instead of failing completely
