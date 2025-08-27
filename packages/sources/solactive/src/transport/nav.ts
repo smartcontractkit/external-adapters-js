@@ -1,6 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes } from '../endpoint/price'
+import { BaseEndpointTypes } from '../endpoint/nav'
 
 // Example Response
 // {

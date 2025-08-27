@@ -6,7 +6,7 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getPasswordFromEnvVar, httpTransport } from '../transport/price'
+import { getPasswordFromEnvVar, httpTransport } from '../transport/nav'
 
 export const inputParameters = new InputParameters(
   {
@@ -36,8 +36,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'price',
-  aliases: ['nav'],
+  name: 'nav',
   transport: httpTransport,
   inputParameters,
   customInputValidation: (

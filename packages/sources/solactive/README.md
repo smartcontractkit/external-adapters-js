@@ -6,7 +6,7 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Variable env vars
 
-- The `clientId` input param maps the request's `clientId` field to the wildcard env var `PASSWORD_{clientId}`
+- The `clientId` input param maps to an env var `PASSWORD_{clientId}` used for auth
 
 ## Environment Variables
 
@@ -20,19 +20,19 @@ This document was generated automatically. Please see [README Generator](../../s
 
 |  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                   Note                   |
 | :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :--------------------------------------: |
-| default |                             |              3              |                           | Conservative rate limit as key is shared |
+| default |                             |             12              |                           | Conservative rate limit as key is shared |
 
 ---
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                     Options                      | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [nav](#price-endpoint), [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |       Options        | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [nav](#nav-endpoint) |  `nav`  |
 
-## Price Endpoint
+## Nav Endpoint
 
-Supported names for this endpoint are: `nav`, `price`.
+`nav` is the only supported name for this endpoint.
 
 ### Input Params
 
@@ -48,7 +48,7 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "price",
+    "endpoint": "nav",
     "clientId": "abc123",
     "isin": "A0B1C2D3"
   }
