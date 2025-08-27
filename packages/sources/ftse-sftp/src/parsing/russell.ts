@@ -29,7 +29,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   }
 
   constructor() {
-    // Russell daily values data appears to be tab-separated
+    // Russell daily values data is tab-separated
     super({
       delimiter: '\t',
       hasHeader: false, // The data format has complex headers that we'll skip
@@ -50,7 +50,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     let dataStartIndex = -1
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim()
-      if (line.startsWith('Russell') && line.includes('®')) {
+      if (line.startsWith('Russell') && (line.includes('®') || line.includes('�'))) {
         dataStartIndex = i
         break
       }
@@ -66,7 +66,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
         const line = lines[i].trim()
 
         // Skip empty lines or lines that don't contain Russell data
-        if (!line || !line.startsWith('Russell')) {
+        if (!line || !line.startsWith('Russell') || !(line.includes('®') || line.includes('�'))) {
           continue
         }
 
@@ -105,7 +105,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     }
 
     // Check if the content contains Russell index data
-    return csvContent.includes('Russell') && csvContent.includes('®')
+    return csvContent.includes('Russell') && (csvContent.includes('®') || csvContent.includes('�'))
   }
 
   /**

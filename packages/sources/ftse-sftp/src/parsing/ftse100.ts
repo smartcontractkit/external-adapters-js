@@ -44,7 +44,7 @@ export class FTSE100Parser extends BaseCSVParser {
   }
 
   constructor() {
-    // FTSE data appears to be tab-separated based on the sample
+    // FTSE data is tab-separated based on the actual file format
     super({
       delimiter: '\t',
       hasHeader: true,
@@ -65,7 +65,6 @@ export class FTSE100Parser extends BaseCSVParser {
     const lines = this.splitIntoLines(csvContent)
     const results: FTSE100Data[] = []
 
-    // Skip the first 3 lines (copyright, title, empty line) and then the header line
     // Find the line that starts with "Index Code" to locate the actual data header
     let dataStartIndex = -1
     for (let i = 0; i < lines.length; i++) {
@@ -86,14 +85,14 @@ export class FTSE100Parser extends BaseCSVParser {
 
         const fields = this.parseLine(line)
 
+        // Skip lines that don't have enough fields (likely continuation of header or invalid data)
         if (fields.length < 6) {
-          // Minimum required fields
           console.warn(
             `Line ${
               i + 1
-            }: Expected at least 6 fields (Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, USD Index, GBP Index), got ${
+            }: Skipping line with insufficient fields. Expected at least 6 fields (Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, USD Index, GBP Index), got ${
               fields.length
-            }`,
+            }. Line content: "${line.substring(0, 100)}${line.length > 100 ? '...' : ''}"`,
           )
           continue
         }
@@ -106,9 +105,12 @@ export class FTSE100Parser extends BaseCSVParser {
           continue
         }
 
-        results.push(data)
+        // Only include records where indexCode is "UKX" (FTSE 100 Index)
+        if (data.indexCode === 'UKX') {
+          results.push(data)
+        }
       } catch (error) {
-        console.error(`Error parsing line ${i + 1}:`, error)
+        console.debug(`Error parsing line ${i + 1}:`, error)
         // Continue with next line instead of failing completely
       }
     }
